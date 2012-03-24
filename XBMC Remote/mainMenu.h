@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy) NSString *mainLabel;
 @property (nonatomic, copy) NSString *upperLabel;
+@property int family;
 @property (nonatomic, copy) NSString *icon;
 
 @end

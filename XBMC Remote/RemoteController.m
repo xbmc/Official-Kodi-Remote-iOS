@@ -1,29 +1,26 @@
 //
-//  DetailViewController.m
+//  RemoteController.m
 //  XBMC Remote
 //
-//  Created by Giovanni Messina on 23/3/12.
+//  Created by Giovanni Messina on 24/3/12.
 //  Copyright (c) 2012 Korec s.r.l. All rights reserved.
 //
 
-#import "DetailViewController.h"
+#import "RemoteController.h"
 #import "mainMenu.h"
+#import <AudioToolbox/AudioToolbox.h>
 
-@interface DetailViewController ()
-- (void)configureView;
+@interface RemoteController ()
+
 @end
 
-@implementation DetailViewController
+@implementation RemoteController
 
 @synthesize detailItem = _detailItem;
-@synthesize detailDescriptionLabel = _detailDescriptionLabel;
-
-#pragma mark - Managing the detail item
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-        
         // Update the view.
         [self configureView];
     }
@@ -31,7 +28,6 @@
 
 - (void)configureView{
     // Update the user interface for the detail item.
-
     if (self.detailItem) {
         CGRect frame = CGRectMake(0, 0, 320, 44);
         UILabel *label = [[UILabel alloc] initWithFrame:frame] ;
@@ -41,30 +37,37 @@
         label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
         label.textAlignment = UITextAlignmentCenter;
         label.textColor = [UIColor whiteColor];
-        label.text = [[NSString alloc] initWithFormat:@"%@", [self.detailItem mainLabel]];
+        label.text = [self.detailItem mainLabel];
         [label sizeToFit];
-        self.navigationItem.titleView = label;        
+        self.navigationItem.titleView = label; 
     }
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (IBAction)startVibrate {
+//	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-	[self configureView];
+    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload{
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-    self.detailDescriptionLabel = nil;
+    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    return self;
-}
-							
 @end

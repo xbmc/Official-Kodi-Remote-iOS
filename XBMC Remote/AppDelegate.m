@@ -36,26 +36,32 @@ NSMutableArray *mainMenuItems;
     item1.mainLabel = @"Music";
     item1.upperLabel = @"Listen to";
     item1.icon = @"icon_home_music.png";
+    item1.family = 1;
     
     item2.mainLabel = @"Movies";
     item2.upperLabel = @"Watch your";
     item2.icon = @"icon_home_movie.png";
+    item2.family = 1;
     
     item3.mainLabel = @"TV Shows";
     item3.upperLabel = @"Watch your";
     item3.icon = @"icon_home_tv.png";
-    
+    item3.family = 1;
+
     item4.mainLabel = @"Pictures";
     item4.upperLabel = @"Browse your";
     item4.icon = @"icon_home_picture.png";
+    item4.family = 1;
     
-    item5.mainLabel = @"Now Playing";
+    item5.mainLabel = @"Now playing";
     item5.upperLabel = @"See what's";
     item5.icon = @"icon_home_playing.png";
+    item5.family = 2;
     
     item6.mainLabel = @"Remote Control";
     item6.upperLabel = @"Use as";
     item6.icon = @"icon_home_remote.png";
+    item6.family = 3;
     
     [mainMenuItems addObject:item1];
     [mainMenuItems addObject:item2];

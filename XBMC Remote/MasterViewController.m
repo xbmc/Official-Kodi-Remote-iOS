@@ -9,6 +9,9 @@
 #import "MasterViewController.h"
 #import "mainMenu.h"
 #import "DetailViewController.h"
+#import "NowPlaying.h"
+#import "RemoteController.h"
+
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -20,6 +23,9 @@
 @implementation MasterViewController
 
 @synthesize detailViewController = _detailViewController;
+@synthesize nowPlaying = _nowPlaying;
+@synthesize remoteController = _remoteController;
+
 @synthesize mainMenu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -43,15 +49,26 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];;
     
-    
+//    [self.navigationController setToolbarHidden:NO];
     UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 75, 43)];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down.png"] forState:UIControlStateHighlighted];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down.png"] forState:UIControlStateSelected];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
     [xbmcLogo addTarget:self action:@selector(setupRemote) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setupRemote = [[UIBarButtonItem alloc] initWithCustomView:xbmcLogo];
-    
     self.navigationItem.leftBarButtonItem = setupRemote;
+    
+    UIButton *xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 220, 43)];
+    [xbmcInfo setTitle:@"XBMC 11.0-pre 20120323" forState:UIControlStateNormal];
+    xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
+    xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
+    xbmcInfo.titleLabel.shadowOffset    = CGSizeMake (1.0, 1.0);
+    [xbmcInfo setBackgroundImage:[UIImage imageNamed:@"bottom_text_up.9.png"] forState:UIControlStateNormal];
+//    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down.png"] forState:UIControlStateHighlighted];
+//    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down.png"] forState:UIControlStateSelected];
+    [xbmcInfo addTarget:self action:@selector(setupRemote) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *setupInfo = [[UIBarButtonItem alloc] initWithCustomView:xbmcInfo];
+    self.navigationItem.rightBarButtonItem = setupInfo;
 }
 
 - (void)viewDidUnload{
@@ -66,25 +83,18 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    // Return the number of rows in the section.
     return [self.mainMenu count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    UITableViewCell *cell = [tableView 
-                             dequeueReusableCellWithIdentifier:@"mainMenuCell"];
-	
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:NULL];
-    
     if (cell==nil)
         cell = resultPOICell;
-    
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
     [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:item.icon]];
     [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];   
@@ -92,19 +102,7 @@
     return cell;
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     //	if (editingStyle == UITableViewCellEditingStyleDelete)
     //	{
     //		[self.albums removeObjectAtIndex:indexPath.row];
@@ -117,7 +115,6 @@
 	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
 	imageView.frame = CGRectMake(0,0,480,8);
 	return imageView;
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -129,7 +126,6 @@
 	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
 	imageView.frame = CGRectMake(0,0,480,8);
 	return imageView;
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -137,14 +133,30 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!self.detailViewController) {
-        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+    mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
+    if (item.family==2){
+        if (!self.nowPlaying) 
+            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        self.nowPlaying.detailItem = item;
+        [self.navigationController pushViewController:self.nowPlaying animated:YES];
     }
-    NSDate *object = [_objects objectAtIndex:indexPath.row];
-    self.detailViewController.detailItem = object;
-    [self.navigationController pushViewController:self.detailViewController animated:YES];
+    else if (item.family==3){
+        if (!self.remoteController) 
+            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+        self.remoteController.detailItem = item;
+        [self.navigationController pushViewController:self.remoteController animated:YES];
+    }
+    else if (item.family==1){
+        if (!self.detailViewController) 
+            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+        self.detailViewController.detailItem = item;
+        [self.navigationController pushViewController:self.detailViewController animated:YES];
+    }    
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return NO;
+}
 
 /*
  // Override to support rearranging the table view.
@@ -195,11 +207,7 @@
 //
 //}
 //
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    // Return NO if you do not want the specified item to be editable.
-//    return YES;
-//}
+
 //
 //- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 //{

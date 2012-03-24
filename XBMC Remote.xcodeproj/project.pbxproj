@@ -401,6 +401,16 @@
 		0F554C1C151D13CA007E633F /* timeborder.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554A9E151D13CA007E633F /* timeborder.9.png */; };
 		0F554C1D151D13CA007E633F /* waiting.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554A9F151D13CA007E633F /* waiting.png */; };
 		0F554C20151D14DA007E633F /* mainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554C1F151D14DA007E633F /* mainMenu.m */; };
+		0F554C23151D22E4007E633F /* XBMC_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554C22151D22E3007E633F /* XBMC_Logo.png */; };
+		0F554C25151D230A007E633F /* XBMC_Logo_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554C24151D230A007E633F /* XBMC_Logo_small.png */; };
+		0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74772C151DD77400EF78AD /* NowPlaying.m */; };
+		0F74772F151DD77400EF78AD /* NowPlaying.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F74772D151DD77400EF78AD /* NowPlaying.xib */; };
+		0F747734151DD91D00EF78AD /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F747732151DD91D00EF78AD /* RemoteController.m */; };
+		0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F747733151DD91D00EF78AD /* RemoteController.xib */; };
+		0F747738151DE5CF00EF78AD /* pgbar_inact_fake.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F747737151DE5CF00EF78AD /* pgbar_inact_fake.png */; };
+		0F74773A151E094C00EF78AD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F747739151E094C00EF78AD /* AudioToolbox.framework */; };
+		0F74773C151E15BA00EF78AD /* bottom_logo_down_blu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F74773B151E15BA00EF78AD /* bottom_logo_down_blu@2x.png */; };
+		0F74773E151E15C600EF78AD /* bottom_logo_down_blu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F74773D151E15C600EF78AD /* bottom_logo_down_blu.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -805,6 +815,18 @@
 		0F554A9F151D13CA007E633F /* waiting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waiting.png; sourceTree = "<group>"; };
 		0F554C1E151D14DA007E633F /* mainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainMenu.h; sourceTree = "<group>"; };
 		0F554C1F151D14DA007E633F /* mainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainMenu.m; sourceTree = "<group>"; };
+		0F554C22151D22E3007E633F /* XBMC_Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = XBMC_Logo.png; sourceTree = "<group>"; };
+		0F554C24151D230A007E633F /* XBMC_Logo_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = XBMC_Logo_small.png; sourceTree = "<group>"; };
+		0F74772B151DD77400EF78AD /* NowPlaying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlaying.h; sourceTree = "<group>"; };
+		0F74772C151DD77400EF78AD /* NowPlaying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NowPlaying.m; sourceTree = "<group>"; };
+		0F74772D151DD77400EF78AD /* NowPlaying.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NowPlaying.xib; sourceTree = "<group>"; };
+		0F747731151DD91D00EF78AD /* RemoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteController.h; sourceTree = "<group>"; };
+		0F747732151DD91D00EF78AD /* RemoteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteController.m; sourceTree = "<group>"; };
+		0F747733151DD91D00EF78AD /* RemoteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RemoteController.xib; sourceTree = "<group>"; };
+		0F747737151DE5CF00EF78AD /* pgbar_inact_fake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pgbar_inact_fake.png; sourceTree = "<group>"; };
+		0F747739151E094C00EF78AD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0F74773B151E15BA00EF78AD /* bottom_logo_down_blu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom_logo_down_blu@2x.png"; sourceTree = "<group>"; };
+		0F74773D151E15C600EF78AD /* bottom_logo_down_blu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_logo_down_blu.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -812,6 +834,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F74773A151E094C00EF78AD /* AudioToolbox.framework in Frameworks */,
 				0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */,
 				0F5548FD151D1187007E633F /* Foundation.framework in Frameworks */,
 				0F5548FF151D1187007E633F /* CoreGraphics.framework in Frameworks */,
@@ -824,6 +847,8 @@
 		0F5548EB151D1187007E633F = {
 			isa = PBXGroup;
 			children = (
+				0F554C24151D230A007E633F /* XBMC_Logo_small.png */,
+				0F554C22151D22E3007E633F /* XBMC_Logo.png */,
 				0F554900151D1187007E633F /* XBMC Remote */,
 				0F5548F9151D1187007E633F /* Frameworks */,
 				0F5548F7151D1187007E633F /* Products */,
@@ -841,6 +866,7 @@
 		0F5548F9151D1187007E633F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F747739151E094C00EF78AD /* AudioToolbox.framework */,
 				0F5548FA151D1187007E633F /* UIKit.framework */,
 				0F5548FC151D1187007E633F /* Foundation.framework */,
 				0F5548FE151D1187007E633F /* CoreGraphics.framework */,
@@ -851,17 +877,20 @@
 		0F554900151D1187007E633F /* XBMC Remote */ = {
 			isa = PBXGroup;
 			children = (
+				0F747736151DD98600EF78AD /* classes */,
+				0F554901151D1187007E633F /* Supporting Files */,
 				0F554C21151D197F007E633F /* nib */,
 				0F55491F151D13C9007E633F /* images */,
-				0F554C1E151D14DA007E633F /* mainMenu.h */,
-				0F554C1F151D14DA007E633F /* mainMenu.m */,
 				0F554909151D1187007E633F /* AppDelegate.h */,
 				0F55490A151D1187007E633F /* AppDelegate.m */,
 				0F55490C151D1187007E633F /* MasterViewController.h */,
 				0F55490D151D1187007E633F /* MasterViewController.m */,
 				0F55490F151D1187007E633F /* DetailViewController.h */,
 				0F554910151D1187007E633F /* DetailViewController.m */,
-				0F554901151D1187007E633F /* Supporting Files */,
+				0F74772B151DD77400EF78AD /* NowPlaying.h */,
+				0F74772C151DD77400EF78AD /* NowPlaying.m */,
+				0F747731151DD91D00EF78AD /* RemoteController.h */,
+				0F747732151DD91D00EF78AD /* RemoteController.m */,
 			);
 			path = "XBMC Remote";
 			sourceTree = "<group>";
@@ -889,6 +918,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F74773B151E15BA00EF78AD /* bottom_logo_down_blu@2x.png */,
 				0F554921151D13C9007E633F /* about_back@2x.png */,
 				0F554922151D13C9007E633F /* bottom_logo_down@2x.png */,
 				0F554923151D13C9007E633F /* bottom_logo_up@2x.png */,
@@ -1079,6 +1109,8 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F74773D151E15C600EF78AD /* bottom_logo_down_blu.png */,
+				0F747737151DE5CF00EF78AD /* pgbar_inact_fake.png */,
 				0F5549D9151D13C9007E633F /* about_back.png */,
 				0F5549DA151D13C9007E633F /* bottom_controls_background.png */,
 				0F5549DB151D13C9007E633F /* bottom_logo_down.png */,
@@ -1288,8 +1320,19 @@
 				0F55491D151D1397007E633F /* cellView.xib */,
 				0F554912151D1187007E633F /* MasterViewController.xib */,
 				0F554915151D1187007E633F /* DetailViewController.xib */,
+				0F74772D151DD77400EF78AD /* NowPlaying.xib */,
+				0F747733151DD91D00EF78AD /* RemoteController.xib */,
 			);
 			name = nib;
+			sourceTree = "<group>";
+		};
+		0F747736151DD98600EF78AD /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				0F554C1E151D14DA007E633F /* mainMenu.h */,
+				0F554C1F151D14DA007E633F /* mainMenu.m */,
+			);
+			name = classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1729,6 +1772,13 @@
 				0F554C1B151D13CA007E633F /* tableUp.png in Resources */,
 				0F554C1C151D13CA007E633F /* timeborder.9.png in Resources */,
 				0F554C1D151D13CA007E633F /* waiting.png in Resources */,
+				0F554C23151D22E4007E633F /* XBMC_Logo.png in Resources */,
+				0F554C25151D230A007E633F /* XBMC_Logo_small.png in Resources */,
+				0F74772F151DD77400EF78AD /* NowPlaying.xib in Resources */,
+				0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */,
+				0F747738151DE5CF00EF78AD /* pgbar_inact_fake.png in Resources */,
+				0F74773C151E15BA00EF78AD /* bottom_logo_down_blu@2x.png in Resources */,
+				0F74773E151E15C600EF78AD /* bottom_logo_down_blu.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1744,6 +1794,8 @@
 				0F55490E151D1187007E633F /* MasterViewController.m in Sources */,
 				0F554911151D1187007E633F /* DetailViewController.m in Sources */,
 				0F554C20151D14DA007E633F /* mainMenu.m in Sources */,
+				0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */,
+				0F747734151DD91D00EF78AD /* RemoteController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1863,6 +1915,7 @@
 				0F55491C151D1187007E633F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -10,6 +10,6 @@
 
 @implementation mainMenu
 
-@synthesize mainLabel, upperLabel, icon;
+@synthesize mainLabel, upperLabel, icon, family;
 
 @end

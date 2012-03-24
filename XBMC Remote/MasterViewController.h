@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @class DetailViewController;
+@class NowPlaying;
+@class RemoteController;
+
 
 @interface MasterViewController : UITableViewController{
     IBOutlet UITableView *menuList;
@@ -18,7 +21,7 @@
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
-
-
+@property (strong, nonatomic) NowPlaying *nowPlaying;
+@property (strong, nonatomic) RemoteController *remoteController;
 
 @end
