@@ -24,6 +24,7 @@ NSMutableArray *mainMenuItems;
     MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
     self.window.rootViewController = self.navigationController;
+    
     [self.window makeKeyAndVisible];
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];
     mainMenu *item1 = [[mainMenu alloc] init];
@@ -37,22 +38,86 @@ NSMutableArray *mainMenuItems;
     item1.upperLabel = @"Listen to";
     item1.icon = @"icon_home_music.png";
     item1.family = 1;
-    
+    item1.mainMethod=@"AudioLibrary.GetAlbums";
+    item1.mainParameters=[NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSDictionary dictionaryWithObjectsAndKeys:
+                           @"ascending",@"order",
+                           [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                           @"label", @"method",
+                           nil],@"sort",
+                          [[NSArray alloc] initWithObjects:@"year", @"thumbnail", @"artist", nil], @"properties",
+                          nil];
+    item1.mainFields=[NSDictionary  dictionaryWithObjectsAndKeys:
+                      @"albums",@"itemid",
+                      @"label", @"row1",
+                      @"artist", @"row2",
+                      @"year", @"row3",
+                      @"runtime", @"row4",
+                      @"rating",@"row5",
+                      nil];
+    item1.rowHeight=53;
+    item1.thumbWidth=53;
+    item1.defaultThumb=@"nocover.png";
+
     item2.mainLabel = @"Movies";
     item2.upperLabel = @"Watch your";
     item2.icon = @"icon_home_movie.png";
     item2.family = 1;
+    item2.mainMethod=@"VideoLibrary.GetMovies";
+    item2.mainParameters=[NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSDictionary dictionaryWithObjectsAndKeys:
+                           @"ascending",@"order",
+                           [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                           @"label", @"method",
+                           nil],@"sort",
+                          
+                          [[NSArray alloc] initWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", nil], @"properties",
+                          nil];
+    item2.mainFields=[NSDictionary dictionaryWithObjectsAndKeys:
+                      @"movies",@"itemid",
+                      @"label", @"row1",
+                      @"genre", @"row2",
+                      @"year", @"row3",
+                      @"runtime", @"row4",
+                      @"rating",@"row5",
+                      nil];
+    item2.rowHeight=76;
+    item2.thumbWidth=53;
+    item2.defaultThumb=@"jewel_dvd.table.png";
     
     item3.mainLabel = @"TV Shows";
     item3.upperLabel = @"Watch your";
     item3.icon = @"icon_home_tv.png";
     item3.family = 1;
+    item3.mainMethod=@"VideoLibrary.GetTVShows";
+    item3.mainParameters=[NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSDictionary dictionaryWithObjectsAndKeys:
+                           @"ascending",@"order",
+                           [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                           @"label", @"method",
+                           nil],@"sort",
+                          
+                          [[NSArray alloc] initWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", nil], @"properties",
+                          nil];
+    item3.mainFields=[NSDictionary dictionaryWithObjectsAndKeys:
+                      @"tvshows",@"itemid",
+                      @"label", @"row1",
+                      @"genre", @"row2",
+                      @"year", @"row3",
+                      @"runtime", @"row4",
+                      @"rating",@"row5",
+                      nil];
+    item3.rowHeight=59;
+    item3.thumbWidth=320;
+    item3.defaultThumb=@"jewel_dvd.table.png";
 
     item4.mainLabel = @"Pictures";
     item4.upperLabel = @"Browse your";
     item4.icon = @"icon_home_picture.png";
     item4.family = 1;
-    
+    item4.thumbWidth=53;
+    item4.defaultThumb=@"jewel_dvd.table.png";
+
     item5.mainLabel = @"Now playing";
     item5.upperLabel = @"See what's";
     item5.icon = @"icon_home_playing.png";

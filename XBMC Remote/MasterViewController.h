@@ -7,15 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DSJSONRPC.h"
+#import "SettingsPanel.h"
+
 
 @class DetailViewController;
 @class NowPlaying;
 @class RemoteController;
 
 
-@interface MasterViewController : UITableViewController{
+@interface MasterViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate>{
     IBOutlet UITableView *menuList;
-    IBOutlet UITableViewCell *resultPOICell;
+    IBOutlet UITableViewCell *resultMenuCell;
+    DSJSONRPC *jsonRPC;
+    NSTimer* timer;
+    UIButton *xbmcInfo;
+    UIButton *xbmcLogo;
+    SettingsPanel *settingsPanel;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;

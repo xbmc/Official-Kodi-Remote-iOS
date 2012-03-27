@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DSJSONRPC.h"
+#import "VolumeSliderView.h"
 
-@interface RemoteController : UIViewController
+@interface RemoteController : UIViewController{
+    DSJSONRPC *jsonRPC;
+    VolumeSliderView *volumeSliderView;
+}
+
+- (IBAction)startVibrate:(id)sender;
 
 @property (strong, nonatomic) id detailItem;
 

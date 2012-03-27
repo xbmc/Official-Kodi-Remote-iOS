@@ -14,5 +14,11 @@
 @property (nonatomic, copy) NSString *upperLabel;
 @property int family;
 @property (nonatomic, copy) NSString *icon;
+@property (nonatomic, copy) NSString *mainMethod;
+@property (nonatomic, copy) NSString *defaultThumb;
+@property (nonatomic, copy) NSDictionary *mainFields;
+@property (nonatomic, copy) NSDictionary *mainParameters;
+@property int rowHeight;
+@property int thumbWidth;
 
 @end
