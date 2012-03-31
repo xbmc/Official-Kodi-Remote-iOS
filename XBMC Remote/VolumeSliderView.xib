@@ -33,17 +33,17 @@
 				<string key="IBProxiedObjectIdentifier">IBFirstResponder</string>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
-			<object class="IBUIView" id="217883126">
+			<object class="IBUIView" id="739005154">
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
-					<object class="IBUIImageView" id="687420239">
-						<reference key="NSNextResponder" ref="217883126"/>
+					<object class="IBUIImageView" id="913653901">
+						<reference key="NSNextResponder" ref="739005154"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{2, -4}, {61, 205}}</string>
-						<reference key="NSSuperview" ref="217883126"/>
+						<string key="NSFrame">{{2, -4}, {61, 211}}</string>
+						<reference key="NSSuperview" ref="739005154"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="860776060"/>
+						<reference key="NSNextKeyView" ref="700566771"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<float key="IBUIAlpha">0.94999998807907104</float>
@@ -55,13 +55,13 @@
 							<string key="NSResourceName">shiny_black_volume.png</string>
 						</object>
 					</object>
-					<object class="IBUILabel" id="860776060">
-						<reference key="NSNextResponder" ref="217883126"/>
+					<object class="IBUILabel" id="700566771">
+						<reference key="NSNextResponder" ref="739005154"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{10, 1}, {48, 21}}</string>
-						<reference key="NSSuperview" ref="217883126"/>
+						<reference key="NSSuperview" ref="739005154"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="45456878"/>
+						<reference key="NSNextKeyView" ref="998369989"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -89,11 +89,11 @@
 							<int key="NSfFlags">16</int>
 						</object>
 					</object>
-					<object class="IBUISlider" id="45456878">
-						<reference key="NSNextResponder" ref="217883126"/>
+					<object class="IBUISlider" id="998369989">
+						<reference key="NSNextResponder" ref="739005154"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{-52, 94}, {170, 23}}</string>
-						<reference key="NSSuperview" ref="217883126"/>
+						<string key="NSFrame">{{-52, 100}, {170, 23}}</string>
+						<reference key="NSSuperview" ref="739005154"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -108,7 +108,7 @@
 				<string key="NSFrameSize">{62, 206}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="687420239"/>
+				<reference key="NSNextKeyView" ref="913653901"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -122,32 +122,32 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">volumeLabel</string>
-						<reference key="source" ref="217883126"/>
-						<reference key="destination" ref="860776060"/>
+						<reference key="source" ref="739005154"/>
+						<reference key="destination" ref="700566771"/>
 					</object>
 					<int key="connectionID">7</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">volumeSlider</string>
-						<reference key="source" ref="217883126"/>
-						<reference key="destination" ref="45456878"/>
+						<reference key="source" ref="739005154"/>
+						<reference key="destination" ref="998369989"/>
 					</object>
 					<int key="connectionID">8</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">volumeView</string>
-						<reference key="source" ref="217883126"/>
-						<reference key="destination" ref="687420239"/>
+						<reference key="source" ref="739005154"/>
+						<reference key="destination" ref="913653901"/>
 					</object>
 					<int key="connectionID">9</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">slideVolume:</string>
-						<reference key="source" ref="45456878"/>
-						<reference key="destination" ref="217883126"/>
+						<reference key="source" ref="998369989"/>
+						<reference key="destination" ref="739005154"/>
 						<int key="IBEventType">13</int>
 					</object>
 					<int key="connectionID">11</int>
@@ -174,29 +174,29 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">3</int>
-						<reference key="object" ref="217883126"/>
+						<reference key="object" ref="739005154"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="45456878"/>
-							<reference ref="687420239"/>
-							<reference ref="860776060"/>
+							<reference ref="998369989"/>
+							<reference ref="913653901"/>
+							<reference ref="700566771"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Volume View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">4</int>
-						<reference key="object" ref="45456878"/>
-						<reference key="parent" ref="217883126"/>
+						<reference key="object" ref="998369989"/>
+						<reference key="parent" ref="739005154"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">5</int>
-						<reference key="object" ref="687420239"/>
-						<reference key="parent" ref="217883126"/>
+						<reference key="object" ref="913653901"/>
+						<reference key="parent" ref="739005154"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
-						<reference key="object" ref="860776060"/>
-						<reference key="parent" ref="217883126"/>
+						<reference key="object" ref="700566771"/>
+						<reference key="parent" ref="739005154"/>
 					</object>
 				</array>
 			</object>

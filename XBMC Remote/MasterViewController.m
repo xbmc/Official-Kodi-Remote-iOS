@@ -13,7 +13,6 @@
 #import "RemoteController.h"
 #import "DSJSONRPC.h"
 #import "GlobalData.h"
-#import "SettingsPanel.h"
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -39,31 +38,68 @@
     return self;
 }
 	
+-(BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    //NSLog(@"ECCOMI");
+    GlobalData *obj=[GlobalData getInstance]; 
+    [descriptionUI resignFirstResponder];
+    [ipUI resignFirstResponder];
+    [portUI resignFirstResponder];
+    [usernameUI resignFirstResponder];
+    [passwordUI resignFirstResponder];
+    obj.serverDescription=descriptionUI.text;
+    obj.serverUser=usernameUI.text;
+    obj.serverPass=passwordUI.text;
+    obj.serverIP= ipUI.text;
+    obj.serverPort=portUI.text;
+    [theTextField resignFirstResponder];
+    serverOnLine=NO;
+    [self checkServer];
+    return YES;
+}
+
+-(IBAction)textFieldDoneEditing:(id)sender{
+    [descriptionUI resignFirstResponder];
+    [ipUI resignFirstResponder];
+    [portUI resignFirstResponder];
+    [usernameUI resignFirstResponder];
+    [passwordUI resignFirstResponder];
+}
 
 -(void)checkServer{
+    GlobalData *obj=[GlobalData getInstance];  
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC 
      callMethod:@"Application.GetProperties" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil]
+     withParameters:checkServerParams
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error==nil && methodError==nil){
-//            NSLog(@"DATO RICEVUTO %@", methodResult);
-             if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                 [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateNormal];
-                 [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
-                 [xbmcLogo setImage:nil forState:UIControlStateSelected];
-                 NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
-                 NSString *infoTitle=[NSString stringWithFormat:@" XBMC %@.%@ %@ ", [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"revision"]];
-                 [xbmcInfo setTitle:infoTitle forState:UIControlStateNormal];
+             if (!serverOnLine){
+//                 NSLog(@"DATO RICEVUTO %@", methodResult);
+                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
+                     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateNormal];
+                     [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
+                     [xbmcLogo setImage:nil forState:UIControlStateSelected];
+                     NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
+                     NSString *infoTitle=[NSString stringWithFormat:@" XBMC %@.%@-%@ %@ ", [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"], [serverInfo objectForKey:@"revision"]];
+                     [xbmcInfo setTitle:infoTitle forState:UIControlStateNormal];
+                     serverOnLine=YES;
+                 }
              }
          }
          else {
 //             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
-             [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
-             [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
-             [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
-             [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];
+             if (serverOnLine){
+                 NSLog(@"mi spengo");
+                 [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
+                 [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
+                 [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
+                 [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];
+                 serverOnLine=NO;
+             }
          }
      }];
+    jsonRPC=nil;
 }
 
 #pragma Toobar Actions
@@ -82,10 +118,11 @@
 	frame.origin.y = Y;
     view.frame = frame;
     [UIView commitAnimations];
+    [self textFieldDoneEditing:nil];
 }
 
 - (void)toggleSetup{
-    [self toggleViewToolBar:settingsPanel AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE];
+    [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE];
 }
 
 #pragma LifeCycle
@@ -99,28 +136,32 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     NSLog(@"ME NE VADO");
-    [timer invalidate];    
+    [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+    [timer invalidate];  
+    jsonRPC=nil;
 }
 
 - (void)viewDidLoad{
     [super viewDidLoad];
     GlobalData *obj=[GlobalData getInstance];  
+    obj.serverDescription=@"joeHTPC";
     obj.serverUser=@"xbmc";
     obj.serverPass=@"";
     obj.serverIP= @"192.168.0.8";
     obj.serverPort=@"8080";
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    
-    settingsPanel = [[SettingsPanel alloc] 
-                     initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 270.0f)];
-    CGRect frame=settingsPanel.frame;
-    frame.origin.x=0;
-    frame.origin.y=-270;
-    settingsPanel.frame=frame;
-    [self.view addSubview:settingsPanel];
-
-    
+    descriptionUI.text = obj.serverDescription;
+    usernameUI.text = obj.serverUser;
+    passwordUI.text = obj.serverPass;
+    ipUI.text = obj.serverIP;
+    portUI.text = obj.serverPort;
+//    settingsPanel = [[SettingsPanel alloc] 
+//                     initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 270.0f)];
+//    CGRect frame=settingsPanel.frame;
+//    frame.origin.x=0;
+//    frame.origin.y=-270;
+//    settingsPanel.frame=frame;
+//    [self.view addSubview:settingsPanel];
+    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];;
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 75, 43)];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
@@ -129,7 +170,7 @@
     [xbmcLogo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setupRemote = [[UIBarButtonItem alloc] initWithCustomView:xbmcLogo];
     self.navigationItem.leftBarButtonItem = setupRemote;
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 220, 43)];
+    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 225, 43)];
     [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
     xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
     xbmcInfo.titleLabel.minimumFontSize=6.0f;
@@ -139,6 +180,7 @@
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setupInfo = [[UIBarButtonItem alloc] initWithCustomView:xbmcInfo];
     self.navigationItem.rightBarButtonItem = setupInfo;
+    serverOnLine=NO;
 //    [self checkServer];
 //    [jsonRPC 
 //     callMethod:@"VideoLibrary.GetMovieDetails" 
@@ -217,20 +259,21 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
     if (item.family==2){
-        if (!self.nowPlaying) 
-            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        self.nowPlaying=nil;
+        self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
         self.nowPlaying.detailItem = item;
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
     }
     else if (item.family==3){
-        if (!self.remoteController) 
-            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+        self.remoteController=nil; 
+        self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
         self.remoteController.detailItem = item;
         [self.navigationController pushViewController:self.remoteController animated:YES];
     }
     else if (item.family==1){
-        if (!self.detailViewController) 
-            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+//        if (!self.detailViewController) 
+        self.detailViewController=nil;
+        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil] ;
         self.detailViewController.detailItem = item;
         [self.navigationController pushViewController:self.detailViewController animated:YES];
     }    
@@ -239,6 +282,11 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     return NO;
 }
+
+//-(BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+//    [theTextField resignFirstResponder];
+//    return YES;
+//}
 
 /*
  // Override to support rearranging the table view.

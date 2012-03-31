@@ -1,5 +1,5 @@
 //
-//  SettingsPanel.h
+//  ShowInfoViewController.h
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 27/3/12.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsPanel : UIView
+@interface ShowInfoViewController : UIViewController
 
 @end

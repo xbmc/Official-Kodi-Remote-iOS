@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface GlobalData : NSObject{    
+    NSString *serverDescription; 
     NSString *serverUser; 
     NSString *serverPass; 
     NSString *serverIP; 
@@ -16,6 +17,7 @@
 
     
 }    
+@property(nonatomic,retain)NSString *serverDescription;    
 @property(nonatomic,retain)NSString *serverUser;    
 @property(nonatomic,retain)NSString *serverPass;    
 @property(nonatomic,retain)NSString *serverIP;    

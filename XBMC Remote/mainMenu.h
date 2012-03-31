@@ -13,11 +13,16 @@
 @property (nonatomic, copy) NSString *mainLabel;
 @property (nonatomic, copy) NSString *upperLabel;
 @property int family;
+@property BOOL enableSection;
 @property (nonatomic, copy) NSString *icon;
-@property (nonatomic, copy) NSString *mainMethod;
+@property (nonatomic, copy) NSArray *mainMethod;
 @property (nonatomic, copy) NSString *defaultThumb;
 @property (nonatomic, copy) NSDictionary *mainFields;
-@property (nonatomic, copy) NSDictionary *mainParameters;
+
+@property (nonatomic, retain) NSMutableArray *mainParameters;
+
+@property (nonatomic, retain) mainMenu *subItem;
+
 @property int rowHeight;
 @property int thumbWidth;
 

@@ -34,18 +34,19 @@ float barwidth=280;
 - (void)configureView{
     // Update the user interface for the detail item.
     if (self.detailItem) {
-//        CGRect frame = CGRectMake(0, 0, 320, 44);
-//        UILabel *label = [[UILabel alloc] initWithFrame:frame] ;
-//        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//        label.backgroundColor = [UIColor clearColor];
-//        label.font = [UIFont fontWithName:@"Optima-Bold" size:22];
-//        label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
-//        label.textAlignment = UITextAlignmentCenter;
-//        label.textColor = [UIColor whiteColor];
-//        label.text = [self.detailItem mainLabel];
-//        [label sizeToFit];
-//        self.navigationItem.titleView = label; 
-        self.navigationItem.title = [self.detailItem mainLabel]; 
+        CGRect frame = CGRectMake(0, 0, 320, 44);
+        UILabel *label = [[UILabel alloc] initWithFrame:frame] ;
+        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont boldSystemFontOfSize:12];
+        label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
+        label.textAlignment = UITextAlignmentCenter;
+        label.textColor = [UIColor whiteColor];
+        label.text = @"Now playing";
+        [label sizeToFit];
+        self.navigationItem.titleView = label; 
+       // self.navigationItem.title = [self.detailItem mainLabel]; 
+        self.navigationItem.title = @"Now playing"; // DA SISTEMARE COME PARAMETRO
     }
 }
 
@@ -210,6 +211,8 @@ float barwidth=280;
                              NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnailPath];
                              
                              NSURL *imageUrl = [NSURL URLWithString: stringURL];
+//                             NSLog(@"%@", thumbnailPath);
+//                             thumbnailView.image=[UIImage im];
                              SDWebImageManager *manager = [SDWebImageManager sharedManager];
                              UIImage *cachedImage = [manager imageWithURL:imageUrl];
                              if (cachedImage){
@@ -350,7 +353,7 @@ float barwidth=280;
             break;
             
         case 3:
-            action=@"Player.PlayPause";
+            action=@"Player.Stop";
             params=nil;
             [self playbackAction:action params:nil];
             break;
@@ -423,7 +426,7 @@ float barwidth=280;
     NSLog(@"ME NE VADO");
     [timer invalidate];
     [volumeSliderView stopTimer];
-    [self toggleViewToolBar:volumeSliderView AnimDuration:0.2 Alpha:1.0 YPos:0 forceHide:TRUE];
+    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
     
 }
 - (void)viewDidLoad{
@@ -439,6 +442,7 @@ float barwidth=280;
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
     self.navigationItem.rightBarButtonItem = settingsButton;
     GlobalData *obj=[GlobalData getInstance]; 
+    
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
 }
@@ -446,8 +450,15 @@ float barwidth=280;
 - (void)viewDidUnload{
     [super viewDidUnload];
     volumeSliderView = nil;
+    
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+-(void)dealloc{
+    volumeSliderView=nil;
+    self.detailItem = nil;
+    jsonRPC=nil;
 }
 
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

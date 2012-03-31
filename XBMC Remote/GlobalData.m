@@ -10,6 +10,7 @@
 
 @implementation GlobalData
 
+@synthesize serverDescription;
 @synthesize serverUser;    
 @synthesize serverPass;    
 @synthesize serverIP;    

@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">568.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1179</string>
+			<string key="NS.object.0">1181</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBUIView</string>
@@ -420,11 +420,11 @@
 								<reference key="IBUINormalTitleShadowColor" ref="347497617"/>
 								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_play_down@2x.png</string>
+									<string key="NSResourceName">now_playing_stop_down@2x.png</string>
 								</object>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_play_up@2x.png</string>
+									<string key="NSResourceName">now_playing_stop_up@2x.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="192427472"/>
 								<reference key="IBUIFont" ref="1068531097"/>
@@ -1081,7 +1081,7 @@
 				<real value="1" key="16.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="17.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="18.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="18.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<real value="0.0" key="18.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="20.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="1" key="20.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
@@ -1117,7 +1117,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">90</int>
+			<int key="maxID">91</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1205,8 +1205,6 @@
 			<string key="now_playing_next_up@2x.png">{88, 71}</string>
 			<string key="now_playing_pause_down@2x.png">{73, 71}</string>
 			<string key="now_playing_pause_up@2x.png">{73, 71}</string>
-			<string key="now_playing_play_down@2x.png">{73, 71}</string>
-			<string key="now_playing_play_up@2x.png">{73, 71}</string>
 			<string key="now_playing_playlist_down@2x.png">{117, 71}</string>
 			<string key="now_playing_playlist_up@2x.png">{117, 71}</string>
 			<string key="now_playing_previous_down@2x.png">{88, 71}</string>
@@ -1215,11 +1213,13 @@
 			<string key="now_playing_seek_backward_up@2x.png">{73, 71}</string>
 			<string key="now_playing_seek_forward_down@2x.png">{73, 71}</string>
 			<string key="now_playing_seek_forward_up@2x.png">{73, 71}</string>
+			<string key="now_playing_stop_down@2x.png">{73, 71}</string>
+			<string key="now_playing_stop_up@2x.png">{73, 71}</string>
 			<string key="pgbar_act.png">{10, 13}</string>
 			<string key="pgbar_inact_fake.png">{280, 17}</string>
 			<string key="pgbar_thumb.png">{15, 16}</string>
 			<string key="shiny_black_back.png">{320, 480}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1179</string>
+		<string key="IBCocoaTouchPluginVersion">1181</string>
 	</data>
 </archive>

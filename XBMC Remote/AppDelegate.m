@@ -34,19 +34,24 @@ NSMutableArray *mainMenuItems;
     mainMenu *item5 = [[mainMenu alloc] init];
     mainMenu *item6 = [[mainMenu alloc] init];
     
+    item1.subItem = [[mainMenu alloc] init];
+    
     item1.mainLabel = @"Music";
     item1.upperLabel = @"Listen to";
     item1.icon = @"icon_home_music.png";
     item1.family = 1;
-    item1.mainMethod=@"AudioLibrary.GetAlbums";
-    item1.mainParameters=[NSDictionary dictionaryWithObjectsAndKeys:
+    item1.enableSection=YES;
+    item1.mainMethod=[NSArray arrayWithObjects:@"AudioLibrary.GetAlbums", @"method", nil];
+    
+    item1.mainParameters=[NSMutableArray arrayWithObjects:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                           [NSDictionary dictionaryWithObjectsAndKeys:
                            @"ascending",@"order",
                            [NSNumber numberWithBool:FALSE],@"ignorearticle",
                            @"label", @"method",
                            nil],@"sort",
-                          [[NSArray alloc] initWithObjects:@"year", @"thumbnail", @"artist", nil], @"properties",
-                          nil];
+                          [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", nil], @"properties",
+                          nil], @"parameters", @"Albums", @"label", nil];
+    
     item1.mainFields=[NSDictionary  dictionaryWithObjectsAndKeys:
                       @"albums",@"itemid",
                       @"label", @"row1",
@@ -54,25 +59,57 @@ NSMutableArray *mainMenuItems;
                       @"year", @"row3",
                       @"runtime", @"row4",
                       @"rating",@"row5",
+                      @"albumid",@"row6",
                       nil];
     item1.rowHeight=53;
     item1.thumbWidth=53;
-    item1.defaultThumb=@"nocover.png";
+    item1.defaultThumb=@"nocover_music.png";
+    
+//    
+    item1.subItem.mainMethod=[NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil]; 
+    item1.subItem.mainParameters=[NSMutableArray arrayWithObjects:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                          [NSDictionary dictionaryWithObjectsAndKeys:
+                           @"ascending",@"order",
+                           [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                           @"track", @"method",
+                           nil],@"sort",
+                          [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", nil], @"properties",
+                          nil], @"parameters", @"Songs", @"label", nil];
+    item1.subItem.mainFields=[NSDictionary  dictionaryWithObjectsAndKeys:
+                         @"songs",@"itemid",
+                         @"label", @"row1",
+                         @"artist", @"row2",
+                         @"year", @"row3",
+                         @"duration", @"row4",
+                         @"rating",@"row5",
+                         @"songid",@"row6",
+                         @"track",@"row7",
+                         @"albumid",@"row8",
+                         [NSNumber numberWithInt:0], @"playlistid",
+                         nil];
+    item1.subItem.enableSection=NO;
+    item1.subItem.rowHeight=53;
+    item1.subItem.thumbWidth=53;
+    item1.subItem.defaultThumb=@"nocover_music.png";
+
+   // item1.subItem.subItem=[[mainMenu alloc] init];
+    //item1.subItem.subItem=subItem1;
 
     item2.mainLabel = @"Movies";
     item2.upperLabel = @"Watch your";
     item2.icon = @"icon_home_movie.png";
     item2.family = 1;
-    item2.mainMethod=@"VideoLibrary.GetMovies";
-    item2.mainParameters=[NSDictionary dictionaryWithObjectsAndKeys:
+    item2.enableSection=YES;
+    item2.mainMethod=[NSArray arrayWithObjects:@"VideoLibrary.GetMovies", @"method", nil];
+    item2.mainParameters=[NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:
                           [NSDictionary dictionaryWithObjectsAndKeys:
                            @"ascending",@"order",
                            [NSNumber numberWithBool:FALSE],@"ignorearticle",
                            @"label", @"method",
                            nil],@"sort",
                           
-                          [[NSArray alloc] initWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", nil], @"properties",
-                          nil];
+                          [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", nil], @"properties",
+                          nil], @"parameters", @"Movies", @"label", nil];
     item2.mainFields=[NSDictionary dictionaryWithObjectsAndKeys:
                       @"movies",@"itemid",
                       @"label", @"row1",
@@ -80,25 +117,28 @@ NSMutableArray *mainMenuItems;
                       @"year", @"row3",
                       @"runtime", @"row4",
                       @"rating",@"row5",
+                      @"movieid",@"row6",
+                      [NSNumber numberWithInt:1], @"playlistid",
                       nil];
     item2.rowHeight=76;
     item2.thumbWidth=53;
-    item2.defaultThumb=@"jewel_dvd.table.png";
+    item2.defaultThumb=@"nocover_movies.png";
     
     item3.mainLabel = @"TV Shows";
     item3.upperLabel = @"Watch your";
     item3.icon = @"icon_home_tv.png";
     item3.family = 1;
-    item3.mainMethod=@"VideoLibrary.GetTVShows";
-    item3.mainParameters=[NSDictionary dictionaryWithObjectsAndKeys:
+    item3.enableSection=YES;
+    item3.mainMethod=[NSArray arrayWithObjects:@"VideoLibrary.GetTVShows", @"method", nil];
+    item3.mainParameters=[NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:
                           [NSDictionary dictionaryWithObjectsAndKeys:
                            @"ascending",@"order",
                            [NSNumber numberWithBool:FALSE],@"ignorearticle",
                            @"label", @"method",
                            nil],@"sort",
                           
-                          [[NSArray alloc] initWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", nil], @"properties",
-                          nil];
+                          [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", nil], @"properties",
+                          nil], @"parameters", @"TV Shows", @"label", nil];
     item3.mainFields=[NSDictionary dictionaryWithObjectsAndKeys:
                       @"tvshows",@"itemid",
                       @"label", @"row1",
@@ -106,15 +146,19 @@ NSMutableArray *mainMenuItems;
                       @"year", @"row3",
                       @"runtime", @"row4",
                       @"rating",@"row5",
+                      @"tvshowid",@"row6",
+                      [NSNumber numberWithInt:2], @"playlistid",
+
                       nil];
-    item3.rowHeight=59;
+    item3.rowHeight=61;
     item3.thumbWidth=320;
-    item3.defaultThumb=@"jewel_dvd.table.png";
+    item3.defaultThumb=@"nocover_tvshows.png";
 
     item4.mainLabel = @"Pictures";
     item4.upperLabel = @"Browse your";
     item4.icon = @"icon_home_picture.png";
     item4.family = 1;
+    item4.enableSection=YES;
     item4.thumbWidth=53;
     item4.defaultThumb=@"jewel_dvd.table.png";
 
@@ -159,5 +203,14 @@ NSMutableArray *mainMenuItems;
 - (void)applicationWillTerminate:(UIApplication *)application{
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+    /*
+     Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
+     */
+    
+//    NSLog(@"OPS! memory low!!!! ");
+}
+
 
 @end
