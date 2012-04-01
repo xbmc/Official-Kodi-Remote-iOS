@@ -15,7 +15,7 @@
 @class NowPlaying;
 //@class DetailViewController;
 
-@interface DetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>{
+@interface DetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>{
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     DSJSONRPC *jsonRPC;
@@ -23,6 +23,7 @@
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;  
     SDWebImageManager *manager;
+    IBOutlet UILongPressGestureRecognizer *lpgr;
 }
 
 @property (strong, nonatomic) id detailItem;

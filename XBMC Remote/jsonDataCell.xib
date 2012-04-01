@@ -11,11 +11,11 @@
 			<string key="NS.object.0">1181</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>IBUIActivityIndicatorView</string>
+			<string>IBUIView</string>
 			<string>IBUITableViewCell</string>
 			<string>IBUIImageView</string>
 			<string>IBUILabel</string>
-			<string>IBUIView</string>
+			<string>IBUIActivityIndicatorView</string>
 			<string>IBProxyObject</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
@@ -57,6 +57,7 @@
 										<int key="NSID">2</int>
 									</object>
 								</object>
+								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
 							<object class="IBUILabel" id="680841559">
@@ -161,7 +162,7 @@
 								<string key="NSFrame">{{243, 35}, {40, 16}}</string>
 								<reference key="NSSuperview" ref="447648536"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="132111874"/>
+								<reference key="NSNextKeyView" ref="253472203"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="551168875"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -231,6 +232,7 @@
 								<string key="NSFrame">{{288, 0}, {1, 76}}</string>
 								<reference key="NSSuperview" ref="447648536"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -250,7 +252,7 @@
 								<string key="NSFrameSize">{53, 73}</string>
 								<reference key="NSSuperview" ref="447648536"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="253472203"/>
+								<reference key="NSNextKeyView" ref="388319615"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<int key="IBUITag">6</int>
@@ -282,13 +284,12 @@
 							<object class="IBUIActivityIndicatorView" id="253472203">
 								<reference key="NSNextResponder" ref="447648536"/>
 								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{277, 9}, {37, 37}}</string>
+								<string key="NSFrame">{{8, 9}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="447648536"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="388319615"/>
+								<reference key="NSNextKeyView" ref="132111874"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="551168875"/>
-								<float key="IBUIAlpha">0.69999998807907104</float>
 								<int key="IBUITag">8</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIStyle">0</int>
@@ -317,6 +318,7 @@
 				<reference key="NSNextKeyView" ref="447648536"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="691592588"/>
+				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClipsSubviews">YES</bool>
 				<int key="IBUIContentMode">4</int>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -414,12 +416,6 @@
 						<reference key="parent" ref="523036896"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">13</int>
-						<reference key="object" ref="407067420"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="523036896"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">11</int>
 						<reference key="object" ref="351635662"/>
 						<reference key="parent" ref="523036896"/>
@@ -437,6 +433,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">39</int>
 						<reference key="object" ref="253472203"/>
+						<reference key="parent" ref="523036896"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">13</int>
+						<reference key="object" ref="407067420"/>
 						<reference key="parent" ref="523036896"/>
 					</object>
 				</array>
@@ -463,7 +464,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">40</int>
+			<int key="maxID">43</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -474,6 +475,7 @@
 						<string key="activityIndicatorView">UIActivityIndicatorView</string>
 						<string key="dataList">UITableView</string>
 						<string key="jsonCell">jsonDataCell</string>
+						<string key="lpgr">UILongPressGestureRecognizer</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="activityIndicatorView">
@@ -487,6 +489,10 @@
 						<object class="IBToOneOutletInfo" key="jsonCell">
 							<string key="name">jsonCell</string>
 							<string key="candidateClassName">jsonDataCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="lpgr">
+							<string key="name">lpgr</string>
+							<string key="candidateClassName">UILongPressGestureRecognizer</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

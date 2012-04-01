@@ -18,6 +18,13 @@
 		0F44E2BB15272BE500D5958F /* nocover_music.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2BA15272BE500D5958F /* nocover_music.png */; };
 		0F44E2BD15272F1100D5958F /* button_now_playing_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2BC15272F1100D5958F /* button_now_playing_empty.png */; };
 		0F44E2BF15272F1D00D5958F /* button_now_playing_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2BE15272F1D00D5958F /* button_now_playing_empty@2x.png */; };
+		0F44E2C11527570000D5958F /* XBMC_Logo copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2C01527570000D5958F /* XBMC_Logo copy.png */; };
+		0F44E2C31527570200D5958F /* XBMC_Logo_small copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2C21527570200D5958F /* XBMC_Logo_small copy.png */; };
+		0F44E2C515275BF000D5958F /* footer.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2C415275BF000D5958F /* footer.png */; };
+		0F44E2CE152767A900D5958F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F44E2CD152767A900D5958F /* QuartzCore.framework */; };
+		0F44E2D31527A3D200D5958F /* white.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D21527A3D200D5958F /* white.png */; };
+		0F44E2D51527A9DF00D5958F /* playlistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* playlistCellView.xib */; };
+		0F44E2D71527C87600D5958F /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D61527C87600D5958F /* blank.png */; };
 		0F4883C41521B3D400883243 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883C31521B3D400883243 /* GlobalData.m */; };
 		0F4883D21521CC7300883243 /* VolumeSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883D11521CC7300883243 /* VolumeSliderView.m */; };
 		0F4883D41521CD1C00883243 /* VolumeSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F4883D31521CD1C00883243 /* VolumeSliderView.xib */; };
@@ -27,6 +34,7 @@
 		0F4883DC1521E97600883243 /* now_playing_seek_forward_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4883DA1521E97600883243 /* now_playing_seek_forward_down@2x.png */; };
 		0F4883E51522418E00883243 /* ShowInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883E31522418C00883243 /* ShowInfoViewController.m */; };
 		0F4883E61522418E00883243 /* ShowInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F4883E41522418D00883243 /* ShowInfoViewController.xib */; };
+		0F49885515284C800041DA92 /* timeBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F49885415284C800041DA92 /* timeBackground.png */; };
 		0F4DCF1B15206FAD00FEFD40 /* jewel_dvd.table@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4DCF1A15206FAD00FEFD40 /* jewel_dvd.table@2x.png */; };
 		0F4DCF1E15206FC200FEFD40 /* jewel_dvd.table.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4DCF1D15206FC200FEFD40 /* jewel_dvd.table.png */; };
 		0F4DCF241520F95300FEFD40 /* volume.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4DCF231520F95300FEFD40 /* volume.png */; };
@@ -466,6 +474,13 @@
 		0F44E2BA15272BE500D5958F /* nocover_music.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_music.png; sourceTree = "<group>"; };
 		0F44E2BC15272F1100D5958F /* button_now_playing_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_now_playing_empty.png; sourceTree = "<group>"; };
 		0F44E2BE15272F1D00D5958F /* button_now_playing_empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
+		0F44E2C01527570000D5958F /* XBMC_Logo copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "XBMC_Logo copy.png"; sourceTree = "<group>"; };
+		0F44E2C21527570200D5958F /* XBMC_Logo_small copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "XBMC_Logo_small copy.png"; sourceTree = "<group>"; };
+		0F44E2C415275BF000D5958F /* footer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = footer.png; sourceTree = "<group>"; };
+		0F44E2CD152767A900D5958F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0F44E2D21527A3D200D5958F /* white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white.png; sourceTree = "<group>"; };
+		0F44E2D41527A9DF00D5958F /* playlistCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = playlistCellView.xib; sourceTree = "<group>"; };
+		0F44E2D61527C87600D5958F /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
 		0F4883C21521B3D400883243 /* GlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalData.h; sourceTree = "<group>"; };
 		0F4883C31521B3D400883243 /* GlobalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalData.m; sourceTree = "<group>"; };
 		0F4883D01521CC7200883243 /* VolumeSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeSliderView.h; sourceTree = "<group>"; };
@@ -478,6 +493,7 @@
 		0F4883E21522418C00883243 /* ShowInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowInfoViewController.h; sourceTree = "<group>"; };
 		0F4883E31522418C00883243 /* ShowInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowInfoViewController.m; sourceTree = "<group>"; };
 		0F4883E41522418D00883243 /* ShowInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowInfoViewController.xib; sourceTree = "<group>"; };
+		0F49885415284C800041DA92 /* timeBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timeBackground.png; sourceTree = "<group>"; };
 		0F4DCF1A15206FAD00FEFD40 /* jewel_dvd.table@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jewel_dvd.table@2x.png"; sourceTree = "<group>"; };
 		0F4DCF1D15206FC200FEFD40 /* jewel_dvd.table.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jewel_dvd.table.png; sourceTree = "<group>"; };
 		0F4DCF231520F95300FEFD40 /* volume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = volume.png; sourceTree = "<group>"; };
@@ -933,6 +949,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F44E2CE152767A900D5958F /* QuartzCore.framework in Frameworks */,
 				0F74773A151E094C00EF78AD /* AudioToolbox.framework in Frameworks */,
 				0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */,
 				0F5548FD151D1187007E633F /* Foundation.framework in Frameworks */,
@@ -946,6 +963,9 @@
 		0F5548EB151D1187007E633F = {
 			isa = PBXGroup;
 			children = (
+				0F44E2CD152767A900D5958F /* QuartzCore.framework */,
+				0F44E2C21527570200D5958F /* XBMC_Logo_small copy.png */,
+				0F44E2C01527570000D5958F /* XBMC_Logo copy.png */,
 				0F554C24151D230A007E633F /* XBMC_Logo_small.png */,
 				0F554C22151D22E3007E633F /* XBMC_Logo.png */,
 				0F554900151D1187007E633F /* XBMC Remote */,
@@ -1225,6 +1245,10 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F49885415284C800041DA92 /* timeBackground.png */,
+				0F44E2D61527C87600D5958F /* blank.png */,
+				0F44E2D21527A3D200D5958F /* white.png */,
+				0F44E2C415275BF000D5958F /* footer.png */,
 				0F44E2BC15272F1100D5958F /* button_now_playing_empty.png */,
 				0F44E2BA15272BE500D5958F /* nocover_music.png */,
 				0F44E2B61527288100D5958F /* nocover_movies.png */,
@@ -1445,6 +1469,7 @@
 			children = (
 				0F55491D151D1397007E633F /* cellView.xib */,
 				0FB16163151F156A001BA2D4 /* jsonDataCell.xib */,
+				0F44E2D41527A9DF00D5958F /* playlistCellView.xib */,
 				0F554912151D1187007E633F /* MasterViewController.xib */,
 				0F554915151D1187007E633F /* DetailViewController.xib */,
 				0F74772D151DD77400EF78AD /* NowPlaying.xib */,
@@ -1980,6 +2005,13 @@
 				0F44E2BB15272BE500D5958F /* nocover_music.png in Resources */,
 				0F44E2BD15272F1100D5958F /* button_now_playing_empty.png in Resources */,
 				0F44E2BF15272F1D00D5958F /* button_now_playing_empty@2x.png in Resources */,
+				0F44E2C11527570000D5958F /* XBMC_Logo copy.png in Resources */,
+				0F44E2C31527570200D5958F /* XBMC_Logo_small copy.png in Resources */,
+				0F44E2C515275BF000D5958F /* footer.png in Resources */,
+				0F44E2D31527A3D200D5958F /* white.png in Resources */,
+				0F44E2D51527A9DF00D5958F /* playlistCellView.xib in Resources */,
+				0F44E2D71527C87600D5958F /* blank.png in Resources */,
+				0F49885515284C800041DA92 /* timeBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

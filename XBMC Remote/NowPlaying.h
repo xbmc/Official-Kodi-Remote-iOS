@@ -10,8 +10,11 @@
 #import "DSJSONRPC.h"
 #import "VolumeSliderView.h"
 
-@interface NowPlaying : UIViewController{
+@interface NowPlaying : UIViewController <UITableViewDataSource,UITableViewDelegate>{
     DSJSONRPC *jsonRPC;
+    IBOutlet UITableView *playlistTableView;
+    IBOutlet UITableViewCell *playlistTableViewCell;
+   // IBOutlet jsonDataCell *jsonCell;
     IBOutlet UILabel *albumName;
     IBOutlet UILabel *songName;
     IBOutlet UILabel *artistName;
@@ -21,8 +24,18 @@
     IBOutlet UIImageView *timeBar;
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *thumbnailView;
+    UIView *transitionView;
+    UIView *transitionedView;
+    IBOutlet UIView *nowPlayingView;
+    IBOutlet UIView *playlistView;
+    IBOutlet UIView *songDetailsView;
+    UILabel *viewTitle;
     NSTimer* timer;
     VolumeSliderView *volumeSliderView;
+    NSMutableArray *playlistData;
+    IBOutlet UILabel *songCodec;
+    IBOutlet UILabel *songBitRate;
+    IBOutlet UILabel *songSampleRate;
 }
 
 - (IBAction)startVibrate:(id)sender;

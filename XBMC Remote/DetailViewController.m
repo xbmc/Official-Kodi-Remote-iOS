@@ -29,7 +29,7 @@
 @synthesize detailViewController;
 @synthesize nowPlaying;
 //@synthesize detailDescriptionLabel = _detailDescriptionLabel;
-#define SECTIONS_START_AT 50
+#define SECTIONS_START_AT 0
 
 - (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
     NSString *result = @"";    
@@ -160,9 +160,10 @@
         UILabel *title=(UILabel*) [cell viewWithTag:1];
         frame=title.frame;
         frame.size.width=252;
+        title.frame=frame;
 //        frame.size.width=235; // track n.
 //        frame.origin.x=78;// track n.
-        title.frame=frame;
+
         NSString *duration=[self convertTimeFromSeconds:[item objectForKey:@"runtime"]];
         [(UILabel*) [cell viewWithTag:3] setText:duration];
         
@@ -216,15 +217,74 @@
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIImage *myImage = [UIImage imageNamed:@"tableDown.png"];
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-	imageView.frame = CGRectMake(0,0,320,1);
-	return imageView;
+//    mainMenu *MenuItem=self.detailItem;
+//    NSDictionary *methods=[self indexKeyedDictionaryFromArray:MenuItem.subItem.mainMethod];
+//    
+//    if ([methods objectForKey:@"method"]==nil){
+//        UIImage *myImage = [UIImage imageNamed:@"footer.png"];
+//        UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+//
+//        imageView.frame = CGRectMake(0,0,320,50);
+//        return imageView;
+//    }
+//    else {
+        UIImage *myImage = [UIImage imageNamed:@"tableDown.png"];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+        imageView.frame = CGRectMake(0,0,320,1);
+        return imageView;
+
+//    }
+//	return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-	return 1;
+//    mainMenu *MenuItem=self.detailItem;
+//    NSDictionary *methods=[self indexKeyedDictionaryFromArray:MenuItem.subItem.mainMethod];
+//    if ([methods objectForKey:@"method"]==nil){
+//        return 44;
+//    }else {
+//        return 1;
+//    }
+    return 1;
 }
+
+#pragma mark - Long Press
+-(IBAction)handleLongPress{
+    if (lpgr.state == UIGestureRecognizerStateBegan){
+        CGPoint p = [lpgr locationInView:dataList];
+        
+        NSIndexPath *indexPath = [dataList indexPathForRowAtPoint:p];
+        if (indexPath == nil)
+            NSLog(@"long press on table view but not on a row");
+        else{
+            NSLog(@"long press on table view at row %d", indexPath.row);
+             NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+            
+            
+            NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
+                                                                delegate:self
+                                                       cancelButtonTitle:@"Annulla"
+                                                  destructiveButtonTitle:nil
+                                                       otherButtonTitles:@"Queue", @"Play",
+                                     nil];
+            [action showInView:self.view];
+        }
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+	if (buttonIndex==0){
+		NSLog(@"Queue");
+	}
+    else if (buttonIndex==1){
+        NSLog(@"Play");
+    }
+	else{
+		NSLog(@"Cancel");
+	}
+}
+
 #pragma mark - Life Cycle
 
 - (void)setDetailItem:(id)newDetailItem{
@@ -507,11 +567,11 @@
 }
 
 # pragma Life-Cycle
-//-(void)viewWillAppear:(BOOL)animated{
-//    NSIndexPath* selection = [dataList indexPathForSelectedRow];
-//	if (selection)
-//		[dataList deselectRowAtIndexPath:selection animated:NO];
-//}
+-(void)viewWillAppear:(BOOL)animated{
+    NSIndexPath* selection = [dataList indexPathForSelectedRow];
+	if (selection)
+		[dataList deselectRowAtIndexPath:selection animated:NO];
+}
 
 //-(void)viewDidDisappear:(BOOL)animated{
 //    [richResults removeAllObjects];
