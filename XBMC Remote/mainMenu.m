@@ -10,7 +10,7 @@
 
 @implementation mainMenu
 
-@synthesize mainLabel, upperLabel, icon, family, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection;
+@synthesize mainLabel, upperLabel, icon, family, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, originLabel, noConvertTime;
 
 
 @end

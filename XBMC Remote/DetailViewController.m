@@ -11,9 +11,11 @@
 #import "DSJSONRPC.h"
 #import "UIImageView+WebCache.h"
 #import "GlobalData.h"
-//#import "ShowInfoViewController.h"
+#import "ShowInfoViewController.h"
 #import "DetailViewController.h"
 #import "NowPlaying.h"
+#import "PlayFileViewController.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 
 @interface DetailViewController ()
@@ -24,12 +26,13 @@
 
 @synthesize detailItem = _detailItem;
 @synthesize activityIndicatorView;
-//@synthesize showInfoViewController;
 @synthesize sections;
 @synthesize detailViewController;
 @synthesize nowPlaying;
+@synthesize showInfoViewController;
+@synthesize playFileViewController;
 //@synthesize detailDescriptionLabel = _detailDescriptionLabel;
-#define SECTIONS_START_AT 0
+#define SECTIONS_START_AT 50
 
 - (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
     NSString *result = @"";    
@@ -91,8 +94,6 @@
 }
 
 - (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
-//	CGContextRef context1 = UIGraphicsGet/CurrentContext();
-
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	tV.alpha = alphavalue;
@@ -116,7 +117,8 @@
     return [[self.sections allKeys] count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{    
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{   
+//    if(section == 0){return nil;}
     return [[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section];
 }
 
@@ -130,6 +132,29 @@
     }
     else {
         return nil;
+    }
+}
+
+int cellWidth=0;
+int originYear=0;
+int labelPosition=0;
+-(void)choseParams{
+    mainMenu *Menuitem = self.detailItem;
+
+    int forceWidthLabel=Menuitem.widthLabel;
+    labelPosition=Menuitem.thumbWidth+8;
+    if (Menuitem.originLabel)
+        labelPosition=Menuitem.originLabel;
+    
+    if ([richResults count]<SECTIONS_START_AT){
+        Menuitem.widthLabel=252;
+        if (forceWidthLabel && forceWidthLabel<Menuitem.widthLabel)
+            Menuitem.widthLabel=forceWidthLabel;
+        Menuitem.originYearDuration=248;
+    }
+    else{
+        Menuitem.widthLabel=222;
+        Menuitem.originYearDuration=220;
     }
 }
 
@@ -147,40 +172,53 @@
     cell.urlImageView.frame=frame;
     NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
 //   cell.urlImageView.alpha=0;
-    [(UILabel*) [cell viewWithTag:1] setText:[item objectForKey:@"label"]];
+    UILabel *title=(UILabel*) [cell viewWithTag:1];
+    UILabel *runtimeyear=(UILabel*) [cell viewWithTag:3];
+    UILabel *rating=(UILabel*) [cell viewWithTag:5];
+
+    frame=title.frame;
+    frame.origin.x=labelPosition;
+    title.frame=frame;
+    
+    [title setText:[item objectForKey:@"label"]];
     [(UILabel*) [cell viewWithTag:2] setText:[item objectForKey:@"genre"]];
     
-    if (![self.detailItem enableSection] || [richResults count]<SECTIONS_START_AT){ // TOGLIERE L'IF E SPOSTARE SU APP DELEGATE. CONDIZIONE DEBOLE
-        cell.lineSeparator.hidden=YES;
-        UILabel *label=(UILabel*) [cell viewWithTag:3];
-        CGRect frame;
-        frame=label.frame;
-        frame.origin.x=272;
-        label.frame=frame;
-        UILabel *title=(UILabel*) [cell viewWithTag:1];
-        frame=title.frame;
-        frame.size.width=252;
-        title.frame=frame;
-//        frame.size.width=235; // track n.
-//        frame.origin.x=78;// track n.
+    frame=title.frame;
+    frame.size.width=Menuitem.widthLabel;
+    title.frame=frame;
+    
+    frame=runtimeyear.frame;
+    frame.origin.x=Menuitem.originYearDuration;
+    runtimeyear.frame=frame;
+    
+    frame=rating.frame;
+    frame.origin.x=Menuitem.originYearDuration;
+    rating.frame=frame;
 
-        NSString *duration=[self convertTimeFromSeconds:[item objectForKey:@"runtime"]];
-        [(UILabel*) [cell viewWithTag:3] setText:duration];
-        
-//        [(UILabel*) [cell viewWithTag:7] setText:[NSString stringWithFormat:@"%d.", indexPath.row+1]];// track n.
+    if (Menuitem.showRuntime){
+        NSString *duration=@"";
+        if (!Menuitem.noConvertTime){
+            duration=[self convertTimeFromSeconds:[item objectForKey:@"runtime"]];
+        }
+        else {
+            duration=[item objectForKey:@"runtime"];
+        }
+        [runtimeyear setText:duration];        
     }
-    else
-        [(UILabel*) [cell viewWithTag:3] setText:[item objectForKey:@"year"]];
+    else {
+        [runtimeyear setText:[item objectForKey:@"year"]];
+    }
+    
     [(UILabel*) [cell viewWithTag:4] setText:[item objectForKey:@"runtime"]];
-    [(UILabel*) [cell viewWithTag:5] setText:[item objectForKey:@"rating"]];
+    [rating setText:[item objectForKey:@"rating"]];
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     
-//    NSURL *imageUrl = [NSURL URLWithString: stringURL];
-//    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageUrl]];
-   
-//    cell.urlImageView.image=[UIImage imageNamed:Menuitem.defaultThumb];    
+// TEST
+//    cell.urlImageView.image=[UIImage imageNamed:Menuitem.defaultThumb];  
+    
    [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:Menuitem.defaultThumb] ];
     
+//    NSURL *imageUrl = [NSURL URLWithString: stringURL];    
 //    UIImage *cachedImage = [manager imageWithURL:imageUrl];
 //    if (cachedImage){
 //        cell.urlImageView.image=cachedImage;
@@ -202,17 +240,38 @@
         NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
         MenuItem.subItem.mainLabel=@"";
         MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
-        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters]];        
+        
+        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters]];  
+        
         [[parameters objectForKey:@"parameters"] setObject:[item objectForKey:[[self.detailItem mainFields] objectForKey:@"row6"]] forKey:[[self.detailItem mainFields] objectForKey:@"row6"]];
+        if ([item objectForKey:[[self.detailItem mainFields] objectForKey:@"row15"]]!=nil)
+            [[parameters objectForKey:@"parameters"] setObject:[item objectForKey:[[self.detailItem mainFields] objectForKey:@"row15"]] forKey:[[self.detailItem mainFields] objectForKey:@"row15"]];
+
+        
         self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
         self.detailViewController.detailItem = MenuItem.subItem;
         [self.navigationController pushViewController:self.detailViewController animated:YES];
     }
     else {
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
-        [queuing startAnimating];
-        [self addPlayback:indexPath];
+        if (MenuItem.showInfo){
+            self.showInfoViewController=nil;
+            self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
+            NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+            self.showInfoViewController.detailItem = item;
+            [self.navigationController pushViewController:self.showInfoViewController animated:YES];
+        }
+        else {
+            
+//            self.playFileViewController=nil;
+//            self.playFileViewController = [[PlayFileViewController alloc] initWithNibName:@"PlayFileViewController" bundle:nil];
+//            NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+//            
+//            self.playFileViewController.detailItem = item;
+//            [self.navigationController pushViewController:self.playFileViewController animated:YES];
+            
+            [self addPlayback:indexPath position:indexPath.row];
+        }
+       // [self addPlayback:indexPath];
     }
 }
 
@@ -249,40 +308,53 @@
 }
 
 #pragma mark - Long Press
+
+NSIndexPath *selected;
+
 -(IBAction)handleLongPress{
     if (lpgr.state == UIGestureRecognizerStateBegan){
         CGPoint p = [lpgr locationInView:dataList];
         
         NSIndexPath *indexPath = [dataList indexPathForRowAtPoint:p];
-        if (indexPath == nil)
-            NSLog(@"long press on table view but not on a row");
-        else{
-            NSLog(@"long press on table view at row %d", indexPath.row);
-             NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        if (indexPath != nil){
+            selected=indexPath;
+            NSArray *sheetActions=[self.detailItem sheetActions];
             
-            
-            NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
-            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
-                                                                delegate:self
-                                                       cancelButtonTitle:@"Annulla"
-                                                  destructiveButtonTitle:nil
-                                                       otherButtonTitles:@"Queue", @"Play",
-                                     nil];
-            [action showInView:self.view];
+            int numActions=[sheetActions count];
+            if (numActions){
+                NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+                
+                
+                NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
+                UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
+                                                                    delegate:self
+                                                           cancelButtonTitle:nil
+                                                      destructiveButtonTitle:nil
+                                                           otherButtonTitles:nil
+                                         ];
+                for (int i = 0; i < numActions; i++) {
+                    [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+                }
+                action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+                [action showInView:self.view];
+            }
         }
     }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-	if (buttonIndex==0){
-		NSLog(@"Queue");
-	}
-    else if (buttonIndex==1){
-        NSLog(@"Play");
+    NSArray *sheetActions=[self.detailItem sheetActions];
+    if (buttonIndex==actionSheet.cancelButtonIndex)
+        NSLog(@"Cancel");
+    else {
+        NSLog(@"%@", [sheetActions objectAtIndex:buttonIndex]);
+        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"])
+            [self addPlayback:selected position:0];
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue"])
+            [self addQueue:selected];
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"])
+            [self addStream:selected];
     }
-	else{
-		NSLog(@"Cancel");
-	}
 }
 
 #pragma mark - Life Cycle
@@ -332,26 +404,119 @@
    }
 }
 
--(void)showNowPlaying{
-    self.nowPlaying=nil;
-    self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-
-    
-    self.nowPlaying.detailItem = self.detailItem;
-
-    [self.navigationController pushViewController:self.nowPlaying animated:YES];
+#pragma mark - WebView
+- (void)webViewDidStartLoad: (UIWebView *)webView{
+//    NSLog(@"START");
 }
 
-# pragma JSON DATA Management
-//[[NSArray alloc] initWithObjects:@"year", @"runtime", @"file", @"playcount", @"rating", @"plot", @"fanart", @"thumbnail", @"resume", @"trailer", nil], @"properties",
 
--(void)addPlayback:(NSIndexPath *)indexPath{
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+//    NSLog(@"Loading: %@", [request URL]);
+    return YES;
+}
+
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+//    NSLog(@"didFinish: %@; stillLoading:%@", [[webView request]URL],
+//          (webView.loading?@"NO":@"YES"));
+//    if (webView.loading)
+//        return;
+}
+
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+//    NSLog(@"didFail: %@; stillLoading:%@", [[webView request]URL],
+//          (webView.loading?@"NO":@"YES"));
+}
+
+-(void)showNowPlaying{
+    if (!alreadyPush){
+        self.nowPlaying=nil;
+        self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        self.nowPlaying.detailItem = self.detailItem;
+        [self.navigationController pushViewController:self.nowPlaying animated:YES];
+        alreadyPush=YES;
+    }
+}
+
+# pragma mark - Playback Management
+
+-(void)addStream:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+    [queuing startAnimating];
+    NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error==nil && methodError==nil){
+            if( [methodResult count] > 0){
+                GlobalData *obj=[GlobalData getInstance];     
+                //NSDictionary *itemid = [methodResult objectForKey:@"details"]; 
+               // ;
+                NSString *serverURL=[NSString stringWithFormat:@"%@:%@", obj.serverIP, obj.serverPort];
+                NSString *stringURL = [NSString stringWithFormat:@"%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];                
+               // NSLog(@"RESULT %@", stringURL);
+                NSURLRequest *request = [[NSURLRequest alloc] initWithURL: [NSURL URLWithString: stringURL] cachePolicy: NSURLRequestReloadIgnoringCacheData timeoutInterval: 10];  
+                CGRect frame=webPlayView.frame;
+                frame.origin.y=cell.frame.origin.y;
+                webPlayView.frame=frame;   
+                NSLog(@"%d", webPlayView.loading);
+                [webPlayView loadRequest:request];  
+                
+                
+//                playerViewController =[[MPMoviePlayerController alloc] initWithContentURL: [NSURL URLWithString: stringURL]];
+//                [playerViewController prepareToPlay];
+//                [playerViewController.view setFrame: self.view.bounds];  // player's frame must match parent's
+//                [self.view addSubview: playerViewController.view];
+//                [playerViewController play];
+                
+                //MPMoviePlayerController *playerViewController;
+//                NSURL *movieURL = [NSURL URLWithString:stringURL];
+//                playerViewController = [[MPMoviePlayerController alloc] initWithContentURL:movieURL];
+////                playerViewController.controlStyle = MPMovieControlStyleFullscreen;
+//                playerViewController.shouldAutoplay = YES;
+                
+//                [[playerViewController view] setFrame: self.view.bounds]; // 2X the native resolution
+//                [self.view addSubview: [playerViewController view]];
+//                [playerViewController play];
+                
+//                NSString *medialink = @"http://someWebAddress.mp3";
+//                self.player = [[[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:medialink]] autorelease];
+//                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayerDidFinish:) name:@"MPMoviePlayerPlaybackDidFinishNotification" object:self.player];
+//                [self.player play];
+                
+                [queuing stopAnimating];
+            }
+        }
+        else {
+            NSLog(@"ci deve essere un primo problema %@", methodError);
+            [queuing stopAnimating];
+        }
+    }];
+}
+
+-(void)addQueue:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+    [queuing startAnimating];
+    NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+
+    [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[[self.detailItem mainFields] objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[[self.detailItem mainFields] objectForKey:@"row9"]], [[self.detailItem mainFields] objectForKey:@"row9"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [queuing stopAnimating];
+
+    }];
+}
+
+-(void)addPlayback:(NSIndexPath *)indexPath position:(int)pos{
+    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+    [queuing startAnimating];
      NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [[self.detailItem mainFields] objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[[self.detailItem mainFields] objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[[self.detailItem mainFields] objectForKey:@"row8"]], [[self.detailItem mainFields] objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                 if (error==nil && methodError==nil){
-                    [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [[self.detailItem mainFields] objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: indexPath.row], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                    [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [[self.detailItem mainFields] objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: pos], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                         if (error==nil && methodError==nil){
                             UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
                             UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
@@ -413,6 +578,7 @@
 //    }];
 //}
 
+# pragma mark - JSON DATA Management
 -(void) retrieveData:(NSString *)methodToCall parameters:(NSDictionary*)parameters{
 
     GlobalData *obj=[GlobalData getInstance]; 
@@ -435,7 +601,17 @@
                  for (int i=0; i<total; i++) {
                      NSString *label=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row1"]]];
                      NSString *genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row2"]]];
-                     NSString *year=[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row3"]] stringValue];
+                     if ([genre isEqualToString:@"(null)"]) genre=@"";
+                     
+                     NSString *year=@"";
+                     if([[[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row3"]] isKindOfClass:[NSNumber class]]){
+                          year=[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row3"]] stringValue];
+                     }
+                     else{
+                          year=[[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row3"]];
+                     }
+//                     NSString *year=[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row3"]] stringValue];
+                     
                      NSString *runtime=@"";
                      if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row4"]] intValue]){
                          runtime=[NSString stringWithFormat:@"%d min",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row4"]] intValue]];
@@ -448,12 +624,25 @@
                      [richResults	addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                label, @"label",
                                                genre, @"genre",
-                                               year, @"year",
-                                               runtime, @"runtime",
-                                               rating, @"rating",
                                                stringURL, @"thumbnail",
+                                               runtime, @"runtime",
+
                                                [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row6"]], [[self.detailItem mainFields] objectForKey:@"row6"],
                                                [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row8"]], [[self.detailItem mainFields] objectForKey:@"row8"],
+                                               year, @"year",
+                                               rating, @"rating",
+                                               [[self.detailItem mainFields] objectForKey:@"playlistid"], @"playlistid",
+                                               [[self.detailItem mainFields] objectForKey:@"row8"], @"family",
+                                               [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row9"]], [[self.detailItem mainFields] objectForKey:@"row9"],
+                                               [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row10"]], [[self.detailItem mainFields] objectForKey:@"row10"],
+                                               [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row11"]], [[self.detailItem mainFields] objectForKey:@"row11"],
+                                               [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row12"]], [[self.detailItem mainFields] objectForKey:@"row12"],
+                                               [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row13"]], [[self.detailItem mainFields] objectForKey:@"row13"],
+                                               [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row14"]], [[self.detailItem mainFields] objectForKey:@"row14"],
+                                               [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row15"]], [[self.detailItem mainFields] objectForKey:@"row15"],
+                                               [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row16"]], [[self.detailItem mainFields] objectForKey:@"row16"],
+                                               [[videoLibraryMovies objectAtIndex:i] objectForKey:[[self.detailItem mainFields] objectForKey:@"row17"]], [[self.detailItem mainFields] objectForKey:@"row17"],
+                                               
                                                nil]];
 //                     NSLog(@"URL: %@", stringURL);
 //                     [self countDownload:total];
@@ -495,11 +684,15 @@
 //                         [self countDownload:total];
 //                     }
                  }
+//                 UITableViewIndexSearch;
+//                 NSLog(@"RICH RESULTS %@", richResults);
                  [activityIndicatorView stopAnimating];
-                 if ([self.detailItem enableSection] && [richResults count]>SECTIONS_START_AT){// 
+                 if ([self.detailItem enableSection]){
                      NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[self.detailItem mainParameters]];
-
                      self.navigationItem.title =[NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], [richResults count]];
+                 }
+                 if ([self.detailItem enableSection] && [richResults count]>SECTIONS_START_AT){// 
+//                     [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
                      BOOL found;
                      NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
                      NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
@@ -520,7 +713,6 @@
                                  found = YES;
                              }
                          }
-                         
                          if (!found){     
                              [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
                          }
@@ -546,6 +738,7 @@
                           [[self.sections objectForKey:@""] addObject:item];
                      }
                  }
+                 [self choseParams];
                  [dataList reloadData];
                  [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
             }
@@ -565,9 +758,103 @@
     
     
 }
+#pragma mark -
+#pragma mark Search Bar 
 
-# pragma Life-Cycle
+- (void) searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
+	
+	//This method is called again when the user clicks back from teh detail view.
+	//So the overlay is displayed on the results, which is something we do not want to happen.
+	if(searching)
+		return;
+	
+	//Add the overlay view.
+//	if(ovController == nil)
+//		ovController = [[OverlayViewController alloc] initWithNibName:@"OverlayView" bundle:[NSBundle mainBundle]];
+//	
+//	CGFloat yaxis = self.navigationController.navigationBar.frame.size.height;
+//	CGFloat width = self.view.frame.size.width;
+//	CGFloat height = self.view.frame.size.height;
+//	
+//	//Parameters x = origion on x-axis, y = origon on y-axis.
+//	CGRect frame = CGRectMake(0, yaxis, width, height);
+//	ovController.view.frame = frame;	
+//	ovController.view.backgroundColor = [UIColor grayColor];
+//	ovController.view.alpha = 0.5;
+//	
+//	ovController.rvController = self;
+//	
+//	[self.tableView insertSubview:ovController.view aboveSubview:self.parentViewController.view];
+	
+	searching = YES;
+	letUserSelectRow = NO;
+	dataList.scrollEnabled = NO;
+	
+	//Add the done button.
+//	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] 
+//											   initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
+//											   target:self action:@selector(doneSearching_Clicked:)] autorelease];
+}
+
+- (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText {
+    
+	//Remove all objects first.
+	[copyListOfItems removeAllObjects];
+	[self searchTableView];
+    
+	if([searchText length] > 0) {
+		NSLog(@"debntro");
+	//	[ovController.view removeFromSuperview];
+		searching = YES;
+		letUserSelectRow = YES;
+		dataList.scrollEnabled = YES;
+		[self searchTableView];
+	}
+	else {
+		
+		//[self.tableView insertSubview:ovController.view aboveSubview:self.parentViewController.view];
+		
+		searching = NO;
+		letUserSelectRow = NO;
+		dataList.scrollEnabled = NO;
+//        [dataList reloadData];
+	}
+	
+}
+
+- (void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
+    [searchBar resignFirstResponder];
+	[self searchTableView];
+}
+
+- (void) searchTableView {
+	
+//	NSString *searchText = searchBar.text;
+//	NSMutableArray *searchArray = [[NSMutableArray alloc] init];
+//	
+//	for (NSDictionary *dictionary in richResults)
+//	{
+//		NSArray *array = [dictionary objectForKey:@"label"];
+//        NSLog(@"%@", array);
+		//[searchArray addObjectsFromArray:array];
+//	}
+	
+//	for (NSDictionary *sTemp in searchArray)
+//	{
+//		NSRange titleResultsRange = [[sTemp objectForKey:@"label"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+//		
+//		if (titleResultsRange.length > 0)
+//			[copyListOfItems addObject:sTemp];
+//	}
+   // richResults=copyListOfItems;
+//	[dataList reloadData];
+	//[searchArray release];
+//	searchArray = nil;
+}
+
+# pragma mark - Life-Cycle
 -(void)viewWillAppear:(BOOL)animated{
+    alreadyPush=NO;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
 	if (selection)
 		[dataList deselectRowAtIndexPath:selection animated:NO];
@@ -603,6 +890,10 @@
         [activityIndicatorView stopAnimating];
         [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
+    
+//    [dataList setContentOffset:CGPointMake(0,searchBar.frame.size.height)];
+    
+    copyListOfItems = [[NSMutableArray alloc] init];
     [super viewDidLoad];
 }
 
@@ -612,6 +903,7 @@
     self.detailItem = nil;
     jsonRPC=nil;
     richResults=nil;
+    copyListOfItems=nil;
 }
 
 -(void)dealloc{
@@ -626,6 +918,8 @@
     activityIndicatorView=nil;  
     manager=nil;
     nowPlaying=nil;
+    copyListOfItems=nil;
+    playFileViewController=nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

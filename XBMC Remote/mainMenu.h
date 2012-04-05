@@ -22,8 +22,19 @@
 @property (nonatomic, retain) NSMutableArray *mainParameters;
 
 @property (nonatomic, retain) mainMenu *subItem;
+@property (nonatomic, copy) NSArray *sheetActions;
 
 @property int rowHeight;
 @property int thumbWidth;
+@property BOOL showInfo;
+@property int originYearDuration;
+@property int originLabel;
+@property int widthLabel;
+
+@property BOOL showRuntime;
+@property BOOL noConvertTime;
+
+
+
 
 @end

@@ -199,10 +199,10 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     volumeSliderView = [[VolumeSliderView alloc] 
-                          initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 206.0f)];
+                          initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 226.0f)];
     CGRect frame=volumeSliderView.frame;
     frame.origin.x=258;
-    frame.origin.y=-206;
+    frame.origin.y=-226;
     volumeSliderView.frame=frame;
     [self.view addSubview:volumeSliderView];
     

@@ -18,9 +18,8 @@
 
 static GlobalData *instance =nil;    
 +(GlobalData *)getInstance    {    
-    @synchronized(self)    {    
+    @synchronized(self){    
         if(instance==nil){    
-            
             instance= [GlobalData new];    
         }    
     }    

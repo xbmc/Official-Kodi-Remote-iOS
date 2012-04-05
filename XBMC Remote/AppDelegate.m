@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "mainMenu.h"
 #import "MasterViewController.h"
+//#import "GlobalData.h"
 
 @implementation AppDelegate
 
@@ -26,6 +27,15 @@ NSMutableArray *mainMenuItems;
     self.window.rootViewController = self.navigationController;
     
     [self.window makeKeyAndVisible];
+    
+//    GlobalData *obj=[GlobalData getInstance];  
+//    
+//    obj.serverDescription=@"joeHTPC";
+//    obj.serverUser=@"xbmc";
+//    obj.serverPass=@"";
+//    obj.serverIP= @"10.10.32.16";
+//    obj.serverPort=@"8080";
+    
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];
     mainMenu *item1 = [[mainMenu alloc] init];
     mainMenu *item2 = [[mainMenu alloc] init];
@@ -35,6 +45,9 @@ NSMutableArray *mainMenuItems;
     mainMenu *item6 = [[mainMenu alloc] init];
     
     item1.subItem = [[mainMenu alloc] init];
+    item3.subItem = [[mainMenu alloc] init];
+    item3.subItem.subItem = [[mainMenu alloc] init];
+
     
     item1.mainLabel = @"Music";
     item1.upperLabel = @"Listen to";
@@ -60,11 +73,14 @@ NSMutableArray *mainMenuItems;
                       @"runtime", @"row4",
                       @"rating",@"row5",
                       @"albumid",@"row6",
+                      [NSNumber numberWithInt:0], @"playlistid",
+                      @"albumid",@"row8",
+                      @"albumid", @"row9",
                       nil];
     item1.rowHeight=53;
     item1.thumbWidth=53;
     item1.defaultThumb=@"nocover_music.png";
-    
+    item1.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
 //    
     item1.subItem.mainMethod=[NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil]; 
     item1.subItem.mainParameters=[NSMutableArray arrayWithObjects:[NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -73,7 +89,7 @@ NSMutableArray *mainMenuItems;
                            [NSNumber numberWithBool:FALSE],@"ignorearticle",
                            @"track", @"method",
                            nil],@"sort",
-                          [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", nil], @"properties",
+                          [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
                           nil], @"parameters", @"Songs", @"label", nil];
     item1.subItem.mainFields=[NSDictionary  dictionaryWithObjectsAndKeys:
                          @"songs",@"itemid",
@@ -86,11 +102,18 @@ NSMutableArray *mainMenuItems;
                          @"track",@"row7",
                          @"albumid",@"row8",
                          [NSNumber numberWithInt:0], @"playlistid",
+                         @"songid", @"row9",
+                         @"file", @"row10",
+
                          nil];
     item1.subItem.enableSection=NO;
     item1.subItem.rowHeight=53;
     item1.subItem.thumbWidth=53;
     item1.subItem.defaultThumb=@"nocover_music.png";
+    item1.subItem.sheetActions=[NSArray arrayWithObjects: @"Queue", @"Play", nil];//, @"Stream to iPhone"
+    item1.subItem.originYearDuration=248;
+    item1.subItem.widthLabel=252;
+    item1.subItem.showRuntime=YES;
 
    // item1.subItem.subItem=[[mainMenu alloc] init];
     //item1.subItem.subItem=subItem1;
@@ -108,8 +131,9 @@ NSMutableArray *mainMenuItems;
                            @"label", @"method",
                            nil],@"sort",
                           
-                          [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", nil], @"properties",
+                          [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", nil], @"properties",
                           nil], @"parameters", @"Movies", @"label", nil];
+//    ["trailer","file","imdbnumber","mpaa","thumbnail","fanart","director","studio","genre","plot","runtime","playcount","rating","year","streamdetails","lastplayed","sorttitle","set","setid"]
     item2.mainFields=[NSDictionary dictionaryWithObjectsAndKeys:
                       @"movies",@"itemid",
                       @"label", @"row1",
@@ -119,10 +143,23 @@ NSMutableArray *mainMenuItems;
                       @"rating",@"row5",
                       @"movieid",@"row6",
                       [NSNumber numberWithInt:1], @"playlistid",
+                      @"movieid",@"row8",
+                      @"movieid", @"row9",
+                      @"director",@"row10",
+                      @"studio",@"row11",
+                      @"plot",@"row12",
+                      @"mpaa",@"row13",
+                      @"votes",@"row14",
+                      @"votes",@"row15",
+                      @"cast",@"row16",
+                      @"file",@"row17",
+
                       nil];
     item2.rowHeight=76;
     item2.thumbWidth=53;
     item2.defaultThumb=@"nocover_movies.png";
+    item2.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
+    item2.showInfo = YES;
     
     item3.mainLabel = @"TV Shows";
     item3.upperLabel = @"Watch your";
@@ -153,6 +190,87 @@ NSMutableArray *mainMenuItems;
     item3.rowHeight=61;
     item3.thumbWidth=320;
     item3.defaultThumb=@"nocover_tvshows.png";
+    item3.originLabel=60;
+    
+    //{"method":"VideoLibrary.GetSeasons","id":1,"jsonrpc":"2.0","params":{"properties":["season","thumbnail"],"tvshowid":3}}
+    
+    
+    item3.subItem.mainMethod=[NSArray arrayWithObjects:@"VideoLibrary.GetSeasons", @"method", nil]; 
+    item3.subItem.mainParameters=[NSMutableArray arrayWithObjects:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                    @"ascending",@"order",
+                                                                    [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                                                                    @"track", @"method",
+                                                                    nil],@"sort",
+                                                                   
+                                                                   [NSArray arrayWithObjects:@"season", @"thumbnail", @"tvshowid", nil], @"properties",
+                                                                   nil], @"parameters", @"Seasons", @"label", nil];
+    item3.subItem.mainFields=[NSDictionary  dictionaryWithObjectsAndKeys:
+                              @"seasons",@"itemid",
+                              @"label", @"row1",
+                              @"genre", @"row2",
+                              @"year", @"row3",
+                              @"duration", @"row4",
+                              @"rating",@"row5",
+                              @"tvshowid",@"row6",
+                              @"track",@"row7",
+                              @"season",@"row8",
+                              [NSNumber numberWithInt:1], @"playlistid",
+                              @"tvshowid", @"row9",
+                              @"season",@"row15",
+                              nil];
+    item3.subItem.enableSection=NO;
+    item3.subItem.rowHeight=76;
+    item3.subItem.thumbWidth=53;
+    item3.subItem.defaultThumb=@"nocover_tvshows_episode.png";
+    item3.subItem.widthLabel=252;
+
+//    item3.subItem.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
+    
+    
+    //{"method":"VideoLibrary.GetEpisodes","id":2,"jsonrpc":"2.0","params":{"properties":["episode","plot","thumbnail","fanart","playcount","rating","season","runtime","firstaired"],"tvshowid":3}}
+    item3.subItem.subItem.mainMethod=[NSArray arrayWithObjects:@"VideoLibrary.GetEpisodes", @"method", nil]; 
+    item3.subItem.subItem.mainParameters=[NSMutableArray arrayWithObjects:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                    @"ascending",@"order",
+                                                                    [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                                                                    @"episode", @"method",
+                                                                    nil],@"sort",
+                                                                   [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", nil], @"properties",
+                                                                   nil], @"parameters", @"Episodes", @"label", nil];
+    item3.subItem.subItem.mainFields=[NSDictionary  dictionaryWithObjectsAndKeys:
+                                      @"episodes",@"itemid",
+                                      @"label", @"row1",
+                                      @"artist", @"row2",
+                                      @"firstaired", @"row3",
+                                      @"runtime", @"row4",
+                                      @"rating",@"row5",
+                                      @"episodeid",@"row6",
+                                      @"season",@"row7",
+                                      @"episodeid",@"row8",
+                                      [NSNumber numberWithInt:1], @"playlistid",
+                                      @"episodeid", @"row9",
+                                      @"plot", @"row10",
+                                      @"director", @"row11",
+                                      @"writer", @"row12",
+                                      @"firstaired", @"row13",
+                                      @"showtitle", @"row14",
+                                      @"season",@"row15",
+                                      @"cast",@"row16",
+                                      @"file",@"row17",
+
+
+                              nil];
+    item3.subItem.subItem.enableSection=NO;
+    item3.subItem.subItem.rowHeight=53;
+    item3.subItem.subItem.thumbWidth=95;
+    item3.subItem.subItem.defaultThumb=@"nocover_tvshows_episode.png";
+    item3.subItem.subItem.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
+    item3.subItem.subItem.originYearDuration=248;
+    item3.subItem.subItem.widthLabel=208;
+    item3.subItem.subItem.showRuntime=NO;
+    item3.subItem.subItem.noConvertTime=YES;
+    item3.subItem.subItem.showInfo=YES;
 
     item4.mainLabel = @"Pictures";
     item4.upperLabel = @"Browse your";
@@ -179,6 +297,7 @@ NSMutableArray *mainMenuItems;
     [mainMenuItems addObject:item5];
     [mainMenuItems addObject:item6];
     masterViewController.mainMenu =mainMenuItems;
+    
     return YES;
 }
 

@@ -36,6 +36,13 @@
     IBOutlet UILabel *songCodec;
     IBOutlet UILabel *songBitRate;
     IBOutlet UILabel *songSampleRate;
+    int playerID;
+    int selectedPlayerID;
+    IBOutlet UIActivityIndicatorView *activityIndicatorView;
+    int playerPlaying;
+    int PlayerPaused;
+    IBOutlet UIButton *seg_music;
+    IBOutlet UIButton *seg_video;
 }
 
 - (IBAction)startVibrate:(id)sender;

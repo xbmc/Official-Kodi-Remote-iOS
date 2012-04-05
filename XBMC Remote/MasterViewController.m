@@ -52,8 +52,8 @@
     obj.serverIP= ipUI.text;
     obj.serverPort=portUI.text;
     [theTextField resignFirstResponder];
-    serverOnLine=NO;
-    [self checkServer];
+    [self changeServerStatus:NO infoText:@"No connection"];
+    //[self checkServer];
     return YES;
 }
 
@@ -63,6 +63,57 @@
     [portUI resignFirstResponder];
     [usernameUI resignFirstResponder];
     [passwordUI resignFirstResponder];
+//    GlobalData *obj=[GlobalData getInstance]; 
+//    obj.serverDescription=descriptionUI.text;
+//    obj.serverUser=usernameUI.text;
+//    obj.serverPass=passwordUI.text;
+//    obj.serverIP= ipUI.text;
+//    obj.serverPort=portUI.text;
+//    [self changeServerStatus:NO infoText:@"No connection"];
+}
+
+-(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText{
+    if (status==YES){
+        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateNormal];
+        [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
+        [xbmcLogo setImage:nil forState:UIControlStateSelected];
+        [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
+        serverOnLine=YES;
+        int n = [menuList numberOfRowsInSection:0];
+        for (int i=0;i<n;i++){
+            UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            if (cell!=nil){
+                cell.selectionStyle=UITableViewCellSelectionStyleBlue;
+                [UIView beginAnimations:nil context:nil];
+                [UIView setAnimationDuration:0.3];
+                [(UIImageView*) [cell viewWithTag:1] setAlpha:1.0];
+                [(UIImageView*) [cell viewWithTag:2] setAlpha:1.0];
+                [(UIImageView*) [cell viewWithTag:3] setAlpha:1.0];
+                [UIView commitAnimations];
+            }
+        }
+    }
+    else{
+        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
+        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
+        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
+        [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
+        serverOnLine=NO;
+        int n = [menuList numberOfRowsInSection:0];
+        for (int i=0;i<n;i++){
+            UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            if (cell!=nil){
+                cell.selectionStyle=UITableViewCellSelectionStyleGray;
+                [UIView beginAnimations:nil context:nil];
+                [UIView setAnimationDuration:0.3];
+
+                [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
+                [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
+                [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
+                [UIView commitAnimations];
+            }
+        }
+    }
 }
 
 -(void)checkServer{
@@ -75,27 +126,18 @@
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error==nil && methodError==nil){
              if (!serverOnLine){
-//                 NSLog(@"DATO RICEVUTO %@", methodResult);
                  if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateNormal];
-                     [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
-                     [xbmcLogo setImage:nil forState:UIControlStateSelected];
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                      NSString *infoTitle=[NSString stringWithFormat:@" XBMC %@.%@-%@ %@ ", [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"], [serverInfo objectForKey:@"revision"]];
-                     [xbmcInfo setTitle:infoTitle forState:UIControlStateNormal];
-                     serverOnLine=YES;
+                     [self changeServerStatus:YES infoText:infoTitle];
+                     [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
                  }
              }
          }
          else {
-//             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
              if (serverOnLine){
                  NSLog(@"mi spengo");
-                 [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
-                 [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
-                 [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
-                 [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];
-                 serverOnLine=NO;
+                 [self changeServerStatus:NO infoText:@"No connection"];
              }
          }
      }];
@@ -125,7 +167,7 @@
     [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE];
 }
 
-#pragma LifeCycle
+#pragma mark - LifeCycle
 -(void)viewWillAppear:(BOOL)animated{
     NSIndexPath*	selection = [menuList indexPathForSelectedRow];
 	if (selection)
@@ -222,7 +264,22 @@
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
     [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:item.icon]];
     [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];   
-    [(UILabel*) [cell viewWithTag:3] setText:item.mainLabel];    
+    [(UILabel*) [cell viewWithTag:3] setText:item.mainLabel]; 
+    if (serverOnLine){
+        [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
+        [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
+        [(UIImageView*) [cell viewWithTag:3] setAlpha:1];
+        cell.selectionStyle=UITableViewCellSelectionStyleBlue;
+
+    }
+    else {
+        [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
+        [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
+        [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
+        cell.selectionStyle=UITableViewCellSelectionStyleGray;
+
+    }
+  
     return cell;
 }
 
@@ -257,6 +314,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (!serverOnLine) {
+        [menuList deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
     if (item.family==2){
         self.nowPlaying=nil;
