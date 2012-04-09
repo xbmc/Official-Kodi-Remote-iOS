@@ -48,6 +48,8 @@
     int musicPartyMode;
     IBOutlet UIButton *seg_music;
     IBOutlet UIButton *seg_video;
+    IBOutlet UIView *noFoundView;
+
 }
 
 - (IBAction)startVibrate:(id)sender;

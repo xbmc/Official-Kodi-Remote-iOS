@@ -103,34 +103,80 @@ int count=0;
 int h=0;
 -(void)createInfo{
     NSDictionary *item=self.detailItem;
-//    NSLog(@"%@", item);
     int scrollViewDefaultHeight=660;
-    if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
-        int deltaY=jewelView.frame.size.height - 200;
+    if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"studio"]){
+        int deltaY=0;
+        int coverHeight=0;
         int shiftY=40;
+        CGRect frame=label6.frame;
+
+        if ([[item objectForKey:@"family"] isEqualToString:@"studio"]){
+            coverHeight=70;
+            deltaY=jewelView.frame.size.height - coverHeight;
+            shiftY=0;
+            label1.text=@"EPISODES";
+            label3.text=@"GENRE";
+            label4.text=@"STUDIO";
+            jewelView.hidden=YES;
+//            jewelView.image=[UIImage imageNamed:@"jewel_tv.9.png"];
+//            frame=jewelView.frame;
+//            frame.size.height=coverHeight;
+//            jewelView.frame=frame;
+            
+            frame=coverView.frame;
+            frame.origin.x=0;
+            frame.origin.y=12;
+            frame.size.width=320;
+            frame.size.height=59;
+            coverView.frame=frame;
+            directorLabel.text=[[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
+            genreLabel.text=[[item objectForKey:@"premiered"] length]==0 ? @"-" : [item objectForKey:@"premiered"];
+            runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
+            studioLabel.text=[[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
+            self.navigationItem.rightBarButtonItems=nil;
+        }
+        
+        else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
+            coverHeight=200;
+            jewelView.hidden=NO;
+            deltaY=jewelView.frame.size.height - coverHeight;
+            label1.text=@"TV SHOW";
+            label3.text=@"DIRECTOR";
+            label4.text=@"WRITER";
+            parentalRatingLabelUp.hidden=YES;
+            parentalRatingLabel.hidden=YES;
+            
+            frame=label6.frame;
+            frame.origin.y=frame.origin.y-40;
+            label6.frame=frame;
+            
+            jewelView.image=[UIImage imageNamed:@"jewel_tv.9.png"];
+            frame=jewelView.frame;
+            frame.size.height=coverHeight;
+            jewelView.frame=frame;
+            
+            frame=coverView.frame;
+            frame.origin.x=11;
+            frame.origin.y=17;
+            frame.size.width=297;
+            frame.size.height=167;
+            coverView.frame=frame;
+            directorLabel.text=[[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
+            genreLabel.text=[[item objectForKey:@"firstaired"] length]==0 ? @"-" : [item objectForKey:@"firstaired"];
+            runtimeLabel.text=[[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
+            studioLabel.text=[[item objectForKey:@"writer"] length]==0 ? @"-" : [item objectForKey:@"writer"];
+        }
         scrollViewDefaultHeight=scrollViewDefaultHeight - deltaY - shiftY;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
-        parentalRatingLabelUp.hidden=YES;
-        parentalRatingLabel.hidden=YES;
         
-        label1.text=@"TV SHOW";
+        
+        
         label2.text=@"FIRST AIRED";
-        label3.text=@"DIRECTOR";
-        label4.text=@"WRITER";
         label5.text=@"SUMMARY";
         
-        jewelView.image=[UIImage imageNamed:@"jewel_tv.9.png"];
         
-        CGRect frame=jewelView.frame;
-        frame.size.height=200;
-        jewelView.frame=frame;
         
-        frame=coverView.frame;
-        frame.origin.x=11;
-        frame.origin.y=17;
-        frame.size.width=297;
-        frame.size.height=167;
-        coverView.frame=frame;
+        
         
         frame=starsView.frame;
         frame.origin.x=frame.origin.x+29;
@@ -140,14 +186,9 @@ int h=0;
         frame.origin.x=frame.origin.x+29;
         voteLabel.frame=frame;
         
-        frame=label6.frame;
-        frame.origin.y=frame.origin.y-40;
-        label6.frame=frame;
         
-        directorLabel.text=[[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
-        genreLabel.text=[[item objectForKey:@"firstaired"] length]==0 ? @"-" : [item objectForKey:@"firstaired"];
-        runtimeLabel.text=[[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
-        studioLabel.text=[[item objectForKey:@"writer"] length]==0 ? @"-" : [item objectForKey:@"writer"];
+        
+        
     }
     else {
         directorLabel.text=[[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];

@@ -33,7 +33,7 @@
 @synthesize playFileViewController;
 //@synthesize detailDescriptionLabel = _detailDescriptionLabel;
 #define SECTIONS_START_AT 100
-#define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 250
+#define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 200
 
 - (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
     NSString *result = @"";    
@@ -397,11 +397,7 @@ int labelPosition=0;
     else {
         
         if (MenuItem.showInfo){
-            self.showInfoViewController=nil;
-            self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
-            NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-            self.showInfoViewController.detailItem = item;
-            [self.navigationController pushViewController:self.showInfoViewController animated:YES];
+            [self showInfo:indexPath];
         }
         else {
 //            self.playFileViewController=nil;
@@ -485,7 +481,9 @@ NSIndexPath *selected;
             if (numActions){
                 NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
                 
-                
+                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
+                    return;
+                }                
                 NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
                 UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
                                                                     delegate:self
@@ -505,20 +503,23 @@ NSIndexPath *selected;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSArray *sheetActions=[self.detailItem sheetActions];
-    if (buttonIndex==actionSheet.cancelButtonIndex)
-        NSLog(@"Cancel");
+    if (buttonIndex==actionSheet.cancelButtonIndex){
+////        NSLog(@"Cancel");
+    }
     else {
        // NSLog(@"%@", [sheetActions objectAtIndex:buttonIndex]);
         if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"])
             [self addPlayback:selected position:0];
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue"])
             [self addQueue:selected];
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"View Details"])
+            [self showInfo:selected];
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"])
             [self addStream:selected];
     }
 }
 
-#pragma mark - Life Cycle
+#pragma mark - View Configuration
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
@@ -718,6 +719,14 @@ NSIndexPath *selected;
     }];
 }
 
+-(void)showInfo:(NSIndexPath *)indexPath{
+    self.showInfoViewController=nil;
+    self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
+    NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    self.showInfoViewController.detailItem = item;
+    [self.navigationController pushViewController:self.showInfoViewController animated:YES];
+}
+
 //-(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
 //    [jsonRPC callMethod:@"Playlist.GetPlaylists" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //        if (error==nil && methodError==nil){
@@ -748,7 +757,6 @@ NSIndexPath *selected;
     GlobalData *obj=[GlobalData getInstance]; 
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
 //    NSLog(@"INIZIO METHOD %@ PARAMETERS %@", methodToCall, parameters);
-
     [jsonRPC 
      callMethod:methodToCall
      withParameters:parameters
@@ -837,6 +845,8 @@ NSIndexPath *selected;
                          //                         NSLog(@"METTO ICONA %@", stringURL);
                      }
 //                     if (addObj){
+                     
+//
                          [richResults	addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    label, @"label",
                                                    genre, @"genre",

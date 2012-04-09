@@ -19,6 +19,8 @@ NSMutableArray *mainMenuItems;
 @synthesize navigationController = _navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+    
+//    NSLog(@"%@", [UIDevice currentDevice].model );
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
@@ -597,7 +599,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             
-                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", nil], @"properties",
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", @"plot", @"mpaa", @"votes", @"cast", @"premiered", @"episode", nil], @"properties",
                             nil], @"parameters", @"TV Shows", @"label",
                            nil],
                           
@@ -618,10 +620,17 @@ NSMutableArray *mainMenuItems;
                        @"label", @"row1",
                        @"genre", @"row2",
                        @"year", @"row3",
-                       @"runtime", @"row4",
+                       @"tvshowid", @"row4",
                        @"rating",@"row5",
                        @"tvshowid",@"row6",
                        [NSNumber numberWithInt:2], @"playlistid",
+                       @"studio",@"row8",
+                       @"plot",@"row9",
+                       @"mpaa",@"row10",
+                       @"votes",@"row11",
+                       @"cast",@"row12",
+                       @"premiered",@"row13",
+                       @"episode",@"row14",
                        nil],
                       
                       
@@ -643,7 +652,7 @@ NSMutableArray *mainMenuItems;
     item3.thumbWidth=320;
     item3.defaultThumb=@"nocover_tvshows.png";
     item3.originLabel=60;
-    item3.sheetActions=[NSArray arrayWithObjects:@"Show Info", nil];
+    item3.sheetActions=[NSArray arrayWithObjects:@"View Details", nil];
 
     
     //{"method":"VideoLibrary.GetSeasons","id":1,"jsonrpc":"2.0","params":{"properties":["season","thumbnail"],"tvshowid":3}}

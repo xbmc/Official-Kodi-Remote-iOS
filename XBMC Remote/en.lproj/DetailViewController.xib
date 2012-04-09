@@ -340,7 +340,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">icon_folder_dark.png</string>
+									<string key="NSResourceName">icon_dark.png</string>
 								</object>
 							</object>
 						</array>
@@ -855,7 +855,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="icon_folder_dark.png">{50, 50}</string>
+			<string key="icon_dark.png">{50, 50}</string>
 			<string key="shiny_black_back.png">{320, 480}</string>
 			<string key="st_background.png">{320, 60}</string>
 		</dictionary>

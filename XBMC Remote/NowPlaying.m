@@ -571,6 +571,12 @@ int currentPlayerID=-1;
         }
     }];
 }
+-(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue{
+    [UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDuration:seconds];
+	view.alpha = alphavalue;
+    [UIView commitAnimations];
+}
 
 -(void)createPlaylist:(BOOL)forcePlaylistID{   
     [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:320];
@@ -594,6 +600,7 @@ int currentPlayerID=-1;
         seg_video.selected=YES;
         
     }
+    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [jsonRPC callMethod:@"Playlist.GetItems" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode", nil], @"properties",
@@ -608,6 +615,12 @@ int currentPlayerID=-1;
 //                       NSLog(@"%@", methodResult);
                        NSArray *playlistItems = [methodResult objectForKey:@"items"];
                        total=[playlistItems count];
+                       if (total==0){
+                           [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                       }
+                       else {
+                           [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+                       }
                        //                       NSLog(@"TOTAL %d", total);
                        NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
                        for (int i=0; i<total; i++) {
@@ -649,6 +662,7 @@ int currentPlayerID=-1;
                }
                else {
                    NSLog(@"ci deve essere un primo problema %@", methodError);
+                   [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
                    [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
                }
            }];
