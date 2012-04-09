@@ -7,8 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F2A462C1532FC8B005D15E2 /* st_concert_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A462A1532FC8B005D15E2 /* st_concert_off.png */; };
+		0F2A462D1532FC8B005D15E2 /* st_concert_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A462B1532FC8B005D15E2 /* st_concert_on.png */; };
+		0F2A46311532FC99005D15E2 /* st_concert_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A462F1532FC99005D15E2 /* st_concert_off@2x.png */; };
+		0F2A46321532FC99005D15E2 /* st_concert_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A46301532FC99005D15E2 /* st_concert_on@2x.png */; };
+		0F3064D41532D3A200490993 /* XBMC_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554C22151D22E3007E633F /* XBMC_Logo.png */; };
+		0F3064D51532D3A400490993 /* XBMC_Logo_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554C24151D230A007E633F /* XBMC_Logo_small.png */; };
 		0F30E176152DD8BC00282769 /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F30E175152DD8BC00282769 /* person.png */; };
 		0F30E178152DD8CB00282769 /* person@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F30E177152DD8CB00282769 /* person@2x.png */; };
+		0F331FF01530A02100BB60FE /* nocover_artist.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F331FEF1530A02100BB60FE /* nocover_artist.png */; };
+		0F331FF21530A02D00BB60FE /* nocover_artist@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F331FF11530A02D00BB60FE /* nocover_artist@2x.png */; };
+		0F331FF41530A39D00BB60FE /* nocover_genre@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F331FF31530A39D00BB60FE /* nocover_genre@2x.png */; };
+		0F331FF61530A3AB00BB60FE /* nocover_genre.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F331FF51530A3AB00BB60FE /* nocover_genre.png */; };
+		0F331FF81530A4CC00BB60FE /* nocover_filemode.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F331FF71530A4CC00BB60FE /* nocover_filemode.png */; };
+		0F331FFA1530A4D900BB60FE /* nocover_filemode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F331FF91530A4D900BB60FE /* nocover_filemode@2x.png */; };
 		0F370054151F6A9E00A3D42C /* jsonDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F370053151F6A9E00A3D42C /* jsonDataCell.m */; };
 		0F44E2A91526EC6700D5958F /* button_now_playing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2A81526EC6700D5958F /* button_now_playing@2x.png */; };
 		0F44E2AC1526ECC200D5958F /* button_now_playing.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2AB1526ECC200D5958F /* button_now_playing.png */; };
@@ -442,8 +454,6 @@
 		0F554C1C151D13CA007E633F /* timeborder.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554A9E151D13CA007E633F /* timeborder.9.png */; };
 		0F554C1D151D13CA007E633F /* waiting.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554A9F151D13CA007E633F /* waiting.png */; };
 		0F554C20151D14DA007E633F /* mainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554C1F151D14DA007E633F /* mainMenu.m */; };
-		0F554C23151D22E4007E633F /* XBMC_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554C22151D22E3007E633F /* XBMC_Logo.png */; };
-		0F554C25151D230A007E633F /* XBMC_Logo_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554C24151D230A007E633F /* XBMC_Logo_small.png */; };
 		0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74772C151DD77400EF78AD /* NowPlaying.m */; };
 		0F74772F151DD77400EF78AD /* NowPlaying.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F74772D151DD77400EF78AD /* NowPlaying.xib */; };
 		0F747734151DD91D00EF78AD /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F747732151DD91D00EF78AD /* RemoteController.m */; };
@@ -474,8 +484,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F2A462A1532FC8B005D15E2 /* st_concert_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_concert_off.png; sourceTree = "<group>"; };
+		0F2A462B1532FC8B005D15E2 /* st_concert_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_concert_on.png; sourceTree = "<group>"; };
+		0F2A462F1532FC99005D15E2 /* st_concert_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_concert_off@2x.png"; sourceTree = "<group>"; };
+		0F2A46301532FC99005D15E2 /* st_concert_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_concert_on@2x.png"; sourceTree = "<group>"; };
 		0F30E175152DD8BC00282769 /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
 		0F30E177152DD8CB00282769 /* person@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person@2x.png"; sourceTree = "<group>"; };
+		0F331FEF1530A02100BB60FE /* nocover_artist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_artist.png; sourceTree = "<group>"; };
+		0F331FF11530A02D00BB60FE /* nocover_artist@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_artist@2x.png"; sourceTree = "<group>"; };
+		0F331FF31530A39D00BB60FE /* nocover_genre@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_genre@2x.png"; sourceTree = "<group>"; };
+		0F331FF51530A3AB00BB60FE /* nocover_genre.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_genre.png; sourceTree = "<group>"; };
+		0F331FF71530A4CC00BB60FE /* nocover_filemode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_filemode.png; sourceTree = "<group>"; };
+		0F331FF91530A4D900BB60FE /* nocover_filemode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_filemode@2x.png"; sourceTree = "<group>"; };
 		0F370052151F6A9E00A3D42C /* jsonDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsonDataCell.h; sourceTree = "<group>"; };
 		0F370053151F6A9E00A3D42C /* jsonDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jsonDataCell.m; sourceTree = "<group>"; };
 		0F44E2A81526EC6700D5958F /* button_now_playing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_now_playing@2x.png"; sourceTree = "<group>"; };
@@ -1071,6 +1091,11 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F2A462F1532FC99005D15E2 /* st_concert_off@2x.png */,
+				0F2A46301532FC99005D15E2 /* st_concert_on@2x.png */,
+				0F331FF91530A4D900BB60FE /* nocover_filemode@2x.png */,
+				0F331FF31530A39D00BB60FE /* nocover_genre@2x.png */,
+				0F331FF11530A02D00BB60FE /* nocover_artist@2x.png */,
 				0F30E177152DD8CB00282769 /* person@2x.png */,
 				0FFBCF0B152BAC1600066B30 /* nocover_tvshows_episode@2x.png */,
 				0F4B851F152B476400450384 /* arrow_continue_down@2x.png */,
@@ -1283,6 +1308,11 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F2A462A1532FC8B005D15E2 /* st_concert_off.png */,
+				0F2A462B1532FC8B005D15E2 /* st_concert_on.png */,
+				0F331FF71530A4CC00BB60FE /* nocover_filemode.png */,
+				0F331FF51530A3AB00BB60FE /* nocover_genre.png */,
+				0F331FEF1530A02100BB60FE /* nocover_artist.png */,
 				0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */,
 				0F4B8522152B497100450384 /* arrow_continue_down.png */,
 				0F49885415284C800041DA92 /* timeBackground.png */,
@@ -2008,8 +2038,6 @@
 				0F554C1B151D13CA007E633F /* tableUp.png in Resources */,
 				0F554C1C151D13CA007E633F /* timeborder.9.png in Resources */,
 				0F554C1D151D13CA007E633F /* waiting.png in Resources */,
-				0F554C23151D22E4007E633F /* XBMC_Logo.png in Resources */,
-				0F554C25151D230A007E633F /* XBMC_Logo_small.png in Resources */,
 				0F74772F151DD77400EF78AD /* NowPlaying.xib in Resources */,
 				0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */,
 				0F747738151DE5CF00EF78AD /* pgbar_inact_fake.png in Resources */,
@@ -2061,6 +2089,18 @@
 				0F82A5A5152C608100FC8B7A /* PlayFileViewController.xib in Resources */,
 				0F30E176152DD8BC00282769 /* person.png in Resources */,
 				0F30E178152DD8CB00282769 /* person@2x.png in Resources */,
+				0F331FF01530A02100BB60FE /* nocover_artist.png in Resources */,
+				0F331FF21530A02D00BB60FE /* nocover_artist@2x.png in Resources */,
+				0F331FF41530A39D00BB60FE /* nocover_genre@2x.png in Resources */,
+				0F331FF61530A3AB00BB60FE /* nocover_genre.png in Resources */,
+				0F331FF81530A4CC00BB60FE /* nocover_filemode.png in Resources */,
+				0F331FFA1530A4D900BB60FE /* nocover_filemode@2x.png in Resources */,
+				0F3064D41532D3A200490993 /* XBMC_Logo.png in Resources */,
+				0F3064D51532D3A400490993 /* XBMC_Logo_small.png in Resources */,
+				0F2A462C1532FC8B005D15E2 /* st_concert_off.png in Resources */,
+				0F2A462D1532FC8B005D15E2 /* st_concert_on.png in Resources */,
+				0F2A46311532FC99005D15E2 /* st_concert_off@2x.png in Resources */,
+				0F2A46321532FC99005D15E2 /* st_concert_on@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -218,6 +218,7 @@ float cellBarWidth=45;
 int lastSelected=-1;
 int currentPlayerID=-1;
 -(void)playbackInfo{
+    //[{"method":"XBMC.GetInfoLabels","id":0,"jsonrpc":"2.0","params":{"labels":["VideoPlayer.Title","MusicPlayer.Title","MusicPlayer.Codec","MusicPlayer.SampleRate","MusicPlayer.BitRate","Player.Time","Player.FinishTime","Player.TimeRemaining","Player.Duration","Player.Filenameandpath","VideoPlayer.TVShowTitle","VideoPlayer.VideoResolution","VideoPlayer.VideoAspect","VideoPlayer.PlaylistPosition","VideoPlayer.PlaylistLength","MusicPlayer.Album","MusicPlayer.Artist","MusicPlayer.TrackNumber","MusicPlayer.PlaylistPosition","MusicPlayer.PlaylistLength","Player.Volume","System.ProfileName"]}},{"method":"XBMC.GetInfoBooleans","id":0,"jsonrpc":"2.0","params":{"booleans":["Player.Playing","Player.Paused","Player.HasAudio","Player.HasVideo","MusicPartyMode.Enabled","Playlist.IsRandom","Playlist.IsRepeat","Playlist.IsRepeatOne"]}}]
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
@@ -225,26 +226,27 @@ int currentPlayerID=-1;
                 currentPlayerID=[response intValue];
                 if (playerID!=[response intValue] || (selectedPlayerID>-1 && playerID!=selectedPlayerID)){  // DA SISTEMARE SE AGGIUNGONO ITEM DALL'ESTERNO: FUTURA SEGNALAZIONE CON SOCKET!                    
                     if (selectedPlayerID>-1  && playerID!=selectedPlayerID){
-                      //  NSLog(@"RICARIO %d %d", playerID, selectedPlayerID);
                         playerID=selectedPlayerID;
-                      //  [self createPlaylist:NO];
                     }
                     else if (selectedPlayerID==-1) {
                         playerID = [response intValue];
-
                         [self createPlaylist:NO];
                     }
                 }
                 [jsonRPC 
                  callMethod:@"XBMC.GetInfoBooleans" 
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                                 [[NSArray alloc] initWithObjects:@"Player.Playing", @"Player.Paused",@"MusicPartyMode.Enabled", nil], @"booleans",
+                                 [[NSArray alloc] initWithObjects:@"Player.Playing", @"Player.Paused",@"MusicPartyMode.Enabled",  nil], @"booleans",
                                  nil] 
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
                          PlayerPaused=[[methodResult objectForKey:@"Player.Paused"] intValue];
-        
-//                         NSLog(@"Risposta %d", PlayerPaused);
+                         musicPartyMode=[[methodResult objectForKey:@"MusicPartyMode.Enabled"] intValue];
+//                         NSLog(@"Risposta %@", methodResult);
+                     }
+                     else{
+                         NSLog(@"ci deve essere un  problema %@", methodError);
+  
                      }
                  }];
                 [jsonRPC 
@@ -259,14 +261,16 @@ int currentPlayerID=-1;
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
                              NSDictionary *nowPlayingInfo = [methodResult objectForKey:@"item"];
                              if ([nowPlayingInfo count]){ // OTTIMIZZAZIONE: DA VERIFICARE SE UGUALE AL PRECEDENTE
-                                 NSString *album=[NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"album"]];
-                                 NSString *title=[NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"title"]];
-                                 NSString *artist=[NSString stringWithFormat:@"%@",[nowPlayingInfo objectForKey:@"artist"]];
+                                 NSString *album=[[nowPlayingInfo  objectForKey:@"album"] length]!=0 ?[NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"album"]] : @"" ;
+                                 NSString *title=[[nowPlayingInfo  objectForKey:@"title"] length]!=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"title"]] : @"";
+                                 NSString *artist=[[nowPlayingInfo objectForKey:@"artist"] length]!=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo objectForKey:@"artist"]] : @"";
 //                                 NSNumber *timeduration=[nowPlayingInfo objectForKey:@"duration"];
+                                 if ([title length]==0)
+                                     title=[[nowPlayingInfo  objectForKey:@"label"] length]!=0? [nowPlayingInfo  objectForKey:@"label"] : @"";
                                  albumName.text=album;
                                  songName.text=title;
                                  artistName.text=artist;
-                                 NSString *type=[nowPlayingInfo objectForKey:@"type"];
+                                 NSString *type=[[nowPlayingInfo objectForKey:@"type"] length]!=0? [nowPlayingInfo objectForKey:@"type"] : @"unknown";
                                  NSString *jewelImg=@"";
 //                                 jewelView.alpha=0.0;
 //                                 [UIView beginAnimations:nil context:nil];
@@ -301,6 +305,17 @@ int currentPlayerID=-1;
                                      frame.size.height=158;
                                      thumbnailView.frame=frame;
                                      songDetailsView.frame=frame;
+                                 }
+                                 else{
+                                     jewelImg=@"jewel_cd.9.png";
+                                     CGRect frame=thumbnailView.frame;
+                                     frame.origin.x=50;
+                                     frame.origin.y=43;
+                                     frame.size.width=237;
+                                     frame.size.height=236;
+                                     thumbnailView.frame=frame;
+                                     songDetailsView.frame=frame;
+                                     
                                  }
                                  jewelView.image=[UIImage imageNamed:jewelImg];
 //                                 jewelView.alpha=1.0;
@@ -455,6 +470,9 @@ int currentPlayerID=-1;
              NSString *bitrate=@"";
              NSString *samplerate=@"";
              if (playerID==0){
+                 labelSongCodec.text=@"codec";
+                 labelSongBitRate.text=@"bit rate";
+                 labelSongSampleRate.text=@"sample rate";
                  playlistPosition = [methodResult objectForKey:@"MusicPlayer.PlaylistPosition"];
                  codec=[[methodResult objectForKey:@"MusicPlayer.Codec"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"MusicPlayer.Codec"]] ;
                  songCodec.text=codec;
@@ -466,6 +484,10 @@ int currentPlayerID=-1;
                  songSampleRate.text=samplerate;
              }
              else {
+                 labelSongCodec.text=@"resolution";
+                 labelSongBitRate.text=@"aspect ratio";
+                 labelSongSampleRate.text=@"";
+
                  playlistPosition = [methodResult objectForKey:@"VideoPlayer.PlaylistPosition"];
                  codec=[[methodResult objectForKey:@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoResolution"]] ;
                  songCodec.text=codec;
@@ -473,8 +495,9 @@ int currentPlayerID=-1;
                  bitrate=[[methodResult objectForKey:@"VideoPlayer.VideoAspect"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoAspect"]] ;
                  songBitRate.text=bitrate;
                  
-                 samplerate=[[methodResult objectForKey:@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@ MHz", [methodResult objectForKey:@"MusicPlayer.SampleRate"]];
-                 songSampleRate.text=samplerate;
+//                 samplerate=[[methodResult objectForKey:@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@ MHz", [methodResult objectForKey:@"MusicPlayer.SampleRate"]];
+//                 songSampleRate.text=samplerate;
+                 songSampleRate.text=@"";
              }
              
              if ([playlistPosition intValue]!=lastSelected){
@@ -590,17 +613,18 @@ int currentPlayerID=-1;
                        for (int i=0; i<total; i++) {
                            NSString *idItem=[NSString stringWithFormat:@"%d",[[playlistItems objectAtIndex:i] objectForKey:@"id"]];
                            NSString *label=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"label"]];
-                           NSString *artist=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"artist"]];
-                           NSString *album=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"album"]];
-                           NSString *runtime=[NSString stringWithFormat:@"%@ min",[[playlistItems objectAtIndex:i] objectForKey:@"runtime"]];
+                          
+                           NSString *artist=[[[playlistItems objectAtIndex:i] objectForKey:@"artist"] length]==0? @"" :[[playlistItems objectAtIndex:i] objectForKey:@"artist"];
+                           NSString *album=[[[playlistItems objectAtIndex:i] objectForKey:@"album"] length]==0? @"" :[[playlistItems objectAtIndex:i] objectForKey:@"album"];
+                           NSString *runtime=[[[playlistItems objectAtIndex:i] objectForKey:@"runtime"] length]==0? @"" : [NSString stringWithFormat:@"%@ min",[[playlistItems objectAtIndex:i] objectForKey:@"runtime"]];
                            NSString *showtitle=[[playlistItems objectAtIndex:i] objectForKey:@"showtitle"];
                          
                            NSString *season=[[playlistItems objectAtIndex:i] objectForKey:@"season"];
                            NSString *episode=[[playlistItems objectAtIndex:i] objectForKey:@"episode"];
 
-                           NSNumber *itemDurationSec=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"duration"]];
-                           NSString *durationTime=[self convertTimeFromSeconds:itemDurationSec];
-                           
+                           NSNumber *itemDurationSec=[[playlistItems objectAtIndex:i] objectForKey:@"duration"];
+                           NSString *durationTime=[itemDurationSec longValue]==0 ? @"" : [self convertTimeFromSeconds:itemDurationSec];
+
                            NSString *thumbnail=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"thumbnail"]];
                            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnail];
                            
@@ -805,7 +829,8 @@ int anim2;
         [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@ - %@x%@", [item objectForKey:@"showtitle"], [item objectForKey:@"season"], [item objectForKey:@"episode"]]];
     }
     else if (playerID==0){
-        [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@ - %@",[item objectForKey:@"album"], [item objectForKey:@"artist"]]];
+        NSString *artist=[[item objectForKey:@"artist"] length]==0? @"" :[NSString stringWithFormat:@" - %@", [item objectForKey:@"artist"]];
+        [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@%@",[item objectForKey:@"album"], artist]];
 
     }
     if (playerID==0)

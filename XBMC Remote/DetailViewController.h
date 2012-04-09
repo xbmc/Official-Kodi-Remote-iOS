@@ -12,12 +12,13 @@
 #import "ShowInfoViewController.h"
 #import "UIImageView+WebCache.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "mainMenu.h"
 
 @class NowPlaying;
 @class PlayFileViewController;
 //@class DetailViewController;
 
-@interface DetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIWebViewDelegate>{
+@interface DetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIWebViewDelegate, UIScrollViewDelegate>{
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     DSJSONRPC *jsonRPC;
@@ -33,7 +34,20 @@
     BOOL alreadyPush;
     IBOutlet UIWebView *webPlayView;
     MPMoviePlayerController *playerViewController;
-
+    int choosedTab;
+    int numTabs;
+    UILabel *topNavigationLabel;
+    IBOutlet UIButton *button1;
+    IBOutlet UIButton *button2;
+    IBOutlet UIButton *button3;
+    IBOutlet UIButton *button4;
+    IBOutlet UIButton *button5;
+    IBOutlet UIView *buttonsView;
+    int numResults;
+    NSString *defaultThumb;
+    int cellHeight;
+    int thumbWidth;
+    IBOutlet UIView *noFoundView;
 }
 
 @property (strong, nonatomic) id detailItem;

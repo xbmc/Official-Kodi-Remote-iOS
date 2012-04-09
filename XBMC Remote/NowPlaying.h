@@ -36,11 +36,16 @@
     IBOutlet UILabel *songCodec;
     IBOutlet UILabel *songBitRate;
     IBOutlet UILabel *songSampleRate;
+    
+    IBOutlet UILabel *labelSongCodec;
+    IBOutlet UILabel *labelSongBitRate;
+    IBOutlet UILabel *labelSongSampleRate;
     int playerID;
     int selectedPlayerID;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     int playerPlaying;
     int PlayerPaused;
+    int musicPartyMode;
     IBOutlet UIButton *seg_music;
     IBOutlet UIButton *seg_video;
 }

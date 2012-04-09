@@ -11,6 +11,7 @@
 #import "NowPlaying.h"
 #import "GlobalData.h"
 #import "UIImageView+WebCache.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface ShowInfoViewController ()
 - (void)configureView;
@@ -214,6 +215,8 @@ int h=0;
         [actorImage setClipsToBounds:YES];
         [actorImage setContentMode:UIViewContentModeScaleAspectFill];
         [actorImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
+        [actorImage.layer setBorderColor: [[UIColor whiteColor] CGColor]];
+        [actorImage.layer setBorderWidth: 1.0];
         
         [scrollView addSubview:actorImage];
         
@@ -234,7 +237,7 @@ int h=0;
         [actorRole setTextColor:[UIColor grayColor]];
         [scrollView addSubview:actorRole];
 
-        startY=startY+castHeight+20;
+        startY=startY+castHeight+10;
     }
     if ([cast count]==0){
         UILabel *noCast=[[UILabel alloc] initWithFrame:CGRectMake(offsetX, startY-4, 297 , 20)];

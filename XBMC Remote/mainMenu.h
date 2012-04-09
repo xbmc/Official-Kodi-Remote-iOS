@@ -17,24 +17,20 @@
 @property (nonatomic, copy) NSString *icon;
 @property (nonatomic, copy) NSArray *mainMethod;
 @property (nonatomic, copy) NSString *defaultThumb;
-@property (nonatomic, copy) NSDictionary *mainFields;
-
+@property (nonatomic, copy) NSArray *mainButtons;
+@property (nonatomic, copy) NSArray *mainFields;
 @property (nonatomic, retain) NSMutableArray *mainParameters;
-
 @property (nonatomic, retain) mainMenu *subItem;
 @property (nonatomic, copy) NSArray *sheetActions;
-
 @property int rowHeight;
 @property int thumbWidth;
 @property BOOL showInfo;
 @property int originYearDuration;
 @property int originLabel;
 @property int widthLabel;
+@property int chooseTab;
 
-@property BOOL showRuntime;
+@property (nonatomic, copy) NSArray *showRuntime;
 @property BOOL noConvertTime;
-
-
-
 
 @end

@@ -49,7 +49,7 @@
     int actualPosY=view.frame.origin.y;
     
     if (actualPosY==Y || hide){
-        Y=-206;
+        Y=-view.frame.size.height;
     }
     view.alpha = alphavalue;
 	CGRect frame;
