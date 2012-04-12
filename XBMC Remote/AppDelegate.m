@@ -19,7 +19,7 @@ NSMutableArray *mainMenuItems;
 @synthesize navigationController = _navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-    
+//    NSLog(@"PLATFORM %@", [[UIDevice currentDevice] platformString]);
 //    NSLog(@"%@", [UIDevice currentDevice].model );
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -418,7 +418,7 @@ NSMutableArray *mainMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
                              nil],@"sort",
-                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", nil], @"properties",
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", nil], @"properties",
                             nil], @"parameters", @"Movies", @"label", nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -428,7 +428,7 @@ NSMutableArray *mainMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
                              nil],@"sort",
-                            [NSArray arrayWithObjects:@"year", @"playcount", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"file", nil], @"properties",
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"file", @"fanart", nil], @"properties",
                             nil], @"parameters", @"Music Videos", @"label", nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -458,7 +458,7 @@ NSMutableArray *mainMenuItems;
                        @"votes",@"row14",
                        @"votes",@"row15",
                        @"cast",@"row16",
-                       @"file",@"row17",
+                       @"fanart",@"row7",
                        nil],
                       
                       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -480,6 +480,7 @@ NSMutableArray *mainMenuItems;
                        @"votes",@"row15",
                        @"cast",@"row16",
                        @"file",@"row17",
+                       @"fanart",@"row7",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -599,7 +600,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             
-                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", @"plot", @"mpaa", @"votes", @"cast", @"premiered", @"episode", nil], @"properties",
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", @"plot", @"mpaa", @"votes", @"cast", @"premiered", @"episode", @"fanart", nil], @"properties",
                             nil], @"parameters", @"TV Shows", @"label",
                            nil],
                           
@@ -619,8 +620,8 @@ NSMutableArray *mainMenuItems;
                        @"tvshows",@"itemid",
                        @"label", @"row1",
                        @"genre", @"row2",
-                       @"year", @"row3",
-                       @"tvshowid", @"row4",
+                       @"blank", @"row3",
+                       @"", @"row4",
                        @"rating",@"row5",
                        @"tvshowid",@"row6",
                        [NSNumber numberWithInt:2], @"playlistid",
@@ -631,6 +632,7 @@ NSMutableArray *mainMenuItems;
                        @"cast",@"row12",
                        @"premiered",@"row13",
                        @"episode",@"row14",
+                       @"fanart",@"row7",
                        nil],
                       
                       
@@ -743,7 +745,7 @@ NSMutableArray *mainMenuItems;
                                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                              @"episode", @"method",
                                              nil],@"sort",
-                                            [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", nil], @"properties",
+                                            [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", nil], @"properties",
                                             nil], @"parameters", @"Episodes", @"label", nil],
                                           
                                           [NSArray arrayWithObjects:nil],
@@ -770,6 +772,7 @@ NSMutableArray *mainMenuItems;
                                        @"season",@"row15",
                                        @"cast",@"row16",
                                        @"file",@"row17",
+                                       @"fanart",@"row7",
                                        nil],
                                       
                                       [NSArray arrayWithObjects:nil],

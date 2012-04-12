@@ -1063,6 +1063,8 @@
 				0F747732151DD91D00EF78AD /* RemoteController.m */,
 				0F82A5A1152C608100FC8B7A /* PlayFileViewController.h */,
 				0F82A5A2152C608100FC8B7A /* PlayFileViewController.m */,
+				0F4883D01521CC7200883243 /* VolumeSliderView.h */,
+				0F4883D11521CC7300883243 /* VolumeSliderView.m */,
 			);
 			path = "XBMC Remote";
 			sourceTree = "<group>";
@@ -1558,8 +1560,6 @@
 				0F554C1F151D14DA007E633F /* mainMenu.m */,
 				0F4883C21521B3D400883243 /* GlobalData.h */,
 				0F4883C31521B3D400883243 /* GlobalData.m */,
-				0F4883D01521CC7200883243 /* VolumeSliderView.h */,
-				0F4883D11521CC7300883243 /* VolumeSliderView.m */,
 			);
 			name = classes;
 			sourceTree = "<group>";

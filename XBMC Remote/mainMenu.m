@@ -10,6 +10,8 @@
 
 @implementation mainMenu
 
+//#define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
+
 @synthesize mainLabel, upperLabel, icon, family, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, originLabel, noConvertTime, chooseTab;
 
 

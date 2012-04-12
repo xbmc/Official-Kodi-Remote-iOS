@@ -310,7 +310,10 @@
 				<reference key="NSNextKeyView" ref="413044437"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="709066304"/>
+				<bool key="IBUIOpaque">NO</bool>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+				<bool key="IBUIShowsReorderControl">YES</bool>
+				<float key="IBUIIndentationWidth">40</float>
 				<reference key="IBUIContentView" ref="413044437"/>
 				<string key="IBUIReuseIdentifier">playlistCell</string>
 				<real value="53" key="IBUIRowHeight"/>
@@ -437,7 +440,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">18</int>
+			<int key="maxID">19</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -461,7 +464,12 @@
 						<string key="artistName">UILabel</string>
 						<string key="currentTime">UILabel</string>
 						<string key="duration">UILabel</string>
+						<string key="editTableButton">UIButton</string>
 						<string key="jewelView">UIImageView</string>
+						<string key="labelSongBitRate">UILabel</string>
+						<string key="labelSongCodec">UILabel</string>
+						<string key="labelSongSampleRate">UILabel</string>
+						<string key="noFoundView">UIView</string>
 						<string key="nowPlayingView">UIView</string>
 						<string key="playlistTableView">UITableView</string>
 						<string key="playlistTableViewCell">UITableViewCell</string>
@@ -498,9 +506,29 @@
 							<string key="name">duration</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="editTableButton">
+							<string key="name">editTableButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="jewelView">
 							<string key="name">jewelView</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="labelSongBitRate">
+							<string key="name">labelSongBitRate</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="labelSongCodec">
+							<string key="name">labelSongCodec</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="labelSongSampleRate">
+							<string key="name">labelSongSampleRate</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="noFoundView">
+							<string key="name">noFoundView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="nowPlayingView">
 							<string key="name">nowPlayingView</string>

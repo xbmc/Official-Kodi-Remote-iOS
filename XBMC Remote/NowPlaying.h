@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "VolumeSliderView.h"
+#import "UIImageView+WebCache.h"
 
 @interface NowPlaying : UIViewController <UITableViewDataSource,UITableViewDelegate>{
     DSJSONRPC *jsonRPC;
@@ -48,7 +49,13 @@
     int musicPartyMode;
     IBOutlet UIButton *seg_music;
     IBOutlet UIButton *seg_video;
+    IBOutlet UIButton *editTableButton;
+
     IBOutlet UIView *noFoundView;
+    NSIndexPath *storeSelection;
+    int numResults;
+    SDWebImageManager *manager;
+
 
 }
 

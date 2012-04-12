@@ -45,7 +45,7 @@
 						<string key="NSFrameSize">{320, 416}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="53240158"/>
+						<reference key="NSNextKeyView" ref="121834089"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -53,6 +53,19 @@
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">shiny_black_back.png</string>
 						</object>
+					</object>
+					<object class="IBUIImageView" id="121834089">
+						<reference key="NSNextResponder" ref="191373211"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrameSize">{320, 416}</string>
+						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="53240158"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<float key="IBUIAlpha">0.0</float>
+						<int key="IBUIContentMode">2</int>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIScrollView" id="53240158">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -716,6 +729,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">fanartView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="121834089"/>
+					</object>
+					<int key="connectionID">91</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="53240158"/>
 						<reference key="destination" ref="372490531"/>
@@ -747,6 +768,7 @@
 							<reference ref="714833679"/>
 							<reference ref="53240158"/>
 							<reference ref="764993300"/>
+							<reference ref="121834089"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -893,6 +915,12 @@
 						<reference key="parent" ref="191373211"/>
 						<string key="objectName">Arrow Continue Button</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">90</int>
+						<reference key="object" ref="121834089"/>
+						<reference key="parent" ref="191373211"/>
+						<string key="objectName">Image View - fanart</string>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -923,12 +951,13 @@
 				<string key="64.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="67.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="87.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="90.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">89</int>
+			<int key="maxID">91</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -940,6 +969,7 @@
 						<string key="arrow_continue_down">UIButton</string>
 						<string key="coverView">UIImageView</string>
 						<string key="directorLabel">UILabel</string>
+						<string key="fanartView">UIImageView</string>
 						<string key="genreLabel">UILabel</string>
 						<string key="jewelView">UIImageView</string>
 						<string key="label1">UILabel</string>
@@ -974,6 +1004,10 @@
 						<object class="IBToOneOutletInfo" key="directorLabel">
 							<string key="name">directorLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="fanartView">
+							<string key="name">fanartView</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="genreLabel">
 							<string key="name">genreLabel</string>

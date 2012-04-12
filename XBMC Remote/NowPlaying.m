@@ -23,6 +23,7 @@
 float startx=14;
 float barwidth=280;
 float cellBarWidth=45;
+#define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
@@ -84,7 +85,11 @@ float cellBarWidth=45;
 //    NSLog(@"%d", [sender tag]);
     if ([sender tag]==1 && seg_music.selected) return;
     if ([sender tag]==2 && seg_video.selected) return;
-
+    [self editTable:nil forceClose:YES];
+    if ([playlistData count] && (playlistTableView.dragging == YES || playlistTableView.decelerating == YES)){
+        NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
+        [playlistTableView  scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
     if (seg_music.selected){
         lastSelected=-1;
         seg_music.selected=NO;
@@ -218,11 +223,14 @@ float cellBarWidth=45;
 int lastSelected=-1;
 int currentPlayerID=-1;
 -(void)playbackInfo{
-    //[{"method":"XBMC.GetInfoLabels","id":0,"jsonrpc":"2.0","params":{"labels":["VideoPlayer.Title","MusicPlayer.Title","MusicPlayer.Codec","MusicPlayer.SampleRate","MusicPlayer.BitRate","Player.Time","Player.FinishTime","Player.TimeRemaining","Player.Duration","Player.Filenameandpath","VideoPlayer.TVShowTitle","VideoPlayer.VideoResolution","VideoPlayer.VideoAspect","VideoPlayer.PlaylistPosition","VideoPlayer.PlaylistLength","MusicPlayer.Album","MusicPlayer.Artist","MusicPlayer.TrackNumber","MusicPlayer.PlaylistPosition","MusicPlayer.PlaylistLength","Player.Volume","System.ProfileName"]}},{"method":"XBMC.GetInfoBooleans","id":0,"jsonrpc":"2.0","params":{"booleans":["Player.Playing","Player.Paused","Player.HasAudio","Player.HasVideo","MusicPartyMode.Enabled","Playlist.IsRandom","Playlist.IsRepeat","Playlist.IsRepeatOne"]}}]
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
-                NSNumber *response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
+                NSNumber *response;
+                if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])){
+                    response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
+                }
+
                 currentPlayerID=[response intValue];
                 if (playerID!=[response intValue] || (selectedPlayerID>-1 && playerID!=selectedPlayerID)){  // DA SISTEMARE SE AGGIUNGONO ITEM DALL'ESTERNO: FUTURA SEGNALAZIONE CON SOCKET!                    
                     if (selectedPlayerID>-1  && playerID!=selectedPlayerID){
@@ -240,8 +248,12 @@ int currentPlayerID=-1;
                                  nil] 
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
-                         PlayerPaused=[[methodResult objectForKey:@"Player.Paused"] intValue];
-                         musicPartyMode=[[methodResult objectForKey:@"MusicPartyMode.Enabled"] intValue];
+                         if (((NSNull *)[methodResult objectForKey:@"Player.Paused"] != [NSNull null])){
+                             PlayerPaused=[[methodResult objectForKey:@"Player.Paused"] intValue];
+                         }
+                         if (((NSNull *)[methodResult objectForKey:@"MusicPartyMode.Enabled"] != [NSNull null])){
+                             musicPartyMode=[[methodResult objectForKey:@"MusicPartyMode.Enabled"] intValue];
+                         }
 //                         NSLog(@"Risposta %@", methodResult);
                      }
                      else{
@@ -334,7 +346,7 @@ int currentPlayerID=-1;
                              NSURL *imageUrl = [NSURL URLWithString: stringURL];
 //                             NSLog(@"%@", thumbnailPath);
 //                             thumbnailView.image=[UIImage im];
-                             SDWebImageManager *manager = [SDWebImageManager sharedManager];
+//                             SDWebImageManager *manager = [SDWebImageManager sharedManager];
                              UIImage *cachedImage = [manager imageWithURL:imageUrl];
                              if (cachedImage){
                                  thumbnailView.image=cachedImage;
@@ -367,7 +379,6 @@ int currentPlayerID=-1;
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
 //                             NSLog(@"risposta %@", methodResult);
                              if ([methodResult count]){
-                                 
                                  float newx=barwidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
                                  if (newx<1)
                                      newx=1;
@@ -388,9 +399,11 @@ int currentPlayerID=-1;
                                  int seconds=[[time objectForKey:@"seconds"] intValue];
                                  NSString *actualTime=[NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"":[NSString stringWithFormat:@"%02i:", hours], minutes, seconds];
                                  currentTime.text=actualTime;
-                                 
                                  NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
+                                 if (storeSelection)
+                                     selection=storeSelection;
                                  if (selection){
+                                     storeSelection=selection;
                                      UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                      UILabel *playlistActualTime=(UILabel*) [cell viewWithTag:6];
                                      playlistActualTime.text=actualTime;
@@ -463,7 +476,7 @@ int currentPlayerID=-1;
                      [[NSArray alloc] initWithObjects:@"MusicPlayer.Codec",@"MusicPlayer.SampleRate",@"MusicPlayer.BitRate", @"MusicPlayer.PlaylistPosition",@"VideoPlayer.VideoResolution",@"VideoPlayer.VideoAspect",@"Player.TimeRemaining", @"Player.Duration", @"VideoPlayer.PlaylistPosition", nil], @"labels",
                      nil] 
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-         if (error==nil && methodError==nil){
+         if (error==nil && methodError==nil  && methodResult!=NULL){
 //             NSLog(@"RISULTATO %@", methodResult);
              NSNumber *playlistPosition = 0;
              NSString *codec=@"";
@@ -580,6 +593,7 @@ int currentPlayerID=-1;
 
 -(void)createPlaylist:(BOOL)forcePlaylistID{   
     [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:320];
+    [activityIndicatorView startAnimating];
     GlobalData *obj=[GlobalData getInstance]; 
     int playlistID=playerID;
     if (forcePlaylistID)
@@ -591,11 +605,13 @@ int currentPlayerID=-1;
     }
     
     if (playlistID==0){
+        playerID=0;
         seg_music.selected=YES;
         seg_video.selected=NO;
 
     }
     else if (playlistID==1){
+        playerID=1;
         seg_music.selected=NO;
         seg_video.selected=YES;
         
@@ -621,10 +637,11 @@ int currentPlayerID=-1;
                        else {
                            [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
                        }
-                       //                       NSLog(@"TOTAL %d", total);
+//                       NSLog(@"TOTAL %d", total);
                        NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
                        for (int i=0; i<total; i++) {
-                           NSString *idItem=[NSString stringWithFormat:@"%d",[[playlistItems objectAtIndex:i] objectForKey:@"id"]];
+                           NSString *idItem=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"id"]];
+//                           NSLog(@"ID1 %@ ID2 %@", idItem, [[playlistItems objectAtIndex:i] objectForKey:@"id"]);
                            NSString *label=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"label"]];
                           
                            NSString *artist=[[[playlistItems objectAtIndex:i] objectForKey:@"artist"] length]==0? @"" :[[playlistItems objectAtIndex:i] objectForKey:@"artist"];
@@ -634,6 +651,8 @@ int currentPlayerID=-1;
                          
                            NSString *season=[[playlistItems objectAtIndex:i] objectForKey:@"season"];
                            NSString *episode=[[playlistItems objectAtIndex:i] objectForKey:@"episode"];
+                           NSString *type=[[playlistItems objectAtIndex:i] objectForKey:@"type"];
+
 
                            NSNumber *itemDurationSec=[[playlistItems objectAtIndex:i] objectForKey:@"duration"];
                            NSString *durationTime=[itemDurationSec longValue]==0 ? @"" : [self convertTimeFromSeconds:itemDurationSec];
@@ -644,6 +663,7 @@ int currentPlayerID=-1;
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
                                                     label, @"label",
+                                                    type,@"type",
                                                     artist, @"artist",
                                                     album, @"album",
                                                     durationTime, @"duration",
@@ -655,7 +675,11 @@ int currentPlayerID=-1;
                                                     nil]];
                        }
 //                       NSLog(@"DATACOUNT: %@", playlistData );
+                       numResults=[playlistData count];
+
                        [playlistTableView reloadData];
+                       [activityIndicatorView stopAnimating];
+
                        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
 
                    }
@@ -663,11 +687,21 @@ int currentPlayerID=-1;
                else {
                    NSLog(@"ci deve essere un primo problema %@", methodError);
                    [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                   [activityIndicatorView stopAnimating];
+
                    [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
                }
            }];
     
 
+}
+
+-(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
+    [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error!=nil || methodError!=nil){
+            NSLog(@" errore %@ %@",error, methodError);
+        }
+    }];
 }
 
 # pragma mark -  animations
@@ -737,6 +771,7 @@ int anim2;
             [timeBar.layer removeAllAnimations];
             [self animCursor:startx];
             [self resizeBar:0];
+            storeSelection=0;
             break;
             
         case 2:
@@ -749,12 +784,16 @@ int anim2;
             action=@"Player.Stop";
             params=nil;
             [self playbackAction:action params:nil];
+            storeSelection=0;
+
             break;
             
         case 4:
             action=@"Player.GoNext";
             params=nil;
             [self playbackAction:action params:nil];
+            storeSelection=0;
+
 //            [timeCursor.layer removeAllAnimations];
 //            [timeBar.layer removeAllAnimations];
 //            [self animCursor:startx];
@@ -763,6 +802,7 @@ int anim2;
             
         case 5:
 //            [self performTransition];
+            
             [self animViews];       
             [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
             break;
@@ -852,7 +892,27 @@ int anim2;
     if (playerID==1)
         [(UILabel*) [cell viewWithTag:3] setText:[item objectForKey:@"runtime"]];
     NSString *stringURL = [item objectForKey:@"thumbnail"];
-    [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"]];
+    
+    
+    
+    if ((playlistTableView.decelerating == NO) || numResults<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+        //        NSURL *imageUrl = [NSURL URLWithString: stringURL];    
+        //        UIImage *cachedImage = [manager imageWithURL:imageUrl];
+        //        if (cachedImage){
+        //            cell.urlImageView.image=cachedImage;
+        //        }
+        //        else {    
+        [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"] ];
+        //        }
+    }
+    else {
+        thumb.image=[UIImage imageNamed:@"nocover_music.png"];  
+    }
+    
+   // [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"]];
+    
+    
+    
     UIView *timePlaying=(UIView*) [cell viewWithTag:5];
     [self fadeView:timePlaying hidden:YES];
 //    timePlaying.hidden=YES;
@@ -863,6 +923,7 @@ int anim2;
     UIImageView *coverView=(UIImageView*) [cell viewWithTag:4];
     coverView.alpha=1.0;
     UIView *timePlaying=(UIView*) [cell viewWithTag:5];
+    storeSelection=0;
     [self fadeView:timePlaying hidden:YES];
     //timePlaying.hidden=YES;
 }
@@ -870,6 +931,7 @@ int anim2;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+    storeSelection=0;
     [queuing startAnimating];
     if (playerID==-2)
         playerID=0;
@@ -932,6 +994,166 @@ int anim2;
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     return YES;
 }
+- (BOOL)tableView:(UITableView *)tableview canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+	return YES;	
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    
+    NSDictionary *objSource = [playlistData objectAtIndex:sourceIndexPath.row];
+    
+//    NSLog(@"SOURCE %d DESTINATION %d", sourceIndexPath.row, destinationIndexPath.row);
+    
+    int idItem=[[objSource objectForKey:@"idItem"] intValue];
+    
+    NSString *action1=@"Playlist.Remove";
+    NSDictionary *params1=[NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSNumber numberWithInt:playerID], @"playlistid",
+                          [NSNumber numberWithInt:sourceIndexPath.row],@"position", 
+                          nil] ;
+    NSString *action2=@"Playlist.Insert";
+    NSDictionary *params2=[NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSNumber numberWithInt:playerID], @"playlistid",
+                          [NSDictionary dictionaryWithObjectsAndKeys: 
+                           [NSNumber numberWithInt:idItem], [NSString stringWithFormat:@"%@id", [objSource objectForKey:@"type"]], 
+                           nil],@"item",
+                          [NSNumber numberWithInt:destinationIndexPath.row],@"position",
+                          nil];
+    
+    [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error==nil && methodError==nil){
+            [jsonRPC callMethod:action2 withParameters:params2];
+            [playlistData removeObjectAtIndex:[sourceIndexPath row]];
+            [playlistData insertObject:objSource atIndex:[destinationIndexPath row]];
+//            NSLog(@"SOURCE %d DESTINATION %d STORE %d", sourceIndexPath.row, destinationIndexPath.row, storeSelection.row);
+
+            if (sourceIndexPath.row>storeSelection.row && destinationIndexPath.row<=storeSelection.row){
+                storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row+1 inSection:storeSelection.section];
+                NSLog(@"INCREMENTO STORE %d", storeSelection.row);
+            }
+            else if (sourceIndexPath.row<storeSelection.row && destinationIndexPath.row>=storeSelection.row){
+                storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
+                NSLog(@"DESCREMENTO STORE %d", storeSelection.row);
+            }
+            [playlistTableView reloadData];
+        }
+        else{
+            NSLog(@" errore rimozione playlist %@ %@",error, methodError);
+            [playlistTableView reloadData];
+            [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+
+        }
+    }];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"ANNULLO");
+
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        NSString *action1=@"Playlist.Remove";
+        NSDictionary *params1=[NSDictionary dictionaryWithObjectsAndKeys:
+                               [NSNumber numberWithInt:playerID], @"playlistid",
+                               [NSNumber numberWithInt:indexPath.row],@"position", 
+                               nil] ;
+        [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+            if (error==nil && methodError==nil){
+                //storeSelection=0;
+                
+                [playlistData removeObjectAtIndex:indexPath.row];
+                [playlistTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+                if (storeSelection){
+                    if (indexPath.row<storeSelection.row)
+                        storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
+//                    else if (indexPath.row>storeSelection.row){
+//                        storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row+1 inSection:storeSelection.section];
+//                    }
+                }
+                //[playlistTableView reloadData];
+            }
+            else{
+                NSLog(@" errore rimozione playlist %@ %@",error, methodError);
+//                NSLog(@"STORE %@", storeSelection);
+                [playlistTableView reloadData];
+                [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+            }
+        }];
+    } 
+ 
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Detemine if it's in editing mode
+    if (aTableView.editing) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return UITableViewCellEditingStyleNone;
+}
+
+-(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
+    if ([playlistData count]==0) return;
+    if (playlistTableView.editing || forceClose==YES){
+        [playlistTableView setEditing:NO animated:YES];
+        [editTableButton setSelected:NO];
+        lastSelected=-1;
+        storeSelection=nil;
+    }
+    else{
+        storeSelection = [playlistTableView indexPathForSelectedRow];
+        [playlistTableView setEditing:YES animated:YES];
+        [editTableButton setSelected:YES];
+//        if (selection){
+//            UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
+//            cell.userInteractionEnabled=NO;
+//            cell.alpha=0.5;
+//           // UIView *timePlaying=(UIView*) [cell viewWithTag:5];
+//           // [self fadeView:timePlaying hidden:YES];
+//        }
+    }
+}
+
+#pragma mark -
+#pragma mark Deferred image loading (UIScrollViewDelegate)
+
+- (void)loadImagesForOnscreenRows{
+    if ([playlistData count] > 0 && numResults>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+        NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
+        NSString *defaultThumb=@"nocover_music.png";
+        for (NSIndexPath *indexPath in visiblePaths){
+            UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
+            UIImageView *thumb=(UIImageView*) [cell viewWithTag:4];
+            //            [self alphaImage:thumb AnimDuration:0.1 Alpha:0.0];
+            NSDictionary *item = [playlistData objectAtIndex:indexPath.row];
+            NSString *stringURL = [item objectForKey:@"thumbnail"];
+            NSURL *imageUrl = [NSURL URLWithString: stringURL];    
+            UIImage *cachedImage = [manager imageWithURL:imageUrl];
+            NSString *displayThumb=defaultThumb;
+            if ([[item objectForKey:@"filetype"] length]!=0){
+                displayThumb=stringURL;
+            }
+            if (cachedImage){
+                thumb.image=cachedImage;
+            }
+            else {            
+                [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
+            }
+            //            [self alphaImage:thumb AnimDuration:0.1 Alpha:1.0];
+        }
+    }
+}
+// Load images for all onscreen rows when scrolling is finished
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (!decelerate && numResults>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+        [self loadImagesForOnscreenRows];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    if (numResults>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+        [self loadImagesForOnscreenRows];
+    }
+}
+
 
 #pragma mark - Life Cycle
 
@@ -941,20 +1163,19 @@ int anim2;
     lastSelected=-1;
     playerID=-1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
-    
 }
+
 -(void)viewWillDisappear:(BOOL)animated{
     [timer invalidate];
     [volumeSliderView stopTimer];
 //    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
-    
 }
+
 - (void)viewDidLoad{
     playerID=-1;
     selectedPlayerID=-1;
     [super viewDidLoad];
-    volumeSliderView = [[VolumeSliderView alloc] 
-                        initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 226.0f)];
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 226.0f)];
     CGRect frame=volumeSliderView.frame;
     frame.origin.x=258;
     frame.origin.y=-226;
@@ -966,7 +1187,8 @@ int anim2;
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    playlistData = [[NSMutableArray alloc] init ]; 
+    playlistData = [[NSMutableArray alloc] init ];
+    manager = [SDWebImageManager sharedManager];
 }
 
 - (void)viewDidUnload{

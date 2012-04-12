@@ -17,6 +17,7 @@
 			<string>IBUIToolbar</string>
 			<string>IBProxyObject</string>
 			<string>IBUIImageView</string>
+			<string>IBUIActivityIndicatorView</string>
 			<string>IBUITableView</string>
 			<string>IBUIButton</string>
 		</array>
@@ -155,6 +156,17 @@
 										<float key="IBUIRowHeight">53</float>
 										<float key="IBUISectionHeaderHeight">22</float>
 										<float key="IBUISectionFooterHeight">22</float>
+									</object>
+									<object class="IBUIActivityIndicatorView" id="895140529">
+										<reference key="NSNextResponder" ref="913823424"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{141, 168}, {37, 37}}</string>
+										<reference key="NSSuperview" ref="913823424"/>
+										<reference key="NSWindow"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<bool key="IBUIAnimating">YES</bool>
+										<int key="IBUIStyle">0</int>
 									</object>
 									<object class="IBUIImageView" id="335583175">
 										<reference key="NSNextResponder" ref="913823424"/>
@@ -303,14 +315,15 @@
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 												<int key="IBUIContentHorizontalAlignment">0</int>
 												<int key="IBUIContentVerticalAlignment">0</int>
+												<string key="IBUISelectedTitle">Done</string>
 												<string key="IBUINormalTitle">Edit</string>
 												<object class="NSColor" key="IBUIHighlightedTitleColor">
 													<int key="NSColorSpace">3</int>
 													<bytes key="NSWhite">MSAwLjkAA</bytes>
 												</object>
 												<object class="NSColor" key="IBUISelectedTitleColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MCAwLjEyMDgwODYyMjMgMC45MTQ2ODk3ODEAA</bytes>
+													<int key="NSColorSpace">3</int>
+													<bytes key="NSWhite">MC45NDcwMjMyNjY0AA</bytes>
 												</object>
 												<object class="NSColor" key="IBUINormalTitleColor">
 													<int key="NSColorSpace">3</int>
@@ -1308,6 +1321,22 @@
 					<int key="connectionID">135</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">editTableButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="87277101"/>
+					</object>
+					<int key="connectionID">137</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">activityIndicatorView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="895140529"/>
+					</object>
+					<int key="connectionID">140</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">startVibrate:</string>
 						<reference key="source" ref="45349964"/>
@@ -1433,6 +1462,15 @@
 						<reference key="destination" ref="372490531"/>
 					</object>
 					<int key="connectionID">101</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">editTable:forceClose:</string>
+						<reference key="source" ref="87277101"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">138</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1711,6 +1749,7 @@
 							<reference ref="335583175"/>
 							<reference ref="519437062"/>
 							<reference ref="852249264"/>
+							<reference ref="895140529"/>
 						</array>
 						<reference key="parent" ref="135886013"/>
 						<string key="objectName">Playlist View</string>
@@ -1820,6 +1859,11 @@
 						<reference key="object" ref="921530594"/>
 						<reference key="parent" ref="852249264"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">139</int>
+						<reference key="object" ref="895140529"/>
+						<reference key="parent" ref="913823424"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1850,6 +1894,7 @@
 				<string key="132.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="133.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="134.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="139.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="15.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="16.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="1" key="16.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
@@ -1894,7 +1939,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">135</int>
+			<int key="maxID">140</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1918,6 +1963,7 @@
 						<string key="artistName">UILabel</string>
 						<string key="currentTime">UILabel</string>
 						<string key="duration">UILabel</string>
+						<string key="editTableButton">UIButton</string>
 						<string key="jewelView">UIImageView</string>
 						<string key="labelSongBitRate">UILabel</string>
 						<string key="labelSongCodec">UILabel</string>
@@ -1958,6 +2004,10 @@
 						<object class="IBToOneOutletInfo" key="duration">
 							<string key="name">duration</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="editTableButton">
+							<string key="name">editTableButton</string>
+							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="jewelView">
 							<string key="name">jewelView</string>

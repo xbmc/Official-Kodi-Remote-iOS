@@ -44,7 +44,7 @@
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUIView" id="407067420">
 								<reference key="NSNextResponder" ref="447648536"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">308</int>
 								<string key="NSFrameSize">{320, 76}</string>
 								<reference key="NSSuperview" ref="447648536"/>
 								<reference key="NSWindow"/>
@@ -232,7 +232,6 @@
 								<string key="NSFrame">{{288, 0}, {1, 76}}</string>
 								<reference key="NSSuperview" ref="447648536"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>

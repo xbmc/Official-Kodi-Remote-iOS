@@ -17,7 +17,6 @@
 #import "PlayFileViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-
 @interface DetailViewController ()
 - (void)configureView;
 @end
@@ -31,9 +30,11 @@
 @synthesize nowPlaying;
 @synthesize showInfoViewController;
 @synthesize playFileViewController;
+@synthesize filteredListContent;
+@synthesize richResults;
 //@synthesize detailDescriptionLabel = _detailDescriptionLabel;
 #define SECTIONS_START_AT 100
-#define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 200
+#define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 
 - (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
     NSString *result = @"";    
@@ -102,7 +103,7 @@
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     [activityIndicatorView startAnimating];
     [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:320];
-    if ([richResults count] && (dataList.dragging == YES || dataList.decelerating == YES)){
+    if ([self.richResults count] && (dataList.dragging == YES || dataList.decelerating == YES)){
         NSArray *visiblePaths = [dataList indexPathsForVisibleRows];
         [dataList  scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
@@ -114,12 +115,14 @@
     }
     else {
         [activityIndicatorView stopAnimating];
+        [dataList setContentOffset:CGPointMake(0,searchBar.frame.size.height)];
         [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
         [self loadImagesForOnscreenRows];
     }
 }
 
-#pragma mark - Table Management
+#pragma mark - Table Animation 
+
 -(void)alphaImage:(UIImageView *)image AnimDuration:(float)seconds Alpha:(float)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
@@ -145,32 +148,8 @@
     [UIView commitAnimations];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return cellHeight;
-}
+#pragma mark - Cell Formatting 
 
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[self.sections allKeys] count];
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{   
-//    if(section == 0){return nil;}
-    return [[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section]] count];
-}
-
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    if ([self.detailItem enableSection]  && [richResults count]>SECTIONS_START_AT){
-    return [[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-    }
-    else {
-        return nil;
-    }
-}
 
 int cellWidth=0;
 int originYear=0;
@@ -201,32 +180,89 @@ int labelPosition=0;
     else {
         thumbWidth=53;
     }
-//    int forceWidthLabel=Menuitem.widthLabel;
     labelPosition=thumbWidth+8;
     int newWidthLabel=0;
     
+    
     if (Menuitem.originLabel && ![parameters objectForKey:@"thumbWidth"])
         labelPosition=Menuitem.originLabel;
-    if ([richResults count]<SECTIONS_START_AT || ![self.detailItem enableSection]){
+    
+    // CHECK IF THERE ARE SECTIONS
+    if ([self.richResults count]<SECTIONS_START_AT || ![self.detailItem enableSection]){
         newWidthLabel=312-labelPosition;
-//        Menuitem.widthLabel=252;
-//        if (forceWidthLabel && forceWidthLabel<Menuitem.widthLabel)
-//            Menuitem.widthLabel=forceWidthLabel;
         Menuitem.originYearDuration=248;
     }
     else{
-        if ([richResults count]<SECTIONS_START_AT || ![self.detailItem enableSection]){
-            newWidthLabel=312-labelPosition;
-        }
-        else {
-            newWidthLabel=282-labelPosition;
-        }
-//        Menuitem.widthLabel=222;
+        newWidthLabel=282-labelPosition;
         Menuitem.originYearDuration=220;
     }
-
+    
     Menuitem.widthLabel=newWidthLabel;
+    
+}
 
+
+#pragma mark - Table Management
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return cellHeight;
+}
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        return 1;
+    }
+	else{
+        return [[self.sections allKeys] count];
+        
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{ 
+    
+    
+//    if ([self.detailItem enableSection] && [richResults count]>SECTIONS_START_AT && section ==0){
+//        return nil;
+//    }
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        return @"Search Results";
+    }
+    else {
+        if(section == 0){return nil;}
+        return [[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section];
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [self.filteredListContent count];
+    }
+	else {
+        return [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section]] count];  
+    }
+}
+
+-(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index{
+    if (index==0){
+        [tableView scrollRectToVisible:tableView.tableHeaderView.frame animated:NO];
+        return  index -1 ;
+    }
+    return index;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        return nil;
+    }
+    else {
+        if ([self.detailItem enableSection]  && [self.richResults count]>SECTIONS_START_AT){
+            return [[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        }
+        else {
+            return nil;
+        }
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -241,7 +277,13 @@ int labelPosition=0;
     CGRect frame=cell.urlImageView.frame;
     frame.size.width=thumbWidth;
     cell.urlImageView.frame=frame;
-    NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    NSDictionary *item=nil;
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        item = [self.filteredListContent objectAtIndex:indexPath.row];
+    }
+	else{
+        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    }
     
 //   cell.urlImageView.alpha=0;
     UILabel *title=(UILabel*) [cell viewWithTag:1];
@@ -314,11 +356,16 @@ int labelPosition=0;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.detailViewController=nil;
     mainMenu *MenuItem=self.detailItem;
-    
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){
         NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
-        NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        NSDictionary *item = nil;
+        if (tableView == self.searchDisplayController.searchResultsTableView){
+            item = [self.filteredListContent objectAtIndex:indexPath.row];
+        }
+        else{
+            item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        }
         MenuItem.subItem.mainLabel=@"";
         MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
         
@@ -395,8 +442,9 @@ int labelPosition=0;
 
     }
     else {
-        
+
         if (MenuItem.showInfo){
+
             [self showInfo:indexPath];
         }
         else {
@@ -426,7 +474,8 @@ int labelPosition=0;
 #pragma mark Deferred image loading (UIScrollViewDelegate)
 
 - (void)loadImagesForOnscreenRows{
-    if ([richResults count] > 0 && numResults>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+    if ([self.richResults count] > 0 && numResults>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT && ![self.searchDisplayController isActive]){
+    
         NSArray *visiblePaths = [dataList indexPathsForVisibleRows];
         for (NSIndexPath *indexPath in visiblePaths){
             UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
@@ -434,7 +483,6 @@ int labelPosition=0;
 //            [self alphaImage:thumb AnimDuration:0.1 Alpha:0.0];
             NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
             NSString *stringURL = [item objectForKey:@"thumbnail"];
-            
             NSURL *imageUrl = [NSURL URLWithString: stringURL];    
             UIImage *cachedImage = [manager imageWithURL:imageUrl];
             NSString *displayThumb=defaultThumb;
@@ -464,23 +512,107 @@ int labelPosition=0;
     }
 }
 
-#pragma mark - Long Press
+//- (void)scrollViewDidScroll:(UIScrollView *)activeScrollView {  
+//    activeScrollView.decelerationRate = UIScrollViewDecelerationRateFast;
+//    NSLog(@"SPEED: %f", activeScrollView.decelerationRate);
+//}
+
+#pragma mark -
+#pragma mark Content Filtering
+
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope{
+	/*
+	 Update the filtered array based on the search text and scope.
+	 */
+	
+	[self.filteredListContent removeAllObjects]; // First clear the filtered array.
+	
+	/*
+	 Search the main list for products whose type matches the scope (if selected) and whose name matches searchText; add items that match to the filtered array.
+	 */
+	for (NSDictionary *item in richResults){
+//		if ([scope isEqualToString:@"All"] || [[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]] isEqualToString:scope])
+//		{
+//			NSComparisonResult result = [[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]] compare:searchText options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:NSMakeRange(0, [searchText length])];
+//            if (result == NSOrderedSame)
+//			{
+//				[self.filteredListContent addObject:item];
+//            }
+        
+        NSRange range = [[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+        if (range.location != NSNotFound) {
+            [self.filteredListContent addObject:item];
+        }
+//		}
+	}
+}
+
+
+#pragma mark -
+#pragma mark UISearchDisplayController Delegate Methods
+UILongPressGestureRecognizer *longPressGesture;
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
+    //[controller.searchResultsTableView setDelegate:self];
+    controller.searchResultsTableView.backgroundColor = [UIColor blackColor]; 
+    longPressGesture = [UILongPressGestureRecognizer new];
+    [longPressGesture addTarget:self action:@selector(handleLongPress)];
+    [self.searchDisplayController.searchResultsTableView addGestureRecognizer:longPressGesture];
+//    [self.searchDisplayController.searchResultsTableView.setN
+}
+
+-(void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+    if (longPressGesture) {
+        [self.searchDisplayController.searchResultsTableView removeGestureRecognizer:longPressGesture];
+        longPressGesture = nil;
+    }
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
+    [self filterContentForSearchText:searchString scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption{
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+
+
+#pragma mark - Long Press & Action sheet
 
 NSIndexPath *selected;
 
 -(IBAction)handleLongPress{
-    if (lpgr.state == UIGestureRecognizerStateBegan){
+    NSLog(@"eccoci");
+    if (lpgr.state == UIGestureRecognizerStateBegan || longPressGesture.state == UIGestureRecognizerStateBegan){
         CGPoint p = [lpgr locationInView:dataList];
-        
         NSIndexPath *indexPath = [dataList indexPathForRowAtPoint:p];
-        if (indexPath != nil){
+        CGPoint p2 = [longPressGesture locationInView:self.searchDisplayController.searchResultsTableView];
+        NSIndexPath *indexPath2 = [self.searchDisplayController.searchResultsTableView indexPathForRowAtPoint:p2];
+        if (indexPath != nil || indexPath2 != nil ){
             selected=indexPath;
             NSArray *sheetActions=[self.detailItem sheetActions];
             
             int numActions=[sheetActions count];
             if (numActions){
-                NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-                
+                NSDictionary *item = nil;
+                if ([self.searchDisplayController isActive]){
+                    selected=indexPath2;
+                    item = [self.filteredListContent objectAtIndex:indexPath2.row];
+                }
+                else{
+                    item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+                }
                 if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
                     return;
                 }                
@@ -608,7 +740,13 @@ NSIndexPath *selected;
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
-    NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    NSDictionary *item;
+    if ([self.searchDisplayController isActive]){
+        item = [self.filteredListContent objectAtIndex:indexPath.row];
+    }
+    else{
+        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    }
     [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
@@ -660,7 +798,13 @@ NSIndexPath *selected;
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
-    NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    NSDictionary *item;
+    if ([self.searchDisplayController isActive]){
+        item = [self.filteredListContent objectAtIndex:indexPath.row];
+    }
+    else{
+        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    }
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
     [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row9"]], [mainFields objectForKey:@"row9"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [queuing stopAnimating];
@@ -673,7 +817,13 @@ NSIndexPath *selected;
     if ([mainFields count]==0){
         return;
     }
-    NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    NSDictionary *item;
+    if ([self.searchDisplayController isActive]){
+        item = [self.filteredListContent objectAtIndex:indexPath.row];
+    }
+    else{
+        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    }
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
@@ -722,7 +872,13 @@ NSIndexPath *selected;
 -(void)showInfo:(NSIndexPath *)indexPath{
     self.showInfoViewController=nil;
     self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
-    NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    NSDictionary *item = nil;
+    if ([self.searchDisplayController isActive]){
+        item = [self.filteredListContent objectAtIndex:indexPath.row];
+    }
+    else{
+        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    }
     self.showInfoViewController.detailItem = item;
     [self.navigationController pushViewController:self.showInfoViewController animated:YES];
 }
@@ -756,7 +912,9 @@ NSIndexPath *selected;
 -(void) retrieveData:(NSString *)methodToCall parameters:(NSDictionary*)parameters{
     GlobalData *obj=[GlobalData getInstance]; 
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
-//    NSLog(@"INIZIO METHOD %@ PARAMETERS %@", methodToCall, parameters);
+//    NSLog(@"INIZIO");
+
+//    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, parameters);
     [jsonRPC 
      callMethod:methodToCall
      withParameters:parameters
@@ -764,7 +922,7 @@ NSIndexPath *selected;
          int total=0;
          if (error==nil && methodError==nil){
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
-             [richResults removeAllObjects];
+             [self.richResults removeAllObjects];
              [self.sections removeAllObjects];
              [dataList reloadData];
              
@@ -801,7 +959,10 @@ NSIndexPath *selected;
                           year=[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]] stringValue];
                      }
                      else{
-                          year=[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]];
+                         if ([[mainFields objectForKey:@"row3"] isEqualToString:@"blank"])
+                             year=@"";
+                         else
+                             year=[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]];
                      }                     
                      NSString *runtime=@"";
                      if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
@@ -813,9 +974,9 @@ NSIndexPath *selected;
                          rating=@"";
                      
                      NSString *thumbnailPath=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"thumbnail"];
-                     
+                     NSString *fanartURL=@"";
                      NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnailPath];
-                     
+                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"]];
                      NSString *filetype=@"";
                      NSString *type=@"";
                      
@@ -845,12 +1006,12 @@ NSIndexPath *selected;
                          //                         NSLog(@"METTO ICONA %@", stringURL);
                      }
 //                     if (addObj){
-                     
 //
-                         [richResults	addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                         [self.richResults	addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    label, @"label",
                                                    genre, @"genre",
                                                    stringURL, @"thumbnail",
+                                                   fanartURL, @"fanart",
                                                    runtime, @"runtime",
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"],
@@ -912,18 +1073,21 @@ NSIndexPath *selected;
 //                 NSLog(@"FINITO");
 //                 UITableViewIndexSearch;
 //                 NSLog(@"RICH RESULTS %@", richResults);
+
+                 [dataList setContentOffset:CGPointMake(0, 44)];
                  [activityIndicatorView stopAnimating];
-                 numResults=[richResults count];
+                 numResults=[self.richResults count];
                  if ([self.detailItem enableSection]){
                      NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
                      self.navigationItem.title =[NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
                  }
-                 if ([self.detailItem enableSection] && [richResults count]>SECTIONS_START_AT){// 
-//                     [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
+                 if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT){
+                     
+                     [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
                      BOOL found;
                      NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
                      NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
-                     for (NSDictionary *item in richResults){        
+                     for (NSDictionary *item in self.richResults){        
                          NSString *c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
                          
                          if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
@@ -945,7 +1109,7 @@ NSIndexPath *selected;
                          }
                      }
                      
-                     for (NSDictionary *item in richResults){
+                     for (NSDictionary *item in self.richResults){
                          NSString *c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
                          if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
                              [[self.sections objectForKey:@"#"] addObject:item];
@@ -961,7 +1125,7 @@ NSIndexPath *selected;
                  else {
                     
                      [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
-                     for (NSDictionary *item in richResults){
+                     for (NSDictionary *item in self.richResults){
                           [[self.sections objectForKey:@""] addObject:item];
                      }
                  }
@@ -971,15 +1135,19 @@ NSIndexPath *selected;
                  [self loadImagesForOnscreenRows];
             }
             else {
-              NSLog(@"NON E' JSON %@", methodError);
+                [self.richResults removeAllObjects];
+                [self.sections removeAllObjects];
+                [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
+                [dataList reloadData];
+                [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                NSLog(@"NON E' JSON %@", methodError);
                 [activityIndicatorView stopAnimating];
                 [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
                 [self loadImagesForOnscreenRows];
-
             }
          }
          else {
-             [richResults removeAllObjects];
+             [self.richResults removeAllObjects];
              [self.sections removeAllObjects];
              [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
              [dataList reloadData];
@@ -999,16 +1167,30 @@ NSIndexPath *selected;
 #pragma mark -
 #pragma mark Search Bar 
 
-- (void) searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
+//- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)theSearchBar {
+//    [theSearchBar setShowsCancelButton:YES animated:YES];
+//	return YES;
+//}
+//
+//- (BOOL)searchBarShouldEndEditing:(UISearchBar *)theSearchBar {
+//    [theSearchBar setShowsCancelButton:NO animated:YES];
+//	return YES;
+//}
+
+//- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar {
+//    [self doneSearching_Clicked:nil];
+//}
+
+//- (void) searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
 	
 	//This method is called again when the user clicks back from teh detail view.
 	//So the overlay is displayed on the results, which is something we do not want to happen.
-	if(searching)
-		return;
+//	if(searching)
+//		return;
 	
 	//Add the overlay view.
 //	if(ovController == nil)
-//		ovController = [[OverlayViewController alloc] initWithNibName:@"OverlayView" bundle:[NSBundle mainBundle]];
+//		ovController = [[OverlayViewController alloc] initWithNibName:@"OverlayViewController" bundle:[NSBundle mainBundle]];
 //	
 //	CGFloat yaxis = self.navigationController.navigationBar.frame.size.height;
 //	CGFloat width = self.view.frame.size.width;
@@ -1020,75 +1202,94 @@ NSIndexPath *selected;
 //	ovController.view.backgroundColor = [UIColor grayColor];
 //	ovController.view.alpha = 0.5;
 //	
-//	ovController.rvController = self;
+//	ovController.detController = self;
 //	
-//	[self.tableView insertSubview:ovController.view aboveSubview:self.parentViewController.view];
+//	[dataList insertSubview:ovController.view aboveSubview:self.parentViewController.view];
 	
-	searching = YES;
-	letUserSelectRow = NO;
-	dataList.scrollEnabled = NO;
+//	searching = YES;
+//	letUserSelectRow = NO;
+//	dataList.scrollEnabled = NO;
 	
 	//Add the done button.
 //	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] 
 //											   initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
 //											   target:self action:@selector(doneSearching_Clicked:)] autorelease];
-}
+//}
 
-- (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText {
-    
-	//Remove all objects first.
-	[copyListOfItems removeAllObjects];
-	[self searchTableView];
-    
-	if([searchText length] > 0) {
-		NSLog(@"debntro");
-	//	[ovController.view removeFromSuperview];
-		searching = YES;
-		letUserSelectRow = YES;
-		dataList.scrollEnabled = YES;
-		[self searchTableView];
-	}
-	else {
-		
-		//[self.tableView insertSubview:ovController.view aboveSubview:self.parentViewController.view];
-		
-		searching = NO;
-		letUserSelectRow = NO;
-		dataList.scrollEnabled = NO;
-//        [dataList reloadData];
-	}
-	
-}
-
-- (void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
-    [searchBar resignFirstResponder];
-	[self searchTableView];
-}
-
-- (void) searchTableView {
-	
-//	NSString *searchText = searchBar.text;
-//	NSMutableArray *searchArray = [[NSMutableArray alloc] init];
-//	
-//	for (NSDictionary *dictionary in richResults)
-//	{
-//		NSArray *array = [dictionary objectForKey:@"label"];
-//        NSLog(@"%@", array);
-		//[searchArray addObjectsFromArray:array];
+//- (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText {
+//    
+//	//Remove all objects first.
+//	[copyListOfItems removeAllObjects];
+//	[self searchTableView];
+//    
+//	if([searchText length] > 0) {
+//		NSLog(@"debntro");
+//	//	[ovController.view removeFromSuperview];
+//		searching = YES;
+//		letUserSelectRow = YES;
+//		dataList.scrollEnabled = YES;
+//		[self searchTableView];
 //	}
-	
-//	for (NSDictionary *sTemp in searchArray)
-//	{
-//		NSRange titleResultsRange = [[sTemp objectForKey:@"label"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+//	else {
 //		
-//		if (titleResultsRange.length > 0)
-//			[copyListOfItems addObject:sTemp];
+//		//[self.tableView insertSubview:ovController.view aboveSubview:self.parentViewController.view];
+//		
+//		searching = NO;
+//		letUserSelectRow = NO;
+//		dataList.scrollEnabled = NO;
+////        [dataList reloadData];
 //	}
-   // richResults=copyListOfItems;
+//	
+//}
+//
+//- (void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
+//    [searchBar resignFirstResponder];
+//	[self searchTableView];
+//}
+//
+//- (void) searchTableView {
+//	
+////	NSString *searchText = searchBar.text;
+////	NSMutableArray *searchArray = [[NSMutableArray alloc] init];
+////	
+////	for (NSDictionary *dictionary in richResults)
+////	{
+////		NSArray *array = [dictionary objectForKey:@"label"];
+////        NSLog(@"%@", array);
+//		//[searchArray addObjectsFromArray:array];
+////	}
+//	
+////	for (NSDictionary *sTemp in searchArray)
+////	{
+////		NSRange titleResultsRange = [[sTemp objectForKey:@"label"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+////		
+////		if (titleResultsRange.length > 0)
+////			[copyListOfItems addObject:sTemp];
+////	}
+//   // richResults=copyListOfItems;
+////	[dataList reloadData];
+//	//[searchArray release];
+////	searchArray = nil;
+//}
+//
+//- (void) doneSearching_Clicked:(id)sender {
+//	
+//	searchBar.text = @"";
+//	[searchBar resignFirstResponder];
+//	
+//	letUserSelectRow = YES;
+//	searching = NO;
+//	//self.navigationItem.rightBarButtonItem = nil;
+//	dataList.scrollEnabled = YES;
+//	
+//	[ovController.view removeFromSuperview];
+////	[ovController release];
+//	ovController = nil;
+//	
 //	[dataList reloadData];
-	//[searchArray release];
-//	searchArray = nil;
-}
+//}
+
+
 
 # pragma mark - Life-Cycle
 -(void)viewWillAppear:(BOOL)animated{
@@ -1128,7 +1329,7 @@ NSIndexPath *selected;
     if (count==0){
         buttonsView.hidden=YES;
         CGRect frame=dataList.frame;
-        frame.size.height=460;
+        frame.size.height=self.view.bounds.size.height;
         dataList.frame=frame;
     }
 }
@@ -1148,7 +1349,9 @@ NSIndexPath *selected;
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     self.sections = [[NSMutableDictionary alloc] init];
-    richResults= [[NSMutableArray alloc] init ]; 
+    self.richResults= [[NSMutableArray alloc] init ]; 
+    self.filteredListContent = [[NSMutableArray alloc] init ]; 
+
    // [self configureView];
     [activityIndicatorView startAnimating];
     [self buildButtons];
@@ -1165,7 +1368,10 @@ NSIndexPath *selected;
     
 //    [dataList setContentOffset:CGPointMake(0,searchBar.frame.size.height)];
     
-    copyListOfItems = [[NSMutableArray alloc] init];
+    
+//    /UIView *tableHeader=[dataList tableHeaderView];
+    
+//    NSLog(@"bound %f", tableHeader.bounds.size.width);
     [super viewDidLoad];
 }
 
@@ -1173,15 +1379,17 @@ NSIndexPath *selected;
     [super viewDidUnload];
     self.detailItem = nil;
     jsonRPC=nil;
-    richResults=nil;
-    copyListOfItems=nil;
+    self.richResults=nil;
+    self.filteredListContent=nil;
 }
 
 -(void)dealloc{
     self.detailItem = nil;
     jsonRPC=nil;
-    [richResults removeAllObjects];
-    richResults=nil;
+    [self.richResults removeAllObjects];
+    [self.filteredListContent removeAllObjects];
+    self.richResults=nil;
+    self.filteredListContent=nil;
     [self.sections removeAllObjects];
     self.sections=nil;
     dataList=nil;
@@ -1189,7 +1397,6 @@ NSIndexPath *selected;
     activityIndicatorView=nil;  
     manager=nil;
     nowPlaying=nil;
-    copyListOfItems=nil;
     playFileViewController=nil;
 }
 

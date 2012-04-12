@@ -42,6 +42,8 @@
 
     IBOutlet UIButton *arrow_continue_down;
     IBOutlet UIImageView *jewelView;
+    IBOutlet UIImageView *fanartView;
+
 
 }
 

@@ -26,6 +26,7 @@
 @synthesize detailViewController = _detailViewController;
 @synthesize nowPlaying = _nowPlaying;
 @synthesize remoteController = _remoteController;
+@synthesize obj;
 
 @synthesize mainMenu;
 
@@ -40,7 +41,7 @@
 	
 -(BOOL)textFieldShouldReturn:(UITextField *)theTextField {
     //NSLog(@"ECCOMI");
-    GlobalData *obj=[GlobalData getInstance]; 
+    obj=[GlobalData getInstance]; 
     [descriptionUI resignFirstResponder];
     [ipUI resignFirstResponder];
     [portUI resignFirstResponder];
@@ -117,7 +118,7 @@
 }
 
 -(void)checkServer{
-    GlobalData *obj=[GlobalData getInstance];  
+    obj=[GlobalData getInstance];  
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC 
@@ -185,7 +186,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    GlobalData *obj=[GlobalData getInstance];  
+    obj=[GlobalData getInstance];  
     obj.serverDescription=@"joeHTPC";
     obj.serverUser=@"xbmc";
     obj.serverPass=@"";
@@ -204,7 +205,8 @@
 //    settingsPanel.frame=frame;
 //    [self.view addSubview:settingsPanel];
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];;
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
+    self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 75, 43)];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];

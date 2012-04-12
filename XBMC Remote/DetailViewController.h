@@ -14,23 +14,22 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "mainMenu.h"
 
+
 @class NowPlaying;
 @class PlayFileViewController;
 //@class DetailViewController;
 
-@interface DetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIWebViewDelegate, UIScrollViewDelegate>{
+@interface DetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIWebViewDelegate, UIScrollViewDelegate, UISearchBarDelegate>{
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     DSJSONRPC *jsonRPC;
     NSMutableArray *richResults;
+    NSMutableArray	*filteredListContent;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;  
     SDWebImageManager *manager;
     IBOutlet UILongPressGestureRecognizer *lpgr;
     IBOutlet UISearchBar *searchBar;
-    BOOL searching;
-    BOOL letUserSelectRow;
-	NSMutableArray *copyListOfItems;
     BOOL alreadyPush;
     IBOutlet UIWebView *webPlayView;
     MPMoviePlayerController *playerViewController;
@@ -49,6 +48,8 @@
     int thumbWidth;
     IBOutlet UIView *noFoundView;
 }
+@property (nonatomic, retain) NSMutableArray *richResults;
+@property (nonatomic, retain) NSMutableArray *filteredListContent;
 
 @property (strong, nonatomic) id detailItem;
 @property(nonatomic,readonly) UIActivityIndicatorView *activityIndicatorView;

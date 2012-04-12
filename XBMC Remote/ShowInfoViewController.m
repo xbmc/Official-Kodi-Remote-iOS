@@ -103,6 +103,7 @@ int count=0;
 int h=0;
 -(void)createInfo{
     NSDictionary *item=self.detailItem;
+//    NSLog(@"ITEM %@", item);
     int scrollViewDefaultHeight=660;
     if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"studio"]){
         int deltaY=0;
@@ -118,11 +119,6 @@ int h=0;
             label3.text=@"GENRE";
             label4.text=@"STUDIO";
             jewelView.hidden=YES;
-//            jewelView.image=[UIImage imageNamed:@"jewel_tv.9.png"];
-//            frame=jewelView.frame;
-//            frame.size.height=coverHeight;
-//            jewelView.frame=frame;
-            
             frame=coverView.frame;
             frame.origin.x=0;
             frame.origin.y=12;
@@ -204,9 +200,21 @@ int h=0;
         coverView.image=cachedImage;
     }
     else{
-        [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]];
+        [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@""]];
     }
     
+//    NSString *fanartPath=[item objectForKey:@"fanart"];    
+//    NSURL *fanartUrl = [NSURL URLWithString: fanartPath];
+//    UIImage *cachedFanart = [manager imageWithURL:fanartUrl];
+//    if (cachedFanart){
+//        fanartView.image=cachedFanart;
+//    }
+//    else{
+//        [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
+//    }
+//
+//   [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.07f];// cool :)
+
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
     starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];
     
@@ -321,6 +329,13 @@ int h=0;
     }
 }
 
+-(void)alphaImage:(UIImageView *)image AnimDuration:(float)seconds Alpha:(float)alphavalue{
+    [UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDuration:seconds];
+	image.alpha = alphavalue;
+    [UIView commitAnimations];
+}
+
 # pragma  mark - JSON Data
 -(void)addPlayback{
 
@@ -399,5 +414,8 @@ int h=0;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+//    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+//}
 
 @end
