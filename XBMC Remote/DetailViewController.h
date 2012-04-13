@@ -29,7 +29,6 @@
     NSMutableDictionary *sections;  
     SDWebImageManager *manager;
     IBOutlet UILongPressGestureRecognizer *lpgr;
-    IBOutlet UISearchBar *searchBar;
     BOOL alreadyPush;
     IBOutlet UIWebView *webPlayView;
     MPMoviePlayerController *playerViewController;
@@ -43,6 +42,7 @@
     IBOutlet UIButton *button5;
     IBOutlet UIView *buttonsView;
     int numResults;
+    int numFilteredResults;
     NSString *defaultThumb;
     int cellHeight;
     int thumbWidth;

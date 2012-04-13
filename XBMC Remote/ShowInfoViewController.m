@@ -38,30 +38,35 @@ int count=0;
     // Update the user interface for the detail item.
     if (self.detailItem) {
         NSDictionary *item=self.detailItem;
-        CGRect frame = CGRectMake(0, 0, 320, 44);
+        CGRect frame = CGRectMake(0, 0, 140, 40);
         UILabel *viewTitle = [[UILabel alloc] initWithFrame:frame] ;
-        viewTitle.numberOfLines=2;
-        viewTitle.font = [UIFont boldSystemFontOfSize:12];
-        viewTitle.minimumFontSize=8;
+        viewTitle.numberOfLines=0;
+        viewTitle.font = [UIFont boldSystemFontOfSize:11];
+        viewTitle.minimumFontSize=6;
         viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         viewTitle.backgroundColor = [UIColor clearColor];
         viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
         viewTitle.textAlignment = UITextAlignmentCenter;
         viewTitle.textColor = [UIColor whiteColor];
         viewTitle.text = [item objectForKey:@"label"];
+        [viewTitle sizeThatFits:CGSizeMake(140, 40)];
         self.navigationItem.titleView = viewTitle;
         self.navigationItem.title = [item objectForKey:@"label"];
         
-        UIBarButtonItem *playbackButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(addPlayback)];
         
-//        UIImage* volumeImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
-//        CGRect frameimg = CGRectMake(0, 0, volumeImg.size.width, volumeImg.size.height);
-//        UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
-//        [nowPlayingButton setBackgroundImage:volumeImg forState:UIControlStateNormal];
-//        [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
-//        UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
-//        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: nowPlayingButtonItem, playbackButton, nil];
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: playbackButton, nil];
+        UIBarButtonItem *playbackButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(addPlayback)];
+        
+        UIImage* queueImg = [UIImage imageNamed:@"button_playlist.png"];
+//        CGRect frameimg = CGRectMake(0, 0, queueImg.size.width, queueImg.size.height);
+//        UIButton *queueButton = [[UIButton alloc] initWithFrame:frameimg];
+//        [queueButton setBackgroundImage:queueImg forState:UIControlStateNormal];
+//        [queueButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
+      //  UIBarButtonItem *queueButtonItem =[[UIBarButtonItem alloc] initWithCustomView:queueButton];
+        
+        UIBarButtonItem *queueButtonItem =[[UIBarButtonItem alloc] initWithImage:queueImg style:UIBarButtonItemStyleBordered target:self action:@selector(addQueue)];
+        
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: playbackButtonItem, queueButtonItem, nil];
+//        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: playbackButton, nil];
     }
 }
 
@@ -337,8 +342,21 @@ int h=0;
 }
 
 # pragma  mark - JSON Data
--(void)addPlayback{
 
+-(void)addQueue{
+    self.navigationItem.rightBarButtonItem.enabled=NO;
+    [activityIndicatorView startAnimating];
+    NSDictionary *item = self.detailItem;
+    [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[item objectForKey:@"family"]], [item objectForKey:@"family"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error!=nil || methodError!=nil){
+            NSLog(@" errore %@",methodError);
+        }
+        [activityIndicatorView stopAnimating];
+        self.navigationItem.rightBarButtonItem.enabled=YES;
+    }];
+}
+
+-(void)addPlayback{
     self.navigationItem.rightBarButtonItem.enabled=NO;
     [activityIndicatorView startAnimating];
     NSDictionary *item = self.detailItem;

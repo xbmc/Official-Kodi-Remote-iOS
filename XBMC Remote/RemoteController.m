@@ -81,7 +81,7 @@
                     [commonParams addObjectsFromArray:parameters];
                 [jsonRPC callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil){
-                        NSLog(@"comando %@ eseguito ", action);
+//                        NSLog(@"comando %@ eseguito ", action);
                     }
                     else {
                         NSLog(@"ci deve essere un secondo problema %@", methodError);
@@ -104,6 +104,10 @@
     NSString *action;
     NSArray *params;
     switch ([sender tag]) {
+        case 1:
+            action=@"GUI.SetFullscreen";
+            [self GUIAction:action];
+            break;
         case 2:
             action=@"Player.Seek";
             params=[NSArray arrayWithObjects:@"smallbackward", @"value", nil];
@@ -150,6 +154,11 @@
             [self GUIAction:action];
             break;
             
+        case 11:
+            action=@"Input.Info";
+            [self GUIAction:action];
+            break;
+
         case 12:
             action=@"Input.Left";
             [self GUIAction:action];

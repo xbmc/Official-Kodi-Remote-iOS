@@ -257,7 +257,7 @@ int currentPlayerID=-1;
 //                         NSLog(@"Risposta %@", methodResult);
                      }
                      else{
-                         NSLog(@"ci deve essere un  problema %@", methodError);
+//                         NSLog(@"ci deve essere un  problema %@", methodError);
   
                      }
                  }];
@@ -364,7 +364,7 @@ int currentPlayerID=-1;
                          
                      }
                      else {
-                         NSLog(@"ci deve essere un secondo problema %@", methodError);
+//                         NSLog(@"ci deve essere un secondo problema %@ %@", error, methodError);
                      }
                  }];
              
@@ -426,7 +426,7 @@ int currentPlayerID=-1;
                          }
                      }
                      else {
-                         NSLog(@"ci deve essere un secondo problema %@", methodError);
+//                         NSLog(@"ci deve essere un secondo problema %@ %@",error, methodError);
                      }
                  }];
             }
@@ -555,7 +555,7 @@ int currentPlayerID=-1;
              }
          }
          else {
-             NSLog(@"ERROR %@", methodError);
+//             NSLog(@"ERROR %@", methodError);
          }
      }];                                            
 }
@@ -574,13 +574,13 @@ int currentPlayerID=-1;
 //                        NSLog(@"comando %@ eseguito ", action);
                     }
                     else {
-                        NSLog(@"ci deve essere un secondo problema %@", methodError);
+//                        NSLog(@"ci deve essere un secondo problema %@", methodError);
                     }
                 }];
             }
         }
         else {
-            NSLog(@"ci deve essere un primo problema %@", methodError);
+//            NSLog(@"ci deve essere un primo problema %@", methodError);
         }
     }];
 }
@@ -685,7 +685,7 @@ int currentPlayerID=-1;
                    }
                }
                else {
-                   NSLog(@"ci deve essere un primo problema %@", methodError);
+//                   NSLog(@"ci deve essere un primo problema %@", methodError);
                    [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
                    [activityIndicatorView stopAnimating];
 
@@ -699,7 +699,7 @@ int currentPlayerID=-1;
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
     [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error!=nil || methodError!=nil){
-            NSLog(@" errore %@ %@",error, methodError);
+//            NSLog(@" errore %@ %@",error, methodError);
         }
     }];
 }
@@ -950,7 +950,7 @@ int anim2;
 //             timePlaying.hidden=NO;
          }
          else {
-             NSLog(@"EROR %@", methodError);
+//             NSLog(@"EROR %@", methodError);
              UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
              [queuing stopAnimating];
          }
@@ -1029,16 +1029,16 @@ int anim2;
 
             if (sourceIndexPath.row>storeSelection.row && destinationIndexPath.row<=storeSelection.row){
                 storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row+1 inSection:storeSelection.section];
-                NSLog(@"INCREMENTO STORE %d", storeSelection.row);
+//                NSLog(@"INCREMENTO STORE %d", storeSelection.row);
             }
             else if (sourceIndexPath.row<storeSelection.row && destinationIndexPath.row>=storeSelection.row){
                 storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
-                NSLog(@"DESCREMENTO STORE %d", storeSelection.row);
+//                NSLog(@"DESCREMENTO STORE %d", storeSelection.row);
             }
             [playlistTableView reloadData];
         }
         else{
-            NSLog(@" errore rimozione playlist %@ %@",error, methodError);
+//            NSLog(@" errore rimozione playlist %@ %@",error, methodError);
             [playlistTableView reloadData];
             [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
 
@@ -1047,7 +1047,7 @@ int anim2;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"ANNULLO");
+//    NSLog(@"ANNULLO");
 
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
@@ -1072,7 +1072,7 @@ int anim2;
                 //[playlistTableView reloadData];
             }
             else{
-                NSLog(@" errore rimozione playlist %@ %@",error, methodError);
+//                NSLog(@" errore rimozione playlist %@ %@",error, methodError);
 //                NSLog(@"STORE %@", storeSelection);
                 [playlistTableView reloadData];
                 [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];

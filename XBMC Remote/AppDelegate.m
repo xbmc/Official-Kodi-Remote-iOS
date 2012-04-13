@@ -17,10 +17,13 @@ NSMutableArray *mainMenuItems;
 
 @synthesize window = _window;
 @synthesize navigationController = _navigationController;
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
 //    NSLog(@"PLATFORM %@", [[UIDevice currentDevice] platformString]);
 //    NSLog(@"%@", [UIDevice currentDevice].model );
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	[userDefaults removeObjectForKey:@"clearcache_preference"];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
@@ -29,14 +32,6 @@ NSMutableArray *mainMenuItems;
     self.window.rootViewController = self.navigationController;
     
     [self.window makeKeyAndVisible];
-    
-//    GlobalData *obj=[GlobalData getInstance];  
-//    
-//    obj.serverDescription=@"joeHTPC";
-//    obj.serverUser=@"xbmc";
-//    obj.serverPass=@"";
-//    obj.serverIP= @"10.10.32.16";
-//    obj.serverPort=@"8080";
     
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];
     mainMenu *item1 = [[mainMenu alloc] init];
@@ -500,7 +495,7 @@ NSMutableArray *mainMenuItems;
     item2.rowHeight=76;
     item2.thumbWidth=53;
     item2.defaultThumb=@"nocover_movies.png";
-    item2.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
+    item2.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", @"View Details", nil];
     item2.showInfo = YES;
     
     item2.subItem.mainMethod=[NSMutableArray arrayWithObjects:

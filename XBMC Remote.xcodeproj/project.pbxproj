@@ -479,6 +479,9 @@
 		0FB16183151F40A7001BA2D4 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB1617C151F40A7001BA2D4 /* SDWebImagePrefetcher.m */; };
 		0FB16184151F40A7001BA2D4 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB1617E151F40A7001BA2D4 /* UIButton+WebCache.m */; };
 		0FB465151524980900FF881C /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FB465141524980900FF881C /* line.png */; };
+		0FDFC67D15377CE9000BE837 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDFC67C15377CE9000BE837 /* Settings.bundle */; };
+		0FE3455B1538A404006A17C1 /* button_playlist@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3455A1538A404006A17C1 /* button_playlist@2x.png */; };
+		0FE3455E1538A412006A17C1 /* button_playlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3455D1538A412006A17C1 /* button_playlist.png */; };
 		0FFBCF0C152BAC1600066B30 /* nocover_tvshows_episode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFBCF0B152BAC1600066B30 /* nocover_tvshows_episode@2x.png */; };
 		0FFBCF0F152BAC2D00066B30 /* nocover_tvshows_episode.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */; };
 /* End PBXBuildFile section */
@@ -985,6 +988,9 @@
 		0FB1617D151F40A7001BA2D4 /* UIButton+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+WebCache.h"; path = "SDWebImage/UIButton+WebCache.h"; sourceTree = "<group>"; };
 		0FB1617E151F40A7001BA2D4 /* UIButton+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+WebCache.m"; path = "SDWebImage/UIButton+WebCache.m"; sourceTree = "<group>"; };
 		0FB465141524980900FF881C /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = line.png; sourceTree = "<group>"; };
+		0FDFC67C15377CE9000BE837 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		0FE3455A1538A404006A17C1 /* button_playlist@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_playlist@2x.png"; sourceTree = "<group>"; };
+		0FE3455D1538A412006A17C1 /* button_playlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_playlist.png; sourceTree = "<group>"; };
 		0FFBCF0B152BAC1600066B30 /* nocover_tvshows_episode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_tvshows_episode@2x.png"; sourceTree = "<group>"; };
 		0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_tvshows_episode.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1043,6 +1049,7 @@
 		0F554900151D1187007E633F /* XBMC Remote */ = {
 			isa = PBXGroup;
 			children = (
+				0FDFC67C15377CE9000BE837 /* Settings.bundle */,
 				0F747736151DD98600EF78AD /* classes */,
 				0F554901151D1187007E633F /* Supporting Files */,
 				0F554C21151D197F007E633F /* nib */,
@@ -1093,6 +1100,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FE3455A1538A404006A17C1 /* button_playlist@2x.png */,
 				0F2A46351533466F005D15E2 /* icon_dark@2x.png */,
 				0F2A462F1532FC99005D15E2 /* st_concert_off@2x.png */,
 				0F2A46301532FC99005D15E2 /* st_concert_on@2x.png */,
@@ -1310,6 +1318,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FE3455D1538A412006A17C1 /* button_playlist.png */,
 				0F2A463315334663005D15E2 /* icon_dark.png */,
 				0F2A462A1532FC8B005D15E2 /* st_concert_off.png */,
 				0F2A462B1532FC8B005D15E2 /* st_concert_on.png */,
@@ -2101,6 +2110,9 @@
 				0F2A46321532FC99005D15E2 /* st_concert_on@2x.png in Resources */,
 				0F2A463415334663005D15E2 /* icon_dark.png in Resources */,
 				0F2A46361533466F005D15E2 /* icon_dark@2x.png in Resources */,
+				0FDFC67D15377CE9000BE837 /* Settings.bundle in Resources */,
+				0FE3455B1538A404006A17C1 /* button_playlist@2x.png in Resources */,
+				0FE3455E1538A412006A17C1 /* button_playlist.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2218,12 +2230,14 @@
 		0F55491B151D1187007E633F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Giovanni Messina (M7278EL23F)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Giovanni Messina (M7278EL23F)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/XBMC Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/XBMC Remote-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "509886A6-F79E-42FA-A5A2-FF99A4C2AA2E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "001A88B3-BA44-4F01-BCD1-D2AF1CD06CD9";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2231,12 +2245,14 @@
 		0F55491C151D1187007E633F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Giovanni Messina (M7278EL23F)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Giovanni Messina (M7278EL23F)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/XBMC Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/XBMC Remote-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "509886A6-F79E-42FA-A5A2-FF99A4C2AA2E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "001A88B3-BA44-4F01-BCD1-D2AF1CD06CD9";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
