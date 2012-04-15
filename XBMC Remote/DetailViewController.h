@@ -59,7 +59,6 @@
 @property (strong, nonatomic) NowPlaying *nowPlaying;
 @property (strong, nonatomic) PlayFileViewController *playFileViewController;
 
-
 @property (nonatomic,retain) NSMutableDictionary *sections;
 
 @end

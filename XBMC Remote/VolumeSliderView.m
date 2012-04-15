@@ -61,7 +61,7 @@
              }
          }
          else {
-             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
+//             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
          }
      }];
 }

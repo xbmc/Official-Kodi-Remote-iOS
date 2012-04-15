@@ -45,14 +45,17 @@
     int selectedPlayerID;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     int playerPlaying;
-    int PlayerPaused;
+    BOOL PlayerPaused;
     int musicPartyMode;
     IBOutlet UIButton *seg_music;
     IBOutlet UIButton *seg_video;
     IBOutlet UIButton *editTableButton;
+    IBOutlet UIButton *PartyModeButton;
+
 
     IBOutlet UIView *noFoundView;
     NSIndexPath *storeSelection;
+
     int numResults;
     SDWebImageManager *manager;
 

@@ -114,7 +114,7 @@ int h=0;
         int deltaY=0;
         int coverHeight=0;
         int shiftY=40;
-        CGRect frame=label6.frame;
+        CGRect frame;
 
         if ([[item objectForKey:@"family"] isEqualToString:@"studio"]){
             coverHeight=70;
@@ -209,16 +209,16 @@ int h=0;
     }
     
 //    NSString *fanartPath=[item objectForKey:@"fanart"];    
-//    NSURL *fanartUrl = [NSURL URLWithString: fanartPath];
-//    UIImage *cachedFanart = [manager imageWithURL:fanartUrl];
-//    if (cachedFanart){
-//        fanartView.image=cachedFanart;
-//    }
-//    else{
-//        [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
-//    }
+////    NSURL *fanartUrl = [NSURL URLWithString: fanartPath];
+////    UIImage *cachedFanart = [manager imageWithURL:fanartUrl];
+////    if (cachedFanart){
+////        fanartView.image=cachedFanart;
+////    }
+////    else{
+//    [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
+////    }
 //
-//   [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.07f];// cool :)
+//   [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.08f];// cool :)
 
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
     starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];

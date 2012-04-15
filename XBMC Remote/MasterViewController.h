@@ -14,11 +14,16 @@
 @class DetailViewController;
 @class NowPlaying;
 @class RemoteController;
+@class HostViewController;
 
 
-@interface MasterViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate>{
+@interface MasterViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>{
     IBOutlet UITableView *menuList;
+    IBOutlet UITableView *serverListTableView;
+
     IBOutlet UITableViewCell *resultMenuCell;
+    IBOutlet UITableViewCell *serverListCell;
+
     IBOutlet UIView *settingsView;
     DSJSONRPC *jsonRPC;
     NSTimer* timer;
@@ -28,19 +33,22 @@
 //    SettingsPanel *settingsPanel;
     NSDictionary *checkServerParams;
     BOOL serverOnLine;
-    
-    IBOutlet UITextField *descriptionUI;
-    IBOutlet UITextField *ipUI;
-    IBOutlet UITextField *portUI;
-    IBOutlet UITextField *usernameUI;
-    IBOutlet UITextField *passwordUI;
+    NSIndexPath *storeServerSelection;
+    IBOutlet UIButton *editTableButton;
+
+
+//    NSMutableArray *serverList;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
+//@property (nonatomic, strong) NSMutableArray *serverList;
+
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 @property (strong, nonatomic) NowPlaying *nowPlaying;
 @property (strong, nonatomic) RemoteController *remoteController;
+@property (strong, nonatomic) HostViewController *hostController;
+
 @property (nonatomic, copy) GlobalData *obj;
 
 @end

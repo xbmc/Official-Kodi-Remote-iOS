@@ -100,6 +100,15 @@
     }];
 }
 
+-(void)sendXbmcHttp:(NSString *) command{
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *serverHTTP=[NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort, command];
+    NSURL *url = [NSURL  URLWithString:serverHTTP];
+    NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];  
+    requestANS=nil;
+
+}
+
 - (IBAction)startVibrate:(id)sender {
     NSString *action;
     NSArray *params;
@@ -107,6 +116,7 @@
         case 1:
             action=@"GUI.SetFullscreen";
             [self GUIAction:action];
+            [self sendXbmcHttp:@"SendKey(0xf009)"];
             break;
         case 2:
             action=@"Player.Seek";
@@ -148,7 +158,11 @@
             params=nil;
             [self playbackAction:action params:nil];
             break;
-            
+        
+        case 9:
+            [self sendXbmcHttp:@"SendKey(0xF04F)"];
+            break;
+
         case 10:
             action=@"Input.Up";
             [self GUIAction:action];
@@ -157,6 +171,7 @@
         case 11:
             action=@"Input.Info";
             [self GUIAction:action];
+            [self sendXbmcHttp:@"SendKey(0xF049)"];
             break;
 
         case 12:
@@ -174,10 +189,11 @@
             [self GUIAction:action];
             break;
             
-//        case 15:
+        case 15:
 //            action=@"Input.Home";
 //            [self GUIAction:action];
-//            break;
+            [self sendXbmcHttp:@"SendKey(0xF04D)"];
+            break;
 
         case 16:
             action=@"Input.Down";

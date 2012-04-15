@@ -1369,7 +1369,6 @@ NSIndexPath *selected;
 }
 
 - (void)viewDidLoad{
-    
     choosedTab=0;
     numTabs=[[self.detailItem mainMethod] count];
     
@@ -1395,21 +1394,28 @@ NSIndexPath *selected;
     else {
         [activityIndicatorView stopAnimating];
         [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-        
     }
     [super viewDidLoad];
 }
 
 - (void)viewDidUnload{
     [super viewDidUnload];
-    self.detailItem = nil;
+    
+//    self.detailItem = nil;
     jsonRPC=nil;
     self.richResults=nil;
     self.filteredListContent=nil;
+    self.sections=nil;
+    dataList=nil;
+    jsonCell=nil;
+    activityIndicatorView=nil;  
+    manager=nil;
+    nowPlaying=nil;
+    playFileViewController=nil;
 }
 
 -(void)dealloc{
-    self.detailItem = nil;
+//    self.detailItem = nil;
     jsonRPC=nil;
     [self.richResults removeAllObjects];
     [self.filteredListContent removeAllObjects];
