@@ -344,7 +344,6 @@ int labelPosition=0;
 
         displayThumb=stringURL;
     }
-
     //dataList.dragging == NO && 
     // NOT CONSIDERING AT THE MOMENT THE SEARCH RESULT TABLE
     if ((dataList.decelerating == NO && self.searchDisplayController.searchResultsTableView.decelerating == NO) || checkNum<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){ 
@@ -840,6 +839,22 @@ NSIndexPath *selected;
     }];
 }
 
+-(void)openFile:(NSDictionary *)params index:(NSIndexPath *) indexPath{
+    [jsonRPC callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error==nil && methodError==nil){
+            UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+            UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+            [queuing stopAnimating];
+            //                [self showNowPlaying];
+        }
+        else {
+            UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+            UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+            [queuing stopAnimating];
+            //                            NSLog(@"terzo errore %@",methodError);
+        }
+    }];
+}
 -(void)addPlayback:(NSIndexPath *)indexPath position:(int)pos{
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
     if ([mainFields count]==0){
@@ -852,44 +867,68 @@ NSIndexPath *selected;
     else{
         item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
+
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
-    [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (error==nil && methodError==nil){
-
-            [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                if (error==nil && methodError==nil){
-                    [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: pos], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                        if (error==nil && methodError==nil){
-                            UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
-                            UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
-                            [queuing stopAnimating];
-                            [self showNowPlaying];
-                        }
-                        else {
-                            UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
-                            UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
-                            [queuing stopAnimating];
-//                            NSLog(@"terzo errore %@",methodError);
-                        }
-                    }];
-                }
-                else {
-                    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
-                    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
-                    [queuing stopAnimating];
-//                    NSLog(@"secondo errore %@",methodError);
-                }
-            }];
-        }
-        else {
-            UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
-            UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
-            [queuing stopAnimating];
-//            NSLog(@"ERRORE %@", methodError);
-        }
-    }];
+    if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
+        [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+            int currentPlayerID=[[[methodResult objectAtIndex:0] objectForKey:@"playerid"] intValue];
+            if (currentPlayerID==1){
+                [jsonRPC callMethod:@"Player.Stop" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:1], @"playerid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                    if (error==nil && methodError==nil){
+                        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
+                        
+                    }
+                    else {
+                        UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+                        UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+                        [queuing stopAnimating];
+                    }
+                }];
+            }
+            else{
+                [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
+            }
+        }];
+    }
+    else{
+        [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+            if (error==nil && methodError==nil){
+                
+                [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                    if (error==nil && methodError==nil){
+                        [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: pos], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                            if (error==nil && methodError==nil){
+                                UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+                                UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+                                [queuing stopAnimating];
+                                [self showNowPlaying];
+                            }
+                            else {
+                                UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+                                UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+                                [queuing stopAnimating];
+                                //                            NSLog(@"terzo errore %@",methodError);
+                            }
+                        }];
+                    }
+                    else {
+                        UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+                        UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+                        [queuing stopAnimating];
+                        //                    NSLog(@"secondo errore %@",methodError);
+                    }
+                }];
+            }
+            else {
+                UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+                UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+                [queuing stopAnimating];
+                //            NSLog(@"ERRORE %@", methodError);
+            }
+        }];
+    }
 }
 
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
@@ -1021,18 +1060,21 @@ NSIndexPath *selected;
                              stringURL=@"nocover_filemode.png";
                          }
                          else if ([filetype isEqualToString:@"file"]){
-//                             if ([type isEqualToString:@"unknown"]) {
-//                                 addObj=NO;
-//                             }
-//                             else 
-                                 if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
+                             //                             if ([type isEqualToString:@"unknown"]) {
+                             //                                 addObj=NO;
+                             //                             }
+                             //                             else 
+                             if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
                                  stringURL=@"icon_song.png";
                                  
                              }
                              else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
                                  stringURL=@"icon_video.png";
                              }
-                             
+                             else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
+//                                stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[videoLibraryMovies objectAtIndex:i] objectForKey:@"file"]];
+                                 stringURL=@"icon_picture.png";
+                             }
                          }
                          //                         NSLog(@"METTO ICONA %@", stringURL);
                      }

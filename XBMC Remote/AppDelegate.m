@@ -55,10 +55,18 @@ NSMutableArray *mainMenuItems;
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-//    BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
-//    NSLog(@"CLEAR CACHE %d", clearCache);
-    
+    BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
+    if (clearCache==YES){
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"ImageCache"];
+        [[NSFileManager defaultManager] removeItemAtPath:diskCachePath error:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:diskCachePath
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:NULL];
+    }    
 	[userDefaults removeObjectForKey:@"clearcache_preference"];
+    
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]==YES){
         xbmcRemote.idleTimerDisabled = YES;
@@ -94,6 +102,8 @@ NSMutableArray *mainMenuItems;
     item3.subItem.subItem = [[mainMenu alloc] init];
 
     item4.subItem = [[mainMenu alloc] init];
+    item4.subItem.subItem = [[mainMenu alloc] init];
+
 
     item1.mainLabel = @"Music";
     item1.upperLabel = @"Listen to";
@@ -121,7 +131,7 @@ NSMutableArray *mainMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
                              nil],@"sort",
-                            [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", nil], @"properties",
+                            [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"description", @"genre", @"albumlabel", @"fanart",  nil], @"properties",
                             nil], @"parameters", @"Albums", @"label", nil], 
 
                           [NSMutableArray arrayWithObjects:
@@ -154,25 +164,6 @@ NSMutableArray *mainMenuItems;
                             @"music", @"media",
                             nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
                           nil];
-    /*
-     [NSMutableArray arrayWithObjects:
-     [NSMutableDictionary dictionaryWithObjectsAndKeys:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-     @"ascending",@"order",
-     [NSNumber numberWithBool:FALSE],@"ignorearticle",
-     @"label", @"method",
-     nil],@"sort",
-     
-     [NSDictionary dictionaryWithObjectsAndKeys:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-     [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", nil], @"enums",
-     @"Compilation", @"type",
-     nil], @"item",
-     nil]
-     
-     , @"properties",
-     nil], @"parameters", @"Compilations", @"label", nil]
-     */
     
     item1.mainFields=[NSArray arrayWithObjects:
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -186,6 +177,11 @@ NSMutableArray *mainMenuItems;
                        [NSNumber numberWithInt:0], @"playlistid",
                        @"albumid",@"row8",
                        @"albumid", @"row9",
+                       @"description", @"row10",
+                       @"genre", @"row11",
+                       @"artist", @"row12",                       
+                       @"albumlabel", @"row13",
+
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -213,7 +209,7 @@ NSMutableArray *mainMenuItems;
                        @"genreid",@"row8",
                        @"genreid", @"row9",
                        nil],
-                      //{"method":"Files.GetDirectory","id":23,"jsonrpc":"2.0","params":{"directory":"multipath://%2fnfs%2fMyBookWorld%2fShared%20Music%2fMusic%2f/%2fmedia%2fextraHDD%2fMusic%2f/","media":"music"}}
+  
                       [NSDictionary  dictionaryWithObjectsAndKeys:
                        @"sources",@"itemid",
                        @"label", @"row1",
@@ -230,7 +226,7 @@ NSMutableArray *mainMenuItems;
     item1.rowHeight=53;
     item1.thumbWidth=53;
     item1.defaultThumb=@"nocover_music.png";
-    item1.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
+    item1.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play",  nil];//@"View Details",
 //    
     item1.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               
@@ -477,7 +473,6 @@ NSMutableArray *mainMenuItems;
                           
                           nil];
     
-//    ["trailer","file","imdbnumber","mpaa","thumbnail","fanart","director","studio","genre","plot","runtime","playcount","rating","year","streamdetails","lastplayed","sorttitle","set","setid"]
     item2.mainFields=[NSArray arrayWithObjects:
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"movies",@"itemid",
@@ -694,10 +689,6 @@ NSMutableArray *mainMenuItems;
     item3.defaultThumb=@"nocover_tvshows.png";
     item3.originLabel=60;
     item3.sheetActions=[NSArray arrayWithObjects:@"View Details", nil];
-
-    
-    //{"method":"VideoLibrary.GetSeasons","id":1,"jsonrpc":"2.0","params":{"properties":["season","thumbnail"],"tvshowid":3}}
-    
     
     item3.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               [NSArray arrayWithObjects:@"VideoLibrary.GetSeasons", @"method", nil],
@@ -767,9 +758,7 @@ NSMutableArray *mainMenuItems;
     item3.subItem.widthLabel=252;
 
 //    item3.subItem.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
-    
-    
-    //{"method":"VideoLibrary.GetEpisodes","id":2,"jsonrpc":"2.0","params":{"properties":["episode","plot","thumbnail","fanart","playcount","rating","season","runtime","firstaired"],"tvshowid":3}}
+
     item3.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                                       [NSArray arrayWithObjects:@"VideoLibrary.GetEpisodes", @"method", 
                                        nil],
@@ -869,7 +858,7 @@ NSMutableArray *mainMenuItems;
                        @"runtime", @"row4",
                        @"rating",@"row5",
                        @"file",@"row6",
-                       [NSNumber numberWithInt:1], @"playlistid",
+                       [NSNumber numberWithInt:2], @"playlistid",
                        @"file",@"row8",
                        @"file", @"row9",
                        nil],
@@ -905,7 +894,7 @@ NSMutableArray *mainMenuItems;
                                @"filetype", @"row4",
                                @"filetype",@"row5",
                                @"file",@"row6",
-                               [NSNumber numberWithInt:1], @"playlistid",
+                               [NSNumber numberWithInt:2], @"playlistid",
                                @"file",@"row8",
                                @"file", @"row9",
                                @"filetype", @"row10",
@@ -916,6 +905,26 @@ NSMutableArray *mainMenuItems;
     item4.subItem.rowHeight=76;
     item4.subItem.thumbWidth=53;
     item4.subItem.defaultThumb=@"nocover_tvshows_episode.png";
+    
+    
+    item4.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
+                                      
+                                      [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
+                                      
+                                      nil]; 
+    item4.subItem.subItem.mainParameters=[NSMutableArray arrayWithObjects:
+                                          
+                                          
+                                          [NSArray arrayWithObjects:nil],
+                                          
+                                          nil];
+    item4.subItem.subItem.mainFields=[NSArray arrayWithObjects:
+                                      
+                                      
+                                      [NSArray arrayWithObjects:nil],
+                                      
+                                      nil];
+        
 //    item4.subItem.sheetActions=[NSArray arrayWithObjects: @"Queue", @"Play", nil];//, @"Stream to iPhone"
 
 
@@ -954,18 +963,22 @@ NSMutableArray *mainMenuItems;
 - (void)applicationWillEnterForeground:(UIApplication *)application{
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]==YES ){
         xbmcRemote.idleTimerDisabled = YES;
     }
     else {
         xbmcRemote.idleTimerDisabled = NO;
+
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];    
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil]; 
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application{
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application{

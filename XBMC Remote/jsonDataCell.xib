@@ -191,7 +191,7 @@
 							<object class="IBUILabel" id="810724170">
 								<reference key="NSNextResponder" ref="447648536"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{220, 51}, {63, 14}}</string>
+								<string key="NSFrame">{{220, 52}, {63, 14}}</string>
 								<reference key="NSSuperview" ref="447648536"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="326804895"/>
@@ -304,7 +304,6 @@
 						<string key="NSFrameSize">{320, 73}</string>
 						<reference key="NSSuperview" ref="523036896"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<reference key="IBUIBackgroundColor" ref="551168875"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -484,7 +483,6 @@
 						<string key="jsonCell">jsonDataCell</string>
 						<string key="lpgr">UILongPressGestureRecognizer</string>
 						<string key="noFoundView">UIView</string>
-						<string key="searchBar">UISearchBar</string>
 						<string key="webPlayView">UIWebView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -531,10 +529,6 @@
 						<object class="IBToOneOutletInfo" key="noFoundView">
 							<string key="name">noFoundView</string>
 							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="searchBar">
-							<string key="name">searchBar</string>
-							<string key="candidateClassName">UISearchBar</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="webPlayView">
 							<string key="name">webPlayView</string>
