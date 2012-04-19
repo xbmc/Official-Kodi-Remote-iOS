@@ -188,7 +188,6 @@
 								<string key="NSFrame">{{271, 8}, {34, 30}}</string>
 								<reference key="NSSuperview" ref="962216667"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<bool key="IBUIEnabled">NO</bool>
@@ -348,7 +347,7 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrame">{{39, 7}, {250, 41}}</string>
+						<string key="NSFrame">{{39, 45}, {250, 41}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="522238388"/>
@@ -786,7 +785,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">153</int>
+			<int key="maxID">155</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "GlobalData.h"
 #import "VolumeSliderView.h"
+#import "SDImageCache.h"
 
 @interface NowPlaying ()
 
@@ -48,6 +49,11 @@ float cellBarWidth=45;
         [viewTitle sizeToFit];
         self.navigationItem.titleView = viewTitle;
         self.navigationItem.title = @"Now playing"; // DA SISTEMARE COME PARAMETRO
+        UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+        rightSwipe.numberOfTouchesRequired = 1;
+        rightSwipe.cancelsTouchesInView=NO;
+        rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+        [self.view addGestureRecognizer:rightSwipe];
     }
 }
 
@@ -476,8 +482,12 @@ int currentItemID;
                                      if (([playlistData count]>=playlistPosition) && currentPlayerID==playerID){
                                          if (playlistPosition>0){
                                              if (lastSelected!=playlistPosition){
+//                                                 NSLog(@"me ne accorgo %@", storeSelection);
                                                  NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
+                                                 if (storeSelection)
+                                                     selection=storeSelection;
                                                  if (selection){
+//                                                     NSLog(@"spengo %@", selection);
                                                      UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                                      UIView *timePlaying=(UIView*) [cell viewWithTag:5];
                                                      if (timePlaying.hidden==NO)
@@ -495,6 +505,7 @@ int currentItemID;
                                                  UIView *timePlaying=(UIView*) [cell viewWithTag:5];
                                                  if (timePlaying.hidden==YES)
                                                      [self fadeView:timePlaying hidden:NO];
+                                                 storeSelection=newSelection;
                                                  //                             timePlaying.hidden=NO;
                                                  lastSelected=playlistPosition;
                                              }
@@ -887,7 +898,7 @@ int anim2;
             [timeBar.layer removeAllAnimations];
             [self animCursor:startx];
             [self resizeBar:0];
-            storeSelection=nil;
+            //storeSelection=nil;
             break;
             
         case 2:
@@ -908,7 +919,7 @@ int anim2;
             action=@"Player.GoNext";
             params=nil;
             [self playbackAction:action params:nil checkPartyMode:YES];
-            storeSelection=nil;
+           // storeSelection=nil;
 //            [timeCursor.layer removeAllAnimations];
 //            [timeBar.layer removeAllAnimations];
 //            [self animCursor:startx];
@@ -1118,10 +1129,18 @@ int anim2;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (storeSelection && storeSelection.row==indexPath.row)
+        return NO;
     return YES;
 }
+
 - (BOOL)tableView:(UITableView *)tableview canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;	
+//    UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
+//
+//    UIView *timePlaying=(UIView*) [cell viewWithTag:5];
+//    if (timePlaying.hidden) return YES;
+//    else return NO;
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
@@ -1269,7 +1288,11 @@ int anim2;
         [self loadImagesForOnscreenRows];
     }
 }
+# pragma  mark - Gestures
 
+- (void)handleSwipeFromRight:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - Life Cycle
 
@@ -1289,6 +1312,7 @@ int anim2;
 }
 
 - (void)viewDidLoad{
+    [[SDImageCache sharedImageCache] clearMemory];
     playerID=-1;
     selectedPlayerID=-1;
     [super viewDidLoad];

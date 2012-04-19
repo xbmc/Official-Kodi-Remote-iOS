@@ -467,6 +467,10 @@
 		0F554C1C151D13CA007E633F /* timeborder.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554A9E151D13CA007E633F /* timeborder.9.png */; };
 		0F554C1D151D13CA007E633F /* waiting.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554A9F151D13CA007E633F /* waiting.png */; };
 		0F554C20151D14DA007E633F /* mainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554C1F151D14DA007E633F /* mainMenu.m */; };
+		0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F61E198153C828300A89BB1 /* AppInfoViewController.m */; };
+		0F61E19B153C828300A89BB1 /* AppInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F61E199153C828300A89BB1 /* AppInfoViewController.xib */; };
+		0F61E19D153C85E500A89BB1 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F61E19C153C85E500A89BB1 /* info@2x.png */; };
+		0F61E19F153C85F300A89BB1 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F61E19E153C85F300A89BB1 /* info.png */; };
 		0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74772C151DD77400EF78AD /* NowPlaying.m */; };
 		0F74772F151DD77400EF78AD /* NowPlaying.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F74772D151DD77400EF78AD /* NowPlaying.xib */; };
 		0F747734151DD91D00EF78AD /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F747732151DD91D00EF78AD /* RemoteController.m */; };
@@ -972,6 +976,11 @@
 		0F554C1F151D14DA007E633F /* mainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainMenu.m; sourceTree = "<group>"; };
 		0F554C22151D22E3007E633F /* XBMC_Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = XBMC_Logo.png; sourceTree = "<group>"; };
 		0F554C24151D230A007E633F /* XBMC_Logo_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = XBMC_Logo_small.png; sourceTree = "<group>"; };
+		0F61E197153C828300A89BB1 /* AppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppInfoViewController.h; sourceTree = "<group>"; };
+		0F61E198153C828300A89BB1 /* AppInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppInfoViewController.m; sourceTree = "<group>"; };
+		0F61E199153C828300A89BB1 /* AppInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppInfoViewController.xib; sourceTree = "<group>"; };
+		0F61E19C153C85E500A89BB1 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
+		0F61E19E153C85F300A89BB1 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		0F74772B151DD77400EF78AD /* NowPlaying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlaying.h; sourceTree = "<group>"; };
 		0F74772C151DD77400EF78AD /* NowPlaying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NowPlaying.m; sourceTree = "<group>"; };
 		0F74772D151DD77400EF78AD /* NowPlaying.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NowPlaying.xib; sourceTree = "<group>"; };
@@ -1101,6 +1110,8 @@
 				0F4883D11521CC7300883243 /* VolumeSliderView.m */,
 				0F487B4915396D4C004530C1 /* HostViewController.h */,
 				0F487B4A15396D4C004530C1 /* HostViewController.m */,
+				0F61E197153C828300A89BB1 /* AppInfoViewController.h */,
+				0F61E198153C828300A89BB1 /* AppInfoViewController.m */,
 			);
 			path = "XBMC Remote";
 			sourceTree = "<group>";
@@ -1129,6 +1140,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F61E19C153C85E500A89BB1 /* info@2x.png */,
 				0F487B63153A0A91004530C1 /* button_party_off@2x.png */,
 				0F487B64153A0A91004530C1 /* button_party_on@2x.png */,
 				0F487B5B15399FF8004530C1 /* xbmc_default_thumb@2x.png */,
@@ -1351,6 +1363,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F61E19E153C85F300A89BB1 /* info.png */,
 				0F487B5F153A0A83004530C1 /* button_party_off.png */,
 				0F487B60153A0A83004530C1 /* button_party_on.png */,
 				0F487B5D1539A008004530C1 /* xbmc_default_thumb.png */,
@@ -1597,6 +1610,7 @@
 				0F4883E41522418D00883243 /* ShowInfoViewController.xib */,
 				0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */,
 				0F487B4B15396D4C004530C1 /* HostViewController.xib */,
+				0F61E199153C828300A89BB1 /* AppInfoViewController.xib */,
 			);
 			name = nib;
 			sourceTree = "<group>";
@@ -2166,6 +2180,9 @@
 				0F487B62153A0A83004530C1 /* button_party_on.png in Resources */,
 				0F487B65153A0A91004530C1 /* button_party_off@2x.png in Resources */,
 				0F487B66153A0A91004530C1 /* button_party_on@2x.png in Resources */,
+				0F61E19B153C828300A89BB1 /* AppInfoViewController.xib in Resources */,
+				0F61E19D153C85E500A89BB1 /* info@2x.png in Resources */,
+				0F61E19F153C85F300A89BB1 /* info.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2199,6 +2216,7 @@
 				0F4883E51522418E00883243 /* ShowInfoViewController.m in Sources */,
 				0F82A5A4152C608100FC8B7A /* PlayFileViewController.m in Sources */,
 				0F487B4C15396D4C004530C1 /* HostViewController.m in Sources */,
+				0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2255,6 +2273,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2276,6 +2295,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

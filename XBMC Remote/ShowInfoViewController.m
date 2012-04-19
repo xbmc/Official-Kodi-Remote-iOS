@@ -10,6 +10,7 @@
 #import "mainMenu.h"
 #import "NowPlaying.h"
 #import "GlobalData.h"
+#import "SDImageCache.h"
 #import "UIImageView+WebCache.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -66,8 +67,19 @@ int count=0;
         UIBarButtonItem *queueButtonItem =[[UIBarButtonItem alloc] initWithImage:queueImg style:UIBarButtonItemStyleBordered target:self action:@selector(addQueue)];
         
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: playbackButtonItem, queueButtonItem, nil];
+        
+        UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+        rightSwipe.numberOfTouchesRequired = 1;
+        rightSwipe.cancelsTouchesInView=NO;
+        rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+        [self.view addGestureRecognizer:rightSwipe];
 //        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: playbackButton, nil];
     }
+    UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
+    leftSwipe.numberOfTouchesRequired = 1;
+    leftSwipe.cancelsTouchesInView=NO;
+    leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:leftSwipe];
 }
 
 -(IBAction)scrollDown:(id)sender{
@@ -255,17 +267,17 @@ int h=0;
         [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@""]];
     }
     
-//    NSString *fanartPath=[item objectForKey:@"fanart"];    
-////    NSURL *fanartUrl = [NSURL URLWithString: fanartPath];
-////    UIImage *cachedFanart = [manager imageWithURL:fanartUrl];
-////    if (cachedFanart){
-////        fanartView.image=cachedFanart;
-////    }
-////    else{
-//    [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
-////    }
-//
-//   [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.08f];// cool :)
+    NSString *fanartPath=[item objectForKey:@"fanart"];    
+    NSURL *fanartUrl = [NSURL URLWithString: fanartPath];
+    UIImage *cachedFanart = [manager imageWithURL:fanartUrl];
+    if (cachedFanart){
+        fanartView.image=cachedFanart;
+    }
+    else{
+        [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
+    }
+
+   [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.1f];// cool
 
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
     starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];
@@ -392,6 +404,11 @@ int h=0;
     [UIView commitAnimations];
 }
 
+#pragma mark - Gestures
+- (void)handleSwipeFromLeft:(id)sender {
+    [self showNowPlaying];
+}
+
 # pragma  mark - JSON Data
 
 -(void)addQueue{
@@ -400,7 +417,7 @@ int h=0;
     NSDictionary *item = self.detailItem;
     [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[item objectForKey:@"family"]], [item objectForKey:@"family"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error!=nil || methodError!=nil){
-            NSLog(@" errore %@",methodError);
+//            NSLog(@" errore %@",methodError);
         }
         [activityIndicatorView stopAnimating];
         self.navigationItem.rightBarButtonItem.enabled=YES;
@@ -423,13 +440,13 @@ int h=0;
                         else {
                             [activityIndicatorView stopAnimating];
                             self.navigationItem.rightBarButtonItem.enabled=YES;
-                            NSLog(@"terzo errore %@",methodError);
+//                            NSLog(@"terzo errore %@",methodError);
                         }
                     }];
                 }
                 else {
                     [activityIndicatorView stopAnimating];
-                    NSLog(@"secondo errore %@",methodError);
+//                    NSLog(@"secondo errore %@",methodError);
                     self.navigationItem.rightBarButtonItem.enabled=YES;
 
                 }
@@ -437,11 +454,16 @@ int h=0;
         }
         else {
             [activityIndicatorView stopAnimating];
-            NSLog(@"ERRORE %@", methodError);
+//            NSLog(@"ERRORE %@", methodError);
             self.navigationItem.rightBarButtonItem.enabled=YES;
         }
     }];
 }
+# pragma  mark - Gestures
+- (void)handleSwipeFromRight:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 # pragma  mark - Lyfe Cycle
 
 - (void)setDetailItem:(id)newDetailItem{
@@ -452,11 +474,15 @@ int h=0;
     }
 }
 
+
 - (void)viewDidLoad{
     GlobalData *obj=[GlobalData getInstance];     
+    [[SDImageCache sharedImageCache] clearMemory];
+    //    [manager cancelForDelegate:self];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [self createInfo];
+    
     [super viewDidLoad];
 }
 
@@ -467,6 +493,10 @@ int h=0;
 -(void)dealloc{
     nowPlaying=nil;
     jsonRPC=nil;
+    fanartView=nil;
+    coverView=nil;
+    scrollView=nil;
+//    NSLog(@"eccomi");
     
 //    self.detailItem = nil;
 //    jsonRPC=nil;

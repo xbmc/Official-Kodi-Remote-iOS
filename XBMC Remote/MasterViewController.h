@@ -15,6 +15,7 @@
 @class NowPlaying;
 @class RemoteController;
 @class HostViewController;
+@class AppInfoViewController;
 
 
 @interface MasterViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>{
@@ -35,8 +36,8 @@
     BOOL serverOnLine;
     NSIndexPath *storeServerSelection;
     IBOutlet UIButton *editTableButton;
-
-
+    AppInfoViewController *appInfoView;
+    IBOutlet UILongPressGestureRecognizer *lpgr;
 //    NSMutableArray *serverList;
 }
 

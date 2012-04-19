@@ -226,7 +226,7 @@ NSMutableArray *mainMenuItems;
     item1.rowHeight=53;
     item1.thumbWidth=53;
     item1.defaultThumb=@"nocover_music.png";
-    item1.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play",  nil];//@"View Details",
+    item1.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];//@"View Details",
 //    
     item1.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               

@@ -16,6 +16,7 @@
 #import "NowPlaying.h"
 #import "PlayFileViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "SDImageCache.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -642,9 +643,9 @@ NSIndexPath *selected;
                 else{
                     item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
                 }
-                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
-                    return;
-                }                
+//                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
+//                    return;
+//                }                
                 NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
                 UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
                                                                     delegate:self
@@ -676,6 +677,16 @@ NSIndexPath *selected;
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"])
             [self addStream:selected];
     }
+}
+
+
+#pragma mark - Gestures
+- (void)handleSwipeFromLeft:(id)sender {
+    [self showNowPlaying];
+}
+
+- (void)handleSwipeFromRight:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - View Configuration
@@ -722,6 +733,20 @@ NSIndexPath *selected;
         [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
         self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
+        
+        
+        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
+        leftSwipe.numberOfTouchesRequired = 1;
+        leftSwipe.cancelsTouchesInView=NO;
+        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+        [self.view addGestureRecognizer:leftSwipe];
+        
+        UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+        rightSwipe.numberOfTouchesRequired = 1;
+        rightSwipe.cancelsTouchesInView=NO;
+        rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+        [self.view addGestureRecognizer:rightSwipe];
+
    }
 }
 
@@ -832,9 +857,17 @@ NSIndexPath *selected;
     else{
         item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
+    
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
-    [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row9"]], [mainFields objectForKey:@"row9"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    NSString *key=[mainFields objectForKey:@"row9"];
+    if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]){
+        key=@"directory";
+    }
+    [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row9"]], key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [queuing stopAnimating];
+        if (error!=nil || methodError!=nil){
+            //NSLog(@"ERRORE QUEUE %@ %@", error, methodError);
+        }
 
     }];
 }
@@ -873,10 +906,13 @@ NSIndexPath *selected;
     [queuing startAnimating];
     if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
         [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-            int currentPlayerID=[[[methodResult objectAtIndex:0] objectForKey:@"playerid"] intValue];
-            if (currentPlayerID==1){
+            int currentPlayerID=0;
+            if ([methodResult count]){
+                currentPlayerID=[[[methodResult objectAtIndex:0] objectForKey:@"playerid"] intValue];
+            }
+            if (currentPlayerID==1) {
                 [jsonRPC callMethod:@"Player.Stop" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:1], @"playerid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                    if (error==nil && methodError==nil){
+                    if (error==nil && methodError==nil) {
                         [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
                         
                     }
@@ -887,7 +923,7 @@ NSIndexPath *selected;
                     }
                 }];
             }
-            else{
+            else {
                 [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
             }
         }];
@@ -1377,11 +1413,9 @@ NSIndexPath *selected;
 }
 
 //-(void)viewDidDisappear:(BOOL)animated{
-//    [richResults removeAllObjects];
-//    [self configureView];
-//    [dataList reloadData];
-//    [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:320];
+//    [[SDImageCache sharedImageCache] clearMemory];
 //}
+
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -1412,6 +1446,8 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     choosedTab=0;
+    [[SDImageCache sharedImageCache] clearMemory];
+
     numTabs=[[self.detailItem mainMethod] count];
     
     if ([self.detailItem chooseTab]) 

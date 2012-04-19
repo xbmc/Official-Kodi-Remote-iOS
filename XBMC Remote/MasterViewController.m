@@ -15,6 +15,7 @@
 #import "GlobalData.h"
 #import "HostViewController.h"
 #import "AppDelegate.h"
+#import "AppInfoViewController.h"
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -88,6 +89,14 @@
     jsonRPC=nil;
     
     obj=[GlobalData getInstance];  
+    if ([obj.serverIP length]==0){
+        if (firstRun){
+            firstRun=NO;
+            [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+            
+        }
+        return;
+    }
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC 
@@ -104,7 +113,7 @@
                  }
                  else{
                      if (serverOnLine){
-                         NSLog(@"mi spengo");
+//                         NSLog(@"mi spengo");
                          
                          [self changeServerStatus:NO infoText:@"No connection"];
                          
@@ -120,7 +129,7 @@
          else {
 //             NSLog(@"ERROR %@ %@",error, methodError);
              if (serverOnLine){
-                 NSLog(@"mi spengo");
+//                 NSLog(@"mi spengo");
                  
                  [self changeServerStatus:NO infoText:@"No connection"];
                  
@@ -172,6 +181,8 @@
     [UIView commitAnimations];
 }
 
+#pragma  mark - Add/Modify Hosts
+
 -(IBAction)addHost:(id)sender{
     self.hostController=nil;
     self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
@@ -179,6 +190,16 @@
 //    [self pushController:self.hostController withTransition:UIViewAnimationTransitionCurlUp];
     [self.navigationController pushViewController:self.hostController animated:YES];
 }
+
+-(void)modifyHost:(NSIndexPath *)item{
+    self.hostController=nil;
+    self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
+    self.hostController.detailItem=item;
+    //    self.detailViewController.detailItem = item;
+    //    [self pushController:self.hostController withTransition:UIViewAnimationTransitionCurlUp];
+    [self.navigationController pushViewController:self.hostController animated:YES];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -454,8 +475,8 @@
             [serverListTableView reloadData];
         if (storeServerSelection){
             [serverListTableView selectRowAtIndexPath:storeServerSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-//            UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-//            cell.accessoryType=UITableViewCellAccessoryCheckmark;
+            UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
+            cell.accessoryType=UITableViewCellAccessoryCheckmark;
         }
 
     }
@@ -465,6 +486,19 @@
     }
 }
 
+#pragma mark - Long Press & Action sheet
+
+
+-(IBAction)handleLongPress{
+    if (lpgr.state == UIGestureRecognizerStateBegan){
+        CGPoint p = [lpgr locationInView:menuList];
+        NSIndexPath *indexPath = [menuList indexPathForRowAtPoint:p];
+        if (indexPath != nil){
+            
+            [self modifyHost:indexPath];
+        }
+    }
+}
 
 #pragma mark - LifeCycle
 
@@ -483,9 +517,18 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    NSLog(@"ME NE VADO");
+//    NSLog(@"ME NE VADO");
     [timer invalidate];  
     jsonRPC=nil;
+}
+
+- (void)infoView{
+    if (appInfoView==nil)
+        appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil] ;
+  //  appInfoView.delegate = self;
+    appInfoView.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+	appInfoView.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentModalViewController:appInfoView animated:YES];
 }
 
 BOOL firstRun;
@@ -512,7 +555,7 @@ BOOL firstRun;
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
-    [xbmcLogo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
+    [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setupRemote = [[UIBarButtonItem alloc] initWithCustomView:xbmcLogo];
     self.navigationItem.leftBarButtonItem = setupRemote;
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 225, 43)];
@@ -526,11 +569,26 @@ BOOL firstRun;
     UIBarButtonItem *setupInfo = [[UIBarButtonItem alloc] initWithCustomView:xbmcInfo];
     self.navigationItem.rightBarButtonItem = setupInfo;
     serverOnLine=NO;
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleEnterForeground:)
+                                                 name: @"UIApplicationWillEnterForegroundNotification"
+                                               object: nil];
 
+}
+
+- (void) handleEnterForeground: (NSNotification*) sender;{
+   // [self checkPartyMode];
+   // [self changeServerStatus:NO infoText:@"No connection"];
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 - (void)viewDidUnload{
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+
     // Release any retained subviews of the main view.
 }
 

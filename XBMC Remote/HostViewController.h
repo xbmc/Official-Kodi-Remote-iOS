@@ -16,7 +16,8 @@
     IBOutlet UITextField *portUI;
     IBOutlet UITextField *usernameUI;
     IBOutlet UITextField *passwordUI;
-
 }
+
+@property (strong, nonatomic) id detailItem;
 
 @end

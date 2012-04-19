@@ -12,54 +12,90 @@
 
 
 @interface HostViewController ()
-
+-(void)configureView;
 @end
 
 @implementation HostViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+@synthesize detailItem = _detailItem;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.navigationItem.title=@"New XBMC Server";
-        // Custom initialization
-    }
     return self;
+}
+
+- (void)configureView{
+    if (self.detailItem==nil){
+        self.navigationItem.title=@"New XBMC Server";
+    }
+    else {
+        self.navigationItem.title=@"Modify XBMC Server";
+        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSIndexPath *idx=self.detailItem;
+        
+        descriptionUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverDescription"];
+        
+        usernameUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverUser"];
+
+        passwordUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPass"];
+
+        ipUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverIP"];
+
+        portUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPort"];
+
+    }
+}
+
+- (void)setDetailItem:(id)newDetailItem{
+    if (_detailItem != newDetailItem) {
+        _detailItem = newDetailItem;
+    }
 }
 
 - (IBAction) dismissView:(id)sender{
     
     [self textFieldDoneEditing:nil];
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [mainDelegate.arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                              descriptionUI.text, @"serverDescription",
-                                              usernameUI.text, @"serverUser",
-                                              passwordUI.text, @"serverPass",
-                                              ipUI.text, @"serverIP",
-                                              portUI.text, @"serverPort",
-                                              nil
-                                              ]];
+    if (self.detailItem==nil){
+        [mainDelegate.arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 descriptionUI.text, @"serverDescription",
+                                                 usernameUI.text, @"serverUser",
+                                                 passwordUI.text, @"serverPass",
+                                                 ipUI.text, @"serverIP",
+                                                 portUI.text, @"serverPort",
+                                                 nil
+                                                 ]];
+    }
+    else{
+        NSIndexPath *idx = self.detailItem;
+        [mainDelegate.arrayServerList removeObjectAtIndex:idx.row];
+        [mainDelegate.arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    descriptionUI.text, @"serverDescription",
+                                                    usernameUI.text, @"serverUser",
+                                                    passwordUI.text, @"serverPass",
+                                                    ipUI.text, @"serverIP",
+                                                    portUI.text, @"serverPort",
+                                                    nil
+                                                    ] atIndex:idx.row];
+//        [[mainDelegate.arrayServerList objectAtIndex:idx.row] setObject:descriptionUI.text forKey:@"serverDescription"];
+//        [[mainDelegate.arrayServerList objectAtIndex:idx.row] setObject:usernameUI.text forKey:@"serverUser"];
+//        [[mainDelegate.arrayServerList objectAtIndex:idx.row] setObject:passwordUI.text forKey:@"serverPass"];
+//        [[mainDelegate.arrayServerList objectAtIndex:idx.row] setObject:ipUI.text forKey:@"serverIP"];
+//        [[mainDelegate.arrayServerList objectAtIndex:idx.row] setObject:portUI.text forKey:@"serverPort"];
+
+    }
     [mainDelegate saveServerList];
     [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - UITextField
 
 -(BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    //NSLog(@"ECCOMI");
-//    obj=[GlobalData getInstance]; 
     [descriptionUI resignFirstResponder];
     [ipUI resignFirstResponder];
     [portUI resignFirstResponder];
     [usernameUI resignFirstResponder];
     [passwordUI resignFirstResponder];
-//    obj.serverDescription=descriptionUI.text;
-//    obj.serverUser=usernameUI.text;
-//    obj.serverPass=passwordUI.text;
-//    obj.serverIP= ipUI.text;
-//    obj.serverPort=portUI.text;
     [theTextField resignFirstResponder];
-   // [self changeServerStatus:NO infoText:@"No connection"];
-    //[self checkServer];
     return YES;
 }
 
@@ -69,33 +105,32 @@
     [portUI resignFirstResponder];
     [usernameUI resignFirstResponder];
     [passwordUI resignFirstResponder];
-//    obj=[GlobalData getInstance]; 
-//    obj.serverDescription=descriptionUI.text;
-//    obj.serverUser=usernameUI.text;
-//    obj.serverPass=passwordUI.text;
-//    obj.serverIP= ipUI.text;
-//    obj.serverPort=portUI.text;
-    //    [self changeServerStatus:NO infoText:@"No connection"];
+}
+
+# pragma  mark - Gestures
+
+- (void)handleSwipeFromRight:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
 #pragma mark - LifeCycle
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+    rightSwipe.numberOfTouchesRequired = 1;
+    rightSwipe.cancelsTouchesInView=NO;
+    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:rightSwipe];
+    [self configureView];
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload{
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 

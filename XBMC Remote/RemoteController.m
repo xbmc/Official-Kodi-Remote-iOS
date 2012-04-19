@@ -11,6 +11,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "GlobalData.h"
 #import "VolumeSliderView.h"
+#import "SDImageCache.h"
 
 @interface RemoteController ()
 
@@ -32,6 +33,11 @@
     if (self.detailItem) {
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
+    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+    rightSwipe.numberOfTouchesRequired = 1;
+    rightSwipe.cancelsTouchesInView=NO;
+    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:rightSwipe];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -84,13 +90,13 @@
 //                        NSLog(@"comando %@ eseguito ", action);
                     }
                     else {
-                        NSLog(@"ci deve essere un secondo problema %@", methodError);
+//                        NSLog(@"ci deve essere un secondo problema %@", methodError);
                     }
                 }];
             }
         }
         else {
-            NSLog(@"ci deve essere un primo problema %@", methodError);
+//            NSLog(@"ci deve essere un primo problema %@", methodError);
         }
     }];
 }
@@ -114,8 +120,8 @@
     NSArray *params;
     switch ([sender tag]) {
         case 1:
-            action=@"GUI.SetFullscreen";
-            [self GUIAction:action];
+//            action=@"GUI.SetFullscreen";
+//            [self GUIAction:action];
             [self sendXbmcHttp:@"SendKey(0xf009)"];
             break;
         case 2:
@@ -169,8 +175,8 @@
             break;
             
         case 11:
-            action=@"Input.Info";
-            [self GUIAction:action];
+//            action=@"Input.Info";
+//            [self GUIAction:action];
             [self sendXbmcHttp:@"SendKey(0xF049)"];
             break;
 
@@ -211,6 +217,13 @@
    // [[UIDevice currentDevice] playInputClick];
 //    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
+# pragma  mark - Gestures
+
+- (void)handleSwipeFromRight:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
     [volumeSliderView startTimer];    
@@ -223,6 +236,8 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [[SDImageCache sharedImageCache] clearMemory];
+
     volumeSliderView = [[VolumeSliderView alloc] 
                           initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 226.0f)];
     CGRect frame=volumeSliderView.frame;
