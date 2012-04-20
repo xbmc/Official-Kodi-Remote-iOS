@@ -16,7 +16,7 @@
 			<key>Key</key>
 			<string>lockscreen_preference</string>
 			<key>Title</key>
-			<string>Overide Lockscreen</string>
+			<string>Override Lockscreen</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -27,6 +27,26 @@
 			<string>clearcache_preference</string>
 			<key>Title</key>
 			<string>Clear cache on next start</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>vibrate_preference</string>
+			<key>Title</key>
+			<string>Vibrate remote control</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>volume_preference</string>
+			<key>Title</key>
+			<string>Realtime volume</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>

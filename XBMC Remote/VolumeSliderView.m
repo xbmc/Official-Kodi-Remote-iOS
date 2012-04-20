@@ -32,8 +32,19 @@
         NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
         jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
         [self volumeInfo];
+        [volumeSlider addTarget:self action:@selector(changeServerVolume) forControlEvents:UIControlEventTouchUpInside];
+        [volumeSlider addTarget:self action:@selector(stopTimer) forControlEvents:UIControlEventTouchDown];
+
+
     }
     return self;
+}
+
+-(void)changeServerVolume{
+    [jsonRPC 
+     callMethod:@"Application.SetVolume" 
+     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:(int)volumeSlider.value], @"volume", nil]];
+    [self startTimer];
 }
 
 -(void)startTimer{
@@ -69,9 +80,14 @@
 -(IBAction)slideVolume:(id)sender{
     volumeSlider.value=(int)volumeSlider.value;
     volumeLabel.text=[NSString  stringWithFormat:@"%.0f", volumeSlider.value];
-    [jsonRPC 
-     callMethod:@"Application.SetVolume" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:(int)volumeSlider.value], @"volume", nil]];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    
+    BOOL realtimeVolume=[[userDefaults objectForKey:@"volume_preference"] boolValue];
+    if (realtimeVolume){
+        [self changeServerVolume];
+    }
+    
 }
 
 /*

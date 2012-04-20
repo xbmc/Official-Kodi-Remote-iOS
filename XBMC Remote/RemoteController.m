@@ -214,8 +214,14 @@
         default:
             break;
     }
-   // [[UIDevice currentDevice] playInputClick];
-//    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    
+    BOOL startVibrate=[[userDefaults objectForKey:@"vibrate_preference"] boolValue];
+    if (startVibrate){
+        [[UIDevice currentDevice] playInputClick];
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    }
 }
 # pragma  mark - Gestures
 

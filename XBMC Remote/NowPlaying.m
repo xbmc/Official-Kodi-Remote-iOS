@@ -214,6 +214,7 @@ float cellBarWidth=45;
     NSURL *url = [NSURL  URLWithString:serverHTTP];
     NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];  
     requestANS=nil;
+    [self createPlaylist:NO];
    // NSLog(@"SERVER RESPONSE : %@",requestANS);
 
 }
