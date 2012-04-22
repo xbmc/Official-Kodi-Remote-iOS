@@ -178,9 +178,10 @@ NSMutableArray *mainMenuItems;
                        @"albumid",@"row8",
                        @"albumid", @"row9",
                        @"description", @"row10",
-                       @"genre", @"row11",
+                       @"artist", @"row11",
                        @"artist", @"row12",                       
                        @"albumlabel", @"row13",
+
 
                        nil],
                       
