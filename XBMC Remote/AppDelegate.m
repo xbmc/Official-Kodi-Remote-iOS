@@ -227,7 +227,14 @@ NSMutableArray *mainMenuItems;
     item1.rowHeight=53;
     item1.thumbWidth=53;
     item1.defaultThumb=@"nocover_music.png";
-    item1.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];//@"View Details",
+    
+    item1.sheetActions=[NSArray arrayWithObjects:
+                        [NSArray arrayWithObjects:@"Queue", @"Play", nil],
+                        [NSArray arrayWithObjects:@"Queue", @"Play", nil],
+                        [NSArray arrayWithObjects:@"Queue", @"Play", nil],
+                        [NSArray arrayWithObjects:nil],
+                        
+                        nil];//@"View Details",
 //    
     item1.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               
@@ -343,7 +350,12 @@ NSMutableArray *mainMenuItems;
     item1.subItem.rowHeight=53;
     item1.subItem.thumbWidth=53;
     item1.subItem.defaultThumb=@"nocover_music.png";
-    item1.subItem.sheetActions=[NSArray arrayWithObjects: @"Queue", @"Play", nil];//, @"Stream to iPhone"
+    item1.subItem.sheetActions=[NSArray arrayWithObjects:
+                                [NSArray arrayWithObjects: @"Queue", @"Play", nil],
+                                [NSArray arrayWithObjects: @"Queue", @"Play", nil],
+                                [NSArray arrayWithObjects: @"Queue", @"Play", nil],
+                                [NSArray arrayWithObjects: @"Queue", @"Play", nil],
+                                nil];//, @"Stream to iPhone"
     item1.subItem.originYearDuration=248;
     item1.subItem.widthLabel=252;
     item1.subItem.showRuntime=[NSArray arrayWithObjects:[NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:YES], nil];
@@ -427,7 +439,11 @@ NSMutableArray *mainMenuItems;
     item1.subItem.subItem.rowHeight=53;
     item1.subItem.subItem.thumbWidth=53;
     item1.subItem.subItem.defaultThumb=@"nocover_music.png";
-    item1.subItem.subItem.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
+    item1.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
+                                        [NSArray arrayWithObjects:@"Queue", @"Play", nil],
+                                        [NSArray arrayWithObjects:@"Queue", @"Play", nil],
+                                        [NSArray arrayWithObjects:@"Queue", @"Play", nil],
+                                        nil];
     item1.subItem.subItem.showRuntime=[NSArray arrayWithObjects:[NSNumber numberWithBool:YES], [NSNumber numberWithBool:YES], [NSNumber numberWithBool:YES],[NSNumber numberWithBool:YES], nil];
 
     item2.mainLabel = @"Movies";
@@ -535,7 +551,11 @@ NSMutableArray *mainMenuItems;
     item2.rowHeight=76;
     item2.thumbWidth=53;
     item2.defaultThumb=@"nocover_movies.png";
-    item2.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", @"View Details", nil];
+    item2.sheetActions=[NSArray arrayWithObjects:
+                        [NSArray arrayWithObjects:@"Queue", @"Play", @"View Details", nil],
+                        [NSArray arrayWithObjects:@"Queue", @"Play", @"View Details", nil],
+                        [NSArray arrayWithObjects: nil],
+                        nil];
     item2.showInfo = YES;
     
     item2.subItem.mainMethod=[NSMutableArray arrayWithObjects:
@@ -578,7 +598,11 @@ NSMutableArray *mainMenuItems;
     item2.subItem.rowHeight=76;
     item2.subItem.thumbWidth=53;
     item2.subItem.defaultThumb=@"nocover_filemode.png";
-    item2.subItem.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
+    item2.subItem.sheetActions=[NSArray arrayWithObjects:
+                                [NSArray arrayWithObjects: nil],
+                                [NSArray arrayWithObjects: nil],
+                                [NSArray arrayWithObjects:@"Queue", @"Play", nil],
+                                nil];
     item2.subItem.widthLabel=252;
     
     item2.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
@@ -604,7 +628,11 @@ NSMutableArray *mainMenuItems;
     item2.subItem.subItem.rowHeight=76;
     item2.subItem.subItem.thumbWidth=53;
     item2.subItem.subItem.defaultThumb=@"nocover_filemode.png";
-    item2.subItem.subItem.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
+    item2.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
+                                        [NSArray arrayWithObjects: nil],
+                                        [NSArray arrayWithObjects: nil],
+                                        [NSArray arrayWithObjects:@"Queue", @"Play", nil],
+                                        nil];
     item2.subItem.subItem.widthLabel=252;
     
 
@@ -689,7 +717,10 @@ NSMutableArray *mainMenuItems;
     item3.thumbWidth=320;
     item3.defaultThumb=@"nocover_tvshows.png";
     item3.originLabel=60;
-    item3.sheetActions=[NSArray arrayWithObjects:@"View Details", nil];
+    item3.sheetActions=[NSArray arrayWithObjects:
+                        [NSArray arrayWithObjects:@"View Details", nil],
+                        [NSArray arrayWithObjects:nil],
+                        nil];
     
     item3.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               [NSArray arrayWithObjects:@"VideoLibrary.GetSeasons", @"method", nil],
@@ -754,15 +785,17 @@ NSMutableArray *mainMenuItems;
     item3.subItem.rowHeight=76;
     item3.subItem.thumbWidth=53;
     item3.subItem.defaultThumb=@"nocover_tvshows_episode.png";
-    item3.subItem.sheetActions=[NSArray arrayWithObjects: @"Queue", @"Play", nil];//, @"Stream to iPhone"
+    item3.subItem.sheetActions=[NSArray arrayWithObjects:
+                                [NSArray arrayWithObjects: @"Queue", @"Play", nil],
+                                [NSArray arrayWithObjects: @"Queue", @"Play", nil],
+                                nil];//, @"Stream to iPhone"
 
     item3.subItem.widthLabel=252;
 
 //    item3.subItem.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
 
     item3.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
-                                      [NSArray arrayWithObjects:@"VideoLibrary.GetEpisodes", @"method", 
-                                       nil],
+                                      [NSArray arrayWithObjects:@"VideoLibrary.GetEpisodes", @"method", nil],
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                                       
                                       nil]; 
@@ -811,7 +844,10 @@ NSMutableArray *mainMenuItems;
     item3.subItem.subItem.rowHeight=53;
     item3.subItem.subItem.thumbWidth=95;
     item3.subItem.subItem.defaultThumb=@"nocover_tvshows_episode.png";
-    item3.subItem.subItem.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
+    item3.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
+                                        [NSArray arrayWithObjects:@"Queue", @"Play", nil],
+                                        [NSArray arrayWithObjects:@"Queue", @"Play", nil],
+                                        nil];
     item3.subItem.subItem.originYearDuration=248;
     item3.subItem.subItem.widthLabel=208;
     item3.subItem.subItem.showRuntime=[NSArray arrayWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], nil];
