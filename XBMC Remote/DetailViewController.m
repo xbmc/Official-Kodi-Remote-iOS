@@ -631,7 +631,7 @@ NSIndexPath *selected;
         NSIndexPath *indexPath2 = [self.searchDisplayController.searchResultsTableView indexPathForRowAtPoint:p2];
         if (indexPath != nil || indexPath2 != nil ){
             selected=indexPath;
-            NSArray *sheetActions=[self.detailItem sheetActions];
+            NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
             
             int numActions=[sheetActions count];
             if (numActions){
@@ -664,7 +664,7 @@ NSIndexPath *selected;
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSArray *sheetActions=[self.detailItem sheetActions];
+    NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
     if (buttonIndex!=actionSheet.cancelButtonIndex){
 ////        NSLog(@"Cancel");
     
@@ -910,7 +910,7 @@ NSIndexPath *selected;
             if ([methodResult count]){
                 currentPlayerID=[[[methodResult objectAtIndex:0] objectForKey:@"playerid"] intValue];
             }
-            if (currentPlayerID==1) {
+            if (currentPlayerID==1) { // xbmc bug
                 [jsonRPC callMethod:@"Player.Stop" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:1], @"playerid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil) {
                         [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
