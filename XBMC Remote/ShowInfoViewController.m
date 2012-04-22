@@ -88,13 +88,15 @@ int count=0;
 }
 
 -(void)showNowPlaying{
-    self.nowPlaying=nil;
-    self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-    self.nowPlaying.detailItem = self.detailItem; 
-    
-    [self.navigationController pushViewController:self.nowPlaying animated:YES];
-    self.navigationItem.rightBarButtonItem.enabled=YES;
-
+    if (!alreadyPush){
+        self.nowPlaying=nil;
+        self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        self.nowPlaying.detailItem = self.detailItem; 
+        
+        [self.navigationController pushViewController:self.nowPlaying animated:YES];
+        self.navigationItem.rightBarButtonItem.enabled=YES;
+        alreadyPush=YES;
+    }
 }
 
 -(void)moveLabel:(NSArray *)objects posY:(int)y{
@@ -474,6 +476,9 @@ int h=0;
     }
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    alreadyPush=NO;
+}
 
 - (void)viewDidLoad{
     GlobalData *obj=[GlobalData getInstance];     

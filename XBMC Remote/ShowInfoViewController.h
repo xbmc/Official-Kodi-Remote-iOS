@@ -44,6 +44,7 @@
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *fanartView;
 
+    BOOL alreadyPush;
 
 }
 
