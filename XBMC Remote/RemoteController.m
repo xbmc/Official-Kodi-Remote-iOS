@@ -101,8 +101,14 @@
     }];
 }
 
--(void)GUIAction:(NSString *)action{
-    [jsonRPC callMethod:action withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+-(void)GUIAction:(NSString *)action params:(NSDictionary *)params{
+    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (methodError!=nil || error != nil){
+            if ([action isEqualToString:@"GUI.SetFullscreen"]){
+                [self sendXbmcHttp:@"SendKey(0xf009)"];
+            }
+//            NSLog(@"ERRORE %@ %@", methodError, error);
+        }
     }];
 }
 
@@ -120,9 +126,8 @@
     NSArray *params;
     switch ([sender tag]) {
         case 1:
-//            action=@"GUI.SetFullscreen";
-//            [self GUIAction:action];
-            [self sendXbmcHttp:@"SendKey(0xf009)"];
+            action=@"GUI.SetFullscreen";
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:@"toggle",@"fullscreen", nil]];
             break;
         case 2:
             action=@"Player.Seek";
@@ -171,7 +176,7 @@
 
         case 10:
             action=@"Input.Up";
-            [self GUIAction:action];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
             break;
             
         case 11:
@@ -182,17 +187,17 @@
 
         case 12:
             action=@"Input.Left";
-            [self GUIAction:action];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
             break;
 
         case 13:
             action=@"Input.Select";
-            [self GUIAction:action];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
             break;
             
         case 14:
             action=@"Input.Right";
-            [self GUIAction:action];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
             break;
             
         case 15:
@@ -203,12 +208,12 @@
 
         case 16:
             action=@"Input.Down";
-            [self GUIAction:action];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
             break;
             
         case 18:
             action=@"Input.Back";
-            [self GUIAction:action];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
             break;
             
         default:
