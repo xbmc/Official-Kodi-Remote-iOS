@@ -306,15 +306,15 @@ int h=0;
     frame.origin.y=frame.origin.y+summaryLabel.frame.size.height-20;
     parentalRatingLabelUp.frame=frame;
     
-    frame=label6.frame;
-    frame.origin.y=frame.origin.y+summaryLabel.frame.size.height-20;
-    label6.frame=frame;
-    
     frame=parentalRatingLabel.frame;
     frame.size.height=2000;
     parentalRatingLabel.frame=frame;
     parentalRatingLabel.text=[[item objectForKey:@"mpaa"] length]==0 ? @"-" : [item objectForKey:@"mpaa"];
     [parentalRatingLabel sizeToFit];
+    
+    frame=label6.frame;
+    frame.origin.y=frame.origin.y+summaryLabel.frame.size.height+parentalRatingLabel.frame.size.height-40;
+    label6.frame=frame;
     
     int startY=scrollViewDefaultHeight+summaryLabel.frame.size.height+parentalRatingLabel.frame.size.height;
     
