@@ -80,13 +80,13 @@
 -(IBAction)slideVolume:(id)sender{
     volumeSlider.value=(int)volumeSlider.value;
     volumeLabel.text=[NSString  stringWithFormat:@"%.0f", volumeSlider.value];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-    
-    BOOL realtimeVolume=[[userDefaults objectForKey:@"volume_preference"] boolValue];
-    if (realtimeVolume){
-        [self changeServerVolume];
-    }
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    [userDefaults synchronize];
+//    
+//    BOOL realtimeVolume=[[userDefaults objectForKey:@"volume_preference"] boolValue];
+//    if (realtimeVolume){
+//        [self changeServerVolume];
+//    }
     
 }
 
