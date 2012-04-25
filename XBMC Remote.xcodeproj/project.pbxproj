@@ -13,6 +13,12 @@
 		0F2A46321532FC99005D15E2 /* st_concert_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A46301532FC99005D15E2 /* st_concert_on@2x.png */; };
 		0F2A463415334663005D15E2 /* icon_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A463315334663005D15E2 /* icon_dark.png */; };
 		0F2A46361533466F005D15E2 /* icon_dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A46351533466F005D15E2 /* icon_dark@2x.png */; };
+		0F2EB20D1547EA37005CAD4A /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F2EB20C1547EA37005CAD4A /* WebViewController.xib */; };
+		0F2EB2111547EA4A005CAD4A /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2EB2101547EA4A005CAD4A /* WebViewController.m */; };
+		0F2EB21B1547EF84005CAD4A /* arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2EB2191547EF84005CAD4A /* arrow_left@2x.png */; };
+		0F2EB21C1547EF84005CAD4A /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2EB21A1547EF84005CAD4A /* arrow_right@2x.png */; };
+		0F2EB21F1547EF91005CAD4A /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2EB21D1547EF91005CAD4A /* arrow_left.png */; };
+		0F2EB2201547EF91005CAD4A /* arrow_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2EB21E1547EF91005CAD4A /* arrow_right.png */; };
 		0F30E176152DD8BC00282769 /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F30E175152DD8BC00282769 /* person.png */; };
 		0F30E178152DD8CB00282769 /* person@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F30E177152DD8CB00282769 /* person@2x.png */; };
 		0F331FF01530A02100BB60FE /* nocover_artist.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F331FEF1530A02100BB60FE /* nocover_artist.png */; };
@@ -362,6 +368,13 @@
 		0F2A46301532FC99005D15E2 /* st_concert_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_concert_on@2x.png"; sourceTree = "<group>"; };
 		0F2A463315334663005D15E2 /* icon_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_dark.png; sourceTree = "<group>"; };
 		0F2A46351533466F005D15E2 /* icon_dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_dark@2x.png"; sourceTree = "<group>"; };
+		0F2EB20C1547EA37005CAD4A /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
+		0F2EB20F1547EA4A005CAD4A /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		0F2EB2101547EA4A005CAD4A /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		0F2EB2191547EF84005CAD4A /* arrow_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_left@2x.png"; sourceTree = "<group>"; };
+		0F2EB21A1547EF84005CAD4A /* arrow_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_right@2x.png"; sourceTree = "<group>"; };
+		0F2EB21D1547EF91005CAD4A /* arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_left.png; sourceTree = "<group>"; };
+		0F2EB21E1547EF91005CAD4A /* arrow_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_right.png; sourceTree = "<group>"; };
 		0F30E175152DD8BC00282769 /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
 		0F30E177152DD8CB00282769 /* person@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person@2x.png"; sourceTree = "<group>"; };
 		0F331FEF1530A02100BB60FE /* nocover_artist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_artist.png; sourceTree = "<group>"; };
@@ -814,6 +827,8 @@
 				0F487B4A15396D4C004530C1 /* HostViewController.m */,
 				0F61E197153C828300A89BB1 /* AppInfoViewController.h */,
 				0F61E198153C828300A89BB1 /* AppInfoViewController.m */,
+				0F2EB20F1547EA4A005CAD4A /* WebViewController.h */,
+				0F2EB2101547EA4A005CAD4A /* WebViewController.m */,
 			);
 			path = "XBMC Remote";
 			sourceTree = "<group>";
@@ -844,6 +859,8 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F2EB2191547EF84005CAD4A /* arrow_left@2x.png */,
+				0F2EB21A1547EF84005CAD4A /* arrow_right@2x.png */,
 				0F61E19C153C85E500A89BB1 /* info@2x.png */,
 				0F487B63153A0A91004530C1 /* button_party_off@2x.png */,
 				0F487B64153A0A91004530C1 /* button_party_on@2x.png */,
@@ -1021,6 +1038,8 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F2EB21D1547EF91005CAD4A /* arrow_left.png */,
+				0F2EB21E1547EF91005CAD4A /* arrow_right.png */,
 				0F61E19E153C85F300A89BB1 /* info.png */,
 				0F487B5F153A0A83004530C1 /* button_party_off.png */,
 				0F487B60153A0A83004530C1 /* button_party_on.png */,
@@ -1167,6 +1186,7 @@
 				0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */,
 				0F487B4B15396D4C004530C1 /* HostViewController.xib */,
 				0F61E199153C828300A89BB1 /* AppInfoViewController.xib */,
+				0F2EB20C1547EA37005CAD4A /* WebViewController.xib */,
 			);
 			name = nib;
 			sourceTree = "<group>";
@@ -1591,6 +1611,11 @@
 				0FAAADFC1541CEAD00854BEB /* io.png in Resources */,
 				0FAAADFF1541CF5300854BEB /* speech_balloon.png in Resources */,
 				0FAAAE0C1541E78A00854BEB /* eden.png in Resources */,
+				0F2EB20D1547EA37005CAD4A /* WebViewController.xib in Resources */,
+				0F2EB21B1547EF84005CAD4A /* arrow_left@2x.png in Resources */,
+				0F2EB21C1547EF84005CAD4A /* arrow_right@2x.png in Resources */,
+				0F2EB21F1547EF91005CAD4A /* arrow_left.png in Resources */,
+				0F2EB2201547EF91005CAD4A /* arrow_right.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1625,6 +1650,7 @@
 				0F82A5A4152C608100FC8B7A /* PlayFileViewController.m in Sources */,
 				0F487B4C15396D4C004530C1 /* HostViewController.m in Sources */,
 				0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */,
+				0F2EB2111547EA4A005CAD4A /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1664,8 +1690,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1692,8 +1718,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;

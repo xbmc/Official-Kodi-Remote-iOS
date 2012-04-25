@@ -13,6 +13,7 @@
 #import "UIImageView+WebCache.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "mainMenu.h"
+#import "WebViewController.h"
 
 
 @class NowPlaying;
@@ -58,6 +59,8 @@
 @property (strong, nonatomic) DetailViewController *detailViewController;
 @property (strong, nonatomic) NowPlaying *nowPlaying;
 @property (strong, nonatomic) PlayFileViewController *playFileViewController;
+@property (strong, nonatomic) WebViewController *webViewController;
+
 
 @property (nonatomic,retain) NSMutableDictionary *sections;
 

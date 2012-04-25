@@ -99,6 +99,14 @@
     }
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    
+//    [jsonRPC 
+//     callMethod:@"JSONRPC.Introspect" 
+//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: nil]
+//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//         NSLog(@"%@", methodResult);
+//     }];
+    
     [jsonRPC 
      callMethod:@"Application.GetProperties" 
      withParameters:checkServerParams

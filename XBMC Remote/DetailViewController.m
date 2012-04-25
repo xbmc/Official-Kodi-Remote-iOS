@@ -17,6 +17,7 @@
 #import "PlayFileViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "SDImageCache.h"
+#import "WebViewController.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -33,6 +34,7 @@
 @synthesize playFileViewController;
 @synthesize filteredListContent;
 @synthesize richResults;
+@synthesize webViewController;
 //@synthesize detailDescriptionLabel = _detailDescriptionLabel;
 #define SECTIONS_START_AT 100
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
@@ -285,6 +287,8 @@ int labelPosition=0;
     }
     [cell setBackgroundColor:[UIColor whiteColor]];
     mainMenu *Menuitem = self.detailItem;
+    NSDictionary *mainFields=[[Menuitem mainFields] objectAtIndex:choosedTab];
+
     CGRect frame=cell.urlImageView.frame;
     frame.size.width=thumbWidth;
     cell.urlImageView.frame=frame;
@@ -297,8 +301,7 @@ int labelPosition=0;
 	else{
         item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
-    
-//   cell.urlImageView.alpha=0;
+//    NSLog(@"ITEM %@", item);
     UILabel *title=(UILabel*) [cell viewWithTag:1];
     UILabel *runtimeyear=(UILabel*) [cell viewWithTag:3];
     UILabel *rating=(UILabel*) [cell viewWithTag:5];
@@ -308,7 +311,7 @@ int labelPosition=0;
     title.frame=frame;
     
     [title setText:[item objectForKey:@"label"]];
-    [(UILabel*) [cell viewWithTag:2] setText:[item objectForKey:@"genre"]];
+    [(UILabel*) [cell viewWithTag:2] setText:[item objectForKey:[mainFields objectForKey:@"row2"]]];
     
     frame=title.frame;
     frame.size.width=Menuitem.widthLabel;
@@ -676,7 +679,34 @@ NSIndexPath *selected;
             [self showInfo:selected];
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"])
             [self addStream:selected];
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Search Wikipedia"])
+            [self searchWikipedia:selected];
+
     }
+}
+
+-(void)searchWikipedia:(NSIndexPath *)indexPath{
+    self.webViewController=nil;
+    self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+    NSDictionary *item = nil;
+    if ([self.searchDisplayController isActive]){
+        item = [self.filteredListContent objectAtIndex:indexPath.row];
+    }
+    else{
+        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    }
+//    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+
+//    NSString *type=[parameters objectForKey:@"wikitype"];
+//    NSString *label=[NSString stringWithFormat:@"%@ incategory:%@", [item objectForKey:@"label"], type];
+    NSString *query = [[item objectForKey:@"label"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSString *url = [NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%@", @"en", query]; 
+	NSURL *_url = [NSURL URLWithString:url];
+//    
+//	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:_url];
+    
+    self.webViewController.urlRequest = [NSURLRequest requestWithURL:_url];
+    [self.navigationController pushViewController:self.webViewController animated:YES];
 }
 
 
@@ -1040,7 +1070,6 @@ NSIndexPath *selected;
                      itemid = [mainFields objectForKey:@"itemid"]; 
                  }
                  
-
                  NSArray *videoLibraryMovies = [methodResult objectForKey:itemid];
                  if (((NSNull *)videoLibraryMovies != [NSNull null])){
                      total=[videoLibraryMovies count];
