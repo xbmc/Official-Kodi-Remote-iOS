@@ -9,6 +9,12 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "MenuViewController.h"
+#import "mainMenu.h"
+
+@interface ViewControllerIPad (){
+    NSMutableArray *mainMenu;
+}
+@end
 
 @interface UIViewExt : UIView {} 
 @end
@@ -51,9 +57,7 @@
 }
 @end
 
-@interface ViewControllerIPad ()
 
-@end
 
 @implementation ViewControllerIPad
 
@@ -74,10 +78,11 @@
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
 	[rootView setBackgroundColor:[UIColor clearColor]];
 	
-	leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, self.view.frame.size.height)];
+	leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
 	leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;	
-	menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, 0, leftMenuView.frame.size.width, leftMenuView.frame.size.height)];
-    
+	menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, 0, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:mainMenu];
+
+
 	[menuViewController.view setBackgroundColor:[UIColor clearColor]];
 	[menuViewController viewWillAppear:FALSE];
 	[menuViewController viewDidAppear:FALSE];
@@ -85,6 +90,7 @@
 	
 	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, 0, rootView.frame.size.width - leftMenuView.frame.size.width, rootView.frame.size.height)];
 	rightSlideView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
+    
 	stackScrollViewController = [[StackScrollViewController alloc] init];	
 	[stackScrollViewController.view setFrame:CGRectMake(0, 0, rightSlideView.frame.size.width, rightSlideView.frame.size.height)];
 	[stackScrollViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight];
@@ -94,7 +100,10 @@
 	
 	[rootView addSubview:leftMenuView];
 	[rootView addSubview:rightSlideView];
-    self.view.backgroundColor = [[UIColor scrollViewTexturedBackgroundColor] colorWithAlphaComponent:0.5];	[self.view addSubview:rootView];
+    self.view.backgroundColor = [UIColor blackColor];
+
+//    self.view.backgroundColor = [[UIColor scrollViewTexturedBackgroundColor] colorWithAlphaComponent:0.5];	
+    [self.view addSubview:rootView];
 }
 
 - (void)viewDidUnload{

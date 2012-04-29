@@ -13,6 +13,8 @@
 		0F175F2B154D699D00C1C61F /* UIViewWithShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2A154D699D00C1C61F /* UIViewWithShadow.m */; };
 		0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2D154D6AFA00C1C61F /* MenuViewController.m */; };
 		0F175F31154D6B1700C1C61F /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F30154D6B1700C1C61F /* DataViewController.m */; };
+		0F268FC4154DA7ED00ED64D8 /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F268FC3154DA7ED00ED64D8 /* cellViewIPad.xib */; };
+		0F268FD3154DC1DF00ED64D8 /* tableLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F268FD2154DC1DF00ED64D8 /* tableLeft.png */; };
 		0F2A462C1532FC8B005D15E2 /* st_concert_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A462A1532FC8B005D15E2 /* st_concert_off.png */; };
 		0F2A462D1532FC8B005D15E2 /* st_concert_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A462B1532FC8B005D15E2 /* st_concert_on.png */; };
 		0F2A46311532FC99005D15E2 /* st_concert_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A462F1532FC99005D15E2 /* st_concert_off@2x.png */; };
@@ -379,6 +381,8 @@
 		0F175F2D154D6AFA00C1C61F /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = iPad/MenuViewController.m; sourceTree = "<group>"; };
 		0F175F2F154D6B1600C1C61F /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataViewController.h; path = iPad/DataViewController.h; sourceTree = "<group>"; };
 		0F175F30154D6B1700C1C61F /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataViewController.m; path = iPad/DataViewController.m; sourceTree = "<group>"; };
+		0F268FC3154DA7ED00ED64D8 /* cellViewIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellViewIPad.xib; sourceTree = "<group>"; };
+		0F268FD2154DC1DF00ED64D8 /* tableLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tableLeft.png; sourceTree = "<group>"; };
 		0F2A462A1532FC8B005D15E2 /* st_concert_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_concert_off.png; sourceTree = "<group>"; };
 		0F2A462B1532FC8B005D15E2 /* st_concert_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_concert_on.png; sourceTree = "<group>"; };
 		0F2A462F1532FC99005D15E2 /* st_concert_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_concert_off@2x.png"; sourceTree = "<group>"; };
@@ -835,6 +839,7 @@
 		0F175F1D154D5B9B00C1C61F /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				0F268FC3154DA7ED00ED64D8 /* cellViewIPad.xib */,
 				0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */,
 			);
 			name = iPad;
@@ -1108,6 +1113,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F268FD2154DC1DF00ED64D8 /* tableLeft.png */,
 				0F2EB21D1547EF91005CAD4A /* arrow_left.png */,
 				0F2EB21E1547EF91005CAD4A /* arrow_right.png */,
 				0F61E19E153C85F300A89BB1 /* info.png */,
@@ -1677,6 +1683,8 @@
 				0F2EB21F1547EF91005CAD4A /* arrow_left.png in Resources */,
 				0F2EB2201547EF91005CAD4A /* arrow_right.png in Resources */,
 				0F175F25154D5C3600C1C61F /* ViewControllerIPad.xib in Resources */,
+				0F268FC4154DA7ED00ED64D8 /* cellViewIPad.xib in Resources */,
+				0F268FD3154DC1DF00ED64D8 /* tableLeft.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

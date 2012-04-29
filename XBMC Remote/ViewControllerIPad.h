@@ -24,6 +24,6 @@
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 @property (nonatomic, retain) MenuViewController* menuViewController;
-@property (nonatomic, retain) StackScrollViewController* stackScrollViewController;
+@property (nonatomic, strong) StackScrollViewController* stackScrollViewController;
 
 @end

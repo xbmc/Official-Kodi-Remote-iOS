@@ -84,17 +84,7 @@ NSMutableArray *mainMenuItems;
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    MasterViewController *masterViewController;
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-        self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
-        self.window.rootViewController = self.navigationController;
-    } else {
-//        masterViewController = [[MasterViewController alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
-        self.windowController = [[ViewControllerIPad alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
-        self.window.rootViewController = self.windowController;
-    }
     
     int thumbWidth;
     int tvshowHeight;
@@ -1009,13 +999,36 @@ NSMutableArray *mainMenuItems;
     item6.icon = @"icon_home_remote.png";
     item6.family = 3;
     
-    [mainMenuItems addObject:item1];
-    [mainMenuItems addObject:item2];
-    [mainMenuItems addObject:item3];
-    [mainMenuItems addObject:item4];
-    [mainMenuItems addObject:item5];
-    [mainMenuItems addObject:item6];
-    masterViewController.mainMenu =mainMenuItems;
+    
+    MasterViewController *masterViewController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [mainMenuItems addObject:item1];
+        [mainMenuItems addObject:item2];
+        [mainMenuItems addObject:item3];
+        [mainMenuItems addObject:item4];
+        [mainMenuItems addObject:item5];
+        [mainMenuItems addObject:item6];
+        masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+        self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
+        self.window.rootViewController = self.navigationController;
+        masterViewController.mainMenu =mainMenuItems;
+
+    } else {
+        [mainMenuItems addObject:item1];
+        [mainMenuItems addObject:item2];
+        [mainMenuItems addObject:item3];
+        [mainMenuItems addObject:item4];
+//        [mainMenuItems addObject:item5];
+        [mainMenuItems addObject:item6];
+        self.windowController = [[ViewControllerIPad alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
+        self.windowController.mainMenu =mainMenuItems;
+        self.window.rootViewController = self.windowController;
+        
+        
+
+    }
+    
 //    masterViewController.serverList=[arrayServerList copy];
     
     return YES;

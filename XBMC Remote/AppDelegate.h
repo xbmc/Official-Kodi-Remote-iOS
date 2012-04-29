@@ -24,7 +24,7 @@
 
 @property (strong, nonatomic) UINavigationController *navigationController;
 
-@property (strong, nonatomic) ViewControllerIPad *windowController;
+@property (nonatomic, retain) ViewControllerIPad *windowController;
 
 
 @property (retain, nonatomic) NSString *dataFilePath;

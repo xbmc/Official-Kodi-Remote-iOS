@@ -41,23 +41,24 @@
 #import "AppDelegate.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
+#import "mainMenu.h"
+
 
 @implementation MenuViewController
 @synthesize tableView = _tableView;
 
-
 #pragma mark -
 #pragma mark View lifecycle
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu{
     if (self = [super init]) {
 		[self.view setFrame:frame]; 
-		
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
+        [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 		[_tableView setDelegate:self];
 		[_tableView setDataSource:self];
 		[_tableView setBackgroundColor:[UIColor clearColor]];
-        
+        mainMenuItems=menu;
         UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
 		_tableView.tableFooterView = footerView;
 //        [footerView release];
@@ -66,7 +67,7 @@
 		
 		UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, -5, 1, self.view.frame.size.height)];
 		[verticalLineView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-		[verticalLineView setBackgroundColor:[UIColor whiteColor]];
+		[verticalLineView setBackgroundColor:[UIColor darkGrayColor]];
 		[self.view addSubview:verticalLineView];
 		[self.view bringSubviewToFront:verticalLineView];
 //        [verticalLineView release];
@@ -77,6 +78,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
 }
 
 
@@ -103,6 +105,10 @@
 #pragma mark -
 #pragma mark Table view data source
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 70;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
@@ -111,28 +117,66 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 10;
+//    return 10;
+    return [mainMenuItems count];
 }
 
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-		UIView* bgView = [[UIView alloc] init];
-		[bgView setBackgroundColor:[UIColor colorWithWhite:2 alpha:0.2]];
-		[cell setSelectedBackgroundView:bgView];
-    }
     
-    // Configure the cell...
-	cell.textLabel.text = [NSString stringWithFormat:@"Menu %d", indexPath.row +1];
-	[cell.textLabel setTextColor:[UIColor whiteColor]];
-
-
-    return cell;
+    
+    
+    
+    UITableViewCell *cell=nil;
+        cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
+        [[NSBundle mainBundle] loadNibNamed:@"cellViewIPad" owner:self options:NULL];
+        if (cell==nil)
+            cell = resultMenuCell;
+        mainMenu *item = [mainMenuItems objectAtIndex:indexPath.row];
+        [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:item.icon]];
+        [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];   
+        [(UILabel*) [cell viewWithTag:3] setText:item.mainLabel]; 
+//        if (serverOnLine){
+            [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
+            [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
+            [(UIImageView*) [cell viewWithTag:3] setAlpha:1];
+            cell.selectionStyle=UITableViewCellSelectionStyleBlue;
+//        }
+//        else {
+//            [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
+//            [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
+//            [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
+//            cell.selectionStyle=UITableViewCellSelectionStyleGray;
+//            
+//        }
+        
+        return cell;
+    
+    
+    
+    
+    
+    
+    
+//    
+//    static NSString *CellIdentifier = @"Cell";
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+//		UIView* bgView = [[UIView alloc] init];
+//		[bgView setBackgroundColor:[UIColor colorWithWhite:2 alpha:0.2]];
+//		[cell setSelectedBackgroundView:bgView];
+//    }
+//    
+//    // Configure the cell...
+//	cell.textLabel.text = [NSString stringWithFormat:@"Menu %d", indexPath.row +1];
+//	[cell.textLabel setTextColor:[UIColor whiteColor]];
+//
+//
+//    return cell;
 }
 
 

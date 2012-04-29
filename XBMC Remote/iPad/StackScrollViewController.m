@@ -41,7 +41,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 
-const NSInteger SLIDE_VIEWS_MINUS_X_POSITION = -130;
+const NSInteger SLIDE_VIEWS_MINUS_X_POSITION = -244;
 const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 
 @implementation StackScrollViewController
@@ -654,7 +654,6 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 }
 
 - (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView{
-		
 	if (isStackStartView) {
 		slideStartPosition = SLIDE_VIEWS_START_X_POS;
 		viewXPosition = slideStartPosition;
@@ -671,6 +670,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	
 	
 	if([viewControllersStack count] > 1){
+        NSLog(@"UNO");
 		NSInteger indexOfViewController = [viewControllersStack
 										   indexOfObject:invokeByController]+1;
 		
@@ -686,6 +686,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 			viewXPosition = self.view.frame.size.width - [controller view].frame.size.width;
 		}
 	}else if([viewControllersStack count] == 0) {
+        NSLog(@"DUE");
+
 		for (UIView* subview in [slideViews subviews]) {
 			[subview removeFromSuperview];
 		}		[viewControllersStack removeAllObjects];
@@ -695,7 +697,13 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	}
 	
 	if ([slideViews.subviews count] != 0) {
-		UIViewWithShadow* verticalLineView = [[UIViewWithShadow alloc] initWithFrame:CGRectMake(-40, 0, 40 , self.view.frame.size.height)];
+        NSLog(@"TRE");
+
+//		UIViewWithShadow* verticalLineView = [[UIViewWithShadow alloc] initWithFrame:CGRectMake(-40, 0, 40 , self.view.frame.size.height)];
+        UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, 40 , self.view.frame.size.height)];
+        
+        
+        
 		[verticalLineView setBackgroundColor:[UIColor clearColor]];
 		[verticalLineView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
 		[verticalLineView setClipsToBounds:NO];
@@ -707,6 +715,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		viewXPosition = invokeByController.view.frame.origin.x + invokeByController.view.frame.size.width;			
 	}
 	if ([[slideViews subviews] count] == 0) {
+        NSLog(@"QUATTRO");
+
 		slideStartPosition = SLIDE_VIEWS_START_X_POS;
 		viewXPosition = slideStartPosition;
 	}
@@ -715,12 +725,19 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	[controller.view setTag:([viewControllersStack count]-1)];
 	[controller viewWillAppear:FALSE];
 	[controller viewDidAppear:FALSE];
+    
+    CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, 1024.0f);
+    UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
+    [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+    [shadow setImage:[UIImage imageNamed:@"tableLeft.png"]];
+    shadow.opaque = YES;
+    [controller.view addSubview:shadow];
+    
 	[slideViews addSubview:[controller view]];
 	
-	
 	if ([[slideViews subviews] count] > 0) {
-		
 		if ([[slideViews subviews] count]==1) {
+            NSLog(@"CINQUE");
 			viewAtLeft = [[slideViews subviews] objectAtIndex:[[slideViews subviews] count]-1];
 			viewAtLeft2 = nil;
 			viewAtRight = nil;
@@ -741,8 +758,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 			slideStartPosition = SLIDE_VIEWS_MINUS_X_POSITION;
 			
 		}else {
-			
-			
+
+
 				viewAtRight = [[slideViews subviews] objectAtIndex:[[slideViews subviews] count]-1];
 				viewAtLeft = [[slideViews subviews] objectAtIndex:[[slideViews subviews] count]-2];
 				viewAtLeft2 = [[slideViews subviews] objectAtIndex:[[slideViews subviews] count]-3];

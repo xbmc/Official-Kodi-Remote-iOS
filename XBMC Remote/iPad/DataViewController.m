@@ -120,8 +120,10 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSLog(@"ECCOMI");
     DataViewController *dataViewController = [[DataViewController alloc] initWithFrame:CGRectMake(0, 0, 477, self.view.frame.size.height)];
-	[[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:dataViewController invokeByController:self isStackStartView:FALSE];
+	//NSLog(@"%@", [AppDelegate instance].windowController.stackScrollViewController);
+    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:dataViewController invokeByController:self isStackStartView:FALSE];
 //	[dataViewController release];
 }
 

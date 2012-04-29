@@ -41,9 +41,13 @@
 
 @interface MenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	UITableView*  _tableView;
+    NSMutableArray *mainMenuItems;
+    IBOutlet UITableViewCell *resultMenuCell;
 }
-- (id)initWithFrame:(CGRect)frame;
 
-@property(nonatomic, retain)UITableView* tableView;
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu;
+
+@property(nonatomic, retain) UITableView* tableView;
+
 
 @end
