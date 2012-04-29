@@ -105,7 +105,7 @@
     choosedTab=newChoosedTab;
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     [activityIndicatorView startAnimating];
-    [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:320];
+    [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     if ([self.richResults count] && (dataList.dragging == YES || dataList.decelerating == YES)){
         NSArray *visiblePaths = [dataList indexPathsForVisibleRows];
         [dataList  scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -191,12 +191,12 @@ int labelPosition=0;
     
     // CHECK IF THERE ARE SECTIONS
     if ([self.richResults count]<SECTIONS_START_AT || ![self.detailItem enableSection]){
-        newWidthLabel=312-labelPosition;
-        Menuitem.originYearDuration=248;
+        newWidthLabel = viewWidth - 8 - labelPosition;
+        Menuitem.originYearDuration = viewWidth - 72;
     }
     else{
-        newWidthLabel=282-labelPosition;
-        Menuitem.originYearDuration=220;
+        newWidthLabel=viewWidth - 38 - labelPosition;
+        Menuitem.originYearDuration = viewWidth - 100;
     }
     
     Menuitem.widthLabel=newWidthLabel;
@@ -478,7 +478,7 @@ int labelPosition=0;
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
         UIImage *myImage = [UIImage imageNamed:@"blank.png"];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-        imageView.frame = CGRectMake(0,0,320,1);
+        imageView.frame = CGRectMake(0,0,viewWidth,1);
         return imageView;
 }
 
@@ -1475,6 +1475,16 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     choosedTab=0;
+    CGRect frame=dataList.frame;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        frame.origin.x=320;
+        viewWidth=320;
+    }
+    else {
+        frame.origin.x=768;
+        viewWidth=768;
+    }
+    dataList.frame=frame;
     [[SDImageCache sharedImageCache] clearMemory];
 
     numTabs=[[self.detailItem mainMethod] count];
@@ -1537,6 +1547,9 @@ NSIndexPath *selected;
     nowPlaying=nil;
     playFileViewController=nil;
 }
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+//    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);

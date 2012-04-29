@@ -48,6 +48,7 @@
     int cellHeight;
     int thumbWidth;
     IBOutlet UIView *noFoundView;
+    int viewWidth;
 }
 @property (nonatomic, retain) NSMutableArray *richResults;
 @property (nonatomic, retain) NSMutableArray *filteredListContent;

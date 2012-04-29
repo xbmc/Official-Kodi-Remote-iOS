@@ -77,10 +77,31 @@ NSMutableArray *mainMenuItems;
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-
-    MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
-    self.window.rootViewController = self.navigationController;
+    MasterViewController *masterViewController;
+    
+    
+    
+    
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+        self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
+        self.window.rootViewController = self.navigationController;
+//    } else {
+//        masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+//        self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
+//        self.window.rootViewController = self.navigationController;
+//    }
+    
+    int thumbWidth;
+    int tvshowHeight;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        thumbWidth = 320;
+        tvshowHeight = 61;
+    } else {
+        thumbWidth = 768;
+        tvshowHeight = 146;
+    }
+    
     
     [self.window makeKeyAndVisible];
     
@@ -91,6 +112,9 @@ NSMutableArray *mainMenuItems;
     mainMenu *item4 = [[mainMenu alloc] init];
     mainMenu *item5 = [[mainMenu alloc] init];
     mainMenu *item6 = [[mainMenu alloc] init];
+    
+    //test new branch
+    
     
     item1.subItem = [[mainMenu alloc] init];
     item1.subItem.subItem = [[mainMenu alloc] init];
@@ -721,8 +745,8 @@ NSMutableArray *mainMenuItems;
                        @"file", @"row9",
                        nil],
                       nil];
-    item3.rowHeight=61;
-    item3.thumbWidth=320;
+    item3.rowHeight=tvshowHeight;
+    item3.thumbWidth=thumbWidth;
     item3.defaultThumb=@"nocover_tvshows.png";
     item3.originLabel=60;
     item3.sheetActions=[NSArray arrayWithObjects:

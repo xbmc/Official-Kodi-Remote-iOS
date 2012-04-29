@@ -123,7 +123,7 @@ int h=0;
 -(void)createInfo{
     NSDictionary *item=self.detailItem;
 //    NSLog(@"ITEM %@", item);
-    int scrollViewDefaultHeight=660;
+    int scrollViewDefaultHeight=1660;
     if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"studio"]){
         int deltaY=0;
         int coverHeight=0;
@@ -131,7 +131,7 @@ int h=0;
         CGRect frame;
         if ([[item objectForKey:@"family"] isEqualToString:@"studio"]){
             coverHeight=70;
-            deltaY=jewelView.frame.size.height - coverHeight;
+            deltaY=coverView.frame.size.height - coverHeight;
             shiftY=0;
             label1.text=@"EPISODES";
             label3.text=@"GENRE";
@@ -291,7 +291,7 @@ int h=0;
     }
     
     CGRect frame=summaryLabel.frame;
-    frame.size.height=2000;
+   // frame.size.height=2000;
     summaryLabel.frame=frame;
     summaryLabel.text=[[item objectForKey:@"plot"] length]==0 ? @"-" : [item objectForKey:@"plot"];
     if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
@@ -317,8 +317,7 @@ int h=0;
     frame=label6.frame;
     frame.origin.y=frame.origin.y+summaryLabel.frame.size.height+parentalRatingLabel.frame.size.height-40;
     label6.frame=frame;
-    
-    int startY=scrollViewDefaultHeight+summaryLabel.frame.size.height+parentalRatingLabel.frame.size.height;
+    int startY=label6.frame.origin.y+20;
     
     if (![[item objectForKey:@"family"] isEqualToString:@"albumid"]){// TRANSFORM IN SHOW_CAST BOOLEAN
         NSArray *cast=[item objectForKey:@"cast"];
@@ -335,7 +334,7 @@ int h=0;
             [actorImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
             [actorImage.layer setBorderColor: [[UIColor whiteColor] CGColor]];
             [actorImage.layer setBorderWidth: 1.0];
-            
+            [actorImage setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin ];
             [scrollView addSubview:actorImage];
             
             UILabel *actorName=[[UILabel alloc] initWithFrame:CGRectMake(castWidth+offsetX+10, startY, 320 - (castWidth+offsetX+20) , 16)];
@@ -343,6 +342,8 @@ int h=0;
             [actorName setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
             [actorName setBackgroundColor:[UIColor clearColor]];
             [actorName setTextColor:[UIColor whiteColor]];
+            [actorName setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
+
             [scrollView addSubview:actorName];
             
             UILabel *actorRole=[[UILabel alloc] initWithFrame:CGRectMake(castWidth+offsetX+10, startY+20, 320 - (castWidth+offsetX+20) , 16)];
@@ -353,6 +354,8 @@ int h=0;
             [actorRole setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
             [actorRole setBackgroundColor:[UIColor clearColor]];
             [actorRole setTextColor:[UIColor grayColor]];
+            [actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
+
             [scrollView addSubview:actorRole];
             
             startY=startY+castHeight+10;
@@ -515,11 +518,12 @@ int h=0;
 //    manager=nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-//    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 //}
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+//    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return YES;
+}
 
 @end

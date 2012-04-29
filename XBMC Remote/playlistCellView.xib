@@ -36,7 +36,7 @@
 			</object>
 			<object class="IBUITableViewCell" id="620882018">
 				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">292</int>
+				<int key="NSvFlags">294</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIView" id="413044437">
 						<reference key="NSNextResponder" ref="620882018"/>
@@ -44,8 +44,8 @@
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUIImageView" id="403308626">
 								<reference key="NSNextResponder" ref="413044437"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrameSize">{320, 53}</string>
+								<int key="NSvFlags">290</int>
+								<string key="NSFrameSize">{360, 53}</string>
 								<reference key="NSSuperview" ref="413044437"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="507880089"/>
@@ -75,7 +75,7 @@
 							</object>
 							<object class="IBUILabel" id="161767583">
 								<reference key="NSNextResponder" ref="413044437"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">294</int>
 								<string key="NSFrame">{{61, 3}, {254, 35}}</string>
 								<reference key="NSSuperview" ref="413044437"/>
 								<reference key="NSWindow"/>
@@ -115,7 +115,7 @@
 							</object>
 							<object class="IBUILabel" id="9156307">
 								<reference key="NSNextResponder" ref="413044437"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">294</int>
 								<string key="NSFrame">{{60, 35}, {207, 16}}</string>
 								<reference key="NSSuperview" ref="413044437"/>
 								<reference key="NSWindow"/>
@@ -149,7 +149,7 @@
 							</object>
 							<object class="IBUILabel" id="819559211">
 								<reference key="NSNextResponder" ref="413044437"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">289</int>
 								<string key="NSFrame">{{275, 35}, {40, 16}}</string>
 								<reference key="NSSuperview" ref="413044437"/>
 								<reference key="NSWindow"/>
@@ -459,6 +459,7 @@
 						</object>
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="PartyModeButton">UIButton</string>
 						<string key="activityIndicatorView">UIActivityIndicatorView</string>
 						<string key="albumName">UILabel</string>
 						<string key="artistName">UILabel</string>
@@ -486,6 +487,10 @@
 						<string key="timeCursor">UIImageView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="PartyModeButton">
+							<string key="name">PartyModeButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="activityIndicatorView">
 							<string key="name">activityIndicatorView</string>
 							<string key="candidateClassName">UIActivityIndicatorView</string>
