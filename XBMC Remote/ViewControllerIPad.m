@@ -77,6 +77,7 @@
 	leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, self.view.frame.size.height)];
 	leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;	
 	menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, 0, leftMenuView.frame.size.width, leftMenuView.frame.size.height)];
+    
 	[menuViewController.view setBackgroundColor:[UIColor clearColor]];
 	[menuViewController viewWillAppear:FALSE];
 	[menuViewController viewDidAppear:FALSE];
