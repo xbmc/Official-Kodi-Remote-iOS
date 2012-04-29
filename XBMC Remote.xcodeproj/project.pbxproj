@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F175F24154D5C3600C1C61F /* ViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */; };
+		0F175F25154D5C3600C1C61F /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
+		0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F27154D696B00C1C61F /* StackScrollViewController.m */; };
+		0F175F2B154D699D00C1C61F /* UIViewWithShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2A154D699D00C1C61F /* UIViewWithShadow.m */; };
+		0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2D154D6AFA00C1C61F /* MenuViewController.m */; };
+		0F175F31154D6B1700C1C61F /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F30154D6B1700C1C61F /* DataViewController.m */; };
 		0F2A462C1532FC8B005D15E2 /* st_concert_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A462A1532FC8B005D15E2 /* st_concert_off.png */; };
 		0F2A462D1532FC8B005D15E2 /* st_concert_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A462B1532FC8B005D15E2 /* st_concert_on.png */; };
 		0F2A46311532FC99005D15E2 /* st_concert_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A462F1532FC99005D15E2 /* st_concert_off@2x.png */; };
@@ -362,6 +368,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F175F21154D5C3600C1C61F /* ViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerIPad.h; sourceTree = "<group>"; };
+		0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerIPad.m; sourceTree = "<group>"; };
+		0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerIPad.xib; sourceTree = "<group>"; };
+		0F175F26154D696B00C1C61F /* StackScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StackScrollViewController.h; path = iPad/StackScrollViewController.h; sourceTree = "<group>"; };
+		0F175F27154D696B00C1C61F /* StackScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StackScrollViewController.m; path = iPad/StackScrollViewController.m; sourceTree = "<group>"; };
+		0F175F29154D699D00C1C61F /* UIViewWithShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIViewWithShadow.h; path = iPad/UIViewWithShadow.h; sourceTree = "<group>"; };
+		0F175F2A154D699D00C1C61F /* UIViewWithShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIViewWithShadow.m; path = iPad/UIViewWithShadow.m; sourceTree = "<group>"; };
+		0F175F2C154D6AFA00C1C61F /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuViewController.h; path = iPad/MenuViewController.h; sourceTree = "<group>"; };
+		0F175F2D154D6AFA00C1C61F /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = iPad/MenuViewController.m; sourceTree = "<group>"; };
+		0F175F2F154D6B1600C1C61F /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataViewController.h; path = iPad/DataViewController.h; sourceTree = "<group>"; };
+		0F175F30154D6B1700C1C61F /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataViewController.m; path = iPad/DataViewController.m; sourceTree = "<group>"; };
 		0F2A462A1532FC8B005D15E2 /* st_concert_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_concert_off.png; sourceTree = "<group>"; };
 		0F2A462B1532FC8B005D15E2 /* st_concert_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_concert_on.png; sourceTree = "<group>"; };
 		0F2A462F1532FC99005D15E2 /* st_concert_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_concert_off@2x.png"; sourceTree = "<group>"; };
@@ -765,6 +782,81 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F175F13154D45B300C1C61F /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				0F55490C151D1187007E633F /* MasterViewController.h */,
+				0F55490D151D1187007E633F /* MasterViewController.m */,
+				0F55490F151D1187007E633F /* DetailViewController.h */,
+				0F554910151D1187007E633F /* DetailViewController.m */,
+				0F370052151F6A9E00A3D42C /* jsonDataCell.h */,
+				0F370053151F6A9E00A3D42C /* jsonDataCell.m */,
+				0F4883E21522418C00883243 /* ShowInfoViewController.h */,
+				0F4883E31522418C00883243 /* ShowInfoViewController.m */,
+				0F74772B151DD77400EF78AD /* NowPlaying.h */,
+				0F74772C151DD77400EF78AD /* NowPlaying.m */,
+				0F747731151DD91D00EF78AD /* RemoteController.h */,
+				0F747732151DD91D00EF78AD /* RemoteController.m */,
+				0F82A5A1152C608100FC8B7A /* PlayFileViewController.h */,
+				0F82A5A2152C608100FC8B7A /* PlayFileViewController.m */,
+				0F4883D01521CC7200883243 /* VolumeSliderView.h */,
+				0F4883D11521CC7300883243 /* VolumeSliderView.m */,
+				0F487B4915396D4C004530C1 /* HostViewController.h */,
+				0F487B4A15396D4C004530C1 /* HostViewController.m */,
+				0F61E197153C828300A89BB1 /* AppInfoViewController.h */,
+				0F61E198153C828300A89BB1 /* AppInfoViewController.m */,
+				0F2EB20F1547EA4A005CAD4A /* WebViewController.h */,
+				0F2EB2101547EA4A005CAD4A /* WebViewController.m */,
+			);
+			name = iPhone;
+			sourceTree = "<group>";
+		};
+		0F175F14154D45C200C1C61F /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				0F55491D151D1397007E633F /* cellView.xib */,
+				0FB16163151F156A001BA2D4 /* jsonDataCell.xib */,
+				0F44E2D41527A9DF00D5958F /* playlistCellView.xib */,
+				0F487B5915399716004530C1 /* serverListCellView.xib */,
+				0F554912151D1187007E633F /* MasterViewController.xib */,
+				0F554915151D1187007E633F /* DetailViewController.xib */,
+				0F74772D151DD77400EF78AD /* NowPlaying.xib */,
+				0F747733151DD91D00EF78AD /* RemoteController.xib */,
+				0F4883D31521CD1C00883243 /* VolumeSliderView.xib */,
+				0F4883E41522418D00883243 /* ShowInfoViewController.xib */,
+				0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */,
+				0F487B4B15396D4C004530C1 /* HostViewController.xib */,
+				0F61E199153C828300A89BB1 /* AppInfoViewController.xib */,
+				0F2EB20C1547EA37005CAD4A /* WebViewController.xib */,
+			);
+			name = iPhone;
+			sourceTree = "<group>";
+		};
+		0F175F1D154D5B9B00C1C61F /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
+		0F175F20154D5C0D00C1C61F /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				0F175F29154D699D00C1C61F /* UIViewWithShadow.h */,
+				0F175F2A154D699D00C1C61F /* UIViewWithShadow.m */,
+				0F175F26154D696B00C1C61F /* StackScrollViewController.h */,
+				0F175F27154D696B00C1C61F /* StackScrollViewController.m */,
+				0F175F21154D5C3600C1C61F /* ViewControllerIPad.h */,
+				0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */,
+				0F175F2C154D6AFA00C1C61F /* MenuViewController.h */,
+				0F175F2D154D6AFA00C1C61F /* MenuViewController.m */,
+				0F175F2F154D6B1600C1C61F /* DataViewController.h */,
+				0F175F30154D6B1700C1C61F /* DataViewController.m */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 		0F5548EB151D1187007E633F = {
 			isa = PBXGroup;
 			children = (
@@ -807,28 +899,6 @@
 				0F55491F151D13C9007E633F /* images */,
 				0F554909151D1187007E633F /* AppDelegate.h */,
 				0F55490A151D1187007E633F /* AppDelegate.m */,
-				0F55490C151D1187007E633F /* MasterViewController.h */,
-				0F55490D151D1187007E633F /* MasterViewController.m */,
-				0F55490F151D1187007E633F /* DetailViewController.h */,
-				0F554910151D1187007E633F /* DetailViewController.m */,
-				0F370052151F6A9E00A3D42C /* jsonDataCell.h */,
-				0F370053151F6A9E00A3D42C /* jsonDataCell.m */,
-				0F4883E21522418C00883243 /* ShowInfoViewController.h */,
-				0F4883E31522418C00883243 /* ShowInfoViewController.m */,
-				0F74772B151DD77400EF78AD /* NowPlaying.h */,
-				0F74772C151DD77400EF78AD /* NowPlaying.m */,
-				0F747731151DD91D00EF78AD /* RemoteController.h */,
-				0F747732151DD91D00EF78AD /* RemoteController.m */,
-				0F82A5A1152C608100FC8B7A /* PlayFileViewController.h */,
-				0F82A5A2152C608100FC8B7A /* PlayFileViewController.m */,
-				0F4883D01521CC7200883243 /* VolumeSliderView.h */,
-				0F4883D11521CC7300883243 /* VolumeSliderView.m */,
-				0F487B4915396D4C004530C1 /* HostViewController.h */,
-				0F487B4A15396D4C004530C1 /* HostViewController.m */,
-				0F61E197153C828300A89BB1 /* AppInfoViewController.h */,
-				0F61E198153C828300A89BB1 /* AppInfoViewController.m */,
-				0F2EB20F1547EA4A005CAD4A /* WebViewController.h */,
-				0F2EB2101547EA4A005CAD4A /* WebViewController.m */,
 			);
 			path = "XBMC Remote";
 			sourceTree = "<group>";
@@ -1173,20 +1243,8 @@
 		0F554C21151D197F007E633F /* nib */ = {
 			isa = PBXGroup;
 			children = (
-				0F55491D151D1397007E633F /* cellView.xib */,
-				0FB16163151F156A001BA2D4 /* jsonDataCell.xib */,
-				0F44E2D41527A9DF00D5958F /* playlistCellView.xib */,
-				0F487B5915399716004530C1 /* serverListCellView.xib */,
-				0F554912151D1187007E633F /* MasterViewController.xib */,
-				0F554915151D1187007E633F /* DetailViewController.xib */,
-				0F74772D151DD77400EF78AD /* NowPlaying.xib */,
-				0F747733151DD91D00EF78AD /* RemoteController.xib */,
-				0F4883D31521CD1C00883243 /* VolumeSliderView.xib */,
-				0F4883E41522418D00883243 /* ShowInfoViewController.xib */,
-				0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */,
-				0F487B4B15396D4C004530C1 /* HostViewController.xib */,
-				0F61E199153C828300A89BB1 /* AppInfoViewController.xib */,
-				0F2EB20C1547EA37005CAD4A /* WebViewController.xib */,
+				0F175F1D154D5B9B00C1C61F /* iPad */,
+				0F175F14154D45C200C1C61F /* iPhone */,
 			);
 			name = nib;
 			sourceTree = "<group>";
@@ -1194,6 +1252,8 @@
 		0F747736151DD98600EF78AD /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				0F175F20154D5C0D00C1C61F /* iPad */,
+				0F175F13154D45B300C1C61F /* iPhone */,
 				0FB1616B151F4005001BA2D4 /* SDWebImage */,
 				0F747767151E5E8600EF78AD /* Demiurgic-JSON-RPC */,
 				0F554C1E151D14DA007E633F /* mainMenu.h */,
@@ -1616,6 +1676,7 @@
 				0F2EB21C1547EF84005CAD4A /* arrow_right@2x.png in Resources */,
 				0F2EB21F1547EF91005CAD4A /* arrow_left.png in Resources */,
 				0F2EB2201547EF91005CAD4A /* arrow_right.png in Resources */,
+				0F175F25154D5C3600C1C61F /* ViewControllerIPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1651,6 +1712,11 @@
 				0F487B4C15396D4C004530C1 /* HostViewController.m in Sources */,
 				0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */,
 				0F2EB2111547EA4A005CAD4A /* WebViewController.m in Sources */,
+				0F175F24154D5C3600C1C61F /* ViewControllerIPad.m in Sources */,
+				0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */,
+				0F175F2B154D699D00C1C61F /* UIViewWithShadow.m in Sources */,
+				0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */,
+				0F175F31154D6B1700C1C61F /* DataViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1747,7 +1813,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1764,7 +1830,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "mainMenu.h"
 #import "MasterViewController.h"
+#import "ViewControllerIPad.h"
 //#import "GlobalData.h"
 
 @implementation AppDelegate
@@ -17,10 +18,16 @@ NSMutableArray *mainMenuItems;
 
 @synthesize window = _window;
 @synthesize navigationController = _navigationController;
+@synthesize windowController = _windowController;
 @synthesize dataFilePath;
 @synthesize arrayServerList;
 @synthesize fileManager;
 @synthesize documentsDir;
+//@synthesize 
+
++ (AppDelegate *) instance {
+	return (AppDelegate *) [[UIApplication sharedApplication] delegate];
+}
 
 #pragma mark -
 #pragma mark init
@@ -79,18 +86,15 @@ NSMutableArray *mainMenuItems;
     // Override point for customization after application launch.
     MasterViewController *masterViewController;
     
-    
-    
-    
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
         self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
         self.window.rootViewController = self.navigationController;
-//    } else {
-//        masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-//        self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
-//        self.window.rootViewController = self.navigationController;
-//    }
+    } else {
+//        masterViewController = [[MasterViewController alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
+        self.windowController = [[ViewControllerIPad alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
+        self.window.rootViewController = self.windowController;
+    }
     
     int thumbWidth;
     int tvshowHeight;
@@ -729,9 +733,7 @@ NSMutableArray *mainMenuItems;
                        @"episode",@"row14",
                        @"fanart",@"row7",
                        nil],
-                      
-                      
-                      
+                                            
                       [NSDictionary  dictionaryWithObjectsAndKeys:
                        @"sources",@"itemid",
                        @"label", @"row1",

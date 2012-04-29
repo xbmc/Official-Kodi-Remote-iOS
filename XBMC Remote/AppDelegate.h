@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class ViewControllerIPad;
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>{
     NSString *dataFilePath;
@@ -16,9 +18,14 @@
 	NSString *documentsDir;
 }
 
++ (AppDelegate *) instance;
+
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) UINavigationController *navigationController;
+
+@property (strong, nonatomic) ViewControllerIPad *windowController;
+
 
 @property (retain, nonatomic) NSString *dataFilePath;
 
