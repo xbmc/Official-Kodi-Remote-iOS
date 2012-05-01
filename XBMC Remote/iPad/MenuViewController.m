@@ -53,24 +53,62 @@
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu{
     if (self = [super init]) {
 		[self.view setFrame:frame]; 
-		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
+        int tableHeight = [menu count] * 64 + 16;
+		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, tableHeight) style:UITableViewStylePlain];
         [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 		[_tableView setDelegate:self];
 		[_tableView setDataSource:self];
-		[_tableView setBackgroundColor:[UIColor clearColor]];
+        [_tableView setBackgroundColor:[UIColor clearColor]];
+//		[_tableView setBackgroundColor:[UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1]];
         mainMenuItems=menu;
         UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
 		_tableView.tableFooterView = footerView;
 //        [footerView release];
         
 		[self.view addSubview:_tableView];
+//        CGRect shadowRect;
+//        UIImageView *shadow;
+        
+//        shadowRect = CGRectMake(0.0f, 0.0f, 300.0f, 8.0f);
+//        shadow = [[UIImageView alloc] initWithFrame:shadowRect];
+//        [shadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+//        shadow.opaque = YES;
+//        shadow.alpha = 0.5;
+//        [self.view addSubview:shadow];
+        
+//        shadowRect = CGRectMake(0.0f, tableHeight - 8, self.view.frame.size.width, 8.0f);
+//        shadow = [[UIImageView alloc] initWithFrame:shadowRect];
+//        [shadow setImage:[UIImage imageNamed:@"tableDown.png"]];
+//        shadow.opaque = YES;
+//        shadow.alpha = 0.5;
+//        [self.view addSubview:shadow];
 		
-		UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, -5, 1, self.view.frame.size.height)];
-		[verticalLineView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-		[verticalLineView setBackgroundColor:[UIColor darkGrayColor]];
-		[self.view addSubview:verticalLineView];
-		[self.view bringSubviewToFront:verticalLineView];
-//        [verticalLineView release];
+        
+//        UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, -5, 1, self.view.frame.size.height+5)];
+//		[verticalLineView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+//		[verticalLineView setBackgroundColor:[UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1]];
+//		[self.view addSubview:verticalLineView];
+
+        UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width + 1, -5, 5, self.view.frame.size.height-39)];
+		[verticalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+		[verticalLineView1 setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"denim_seam_vertical.png"]]];
+		[self.view addSubview:verticalLineView1];
+        [self.view bringSubviewToFront:verticalLineView1];
+                
+//		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, -5, 1, self.view.frame.size.height-39)];
+//		[verticalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+//		[verticalLineView1 setBackgroundColor:[UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1]];
+//		[self.view addSubview:verticalLineView1];
+//        [self.view bringSubviewToFront:verticalLineView1];
+//
+//        
+//        UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, -5, 1, self.view.frame.size.height-39)];
+//		[verticalLineView2 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+//		[verticalLineView2 setBackgroundColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:0.7f]];
+//		[self.view addSubview:verticalLineView2];
+//        
+//        [self.view bringSubviewToFront:verticalLineView2];
+
 		
 	}
     return self;
@@ -78,6 +116,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    lastSelected=-1;
 
 }
 
@@ -106,7 +145,7 @@
 #pragma mark Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 70;
+    return 64;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -124,59 +163,29 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    
-    
-    
     UITableViewCell *cell=nil;
-        cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
-        [[NSBundle mainBundle] loadNibNamed:@"cellViewIPad" owner:self options:NULL];
-        if (cell==nil)
-            cell = resultMenuCell;
-        mainMenu *item = [mainMenuItems objectAtIndex:indexPath.row];
-        [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:item.icon]];
-        [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];   
-        [(UILabel*) [cell viewWithTag:3] setText:item.mainLabel]; 
-//        if (serverOnLine){
-            [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
-            [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
-            [(UIImageView*) [cell viewWithTag:3] setAlpha:1];
-            cell.selectionStyle=UITableViewCellSelectionStyleBlue;
-//        }
-//        else {
-//            [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
-//            [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
-//            [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
-//            cell.selectionStyle=UITableViewCellSelectionStyleGray;
-//            
-//        }
-        
-        return cell;
-    
-    
-    
-    
-    
-    
-    
-//    
-//    static NSString *CellIdentifier = @"Cell";
-//    
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    if (cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//		UIView* bgView = [[UIView alloc] init];
-//		[bgView setBackgroundColor:[UIColor colorWithWhite:2 alpha:0.2]];
-//		[cell setSelectedBackgroundView:bgView];
+    cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
+    [[NSBundle mainBundle] loadNibNamed:@"cellViewIPad" owner:self options:NULL];
+    if (cell==nil)
+        cell = resultMenuCell;
+    mainMenu *item = [mainMenuItems objectAtIndex:indexPath.row];
+    [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:item.icon]];
+    [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];   
+    [(UILabel*) [cell viewWithTag:3] setText:item.mainLabel]; 
+//    if (serverOnLine){
+        [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
+        [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
+        [(UIImageView*) [cell viewWithTag:3] setAlpha:1];
+        cell.selectionStyle=UITableViewCellSelectionStyleBlue;
 //    }
-//    
-//    // Configure the cell...
-//	cell.textLabel.text = [NSString stringWithFormat:@"Menu %d", indexPath.row +1];
-//	[cell.textLabel setTextColor:[UIColor whiteColor]];
-//
-//
-//    return cell;
+//    else {
+//        [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
+//        [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
+//        [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
+//        cell.selectionStyle=UITableViewCellSelectionStyleGray;
+//        
+//    }
+    return cell;
 }
 
 
@@ -184,9 +193,43 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DataViewController *dataViewController = [[DataViewController alloc] initWithFrame:CGRectMake(0, 0, 477, self.view.frame.size.height)];
-	[[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:dataViewController invokeByController:self isStackStartView:TRUE];
+    mainMenu *item = [mainMenuItems objectAtIndex:indexPath.row];
+    if (item.family == 2){
+        [[AppDelegate instance].windowController.stackScrollViewController offView];
+    }
+    else{
+        if (lastSelected==indexPath.row){
+            [[AppDelegate instance].windowController.stackScrollViewController offView];
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            lastSelected=-1;
+            return;
+        }
+        DataViewController *dataViewController = [[DataViewController alloc] initWithFrame:CGRectMake(0, 0, 477, self.view.frame.size.height)];
+        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:dataViewController invokeByController:self isStackStartView:TRUE];
+        lastSelected=indexPath.row;
+    }
 }
+
+//- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+//	imageView.frame = CGRectMake(0,0,320,8);
+//	return imageView;
+//}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    return 8;
+//}
+
+//- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+//	imageView.frame = CGRectMake(0,0,320,8);
+//	return imageView;
+//}
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+//	return 8;
+//}
+
 
 
 #pragma mark -

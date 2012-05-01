@@ -46,9 +46,9 @@
 						<reference key="NSSuperview" ref="626646119"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="550865522"/>
-						<object class="NSColor" key="IBUIBackgroundColor" id="989229614">
+						<object class="NSColor" key="IBUIBackgroundColor" id="264852131">
 							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MAA</bytes>
+							<bytes key="NSWhite">MCAwAA</bytes>
 						</object>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<array key="IBUIGestureRecognizers" id="0"/>
@@ -64,7 +64,7 @@
 					<object class="IBUIImageView" id="550865522">
 						<reference key="NSNextResponder" ref="626646119"/>
 						<int key="NSvFlags">288</int>
-						<string key="NSFrameSize">{320, 8}</string>
+						<string key="NSFrame">{{0, -2}, {320, 8}}</string>
 						<reference key="NSSuperview" ref="626646119"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1005197824"/>
@@ -81,17 +81,17 @@
 					<object class="IBUIImageView" id="416093131">
 						<reference key="NSNextResponder" ref="626646119"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{0, 408}, {320, 8}}</string>
+						<string key="NSFrame">{{0, 413}, {320, 5}}</string>
 						<reference key="NSSuperview" ref="626646119"/>
 						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
+						<int key="IBUIContentMode">2</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage" id="270508405">
+						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">tableDown.png</string>
+							<string key="NSResourceName">denim_single_seam.png</string>
 						</object>
 					</object>
 					<object class="IBUIView" id="1005197824">
@@ -147,7 +147,10 @@
 									<bytes key="NSWhite">MQA</bytes>
 								</object>
 								<nil key="IBUIHighlightedColor"/>
-								<reference key="IBUIShadowColor" ref="989229614"/>
+								<object class="NSColor" key="IBUIShadowColor" id="989229614">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MAA</bytes>
+								</object>
 								<string key="IBUIShadowOffset">{1, 1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">10</float>
@@ -299,7 +302,10 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<reference key="IBUIImage" ref="270508405"/>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">tableDown.png</string>
+								</object>
 							</object>
 						</array>
 						<string key="NSFrame">{{0, -248}, {320, 248}}</string>
@@ -307,10 +313,7 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1065970744"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MCAwAA</bytes>
-						</object>
+						<reference key="IBUIBackgroundColor" ref="264852131"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</array>
@@ -319,13 +322,7 @@
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="709618507"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
-				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">3</int>
-					<bytes key="NSWhite">MQA</bytes>
-					<object class="NSColorSpace" key="NSCustomColorSpace">
-						<int key="NSID">2</int>
-					</object>
-				</object>
+				<reference key="IBUIBackgroundColor" ref="264852131"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUILongPressGestureRecognizer" id="889875428"/>
@@ -649,6 +646,7 @@
 			<string key="button_edit.png">{90, 36}</string>
 			<string key="button_edit_down.png">{90, 36}</string>
 			<string key="button_edit_highlight.png">{90, 36}</string>
+			<string key="denim_single_seam.png">{300, 5}</string>
 			<string key="shiny_black_back.png">{320, 480}</string>
 			<string key="tableDown.png">{480, 8}</string>
 			<string key="tableUp.png">{480, 8}</string>

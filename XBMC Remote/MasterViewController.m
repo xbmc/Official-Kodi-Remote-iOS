@@ -583,6 +583,8 @@ BOOL firstRun;
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
+
     
 
 }

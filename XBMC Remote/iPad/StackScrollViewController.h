@@ -67,6 +67,8 @@
 
 }
 
+- (void)offView;
+
 - (void) addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView;
 - (void)bounceBack:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context;
 

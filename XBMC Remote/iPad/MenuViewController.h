@@ -43,6 +43,7 @@
 	UITableView*  _tableView;
     NSMutableArray *mainMenuItems;
     IBOutlet UITableViewCell *resultMenuCell;
+    int lastSelected;
 }
 
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu;

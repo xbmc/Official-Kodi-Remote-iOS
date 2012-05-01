@@ -315,43 +315,54 @@ int currentItemID;
 
                                  if ([type isEqualToString:@"song"]){
                                      jewelImg=@"jewel_cd.9.png";
-                                     CGRect frame=thumbnailView.frame;
-                                     frame.origin.x=50;
-                                     frame.origin.y=43;
-                                     frame.size.width=237;
-                                     frame.size.height=236;
-                                     thumbnailView.frame=frame;
-                                     songDetailsView.frame=frame;
+                                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                                         CGRect frame=thumbnailView.frame;
+                                         frame.origin.x=50;
+                                         frame.origin.y=43;
+                                         frame.size.width=237;
+                                         frame.size.height=236;
+                                         thumbnailView.frame=frame;
+                                         songDetailsView.frame=frame;
+                                     }
+                                     else {
+                                         jewelImg=@"jewel_cd.9@2x.png";
+                                     }
                                  }
                                  else if ([type isEqualToString:@"movie"]){
-                                     CGRect frame=thumbnailView.frame;
-                                     frame.origin.x=82;
-                                     frame.origin.y=39;
-                                     frame.size.width=172;
-                                     frame.size.height=248;
-                                     thumbnailView.frame=frame;
-                                     songDetailsView.frame=frame;
                                      jewelImg=@"jewel_dvd.9.png";
+                                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                                         CGRect frame=thumbnailView.frame;
+                                         frame.origin.x=82;
+                                         frame.origin.y=39;
+                                         frame.size.width=172;
+                                         frame.size.height=248;
+                                         thumbnailView.frame=frame;
+                                         songDetailsView.frame=frame;
+                                     }
                                  }
                                  else if ([type isEqualToString:@"episode"]){
                                      jewelImg=@"jewel_tv.9.png";
-                                     CGRect frame=thumbnailView.frame;
-                                     frame.origin.x=20;
-                                     frame.origin.y=78;
-                                     frame.size.width=280;
-                                     frame.size.height=158;
-                                     thumbnailView.frame=frame;
-                                     songDetailsView.frame=frame;
+                                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                                         CGRect frame=thumbnailView.frame;
+                                         frame.origin.x=20;
+                                         frame.origin.y=78;
+                                         frame.size.width=280;
+                                         frame.size.height=158;
+                                         thumbnailView.frame=frame;
+                                         songDetailsView.frame=frame;
+                                     }
                                  }
                                  else{
                                      jewelImg=@"jewel_cd.9.png";
-                                     CGRect frame=thumbnailView.frame;
-                                     frame.origin.x=50;
-                                     frame.origin.y=43;
-                                     frame.size.width=237;
-                                     frame.size.height=236;
-                                     thumbnailView.frame=frame;
-                                     songDetailsView.frame=frame;
+                                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                                         CGRect frame=thumbnailView.frame;
+                                         frame.origin.x=50;
+                                         frame.origin.y=43;
+                                         frame.size.width=237;
+                                         frame.size.height=236;
+                                         thumbnailView.frame=frame;
+                                         songDetailsView.frame=frame;
+                                     }
                                      
                                  }
                                  jewelView.image=[UIImage imageNamed:jewelImg];
@@ -704,7 +715,7 @@ int currentItemID;
 
 -(void)createPlaylist:(BOOL)forcePlaylistID{  
     if (!musicPartyMode)
-        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:320];
+        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     [activityIndicatorView startAnimating];
     GlobalData *obj=[GlobalData getInstance]; 
     int playlistID=playerID;
@@ -1097,35 +1108,25 @@ int anim2;
     
 }
 
+//- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+//    UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+//    imageView.frame = CGRectMake(0,0,320,1);
+//    return imageView;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    return 1;
+//}
+
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    //    mainMenu *MenuItem=self.detailItem;
-    //    NSDictionary *methods=[self indexKeyedDictionaryFromArray:MenuItem.subItem.mainMethod];
-    //    
-    //    if ([methods objectForKey:@"method"]==nil){
-    //        UIImage *myImage = [UIImage imageNamed:@"footer.png"];
-    //        UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-    //
-    //        imageView.frame = CGRectMake(0,0,320,50);
-    //        return imageView;
-    //    }
-    //    else {
-    UIImage *myImage = [UIImage imageNamed:@"tableDown.png"];
+    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
     imageView.frame = CGRectMake(0,0,320,1);
     return imageView;
-    
-    //    }
-    //	return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    //    mainMenu *MenuItem=self.detailItem;
-    //    NSDictionary *methods=[self indexKeyedDictionaryFromArray:MenuItem.subItem.mainMethod];
-    //    if ([methods objectForKey:@"method"]==nil){
-    //        return 44;
-    //    }else {
-    //        return 1;
-    //    }
     return 1;
 }
 
@@ -1312,20 +1313,90 @@ int anim2;
 //    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
 }
 
+-(void)setToolbarWidth:(int)width height:(int)height origX:(int)origX origY:(int)origY thumbWidth:(int)thumbWidth thumbHeight:(int)thumbHeight YPOS:(int)YPOS playBarWidth:(int)playBarWidth{
+    CGRect frame;
+    barwidth = playBarWidth;
+    frame=playlistToolbar.frame;
+    frame.size.width=width+20;
+    frame.origin.x=0;
+    playlistToolbar.frame=frame;
+    
+    frame=nowPlayingView.frame;
+    frame.origin.x=302;
+    frame.origin.y=YPOS;
+    frame.size.height=height - 84;
+    frame.size.width=width - 302;
+    nowPlayingView.frame=frame;
+    
+    frame=thumbnailView.frame; // DA SISTEMARE PASSARE ARRAY DI VALORI E POI DECIDERE IN BASE AL TIPO (MUSICA, VIDEO, TVSHOW)
+    frame.origin.x=origX;
+    frame.origin.y=origY;
+    frame.size.width=thumbWidth;
+    frame.size.height=thumbHeight;
+    thumbnailView.frame=frame;
+    
+}
+
 - (void)viewDidLoad{
+//    NSLog(@"%f", pgbar.frame.size.width);
+
     [[SDImageCache sharedImageCache] clearMemory];
     playerID=-1;
     selectedPlayerID=-1;
     [super viewDidLoad];
-    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 226.0f)];
-    CGRect frame=volumeSliderView.frame;
-    frame.origin.x=258;
-    frame.origin.y=-226;
-    volumeSliderView.frame=frame;
-    [self.view addSubview:volumeSliderView];
-    UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-    self.navigationItem.rightBarButtonItem = settingsButton;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 226.0f)];
+        CGRect frame=volumeSliderView.frame;
+        frame.origin.x=258;
+        frame.origin.y=-226;
+        volumeSliderView.frame=frame;
+        [self.view addSubview:volumeSliderView];
+        UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
+        UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+        self.navigationItem.rightBarButtonItem = settingsButton;
+        slideFrom=320;
+        
+    }
+    else{
+        slideFrom=-300;
+        CGRect frame;
+        [albumName setFont:[UIFont fontWithName:@"Optima-Regular" size:24]];
+        frame=albumName.frame;
+        frame.origin.y=10;
+        albumName.frame=frame;
+        [songName setFont:[UIFont fontWithName:@"Optima-Regular" size:18]];
+        frame=songName.frame;
+        frame.origin.y=frame.origin.y+6;
+        songName.frame=frame;
+
+        [artistName setFont:[UIFont fontWithName:@"Optima-Regular" size:16]];
+        frame=artistName.frame;
+        frame.origin.y=frame.origin.y+12;
+        artistName.frame=frame;
+
+        [currentTime setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
+        [duration setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
+        frame=playlistTableView.frame;
+        frame.origin.x=slideFrom;
+        playlistTableView.frame=frame;
+
+        NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
+        [items removeObjectAtIndex:1];
+        [items removeObjectAtIndex:2];
+        [items removeObjectAtIndex:3];
+        [items removeObjectAtIndex:4];
+        [items removeObjectAtIndex:5];
+        [items removeObjectAtIndex:6];
+        [items removeObjectAtIndex:7];
+        [playlistToolbar setItems:items animated:YES];
+
+        UIButton *buttonItem=(UIButton *)[self.view viewWithTag:5];
+        [buttonItem removeFromSuperview];
+
+        nowPlayingView.hidden=NO;
+        playlistView.hidden=NO;
+        //button.hidden=YES;
+    }
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, obj.serverPass, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];

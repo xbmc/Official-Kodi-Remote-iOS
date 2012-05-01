@@ -51,17 +51,26 @@
     IBOutlet UIButton *seg_video;
     IBOutlet UIButton *editTableButton;
     IBOutlet UIButton *PartyModeButton;
+    IBOutlet UIImageView *backgroundImageView;
 
 
     IBOutlet UIView *noFoundView;
     NSIndexPath *storeSelection;
-
+    int slideFrom;
     int numResults;
     SDWebImageManager *manager;
-
-
+    IBOutlet UIToolbar *playlistToolbar;
+    
+    int iPadOrigX;
+    int iPadOrigY;
+    int iPadthumbWidth;
+    int iPadthumbHeight;
+    IBOutlet UIView *playlistActionView;
+    IBOutlet UIImageView *pgbar;
 }
 
+-(void)setToolbarWidth:(int)width height:(int)height origX:(int)origX origY:(int)origY thumbWidth:(int)thumbWidth thumbHeight:(int)thumbHeight YPOS:(int)YPOS playBarWidth:(int)playBarWidth;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
 
 @property (strong, nonatomic) id detailItem;
