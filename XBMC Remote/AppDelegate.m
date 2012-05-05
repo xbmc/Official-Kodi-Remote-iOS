@@ -91,7 +91,13 @@ NSMutableArray *mainMenuItems;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         thumbWidth = 320;
         tvshowHeight = 61;
-    } else {
+        if ([[userDefaults objectForKey:@"tvshows_poster_preference"] boolValue]==YES){
+            thumbWidth = 53;
+            tvshowHeight = 76;
+        }
+        
+    } 
+    else {
         thumbWidth = 768;
         tvshowHeight = 146;
     }
@@ -710,7 +716,7 @@ NSMutableArray *mainMenuItems;
                        @"label", @"row1",
                        @"genre", @"row2",
                        @"blank", @"row3",
-                       @"", @"row4",
+                       @"studio", @"row4",
                        @"rating",@"row5",
                        @"tvshowid",@"row6",
                        [NSNumber numberWithInt:2], @"playlistid",
@@ -1022,7 +1028,7 @@ NSMutableArray *mainMenuItems;
 //        [mainMenuItems addObject:item5];
         [mainMenuItems addObject:item6];
         self.windowController = [[ViewControllerIPad alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
-        self.windowController.mainMenu =mainMenuItems;
+        self.windowController.mainMenu = mainMenuItems;
         self.window.rootViewController = self.windowController;
         
         
@@ -1057,6 +1063,20 @@ NSMutableArray *mainMenuItems;
         xbmcRemote.idleTimerDisabled = NO;
 
     }
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+//        int thumbWidth = 320;
+//        int tvshowHeight = 61;
+//        if ([[userDefaults objectForKey:@"tvshows_poster_preference"] boolValue]==YES){
+//            thumbWidth = 53;
+//            tvshowHeight = 76;
+//        }
+////        NSMutableArray *menu=self.windowController.mainMenu;
+////        mainMenu *menuItem=[self.windowController.mainMenu objectAtIndex:2];
+////        menuItem.thumbWidth=thumbWidth;
+////        menuItem.thumbWidth=tvshowHeight;
+////        self.windowController.mainMenu=menu;
+//        NSLog(@"%@", self.windowController.mainMenu);
+//    }
     [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil]; 
 }
 

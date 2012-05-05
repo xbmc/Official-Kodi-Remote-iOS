@@ -90,7 +90,6 @@
 								<string key="NSFrame">{{0, 452}, {320, 8}}</string>
 								<reference key="NSSuperview" ref="993193761"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">4</int>
@@ -582,30 +581,13 @@
 										<string key="NSFrameSize">{320, 8}</string>
 										<reference key="NSSuperview" ref="255580774"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="784039526"/>
+										<reference key="NSNextKeyView"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">4</int>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<reference key="IBUIImage" ref="223936746"/>
-									</object>
-									<object class="IBUIImageView" id="784039526">
-										<reference key="NSNextResponder" ref="255580774"/>
-										<int key="NSvFlags">256</int>
-										<string key="NSFrame">{{0, 205}, {320, 8}}</string>
-										<reference key="NSSuperview" ref="255580774"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="1042758578"/>
-										<bool key="IBUIOpaque">NO</bool>
-										<bool key="IBUIClipsSubviews">YES</bool>
-										<int key="IBUIContentMode">4</int>
-										<bool key="IBUIMultipleTouchEnabled">YES</bool>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<object class="NSCustomResource" key="IBUIImage">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">tableDown.png</string>
-										</object>
 									</object>
 								</array>
 								<string key="NSFrame">{{320, 202}, {320, 213}}</string>
@@ -997,14 +979,8 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="897876685"/>
 							<reference ref="1073473881"/>
-							<reference ref="784039526"/>
 						</array>
 						<reference key="parent" ref="993193761"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">49</int>
-						<reference key="object" ref="784039526"/>
-						<reference key="parent" ref="255580774"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">48</int>
@@ -1042,7 +1018,6 @@
 				<string key="46.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="48.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="49.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="2" key="7.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
@@ -1134,7 +1109,6 @@
 			<string key="button_edit_down.png">{90, 36}</string>
 			<string key="button_edit_highlight.png">{90, 36}</string>
 			<string key="shiny_black_back.png">{320, 480}</string>
-			<string key="tableDown.png">{480, 8}</string>
 			<string key="tableUp.png">{480, 8}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1181</string>

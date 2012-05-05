@@ -596,8 +596,19 @@ BOOL firstRun;
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender;{
-   // [self checkPartyMode];
-   // [self changeServerStatus:NO infoText:@"No connection"];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults synchronize];
+        int thumbWidth = 320;
+        int tvshowHeight = 61;
+        if ([[userDefaults objectForKey:@"tvshows_poster_preference"] boolValue]==YES){
+            thumbWidth = 53;
+            tvshowHeight = 76;
+        }
+        mainMenu *menuItem=[self.mainMenu objectAtIndex:2];
+        menuItem.thumbWidth=thumbWidth;
+        menuItem.rowHeight=tvshowHeight;
+    }
 }
 
 -(void)dealloc{

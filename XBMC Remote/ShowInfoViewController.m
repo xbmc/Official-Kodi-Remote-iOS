@@ -130,19 +130,23 @@ int h=0;
         int shiftY=40;
         CGRect frame;
         if ([[item objectForKey:@"family"] isEqualToString:@"studio"]){
-            coverHeight=70;
-            deltaY=coverView.frame.size.height - coverHeight;
-            shiftY=0;
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults synchronize];
+            if ([[userDefaults objectForKey:@"tvshows_poster_preference"] boolValue]==NO){
+                coverHeight=70;
+                deltaY=coverView.frame.size.height - coverHeight;
+                shiftY=0;
+                jewelView.hidden=YES;
+                frame=coverView.frame;
+                frame.origin.x=0;
+                frame.origin.y=12;
+                frame.size.width=320;
+                frame.size.height=59;
+                coverView.frame=frame;
+            }
             label1.text=@"EPISODES";
             label3.text=@"GENRE";
             label4.text=@"STUDIO";
-            jewelView.hidden=YES;
-            frame=coverView.frame;
-            frame.origin.x=0;
-            frame.origin.y=12;
-            frame.size.width=320;
-            frame.size.height=59;
-            coverView.frame=frame;
             directorLabel.text=[[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
             genreLabel.text=[[item objectForKey:@"premiered"] length]==0 ? @"-" : [item objectForKey:@"premiered"];
             runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];

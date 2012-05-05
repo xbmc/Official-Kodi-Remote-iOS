@@ -1103,6 +1103,12 @@ NSIndexPath *selected;
                      if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
                          runtime=[NSString stringWithFormat:@"%d min",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]];
                      }
+                     else{
+                         runtime=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]]];
+                     }
+                     if ([runtime isEqualToString:@"(null)"]) runtime=@"";
+
+                     
                      NSString *rating=[NSString stringWithFormat:@"%.1f",[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row5"]] floatValue]];
                      
                      if ([rating isEqualToString:@"0.0"])
@@ -1302,132 +1308,6 @@ NSIndexPath *selected;
     
     
 }
-#pragma mark -
-#pragma mark Search Bar 
-
-//- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)theSearchBar {
-//    [theSearchBar setShowsCancelButton:YES animated:YES];
-//	return YES;
-//}
-//
-//- (BOOL)searchBarShouldEndEditing:(UISearchBar *)theSearchBar {
-//    [theSearchBar setShowsCancelButton:NO animated:YES];
-//	return YES;
-//}
-
-//- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar {
-//    [self doneSearching_Clicked:nil];
-//}
-
-//- (void) searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
-	
-	//This method is called again when the user clicks back from teh detail view.
-	//So the overlay is displayed on the results, which is something we do not want to happen.
-//	if(searching)
-//		return;
-	
-	//Add the overlay view.
-//	if(ovController == nil)
-//		ovController = [[OverlayViewController alloc] initWithNibName:@"OverlayViewController" bundle:[NSBundle mainBundle]];
-//	
-//	CGFloat yaxis = self.navigationController.navigationBar.frame.size.height;
-//	CGFloat width = self.view.frame.size.width;
-//	CGFloat height = self.view.frame.size.height;
-//	
-//	//Parameters x = origion on x-axis, y = origon on y-axis.
-//	CGRect frame = CGRectMake(0, yaxis, width, height);
-//	ovController.view.frame = frame;	
-//	ovController.view.backgroundColor = [UIColor grayColor];
-//	ovController.view.alpha = 0.5;
-//	
-//	ovController.detController = self;
-//	
-//	[dataList insertSubview:ovController.view aboveSubview:self.parentViewController.view];
-	
-//	searching = YES;
-//	letUserSelectRow = NO;
-//	dataList.scrollEnabled = NO;
-	
-	//Add the done button.
-//	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] 
-//											   initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
-//											   target:self action:@selector(doneSearching_Clicked:)] autorelease];
-//}
-
-//- (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText {
-//    
-//	//Remove all objects first.
-//	[copyListOfItems removeAllObjects];
-//	[self searchTableView];
-//    
-//	if([searchText length] > 0) {
-//		NSLog(@"debntro");
-//	//	[ovController.view removeFromSuperview];
-//		searching = YES;
-//		letUserSelectRow = YES;
-//		dataList.scrollEnabled = YES;
-//		[self searchTableView];
-//	}
-//	else {
-//		
-//		//[self.tableView insertSubview:ovController.view aboveSubview:self.parentViewController.view];
-//		
-//		searching = NO;
-//		letUserSelectRow = NO;
-//		dataList.scrollEnabled = NO;
-////        [dataList reloadData];
-//	}
-//	
-//}
-//
-//- (void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
-//    [searchBar resignFirstResponder];
-//	[self searchTableView];
-//}
-//
-//- (void) searchTableView {
-//	
-////	NSString *searchText = searchBar.text;
-////	NSMutableArray *searchArray = [[NSMutableArray alloc] init];
-////	
-////	for (NSDictionary *dictionary in richResults)
-////	{
-////		NSArray *array = [dictionary objectForKey:@"label"];
-////        NSLog(@"%@", array);
-//		//[searchArray addObjectsFromArray:array];
-////	}
-//	
-////	for (NSDictionary *sTemp in searchArray)
-////	{
-////		NSRange titleResultsRange = [[sTemp objectForKey:@"label"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-////		
-////		if (titleResultsRange.length > 0)
-////			[copyListOfItems addObject:sTemp];
-////	}
-//   // richResults=copyListOfItems;
-////	[dataList reloadData];
-//	//[searchArray release];
-////	searchArray = nil;
-//}
-//
-//- (void) doneSearching_Clicked:(id)sender {
-//	
-//	searchBar.text = @"";
-//	[searchBar resignFirstResponder];
-//	
-//	letUserSelectRow = YES;
-//	searching = NO;
-//	//self.navigationItem.rightBarButtonItem = nil;
-//	dataList.scrollEnabled = YES;
-//	
-//	[ovController.view removeFromSuperview];
-////	[ovController release];
-//	ovController = nil;
-//	
-//	[dataList reloadData];
-//}
-
-
 
 # pragma mark - Life-Cycle
 -(void)viewWillAppear:(BOOL)animated{

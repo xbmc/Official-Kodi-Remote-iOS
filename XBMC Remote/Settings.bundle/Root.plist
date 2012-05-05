@@ -14,6 +14,16 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
+			<string>tvshows_poster_preference</string>
+			<key>Title</key>
+			<string>Use TV shows posters</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
 			<string>lockscreen_preference</string>
 			<key>Title</key>
 			<string>Override Lockscreen</string>
@@ -24,9 +34,9 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>clearcache_preference</string>
+			<string>vibrate_preference</string>
 			<key>Title</key>
-			<string>Clear cache on next start</string>
+			<string>Vibrate remote control</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -34,9 +44,9 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>vibrate_preference</string>
+			<string>clearcache_preference</string>
 			<key>Title</key>
-			<string>Vibrate remote control</string>
+			<string>Clear cache on next start</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>

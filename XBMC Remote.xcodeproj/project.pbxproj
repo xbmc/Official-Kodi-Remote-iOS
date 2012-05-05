@@ -928,12 +928,12 @@
 			isa = PBXGroup;
 			children = (
 				0FDFC67C15377CE9000BE837 /* Settings.bundle */,
+				0F554909151D1187007E633F /* AppDelegate.h */,
+				0F55490A151D1187007E633F /* AppDelegate.m */,
 				0F747736151DD98600EF78AD /* classes */,
 				0F554901151D1187007E633F /* Supporting Files */,
 				0F554C21151D197F007E633F /* nib */,
 				0F55491F151D13C9007E633F /* images */,
-				0F554909151D1187007E633F /* AppDelegate.h */,
-				0F55490A151D1187007E633F /* AppDelegate.m */,
 			);
 			path = "XBMC Remote";
 			sourceTree = "<group>";
