@@ -87,7 +87,6 @@
 
 -(void)checkServer{
     jsonRPC=nil;
-    
     obj=[GlobalData getInstance];  
     if ([obj.serverIP length]==0){
         if (firstRun){
@@ -508,7 +507,9 @@
     if (lpgr.state == UIGestureRecognizerStateBegan){
         CGPoint p = [lpgr locationInView:menuList];
         NSIndexPath *indexPath = [menuList indexPathForRowAtPoint:p];
-        if (indexPath != nil){
+        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
+        if (indexPath != nil && indexPath.row<[mainDelegate.arrayServerList count]){
             
             [self modifyHost:indexPath];
         }
