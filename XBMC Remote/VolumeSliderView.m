@@ -12,7 +12,7 @@
 
 @implementation VolumeSliderView
 
-@synthesize timer;
+@synthesize timer, holdVolumeTimer;
 
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
@@ -21,7 +21,6 @@
 						loadNibNamed:@"VolumeSliderView"
 						owner:self
 						options:nil];
-		
 		self = [nib objectAtIndex:0];
         CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * -0.5);
         volumeSlider.transform = trans;
@@ -33,18 +32,19 @@
         NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
         jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
         [self volumeInfo];
-        [volumeSlider addTarget:self action:@selector(changeServerVolume) forControlEvents:UIControlEventTouchUpInside];
+        volumeSlider.tag=10;
+        [volumeSlider addTarget:self action:@selector(changeServerVolume:) forControlEvents:UIControlEventTouchUpInside];
         [volumeSlider addTarget:self action:@selector(stopTimer) forControlEvents:UIControlEventTouchDown];
-
     }
     return self;
 }
 
--(void)changeServerVolume{
+-(void)changeServerVolume:(id)sender{
     [jsonRPC 
      callMethod:@"Application.SetVolume" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:(int)volumeSlider.value], @"volume", nil]];
-    [self startTimer];
+    if ([sender tag]==10)
+        [self startTimer];
 }
 
 -(void)startTimer{
@@ -52,7 +52,10 @@
 }
 
 -(void)stopTimer{
-    [self.timer invalidate];
+    if (self.timer!=nil){
+        [self.timer invalidate];
+        self.timer=nil;
+    }
 }
 
 -(void)volumeInfo{
@@ -88,6 +91,40 @@
 //        [self changeServerVolume];
 //    }
     
+}
+
+NSInteger action;
+
+-(IBAction)holdVolume:(id)sender{
+    action = [sender tag];
+    [self changeVolume];
+    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];
+}
+
+-(IBAction)stopVolume:(id)sender{
+    if (self.holdVolumeTimer!=nil){
+        [self.holdVolumeTimer invalidate];
+        self.holdVolumeTimer=nil;
+    }
+    action = 0;
+}
+
+-(void)changeVolume{
+    if (self.holdVolumeTimer.timeInterval == 0.5f){
+        [self.holdVolumeTimer invalidate];
+        self.holdVolumeTimer=nil;
+        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];        
+    }
+    if (action==1){ //Volume Raise
+       volumeSlider.value=(int)volumeSlider.value+2; 
+        
+    }
+    else if (action==2) { // Volume Lower
+        volumeSlider.value=(int)volumeSlider.value-2; 
+
+    }
+    volumeLabel.text=[NSString  stringWithFormat:@"%.0f", volumeSlider.value];
+    [self changeServerVolume:nil];
 }
 
 /*

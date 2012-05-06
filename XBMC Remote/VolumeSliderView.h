@@ -14,7 +14,6 @@
     IBOutlet UISlider *volumeSlider;
     IBOutlet UILabel *volumeLabel;
     DSJSONRPC *jsonRPC;
-   // NSTimer* timer;
 }
 
 - (IBAction)slideVolume:(id)sender;
@@ -24,5 +23,8 @@
 -(void)stopTimer;
 
 @property (nonatomic, retain) NSTimer* timer;
+
+@property (nonatomic, retain) NSTimer* holdVolumeTimer;
+
 
 @end

@@ -111,8 +111,11 @@
     [mainDelegate saveServerList];
     [self.navigationController popViewControllerAnimated:YES];
 }
-#pragma mark - UITextField
+#pragma mark - UITextFieldDelegate Methods
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    [textField setTextColor:[UIColor blackColor]];
+}
 -(void)resignKeyboard{
     [descriptionUI resignFirstResponder];
     [ipUI resignFirstResponder];
@@ -236,6 +239,11 @@
                 descriptionUI.text = [service name];
                 ipUI.text = [NSString stringWithFormat:@"%s", addressStr];
                 portUI.text = [NSString stringWithFormat:@"%d", port];
+                
+                [descriptionUI setTextColor:[UIColor blueColor]];
+                [ipUI setTextColor:[UIColor blueColor]];
+                [portUI setTextColor:[UIColor blueColor]];
+
                 [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:320];
 
             }

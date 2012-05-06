@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppInfoViewController : UIViewController 
+@interface AppInfoViewController : UIViewController {
+    IBOutlet UIScrollView *creditsScrollView;
+}
 
 @end

@@ -988,10 +988,12 @@ int anim2;
 //            songDetailsView.hidden=YES;
         }
         [UIView commitAnimations];
-    }
-    if(![touch.view isEqual:volumeSliderView]){
         [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+
     }
+//    if(![touch.view isEqual:volumeSliderView]){
+//        [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+//    }
     
 }
 
@@ -1346,10 +1348,10 @@ int anim2;
     selectedPlayerID=-1;
     [super viewDidLoad];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 226.0f)];
+        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
         CGRect frame=volumeSliderView.frame;
         frame.origin.x=258;
-        frame.origin.y=-226;
+        frame.origin.y=-volumeSliderView.frame.size.height;
         volumeSliderView.frame=frame;
         [self.view addSubview:volumeSliderView];
         UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];

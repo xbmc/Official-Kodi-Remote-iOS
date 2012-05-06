@@ -251,10 +251,10 @@
     [[SDImageCache sharedImageCache] clearMemory];
 
     volumeSliderView = [[VolumeSliderView alloc] 
-                          initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 226.0f)];
+                          initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
     CGRect frame=volumeSliderView.frame;
     frame.origin.x=258;
-    frame.origin.y=-226;
+    frame.origin.y=-volumeSliderView.frame.size.height;
     volumeSliderView.frame=frame;
     [self.view addSubview:volumeSliderView];
     
