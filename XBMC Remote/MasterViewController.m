@@ -3,7 +3,7 @@
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 23/3/12.
-//  Copyright (c) 2012 Korec s.r.l. All rights reserved.
+//  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
 #import "MasterViewController.h"
@@ -589,10 +589,8 @@ BOOL firstRun;
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
-
-    
-
+//    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
+    [self.view setBackgroundColor:[UIColor blackColor]];
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender;{

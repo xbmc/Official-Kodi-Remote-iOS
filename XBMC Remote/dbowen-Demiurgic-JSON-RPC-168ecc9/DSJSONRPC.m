@@ -117,7 +117,7 @@
     // TODO: Make this a parameter??
     if (error != nil) {
         if (completionHandler || delegate) {
-            NSError *aError = [NSError errorWithDomain:@"com.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+            NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
             
             if (completionHandler) {
                 completionHandler(methodName, aId, nil, nil, aError);
@@ -214,7 +214,7 @@
     DSJSONRPCCompletionHandler completionHandler = [connectionInfo objectForKey:@"completionHandler"];
     
     if (completionHandler || delegate) {
-        NSError *aError = [NSError errorWithDomain:@"com.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+        NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
         
         if (completionHandler) {
             completionHandler([connectionInfo objectForKey:@"method"], [[connectionInfo objectForKey:@"id"] intValue], nil, nil, aError);
@@ -240,7 +240,7 @@
     NSError *error = nil;
     NSDictionary *jsonResult = [connectionData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
     if (error) {
-        NSError *aError = [NSError errorWithDomain:@"com.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+        NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
         
         if (completionHandler || delegate) {
             // Pass the error to the delegate if they care, completion handler takes presidence

@@ -3,7 +3,7 @@
 //  inLombardia
 //
 //  Created by Giovanni Messina on 26/2/12.
-//  Copyright (c) 2012 Korec s.r.l. All rights reserved.
+//  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

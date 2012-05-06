@@ -3,12 +3,20 @@
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 16/4/12.
-//  Copyright (c) 2012 Korec s.r.l. All rights reserved.
+//  Copyright (c) 2012 joethefox inc.All rights reserved.
 //
 
 #import "AppInfoViewController.h"
 
 @interface AppInfoViewController ()
+
+@end
+
+@implementation UITextView (DisableCopyPaste)
+
+- (BOOL)canBecomeFirstResponder{
+    return NO;
+}
 
 @end
 
@@ -20,6 +28,10 @@
         // Custom initialization
     }
     return self;
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return NO;
 }
 
 -(IBAction)CloseView{

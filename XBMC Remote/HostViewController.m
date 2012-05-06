@@ -3,7 +3,7 @@
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 14/4/12.
-//  Copyright (c) 2012 Korec s.r.l. All rights reserved.
+//  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
 #import "HostViewController.h"

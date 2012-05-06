@@ -16,7 +16,7 @@
 			<key>Key</key>
 			<string>tvshows_poster_preference</string>
 			<key>Title</key>
-			<string>Use TV shows posters</string>
+			<string>Posters for Tv shows</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
