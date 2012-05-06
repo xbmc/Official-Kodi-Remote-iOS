@@ -13,6 +13,7 @@
 #import "GlobalData.h"
 #import "VolumeSliderView.h"
 #import "SDImageCache.h"
+#import "RemoteController.h"
 
 @interface NowPlaying ()
 
@@ -21,6 +22,7 @@
 @implementation NowPlaying
 
 @synthesize detailItem = _detailItem;
+@synthesize remoteController;
 float startx=14;
 float barwidth=280;
 float cellBarWidth=45;
@@ -54,6 +56,12 @@ float cellBarWidth=45;
         rightSwipe.cancelsTouchesInView=NO;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
+        
+        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showRemoteController)];
+        leftSwipe.numberOfTouchesRequired = 1;
+        leftSwipe.cancelsTouchesInView=NO;
+        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+        [self.view addGestureRecognizer:leftSwipe];
     }
 }
 
@@ -64,6 +72,8 @@ float cellBarWidth=45;
     }
     return self;
 }
+
+
 
 # pragma mark - toolbar management
 
@@ -1297,6 +1307,15 @@ int anim2;
 
 - (void)handleSwipeFromRight:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)showRemoteController{
+    self.remoteController=nil;
+    self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+    mainMenu *item = [[mainMenu alloc] init];
+    item.mainLabel = @"Remote Control";
+    self.remoteController.detailItem = item;
+    [self.navigationController pushViewController:self.remoteController animated:YES];
 }
 
 #pragma mark - Life Cycle

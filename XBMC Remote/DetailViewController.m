@@ -99,7 +99,6 @@
         newChoosedTab=0;
     }
     if (newChoosedTab==choosedTab) return;
-    
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     [[buttonsIB objectAtIndex:choosedTab] setSelected:NO];
     choosedTab=newChoosedTab;

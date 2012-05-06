@@ -19,4 +19,6 @@
 
 @property (strong, nonatomic) id detailItem;
 
+@property (nonatomic, retain) NSTimer* holdVolumeTimer;
+
 @end

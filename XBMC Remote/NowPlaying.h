@@ -11,6 +11,8 @@
 #import "VolumeSliderView.h"
 #import "UIImageView+WebCache.h"
 
+@class RemoteController;
+
 @interface NowPlaying : UIViewController <UITableViewDataSource,UITableViewDelegate>{
     DSJSONRPC *jsonRPC;
     IBOutlet UITableView *playlistTableView;
@@ -74,5 +76,8 @@
 - (IBAction)startVibrate:(id)sender;
 
 @property (strong, nonatomic) id detailItem;
+
+@property (strong, nonatomic) RemoteController *remoteController;
+
 
 @end

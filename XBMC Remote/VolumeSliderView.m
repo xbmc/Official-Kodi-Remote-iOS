@@ -96,6 +96,7 @@
 NSInteger action;
 
 -(IBAction)holdVolume:(id)sender{
+    [self stopTimer];
     action = [sender tag];
     [self changeVolume];
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];
@@ -107,6 +108,7 @@ NSInteger action;
         self.holdVolumeTimer=nil;
     }
     action = 0;
+    [self startTimer];
 }
 
 -(void)changeVolume{

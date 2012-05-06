@@ -21,11 +21,12 @@
 
 @synthesize detailItem = _detailItem;
 
+@synthesize holdVolumeTimer;
+
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
         // Update the view.
-        [self configureView];
     }
 }
 
@@ -47,6 +48,7 @@
     }
     return self;
 }
+# pragma mark - ToolBar
 
 -(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
 	[UIView beginAnimations:nil context:nil];
@@ -67,6 +69,8 @@
 - (void)toggleVolume{
     [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE];
 }
+
+# pragma mark - JSON 
 
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
@@ -122,6 +126,70 @@
 
 }
 
+#pragma mark - Buttons 
+
+NSInteger buttonAction;
+
+-(IBAction)holdKey:(id)sender{
+    buttonAction = [sender tag];
+    [self sendAction];
+    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
+}
+
+-(IBAction)stopHoldKey:(id)sender{
+    if (self.holdVolumeTimer!=nil){
+        [self.holdVolumeTimer invalidate];
+        self.holdVolumeTimer=nil;
+    }
+    buttonAction = 0;
+}
+
+-(void)sendAction{
+    if (self.holdVolumeTimer.timeInterval == 0.5f){
+        [self.holdVolumeTimer invalidate];
+        self.holdVolumeTimer=nil;
+        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];        
+    }
+    NSString *action;
+    switch (buttonAction) {
+        case 10:
+            action=@"Input.Up";
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            break;
+            
+        case 12:
+            action=@"Input.Left";
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            break;
+            
+        case 13:
+            action=@"Input.Select";
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            break;
+            
+        case 14:
+            action=@"Input.Right";
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            break;
+            
+        case 16:
+            action=@"Input.Down";
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            break;
+            
+        case 18:
+            action=@"Input.Back";
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+
+
 - (IBAction)startVibrate:(id)sender {
     NSString *action;
     NSArray *params;
@@ -175,10 +243,10 @@
             [self sendXbmcHttp:@"SendKey(0xF04F)"];
             break;
 
-        case 10:
-            action=@"Input.Up";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-            break;
+//        case 10:
+//            action=@"Input.Up";
+//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//            break;
             
         case 11:
 //            action=@"Input.Info";
@@ -186,20 +254,20 @@
             [self sendXbmcHttp:@"SendKey(0xF049)"];
             break;
 
-        case 12:
-            action=@"Input.Left";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-            break;
-
-        case 13:
-            action=@"Input.Select";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-            break;
-            
-        case 14:
-            action=@"Input.Right";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-            break;
+//        case 12:
+//            action=@"Input.Left";
+//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//            break;
+//
+//        case 13:
+//            action=@"Input.Select";
+//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//            break;
+//            
+//        case 14:
+//            action=@"Input.Right";
+//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//            break;
             
         case 15:
 //            action=@"Input.Home";
@@ -207,15 +275,15 @@
             [self sendXbmcHttp:@"SendKey(0xF04D)"];
             break;
 
-        case 16:
-            action=@"Input.Down";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-            break;
-            
-        case 18:
-            action=@"Input.Back";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-            break;
+//        case 16:
+//            action=@"Input.Down";
+//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//            break;
+//            
+//        case 18:
+//            action=@"Input.Back";
+//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//            break;
             
         default:
             break;
@@ -248,6 +316,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
 
     volumeSliderView = [[VolumeSliderView alloc] 

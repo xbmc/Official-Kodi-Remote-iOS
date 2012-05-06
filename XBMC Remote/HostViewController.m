@@ -322,6 +322,8 @@
 -(void)viewDidDisappear:(BOOL)animated{
     [timer invalidate];
     timer = nil;
+    netServiceBrowser = nil;
+    services = nil;
 }
 
 - (void)viewDidLoad{
