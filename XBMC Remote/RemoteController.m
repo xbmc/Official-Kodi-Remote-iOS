@@ -134,6 +134,14 @@ NSInteger buttonAction;
     buttonAction = [sender tag];
     [self sendAction];
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    
+    BOOL startVibrate=[[userDefaults objectForKey:@"vibrate_preference"] boolValue];
+    if (startVibrate){
+        [[UIDevice currentDevice] playInputClick];
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    }
 }
 
 -(IBAction)stopHoldKey:(id)sender{
@@ -311,6 +319,7 @@ NSInteger buttonAction;
 
 -(void)viewWillDisappear:(BOOL)animated{
     [volumeSliderView stopTimer];
+    [self stopHoldKey:nil];
     [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
 }
 

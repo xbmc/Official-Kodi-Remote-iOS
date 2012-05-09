@@ -66,6 +66,9 @@
         ipUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverIP"];
 
         portUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPort"];
+        
+        preferTVPostersUI.on=[[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"preferTVPosters"] boolValue];
+
 
     }
 }
@@ -87,6 +90,7 @@
                                                  passwordUI.text, @"serverPass",
                                                  ipUI.text, @"serverIP",
                                                  portUI.text, @"serverPort",
+                                                 [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
                                                  nil
                                                  ]];
     }
@@ -99,14 +103,9 @@
                                                     passwordUI.text, @"serverPass",
                                                     ipUI.text, @"serverIP",
                                                     portUI.text, @"serverPort",
+                                                    [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
                                                     nil
                                                     ] atIndex:idx.row];
-//        [[mainDelegate.arrayServerList objectAtIndex:idx.row] setObject:descriptionUI.text forKey:@"serverDescription"];
-//        [[mainDelegate.arrayServerList objectAtIndex:idx.row] setObject:usernameUI.text forKey:@"serverUser"];
-//        [[mainDelegate.arrayServerList objectAtIndex:idx.row] setObject:passwordUI.text forKey:@"serverPass"];
-//        [[mainDelegate.arrayServerList objectAtIndex:idx.row] setObject:ipUI.text forKey:@"serverIP"];
-//        [[mainDelegate.arrayServerList objectAtIndex:idx.row] setObject:portUI.text forKey:@"serverPort"];
-
     }
     [mainDelegate saveServerList];
     [self.navigationController popViewControllerAnimated:YES];

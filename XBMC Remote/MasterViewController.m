@@ -312,7 +312,6 @@
 }
 
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
-    
     storeServerSelection = indexPath;
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSDictionary *item = [mainDelegate.arrayServerList objectAtIndex:indexPath.row];
@@ -321,6 +320,18 @@
     obj.serverPass = [item objectForKey:@"serverPass"];
     obj.serverIP = [item objectForKey:@"serverIP"];
     obj.serverPort = [item objectForKey:@"serverPort"];
+    obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        int thumbWidth = 320;
+        int tvshowHeight = 61;
+        if (obj.preferTVPosters==YES){
+            thumbWidth = 53;
+            tvshowHeight = 76;
+        }
+        mainMenu *menuItem=[self.mainMenu objectAtIndex:2];
+        menuItem.thumbWidth=thumbWidth;
+        menuItem.rowHeight=tvshowHeight;
+    }
     [self changeServerStatus:NO infoText:@"No connection"];
 }
 
@@ -505,12 +516,29 @@
 
 -(IBAction)handleLongPress{
     if (lpgr.state == UIGestureRecognizerStateBegan){
-        CGPoint p = [lpgr locationInView:menuList];
-        NSIndexPath *indexPath = [menuList indexPathForRowAtPoint:p];
+        CGPoint p = [lpgr locationInView:serverListTableView];
+        NSIndexPath *indexPath = [serverListTableView indexPathForRowAtPoint:p];
         AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-
         if (indexPath != nil && indexPath.row<[mainDelegate.arrayServerList count]){
-            
+            if (storeServerSelection && indexPath.row == storeServerSelection.row){
+                UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
+                [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                storeServerSelection = nil;
+                obj.serverDescription = @"";
+                obj.serverUser = @"";
+                obj.serverPass = @"";
+                obj.serverIP = @"";
+                obj.serverPort = @"";
+                [self changeServerStatus:NO infoText:@"No connection"];
+                NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+                
+                if (standardUserDefaults) {
+                    [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
+                    [standardUserDefaults synchronize];
+                }
+                
+            }
             [self modifyHost:indexPath];
         }
     }
@@ -594,19 +622,6 @@ BOOL firstRun;
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender;{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults synchronize];
-        int thumbWidth = 320;
-        int tvshowHeight = 61;
-        if ([[userDefaults objectForKey:@"tvshows_poster_preference"] boolValue]==YES){
-            thumbWidth = 53;
-            tvshowHeight = 76;
-        }
-        mainMenu *menuItem=[self.mainMenu objectAtIndex:2];
-        menuItem.thumbWidth=thumbWidth;
-        menuItem.rowHeight=tvshowHeight;
-    }
 }
 
 -(void)dealloc{

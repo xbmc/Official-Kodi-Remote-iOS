@@ -14,6 +14,7 @@
     NSString *serverPass; 
     NSString *serverIP; 
     NSString *serverPort; 
+    BOOL preferTVPosters;
 
     
 }    
@@ -21,6 +22,8 @@
 @property(nonatomic,retain)NSString *serverUser;    
 @property(nonatomic,retain)NSString *serverPass;    
 @property(nonatomic,retain)NSString *serverIP;    
-@property(nonatomic,retain)NSString *serverPort;    
+@property(nonatomic,retain)NSString *serverPort; 
+@property BOOL preferTVPosters;
+
 +(GlobalData*)getInstance;    
 @end  

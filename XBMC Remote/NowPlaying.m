@@ -218,6 +218,9 @@ float cellBarWidth=45;
 }
 
 -(IBAction)togglePartyMode:(id)sender{
+//    if (PartyModeButton.state == UIControlStateSelected){
+//        
+//    }
     [PartyModeButton setSelected:YES];
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
@@ -227,8 +230,8 @@ float cellBarWidth=45;
     requestANS=nil;
     [self createPlaylist:NO];
    // NSLog(@"SERVER RESPONSE : %@",requestANS);
-
 }
+
 -(void)fadeView:(UIView *)view hidden:(BOOL)value{
     if (value == view.hidden) {
         return;
@@ -1326,6 +1329,7 @@ int anim2;
     lastSelected=-1;
     playerID=-1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

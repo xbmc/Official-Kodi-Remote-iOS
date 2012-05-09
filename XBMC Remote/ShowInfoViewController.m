@@ -93,6 +93,12 @@ int count=0;
         self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
         self.nowPlaying.detailItem = self.detailItem; 
         
+        
+//        self.nowPlaying.modalTransitionStyle = UIModalPresentationFormSheet;
+//        self.nowPlaying.modalPresentationStyle = UIModalPresentationPageSheet;
+//        [self presentModalViewController:self.nowPlaying animated:YES];
+
+        
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
         self.navigationItem.rightBarButtonItem.enabled=YES;
         alreadyPush=YES;
@@ -130,9 +136,8 @@ int h=0;
         int shiftY=40;
         CGRect frame;
         if ([[item objectForKey:@"family"] isEqualToString:@"studio"]){
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults synchronize];
-            if ([[userDefaults objectForKey:@"tvshows_poster_preference"] boolValue]==NO){
+            GlobalData *obj=[GlobalData getInstance];     
+            if (obj.preferTVPosters==NO){
                 coverHeight=70;
                 deltaY=coverView.frame.size.height - coverHeight;
                 shiftY=0;
@@ -151,7 +156,17 @@ int h=0;
             genreLabel.text=[[item objectForKey:@"premiered"] length]==0 ? @"-" : [item objectForKey:@"premiered"];
             runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
             studioLabel.text=[[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
+            
             self.navigationItem.rightBarButtonItems=nil;
+            
+            UIImage* nowPlayingImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
+            CGRect frameimg = CGRectMake(0, 0, nowPlayingImg.size.width, nowPlayingImg.size.height);
+            UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
+            [nowPlayingButton setBackgroundImage:nowPlayingImg forState:UIControlStateNormal];
+            [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
+            UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
+            self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
+                        
         }
         
         else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
@@ -283,7 +298,6 @@ int h=0;
         [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
     }
 
-   [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.1f];// cool
 
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
     starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];
@@ -487,6 +501,13 @@ int h=0;
     alreadyPush=NO;
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.1f];// cool
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    fanartView.alpha=0;
+}
 - (void)viewDidLoad{
     GlobalData *obj=[GlobalData getInstance];     
     [[SDImageCache sharedImageCache] clearMemory];
@@ -523,12 +544,12 @@ int h=0;
 //    manager=nil;
 }
 
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-//}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-//    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    return YES;
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+////    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+//    return YES;
+//}
 
 @end
