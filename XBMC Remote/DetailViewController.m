@@ -1043,10 +1043,8 @@ NSIndexPath *selected;
 # pragma mark - JSON DATA Management
 -(void) retrieveData:(NSString *)methodToCall parameters:(NSDictionary*)parameters{
     GlobalData *obj=[GlobalData getInstance]; 
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
-    
+    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];    
 //    NSLog(@"INIZIO");
-
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, parameters);
     [jsonRPC 
      callMethod:methodToCall
@@ -1055,7 +1053,6 @@ NSIndexPath *selected;
          int total=0;
          if (error==nil && methodError==nil){
 //             NSLog(@"FINITO");
-
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
              [self.richResults removeAllObjects];
              [self.sections removeAllObjects];
@@ -1081,9 +1078,7 @@ NSIndexPath *selected;
                      [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
                  }
                  NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-//                 BOOL addObj;
                  for (int i=0; i<total; i++) {
-//                     addObj=YES;
                      NSString *label=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row1"]]];
                      NSString *genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]]];
                      if ([genre isEqualToString:@"(null)"]) genre=@"";
@@ -1123,17 +1118,13 @@ NSIndexPath *selected;
                      if ([[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"]!=nil){
                          filetype=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"];
                          type=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"type"];;
-//                         NSLog(@"FILETYPE %@ - %@", filetype, type);
+                         //                         NSLog(@"FILETYPE %@ - %@", filetype, type);
                          
-
+                         
                          if ([filetype isEqualToString:@"directory"]){
                              stringURL=@"nocover_filemode.png";
                          }
                          else if ([filetype isEqualToString:@"file"]){
-                             //                             if ([type isEqualToString:@"unknown"]) {
-                             //                                 addObj=NO;
-                             //                             }
-                             //                             else 
                              if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
                                  stringURL=@"icon_song.png";
                                  
@@ -1142,15 +1133,13 @@ NSIndexPath *selected;
                                  stringURL=@"icon_video.png";
                              }
                              else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-//                                stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[videoLibraryMovies objectAtIndex:i] objectForKey:@"file"]];
+                                 //                                stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[videoLibraryMovies objectAtIndex:i] objectForKey:@"file"]];
                                  stringURL=@"icon_picture.png";
                              }
                          }
                          //                         NSLog(@"METTO ICONA %@", stringURL);
                      }
-//                     if (addObj){
-//
-                         [self.richResults	addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                     [self.richResults	addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    label, @"label",
                                                    genre, @"genre",
                                                    stringURL, @"thumbnail",
@@ -1172,51 +1161,10 @@ NSIndexPath *selected;
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row16"]], [mainFields objectForKey:@"row16"],
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row17"]], [mainFields objectForKey:@"row17"],
                                                    nil]];
-//                     }
-//                     NSLog(@"URL: %@", stringURL);
-//                     [self countDownload:total];
-//                     if (thumbnailPath!=nil && ![thumbnailPath isEqualToString:@""]){
-//                         [jsonRPC 
-//                          callMethod:@"Files.PrepareDownload" 
-//                          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: thumbnailPath, @"path", nil]
-//                          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//                              if (error==nil && methodError==nil){
-//                                  //             NSLog(@"DATO RICEVUTO %@", methodResult); 
-////                                  NSString *serverURL=[NSString stringWithFormat:@"%@:%@", obj.serverIP, obj.serverPort];
-//                                  NSString *stringURL = [NSString stringWithFormat:@"%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
-//                                  
-//                                  NSLog(@"%@ %@", thumbnailPath, stringURL);
-//                                  [richResults	addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                                                           label, @"label",
-//                                                           genre, @"genre",
-//                                                           year, @"year",
-//                                                           runtime, @"runtime",
-//                                                           rating, @"rating",
-//                                                           stringURL, @"thumbnail",
-//                                                           nil]];
-//                              }
-//                              else {
-//                                  NSLog(@"ERROR DOWNLOAD:%@ METHOD:%@ STRING '%@'", error, methodError, thumbnailPath);
-//                              }
-//                              [self countDownload:total];
-//                          }];
-//                     }
-//                     else {
-//                         [richResults addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                                                   label, @"label",
-//                                                   genre, @"genre",
-//                                                   year, @"year",
-//                                                   runtime, @"runtime",
-//                                                   rating, @"rating",
-//                                                   nil, @"thumbnail",
-//                                                   nil]];
-//                         [self countDownload:total];
-//                     }
                  }
 //                 NSLog(@"FINITO FINITO");
-//                 UITableViewIndexSearch;
 //                 NSLog(@"RICH RESULTS %@", richResults);
-
+                 
                  [dataList setContentOffset:CGPointMake(0, 44)];
                  [activityIndicatorView stopAnimating];
                  numResults=[self.richResults count];

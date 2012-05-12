@@ -250,48 +250,18 @@ NSInteger buttonAction;
         case 9:
             [self sendXbmcHttp:@"SendKey(0xF04F)"];
             break;
-
-//        case 10:
-//            action=@"Input.Up";
-//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//            break;
             
         case 11:
 //            action=@"Input.Info";
 //            [self GUIAction:action];
             [self sendXbmcHttp:@"SendKey(0xF049)"];
             break;
-
-//        case 12:
-//            action=@"Input.Left";
-//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//            break;
-//
-//        case 13:
-//            action=@"Input.Select";
-//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//            break;
-//            
-//        case 14:
-//            action=@"Input.Right";
-//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//            break;
             
         case 15:
 //            action=@"Input.Home";
 //            [self GUIAction:action];
             [self sendXbmcHttp:@"SendKey(0xF04D)"];
             break;
-
-//        case 16:
-//            action=@"Input.Down";
-//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//            break;
-//            
-//        case 18:
-//            action=@"Input.Back";
-//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//            break;
             
         default:
             break;

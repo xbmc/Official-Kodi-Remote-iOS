@@ -99,9 +99,9 @@
 -(IBAction)TwitterWebActionButton:(id)sender{
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
-                                                    cancelButtonTitle:@"Annulla"
+                                                    cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Apri in Safari", nil];
+                                                    otherButtonTitles:@"Open in Safari", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleDefault; 
     [actionSheet showInView:self.view];
     actionSheet.tag = 30;

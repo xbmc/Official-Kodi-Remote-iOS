@@ -1330,6 +1330,10 @@ int anim2;
     playerID=-1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
     
+    // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
+    UIViewController *c = [[UIViewController alloc]init];
+    [self presentModalViewController:c animated:NO];
+    [self dismissModalViewControllerAnimated:NO]; 
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

@@ -499,15 +499,21 @@ int h=0;
 
 -(void)viewWillAppear:(BOOL)animated{
     alreadyPush=NO;
+    // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
+    UIViewController *c = [[UIViewController alloc]init];
+    [self presentViewController:c animated:NO completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
+  //  [self dismissModalViewControllerAnimated:NO]; 
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.1f];// cool
 }
 
--(void)viewDidDisappear:(BOOL)animated{
-    fanartView.alpha=0;
+-(void)viewWillDisappear:(BOOL)animated{
+    [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0f];
 }
+
 - (void)viewDidLoad{
     GlobalData *obj=[GlobalData getInstance];     
     [[SDImageCache sharedImageCache] clearMemory];
@@ -544,12 +550,12 @@ int h=0;
 //    manager=nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-////    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-//    return YES;
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 //}
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+//    return YES;
+}
 
 @end
