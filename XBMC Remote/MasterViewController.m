@@ -18,10 +18,11 @@
 #import "AppInfoViewController.h"
 #import "HostManagementViewController.h"
 
+#define EXPERIMENTAL_HOST_MANAGEMENT 1
+
 @interface MasterViewController () {
     NSMutableArray *_objects;
     NSMutableArray *mainMenu;
-
 }
 @end
 
@@ -35,7 +36,6 @@
 @synthesize obj;
 
 @synthesize mainMenu;
-//@synthesize serverList;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -93,27 +93,18 @@
         if (firstRun){
             firstRun=NO;
             
-            [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-//            [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-
-            
+            if (EXPERIMENTAL_HOST_MANAGEMENT){
+                [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+            }
+            else{
+                [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+            }
         }
         return;
     }
-    
-//    NSString *userName=[NSString string]
-//    NSLog(@"ECCOCI %@", obj.serverPass);
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-//    NSLog(@"%@", serverJSON);
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    
-//    [jsonRPC 
-//     callMethod:@"JSONRPC.Introspect" 
-//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: nil]
-//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//         NSLog(@"%@", methodResult);
-//     }];
     
     [jsonRPC 
      callMethod:@"Application.GetProperties" 
@@ -126,24 +117,30 @@
                      NSString *infoTitle=[NSString stringWithFormat:@" XBMC %@.%@-%@", [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
                      
-                     [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
+                     if (EXPERIMENTAL_HOST_MANAGEMENT){
+                         [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
+
+                     }
+                     else {
+                         [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
+
+                     }
                      
-//                     [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
 
                  }
                  else{
                      if (serverOnLine){
 //                         NSLog(@"mi spengo");
-                         
                          [self changeServerStatus:NO infoText:@"No connection"];
-                         
                      }
                      if (firstRun){
                          firstRun=NO;
-                         [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-//                         [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-
-                         
+                         if (EXPERIMENTAL_HOST_MANAGEMENT){
+                             [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+                         }
+                         else{
+                             [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+                         }
                      }
                  }
              }
@@ -152,16 +149,16 @@
 //             NSLog(@"ERROR %@ %@",error, methodError);
              if (serverOnLine){
 //                 NSLog(@"mi spengo");
-                 
                  [self changeServerStatus:NO infoText:@"No connection"];
-                 
              }
              if (firstRun){
                  firstRun=NO;
-                 [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-//                 [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-
-                 
+                 if (EXPERIMENTAL_HOST_MANAGEMENT){
+                     [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+                 }
+                 else {
+                     [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+                 }
              }
          }
      }];
@@ -187,12 +184,15 @@
 	frame.origin.y = Y;
     view.frame = frame;
     [UIView commitAnimations];
-//    [self textFieldDoneEditing:nil];
 }
 
 - (void)toggleSetup{
-    [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
-//    [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
+    if (EXPERIMENTAL_HOST_MANAGEMENT){
+        [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
+    }
+    else{
+        [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
+    }
 }
 
 - (void) pushController:(UIViewController*)controller withTransition:(UIViewAnimationTransition)transition{
@@ -209,8 +209,6 @@
 -(IBAction)addHost:(id)sender{
     self.hostController=nil;
     self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
-//    self.detailViewController.detailItem = item;
-//    [self pushController:self.hostController withTransition:UIViewAnimationTransitionCurlUp];
     [self.navigationController pushViewController:self.hostController animated:YES];
 }
 
@@ -218,8 +216,6 @@
     self.hostController=nil;
     self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
     self.hostController.detailItem=item;
-    //    self.detailViewController.detailItem = item;
-    //    [self pushController:self.hostController withTransition:UIViewAnimationTransitionCurlUp];
     [self.navigationController pushViewController:self.hostController animated:YES];
 }
 
@@ -235,10 +231,8 @@
         return [self.mainMenu count];
     else if (tableView.tag==1){
         AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        
         if ([mainDelegate.arrayServerList count] == 0 && !tableView.editing) {
-            return 1; // a single cell to report no data
-        }
+            return 1;         }
         return [mainDelegate.arrayServerList count];
     }
     return 0;
@@ -266,9 +260,7 @@
             [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
             [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
             cell.selectionStyle=UITableViewCellSelectionStyleGray;
-            
         }
-        
         return cell;
     }
     else if (tableView.tag==1){
@@ -350,9 +342,12 @@
             [menuList deselectRowAtIndexPath:indexPath animated:YES];
             return;
         }
-        [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
-//        [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
-
+        if (EXPERIMENTAL_HOST_MANAGEMENT){
+            [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
+        }
+        else{
+            [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
+        }
         mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
         if (item.family == 2){
             self.nowPlaying=nil;
@@ -395,21 +390,16 @@
                 obj.serverPort = @"";
                 [self changeServerStatus:NO infoText:@"No connection"];
                 NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-                
                 if (standardUserDefaults) {
                     [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
                     [standardUserDefaults synchronize];
                 }
-
             }
             else{
                 UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                
                 [self selectServerAtIndexPath:indexPath];
-                
                 NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-                
                 if (standardUserDefaults) {
                     [standardUserDefaults setObject:[NSNumber numberWithInt:indexPath.row] forKey:@"lastServer"];
                     [standardUserDefaults synchronize];
@@ -427,7 +417,6 @@
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Detemine if it's in editing mode
     if (aTableView.editing) {
         return UITableViewCellEditingStyleDelete;
     }
@@ -481,20 +470,20 @@
 	imageView.frame = CGRectMake(0,0,320,8);
 	return imageView;
 }
-//
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (tableView.tag == 1)
         return 4;
     return 8;
 }
-//
+
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIImage *myImage = [UIImage imageNamed:@"blank.png"];
 	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
 	imageView.frame = CGRectMake(0,0,320,8);
 	return imageView;
 }
-//
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (tableView.tag == 1)
         return 4;
@@ -563,29 +552,34 @@
 #pragma mark - LifeCycle
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSIndexPath*	selection = [menuList indexPathForSelectedRow];
-	if (selection)
-		[menuList deselectRowAtIndexPath:selection animated:YES];
-    selection = [serverListTableView indexPathForSelectedRow];
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
-    [serverListTableView reloadData];
-    if (selection){
-		[serverListTableView selectRowAtIndexPath:selection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:selection];
-        cell.accessoryType=UITableViewCellAccessoryCheckmark;
+    NSIndexPath*	selection = [menuList indexPathForSelectedRow];
+	if (selection){
+		[menuList deselectRowAtIndexPath:selection animated:YES];
+    }
+    if (EXPERIMENTAL_HOST_MANAGEMENT){
+        [hostManagementViewController selectIndex:nil reloadData:YES];
+    }
+    else{
+        selection = [serverListTableView indexPathForSelectedRow];
+        [serverListTableView reloadData];
+        if (selection){
+            [serverListTableView selectRowAtIndexPath:selection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+            UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:selection];
+            cell.accessoryType=UITableViewCellAccessoryCheckmark;
+        } 
     }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-//    NSLog(@"ME NE VADO");
-    [timer invalidate];  
+    [timer invalidate]; 
+    timer=nil;
     jsonRPC=nil;
 }
 
 - (void)infoView{
     if (appInfoView==nil)
         appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil] ;
-  //  appInfoView.delegate = self;
     appInfoView.modalTransitionStyle = UIModalTransitionStylePartialCurl;
 	appInfoView.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentModalViewController:appInfoView animated:YES];
@@ -616,7 +610,6 @@ BOOL firstRun;
 }
 
 -(void)initHostManagement{
-    
     hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil masterController:self];
     CGRect frame=hostManagementViewController.view.frame;
     frame.origin.y = - frame.size.height;
@@ -626,21 +619,29 @@ BOOL firstRun;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    obj=[GlobalData getInstance];  
+    obj=[GlobalData getInstance]; 
+    if (EXPERIMENTAL_HOST_MANAGEMENT){
+        [self initHostManagement];
+    }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     int lastServer;
     if ([userDefaults objectForKey:@"lastServer"]!=nil){
         lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
         if (lastServer>-1){
             NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
-            [self selectServerAtIndexPath:lastServerIndexPath];
-            [serverListTableView selectRowAtIndexPath:lastServerIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            if (EXPERIMENTAL_HOST_MANAGEMENT){
+                [hostManagementViewController selectIndex:lastServerIndexPath reloadData:NO];
+            }
+            else {
+                [self selectServerAtIndexPath:lastServerIndexPath];
+                [serverListTableView selectRowAtIndexPath:lastServerIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            }
         }
     }
     firstRun=YES;
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
     [self initNavigationBar];
-   // [self initHostManagement]; // EXPERIMENTAL
+    
     serverOnLine=NO;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
@@ -660,8 +661,6 @@ BOOL firstRun;
 - (void)viewDidUnload{
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-
-    // Release any retained subviews of the main view.
 }
 
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

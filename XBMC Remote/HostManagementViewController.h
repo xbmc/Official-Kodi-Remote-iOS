@@ -18,11 +18,11 @@
     IBOutlet UIButton *editTableButton;
     IBOutlet UILongPressGestureRecognizer *lpgr;
     NSIndexPath *storeServerSelection;
-    GlobalData *obj;
     MasterViewController *masterViewController;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil masterController:(MasterViewController *)controller;
+-(void)selectIndex:(NSIndexPath *)selection reloadData:(BOOL)reload;
 
 @property (strong, nonatomic) HostViewController *hostController;
 

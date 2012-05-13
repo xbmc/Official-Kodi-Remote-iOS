@@ -21,11 +21,11 @@
 
 @synthesize hostController;
 
+// TO BE OPTIMIZED: TO BE CHANGED FROM THE DEPENDENCIES FROM (MasterViewController *)controller TO NOTIFICATIONS FROM THE APPDELEGATE
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil masterController:(MasterViewController *)controller{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         masterViewController = controller;
-        // Custom initialization
     }
     return self;
 }
@@ -53,7 +53,6 @@
     return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if ([mainDelegate.arrayServerList count] == 0 && !tableView.editing) {
@@ -64,7 +63,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=nil;
-    
     cell = [tableView dequeueReusableCellWithIdentifier:@"serverListCell"];
     [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:NULL];
     if (cell==nil){
@@ -105,27 +103,25 @@
         }
         else {
             cell.accessoryType=UITableViewCellAccessoryNone;
-            
         }
     }
     return cell;
-  
 }
 
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
     storeServerSelection = indexPath;
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSDictionary *item = [mainDelegate.arrayServerList objectAtIndex:indexPath.row];
-    obj.serverDescription = [item objectForKey:@"serverDescription"];
-    obj.serverUser = [item objectForKey:@"serverUser"];
-    obj.serverPass = [item objectForKey:@"serverPass"];
-    obj.serverIP = [item objectForKey:@"serverIP"];
-    obj.serverPort = [item objectForKey:@"serverPort"];
-    obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
+    masterViewController.obj.serverDescription = [item objectForKey:@"serverDescription"];
+    masterViewController.obj.serverUser = [item objectForKey:@"serverUser"];
+    masterViewController.obj.serverPass = [item objectForKey:@"serverPass"];
+    masterViewController.obj.serverIP = [item objectForKey:@"serverIP"];
+    masterViewController.obj.serverPort = [item objectForKey:@"serverPort"];
+    masterViewController.obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         int thumbWidth = 320;
         int tvshowHeight = 61;
-        if (obj.preferTVPosters==YES){
+        if (masterViewController.obj.preferTVPosters==YES){
             thumbWidth = 53;
             tvshowHeight = 76;
         }
@@ -138,9 +134,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
     if ([mainDelegate.arrayServerList count] == 0){
         [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
     }
@@ -152,14 +146,13 @@
             [serverListTableView deselectRowAtIndexPath:selection animated:YES];
             cell.accessoryType = UITableViewCellAccessoryNone;
             storeServerSelection = nil;
-            obj.serverDescription = @"";
-            obj.serverUser = @"";
-            obj.serverPass = @"";
-            obj.serverIP = @"";
-            obj.serverPort = @"";
+            masterViewController.obj.serverDescription = @"";
+            masterViewController.obj.serverUser = @"";
+            masterViewController.obj.serverPass = @"";
+            masterViewController.obj.serverIP = @"";
+            masterViewController.obj.serverPort = @"";
             [masterViewController changeServerStatus:NO infoText:@"No connection"];
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-            
             if (standardUserDefaults) {
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
@@ -169,17 +162,13 @@
         else{
             UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            
             [self selectServerAtIndexPath:indexPath];
-            
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-            
             if (standardUserDefaults) {
                 [standardUserDefaults setObject:[NSNumber numberWithInt:indexPath.row] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
             }
         }
-        
     }
 }
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -214,11 +203,11 @@
             }
             else if (storeServerSelection.row==indexPath.row){
                 storeServerSelection=nil;
-                obj.serverDescription = @"";
-                obj.serverUser = @"";
-                obj.serverPass = @"";
-                obj.serverIP = @"";
-                obj.serverPort = @"";
+                masterViewController.obj.serverDescription = @"";
+                masterViewController.obj.serverUser = @"";
+                masterViewController.obj.serverPass = @"";
+                masterViewController.obj.serverIP = @"";
+                masterViewController.obj.serverPort = @"";
                 [masterViewController changeServerStatus:NO infoText:@"No connection"];
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
@@ -278,16 +267,17 @@
         NSIndexPath *indexPath = [serverListTableView indexPathForRowAtPoint:p];
         AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         if (indexPath != nil && indexPath.row<[mainDelegate.arrayServerList count]){
+            NSLog(@"%@", storeServerSelection);
             if (storeServerSelection && indexPath.row == storeServerSelection.row){
                 UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
                 [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 storeServerSelection = nil;
-                obj.serverDescription = @"";
-                obj.serverUser = @"";
-                obj.serverPass = @"";
-                obj.serverIP = @"";
-                obj.serverPort = @"";
+                masterViewController.obj.serverDescription = @"";
+                masterViewController.obj.serverUser = @"";
+                masterViewController.obj.serverPass = @"";
+                masterViewController.obj.serverIP = @"";
+                masterViewController.obj.serverPort = @"";
                 [masterViewController changeServerStatus:NO infoText:@"No connection"];
                 NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
                 if (standardUserDefaults) {
@@ -300,29 +290,33 @@
     }
 }
 
-#pragma mark - LifeCycle
+#pragma mark - TableManagement from MasterViewController 
 
--(void)viewWillAppear:(BOOL)animated{
-    NSLog(@"APPAIO");
-    NSIndexPath*	selection = [serverListTableView indexPathForSelectedRow];
-   // timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
-    [serverListTableView reloadData];
-    if (selection){
-		[serverListTableView selectRowAtIndexPath:selection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:selection];
-        cell.accessoryType=UITableViewCellAccessoryCheckmark;
+-(void)selectIndex:(NSIndexPath *)selection reloadData:(BOOL)reload{
+    if (reload){
+        NSIndexPath *checkSelection = [serverListTableView indexPathForSelectedRow];
+        [serverListTableView reloadData];
+        if (checkSelection){
+            [serverListTableView selectRowAtIndexPath:checkSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+            UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:checkSelection];
+            cell.accessoryType=UITableViewCellAccessoryCheckmark;
+        } 
+    }
+    else if (selection){
+            [self selectServerAtIndexPath:selection];
+            [serverListTableView selectRowAtIndexPath:selection animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
 }
 
+
+#pragma mark - LifeCycle
+
 - (void)viewDidLoad{
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload{
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
