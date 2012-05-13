@@ -16,6 +16,7 @@
 #import "HostViewController.h"
 #import "AppDelegate.h"
 #import "AppInfoViewController.h"
+#import "HostManagementViewController.h"
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -91,7 +92,10 @@
     if ([obj.serverIP length]==0){
         if (firstRun){
             firstRun=NO;
+            
             [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+//            [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+
             
         }
         return;
@@ -121,9 +125,11 @@
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                      NSString *infoTitle=[NSString stringWithFormat:@" XBMC %@.%@-%@", [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
+                     
                      [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
                      
-                     
+//                     [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
+
                  }
                  else{
                      if (serverOnLine){
@@ -135,6 +141,8 @@
                      if (firstRun){
                          firstRun=NO;
                          [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+//                         [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+
                          
                      }
                  }
@@ -151,6 +159,8 @@
              if (firstRun){
                  firstRun=NO;
                  [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+//                 [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
+
                  
              }
          }
@@ -182,11 +192,10 @@
 
 - (void)toggleSetup{
     [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
+//    [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
 }
 
-- (void) pushController: (UIViewController*) controller
-         withTransition: (UIViewAnimationTransition) transition
-{
+- (void) pushController:(UIViewController*)controller withTransition:(UIViewAnimationTransition)transition{
     [UIView beginAnimations:nil context:NULL];
     [self.navigationController pushViewController:controller animated:NO];
     [UIView setAnimationDuration:.5];
@@ -214,7 +223,7 @@
     [self.navigationController pushViewController:self.hostController animated:YES];
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table view methods & data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -342,6 +351,8 @@
             return;
         }
         [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
+//        [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
+
         mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
         if (item.family == 2){
             self.nowPlaying=nil;
@@ -511,8 +522,13 @@
     }
 }
 
-#pragma mark - Long Press & Action sheet
+#pragma mark - View Methods
 
+-(void)setFirstRun:(BOOL)value{
+    firstRun=value;
+}
+
+#pragma mark - Long Press & Action sheet
 
 -(IBAction)handleLongPress{
     if (lpgr.state == UIGestureRecognizerStateBegan){
@@ -577,22 +593,7 @@
 
 BOOL firstRun;
 
-- (void)viewDidLoad{
-    [super viewDidLoad];
-    obj=[GlobalData getInstance];  
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    int lastServer;
-    if ([userDefaults objectForKey:@"lastServer"]!=nil){
-        lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
-        if (lastServer>-1){
-            NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
-            [self selectServerAtIndexPath:lastServerIndexPath];
-            [serverListTableView selectRowAtIndexPath:lastServerIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-        }
-    }
-    firstRun=YES;
-    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
+-(void)initNavigationBar{
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
     self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 75, 43)];
@@ -612,6 +613,34 @@ BOOL firstRun;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setupInfo = [[UIBarButtonItem alloc] initWithCustomView:xbmcInfo];
     self.navigationItem.rightBarButtonItem = setupInfo;
+}
+
+-(void)initHostManagement{
+    
+    hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil masterController:self];
+    CGRect frame=hostManagementViewController.view.frame;
+    frame.origin.y = - frame.size.height;
+    hostManagementViewController.view.frame=frame;
+    [self.view addSubview:hostManagementViewController.view];
+}
+
+- (void)viewDidLoad{
+    [super viewDidLoad];
+    obj=[GlobalData getInstance];  
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    int lastServer;
+    if ([userDefaults objectForKey:@"lastServer"]!=nil){
+        lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
+        if (lastServer>-1){
+            NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
+            [self selectServerAtIndexPath:lastServerIndexPath];
+            [serverListTableView selectRowAtIndexPath:lastServerIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        }
+    }
+    firstRun=YES;
+    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
+    [self initNavigationBar];
+   // [self initHostManagement]; // EXPERIMENTAL
     serverOnLine=NO;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)

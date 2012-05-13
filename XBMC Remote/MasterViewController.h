@@ -16,6 +16,7 @@
 @class RemoteController;
 @class HostViewController;
 @class AppInfoViewController;
+@class HostManagementViewController;
 
 
 @interface MasterViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>{
@@ -35,7 +36,11 @@
     IBOutlet UIButton *editTableButton;
     AppInfoViewController *appInfoView;
     IBOutlet UILongPressGestureRecognizer *lpgr;
+    HostManagementViewController *hostManagementViewController;
 }
+
+-(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText;
+-(void)setFirstRun:(BOOL)value;
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 @property (strong, nonatomic) DetailViewController *detailViewController;

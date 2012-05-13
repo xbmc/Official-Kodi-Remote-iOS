@@ -114,7 +114,6 @@
     }
     int tableHeight = [(NSMutableArray *)mainMenu count] * 64 + 16;
     int tableWidth = 300;
-//    int headerHeight=16;
     int headerHeight=0;
    
     rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -177,6 +176,7 @@
     frame.size.height=self.view.frame.size.height - tableHeight - separator - headerHeight;
     nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
     nowPlayingController.view.frame=frame;
+    
     [nowPlayingController setToolbarWidth:768 height:610 origX:76 origY:60 thumbWidth:334 thumbHeight:334 YPOS:YPOS playBarWidth:426];
     
     [leftMenuView addSubview:nowPlayingController.view];
