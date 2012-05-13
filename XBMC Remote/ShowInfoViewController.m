@@ -29,6 +29,14 @@
     return self;
 }
 
+- (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil{
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        self.detailItem = item;
+        [self.view setFrame:frame]; 
+    }
+    return self;
+}
+
 double round(double d){
     return floor(d + 0.5);
 }
@@ -503,7 +511,6 @@ int h=0;
     UIViewController *c = [[UIViewController alloc]init];
     [self presentViewController:c animated:NO completion:nil];
     [self dismissViewControllerAnimated:NO completion:nil];
-  //  [self dismissModalViewControllerAnimated:NO]; 
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -517,7 +524,6 @@ int h=0;
 - (void)viewDidLoad{
     GlobalData *obj=[GlobalData getInstance];     
     [[SDImageCache sharedImageCache] clearMemory];
-    //    [manager cancelForDelegate:self];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];

@@ -93,8 +93,8 @@ NSMutableArray *mainMenuItems;
         tvshowHeight = 61;        
     } 
     else {
-        thumbWidth = 768;
-        tvshowHeight = 146;
+        thumbWidth = 477;
+        tvshowHeight = 91;
     }
     
     

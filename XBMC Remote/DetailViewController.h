@@ -50,6 +50,9 @@
     IBOutlet UIView *noFoundView;
     int viewWidth;
 }
+- (id)initWithFrame:(CGRect)frame;
+- (id)initWithNibName:(NSString *)nibNameOrNil withItem:(mainMenu *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
+
 @property (nonatomic, retain) NSMutableArray *richResults;
 @property (nonatomic, retain) NSMutableArray *filteredListContent;
 

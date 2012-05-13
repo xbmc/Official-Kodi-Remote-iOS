@@ -18,6 +18,9 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "SDImageCache.h"
 #import "WebViewController.h"
+#import "AppDelegate.h"
+#import "ViewControllerIPad.h"
+#import "StackScrollViewController.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -38,6 +41,21 @@
 //@synthesize detailDescriptionLabel = _detailDescriptionLabel;
 #define SECTIONS_START_AT 100
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
+
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super init]) {
+		[self.view setFrame:frame]; 
+    }
+    return self;
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil withItem:(mainMenu *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil{
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        self.detailItem = item;
+        [self.view setFrame:frame]; 
+    }
+    return self;
+}
 
 - (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
     NSString *result = @"";    
@@ -104,7 +122,12 @@
     choosedTab=newChoosedTab;
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     [activityIndicatorView startAnimating];
-    [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    }
+    else{
+        [self AnimTable:dataList AnimDuration:0.3 Alpha:0.0 XPos:0];
+    }
     if ([self.richResults count] && (dataList.dragging == YES || dataList.decelerating == YES)){
         NSArray *visiblePaths = [dataList indexPathsForVisibleRows];
         [dataList  scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -372,7 +395,7 @@ int labelPosition=0;
     self.detailViewController=nil;
     mainMenu *MenuItem=self.detailItem;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
-    if ([methods objectForKey:@"method"]!=nil){
+    if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
         NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
         NSDictionary *item = nil;
         if (tableView == self.searchDisplayController.searchResultsTableView){
@@ -385,7 +408,7 @@ int labelPosition=0;
         MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
         
         NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]]; 
-        if ([[parameters objectForKey:@"parameters"] objectForKey:@"properties"]!=nil){ // LIBRARY MODE
+        if ([[parameters objectForKey:@"parameters"] objectForKey:@"properties"]!=nil){ // CHILD IS LIBRARY MODE
             NSString *key=@"null";
             if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
                 key=[mainFields objectForKey:@"row15"];
@@ -401,11 +424,19 @@ int labelPosition=0;
             
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab=choosedTab;
-            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            self.detailViewController.detailItem = MenuItem.subItem;
-            [self.navigationController pushViewController:self.detailViewController animated:YES];
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+                self.detailViewController.detailItem = MenuItem.subItem;
+                [self.navigationController pushViewController:self.detailViewController animated:YES];
+            }
+            else{
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
+                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                
+            }
+            
         }
-        else { // IS FILEMODE
+        else { // CHILD IS FILEMODE
             if ([[item objectForKey:@"filetype"] length]!=0){ // WE ARE BROWSING FILES
 //                NSLog(@"TYPE %@", [item objectForKey:@"filetype"]);
                 if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]){
@@ -1002,8 +1033,6 @@ NSIndexPath *selected;
 }
 
 -(void)showInfo:(NSIndexPath *)indexPath{
-    self.showInfoViewController=nil;
-    self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
     NSDictionary *item = nil;
     if ([self.searchDisplayController isActive]){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
@@ -1011,8 +1040,31 @@ NSIndexPath *selected;
     else{
         item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+    self.showInfoViewController=nil;
+    self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
     self.showInfoViewController.detailItem = item;
     [self.navigationController pushViewController:self.showInfoViewController animated:YES];
+    }
+    else{
+        ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
+        
+        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:FALSE];
+    }
+    
+    
+    
+    
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+//        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+//        self.detailViewController.detailItem = MenuItem.subItem;
+//        [self.navigationController pushViewController:self.detailViewController animated:YES];
+//    }
+//    else{
+//        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
+//        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+//        
+//    }
 }
 
 //-(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
@@ -1305,10 +1357,14 @@ NSIndexPath *selected;
         viewWidth=320;
     }
     else {
-        frame.origin.x=768;
-        viewWidth=768;
+        frame.origin.x=0;
+        viewWidth=477;
+        dataList.alpha = 0.0;
     }
     dataList.frame=frame;
+
+    [self buildButtons]; // TEMP
+
     [[SDImageCache sharedImageCache] clearMemory];
 
     numTabs=[[self.detailItem mainMethod] count];
@@ -1327,7 +1383,6 @@ NSIndexPath *selected;
     self.richResults= [[NSMutableArray alloc] init ]; 
     self.filteredListContent = [[NSMutableArray alloc] init ]; 
     [activityIndicatorView startAnimating];
-    [self buildButtons];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){

@@ -524,13 +524,13 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 							viewAtLeft2 = nil;
 							viewAtRight = nil;
 							viewAtRight2 = nil;
+                            // MODDED BY JOE
                             int orientation= [[UIApplication sharedApplication] statusBarOrientation];
                             int marginPosX = (orientation==1 || orientation==2) ? 468 : 724;
                             if ((((UIView*)[[slideViews subviews] objectAtIndex:0]).frame.origin.x+marginPosX/2) >= marginPosX) {
-//                                NSLog(@"NASCONDO");
-
                                 posX = marginPosX;
                             }
+                            //END MODDED
                         }
 						[viewAtLeft setFrame:CGRectMake(posX, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
 						if (viewAtRight != nil) {
@@ -751,7 +751,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	
 	
 	if([viewControllersStack count] > 1){
-//        NSLog(@"DUE");
+        NSLog(@"DUE");
 
 		NSInteger indexOfViewController = [viewControllersStack
 										   indexOfObject:invokeByController]+1;
@@ -768,7 +768,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 			viewXPosition = self.view.frame.size.width - [controller view].frame.size.width;
 		}
 	}else if([viewControllersStack count] == 0) {
-//        NSLog(@"TRE"); //FIRST
+        NSLog(@"TRE"); //FIRST
 
 		for (UIView* subview in [slideViews subviews]) {
 			[subview removeFromSuperview];
@@ -779,7 +779,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	}
 	
 	if ([slideViews.subviews count] != 0) {
-//        NSLog(@"QUATTRO");
+        NSLog(@"QUATTRO");
 
         UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, 40 , self.view.frame.size.height)];
         
@@ -793,12 +793,12 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	
 	[viewControllersStack addObject:controller];
 	if (invokeByController !=nil) {
-//        NSLog(@"CINQUE"); //FIRST
+        NSLog(@"CINQUE"); //FIRST
 
 		viewXPosition = invokeByController.view.frame.origin.x + invokeByController.view.frame.size.width;			
 	}
 	if ([[slideViews subviews] count] == 0) {
-//        NSLog(@"SEI %f", slideStartPosition); //FIRST
+        NSLog(@"SEI"); //FIRST
 		slideStartPosition = SLIDE_VIEWS_START_X_POS;
 		viewXPosition = slideStartPosition;
 	}
@@ -825,7 +825,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	
 	if ([[slideViews subviews] count] > 0) {
 		if ([[slideViews subviews] count]==1) {
-//            NSLog(@"SETTE %f", animX); //FIRST
+            NSLog(@"SETTE"); //FIRST
 
 			viewAtLeft = [[slideViews subviews] objectAtIndex:[[slideViews subviews] count]-1];
             [[controller view] setFrame:CGRectMake(animX, 0, [controller view].frame.size.width, self.view.frame.size.height)];
@@ -841,7 +841,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 			viewAtRight2 = nil;
 			
 		}else if ([[slideViews subviews] count]==2){
-//            NSLog(@"OTTO");
+            NSLog(@"OTTO");
 
 			viewAtRight = [[slideViews subviews] objectAtIndex:[[slideViews subviews] count]-1];
 			viewAtLeft = [[slideViews subviews] objectAtIndex:[[slideViews subviews] count]-2];
@@ -858,7 +858,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 			
 		}else {
 
-//            NSLog(@"NOVE");
+            NSLog(@"NOVE");
 
 				viewAtRight = [[slideViews subviews] objectAtIndex:[[slideViews subviews] count]-1];
 				viewAtLeft = [[slideViews subviews] objectAtIndex:[[slideViews subviews] count]-2];
