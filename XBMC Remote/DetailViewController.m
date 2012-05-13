@@ -437,8 +437,7 @@ int labelPosition=0;
             
         }
         else { // CHILD IS FILEMODE
-            if ([[item objectForKey:@"filetype"] length]!=0){ // WE ARE BROWSING FILES
-//                NSLog(@"TYPE %@", [item objectForKey:@"filetype"]);
+            if ([[item objectForKey:@"filetype"] length]!=0){ // WE ARE ALREADY IN BROWSING FILES MODE
                 if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]){
                     [parameters removeAllObjects];
                     parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem mainParameters] objectAtIndex:choosedTab]]; 
@@ -453,9 +452,15 @@ int labelPosition=0;
 
                     [[MenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
                     MenuItem.chooseTab=choosedTab;
-                    self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                    self.detailViewController.detailItem = MenuItem;
-                    [self.navigationController pushViewController:self.detailViewController animated:YES];
+                    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+                        self.detailViewController.detailItem = MenuItem;
+                        [self.navigationController pushViewController:self.detailViewController animated:YES];
+                    }
+                    else{
+                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
+                        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                    }
 
                 }
                 else if ([[item objectForKey:@"genre"] isEqualToString:@"file"]){
@@ -476,32 +481,27 @@ int labelPosition=0;
                                                nil];
                 [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
                 MenuItem.subItem.chooseTab=choosedTab;
-                self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                self.detailViewController.detailItem = MenuItem.subItem;
-                [self.navigationController pushViewController:self.detailViewController animated:YES];
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                    
+                    self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+                    self.detailViewController.detailItem = MenuItem.subItem;
+                    [self.navigationController pushViewController:self.detailViewController animated:YES];
+                }
+                else{
+                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
+                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                }
             }
         }
-//        MenuItem.subItem.chooseTab=choosedTab;
-//        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-//        self.detailViewController.detailItem = MenuItem.subItem;
-//        [self.navigationController pushViewController:self.detailViewController animated:YES];
-
     }
     else {
 
         if (MenuItem.showInfo){
-
             [self showInfo:indexPath];
         }
         else {
-//            self.playFileViewController=nil;
-//            self.playFileViewController = [[PlayFileViewController alloc] initWithNibName:@"PlayFileViewController" bundle:nil];
-//            NSDictionary *item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-//            self.playFileViewController.detailItem = item;
-//            [self.navigationController pushViewController:self.playFileViewController animated:YES];
             [self addPlayback:indexPath position:indexPath.row];
         }
-       // [self addPlayback:indexPath];
     }
 }
 
@@ -656,21 +656,23 @@ UILongPressGestureRecognizer *longPressGesture;
 NSIndexPath *selected;
 
 -(IBAction)handleLongPress{
-//    NSLog(@"eccoci");
     if (lpgr.state == UIGestureRecognizerStateBegan || longPressGesture.state == UIGestureRecognizerStateBegan){
         CGPoint p = [lpgr locationInView:dataList];
         NSIndexPath *indexPath = [dataList indexPathForRowAtPoint:p];
         CGPoint p2 = [longPressGesture locationInView:self.searchDisplayController.searchResultsTableView];
         NSIndexPath *indexPath2 = [self.searchDisplayController.searchResultsTableView indexPathForRowAtPoint:p2];
+        CGPoint selectedPoint;
         if (indexPath != nil || indexPath2 != nil ){
             selected=indexPath;
+            selectedPoint=[lpgr locationInView:self.view];
+
             NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
-            
             int numActions=[sheetActions count];
             if (numActions){
                 NSDictionary *item = nil;
                 if ([self.searchDisplayController isActive]){
                     selected=indexPath2;
+                    selectedPoint=[longPressGesture locationInView:self.view];
                     item = [self.filteredListContent objectAtIndex:indexPath2.row];
                 }
                 else{
@@ -690,7 +692,12 @@ NSIndexPath *selected;
                     [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
                 }
                 action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
-                [action showInView:self.view];
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                    [action showInView:self.view];
+                }
+                else{
+                   [action showFromRect:CGRectMake(selectedPoint.x, selectedPoint.y, 1, 1) inView:self.view animated:YES];
+                }
             }
         }
     }
@@ -698,9 +705,7 @@ NSIndexPath *selected;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
-    if (buttonIndex!=actionSheet.cancelButtonIndex){
-////        NSLog(@"Cancel");
-    
+    if (buttonIndex!=actionSheet.cancelButtonIndex){    
         if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"])
             [self addPlayback:selected position:0];
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue"])
@@ -711,7 +716,6 @@ NSIndexPath *selected;
             [self addStream:selected];
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Search Wikipedia"])
             [self searchWikipedia:selected];
-
     }
 }
 
@@ -726,21 +730,28 @@ NSIndexPath *selected;
         item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
 //    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-
 //    NSString *type=[parameters objectForKey:@"wikitype"];
 //    NSString *label=[NSString stringWithFormat:@"%@ incategory:%@", [item objectForKey:@"label"], type];
+    
     NSString *query = [[item objectForKey:@"label"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSString *url = [NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%@", @"en", query]; 
-	NSURL *_url = [NSURL URLWithString:url];
-//    
-//	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:_url];
+	NSURL *_url = [NSURL URLWithString:url];    
     
     self.webViewController.urlRequest = [NSURLRequest requestWithURL:_url];
-    [self.navigationController pushViewController:self.webViewController animated:YES];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [self.navigationController pushViewController:self.webViewController animated:YES];
+    }
+    else{
+        CGRect frame=self.webViewController.view.frame;
+        frame.size.width=477;
+        self.webViewController.view.frame=frame;
+        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:self.webViewController invokeByController:self isStackStartView:FALSE];
+    }
 }
 
-
 #pragma mark - Gestures
+
 - (void)handleSwipeFromLeft:(id)sender {
     [self showNowPlaying];
 }
@@ -810,12 +821,11 @@ NSIndexPath *selected;
    }
 }
 
-#pragma mark - WebView
+#pragma mark - WebView for playback
+
 - (void)webViewDidStartLoad: (UIWebView *)webView{
 //    NSLog(@"START");
 }
-
-
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
 //    NSLog(@"Loading: %@", [request URL]);
@@ -1041,30 +1051,15 @@ NSIndexPath *selected;
         item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-    self.showInfoViewController=nil;
-    self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
-    self.showInfoViewController.detailItem = item;
-    [self.navigationController pushViewController:self.showInfoViewController animated:YES];
+        self.showInfoViewController=nil;
+        self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
+        self.showInfoViewController.detailItem = item;
+        [self.navigationController pushViewController:self.showInfoViewController animated:YES];
     }
     else{
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
-        
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:FALSE];
     }
-    
-    
-    
-    
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-//        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-//        self.detailViewController.detailItem = MenuItem.subItem;
-//        [self.navigationController pushViewController:self.detailViewController animated:YES];
-//    }
-//    else{
-//        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
-//        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
-//        
-//    }
 }
 
 //-(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
@@ -1170,9 +1165,6 @@ NSIndexPath *selected;
                      if ([[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"]!=nil){
                          filetype=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"];
                          type=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"type"];;
-                         //                         NSLog(@"FILETYPE %@ - %@", filetype, type);
-                         
-                         
                          if ([filetype isEqualToString:@"directory"]){
                              stringURL=@"nocover_filemode.png";
                          }
@@ -1185,11 +1177,9 @@ NSIndexPath *selected;
                                  stringURL=@"icon_video.png";
                              }
                              else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-                                 //                                stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[videoLibraryMovies objectAtIndex:i] objectForKey:@"file"]];
                                  stringURL=@"icon_picture.png";
                              }
                          }
-                         //                         NSLog(@"METTO ICONA %@", stringURL);
                      }
                      [self.richResults	addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    label, @"label",
@@ -1216,7 +1206,6 @@ NSIndexPath *selected;
                  }
 //                 NSLog(@"FINITO FINITO");
 //                 NSLog(@"RICH RESULTS %@", richResults);
-                 
                  [dataList setContentOffset:CGPointMake(0, 44)];
                  [activityIndicatorView stopAnimating];
                  numResults=[self.richResults count];
@@ -1238,10 +1227,8 @@ NSIndexPath *selected;
                          }
                          else if ([c rangeOfCharacterFromSet:set].location != NSNotFound) {
                              c = @"/";
-                             
                          }
                          found = NO;
-                         
                          for (NSString *str in [self.sections allKeys]){
                              if ([[str uppercaseString] isEqualToString:c]){
                                  found = YES;
@@ -1251,7 +1238,6 @@ NSIndexPath *selected;
                              [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
                          }
                      }
-                     
                      for (NSDictionary *item in self.richResults){
                          NSString *c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
                          if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
@@ -1266,10 +1252,9 @@ NSIndexPath *selected;
                      }
                  }
                  else {
-                    
                      [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
                      for (NSDictionary *item in self.richResults){
-                          [[self.sections objectForKey:@""] addObject:item];
+                         [[self.sections objectForKey:@""] addObject:item];
                      }
                  }
                  [self choseParams];
@@ -1296,16 +1281,11 @@ NSIndexPath *selected;
              [dataList reloadData];
              [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
 //             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
-
              [activityIndicatorView stopAnimating];
              [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
              [self loadImagesForOnscreenRows];
-
-//             [self countDownload:total];
          }
      }];
-    
-    
 }
 
 # pragma mark - Life-Cycle
@@ -1321,9 +1301,7 @@ NSIndexPath *selected;
 }
 
 - (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
     [[SDImageCache sharedImageCache] clearMemory];
 }
 
@@ -1362,13 +1340,9 @@ NSIndexPath *selected;
         dataList.alpha = 0.0;
     }
     dataList.frame=frame;
-
-    [self buildButtons]; // TEMP
-
+    [self buildButtons]; // TEMP ?
     [[SDImageCache sharedImageCache] clearMemory];
-
     numTabs=[[self.detailItem mainMethod] count];
-    
     if ([self.detailItem chooseTab]) 
         choosedTab=[self.detailItem chooseTab];
     if (choosedTab>=numTabs){
@@ -1397,8 +1371,6 @@ NSIndexPath *selected;
 
 - (void)viewDidUnload{
     [super viewDidUnload];
-    
-//    self.detailItem = nil;
     jsonRPC=nil;
     self.richResults=nil;
     self.filteredListContent=nil;
@@ -1412,7 +1384,6 @@ NSIndexPath *selected;
 }
 
 -(void)dealloc{
-//    self.detailItem = nil;
     jsonRPC=nil;
     [self.richResults removeAllObjects];
     [self.filteredListContent removeAllObjects];
@@ -1434,7 +1405,6 @@ NSIndexPath *selected;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

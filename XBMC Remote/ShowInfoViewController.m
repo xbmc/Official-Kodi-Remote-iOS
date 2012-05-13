@@ -146,16 +146,31 @@ int h=0;
         if ([[item objectForKey:@"family"] isEqualToString:@"studio"]){
             GlobalData *obj=[GlobalData getInstance];     
             if (obj.preferTVPosters==NO){
-                coverHeight=70;
-                deltaY=coverView.frame.size.height - coverHeight;
-                shiftY=0;
-                jewelView.hidden=YES;
-                frame=coverView.frame;
-                frame.origin.x=0;
-                frame.origin.y=12;
-                frame.size.width=320;
-                frame.size.height=59;
-                coverView.frame=frame;
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                    coverHeight=70;
+                    deltaY=coverView.frame.size.height - coverHeight;
+                    shiftY=0;
+                    jewelView.hidden=YES;
+                    frame=coverView.frame;
+                    frame.origin.x=0;
+                    frame.origin.y=12;
+                    frame.size.width=320;
+                    frame.size.height=59;
+                    coverView.frame=frame;
+                }
+                else {
+                    coverHeight=90;
+                    deltaY=coverView.frame.size.height - coverHeight;
+                    shiftY=0;
+                    jewelView.hidden=YES;
+                    frame=coverView.frame;
+                    frame.origin.x=-78;
+                    frame.origin.y=12;
+                    frame.size.width=477;
+                    frame.size.height=90;
+                    coverView.frame=frame;
+                }
+                
             }
             label1.text=@"EPISODES";
             label3.text=@"GENRE";
@@ -522,14 +537,13 @@ int h=0;
 }
 
 - (void)viewDidLoad{
+    [super viewDidLoad];
     GlobalData *obj=[GlobalData getInstance];     
     [[SDImageCache sharedImageCache] clearMemory];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [self createInfo];
-    
-    [super viewDidLoad];
 }
 
 - (void)viewDidUnload{
