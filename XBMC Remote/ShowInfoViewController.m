@@ -243,45 +243,45 @@ int h=0;
         
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
-        int shiftY=40;
-        int coverHeight=290;
-        scrollViewDefaultHeight=600;
+        int shiftY = 40;
+        int coverHeight = 290;
+        scrollViewDefaultHeight = 600;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:40];
-        jewelView.hidden=NO;
-        int deltaY=jewelView.frame.size.height - coverHeight;
-        label1.text=@"ARTIST";
-        label2.text=@"YEAR";
-        label3.text=@"GENRE";
-        label4.text=@"ALBUM LABEL";
-        label5.text=@"DESCRIPTION";
-        label6.text=@"";
+        jewelView.hidden = NO;
+        int deltaY = jewelView.frame.size.height - coverHeight;
+        label1.text = @"ARTIST";
+        label2.text = @"YEAR";
+        label3.text = @"GENRE";
+        label4.text = @"ALBUM LABEL";
+        label5.text = @"DESCRIPTION";
+        label6.text = @"";
         
-        starsView.hidden=YES;
-        voteLabel.hidden=YES;
-        numVotesLabel.hidden=YES;
+        starsView.hidden = YES;
+        voteLabel.hidden = YES;
+        numVotesLabel.hidden = YES;
 
-        parentalRatingLabelUp.hidden=YES;
-        parentalRatingLabel.hidden=YES;
+        parentalRatingLabelUp.hidden = YES;
+        parentalRatingLabel.hidden = YES;
         
-        CGRect frame=label6.frame;
-        frame.origin.y=frame.origin.y-40;
-        label6.frame=frame;
+        CGRect frame = label6.frame;
+        frame.origin.y = frame.origin.y-40;
+        label6.frame = frame;
         
-        jewelView.image=[UIImage imageNamed:@"jewel_cd.9.png"];
-        frame=jewelView.frame;
-        frame.size.height=coverHeight;
-        jewelView.frame=frame;
+        jewelView.image = [UIImage imageNamed:@"jewel_cd.9.png"];
+        frame = jewelView.frame;
+        frame.size.height = coverHeight;
+        jewelView.frame = frame;
         
-        frame=coverView.frame;
-        frame.origin.x=42;
-        frame.origin.y=22;
-        frame.size.width=256;
-        frame.size.height=256;
-        coverView.frame=frame;
-        directorLabel.text=[[item objectForKey:@"artist"] length]==0 ? @"-" : [item objectForKey:@"artist"];
-        genreLabel.text=[[item objectForKey:@"year"] length]==0 ? @"-" : [item objectForKey:@"year"];
-        runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
-        studioLabel.text=[[item objectForKey:@"writer"] length]==0 ? @"-" : [item objectForKey:@"writer"];
+        frame = coverView.frame;
+        frame.origin.x = 42;
+        frame.origin.y = 22;
+        frame.size.width = 256;
+        frame.size.height = 256;
+        coverView.frame = frame;
+        directorLabel.text = [[item objectForKey:@"artist"] length] == 0 ? @"-" : [item objectForKey:@"artist"];
+        genreLabel.text = [[item objectForKey:@"year"] length] == 0 ? @"-" : [item objectForKey:@"year"];
+        runtimeLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
+        studioLabel.text = [[item objectForKey:@"writer"] length] == 0 ? @"-" : [item objectForKey:@"writer"];
         scrollViewDefaultHeight=scrollViewDefaultHeight - deltaY - shiftY;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
         
@@ -295,6 +295,27 @@ int h=0;
         
     }
     else {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            int originalHeight = jewelView.frame.size.height;
+            int coverHeight = 560;
+            int coverWidth = 477;
+            CGRect frame;
+            frame = jewelView.frame;
+            frame.origin.x = -84;
+            frame.size.height = coverHeight;
+            frame.size.width = coverWidth;
+            jewelView.frame = frame;
+            frame=coverView.frame;
+            frame.origin.x = 82;
+            frame.origin.y = 24;
+            frame.size.width = 353;
+            frame.size.height = 518;
+            coverView.autoresizingMask = UIViewAutoresizingNone;
+            coverView.contentMode = UIViewContentModeScaleAspectFill;
+            coverView.frame = frame;
+            int deltaY = -(coverHeight - originalHeight);
+            [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
+        }
         directorLabel.text=[[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
         genreLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
         runtimeLabel.text=[[item objectForKey:@"runtime"] length]==0 ? @"-" : [item objectForKey:@"runtime"];
@@ -310,7 +331,6 @@ int h=0;
     else{
         [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@""]];
     }
-    
     NSString *fanartPath=[item objectForKey:@"fanart"];    
     NSURL *fanartUrl = [NSURL URLWithString: fanartPath];
     UIImage *cachedFanart = [manager imageWithURL:fanartUrl];
@@ -320,8 +340,6 @@ int h=0;
     else{
         [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
     }
-
-
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
     starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];
     
@@ -330,14 +348,11 @@ int h=0;
         NSString *numVotesPlus=([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes";
         numVotesLabel.text=[NSString stringWithFormat:@"(%@ %@)",numVotes, numVotesPlus];
     }
-    
     CGRect frame=summaryLabel.frame;
-   // frame.size.height=2000;
     summaryLabel.frame=frame;
     summaryLabel.text=[[item objectForKey:@"plot"] length]==0 ? @"-" : [item objectForKey:@"plot"];
     if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
         summaryLabel.text=[[item objectForKey:@"description"] length]==0 ? @"-" : [item objectForKey:@"description"];
-
     }
     [summaryLabel sizeToFit];
     

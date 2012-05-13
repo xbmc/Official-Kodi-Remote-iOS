@@ -14,6 +14,7 @@
 @class UIViewExt;
 @class NowPlaying;
 @class GlobalData;
+@class VolumeSliderView;
 
 
 @interface ViewControllerIPad : UIViewController {
@@ -27,6 +28,8 @@
     NSIndexPath *storeServerSelection;
     int YPOS;
     UIButton *xbmcLogo;
+    UIButton *volumeButton;
+    VolumeSliderView *volumeSliderView;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;

@@ -96,6 +96,33 @@
     //[self changeServerStatus:NO infoText:@"No connection"];
 }
 
+
+# pragma mark - toolbar management
+
+-(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
+	[UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+	[UIView setAnimationDuration:seconds];
+    int actualPosY=view.frame.origin.y;
+    CGRect frame;
+	frame = [view frame];
+    NSLog(@"%d actual %d frame %f", Y, actualPosY, self.view.frame.size.height);
+    if (actualPosY<667 || hide){
+        Y=self.view.frame.size.height;
+    }
+    
+    
+    view.alpha = alphavalue;
+	
+	frame.origin.y = Y;
+    view.frame = frame;
+    [UIView commitAnimations];
+}
+
+- (void)toggleVolume{
+    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:volumeSliderView.frame.origin.y - volumeSliderView.frame.size.height - 42 forceHide:FALSE];
+}
+
 #pragma mark - Lyfecycle
 
 - (void)viewDidLoad{
@@ -177,7 +204,7 @@
     nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
     nowPlayingController.view.frame=frame;
     
-    [nowPlayingController setToolbarWidth:768 height:610 origX:76 origY:60 thumbWidth:334 thumbHeight:334 YPOS:YPOS playBarWidth:426];
+    [nowPlayingController setToolbarWidth:768 height:610 YPOS:YPOS playBarWidth:426 portrait:TRUE];
     
     [leftMenuView addSubview:nowPlayingController.view];
 
@@ -205,9 +232,17 @@
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
     [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-    //UIBarButtonItem *setupRemote = [[UIBarButtonItem alloc] initWithCustomView:xbmcLogo];
     [self.view addSubview:xbmcLogo];
     
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
+    volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
+    frame=volumeSliderView.frame;
+    frame.origin.x=408;
+    frame.origin.y=self.view.frame.size.height - 170;
+    volumeSliderView.frame=frame;
+    CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * 0.5);
+    volumeSliderView.transform = trans;    
+    [self.view addSubview:volumeSliderView];    
 }
 
 - (void)viewDidUnload{
@@ -225,11 +260,13 @@
 	[menuViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	[stackScrollViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-        [nowPlayingController setToolbarWidth:768 height:610 origX:76 origY:60 thumbWidth:334 thumbHeight:334 YPOS:YPOS playBarWidth:426];
+        
+        [nowPlayingController setToolbarWidth:768 height:610 YPOS:YPOS playBarWidth:426 portrait:TRUE];
 
 	}
 	else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight){
-        [nowPlayingController setToolbarWidth:1024 height:768 origX:152 origY:80 thumbWidth:435 thumbHeight:435 YPOS:YPOS playBarWidth:680];
+        
+        [nowPlayingController setToolbarWidth:1024 height:768 YPOS:YPOS playBarWidth:680 portrait:FALSE];
 
 	}
 }	

@@ -69,9 +69,11 @@
     int iPadthumbHeight;
     IBOutlet UIView *playlistActionView;
     IBOutlet UIImageView *pgbar;
+    BOOL portraitMode;
+    NSString *currentType;
 }
 
--(void)setToolbarWidth:(int)width height:(int)height origX:(int)origX origY:(int)origY thumbWidth:(int)thumbWidth thumbHeight:(int)thumbHeight YPOS:(int)YPOS playBarWidth:(int)playBarWidth;
+-(void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
 

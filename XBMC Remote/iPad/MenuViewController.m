@@ -60,13 +60,11 @@
 		[_tableView setDelegate:self];
 		[_tableView setDataSource:self];
         [_tableView setBackgroundColor:[UIColor clearColor]];
-//		[_tableView setBackgroundColor:[UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1]];
         mainMenuItems=menu;
         UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-		_tableView.tableFooterView = footerView;
-//        [footerView release];
-        
+		_tableView.tableFooterView = footerView;        
 		[self.view addSubview:_tableView];
+        
 //        CGRect shadowRect;
 //        UIImageView *shadow;
         

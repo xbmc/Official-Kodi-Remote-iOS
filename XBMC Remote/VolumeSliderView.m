@@ -32,6 +32,18 @@
         volumeSlider.tag=10;
         [volumeSlider addTarget:self action:@selector(changeServerVolume:) forControlEvents:UIControlEventTouchUpInside];
         [volumeSlider addTarget:self action:@selector(stopTimer) forControlEvents:UIControlEventTouchDown];
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            trans = CGAffineTransformMakeRotation(M_PI * - 0.5);
+            minusButton.transform = trans;
+            volumeLabel.transform = trans;
+            volumeView.hidden = YES;
+            
+            volumeSlider.hidden = YES;
+            frame = volumeLabel.frame;
+            frame.origin.y = 165;
+            volumeLabel.frame= frame;
+        }
     }
     return self;
 }

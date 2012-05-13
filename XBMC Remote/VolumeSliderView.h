@@ -14,6 +14,8 @@
     IBOutlet UISlider *volumeSlider;
     IBOutlet UILabel *volumeLabel;
     DSJSONRPC *jsonRPC;
+    IBOutlet UIButton *plusButton;
+    IBOutlet UIButton *minusButton;
 }
 
 - (IBAction)slideVolume:(id)sender;
