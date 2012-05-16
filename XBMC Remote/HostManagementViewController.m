@@ -134,6 +134,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [masterViewController setInCheck:NO];
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if ([mainDelegate.arrayServerList count] == 0){
         [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -267,7 +268,6 @@
         NSIndexPath *indexPath = [serverListTableView indexPathForRowAtPoint:p];
         AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         if (indexPath != nil && indexPath.row<[mainDelegate.arrayServerList count]){
-            NSLog(@"%@", storeServerSelection);
             if (storeServerSelection && indexPath.row == storeServerSelection.row){
                 UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
                 [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -313,6 +313,9 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    self.contentSizeForViewInPopover = CGSizeMake(320, 248);
+    self.navigationController.navigationBar.tintColor = [UIColor orangeColor];
+
 }
 
 - (void)viewDidUnload{

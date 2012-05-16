@@ -1136,7 +1136,6 @@
 								<string key="NSFrame">{{271, 6}, {41, 33}}</string>
 								<reference key="NSSuperview" ref="627939083"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<int key="IBUITag">5</int>
@@ -1249,10 +1248,7 @@
 								<int key="IBUISystemItemIdentifier">5</int>
 							</object>
 						</array>
-						<object class="NSColor" key="IBUITintColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MCAwIDAuMDM4MjA3MTE2NzkAA</bytes>
-						</object>
+						<reference key="IBUITintColor" ref="3900949"/>
 					</object>
 				</array>
 				<string key="NSFrameSize">{320, 416}</string>

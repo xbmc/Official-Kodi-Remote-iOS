@@ -14,6 +14,7 @@
 #import "VolumeSliderView.h"
 #import "SDImageCache.h"
 #import "RemoteController.h"
+#import "AppDelegate.h"
 
 @interface NowPlaying ()
 
@@ -351,9 +352,9 @@ int currentItemID;
             }
             else {
                 frame.origin.x=38;
-                frame.origin.y=98;
+                frame.origin.y=102;
                 frame.size.width=630;
-                frame.size.height=364;
+                frame.size.height=360;
             }
         }
         thumbnailView.frame=frame;
@@ -390,7 +391,40 @@ int currentItemID;
     }
     jewelView.image=[UIImage imageNamed:jewelImg];
 }
+
+-(void)nothingIsPlaying{
+    currentTime.text=@"";
+    [timeCursor.layer removeAllAnimations];
+    [timeBar.layer removeAllAnimations];
+    [self animCursor:startx];
+    [self resizeBar:0];
+    thumbnailView.image=nil;
+    duration.text=@"";
+    albumName.text=@"Nothing is playing";
+    songName.text=@"";
+    artistName.text=@"";
+    lastSelected=-1;
+    storeSelection=nil;
+    [PartyModeButton setSelected:NO];
+    NSIndexPath *selection=[playlistTableView indexPathForSelectedRow];
+    if (selection){
+        [playlistTableView deselectRowAtIndexPath:selection animated:YES];
+        UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
+        UIImageView *coverView=(UIImageView*) [cell viewWithTag:4];
+        coverView.alpha=1.0;
+        UIView *timePlaying=(UIView*) [cell viewWithTag:5];
+        storeSelection=nil;
+        if (timePlaying.hidden==NO)
+            [self fadeView:timePlaying hidden:YES];
+    }
+    [self showPlaylistTable];
+}
+
 -(void)playbackInfo{
+    if (![AppDelegate instance].serverOnLine) {
+        [self nothingIsPlaying];
+        return;
+    }
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
@@ -618,64 +652,16 @@ int currentItemID;
                  }];
             }
             else{
-                currentTime.text=@"";
-                [timeCursor.layer removeAllAnimations];
-                [timeBar.layer removeAllAnimations];
-                [self animCursor:startx];
-                [self resizeBar:0];
-                thumbnailView.image=nil;
-                duration.text=@"";
-                albumName.text=@"Nothing is playing";
-                songName.text=@"";
-                artistName.text=@"";
-                lastSelected=-1;
-                storeSelection=nil;
-                [PartyModeButton setSelected:NO];
-                NSIndexPath *selection=[playlistTableView indexPathForSelectedRow];
-                if (selection){
-                    [playlistTableView deselectRowAtIndexPath:selection animated:YES];
-                    UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-                    UIImageView *coverView=(UIImageView*) [cell viewWithTag:4];
-                    coverView.alpha=1.0;
-                    UIView *timePlaying=(UIView*) [cell viewWithTag:5];
-                    storeSelection=nil;
-                    if (timePlaying.hidden==NO)
-                        [self fadeView:timePlaying hidden:YES];
-                }
+                [self nothingIsPlaying];
                 if (playerID==-1 && selectedPlayerID==-1){
                     playerID=-2;
                     [self createPlaylist:YES];
                 }
-//                NSLog(@"Nothing is playing");
             }
         }
         else {
 //            NSLog(@"ci deve essere un primo problema %@", methodError);
-            currentTime.text=@"";
-            [timeCursor.layer removeAllAnimations];
-            [timeBar.layer removeAllAnimations];
-            [self animCursor:startx];
-            [self resizeBar:0];
-            thumbnailView.image=nil;
-            duration.text=@"";
-            albumName.text=@"Nothing is playing";
-            songName.text=@"";
-            artistName.text=@"";
-            lastSelected=-1;
-            storeSelection=nil;
-            NSIndexPath *selection=[playlistTableView indexPathForSelectedRow];
-            if (selection){
-                [playlistTableView deselectRowAtIndexPath:selection animated:YES];
-                UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-                UIImageView *coverView=(UIImageView*) [cell viewWithTag:4];
-                coverView.alpha=1.0;
-                UIView *timePlaying=(UIView*) [cell viewWithTag:5];
-                storeSelection=nil;
-                if (timePlaying.hidden==NO)
-                    [self fadeView:timePlaying hidden:YES];
-            }
-
-            //playerID=-1;
+            [self nothingIsPlaying];
         }
     }];
     if (currentItemID!=storedItemID){
@@ -773,7 +759,11 @@ int currentItemID;
     [UIView commitAnimations];
 }
 
--(void)createPlaylist:(BOOL)forcePlaylistID{  
+-(void)createPlaylist:(BOOL)forcePlaylistID{ 
+    if (![AppDelegate instance].serverOnLine) {
+        [self nothingIsPlaying];
+        return;
+    }
     if (!musicPartyMode)
         [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     [activityIndicatorView startAnimating];
@@ -869,12 +859,10 @@ int currentItemID;
                                                     nil]];
                        }
 //                       NSLog(@"DATACOUNT: %@", playlistData );
-                       numResults=[playlistData count];
-
-                       [playlistTableView reloadData];
-                       [activityIndicatorView stopAnimating];
-
-                       [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                       // SHOULD BE INCLUDED INSIDE showPlaylistTable INSTEAD?
+                       
+                       
+                       [self showPlaylistTable];
                        if (musicPartyMode && playlistID==0){
                            [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
                        }
@@ -885,14 +873,18 @@ int currentItemID;
                }
                else {
 //                   NSLog(@"ci deve essere un primo problema %@", methodError);
-                   [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-                   [activityIndicatorView stopAnimating];
-
-                   [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                   [self showPlaylistTable];
                }
            }];
-    
+}
 
+-(void)showPlaylistTable{
+    numResults=[playlistData count];
+    if (numResults==0)
+        [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+    [playlistTableView reloadData]; 
+    [activityIndicatorView stopAnimating];
+    [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
 
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
@@ -1359,6 +1351,79 @@ int anim2;
     [self.navigationController pushViewController:self.remoteController animated:YES];
 }
 
+#pragma mark - Interface customizations
+
+-(void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait{
+    CGRect frame;
+    barwidth = playBarWidth;
+    frame=playlistToolbar.frame;
+    frame.size.width=width+20;
+    frame.origin.x=0;
+    playlistToolbar.frame=frame;
+    frame=nowPlayingView.frame;
+    frame.origin.x=302;
+    frame.origin.y=YPOS;
+    frame.size.height=height - 84;
+    frame.size.width=width - 302;
+    nowPlayingView.frame=frame;
+    portraitMode = isPortrait;
+    [self setCoverSize:currentType];
+}
+
+-(void)setIphoneInterface{
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
+    CGRect frame=volumeSliderView.frame;
+    frame.origin.x=258;
+    frame.origin.y=-volumeSliderView.frame.size.height;
+    volumeSliderView.frame=frame;
+    [self.view addSubview:volumeSliderView];
+    UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+    self.navigationItem.rightBarButtonItem = settingsButton;
+    slideFrom=320;
+}
+
+-(void)setIpadInterface{
+    slideFrom=-300;
+    CGRect frame;
+    [albumName setFont:[UIFont fontWithName:@"Optima-Regular" size:24]];
+    frame=albumName.frame;
+    frame.origin.y=10;
+    albumName.frame=frame;
+    [songName setFont:[UIFont fontWithName:@"Optima-Regular" size:18]];
+    frame=songName.frame;
+    frame.origin.y=frame.origin.y+6;
+    songName.frame=frame;
+    
+    [artistName setFont:[UIFont fontWithName:@"Optima-Regular" size:16]];
+    frame=artistName.frame;
+    frame.origin.y=frame.origin.y+12;
+    artistName.frame=frame;
+    
+    [currentTime setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
+    [duration setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
+    frame=playlistTableView.frame;
+    frame.origin.x=slideFrom;
+    playlistTableView.frame=frame;
+    
+    NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
+    [items removeObjectAtIndex:1];
+    [items removeObjectAtIndex:2];
+    [items removeObjectAtIndex:3];
+    [items removeObjectAtIndex:4];
+    [items removeObjectAtIndex:5];
+    [items removeObjectAtIndex:6];
+    [items removeObjectAtIndex:7];
+    [playlistToolbar setItems:items animated:YES];
+    
+    UIButton *buttonItem=(UIButton *)[self.view viewWithTag:5];
+    [buttonItem removeFromSuperview];
+    
+    nowPlayingView.hidden=NO;
+    playlistView.hidden=NO;
+    //button.hidden=YES;
+}
+
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -1381,86 +1446,18 @@ int anim2;
 //    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
 }
 
--(void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait{
-    CGRect frame;
-    barwidth = playBarWidth;
-    frame=playlistToolbar.frame;
-    frame.size.width=width+20;
-    frame.origin.x=0;
-    playlistToolbar.frame=frame;
-    frame=nowPlayingView.frame;
-    frame.origin.x=302;
-    frame.origin.y=YPOS;
-    frame.size.height=height - 84;
-    frame.size.width=width - 302;
-    nowPlayingView.frame=frame;
-    portraitMode = isPortrait;
-    [self setCoverSize:currentType];
-}
-
 - (void)viewDidLoad{
-//    NSLog(@"%f", pgbar.frame.size.width);
-
+    [super viewDidLoad];
     [[SDImageCache sharedImageCache] clearMemory];
     playerID=-1;
     selectedPlayerID=-1;
-    [super viewDidLoad];
-    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
-        CGRect frame=volumeSliderView.frame;
-        frame.origin.x=258;
-        frame.origin.y=-volumeSliderView.frame.size.height;
-        volumeSliderView.frame=frame;
-        [self.view addSubview:volumeSliderView];
-        UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-        UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-        self.navigationItem.rightBarButtonItem = settingsButton;
-        slideFrom=320;
-        
+        [self setIphoneInterface];
     }
     else{
-        slideFrom=-300;
-        CGRect frame;
-        [albumName setFont:[UIFont fontWithName:@"Optima-Regular" size:24]];
-        frame=albumName.frame;
-        frame.origin.y=10;
-        albumName.frame=frame;
-        [songName setFont:[UIFont fontWithName:@"Optima-Regular" size:18]];
-        frame=songName.frame;
-        frame.origin.y=frame.origin.y+6;
-        songName.frame=frame;
-
-        [artistName setFont:[UIFont fontWithName:@"Optima-Regular" size:16]];
-        frame=artistName.frame;
-        frame.origin.y=frame.origin.y+12;
-        artistName.frame=frame;
-
-        [currentTime setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
-        [duration setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
-        frame=playlistTableView.frame;
-        frame.origin.x=slideFrom;
-        playlistTableView.frame=frame;
-
-        NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
-        [items removeObjectAtIndex:1];
-        [items removeObjectAtIndex:2];
-        [items removeObjectAtIndex:3];
-        [items removeObjectAtIndex:4];
-        [items removeObjectAtIndex:5];
-        [items removeObjectAtIndex:6];
-        [items removeObjectAtIndex:7];
-        [playlistToolbar setItems:items animated:YES];
-
-        UIButton *buttonItem=(UIButton *)[self.view viewWithTag:5];
-        [buttonItem removeFromSuperview];
-
-        nowPlayingView.hidden=NO;
-        playlistView.hidden=NO;
-        //button.hidden=YES;
+        [self setIpadInterface];
     }
     GlobalData *obj=[GlobalData getInstance]; 
-    
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
@@ -1479,8 +1476,6 @@ int anim2;
 - (void)viewDidUnload{
     [super viewDidUnload];
     volumeSliderView = nil;
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 -(void)dealloc{
@@ -1490,7 +1485,6 @@ int anim2;
     jsonRPC=nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
-
 
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
 //    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);

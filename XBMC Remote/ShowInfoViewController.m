@@ -133,11 +133,66 @@ int count=0;
     }
 }
 
+-(void)setAndMoveLabels:(NSArray *)arrayLabels size:(int)size{
+    UIFont *optima=[UIFont fontWithName:@"Optima-Regular" size:16];
+    int offset = size;
+    for (UILabel *label in arrayLabels) {
+        [label setFont:optima];
+        [label setFrame:
+         CGRectMake(
+                    label.frame.origin.x, 
+                    label.frame.origin.y + offset, 
+                    label.frame.size.width, 
+                    label.frame.size.height + size
+                    )
+         ];
+        offset += size;
+    }
+}
+
 int h=0;
+
 -(void)createInfo{
     NSDictionary *item=self.detailItem;
 //    NSLog(@"ITEM %@", item);
-    int scrollViewDefaultHeight=1660;
+    int scrollViewDefaultHeight = 1660;
+    int castFontSize = 14;
+    int size = 0;
+    int castWidth = 50;
+    int castHeight = 50;
+    int pageSize = 320;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        castFontSize = 16;
+        size = 6;
+        castWidth = 75;
+        castHeight = 75;
+        pageSize = 477;
+        [starsView setFrame: 
+         CGRectMake(
+                    starsView.frame.origin.x, 
+                    starsView.frame.origin.y - size, 
+                    starsView.frame.size.width, 
+                    starsView.frame.size.height + size*2
+                    )];
+        [voteLabel setFont:[UIFont fontWithName:@"Optima-Regular" size:26]];
+        [numVotesLabel setFont:[UIFont fontWithName:@"Optima-Regular" size:18]];        
+        NSArray *arrayLabels=[NSArray arrayWithObjects:
+                              label1,
+                              directorLabel, 
+                              label2,
+                              genreLabel,
+                              label3,
+                              runtimeLabel,
+                              label4,
+                              studioLabel,
+                              label5,
+                              summaryLabel,
+                              parentalRatingLabelUp,
+                              parentalRatingLabel,
+                              label6,
+                              nil];
+        [self setAndMoveLabels:arrayLabels size:size];
+    }
     if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"studio"]){
         int deltaY=0;
         int coverHeight=0;
@@ -225,8 +280,6 @@ int h=0;
         scrollViewDefaultHeight=scrollViewDefaultHeight - deltaY - shiftY;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
         
-        
-        
         label2.text=@"FIRST AIRED";
         label5.text=@"SUMMARY";
         
@@ -237,10 +290,6 @@ int h=0;
         frame=voteLabel.frame;
         frame.origin.x=frame.origin.x+29;
         voteLabel.frame=frame;
-        
-        
-        
-        
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
         int shiftY = 40;
@@ -340,6 +389,7 @@ int h=0;
     else{
         [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
     }
+    [fanartView setClipsToBounds:YES];
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
     starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];
     
@@ -354,72 +404,81 @@ int h=0;
     if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
         summaryLabel.text=[[item objectForKey:@"description"] length]==0 ? @"-" : [item objectForKey:@"description"];
     }
-    [summaryLabel sizeToFit];
+    CGSize maximunLabelSize= CGSizeMake(pageSize, 9999);
+    CGSize expectedLabelSize = [summaryLabel.text 
+                                sizeWithFont:summaryLabel.font 
+                                constrainedToSize:maximunLabelSize 
+                                lineBreakMode:summaryLabel.lineBreakMode]; 
     
-    frame=parentalRatingLabel.frame;
-    frame.origin.y=frame.origin.y+summaryLabel.frame.size.height-20;
-    parentalRatingLabel.frame=frame;
+    //adjust the label the the new height.
+    CGRect newFrame = summaryLabel.frame;
+    newFrame.size.height = expectedLabelSize.height + size;
+    summaryLabel.frame = newFrame;
     
-    frame=parentalRatingLabelUp.frame;
-    frame.origin.y=frame.origin.y+summaryLabel.frame.size.height-20;
-    parentalRatingLabelUp.frame=frame;
+   // [summaryLabel sizeToFit];
     
-    frame=parentalRatingLabel.frame;
-    frame.size.height=2000;
-    parentalRatingLabel.frame=frame;
-    parentalRatingLabel.text=[[item objectForKey:@"mpaa"] length]==0 ? @"-" : [item objectForKey:@"mpaa"];
+    frame = parentalRatingLabel.frame;
+    frame.origin.y = frame.origin.y + summaryLabel.frame.size.height-20;
+    parentalRatingLabel.frame = frame;
+    
+    frame = parentalRatingLabelUp.frame;
+    frame.origin.y = frame.origin.y + summaryLabel.frame.size.height-20;
+    parentalRatingLabelUp.frame = frame;
+    
+    frame = parentalRatingLabel.frame;
+    frame.size.height = 2000;
+    parentalRatingLabel.frame = frame;
+    parentalRatingLabel.text = [[item objectForKey:@"mpaa"] length]==0 ? @"-" : [item objectForKey:@"mpaa"];
     [parentalRatingLabel sizeToFit];
     
-    frame=label6.frame;
-    frame.origin.y=frame.origin.y+summaryLabel.frame.size.height+parentalRatingLabel.frame.size.height-40;
-    label6.frame=frame;
-    int startY=label6.frame.origin.y+20;
+    frame = label6.frame;
+    frame.origin.y = frame.origin.y+summaryLabel.frame.size.height+parentalRatingLabel.frame.size.height-40;
+    label6.frame = frame;
+    int startY = label6.frame.origin.y + 20 + size;
     
     if (![[item objectForKey:@"family"] isEqualToString:@"albumid"]){// TRANSFORM IN SHOW_CAST BOOLEAN
-        NSArray *cast=[item objectForKey:@"cast"];
-        GlobalData *obj=[GlobalData getInstance]; 
-        NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-        int castWidth=50;
-        int castHeight=50;
-        int offsetX=10;
+        NSArray *cast = [item objectForKey:@"cast"];
+        GlobalData *obj = [GlobalData getInstance]; 
+        NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+        int offsetX = 10;
         for (NSDictionary *actor in cast){
             NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [actor objectForKey:@"thumbnail"]];
-            UIImageView *actorImage=[[UIImageView alloc] initWithFrame:CGRectMake(offsetX, startY, castWidth, castHeight)];
+            UIImageView *actorImage = [[UIImageView alloc] initWithFrame:CGRectMake(offsetX, startY, castWidth, castHeight)];
             [actorImage setClipsToBounds:YES];
             [actorImage setContentMode:UIViewContentModeScaleAspectFill];
             [actorImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
             [actorImage.layer setBorderColor: [[UIColor whiteColor] CGColor]];
             [actorImage.layer setBorderWidth: 1.0];
-            [actorImage setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin ];
+            [actorImage setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
             [scrollView addSubview:actorImage];
             
-            UILabel *actorName=[[UILabel alloc] initWithFrame:CGRectMake(castWidth+offsetX+10, startY, 320 - (castWidth+offsetX+20) , 16)];
-            actorName.text=[actor objectForKey:@"name"];
-            [actorName setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
+            UILabel *actorName=[[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, startY, 320 - (castWidth + offsetX + 20) , 16 + size)];
+            actorName.text = [actor objectForKey:@"name"];
+            [actorName setFont:[UIFont fontWithName:@"Optima-Regular" size:castFontSize]];
             [actorName setBackgroundColor:[UIColor clearColor]];
             [actorName setTextColor:[UIColor whiteColor]];
-            [actorName setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
+            [actorName setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
 
             [scrollView addSubview:actorName];
             
-            UILabel *actorRole=[[UILabel alloc] initWithFrame:CGRectMake(castWidth+offsetX+10, startY+20, 320 - (castWidth+offsetX+20) , 16)];
-            actorRole.text=@"";
-            if ([[actor objectForKey:@"role"] length]!=0)
-                actorRole.text=[NSString stringWithFormat:@"as %@", [actor objectForKey:@"role"]];
+            UILabel *actorRole = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, startY+20, 320 - (castWidth + offsetX + 20) , 16 + size)];
+            actorRole.text = @"";
+            actorRole.numberOfLines = 2;
+            if ([[actor objectForKey:@"role"] length] != 0)
+                actorRole.text = [NSString stringWithFormat:@"as %@", [actor objectForKey:@"role"]];
             
-            [actorRole setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
+            [actorRole setFont:[UIFont fontWithName:@"Optima-Regular" size:castFontSize - 1]];
             [actorRole setBackgroundColor:[UIColor clearColor]];
             [actorRole setTextColor:[UIColor grayColor]];
-            [actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
-
+            [actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
             [scrollView addSubview:actorRole];
             
-            startY=startY+castHeight+10;
+            startY=startY + castHeight + 10;
         }
         if ([cast count]==0){
-            UILabel *noCast=[[UILabel alloc] initWithFrame:CGRectMake(offsetX, startY-4, 297 , 20)];
+            UILabel *noCast = [[UILabel alloc] initWithFrame:CGRectMake(offsetX, startY - 4, 297, 20)];
             noCast.text=@"-";
-            [noCast setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
+            [noCast setFont:[UIFont fontWithName:@"Optima-Regular" size:castFontSize]];
             [noCast setBackgroundColor:[UIColor clearColor]];
             [noCast setTextColor:[UIColor whiteColor]];
             [scrollView addSubview:noCast];
@@ -525,7 +584,7 @@ int h=0;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-# pragma  mark - Lyfe Cycle
+# pragma  mark - Life Cycle
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {

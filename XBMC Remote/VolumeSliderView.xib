@@ -75,6 +75,11 @@
 							<bytes key="NSWhite">MC45MzUzMDQ1MTY0AA</bytes>
 						</object>
 						<nil key="IBUIHighlightedColor"/>
+						<object class="NSColor" key="IBUIShadowColor" id="223848313">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MAA</bytes>
+						</object>
+						<string key="IBUIShadowOffset">{1, 1}</string>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
@@ -123,10 +128,7 @@
 						<double key="IBUIContentEdgeInsets.right">0.0</double>
 						<string key="IBUITitleShadowOffset">{1, 1}</string>
 						<string key="IBUINormalTitle">+</string>
-						<object class="NSColor" key="IBUIHighlightedTitleColor" id="223848313">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MAA</bytes>
-						</object>
+						<reference key="IBUIHighlightedTitleColor" ref="223848313"/>
 						<reference key="IBUISelectedTitleColor" ref="223848313"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">3</int>

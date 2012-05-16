@@ -19,28 +19,25 @@
 @class HostManagementViewController;
 
 
-@interface MasterViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>{
+@interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
     IBOutlet UITableView *menuList;
-    IBOutlet UITableView *serverListTableView;
     IBOutlet UITableViewCell *resultMenuCell;
-    IBOutlet UITableViewCell *serverListCell;
-    IBOutlet UIView *settingsView;
     DSJSONRPC *jsonRPC;
     NSTimer* timer;
     UIButton *xbmcInfo;
     UIButton *xbmcLogo;
     GlobalData *obj;
     NSDictionary *checkServerParams;
-    BOOL serverOnLine;
+    BOOL firstRun;
+    BOOL inCheck;
     NSIndexPath *storeServerSelection;
-    IBOutlet UIButton *editTableButton;
     AppInfoViewController *appInfoView;
-    IBOutlet UILongPressGestureRecognizer *lpgr;
     HostManagementViewController *hostManagementViewController;
 }
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText;
 -(void)setFirstRun:(BOOL)value;
+-(void)setInCheck:(BOOL)value;
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 @property (strong, nonatomic) DetailViewController *detailViewController;

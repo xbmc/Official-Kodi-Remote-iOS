@@ -41,8 +41,13 @@
             
             volumeSlider.hidden = YES;
             frame = volumeLabel.frame;
-            frame.origin.y = 165;
+            frame.origin.y = 204;
             volumeLabel.frame= frame;
+            
+            frame = plusButton.frame;
+            frame.origin.y = plusButton.frame.origin.y - 30;
+            plusButton.frame = frame;
+            
         }
     }
     return self;

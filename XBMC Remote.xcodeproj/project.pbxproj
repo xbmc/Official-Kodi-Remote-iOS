@@ -14,6 +14,7 @@
 		0F175F2B154D699D00C1C61F /* UIViewWithShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2A154D699D00C1C61F /* UIViewWithShadow.m */; };
 		0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2D154D6AFA00C1C61F /* MenuViewController.m */; };
 		0F175F31154D6B1700C1C61F /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F30154D6B1700C1C61F /* DataViewController.m */; };
+		0F1F67F61563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */; };
 		0F268FC4154DA7ED00ED64D8 /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F268FC3154DA7ED00ED64D8 /* cellViewIPad.xib */; };
 		0F268FD3154DC1DF00ED64D8 /* tableLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F268FD2154DC1DF00ED64D8 /* tableLeft.png */; };
 		0F2A462C1532FC8B005D15E2 /* st_concert_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2A462A1532FC8B005D15E2 /* st_concert_off.png */; };
@@ -410,6 +411,7 @@
 		0F175F2D154D6AFA00C1C61F /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = iPad/MenuViewController.m; sourceTree = "<group>"; };
 		0F175F2F154D6B1600C1C61F /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataViewController.h; path = iPad/DataViewController.h; sourceTree = "<group>"; };
 		0F175F30154D6B1700C1C61F /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataViewController.m; path = iPad/DataViewController.m; sourceTree = "<group>"; };
+		0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DejaVuSans-Bold-Caps.ttf"; sourceTree = "<group>"; };
 		0F268FC3154DA7ED00ED64D8 /* cellViewIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellViewIPad.xib; sourceTree = "<group>"; };
 		0F268FD2154DC1DF00ED64D8 /* tableLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tableLeft.png; sourceTree = "<group>"; };
 		0F2A462A1532FC8B005D15E2 /* st_concert_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_concert_off.png; sourceTree = "<group>"; };
@@ -922,6 +924,14 @@
 			name = iPad;
 			sourceTree = "<group>";
 		};
+		0F1F67F41563A7C0005FA170 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		0F5548EB151D1187007E633F = {
 			isa = PBXGroup;
 			children = (
@@ -959,9 +969,14 @@
 		0F554900151D1187007E633F /* XBMC Remote */ = {
 			isa = PBXGroup;
 			children = (
+				0F1F67F41563A7C0005FA170 /* fonts */,
 				0FDFC67C15377CE9000BE837 /* Settings.bundle */,
 				0F554909151D1187007E633F /* AppDelegate.h */,
 				0F55490A151D1187007E633F /* AppDelegate.m */,
+				0F554C1E151D14DA007E633F /* mainMenu.h */,
+				0F554C1F151D14DA007E633F /* mainMenu.m */,
+				0F4883C21521B3D400883243 /* GlobalData.h */,
+				0F4883C31521B3D400883243 /* GlobalData.m */,
 				0F747736151DD98600EF78AD /* classes */,
 				0F554901151D1187007E633F /* Supporting Files */,
 				0F554C21151D197F007E633F /* nib */,
@@ -1348,10 +1363,6 @@
 				0F175F13154D45B300C1C61F /* iPhone */,
 				0FB1616B151F4005001BA2D4 /* SDWebImage */,
 				0F747767151E5E8600EF78AD /* Demiurgic-JSON-RPC */,
-				0F554C1E151D14DA007E633F /* mainMenu.h */,
-				0F554C1F151D14DA007E633F /* mainMenu.m */,
-				0F4883C21521B3D400883243 /* GlobalData.h */,
-				0F4883C31521B3D400883243 /* GlobalData.m */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -1798,6 +1809,7 @@
 				0F5A5048155FA6AC0062FD6E /* icon_72x72.png in Resources */,
 				0F5A504D155FA8640062FD6E /* HostManagementViewController.xib in Resources */,
 				0F7651E215605AF5001A4104 /* denim_seam_vertical@2x.png in Resources */,
+				0F1F67F61563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

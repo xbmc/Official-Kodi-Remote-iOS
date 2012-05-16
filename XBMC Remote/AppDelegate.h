@@ -20,12 +20,13 @@
 
 + (AppDelegate *) instance;
 
+-(void)saveServerList;
+
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) UINavigationController *navigationController;
 
 @property (nonatomic, retain) ViewControllerIPad *windowController;
-
 
 @property (retain, nonatomic) NSString *dataFilePath;
 
@@ -35,6 +36,6 @@
 
 @property (retain, nonatomic) NSString *documentsDir;
 
--(void)saveServerList;
+@property (nonatomic, assign) BOOL serverOnLine;
 
 @end

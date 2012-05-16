@@ -169,21 +169,21 @@
         cell = resultMenuCell;
     mainMenu *item = [mainMenuItems objectAtIndex:indexPath.row];
     [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:item.icon]];
-    [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];   
+    [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];  
+    [(UILabel*) [cell viewWithTag:3] setFont:[UIFont fontWithName:@"DejaVuSans-Bold" size:20]];
     [(UILabel*) [cell viewWithTag:3] setText:item.mainLabel]; 
-//    if (serverOnLine){
+    if ([AppDelegate instance].serverOnLine){
         [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
         [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
         [(UIImageView*) [cell viewWithTag:3] setAlpha:1];
         cell.selectionStyle=UITableViewCellSelectionStyleBlue;
-//    }
-//    else {
-//        [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
-//        [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
-//        [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
-//        cell.selectionStyle=UITableViewCellSelectionStyleGray;
-//        
-//    }
+    }
+    else {
+        [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
+        [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
+        [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
+        cell.selectionStyle=UITableViewCellSelectionStyleGray;
+    }
     return cell;
 }
 
@@ -192,6 +192,10 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (![AppDelegate instance].serverOnLine) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
     mainMenu *item = [mainMenuItems objectAtIndex:indexPath.row];
     if (item.family == 2){
         [[AppDelegate instance].windowController.stackScrollViewController offView];

@@ -10,6 +10,7 @@
 #import "mainMenu.h"
 #import "MasterViewController.h"
 #import "ViewControllerIPad.h"
+#import "SDImageCache.h"
 //#import "GlobalData.h"
 
 @implementation AppDelegate
@@ -23,6 +24,7 @@ NSMutableArray *mainMenuItems;
 @synthesize arrayServerList;
 @synthesize fileManager;
 @synthesize documentsDir;
+@synthesize serverOnLine;
 //@synthesize 
 
 + (AppDelegate *) instance {
@@ -96,9 +98,12 @@ NSMutableArray *mainMenuItems;
         thumbWidth = 477;
         tvshowHeight = 91;
     }
-    
-    
+
     [self.window makeKeyAndVisible];
+    
+    NSString *filemodeRowHeight= @"42";
+    NSString *filemodeRowWidth= @"42";
+
     
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];
     mainMenu *item1 = [[mainMenu alloc] init];
@@ -173,7 +178,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", nil], @"properties",
-                            nil], @"parameters", @"Genres", @"label", @"nocover_genre.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
+                            nil], @"parameters", @"Genres", @"label", @"nocover_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -183,7 +188,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             @"music", @"media",
-                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
+                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -336,7 +341,7 @@ NSMutableArray *mainMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     @"music", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
                                   
                                   [NSArray arrayWithObjects:nil],
                                   
@@ -550,7 +555,7 @@ NSMutableArray *mainMenuItems;
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"video", @"media",
-                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
+                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
                           
                           nil];
     
@@ -638,7 +643,7 @@ NSMutableArray *mainMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     @"video", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
                                   nil];
     item2.subItem.mainFields=[NSArray arrayWithObjects:
                               [NSDictionary dictionaryWithObjectsAndKeys: nil],
@@ -740,7 +745,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             @"video", @"media",
-                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
+                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
                           nil];
     item3.mainFields=[NSArray arrayWithObjects:
                       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -809,7 +814,7 @@ NSMutableArray *mainMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     @"video", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
                                   nil];
     item3.subItem.mainFields=[NSArray arrayWithObjects:
                               [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -944,7 +949,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             @"pictures", @"media",
-                            nil], @"parameters", @"Pictures", @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
+                            nil], @"parameters", @"Pictures", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
                           nil];
     item4.mainFields=[NSArray arrayWithObjects:
                       
@@ -981,7 +986,7 @@ NSMutableArray *mainMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     @"pictures", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
                                   nil];
     item4.subItem.mainFields=[NSArray arrayWithObjects:
                               
@@ -1108,25 +1113,14 @@ NSMutableArray *mainMenuItems;
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-    /*
-     Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
-     */
-    
-//    NSLog(@"OPS! memory low!!!! ");
+    [[SDImageCache sharedImageCache] clearMemory];
 }
 
 -(void)saveServerList{
-    //    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:arrayPreferiti];
-    //    NSString *path = @"/Users/Anne/Desktop/archive.dat";
-    //    [data writeToFile:path options:NSDataWritingAtomic error:nil];
-    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     if ([paths count] > 0) { 
-        //[arrayPersonalPOI removeAllObjects];
-        // NSLog(@"******Salvo Preferiti in locale dopo nuova aggiunta");
         NSString  *dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"serverList_saved.dat"];
         [NSKeyedArchiver archiveRootObject:arrayServerList toFile:dicPath];
-        //   NSLog(@"******Salvataggio Completato Preferiti *********");
     }
 }
 @end

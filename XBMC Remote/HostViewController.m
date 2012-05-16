@@ -293,13 +293,10 @@
 	if (count == 0) {
 		return cell;
 	}
-	
-	// Set up the text for the cell
-	NSNetService* service = [services objectAtIndex:indexPath.row];
+    NSNetService* service = [services objectAtIndex:indexPath.row];
 	cell.textLabel.text = [service name];
 	cell.textLabel.textColor = [UIColor blackColor];
 	cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
-	
 	return cell;
 }
 

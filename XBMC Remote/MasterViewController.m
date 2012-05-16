@@ -18,8 +18,6 @@
 #import "AppInfoViewController.h"
 #import "HostManagementViewController.h"
 
-#define EXPERIMENTAL_HOST_MANAGEMENT 1
-
 @interface MasterViewController () {
     NSMutableArray *_objects;
     NSMutableArray *mainMenu;
@@ -48,7 +46,7 @@
         [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
         [xbmcLogo setImage:nil forState:UIControlStateSelected];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        serverOnLine=YES;
+        [AppDelegate instance].serverOnLine=YES;
         int n = [menuList numberOfRowsInSection:0];
         for (int i=0;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -68,7 +66,7 @@
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        serverOnLine=NO;
+        [AppDelegate instance].serverOnLine=NO;
         int n = [menuList numberOfRowsInSection:0];
         for (int i=0;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -87,82 +85,57 @@
 }
 
 -(void)checkServer{
-    jsonRPC=nil;
+    if (inCheck) return;
     obj=[GlobalData getInstance];  
     if ([obj.serverIP length]==0){
         if (firstRun){
             firstRun=NO;
-            
-            if (EXPERIMENTAL_HOST_MANAGEMENT){
-                [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-            }
-            else{
-                [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-            }
+            [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
         }
         return;
     }
+    inCheck = TRUE;
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC=nil;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    
     [jsonRPC 
      callMethod:@"Application.GetProperties" 
      withParameters:checkServerParams
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         inCheck = FALSE;
          if (error==nil && methodError==nil){
-             if (!serverOnLine){
+             if (![AppDelegate instance].serverOnLine){
                  if( [NSJSONSerialization isValidJSONObject:methodResult]){
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                      NSString *infoTitle=[NSString stringWithFormat:@" XBMC %@.%@-%@", [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
-                     
-                     if (EXPERIMENTAL_HOST_MANAGEMENT){
-                         [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
-
-                     }
-                     else {
-                         [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
-
-                     }
-                     
-
+                     [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
                  }
                  else{
-                     if (serverOnLine){
+                     if ([AppDelegate instance].serverOnLine){
 //                         NSLog(@"mi spengo");
                          [self changeServerStatus:NO infoText:@"No connection"];
                      }
                      if (firstRun){
                          firstRun=NO;
-                         if (EXPERIMENTAL_HOST_MANAGEMENT){
-                             [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-                         }
-                         else{
-                             [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-                         }
+                         [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
                      }
                  }
              }
          }
          else {
 //             NSLog(@"ERROR %@ %@",error, methodError);
-             if (serverOnLine){
+             if ([AppDelegate instance].serverOnLine){
 //                 NSLog(@"mi spengo");
                  [self changeServerStatus:NO infoText:@"No connection"];
              }
              if (firstRun){
                  firstRun=NO;
-                 if (EXPERIMENTAL_HOST_MANAGEMENT){
-                     [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-                 }
-                 else {
-                     [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-                 }
+                 [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
              }
          }
      }];
-    jsonRPC=nil;
 }
 
 #pragma Toobar Actions
@@ -187,12 +160,7 @@
 }
 
 - (void)toggleSetup{
-    if (EXPERIMENTAL_HOST_MANAGEMENT){
-        [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
-    }
-    else{
-        [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
-    }
+    [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
 }
 
 - (void) pushController:(UIViewController*)controller withTransition:(UIViewAnimationTransition)transition{
@@ -204,21 +172,6 @@
     [UIView commitAnimations];
 }
 
-#pragma  mark - Add/Modify Hosts
-
--(IBAction)addHost:(id)sender{
-    self.hostController=nil;
-    self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
-    [self.navigationController pushViewController:self.hostController animated:YES];
-}
-
--(void)modifyHost:(NSIndexPath *)item{
-    self.hostController=nil;
-    self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
-    self.hostController.detailItem=item;
-    [self.navigationController pushViewController:self.hostController animated:YES];
-}
-
 #pragma mark - Table view methods & data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -227,88 +180,33 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (tableView.tag==0)
-        return [self.mainMenu count];
-    else if (tableView.tag==1){
-        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        if ([mainDelegate.arrayServerList count] == 0 && !tableView.editing) {
-            return 1;         }
-        return [mainDelegate.arrayServerList count];
-    }
-    return 0;
+    return [self.mainMenu count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=nil;
-    if (tableView.tag==0){
-        cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
-        [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:NULL];
-        if (cell==nil)
-            cell = resultMenuCell;
-        mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
-        [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:item.icon]];
-        [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];   
-        [(UILabel*) [cell viewWithTag:3] setText:item.mainLabel]; 
-        if (serverOnLine){
-            [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
-            [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
-            [(UIImageView*) [cell viewWithTag:3] setAlpha:1];
-            cell.selectionStyle=UITableViewCellSelectionStyleBlue;
-        }
-        else {
-            [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
-            [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
-            [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
-            cell.selectionStyle=UITableViewCellSelectionStyleGray;
-        }
-        return cell;
+    cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
+    [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:NULL];
+    if (cell==nil)
+        cell = resultMenuCell;
+    mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
+    [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:item.icon]];
+    [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];   
+    [(UILabel*) [cell viewWithTag:3] setFont:[UIFont fontWithName:@"DejaVuSans-Bold" size:21]];
+    [(UILabel*) [cell viewWithTag:3] setText:item.mainLabel]; 
+    if ([AppDelegate instance].serverOnLine){
+        [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
+        [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
+        [(UIImageView*) [cell viewWithTag:3] setAlpha:1];
+        cell.selectionStyle=UITableViewCellSelectionStyleBlue;
     }
-    else if (tableView.tag==1){
-        cell = [tableView dequeueReusableCellWithIdentifier:@"serverListCell"];
-        [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:NULL];
-        if (cell==nil){
-            cell = serverListCell;
-        }
-        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        if ([mainDelegate.arrayServerList count] == 0){
-            [(UIImageView*) [cell viewWithTag:1] setHidden:TRUE];
-            UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
-            UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
-            cellLabel.textAlignment=UITextAlignmentCenter;
-            [cellLabel setText:@"No saved hosts found"];
-            [cellIP setText:@""];
-            CGRect frame=cellLabel.frame;
-            frame.origin.x=10;
-            frame.origin.y=0;
-            frame.size.width=300;
-            frame.size.height=44;
-            cellLabel.frame=frame;
-            cell.accessoryType=UITableViewCellAccessoryNone;
-            return cell;
-        }
-        else{
-            [(UIImageView*) [cell viewWithTag:1] setHidden:FALSE];
-            UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
-            UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
-            cellLabel.textAlignment=UITextAlignmentLeft;
-            NSDictionary *item=[mainDelegate.arrayServerList objectAtIndex:indexPath.row];
-            [cellLabel setText:[item objectForKey:@"serverDescription"]];
-            [cellIP setText:[item objectForKey:@"serverIP"]];
-            CGRect frame=cellLabel.frame;
-            frame.origin.x=66;
-            frame.size.width=142;
-            cellLabel.frame=frame;
-            NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
-            if (selection && indexPath.row == selection.row){
-                cell.accessoryType=UITableViewCellAccessoryCheckmark;
-            }
-            else {
-                cell.accessoryType=UITableViewCellAccessoryNone;
-
-            }
-        }
-        return cell;
+    else {
+        [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
+        [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
+        [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
+        cell.selectionStyle=UITableViewCellSelectionStyleGray;
     }
+    
     return cell;
 }
 
@@ -337,131 +235,36 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView.tag == 0){
-        if (!serverOnLine) {
-            [menuList deselectRowAtIndexPath:indexPath animated:YES];
-            return;
-        }
-        if (EXPERIMENTAL_HOST_MANAGEMENT){
-            [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
-        }
-        else{
-            [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
-        }
-        mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
-        if (item.family == 2){
-            self.nowPlaying=nil;
-            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-            self.nowPlaying.detailItem = item;
-            [self.navigationController pushViewController:self.nowPlaying animated:YES];
-        }
-        else if (item.family == 3){
-            self.remoteController=nil; 
-            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
-            self.remoteController.detailItem = item;
-            [self.navigationController pushViewController:self.remoteController animated:YES];
-        }
-        else if (item.family == 1){
-            //        if (!self.detailViewController) 
-            self.detailViewController=nil;
-            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil] ;
-            self.detailViewController.detailItem = item;
-            [self.navigationController pushViewController:self.detailViewController animated:YES];
-        }    
+    if (![AppDelegate instance].serverOnLine) {
+        [menuList deselectRowAtIndexPath:indexPath animated:YES];
+        return;
     }
-    else if (tableView.tag == 1){
-        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-
-        if ([mainDelegate.arrayServerList count] == 0){
-            [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
-        }
-        else{
-            firstRun=NO;
-            NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
-            if (storeServerSelection && selection.row == storeServerSelection.row){
-                UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
-                [serverListTableView deselectRowAtIndexPath:selection animated:YES];
-                cell.accessoryType = UITableViewCellAccessoryNone;
-                storeServerSelection = nil;
-                obj.serverDescription = @"";
-                obj.serverUser = @"";
-                obj.serverPass = @"";
-                obj.serverIP = @"";
-                obj.serverPort = @"";
-                [self changeServerStatus:NO infoText:@"No connection"];
-                NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-                if (standardUserDefaults) {
-                    [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
-                    [standardUserDefaults synchronize];
-                }
-            }
-            else{
-                UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                [self selectServerAtIndexPath:indexPath];
-                NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-                if (standardUserDefaults) {
-                    [standardUserDefaults setObject:[NSNumber numberWithInt:indexPath.row] forKey:@"lastServer"];
-                    [standardUserDefaults synchronize];
-                }
-            }
-        }
-
+    [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
+    mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
+    if (item.family == 2){
+        self.nowPlaying=nil;
+        self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        self.nowPlaying.detailItem = item;
+        [self.navigationController pushViewController:self.nowPlaying animated:YES];
     }
-}
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (tableView.tag==1){
-        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
-        cell.accessoryType=UITableViewCellAccessoryNone;
+    else if (item.family == 3){
+        self.remoteController=nil; 
+        self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+        self.remoteController.detailItem = item;
+        [self.navigationController pushViewController:self.remoteController animated:YES];
     }
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (aTableView.editing) {
-        return UITableViewCellEditingStyleDelete;
-    }
-    return UITableViewCellEditingStyleNone;
+    else if (item.family == 1){
+        //        if (!self.detailViewController) 
+        self.detailViewController=nil;
+        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil] ;
+        self.detailViewController.detailItem = item;
+        [self.navigationController pushViewController:self.detailViewController animated:YES];
+    }    
+    
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView.tag==0){
-        return NO;
-    }
-    else if (tableView.tag==1){
-        return YES;
-    }
-
     return NO;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-	if (editingStyle == UITableViewCellEditingStyleDelete){
-        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [mainDelegate.arrayServerList removeObjectAtIndex:indexPath.row];
-        [mainDelegate saveServerList];
-        if (storeServerSelection){
-            NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-            if (indexPath.row<storeServerSelection.row){
-                storeServerSelection=[NSIndexPath  indexPathForRow:storeServerSelection.row-1 inSection:storeServerSelection.section];
-                if (standardUserDefaults) {
-                    [standardUserDefaults setObject:[NSNumber numberWithInt:storeServerSelection.row] forKey:@"lastServer"];
-                    [standardUserDefaults synchronize];
-                }
-            }
-            else if (storeServerSelection.row==indexPath.row){
-                storeServerSelection=nil;
-                obj.serverDescription = @"";
-                obj.serverUser = @"";
-                obj.serverPass = @"";
-                obj.serverIP = @"";
-                obj.serverPort = @"";
-                [self changeServerStatus:NO infoText:@"No connection"];
-                [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
-                [standardUserDefaults synchronize];
-            }
-        }
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-	}   
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -472,8 +275,6 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (tableView.tag == 1)
-        return 4;
     return 8;
 }
 
@@ -485,30 +286,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (tableView.tag == 1)
-        return 4;
 	return 8;
-}
-
--(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
-    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if ([mainDelegate.arrayServerList count]==0 && !serverListTableView.editing) return;
-    if (serverListTableView.editing || forceClose==YES){
-        [serverListTableView setEditing:NO animated:YES];
-        [editTableButton setSelected:NO];
-        if ([mainDelegate.arrayServerList count] == 0)
-            [serverListTableView reloadData];
-        if (storeServerSelection){
-            [serverListTableView selectRowAtIndexPath:storeServerSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-            UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-            cell.accessoryType=UITableViewCellAccessoryCheckmark;
-        }
-
-    }
-    else{
-        [serverListTableView setEditing:YES animated:YES];
-        [editTableButton setSelected:YES];
-    }
 }
 
 #pragma mark - View Methods
@@ -517,36 +295,8 @@
     firstRun=value;
 }
 
-#pragma mark - Long Press & Action sheet
-
--(IBAction)handleLongPress{
-    if (lpgr.state == UIGestureRecognizerStateBegan){
-        CGPoint p = [lpgr locationInView:serverListTableView];
-        NSIndexPath *indexPath = [serverListTableView indexPathForRowAtPoint:p];
-        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        if (indexPath != nil && indexPath.row<[mainDelegate.arrayServerList count]){
-            if (storeServerSelection && indexPath.row == storeServerSelection.row){
-                UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
-                [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
-                cell.accessoryType = UITableViewCellAccessoryNone;
-                storeServerSelection = nil;
-                obj.serverDescription = @"";
-                obj.serverUser = @"";
-                obj.serverPass = @"";
-                obj.serverIP = @"";
-                obj.serverPort = @"";
-                [self changeServerStatus:NO infoText:@"No connection"];
-                NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-                
-                if (standardUserDefaults) {
-                    [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
-                    [standardUserDefaults synchronize];
-                }
-                
-            }
-            [self modifyHost:indexPath];
-        }
-    }
+-(void)setInCheck:(BOOL)value{
+    inCheck = value;
 }
 
 #pragma mark - LifeCycle
@@ -557,18 +307,7 @@
 	if (selection){
 		[menuList deselectRowAtIndexPath:selection animated:YES];
     }
-    if (EXPERIMENTAL_HOST_MANAGEMENT){
-        [hostManagementViewController selectIndex:nil reloadData:YES];
-    }
-    else{
-        selection = [serverListTableView indexPathForSelectedRow];
-        [serverListTableView reloadData];
-        if (selection){
-            [serverListTableView selectRowAtIndexPath:selection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-            UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:selection];
-            cell.accessoryType=UITableViewCellAccessoryCheckmark;
-        } 
-    }
+    [hostManagementViewController selectIndex:nil reloadData:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -585,7 +324,6 @@
     [self presentModalViewController:appInfoView animated:YES];
 }
 
-BOOL firstRun;
 
 -(void)initNavigationBar{
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
@@ -620,29 +358,23 @@ BOOL firstRun;
 - (void)viewDidLoad{
     [super viewDidLoad];
     obj=[GlobalData getInstance]; 
-    if (EXPERIMENTAL_HOST_MANAGEMENT){
-        [self initHostManagement];
-    }
+    
+    [self initHostManagement];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     int lastServer;
     if ([userDefaults objectForKey:@"lastServer"]!=nil){
         lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
         if (lastServer>-1){
             NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
-            if (EXPERIMENTAL_HOST_MANAGEMENT){
-                [hostManagementViewController selectIndex:lastServerIndexPath reloadData:NO];
-            }
-            else {
-                [self selectServerAtIndexPath:lastServerIndexPath];
-                [serverListTableView selectRowAtIndexPath:lastServerIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-            }
+            [hostManagementViewController selectIndex:lastServerIndexPath reloadData:NO];
         }
     }
     firstRun=YES;
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
     [self initNavigationBar];
     
-    serverOnLine=NO;
+    [AppDelegate instance].serverOnLine=NO;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
