@@ -1,6 +1,15 @@
 Unofficial-Official-XBMC-Remote
 iOS Full-featured remote control for XBMC Media Center. It features library browsing, now playing informations and a direct remote control.
 
+In order to avoid possible GPL violations when publishing on Apple's App Store, I believe
+it necessary to reserve the right to relicense this software as I see fit. Rather than
+adding a specific exemption, I have chosen to ask contributors to assign any contributions
+to me so that I may apply a different license if necessary. Contributors can certify with
+a sign-off in their commits that they agree to these terms, which are a modified version
+of the OpenOffice terms available at http://www.openoffice.org/licenses/jca.pdf.
+
+--
+
 By making a contribution to this project, I (Contributor) certify with my sign-off line that
 I agree to the following terms:
 
