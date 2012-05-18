@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1296</int>
-		<string key="IBDocument.SystemVersion">11D50b</string>
+		<string key="IBDocument.SystemVersion">11E53</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">1181</string>
@@ -195,7 +195,7 @@
 								<string key="NSFrame">{{220, 52}, {63, 14}}</string>
 								<reference key="NSSuperview" ref="447648536"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="326804895"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="551168875"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -228,25 +228,6 @@
 									<string key="NSName">Optima-ExtraBlack</string>
 									<double key="NSSize">17</double>
 									<int key="NSfFlags">16</int>
-								</object>
-							</object>
-							<object class="IBUIImageView" id="326804895">
-								<reference key="NSNextResponder" ref="447648536"/>
-								<int key="NSvFlags">-2147483376</int>
-								<string key="NSFrame">{{288, 0}, {1, 76}}</string>
-								<reference key="NSSuperview" ref="447648536"/>
-								<reference key="NSWindow"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<bool key="IBUIMultipleTouchEnabled">YES</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">line.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUIHighlightedImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">line_blu.png</string>
 								</object>
 							</object>
 							<object class="IBUIImageView" id="351635662">
@@ -346,14 +327,6 @@
 					</object>
 					<int key="connectionID">32</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">lineSeparator</string>
-						<reference key="source" ref="523036896"/>
-						<reference key="destination" ref="326804895"/>
-					</object>
-					<int key="connectionID">37</int>
-				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -384,7 +357,6 @@
 							<reference ref="153269291"/>
 							<reference ref="810724170"/>
 							<reference ref="351635662"/>
-							<reference ref="326804895"/>
 							<reference ref="388319615"/>
 							<reference ref="253472203"/>
 							<reference ref="216177353"/>
@@ -422,11 +394,6 @@
 						<reference key="parent" ref="523036896"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">34</int>
-						<reference key="object" ref="326804895"/>
-						<reference key="parent" ref="523036896"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">38</int>
 						<reference key="object" ref="388319615"/>
 						<reference key="parent" ref="523036896"/>
@@ -452,7 +419,6 @@
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="3.CustomClassName">jsonDataCell</string>
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="34.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="38.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="39.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -575,8 +541,6 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="blank.png">{18, 18}</string>
-			<string key="line.png">{1, 10}</string>
-			<string key="line_blu.png">{1, 104}</string>
 			<string key="white.png">{320, 76}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1181</string>
