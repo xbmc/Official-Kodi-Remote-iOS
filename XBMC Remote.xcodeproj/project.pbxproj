@@ -11,7 +11,6 @@
 		0F175F24154D5C3600C1C61F /* ViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */; };
 		0F175F25154D5C3600C1C61F /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
 		0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F27154D696B00C1C61F /* StackScrollViewController.m */; };
-		0F175F2B154D699D00C1C61F /* UIViewWithShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2A154D699D00C1C61F /* UIViewWithShadow.m */; };
 		0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2D154D6AFA00C1C61F /* MenuViewController.m */; };
 		0F175F31154D6B1700C1C61F /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F30154D6B1700C1C61F /* DataViewController.m */; };
 		0F1F67F61563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */; };
@@ -409,8 +408,6 @@
 		0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerIPad.xib; sourceTree = "<group>"; };
 		0F175F26154D696B00C1C61F /* StackScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StackScrollViewController.h; path = iPad/StackScrollViewController.h; sourceTree = "<group>"; };
 		0F175F27154D696B00C1C61F /* StackScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StackScrollViewController.m; path = iPad/StackScrollViewController.m; sourceTree = "<group>"; };
-		0F175F29154D699D00C1C61F /* UIViewWithShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIViewWithShadow.h; path = iPad/UIViewWithShadow.h; sourceTree = "<group>"; };
-		0F175F2A154D699D00C1C61F /* UIViewWithShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIViewWithShadow.m; path = iPad/UIViewWithShadow.m; sourceTree = "<group>"; };
 		0F175F2C154D6AFA00C1C61F /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuViewController.h; path = iPad/MenuViewController.h; sourceTree = "<group>"; };
 		0F175F2D154D6AFA00C1C61F /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = iPad/MenuViewController.m; sourceTree = "<group>"; };
 		0F175F2F154D6B1600C1C61F /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataViewController.h; path = iPad/DataViewController.h; sourceTree = "<group>"; };
@@ -918,8 +915,6 @@
 		0F175F20154D5C0D00C1C61F /* iPad */ = {
 			isa = PBXGroup;
 			children = (
-				0F175F29154D699D00C1C61F /* UIViewWithShadow.h */,
-				0F175F2A154D699D00C1C61F /* UIViewWithShadow.m */,
 				0F175F26154D696B00C1C61F /* StackScrollViewController.h */,
 				0F175F27154D696B00C1C61F /* StackScrollViewController.m */,
 				0F175F21154D5C3600C1C61F /* ViewControllerIPad.h */,
@@ -1863,7 +1858,6 @@
 				0F2EB2111547EA4A005CAD4A /* WebViewController.m in Sources */,
 				0F175F24154D5C3600C1C61F /* ViewControllerIPad.m in Sources */,
 				0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */,
-				0F175F2B154D699D00C1C61F /* UIViewWithShadow.m in Sources */,
 				0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */,
 				0F175F31154D6B1700C1C61F /* DataViewController.m in Sources */,
 				0F5A504C155FA8640062FD6E /* HostManagementViewController.m in Sources */,
@@ -1963,7 +1957,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1980,7 +1974,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
