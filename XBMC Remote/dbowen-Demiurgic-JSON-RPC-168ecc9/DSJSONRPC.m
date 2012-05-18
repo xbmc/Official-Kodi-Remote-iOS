@@ -133,7 +133,6 @@
     NSMutableURLRequest *serviceRequest = [NSMutableURLRequest requestWithURL:self._serviceEndpoint];
     [serviceRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [serviceRequest setValue:@"DSJSONRPC/1.0" forHTTPHeaderField:@"User-Agent"];
-    
     // Add custom HTTP headers
     for (id key in self._httpHeaders) {
         [serviceRequest setValue:[self._httpHeaders objectForKey:key] forHTTPHeaderField:key];
@@ -157,9 +156,16 @@
     NSURLConnection *aConnection = [[NSURLConnection alloc] initWithRequest:serviceRequest delegate:self];
     [self._activeConnections setObject:connectionInfo forKey:[NSNumber numberWithInt:(int)aConnection]];
     
+    timer = [NSTimer scheduledTimerWithTimeInterval:2.0 
+                                                      target:self 
+                                                    selector:@selector(cancelRequest:) 
+                                                    userInfo:aConnection repeats:NO];
     return aId;
 }
 
+-(void)cancelRequest:(NSTimer*)theTimer {
+    [(NSURLConnection*)[theTimer userInfo] cancel];
+}
 
 #pragma mark - Runtime Method Invocation Handling
 
