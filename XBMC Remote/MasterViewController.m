@@ -57,6 +57,8 @@
                 [(UIImageView*) [cell viewWithTag:1] setAlpha:1.0];
                 [(UIImageView*) [cell viewWithTag:2] setAlpha:1.0];
                 [(UIImageView*) [cell viewWithTag:3] setAlpha:1.0];
+//                [(UIImageView*) [cell viewWithTag:4] setAlpha:1.0];
+
                 [UIView commitAnimations];
             }
         }
@@ -78,6 +80,8 @@
                 [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
                 [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
                 [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
+//                [(UIImageView*) [cell viewWithTag:4] setAlpha:0.3];
+
                 [UIView commitAnimations];
             }
         }
@@ -198,12 +202,16 @@
         [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
         [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
         [(UIImageView*) [cell viewWithTag:3] setAlpha:1];
+//        [(UIImageView*) [cell viewWithTag:4] setAlpha:1];
+
         cell.selectionStyle=UITableViewCellSelectionStyleBlue;
     }
     else {
         [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
         [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
         [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
+//        [(UIImageView*) [cell viewWithTag:4] setAlpha:0.3];
+
         cell.selectionStyle=UITableViewCellSelectionStyleGray;
     }
     
@@ -374,13 +382,12 @@
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
     [self initNavigationBar];
     
-    [AppDelegate instance].serverOnLine=NO;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
-//    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
-    [self.view setBackgroundColor:[UIColor blackColor]];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
+//    [self.view setBackgroundColor:[UIColor blackColor]];
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender;{

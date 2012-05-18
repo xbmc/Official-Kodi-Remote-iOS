@@ -76,7 +76,7 @@
 								<string key="IBUIText">upperLabel</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC40OTgzNDYyNTkxAA</bytes>
+									<bytes key="NSWhite">MC4zNDg3OTY3NjA5AA</bytes>
 								</object>
 								<object class="NSColor" key="IBUIHighlightedColor" id="247868807">
 									<int key="NSColorSpace">3</int>
@@ -90,14 +90,12 @@
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">10</float>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
-									<string key="name">Optima-Regular</string>
-									<string key="family">Optima</string>
-									<int key="traits">0</int>
-									<double key="pointSize">15</double>
+									<int key="type">2</int>
+									<double key="pointSize">12</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
-									<string key="NSName">Optima-Regular</string>
-									<double key="NSSize">15</double>
+									<string key="NSName">Helvetica-Bold</string>
+									<double key="NSSize">12</double>
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
