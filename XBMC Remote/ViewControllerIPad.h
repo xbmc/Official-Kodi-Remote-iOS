@@ -13,7 +13,6 @@
 @class StackScrollViewController;
 @class UIViewExt;
 @class NowPlaying;
-@class GlobalData;
 @class VolumeSliderView;
 @class HostManagementViewController;
 
@@ -25,7 +24,6 @@
 	MenuViewController* menuViewController;
     NowPlaying* nowPlayingController;
 	StackScrollViewController* stackScrollViewController;
-    GlobalData *obj;
     NSIndexPath *storeServerSelection;
     int YPOS;
     UIButton *xbmcLogo;
@@ -45,8 +43,5 @@
 @property (nonatomic, strong) StackScrollViewController* stackScrollViewController;
 @property (nonatomic, retain) UIPopoverController *serverPickerPopover;
 @property (nonatomic, retain) HostManagementViewController *hostPickerViewController;
-
-
-
 
 @end

@@ -31,7 +31,7 @@
 @synthesize remoteController = _remoteController;
 @synthesize hostController = _hostController;
 
-@synthesize obj;
+//@synthesize obj;
 
 @synthesize mainMenu;
 
@@ -90,8 +90,8 @@
 
 -(void)checkServer{
     if (inCheck) return;
-    obj=[GlobalData getInstance];  
-    if ([obj.serverIP length]==0){
+    [AppDelegate instance].obj=[GlobalData getInstance];  
+    if ([[AppDelegate instance].obj.serverIP length]==0){
         if (firstRun){
             firstRun=NO;
             [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
@@ -99,8 +99,8 @@
         return;
     }
     inCheck = TRUE;
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    NSString *userPassword=[[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
     jsonRPC=nil;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC 
@@ -118,7 +118,6 @@
                  }
                  else{
                      if ([AppDelegate instance].serverOnLine){
-//                         NSLog(@"mi spengo");
                          [self changeServerStatus:NO infoText:@"No connection"];
                      }
                      if (firstRun){
@@ -129,9 +128,8 @@
              }
          }
          else {
-//             NSLog(@"ERROR %@ %@",error, methodError);
+//             NSLog(@"ERROR %@ %@ %@",error, methodError, serverJSON);
              if ([AppDelegate instance].serverOnLine){
-//                 NSLog(@"mi spengo");
                  [self changeServerStatus:NO infoText:@"No connection"];
              }
              if (firstRun){
@@ -140,6 +138,7 @@
              }
          }
      }];
+    jsonRPC=nil;
 }
 
 #pragma Toobar Actions
@@ -220,18 +219,17 @@
 
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
     storeServerSelection = indexPath;
-    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSDictionary *item = [mainDelegate.arrayServerList objectAtIndex:indexPath.row];
-    obj.serverDescription = [item objectForKey:@"serverDescription"];
-    obj.serverUser = [item objectForKey:@"serverUser"];
-    obj.serverPass = [item objectForKey:@"serverPass"];
-    obj.serverIP = [item objectForKey:@"serverIP"];
-    obj.serverPort = [item objectForKey:@"serverPort"];
-    obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
+    NSDictionary *item = [[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
+    [AppDelegate instance].obj.serverDescription = [item objectForKey:@"serverDescription"];
+    [AppDelegate instance].obj.serverUser = [item objectForKey:@"serverUser"];
+    [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
+    [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
+    [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
+    [AppDelegate instance].obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         int thumbWidth = 320;
         int tvshowHeight = 61;
-        if (obj.preferTVPosters==YES){
+        if ([AppDelegate instance].obj.preferTVPosters==YES){
             thumbWidth = 53;
             tvshowHeight = 76;
         }
@@ -365,7 +363,8 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    obj=[GlobalData getInstance]; 
+
+    [AppDelegate instance].obj=[GlobalData getInstance]; 
     
     [self initHostManagement];
     

@@ -91,20 +91,18 @@
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
     
     storeServerSelection = indexPath;
-    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSDictionary *item = [mainDelegate.arrayServerList objectAtIndex:indexPath.row];
-    obj.serverDescription = [item objectForKey:@"serverDescription"];
-    obj.serverUser = [item objectForKey:@"serverUser"];
-    obj.serverPass = [item objectForKey:@"serverPass"];
-    obj.serverIP = [item objectForKey:@"serverIP"];
-    obj.serverPort = [item objectForKey:@"serverPort"];
+    NSDictionary *item = [[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
+    [AppDelegate instance].obj.serverDescription = [item objectForKey:@"serverDescription"];
+    [AppDelegate instance].obj.serverUser = [item objectForKey:@"serverUser"];
+    [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
+    [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
+    [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
     //[self changeServerStatus:NO infoText:@"No connection"];
 }
 
 -(void)checkServer{
     jsonRPC=nil;
-    obj=[GlobalData getInstance];  
-    if ([obj.serverIP length]==0){
+    if ([[AppDelegate instance].obj.serverIP length]==0){
         if (firstRun){
             firstRun=NO;
             
@@ -117,8 +115,8 @@
         }
         return;
     }
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    NSString *userPassword=[[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     
     [jsonRPC 
@@ -262,7 +260,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    obj=[GlobalData getInstance];  
+    [AppDelegate instance].obj=[GlobalData getInstance]; 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     int lastServer;
     if ([userDefaults objectForKey:@"lastServer"]!=nil){

@@ -54,20 +54,19 @@
     }
     else {
         self.navigationItem.title=@"Modify XBMC Server";
-        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSIndexPath *idx=self.detailItem;
         
-        descriptionUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverDescription"];
+        descriptionUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverDescription"];
         
-        usernameUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverUser"];
+        usernameUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverUser"];
 
-        passwordUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPass"];
+        passwordUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPass"];
 
-        ipUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverIP"];
+        ipUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverIP"];
 
-        portUI.text=[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPort"];
+        portUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPort"];
         
-        preferTVPostersUI.on=[[[mainDelegate.arrayServerList objectAtIndex:idx.row] objectForKey:@"preferTVPosters"] boolValue];
+        preferTVPostersUI.on=[[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"preferTVPosters"] boolValue];
 
 
     }
@@ -82,9 +81,8 @@
 - (IBAction) dismissView:(id)sender{
     
     [self textFieldDoneEditing:nil];
-    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (self.detailItem==nil){
-        [mainDelegate.arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+        [[AppDelegate instance].arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                                  descriptionUI.text, @"serverDescription",
                                                  usernameUI.text, @"serverUser",
                                                  passwordUI.text, @"serverPass",
@@ -96,8 +94,8 @@
     }
     else{
         NSIndexPath *idx = self.detailItem;
-        [mainDelegate.arrayServerList removeObjectAtIndex:idx.row];
-        [mainDelegate.arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
+        [[AppDelegate instance].arrayServerList removeObjectAtIndex:idx.row];
+        [[AppDelegate instance].arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     descriptionUI.text, @"serverDescription",
                                                     usernameUI.text, @"serverUser",
                                                     passwordUI.text, @"serverPass",
@@ -107,7 +105,7 @@
                                                     nil
                                                     ] atIndex:idx.row];
     }
-    [mainDelegate saveServerList];
+    [[AppDelegate instance] saveServerList];
     [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - UITextFieldDelegate Methods
@@ -182,30 +180,19 @@
 }
 
 - (void)updateUI{
-    if(searching){
-        // Update the user interface to indicate searching
-        // Also update any UI that lists available services
-//        NSLog(@"sto cercando");
-
-    }
-    else{
-        // Update the user interface to indicate not searching
-//        NSLog(@"finito di cercare");
+    if(!searching){
         int j = [services  count];
         if (j==1){
             [self resolveIPAddress:[services objectAtIndex:0]];
         }
         else {
-//            NSLog(@"Ne ho trovati %d", j);
             if (j==0){
                 [self AnimLabel:noInstances AnimDuration:0.3 Alpha:1.0 XPos:0];
             }
             else{
                 [discoveredInstancesTableView reloadData];
                 [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:0];
-
             }
-            //build selection table!
         }
     }
 }
@@ -219,11 +206,7 @@
     [remoteService resolveWithTimeout:0];
 }
 -(void)netServiceDidResolveAddress:(NSNetService *)service {
-//    NSString *name = nil;
-//    NSData *address = nil;
-//    struct sockaddr_in *socketAddress = nil;
-//    NSString *ipString = nil;
-//    int port;
+
     for (NSData* data in [service addresses]) {
         char addressBuffer[100];
         struct sockaddr_in* socketAddress = (struct sockaddr_in*) [data bytes];
@@ -234,7 +217,6 @@
                                                sizeof(addressBuffer));
             int port = ntohs(socketAddress->sin_port);
             if (addressStr && port){
-//                NSLog(@"%@ at %s:%d", [service name], addressStr, port);
                 descriptionUI.text = [service name];
                 ipUI.text = [NSString stringWithFormat:@"%s", addressStr];
                 portUI.text = [NSString stringWithFormat:@"%d", port];
@@ -303,16 +285,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self resolveIPAddress:[services objectAtIndex:indexPath.row]];
 }
-
-
-//- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//	// Ignore the selection if there are no services as the searchingForServicesString cell
-//	// may be visible and tapping it would do nothing
-//	if ([services count] == 0)
-//		return nil;
-//	return indexPath;
-//}
-
 
 #pragma mark - LifeCycle
 -(void)viewDidDisappear:(BOOL)animated{

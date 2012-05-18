@@ -11,7 +11,7 @@
 #import "MasterViewController.h"
 #import "ViewControllerIPad.h"
 #import "SDImageCache.h"
-//#import "GlobalData.h"
+#import "GlobalData.h"
 
 @implementation AppDelegate
 
@@ -25,7 +25,7 @@ NSMutableArray *mainMenuItems;
 @synthesize fileManager;
 @synthesize documentsDir;
 @synthesize serverOnLine;
-//@synthesize 
+@synthesize obj;
 
 + (AppDelegate *) instance {
 	return (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -45,12 +45,10 @@ NSMutableArray *mainMenuItems;
         [self setDataFilePath:path];
         NSFileManager *fileManager1 = [NSFileManager defaultManager];
         if([fileManager1 fileExistsAtPath:dataFilePath]) {
-//            NSLog(@"File 'serverList_saved.dat' trovato. copio contenuto in memoria...");
             NSMutableArray *tempArray;
             tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:dataFilePath];
             [self setArrayServerList:tempArray];
         } else {
-//            NSLog(@"File 'serverList_saved.dat' non trovato. creo un array vuoto");
             arrayServerList = [[NSMutableArray alloc] init];
         }
     }
@@ -59,8 +57,6 @@ NSMutableArray *mainMenuItems;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-//    NSLog(@"PLATFORM %@", [[UIDevice currentDevice] platformString]);
-//    NSLog(@"%@", [UIDevice currentDevice].model );
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -84,9 +80,7 @@ NSMutableArray *mainMenuItems;
         xbmcRemote.idleTimerDisabled = NO;
     }
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];    
     
     int thumbWidth;
     int tvshowHeight;
@@ -103,7 +97,8 @@ NSMutableArray *mainMenuItems;
     
     NSString *filemodeRowHeight= @"42";
     NSString *filemodeRowWidth= @"42";
-
+    
+    obj=[GlobalData getInstance];
     
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];
     mainMenu *item1 = [[mainMenu alloc] init];
@@ -112,9 +107,6 @@ NSMutableArray *mainMenuItems;
     mainMenu *item4 = [[mainMenu alloc] init];
     mainMenu *item5 = [[mainMenu alloc] init];
     mainMenu *item6 = [[mainMenu alloc] init];
-    
-    //test new branch
-    
     
     item1.subItem = [[mainMenu alloc] init];
     item1.subItem.subItem = [[mainMenu alloc] init];
@@ -218,10 +210,6 @@ NSMutableArray *mainMenuItems;
                        @"albumid", @"row9",
                     @"artist", @"row10",
                        nil],
-//                      
-//                      @"genre", @"row11",                       
-//                      @"albumlabel", @"row12",
-//                      @"description", @"row13",
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
                        @"artists",@"itemid",
@@ -288,7 +276,7 @@ NSMutableArray *mainMenuItems;
                         [NSArray arrayWithObjects:nil],
                         
                         nil];//@"View Details",
-//    
+
     item1.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               
                               [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil],

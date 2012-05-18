@@ -9,7 +9,6 @@
 #import "HostManagementViewController.h"
 #import "HostViewController.h"
 #import "AppDelegate.h"
-#import "GlobalData.h"
 #import "MasterViewController.h"
 #import "mainMenu.h"
 
@@ -35,16 +34,14 @@
 -(IBAction)addHost:(id)sender{
     self.hostController=nil;
     self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
-    AppDelegate *del = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [del.navigationController pushViewController:self.hostController animated:YES];
+    [[AppDelegate instance].navigationController pushViewController:self.hostController animated:YES];
 }
 
 -(void)modifyHost:(NSIndexPath *)item{
     self.hostController=nil;
     self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
     self.hostController.detailItem=item;
-    AppDelegate *del = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [del.navigationController pushViewController:self.hostController animated:YES];
+    [[AppDelegate instance].navigationController pushViewController:self.hostController animated:YES];
 }
 
 #pragma mark - Table view methods & data source
@@ -54,11 +51,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if ([mainDelegate.arrayServerList count] == 0 && !tableView.editing) {
+    if ([[AppDelegate instance].arrayServerList count] == 0 && !tableView.editing) {
         return 1; 
     }
-    return [mainDelegate.arrayServerList count];
+    return [[AppDelegate instance].arrayServerList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -68,8 +64,7 @@
     if (cell==nil){
         cell = serverListCell;
     }
-    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if ([mainDelegate.arrayServerList count] == 0){
+    if ([[AppDelegate instance].arrayServerList count] == 0){
         [(UIImageView*) [cell viewWithTag:1] setHidden:TRUE];
         UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
         UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
@@ -90,7 +85,7 @@
         UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
         UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
         cellLabel.textAlignment=UITextAlignmentLeft;
-        NSDictionary *item=[mainDelegate.arrayServerList objectAtIndex:indexPath.row];
+        NSDictionary *item=[[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
         [cellLabel setText:[item objectForKey:@"serverDescription"]];
         [cellIP setText:[item objectForKey:@"serverIP"]];
         CGRect frame=cellLabel.frame;
@@ -110,18 +105,18 @@
 
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
     storeServerSelection = indexPath;
-    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSDictionary *item = [mainDelegate.arrayServerList objectAtIndex:indexPath.row];
-    masterViewController.obj.serverDescription = [item objectForKey:@"serverDescription"];
-    masterViewController.obj.serverUser = [item objectForKey:@"serverUser"];
-    masterViewController.obj.serverPass = [item objectForKey:@"serverPass"];
-    masterViewController.obj.serverIP = [item objectForKey:@"serverIP"];
-    masterViewController.obj.serverPort = [item objectForKey:@"serverPort"];
-    masterViewController.obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
+    NSDictionary *item = [[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
+
+    [AppDelegate instance].obj.serverDescription = [item objectForKey:@"serverDescription"];
+    [AppDelegate instance].obj.serverUser = [item objectForKey:@"serverUser"];
+    [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
+    [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
+    [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
+    [AppDelegate instance].obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         int thumbWidth = 320;
         int tvshowHeight = 61;
-        if (masterViewController.obj.preferTVPosters==YES){
+        if ([AppDelegate instance].obj.preferTVPosters==YES){
             thumbWidth = 53;
             tvshowHeight = 76;
         }
@@ -135,8 +130,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [masterViewController setInCheck:NO];
-    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if ([mainDelegate.arrayServerList count] == 0){
+    if ([[AppDelegate instance].arrayServerList count] == 0){
         [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else{
@@ -147,11 +141,11 @@
             [serverListTableView deselectRowAtIndexPath:selection animated:YES];
             cell.accessoryType = UITableViewCellAccessoryNone;
             storeServerSelection = nil;
-            masterViewController.obj.serverDescription = @"";
-            masterViewController.obj.serverUser = @"";
-            masterViewController.obj.serverPass = @"";
-            masterViewController.obj.serverIP = @"";
-            masterViewController.obj.serverPort = @"";
+            [AppDelegate instance].obj.serverDescription = @"";
+            [AppDelegate instance].obj.serverUser = @"";
+            [AppDelegate instance].obj.serverPass = @"";
+            [AppDelegate instance].obj.serverIP = @"";
+            [AppDelegate instance].obj.serverPort = @"";
             [masterViewController changeServerStatus:NO infoText:@"No connection"];
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (standardUserDefaults) {
@@ -190,9 +184,8 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
 	if (editingStyle == UITableViewCellEditingStyleDelete){
-        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [mainDelegate.arrayServerList removeObjectAtIndex:indexPath.row];
-        [mainDelegate saveServerList];
+        [[AppDelegate instance].arrayServerList removeObjectAtIndex:indexPath.row];
+        [[AppDelegate instance] saveServerList];
         if (storeServerSelection){
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (indexPath.row<storeServerSelection.row){
@@ -204,11 +197,11 @@
             }
             else if (storeServerSelection.row==indexPath.row){
                 storeServerSelection=nil;
-                masterViewController.obj.serverDescription = @"";
-                masterViewController.obj.serverUser = @"";
-                masterViewController.obj.serverPass = @"";
-                masterViewController.obj.serverIP = @"";
-                masterViewController.obj.serverPort = @"";
+                [AppDelegate instance].obj.serverDescription = @"";
+                [AppDelegate instance].obj.serverUser = @"";
+                [AppDelegate instance].obj.serverPass = @"";
+                [AppDelegate instance].obj.serverIP = @"";
+                [AppDelegate instance].obj.serverPort = @"";
                 [masterViewController changeServerStatus:NO infoText:@"No connection"];
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
@@ -241,12 +234,11 @@
 }
 
 -(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
-    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if ([mainDelegate.arrayServerList count]==0 && !serverListTableView.editing) return;
+    if ([[AppDelegate instance].arrayServerList count]==0 && !serverListTableView.editing) return;
     if (serverListTableView.editing || forceClose==YES){
         [serverListTableView setEditing:NO animated:YES];
         [editTableButton setSelected:NO];
-        if ([mainDelegate.arrayServerList count] == 0)
+        if ([[AppDelegate instance].arrayServerList count] == 0)
             [serverListTableView reloadData];
         if (storeServerSelection){
             [serverListTableView selectRowAtIndexPath:storeServerSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
@@ -266,18 +258,17 @@
     if (lpgr.state == UIGestureRecognizerStateBegan){
         CGPoint p = [lpgr locationInView:serverListTableView];
         NSIndexPath *indexPath = [serverListTableView indexPathForRowAtPoint:p];
-        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        if (indexPath != nil && indexPath.row<[mainDelegate.arrayServerList count]){
+        if (indexPath != nil && indexPath.row<[[AppDelegate instance].arrayServerList count]){
             if (storeServerSelection && indexPath.row == storeServerSelection.row){
                 UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
                 [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 storeServerSelection = nil;
-                masterViewController.obj.serverDescription = @"";
-                masterViewController.obj.serverUser = @"";
-                masterViewController.obj.serverPass = @"";
-                masterViewController.obj.serverIP = @"";
-                masterViewController.obj.serverPort = @"";
+                [AppDelegate instance].obj.serverDescription = @"";
+                [AppDelegate instance].obj.serverUser = @"";
+                [AppDelegate instance].obj.serverPass = @"";
+                [AppDelegate instance].obj.serverIP = @"";
+                [AppDelegate instance].obj.serverPort = @"";
                 [masterViewController changeServerStatus:NO infoText:@"No connection"];
                 NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
                 if (standardUserDefaults) {

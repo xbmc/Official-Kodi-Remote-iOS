@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GlobalData.h"
 
 @class ViewControllerIPad;
-
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>{
     NSString *dataFilePath;
 	NSMutableArray *arrayServerList;
     NSFileManager *fileManager;
 	NSString *documentsDir;
+    GlobalData *obj;
 }
 
 + (AppDelegate *) instance;
@@ -37,5 +38,7 @@
 @property (retain, nonatomic) NSString *documentsDir;
 
 @property (nonatomic, assign) BOOL serverOnLine;
+
+@property (nonatomic, retain) GlobalData *obj;
 
 @end

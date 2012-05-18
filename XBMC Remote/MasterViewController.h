@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-#import "GlobalData.h"
-
 
 @class DetailViewController;
 @class NowPlaying;
@@ -26,7 +24,6 @@
     NSTimer* timer;
     UIButton *xbmcInfo;
     UIButton *xbmcLogo;
-    GlobalData *obj;
     NSDictionary *checkServerParams;
     BOOL firstRun;
     BOOL inCheck;
@@ -44,6 +41,5 @@
 @property (strong, nonatomic) NowPlaying *nowPlaying;
 @property (strong, nonatomic) RemoteController *remoteController;
 @property (strong, nonatomic) HostViewController *hostController;
-@property (nonatomic, copy) GlobalData *obj;
 
 @end
