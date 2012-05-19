@@ -95,8 +95,8 @@ NSMutableArray *mainMenuItems;
 
     [self.window makeKeyAndVisible];
     
-    NSString *filemodeRowHeight= @"42";
-    NSString *filemodeRowWidth= @"42";
+    NSString *filemodeRowHeight= @"35";
+    NSString *filemodeThumbWidth= @"35";
     
     obj=[GlobalData getInstance];
     
@@ -170,7 +170,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", nil], @"properties",
-                            nil], @"parameters", @"Genres", @"label", @"nocover_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
+                            nil], @"parameters", @"Genres", @"label", @"nocover_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -180,7 +180,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             @"music", @"media",
-                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
+                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -329,7 +329,7 @@ NSMutableArray *mainMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     @"music", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   [NSArray arrayWithObjects:nil],
                                   
@@ -543,7 +543,7 @@ NSMutableArray *mainMenuItems;
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"video", @"media",
-                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
+                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           nil];
     
@@ -631,7 +631,7 @@ NSMutableArray *mainMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     @"video", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   nil];
     item2.subItem.mainFields=[NSArray arrayWithObjects:
                               [NSDictionary dictionaryWithObjectsAndKeys: nil],
@@ -733,7 +733,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             @"video", @"media",
-                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
+                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           nil];
     item3.mainFields=[NSArray arrayWithObjects:
                       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -802,7 +802,7 @@ NSMutableArray *mainMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     @"video", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   nil];
     item3.subItem.mainFields=[NSArray arrayWithObjects:
                               [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -937,7 +937,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             @"pictures", @"media",
-                            nil], @"parameters", @"Pictures", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
+                            nil], @"parameters", @"Pictures", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           nil];
     item4.mainFields=[NSArray arrayWithObjects:
                       
@@ -974,7 +974,7 @@ NSMutableArray *mainMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     @"pictures", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeRowWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   nil];
     item4.subItem.mainFields=[NSArray arrayWithObjects:
                               
