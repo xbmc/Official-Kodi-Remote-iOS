@@ -16,6 +16,7 @@
     IBOutlet UITableViewCell *serverListCell;
     IBOutlet UIButton *editTableButton;
     IBOutlet UILongPressGestureRecognizer *lpgr;
+    IBOutlet UIImageView *backgroundImageView;
     NSIndexPath *storeServerSelection;
     MasterViewController *masterViewController;
 }

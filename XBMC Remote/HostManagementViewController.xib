@@ -39,6 +39,22 @@
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
+					<object class="IBUIImageView" id="61222718">
+						<reference key="NSNextResponder" ref="918116249"/>
+						<int key="NSvFlags">266</int>
+						<string key="NSFrame">{{0, 239}, {320, 8}}</string>
+						<reference key="NSSuperview" ref="918116249"/>
+						<reference key="NSWindow"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClipsSubviews">YES</bool>
+						<int key="IBUIContentMode">4</int>
+						<bool key="IBUIMultipleTouchEnabled">YES</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage" id="1018984071">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">tableUp.png</string>
+						</object>
+					</object>
 					<object class="IBUIImageView" id="762338911">
 						<reference key="NSNextResponder" ref="918116249"/>
 						<int key="NSvFlags">274</int>
@@ -53,22 +69,6 @@
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">shiny_black_back.png</string>
-						</object>
-					</object>
-					<object class="IBUIImageView" id="61222718">
-						<reference key="NSNextResponder" ref="918116249"/>
-						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{0, 240}, {320, 8}}</string>
-						<reference key="NSSuperview" ref="918116249"/>
-						<reference key="NSWindow"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
-						<bool key="IBUIMultipleTouchEnabled">YES</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage" id="1018984071">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">tableUp.png</string>
 						</object>
 					</object>
 					<object class="IBUILabel" id="788263793">
@@ -299,6 +299,14 @@
 					<int key="connectionID">22</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">backgroundImageView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="762338911"/>
+					</object>
+					<int key="connectionID">24</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">editTable:forceClose:</string>
 						<reference key="source" ref="661406768"/>
@@ -456,7 +464,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">23</int>
+			<int key="maxID">24</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -464,12 +472,17 @@
 					<string key="className">HostManagementViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="backgroundImageView">UIImageView</string>
 						<string key="editTableButton">UIButton</string>
 						<string key="lpgr">UILongPressGestureRecognizer</string>
 						<string key="serverListCell">UITableViewCell</string>
 						<string key="serverListTableView">UITableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="backgroundImageView">
+							<string key="name">backgroundImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="editTableButton">
 							<string key="name">editTableButton</string>
 							<string key="candidateClassName">UIButton</string>

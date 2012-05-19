@@ -304,9 +304,12 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.contentSizeForViewInPopover = CGSizeMake(320, 248);
-    self.navigationController.navigationBar.tintColor = [UIColor orangeColor];
-
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        CGRect frame = backgroundImageView.frame;
+        frame.size.height = frame.size.height + 8;
+        backgroundImageView.frame = frame;
+    }
+    
 }
 
 - (void)viewDidUnload{
