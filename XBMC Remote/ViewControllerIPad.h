@@ -17,7 +17,7 @@
 @class HostManagementViewController;
 
 
-@interface ViewControllerIPad : UIViewController {
+@interface ViewControllerIPad : UIViewController <UIPopoverControllerDelegate>{
 	UIViewExt* rootView;
 	UIView* leftMenuView;
 	UIView* rightSlideView;

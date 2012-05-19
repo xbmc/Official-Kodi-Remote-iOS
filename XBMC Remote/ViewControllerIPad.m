@@ -105,23 +105,20 @@
     if ([[AppDelegate instance].obj.serverIP length]==0){
         if (firstRun){
             firstRun=NO;
-            
-//            if (EXPERIMENTAL_HOST_MANAGEMENT){
-//                [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-//            }
-//            else{
-//                [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-//            }
+            [self showSetup:YES];
+        }
+        if ([AppDelegate instance].serverOnLine){
+            [self changeServerStatus:NO infoText:@"No connection"];
         }
         return;
     }
     NSString *userPassword=[[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    
     [jsonRPC 
      callMethod:@"Application.GetProperties" 
      withParameters:checkServerParams
+     withTimeout: 2.0
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error==nil && methodError==nil){
              if (![AppDelegate instance].serverOnLine){
@@ -129,31 +126,15 @@
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                      NSString *infoTitle=[NSString stringWithFormat:@" XBMC %@.%@-%@", [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
-                     
-//                     if (EXPERIMENTAL_HOST_MANAGEMENT){
-//                         [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
-//                         
-//                     }
-//                     else {
-//                         [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
-//                         
-//                     }
-                     
-                     
+                     [self showSetup:NO];
                  }
                  else{
                      if ([AppDelegate instance].serverOnLine){
-                         //                         NSLog(@"mi spengo");
                          [self changeServerStatus:NO infoText:@"No connection"];
                      }
                      if (firstRun){
                          firstRun=NO;
-//                         if (EXPERIMENTAL_HOST_MANAGEMENT){
-//                             [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-//                         }
-//                         else{
-//                             [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-//                         }
+                         [self showSetup:YES];
                      }
                  }
              }
@@ -166,12 +147,7 @@
              }
              if (firstRun){
                  firstRun=NO;
-//                 if (EXPERIMENTAL_HOST_MANAGEMENT){
-//                     [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-//                 }
-//                 else {
-//                     [self toggleViewToolBar:settingsView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
-//                 }
+                 [self showSetup:YES];
              }
          }
      }];
@@ -219,6 +195,12 @@
                 [UIView commitAnimations];
             }
         }
+        [[AppDelegate instance].windowController.stackScrollViewController offView];
+        NSIndexPath *selection=[menuViewController.tableView indexPathForSelectedRow];
+        if (selection){
+            [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
+            [menuViewController setLastSelected:-1];
+        }
     }
 }
 
@@ -232,7 +214,6 @@
     int actualPosY=view.frame.origin.y;
     CGRect frame;
 	frame = [view frame];
-    NSLog(@"%d actual %d frame %f", Y, actualPosY, self.view.frame.size.height);
     if (actualPosY<667 || hide){
         Y=self.view.frame.size.height;
     }
@@ -249,17 +230,42 @@
 - (void)toggleSetup {
     if (_hostPickerViewController == nil) {
         self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil masterController:nil];
-        // _hostPickerViewController.delegate = self;
         self.serverPickerPopover = [[UIPopoverController alloc] 
-                                    initWithContentViewController:_hostPickerViewController];               
+                                    initWithContentViewController:_hostPickerViewController];
+        self.serverPickerPopover.delegate = self;
+        [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 400)];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        int lastServer;
+        if ([userDefaults objectForKey:@"lastServer"]!=nil){
+            lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
+            if (lastServer>-1){
+                NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
+                [self.hostPickerViewController selectIndex:lastServerIndexPath reloadData:NO];
+            }
+        }
+
+    
     }
     [self.serverPickerPopover presentPopoverFromRect:xbmcInfo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+-(void) showSetup:(BOOL)show{
+    if ([self.serverPickerPopover isPopoverVisible]) {
+        if (show==NO)
+            [self.serverPickerPopover dismissPopoverAnimated:YES];
+    }
+    else{
+        if (show==YES){
+            [self toggleSetup];
+        }
+    }
 }
 
 #pragma mark - Lifecycle
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    firstRun=YES;
     [AppDelegate instance].obj=[GlobalData getInstance]; 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     int lastServer;
@@ -408,6 +414,10 @@
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	[menuViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 	[stackScrollViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    if ([self.serverPickerPopover isPopoverVisible]) {
+        [self.serverPickerPopover dismissPopoverAnimated:NO];
+        [self toggleSetup];
+    }
 }
 
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
