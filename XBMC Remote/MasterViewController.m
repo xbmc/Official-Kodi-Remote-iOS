@@ -218,29 +218,6 @@
     return cell;
 }
 
--(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
-    storeServerSelection = indexPath;
-    NSDictionary *item = [[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
-    [AppDelegate instance].obj.serverDescription = [item objectForKey:@"serverDescription"];
-    [AppDelegate instance].obj.serverUser = [item objectForKey:@"serverUser"];
-    [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
-    [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
-    [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
-    [AppDelegate instance].obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        int thumbWidth = 320;
-        int tvshowHeight = 61;
-        if ([AppDelegate instance].obj.preferTVPosters==YES){
-            thumbWidth = 53;
-            tvshowHeight = 76;
-        }
-        mainMenu *menuItem=[self.mainMenu objectAtIndex:2];
-        menuItem.thumbWidth=thumbWidth;
-        menuItem.rowHeight=tvshowHeight;
-    }
-    [self changeServerStatus:NO infoText:@"No connection"];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (![AppDelegate instance].serverOnLine) {
         [menuList deselectRowAtIndexPath:indexPath animated:YES];
