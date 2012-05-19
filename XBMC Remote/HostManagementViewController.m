@@ -306,6 +306,7 @@
     CGSize size = CGSizeMake(320, 400); // size of view in popover
     self.contentSizeForViewInPopover = size;
     [super viewWillAppear:animated];
+    [self selectIndex:nil reloadData:YES];
 }
 
 - (void)viewDidLoad{
