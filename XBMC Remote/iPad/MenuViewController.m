@@ -35,6 +35,7 @@
 //  Created by Reefaq on 2/24/11.
 //  Copyright 2011 raw engineering . All rights reserved.
 //
+// NOTE: heavly modified by JOE
 
 #import "MenuViewController.h"
 #import "DataViewController.h"
@@ -210,10 +211,6 @@
         if (item.family == 1){
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:TRUE];
-            
-//            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil] ;
-//            self.detailViewController.detailItem = item;
-//            [self.navigationController pushViewController:self.detailViewController animated:YES];
         }   
         else{
             
@@ -223,28 +220,6 @@
         lastSelected=indexPath.row;
     }
 }
-
-//- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-//	imageView.frame = CGRectMake(0,0,320,8);
-//	return imageView;
-//}
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    return 8;
-//}
-
-//- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-//	imageView.frame = CGRectMake(0,0,320,8);
-//	return imageView;
-//}
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-//	return 8;
-//}
-
-
 
 #pragma mark -
 #pragma mark Memory management
