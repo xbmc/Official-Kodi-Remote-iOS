@@ -58,6 +58,7 @@ NSMutableArray *mainMenuItems;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     
+    [application setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
