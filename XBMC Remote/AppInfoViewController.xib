@@ -91,7 +91,7 @@
 					</object>
 					<object class="IBUILabel" id="957373396">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">298</int>
+						<int key="NSvFlags">300</int>
 						<string key="NSFrame">{{20, 271}, {280, 48}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
@@ -102,7 +102,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Unofficial "Official XBMC Remote" for iOS          </string>
+						<string key="IBUIText">Unofficial "Official XBMC Remote" for iOS       </string>
 						<object class="NSColor" key="IBUITextColor" id="788696272">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -201,7 +201,7 @@ dHkgb2YgWEJNQyB0ZWFtCih3d3cueGJtYy5vcmcpA</string>
 					</object>
 					<object class="IBUILabel" id="260449874">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">298</int>
+						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{169, 298}, {37, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
@@ -212,7 +212,7 @@ dHkgb2YgWEJNQyB0ZWFtCih3d3cueGJtYy5vcmcpA</string>
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">v1.0.3</string>
+						<string key="IBUIText">v1.1</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
@@ -564,7 +564,7 @@ dHkgb2YgWEJNQyB0ZWFtCih3d3cueGJtYy5vcmcpA</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="eden.png">{200, 104}</string>
+			<string key="eden.png">{79, 42}</string>
 			<string key="info.png">{320, 460}</string>
 			<string key="io.png">{51, 57}</string>
 			<string key="speech_balloon.png">{128, 90}</string>

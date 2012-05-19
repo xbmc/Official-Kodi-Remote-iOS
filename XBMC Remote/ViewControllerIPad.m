@@ -14,6 +14,7 @@
 #import "GlobalData.h"
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
+#import "AppInfoViewController.h"
 
 @interface ViewControllerIPad (){
     NSMutableArray *mainMenu;
@@ -70,7 +71,8 @@
 @synthesize nowPlayingController;
 @synthesize serverPickerPopover = _serverPickerPopover;
 @synthesize hostPickerViewController = _hostPickerViewController;
-
+@synthesize appInfoView = _appInfoView;
+@synthesize appInfoPopover = _appInfoPopover;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -78,12 +80,6 @@
         // Custom initialization
     }
     return self;
-}
-
-#pragma mark - InfoView
-
--(void)infoView{
-    
 }
 
 #pragma mark - ServerManagement
@@ -261,6 +257,19 @@
     }
 }
 
+- (void)toggleInfoView {
+    if (_appInfoView == nil) {
+        self.appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
+        self.appInfoPopover = [[UIPopoverController alloc] 
+                                    initWithContentViewController:_appInfoView];
+        self.appInfoPopover.delegate = self;
+        [self.appInfoPopover setPopoverContentSize:CGSizeMake(320, 460)];
+
+    }
+    [self.appInfoPopover presentPopoverFromRect:xbmcLogo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+
 #pragma mark - Touch Events
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -374,7 +383,7 @@
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
-    [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
+    [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:xbmcLogo];
     
@@ -424,6 +433,10 @@
     if ([self.serverPickerPopover isPopoverVisible]) {
         [self.serverPickerPopover dismissPopoverAnimated:NO];
         [self toggleSetup];
+    }
+    if ([self.appInfoPopover isPopoverVisible]) {
+        [self.appInfoPopover dismissPopoverAnimated:NO];
+        [self toggleInfoView];
     }
 }
 

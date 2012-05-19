@@ -15,6 +15,7 @@
 @class NowPlaying;
 @class VolumeSliderView;
 @class HostManagementViewController;
+@class AppInfoViewController;
 
 
 @interface ViewControllerIPad : UIViewController <UIPopoverControllerDelegate>{
@@ -42,6 +43,10 @@
 @property (nonatomic, retain) NowPlaying* nowPlayingController;
 @property (nonatomic, strong) StackScrollViewController* stackScrollViewController;
 @property (nonatomic, retain) UIPopoverController *serverPickerPopover;
+@property (nonatomic, retain) UIPopoverController *appInfoPopover;
+
 @property (nonatomic, retain) HostManagementViewController *hostPickerViewController;
+@property (nonatomic, retain) AppInfoViewController *appInfoView;
+;
 
 @end
