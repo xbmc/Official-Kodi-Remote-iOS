@@ -261,6 +261,13 @@
     }
 }
 
+#pragma mark - Touch Events
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.nowPlayingController toggleSongDetails];
+}
+
+
 #pragma mark - Lifecycle
 
 - (void)viewDidLoad{
