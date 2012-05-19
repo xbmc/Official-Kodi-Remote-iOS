@@ -405,6 +405,9 @@ int currentItemID;
     artistName.text=@"";
     lastSelected=-1;
     storeSelection=nil;
+    songCodec.text=@"-";
+    songBitRate.text=@"-";
+    songSampleRate.text=@"-";
     [PartyModeButton setSelected:NO];
     NSIndexPath *selection=[playlistTableView indexPathForSelectedRow];
     if (selection){
@@ -1497,6 +1500,7 @@ int anim2;
     [[SDImageCache sharedImageCache] clearMemory];
     playerID = -1;
     selectedPlayerID = -1;
+    updateDetailsView = YES;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self setIphoneInterface];
     }
