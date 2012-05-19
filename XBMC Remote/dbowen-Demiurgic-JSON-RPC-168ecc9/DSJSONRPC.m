@@ -96,7 +96,13 @@
     return [self callMethod:methodName withParameters:nil onCompletion:completionHandler];
 }
 
-- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
+- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler{
+    return [self callMethod:methodName withParameters:methodParams withTimeout:0 onCompletion:completionHandler];
+}
+
+// (int)timeout PARAMETER ADDED BY JOE
+
+- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams withTimeout:(float)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
     // Set parameters to NSNull if they weren't provided
     if (methodParams == nil) {
         methodParams = [NSNull null];
@@ -156,15 +162,30 @@
     NSURLConnection *aConnection = [[NSURLConnection alloc] initWithRequest:serviceRequest delegate:self];
     [self._activeConnections setObject:connectionInfo forKey:[NSNumber numberWithInt:(int)aConnection]];
     
-    timer = [NSTimer scheduledTimerWithTimeInterval:2.0 
-                                                      target:self 
-                                                    selector:@selector(cancelRequest:) 
-                                                    userInfo:aConnection repeats:NO];
+    if (timeout){
+        timer = [NSTimer scheduledTimerWithTimeInterval:timeout 
+                                                 target:self 
+                                               selector:@selector(cancelRequest:) 
+                                               userInfo:aConnection repeats:NO];
+    }
     return aId;
 }
 
 -(void)cancelRequest:(NSTimer*)theTimer {
+    NSURLConnection *connection= (NSURLConnection *)[theTimer userInfo];
+    NSNumber *connectionKey = [NSNumber numberWithInt:(int)connection];
+    NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:connectionKey];
+    DSJSONRPCCompletionHandler completionHandler = [connectionInfo objectForKey:@"completionHandler"];
+    NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection Timeout", NSLocalizedDescriptionKey, nil]];
+    if (completionHandler) {
+        completionHandler([connectionInfo objectForKey:@"method"], [[connectionInfo objectForKey:@"id"] intValue], nil, nil, aError);
+        DS_RELEASE(completionHandler)
+    }
+    if (delegate && [delegate respondsToSelector:@selector(jsonRPC:didFailMethod:forId:withError:)]) {
+        [delegate jsonRPC:self didFailMethod:[connectionInfo objectForKey:@"method"] forId:[[connectionInfo objectForKey:@"id"] intValue] withError:aError];
+    }
     [(NSURLConnection*)[theTimer userInfo] cancel];
+    timer = nil;
 }
 
 #pragma mark - Runtime Method Invocation Handling

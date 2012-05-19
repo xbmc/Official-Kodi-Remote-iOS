@@ -115,5 +115,6 @@ typedef void (^DSJSONRPCCompletionHandler)(NSString *methodName, NSInteger callI
 #pragma mark - Web Service Invocation Methods (Completion Handler Based)
 - (NSInteger)callMethod:(NSString *)methodName onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
 - (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
+- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams withTimeout:(float)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
 
 @end
