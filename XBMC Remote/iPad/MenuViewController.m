@@ -221,6 +221,10 @@
     }
 }
 
+- (void)setLastSelected:(int)selection{
+    lastSelected = selection;
+}
+
 #pragma mark -
 #pragma mark Memory management
 
