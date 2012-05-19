@@ -424,6 +424,7 @@ int currentItemID;
     if (![AppDelegate instance].serverOnLine) {
         playerID = -1;
         selectedPlayerID = -1;
+        storedItemID = 0;
         [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData removeAllObjects];
         [self nothingIsPlaying];
@@ -466,10 +467,10 @@ int currentItemID;
                                  currentItemID=-2;
                              else
                                  currentItemID=[[nowPlayingInfo  objectForKey:@"id"] intValue];
-//                             NSLog(@"ITEMS %@ %d", [nowPlayingInfo  objectForKey:@"id"], storedItemID);
 
                              if (([nowPlayingInfo count] && currentItemID!=storedItemID) || [nowPlayingInfo  objectForKey:@"id"]==nil){ //
-//                                 NSLog(@"aggiorno");
+                                 storedItemID = currentItemID;
+                                 updateDetailsView = YES;
                                  NSString *album=[[nowPlayingInfo  objectForKey:@"album"] length]!=0 ?[NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"album"]] : @"" ;
                                  NSString *title=[[nowPlayingInfo  objectForKey:@"title"] length]!=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"title"]] : @"";
                                  NSString *artist=[[nowPlayingInfo objectForKey:@"artist"] length]!=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo objectForKey:@"artist"]] : @"";
@@ -482,6 +483,9 @@ int currentItemID;
                                  NSString *type=[[nowPlayingInfo objectForKey:@"type"] length]!=0? [nowPlayingInfo objectForKey:@"type"] : @"unknown";
                                  currentType=type;
                                  [self setCoverSize:currentType];
+                             }
+                             else{
+                                 updateDetailsView = NO;
                              }
                              GlobalData *obj=[GlobalData getInstance]; 
                              NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
@@ -673,13 +677,14 @@ int currentItemID;
             [self nothingIsPlaying];
         }
     }];
-    if (currentItemID!=storedItemID){
+    if (updateDetailsView==YES){
         [jsonRPC 
          callMethod:@"XBMC.GetInfoLabels" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"MusicPlayer.Codec",@"MusicPlayer.SampleRate",@"MusicPlayer.BitRate", @"MusicPlayer.PlaylistPosition",@"VideoPlayer.VideoResolution",@"VideoPlayer.VideoAspect",@"Player.TimeRemaining", @"Player.Duration", @"VideoPlayer.PlaylistPosition", nil], @"labels",
                          nil] 
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+             
              if (error==nil && methodError==nil  && methodResult!=NULL){
                  //             NSLog(@"RISULTATO %@", methodResult);
                  NSNumber *playlistPosition = 0;
@@ -716,15 +721,12 @@ int currentItemID;
                      //                 songSampleRate.text=samplerate;
                      songSampleRate.text=@"";
                  }
-                 
-                 
              }
              else {
                  //             NSLog(@"ERROR %@", methodError);
              }
          }];  
     }
-    storedItemID=currentItemID;
 }
 
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters checkPartyMode:(BOOL)checkPartyMode{
@@ -776,6 +778,7 @@ int currentItemID;
     if (![AppDelegate instance].serverOnLine) {
         playerID = -1;
         selectedPlayerID = -1;
+        storedItemID = 0;
         [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData removeAllObjects];
         [self nothingIsPlaying];
