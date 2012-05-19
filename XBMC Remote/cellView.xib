@@ -63,7 +63,7 @@
 								<reference key="NSNextResponder" ref="1067443506"/>
 								<int key="NSvFlags">1316</int>
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
-								<string key="NSFrame">{{78, 10}, {222, 20}}</string>
+								<string key="NSFrame">{{78, 9}, {222, 20}}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1071827094"/>
@@ -82,11 +82,11 @@
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
 								</object>
-								<object class="NSColor" key="IBUIShadowColor" id="495858094">
+								<object class="NSColor" key="IBUIShadowColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MAA</bytes>
+									<bytes key="NSWhite">MCAwLjUAA</bytes>
 								</object>
-								<string key="IBUIShadowOffset">{0, 0}</string>
+								<string key="IBUIShadowOffset">{1, 1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">10</float>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
@@ -103,7 +103,7 @@
 								<reference key="NSNextResponder" ref="1067443506"/>
 								<int key="NSvFlags">1316</int>
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
-								<string key="NSFrame">{{78, 25}, {236, 34}}</string>
+								<string key="NSFrame">{{78, 22}, {236, 34}}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -156,7 +156,10 @@
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1067443506"/>
-				<reference key="IBUIBackgroundColor" ref="495858094"/>
+				<object class="NSColor" key="IBUIBackgroundColor">
+					<int key="NSColorSpace">3</int>
+					<bytes key="NSWhite">MAA</bytes>
+				</object>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<reference key="IBUIContentView" ref="1067443506"/>
 				<string key="IBUIReuseIdentifier">mainMenuCell</string>

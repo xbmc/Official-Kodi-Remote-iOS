@@ -84,18 +84,18 @@
 								</object>
 								<object class="NSColor" key="IBUIShadowColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MCAwLjc1AA</bytes>
+									<bytes key="NSWhite">MCAwLjUAA</bytes>
 								</object>
-								<string key="IBUIShadowOffset">{0, 0}</string>
+								<string key="IBUIShadowOffset">{1, 1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">10</float>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">2</int>
-									<double key="pointSize">12</double>
+									<double key="pointSize">11</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">Helvetica-Bold</string>
-									<double key="NSSize">12</double>
+									<double key="NSSize">11</double>
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
@@ -103,7 +103,7 @@
 								<reference key="NSNextResponder" ref="1067443506"/>
 								<int key="NSvFlags">1316</int>
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
-								<string key="NSFrame">{{72, 24}, {243, 29}}</string>
+								<string key="NSFrame">{{72, 21}, {243, 29}}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -115,7 +115,7 @@
 								<string key="IBUIText">Label</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC41OTc0NTY2NjA2AA</bytes>
+									<bytes key="NSWhite">MC43MDE4OTg5NTA3AA</bytes>
 								</object>
 								<reference key="IBUIHighlightedColor" ref="247868807"/>
 								<object class="NSColor" key="IBUIShadowColor">
@@ -281,7 +281,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">icon_home_music.png</string>
-			<string key="NS.object.0">{64, 64}</string>
+			<string key="NS.object.0">{60, 60}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">1181</string>
 	</data>
