@@ -229,7 +229,7 @@
         self.serverPickerPopover = [[UIPopoverController alloc] 
                                     initWithContentViewController:[AppDelegate instance].navigationController];
         self.serverPickerPopover.delegate = self;
-        [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 400)];
+        [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         int lastServer;
         if ([userDefaults objectForKey:@"lastServer"]!=nil){
