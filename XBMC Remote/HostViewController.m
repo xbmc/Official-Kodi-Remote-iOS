@@ -287,6 +287,13 @@
 }
 
 #pragma mark - LifeCycle
+
+- (void)viewWillAppear:(BOOL)animated{
+    CGSize size = CGSizeMake(320, 400);
+    self.contentSizeForViewInPopover = size;
+    [super viewWillAppear:animated];
+}
+
 -(void)viewDidDisappear:(BOOL)animated{
     [timer invalidate];
     timer = nil;

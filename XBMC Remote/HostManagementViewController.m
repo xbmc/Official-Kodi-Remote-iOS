@@ -302,6 +302,12 @@
 
 #pragma mark - LifeCycle
 
+- (void)viewWillAppear:(BOOL)animated{
+    CGSize size = CGSizeMake(320, 400); // size of view in popover
+    self.contentSizeForViewInPopover = size;
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {

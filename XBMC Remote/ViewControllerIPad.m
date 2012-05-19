@@ -85,7 +85,6 @@
 #pragma mark - ServerManagement
 
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
-    
     storeServerSelection = indexPath;
     NSDictionary *item = [[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
     [AppDelegate instance].obj.serverDescription = [item objectForKey:@"serverDescription"];
@@ -93,7 +92,6 @@
     [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
     [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
     [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
-    //[self changeServerStatus:NO infoText:@"No connection"];
 }
 
 -(void)checkServer{
@@ -225,9 +223,11 @@
 
 - (void)toggleSetup {
     if (_hostPickerViewController == nil) {
+        
         self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil masterController:nil];
+        [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
         self.serverPickerPopover = [[UIPopoverController alloc] 
-                                    initWithContentViewController:_hostPickerViewController];
+                                    initWithContentViewController:[AppDelegate instance].navigationController];
         self.serverPickerPopover.delegate = self;
         [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 400)];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -238,9 +238,7 @@
                 NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
                 [self.hostPickerViewController selectIndex:lastServerIndexPath reloadData:NO];
             }
-        }
-
-    
+        }    
     }
     [self.serverPickerPopover presentPopoverFromRect:xbmcInfo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }

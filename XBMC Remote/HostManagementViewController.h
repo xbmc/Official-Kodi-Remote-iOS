@@ -11,7 +11,7 @@
 @class HostViewController;
 @class MasterViewController;
 
-@interface HostManagementViewController : UIViewController{
+@interface HostManagementViewController : UIViewController <UINavigationControllerDelegate, UINavigationBarDelegate>{
     IBOutlet UITableView *serverListTableView;
     IBOutlet UITableViewCell *serverListCell;
     IBOutlet UIButton *editTableButton;
