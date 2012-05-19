@@ -422,9 +422,18 @@ int currentItemID;
 
 -(void)playbackInfo{
     if (![AppDelegate instance].serverOnLine) {
+        playerID = -1;
+        selectedPlayerID = -1;
+        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [playlistData removeAllObjects];
         [self nothingIsPlaying];
         return;
     }
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
@@ -719,7 +728,11 @@ int currentItemID;
 }
 
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters checkPartyMode:(BOOL)checkPartyMode{
-    
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
@@ -761,6 +774,10 @@ int currentItemID;
 
 -(void)createPlaylist:(BOOL)forcePlaylistID{ 
     if (![AppDelegate instance].serverOnLine) {
+        playerID = -1;
+        selectedPlayerID = -1;
+        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [playlistData removeAllObjects];
         [self nothingIsPlaying];
         return;
     }
@@ -801,6 +818,10 @@ int currentItemID;
         
     }
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    jsonRPC = nil;
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:@"Playlist.GetItems" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", nil], @"properties",
@@ -878,16 +899,24 @@ int currentItemID;
            }];
 }
 
--(void)showPlaylistTable{
+-(void)showPlaylistTable{    
     numResults=[playlistData count];
     if (numResults==0)
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+    else {
+        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    }
+    
     [playlistTableView reloadData]; 
     [activityIndicatorView stopAnimating];
-    [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
 
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error!=nil || methodError!=nil){
 //            NSLog(@" errore %@ %@",error, methodError);
@@ -1138,6 +1167,11 @@ int anim2;
     [queuing startAnimating];
     if (playerID==-2)
         playerID=0;
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC 
      callMethod:@"Player.Open" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -1220,7 +1254,11 @@ int anim2;
                            nil],@"item",
                           [NSNumber numberWithInt:destinationIndexPath.row],@"position",
                           nil];
-    
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             [jsonRPC callMethod:action2 withParameters:params2];
@@ -1250,7 +1288,11 @@ int anim2;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
 
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
+        jsonRPC = nil;
+        GlobalData *obj=[GlobalData getInstance]; 
+        NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+        NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
         NSString *action1=@"Playlist.Remove";
         NSDictionary *params1=[NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInt:playerID], @"playlistid",
@@ -1429,8 +1471,8 @@ int anim2;
 -(void)viewWillAppear:(BOOL)animated{
     [self playbackInfo];
     [volumeSliderView startTimer]; 
-    lastSelected=-1;
-    playerID=-1;
+    lastSelected = -1;
+    playerID = -1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
     
     // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
@@ -1441,7 +1483,7 @@ int anim2;
 
 -(void)viewWillDisappear:(BOOL)animated{
     [timer invalidate];
-    currentItemID=-1;
+    currentItemID = -1;
     [volumeSliderView stopTimer];
 //    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
 }
@@ -1449,18 +1491,15 @@ int anim2;
 - (void)viewDidLoad{
     [super viewDidLoad];
     [[SDImageCache sharedImageCache] clearMemory];
-    playerID=-1;
-    selectedPlayerID=-1;
+    playerID = -1;
+    selectedPlayerID = -1;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self setIphoneInterface];
     }
     else{
         [self setIpadInterface];
     }
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    
     playlistData = [[NSMutableArray alloc] init ];
     manager = [SDWebImageManager sharedManager];
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -1479,10 +1518,10 @@ int anim2;
 }
 
 -(void)dealloc{
-    volumeSliderView=nil;
+    volumeSliderView = nil;
     self.detailItem = nil;
-    playlistData=nil;
-    jsonRPC=nil;
+    playlistData = nil;
+    jsonRPC = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
