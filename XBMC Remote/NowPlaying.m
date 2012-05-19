@@ -1046,28 +1046,29 @@ int anim2;
 
 
 
--(void)updateInfo{
+- (void)updateInfo{
 //    NSLog(@"OGNI SECONDO");
     [self playbackInfo];
 }
 
+- (void)toggleSongDetails{
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+    [UIView setAnimationDuration:0.1];
+    if (songDetailsView.alpha==0){
+        songDetailsView.alpha=0.8;
+    }
+    else {
+        songDetailsView.alpha=0.0;
+    }
+    [UIView commitAnimations];
+}
 #pragma mark - Touch Events
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     if([touch.view isEqual:jewelView]){
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-        [UIView setAnimationDuration:0.1];
-        if (songDetailsView.alpha==0){
-            songDetailsView.alpha=0.8;
-//            songDetailsView.hidden=NO;
-        }
-        else {
-            songDetailsView.alpha=0.0;
-//            songDetailsView.hidden=YES;
-        }
-        [UIView commitAnimations];
+        [self toggleSongDetails];
         [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
 
     }
