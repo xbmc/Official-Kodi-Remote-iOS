@@ -62,7 +62,7 @@ int count=0;
             toolbar = [UIToolbar new];
             
             toolbar.barStyle = UIBarStyleBlackTranslucent;
-            [toolbar setBackgroundImage:[UIImage imageNamed:@"st_background.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+//            [toolbar setBackgroundImage:[UIImage imageNamed:@"st_background.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
             
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 
