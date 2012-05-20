@@ -44,7 +44,7 @@
 #import "StackScrollViewController.h"
 #import "mainMenu.h"
 #import "DetailViewController.h"
-
+#import "RemoteController.h"
 
 @implementation MenuViewController
 @synthesize tableView = _tableView;
@@ -212,10 +212,10 @@
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:TRUE];
         }   
-        else{
-            
-            DataViewController *dataViewController = [[DataViewController alloc] initWithFrame:CGRectMake(0, 0, 477, self.view.frame.size.height)];
-            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:dataViewController invokeByController:self isStackStartView:TRUE];
+        else if (item.family == 3){
+            RemoteController *remoteController=[[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil]; 
+            [remoteController.view setFrame:CGRectMake(0, 0, 477, self.view.frame.size.height)];
+            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:remoteController invokeByController:self isStackStartView:TRUE];
         }
         lastSelected=indexPath.row;
     }
