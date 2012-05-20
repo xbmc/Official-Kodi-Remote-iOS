@@ -343,6 +343,7 @@
         if (lastServer>-1){
             NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
             [hostManagementViewController selectIndex:lastServerIndexPath reloadData:NO];
+            [self handleXBMCServerHasChanged:nil];
         }
     }
     firstRun=YES;
@@ -366,6 +367,7 @@
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
+    NSLog(@"server cambiato");
     inCheck = NO;
     firstRun = NO;
     int thumbWidth = 320;
@@ -374,7 +376,6 @@
         thumbWidth = 53;
         tvshowHeight = 76;
     }
-    [[self parentViewController] setTitle:@""];
     mainMenu *menuItem=[self.mainMenu objectAtIndex:2];
     menuItem.thumbWidth=thumbWidth;
     menuItem.rowHeight=tvshowHeight;

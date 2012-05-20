@@ -275,6 +275,7 @@
     else if (selection){
             [self selectServerAtIndexPath:selection];
             [serverListTableView selectRowAtIndexPath:selection animated:NO scrollPosition:UITableViewScrollPositionNone];
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
     }
 }
 

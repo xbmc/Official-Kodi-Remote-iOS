@@ -281,13 +281,21 @@
     [super viewDidLoad];
     firstRun=YES;
     [AppDelegate instance].obj=[GlobalData getInstance]; 
+    
+    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
+    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
+    self.serverPickerPopover = [[UIPopoverController alloc] 
+                                initWithContentViewController:[AppDelegate instance].navigationController];
+    self.serverPickerPopover.delegate = self;
+    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     int lastServer;
     if ([userDefaults objectForKey:@"lastServer"]!=nil){
         lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
         if (lastServer>-1){
             NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
-            [self selectServerAtIndexPath:lastServerIndexPath];
+            [self.hostPickerViewController selectIndex:lastServerIndexPath reloadData:NO];
+            [self handleXBMCServerHasChanged:nil];
         }
     }
     int tableHeight = [(NSMutableArray *)mainMenu count] * 64 + 16;
@@ -425,6 +433,15 @@
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
+    int thumbWidth = 477;
+    int tvshowHeight = 91;
+    if ([AppDelegate instance].obj.preferTVPosters==YES){
+        thumbWidth = 53;
+        tvshowHeight = 76;
+    }
+    mainMenu *menuItem=[self.mainMenu objectAtIndex:2];
+    menuItem.thumbWidth=thumbWidth;
+    menuItem.rowHeight=tvshowHeight;
     [self changeServerStatus:NO infoText:@"No connection"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
 }
