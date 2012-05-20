@@ -153,6 +153,7 @@ int count=0;
 int h=0;
 
 -(void)createInfo{
+    // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSDictionary *item=self.detailItem;
 //    NSLog(@"ITEM %@", item);
     int scrollViewDefaultHeight = 1660;
@@ -224,9 +225,30 @@ int h=0;
                     frame.size.width=477;
                     frame.size.height=90;
                     coverView.frame=frame;
+                    
                 }
-                
             }
+            else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+                int originalHeight = jewelView.frame.size.height;
+                int coverHeight = 560;
+                int coverWidth = 477;
+                CGRect frame;
+                frame = jewelView.frame;
+                frame.origin.x = -84;
+                frame.size.height = coverHeight;
+                frame.size.width = coverWidth;
+                jewelView.frame = frame;
+                frame=coverView.frame;
+                frame.origin.x = 82;
+                frame.origin.y = 24;
+                frame.size.width = 353;
+                frame.size.height = 518;
+                coverView.autoresizingMask = UIViewAutoresizingNone;
+                coverView.contentMode = UIViewContentModeScaleAspectFill;
+                coverView.frame = frame;
+                deltaY = -(coverHeight - originalHeight);
+            }
+
             label1.text=@"EPISODES";
             label3.text=@"GENRE";
             label4.text=@"STUDIO";
@@ -248,9 +270,36 @@ int h=0;
         }
         
         else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
-            coverHeight=200;
-            jewelView.hidden=NO;
-            deltaY=jewelView.frame.size.height - coverHeight;
+            
+            
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+                coverHeight=280;
+                jewelView.hidden=NO;
+                deltaY=jewelView.frame.size.height - coverHeight;
+                coverView.autoresizingMask = UIViewAutoresizingNone;
+                coverView.contentMode = UIViewContentModeScaleAspectFill;
+                frame=coverView.frame;
+                
+                frame.origin.x=32;
+                frame.origin.y=20;
+                frame.size.width=414;
+                frame.size.height=232;
+                coverView.frame=frame;
+                
+            }
+            else{
+                coverHeight=200;
+                jewelView.hidden=NO;
+                deltaY=jewelView.frame.size.height - coverHeight;
+                frame=coverView.frame;
+                frame.origin.x=11;
+                frame.origin.y=17;
+                frame.size.width=297;
+                frame.size.height=167;
+                coverView.frame=frame;
+            }
+            
+            
             label1.text=@"TV SHOW";
             label3.text=@"DIRECTOR";
             label4.text=@"WRITER";
@@ -266,12 +315,7 @@ int h=0;
             frame.size.height=coverHeight;
             jewelView.frame=frame;
             
-            frame=coverView.frame;
-            frame.origin.x=11;
-            frame.origin.y=17;
-            frame.size.width=297;
-            frame.size.height=167;
-            coverView.frame=frame;
+            
             directorLabel.text=[[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
             genreLabel.text=[[item objectForKey:@"firstaired"] length]==0 ? @"-" : [item objectForKey:@"firstaired"];
             runtimeLabel.text=[[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
