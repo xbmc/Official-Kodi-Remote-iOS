@@ -33,8 +33,6 @@
 }
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText;
--(void)setFirstRun:(BOOL)value;
--(void)setInCheck:(BOOL)value;
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 @property (strong, nonatomic) DetailViewController *detailViewController;

@@ -273,16 +273,6 @@
 	return 8;
 }
 
-#pragma mark - View Methods
-
--(void)setFirstRun:(BOOL)value{
-    firstRun=value;
-}
-
--(void)setInCheck:(BOOL)value{
-    inCheck = value;
-}
-
 #pragma mark - LifeCycle
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -363,11 +353,22 @@
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleXBMCServerHasChanged:)
+                                                 name: @"XBMCServerHasChanged"
+                                               object: nil];
+    
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
 //    [self.view setBackgroundColor:[UIColor blackColor]];
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender;{
+}
+
+- (void) handleXBMCServerHasChanged: (NSNotification*) sender{
+    inCheck = NO;
+    firstRun = NO;
+    [self changeServerStatus:NO infoText:@"No connection"];
 }
 
 -(void)dealloc{
