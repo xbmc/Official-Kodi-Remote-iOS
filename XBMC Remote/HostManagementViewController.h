@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @class HostViewController;
-@class MasterViewController;
 
 @interface HostManagementViewController : UIViewController <UINavigationControllerDelegate, UINavigationBarDelegate>{
     IBOutlet UITableView *serverListTableView;
@@ -18,10 +17,9 @@
     IBOutlet UILongPressGestureRecognizer *lpgr;
     IBOutlet UIImageView *backgroundImageView;
     NSIndexPath *storeServerSelection;
-    MasterViewController *masterViewController;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil masterController:(MasterViewController *)controller;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 -(void)selectIndex:(NSIndexPath *)selection reloadData:(BOOL)reload;
 
 @property (strong, nonatomic) HostViewController *hostController;

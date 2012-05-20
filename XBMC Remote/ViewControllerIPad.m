@@ -224,7 +224,7 @@
 - (void)toggleSetup {
     if (_hostPickerViewController == nil) {
         
-        self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil masterController:nil];
+        self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
         [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
         self.serverPickerPopover = [[UIPopoverController alloc] 
                                     initWithContentViewController:[AppDelegate instance].navigationController];
@@ -426,6 +426,7 @@
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
     [self changeServerStatus:NO infoText:@"No connection"];
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
 }
 
 - (void)viewDidUnload{

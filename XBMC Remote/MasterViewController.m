@@ -322,7 +322,7 @@
 }
 
 -(void)initHostManagement{
-    hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil masterController:self];
+    hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     CGRect frame=hostManagementViewController.view.frame;
     frame.origin.y = - frame.size.height;
     hostManagementViewController.view.frame=frame;
@@ -368,6 +368,16 @@
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
     inCheck = NO;
     firstRun = NO;
+    int thumbWidth = 320;
+    int tvshowHeight = 61;
+    if ([AppDelegate instance].obj.preferTVPosters==YES){
+        thumbWidth = 53;
+        tvshowHeight = 76;
+    }
+    [[self parentViewController] setTitle:@""];
+    mainMenu *menuItem=[self.mainMenu objectAtIndex:2];
+    menuItem.thumbWidth=thumbWidth;
+    menuItem.rowHeight=tvshowHeight;
     [self changeServerStatus:NO infoText:@"No connection"];
 }
 

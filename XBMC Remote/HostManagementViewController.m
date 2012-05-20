@@ -9,7 +9,6 @@
 #import "HostManagementViewController.h"
 #import "HostViewController.h"
 #import "AppDelegate.h"
-#import "MasterViewController.h"
 #import "mainMenu.h"
 
 @interface HostManagementViewController ()
@@ -20,12 +19,8 @@
 
 @synthesize hostController;
 
-// TO BE OPTIMIZED: TO BE CHANGED FROM THE DEPENDENCIES FROM (MasterViewController *)controller TO NOTIFICATIONS FROM THE APPDELEGATE
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil masterController:(MasterViewController *)controller{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        masterViewController = controller;
-    }
     return self;
 }
 
@@ -112,18 +107,6 @@
     [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
     [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
     [AppDelegate instance].obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        int thumbWidth = 320;
-        int tvshowHeight = 61;
-        if ([AppDelegate instance].obj.preferTVPosters==YES){
-            thumbWidth = 53;
-            tvshowHeight = 76;
-        }
-        [[self parentViewController] setTitle:@""];
-        mainMenu *menuItem=[masterViewController.mainMenu objectAtIndex:2];
-        menuItem.thumbWidth=thumbWidth;
-        menuItem.rowHeight=tvshowHeight;
-    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -277,7 +260,7 @@
     }
 }
 
-#pragma mark - TableManagement from MasterViewController 
+#pragma mark - TableManagement instances 
 
 -(void)selectIndex:(NSIndexPath *)selection reloadData:(BOOL)reload{
     if (reload){
