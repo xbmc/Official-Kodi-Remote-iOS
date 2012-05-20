@@ -99,21 +99,21 @@ int count=0;
                               nil];
             toolbar.items = items;
             
-            toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+            toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
             toolbar.contentMode = UIViewContentModeScaleAspectFill;            
             [toolbar sizeToFit];
             CGFloat toolbarHeight = [toolbar frame].size.height;
             CGRect mainViewBounds = self.view.bounds;
             [toolbar setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
-                                         CGRectGetMinY(mainViewBounds) + CGRectGetHeight(mainViewBounds) - (toolbarHeight),
+                                         CGRectGetMinY(mainViewBounds),
                                          CGRectGetWidth(mainViewBounds),
                                          toolbarHeight)];
             [self.view addSubview:toolbar];
             
             scrollView.autoresizingMask = UIViewAutoresizingNone;
             
-            [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height-44)];
-            [arrow_continue_down setFrame:CGRectMake(arrow_continue_down.frame.origin.x, arrow_continue_down.frame.origin.y - 44, arrow_continue_down.frame.size.width, arrow_continue_down.frame.size.height)];
+            [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y + 44, scrollView.frame.size.width, scrollView.frame.size.height-44)];
+            //[arrow_continue_down setFrame:CGRectMake(arrow_continue_down.frame.origin.x, arrow_continue_down.frame.origin.y, arrow_continue_down.frame.size.width, arrow_continue_down.frame.size.height)];
             
             scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         }
@@ -211,8 +211,8 @@ int h=0;
         toolbar.hidden = YES;
         scrollView.autoresizingMask = UIViewAutoresizingNone;
         
-        [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height + 44)];
-        [arrow_continue_down setFrame:CGRectMake(arrow_continue_down.frame.origin.x, arrow_continue_down.frame.origin.y + 44, arrow_continue_down.frame.size.width, arrow_continue_down.frame.size.height)];
+        [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y - 44, scrollView.frame.size.width, scrollView.frame.size.height + 44)];
+        //[arrow_continue_down setFrame:CGRectMake(arrow_continue_down.frame.origin.x, arrow_continue_down.frame.origin.y + 44, arrow_continue_down.frame.size.width, arrow_continue_down.frame.size.height)];
         
         scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
