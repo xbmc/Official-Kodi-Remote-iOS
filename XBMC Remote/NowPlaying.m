@@ -433,11 +433,13 @@ int currentItemID;
         [self nothingIsPlaying];
         return;
     }
+
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
@@ -676,20 +678,22 @@ int currentItemID;
             }
         }
         else {
+
 //            NSLog(@"ci deve essere un primo problema %@", methodError);
             [self nothingIsPlaying];
         }
     }];
+
     if (updateDetailsView==YES){
+
         [jsonRPC 
          callMethod:@"XBMC.GetInfoLabels" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"MusicPlayer.Codec",@"MusicPlayer.SampleRate",@"MusicPlayer.BitRate", @"MusicPlayer.PlaylistPosition",@"VideoPlayer.VideoResolution",@"VideoPlayer.VideoAspect",@"Player.TimeRemaining", @"Player.Duration", @"VideoPlayer.PlaylistPosition", nil], @"labels",
                          nil] 
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-             
-             if (error==nil && methodError==nil  && methodResult!=NULL){
-                 //             NSLog(@"RISULTATO %@", methodResult);
+
+             if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
                  NSNumber *playlistPosition = 0;
                  NSString *codec=@"";
                  NSString *bitrate=@"";
