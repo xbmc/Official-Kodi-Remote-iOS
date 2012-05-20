@@ -45,6 +45,8 @@
     IBOutlet UIImageView *fanartView;
 
     BOOL alreadyPush;
+    
+    UIToolbar *toolbar;
 
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

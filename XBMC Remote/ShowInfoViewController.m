@@ -47,47 +47,81 @@ int count=0;
     // Update the user interface for the detail item.
     if (self.detailItem) {
         NSDictionary *item=self.detailItem;
-        CGRect frame = CGRectMake(0, 0, 140, 40);
-        UILabel *viewTitle = [[UILabel alloc] initWithFrame:frame] ;
-        viewTitle.numberOfLines=0;
-        viewTitle.font = [UIFont boldSystemFontOfSize:11];
-        viewTitle.minimumFontSize=6;
-        viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        viewTitle.backgroundColor = [UIColor clearColor];
-        viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
-        viewTitle.textAlignment = UITextAlignmentCenter;
-        viewTitle.textColor = [UIColor whiteColor];
-        viewTitle.text = [item objectForKey:@"label"];
-        [viewTitle sizeThatFits:CGSizeMake(140, 40)];
-        self.navigationItem.titleView = viewTitle;
-        self.navigationItem.title = [item objectForKey:@"label"];
-        
-        
-        UIBarButtonItem *playbackButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(addPlayback)];
-        
-        UIImage* queueImg = [UIImage imageNamed:@"button_playlist.png"];
-//        CGRect frameimg = CGRectMake(0, 0, queueImg.size.width, queueImg.size.height);
-//        UIButton *queueButton = [[UIButton alloc] initWithFrame:frameimg];
-//        [queueButton setBackgroundImage:queueImg forState:UIControlStateNormal];
-//        [queueButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
-      //  UIBarButtonItem *queueButtonItem =[[UIBarButtonItem alloc] initWithCustomView:queueButton];
-        
-        UIBarButtonItem *queueButtonItem =[[UIBarButtonItem alloc] initWithImage:queueImg style:UIBarButtonItemStyleBordered target:self action:@selector(addQueue)];
-        
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: playbackButtonItem, queueButtonItem, nil];
-        
-        UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
-        rightSwipe.numberOfTouchesRequired = 1;
-        rightSwipe.cancelsTouchesInView=NO;
-        rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-        [self.view addGestureRecognizer:rightSwipe];
-//        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: playbackButton, nil];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            toolbar = [UIToolbar new];
+            toolbar.barStyle = UIBarStyleBlackTranslucent;
+            [toolbar setBackgroundImage:[UIImage imageNamed:@"st_background.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+            UIBarButtonItem *playItem = [[UIBarButtonItem alloc] initWithTitle:@"Queue"
+                                                                         style:UIBarButtonItemStyleBordered	
+                                                                        target:self
+                                                                        action:@selector(addQueue)];
+            
+            
+            UIBarButtonItem *emailItem = [[UIBarButtonItem alloc] initWithTitle:@"Play"
+                                                                          style:UIBarButtonItemStyleBordered
+                                                                         target:self
+                                                                         action:@selector(addPlayback)];
+            
+            NSArray *items = [NSArray arrayWithObjects: 
+                              playItem,
+                              emailItem,
+                              nil];
+            toolbar.items = items;
+            
+            toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+            toolbar.contentMode = UIViewContentModeScaleAspectFill;            
+            [toolbar sizeToFit];
+            CGFloat toolbarHeight = [toolbar frame].size.height;
+            CGRect mainViewBounds = self.view.bounds;
+            [toolbar setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
+                                         CGRectGetMinY(mainViewBounds) + CGRectGetHeight(mainViewBounds) - (toolbarHeight),
+                                         CGRectGetWidth(mainViewBounds),
+                                         toolbarHeight)];
+            [self.view addSubview:toolbar];
+            
+            scrollView.autoresizingMask = UIViewAutoresizingNone;
+            
+            [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height-44)];
+            [arrow_continue_down setFrame:CGRectMake(arrow_continue_down.frame.origin.x, arrow_continue_down.frame.origin.y - 44, arrow_continue_down.frame.size.width, arrow_continue_down.frame.size.height)];
+            
+            scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        }
+        else{
+            CGRect frame = CGRectMake(0, 0, 140, 40);
+            UILabel *viewTitle = [[UILabel alloc] initWithFrame:frame] ;
+            viewTitle.numberOfLines=0;
+            viewTitle.font = [UIFont boldSystemFontOfSize:11];
+            viewTitle.minimumFontSize=6;
+            viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            viewTitle.backgroundColor = [UIColor clearColor];
+            viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
+            viewTitle.textAlignment = UITextAlignmentCenter;
+            viewTitle.textColor = [UIColor whiteColor];
+            viewTitle.text = [item objectForKey:@"label"];
+            [viewTitle sizeThatFits:CGSizeMake(140, 40)];
+            self.navigationItem.titleView = viewTitle;
+            self.navigationItem.title = [item objectForKey:@"label"];
+            UIBarButtonItem *playbackButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(addPlayback)];
+            UIImage* queueImg = [UIImage imageNamed:@"button_playlist.png"];
+            UIBarButtonItem *queueButtonItem =[[UIBarButtonItem alloc] initWithImage:queueImg style:UIBarButtonItemStyleBordered target:self action:@selector(addQueue)];
+            
+            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: playbackButtonItem, queueButtonItem, nil];
+            
+            UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+            rightSwipe.numberOfTouchesRequired = 1;
+            rightSwipe.cancelsTouchesInView=NO;
+            rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+            [self.view addGestureRecognizer:rightSwipe];
+
+        }
+
     }
     UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
     leftSwipe.numberOfTouchesRequired = 1;
     leftSwipe.cancelsTouchesInView=NO;
     leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:leftSwipe];
+    
 }
 
 -(IBAction)scrollDown:(id)sender{
@@ -151,6 +185,30 @@ int count=0;
 }
 
 int h=0;
+
+-(void)setTvShowsToolbar{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        toolbar.hidden = YES;
+        scrollView.autoresizingMask = UIViewAutoresizingNone;
+        
+        [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height + 44)];
+        [arrow_continue_down setFrame:CGRectMake(arrow_continue_down.frame.origin.x, arrow_continue_down.frame.origin.y + 44, arrow_continue_down.frame.size.width, arrow_continue_down.frame.size.height)];
+        
+        scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
+    }
+    else{
+        self.navigationItem.rightBarButtonItems=nil;
+        UIImage* nowPlayingImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
+        CGRect frameimg = CGRectMake(0, 0, nowPlayingImg.size.width, nowPlayingImg.size.height);
+        UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
+        [nowPlayingButton setBackgroundImage:nowPlayingImg forState:UIControlStateNormal];
+        [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
+        self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
+    }
+    
+}
 
 -(void)createInfo{
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
@@ -257,16 +315,9 @@ int h=0;
             runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
             studioLabel.text=[[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
             
-            self.navigationItem.rightBarButtonItems=nil;
             
-            UIImage* nowPlayingImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
-            CGRect frameimg = CGRectMake(0, 0, nowPlayingImg.size.width, nowPlayingImg.size.height);
-            UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
-            [nowPlayingButton setBackgroundImage:nowPlayingImg forState:UIControlStateNormal];
-            [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
-            UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
-            self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
-                        
+            [self setTvShowsToolbar];
+                                    
         }
         
         else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
@@ -577,13 +628,15 @@ int h=0;
 
 -(void)addQueue{
     self.navigationItem.rightBarButtonItem.enabled=NO;
+    //toolbar.
     [activityIndicatorView startAnimating];
     NSDictionary *item = self.detailItem;
     [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[item objectForKey:@"family"]], [item objectForKey:@"family"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (error!=nil || methodError!=nil){
-//            NSLog(@" errore %@",methodError);
-        }
+        
         [activityIndicatorView stopAnimating];
+        if (error==nil && methodError==nil){
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
+        }
         self.navigationItem.rightBarButtonItem.enabled=YES;
     }];
 }
@@ -596,9 +649,11 @@ int h=0;
         if (error==nil && methodError==nil){
             [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[item objectForKey:@"family"]], [item objectForKey:@"family"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                 if (error==nil && methodError==nil){
+                    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                     [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: 0], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                         if (error==nil && methodError==nil){
                             [activityIndicatorView stopAnimating];
+                            
                             [self showNowPlaying];
                         }
                         else {
