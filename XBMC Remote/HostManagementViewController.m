@@ -106,7 +106,6 @@
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
     storeServerSelection = indexPath;
     NSDictionary *item = [[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
-
     [AppDelegate instance].obj.serverDescription = [item objectForKey:@"serverDescription"];
     [AppDelegate instance].obj.serverUser = [item objectForKey:@"serverUser"];
     [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
@@ -165,7 +164,10 @@
             }
         }
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
 }
+
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType=UITableViewCellAccessoryNone;
