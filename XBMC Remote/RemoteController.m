@@ -82,6 +82,11 @@
 }
 
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
@@ -106,6 +111,11 @@
 }
 
 -(void)GUIAction:(NSString *)action params:(NSDictionary *)params{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError!=nil || error != nil){
             if ([action isEqualToString:@"GUI.SetFullscreen"]){
@@ -306,11 +316,6 @@ NSInteger buttonAction;
     volumeSliderView.frame=frame;
     [self.view addSubview:volumeSliderView];
     
-    
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
     self.navigationItem.rightBarButtonItem = settingsButton;
