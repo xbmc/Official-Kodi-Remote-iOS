@@ -884,11 +884,7 @@ int currentItemID;
                                                     season, @"season",
                                                     episode, @"episode",
                                                     nil]];
-                       }
-//                       NSLog(@"DATACOUNT: %@", playlistData );
-                       // SHOULD BE INCLUDED INSIDE showPlaylistTable INSTEAD?
-                       
-                       
+                       }                       
                        [self showPlaylistTable];
                        if (musicPartyMode && playlistID==0){
                            [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
@@ -1529,6 +1525,7 @@ int anim2;
     playerID = -2;
     selectedPlayerID = -1;
     updateDetailsView = YES;
+    lastSelected = -1;
     [playlistData removeAllObjects];
     [playlistTableView reloadData];
     [self createPlaylist:YES animTableView:NO];
