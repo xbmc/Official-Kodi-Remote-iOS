@@ -124,16 +124,13 @@
         menuItem.thumbWidth=thumbWidth;
         menuItem.rowHeight=tvshowHeight;
     }
-    [masterViewController changeServerStatus:NO infoText:@"No connection"];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [masterViewController setInCheck:NO];
     if ([[AppDelegate instance].arrayServerList count] == 0){
         [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else{
-        [masterViewController setFirstRun:NO];
         NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
         if (storeServerSelection && selection.row == storeServerSelection.row){
             UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
@@ -145,13 +142,11 @@
             [AppDelegate instance].obj.serverPass = @"";
             [AppDelegate instance].obj.serverIP = @"";
             [AppDelegate instance].obj.serverPort = @"";
-            [masterViewController changeServerStatus:NO infoText:@"No connection"];
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (standardUserDefaults) {
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
             }
-            
         }
         else{
             UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
@@ -203,7 +198,7 @@
                 [AppDelegate instance].obj.serverPass = @"";
                 [AppDelegate instance].obj.serverIP = @"";
                 [AppDelegate instance].obj.serverPort = @"";
-                [masterViewController changeServerStatus:NO infoText:@"No connection"];
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
             }
@@ -270,7 +265,7 @@
                 [AppDelegate instance].obj.serverPass = @"";
                 [AppDelegate instance].obj.serverIP = @"";
                 [AppDelegate instance].obj.serverPort = @"";
-                [masterViewController changeServerStatus:NO infoText:@"No connection"];
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
                 NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
                 if (standardUserDefaults) {
                     [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
