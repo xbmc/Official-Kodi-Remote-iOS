@@ -367,7 +367,6 @@
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    NSLog(@"server cambiato");
     inCheck = NO;
     firstRun = NO;
     int thumbWidth = 320;
