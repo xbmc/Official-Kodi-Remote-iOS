@@ -44,27 +44,58 @@ double round(double d){
 int count=0;
 
 - (void)configureView{
-    // Update the user interface for the detail item.
     if (self.detailItem) {
         NSDictionary *item=self.detailItem;
+        CGRect frame = CGRectMake(0, 0, 140, 40);
+        UILabel *viewTitle = [[UILabel alloc] initWithFrame:frame] ;
+        viewTitle.numberOfLines=0;
+        viewTitle.font = [UIFont boldSystemFontOfSize:11];
+        viewTitle.minimumFontSize=6;
+        viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        viewTitle.backgroundColor = [UIColor clearColor];
+        viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
+        viewTitle.textAlignment = UITextAlignmentCenter;
+        viewTitle.textColor = [UIColor whiteColor];
+        viewTitle.text = [item objectForKey:@"label"];
+        [viewTitle sizeThatFits:CGSizeMake(140, 40)];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             toolbar = [UIToolbar new];
+            
             toolbar.barStyle = UIBarStyleBlackTranslucent;
             [toolbar setBackgroundImage:[UIImage imageNamed:@"st_background.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-            UIBarButtonItem *playItem = [[UIBarButtonItem alloc] initWithTitle:@"Queue"
+            
+            UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+
+            UIBarButtonItem *queueItem = [[UIBarButtonItem alloc] initWithTitle:@"Queue"
                                                                          style:UIBarButtonItemStyleBordered	
                                                                         target:self
                                                                         action:@selector(addQueue)];
             
             
-            UIBarButtonItem *emailItem = [[UIBarButtonItem alloc] initWithTitle:@"Play"
+            UIBarButtonItem *playItem = [[UIBarButtonItem alloc] initWithTitle:@"Play"
                                                                           style:UIBarButtonItemStyleBordered
                                                                          target:self
                                                                          action:@selector(addPlayback)];
-            
+            viewTitle.numberOfLines=1;
+            viewTitle.font = [UIFont boldSystemFontOfSize:22];
+            viewTitle.minimumFontSize=6;
+            viewTitle.adjustsFontSizeToFitWidth = YES;
+
+            viewTitle.shadowOffset = CGSizeMake(1.0, 1.0);
+            viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.7];
+
+            viewTitle.autoresizingMask = UIViewAutoresizingNone;
+            viewTitle.contentMode = UIViewContentModeScaleAspectFill;
+            [viewTitle setFrame:CGRectMake(0, 0, 320, 36)];
+            [viewTitle sizeThatFits:CGSizeMake(320, 36)];
+            viewTitle.textAlignment = UITextAlignmentLeft;
+            UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
+
             NSArray *items = [NSArray arrayWithObjects: 
+                              title,
+                              spacer,
+                              queueItem,
                               playItem,
-                              emailItem,
                               nil];
             toolbar.items = items;
             
@@ -87,18 +118,7 @@ int count=0;
             scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         }
         else{
-            CGRect frame = CGRectMake(0, 0, 140, 40);
-            UILabel *viewTitle = [[UILabel alloc] initWithFrame:frame] ;
-            viewTitle.numberOfLines=0;
-            viewTitle.font = [UIFont boldSystemFontOfSize:11];
-            viewTitle.minimumFontSize=6;
-            viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            viewTitle.backgroundColor = [UIColor clearColor];
-            viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
-            viewTitle.textAlignment = UITextAlignmentCenter;
-            viewTitle.textColor = [UIColor whiteColor];
-            viewTitle.text = [item objectForKey:@"label"];
-            [viewTitle sizeThatFits:CGSizeMake(140, 40)];
+            
             self.navigationItem.titleView = viewTitle;
             self.navigationItem.title = [item objectForKey:@"label"];
             UIBarButtonItem *playbackButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(addPlayback)];
