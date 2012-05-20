@@ -113,7 +113,7 @@ float cellBarWidth=45;
         seg_video.selected=YES;
         selectedPlayerID=1;
         musicPartyMode=0;
-        [self createPlaylist:NO];
+        [self createPlaylist:NO animTableView:YES];
     }
     else {
         lastSelected=-1;
@@ -121,7 +121,7 @@ float cellBarWidth=45;
         seg_video.selected=NO;
         selectedPlayerID=0;
         musicPartyMode=0;
-        [self createPlaylist:NO];
+        [self createPlaylist:NO animTableView:YES];
     }
 }
 
@@ -229,7 +229,7 @@ float cellBarWidth=45;
     NSURL *url = [NSURL  URLWithString:serverHTTP];
     NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];  
     requestANS=nil;
-    [self createPlaylist:NO];
+    [self createPlaylist:NO animTableView:YES];
    // NSLog(@"SERVER RESPONSE : %@",requestANS);
 }
 
@@ -452,7 +452,7 @@ int currentItemID;
                     }
                     else if (selectedPlayerID==-1) {
                         playerID = [response intValue];
-                        [self createPlaylist:NO];
+                        [self createPlaylist:NO animTableView:YES];
                     }
                 }
                 [jsonRPC 
@@ -671,7 +671,7 @@ int currentItemID;
                 [self nothingIsPlaying];
                 if (playerID==-1 && selectedPlayerID==-1){
                     playerID=-2;
-                    [self createPlaylist:YES];
+                    [self createPlaylist:YES animTableView:YES];
                 }
             }
         }
@@ -777,7 +777,7 @@ int currentItemID;
     [UIView commitAnimations];
 }
 
--(void)createPlaylist:(BOOL)forcePlaylistID{ 
+-(void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)anim{ 
     if (![AppDelegate instance].serverOnLine) {
         playerID = -1;
         selectedPlayerID = -1;
@@ -787,10 +787,10 @@ int currentItemID;
         [self nothingIsPlaying];
         return;
     }
-    if (!musicPartyMode)
+    if (!musicPartyMode && anim)
         [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     [activityIndicatorView startAnimating];
-    GlobalData *obj=[GlobalData getInstance]; 
+    GlobalData *obj=[AppDelegate instance].obj; 
     int playlistID=playerID;
     if (forcePlaylistID)
         playlistID=0;
@@ -1163,7 +1163,7 @@ int anim2;
     if (musicPartyMode){
         lastSelected=-1;
         storeSelection=0;
-        [self createPlaylist:NO];
+        [self createPlaylist:NO animTableView:YES];
     }
  }
 
@@ -1514,14 +1514,29 @@ int anim2;
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleXBMCPlaylistHasChanged:)
+                                                 name: @"XBMCPlaylistHasChanged"
+                                               object: nil];
 }
 
-- (void) handleEnterForeground: (NSNotification*) sender;{
+- (void) handleEnterForeground: (NSNotification*) sender{
     [self checkPartyMode];
+}
+
+- (void) handleXBMCPlaylistHasChanged: (NSNotification*) sender{
+    playerID = -2;
+    selectedPlayerID = -1;
+    updateDetailsView = YES;
+    [playlistData removeAllObjects];
+    [playlistTableView reloadData];
+    [self createPlaylist:YES animTableView:NO];
 }
 
 - (void)viewDidUnload{
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
     volumeSliderView = nil;
 }
 
