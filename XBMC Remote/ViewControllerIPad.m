@@ -417,10 +417,20 @@
     
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleXBMCServerHasChanged:)
+                                                 name: @"XBMCServerHasChanged"
+                                               object: nil];
+}
+
+- (void) handleXBMCServerHasChanged: (NSNotification*) sender{
+    [self changeServerStatus:NO infoText:@"No connection"];
 }
 
 - (void)viewDidUnload{
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
