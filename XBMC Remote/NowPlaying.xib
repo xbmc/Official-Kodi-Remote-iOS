@@ -188,7 +188,7 @@
 									<object class="IBUIImageView" id="335583175">
 										<reference key="NSNextResponder" ref="913823424"/>
 										<int key="NSvFlags">266</int>
-										<string key="NSFrame">{{0, 327}, {320, 4}}</string>
+										<string key="NSFrame">{{0, 325}, {320, 4}}</string>
 										<reference key="NSSuperview" ref="913823424"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="519437062"/>
@@ -2366,7 +2366,7 @@
 			<string key="segment_right_down.png">{70, 28}</string>
 			<string key="segment_right_up.png">{70, 28}</string>
 			<string key="shiny_black_back.png">{320, 480}</string>
-			<string key="st_background.png">{320, 60}</string>
+			<string key="st_background.png">{320, 44}</string>
 			<string key="tableDown.png">{480, 8}</string>
 			<string key="tableUp.png">{480, 8}</string>
 		</dictionary>
