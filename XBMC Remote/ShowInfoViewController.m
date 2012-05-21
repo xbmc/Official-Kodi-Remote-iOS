@@ -15,7 +15,6 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface ShowInfoViewController ()
-- (void)configureView;
 @end
 
 @implementation ShowInfoViewController
@@ -23,6 +22,9 @@
 @synthesize detailItem = _detailItem;
 
 @synthesize nowPlaying;
+
+#define REGULAR_FONT @"Optima-Regular"
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -59,6 +61,7 @@ int count=0;
         viewTitle.text = [item objectForKey:@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+                        
             toolbar = [UIToolbar new];
             
             toolbar.barStyle = UIBarStyleBlackTranslucent;
@@ -77,7 +80,7 @@ int count=0;
                                                                          target:self
                                                                          action:@selector(addPlayback)];
             viewTitle.numberOfLines=1;
-            viewTitle.font = [UIFont boldSystemFontOfSize:22];
+            viewTitle.font = [UIFont fontWithName:REGULAR_FONT size:22];
             viewTitle.minimumFontSize=6;
             viewTitle.adjustsFontSizeToFitWidth = YES;
 
@@ -108,6 +111,13 @@ int count=0;
                                          CGRectGetMinY(mainViewBounds),
                                          CGRectGetWidth(mainViewBounds),
                                          toolbarHeight)];
+            CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
+            UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+            [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+            toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            toolbarShadow.opaque = YES;
+            toolbarShadow.alpha = 0.5;
+            [toolbar addSubview:toolbarShadow];
             [self.view addSubview:toolbar];
             
             scrollView.autoresizingMask = UIViewAutoresizingNone;
@@ -188,10 +198,10 @@ int count=0;
 }
 
 -(void)setAndMoveLabels:(NSArray *)arrayLabels size:(int)size{
-    UIFont *optima=[UIFont fontWithName:@"Optima-Regular" size:16];
+    UIFont *fontFace=[UIFont fontWithName:REGULAR_FONT size:16];
     int offset = size;
     for (UILabel *label in arrayLabels) {
-        [label setFont:optima];
+        [label setFont:fontFace];
         [label setFrame:
          CGRectMake(
                     label.frame.origin.x, 
@@ -253,8 +263,8 @@ int h=0;
                     starsView.frame.size.width, 
                     starsView.frame.size.height + size*2
                     )];
-        [voteLabel setFont:[UIFont fontWithName:@"Optima-Regular" size:26]];
-        [numVotesLabel setFont:[UIFont fontWithName:@"Optima-Regular" size:18]];        
+        [voteLabel setFont:[UIFont fontWithName:REGULAR_FONT size:26]];
+        [numVotesLabel setFont:[UIFont fontWithName:REGULAR_FONT size:18]];        
         NSArray *arrayLabels=[NSArray arrayWithObjects:
                               label1,
                               directorLabel, 
@@ -569,7 +579,7 @@ int h=0;
             
             UILabel *actorName=[[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, startY, 320 - (castWidth + offsetX + 20) , 16 + size)];
             actorName.text = [actor objectForKey:@"name"];
-            [actorName setFont:[UIFont fontWithName:@"Optima-Regular" size:castFontSize]];
+            [actorName setFont:[UIFont fontWithName:REGULAR_FONT size:castFontSize]];
             [actorName setBackgroundColor:[UIColor clearColor]];
             [actorName setTextColor:[UIColor whiteColor]];
             [actorName setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
@@ -582,7 +592,7 @@ int h=0;
             if ([[actor objectForKey:@"role"] length] != 0)
                 actorRole.text = [NSString stringWithFormat:@"as %@", [actor objectForKey:@"role"]];
             
-            [actorRole setFont:[UIFont fontWithName:@"Optima-Regular" size:castFontSize - 1]];
+            [actorRole setFont:[UIFont fontWithName:REGULAR_FONT size:castFontSize - 1]];
             [actorRole setBackgroundColor:[UIColor clearColor]];
             [actorRole setTextColor:[UIColor grayColor]];
             [actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
@@ -593,7 +603,7 @@ int h=0;
         if ([cast count]==0){
             UILabel *noCast = [[UILabel alloc] initWithFrame:CGRectMake(offsetX, startY - 4, 297, 20)];
             noCast.text=@"-";
-            [noCast setFont:[UIFont fontWithName:@"Optima-Regular" size:castFontSize]];
+            [noCast setFont:[UIFont fontWithName:REGULAR_FONT size:castFontSize]];
             [noCast setBackgroundColor:[UIColor clearColor]];
             [noCast setTextColor:[UIColor whiteColor]];
             [scrollView addSubview:noCast];
@@ -709,7 +719,6 @@ int h=0;
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
         // Update the view.
-        [self configureView];
     }
 }
 
@@ -731,6 +740,7 @@ int h=0;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [self configureView];
     GlobalData *obj=[GlobalData getInstance];     
     [[SDImageCache sharedImageCache] clearMemory];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
