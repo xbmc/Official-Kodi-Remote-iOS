@@ -189,7 +189,8 @@
                 [UIView commitAnimations];
             }
         }
-        [[AppDelegate instance].windowController.stackScrollViewController offView];
+        if (![extraTimer isValid])
+            extraTimer = [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(offStackView) userInfo:nil repeats:YES];
         NSIndexPath *selection=[menuViewController.tableView indexPathForSelectedRow];
         if (selection){
             [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
@@ -198,6 +199,12 @@
     }
 }
 
+-(void) offStackView{
+    if (![AppDelegate instance].serverOnLine){
+        [[AppDelegate instance].windowController.stackScrollViewController offView];
+    }
+    [extraTimer invalidate];
+}
 
 # pragma mark - toolbar management
 
@@ -442,6 +449,7 @@
     mainMenu *menuItem=[self.mainMenu objectAtIndex:2];
     menuItem.thumbWidth=thumbWidth;
     menuItem.rowHeight=tvshowHeight;
+    [[AppDelegate instance].windowController.stackScrollViewController offView];
     [self changeServerStatus:NO infoText:@"No connection"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
 }
