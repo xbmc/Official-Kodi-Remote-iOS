@@ -28,6 +28,7 @@ float startx=14;
 float barwidth=280;
 float cellBarWidth=45;
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
+#define REGULAR_FONT @"Optima-Regular"
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
@@ -1435,22 +1436,22 @@ int anim2;
 -(void)setIpadInterface{
     slideFrom=-300;
     CGRect frame;
-    [albumName setFont:[UIFont fontWithName:@"Optima-Regular" size:24]];
+    [albumName setFont:[UIFont fontWithName:REGULAR_FONT size:24]];
     frame=albumName.frame;
     frame.origin.y=10;
     albumName.frame=frame;
-    [songName setFont:[UIFont fontWithName:@"Optima-Regular" size:18]];
+    [songName setFont:[UIFont fontWithName:REGULAR_FONT size:18]];
     frame=songName.frame;
     frame.origin.y=frame.origin.y+6;
     songName.frame=frame;
     
-    [artistName setFont:[UIFont fontWithName:@"Optima-Regular" size:16]];
+    [artistName setFont:[UIFont fontWithName:REGULAR_FONT size:16]];
     frame=artistName.frame;
     frame.origin.y=frame.origin.y+12;
     artistName.frame=frame;
     
-    [currentTime setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
-    [duration setFont:[UIFont fontWithName:@"Optima-Regular" size:14]];
+    [currentTime setFont:[UIFont fontWithName:REGULAR_FONT size:14]];
+    [duration setFont:[UIFont fontWithName:REGULAR_FONT size:14]];
     frame=playlistTableView.frame;
     frame.origin.x=slideFrom;
     playlistTableView.frame=frame;
