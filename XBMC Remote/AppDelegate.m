@@ -271,7 +271,7 @@ NSMutableArray *mainMenuItems;
     
     item1.sheetActions=[NSArray arrayWithObjects:
                         [NSArray arrayWithObjects:@"Queue", @"Play", @"Search Wikipedia", nil],
-                        [NSArray arrayWithObjects:@"Queue", @"Play", @"Search Wikipedia", nil],
+                        [NSArray arrayWithObjects:@"Queue", @"Play", @"Search Wikipedia", @"Search last.fm charts", nil],
                         [NSArray arrayWithObjects:@"Queue", @"Play", nil],
                         [NSArray arrayWithObjects:nil],
                         [NSArray arrayWithObjects:nil],

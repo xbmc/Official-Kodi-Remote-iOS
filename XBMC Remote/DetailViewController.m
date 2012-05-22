@@ -714,12 +714,15 @@ NSIndexPath *selected;
             [self showInfo:selected];
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"])
             [self addStream:selected];
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Search Wikipedia"])
-            [self searchWikipedia:selected];
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Search Wikipedia"]){
+            [self searchWeb:selected serviceURL:@"http://en.m.wikipedia.org/wiki?search=%@"];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Search last.fm charts"])
+            [self searchWeb:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
     }
 }
 
--(void)searchWikipedia:(NSIndexPath *)indexPath{
+-(void)searchWeb:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
     self.webViewController=nil;
     self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
     NSDictionary *item = nil;
@@ -729,12 +732,8 @@ NSIndexPath *selected;
     else{
         item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
-//    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-//    NSString *type=[parameters objectForKey:@"wikitype"];
-//    NSString *label=[NSString stringWithFormat:@"%@ incategory:%@", [item objectForKey:@"label"], type];
-    
     NSString *query = [[item objectForKey:@"label"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	NSString *url = [NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%@", @"en", query]; 
+	NSString *url = [NSString stringWithFormat:serviceURL, query]; 
 	NSURL *_url = [NSURL URLWithString:url];    
     
     self.webViewController.urlRequest = [NSURLRequest requestWithURL:_url];
@@ -748,6 +747,7 @@ NSIndexPath *selected;
         self.webViewController.view.frame=frame;
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:self.webViewController invokeByController:self isStackStartView:FALSE];
     }
+ 
 }
 
 #pragma mark - Gestures
