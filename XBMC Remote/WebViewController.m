@@ -8,6 +8,7 @@
 
 #import "WebViewController.h"
 
+#define REGULAR_FONT @"Optima-Regular"
 
 @interface WebViewController ()
 
@@ -135,7 +136,41 @@
 	[TwitterwebLoadIndicator sizeToFit];  	
     [titleView addSubview:TwitterwebLoadIndicator];
     [titleView addSubview:topNavigationLabel];
-    self.navigationItem.titleView = titleView;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        UIToolbar *toolbar = [UIToolbar new];
+        toolbar.barStyle = UIBarStyleBlackTranslucent;
+        toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
+        toolbar.contentMode = UIViewContentModeScaleAspectFill;            
+        [toolbar sizeToFit];
+        CGFloat toolbarHeight = [toolbar frame].size.height;
+        CGRect mainViewBounds = self.view.bounds;
+        [toolbar setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
+                                     CGRectGetMinY(mainViewBounds),
+                                     CGRectGetWidth(mainViewBounds),
+                                     toolbarHeight)];
+        CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
+        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        toolbarShadow.opaque = YES;
+        toolbarShadow.alpha = 0.5;
+        [toolbar addSubview:toolbarShadow];
+        topNavigationLabel.font = [UIFont fontWithName:REGULAR_FONT size:16];
+
+        [titleView setFrame:CGRectMake(10, 0, 310, 44)];
+        [toolbar addSubview:titleView];
+        [self.view addSubview:toolbar];
+        Twitterweb.autoresizingMask = UIViewAutoresizingNone;
+        
+        [Twitterweb setFrame:CGRectMake(Twitterweb.frame.origin.x, Twitterweb.frame.origin.y + 44, Twitterweb.frame.size.width, Twitterweb.frame.size.height-44)];
+        
+        Twitterweb.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
+    }
+    else {
+        self.navigationItem.titleView = titleView;
+
+    }
     [Twitterweb loadRequest:self.urlRequest]; 
 }
 
