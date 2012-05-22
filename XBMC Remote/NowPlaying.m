@@ -1187,6 +1187,7 @@ int anim2;
                       [NSNumber numberWithInt:indexPath.row], @"position", [NSNumber numberWithInt:playerID], @"playlistid", nil], @"item", nil]
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error==nil && methodError==nil){
+             storedItemID=-1;
              UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
              [queuing stopAnimating];
              UIView *timePlaying=(UIView*) [cell viewWithTag:5];
