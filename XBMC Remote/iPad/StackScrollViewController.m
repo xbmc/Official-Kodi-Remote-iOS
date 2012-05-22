@@ -55,18 +55,21 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	if(self= [super init]) {
 		
 		viewControllersStack = [[NSMutableArray alloc] init]; 
-		borderViews = [[UIView alloc] initWithFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION - 2, -2, 2, self.view.frame.size.height)];
+		borderViews = [[UIView alloc] initWithFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION - 2, -2, 2, self.view.frame.size.height + 2)];
 		[borderViews setBackgroundColor:[UIColor clearColor]];
+        borderViews.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, borderViews.frame.size.height)];
 		[verticalLineView1 setBackgroundColor:[UIColor whiteColor]];
 		[verticalLineView1 setTag:1 + VIEW_TAG];
 		[verticalLineView1 setHidden:TRUE];
+        verticalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		[borderViews addSubview:verticalLineView1];
 		
 		UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 2, borderViews.frame.size.height)];
 		[verticalLineView2 setBackgroundColor:[UIColor grayColor]];
 		[verticalLineView2 setTag:2 + VIEW_TAG];
 		[verticalLineView2 setHidden:TRUE];		
+        verticalLineView2.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		[borderViews addSubview:verticalLineView2];
 		
 		[self.view addSubview:borderViews];
