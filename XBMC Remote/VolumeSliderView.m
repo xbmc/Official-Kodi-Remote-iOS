@@ -64,6 +64,7 @@
 }
 
 -(void)startTimer{
+    [self stopTimer]; 
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(volumeInfo) userInfo:nil repeats:YES];
 }
 
