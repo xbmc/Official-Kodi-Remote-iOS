@@ -98,7 +98,6 @@
     jsonRPC=nil;
     if ([[AppDelegate instance].obj.serverIP length]==0){
         if (firstRun){
-            firstRun=NO;
             [self showSetup:YES];
         }
         if ([AppDelegate instance].serverOnLine){
@@ -128,7 +127,6 @@
                          [self changeServerStatus:NO infoText:@"No connection"];
                      }
                      if (firstRun){
-                         firstRun=NO;
                          [self showSetup:YES];
                      }
                  }
@@ -141,7 +139,6 @@
                  [self changeServerStatus:NO infoText:@"No connection"];
              }
              if (firstRun){
-                 firstRun=NO;
                  [self showSetup:YES];
              }
          }
@@ -252,6 +249,7 @@
 }
 
 -(void) showSetup:(BOOL)show{
+    firstRun = NO;
     if ([self.serverPickerPopover isPopoverVisible]) {
         if (show==NO)
             [self.serverPickerPopover dismissPopoverAnimated:YES];
