@@ -189,17 +189,17 @@
         }
         if (![extraTimer isValid])
             extraTimer = [NSTimer scheduledTimerWithTimeInterval:30.0f target:self selector:@selector(offStackView) userInfo:nil repeats:YES];
-        NSIndexPath *selection=[menuViewController.tableView indexPathForSelectedRow];
-        if (selection){
-            [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
-            [menuViewController setLastSelected:-1];
-        }
     }
 }
 
 -(void) offStackView{
     if (![AppDelegate instance].serverOnLine){
         [[AppDelegate instance].windowController.stackScrollViewController offView];
+        NSIndexPath *selection=[menuViewController.tableView indexPathForSelectedRow];
+        if (selection){
+            [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
+            [menuViewController setLastSelected:-1];
+        }
     }
     [extraTimer invalidate];
 }
