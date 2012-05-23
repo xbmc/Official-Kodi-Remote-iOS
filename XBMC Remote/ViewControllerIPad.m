@@ -449,6 +449,11 @@
     menuItem.thumbWidth=thumbWidth;
     menuItem.rowHeight=tvshowHeight;
     [[AppDelegate instance].windowController.stackScrollViewController offView];
+    NSIndexPath *selection=[menuViewController.tableView indexPathForSelectedRow];
+    if (selection){
+        [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
+        [menuViewController setLastSelected:-1];
+    }
     [self changeServerStatus:NO infoText:@"No connection"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
 }
