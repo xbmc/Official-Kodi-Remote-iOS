@@ -476,7 +476,6 @@ int currentItemID;
                                  currentItemID=-2;
                              else
                                  currentItemID=[[nowPlayingInfo  objectForKey:@"id"] intValue];
-
                              if (([nowPlayingInfo count] && currentItemID!=storedItemID) || [nowPlayingInfo  objectForKey:@"id"]==nil){ //
                                  storedItemID = currentItemID;
                                  updateDetailsView = YES;
@@ -1484,6 +1483,7 @@ int anim2;
     [volumeSliderView startTimer]; 
     lastSelected = -1;
     playerID = -1;
+    storedItemID = -1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
     
     // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
