@@ -394,6 +394,8 @@ int currentItemID;
 }
 
 -(void)nothingIsPlaying{
+    if (nothingIsPlaying == YES) return;
+    nothingIsPlaying = YES;
     currentTime.text=@"";
     [timeCursor.layer removeAllAnimations];
     [timeBar.layer removeAllAnimations];
@@ -444,6 +446,7 @@ int currentItemID;
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
+                nothingIsPlaying = NO;
                 NSNumber *response;
                 if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])){
                     response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
@@ -679,7 +682,6 @@ int currentItemID;
             }
         }
         else {
-
 //            NSLog(@"ci deve essere un primo problema %@", methodError);
             [self nothingIsPlaying];
         }
