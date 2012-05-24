@@ -133,6 +133,17 @@
         [dataList  scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
     self.navigationItem.title = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"label"];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.3];
+        topNavigationLabel.alpha = 0;
+        [UIView commitAnimations];
+        topNavigationLabel.text = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"label"];
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.1];
+        topNavigationLabel.alpha = 1;
+        [UIView commitAnimations];
+    }
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){
@@ -801,14 +812,11 @@ NSIndexPath *selected;
             titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
             topNavigationLabel.textAlignment = UITextAlignmentRight;
             topNavigationLabel.font = [UIFont boldSystemFontOfSize:14];
-
             [titleView addSubview:topNavigationLabel];
             titleView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-            [titleView setFrame:CGRectMake(320, 374, -16, 40)];
+            [titleView setFrame:CGRectMake(320, 373, -16, 40)];
             [self.view addSubview:titleView];
         }
-
-//        UIImage* volumeImg = [UIImage imageNamed:@"button_now_playing.png"];
         UIImage* volumeImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
         CGRect frameimg = CGRectMake(0, 0, volumeImg.size.width, volumeImg.size.height);
         UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
@@ -816,7 +824,6 @@ NSIndexPath *selected;
         [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
         self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
-        
         
         UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
         leftSwipe.numberOfTouchesRequired = 1;
@@ -829,7 +836,6 @@ NSIndexPath *selected;
         rightSwipe.cancelsTouchesInView=NO;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
-
    }
 }
 
