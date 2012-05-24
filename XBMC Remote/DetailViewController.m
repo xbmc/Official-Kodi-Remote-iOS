@@ -774,28 +774,40 @@ NSIndexPath *selected;
     if (self.detailItem) {
         NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
         self.navigationItem.title = [parameters objectForKey:@"label"];
+        UIColor *shadowColor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:0.0 alpha:0.5] ;
+        topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
+        topNavigationLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        topNavigationLabel.backgroundColor = [UIColor clearColor];
+        topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
+        topNavigationLabel.minimumFontSize=8.0;
+        topNavigationLabel.numberOfLines=2;
+        topNavigationLabel.adjustsFontSizeToFitWidth = YES;
+        topNavigationLabel.textAlignment = UITextAlignmentLeft;
+        topNavigationLabel.textColor = [UIColor whiteColor];
+        topNavigationLabel.shadowColor = shadowColor;
+        topNavigationLabel.shadowOffset    = CGSizeMake (0.0, -1.0);
+        topNavigationLabel.highlightedTextColor = [UIColor blackColor];
+        topNavigationLabel.opaque=YES;
         if (![self.detailItem enableSection]){ // CONDIZIONE DEBOLE!!!
-            UIColor *shadowColor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:0.0 alpha:0.5] ;
             UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
             titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
-            topNavigationLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
             topNavigationLabel.text=[self.detailItem upperLabel];
-            topNavigationLabel.backgroundColor = [UIColor clearColor];
-            topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
-            topNavigationLabel.minimumFontSize=8.0;
-            topNavigationLabel.numberOfLines=2;
-            topNavigationLabel.adjustsFontSizeToFitWidth = YES;
-            topNavigationLabel.textAlignment = UITextAlignmentLeft;
-            topNavigationLabel.textColor = [UIColor whiteColor];
-            topNavigationLabel.shadowColor = shadowColor;
-            topNavigationLabel.shadowOffset    = CGSizeMake (0.0, -1.0);
-            topNavigationLabel.highlightedTextColor = [UIColor blackColor];
-            topNavigationLabel.opaque=YES;
             [titleView addSubview:topNavigationLabel];
             self.navigationItem.title = [self.detailItem upperLabel]; 
             self.navigationItem.titleView = titleView;
         }
+        else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
+            titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            topNavigationLabel.textAlignment = UITextAlignmentRight;
+            topNavigationLabel.font = [UIFont boldSystemFontOfSize:14];
+
+            [titleView addSubview:topNavigationLabel];
+            titleView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+            [titleView setFrame:CGRectMake(320, 374, -16, 40)];
+            [self.view addSubview:titleView];
+        }
+
 //        UIImage* volumeImg = [UIImage imageNamed:@"button_now_playing.png"];
         UIImage* volumeImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
         CGRect frameimg = CGRectMake(0, 0, volumeImg.size.width, volumeImg.size.height);
@@ -1210,9 +1222,22 @@ NSIndexPath *selected;
                  [dataList setContentOffset:CGPointMake(0, 44)];
                  [activityIndicatorView stopAnimating];
                  numResults=[self.richResults count];
-                 if ([self.detailItem enableSection]){
+                 if ([self.detailItem enableSection]){ 
                      NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+                     // CONDIZIONE DEBOLE!!!
                      self.navigationItem.title =[NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
+                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+                         [UIView beginAnimations:nil context:nil];
+                         [UIView setAnimationDuration:0.3];
+                         topNavigationLabel.alpha = 0;
+                         [UIView commitAnimations];
+                         topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
+                         [UIView beginAnimations:nil context:nil];
+                         [UIView setAnimationDuration:0.1];
+                         topNavigationLabel.alpha = 1;
+                         [UIView commitAnimations];
+                     }
+                     // FINE CONDIZIONE
                  }
                  if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT){
                      
