@@ -531,7 +531,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 							viewAtRight2 = nil;
                             // MODDED BY JOE
                             int orientation= [[UIApplication sharedApplication] statusBarOrientation];
-                            int marginPosX = (orientation==1 || orientation==2) ? 468 : 724;
+//                            int marginPosX = (orientation==1 || orientation==2) ? 468 : 724; // OFF SHOW THE STACK
+                            int marginPosX = (orientation==1 || orientation==2) ? 415 : 671; // SHOW A LITTLE PIECE OF THE STACK
                             if ((((UIView*)[[slideViews subviews] objectAtIndex:0]).frame.origin.x+marginPosX/2) >= marginPosX) {
                                 posX = marginPosX;
                             }
