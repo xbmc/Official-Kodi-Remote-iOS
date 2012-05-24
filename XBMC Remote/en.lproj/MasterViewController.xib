@@ -77,7 +77,7 @@
 					</object>
 					<object class="IBUIImageView" id="42776732">
 						<reference key="NSNextResponder" ref="626646119"/>
-						<int key="NSvFlags">288</int>
+						<int key="NSvFlags">-2147483360</int>
 						<string key="NSFrame">{{0, 409}, {320, 8}}</string>
 						<reference key="NSSuperview" ref="626646119"/>
 						<reference key="NSWindow"/>
@@ -94,7 +94,7 @@
 					</object>
 					<object class="IBUIImageView" id="416093131">
 						<reference key="NSNextResponder" ref="626646119"/>
-						<int key="NSvFlags">-2147483384</int>
+						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{0, 413}, {320, 5}}</string>
 						<reference key="NSSuperview" ref="626646119"/>
 						<reference key="NSWindow"/>
@@ -112,7 +112,6 @@
 				<string key="NSFrameSize">{320, 416}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="264852131"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -229,20 +228,10 @@
 					<string key="className">MasterViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="editTableButton">UIButton</string>
-						<string key="lpgr">UILongPressGestureRecognizer</string>
 						<string key="menuList">UITableView</string>
 						<string key="resultMenuCell">UITableViewCell</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="editTableButton">
-							<string key="name">editTableButton</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="lpgr">
-							<string key="name">lpgr</string>
-							<string key="candidateClassName">UILongPressGestureRecognizer</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="menuList">
 							<string key="name">menuList</string>
 							<string key="candidateClassName">UITableView</string>
