@@ -102,7 +102,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Unofficial "Official XBMC Remote" for iOS       </string>
+						<string type="base64-UTF8" key="IBUIText">T2ZmaWNpYWwgWEJNQyBSZW1vdGUKZm9yIGlPUyAgICAgICA</string>
 						<object class="NSColor" key="IBUITextColor" id="788696272">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -121,13 +121,11 @@
 						<int key="IBUINumberOfLines">0</int>
 						<int key="IBUITextAlignment">1</int>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
-							<string key="name">Optima-Bold</string>
-							<string key="family">Optima</string>
-							<int key="traits">2</int>
+							<int key="type">2</int>
 							<double key="pointSize">18</double>
 						</object>
 						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">Optima-ExtraBlack</string>
+							<string key="NSName">Helvetica-Bold</string>
 							<double key="NSSize">18</double>
 							<int key="NSfFlags">16</int>
 						</object>
@@ -152,22 +150,18 @@
 								<bool key="IBUIEditable">NO</bool>
 								<string type="base64-UTF8" key="IBUIText">WEJNQyBzdXBwb3J0ZWQgdmVyc2lvbgoKWEJNQyBsb2dvLCBaYXBweSBtYXNjb3R0ZSBhbmQgVW5vZmZp
 Y2lhbCAiT2ZmaWNpYWwgWEJNQyBSZW1vdGUiIGljb25zIGFyZQpwcm9wZXJ0eSBvZiBYQk1DIHRlYW0K
-KHd3dy54Ym1jLm9yZykKClhCTUMgc3VwcG9ydGVkIHZlcnNpb24KClhCTUMgbG9nbywgWmFwcHkgbWFz
-Y290dGUgYW5kIFVub2ZmaWNpYWwgIk9mZmljaWFsIFhCTUMgUmVtb3RlIiBpY29ucyBhcmUKcHJvcGVy
-dHkgb2YgWEJNQyB0ZWFtCih3d3cueGJtYy5vcmcpA</string>
+KHd3dy54Ym1jLm9yZyk</string>
 								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 									<int key="IBUIAutocapitalizationType">2</int>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								</object>
 								<int key="IBUIDataDetectorTypes">2</int>
-								<object class="IBUIFontDescription" key="IBUIFontDescription">
-									<string key="name">Optima-Regular</string>
-									<string key="family">Optima</string>
-									<int key="traits">0</int>
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="639735259">
+									<int key="type">1</int>
 									<double key="pointSize">14</double>
 								</object>
-								<object class="NSFont" key="IBUIFont">
-									<string key="NSName">Optima-Regular</string>
+								<object class="NSFont" key="IBUIFont" id="720225950">
+									<string key="NSName">Helvetica</string>
 									<double key="NSSize">14</double>
 									<int key="NSfFlags">16</int>
 								</object>
@@ -175,7 +169,7 @@ dHkgb2YgWEJNQyB0ZWFtCih3d3cueGJtYy5vcmcpA</string>
 							<object class="IBUIImageView" id="764437674">
 								<reference key="NSNextResponder" ref="448480065"/>
 								<int key="NSvFlags">284</int>
-								<string key="NSFrame">{{164, 0}, {79, 42}}</string>
+								<string key="NSFrame">{{170, 0}, {79, 42}}</string>
 								<reference key="NSSuperview" ref="448480065"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="995327098"/>
@@ -202,7 +196,7 @@ dHkgb2YgWEJNQyB0ZWFtCih3d3cueGJtYy5vcmcpA</string>
 					<object class="IBUILabel" id="260449874">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{169, 298}, {37, 21}}</string>
+						<string key="NSFrame">{{173, 297}, {37, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="448480065"/>
@@ -228,13 +222,11 @@ dHkgb2YgWEJNQyB0ZWFtCih3d3cueGJtYy5vcmcpA</string>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
-							<string key="name">Optima-Bold</string>
-							<string key="family">Optima</string>
-							<int key="traits">2</int>
+							<int key="type">2</int>
 							<double key="pointSize">12</double>
 						</object>
 						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">Optima-ExtraBlack</string>
+							<string key="NSName">Helvetica-Bold</string>
 							<double key="NSSize">12</double>
 							<int key="NSfFlags">16</int>
 						</object>
@@ -343,15 +335,8 @@ dHkgb2YgWEJNQyB0ZWFtCih3d3cueGJtYy5vcmcpA</string>
 					<int key="IBUIAutocapitalizationType">2</int>
 					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				</object>
-				<object class="IBUIFontDescription" key="IBUIFontDescription">
-					<int key="type">1</int>
-					<double key="pointSize">14</double>
-				</object>
-				<object class="NSFont" key="IBUIFont">
-					<string key="NSName">Helvetica</string>
-					<double key="NSSize">14</double>
-					<int key="NSfFlags">16</int>
-				</object>
+				<reference key="IBUIFontDescription" ref="639735259"/>
+				<reference key="IBUIFont" ref="720225950"/>
 			</object>
 			<object class="IBUILabel" id="660221159">
 				<nil key="NSNextResponder"/>

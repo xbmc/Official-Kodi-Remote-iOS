@@ -319,13 +319,11 @@
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">10</float>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
-									<string key="name">Optima-Regular</string>
-									<string key="family">Optima</string>
-									<int key="traits">0</int>
+									<int key="type">1</int>
 									<double key="pointSize">17</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
-									<string key="NSName">Optima-Regular</string>
+									<string key="NSName">Helvetica</string>
 									<double key="NSSize">17</double>
 									<int key="NSfFlags">16</int>
 								</object>
@@ -897,7 +895,7 @@
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="icon_dark.png">{50, 50}</string>
 			<string key="shiny_black_back.png">{320, 480}</string>
-			<string key="st_background.png">{320, 60}</string>
+			<string key="st_background.png">{320, 44}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1181</string>
 	</data>

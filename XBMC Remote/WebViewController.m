@@ -8,8 +8,6 @@
 
 #import "WebViewController.h"
 
-#define REGULAR_FONT @"Optima-Regular"
-
 @interface WebViewController ()
 
 @end
@@ -155,26 +153,19 @@
         toolbarShadow.opaque = YES;
         toolbarShadow.alpha = 0.5;
         [toolbar addSubview:toolbarShadow];
-        topNavigationLabel.font = [UIFont fontWithName:REGULAR_FONT size:16];
-
+        topNavigationLabel.font = [UIFont systemFontOfSize:16];
         [titleView setFrame:CGRectMake(10, 0, 310, 44)];
         [toolbar addSubview:titleView];
         [self.view addSubview:toolbar];
         Twitterweb.autoresizingMask = UIViewAutoresizingNone;
-        
         [Twitterweb setFrame:CGRectMake(Twitterweb.frame.origin.x, Twitterweb.frame.origin.y + 44, Twitterweb.frame.size.width, Twitterweb.frame.size.height-44)];
-        
         Twitterweb.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
     }
     else {
         self.navigationItem.titleView = titleView;
-
     }
     [Twitterweb loadRequest:self.urlRequest]; 
 }
-
-
 
 - (void)viewDidUnload{
     [super viewDidUnload];
@@ -186,6 +177,5 @@
 //    return (interfaceOrientation == UIInterfaceOrientationPortrait);
     return YES;
 }
-
 
 @end

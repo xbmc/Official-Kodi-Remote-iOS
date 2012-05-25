@@ -23,9 +23,6 @@
 
 @synthesize nowPlaying;
 
-#define REGULAR_FONT @"Optima-Regular"
-
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
@@ -80,7 +77,7 @@ int count=0;
                                                                          target:self
                                                                          action:@selector(addPlayback)];
             viewTitle.numberOfLines=1;
-            viewTitle.font = [UIFont fontWithName:REGULAR_FONT size:22];
+            viewTitle.font = [UIFont systemFontOfSize:22];
             viewTitle.minimumFontSize=6;
             viewTitle.adjustsFontSizeToFitWidth = YES;
 
@@ -198,7 +195,8 @@ int count=0;
 }
 
 -(void)setAndMoveLabels:(NSArray *)arrayLabels size:(int)size{
-    UIFont *fontFace=[UIFont fontWithName:REGULAR_FONT size:16];
+    UIFont *fontFace=[UIFont systemFontOfSize:16];
+
     int offset = size;
     for (UILabel *label in arrayLabels) {
         [label setFont:fontFace];
@@ -263,8 +261,9 @@ int h=0;
                     starsView.frame.size.width, 
                     starsView.frame.size.height + size*2
                     )];
-        [voteLabel setFont:[UIFont fontWithName:REGULAR_FONT size:26]];
-        [numVotesLabel setFont:[UIFont fontWithName:REGULAR_FONT size:18]];        
+        [voteLabel setFont:[UIFont systemFontOfSize:26]];
+        [numVotesLabel setFont:[UIFont systemFontOfSize:18]];        
+
         NSArray *arrayLabels=[NSArray arrayWithObjects:
                               label1,
                               directorLabel, 
@@ -579,7 +578,8 @@ int h=0;
             
             UILabel *actorName=[[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, startY, 320 - (castWidth + offsetX + 20) , 16 + size)];
             actorName.text = [actor objectForKey:@"name"];
-            [actorName setFont:[UIFont fontWithName:REGULAR_FONT size:castFontSize]];
+            [actorName setFont:[UIFont systemFontOfSize:castFontSize]];
+
             [actorName setBackgroundColor:[UIColor clearColor]];
             [actorName setTextColor:[UIColor whiteColor]];
             [actorName setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
@@ -589,10 +589,10 @@ int h=0;
             UILabel *actorRole = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, startY+20, 320 - (castWidth + offsetX + 20) , 16 + size)];
             actorRole.text = @"";
             actorRole.numberOfLines = 2;
-            if ([[actor objectForKey:@"role"] length] != 0)
+            if ([[actor objectForKey:@"role"] length] != 0){
                 actorRole.text = [NSString stringWithFormat:@"as %@", [actor objectForKey:@"role"]];
-            
-            [actorRole setFont:[UIFont fontWithName:REGULAR_FONT size:castFontSize - 1]];
+            }
+            [actorRole setFont:[UIFont systemFontOfSize:castFontSize - 1]];
             [actorRole setBackgroundColor:[UIColor clearColor]];
             [actorRole setTextColor:[UIColor grayColor]];
             [actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
@@ -603,7 +603,7 @@ int h=0;
         if ([cast count]==0){
             UILabel *noCast = [[UILabel alloc] initWithFrame:CGRectMake(offsetX, startY - 4, 297, 20)];
             noCast.text=@"-";
-            [noCast setFont:[UIFont fontWithName:REGULAR_FONT size:castFontSize]];
+            [noCast setFont:[UIFont systemFontOfSize:castFontSize]];
             [noCast setBackgroundColor:[UIColor clearColor]];
             [noCast setTextColor:[UIColor whiteColor]];
             [scrollView addSubview:noCast];
