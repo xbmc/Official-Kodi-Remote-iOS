@@ -194,7 +194,7 @@ IFhCTUMgUmVtb3RlIGljb25zIGFyZSBwcm9wZXJ0eSBvZiBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmc<
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">- the XBMC Team</string>
+								<string key="IBUIText">- Team XBMC</string>
 								<reference key="IBUITextColor" ref="788696272"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
@@ -222,7 +222,7 @@ IFhCTUMgUmVtb3RlIGljb25zIGFyZSBwcm9wZXJ0eSBvZiBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmc<
 					<object class="IBUILabel" id="260449874">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{173, 297}, {37, 21}}</string>
+						<string key="NSFrame">{{178, 297}, {37, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="448480065"/>
@@ -240,13 +240,12 @@ IFhCTUMgUmVtb3RlIGljb25zIGFyZSBwcm9wZXJ0eSBvZiBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmc<
 						<nil key="IBUIHighlightedColor"/>
 						<object class="NSColor" key="IBUIShadowColor">
 							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MSAwLjIAA</bytes>
+							<bytes key="NSWhite">MSAwLjUAA</bytes>
 							<reference key="NSCustomColorSpace" ref="519322849"/>
 						</object>
 						<string key="IBUIShadowOffset">{1, 1}</string>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<float key="IBUIMinimumFontSize">10</float>
-						<int key="IBUITextAlignment">1</int>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">2</int>
 							<double key="pointSize">12</double>
@@ -263,7 +262,6 @@ IFhCTUMgUmVtb3RlIGljb25zIGFyZSBwcm9wZXJ0eSBvZiBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmc<
 						<string key="NSFrame">{{291, 427}, {27, 33}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<float key="IBUIAlpha">0.89999997615814209</float>
