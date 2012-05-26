@@ -319,6 +319,7 @@ NSInteger buttonAction;
     UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
     self.navigationItem.rightBarButtonItem = settingsButton;
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
 }
 
 - (void)viewDidUnload{
