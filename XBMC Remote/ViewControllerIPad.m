@@ -277,9 +277,12 @@
 #pragma mark - Touch Events
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.nowPlayingController toggleSongDetails];
+    CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
+    CGPoint viewPoint = [self.nowPlayingController.thumbnailView convertPoint:locationPoint fromView:self.view];
+    if ([self.nowPlayingController.thumbnailView pointInside:viewPoint withEvent:event]) {
+        [self.nowPlayingController toggleSongDetails];
+    }
 }
-
 
 #pragma mark - Lifecycle
 

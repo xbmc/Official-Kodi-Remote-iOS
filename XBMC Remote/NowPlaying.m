@@ -24,6 +24,7 @@
 
 @synthesize detailItem = _detailItem;
 @synthesize remoteController;
+@synthesize thumbnailView;
 float startx=14;
 float barwidth=280;
 float cellBarWidth=45;

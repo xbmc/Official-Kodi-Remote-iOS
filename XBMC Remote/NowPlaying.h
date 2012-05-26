@@ -82,6 +82,8 @@
 @property (strong, nonatomic) id detailItem;
 
 @property (strong, nonatomic) RemoteController *remoteController;
+@property (strong, nonatomic) UIImageView *thumbnailView;
+
 
 
 @end
