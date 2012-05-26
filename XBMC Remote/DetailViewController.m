@@ -787,7 +787,7 @@ NSIndexPath *selected;
         self.navigationItem.title = [parameters objectForKey:@"label"];
         UIColor *shadowColor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:0.0 alpha:0.5] ;
         topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
-        topNavigationLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        topNavigationLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;;
         topNavigationLabel.backgroundColor = [UIColor clearColor];
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
         topNavigationLabel.minimumFontSize=8.0;
@@ -801,7 +801,7 @@ NSIndexPath *selected;
         topNavigationLabel.opaque=YES;
         if (![self.detailItem enableSection]){ // CONDIZIONE DEBOLE!!!
             UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
-            titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+//            titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
             topNavigationLabel.text=[self.detailItem upperLabel];
             [titleView addSubview:topNavigationLabel];
             self.navigationItem.title = [self.detailItem upperLabel]; 
