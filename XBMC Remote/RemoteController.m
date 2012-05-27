@@ -264,8 +264,10 @@ NSInteger buttonAction;
             [self playbackAction:action params:nil];
             break;
         
-        case 9:
-            [self sendXbmcHttp:@"SendKey(0xF04F)"];
+        case 9: // HOME
+            action=@"Input.Home";
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//            [self sendXbmcHttp:@"SendKey(0xF04F)"]; // STREAM INFO
             break;
             
         case 11:
@@ -275,8 +277,7 @@ NSInteger buttonAction;
             break;
             
         case 15:
-//            action=@"Input.Home";
-//            [self GUIAction:action];
+            // MENU
             [self sendXbmcHttp:@"SendKey(0xF04D)"];
             break;
             
