@@ -34,11 +34,18 @@
     if (self.detailItem) {
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
-    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
-    rightSwipe.numberOfTouchesRequired = 1;
-    rightSwipe.cancelsTouchesInView=NO;
-    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:rightSwipe];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+        rightSwipe.numberOfTouchesRequired = 1;
+        rightSwipe.cancelsTouchesInView=NO;
+        rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+        [self.view addGestureRecognizer:rightSwipe];
+    }
+    else{
+        int newWidth = 477;
+        int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
+        [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{

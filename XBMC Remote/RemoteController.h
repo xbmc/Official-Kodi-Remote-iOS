@@ -13,6 +13,7 @@
 @interface RemoteController : UIViewController{
     DSJSONRPC *jsonRPC;
     VolumeSliderView *volumeSliderView;
+    IBOutlet UIView *remoteControlView;
 }
 
 - (IBAction)startVibrate:(id)sender;
