@@ -14,6 +14,8 @@
     DSJSONRPC *jsonRPC;
     VolumeSliderView *volumeSliderView;
     IBOutlet UIView *remoteControlView;
+    IBOutlet UILabel *subsInfoLabel;
+    NSTimer *fadeoutTimer;
 }
 
 - (IBAction)startVibrate:(id)sender;

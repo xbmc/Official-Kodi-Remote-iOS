@@ -55,6 +55,43 @@
     }
     return self;
 }
+
+# pragma mark - view Effects
+
+-(void)showSubInfo:(NSString *)message timeout:(float)timeout color:(UIColor *)color{
+    // first fadeout 
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+	[UIView setAnimationDuration:0.1];
+    subsInfoLabel. alpha = 0;
+    [UIView commitAnimations];
+    [subsInfoLabel setText:message];
+    [subsInfoLabel setTextColor:color];
+    // then fade in
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+	[UIView setAnimationDuration:0.1];
+    subsInfoLabel.hidden = NO;
+    subsInfoLabel. alpha = 0.8;
+    [UIView commitAnimations];
+    //then fade out again after timeout seconds
+    if ([fadeoutTimer isValid])
+        [fadeoutTimer invalidate];
+    fadeoutTimer=[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(fadeoutSubs) userInfo:nil repeats:NO];
+}
+
+
+-(void)fadeoutSubs{
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+	[UIView setAnimationDuration:0.2];
+//    subsInfoLabel.hidden = YES;
+    subsInfoLabel. alpha = 0;
+    [UIView commitAnimations];
+    [fadeoutTimer invalidate];
+    fadeoutTimer = nil;
+}
+
 # pragma mark - ToolBar
 
 -(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
@@ -88,6 +125,75 @@
     return (NSDictionary *)mutableDictionary;
 }
 
+
+/* method to cycle through subs. 
+ If ths subs are disabled then are enabled. 
+ If sub are enabled then go to the next sub. 
+ If the last sub is reached then the subs are disabled.
+*/
+-(void)subtitlesAction:(NSString *)action params:(NSArray *)parameters{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    
+    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error==nil && methodError==nil){
+            if( [methodResult count] > 0){
+                NSNumber *response;
+                if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])){
+                    response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
+                }
+                [jsonRPC 
+                 callMethod:@"Player.GetProperties" 
+                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
+                                 response, @"playerid",
+                                 [[NSArray alloc] initWithObjects:@"subtitleenabled", @"currentsubtitle", @"subtitles", nil], @"properties",
+                                 nil] 
+                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                     if (error==nil && methodError==nil){
+                         if( [NSJSONSerialization isValidJSONObject:methodResult]){
+                             if ([methodResult count]){
+                                 NSDictionary *currentSubtitle = [methodResult objectForKey:@"currentsubtitle"];
+                                 BOOL subtitleEnabled =  [[methodResult objectForKey:@"subtitleenabled"] boolValue];
+                                 NSArray *subtitles = [methodResult objectForKey:@"subtitles"];                                 
+                                 int currentSubIdx = [[currentSubtitle objectForKey:@"index"] intValue];
+                                 int totalSubs = [subtitles count];
+                                 NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
+                                [commonParams addObjectsFromArray:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
+                                 if (subtitleEnabled){
+                                     if ( (currentSubIdx + 1) >= totalSubs ){
+                                         // disable subs
+                                         [self showSubInfo:@"Subtitles disabled" timeout:2.0 color:[UIColor redColor]];
+                                         [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
+                                     }
+                                     else{
+                                         NSString *message = [NSString stringWithFormat:@"%@ %d/%d %@", @"Subtitle: ", ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), totalSubs, [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
+                                         [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
+                                     }
+                                     // next subs
+                                     [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"next", @"subtitle", nil]];
+                                 }
+                                 else{
+                                     // enable subs
+                                     NSString *message = [NSString stringWithFormat:@"%@ %d/%d %@", @"Subtitle: ", currentSubIdx + 1, totalSubs, [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
+                                     [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
+                                     [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
+                                 }
+
+                             }
+                         }
+                     }
+                 }];
+            }
+        }
+//        else {
+//            NSLog(@"ci deve essere un primo problema %@", methodError);
+//        }
+    }];
+}
+
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance]; 
@@ -103,17 +209,17 @@
                     [commonParams addObjectsFromArray:parameters];
                 [jsonRPC callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil){
-//                        NSLog(@"comando %@ eseguito ", action);
+                        NSLog(@"comando %@ eseguito. Risultato: %@", action, methodResult);
                     }
                     else {
-//                        NSLog(@"ci deve essere un secondo problema %@", methodError);
+                        NSLog(@"ci deve essere un secondo problema %@", methodError);
                     }
                 }];
             }
         }
-        else {
+//        else {
 //            NSLog(@"ci deve essere un primo problema %@", methodError);
-        }
+//        }
     }];
 }
 
@@ -279,6 +385,12 @@ NSInteger buttonAction;
         case 15:
             // MENU
             [self sendXbmcHttp:@"SendKey(0xF04D)"];
+            break;
+        
+        case 19:
+            action=@"Player.SetSubtitle";
+            params=[NSArray arrayWithObjects:@"next", @"subtitle", nil];
+            [self subtitlesAction:action params:params];
             break;
             
         default:
