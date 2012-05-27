@@ -157,31 +157,35 @@
                              if ([methodResult count]){
                                  NSDictionary *currentSubtitle = [methodResult objectForKey:@"currentsubtitle"];
                                  BOOL subtitleEnabled =  [[methodResult objectForKey:@"subtitleenabled"] boolValue];
-                                 NSArray *subtitles = [methodResult objectForKey:@"subtitles"];                                 
-                                 int currentSubIdx = [[currentSubtitle objectForKey:@"index"] intValue];
-                                 int totalSubs = [subtitles count];
-                                 NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
-                                [commonParams addObjectsFromArray:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
-                                 if (subtitleEnabled){
-                                     if ( (currentSubIdx + 1) >= totalSubs ){
-                                         // disable subs
-                                         [self showSubInfo:@"Subtitles disabled" timeout:2.0 color:[UIColor redColor]];
-                                         [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
+                                 NSArray *subtitles = [methodResult objectForKey:@"subtitles"];
+                                 if ([subtitles count]){
+                                     int currentSubIdx = [[currentSubtitle objectForKey:@"index"] intValue];
+                                     int totalSubs = [subtitles count];
+                                     NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
+                                     [commonParams addObjectsFromArray:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
+                                     if (subtitleEnabled){
+                                         if ( (currentSubIdx + 1) >= totalSubs ){
+                                             // disable subs
+                                             [self showSubInfo:@"Subtitles disabled" timeout:2.0 color:[UIColor redColor]];
+                                             [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
+                                         }
+                                         else{
+                                             NSString *message = [NSString stringWithFormat:@"%@ %d/%d %@", @"Subtitles: ", ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), totalSubs, [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
+                                             [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
+                                         }
+                                         // next subs
+                                         [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"next", @"subtitle", nil]];
                                      }
                                      else{
-                                         NSString *message = [NSString stringWithFormat:@"%@ %d/%d %@", @"Subtitle: ", ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), totalSubs, [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
+                                         // enable subs
+                                         NSString *message = [NSString stringWithFormat:@"%@ %d/%d %@", @"Subtitles: ", currentSubIdx + 1, totalSubs, [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
                                          [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
+                                         [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
                                      }
-                                     // next subs
-                                     [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"next", @"subtitle", nil]];
                                  }
                                  else{
-                                     // enable subs
-                                     NSString *message = [NSString stringWithFormat:@"%@ %d/%d %@", @"Subtitle: ", currentSubIdx + 1, totalSubs, [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
-                                     [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
-                                     [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
+                                     [self showSubInfo:@"Subtitles not available" timeout:2.0 color:[UIColor redColor]];
                                  }
-
                              }
                          }
                      }
