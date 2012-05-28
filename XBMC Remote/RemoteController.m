@@ -300,6 +300,9 @@
             if ([action isEqualToString:@"GUI.SetFullscreen"]){
                 [self sendXbmcHttp:@"SendKey(0xf009)"];
             }
+            if ([action isEqualToString:@"Input.Info"]){
+                [self sendXbmcHttp:@"SendKey(0xF049)"];
+            }
 //            NSLog(@"ERRORE %@ %@", methodError, error);
         }
     }];
@@ -442,14 +445,13 @@ NSInteger buttonAction;
 //            [self sendXbmcHttp:@"SendKey(0xF04F)"]; // STREAM INFO
             break;
             
-        case 11:
-//            action=@"Input.Info";
-//            [self GUIAction:action];
-            [self sendXbmcHttp:@"SendKey(0xF049)"];
+        case 11: // INFO
+            action=@"Input.Info";
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            
             break;
             
-        case 15:
-            // MENU
+        case 15: // MENU OSD
             [self sendXbmcHttp:@"SendKey(0xF04D)"];
             break;
         
