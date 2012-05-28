@@ -131,7 +131,7 @@
  If sub are enabled then go to the next sub. 
  If the last sub is reached then the subs are disabled.
 */
--(void)subtitlesAction:(NSString *)action params:(NSArray *)parameters{
+-(void)subtitlesAction{
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
@@ -161,8 +161,6 @@
                                  if ([subtitles count]){
                                      int currentSubIdx = [[currentSubtitle objectForKey:@"index"] intValue];
                                      int totalSubs = [subtitles count];
-                                     NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
-                                     [commonParams addObjectsFromArray:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
                                      if (subtitleEnabled){
                                          if ( (currentSubIdx + 1) >= totalSubs ){
                                              // disable subs
@@ -200,6 +198,67 @@
 //        }
     }];
 }
+
+/* 
+ method to cycle through audio streams. 
+  */
+-(void)audiostreamAction:(NSString *)action params:(NSArray *)parameters{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    
+    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error==nil && methodError==nil){
+            if( [methodResult count] > 0){
+                NSNumber *response;
+                if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])){
+                    response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
+                }
+                [jsonRPC 
+                 callMethod:@"Player.GetProperties" 
+                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
+                                 response, @"playerid",
+                                 [[NSArray alloc] initWithObjects: @"currentaudiostream", @"audiostreams", nil], @"properties",
+                                 nil] 
+                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                     if (error==nil && methodError==nil){
+                         if( [NSJSONSerialization isValidJSONObject:methodResult]){
+                             if ([methodResult count]){
+                                 NSDictionary *currentAudiostream = [methodResult objectForKey:@"currentaudiostream"];
+                                 NSArray *audiostreams = [methodResult objectForKey:@"audiostreams"];
+                                 if ([audiostreams count]){
+                                     int currentAudioIdx = [[currentAudiostream objectForKey:@"index"] intValue];
+                                     int totalAudio = [audiostreams count];
+                                     if ( (currentAudioIdx + 1) >= totalAudio ){
+                                         currentAudioIdx = 0;
+                                     }
+                                     else{
+                                         currentAudioIdx ++;
+                                     }
+                                     NSString *message = [NSString stringWithFormat:@"%d/%d %@", currentAudioIdx + 1, totalAudio, [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"]];
+                                     [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
+                                     [self playbackAction:action params:parameters];
+                                }
+                                 else{
+                                     [self showSubInfo:@"Audiostreams not available" timeout:2.0 color:[UIColor redColor]];
+                                 }
+                             }
+                         }
+                     }
+                 }];
+            }
+            else{
+                [self showSubInfo:@"Audiostream not available" timeout:2.0 color:[UIColor redColor]];
+            }
+        }
+        //        else {
+        //            NSLog(@"ci deve essere un primo problema %@", methodError);
+        //        }
+    }];
+}
+
 
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
     jsonRPC = nil;
@@ -395,14 +454,12 @@ NSInteger buttonAction;
             break;
         
         case 19:
-            action=@"Player.SetSubtitle";
-            params=[NSArray arrayWithObjects:@"next", @"subtitle", nil];
-            [self subtitlesAction:action params:params];
+            [self subtitlesAction];
             break;
         case 20:
             action=@"Player.SetAudioStream";
             params=[NSArray arrayWithObjects:@"next", @"stream", nil];
-            [self playbackAction:action params:params];
+            [self audiostreamAction:action params:params];
             break;
         default:
             break;
