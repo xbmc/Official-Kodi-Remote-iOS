@@ -77,7 +77,7 @@
     //then fade out again after timeout seconds
     if ([fadeoutTimer isValid])
         [fadeoutTimer invalidate];
-    fadeoutTimer=[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(fadeoutSubs) userInfo:nil repeats:NO];
+    fadeoutTimer=[NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutSubs) userInfo:nil repeats:NO];
 }
 
 
@@ -191,6 +191,9 @@
                      }
                  }];
             }
+            else{
+                [self showSubInfo:@"Subtitles not available" timeout:2.0 color:[UIColor redColor]];
+            }
         }
 //        else {
 //            NSLog(@"ci deve essere un primo problema %@", methodError);
@@ -212,12 +215,12 @@
                 if (parameters!=nil)
                     [commonParams addObjectsFromArray:parameters];
                 [jsonRPC callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                    if (error==nil && methodError==nil){
-                        NSLog(@"comando %@ eseguito. Risultato: %@", action, methodResult);
-                    }
-                    else {
-                        NSLog(@"ci deve essere un secondo problema %@", methodError);
-                    }
+//                    if (error==nil && methodError==nil){
+//                        NSLog(@"comando %@ eseguito. Risultato: %@", action, methodResult);
+//                    }
+//                    else {
+//                        NSLog(@"ci deve essere un secondo problema %@", methodError);
+//                    }
                 }];
             }
         }
@@ -396,7 +399,11 @@ NSInteger buttonAction;
             params=[NSArray arrayWithObjects:@"next", @"subtitle", nil];
             [self subtitlesAction:action params:params];
             break;
-            
+        case 20:
+            action=@"Player.SetAudioStream";
+            params=[NSArray arrayWithObjects:@"next", @"stream", nil];
+            [self playbackAction:action params:params];
+            break;
         default:
             break;
     }
