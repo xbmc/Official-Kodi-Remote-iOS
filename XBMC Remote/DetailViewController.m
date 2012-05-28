@@ -122,12 +122,12 @@
     choosedTab=newChoosedTab;
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     [activityIndicatorView startAnimating];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-    }
-    else{
-        [self AnimTable:dataList AnimDuration:0.3 Alpha:0.0 XPos:0];
-    }
+//    }
+//    else{
+//        [self AnimTable:dataList AnimDuration:0.3 Alpha:0.0 XPos:0];
+//    }
     if ([self.richResults count] && (dataList.dragging == YES || dataList.decelerating == YES)){
         NSArray *visiblePaths = [dataList indexPathsForVisibleRows];
         [dataList  scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -1361,15 +1361,17 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     choosedTab=0;
+    [detailView setClipsToBounds:YES];
     CGRect frame=dataList.frame;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         frame.origin.x=320;
         viewWidth=320;
     }
     else {
-        frame.origin.x=0;
-        viewWidth=477;
-        dataList.alpha = 0.0;
+//        frame.origin.x=0;
+        viewWidth = 477;
+        frame.origin.x = viewWidth;
+//        dataList.alpha = 0.0;
     }
     dataList.frame=frame;
     [self buildButtons]; // TEMP ?

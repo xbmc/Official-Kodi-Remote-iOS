@@ -49,6 +49,7 @@
     int thumbWidth;
     IBOutlet UIView *noFoundView;
     int viewWidth;
+    IBOutlet UIView *detailView;
 }
 - (id)initWithFrame:(CGRect)frame;
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(mainMenu *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
