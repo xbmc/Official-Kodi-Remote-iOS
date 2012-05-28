@@ -458,11 +458,29 @@ NSInteger buttonAction;
         case 19:
             [self subtitlesAction];
             break;
+            
         case 20:
             action=@"Player.SetAudioStream";
             params=[NSArray arrayWithObjects:@"next", @"stream", nil];
             [self audiostreamAction:action params:params];
             break;
+            
+        case 21:
+            [self sendXbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
+            break;
+            
+        case 22:
+            [self sendXbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
+            break;
+        
+        case 23:
+            [self sendXbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
+            break;
+        
+        case 24:
+            [self sendXbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
+            break;
+            
         default:
             break;
     }
