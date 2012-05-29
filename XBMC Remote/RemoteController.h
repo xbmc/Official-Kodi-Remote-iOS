@@ -16,6 +16,7 @@
     IBOutlet UIView *remoteControlView;
     IBOutlet UILabel *subsInfoLabel;
     NSTimer *fadeoutTimer;
+    IBOutlet UILongPressGestureRecognizer *lpgr;
 }
 
 - (IBAction)startVibrate:(id)sender;

@@ -442,7 +442,6 @@ NSInteger buttonAction;
         case 9: // HOME
             action=@"Input.Home";
             [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//            [self sendXbmcHttp:@"SendKey(0xF04F)"]; // STREAM INFO
             break;
             
         case 11: // INFO
@@ -497,6 +496,13 @@ NSInteger buttonAction;
 
 - (void)handleSwipeFromRight:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(IBAction)handleInfoButtonLongPress{
+    if (lpgr.state == UIGestureRecognizerStateBegan){
+        [self sendXbmcHttp:@"SendKey(0xF04F)"]; // STREAM INFO
+
+    }
 }
 
 #pragma mark - Life Cycle
