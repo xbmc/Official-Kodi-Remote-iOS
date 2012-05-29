@@ -230,6 +230,8 @@ float cellBarWidth=45;
     NSURL *url = [NSURL  URLWithString:serverHTTP];
     NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];  
     requestANS=nil;
+    playerID = -1;
+    selectedPlayerID = -1;
     [self createPlaylist:NO animTableView:YES];
    // NSLog(@"SERVER RESPONSE : %@",requestANS);
 }
