@@ -41,6 +41,7 @@
 //@synthesize detailDescriptionLabel = _detailDescriptionLabel;
 #define SECTIONS_START_AT 100
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
+#define MAX_NORMAL_BUTTONS 4
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -109,25 +110,76 @@
 }
 #pragma mark - Tabbar management
 
+-(IBAction)showMore:(id)sender{
+//    if ([sender tag]==choosedTab) return;
+    [activityIndicatorView startAnimating];
+    NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
+    if (choosedTab<[buttonsIB count]){
+        [[buttonsIB objectAtIndex:choosedTab] setSelected:NO];
+    }
+    choosedTab=MAX_NORMAL_BUTTONS;
+    [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
+    [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    int i;
+    int count = [[self.detailItem mainParameters] count];
+    NSMutableArray *mainMenu = [[NSMutableArray alloc] init];
+    for (i = MAX_NORMAL_BUTTONS; i < count; i++){
+       [mainMenu addObject:[NSString stringWithFormat:@"%@",[[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:i]] objectForKey:@"morelabel"]]];
+    }
+    if (moreItemsViewController == nil){
+        moreItemsViewController = [[MoreItemsViewController alloc] initWithFrame:CGRectMake(dataList.bounds.size.width, 0, dataList.bounds.size.width, dataList.bounds.size.height) mainMenu:mainMenu];
+        [moreItemsViewController.view setBackgroundColor:[UIColor clearColor]];
+        [moreItemsViewController viewWillAppear:FALSE];
+        [moreItemsViewController viewDidAppear:FALSE];
+        [detailView addSubview:moreItemsViewController.view];
+    }
+    [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
+    self.navigationItem.title = [NSString stringWithFormat:@"More (%d)", (count - MAX_NORMAL_BUTTONS)];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.3];
+        topNavigationLabel.alpha = 0;
+        [UIView commitAnimations];
+        topNavigationLabel.text = [NSString stringWithFormat:@"More (%d)", (count - MAX_NORMAL_BUTTONS)];
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.1];
+        topNavigationLabel.alpha = 1;
+        [UIView commitAnimations];
+    }
+    [activityIndicatorView stopAnimating];
+}
+
+
+- (void) handleTabHasChanged:(NSNotification*) notification{
+    NSIndexPath *choice=notification.object;
+    choosedTab = 0;
+    int selectedIdx = MAX_NORMAL_BUTTONS + choice.row;
+    selectedMoreTab.tag=selectedIdx;
+    [self changeTab:selectedMoreTab];
+}
+
 -(IBAction)changeTab:(id)sender{
     if ([sender tag]==choosedTab) return;
+    [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     numTabs=[[self.detailItem mainMethod] count];
     int newChoosedTab=[sender tag];
     if (newChoosedTab>=numTabs){
         newChoosedTab=0;
     }
     if (newChoosedTab==choosedTab) return;
-    NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
-    [[buttonsIB objectAtIndex:choosedTab] setSelected:NO];
-    choosedTab=newChoosedTab;
-    [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     [activityIndicatorView startAnimating];
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-//    }
-//    else{
-//        [self AnimTable:dataList AnimDuration:0.3 Alpha:0.0 XPos:0];
-//    }
+    NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
+    if (choosedTab<[buttonsIB count]){
+        [[buttonsIB objectAtIndex:choosedTab] setSelected:NO];
+    }
+    else {
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setSelected:NO];
+    }
+    choosedTab=newChoosedTab;
+    if (choosedTab<[buttonsIB count]){
+        [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
+    }
+    [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     if ([self.richResults count] && (dataList.dragging == YES || dataList.decelerating == YES)){
         NSArray *visiblePaths = [dataList indexPathsForVisibleRows];
         [dataList  scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -183,6 +235,17 @@
     [UIView commitAnimations];
 }
 
+- (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDuration:seconds];
+	view.alpha = alphavalue;
+	CGRect frame;
+	frame = [view frame];
+	frame.origin.x = X;
+	view.frame = frame;
+    [UIView commitAnimations];
+}
+
 #pragma mark - Cell Formatting 
 
 
@@ -206,7 +269,7 @@ int labelPosition=0;
     else {
         cellHeight=76;
     }
-    
+
     if ([parameters objectForKey:@"thumbWidth"]!=0)
         thumbWidth =[[parameters objectForKey:@"thumbWidth"] intValue];
     else if (Menuitem.thumbWidth!=0){
@@ -221,7 +284,6 @@ int labelPosition=0;
     
     if (Menuitem.originLabel && ![parameters objectForKey:@"thumbWidth"])
         labelPosition=Menuitem.originLabel;
-    
     // CHECK IF THERE ARE SECTIONS
     if ([self.richResults count]<SECTIONS_START_AT || ![self.detailItem enableSection]){
         newWidthLabel = viewWidth - 8 - labelPosition;
@@ -255,11 +317,6 @@ int labelPosition=0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{ 
-    
-    
-//    if ([self.detailItem enableSection] && [richResults count]>SECTIONS_START_AT && section ==0){
-//        return nil;
-//    }
     if (tableView == self.searchDisplayController.searchResultsTableView){
         int numResult=[self.filteredListContent count];
         if (numResult){
@@ -310,6 +367,10 @@ int labelPosition=0;
     }
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {    
+	cell.backgroundColor = [UIColor whiteColor];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString *identifier = @"jsonDataCellIdentifier";
@@ -318,10 +379,17 @@ int labelPosition=0;
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-    [cell setBackgroundColor:[UIColor whiteColor]];
+    
+
     mainMenu *Menuitem = self.detailItem;
     NSDictionary *mainFields=[[Menuitem mainFields] objectAtIndex:choosedTab];
-
+    
+/* future - need to be tweaked: doesn't work on file mode. mainLabel need to be resized */
+//    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[Menuitem.subItem mainMethod] objectAtIndex:choosedTab]];
+//    if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
+//        cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator; 
+//    }
+/* end future */
     CGRect frame=cell.urlImageView.frame;
     frame.size.width=thumbWidth;
     cell.urlImageView.frame=frame;
@@ -334,7 +402,6 @@ int labelPosition=0;
 	else{
         item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
-//    NSLog(@"ITEM %@", item);
     UILabel *title=(UILabel*) [cell viewWithTag:1];
     UILabel *runtimeyear=(UILabel*) [cell viewWithTag:3];
     UILabel *rating=(UILabel*) [cell viewWithTag:5];
@@ -1312,7 +1379,7 @@ NSIndexPath *selected;
              [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
              [dataList reloadData];
              [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-//             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
+             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
              [activityIndicatorView stopAnimating];
              [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
              [self loadImagesForOnscreenRows];
@@ -1342,6 +1409,8 @@ NSIndexPath *selected;
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     int i=0;
     int count=[buttons count];
+    if (count>MAX_NORMAL_BUTTONS)
+        count = MAX_NORMAL_BUTTONS;
     for (i=0;i<count;i++){
         NSString *imageNameOff=[NSString stringWithFormat:@"%@_off", [buttons objectAtIndex:i]];
         NSString *imageNameOn=[NSString stringWithFormat:@"%@_on", [buttons objectAtIndex:i]];
@@ -1357,6 +1426,15 @@ NSIndexPath *selected;
         frame.size.height=self.view.bounds.size.height;
         dataList.frame=frame;
     }
+    if ([[self.detailItem mainMethod] count]>MAX_NORMAL_BUTTONS){
+        NSString *imageNameOff=@"st_more_off";
+        NSString *imageNameOn=@"st_more_on";
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setEnabled:YES];
+        selectedMoreTab = [[UIButton alloc] init];
+    }
 }
 
 - (void)viewDidLoad{
@@ -1364,15 +1442,12 @@ NSIndexPath *selected;
     [detailView setClipsToBounds:YES];
     CGRect frame=dataList.frame;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        frame.origin.x=320;
         viewWidth=320;
     }
     else {
-//        frame.origin.x=0;
         viewWidth = 477;
-        frame.origin.x = viewWidth;
-//        dataList.alpha = 0.0;
     }
+    frame.origin.x = viewWidth;
     dataList.frame=frame;
     [self buildButtons]; // TEMP ?
     [[SDImageCache sharedImageCache] clearMemory];
@@ -1400,6 +1475,10 @@ NSIndexPath *selected;
         [activityIndicatorView stopAnimating];
         [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleTabHasChanged:)
+                                                 name: @"tabHasChanged"
+                                               object: nil];
     [super viewDidLoad];
 }
 
@@ -1415,6 +1494,7 @@ NSIndexPath *selected;
     manager=nil;
     nowPlaying=nil;
     playFileViewController=nil;
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 -(void)dealloc{
@@ -1431,6 +1511,7 @@ NSIndexPath *selected;
     manager=nil;
     nowPlaying=nil;
     playFileViewController=nil;
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
 //    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
