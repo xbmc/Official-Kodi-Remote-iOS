@@ -415,6 +415,15 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 							
 							// Removes the selection of row for the first slide view
 							for (UIView* tableView in [[[slideViews subviews] objectAtIndex:0] subviews]) {
+                                if([tableView isKindOfClass:[UIView class]]){
+                                    for (UIView* tableView2 in [tableView subviews]) {
+                                        if([tableView2 isKindOfClass:[UITableView class]]){
+                                            NSIndexPath* selectedRow =  [(UITableView*)tableView2 indexPathForSelectedRow];
+                                            NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
+                                            [(UITableView*)tableView2 reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+                                        }
+                                    }
+                                }
 								if([tableView isKindOfClass:[UITableView class]]){
 									NSIndexPath* selectedRow =  [(UITableView*)tableView indexPathForSelectedRow];
 									NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
@@ -519,6 +528,15 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 							
 							// Removes the selection of row for the first slide view
 							for (UIView* tableView in [[[slideViews subviews] objectAtIndex:0] subviews]) {
+                                if([tableView isKindOfClass:[UIView class]]){
+                                    for (UIView* tableView2 in [tableView subviews]) {
+                                        if([tableView2 isKindOfClass:[UITableView class]]){
+                                            NSIndexPath* selectedRow =  [(UITableView*)tableView2 indexPathForSelectedRow];
+                                            NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
+                                            [(UITableView*)tableView2 reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+                                        }
+                                    }
+                                }
 								if([tableView isKindOfClass:[UITableView class]]){
 									NSIndexPath* selectedRow =  [(UITableView*)tableView indexPathForSelectedRow];
 									NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
