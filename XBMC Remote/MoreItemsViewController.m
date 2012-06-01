@@ -50,16 +50,29 @@
 	cell.backgroundColor = [UIColor whiteColor];
 }
 
-// Customize the appearance of table view cells.
+int offset = 50;
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *tableCellIdentifier = @"UITableViewCell";
 	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
 	}
-    cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;    
-    [cell.textLabel setFont:[UIFont systemFontOfSize:18]];
-    cell.textLabel.text = [mainMenuItems objectAtIndex:indexPath.row];
+    cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator; 
+
+    UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(offset, 0, self.view.bounds.size.width - offset - 24, 43)];
+    [cellLabel setFont:[UIFont systemFontOfSize:18]];
+    [cellLabel setTextColor:[UIColor blackColor]];
+    [cellLabel setHighlightedTextColor:[UIColor whiteColor]];
+    NSDictionary *item = [mainMenuItems objectAtIndex:indexPath.row];
+    [cellLabel setText:[item objectForKey:@"label"]];
+    [cell.contentView addSubview:cellLabel];
+    if (![[item objectForKey:@"icon"] isEqualToString:@""]){
+        CGRect iconImageViewRect = CGRectMake(8.0f, 6.0f, 34.0f, 30.0f);
+        UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
+        [iconImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_black", [item objectForKey:@"icon"]]]];
+        [cell.contentView addSubview:iconImage];
+    }
     return cell;
 }
 

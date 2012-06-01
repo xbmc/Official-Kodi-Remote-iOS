@@ -123,8 +123,17 @@
     int i;
     int count = [[self.detailItem mainParameters] count];
     NSMutableArray *mainMenu = [[NSMutableArray alloc] init];
+    int numIcons = [[self.detailItem mainButtons] count];
     for (i = MAX_NORMAL_BUTTONS; i < count; i++){
-       [mainMenu addObject:[NSString stringWithFormat:@"%@",[[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:i]] objectForKey:@"morelabel"]]];
+        NSString *icon = @"";
+        if (i < numIcons){
+            icon = [[self.detailItem mainButtons] objectAtIndex:i];
+        }
+        [mainMenu addObject: 
+         [NSDictionary dictionaryWithObjectsAndKeys:
+          [NSString stringWithFormat:@"%@",[[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:i]] objectForKey:@"morelabel"]], @"label", 
+          icon, @"icon",
+          nil]];
     }
     if (moreItemsViewController == nil){
         moreItemsViewController = [[MoreItemsViewController alloc] initWithFrame:CGRectMake(dataList.bounds.size.width, 0, dataList.bounds.size.width, dataList.bounds.size.height) mainMenu:mainMenu];
