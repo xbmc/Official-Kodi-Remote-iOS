@@ -151,6 +151,8 @@
 
 
 - (void) handleTabHasChanged:(NSNotification*) notification{
+    NSArray *buttons=[self.detailItem mainButtons];
+    if (![buttons count]) return;
     NSIndexPath *choice=notification.object;
     choosedTab = 0;
     int selectedIdx = MAX_NORMAL_BUTTONS + choice.row;
@@ -182,7 +184,7 @@
     [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     if ([self.richResults count] && (dataList.dragging == YES || dataList.decelerating == YES)){
         NSArray *visiblePaths = [dataList indexPathsForVisibleRows];
-        [dataList  scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [dataList scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
     self.navigationItem.title = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"label"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
