@@ -67,7 +67,7 @@
 							</object>
 							<object class="IBUILabel" id="680841559">
 								<reference key="NSNextResponder" ref="447648536"/>
-								<int key="NSvFlags">290</int>
+								<int key="NSvFlags">288</int>
 								<string key="NSFrame">{{61, 0}, {222, 35}}</string>
 								<reference key="NSSuperview" ref="447648536"/>
 								<reference key="NSWindow"/>
@@ -449,6 +449,7 @@
 						<string key="button5">UIButton</string>
 						<string key="buttonsView">UIView</string>
 						<string key="dataList">UITableView</string>
+						<string key="detailView">UIView</string>
 						<string key="jsonCell">jsonDataCell</string>
 						<string key="lpgr">UILongPressGestureRecognizer</string>
 						<string key="noFoundView">UIView</string>
@@ -486,6 +487,10 @@
 						<object class="IBToOneOutletInfo" key="dataList">
 							<string key="name">dataList</string>
 							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="detailView">
+							<string key="name">detailView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="jsonCell">
 							<string key="name">jsonCell</string>
