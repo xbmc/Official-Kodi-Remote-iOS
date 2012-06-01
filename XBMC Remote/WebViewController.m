@@ -77,7 +77,7 @@
 			//show error alert, etc.
 		}
         UIAlertView *errorAlert = [[UIAlertView alloc]
-								   initWithTitle:@"Errore caricamento pagina"
+								   initWithTitle:@"Error loading page"
 								   message: [error localizedFailureReason]
 								   delegate:nil
 								   cancelButtonTitle:@"OK"
@@ -111,7 +111,6 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    UIColor *shadowColor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
     titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 244, 40)];
@@ -124,7 +123,6 @@
     topNavigationLabel.adjustsFontSizeToFitWidth = YES;
     topNavigationLabel.textAlignment = UITextAlignmentLeft;
     topNavigationLabel.textColor = [UIColor whiteColor];
-    topNavigationLabel.shadowColor = shadowColor;
     topNavigationLabel.shadowOffset    = CGSizeMake (0.0, -1.0);
     topNavigationLabel.highlightedTextColor = [UIColor blackColor];
     topNavigationLabel.opaque=YES;

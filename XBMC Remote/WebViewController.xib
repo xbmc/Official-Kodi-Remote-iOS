@@ -66,7 +66,6 @@
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBUIBarStyle">2</int>
 						<array class="NSMutableArray" key="IBUIItems">
 							<object class="IBUIBarButtonItem" id="818924191">
 								<bool key="IBUIEnabled">NO</bool>
@@ -103,6 +102,10 @@
 								<int key="IBUISystemItemIdentifier">9</int>
 							</object>
 						</array>
+						<object class="NSColor" key="IBUITintColor" id="437093522">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MAA</bytes>
+						</object>
 					</object>
 					<object class="IBUIWebView" id="185201907">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -112,10 +115,7 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="492035886"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<object class="NSColor" key="IBUIBackgroundColor" id="437093522">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MAA</bytes>
-						</object>
+						<reference key="IBUIBackgroundColor" ref="437093522"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<bool key="IBUIScalesPageToFit">YES</bool>
 						<int key="IBUIDataDetectorTypes">1</int>
