@@ -73,6 +73,7 @@
     NSString *currentType;
     BOOL nothingIsPlaying;
     IBOutlet UIImageView *xbmcOverlayImage;
+    IBOutlet UIImageView *xbmcOverlayImage_iphone;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;

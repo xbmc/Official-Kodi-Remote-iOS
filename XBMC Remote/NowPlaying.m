@@ -1497,6 +1497,7 @@ int anim2;
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
     self.navigationItem.rightBarButtonItem = settingsButton;
     slideFrom=320;
+    xbmcOverlayImage.hidden = YES;
 }
 
 -(void)setIpadInterface{
@@ -1541,7 +1542,7 @@ int anim2;
     
     nowPlayingView.hidden=NO;
     playlistView.hidden=NO;
-    //button.hidden=YES;
+    xbmcOverlayImage_iphone.hidden = YES;
 }
 
 -(bool)enableJewelCases{
