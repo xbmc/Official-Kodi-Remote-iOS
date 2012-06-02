@@ -238,6 +238,23 @@ int h=0;
     
 }
 
+- (UIImage*)imageWithShadow:(UIImage *)source {
+    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGImageAlphaPremultipliedLast);
+    CGColorSpaceRelease(colourSpace);
+    
+    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 10, [UIColor blackColor].CGColor);
+    CGContextDrawImage(shadowContext, CGRectMake(10, 10, source.size.width, source.size.height), source.CGImage);
+    
+    CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
+    CGContextRelease(shadowContext);
+    
+    UIImage * shadowedImage = [UIImage imageWithCGImage:shadowedCGImage];
+    CGImageRelease(shadowedCGImage);
+    
+    return shadowedImage;
+}
+
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source{
     CGSize size = [source size];
     UIGraphicsBeginImageContext(size);
@@ -250,9 +267,9 @@ int h=0;
 	CGContextSetLineWidth(context, borderWidth);
     CGContextStrokeRect(context, rect);
     
-    UIImage *testImg =  UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *Img =  UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return testImg;
+    return [self imageWithShadow:Img];
 }
 
 -(bool)enableJewelCases{
@@ -515,31 +532,19 @@ int h=0;
     if (cachedImage){
         if (enableJewel){
             coverView.image = cachedImage;
-            jewelView.layer.shadowRadius = 0.0;
         }
         else{
             jewelView.image = [self imageWithBorderFromImage:cachedImage];
             jewelView.hidden = NO;
-            jewelView.clipsToBounds = NO;
-            jewelView.layer.shadowColor = [UIColor blackColor].CGColor;
-            jewelView.layer.shadowOffset = CGSizeMake(0, 0);
-            jewelView.layer.shadowOpacity = 1;
-            jewelView.layer.shadowRadius = 5.0;
         }
     }
     else{
         if (enableJewel){
             [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@""]];
-            jewelView.layer.shadowRadius = 0.0;
         }
         else{
             [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@""]];
             jewelView.hidden = NO;
-            jewelView.clipsToBounds = NO;
-            jewelView.layer.shadowColor = [UIColor blackColor].CGColor;
-            jewelView.layer.shadowOffset = CGSizeMake(0, 0);
-            jewelView.layer.shadowOpacity = 1;
-            jewelView.layer.shadowRadius = 5.0;
         }
     }
     NSString *fanartPath=[item objectForKey:@"fanart"];    

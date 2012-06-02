@@ -400,9 +400,6 @@ int currentItemID;
             jewelView.frame = frame;
         }
         songDetailsView.frame = thumbnailView.frame;
-        jewelView.layer.shadowRadius = 0.0;
-        songDetailsView.layer.shadowRadius = 0.0;
-
     }
     else {
         [nowPlayingView sendSubviewToBack:jewelView];
@@ -413,16 +410,6 @@ int currentItemID;
             jewelView.frame = frame;
         }
         songDetailsView.frame = jewelView.frame;
-        jewelView.clipsToBounds = NO;
-        jewelView.layer.shadowColor = [UIColor blackColor].CGColor;
-        jewelView.layer.shadowOffset = CGSizeMake(0, 0);
-        jewelView.layer.shadowOpacity = 1;
-        jewelView.layer.shadowRadius = 5.0;
-        songDetailsView.clipsToBounds = NO;
-        songDetailsView.layer.shadowColor = [UIColor blackColor].CGColor;
-        songDetailsView.layer.shadowOffset = CGSizeMake(0, 0);
-        songDetailsView.layer.shadowOpacity = 0.5;
-        songDetailsView.layer.shadowRadius = 5.0;
     }
     [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
 }
@@ -463,6 +450,23 @@ int currentItemID;
     [self showPlaylistTable];
 }
 
+- (UIImage*)imageWithShadow:(UIImage *)source {
+    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGImageAlphaPremultipliedLast);
+    CGColorSpaceRelease(colourSpace);
+    
+    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 10, [UIColor blackColor].CGColor);
+    CGContextDrawImage(shadowContext, CGRectMake(10, 10, source.size.width, source.size.height), source.CGImage);
+    
+    CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
+    CGContextRelease(shadowContext);
+    
+    UIImage * shadowedImage = [UIImage imageWithCGImage:shadowedCGImage];
+    CGImageRelease(shadowedCGImage);
+    
+    return shadowedImage;
+}
+
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source{
     CGSize size = [source size];
     UIGraphicsBeginImageContext(size);
@@ -475,9 +479,9 @@ int currentItemID;
 	CGContextSetLineWidth(context, borderWidth);
     CGContextStrokeRect(context, rect);
     
-    UIImage *testImg =  UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *Img =  UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return testImg;
+    return [self imageWithShadow:Img];
 }
 
 -(void)playbackInfo{
