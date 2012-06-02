@@ -238,6 +238,29 @@ int h=0;
     
 }
 
+- (UIImage*)imageWithBorderFromImage:(UIImage*)source{
+    CGSize size = [source size];
+    UIGraphicsBeginImageContext(size);
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0); 
+    CGFloat borderWidth = 2.0;
+	CGContextSetLineWidth(context, borderWidth);
+    CGContextStrokeRect(context, rect);
+    
+    UIImage *testImg =  UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return testImg;
+}
+
+-(bool)enableJewelCases{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
+}
+
 -(void)createInfo{
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSDictionary *item=self.detailItem;
@@ -300,6 +323,7 @@ int h=0;
                     frame.size.width=320;
                     frame.size.height=59;
                     coverView.frame=frame;
+                    jewelView.frame = frame;
                 }
                 else {
                     coverHeight=90;
@@ -312,7 +336,7 @@ int h=0;
                     frame.size.width=477;
                     frame.size.height=90;
                     coverView.frame=frame;
-                    
+                    jewelView.frame = frame;
                 }
             }
             else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -335,56 +359,45 @@ int h=0;
                 coverView.frame = frame;
                 deltaY = -(coverHeight - originalHeight);
             }
-
-            label1.text=@"EPISODES";
-            label3.text=@"GENRE";
-            label4.text=@"STUDIO";
-            directorLabel.text=[[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
-            genreLabel.text=[[item objectForKey:@"premiered"] length]==0 ? @"-" : [item objectForKey:@"premiered"];
-            runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
-            studioLabel.text=[[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
-            
-            
+            label1.text = @"EPISODES";
+            label3.text = @"GENRE";
+            label4.text = @"STUDIO";
+            directorLabel.text = [[item objectForKey:@"showtitle"] length] == 0 ? @"-" : [item objectForKey:@"showtitle"];
+            genreLabel.text = [[item objectForKey:@"premiered"] length] == 0 ? @"-" : [item objectForKey:@"premiered"];
+            runtimeLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
+            studioLabel.text = [[item objectForKey:@"studio"] length] == 0 ? @"-" : [item objectForKey:@"studio"];
             [self setTvShowsToolbar];
-                                    
         }
-        
         else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
-            
-            
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-                coverHeight=280;
-                jewelView.hidden=NO;
-                deltaY=jewelView.frame.size.height - coverHeight;
+                coverHeight = 280;
+                jewelView.hidden = NO;
+                deltaY = jewelView.frame.size.height - coverHeight;
                 coverView.autoresizingMask = UIViewAutoresizingNone;
                 coverView.contentMode = UIViewContentModeScaleAspectFill;
-                frame=coverView.frame;
-                
-                frame.origin.x=32;
-                frame.origin.y=20;
-                frame.size.width=414;
-                frame.size.height=232;
-                coverView.frame=frame;
-                
+                frame = coverView.frame;
+                frame.origin.x = 32;
+                frame.origin.y = 20;
+                frame.size.width = 414;
+                frame.size.height = 232;
+                coverView.frame = frame;
             }
             else{
-                coverHeight=200;
-                jewelView.hidden=NO;
-                deltaY=jewelView.frame.size.height - coverHeight;
-                frame=coverView.frame;
-                frame.origin.x=11;
-                frame.origin.y=17;
-                frame.size.width=297;
-                frame.size.height=167;
-                coverView.frame=frame;
+                coverHeight = 200;
+                jewelView.hidden = NO;
+                deltaY = jewelView.frame.size.height - coverHeight;
+                frame = coverView.frame;
+                frame.origin.x = 11;
+                frame.origin.y = 17;
+                frame.size.width = 297;
+                frame.size.height = 167;
+                coverView.frame = frame;
             }
-            
-            
-            label1.text=@"TV SHOW";
-            label3.text=@"DIRECTOR";
-            label4.text=@"WRITER";
-            parentalRatingLabelUp.hidden=YES;
-            parentalRatingLabel.hidden=YES;
+            label1.text = @"TV SHOW";
+            label3.text = @"DIRECTOR";
+            label4.text = @"WRITER";
+            parentalRatingLabelUp.hidden = YES;
+            parentalRatingLabel.hidden = YES;
             
             frame=label6.frame;
             frame.origin.y=frame.origin.y-40;
@@ -498,11 +511,36 @@ int h=0;
     NSURL *imageUrl = [NSURL URLWithString: thumbnailPath];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     UIImage *cachedImage = [manager imageWithURL:imageUrl];
+    bool enableJewel = [self enableJewelCases];
     if (cachedImage){
-        coverView.image=cachedImage;
+        if (enableJewel){
+            coverView.image = cachedImage;
+            jewelView.layer.shadowRadius = 0.0;
+        }
+        else{
+            jewelView.image = [self imageWithBorderFromImage:cachedImage];
+            jewelView.hidden = NO;
+            jewelView.clipsToBounds = NO;
+            jewelView.layer.shadowColor = [UIColor blackColor].CGColor;
+            jewelView.layer.shadowOffset = CGSizeMake(0, 0);
+            jewelView.layer.shadowOpacity = 1;
+            jewelView.layer.shadowRadius = 5.0;
+        }
     }
     else{
-        [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@""]];
+        if (enableJewel){
+            [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@""]];
+            jewelView.layer.shadowRadius = 0.0;
+        }
+        else{
+            [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@""]];
+            jewelView.hidden = NO;
+            jewelView.clipsToBounds = NO;
+            jewelView.layer.shadowColor = [UIColor blackColor].CGColor;
+            jewelView.layer.shadowOffset = CGSizeMake(0, 0);
+            jewelView.layer.shadowOpacity = 1;
+            jewelView.layer.shadowRadius = 5.0;
+        }
     }
     NSString *fanartPath=[item objectForKey:@"fanart"];    
     NSURL *fanartUrl = [NSURL URLWithString: fanartPath];
@@ -538,9 +576,7 @@ int h=0;
     CGRect newFrame = summaryLabel.frame;
     newFrame.size.height = expectedLabelSize.height + size;
     summaryLabel.frame = newFrame;
-    
-   // [summaryLabel sizeToFit];
-    
+
     frame = parentalRatingLabel.frame;
     frame.origin.y = frame.origin.y + summaryLabel.frame.size.height-20;
     parentalRatingLabel.frame = frame;
@@ -611,19 +647,7 @@ int h=0;
         }
     }
     scrollView.contentSize=CGSizeMake(320, startY);
-
-//    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimer) userInfo:nil repeats:YES];
 }
-
-//- (void) onTimer {
-//    
-//    // Updates the variable h, adding 100 (put your own value here!)
-//    h += 10; 
-//    
-//    //This makes the scrollView scroll to the desired position  
-//    scrollView.contentOffset = CGPointMake(0, h);  
-//    
-//}
 
 - (void) scrollViewDidScroll: (UIScrollView *) theScrollView{
     if (arrow_continue_down.alpha && theScrollView.contentOffset.y>40){
