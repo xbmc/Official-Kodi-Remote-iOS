@@ -24,7 +24,7 @@
 
 @synthesize detailItem = _detailItem;
 @synthesize remoteController;
-@synthesize thumbnailView;
+@synthesize jewelView;
 float startx=14;
 float barwidth=280;
 float cellBarWidth=45;
@@ -280,119 +280,151 @@ int storedItemID;
 int currentItemID;
 
 -(void)setCoverSize:(NSString *)type{
-    NSString *jewelImg=@"";
+    NSString *jewelImg = @"";
     if ([type isEqualToString:@"song"]){
-        jewelImg=@"jewel_cd.9.png";
-        CGRect frame=thumbnailView.frame;
+        jewelImg = @"jewel_cd.9.png";
+        CGRect frame = thumbnailView.frame;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            frame.origin.x=50;
-            frame.origin.y=43;
-            frame.size.width=237;
-            frame.size.height=236;
+            frame.origin.x = 52;
+            frame.origin.y = 43;
+            frame.size.width = 238;
+            frame.size.height = 238;
         }
         else {
             jewelImg=@"jewel_cd.9@2x.png";
             if (portraitMode){
-                frame.origin.x=76;
-                frame.origin.y=60;
-                frame.size.width=334;
-                frame.size.height=334;
+                frame.origin.x = 82;
+                frame.origin.y = 60;
+                frame.size.width = 334;
+                frame.size.height = 334;
             }
             else {
-                frame.origin.x=152;
-                frame.origin.y=80;
-                frame.size.width=435;
-                frame.size.height=435;
+                frame.origin.x = 158;
+                frame.origin.y = 80;
+                frame.size.width = 435;
+                frame.size.height = 435;
             }
         }
-        thumbnailView.frame=frame;
-        songDetailsView.frame=frame;
+        thumbnailView.frame = frame;
+        songDetailsView.frame = frame;
     }
     else if ([type isEqualToString:@"movie"]){
         jewelImg=@"jewel_dvd.9.png";
-        CGRect frame=thumbnailView.frame;
+        CGRect frame = thumbnailView.frame;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            frame.origin.x=82;
-            frame.origin.y=39;
-            frame.size.width=172;
-            frame.size.height=248;
+            frame.origin.x = 86;
+            frame.origin.y = 39;
+            frame.size.width = 172;
+            frame.size.height = 248;
             
         }
         else{
             jewelImg=@"jewel_dvd.9@2x.png";
             if (portraitMode){
-                frame.origin.x=124;
-                frame.origin.y=56;
-                frame.size.width=240;
-                frame.size.height=346;
+                frame.origin.x = 128;
+                frame.origin.y = 56;
+                frame.size.width = 240;
+                frame.size.height = 346;
             }
             else {
-                frame.origin.x=218;
-                frame.origin.y=74;
-                frame.size.width=306;
-                frame.size.height=450;
+                frame.origin.x = 222;
+                frame.origin.y = 74;
+                frame.size.width = 306;
+                frame.size.height = 450;
             }
         }
-        thumbnailView.frame=frame;
-        songDetailsView.frame=frame;
+        thumbnailView.frame = frame;
+        songDetailsView.frame = frame;
     }
     else if ([type isEqualToString:@"episode"]){
-        jewelImg=@"jewel_tv.9.png";
-        CGRect frame=thumbnailView.frame;
+        jewelImg = @"jewel_tv.9.png";
+        CGRect frame = thumbnailView.frame;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            frame.origin.x=20;
-            frame.origin.y=78;
-            frame.size.width=280;
-            frame.size.height=158;
+            frame.origin.x = 22;
+            frame.origin.y = 78;
+            frame.size.width = 280;
+            frame.size.height = 158;
         }
         else{
             jewelImg=@"jewel_tv.9@2x.png";
             if (portraitMode){
-                frame.origin.x=28;
-                frame.origin.y=106;
-                frame.size.width=404;
-                frame.size.height=228;
+                frame.origin.x = 28;
+                frame.origin.y = 102;
+                frame.size.width = 412;
+                frame.size.height = 236;
             }
             else {
-                frame.origin.x=38;
-                frame.origin.y=102;
-                frame.size.width=630;
-                frame.size.height=360;
+                frame.origin.x = 38 ;
+                frame.origin.y = 102;
+                frame.size.width = 646;
+                frame.size.height = 364;
             }
         }
-        thumbnailView.frame=frame;
-        songDetailsView.frame=frame;
-
+        thumbnailView.frame = frame;
+        songDetailsView.frame = frame;
     }
     else{
-        jewelImg=@"jewel_cd.9.png";
-        CGRect frame=thumbnailView.frame;
+        jewelImg = @"jewel_cd.9.png";
+        CGRect frame = thumbnailView.frame;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            frame.origin.x=50;
-            frame.origin.y=43;
-            frame.size.width=237;
-            frame.size.height=236;
+            frame.origin.x = 52;
+            frame.origin.y = 43;
+            frame.size.width = 238;
+            frame.size.height = 238;
         }
         else {
             jewelImg=@"jewel_cd.9@2x.png";
             if (portraitMode){
-                frame.origin.x=76;
-                frame.origin.y=60;
-                frame.size.width=334;
-                frame.size.height=334;
+                frame.origin.x = 82;
+                frame.origin.y = 60;
+                frame.size.width = 334;
+                frame.size.height = 334;
             }
             else {
-                frame.origin.x=152;
-                frame.origin.y=80;
-                frame.size.width=435;
-                frame.size.height=435;
+                frame.origin.x = 158;
+                frame.origin.y = 80;
+                frame.size.width = 435;
+                frame.size.height = 435;
             }
         }
-        thumbnailView.frame=frame;
-        songDetailsView.frame=frame;
-        
+        thumbnailView.frame = frame;
+        songDetailsView.frame = frame;
     }
-    jewelView.image=[UIImage imageNamed:jewelImg];
+    if ([self enableJewelCases]){
+        jewelView.image = [UIImage imageNamed:jewelImg];
+        [nowPlayingView bringSubviewToFront:jewelView];
+        thumbnailView.hidden = NO;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            CGRect frame = jewelView.frame;
+            frame.origin.x = 10;
+            jewelView.frame = frame;
+        }
+        songDetailsView.frame = thumbnailView.frame;
+        jewelView.layer.shadowRadius = 0.0;
+        songDetailsView.layer.shadowRadius = 0.0;
+
+    }
+    else {
+        [nowPlayingView sendSubviewToBack:jewelView];
+        thumbnailView.hidden = YES;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            CGRect frame = jewelView.frame;
+            frame.origin.x = 14;
+            jewelView.frame = frame;
+        }
+        songDetailsView.frame = jewelView.frame;
+        jewelView.clipsToBounds = NO;
+        jewelView.layer.shadowColor = [UIColor blackColor].CGColor;
+        jewelView.layer.shadowOffset = CGSizeMake(0, 0);
+        jewelView.layer.shadowOpacity = 1;
+        jewelView.layer.shadowRadius = 5.0;
+        songDetailsView.clipsToBounds = NO;
+        songDetailsView.layer.shadowColor = [UIColor blackColor].CGColor;
+        songDetailsView.layer.shadowOffset = CGSizeMake(0, 0);
+        songDetailsView.layer.shadowOpacity = 0.5;
+        songDetailsView.layer.shadowRadius = 5.0;
+    }
+    [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
 }
 
 -(void)nothingIsPlaying{
@@ -403,29 +435,49 @@ int currentItemID;
     [timeBar.layer removeAllAnimations];
     [self animCursor:startx];
     [self resizeBar:0];
-    thumbnailView.image=nil;
-    duration.text=@"";
-    albumName.text=@"Nothing is playing";
-    songName.text=@"";
-    artistName.text=@"";
-    lastSelected=-1;
-    storeSelection=nil;
-    songCodec.text=@"-";
-    songBitRate.text=@"-";
-    songSampleRate.text=@"-";
+    thumbnailView.image = nil;
+    if (![self enableJewelCases]){
+        jewelView.image = nil;
+    }
+    duration.text = @"";
+    albumName.text = @"Nothing is playing";
+    songName.text = @"";
+    artistName.text = @"";
+    lastSelected = -1;
+    storeSelection = nil;
+    songCodec.text = @"-";
+    songBitRate.text = @"-";
+    songSampleRate.text = @"-";
     [PartyModeButton setSelected:NO];
-    NSIndexPath *selection=[playlistTableView indexPathForSelectedRow];
+    NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     if (selection){
         [playlistTableView deselectRowAtIndexPath:selection animated:YES];
         UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-        UIImageView *coverView=(UIImageView*) [cell viewWithTag:4];
-        coverView.alpha=1.0;
+        UIImageView *coverView = (UIImageView*) [cell viewWithTag:4];
+        coverView.alpha = 1.0;
         UIView *timePlaying=(UIView*) [cell viewWithTag:5];
-        storeSelection=nil;
-        if (timePlaying.hidden==NO)
+        storeSelection = nil;
+        if (timePlaying.hidden == NO)
             [self fadeView:timePlaying hidden:YES];
     }
     [self showPlaylistTable];
+}
+
+- (UIImage*)imageWithBorderFromImage:(UIImage*)source{
+    CGSize size = [source size];
+    UIGraphicsBeginImageContext(size);
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0); 
+    CGFloat borderWidth = 2.0;
+	CGContextSetLineWidth(context, borderWidth);
+    CGContextStrokeRect(context, rect);
+    
+    UIImage *testImg =  UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return testImg;
 }
 
 -(void)playbackInfo{
@@ -472,6 +524,7 @@ int currentItemID;
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
 //                         NSLog(@"Risposta %@", methodResult);
+                         bool enableJewel = [self enableJewelCases];
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
                              NSDictionary *nowPlayingInfo = [methodResult objectForKey:@"item"];
                              if ([nowPlayingInfo  objectForKey:@"id"]==nil)
@@ -499,35 +552,40 @@ int currentItemID;
                              }
                              GlobalData *obj=[GlobalData getInstance]; 
                              NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-
                              NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
-                             
                              NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnailPath];
-                             
                              NSURL *imageUrl = [NSURL URLWithString: stringURL];
-//                             NSLog(@"%@", thumbnailPath);
-//                             thumbnailView.image=[UIImage im];
-//                             SDWebImageManager *manager = [SDWebImageManager sharedManager];
                              UIImage *cachedImage = [manager imageWithURL:imageUrl];
+                             
                              if (cachedImage){
-                                 thumbnailView.image=cachedImage;
+                                 if (enableJewel){
+                                     thumbnailView.image=cachedImage;
+                                 }
+                                 else{
+                                     jewelView.image=[self imageWithBorderFromImage:cachedImage];
+                                 }
                              }
                              else{
-                                 [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
+                                 if (enableJewel){
+                                     [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
+                                 }
+                                 else{
+                                      [jewelView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
+                                 }
                              }
-                             //                                      NSLog(@"Visualizzo %@", stringURL);
                          }
                          else {
                              storedItemID=-1;
-                             thumbnailView.image=[UIImage imageNamed:@"coverbox_back.png"];
-                             //                                      NSLog(@"SONO IO ERROR:%@ METHOD:%@", error, methodError);
+                             if (enableJewel){
+                                 thumbnailView.image=[UIImage imageNamed:@"coverbox_back.png"];
+                             }
+                             else{
+                                 jewelView.image=[UIImage imageNamed:@"coverbox_back.png"];
+                             }
                          }
-                             
-                         
                      }
                      else {
                          storedItemID=-1;
-                         NSLog(@"ci deve essere un secondo problema %@ %@", error, methodError);
                      }
                  }];
                 [jsonRPC 
@@ -1077,7 +1135,7 @@ int anim2;
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
-    if([touch.view isEqual:jewelView]){
+    if([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]){
         [self toggleSongDetails];
         [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
 
@@ -1441,7 +1499,6 @@ int anim2;
     slideFrom=-300;
     CGRect frame;
     [albumName setFont:[UIFont systemFontOfSize:24]];
-
     frame=albumName.frame;
     frame.origin.y=10;
     albumName.frame=frame;
@@ -1463,6 +1520,8 @@ int anim2;
     frame.origin.x=slideFrom;
     playlistTableView.frame=frame;
     
+    
+    
     NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
     [items removeObjectAtIndex:1];
     [items removeObjectAtIndex:2];
@@ -1479,6 +1538,12 @@ int anim2;
     nowPlayingView.hidden=NO;
     playlistView.hidden=NO;
     //button.hidden=YES;
+}
+
+-(bool)enableJewelCases{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
 #pragma mark - Life Cycle
@@ -1532,6 +1597,7 @@ int anim2;
 
 - (void) handleEnterForeground: (NSNotification*) sender{
     [self checkPartyMode];
+    [self setCoverSize:currentType];
 }
 
 - (void) handleXBMCPlaylistHasChanged: (NSNotification*) sender{

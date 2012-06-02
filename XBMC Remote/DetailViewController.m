@@ -380,6 +380,7 @@ int labelPosition=0;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {    
 	cell.backgroundColor = [UIColor whiteColor];
+//    cell.accessoryView.
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -278,8 +278,8 @@
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
-    CGPoint viewPoint = [self.nowPlayingController.thumbnailView convertPoint:locationPoint fromView:self.view];
-    if ([self.nowPlayingController.thumbnailView pointInside:viewPoint withEvent:event]) {
+    CGPoint viewPoint = [self.nowPlayingController.jewelView convertPoint:locationPoint fromView:self.view];
+    if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event]) {
         [self.nowPlayingController toggleSongDetails];
     }
 }

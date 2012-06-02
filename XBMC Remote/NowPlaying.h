@@ -72,6 +72,7 @@
     BOOL portraitMode;
     NSString *currentType;
     BOOL nothingIsPlaying;
+    IBOutlet UIImageView *xbmcOverlayImage;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
@@ -82,7 +83,7 @@
 @property (strong, nonatomic) id detailItem;
 
 @property (strong, nonatomic) RemoteController *remoteController;
-@property (strong, nonatomic) UIImageView *thumbnailView;
+@property (strong, nonatomic) UIImageView *jewelView;
 
 
 
