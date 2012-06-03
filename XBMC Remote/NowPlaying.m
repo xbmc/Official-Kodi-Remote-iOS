@@ -220,9 +220,7 @@ float cellBarWidth=45;
 }
 
 -(IBAction)togglePartyMode:(id)sender{
-//    if (PartyModeButton.state == UIControlStateSelected){
-//        
-//    }
+    storedItemID=-1;
     [PartyModeButton setSelected:YES];
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
@@ -233,7 +231,6 @@ float cellBarWidth=45;
     playerID = -1;
     selectedPlayerID = -1;
     [self createPlaylist:NO animTableView:YES];
-   // NSLog(@"SERVER RESPONSE : %@",requestANS);
 }
 
 -(void)fadeView:(UIView *)view hidden:(BOOL)value{
@@ -532,7 +529,7 @@ int currentItemID;
                                  nil] 
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
-//                         NSLog(@"Risposta %@", methodResult);
+                         //                         NSLog(@"Risposta %@", methodResult);
                          bool enableJewel = [self enableJewelCases];
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
                              NSDictionary *nowPlayingInfo = [methodResult objectForKey:@"item"];
@@ -552,7 +549,7 @@ int currentItemID;
                                  if ([title length] == 0)
                                      title = [[nowPlayingInfo  objectForKey:@"label"] length]!=0? [nowPlayingInfo  objectForKey:@"label"] : @"";
                                  if ([artist length] == 0 && ((NSNull *)[nowPlayingInfo  objectForKey:@"studio"] != [NSNull null])){
-                                         artist = [[nowPlayingInfo  objectForKey:@"studio"] length]!=0? [nowPlayingInfo  objectForKey:@"studio"] : @"";
+                                     artist = [[nowPlayingInfo  objectForKey:@"studio"] length]!=0? [nowPlayingInfo  objectForKey:@"studio"] : @"";
                                  }
                                  albumName.text = album;
                                  songName.text = title;
@@ -560,29 +557,21 @@ int currentItemID;
                                  NSString *type = [[nowPlayingInfo objectForKey:@"type"] length]!=0? [nowPlayingInfo objectForKey:@"type"] : @"unknown";
                                  currentType = type;
                                  [self setCoverSize:currentType];
-                                 
                                  GlobalData *obj=[GlobalData getInstance]; 
                                  NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
                                  NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
                                  NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnailPath];
                                  NSURL *imageUrl = [NSURL URLWithString: stringURL];
                                  UIImage *cachedImage = [manager imageWithURL:imageUrl];
+                                 UIImage *buttonImage = [UIImage imageNamed:@"coverbox_back.png"];
                                  if (cachedImage){
                                      if (enableJewel){
                                          thumbnailView.image=cachedImage;
-                                         if (nowPlayingView.hidden){
-                                             [playlistButton setImage:thumbnailView.image forState:UIControlStateNormal];
-                                             [playlistButton setImage:thumbnailView.image forState:UIControlStateHighlighted];
-                                             [playlistButton setImage:thumbnailView.image forState:UIControlStateSelected];
-                                         }
+                                         buttonImage=[self resizeImage:cachedImage width:76 height:66 padding:2];
                                      }
                                      else{
                                          jewelView.image=[self imageWithBorderFromImage:cachedImage];
-                                         if (nowPlayingView.hidden){
-                                             [playlistButton setImage:jewelView.image forState:UIControlStateNormal];
-                                             [playlistButton setImage:jewelView.image forState:UIControlStateHighlighted];
-                                             [playlistButton setImage:jewelView.image forState:UIControlStateSelected];
-                                         }
+                                         buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:2];
                                      }
                                  }
                                  else{
@@ -592,18 +581,17 @@ int currentItemID;
                                      else{
                                          [jewelView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
                                      }
-                                     if (nowPlayingView.hidden){
-                                         [playlistButton setImage:[UIImage imageNamed:@"coverbox_back.png"] forState:UIControlStateNormal];
-                                         [playlistButton setImage:[UIImage imageNamed:@"coverbox_back.png"] forState:UIControlStateHighlighted];
-                                         [playlistButton setImage:[UIImage imageNamed:@"coverbox_back.png"] forState:UIControlStateSelected];
-                                     }
                                  }
-
+                                 if (nowPlayingHidden){
+                                     [playlistButton setImage:[self resizeImage:buttonImage width:76 height:66 padding:2] forState:UIControlStateNormal];
+                                     [playlistButton setImage:[self resizeImage:buttonImage width:76 height:66 padding:2] forState:UIControlStateHighlighted];
+                                     [playlistButton setImage:[self resizeImage:buttonImage width:76 height:66 padding:2] forState:UIControlStateSelected];
+                                 }
                              }
                              else{
                                  updateDetailsView = NO;
                              }
-                        }
+                         }
                          else {
                              storedItemID=-1;
                              if (enableJewel){
@@ -873,7 +861,7 @@ int currentItemID;
     [UIView commitAnimations];
 }
 
--(void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)anim{ 
+-(void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable{ 
     if (![AppDelegate instance].serverOnLine) {
         playerID = -1;
         selectedPlayerID = -1;
@@ -883,7 +871,7 @@ int currentItemID;
         [self nothingIsPlaying];
         return;
     }
-    if (!musicPartyMode && anim)
+    if (!musicPartyMode && animTable)
         [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     [activityIndicatorView startAnimating];
     GlobalData *obj=[AppDelegate instance].obj; 
@@ -1020,11 +1008,53 @@ int currentItemID;
     }];
 }
 
+-(UIImage *)resizeImage:(UIImage *)image width:(int)destWidth height:(int)destHeight padding:(int)destPadding {
+	int w = image.size.width;
+    int h = image.size.height; 
+
+	CGImageRef imageRef = [image CGImage];
+	
+	int width, height;
+	
+	if(w > h){
+		width = destWidth - destPadding;
+		height = h * (destWidth - destPadding) / w;
+	} else {
+		height = destHeight - destPadding;
+		width = w * (destHeight - destPadding) / h;
+	}
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+	CGContextRef bitmap;
+	bitmap = CGBitmapContextCreate(NULL, destWidth, destHeight, 8, 4 * destWidth, colorSpace, kCGImageAlphaPremultipliedFirst);
+	
+	if (image.imageOrientation == UIImageOrientationLeft) {
+		CGContextRotateCTM (bitmap, M_PI/2);
+		CGContextTranslateCTM (bitmap, 0, -height);
+		
+	} else if (image.imageOrientation == UIImageOrientationRight) {
+		CGContextRotateCTM (bitmap, -M_PI/2);
+		CGContextTranslateCTM (bitmap, -width, 0);
+		
+	} else if (image.imageOrientation == UIImageOrientationUp) {
+		
+	} else if (image.imageOrientation == UIImageOrientationDown) {
+		CGContextTranslateCTM (bitmap, width,height);
+		CGContextRotateCTM (bitmap, -M_PI);
+		
+	}
+	
+	CGContextDrawImage(bitmap, CGRectMake((destWidth / 2) - (width / 2), (destHeight / 2) - (height / 2), width, height), imageRef);
+	CGImageRef ref = CGBitmapContextCreateImage(bitmap);
+	UIImage *result = [UIImage imageWithCGImage:ref];
+	
+	CGContextRelease(bitmap);
+	CGImageRelease(ref);
+	
+	return result;	
+}
+
 # pragma mark -  animations
-BOOL playlistHidden=NO;
-BOOL nowPlayingHidden=NO;
-int anim;
-int anim2;
 
 -(void)animViews{
     if (!nowPlayingView.hidden){
@@ -1071,16 +1101,16 @@ int anim2;
                      animations:^{ 
                          playlistButton.hidden = YES;
                          if (nowPlayingHidden){
+                             UIImage *buttonImage;
                              if ([self enableJewelCases]){
-                                 [playlistButton setImage:thumbnailView.image forState:UIControlStateNormal];
-                                 [playlistButton setImage:thumbnailView.image forState:UIControlStateHighlighted];
-                                 [playlistButton setImage:thumbnailView.image forState:UIControlStateSelected];
+                                 buttonImage=[self resizeImage:thumbnailView.image width:76 height:66 padding:2];
                              }
                              else{
-                                 [playlistButton setImage:jewelView.image forState:UIControlStateNormal];
-                                 [playlistButton setImage:jewelView.image forState:UIControlStateHighlighted];
-                                 [playlistButton setImage:jewelView.image forState:UIControlStateSelected];
+                                 buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:2];
                              }
+                             [playlistButton setImage:buttonImage forState:UIControlStateNormal];
+                             [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
+                             [playlistButton setImage:buttonImage forState:UIControlStateSelected];
                          }
                          else{
                              [playlistButton setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateNormal];

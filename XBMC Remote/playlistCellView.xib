@@ -69,6 +69,8 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1070852635"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">1</int>
 								<int key="IBUITag">4</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -471,6 +473,7 @@
 						<string key="nowPlayingView">UIView</string>
 						<string key="pgbar">UIImageView</string>
 						<string key="playlistActionView">UIView</string>
+						<string key="playlistButton">UIButton</string>
 						<string key="playlistTableView">UITableView</string>
 						<string key="playlistTableViewCell">UITableViewCell</string>
 						<string key="playlistToolbar">UIToolbar</string>
@@ -485,6 +488,8 @@
 						<string key="thumbnailView">UIImageView</string>
 						<string key="timeBar">UIImageView</string>
 						<string key="timeCursor">UIImageView</string>
+						<string key="xbmcOverlayImage">UIImageView</string>
+						<string key="xbmcOverlayImage_iphone">UIImageView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="PartyModeButton">
@@ -551,6 +556,10 @@
 							<string key="name">playlistActionView</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="playlistButton">
+							<string key="name">playlistButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="playlistTableView">
 							<string key="name">playlistTableView</string>
 							<string key="candidateClassName">UITableView</string>
@@ -605,6 +614,14 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="timeCursor">
 							<string key="name">timeCursor</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="xbmcOverlayImage">
+							<string key="name">xbmcOverlayImage</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="xbmcOverlayImage_iphone">
+							<string key="name">xbmcOverlayImage_iphone</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
 					</dictionary>

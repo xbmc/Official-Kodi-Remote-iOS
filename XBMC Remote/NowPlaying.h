@@ -75,6 +75,10 @@
     IBOutlet UIImageView *xbmcOverlayImage;
     IBOutlet UIImageView *xbmcOverlayImage_iphone;
     IBOutlet UIButton *playlistButton;
+    BOOL playlistHidden;
+    BOOL nowPlayingHidden;
+    int anim;
+    int anim2;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
