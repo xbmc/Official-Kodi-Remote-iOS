@@ -587,7 +587,8 @@ int currentItemID;
                                          [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
                                      }
                                      else{
-                                         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                                         /* DISABLED due to issues: success comes also from others thread */
+                                         /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                                              [jewelView 
                                               setImageWithURL:[NSURL URLWithString:stringURL] 
                                               placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
@@ -595,14 +596,20 @@ int currentItemID;
                                                   jewelView.image = [self imageWithBorderFromImage:image];
                                               } 
                                               failure:^(NSError *error) {
-                                              }];
+                                              }
+                                              ];
                                          }
-                                         else{ // DISABLED on ipad due to issues: success comes also from others thread
+                                         else{ 
                                              [jewelView 
                                               setImageWithURL:[NSURL URLWithString:stringURL] 
                                               placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
                                               ];
-                                         }
+                                         } */
+                                         /* */
+                                         [jewelView 
+                                          setImageWithURL:[NSURL URLWithString:stringURL] 
+                                          placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
+                                          ];
                                      }
                                  }
                                  if (nowPlayingHidden || startFlipDemo){
