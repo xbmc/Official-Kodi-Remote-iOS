@@ -408,7 +408,8 @@ int currentItemID;
             frame.origin.x = 14;
             jewelView.frame = frame;
         }
-        songDetailsView.frame = jewelView.frame;
+        songDetailsView.center = jewelView.center;
+//        songDetailsView.frame = jewelView.frame;
         songDetailsView.layer.cornerRadius = 10;
 
     }
