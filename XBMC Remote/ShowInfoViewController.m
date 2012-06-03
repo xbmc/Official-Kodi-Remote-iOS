@@ -278,6 +278,19 @@ int h=0;
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
+-(void)elaborateImage:(UIImage *)image{
+    [activityIndicatorView startAnimating];
+    UIImage *elabImage = [self imageWithBorderFromImage:image];
+    [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];    
+}
+
+-(void)showImage:(UIImage *)image{
+    [activityIndicatorView stopAnimating];
+    jewelView.alpha = 0;
+    jewelView.image = image;
+    [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0f];
+}
+
 -(void)createInfo{
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSDictionary *item=self.detailItem;
@@ -288,6 +301,8 @@ int h=0;
     int castWidth = 50;
     int castHeight = 50;
     int pageSize = 320;
+    bool enableJewel = [self enableJewelCases];
+    if (!enableJewel) jewelView.image = nil;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         castFontSize = 16;
         size = 6;
@@ -528,13 +543,12 @@ int h=0;
     NSURL *imageUrl = [NSURL URLWithString: thumbnailPath];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     UIImage *cachedImage = [manager imageWithURL:imageUrl];
-    bool enableJewel = [self enableJewelCases];
     if (cachedImage){
         if (enableJewel){
             coverView.image = cachedImage;
         }
         else{
-            jewelView.image = [self imageWithBorderFromImage:cachedImage];
+            [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:self withObject:cachedImage];
             jewelView.hidden = NO;
         }
     }
@@ -788,26 +802,10 @@ int h=0;
     fanartView=nil;
     coverView=nil;
     scrollView=nil;
-//    NSLog(@"eccomi");
-    
-//    self.detailItem = nil;
-//    jsonRPC=nil;
-//    [richResults removeAllObjects];
-//    richResults=nil;
-//    [self.sections removeAllObjects];
-//    self.sections=nil;
-//    dataList=nil;
-//    jsonCell=nil;
-//    activityIndicatorView=nil;  
-//    manager=nil;
 }
 
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-//}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-//    return YES;
 }
 
 @end
