@@ -336,6 +336,9 @@
 		0F5A5048155FA6AC0062FD6E /* icon_72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5A5047155FA6AC0062FD6E /* icon_72x72.png */; };
 		0F5A504C155FA8640062FD6E /* HostManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5A504A155FA8630062FD6E /* HostManagementViewController.m */; };
 		0F5A504D155FA8640062FD6E /* HostManagementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F5A504B155FA8640062FD6E /* HostManagementViewController.xib */; };
+		0F5F3B0E157B8C4C001E1C0D /* now_playing_empty_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5F3B0C157B8C4C001E1C0D /* now_playing_empty_down@2x.png */; };
+		0F5F3B0F157B8C4C001E1C0D /* now_playing_empty_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5F3B0D157B8C4C001E1C0D /* now_playing_empty_up@2x.png */; };
+		0F5F3B11157B9201001E1C0D /* now_playing_playlist@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5F3B10157B9201001E1C0D /* now_playing_playlist@2x.png */; };
 		0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F61E198153C828300A89BB1 /* AppInfoViewController.m */; };
 		0F61E19B153C828300A89BB1 /* AppInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F61E199153C828300A89BB1 /* AppInfoViewController.xib */; };
 		0F61E19D153C85E500A89BB1 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F61E19C153C85E500A89BB1 /* info@2x.png */; };
@@ -776,6 +779,9 @@
 		0F5A5049155FA8630062FD6E /* HostManagementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostManagementViewController.h; sourceTree = "<group>"; };
 		0F5A504A155FA8630062FD6E /* HostManagementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostManagementViewController.m; sourceTree = "<group>"; };
 		0F5A504B155FA8640062FD6E /* HostManagementViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HostManagementViewController.xib; sourceTree = "<group>"; };
+		0F5F3B0C157B8C4C001E1C0D /* now_playing_empty_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "now_playing_empty_down@2x.png"; sourceTree = "<group>"; };
+		0F5F3B0D157B8C4C001E1C0D /* now_playing_empty_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "now_playing_empty_up@2x.png"; sourceTree = "<group>"; };
+		0F5F3B10157B9201001E1C0D /* now_playing_playlist@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "now_playing_playlist@2x.png"; sourceTree = "<group>"; };
 		0F61E197153C828300A89BB1 /* AppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppInfoViewController.h; sourceTree = "<group>"; };
 		0F61E198153C828300A89BB1 /* AppInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppInfoViewController.m; sourceTree = "<group>"; };
 		0F61E199153C828300A89BB1 /* AppInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppInfoViewController.xib; sourceTree = "<group>"; };
@@ -1084,6 +1090,9 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F5F3B10157B9201001E1C0D /* now_playing_playlist@2x.png */,
+				0F5F3B0C157B8C4C001E1C0D /* now_playing_empty_down@2x.png */,
+				0F5F3B0D157B8C4C001E1C0D /* now_playing_empty_up@2x.png */,
 				0F73AD2D157A44F500285682 /* xbmc_overlay@2x.png */,
 				0F40635615795EA000596B61 /* st_songs_recently_black@2x.png */,
 				0F40635215795D7D00596B61 /* st_song_black@2x.png */,
@@ -1928,6 +1937,9 @@
 				0F40635715795EA000596B61 /* st_songs_recently_black@2x.png in Resources */,
 				0F73AD2B157A44E900285682 /* xbmc_overlay.png in Resources */,
 				0F73AD2E157A44F500285682 /* xbmc_overlay@2x.png in Resources */,
+				0F5F3B0E157B8C4C001E1C0D /* now_playing_empty_down@2x.png in Resources */,
+				0F5F3B0F157B8C4C001E1C0D /* now_playing_empty_up@2x.png in Resources */,
+				0F5F3B11157B9201001E1C0D /* now_playing_playlist@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

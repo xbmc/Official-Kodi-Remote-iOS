@@ -439,6 +439,7 @@ int currentItemID;
     songCodec.text = @"-";
     songBitRate.text = @"-";
     songSampleRate.text = @"-";
+    storedItemID=-1;
     [PartyModeButton setSelected:NO];
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     if (selection){
@@ -559,34 +560,50 @@ int currentItemID;
                                  NSString *type = [[nowPlayingInfo objectForKey:@"type"] length]!=0? [nowPlayingInfo objectForKey:@"type"] : @"unknown";
                                  currentType = type;
                                  [self setCoverSize:currentType];
+                                 
+                                 GlobalData *obj=[GlobalData getInstance]; 
+                                 NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+                                 NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
+                                 NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnailPath];
+                                 NSURL *imageUrl = [NSURL URLWithString: stringURL];
+                                 UIImage *cachedImage = [manager imageWithURL:imageUrl];
+                                 if (cachedImage){
+                                     if (enableJewel){
+                                         thumbnailView.image=cachedImage;
+                                         if (nowPlayingView.hidden){
+                                             [playlistButton setImage:thumbnailView.image forState:UIControlStateNormal];
+                                             [playlistButton setImage:thumbnailView.image forState:UIControlStateHighlighted];
+                                             [playlistButton setImage:thumbnailView.image forState:UIControlStateSelected];
+                                         }
+                                     }
+                                     else{
+                                         jewelView.image=[self imageWithBorderFromImage:cachedImage];
+                                         if (nowPlayingView.hidden){
+                                             [playlistButton setImage:jewelView.image forState:UIControlStateNormal];
+                                             [playlistButton setImage:jewelView.image forState:UIControlStateHighlighted];
+                                             [playlistButton setImage:jewelView.image forState:UIControlStateSelected];
+                                         }
+                                     }
+                                 }
+                                 else{
+                                     if (enableJewel){
+                                         [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
+                                     }
+                                     else{
+                                         [jewelView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
+                                     }
+                                     if (nowPlayingView.hidden){
+                                         [playlistButton setImage:[UIImage imageNamed:@"coverbox_back.png"] forState:UIControlStateNormal];
+                                         [playlistButton setImage:[UIImage imageNamed:@"coverbox_back.png"] forState:UIControlStateHighlighted];
+                                         [playlistButton setImage:[UIImage imageNamed:@"coverbox_back.png"] forState:UIControlStateSelected];
+                                     }
+                                 }
+
                              }
                              else{
                                  updateDetailsView = NO;
                              }
-                             GlobalData *obj=[GlobalData getInstance]; 
-                             NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-                             NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
-                             NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnailPath];
-                             NSURL *imageUrl = [NSURL URLWithString: stringURL];
-                             UIImage *cachedImage = [manager imageWithURL:imageUrl];
-                             
-                             if (cachedImage){
-                                 if (enableJewel){
-                                     thumbnailView.image=cachedImage;
-                                 }
-                                 else{
-                                     jewelView.image=[self imageWithBorderFromImage:cachedImage];
-                                 }
-                             }
-                             else{
-                                 if (enableJewel){
-                                     [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
-                                 }
-                                 else{
-                                      [jewelView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
-                                 }
-                             }
-                         }
+                        }
                          else {
                              storedItemID=-1;
                              if (enableJewel){
@@ -942,8 +959,6 @@ int currentItemID;
                            NSString *season=[[playlistItems objectAtIndex:i] objectForKey:@"season"];
                            NSString *episode=[[playlistItems objectAtIndex:i] objectForKey:@"episode"];
                            NSString *type=[[playlistItems objectAtIndex:i] objectForKey:@"type"];
-
-
                            NSNumber *itemDurationSec=[[playlistItems objectAtIndex:i] objectForKey:@"duration"];
                            NSString *durationTime=[itemDurationSec longValue]==0 ? @"" : [self convertTimeFromSeconds:itemDurationSec];
 
@@ -1012,33 +1027,32 @@ int anim;
 int anim2;
 
 -(void)animViews{
-
+    if (!nowPlayingView.hidden){
+        nowPlayingView.hidden = YES;
+        transitionView=nowPlayingView;
+        transitionedView=playlistView;
+        playlistHidden = NO;
+        nowPlayingHidden = YES;
+        viewTitle.text = @"Playlist";
+        self.navigationItem.title = @"Playlist";
+        self.navigationItem.titleView.hidden=YES;
+        anim=UIViewAnimationTransitionFlipFromRight;
+        anim2=UIViewAnimationTransitionFlipFromRight;
+    }
+    else {
+        playlistView.hidden = YES;
+        transitionView=playlistView;
+        transitionedView=nowPlayingView;
+        playlistHidden = YES;
+        nowPlayingHidden = NO;
+        viewTitle.text = @"Now playing";
+        self.navigationItem.title = @"Now playing";
+        self.navigationItem.titleView.hidden=YES;
+        anim=UIViewAnimationTransitionFlipFromLeft;
+        anim2=UIViewAnimationTransitionFlipFromLeft;
+    }
     [UIView animateWithDuration:0.2
                      animations:^{ 
-                         if (!nowPlayingView.hidden){
-                             nowPlayingView.hidden = YES;
-                             transitionView=nowPlayingView;
-                             transitionedView=playlistView;
-                             playlistHidden = NO;
-                             nowPlayingHidden = YES;
-                             viewTitle.text = @"Playlist";
-                             self.navigationItem.title = @"Playlist";
-                             self.navigationItem.titleView.hidden=YES;
-                             anim=UIViewAnimationTransitionFlipFromRight;
-                             anim2=UIViewAnimationTransitionFlipFromRight;
-                         }
-                         else {
-                             playlistView.hidden = YES;
-                             transitionView=playlistView;
-                             transitionedView=nowPlayingView;
-                             playlistHidden = YES;
-                             nowPlayingHidden = NO;
-                             viewTitle.text = @"Now playing";
-                             self.navigationItem.title = @"Now playing";
-                             self.navigationItem.titleView.hidden=YES;
-                             anim=UIViewAnimationTransitionFlipFromLeft;
-                             anim2=UIViewAnimationTransitionFlipFromLeft;
-                         }
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          [UIView setAnimationTransition:anim forView:transitionView cache:YES];
                      } 
@@ -1052,7 +1066,39 @@ int anim2;
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
                          [UIView setAnimationTransition:anim2 forView:transitionedView cache:YES];
                          [UIView commitAnimations];
-                     }];   
+                     }];
+    [UIView animateWithDuration:0.2
+                     animations:^{ 
+                         playlistButton.hidden = YES;
+                         if (nowPlayingHidden){
+                             if ([self enableJewelCases]){
+                                 [playlistButton setImage:thumbnailView.image forState:UIControlStateNormal];
+                                 [playlistButton setImage:thumbnailView.image forState:UIControlStateHighlighted];
+                                 [playlistButton setImage:thumbnailView.image forState:UIControlStateSelected];
+                             }
+                             else{
+                                 [playlistButton setImage:jewelView.image forState:UIControlStateNormal];
+                                 [playlistButton setImage:jewelView.image forState:UIControlStateHighlighted];
+                                 [playlistButton setImage:jewelView.image forState:UIControlStateSelected];
+                             }
+                         }
+                         else{
+                             [playlistButton setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateNormal];
+                             [playlistButton setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateHighlighted];
+                             [playlistButton setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateSelected];
+                        }
+                         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+                         [UIView setAnimationTransition:anim forView:playlistButton cache:YES];
+                     } 
+                     completion:^(BOOL finished){
+                         [UIView beginAnimations:nil context:nil];
+                         playlistButton.hidden = NO;
+                         [UIView setAnimationDuration:0.5];
+                         [UIView setAnimationDelegate:self];
+                         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+                         [UIView setAnimationTransition:anim2 forView:playlistButton cache:YES];
+                         [UIView commitAnimations];
+                     }];
 }
 
 #pragma mark - bottom toolbar
