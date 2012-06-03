@@ -1701,7 +1701,7 @@ int currentItemID;
     [self playbackInfo];
     [volumeSliderView startTimer]; 
     lastSelected = -1;
-    //playerID = -1;
+    playerID = -1;
     storedItemID = -1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
 }
