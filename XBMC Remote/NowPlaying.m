@@ -563,15 +563,16 @@ int currentItemID;
                                  NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnailPath];
                                  NSURL *imageUrl = [NSURL URLWithString: stringURL];
                                  UIImage *cachedImage = [manager imageWithURL:imageUrl];
-                                 UIImage *buttonImage = [UIImage imageNamed:@"coverbox_back.png"];
+                                 UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                  if (cachedImage){
                                      if (enableJewel){
                                          thumbnailView.image=cachedImage;
-                                         buttonImage=[self resizeImage:cachedImage width:76 height:66 padding:2];
+                                         buttonImage=[self resizeImage:cachedImage width:76 height:66 padding:10];
+
                                      }
                                      else{
                                          jewelView.image=[self imageWithBorderFromImage:cachedImage];
-                                         buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:2];
+                                         buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
                                      }
                                  }
                                  else{
@@ -579,13 +580,21 @@ int currentItemID;
                                          [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
                                      }
                                      else{
-                                         [jewelView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
+                                         [jewelView 
+                                          setImageWithURL:[NSURL URLWithString:stringURL] 
+                                          placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
+                                          // DISABLED due to iPAD: success comes also from others thread
+//                                          success:^(UIImage *image) { 
+//                                              jewelView.image = [self imageWithBorderFromImage:image];
+//                                          } failure:^(NSError *error) {
+//                                          }
+                                          ];
                                      }
                                  }
                                  if (nowPlayingHidden){
-                                     [playlistButton setImage:[self resizeImage:buttonImage width:76 height:66 padding:2] forState:UIControlStateNormal];
-                                     [playlistButton setImage:[self resizeImage:buttonImage width:76 height:66 padding:2] forState:UIControlStateHighlighted];
-                                     [playlistButton setImage:[self resizeImage:buttonImage width:76 height:66 padding:2] forState:UIControlStateSelected];
+                                     [playlistButton setImage:buttonImage forState:UIControlStateNormal];
+                                     [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
+                                     [playlistButton setImage:buttonImage forState:UIControlStateSelected];
                                  }
                              }
                              else{
@@ -1015,7 +1024,7 @@ int currentItemID;
 	CGImageRef imageRef = [image CGImage];
 	
 	int width, height;
-	
+
 	if(w > h){
 		width = destWidth - destPadding;
 		height = h * (destWidth - destPadding) / w;
@@ -1103,10 +1112,10 @@ int currentItemID;
                          if (nowPlayingHidden){
                              UIImage *buttonImage;
                              if ([self enableJewelCases]){
-                                 buttonImage=[self resizeImage:thumbnailView.image width:76 height:66 padding:2];
+                                 buttonImage=[self resizeImage:thumbnailView.image width:76 height:66 padding:10];
                              }
                              else{
-                                 buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:2];
+                                 buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
                              }
                              [playlistButton setImage:buttonImage forState:UIControlStateNormal];
                              [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
