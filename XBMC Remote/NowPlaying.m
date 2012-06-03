@@ -1687,6 +1687,7 @@ int currentItemID;
 
 - (void) handleEnterForeground: (NSNotification*) sender{
     playerID = -1;
+    storedItemID=-1;
     [self checkPartyMode];
     [self setCoverSize:currentType];
 }
