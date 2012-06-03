@@ -1160,11 +1160,14 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzE0IDAuMzA5ODAzOTIxNiAwLjUyMTU2ODYyNzUAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="347497617"/>
-								<object class="NSCustomResource" key="IBUIHighlightedImage" id="271380385">
+								<object class="NSCustomResource" key="IBUIHighlightedImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">now_playing_playlist@2x.png</string>
 								</object>
-								<reference key="IBUINormalImage" ref="271380385"/>
+								<object class="NSCustomResource" key="IBUINormalImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">xbmc_overlay_small.png</string>
+								</object>
 								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">now_playing_empty_down@2x.png</string>
@@ -2446,6 +2449,7 @@
 			<string key="tableDown.png">{480, 8}</string>
 			<string key="tableUp.png">{480, 8}</string>
 			<string key="xbmc_overlay.png">{513, 127}</string>
+			<string key="xbmc_overlay_small.png">{38, 10}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1181</string>
 	</data>
