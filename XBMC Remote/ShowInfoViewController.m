@@ -158,16 +158,11 @@ int count=0;
 
 -(void)showNowPlaying{
     if (!alreadyPush){
-        self.nowPlaying=nil;
-        self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        //self.nowPlaying=nil;
+        if (self.nowPlaying == nil){
+            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        }
         self.nowPlaying.detailItem = self.detailItem; 
-        
-        
-//        self.nowPlaying.modalTransitionStyle = UIModalPresentationFormSheet;
-//        self.nowPlaying.modalPresentationStyle = UIModalPresentationPageSheet;
-//        [self presentModalViewController:self.nowPlaying animated:YES];
-
-        
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
         self.navigationItem.rightBarButtonItem.enabled=YES;
         alreadyPush=YES;
@@ -802,6 +797,7 @@ int h=0;
     fanartView=nil;
     coverView=nil;
     scrollView=nil;
+    self.nowPlaying = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

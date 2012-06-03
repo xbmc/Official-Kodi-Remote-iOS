@@ -226,14 +226,18 @@
     [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
     if (item.family == 2){
-        self.nowPlaying=nil;
-        self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        //self.nowPlaying=nil;
+        if (self.nowPlaying == nil){
+            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        }
         self.nowPlaying.detailItem = item;
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
     }
     else if (item.family == 3){
-        self.remoteController=nil; 
-        self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+        //self.remoteController=nil; 
+        if (self.remoteController == nil){
+            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+        }
         self.remoteController.detailItem = item;
         [self.navigationController pushViewController:self.remoteController animated:YES];
     }
@@ -382,6 +386,8 @@
 }
 
 -(void)dealloc{
+    self.nowPlaying=nil;
+    self.remoteController=nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 

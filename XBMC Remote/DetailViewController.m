@@ -813,8 +813,9 @@ NSIndexPath *selected;
 }
 
 -(void)searchWeb:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
-    self.webViewController=nil;
-    self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+    if (self.webViewController == nil){
+        self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+    }
     NSDictionary *item = nil;
     if ([self.searchDisplayController isActive]){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
@@ -945,8 +946,10 @@ NSIndexPath *selected;
 
 -(void)showNowPlaying{
     if (!alreadyPush){
-        self.nowPlaying=nil;
-        self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        //self.nowPlaying=nil;
+        if (self.nowPlaying == nil){
+            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        }
         self.nowPlaying.detailItem = self.detailItem;
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
         alreadyPush=YES;
@@ -1523,6 +1526,9 @@ NSIndexPath *selected;
     manager=nil;
     nowPlaying=nil;
     playFileViewController=nil;
+    self.nowPlaying = nil;
+    self.webViewController=nil;
+    self.showInfoViewController=nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

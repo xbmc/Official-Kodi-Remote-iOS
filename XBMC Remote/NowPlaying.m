@@ -397,7 +397,7 @@ int currentItemID;
             jewelView.frame = frame;
         }
         songDetailsView.frame = thumbnailView.frame;
-        songDetailsView.layer.cornerRadius = 0;
+//        songDetailsView.layer.cornerRadius = 0;
 
     }
     else {
@@ -410,7 +410,7 @@ int currentItemID;
         }
         songDetailsView.center = jewelView.center;
 //        songDetailsView.frame = jewelView.frame;
-        songDetailsView.layer.cornerRadius = 10;
+//        songDetailsView.layer.cornerRadius = 10;
 
     }
     [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
@@ -1592,8 +1592,10 @@ int currentItemID;
 }
 
 -(void)showRemoteController{
-    self.remoteController=nil;
-    self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+    //self.remoteController=nil;
+    if (self.remoteController == nil){
+        self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+    }
     mainMenu *item = [[mainMenu alloc] init];
     item.mainLabel = @"Remote Control";
     self.remoteController.detailItem = item;
@@ -1702,9 +1704,6 @@ int currentItemID;
     playerID = -1;
     storedItemID = -1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        startFlipDemo = YES;
-    }
 }
 
 -(void)startFlipDemo{
@@ -1742,6 +1741,9 @@ int currentItemID;
                                              selector: @selector(handleXBMCPlaylistHasChanged:)
                                                  name: @"XBMCPlaylistHasChanged"
                                                object: nil];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        startFlipDemo = YES;
+    }
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
@@ -1772,6 +1774,7 @@ int currentItemID;
     self.detailItem = nil;
     playlistData = nil;
     jsonRPC = nil;
+    self.remoteController=nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
