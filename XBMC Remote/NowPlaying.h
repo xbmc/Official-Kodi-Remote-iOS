@@ -79,6 +79,7 @@
     BOOL nowPlayingHidden;
     int anim;
     int anim2;
+    BOOL startFlipDemo;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;

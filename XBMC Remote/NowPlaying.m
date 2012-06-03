@@ -450,6 +450,13 @@ int currentItemID;
             [self fadeView:timePlaying hidden:YES];
     }
     [self showPlaylistTable];
+    if (startFlipDemo){
+        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
+        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
+        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
+        [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+        startFlipDemo = NO;
+    }
 }
 
 - (UIImage*)imageWithShadow:(UIImage *)source {
@@ -591,10 +598,14 @@ int currentItemID;
                                           ];
                                      }
                                  }
-                                 if (nowPlayingHidden){
+                                 if (nowPlayingHidden || startFlipDemo){
                                      [playlistButton setImage:buttonImage forState:UIControlStateNormal];
                                      [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
                                      [playlistButton setImage:buttonImage forState:UIControlStateSelected];
+                                     if (startFlipDemo){
+                                         [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+                                         startFlipDemo = NO;
+                                     }
                                  }
                              }
                              else{
@@ -1020,6 +1031,7 @@ int currentItemID;
 -(UIImage *)resizeImage:(UIImage *)image width:(int)destWidth height:(int)destHeight padding:(int)destPadding {
 	int w = image.size.width;
     int h = image.size.height; 
+    if (!w || !h) return image;
 
 	CGImageRef imageRef = [image CGImage];
 	
@@ -1065,6 +1077,49 @@ int currentItemID;
 
 # pragma mark -  animations
 
+-(void)flipAnimButton:(UIButton *)button demo:(bool)demo{
+    if (demo){
+        anim=UIViewAnimationTransitionFlipFromLeft;
+        anim2=UIViewAnimationTransitionFlipFromLeft;
+        startFlipDemo = NO;
+    }
+    [UIView animateWithDuration:0.2
+                     animations:^{ 
+                         button.hidden = YES;
+                         if (nowPlayingHidden){
+                             UIImage *buttonImage;
+                             if ([self enableJewelCases]){
+                                 buttonImage=[self resizeImage:thumbnailView.image width:76 height:66 padding:10];
+                             }
+                             else{
+                                 buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                             }
+                             if (!buttonImage.size.width){
+                                 buttonImage = [self resizeImage:[UIImage imageNamed:@"xbmc_overlay_small"] width:76 height:66 padding:10];
+                             }
+                             [button setImage:buttonImage forState:UIControlStateNormal];
+                             [button setImage:buttonImage forState:UIControlStateHighlighted];
+                             [button setImage:buttonImage forState:UIControlStateSelected];
+                         }
+                         else{
+                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateNormal];
+                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateHighlighted];
+                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateSelected];
+                         }
+                         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+                         [UIView setAnimationTransition:anim forView:button cache:YES];
+                     } 
+                     completion:^(BOOL finished){
+                         [UIView beginAnimations:nil context:nil];
+                         button.hidden = NO;
+                         [UIView setAnimationDuration:0.5];
+                         [UIView setAnimationDelegate:self];
+                         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+                         [UIView setAnimationTransition:anim2 forView:button cache:YES];
+                         [UIView commitAnimations];
+                     }];
+}
+
 -(void)animViews{
     if (!nowPlayingView.hidden){
         nowPlayingView.hidden = YES;
@@ -1106,38 +1161,7 @@ int currentItemID;
                          [UIView setAnimationTransition:anim2 forView:transitionedView cache:YES];
                          [UIView commitAnimations];
                      }];
-    [UIView animateWithDuration:0.2
-                     animations:^{ 
-                         playlistButton.hidden = YES;
-                         if (nowPlayingHidden){
-                             UIImage *buttonImage;
-                             if ([self enableJewelCases]){
-                                 buttonImage=[self resizeImage:thumbnailView.image width:76 height:66 padding:10];
-                             }
-                             else{
-                                 buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
-                             }
-                             [playlistButton setImage:buttonImage forState:UIControlStateNormal];
-                             [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
-                             [playlistButton setImage:buttonImage forState:UIControlStateSelected];
-                         }
-                         else{
-                             [playlistButton setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateNormal];
-                             [playlistButton setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateHighlighted];
-                             [playlistButton setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateSelected];
-                        }
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-                         [UIView setAnimationTransition:anim forView:playlistButton cache:YES];
-                     } 
-                     completion:^(BOOL finished){
-                         [UIView beginAnimations:nil context:nil];
-                         playlistButton.hidden = NO;
-                         [UIView setAnimationDuration:0.5];
-                         [UIView setAnimationDelegate:self];
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-                         [UIView setAnimationTransition:anim2 forView:playlistButton cache:YES];
-                         [UIView commitAnimations];
-                     }];
+    [self flipAnimButton:playlistButton demo:NO];
 }
 
 #pragma mark - bottom toolbar
@@ -1648,17 +1672,28 @@ int currentItemID;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
+    
+    
+    // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
+    UIViewController *c = [[UIViewController alloc]init];
+    [self presentModalViewController:c animated:NO];
+    [self dismissModalViewControllerAnimated:NO];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     [self playbackInfo];
     [volumeSliderView startTimer]; 
     lastSelected = -1;
     playerID = -1;
     storedItemID = -1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
-    
-    // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
-    UIViewController *c = [[UIViewController alloc]init];
-    [self presentModalViewController:c animated:NO];
-    [self dismissModalViewControllerAnimated:NO]; 
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        startFlipDemo = YES;
+    }
+}
+
+-(void)startFlipDemo{
+    [self flipAnimButton:playlistButton demo:YES]; 
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
