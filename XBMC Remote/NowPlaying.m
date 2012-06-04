@@ -417,6 +417,13 @@ int currentItemID;
 }
 
 -(void)nothingIsPlaying{
+    if (startFlipDemo){
+        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
+        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
+        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
+        [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+        startFlipDemo = NO;
+    }
     if (nothingIsPlaying == YES) return;
     nothingIsPlaying = YES;
     currentTime.text=@"";
@@ -451,13 +458,6 @@ int currentItemID;
             [self fadeView:timePlaying hidden:YES];
     }
     [self showPlaylistTable];
-    if (startFlipDemo){
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
-        [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
-        startFlipDemo = NO;
-    }
 }
 
 - (UIImage*)imageWithShadow:(UIImage *)source {
@@ -1694,12 +1694,26 @@ int currentItemID;
         nowPlayingHidden = NO;
         playlistView.hidden = YES;
         playlistHidden = YES;
-        [playlistButton setImage:[self resizeImage:jewelView.image width:76 height:66 padding:10] forState:UIControlStateNormal];
-        [playlistButton setImage:[self resizeImage:jewelView.image width:76 height:66 padding:10] forState:UIControlStateHighlighted];
-        [playlistButton setImage:[self resizeImage:jewelView.image width:76 height:66 padding:10] forState:UIControlStateSelected];
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         startFlipDemo = YES;
+        UIImage *buttonImage;
+        if ([self enableJewelCases]){
+            buttonImage=[self resizeImage:thumbnailView.image width:76 height:66 padding:10];
+        }
+        else {
+            buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+        }
+        if (buttonImage.size.width!=0){
+            [playlistButton setImage:buttonImage forState:UIControlStateNormal];
+            [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
+            [playlistButton setImage:buttonImage forState:UIControlStateSelected];
+        }
+        else{
+            [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
+            [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
+            [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
+        }
     }
     // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
     UIViewController *c = [[UIViewController alloc]init];
@@ -1752,26 +1766,25 @@ int currentItemID;
                                              selector: @selector(handleXBMCPlaylistHasChanged:)
                                                  name: @"XBMCPlaylistHasChanged"
                                                object: nil];
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-//        startFlipDemo = YES;
-//    }
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
-    playerID = -1;
-    storedItemID=-1;
-    [self checkPartyMode];
-    [self setCoverSize:currentType];
+//    playerID = -1;
+//    storedItemID=-1;
+//    [self checkPartyMode];
+//    [self setCoverSize:currentType];
+    [self handleXBMCPlaylistHasChanged:nil];
 }
 
 - (void) handleXBMCPlaylistHasChanged: (NSNotification*) sender{
-    playerID = -2;
+    playerID = -1;
     selectedPlayerID = -1;
     updateDetailsView = YES;
     lastSelected = -1;
-    [playlistData removeAllObjects];
-    [playlistTableView reloadData];
-    [self createPlaylist:YES animTableView:NO];
+    storedItemID=-1;
+//    [playlistData removeAllObjects];
+//    [playlistTableView reloadData];
+//    [self createPlaylist:YES animTableView:NO];
 }
 
 - (void)viewDidUnload{
