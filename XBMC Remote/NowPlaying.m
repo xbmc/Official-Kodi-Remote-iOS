@@ -1689,8 +1689,18 @@ int currentItemID;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
-    
-    
+    if (nowPlayingView.hidden){
+        nowPlayingView.hidden = NO;
+        nowPlayingHidden = NO;
+        playlistView.hidden = YES;
+        playlistHidden = YES;
+        [playlistButton setImage:[self resizeImage:jewelView.image width:76 height:66 padding:10] forState:UIControlStateNormal];
+        [playlistButton setImage:[self resizeImage:jewelView.image width:76 height:66 padding:10] forState:UIControlStateHighlighted];
+        [playlistButton setImage:[self resizeImage:jewelView.image width:76 height:66 padding:10] forState:UIControlStateSelected];
+    }
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        startFlipDemo = YES;
+    }
     // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
     UIViewController *c = [[UIViewController alloc]init];
     [self presentModalViewController:c animated:NO];
@@ -1703,6 +1713,7 @@ int currentItemID;
     lastSelected = -1;
     playerID = -1;
     storedItemID = -1;
+    selectedPlayerID = -1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
 }
 
@@ -1741,9 +1752,9 @@ int currentItemID;
                                              selector: @selector(handleXBMCPlaylistHasChanged:)
                                                  name: @"XBMCPlaylistHasChanged"
                                                object: nil];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        startFlipDemo = YES;
-    }
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+//        startFlipDemo = YES;
+//    }
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
