@@ -713,75 +713,63 @@ int currentItemID;
 //                                 }
                                  
 //                                 NSLog(@"CURRENT ITEMID %d PLAYLIST ID %@", currentItemID, [[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"]);
-                                
-                                 
                                  storePercentage=[(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue];
-                                
                                  if (playlistPosition!=lastSelected && playlistPosition>0){
-//                 NSLog(@"%d %d %d", [playlistData count], [playlistPosition intValue], lastSelected);
                                      if (([playlistData count]>=playlistPosition) && currentPlayerID==playerID){
                                          if (playlistPosition>0){
                                              if (lastSelected!=playlistPosition){
-//                                                 NSLog(@"me ne accorgo %@", storeSelection);
                                                  NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
                                                  if (storeSelection)
                                                      selection=storeSelection;
                                                  if (selection){
-//                                                     NSLog(@"spengo %@", selection);
                                                      UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                                      UIView *timePlaying=(UIView*) [cell viewWithTag:5];
                                                      if (timePlaying.hidden==NO)
                                                          [self fadeView:timePlaying hidden:YES];
-                                                     //                                 timePlaying.hidden=YES;
                                                      UIImageView *coverView=(UIImageView*) [cell viewWithTag:4];
-                                                     coverView.alpha=1.0;
+                                                     coverView.alpha=1.0;                                                     
                                                  }
                                                  NSIndexPath *newSelection=[NSIndexPath indexPathForRow:playlistPosition - 1 inSection:0];
                                                  UITableViewScrollPosition position=UITableViewScrollPositionMiddle;
                                                  if (musicPartyMode)
                                                      position=UITableViewScrollPositionNone;
-                                                 [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
+                                                 selection = [playlistTableView indexPathForSelectedRow];
+                                                [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
                                                  UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
                                                  UIView *timePlaying=(UIView*) [cell viewWithTag:5];
                                                  if (timePlaying.hidden==YES)
                                                      [self fadeView:timePlaying hidden:NO];
                                                  storeSelection=newSelection;
-                                                 //                             timePlaying.hidden=NO;
                                                  lastSelected=playlistPosition;
+                                                 selection = [playlistTableView indexPathForSelectedRow];
                                              }
                                          }
                                          else {
                                              NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
                                              if (selection){
+
                                                  [playlistTableView deselectRowAtIndexPath:selection animated:YES];
                                                  UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                                  UIView *timePlaying=(UIView*) [cell viewWithTag:5];
                                                  if (timePlaying.hidden==NO)
                                                      [self fadeView:timePlaying hidden:YES];
-                                                 //                             timePlaying.hidden=YES;
                                                  UIImageView *coverView=(UIImageView*) [cell viewWithTag:4];
                                                  coverView.alpha=1.0;
                                              }
                                          }
                                      }
                                  }
-//                                 NSLog(@"time %@", actualTime);
                              }
                              else{
                                  [PartyModeButton setSelected:NO];
-//                                 PlayerPaused=YES; 
                              }
                          }
                          else{
                              [PartyModeButton setSelected:NO];
-                             
-//                            PlayerPaused=YES; 
                          }
                      }
                      else {
                          [PartyModeButton setSelected:NO];
-//                         PlayerPaused=YES;
-//                         NSLog(@"ci deve essere un secondo problema %@ %@",error, methodError);
                      }
                  }];
             }
@@ -794,13 +782,11 @@ int currentItemID;
             }
         }
         else {
-//            NSLog(@"ci deve essere un primo problema %@", methodError);
             [self nothingIsPlaying];
         }
     }];
 
     if (updateDetailsView==YES){
-
         [jsonRPC 
          callMethod:@"XBMC.GetInfoLabels" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
@@ -838,15 +824,13 @@ int currentItemID;
                      
                      bitrate=[[methodResult objectForKey:@"VideoPlayer.VideoAspect"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoAspect"]] ;
                      songBitRate.text=bitrate;
-                     
-                     //                 samplerate=[[methodResult objectForKey:@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@ MHz", [methodResult objectForKey:@"MusicPlayer.SampleRate"]];
-                     //                 songSampleRate.text=samplerate;
+
                      songSampleRate.text=@"";
                  }
              }
-             else {
-                 //             NSLog(@"ERROR %@", methodError);
-             }
+//             else {
+//             NSLog(@"ERROR %@", methodError);
+//             }
          }];  
     }
 }
@@ -956,7 +940,7 @@ int currentItemID;
                int total=0;
                if (error==nil && methodError==nil){
                    [playlistData removeAllObjects];
-                   [playlistTableView reloadData];
+                   [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
                    if( [NSJSONSerialization isValidJSONObject:methodResult]){
 //                       NSLog(@"%@", methodResult);
                        NSArray *playlistItems = [methodResult objectForKey:@"items"];
@@ -1025,8 +1009,7 @@ int currentItemID;
     else {
         [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
-    
-    [playlistTableView reloadData]; 
+    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [activityIndicatorView stopAnimating];
 }
 
@@ -1471,23 +1454,17 @@ int currentItemID;
             [jsonRPC callMethod:action2 withParameters:params2];
             [playlistData removeObjectAtIndex:[sourceIndexPath row]];
             [playlistData insertObject:objSource atIndex:[destinationIndexPath row]];
-//            NSLog(@"SOURCE %d DESTINATION %d STORE %d", sourceIndexPath.row, destinationIndexPath.row, storeSelection.row);
-
             if (sourceIndexPath.row>storeSelection.row && destinationIndexPath.row<=storeSelection.row){
                 storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row+1 inSection:storeSelection.section];
-//                NSLog(@"INCREMENTO STORE %d", storeSelection.row);
             }
             else if (sourceIndexPath.row<storeSelection.row && destinationIndexPath.row>=storeSelection.row){
                 storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
-//                NSLog(@"DECREMENTO STORE %d", storeSelection.row);
             }
-            [playlistTableView reloadData];
+            [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         }
         else{
-//            NSLog(@" errore rimozione playlist %@ %@",error, methodError);
-            [playlistTableView reloadData];
+            [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
             [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-
         }
     }];
 }
@@ -1510,16 +1487,15 @@ int currentItemID;
                 [playlistData removeObjectAtIndex:indexPath.row];
                 [playlistTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
                 if ((storeSelection) && (indexPath.row<storeSelection.row)){
-                        storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
+                    storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
                 }
             }
             else{
-                [playlistTableView reloadData];
+                [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
                 [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             }
         }];
     } 
- 
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1694,6 +1670,7 @@ int currentItemID;
         nowPlayingHidden = NO;
         playlistView.hidden = YES;
         playlistHidden = YES;
+        viewTitle.text = @"Now playing";
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         startFlipDemo = YES;
@@ -1722,12 +1699,13 @@ int currentItemID;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [self handleXBMCPlaylistHasChanged:nil];
     [self playbackInfo];
     [volumeSliderView startTimer]; 
-    lastSelected = -1;
-    playerID = -1;
-    storedItemID = -1;
-    selectedPlayerID = -1;
+//    lastSelected = -1;
+//    playerID = -1;
+//    storedItemID = -1;
+//    selectedPlayerID = -1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
 }
 
@@ -1769,10 +1747,6 @@ int currentItemID;
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
-//    playerID = -1;
-//    storedItemID=-1;
-//    [self checkPartyMode];
-//    [self setCoverSize:currentType];
     [self handleXBMCPlaylistHasChanged:nil];
 }
 
@@ -1782,9 +1756,9 @@ int currentItemID;
     updateDetailsView = YES;
     lastSelected = -1;
     storedItemID=-1;
-//    [playlistData removeAllObjects];
-//    [playlistTableView reloadData];
-//    [self createPlaylist:YES animTableView:NO];
+    [playlistData removeAllObjects];
+    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    [self createPlaylist:YES animTableView:NO];
 }
 
 - (void)viewDidUnload{
