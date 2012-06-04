@@ -821,9 +821,11 @@ NSIndexPath *selected;
 }
 
 -(void)searchWeb:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
-    if (self.webViewController == nil){
-        self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
-    }
+//    if (self.webViewController == nil){
+//        self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+//    }
+    self.webViewController = nil;
+    self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
     NSDictionary *item = nil;
     if ([self.searchDisplayController isActive]){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
