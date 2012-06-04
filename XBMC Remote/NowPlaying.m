@@ -500,7 +500,7 @@ int currentItemID;
         selectedPlayerID = -1;
         storedItemID = 0;
         [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
-        [playlistData removeAllObjects];
+        [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
         [self nothingIsPlaying];
         return;
     }
@@ -886,7 +886,7 @@ int currentItemID;
         selectedPlayerID = -1;
         storedItemID = 0;
         [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
-        [playlistData removeAllObjects];
+        [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
         [self nothingIsPlaying];
         return;
     }
@@ -939,7 +939,7 @@ int currentItemID;
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                int total=0;
                if (error==nil && methodError==nil){
-                   [playlistData removeAllObjects];
+                   [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
                    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
                    if( [NSJSONSerialization isValidJSONObject:methodResult]){
 //                       NSLog(@"%@", methodResult);
@@ -1119,6 +1119,7 @@ int currentItemID;
 }
 
 -(void)animViews{
+    NSString *title;
     if (!nowPlayingView.hidden){
         nowPlayingView.hidden = YES;
         transitionView=nowPlayingView;
@@ -1756,7 +1757,7 @@ int currentItemID;
     updateDetailsView = YES;
     lastSelected = -1;
     storedItemID=-1;
-    [playlistData removeAllObjects];
+    [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [self createPlaylist:YES animTableView:NO];
 }
