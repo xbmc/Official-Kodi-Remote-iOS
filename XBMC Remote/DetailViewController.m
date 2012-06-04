@@ -796,19 +796,27 @@ NSIndexPath *selected;
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
     if (buttonIndex!=actionSheet.cancelButtonIndex){    
-        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"])
+        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"]){
             [self addPlayback:selected position:0];
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue"])
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue"]){
             [self addQueue:selected];
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"View Details"])
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue after current"]){
+            [self addQueue:selected afterCurrentItem:YES];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"View Details"]){
             [self showInfo:selected];
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"])
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"]){
             [self addStream:selected];
+        }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Search Wikipedia"]){
             [self searchWeb:selected serviceURL:@"http://en.m.wikipedia.org/wiki?search=%@"];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Search last.fm charts"])
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Search last.fm charts"]){
             [self searchWeb:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
+        }
     }
 }
 
@@ -1017,6 +1025,10 @@ NSIndexPath *selected;
 }
 
 -(void)addQueue:(NSIndexPath *)indexPath{
+    [self addQueue:indexPath afterCurrentItem:NO];
+}
+
+-(void)addQueue:(NSIndexPath *)indexPath afterCurrentItem:(BOOL)afterCurrent{
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
@@ -1033,12 +1045,58 @@ NSIndexPath *selected;
     if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]){
         key=@"directory";
     }
+    if (afterCurrent){
+        [jsonRPC 
+         callMethod:@"Player.GetProperties" 
+         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
+                         [mainFields objectForKey:@"playlistid"], @"playerid",
+                         [[NSArray alloc] initWithObjects:@"percentage", @"time", @"totaltime", @"partymode", @"position", nil], @"properties",
+                         nil] 
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+             if (error==nil && methodError==nil){
+                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
+                     if ([methodResult count]){
+                         [queuing stopAnimating];            
+                         int newPos = [[methodResult objectForKey:@"position"] intValue] + 1;
+                         NSString *action2=@"Playlist.Insert";
+                         NSDictionary *params2=[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                                [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row9"]], key, nil],@"item",
+                                                [NSNumber numberWithInt:newPos],@"position",
+                                                nil];
+                         [jsonRPC callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                             if (error==nil && methodError==nil){
+                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
+                             }
+                         
+                         }];
+                     }
+                     else{
+                         [self addToPlaylist:mainFields currentItem:item currentKey:key currentActivityIndicator:queuing];
+                     }
+                 }
+                 else{
+                     [self addToPlaylist:mainFields currentItem:item currentKey:key currentActivityIndicator:queuing];
+                 }
+             }
+             else {
+                [self addToPlaylist:mainFields currentItem:item currentKey:key currentActivityIndicator:queuing];
+             }
+         }];
+    }
+    else {
+        [self addToPlaylist:mainFields currentItem:item currentKey:key currentActivityIndicator:queuing];
+    }
+}
+
+-(void)addToPlaylist:(NSDictionary *)mainFields currentItem:(NSDictionary *)item currentKey:(NSString *)key currentActivityIndicator:(UIActivityIndicatorView *)queuing{
     [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row9"]], key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [queuing stopAnimating];
         if (error==nil && methodError==nil){
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
         }
     }];
+    
 }
 
 -(void)openFile:(NSDictionary *)params index:(NSIndexPath *) indexPath{
