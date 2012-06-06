@@ -1119,7 +1119,6 @@ int currentItemID;
 }
 
 -(void)animViews{
-    NSString *title;
     if (!nowPlayingView.hidden){
         nowPlayingView.hidden = YES;
         transitionView=nowPlayingView;
@@ -1615,7 +1614,7 @@ int currentItemID;
 -(void)setIpadInterface{
     slideFrom=-300;
     CGRect frame;
-    [albumName setFont:[UIFont systemFontOfSize:24]];
+    [albumName setFont:[UIFont boldSystemFontOfSize:24]];
     frame=albumName.frame;
     frame.origin.y=10;
     albumName.frame=frame;
@@ -1759,7 +1758,7 @@ int currentItemID;
     storedItemID=-1;
     [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-    [self createPlaylist:YES animTableView:NO];
+    //[self createPlaylist:YES animTableView:NO];
 }
 
 - (void)viewDidUnload{
