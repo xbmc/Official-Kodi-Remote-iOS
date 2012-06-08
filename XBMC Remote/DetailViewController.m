@@ -263,6 +263,8 @@
 int cellWidth=0;
 int originYear=0;
 int labelPosition=0;
+int flagX = 43;
+int flagY = 54;
 -(void)choseParams{ // DA OTTIMIZZARE TROPPI IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     mainMenu *Menuitem = self.detailItem;
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
@@ -292,7 +294,8 @@ int labelPosition=0;
     labelPosition=thumbWidth+8;
     int newWidthLabel=0;
     
-    
+    flagX = thumbWidth - 10;
+    flagY = cellHeight - 19;
     if (Menuitem.originLabel && ![parameters objectForKey:@"thumbWidth"])
         labelPosition=Menuitem.originLabel;
     // CHECK IF THERE ARE SECTIONS
@@ -456,28 +459,27 @@ int labelPosition=0;
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *displayThumb=defaultThumb;
     if ([[item objectForKey:@"filetype"] length]!=0){
-//        NSLog(@"FILETYPE %@ %@", [item objectForKey:@"filetype"], stringURL);
-
         displayThumb=stringURL;
     }
-    //dataList.dragging == NO && 
-    // NOT CONSIDERING AT THE MOMENT THE SEARCH RESULT TABLE
     if ((dataList.decelerating == NO && self.searchDisplayController.searchResultsTableView.decelerating == NO) || checkNum<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){ 
-//        NSURL *imageUrl = [NSURL URLWithString: stringURL];    
-//        UIImage *cachedImage = [manager imageWithURL:imageUrl];
-//        if (cachedImage){
-//            cell.urlImageView.image=cachedImage;
-//        }
-//        else {    
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
-//        }
     }
     else {
         cell.urlImageView.image=[UIImage imageNamed:displayThumb];  
     }
-// TEST
-//    cell.urlImageView.image=[UIImage imageNamed:Menuitem.defaultThumb];  
-    //  [self alphaImage:cell.urlImageView AnimDuration:0.1 Alpha:1.0];
+    
+    NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
+    UIImageView *flagView = (UIImageView*) [cell viewWithTag:9];
+    frame=flagView.frame;
+    frame.origin.x=flagX;
+    frame.origin.y=flagY;
+    flagView.frame=frame;
+    if ([playcount intValue]){
+        [flagView setHidden:NO];
+    }
+    else{
+        [flagView setHidden:YES];
+    }
     return cell;
 }
 
@@ -1363,6 +1365,7 @@ NSIndexPath *selected;
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]], [mainFields objectForKey:@"row15"],
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row16"]], [mainFields objectForKey:@"row16"],
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row17"]], [mainFields objectForKey:@"row17"],
+                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
                                                    nil]];
                  }
 //                 NSLog(@"FINITO FINITO");

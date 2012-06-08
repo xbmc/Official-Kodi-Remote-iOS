@@ -675,6 +675,7 @@ NSMutableArray *mainMenuItems;
                        @"votes",@"row15",
                        @"cast",@"row16",
                        @"fanart",@"row7",
+                       @"playcount",@"row17",
                        nil],
                       
                       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -691,8 +692,8 @@ NSMutableArray *mainMenuItems;
                        @"director",@"row10",
                        @"studio",@"row11",
                        @"plot",@"row12",
-                       @"mpaa",@"row13",
-                       @"votes",@"row14",
+                       @"playcount",@"row13",
+                       @"mpaa",@"row14",
                        @"votes",@"row15",
                        @"cast",@"row16",
                        @"file",@"row17",
@@ -970,7 +971,7 @@ NSMutableArray *mainMenuItems;
                                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                              @"episode", @"method",
                                              nil],@"sort",
-                                            [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", nil], @"properties",
+                                            [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", nil], @"properties",
                                             nil], @"parameters", @"Episodes", @"label", nil],
                                           
                                           [NSArray arrayWithObjects:nil],
@@ -997,6 +998,7 @@ NSMutableArray *mainMenuItems;
                                        @"season",@"row15",
                                        @"cast",@"row16",
                                        @"file",@"row17",
+                                       @"playcount",@"row18",
                                        @"fanart",@"row7",
                                        nil],
                                       

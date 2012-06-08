@@ -131,6 +131,8 @@
 		0F545D0A1575563100B6320D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F545D051575563100B6320D /* LICENSE.txt */; };
 		0F545D0B1575563100B6320D /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D071575563100B6320D /* OBShapedButton.m */; };
 		0F545D0C1575563100B6320D /* UIImage+ColorAtPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D091575563100B6320D /* UIImage+ColorAtPixel.m */; };
+		0F548BF815827203005C6DE7 /* OverlayWatched.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F548BF715827203005C6DE7 /* OverlayWatched.png */; };
+		0F548BFB15827211005C6DE7 /* OverlayWatched@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F548BFA15827211005C6DE7 /* OverlayWatched@2x.png */; };
 		0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FA151D1187007E633F /* UIKit.framework */; };
 		0F5548FD151D1187007E633F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FC151D1187007E633F /* Foundation.framework */; };
 		0F5548FF151D1187007E633F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FE151D1187007E633F /* CoreGraphics.framework */; };
@@ -568,6 +570,8 @@
 		0F545D071575563100B6320D /* OBShapedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBShapedButton.m; sourceTree = "<group>"; };
 		0F545D081575563100B6320D /* UIImage+ColorAtPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorAtPixel.h"; sourceTree = "<group>"; };
 		0F545D091575563100B6320D /* UIImage+ColorAtPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColorAtPixel.m"; sourceTree = "<group>"; };
+		0F548BF715827203005C6DE7 /* OverlayWatched.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OverlayWatched.png; sourceTree = "<group>"; };
+		0F548BFA15827211005C6DE7 /* OverlayWatched@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OverlayWatched@2x.png"; sourceTree = "<group>"; };
 		0F5548F6151D1187007E633F /* XBMC Remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "XBMC Remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F5548FA151D1187007E633F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0F5548FC151D1187007E633F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1094,6 +1098,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F548BFA15827211005C6DE7 /* OverlayWatched@2x.png */,
 				0FE025EA157BDC2200027C09 /* xbmc_overlay_small@2x.png */,
 				0F5F3B10157B9201001E1C0D /* now_playing_playlist@2x.png */,
 				0F5F3B0C157B8C4C001E1C0D /* now_playing_empty_down@2x.png */,
@@ -1298,6 +1303,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F548BF715827203005C6DE7 /* OverlayWatched.png */,
 				0FE025E8157BDB2A00027C09 /* xbmc_overlay_small.png */,
 				0F73AD2A157A44E900285682 /* xbmc_overlay.png */,
 				0F40635415795E8C00596B61 /* st_songs_recently_black.png */,
@@ -1948,6 +1954,8 @@
 				0F5F3B11157B9201001E1C0D /* now_playing_playlist@2x.png in Resources */,
 				0FE025E9157BDB2A00027C09 /* xbmc_overlay_small.png in Resources */,
 				0FE025EB157BDC2200027C09 /* xbmc_overlay_small@2x.png in Resources */,
+				0F548BF815827203005C6DE7 /* OverlayWatched.png in Resources */,
+				0F548BFB15827211005C6DE7 /* OverlayWatched@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
