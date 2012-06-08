@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
 #import "AppInfoViewController.h"
+#define CONNECTION_TIMEOUT 120.0f
 
 @interface ViewControllerIPad (){
     NSMutableArray *mainMenu;
@@ -188,7 +189,7 @@
             }
         }
         if (![extraTimer isValid])
-            extraTimer = [NSTimer scheduledTimerWithTimeInterval:30.0f target:self selector:@selector(offStackView) userInfo:nil repeats:YES];
+            extraTimer = [NSTimer scheduledTimerWithTimeInterval:CONNECTION_TIMEOUT target:self selector:@selector(offStackView) userInfo:nil repeats:NO];
     }
 }
 
@@ -202,6 +203,7 @@
         }
     }
     [extraTimer invalidate];
+    extraTimer = nil;
 }
 
 # pragma mark - toolbar management
