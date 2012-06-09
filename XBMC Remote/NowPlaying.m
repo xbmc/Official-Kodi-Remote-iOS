@@ -835,6 +835,23 @@ int currentItemID;
     }
 }
 
+
+-(void)clearPlaylist:(int)playlistID{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playlistID],@"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error==nil && methodError==nil){
+            [self createPlaylist:NO animTableView:NO];
+        }
+//        else {
+//            NSLog(@"ci deve essere un problema %@", methodError);
+//        }
+    }];
+}
+
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters checkPartyMode:(BOOL)checkPartyMode{
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance]; 
@@ -853,17 +870,16 @@ int currentItemID;
                         if (musicPartyMode && checkPartyMode){
                             [self checkPartyMode];
                         }
-//                        NSLog(@"comando %@ eseguito ", action);
                     }
-                    else {
+//                    else {
 //                        NSLog(@"ci deve essere un secondo problema %@", methodError);
-                    }
+//                    }
                 }];
             }
         }
-        else {
+//        else {
 //            NSLog(@"ci deve essere un primo problema %@", methodError);
-        }
+//        }
     }];
 }
 -(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue{
@@ -1276,6 +1292,22 @@ int currentItemID;
             case 7:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
                 [self playbackAction:@"Player.SetSpeed" params:[NSArray arrayWithObjects:@"increment", @"speed", nil] checkPartyMode:NO];
                 break;
+                
+            case 88:// EDIT TABLE
+                if (playlistTableView.editing == YES){
+                    NSString *playlistName=@"";
+                    if (playerID == 0){
+                        playlistName=@"Music ";
+                    }
+                    else if (playerID == 1){
+                        playlistName=@"Video ";
+                    }
+                    NSString *message=[NSString stringWithFormat:@"Are you sure you want to clear the %@playlist?", playlistName];
+                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Clear Playlist", nil];
+                    [alertView show];
+                }
+                    
+                break;
 
             default:
                 break;
@@ -1283,6 +1315,13 @@ int currentItemID;
     }
 }
 
+# pragma mark - UIAlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1){
+        [self clearPlaylist:playerID];
+    }
+}
 
 #pragma mark - Table view data source
 

@@ -13,7 +13,7 @@
 
 @class RemoteController;
 
-@interface NowPlaying : UIViewController <UITableViewDataSource,UITableViewDelegate>{
+@interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>{
     DSJSONRPC *jsonRPC;
     IBOutlet UITableView *playlistTableView;
     IBOutlet UITableViewCell *playlistTableViewCell;
