@@ -504,6 +504,14 @@ NSInteger buttonAction;
 -(IBAction)handleButtonLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
         switch (gestureRecognizer.view.tag) {
+            case 2:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
+                [self playbackAction:@"Player.SetSpeed" params:[NSArray arrayWithObjects:@"decrement", @"speed", nil]];
+                break;
+                
+            case 4:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
+                [self playbackAction:@"Player.SetSpeed" params:[NSArray arrayWithObjects:@"increment", @"speed", nil]];
+                break;
+                
             case 11:// CODEC INFO
                 [self sendXbmcHttp:@"SendKey(0xF04F)"]; 
                 break;
