@@ -1251,7 +1251,7 @@ int currentItemID;
     }
     [UIView commitAnimations];
 }
-#pragma mark - Touch Events
+#pragma mark - Touch Events & Gestures
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
@@ -1265,6 +1265,24 @@ int currentItemID;
 //    }
     
 }
+
+-(IBAction)handleButtonLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
+        switch (gestureRecognizer.view.tag) {
+            case 6:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
+                [self playbackAction:@"Player.SetSpeed" params:[NSArray arrayWithObjects:@"decrement", @"speed", nil] checkPartyMode:NO];
+                break;
+                
+            case 7:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
+                [self playbackAction:@"Player.SetSpeed" params:[NSArray arrayWithObjects:@"increment", @"speed", nil] checkPartyMode:NO];
+                break;
+
+            default:
+                break;
+        }
+    }
+}
+
 
 #pragma mark - Table view data source
 
