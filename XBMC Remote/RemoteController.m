@@ -296,12 +296,15 @@
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (methodError!=nil || error != nil){
+        if (methodError!=nil || error != nil){ // Backward compatibility
             if ([action isEqualToString:@"GUI.SetFullscreen"]){
                 [self sendXbmcHttp:@"SendKey(0xf009)"];
             }
             if ([action isEqualToString:@"Input.Info"]){
                 [self sendXbmcHttp:@"SendKey(0xF049)"];
+            }
+            if ([action isEqualToString:@"Input.ContextMenu"]){
+                [self sendXbmcHttp:@"SendKey(0xF043)"];
             }
 //            NSLog(@"ERRORE %@ %@", methodError, error);
         }
@@ -498,10 +501,20 @@ NSInteger buttonAction;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(IBAction)handleInfoButtonLongPress{
-    if (lpgr.state == UIGestureRecognizerStateBegan){
-        [self sendXbmcHttp:@"SendKey(0xF04F)"]; // STREAM INFO
-
+-(IBAction)handleButtonLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
+        switch (gestureRecognizer.view.tag) {
+            case 11:// CODEC INFO
+                [self sendXbmcHttp:@"SendKey(0xF04F)"]; 
+                break;
+            
+            case 15:// CONTEXT MENU 
+                [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+                break;    
+            
+            default:
+                break;
+        }
     }
 }
 

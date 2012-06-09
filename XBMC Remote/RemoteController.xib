@@ -571,6 +571,7 @@
 								<string key="NSFrame">{{246, 369}, {59, 33}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<int key="IBUITag">8</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -697,6 +698,7 @@
 								<reference key="NSNextKeyView" ref="967985679"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<int key="IBUITag">15</int>
+								<reference key="IBUIGestureRecognizers" ref="0"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
@@ -769,6 +771,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUILongPressGestureRecognizer" id="882878816"/>
+			<object class="IBUILongPressGestureRecognizer" id="142146424"/>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
@@ -795,14 +798,6 @@
 						<reference key="destination" ref="889199527"/>
 					</object>
 					<int key="connectionID">137</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">lpgr</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="882878816"/>
-					</object>
-					<int key="connectionID">141</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1013,6 +1008,16 @@
 					<int key="connectionID">75</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
+						<string key="label">gestureRecognizers</string>
+						<reference key="source" ref="524759132"/>
+						<reference key="destination" ref="142146424"/>
+						<string key="cachedDesigntimeCollectionClassName">NSArray</string>
+						<bool key="addsContentToExistingCollection">YES</bool>
+					</object>
+					<int key="connectionID">156</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">holdKey:</string>
 						<reference key="source" ref="403819705"/>
@@ -1122,11 +1127,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">handleInfoButtonLongPress</string>
+						<string key="label">handleButtonLongPress:</string>
 						<reference key="source" ref="882878816"/>
 						<reference key="destination" ref="372490531"/>
 					</object>
-					<int key="connectionID">143</int>
+					<int key="connectionID">159</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">handleButtonLongPress:</string>
+						<reference key="source" ref="142146424"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">160</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1234,6 +1247,7 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">40</int>
 						<reference key="object" ref="524759132"/>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="191373211"/>
 						<string key="objectName">Button - menu</string>
 					</object>
@@ -1336,6 +1350,13 @@
 						<int key="objectID">139</int>
 						<reference key="object" ref="882878816"/>
 						<reference key="parent" ref="0"/>
+						<string key="objectName">Long Press Gesture Recognizer - info</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">155</int>
+						<reference key="object" ref="142146424"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">Long Press Gesture Recognizer - context menu</string>
 					</object>
 				</array>
 			</object>
@@ -1361,6 +1382,7 @@
 				<string key="133.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="136.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="139.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="155.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="1" key="25.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1406,7 +1428,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">143</int>
+			<int key="maxID">160</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1433,15 +1455,10 @@
 						</object>
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="lpgr">UILongPressGestureRecognizer</string>
 						<string key="remoteControlView">UIView</string>
 						<string key="subsInfoLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="lpgr">
-							<string key="name">lpgr</string>
-							<string key="candidateClassName">UILongPressGestureRecognizer</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="remoteControlView">
 							<string key="name">remoteControlView</string>
 							<string key="candidateClassName">UIView</string>
