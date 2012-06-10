@@ -1282,6 +1282,21 @@ int currentItemID;
     
 }
 
+-(void)showClearPlaylistAlert{
+    if (playlistView.hidden == NO){
+        NSString *playlistName=@"";
+        if (playerID == 0){
+            playlistName=@"Music ";
+        }
+        else if (playerID == 1){
+            playlistName=@"Video ";
+        }
+        NSString *message=[NSString stringWithFormat:@"Are you sure you want to clear the %@playlist?", playlistName];
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Clear Playlist", nil];
+        [alertView show];
+    }
+}
+
 -(IBAction)handleButtonLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
         switch (gestureRecognizer.view.tag) {
@@ -1294,19 +1309,9 @@ int currentItemID;
                 break;
                 
             case 88:// EDIT TABLE
-                if (playlistTableView.editing == YES){
-                    NSString *playlistName=@"";
-                    if (playerID == 0){
-                        playlistName=@"Music ";
-                    }
-                    else if (playerID == 1){
-                        playlistName=@"Video ";
-                    }
-                    NSString *message=[NSString stringWithFormat:@"Are you sure you want to clear the %@playlist?", playlistName];
-                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Clear Playlist", nil];
-                    [alertView show];
-                }
-                    
+//                if (playlistTableView.editing == YES){
+                [self showClearPlaylistAlert];
+//                }
                 break;
 
             default:
@@ -1800,6 +1805,11 @@ int currentItemID;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleXBMCPlaylistHasChanged:)
                                                  name: @"XBMCPlaylistHasChanged"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(showClearPlaylistAlert)
+                                                 name: @"UIApplicationShakeNotification"
                                                object: nil];
 }
 

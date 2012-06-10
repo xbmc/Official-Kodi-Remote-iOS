@@ -1201,6 +1201,12 @@ NSMutableArray *mainMenuItems;
     [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil]; 
 }
 
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event{
+    if(event.type == UIEventSubtypeMotionShake){
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationShakeNotification" object: nil]; 
+    }
+}
+
 - (void)applicationDidBecomeActive:(UIApplication *)application{
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
