@@ -24,6 +24,16 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
+			<string>song_preference</string>
+			<key>Title</key>
+			<string>Don&apos;t autostart song</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
 			<string>lockscreen_preference</string>
 			<key>Title</key>
 			<string>Override Lockscreen</string>

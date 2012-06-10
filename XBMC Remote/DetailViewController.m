@@ -594,12 +594,19 @@ int flagY = 54;
         }
     }
     else {
-
         if (MenuItem.showInfo){
             [self showInfo:indexPath];
         }
         else {
-            [self addPlayback:indexPath position:indexPath.row];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults synchronize];   
+            if ([[userDefaults objectForKey:@"song_preference"] boolValue]==YES ){
+                selected=indexPath;
+                [self showActionSheet:indexPath];
+            }
+            else {
+                [self addPlayback:indexPath position:indexPath.row];
+            }
         }
     }
 }
@@ -754,6 +761,38 @@ UILongPressGestureRecognizer *longPressGesture;
 
 NSIndexPath *selected;
 
+-(void)showActionSheet:(NSIndexPath *)indexPath{
+    NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
+    int numActions=[sheetActions count];
+    if (numActions){
+        NSDictionary *item = nil;
+        if ([self.searchDisplayController isActive]){
+            item = [self.filteredListContent objectAtIndex:indexPath.row];
+        }
+        else{
+            item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        }
+                  
+        NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
+                                                            delegate:self
+                                                   cancelButtonTitle:nil
+                                              destructiveButtonTitle:nil
+                                                   otherButtonTitles:nil
+                                 ];
+        for (int i = 0; i < numActions; i++) {
+            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+        }
+        action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+//        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            [action showInView:self.view];
+//        }
+//        else{
+//            [action showFromRect:CGRectMake(selectedPoint.x, selectedPoint.y, 1, 1) inView:self.view animated:YES];
+//        }    
+    }
+}
+
 -(IBAction)handleLongPress{
     if (lpgr.state == UIGestureRecognizerStateBegan || longPressGesture.state == UIGestureRecognizerStateBegan){
         CGPoint p = [lpgr locationInView:dataList];
@@ -804,9 +843,23 @@ NSIndexPath *selected;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
-    if (buttonIndex!=actionSheet.cancelButtonIndex){    
+    if (buttonIndex!=actionSheet.cancelButtonIndex){
+        
         if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"]){
-            [self addPlayback:selected position:0];
+            NSDictionary *item = nil;
+            if ([self.searchDisplayController isActive]){
+                item = [self.filteredListContent objectAtIndex:selected.row];
+            }
+            else{
+                item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:selected.section]] objectAtIndex:selected.row];
+            }
+            NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
+            if ([songid intValue]){
+                [self addPlayback:selected position:selected.row];
+            }
+            else {
+                [self addPlayback:selected position:0];
+            }
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue"]){
             [self addQueue:selected];
@@ -1261,7 +1314,7 @@ NSIndexPath *selected;
 -(void) retrieveData:(NSString *)methodToCall parameters:(NSDictionary*)parameters{
     GlobalData *obj=[GlobalData getInstance]; 
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];    
-//    NSLog(@"INIZIO");
+//    NSLog(@"START");
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, parameters);
     [jsonRPC 
      callMethod:methodToCall
@@ -1269,7 +1322,7 @@ NSIndexPath *selected;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          int total=0;
          if (error==nil && methodError==nil){
-//             NSLog(@"FINITO JSON");
+//             NSLog(@"END JSON");
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
              [self.richResults removeAllObjects];
              [self.sections removeAllObjects];
@@ -1375,7 +1428,7 @@ NSIndexPath *selected;
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
                                                    nil]];
                  }
-//                 NSLog(@"FINITO STORING");
+//                 NSLog(@"END STORE");
 //                 NSLog(@"RICH RESULTS %@", richResults);
                  [dataList setContentOffset:CGPointMake(0, 44)];
                  [activityIndicatorView stopAnimating];
@@ -1441,7 +1494,7 @@ NSIndexPath *selected;
                          [[self.sections objectForKey:@""] addObject:item];
                      }
                  }
-//                 NSLog(@"FINITO INDEXING");
+//                 NSLog(@"END INDEX");
                  [self choseParams];
                  [dataList reloadData];
                  [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
