@@ -563,7 +563,15 @@ int flagY = 54;
 
                 }
                 else if ([[item objectForKey:@"genre"] isEqualToString:@"file"]){
-                    [self addPlayback:indexPath position:indexPath.row];
+                    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                    [userDefaults synchronize];   
+                    if ([[userDefaults objectForKey:@"song_preference"] boolValue]==YES ){
+                        selected=indexPath;
+                        [self showActionSheet:indexPath];
+                    }
+                    else {
+                        [self addPlayback:indexPath position:indexPath.row];
+                    }
                     return;
                 }
                 else
