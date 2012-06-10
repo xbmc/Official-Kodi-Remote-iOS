@@ -616,11 +616,19 @@ int h=0;
         NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
         int offsetX = 10;
         for (NSDictionary *actor in cast){
-            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [actor objectForKey:@"thumbnail"]];
+            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[actor objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
             UIImageView *actorImage = [[UIImageView alloc] initWithFrame:CGRectMake(offsetX, startY, castWidth, castHeight)];
             [actorImage setClipsToBounds:YES];
             [actorImage setContentMode:UIViewContentModeScaleAspectFill];
-            [actorImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
+            
+            NSURL *imageUrl = [NSURL URLWithString: stringURL];    
+            UIImage *cachedImage = [manager imageWithURL:imageUrl];
+            if (cachedImage){
+                actorImage.image=cachedImage;
+            }
+            else { 
+                [actorImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
+            }
             [actorImage.layer setBorderColor: [[UIColor whiteColor] CGColor]];
             [actorImage.layer setBorderWidth: 1.0];
             [actorImage setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];

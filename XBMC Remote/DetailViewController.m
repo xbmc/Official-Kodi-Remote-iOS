@@ -215,7 +215,7 @@
     else {
         [activityIndicatorView stopAnimating];
         [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-        [self loadImagesForOnscreenRows];
+       // [self loadImagesForOnscreenRows];
     }
 }
 
@@ -461,8 +461,15 @@ int flagY = 54;
     if ([[item objectForKey:@"filetype"] length]!=0){
         displayThumb=stringURL;
     }
-    if ((tableView.decelerating == NO) || checkNum<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){ 
+    if ((tableView.decelerating == NO) || checkNum<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+        NSURL *imageUrl = [NSURL URLWithString: stringURL];    
+        UIImage *cachedImage = [manager imageWithURL:imageUrl];
+        if (cachedImage){
+            cell.urlImageView.image=cachedImage; // to be detached in another thread
+        }
+        else { 
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        }
     }
     else {
         cell.urlImageView.image=[UIImage imageNamed:displayThumb];  
@@ -1262,7 +1269,7 @@ NSIndexPath *selected;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          int total=0;
          if (error==nil && methodError==nil){
-//             NSLog(@"FINITO");
+//             NSLog(@"FINITO JSON");
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
              [self.richResults removeAllObjects];
              [self.sections removeAllObjects];
@@ -1271,7 +1278,6 @@ NSIndexPath *selected;
              if( [NSJSONSerialization isValidJSONObject:methodResult]){
                  NSString *itemid = @"";
                  NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
-                 //                 NSLog(@"ROW6 %@", [mainFields objectForKey:@"row6"]);
                  if (((NSNull *)[mainFields objectForKey:@"itemid"] != [NSNull null])){
                      itemid = [mainFields objectForKey:@"itemid"]; 
                  }
@@ -1280,7 +1286,7 @@ NSIndexPath *selected;
                  if (((NSNull *)videoLibraryMovies != [NSNull null])){
                      total=[videoLibraryMovies count];
                  }
-                 
+        
                  if (total==0){
                      [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
                  }
@@ -1288,6 +1294,7 @@ NSIndexPath *selected;
                      [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
                  }
                  NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+
                  for (int i=0; i<total; i++) {
                      NSString *label=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row1"]]];
                      NSString *genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]]];
@@ -1317,11 +1324,11 @@ NSIndexPath *selected;
                      
                      if ([rating isEqualToString:@"0.0"])
                          rating=@"";
-                     
+
                      NSString *thumbnailPath=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"thumbnail"];
                      NSString *fanartURL=@"";
-                     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnailPath];
-                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"]];
+                     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                      NSString *filetype=@"";
                      NSString *type=@"";
                      
@@ -1368,7 +1375,7 @@ NSIndexPath *selected;
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
                                                    nil]];
                  }
-//                 NSLog(@"FINITO FINITO");
+//                 NSLog(@"FINITO STORING");
 //                 NSLog(@"RICH RESULTS %@", richResults);
                  [dataList setContentOffset:CGPointMake(0, 44)];
                  [activityIndicatorView stopAnimating];
@@ -1434,10 +1441,11 @@ NSIndexPath *selected;
                          [[self.sections objectForKey:@""] addObject:item];
                      }
                  }
+//                 NSLog(@"FINITO INDEXING");
                  [self choseParams];
                  [dataList reloadData];
                  [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-                 [self loadImagesForOnscreenRows];
+                 //[self loadImagesForOnscreenRows];
             }
             else {
                 [self.richResults removeAllObjects];
@@ -1448,7 +1456,7 @@ NSIndexPath *selected;
 //                NSLog(@"NON E' JSON %@", methodError);
                 [activityIndicatorView stopAnimating];
                 [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-                [self loadImagesForOnscreenRows];
+                //[self loadImagesForOnscreenRows];
             }
          }
          else {
@@ -1460,7 +1468,7 @@ NSIndexPath *selected;
 //             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
              [activityIndicatorView stopAnimating];
              [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-             [self loadImagesForOnscreenRows];
+             //[self loadImagesForOnscreenRows];
          }
      }];
 }

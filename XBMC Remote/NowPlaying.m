@@ -568,7 +568,7 @@ int currentItemID;
                                  GlobalData *obj=[GlobalData getInstance]; 
                                  NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
                                  NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
-                                 NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnailPath];
+                                 NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                                  NSURL *imageUrl = [NSURL URLWithString: stringURL];
                                  UIImage *cachedImage = [manager imageWithURL:imageUrl];
                                  UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
@@ -986,7 +986,7 @@ int currentItemID;
                            NSString *durationTime=[itemDurationSec longValue]==0 ? @"" : [self convertTimeFromSeconds:itemDurationSec];
 
                            NSString *thumbnail=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"thumbnail"]];
-                           NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, thumbnail];
+                           NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnail stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                            
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
@@ -1363,14 +1363,14 @@ int currentItemID;
     
     
     if ((playlistTableView.decelerating == NO) || numResults<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-        //        NSURL *imageUrl = [NSURL URLWithString: stringURL];    
-        //        UIImage *cachedImage = [manager imageWithURL:imageUrl];
-        //        if (cachedImage){
-        //            cell.urlImageView.image=cachedImage;
-        //        }
-        //        else {    
-        [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"] ];
-        //        }
+        NSURL *imageUrl = [NSURL URLWithString: stringURL];    
+        UIImage *cachedImage = [manager imageWithURL:imageUrl];
+        if (cachedImage){
+            thumb.image=cachedImage;
+        }
+        else {    
+            [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"] ];
+        }
     }
     else {
         thumb.image=[UIImage imageNamed:@"nocover_music.png"];  
