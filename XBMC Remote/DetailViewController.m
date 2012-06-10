@@ -780,6 +780,7 @@ NSIndexPath *selected;
             item = [self.filteredListContent objectAtIndex:indexPath.row];
             cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
             offsetPoint = [self.searchDisplayController.searchResultsTableView contentOffset];
+            offsetPoint.y = offsetPoint.y - 44;
         }
         else{
             item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
