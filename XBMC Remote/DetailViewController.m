@@ -774,15 +774,15 @@ NSIndexPath *selected;
     int numActions=[sheetActions count];
     if (numActions){
         NSDictionary *item = nil;
-        UITableViewCell *cell = nil;
+//        UITableViewCell *cell = nil;
         if ([self.searchDisplayController isActive]){
             item = [self.filteredListContent objectAtIndex:indexPath.row];
-            cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+//            cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
 
         }
         else{
             item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-            cell = [dataList cellForRowAtIndexPath:indexPath];
+//            cell = [dataList cellForRowAtIndexPath:indexPath];
         }
                   
         NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
@@ -796,12 +796,12 @@ NSIndexPath *selected;
             [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
         }
         action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+//        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             [action showInView:self.view];
-        }
-        else{
-            [action showFromRect:CGRectMake(cell.frame.origin.x + (cell.frame.size.width/2), cell.frame.origin.y - cell.frame.size.height/2, 1, 1) inView:self.view animated:YES];
-        }    
+//        }
+//        else{
+//            [action showFromRect:CGRectMake(cell.frame.origin.x + (cell.frame.size.width/2), cell.frame.origin.y - cell.frame.size.height/2, 1, 1) inView:self.view animated:YES];
+//        }    
     }
 }
 
