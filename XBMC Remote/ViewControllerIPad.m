@@ -15,7 +15,7 @@
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
 #import "AppInfoViewController.h"
-#define CONNECTION_TIMEOUT 120.0f
+#define CONNECTION_TIMEOUT 240.0f
 
 @interface ViewControllerIPad (){
     NSMutableArray *mainMenu;
