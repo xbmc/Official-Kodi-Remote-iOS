@@ -53,8 +53,12 @@
     IBOutlet UIView *detailView;
     MoreItemsViewController* moreItemsViewController;
     UIButton *selectedMoreTab;
-
+    UIImageView *longTimeout;
+    NSTimeInterval startTime;
+    NSTimeInterval elapsedTime;
+    NSTimer *countExecutionTime;
 }
+
 - (id)initWithFrame:(CGRect)frame;
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(mainMenu *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
 

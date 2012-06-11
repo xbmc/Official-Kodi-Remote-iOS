@@ -42,6 +42,7 @@
 #define SECTIONS_START_AT 100
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 #define MAX_NORMAL_BUTTONS 4
+#define WARNING_TIMEOUT 30.0f
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -170,7 +171,14 @@
 }
 
 -(IBAction)changeTab:(id)sender{
-    if ([sender tag]==choosedTab) return;
+    if ([sender tag]==choosedTab || activityIndicatorView.hidden == NO) return;
+    startTime = 0;
+    [countExecutionTime invalidate];
+    countExecutionTime = nil;
+    if (longTimeout!=nil){
+        [longTimeout removeFromSuperview];
+        longTimeout = nil;
+    }
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     numTabs=[[self.detailItem mainMethod] count];
     int newChoosedTab=[sender tag];
@@ -1326,16 +1334,85 @@ NSIndexPath *selected;
 //}
 
 # pragma mark - JSON DATA Management
+
+-(void)checkExecutionTime{
+    if (startTime !=0)
+        elapsedTime += [NSDate timeIntervalSinceReferenceDate] - startTime;
+    startTime = [NSDate timeIntervalSinceReferenceDate];
+    if (elapsedTime > WARNING_TIMEOUT && longTimeout == nil){
+        longTimeout = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 111, 56)];
+        longTimeout.animationImages = [NSArray arrayWithObjects:    
+                                       [UIImage imageNamed:@"monkeys_1"],
+                                       [UIImage imageNamed:@"monkeys_2"],
+                                       [UIImage imageNamed:@"monkeys_3"],
+                                       [UIImage imageNamed:@"monkeys_4"],
+                                       [UIImage imageNamed:@"monkeys_5"],
+                                       [UIImage imageNamed:@"monkeys_6"],
+                                       [UIImage imageNamed:@"monkeys_7"],
+                                       [UIImage imageNamed:@"monkeys_8"],
+                                       [UIImage imageNamed:@"monkeys_9"],
+                                       [UIImage imageNamed:@"monkeys_10"],
+                                       [UIImage imageNamed:@"monkeys_11"],
+                                       [UIImage imageNamed:@"monkeys_12"],
+                                       [UIImage imageNamed:@"monkeys_13"],
+                                       [UIImage imageNamed:@"monkeys_14"],
+                                       [UIImage imageNamed:@"monkeys_15"],
+                                       [UIImage imageNamed:@"monkeys_16"],
+                                       [UIImage imageNamed:@"monkeys_17"],
+                                       [UIImage imageNamed:@"monkeys_18"],
+                                       [UIImage imageNamed:@"monkeys_19"],
+                                       [UIImage imageNamed:@"monkeys_20"],
+                                       [UIImage imageNamed:@"monkeys_21"],
+                                       [UIImage imageNamed:@"monkeys_22"],
+                                       [UIImage imageNamed:@"monkeys_23"],
+                                       [UIImage imageNamed:@"monkeys_24"],
+                                       [UIImage imageNamed:@"monkeys_25"],
+                                       [UIImage imageNamed:@"monkeys_26"],
+                                       [UIImage imageNamed:@"monkeys_27"],
+                                       [UIImage imageNamed:@"monkeys_28"],
+                                       [UIImage imageNamed:@"monkeys_29"],
+                                       [UIImage imageNamed:@"monkeys_30"],
+                                       [UIImage imageNamed:@"monkeys_31"],
+                                       [UIImage imageNamed:@"monkeys_32"],
+                                       [UIImage imageNamed:@"monkeys_33"],
+                                       [UIImage imageNamed:@"monkeys_34"],
+                                       [UIImage imageNamed:@"monkeys_35"],
+                                       [UIImage imageNamed:@"monkeys_36"],
+                                       [UIImage imageNamed:@"monkeys_37"],
+                                       [UIImage imageNamed:@"monkeys_38"],
+                                        nil];        
+        longTimeout.animationDuration = 5.0f;
+        longTimeout.animationRepeatCount = 0;
+        longTimeout.center = self.view.center;
+        CGRect frame = longTimeout.frame;
+        frame.origin.y = frame.origin.y + 30.0f;
+        frame.origin.x = frame.origin.x - 3.0f;
+        longTimeout.frame = frame;
+        [longTimeout startAnimating];
+        [self.view addSubview:longTimeout];
+    }
+} 
+
 -(void) retrieveData:(NSString *)methodToCall parameters:(NSDictionary*)parameters{
     GlobalData *obj=[GlobalData getInstance]; 
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];    
 //    NSLog(@"START");
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, parameters);
+    elapsedTime = 0;
+    startTime = [NSDate timeIntervalSinceReferenceDate];
+    countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
     [jsonRPC 
      callMethod:methodToCall
      withParameters:parameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          int total=0;
+         startTime = 0;
+         [countExecutionTime invalidate];
+         countExecutionTime = nil;
+         if (longTimeout!=nil){
+             [longTimeout removeFromSuperview];
+             longTimeout = nil;
+         }
          if (error==nil && methodError==nil){
 //             NSLog(@"END JSON");
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
@@ -1551,6 +1628,7 @@ NSIndexPath *selected;
     if (selection)
 		[self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selection animated:NO];
     [self choseParams];
+    
 }
 
 - (void)didReceiveMemoryWarning {
