@@ -25,6 +25,7 @@ NSMutableArray *mainMenuItems;
 @synthesize fileManager;
 @synthesize documentsDir;
 @synthesize serverOnLine;
+@synthesize serverVersion;
 @synthesize obj;
 
 + (AppDelegate *) instance {

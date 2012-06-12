@@ -119,6 +119,7 @@
                  if( [NSJSONSerialization isValidJSONObject:methodResult]){
                      [volumeSliderView startTimer];
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
+                     [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
                      NSString *infoTitle=[NSString stringWithFormat:@" XBMC %@.%@-%@", [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
                      [self showSetup:NO];

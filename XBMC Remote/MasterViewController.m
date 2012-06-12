@@ -113,6 +113,7 @@
              if (![AppDelegate instance].serverOnLine){
                  if( [NSJSONSerialization isValidJSONObject:methodResult]){
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
+                     [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
                      NSString *infoTitle=[NSString stringWithFormat:@" XBMC %@.%@-%@", [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
                      [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];

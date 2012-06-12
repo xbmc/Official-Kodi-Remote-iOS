@@ -39,6 +39,8 @@
 
 @property (nonatomic, assign) BOOL serverOnLine;
 
+@property (nonatomic, assign) int serverVersion;
+
 @property (nonatomic, retain) GlobalData *obj;
 
 @end

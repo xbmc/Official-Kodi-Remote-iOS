@@ -469,7 +469,7 @@ int flagY = 54;
     if ([[item objectForKey:@"filetype"] length]!=0){
         displayThumb=stringURL;
     }
-    if ((tableView.decelerating == NO) || checkNum<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+    if (((tableView.decelerating == NO) || checkNum<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT) && ![stringURL isEqualToString:@""]){
         NSURL *imageUrl = [NSURL URLWithString: stringURL];    
         UIImage *cachedImage = [manager imageWithURL:imageUrl];
         if (cachedImage){
@@ -1438,8 +1438,11 @@ NSIndexPath *selected;
                  else {
                      [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
                  }
-                 NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-
+                 NSString *serverURL= @"";
+                 serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+                 if ([AppDelegate instance].serverVersion > 11){
+                     serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
+                 }
                  for (int i=0; i<total; i++) {
                      NSString *label=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row1"]]];
                      NSString *genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]]];
@@ -1470,10 +1473,16 @@ NSIndexPath *selected;
                      if ([rating isEqualToString:@"0.0"])
                          rating=@"";
 
-                     NSString *thumbnailPath=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"thumbnail"];
+                     NSString *thumbnailPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"thumbnail"];
+                     NSString *fanartPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"];
                      NSString *fanartURL=@"";
-                     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                     NSString *stringURL = @"";
+                     if (![thumbnailPath isEqualToString:@""]){
+                         stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                     }
+                     if (![fanartPath isEqualToString:@""]){
+                         fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                     }
                      NSString *filetype=@"";
                      NSString *type=@"";
                      
