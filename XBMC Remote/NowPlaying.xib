@@ -20,6 +20,7 @@
 			<string>IBUIActivityIndicatorView</string>
 			<string>IBUILongPressGestureRecognizer</string>
 			<string>IBUITableView</string>
+			<string>IBUISlider</string>
 			<string>IBUIButton</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
@@ -872,7 +873,7 @@
 									</object>
 									<object class="IBUIImageView" id="517998654">
 										<reference key="NSNextResponder" ref="914706864"/>
-										<int key="NSvFlags">266</int>
+										<int key="NSvFlags">-2147483382</int>
 										<string key="NSFrame">{{20, 297}, {280, 17}}</string>
 										<reference key="NSSuperview" ref="914706864"/>
 										<reference key="NSWindow"/>
@@ -887,7 +888,7 @@
 									</object>
 									<object class="IBUIImageView" id="677038430">
 										<reference key="NSNextResponder" ref="914706864"/>
-										<int key="NSvFlags">268</int>
+										<int key="NSvFlags">-2147483380</int>
 										<string key="NSFrame">{{20, 297}, {0, 18}}</string>
 										<reference key="NSSuperview" ref="914706864"/>
 										<reference key="NSWindow"/>
@@ -906,7 +907,7 @@
 										<string key="NSFrame">{{14, 298}, {15, 16}}</string>
 										<reference key="NSSuperview" ref="914706864"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="517998654"/>
+										<reference key="NSNextKeyView" ref="600838162"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">1</int>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -914,6 +915,25 @@
 										<object class="NSCustomResource" key="IBUIImage">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">pgbar_thumb.png</string>
+										</object>
+									</object>
+									<object class="IBUISlider" id="600838162">
+										<reference key="NSNextResponder" ref="914706864"/>
+										<int key="NSvFlags">266</int>
+										<string key="NSFrame">{{18, 294}, {284, 23}}</string>
+										<reference key="NSSuperview" ref="914706864"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="517998654"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<float key="IBUIMaxValue">100</float>
+										<object class="NSColor" key="IBUIMaximumTrackTintColor">
+											<int key="NSColorSpace">3</int>
+											<bytes key="NSWhite">MAA</bytes>
+											<reference key="NSCustomColorSpace" ref="1028210881"/>
 										</object>
 									</object>
 								</array>
@@ -1526,14 +1546,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">pgbar</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="517998654"/>
-					</object>
-					<int key="connectionID">152</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">xbmcOverlayImage</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="894772413"/>
@@ -1555,6 +1567,22 @@
 						<reference key="destination" ref="973779364"/>
 					</object>
 					<int key="connectionID">158</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">pgbar</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="517998654"/>
+					</object>
+					<int key="connectionID">152</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">ProgressSlider</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="600838162"/>
+					</object>
+					<int key="connectionID">172</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1932,6 +1960,7 @@
 							<reference ref="867353682"/>
 							<reference ref="504097466"/>
 							<reference ref="894772413"/>
+							<reference ref="600838162"/>
 						</array>
 						<reference key="parent" ref="135886013"/>
 						<string key="objectName">Now Playing View</string>
@@ -1971,11 +2000,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">31</int>
 						<reference key="object" ref="969146268"/>
-						<reference key="parent" ref="914706864"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">28</int>
-						<reference key="object" ref="517998654"/>
 						<reference key="parent" ref="914706864"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2214,6 +2238,17 @@
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Long Press Gesture Recognizer - editPlaylist</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">28</int>
+						<reference key="object" ref="517998654"/>
+						<reference key="parent" ref="914706864"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">171</int>
+						<reference key="object" ref="600838162"/>
+						<reference key="parent" ref="914706864"/>
+						<string key="objectName">Horizontal progress bar</string>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -2260,6 +2295,7 @@
 				<string key="164.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="168.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="17.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="171.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="18.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="0.0" key="18.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2300,7 +2336,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">170</int>
+			<int key="maxID">172</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2320,6 +2356,7 @@
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="PartyModeButton">UIButton</string>
+						<string key="ProgressSlider">UISlider</string>
 						<string key="activityIndicatorView">UIActivityIndicatorView</string>
 						<string key="albumName">UILabel</string>
 						<string key="artistName">UILabel</string>
@@ -2357,6 +2394,10 @@
 						<object class="IBToOneOutletInfo" key="PartyModeButton">
 							<string key="name">PartyModeButton</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ProgressSlider">
+							<string key="name">ProgressSlider</string>
+							<string key="candidateClassName">UISlider</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="activityIndicatorView">
 							<string key="name">activityIndicatorView</string>
