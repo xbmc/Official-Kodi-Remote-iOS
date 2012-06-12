@@ -186,20 +186,20 @@ float cellBarWidth=45;
 }
 
 -(void)resizeBar:(float)width{
-    float time=1.0f;
-    if (width==0){
-        time=0.1f;
-    }
-    if (width>barwidth)
-        width=barwidth;
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:time];
-    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    CGRect frame;
-    frame = [timeBar frame];
-    frame.size.width = width;
-    timeBar.frame = frame;
-    [UIView commitAnimations];
+//    float time=1.0f;
+//    if (width==0){
+//        time=0.1f;
+//    }
+//    if (width>barwidth)
+//        width=barwidth;
+//    [UIView beginAnimations:nil context:nil];
+//    [UIView setAnimationDuration:time];
+//    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+//    CGRect frame;
+//    frame = [timeBar frame];
+//    frame.size.width = width;
+//    timeBar.frame = frame;
+//    [UIView commitAnimations];
 }
 
 -(void)resizeCellBar:(float)width image:(UIImageView *)cellBarImage{
@@ -427,10 +427,10 @@ int currentItemID;
     if (nothingIsPlaying == YES) return;
     nothingIsPlaying = YES;
     currentTime.text=@"";
-    [timeCursor.layer removeAllAnimations];
-    [timeBar.layer removeAllAnimations];
-    [self animCursor:startx];
-    [self resizeBar:0];
+//    [timeCursor.layer removeAllAnimations];
+//    [timeBar.layer removeAllAnimations];
+//    [self animCursor:startx];
+//    [self resizeBar:0];
     thumbnailView.image = nil;
     if (![self enableJewelCases]){
         jewelView.image = nil;
@@ -444,6 +444,7 @@ int currentItemID;
     songCodec.text = @"-";
     songBitRate.text = @"-";
     songSampleRate.text = @"-";
+    ProgressSlider.value = 0;
     storedItemID=-1;
     [PartyModeButton setSelected:NO];
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
@@ -652,9 +653,10 @@ int currentItemID;
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
 //                             NSLog(@"risposta %@", methodResult);
                              if ([methodResult count]){
-                                 float newx=barwidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
-                                 if (newx<1)
-                                     newx=1;
+                                 ProgressSlider.value = [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue];
+//                                 float newx=barwidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
+//                                 if (newx<1)
+//                                     newx=1;
                                  musicPartyMode=[[methodResult objectForKey:@"partymode"] intValue];
                                  if (musicPartyMode==YES) {
                                      [PartyModeButton setSelected:YES];
@@ -663,8 +665,8 @@ int currentItemID;
                                      [PartyModeButton setSelected:NO];
                                  }
 
-                                 [self animCursor:startx+newx];
-                                 [self resizeBar:newx];
+//                                 [self animCursor:startx+newx];
+//                                 [self resizeBar:newx];
                                  NSDictionary *timeGlobal=[methodResult objectForKey:@"totaltime"];
                                  int hoursGlobal=[[timeGlobal objectForKey:@"hours"] intValue];
                                  int minutesGlobal=[[timeGlobal objectForKey:@"minutes"] intValue];
@@ -1191,10 +1193,11 @@ int currentItemID;
             action=@"Player.GoPrevious";
             params=nil;
             [self playbackAction:action params:nil checkPartyMode:YES];
-            [timeCursor.layer removeAllAnimations];
-            [timeBar.layer removeAllAnimations];
-            [self animCursor:startx];
-            [self resizeBar:0];
+//            [timeCursor.layer removeAllAnimations];
+//            [timeBar.layer removeAllAnimations];
+//            [self animCursor:startx];
+//            [self resizeBar:0];
+            ProgressSlider.value = 0;
             //storeSelection=nil;
             break;
             
@@ -1784,6 +1787,9 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+//    [ProgressSlider setMaximumTrackImage:[UIImage imageNamed:@"slider-bg.png"] forState:UIControlStateNormal];
+//    [ProgressSlider setMinimumTrackImage:[UIImage imageNamed:@"fill.png"] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateNormal];
     [[SDImageCache sharedImageCache] clearMemory];
     playerID = -1;
     selectedPlayerID = -1;
