@@ -106,6 +106,15 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<float key="IBUIValue">0.5</float>
 						<float key="IBUIMaxValue">100</float>
+						<object class="NSColor" key="IBUIMinimumTrackTintColor">
+							<int key="NSColorSpace">5</int>
+							<bytes key="NSCMYK">MC41NzA4MjU3NTU2IDAuMTE2NjA5NDU0MiAwLjA4NDUxOTc0MzkyIDAuMDAwNjU2MTI3OTI5NwA</bytes>
+							<object class="NSColorSpace" key="NSCustomColorSpace">
+								<int key="NSID">3</int>
+							</object>
+							<characters key="NSComponents">0.5708257299 0.1166094542 0.08451974392 0.0006561279297 1</characters>
+						</object>
+						<reference key="IBUIMaximumTrackTintColor" ref="223848313"/>
 					</object>
 					<object class="IBUIButton" id="534362515">
 						<reference key="NSNextResponder" ref="739005154"/>

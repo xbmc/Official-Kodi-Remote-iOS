@@ -1702,7 +1702,7 @@ int currentItemID;
     playlistTableView.frame=frame;
     
     frame = ProgressSlider.frame;
-    frame.origin.y = frame.origin.y - 4;
+    frame.origin.y = frame.origin.y - 5;
     ProgressSlider.frame = frame;
     
     
