@@ -1701,6 +1701,10 @@ int currentItemID;
     frame.origin.x=slideFrom;
     playlistTableView.frame=frame;
     
+    frame = ProgressSlider.frame;
+    frame.origin.y = frame.origin.y - 4;
+    ProgressSlider.frame = frame;
+    
     
     
     NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
