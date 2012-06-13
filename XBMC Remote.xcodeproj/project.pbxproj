@@ -370,6 +370,8 @@
 		0F77D8CE1574A3BE00FE904E /* remote_button_movies_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77D8CD1574A3BE00FE904E /* remote_button_movies_down@2x.png */; };
 		0F77D8D01574A43000FE904E /* remote_button_tv_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77D8CF1574A43000FE904E /* remote_button_tv_down@2x.png */; };
 		0F77D8D21574A4A200FE904E /* remote_button_pictures_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77D8D11574A4A200FE904E /* remote_button_pictures_down@2x.png */; };
+		0F7E5F8015890AEE003434B7 /* keyboard_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7E5F7F15890AEE003434B7 /* keyboard_icon@2x.png */; };
+		0F7E5F8315890B40003434B7 /* keyboard_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7E5F8215890B40003434B7 /* keyboard_icon.png */; };
 		0F82A5A4152C608100FC8B7A /* PlayFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F82A5A2152C608100FC8B7A /* PlayFileViewController.m */; };
 		0F82A5A5152C608100FC8B7A /* PlayFileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */; };
 		0F82A5AB152C820D00FC8B7A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F82A5AA152C820D00FC8B7A /* MediaPlayer.framework */; };
@@ -900,6 +902,8 @@
 		0F77D8CD1574A3BE00FE904E /* remote_button_movies_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_movies_down@2x.png"; sourceTree = "<group>"; };
 		0F77D8CF1574A43000FE904E /* remote_button_tv_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_tv_down@2x.png"; sourceTree = "<group>"; };
 		0F77D8D11574A4A200FE904E /* remote_button_pictures_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_pictures_down@2x.png"; sourceTree = "<group>"; };
+		0F7E5F7F15890AEE003434B7 /* keyboard_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_icon@2x.png"; sourceTree = "<group>"; };
+		0F7E5F8215890B40003434B7 /* keyboard_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = keyboard_icon.png; sourceTree = "<group>"; };
 		0F82A5A1152C608100FC8B7A /* PlayFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayFileViewController.h; path = "XBMC Remote/PlayFileViewController.h"; sourceTree = SOURCE_ROOT; };
 		0F82A5A2152C608100FC8B7A /* PlayFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayFileViewController.m; path = "XBMC Remote/PlayFileViewController.m"; sourceTree = SOURCE_ROOT; };
 		0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayFileViewController.xib; path = "XBMC Remote/PlayFileViewController.xib"; sourceTree = SOURCE_ROOT; };
@@ -1250,6 +1254,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F7E5F7F15890AEE003434B7 /* keyboard_icon@2x.png */,
 				0FA3532015852F570055177A /* monkeys@2x */,
 				0F548BFA15827211005C6DE7 /* OverlayWatched@2x.png */,
 				0FE025EA157BDC2200027C09 /* xbmc_overlay_small@2x.png */,
@@ -1456,6 +1461,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F7E5F8215890B40003434B7 /* keyboard_icon.png */,
 				0FA352D215852F480055177A /* monkeys */,
 				0F548BF715827203005C6DE7 /* OverlayWatched.png */,
 				0FE025E8157BDB2A00027C09 /* xbmc_overlay_small.png */,
@@ -2276,6 +2282,8 @@
 				0FA3536A15852F570055177A /* monkeys_7@2x.png in Resources */,
 				0FA3536B15852F570055177A /* monkeys_8@2x.png in Resources */,
 				0FA3536C15852F570055177A /* monkeys_9@2x.png in Resources */,
+				0F7E5F8015890AEE003434B7 /* keyboard_icon@2x.png in Resources */,
+				0F7E5F8315890B40003434B7 /* keyboard_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

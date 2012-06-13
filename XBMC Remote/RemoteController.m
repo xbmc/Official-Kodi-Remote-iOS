@@ -31,9 +31,9 @@
 }
 
 - (void)configureView{
-    if (self.detailItem) {
-        self.navigationItem.title = [self.detailItem mainLabel]; 
-    }
+//    if (self.detailItem) {
+//        self.navigationItem.title = [self.detailItem mainLabel]; 
+//    }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
@@ -551,9 +551,33 @@ NSInteger buttonAction;
     volumeSliderView.frame=frame;
     [self.view addSubview:volumeSliderView];
     
+//    UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
+//    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+//    
+//    UIBarButtonItem *keyboardButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+//    
+//    UIToolbar* toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 103.0f, 44.01f)];
+//    toolbar.barStyle = UIBarStyleBlack;
+//    NSArray* buttons = [NSArray arrayWithObjects:settingsButton, keyboardButton, nil];
+//    [toolbar setItems:buttons animated:NO];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:toolbar];
+    
+  
+    
     UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-    self.navigationItem.rightBarButtonItem = settingsButton;
+    UIBarButtonItem *volumeButtonItem =[[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+    
+    UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
+    UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: volumeButtonItem, keyboardButtonItem, nil];
+    
+
+//    NSArray *rightButtons= [NSArray arrayWithObjects:keyboardButton, volumeImg, nil]
+//    self.navigationItem.rightBarButtonItem = settingsButton;
+    
+    
+    
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
 }
 
