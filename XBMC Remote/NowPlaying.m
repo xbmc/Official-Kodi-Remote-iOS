@@ -1286,7 +1286,7 @@ int currentItemID;
 }
 
 -(void)showClearPlaylistAlert{
-    if (playlistView.hidden == NO){
+    if (playlistView.hidden == NO && self.view.superview != nil){
         NSString *playlistName=@"";
         if (playerID == 0){
             playlistName=@"Music ";
