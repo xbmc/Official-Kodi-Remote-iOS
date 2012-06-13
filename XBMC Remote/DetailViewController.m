@@ -1400,7 +1400,7 @@ NSIndexPath *selected;
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, parameters);
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
-    countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
+    countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
     [jsonRPC 
      callMethod:methodToCall
      withParameters:parameters
