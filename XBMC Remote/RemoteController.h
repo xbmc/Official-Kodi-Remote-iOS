@@ -16,6 +16,7 @@
     IBOutlet UIView *remoteControlView;
     IBOutlet UILabel *subsInfoLabel;
     NSTimer *fadeoutTimer;
+    IBOutlet UIView *quickHelpView;
 }
 
 - (IBAction)startVibrate:(id)sender;

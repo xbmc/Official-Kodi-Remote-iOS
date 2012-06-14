@@ -526,6 +526,31 @@ NSInteger buttonAction;
     }
 }
 
+#pragma mark - Quick Help
+
+-(IBAction)toggleQuickHelp:(id)sender{
+    
+    if (quickHelpView.alpha == 0){
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.2];
+        quickHelpView.alpha = 1.0;
+        [UIView commitAnimations];
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+
+    }
+    else {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.2];
+//        quickHelpView.hidden = YES;
+        quickHelpView.alpha = 0.0;
+        [UIView commitAnimations];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+
+    }
+}
+
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -551,32 +576,21 @@ NSInteger buttonAction;
     volumeSliderView.frame=frame;
     [self.view addSubview:volumeSliderView];
     
-//    UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-//    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-//    
-//    UIBarButtonItem *keyboardButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-//    
-//    UIToolbar* toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 103.0f, 44.01f)];
-//    toolbar.barStyle = UIBarStyleBlack;
-//    NSArray* buttons = [NSArray arrayWithObjects:settingsButton, keyboardButton, nil];
-//    [toolbar setItems:buttons animated:NO];
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:toolbar];
-    
-  
-    
     UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
     UIBarButtonItem *volumeButtonItem =[[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
     
-    UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
-    UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+//    UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
+//    UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
     
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: volumeButtonItem, keyboardButtonItem, nil];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoLight];
     
-
-//    NSArray *rightButtons= [NSArray arrayWithObjects:keyboardButton, volumeImg, nil]
-//    self.navigationItem.rightBarButtonItem = settingsButton;
+    [button addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *helpButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
     
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: volumeButtonItem, helpButtonItem, nil];
     
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
 }
