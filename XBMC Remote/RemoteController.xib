@@ -573,7 +573,6 @@
 								<string key="NSFrame">{{246, 369}, {59, 33}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<int key="IBUITag">8</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -752,35 +751,35 @@
 								<reference key="IBUIFontDescription" ref="118908105"/>
 								<reference key="IBUIFont" ref="639419253"/>
 							</object>
-							<object class="IBUIView" id="56588709">
+							<object class="IBUIView" id="322054878">
 								<reference key="NSNextResponder" ref="191373211"/>
 								<int key="NSvFlags">274</int>
 								<array class="NSMutableArray" key="NSSubviews">
-									<object class="IBUIImageView" id="652204993">
-										<reference key="NSNextResponder" ref="56588709"/>
+									<object class="IBUIImageView" id="781111533">
+										<reference key="NSNextResponder" ref="322054878"/>
 										<int key="NSvFlags">274</int>
 										<string key="NSFrameSize">{320, 460}</string>
-										<reference key="NSSuperview" ref="56588709"/>
+										<reference key="NSSuperview" ref="322054878"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="220331202"/>
+										<reference key="NSNextKeyView" ref="667546025"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
-										<int key="IBUIContentMode">4</int>
+										<int key="IBUIContentMode">1</int>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<object class="NSCustomResource" key="IBUIImage">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">remote quick help.png</string>
-										</object>
 									</object>
-									<object class="IBUIButton" id="220331202">
-										<reference key="NSNextResponder" ref="56588709"/>
-										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{252, 4}, {64, 27}}</string>
-										<reference key="NSSuperview" ref="56588709"/>
+									<object class="IBUIButton" id="667546025">
+										<reference key="NSNextResponder" ref="322054878"/>
+										<int key="NSvFlags">307</int>
+										<string key="NSFrame">{{252, 4}, {64, 30}}</string>
+										<reference key="NSSuperview" ref="322054878"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="566087471"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<object class="NSColor" key="IBUIBackgroundColor" id="260746426">
+											<int key="NSColorSpace">3</int>
+											<bytes key="NSWhite">MCAwAA</bytes>
+										</object>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
@@ -795,10 +794,10 @@
 										<reference key="IBUIFont" ref="639419253"/>
 									</object>
 								</array>
-								<string key="NSFrameSize">{320, 416}</string>
+								<string key="NSFrameSize">{320, 460}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="652204993"/>
+								<reference key="NSNextKeyView" ref="781111533"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">5</int>
@@ -808,18 +807,14 @@
 									</object>
 									<characters key="NSComponents">1 0.7058823705 0.6431372762 0.870588243 0.8</characters>
 								</object>
-								<float key="IBUIAlpha">0.0</float>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
 						</array>
 						<string key="NSFrameSize">{320, 416}</string>
 						<reference key="NSSuperview" ref="635793099"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="56588709"/>
-						<object class="NSColor" key="IBUIBackgroundColor" id="260746426">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MCAwAA</bytes>
-						</object>
+						<reference key="NSNextKeyView" ref="322054878"/>
+						<reference key="IBUIBackgroundColor" ref="260746426"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</array>
@@ -866,9 +861,17 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">quickHelpView</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="56588709"/>
+						<reference key="destination" ref="322054878"/>
 					</object>
 					<int key="connectionID">171</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">quickHelpImageView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="781111533"/>
+					</object>
+					<int key="connectionID">172</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1251,7 +1254,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">toggleQuickHelp:</string>
-						<reference key="source" ref="220331202"/>
+						<reference key="source" ref="667546025"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -1313,7 +1316,7 @@
 							<reference ref="201307131"/>
 							<reference ref="611241769"/>
 							<reference ref="889199527"/>
-							<reference ref="56588709"/>
+							<reference ref="322054878"/>
 						</array>
 						<reference key="parent" ref="635793099"/>
 						<string key="objectName">Remote Control View</string>
@@ -1491,23 +1494,23 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">167</int>
-						<reference key="object" ref="56588709"/>
+						<reference key="object" ref="322054878"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="652204993"/>
-							<reference ref="220331202"/>
+							<reference ref="781111533"/>
+							<reference ref="667546025"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 						<string key="objectName">Quick Help - View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">168</int>
-						<reference key="object" ref="652204993"/>
-						<reference key="parent" ref="56588709"/>
+						<reference key="object" ref="781111533"/>
+						<reference key="parent" ref="322054878"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">169</int>
-						<reference key="object" ref="220331202"/>
-						<reference key="parent" ref="56588709"/>
+						<reference key="object" ref="667546025"/>
+						<reference key="parent" ref="322054878"/>
 						<string key="objectName">Button Dismiss</string>
 					</object>
 				</array>
@@ -1585,7 +1588,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">171</int>
+			<int key="maxID">172</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1612,11 +1615,16 @@
 						</object>
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="quickHelpImageView">UIImageView</string>
 						<string key="quickHelpView">UIView</string>
 						<string key="remoteControlView">UIView</string>
 						<string key="subsInfoLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="quickHelpImageView">
+							<string key="name">quickHelpImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="quickHelpView">
 							<string key="name">quickHelpView</string>
 							<string key="candidateClassName">UIView</string>
@@ -1646,7 +1654,6 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="remote quick help.png">{320, 460}</string>
 			<string key="remote_button_audio_down@2x.png">{146, 66}</string>
 			<string key="remote_button_audio_up@2x.png">{146, 66}</string>
 			<string key="remote_button_back_down@2x.png">{172, 172}</string>

@@ -31,20 +31,22 @@
 }
 
 - (void)configureView{
-//    if (self.detailItem) {
-//        self.navigationItem.title = [self.detailItem mainLabel]; 
-//    }
+    if (self.detailItem) {
+        self.navigationItem.title = [self.detailItem mainLabel]; 
+    }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
         rightSwipe.cancelsTouchesInView=NO;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
+        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
     }
     else{
         int newWidth = 477;
         int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
+        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
     }
 }
 
@@ -85,7 +87,6 @@
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.2];
-//    subsInfoLabel.hidden = YES;
     subsInfoLabel. alpha = 0;
     [UIView commitAnimations];
     [fadeoutTimer invalidate];
@@ -543,7 +544,6 @@ NSInteger buttonAction;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDuration:0.2];
-//        quickHelpView.hidden = YES;
         quickHelpView.alpha = 0.0;
         [UIView commitAnimations];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -554,13 +554,16 @@ NSInteger buttonAction;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
-    [volumeSliderView startTimer];    
+    [volumeSliderView startTimer];   
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    quickHelpView.alpha = 0.0;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [volumeSliderView stopTimer];
     [self stopHoldKey:nil];
     [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)viewDidLoad{
@@ -575,23 +578,27 @@ NSInteger buttonAction;
     frame.origin.y=-volumeSliderView.frame.size.height;
     volumeSliderView.frame=frame;
     [self.view addSubview:volumeSliderView];
-    
-    UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-    UIBarButtonItem *volumeButtonItem =[[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-    
-//    UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
-//    UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoLight];
-    
-    [button addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem *helpButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
-    
-    
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: volumeButtonItem, helpButtonItem, nil];
-    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
+        UIBarButtonItem *volumeButtonItem =[[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+        //    UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
+        //    UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+        [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *helpButtonItem = [[UIBarButtonItem alloc] initWithCustomView:helpButton];
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: volumeButtonItem, helpButtonItem, nil];
+    }
+    else {
+        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+        helpButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+
+        [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
+        CGRect buttonRect = helpButton.frame;
+        buttonRect.origin.x = self.view.bounds.size.width - buttonRect.size.width - 16;
+        buttonRect.origin.y = self.view.bounds.size.height - buttonRect.size.height - 16; 
+        [helpButton setFrame:buttonRect];
+        [self.view addSubview:helpButton];
+    }
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
 }
 

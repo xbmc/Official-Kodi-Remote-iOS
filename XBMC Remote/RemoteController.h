@@ -17,6 +17,8 @@
     IBOutlet UILabel *subsInfoLabel;
     NSTimer *fadeoutTimer;
     IBOutlet UIView *quickHelpView;
+    IBOutlet UIImageView *quickHelpImageView;
+
 }
 
 - (IBAction)startVibrate:(id)sender;
