@@ -244,11 +244,12 @@
 									<object class="IBUIImageView" id="218814614">
 										<reference key="NSNextResponder" ref="1070852635"/>
 										<int key="NSvFlags">272</int>
-										<string key="NSFrame">{{4, 8}, {0, 18}}</string>
+										<string key="NSFrame">{{4, 8}, {0, 17}}</string>
 										<reference key="NSSuperview" ref="1070852635"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="403759955"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
+										<int key="IBUIContentMode">7</int>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
 										<int key="IBUITag">7</int>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -458,6 +459,7 @@
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="PartyModeButton">UIButton</string>
+						<string key="ProgressSlider">UISlider</string>
 						<string key="activityIndicatorView">UIActivityIndicatorView</string>
 						<string key="albumName">UILabel</string>
 						<string key="artistName">UILabel</string>
@@ -495,6 +497,10 @@
 						<object class="IBToOneOutletInfo" key="PartyModeButton">
 							<string key="name">PartyModeButton</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ProgressSlider">
+							<string key="name">ProgressSlider</string>
+							<string key="candidateClassName">UISlider</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="activityIndicatorView">
 							<string key="name">activityIndicatorView</string>
@@ -642,8 +648,8 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="blank.png">{18, 18}</string>
-			<string key="pgbar_act.png">{10, 13}</string>
-			<string key="pgbar_inact_fake.png">{280, 17}</string>
+			<string key="pgbar_act.png">{47, 17}</string>
+			<string key="pgbar_inact_fake.png">{50, 17}</string>
 			<string key="timeBackground.png">{53, 17}</string>
 			<string key="white.png">{320, 76}</string>
 		</dictionary>

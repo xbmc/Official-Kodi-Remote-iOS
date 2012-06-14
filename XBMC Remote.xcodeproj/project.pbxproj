@@ -481,6 +481,7 @@
 		0FC8CE3E158A25BD00AA9671 /* remote quick help_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8CE3D158A25BD00AA9671 /* remote quick help_ipad.png */; };
 		0FCD786215585055006F5E13 /* button_party_off_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FCD786115585055006F5E13 /* button_party_off_down.png */; };
 		0FCD786515585069006F5E13 /* button_party_off_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FCD786415585069006F5E13 /* button_party_off_down@2x.png */; };
+		0FDC26B3158A7CED0063A9D6 /* pgbar_inact_fake@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FDC26B2158A7CED0063A9D6 /* pgbar_inact_fake@2x.png */; };
 		0FDFC67D15377CE9000BE837 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDFC67C15377CE9000BE837 /* Settings.bundle */; };
 		0FE025E9157BDB2A00027C09 /* xbmc_overlay_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE025E8157BDB2A00027C09 /* xbmc_overlay_small.png */; };
 		0FE025EB157BDC2200027C09 /* xbmc_overlay_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE025EA157BDC2200027C09 /* xbmc_overlay_small@2x.png */; };
@@ -1029,6 +1030,7 @@
 		0FC8CE3D158A25BD00AA9671 /* remote quick help_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote quick help_ipad.png"; sourceTree = "<group>"; };
 		0FCD786115585055006F5E13 /* button_party_off_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_party_off_down.png; sourceTree = "<group>"; };
 		0FCD786415585069006F5E13 /* button_party_off_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_party_off_down@2x.png"; sourceTree = "<group>"; };
+		0FDC26B2158A7CED0063A9D6 /* pgbar_inact_fake@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pgbar_inact_fake@2x.png"; sourceTree = "<group>"; };
 		0FDFC67C15377CE9000BE837 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0FE025E8157BDB2A00027C09 /* xbmc_overlay_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xbmc_overlay_small.png; sourceTree = "<group>"; };
 		0FE025EA157BDC2200027C09 /* xbmc_overlay_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xbmc_overlay_small@2x.png"; sourceTree = "<group>"; };
@@ -1262,6 +1264,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FDC26B2158A7CED0063A9D6 /* pgbar_inact_fake@2x.png */,
 				0F468A70158A391400FB66A6 /* remote quick help_ipad@2x.png */,
 				0FC8CE3B158A175D00AA9671 /* remote quick help@2x.png */,
 				0F7E5F7F15890AEE003434B7 /* keyboard_icon@2x.png */,
@@ -2300,6 +2303,7 @@
 				0FC8CE3C158A175D00AA9671 /* remote quick help@2x.png in Resources */,
 				0FC8CE3E158A25BD00AA9671 /* remote quick help_ipad.png in Resources */,
 				0F468A71158A391400FB66A6 /* remote quick help_ipad@2x.png in Resources */,
+				0FDC26B3158A7CED0063A9D6 /* pgbar_inact_fake@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
