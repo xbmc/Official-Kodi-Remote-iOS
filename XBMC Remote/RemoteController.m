@@ -31,9 +31,9 @@
 }
 
 - (void)configureView{
-    if (self.detailItem) {
-        self.navigationItem.title = [self.detailItem mainLabel]; 
-    }
+//    if (self.detailItem) {
+//        self.navigationItem.title = [self.detailItem mainLabel]; 
+//    }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
@@ -103,6 +103,9 @@
     
     if (actualPosY==Y || hide){
         Y=-view.frame.size.height;
+    }
+    else{
+        [xbmcVirtualKeyboard resignFirstResponder];
     }
     view.alpha = alphavalue;
 	CGRect frame;
@@ -369,6 +372,7 @@ NSInteger buttonAction;
         case 13:
             action=@"Input.Select";
             [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [xbmcVirtualKeyboard resignFirstResponder];
             break;
             
         case 14:
@@ -495,6 +499,7 @@ NSInteger buttonAction;
         [[UIDevice currentDevice] playInputClick];
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     }
+    [xbmcVirtualKeyboard resignFirstResponder];
 }
 # pragma  mark - Gestures
 
@@ -530,7 +535,7 @@ NSInteger buttonAction;
 #pragma mark - Quick Help
 
 -(IBAction)toggleQuickHelp:(id)sender{
-    
+    [xbmcVirtualKeyboard resignFirstResponder];
     if (quickHelpView.alpha == 0){
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -551,6 +556,29 @@ NSInteger buttonAction;
     }
 }
 
+#pragma mark - UITextFieldDelegate Methods
+
+-(void)toggleVirtualKeyboard{
+    if ([xbmcVirtualKeyboard isFirstResponder]){
+        [xbmcVirtualKeyboard resignFirstResponder];
+    }
+    else {
+        [xbmcVirtualKeyboard becomeFirstResponder];
+    }
+}
+
+-(BOOL) textField: (UITextField *)theTextField shouldChangeCharactersInRange: (NSRange)range replacementString: (NSString *)string {
+    if (range.location == 0){ //BACKSPACE
+        [self sendXbmcHttp:@"SendKey(0xf108)"];
+    }
+    else{ // CHARACTER
+        int x = (unichar) [string characterAtIndex: 0];
+        if (x<1000)
+            [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
+    }
+    return NO;
+}
+
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -562,6 +590,7 @@ NSInteger buttonAction;
 -(void)viewWillDisappear:(BOOL)animated{
     [volumeSliderView stopTimer];
     [self stopHoldKey:nil];
+    [xbmcVirtualKeyboard resignFirstResponder];
     [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
@@ -581,17 +610,26 @@ NSInteger buttonAction;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
         UIBarButtonItem *volumeButtonItem =[[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-        //    UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
-        //    UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
+        UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVirtualKeyboard)];
         UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
         [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *helpButtonItem = [[UIBarButtonItem alloc] initWithCustomView:helpButton];
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: volumeButtonItem, helpButtonItem, nil];
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: volumeButtonItem, keyboardButtonItem, helpButtonItem, nil];
     }
     else {
+        UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 100, self.view.bounds.size.height - 43, 56.0, 36.0);
+        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
+        [keyboardButton setContentMode:UIViewContentModeRight];
+        [keyboardButton setShowsTouchWhenHighlighted:YES];
+        [keyboardButton setImage:keyboardImg forState:UIControlStateNormal];
+        keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+        [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:keyboardButton];
+
         UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
         helpButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-
         [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
         CGRect buttonRect = helpButton.frame;
         buttonRect.origin.x = self.view.bounds.size.width - buttonRect.size.width - 16;
@@ -599,13 +637,27 @@ NSInteger buttonAction;
         [helpButton setFrame:buttonRect];
         [self.view addSubview:helpButton];
     }
+    xbmcVirtualKeyboard = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+    xbmcVirtualKeyboard.hidden = YES;
+    xbmcVirtualKeyboard.delegate = self;
+    xbmcVirtualKeyboard.autocorrectionType = UITextAutocorrectionTypeNo;
+    xbmcVirtualKeyboard.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    xbmcVirtualKeyboard.text = @" ";
+    [self.view addSubview:xbmcVirtualKeyboard];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
 }
 
 - (void)viewDidUnload{
     [super viewDidUnload];
-    volumeSliderView=nil;
-    jsonRPC=nil;
+    volumeSliderView = nil;
+    jsonRPC = nil;
+    xbmcVirtualKeyboard = nil;
+}
+
+-(void)dealloc{
+    volumeSliderView = nil;
+    jsonRPC = nil;
+    xbmcVirtualKeyboard = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

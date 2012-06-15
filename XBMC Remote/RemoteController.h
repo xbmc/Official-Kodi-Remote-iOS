@@ -10,7 +10,7 @@
 #import "DSJSONRPC.h"
 #import "VolumeSliderView.h"
 
-@interface RemoteController : UIViewController{
+@interface RemoteController : UIViewController <UITextFieldDelegate>{
     DSJSONRPC *jsonRPC;
     VolumeSliderView *volumeSliderView;
     IBOutlet UIView *remoteControlView;
@@ -18,7 +18,7 @@
     NSTimer *fadeoutTimer;
     IBOutlet UIView *quickHelpView;
     IBOutlet UIImageView *quickHelpImageView;
-
+    UITextField *xbmcVirtualKeyboard;
 }
 
 - (IBAction)startVibrate:(id)sender;

@@ -54,6 +54,16 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
+			<string>shake_preference</string>
+			<key>Title</key>
+			<string>Shake to clear playlist</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
 			<string>clearcache_preference</string>
 			<key>Title</key>
 			<string>Clear cache on next start</string>
