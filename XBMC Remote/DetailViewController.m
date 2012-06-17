@@ -1288,14 +1288,7 @@ NSIndexPath *selected;
     }];
 }
 
--(void)showInfo:(NSIndexPath *)indexPath{
-    NSDictionary *item = nil;
-    if ([self.searchDisplayController isActive]){
-        item = [self.filteredListContent objectAtIndex:indexPath.row];
-    }
-    else{
-        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    }
+-(void)displayInfoView:(NSDictionary *)item{
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         self.showInfoViewController=nil;
         self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
@@ -1305,6 +1298,25 @@ NSIndexPath *selected;
     else{
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:FALSE];
+    }
+
+}
+
+-(void)showInfo:(NSIndexPath *)indexPath{
+    NSDictionary *item = nil;
+    if ([self.searchDisplayController isActive]){
+        item = [self.filteredListContent objectAtIndex:indexPath.row];
+    }
+    else{
+        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    }
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    if ([parameters objectForKey:@"extra_info_parameters"]!=nil && [methods objectForKey:@"extra_info_method"]!=nil){
+        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:[parameters objectForKey:@"extra_info_parameters"] index:indexPath item:item];
+    }
+    else{
+        [self displayInfoView:item];
     }
 }
 
@@ -1392,6 +1404,145 @@ NSIndexPath *selected;
         [self.view addSubview:longTimeout];
     }
 } 
+
+-(void) retrieveExtraInfoData:(NSString *)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath *)indexPath item:(NSDictionary *)item{
+   
+    NSString *itemid = @"";
+    NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
+    if (((NSNull *)[mainFields objectForKey:@"row6"] != [NSNull null])){
+        itemid = [mainFields objectForKey:@"row6"]; 
+    }
+    else{
+        return; // something goes wrong
+    }
+    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+    [queuing startAnimating]; 
+    NSMutableArray *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     [parameters objectForKey:@"properties"], @"properties",
+                                     [item objectForKey:itemid], itemid,
+                                     nil];
+    GlobalData *obj=[GlobalData getInstance];
+    [jsonRPC 
+     callMethod:methodToCall
+     withParameters:newParameters
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if (error==nil && methodError==nil){
+             [queuing stopAnimating];
+             if( [NSJSONSerialization isValidJSONObject:methodResult]){
+                 NSString *itemid_extra_info = @"";
+                 NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
+                 if (((NSNull *)[mainFields objectForKey:@"itemid_extra_info"] != [NSNull null])){
+                     itemid_extra_info = [mainFields objectForKey:@"itemid_extra_info"]; 
+                 }
+                 else{
+                     return; // something goes wrong
+                 }    
+                 NSDictionary *videoLibraryMovieDetail = [methodResult objectForKey:itemid_extra_info];
+                 if (((NSNull *)videoLibraryMovieDetail == [NSNull null]) || videoLibraryMovieDetail == nil){
+                     return; // something goes wrong
+                 }
+                 NSString *serverURL= @"";
+                 serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+                 if ([AppDelegate instance].serverVersion > 11){
+                     serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
+                 }
+                 NSString *label=[NSString stringWithFormat:@"%@",[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row1"]]];
+                 NSString *genre=[NSString stringWithFormat:@"%@",[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]]];
+                 if ([genre isEqualToString:@"(null)"]) genre=@"";
+                 
+                 NSString *year=@"";
+                 if([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row3"]] isKindOfClass:[NSNumber class]]){
+                     year=[(NSNumber *)[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row3"]] stringValue];
+                 }
+                 else{
+                     if ([[mainFields objectForKey:@"row3"] isEqualToString:@"blank"])
+                         year=@"";
+                     else
+                         year=[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row3"]];
+                 }                     
+                 NSString *runtime=@"";
+                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
+                     runtime=[NSString stringWithFormat:@"%d min",[[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] intValue]];
+                 }
+                 else{
+                     runtime=[NSString stringWithFormat:@"%@",[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]]];
+                 }
+                 if ([runtime isEqualToString:@"(null)"]) runtime=@"";
+                 
+                 
+                 NSString *rating=[NSString stringWithFormat:@"%.1f",[(NSNumber *)[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row5"]] floatValue]];
+                 
+                 if ([rating isEqualToString:@"0.0"])
+                     rating=@"";
+                 
+                 NSString *thumbnailPath = [videoLibraryMovieDetail objectForKey:@"thumbnail"];
+                 NSString *fanartPath = [videoLibraryMovieDetail objectForKey:@"fanart"];
+                 NSString *fanartURL=@"";
+                 NSString *stringURL = @"";
+                 if (![thumbnailPath isEqualToString:@""]){
+                     stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                 }
+                 if (![fanartPath isEqualToString:@""]){
+                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                 }
+                 NSString *filetype=@"";
+                 NSString *type=@"";
+                 
+                 if ([videoLibraryMovieDetail objectForKey:@"filetype"]!=nil){
+                     filetype=[videoLibraryMovieDetail objectForKey:@"filetype"];
+                     type=[videoLibraryMovieDetail objectForKey:@"type"];;
+                     if ([filetype isEqualToString:@"directory"]){
+                         stringURL=@"nocover_filemode.png";
+                     }
+                     else if ([filetype isEqualToString:@"file"]){
+                         if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
+                             stringURL=@"icon_song.png";
+                             
+                         }
+                         else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
+                             stringURL=@"icon_video.png";
+                         }
+                         else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
+                             stringURL=@"icon_picture.png";
+                         }
+                     }
+                 }
+                 NSDictionary *newItem = 
+                 [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                  label, @"label",
+                  genre, @"genre",
+                  stringURL, @"thumbnail",
+                  fanartURL, @"fanart",
+                  runtime, @"runtime",
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"],
+                  year, @"year",
+                  rating, @"rating",
+                  [mainFields objectForKey:@"playlistid"], @"playlistid",
+                  [mainFields objectForKey:@"row8"], @"family",
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row9"]], [mainFields objectForKey:@"row9"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row11"]], [mainFields objectForKey:@"row11"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row13"]], [mainFields objectForKey:@"row13"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row14"]], [mainFields objectForKey:@"row14"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row15"]], [mainFields objectForKey:@"row15"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row16"]], [mainFields objectForKey:@"row16"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row17"]], [mainFields objectForKey:@"row17"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
+                  nil];
+                 [self displayInfoView:newItem];
+             }
+             else {
+                 [queuing stopAnimating];
+             }
+         }
+         else {
+             [queuing stopAnimating];
+         }
+     }];
+}
 
 -(void) retrieveData:(NSString *)methodToCall parameters:(NSDictionary*)parameters{
     GlobalData *obj=[GlobalData getInstance]; 
@@ -1629,13 +1780,13 @@ NSIndexPath *selected;
 
 # pragma mark - Life-Cycle
 -(void)viewWillAppear:(BOOL)animated{
-    alreadyPush=NO;
+    alreadyPush = NO;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
 	if (selection)
 		[dataList deselectRowAtIndexPath:selection animated:NO];
     selection = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
     if (selection)
-		[self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selection animated:NO];
+		[self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selection animated:YES];
     [self choseParams];
     
 }

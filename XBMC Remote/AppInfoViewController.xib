@@ -232,7 +232,7 @@ IFhCTUMgUmVtb3RlIGljb25zIGFyZSBwcm9wZXJ0eSBvZiBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmc<
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">v1.1.2</string>
+						<string key="IBUIText">v1.1.3</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>

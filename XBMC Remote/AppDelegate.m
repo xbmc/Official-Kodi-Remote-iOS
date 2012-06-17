@@ -620,7 +620,10 @@ NSMutableArray *mainMenuItems;
     item2.mainButtons=[NSArray arrayWithObjects:@"st_movie", @"st_concert", @"st_filemode", nil];//
 
     item2.mainMethod=[NSMutableArray arrayWithObjects:
-                      [NSArray arrayWithObjects:@"VideoLibrary.GetMovies", @"method", nil],
+                      [NSArray arrayWithObjects:
+                       @"VideoLibrary.GetMovies", @"method", 
+                       @"VideoLibrary.GetMovieDetails", @"extra_info_method", 
+                       nil],
                       
                       [NSArray arrayWithObjects:@"VideoLibrary.GetMusicVideos", @"method", nil],
                       
@@ -636,8 +639,13 @@ NSMutableArray *mainMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
                              nil],@"sort",
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", nil], @"properties",
+                            nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", 
+                           
+                           [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", nil], @"properties",
-                            nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", nil],
+                            nil], @"extra_info_parameters",
+                           nil], //@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime" //-> should be not retrieved again
                           
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -677,6 +685,7 @@ NSMutableArray *mainMenuItems;
                        @"cast",@"row16",
                        @"fanart",@"row7",
                        @"playcount",@"row17",
+                       @"moviedetails",@"itemid_extra_info",
                        nil],
                       
                       [NSDictionary dictionaryWithObjectsAndKeys:
