@@ -824,8 +824,10 @@ NSMutableArray *mainMenuItems;
     
 
     item3.mainMethod=[NSMutableArray arrayWithObjects:
-                      [NSArray arrayWithObjects:@"VideoLibrary.GetTVShows", @"method", nil],
-                      
+                      [NSArray arrayWithObjects:
+                       @"VideoLibrary.GetTVShows", @"method", 
+                       @"VideoLibrary.GetTVShowDetails", @"extra_info_method",
+                       nil],
                                             
                       [NSArray arrayWithObjects:@"Files.GetSources", @"method", nil],
 
@@ -839,8 +841,11 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             
-                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", @"plot", @"mpaa", @"votes", @"cast", @"premiered", @"episode", @"fanart", nil], @"properties",
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", nil], @"properties",
                             nil], @"parameters", @"TV Shows", @"label", @"TV Show", @"wikitype",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", @"plot", @"mpaa", @"votes", @"cast", @"premiered", @"episode", @"fanart", nil], @"properties",
+                            nil], @"extra_info_parameters",
                            nil],
                           
                                                     
@@ -872,6 +877,7 @@ NSMutableArray *mainMenuItems;
                        @"premiered",@"row13",
                        @"episode",@"row14",
                        @"fanart",@"row7",
+                       @"tvshowdetails",@"itemid_extra_info",
                        nil],
                                             
                       [NSDictionary  dictionaryWithObjectsAndKeys:
