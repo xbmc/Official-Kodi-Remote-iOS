@@ -9,13 +9,13 @@
 #import "DetailViewController.h"
 #import "mainMenu.h"
 #import "DSJSONRPC.h"
-#import "UIImageView+WebCache.h"
+//#import "UIImageView+WebCache.h"
 #import "GlobalData.h"
 #import "ShowInfoViewController.h"
 #import "DetailViewController.h"
 #import "NowPlaying.h"
 #import "PlayFileViewController.h"
-#import <MediaPlayer/MediaPlayer.h>
+//#import <MediaPlayer/MediaPlayer.h>
 #import "SDImageCache.h"
 #import "WebViewController.h"
 #import "AppDelegate.h"
@@ -395,18 +395,14 @@ int flagY = 54;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     static NSString *identifier = @"jsonDataCellIdentifier";
     jsonDataCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-    
-
     mainMenu *Menuitem = self.detailItem;
     NSDictionary *mainFields=[[Menuitem mainFields] objectAtIndex:choosedTab];
-    
 /* future - need to be tweaked: doesn't work on file mode. mainLabel need to be resized */
 //    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[Menuitem.subItem mainMethod] objectAtIndex:choosedTab]];
 //    if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
@@ -470,19 +466,16 @@ int flagY = 54;
         displayThumb=stringURL;
     }
     if (((tableView.decelerating == NO) || checkNum<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT) && ![stringURL isEqualToString:@""]){
-        NSURL *imageUrl = [NSURL URLWithString: stringURL];    
-        UIImage *cachedImage = [manager imageWithURL:imageUrl];
-        if (cachedImage){
-            cell.urlImageView.image=cachedImage; // to be detached in another thread
+        if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+            [[SDImageCache sharedImageCache] clearMemory];
         }
-        else { 
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
-        }
+        [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        cell.tag = 0;
     }
     else {
         cell.urlImageView.image=[UIImage imageNamed:displayThumb];  
+        cell.tag = 1000;
     }
-    
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     UIImageView *flagView = (UIImageView*) [cell viewWithTag:9];
     frame=flagView.frame;
@@ -647,7 +640,6 @@ int flagY = 54;
         checkNum=numFilteredResults;
     }
     if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){//[self.searchDisplayController isActive]
-    
         NSArray *visiblePaths = nil;
         if ([self.searchDisplayController isActive]){
             visiblePaths = [self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows];
@@ -667,19 +659,15 @@ int flagY = 54;
                 cell = [dataList cellForRowAtIndexPath:indexPath];
                 item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
             }
-            UIImageView *thumb=(UIImageView*) [cell viewWithTag:6];
-            NSString *stringURL = [item objectForKey:@"thumbnail"];
-            NSURL *imageUrl = [NSURL URLWithString: stringURL];    
-            UIImage *cachedImage = [manager imageWithURL:imageUrl];
-            NSString *displayThumb=defaultThumb;
-            if ([[item objectForKey:@"filetype"] length]!=0){
-                displayThumb=stringURL;
-            }
-            if (cachedImage){
-                thumb.image=cachedImage;
-            }
-            else {            
+            if (cell.tag == 1000){
+                UIImageView *thumb=(UIImageView*) [cell viewWithTag:6];
+                NSString *stringURL = [item objectForKey:@"thumbnail"];
+                NSString *displayThumb=defaultThumb;
+                if ([[item objectForKey:@"filetype"] length]!=0){
+                    displayThumb=stringURL;
+                }
                 [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
+                cell.tag = 0;
             }
         }
     }
@@ -1850,7 +1838,7 @@ NSIndexPath *selected;
     if (choosedTab>=numTabs){
         choosedTab=0;
     }
-    manager = [SDWebImageManager sharedManager];
+//    manager = [SDWebImageManager sharedManager];
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
@@ -1884,7 +1872,7 @@ NSIndexPath *selected;
     dataList=nil;
     jsonCell=nil;
     activityIndicatorView=nil;  
-    manager=nil;
+//    manager=nil;
     nowPlaying=nil;
     playFileViewController=nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
@@ -1901,7 +1889,7 @@ NSIndexPath *selected;
     dataList=nil;
     jsonCell=nil;
     activityIndicatorView=nil;  
-    manager=nil;
+//    manager=nil;
     nowPlaying=nil;
     playFileViewController=nil;
     self.nowPlaying = nil;
