@@ -10,10 +10,37 @@
 #import "SDWebImageDecoder.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "SDWebImageDecoder.h"
-
-static NSInteger cacheMaxCacheAge = 60*60*24*7; // 1 week
+#import <mach/mach.h>
+#import <mach/mach_host.h>
 
 static SDImageCache *instance;
+
+static NSInteger cacheMaxCacheAge = 60*60*24*7; // 1 week
+static natural_t minFreeMemLeft = 1024*1024*12; // reserve 12MB RAM
+
+// inspired by http://stackoverflow.com/questions/5012886/knowing-available-ram-on-an-ios-device
+static natural_t get_free_memory(void)
+{
+    mach_port_t host_port;
+    mach_msg_type_number_t host_size;
+    vm_size_t pagesize;
+
+    host_port = mach_host_self();
+    host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);
+    host_page_size(host_port, &pagesize);
+
+    vm_statistics_data_t vm_stat;
+
+    if (host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size) != KERN_SUCCESS)
+    {
+        NSLog(@"Failed to fetch vm statistics");
+        return 0;
+    }
+
+    /* Stats in bytes */
+    natural_t mem_free = vm_stat.free_count * pagesize;
+    return mem_free;
+}
 
 @implementation SDImageCache
 
@@ -151,6 +178,10 @@ static SDImageCache *instance;
 
     if (image)
     {
+        if (get_free_memory() < minFreeMemLeft)
+        {
+            [memCache removeAllObjects];
+        }    
         [memCache setObject:image forKey:key];
 
         if ([delegate respondsToSelector:@selector(imageCache:didFindImage:forKey:userInfo:)])
@@ -196,7 +227,11 @@ static SDImageCache *instance;
     {
         return;
     }
-
+    
+    if (get_free_memory() < minFreeMemLeft)
+    {
+        [memCache removeAllObjects];
+    }
     [memCache setObject:image forKey:key];
 
     if (toDisk)
@@ -248,6 +283,10 @@ static SDImageCache *instance;
         image = SDScaledImageForPath(key, [NSData dataWithContentsOfFile:[self cachePathForKey:key]]);
         if (image)
         {
+            if (get_free_memory() < minFreeMemLeft)
+            {
+                [memCache removeAllObjects];
+            }
             [memCache setObject:image forKey:key];
         }
     }
@@ -257,50 +296,51 @@ static SDImageCache *instance;
 
 - (void)queryDiskCacheForKey:(NSString *)key delegate:(id <SDImageCacheDelegate>)delegate userInfo:(NSDictionary *)info
 {
-    @autoreleasepool {
-        
-        
-        if (!delegate)
-        {
-            return;
-        }
-        
-        if (!key)
-        {
-            if ([delegate respondsToSelector:@selector(imageCache:didNotFindImageForKey:userInfo:)])
-            {
-                [delegate imageCache:self didNotFindImageForKey:key userInfo:info];
-            }
-            return;
-        }
-        
-        // First check the in-memory cache...
-        UIImage *image = [memCache objectForKey:key];
-        if (image)
-        {
-            // ...notify delegate immediately, no need to go async
-            if ([delegate respondsToSelector:@selector(imageCache:didFindImage:forKey:userInfo:)])
-            {
-                [delegate imageCache:self didFindImage:image forKey:key userInfo:info];
-            }
-            return;
-        }
-        
-        NSMutableDictionary *arguments = [NSMutableDictionary dictionaryWithCapacity:3];
-        [arguments setObject:key forKey:@"key"];
-        [arguments setObject:delegate forKey:@"delegate"];
-        if (info)
-        {
-            [arguments setObject:info forKey:@"userInfo"];
-        }
-        NSInvocationOperation *operation = SDWIReturnAutoreleased([[NSInvocationOperation alloc] initWithTarget:self
-                                                                                                       selector:@selector(queryDiskCacheOperation:)
-                                                                                                         object:arguments]);
-        [cacheOutQueue addOperation:operation];
+    if (!delegate)
+    {
+        return;
     }
+
+    if (!key)
+    {
+        if ([delegate respondsToSelector:@selector(imageCache:didNotFindImageForKey:userInfo:)])
+        {
+            [delegate imageCache:self didNotFindImageForKey:key userInfo:info];
+        }
+        return;
+    }
+
+    // First check the in-memory cache...
+    UIImage *image = [memCache objectForKey:key];
+    if (image)
+    {
+        // ...notify delegate immediately, no need to go async
+        if ([delegate respondsToSelector:@selector(imageCache:didFindImage:forKey:userInfo:)])
+        {
+            [delegate imageCache:self didFindImage:image forKey:key userInfo:info];
+        }
+        return;
+    }
+
+    NSMutableDictionary *arguments = [NSMutableDictionary dictionaryWithCapacity:3];
+    [arguments setObject:key forKey:@"key"];
+    [arguments setObject:delegate forKey:@"delegate"];
+    if (info)
+    {
+        [arguments setObject:info forKey:@"userInfo"];
+    }
+    NSInvocationOperation *operation = SDWIReturnAutoreleased([[NSInvocationOperation alloc] initWithTarget:self
+                                                                                                   selector:@selector(queryDiskCacheOperation:)
+                                                                                                     object:arguments]);
+    [cacheOutQueue addOperation:operation];
 }
 
 - (void)removeImageForKey:(NSString *)key
+{
+    [self removeImageForKey:key fromDisk:YES];
+}
+
+- (void)removeImageForKey:(NSString *)key fromDisk:(BOOL)fromDisk
 {
     if (key == nil)
     {
@@ -308,7 +348,11 @@ static SDImageCache *instance;
     }
 
     [memCache removeObjectForKey:key];
-    [[NSFileManager defaultManager] removeItemAtPath:[self cachePathForKey:key] error:nil];
+
+    if (fromDisk)
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:[self cachePathForKey:key] error:nil];
+    }
 }
 
 - (void)clearMemory
@@ -353,6 +397,36 @@ static SDImageCache *instance;
         size += [attrs fileSize];
     }
     return size;
+}
+
+- (int)getDiskCount
+{
+    int count = 0;
+    NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:diskCachePath];
+    for (NSString *fileName in fileEnumerator)
+    {
+        count += 1;
+    }
+    
+    return count;
+}
+
+- (int)getMemorySize
+{
+    int size = 0;
+    
+    for(id key in [memCache allKeys])
+    {
+        UIImage *img = [memCache valueForKey:key];
+        size += [UIImageJPEGRepresentation(img, 0) length];
+    };
+    
+    return size;
+}
+
+- (int)getMemoryCount
+{
+    return [[memCache allKeys] count];
 }
 
 @end

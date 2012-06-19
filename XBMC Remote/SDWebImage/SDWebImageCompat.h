@@ -49,14 +49,26 @@
 #endif
 
 
-NS_INLINE UIImage *SDScaledImageForPath(NSString *path, NSData *imageData)
+NS_INLINE UIImage *SDScaledImageForPath(NSString *path, NSObject *imageOrData)
 {
-    if (!imageData)
+    if (!imageOrData)
     {
         return nil;
     }
 
-    UIImage *image = [[UIImage alloc] initWithData:imageData];
+    UIImage *image = nil;
+    if ([imageOrData isKindOfClass:[NSData class]])
+    {
+        image = [[UIImage alloc] initWithData:(NSData *)imageOrData];
+    }
+    else if ([imageOrData isKindOfClass:[UIImage class]])
+    {
+        image = SDWIReturnRetained((UIImage *)imageOrData);
+    }
+    else
+    {
+        return nil;
+    }
 
     if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
     {
@@ -70,6 +82,7 @@ NS_INLINE UIImage *SDScaledImageForPath(NSString *path, NSData *imageData)
                 scale = 2.0;
             }
         }
+
         UIImage *scaledImage = [[UIImage alloc] initWithCGImage:image.CGImage scale:scale orientation:UIImageOrientationUp];
         SDWISafeRelease(image)
         image = scaledImage;
