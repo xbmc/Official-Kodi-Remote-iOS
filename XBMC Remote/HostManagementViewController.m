@@ -43,6 +43,7 @@
         [AppDelegate instance].obj.serverPass = @"";
         [AppDelegate instance].obj.serverIP = @"";
         [AppDelegate instance].obj.serverPort = @"";
+        [AppDelegate instance].obj.serverHWAddr = @"";
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
         if (standardUserDefaults) {
@@ -124,6 +125,7 @@
     [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
     [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
     [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
+    [AppDelegate instance].obj.serverHWAddr = [item objectForKey:@"serverMacAddress"];
     [AppDelegate instance].obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
 }
 
@@ -143,6 +145,7 @@
             [AppDelegate instance].obj.serverPass = @"";
             [AppDelegate instance].obj.serverIP = @"";
             [AppDelegate instance].obj.serverPort = @"";
+            [AppDelegate instance].obj.serverHWAddr = @"";
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (standardUserDefaults) {
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
@@ -199,6 +202,7 @@
                 [AppDelegate instance].obj.serverPass = @"";
                 [AppDelegate instance].obj.serverIP = @"";
                 [AppDelegate instance].obj.serverPort = @"";
+                [AppDelegate instance].obj.serverHWAddr = @"";
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
