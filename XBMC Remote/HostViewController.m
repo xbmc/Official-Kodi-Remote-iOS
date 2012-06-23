@@ -150,9 +150,22 @@
     [self resignKeyboard];
 }
 
+
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSUInteger newLength = [textField.text length] + [string length] - range.length;
-    return (newLength > 2 && textField.tag>100) ? NO : YES;
+    if (newLength > 2 && textField.tag>100){
+        if (textField.tag < 106){
+            UITextField *next = (UITextField*) [self.view viewWithTag:textField.tag + 1];
+            [next becomeFirstResponder];
+            [next selectAll:self];
+        }
+        return NO;
+    }
+    else{
+        return YES;
+    }
+//    return (newLength > 2 && textField.tag>100) ? NO : YES;
 }
 
 # pragma  mark - Gestures
