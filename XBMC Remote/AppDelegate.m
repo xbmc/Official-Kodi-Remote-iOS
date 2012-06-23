@@ -12,6 +12,8 @@
 #import "ViewControllerIPad.h"
 #import "SDImageCache.h"
 #import "GlobalData.h"
+#import <arpa/inet.h>
+
 
 @implementation AppDelegate
 
@@ -27,6 +29,7 @@ NSMutableArray *mainMenuItems;
 @synthesize serverOnLine;
 @synthesize serverVersion;
 @synthesize obj;
+@synthesize playlistArtistAlbums;
 
 + (AppDelegate *) instance {
 	return (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -841,7 +844,7 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             
-                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", nil], @"properties",
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", nil], @"properties",
                             nil], @"parameters", @"TV Shows", @"label", @"TV Show", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", @"plot", @"mpaa", @"votes", @"cast", @"premiered", @"episode", @"fanart", nil], @"properties",
@@ -1190,6 +1193,62 @@ NSMutableArray *mainMenuItems;
     
     return YES;
 }
+
+-(void)wake:(NSString *)macAddress{
+    Wake_on_LAN("255.255.255.255", [macAddress UTF8String]);
+}
+
+int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
+	int i,sockfd,an=1;
+	char *x;
+	char mac[102];
+	char macpart[2];
+	char test[103];
+	
+	struct sockaddr_in serverAddress;
+	
+	if ( (sockfd = socket( AF_INET, SOCK_DGRAM,17)) < 0 ) {
+		return 1;
+	}
+	
+	setsockopt(sockfd,SOL_SOCKET,SO_BROADCAST,&an,sizeof(an));
+	
+	bzero( &serverAddress, sizeof(serverAddress) );
+	serverAddress.sin_family = AF_INET;
+	serverAddress.sin_port = htons( 9 );
+	
+	inet_pton( AF_INET, ip_broadcast, &serverAddress.sin_addr );
+	
+	for (i=0;i<6;i++) mac[i]=255;
+	for (i=1;i<17;i++) {
+		macpart[0]=wake_mac[0];
+		macpart[1]=wake_mac[1];
+		mac[6*i]=strtol(macpart,&x,16);
+		macpart[0]=wake_mac[3];
+		macpart[1]=wake_mac[4];
+		mac[6*i+1]=strtol(macpart,&x,16);
+		macpart[0]=wake_mac[6];
+		macpart[1]=wake_mac[7];
+		mac[6*i+2]=strtol(macpart,&x,16);
+		macpart[0]=wake_mac[9];
+		macpart[1]=wake_mac[10];
+		mac[6*i+3]=strtol(macpart,&x,16);
+		macpart[0]=wake_mac[12];
+		macpart[1]=wake_mac[13];
+		mac[6*i+4]=strtol(macpart,&x,16);
+		macpart[0]=wake_mac[15];
+		macpart[1]=wake_mac[16];
+		mac[6*i+5]=strtol(macpart,&x,16);
+	}
+	for (i=0;i<103;i++) test[i]=mac[i];
+	test[102]=0;
+	
+	sendto(sockfd,&mac,102,0,(struct sockaddr *)&serverAddress,sizeof(serverAddress));
+	close(sockfd);
+	
+	return 0;
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application{
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
