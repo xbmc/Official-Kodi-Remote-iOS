@@ -84,7 +84,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Server list</string>
+						<string key="IBUIText">Select a server from the list</string>
 						<object class="NSColor" key="IBUITextColor" id="48250789">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
