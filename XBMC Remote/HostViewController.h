@@ -16,8 +16,13 @@
     IBOutlet UITextField *portUI;
     IBOutlet UITextField *usernameUI;
     IBOutlet UITextField *passwordUI;
+    IBOutlet UITextField *mac_0_UI;
+    IBOutlet UITextField *mac_1_UI;
+    IBOutlet UITextField *mac_2_UI;
+    IBOutlet UITextField *mac_3_UI;
+    IBOutlet UITextField *mac_4_UI;
+    IBOutlet UITextField *mac_5_UI;
     IBOutlet UISwitch *preferTVPostersUI;
-
     NSMutableArray *services;
     BOOL searching;
     NSNetServiceBrowser *netServiceBrowser;

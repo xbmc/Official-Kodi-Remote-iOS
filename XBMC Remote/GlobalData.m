@@ -15,6 +15,7 @@
 @synthesize serverPass;    
 @synthesize serverIP;    
 @synthesize serverPort;   
+@synthesize serverHWAddr;
 @synthesize preferTVPosters;    
 
 static GlobalData *instance =nil;    

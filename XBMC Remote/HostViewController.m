@@ -66,6 +66,16 @@
 
         portUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPort"];
         
+        NSString *macAddress = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverMacAddress"];
+        NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
+        int num_octects = [mac_octect count];
+        if (num_octects>0) mac_0_UI.text = [mac_octect objectAtIndex:0];
+        if (num_octects>1) mac_1_UI.text = [mac_octect objectAtIndex:1];
+        if (num_octects>2) mac_2_UI.text = [mac_octect objectAtIndex:2];
+        if (num_octects>3) mac_3_UI.text = [mac_octect objectAtIndex:3];
+        if (num_octects>4) mac_4_UI.text = [mac_octect objectAtIndex:4];
+        if (num_octects>5) mac_5_UI.text = [mac_octect objectAtIndex:5];
+
         preferTVPostersUI.on=[[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"preferTVPosters"] boolValue];
 
 
@@ -81,6 +91,7 @@
 - (IBAction) dismissView:(id)sender{
     
     [self textFieldDoneEditing:nil];
+    NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
     if (self.detailItem==nil){
         [[AppDelegate instance].arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                                  descriptionUI.text, @"serverDescription",
@@ -88,6 +99,7 @@
                                                  passwordUI.text, @"serverPass",
                                                  ipUI.text, @"serverIP",
                                                  portUI.text, @"serverPort",
+                                                 macAddress, @"serverMacAddress",
                                                  [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
                                                  nil
                                                  ]];
@@ -101,6 +113,7 @@
                                                     passwordUI.text, @"serverPass",
                                                     ipUI.text, @"serverIP",
                                                     portUI.text, @"serverPort",
+                                                    macAddress, @"serverMacAddress",
                                                     [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
                                                     nil
                                                     ] atIndex:idx.row];
@@ -118,6 +131,12 @@
     [ipUI resignFirstResponder];
     [portUI resignFirstResponder];
     [usernameUI resignFirstResponder];
+    [mac_0_UI resignFirstResponder];
+    [mac_1_UI resignFirstResponder];
+    [mac_2_UI resignFirstResponder];
+    [mac_3_UI resignFirstResponder];
+    [mac_4_UI resignFirstResponder];
+    [mac_5_UI resignFirstResponder];
     [passwordUI resignFirstResponder];
 }
 
@@ -129,6 +148,11 @@
 
 -(IBAction)textFieldDoneEditing:(id)sender{
     [self resignKeyboard];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    return (newLength > 2 && textField.tag>100) ? NO : YES;
 }
 
 # pragma  mark - Gestures
@@ -329,6 +353,12 @@
     usernameUI = nil;
     passwordUI = nil;
     portUI = nil;
+    mac_0_UI = nil;
+    mac_1_UI = nil;
+    mac_2_UI = nil;
+    mac_3_UI = nil;
+    mac_4_UI = nil;
+    mac_5_UI = nil;
 }
 
 @end
