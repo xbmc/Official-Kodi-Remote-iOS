@@ -1596,7 +1596,9 @@ NSIndexPath *selected;
                              year=@"";
                          else
                              year=[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]];
-                     }                     
+                     } 
+                     year = [NSString stringWithFormat:@"%@", year];
+                     if ([year isEqualToString:@"(null)"]) year=@"";
                      NSString *runtime=@"";
                      if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
                          runtime=[NSString stringWithFormat:@"%d min",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]];
@@ -1604,6 +1606,7 @@ NSIndexPath *selected;
                      else{
                          runtime=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]]];
                      }
+                   
                      if ([runtime isEqualToString:@"(null)"]) runtime=@"";
 
                      
@@ -1653,7 +1656,7 @@ NSIndexPath *selected;
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"],
                                                    year, @"year",
-                                                   rating, @"rating",
+                                                   [NSString stringWithFormat:@"%@", rating], @"rating",
                                                    [mainFields objectForKey:@"playlistid"], @"playlistid",
                                                    [mainFields objectForKey:@"row8"], @"family",
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row9"]], [mainFields objectForKey:@"row9"],

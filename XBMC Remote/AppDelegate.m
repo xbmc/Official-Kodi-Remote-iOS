@@ -918,7 +918,7 @@ NSMutableArray *mainMenuItems;
                                      @"track", @"method",
                                      nil],@"sort",
                                     
-                                    [NSArray arrayWithObjects:@"season", @"thumbnail", @"tvshowid", nil], @"properties",
+                                    [NSArray arrayWithObjects:@"season", @"thumbnail", @"tvshowid", @"playcount", nil], @"properties",
                                     nil], @"parameters", @"Seasons", @"label", 
                                    nil],
                                                                     
@@ -945,6 +945,7 @@ NSMutableArray *mainMenuItems;
                                @"season",@"row8",
                                [NSNumber numberWithInt:1], @"playlistid",
                                @"tvshowid", @"row9",
+                               @"playcount", @"row10",
                                @"season",@"row15",
                                nil],
                               
