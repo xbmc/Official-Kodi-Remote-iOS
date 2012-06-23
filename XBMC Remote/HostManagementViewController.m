@@ -33,6 +33,23 @@
 }
 
 -(void)modifyHost:(NSIndexPath *)item{
+    if (storeServerSelection && item.row == storeServerSelection.row){
+        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:item];
+        [serverListTableView deselectRowAtIndexPath:item animated:YES];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        storeServerSelection = nil;
+        [AppDelegate instance].obj.serverDescription = @"";
+        [AppDelegate instance].obj.serverUser = @"";
+        [AppDelegate instance].obj.serverPass = @"";
+        [AppDelegate instance].obj.serverIP = @"";
+        [AppDelegate instance].obj.serverPort = @"";
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
+        NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+        if (standardUserDefaults) {
+            [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
+            [standardUserDefaults synchronize];
+        }
+    }
     self.hostController=nil;
     self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
     self.hostController.detailItem=item;
@@ -94,6 +111,7 @@
         else {
             cell.accessoryType=UITableViewCellAccessoryNone;
         }
+        cell.editingAccessoryType=UITableViewCellAccessoryDetailDisclosureButton;
     }
     return cell;
 }
@@ -212,6 +230,10 @@
     return 4;
 }
 
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+    [self modifyHost:indexPath];
+}
+
 -(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
     if ([[AppDelegate instance].arrayServerList count]==0 && !serverListTableView.editing) return;
     if (serverListTableView.editing || forceClose==YES){
@@ -238,23 +260,6 @@
         CGPoint p = [lpgr locationInView:serverListTableView];
         NSIndexPath *indexPath = [serverListTableView indexPathForRowAtPoint:p];
         if (indexPath != nil && indexPath.row<[[AppDelegate instance].arrayServerList count]){
-            if (storeServerSelection && indexPath.row == storeServerSelection.row){
-                UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
-                [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
-                cell.accessoryType = UITableViewCellAccessoryNone;
-                storeServerSelection = nil;
-                [AppDelegate instance].obj.serverDescription = @"";
-                [AppDelegate instance].obj.serverUser = @"";
-                [AppDelegate instance].obj.serverPass = @"";
-                [AppDelegate instance].obj.serverIP = @"";
-                [AppDelegate instance].obj.serverPort = @"";
-                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
-                NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-                if (standardUserDefaults) {
-                    [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
-                    [standardUserDefaults synchronize];
-                }
-            }
             [self modifyHost:indexPath];
         }
     }
