@@ -22,6 +22,7 @@
 + (AppDelegate *) instance;
 
 -(void)saveServerList;
+-(void)wake:(NSString *)macAddress;
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -32,6 +33,8 @@
 @property (retain, nonatomic) NSString *dataFilePath;
 
 @property (nonatomic, retain) NSMutableArray *arrayServerList;
+
+@property (nonatomic, retain) NSDictionary *playlistArtistAlbums;
 
 @property (retain, nonatomic) NSFileManager *fileManager;
 

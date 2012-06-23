@@ -12,8 +12,9 @@
 #import "UIImageView+WebCache.h"
 
 @class RemoteController;
+@class DetailViewController;
 
-@interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>{
+@interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate, SDWebImageManagerDelegate>{
     DSJSONRPC *jsonRPC;
     IBOutlet UITableView *playlistTableView;
     IBOutlet UITableViewCell *playlistTableViewCell;
@@ -89,8 +90,8 @@
 - (void)toggleSongDetails;
 
 @property (strong, nonatomic) id detailItem;
-
 @property (strong, nonatomic) RemoteController *remoteController;
+@property (strong, nonatomic) DetailViewController *detailViewController;
 @property (strong, nonatomic) UIImageView *jewelView;
 
 

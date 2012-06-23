@@ -58,7 +58,6 @@
                 [(UIImageView*) [cell viewWithTag:2] setAlpha:1.0];
                 [(UIImageView*) [cell viewWithTag:3] setAlpha:1.0];
 //                [(UIImageView*) [cell viewWithTag:4] setAlpha:1.0];
-
                 [UIView commitAnimations];
             }
         }
@@ -76,16 +75,18 @@
                 cell.selectionStyle=UITableViewCellSelectionStyleGray;
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
-
                 [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
                 [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
                 [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
 //                [(UIImageView*) [cell viewWithTag:4] setAlpha:0.3];
-
                 [UIView commitAnimations];
             }
         }
     }
+}
+
+-(void)wakeUp:(NSString *)macAddress{
+    [[AppDelegate instance] wake:macAddress];
 }
 
 -(void)checkServer{
@@ -314,6 +315,7 @@
     [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setupRemote = [[UIBarButtonItem alloc] initWithCustomView:xbmcLogo];
     self.navigationItem.leftBarButtonItem = setupRemote;
+    
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 225, 43)];
     [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
     xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
@@ -323,6 +325,7 @@
     [xbmcInfo setBackgroundImage:[UIImage imageNamed:@"bottom_text_up.9.png"] forState:UIControlStateNormal];
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setupInfo = [[UIBarButtonItem alloc] initWithCustomView:xbmcInfo];
+//    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: setupInfo, nil];
     self.navigationItem.rightBarButtonItem = setupInfo;
 }
 
