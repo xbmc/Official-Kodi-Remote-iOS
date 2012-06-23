@@ -301,9 +301,12 @@ int flagY = 54;
     }
     labelPosition=thumbWidth+8;
     int newWidthLabel=0;
-    
     flagX = thumbWidth - 10;
     flagY = cellHeight - 19;
+    if (flagX + 22 > self.view.bounds.size.width){
+        flagX = 2;
+        flagY = 2;
+    }
     if (Menuitem.originLabel && ![parameters objectForKey:@"thumbWidth"])
         labelPosition=Menuitem.originLabel;
     // CHECK IF THERE ARE SECTIONS
