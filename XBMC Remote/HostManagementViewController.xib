@@ -74,7 +74,7 @@
 					<object class="IBUILabel" id="788263793">
 						<reference key="NSNextResponder" ref="918116249"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrameSize">{320, 34}</string>
+						<string key="NSFrameSize">{320, 20}</string>
 						<reference key="NSSuperview" ref="918116249"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="216335886"/>
@@ -105,6 +105,36 @@
 						<object class="NSFont" key="IBUIFont">
 							<string key="NSName">Helvetica</string>
 							<double key="NSSize">14</double>
+							<int key="NSfFlags">16</int>
+						</object>
+					</object>
+					<object class="IBUILabel" id="698774759">
+						<reference key="NSNextResponder" ref="918116249"/>
+						<int key="NSvFlags">290</int>
+						<string key="NSFrame">{{0, 16}, {320, 18}}</string>
+						<reference key="NSSuperview" ref="918116249"/>
+						<reference key="NSWindow"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClipsSubviews">YES</bool>
+						<int key="IBUIContentMode">7</int>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<string key="IBUIText">Supported XBMC version Eden (11) or higher</string>
+						<reference key="IBUITextColor" ref="48250789"/>
+						<nil key="IBUIHighlightedColor"/>
+						<reference key="IBUIShadowColor" ref="762003171"/>
+						<string key="IBUIShadowOffset">{1, 1}</string>
+						<int key="IBUIBaselineAdjustment">0</int>
+						<float key="IBUIMinimumFontSize">12</float>
+						<int key="IBUITextAlignment">1</int>
+						<object class="IBUIFontDescription" key="IBUIFontDescription">
+							<int key="type">3</int>
+							<double key="pointSize">11</double>
+						</object>
+						<object class="NSFont" key="IBUIFont">
+							<string key="NSName">Helvetica-Oblique</string>
+							<double key="NSSize">11</double>
 							<int key="NSfFlags">16</int>
 						</object>
 					</object>
@@ -386,6 +416,7 @@
 							<reference ref="539208386"/>
 							<reference ref="61222718"/>
 							<reference ref="788263793"/>
+							<reference ref="698774759"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">HostManagementView</string>
@@ -436,6 +467,11 @@
 						<reference key="object" ref="487381691"/>
 						<reference key="parent" ref="0"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">25</int>
+						<reference key="object" ref="698774759"/>
+						<reference key="parent" ref="918116249"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -448,6 +484,7 @@
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="20.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="2" key="5.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
@@ -460,7 +497,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">24</int>
+			<int key="maxID">25</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
