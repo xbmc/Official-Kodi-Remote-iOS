@@ -17,19 +17,21 @@
 @class HostManagementViewController;
 
 
-@interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
+@interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>{
     IBOutlet UITableView *menuList;
     IBOutlet UITableViewCell *resultMenuCell;
     DSJSONRPC *jsonRPC;
     NSTimer* timer;
     UIButton *xbmcInfo;
     UIButton *xbmcLogo;
+    UIButton *powerButton;
     NSDictionary *checkServerParams;
     BOOL firstRun;
     BOOL inCheck;
     NSIndexPath *storeServerSelection;
     AppInfoViewController *appInfoView;
     HostManagementViewController *hostManagementViewController;
+    NSArray *sheetActions;
 }
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText;

@@ -87,6 +87,7 @@
 
 -(void)wakeUp:(NSString *)macAddress{
     [[AppDelegate instance] wake:macAddress];
+    [[AppDelegate instance] wake:macAddress];
 }
 
 -(void)checkServer{
@@ -143,6 +144,25 @@
      }];
     jsonRPC=nil;
 }
+
+-(void)powerAction:(NSString *)action params:(NSDictionary *)params{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (methodError==nil && error == nil){
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alertView show];
+        }
+        else{
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Cannot do that" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alertView show];
+        }
+    }];
+}
+
 
 #pragma Toobar Actions
 
@@ -279,6 +299,68 @@
 	return 8;
 }
 
+#pragma mark - power control action sheet
+
+-(void)powerControl{
+    if ([[AppDelegate instance].obj.serverIP length]==0){
+        [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
+        return;
+    }
+    NSString *title=[NSString stringWithFormat:@"%@ - %@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
+    if (![AppDelegate instance].serverOnLine){
+        sheetActions=[NSArray arrayWithObjects:@"Wake On Lan", nil];
+    }
+    else{
+        sheetActions=[NSArray arrayWithObjects:@"Power off System", @"Hibernate", @"Suspend", @"Reboot", nil];
+    }
+    int numActions=[sheetActions count];
+    if (numActions){
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
+                                                            delegate:self
+                                                   cancelButtonTitle:nil
+                                              destructiveButtonTitle:nil
+                                                   otherButtonTitles:nil];
+        for (int i = 0; i < numActions; i++) {
+            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+        }
+        action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            [action showInView:self.view];
+        }
+        else{
+//            [action showFromRect:CGRectMake(powerButtonItem.o, selectedPoint.y, 1, 1) inView:self.view animated:YES];
+        }
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex!=actionSheet.cancelButtonIndex){
+        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Wake On Lan"]){
+            if ([AppDelegate instance].obj.serverHWAddr != nil){
+                [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
+                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                [alertView show];
+            }
+            else{
+                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"No sever mac address definied" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                [alertView show];
+            }
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Power off System"]){
+            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Hibernate"]){
+            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Suspend"]){
+            [self powerAction:@"System.Suspend" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Reboot"]){
+            [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+    }
+}
+
 #pragma mark - LifeCycle
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -308,7 +390,7 @@
 -(void)initNavigationBar{
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
     self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
-    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 75, 43)];
+    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 68, 43)];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
@@ -316,7 +398,7 @@
     UIBarButtonItem *setupRemote = [[UIBarButtonItem alloc] initWithCustomView:xbmcLogo];
     self.navigationItem.leftBarButtonItem = setupRemote;
     
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 225, 43)];
+    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 188, 43)]; //225
     [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
     xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
     xbmcInfo.titleLabel.minimumFontSize=6.0f;
@@ -325,8 +407,11 @@
     [xbmcInfo setBackgroundImage:[UIImage imageNamed:@"bottom_text_up.9.png"] forState:UIControlStateNormal];
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setupInfo = [[UIBarButtonItem alloc] initWithCustomView:xbmcInfo];
-//    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: setupInfo, nil];
-    self.navigationItem.rightBarButtonItem = setupInfo;
+    
+    UIImage* powerImg = [UIImage imageNamed:@"icon_power_up.png"];
+    UIBarButtonItem *powerButtonItem =[[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStyleBordered target:self action:@selector(powerControl)];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: powerButtonItem, setupInfo, nil];
+//    self.navigationItem.rightBarButtonItem = setupInfo;
 }
 
 -(void)initHostManagement{
