@@ -1310,6 +1310,7 @@ int currentItemID;
 NSIndexPath *selected;
 
 -(IBAction)handleTableLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
+    return;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
         CGPoint p = [gestureRecognizer locationInView:playlistTableView];
         NSIndexPath *indexPath = [playlistTableView indexPathForRowAtPoint:p];
