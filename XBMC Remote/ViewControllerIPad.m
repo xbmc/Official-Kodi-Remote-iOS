@@ -286,7 +286,7 @@
         [self toggleSetup];
         return;
     }
-    NSString *title=[NSString stringWithFormat:@"%@ - %@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
+    NSString *title=[NSString stringWithFormat:@"%@\n%@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
     if (![AppDelegate instance].serverOnLine){
         sheetActions=[NSArray arrayWithObjects:@"Wake On Lan", nil];
     }
