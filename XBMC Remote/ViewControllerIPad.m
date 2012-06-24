@@ -295,17 +295,16 @@
     }
     int numActions=[sheetActions count];
     if (numActions){
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
+        actionSheetPower = [[UIActionSheet alloc] initWithTitle:title
                                                             delegate:self
                                                    cancelButtonTitle:nil
                                               destructiveButtonTitle:nil
                                                    otherButtonTitles:nil];
         for (int i = 0; i < numActions; i++) {
-            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+            [actionSheetPower addButtonWithTitle:[sheetActions objectAtIndex:i]];
         }
-        action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
-        [action showInView:self.view];
-//       [action showFromRect:CGRectMake(powerButton.frame.origin.x, powerButton.frame.origin.y, 1, 1) inView:self.view animated:YES];
+        actionSheetPower.cancelButtonIndex = [actionSheetPower addButtonWithTitle:@"Cancel"];
+       [actionSheetPower showFromRect:CGRectMake(powerButton.frame.origin.x + powerButton.frame.size.width/2, powerButton.frame.origin.y, 1, 1) inView:self.view animated:YES];
     }
 }
 
@@ -336,7 +335,7 @@
                 [alertView show];
             }
             else{
-                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"No sever mac address definied" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"No sever mac address definied" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                 [alertView show];
             }
         }
@@ -567,6 +566,10 @@
         [self.appInfoPopover dismissPopoverAnimated:NO];
         [self toggleInfoView];
     }
+    if (showActionPower){
+        [actionSheetPower showFromRect:CGRectMake(powerButton.frame.origin.x + powerButton.frame.size.width/2, powerButton.frame.origin.y, 1, 1) inView:self.view animated:YES];
+        showActionPower = NO;
+    }
 }
 
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
@@ -582,6 +585,11 @@
         [nowPlayingController setToolbarWidth:1024 height:768 YPOS:YPOS playBarWidth:680 portrait:FALSE];
 
 	}
+    showActionPower = NO;
+    if (actionSheetPower.window != nil){
+        showActionPower = YES;
+        [actionSheetPower dismissWithClickedButtonIndex:actionSheetPower.cancelButtonIndex animated:YES];
+    }
 }	
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

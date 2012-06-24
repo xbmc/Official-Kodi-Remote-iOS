@@ -39,6 +39,8 @@
     UIPopoverController *_serverPickerPopover;
     HostManagementViewController *_hostPickerViewController;
     NSArray *sheetActions;
+    UIActionSheet *actionSheetPower;
+    BOOL showActionPower;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
