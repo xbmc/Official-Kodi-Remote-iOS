@@ -1290,10 +1290,7 @@ int currentItemID;
 }
 
 -(void)showClearPlaylistAlert{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-    BOOL shake_preference=[[userDefaults objectForKey:@"shake_preference"] boolValue];
-    if (playlistView.hidden == NO && self.view.superview != nil && shake_preference){
+    if (playlistView.hidden == NO && self.view.superview != nil){
         NSString *playlistName=@"";
         if (playerID == 0){
             playlistName=@"Music ";
@@ -1856,9 +1853,18 @@ NSIndexPath *selected;
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showClearPlaylistAlert)
+                                             selector: @selector(handleShakeNotification)
                                                  name: @"UIApplicationShakeNotification"
                                                object: nil];
+}
+
+-(void)handleShakeNotification{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    BOOL shake_preference=[[userDefaults objectForKey:@"shake_preference"] boolValue];
+    if (shake_preference) {
+        [self showClearPlaylistAlert];
+    }
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
