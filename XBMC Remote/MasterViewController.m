@@ -87,7 +87,6 @@
 
 -(void)wakeUp:(NSString *)macAddress{
     [[AppDelegate instance] wake:macAddress];
-    [[AppDelegate instance] wake:macAddress];
 }
 
 -(void)checkServer{
@@ -324,12 +323,7 @@
             [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
         }
         action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            [action showInView:self.view];
-        }
-        else{
-//            [action showFromRect:CGRectMake(powerButtonItem.o, selectedPoint.y, 1, 1) inView:self.view animated:YES];
-        }
+        [action showInView:self.view];
     }
 }
 
@@ -398,7 +392,7 @@
     UIBarButtonItem *setupRemote = [[UIBarButtonItem alloc] initWithCustomView:xbmcLogo];
     self.navigationItem.leftBarButtonItem = setupRemote;
     
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 188, 43)]; //225
+    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 184, 43)]; 
     [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
     xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
     xbmcInfo.titleLabel.minimumFontSize=6.0f;
@@ -408,10 +402,11 @@
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setupInfo = [[UIBarButtonItem alloc] initWithCustomView:xbmcInfo];
     
-    UIImage* powerImg = [UIImage imageNamed:@"icon_power_up.png"];
-    UIBarButtonItem *powerButtonItem =[[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStyleBordered target:self action:@selector(powerControl)];
+    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 42, 43)];
+    [powerButton setBackgroundImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateNormal];
+    [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *powerButtonItem = [[UIBarButtonItem alloc] initWithCustomView:powerButton];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: powerButtonItem, setupInfo, nil];
-//    self.navigationItem.rightBarButtonItem = setupInfo;
 }
 
 -(void)initHostManagement{

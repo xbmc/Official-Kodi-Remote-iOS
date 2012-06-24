@@ -95,6 +95,10 @@
     [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
 }
 
+-(void)wakeUp:(NSString *)macAddress{
+    [[AppDelegate instance] wake:macAddress];
+}
+
 -(void)checkServer{
     jsonRPC=nil;
     if ([[AppDelegate instance].obj.serverIP length]==0){
@@ -275,7 +279,81 @@
     }
     [self.appInfoPopover presentPopoverFromRect:xbmcLogo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
+#pragma mark - power control action sheet
 
+-(void)powerControl{
+    if ([[AppDelegate instance].obj.serverIP length]==0){
+        [self toggleSetup];
+        return;
+    }
+    NSString *title=[NSString stringWithFormat:@"%@ - %@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
+    if (![AppDelegate instance].serverOnLine){
+        sheetActions=[NSArray arrayWithObjects:@"Wake On Lan", nil];
+    }
+    else{
+        sheetActions=[NSArray arrayWithObjects:@"Power off System", @"Hibernate", @"Suspend", @"Reboot", nil];
+    }
+    int numActions=[sheetActions count];
+    if (numActions){
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
+                                                            delegate:self
+                                                   cancelButtonTitle:nil
+                                              destructiveButtonTitle:nil
+                                                   otherButtonTitles:nil];
+        for (int i = 0; i < numActions; i++) {
+            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+        }
+        action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+        [action showInView:self.view];
+//       [action showFromRect:CGRectMake(powerButton.frame.origin.x, powerButton.frame.origin.y, 1, 1) inView:self.view animated:YES];
+    }
+}
+
+-(void)powerAction:(NSString *)action params:(NSDictionary *)params{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (methodError==nil && error == nil){
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alertView show];
+        }
+        else{
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Cannot do that" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alertView show];
+        }
+    }];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex!=actionSheet.cancelButtonIndex){
+        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Wake On Lan"]){
+            if ([AppDelegate instance].obj.serverHWAddr != nil){
+                [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
+                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                [alertView show];
+            }
+            else{
+                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"No sever mac address definied" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                [alertView show];
+            }
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Power off System"]){
+            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Hibernate"]){
+            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Suspend"]){
+            [self powerAction:@"System.Suspend" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Reboot"]){
+            [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+    }
+}
 
 #pragma mark - Touch Events
 
@@ -424,7 +502,7 @@
     volumeSliderView.transform = trans;    
     [self.view addSubview:volumeSliderView]; 
     
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(438, 961, 225, 43)];
+    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(438, 961, 190, 43)]; //225
     [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
     xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
     xbmcInfo.titleLabel.minimumFontSize=6.0f;
@@ -434,6 +512,13 @@
     xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:xbmcInfo];
+    
+    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(630, 961, 42, 43)]; //225
+    [powerButton setBackgroundImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateNormal];
+    powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:powerButton];
+
     
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];

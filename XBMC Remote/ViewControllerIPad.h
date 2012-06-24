@@ -18,7 +18,7 @@
 @class AppInfoViewController;
 
 
-@interface ViewControllerIPad : UIViewController <UIPopoverControllerDelegate>{
+@interface ViewControllerIPad : UIViewController <UIPopoverControllerDelegate, UIActionSheetDelegate>{
 	UIViewExt* rootView;
 	UIView* leftMenuView;
 	UIView* rightSlideView;
@@ -29,6 +29,7 @@
     int YPOS;
     UIButton *xbmcLogo;
     UIButton *xbmcInfo;
+    UIButton *powerButton;
     VolumeSliderView *volumeSliderView;
     DSJSONRPC *jsonRPC;
     BOOL firstRun;
@@ -37,6 +38,7 @@
     NSTimer* extraTimer;
     UIPopoverController *_serverPickerPopover;
     HostManagementViewController *_hostPickerViewController;
+    NSArray *sheetActions;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
