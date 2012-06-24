@@ -336,7 +336,7 @@
                 [alertView show];
             }
             else{
-                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"No sever mac address definied" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"No sever mac address definied" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                 [alertView show];
             }
         }
