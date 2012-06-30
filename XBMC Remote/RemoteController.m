@@ -582,13 +582,17 @@ NSInteger buttonAction;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
-    [volumeSliderView startTimer];   
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [volumeSliderView startTimer];   
+    }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [volumeSliderView stopTimer];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [volumeSliderView stopTimer];
+    }
     [self stopHoldKey:nil];
     [xbmcVirtualKeyboard resignFirstResponder];
     [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
@@ -599,15 +603,15 @@ NSInteger buttonAction;
     [super viewDidLoad];
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
-
-    volumeSliderView = [[VolumeSliderView alloc] 
-                          initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
-    CGRect frame=volumeSliderView.frame;
-    frame.origin.x=258;
-    frame.origin.y=-volumeSliderView.frame.size.height;
-    volumeSliderView.frame=frame;
-    [self.view addSubview:volumeSliderView];
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        volumeSliderView = [[VolumeSliderView alloc] 
+                            initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
+        CGRect frame=volumeSliderView.frame;
+        frame.origin.x=258;
+        frame.origin.y=-volumeSliderView.frame.size.height;
+        volumeSliderView.frame=frame;
+        [self.view addSubview:volumeSliderView];
         UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
         UIBarButtonItem *volumeButtonItem =[[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
         UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
