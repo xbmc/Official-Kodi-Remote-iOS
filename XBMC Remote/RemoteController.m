@@ -573,8 +573,13 @@ NSInteger buttonAction;
     }
     else{ // CHARACTER
         int x = (unichar) [string characterAtIndex: 0];
-        if (x<1000)
+        if (x==10) {
+            [self GUIAction:@"Input.Select" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [xbmcVirtualKeyboard resignFirstResponder];
+        }
+        else if (x<1000){
             [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
+        }
     }
     return NO;
 }
