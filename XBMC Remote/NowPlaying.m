@@ -270,6 +270,19 @@ float cellBarWidth=45;
     [UIView commitAnimations];
 }
 
+#pragma mark - HTTP API managment
+
+-(NSString *)sendXbmcHttp:(NSString *) command{
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverHTTP=[NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort, command];
+    NSURL *url = [NSURL  URLWithString:serverHTTP];
+    NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL]; 
+    return requestANS;
+//    requestANS=nil;
+    
+}
+
 #pragma  mark - JSON management
 
 int lastSelected=-1;
@@ -497,23 +510,8 @@ int currentItemID;
     return [self imageWithShadow:Img];
 }
 
--(void)playbackInfo{
-    if (![AppDelegate instance].serverOnLine) {
-        playerID = -1;
-        selectedPlayerID = -1;
-        storedItemID = 0;
-        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
-        [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
-        [self nothingIsPlaying];
-        return;
-    }
 
-    jsonRPC = nil;
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-
+-(void)getActivePlayers{
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
@@ -579,7 +577,7 @@ int currentItemID;
                                      if (enableJewel){
                                          thumbnailView.image=cachedImage;
                                          buttonImage=[self resizeImage:cachedImage width:76 height:66 padding:10];
-
+                                         
                                      }
                                      else{
                                          jewelView.image=[self imageWithBorderFromImage:cachedImage];
@@ -593,22 +591,22 @@ int currentItemID;
                                      else{
                                          /* DISABLED due to issues: success comes also from others thread */
                                          /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                                             [jewelView 
-                                              setImageWithURL:[NSURL URLWithString:stringURL] 
-                                              placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
-                                              success:^(UIImage *image) { 
-                                                  jewelView.image = [self imageWithBorderFromImage:image];
-                                              } 
-                                              failure:^(NSError *error) {
-                                              }
-                                              ];
-                                         }
-                                         else{ 
-                                             [jewelView 
-                                              setImageWithURL:[NSURL URLWithString:stringURL] 
-                                              placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
-                                              ];
-                                         } */
+                                          [jewelView 
+                                          setImageWithURL:[NSURL URLWithString:stringURL] 
+                                          placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
+                                          success:^(UIImage *image) { 
+                                          jewelView.image = [self imageWithBorderFromImage:image];
+                                          } 
+                                          failure:^(NSError *error) {
+                                          }
+                                          ];
+                                          }
+                                          else{ 
+                                          [jewelView 
+                                          setImageWithURL:[NSURL URLWithString:stringURL] 
+                                          placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
+                                          ];
+                                          } */
                                          /* */
                                          [jewelView 
                                           setImageWithURL:[NSURL URLWithString:stringURL] 
@@ -653,12 +651,12 @@ int currentItemID;
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
-//                             NSLog(@"risposta %@", methodResult);
+                             //                             NSLog(@"risposta %@", methodResult);
                              if ([methodResult count]){
                                  ProgressSlider.value = [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue];
-//                                 float newx=barwidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
-//                                 if (newx<1)
-//                                     newx=1;
+                                 //                                 float newx=barwidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
+                                 //                                 if (newx<1)
+                                 //                                     newx=1;
                                  musicPartyMode=[[methodResult objectForKey:@"partymode"] intValue];
                                  if (musicPartyMode==YES) {
                                      [PartyModeButton setSelected:YES];
@@ -666,9 +664,9 @@ int currentItemID;
                                  else{
                                      [PartyModeButton setSelected:NO];
                                  }
-
-//                                 [self animCursor:startx+newx];
-//                                 [self resizeBar:newx];
+                                 
+                                 //                                 [self animCursor:startx+newx];
+                                 //                                 [self resizeBar:newx];
                                  NSDictionary *timeGlobal=[methodResult objectForKey:@"totaltime"];
                                  int hoursGlobal=[[timeGlobal objectForKey:@"hours"] intValue];
                                  int minutesGlobal=[[timeGlobal objectForKey:@"minutes"] intValue];
@@ -705,18 +703,18 @@ int currentItemID;
                                  if (musicPartyMode && [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue]<storePercentage){ // BLEAH!!!
                                      [self checkPartyMode];
                                  }
-//                                 if (selection){
-//                                     NSLog(@"%d %d %@", currentItemID, [[[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"] intValue], selection);
-//                                     
-////                                     if (currentItemID!=[[[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"] intValue] && [[[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"] intValue]>0){
-//////                                         lastSelected=-1;
-//////                                         // storeSelection=0;
-//////                                         currentItemID=[[[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"] intValue];
-////                                         [self createPlaylist:NO];
-////                                     }
-//                                 }
+                                 //                                 if (selection){
+                                 //                                     NSLog(@"%d %d %@", currentItemID, [[[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"] intValue], selection);
+                                 //                                     
+                                 ////                                     if (currentItemID!=[[[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"] intValue] && [[[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"] intValue]>0){
+                                 //////                                         lastSelected=-1;
+                                 //////                                         // storeSelection=0;
+                                 //////                                         currentItemID=[[[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"] intValue];
+                                 ////                                         [self createPlaylist:NO];
+                                 ////                                     }
+                                 //                                 }
                                  
-//                                 NSLog(@"CURRENT ITEMID %d PLAYLIST ID %@", currentItemID, [[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"]);
+                                 //                                 NSLog(@"CURRENT ITEMID %d PLAYLIST ID %@", currentItemID, [[playlistData objectAtIndex:selection.row] objectForKey:@"idItem"]);
                                  storePercentage=[(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue];
                                  if (playlistPosition!=lastSelected && playlistPosition>0){
                                      if (([playlistData count]>=playlistPosition) && currentPlayerID==playerID){
@@ -738,7 +736,7 @@ int currentItemID;
                                                  if (musicPartyMode)
                                                      position=UITableViewScrollPositionNone;
                                                  selection = [playlistTableView indexPathForSelectedRow];
-                                                [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
+                                                 [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
                                                  UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
                                                  UIView *timePlaying=(UIView*) [cell viewWithTag:5];
                                                  if (timePlaying.hidden==YES)
@@ -751,7 +749,7 @@ int currentItemID;
                                          else {
                                              NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
                                              if (selection){
-
+                                                 
                                                  [playlistTableView deselectRowAtIndexPath:selection animated:YES];
                                                  UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                                  UIView *timePlaying=(UIView*) [cell viewWithTag:5];
@@ -789,7 +787,48 @@ int currentItemID;
             [self nothingIsPlaying];
         }
     }];
+}
 
+-(void)playbackInfo{
+    if (![AppDelegate instance].serverOnLine) {
+        playerID = -1;
+        selectedPlayerID = -1;
+        storedItemID = 0;
+        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
+        [self nothingIsPlaying];
+        return;
+    }
+
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    if ([AppDelegate instance].serverVersion == 11){
+        [jsonRPC 
+         callMethod:@"XBMC.GetInfoBooleans" 
+         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
+                         [[NSArray alloc] initWithObjects:@"Window.IsActive(virtualkeyboard)", nil], @"booleans",
+                         nil] 
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+             
+             if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
+                 if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(virtualkeyboard)"] != [NSNull null])){
+                     NSNumber *virtualKeyboardActive = [methodResult objectForKey:@"Window.IsActive(virtualkeyboard)"];
+                     if ([virtualKeyboardActive intValue] == 1){
+                         return;
+                     }
+                     else{
+                         [self getActivePlayers];
+                     }
+                 }                 
+             }
+         }];  
+    }
+    else {
+        [self getActivePlayers];
+    }
     if (updateDetailsView==YES){
         [jsonRPC 
          callMethod:@"XBMC.GetInfoLabels" 
