@@ -1345,8 +1345,6 @@ int currentItemID;
     }
 }
 
-NSIndexPath *selected;
-
 -(IBAction)handleTableLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
         CGPoint p = [gestureRecognizer locationInView:playlistTableView];
@@ -1356,16 +1354,14 @@ NSIndexPath *selected;
             if ([[item objectForKey:@"artistid"] intValue]>0){
                 selected = indexPath;
                 CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
-                
 //                NSString *showAlbumsTitle = [NSString stringWithFormat:@"%@ albums", [item objectForKey:@"artist"]];
                 NSString *showAlbumsTitle = @"Artist Albums";
-
                 NSString *showAlbumSongs = nil;
                 if ([[item objectForKey:@"albumid"] intValue]>0){
 //                    showAlbumSongs = [NSString stringWithFormat:@"%@ tracks", [item objectForKey:@"album"]];
                     showAlbumSongs = [NSString stringWithFormat:@"Album Tracks", [item objectForKey:@"album"]];
                 }
-                NSArray *sheetActions=[NSArray arrayWithObjects:showAlbumsTitle, showAlbumSongs, nil];
+                sheetActions=[NSArray arrayWithObjects:showAlbumsTitle, showAlbumSongs, nil];
                 int numActions=[sheetActions count];
                 if (numActions){
                     NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"album"], [item objectForKey:@"artist"]];
@@ -1431,13 +1427,16 @@ NSIndexPath *selected;
         int choosedTab = 1;
         mainMenu *MenuItem = [AppDelegate instance].playlistArtistAlbums;
         MenuItem.subItem.mainLabel=@"";
-        if (buttonIndex == 0) {
+        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Artist Albums"]) {
             choosedTab = 1;
             MenuItem.subItem.upperLabel=[item objectForKey:@"artist"];            
         }
-        else if (buttonIndex == 1){
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Album Tracks"]){
             choosedTab = 0;
             MenuItem.subItem.upperLabel=[NSString stringWithFormat:@"%@ - %@", [item objectForKey:@"album"], [item objectForKey:@"artist"]];
+        }
+        else {
+            return;
         }
         NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
         NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]]; 

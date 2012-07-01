@@ -82,6 +82,8 @@
     int anim2;
     BOOL startFlipDemo;
     IBOutlet UISlider *ProgressSlider;
+    NSIndexPath *selected;
+    NSArray *sheetActions;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
