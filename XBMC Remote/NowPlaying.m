@@ -1456,6 +1456,7 @@ int currentItemID;
                                        nil];
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab=choosedTab;
+        fromItself = TRUE;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             self.detailViewController.detailItem = MenuItem.subItem;
@@ -1754,6 +1755,7 @@ int currentItemID;
     mainMenu *item = [[mainMenu alloc] init];
     item.mainLabel = @"Remote Control";
     self.remoteController.detailItem = item;
+    fromItself = TRUE;
     [self.navigationController pushViewController:self.remoteController animated:YES];
 }
 
@@ -1848,31 +1850,33 @@ int currentItemID;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
-    if (nowPlayingView.hidden){
-        nowPlayingView.hidden = NO;
-        nowPlayingHidden = NO;
-        playlistView.hidden = YES;
-        playlistHidden = YES;
-        viewTitle.text = @"Now playing";
-    }
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        startFlipDemo = YES;
-        UIImage *buttonImage;
-        if ([self enableJewelCases]){
-            buttonImage=[self resizeImage:thumbnailView.image width:76 height:66 padding:10];
+    if (!fromItself){
+        if (nowPlayingView.hidden){
+            nowPlayingView.hidden = NO;
+            nowPlayingHidden = NO;
+            playlistView.hidden = YES;
+            playlistHidden = YES;
+            viewTitle.text = @"Now playing";
         }
-        else {
-            buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
-        }
-        if (buttonImage.size.width!=0){
-            [playlistButton setImage:buttonImage forState:UIControlStateNormal];
-            [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
-            [playlistButton setImage:buttonImage forState:UIControlStateSelected];
-        }
-        else{
-            [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
-            [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
-            [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            startFlipDemo = YES;
+            UIImage *buttonImage;
+            if ([self enableJewelCases]){
+                buttonImage=[self resizeImage:thumbnailView.image width:76 height:66 padding:10];
+            }
+            else {
+                buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+            }
+            if (buttonImage.size.width!=0){
+                [playlistButton setImage:buttonImage forState:UIControlStateNormal];
+                [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
+                [playlistButton setImage:buttonImage forState:UIControlStateSelected];
+            }
+            else{
+                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
+                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
+                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
+            }
         }
     }
     // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
@@ -1890,6 +1894,7 @@ int currentItemID;
 //    storedItemID = -1;
 //    selectedPlayerID = -1;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    fromItself = FALSE;
 }
 
 -(void)startFlipDemo{

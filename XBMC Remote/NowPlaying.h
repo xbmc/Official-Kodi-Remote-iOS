@@ -84,6 +84,7 @@
     IBOutlet UISlider *ProgressSlider;
     NSIndexPath *selected;
     NSArray *sheetActions;
+    BOOL fromItself;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
