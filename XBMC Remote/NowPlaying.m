@@ -1012,11 +1012,13 @@ int currentItemID;
                        else {
                            [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
                        }
-//                       NSLog(@"TOTAL %d", total);
-                       NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+                       NSString *serverURL;
+                       serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+                       if ([AppDelegate instance].serverVersion > 11){
+                           serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
+                       }
                        for (int i=0; i<total; i++) {
                            NSString *idItem=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"id"]];
-//                           NSLog(@"ID1 %@ ID2 %@", idItem, [[playlistItems objectAtIndex:i] objectForKey:@"id"]);
                            NSString *label=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"label"]];
                           
                            NSString *artist=[[[playlistItems objectAtIndex:i] objectForKey:@"artist"] length]==0? @"" :[[playlistItems objectAtIndex:i] objectForKey:@"artist"];
