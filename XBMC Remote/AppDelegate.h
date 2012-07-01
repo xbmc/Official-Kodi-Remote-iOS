@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GlobalData.h"
+#import "mainMenu.h"
 
 @class ViewControllerIPad;
 
@@ -34,7 +35,7 @@
 
 @property (nonatomic, retain) NSMutableArray *arrayServerList;
 
-@property (nonatomic, retain) NSDictionary *playlistArtistAlbums;
+@property (nonatomic, retain) mainMenu *playlistArtistAlbums;
 
 @property (retain, nonatomic) NSFileManager *fileManager;
 

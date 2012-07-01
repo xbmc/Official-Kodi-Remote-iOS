@@ -16,6 +16,8 @@
 #import "RemoteController.h"
 #import "AppDelegate.h"
 #import "DetailViewController.h"
+#import "ViewControllerIPad.h"
+#import "StackScrollViewController.h"
 
 @interface NowPlaying ()
 
@@ -1346,7 +1348,6 @@ int currentItemID;
 NSIndexPath *selected;
 
 -(IBAction)handleTableLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
-    return;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
         CGPoint p = [gestureRecognizer locationInView:playlistTableView];
         NSIndexPath *indexPath = [playlistTableView indexPathForRowAtPoint:p];
@@ -1413,18 +1414,56 @@ NSIndexPath *selected;
 }
 
 # pragma mark - UIActionSheet
+
+- (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    int numelement=[array count];
+    for (int i=0;i<numelement-1;i+=2){
+        [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
+    }
+    return (NSMutableDictionary *)mutableDictionary;
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex!=actionSheet.cancelButtonIndex){
         NSDictionary *item = nil;
         item = [playlistData objectAtIndex:selected.row];
-        NSLog(@"%d", buttonIndex);
-//        if (buttonIndex == 0){ // Artist Albums
-//            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-//                self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-//                self.detailViewController.detailItem = nil;
-//                [self.navigationController pushViewController:self.detailViewController animated:YES];
-//            }
-//        }
+        int choosedTab = 1;
+        mainMenu *MenuItem = [AppDelegate instance].playlistArtistAlbums;
+        MenuItem.subItem.mainLabel=@"";
+        if (buttonIndex == 0) {
+            choosedTab = 1;
+            MenuItem.subItem.upperLabel=[item objectForKey:@"artist"];            
+        }
+        else if (buttonIndex == 1){
+            choosedTab = 0;
+            MenuItem.subItem.upperLabel=[NSString stringWithFormat:@"%@ - %@", [item objectForKey:@"album"], [item objectForKey:@"artist"]];
+        }
+        NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
+        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]]; 
+        NSString *key=@"null";
+        if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
+            key=[mainFields objectForKey:@"row15"];
+        }  
+        NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
+                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"],
+                                        [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
+                                        [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
+                                        [item objectForKey:[mainFields objectForKey:@"row15"]], key,
+                                        nil], @"parameters", [parameters objectForKey:@"label"], @"label", 
+                                       nil];
+        [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        MenuItem.subItem.chooseTab=choosedTab;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            self.detailViewController.detailItem = MenuItem.subItem;
+            [self.navigationController pushViewController:self.detailViewController animated:YES];
+        }
+        else{
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
+            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:TRUE];
+        }
     }
 }
 

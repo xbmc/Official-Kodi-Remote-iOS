@@ -1160,6 +1160,7 @@ NSMutableArray *mainMenuItems;
     item6.icon = @"icon_home_remote.png";
     item6.family = 3;
     
+    playlistArtistAlbums = item1;
     
     MasterViewController *masterViewController;
     
