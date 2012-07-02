@@ -983,19 +983,20 @@ NSIndexPath *selected;
             [titleView setFrame:CGRectMake(320, 373, -16, 40)];
             [self.view addSubview:titleView];
         }
-        UIImage* volumeImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
-        CGRect frameimg = CGRectMake(0, 0, volumeImg.size.width, volumeImg.size.height);
-        UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
-        [nowPlayingButton setBackgroundImage:volumeImg forState:UIControlStateNormal];
-        [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
-        self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
-        
-        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
-        leftSwipe.numberOfTouchesRequired = 1;
-        leftSwipe.cancelsTouchesInView=NO;
-        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.view addGestureRecognizer:leftSwipe];
+        if (![self.detailItem disableNowPlaying]){
+            UIImage* nowPlayingImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
+            CGRect frameimg = CGRectMake(0, 0, nowPlayingImg.size.width, nowPlayingImg.size.height);
+            UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
+            [nowPlayingButton setBackgroundImage:nowPlayingImg forState:UIControlStateNormal];
+            [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
+            UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
+            self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
+            UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
+            leftSwipe.numberOfTouchesRequired = 1;
+            leftSwipe.cancelsTouchesInView=NO;
+            leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+            [self.view addGestureRecognizer:leftSwipe];
+        }
         
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;

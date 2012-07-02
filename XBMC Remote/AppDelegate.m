@@ -1161,6 +1161,7 @@ NSMutableArray *mainMenuItems;
     item6.family = 3;
     
     playlistArtistAlbums = item1;
+    playlistArtistAlbums.subItem.disableNowPlaying = TRUE;
     
     MasterViewController *masterViewController;
     

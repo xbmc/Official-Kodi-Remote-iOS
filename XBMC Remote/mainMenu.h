@@ -29,6 +29,8 @@
 @property int originLabel;
 @property int widthLabel;
 @property int chooseTab;
+@property BOOL disableNowPlaying;
+
 
 @property (nonatomic, copy) NSArray *showRuntime;
 @property BOOL noConvertTime;
