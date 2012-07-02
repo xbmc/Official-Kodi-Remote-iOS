@@ -1162,9 +1162,9 @@ NSMutableArray *mainMenuItems;
     
     playlistArtistAlbums = item1;
     playlistArtistAlbums.subItem.disableNowPlaying = TRUE;
-    
+    playlistArtistAlbums.subItem.subItem.disableNowPlaying = TRUE;
+
     MasterViewController *masterViewController;
-    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [mainMenuItems addObject:item1];
         [mainMenuItems addObject:item2];
@@ -1176,7 +1176,6 @@ NSMutableArray *mainMenuItems;
         self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
         self.window.rootViewController = self.navigationController;
         masterViewController.mainMenu =mainMenuItems;
-
     } else {
         [mainMenuItems addObject:item1];
         [mainMenuItems addObject:item2];
@@ -1187,13 +1186,7 @@ NSMutableArray *mainMenuItems;
         self.windowController = [[ViewControllerIPad alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
         self.windowController.mainMenu = mainMenuItems;
         self.window.rootViewController = self.windowController;
-        
-        
-
     }
-    
-//    masterViewController.serverList=[arrayServerList copy];
-    
     return YES;
 }
 
