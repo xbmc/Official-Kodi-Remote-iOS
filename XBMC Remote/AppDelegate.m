@@ -620,7 +620,7 @@ NSMutableArray *mainMenuItems;
     item2.icon = @"icon_home_movie.png";
     item2.family = 1;
     item2.enableSection=YES;
-    item2.mainButtons=[NSArray arrayWithObjects:@"st_movie", @"st_concert", @"st_filemode", nil];//
+    item2.mainButtons=[NSArray arrayWithObjects:@"st_movie", @"st_concert", @"st_movie_recently", @"st_filemode", nil];//
 
     item2.mainMethod=[NSMutableArray arrayWithObjects:
                       [NSArray arrayWithObjects:
@@ -629,6 +629,11 @@ NSMutableArray *mainMenuItems;
                        nil],
                       
                       [NSArray arrayWithObjects:@"VideoLibrary.GetMusicVideos", @"method", nil],
+                      
+                      [NSArray arrayWithObjects:
+                       @"VideoLibrary.GetRecentlyAddedMovies", @"method", 
+                       @"VideoLibrary.GetMovieDetails", @"extra_info_method", 
+                       nil],
                       
                       [NSArray arrayWithObjects:@"Files.GetSources", @"method", nil],
                       
@@ -659,6 +664,21 @@ NSMutableArray *mainMenuItems;
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"playcount", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"file", @"fanart", nil], @"properties",
                             nil], @"parameters", @"Music Videos", @"label", @"Movie", @"wikitype", nil],
+                          
+                          [NSMutableArray arrayWithObjects:
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"ascending",@"order",
+                             [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                             @"none", @"method",
+                             nil],@"sort",
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", nil], @"properties",
+                            nil], @"parameters", @"Added Movies", @"label", @"Movie", @"wikitype", 
+                           
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", nil], @"properties",
+                            nil], @"extra_info_parameters",
+                           nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -713,6 +733,29 @@ NSMutableArray *mainMenuItems;
                        @"fanart",@"row7",
                        nil],
                       
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       @"movies",@"itemid",
+                       @"label", @"row1",
+                       @"genre", @"row2",
+                       @"year", @"row3",
+                       @"runtime", @"row4",
+                       @"rating",@"row5",
+                       @"movieid",@"row6",
+                       [NSNumber numberWithInt:1], @"playlistid",
+                       @"movieid",@"row8",
+                       @"movieid", @"row9",
+                       @"playcount",@"row10",
+                       @"studio",@"row11",
+                       @"plot",@"row12",
+                       @"mpaa",@"row13",
+                       @"votes",@"row14",
+                       @"votes",@"row15",
+                       @"cast",@"row16",
+                       @"fanart",@"row7",
+                       @"playcount",@"row17",
+                       @"moviedetails",@"itemid_extra_info",
+                       nil],
+                      
                       [NSDictionary  dictionaryWithObjectsAndKeys:
                        @"sources",@"itemid",
                        @"label", @"row1",
@@ -733,6 +776,7 @@ NSMutableArray *mainMenuItems;
     item2.sheetActions=[NSArray arrayWithObjects:
                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"View Details", nil],
                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"View Details", nil],
+                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"View Details", nil],
                         [NSArray arrayWithObjects: nil],
                         nil];
     item2.showInfo = YES;
@@ -740,10 +784,12 @@ NSMutableArray *mainMenuItems;
     item2.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               [NSArray arrayWithObjects: nil],
                               [NSArray arrayWithObjects: nil],
+                              [NSArray arrayWithObjects: nil],
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               nil]; 
     item2.subItem.mainParameters=[NSMutableArray arrayWithObjects:
                                   [NSArray arrayWithObjects: nil],
+                                  [NSArray arrayWithObjects: nil],  
                                   [NSArray arrayWithObjects: nil],                                
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -756,6 +802,7 @@ NSMutableArray *mainMenuItems;
                                     nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   nil];
     item2.subItem.mainFields=[NSArray arrayWithObjects:
+                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
                               [NSDictionary dictionaryWithObjectsAndKeys: nil],
                               [NSDictionary dictionaryWithObjectsAndKeys: nil],
                               [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -773,49 +820,47 @@ NSMutableArray *mainMenuItems;
                                @"type", @"row11",
                                nil],
                               nil];
-    item2.subItem.enableSection=NO;
-    item2.subItem.rowHeight=76;
-    item2.subItem.thumbWidth=53;
-    item2.subItem.defaultThumb=@"nocover_filemode.png";
-    item2.subItem.sheetActions=[NSArray arrayWithObjects:
+    item2.subItem.enableSection = NO;
+    item2.subItem.rowHeight = 76;
+    item2.subItem.thumbWidth = 53;
+    item2.subItem.defaultThumb = @"nocover_filemode.png";
+    item2.subItem.sheetActions = [NSArray arrayWithObjects:
+                                [NSArray arrayWithObjects: nil],
                                 [NSArray arrayWithObjects: nil],
                                 [NSArray arrayWithObjects: nil],
                                 [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
                                 nil];
-    item2.subItem.widthLabel=252;
+    item2.subItem.widthLabel = 252;
     
-    item2.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
-                              [NSArray arrayWithObjects: nil],
-                              [NSArray arrayWithObjects: nil],
-                              [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
-                              nil]; 
-    item2.subItem.subItem.mainParameters=[NSMutableArray arrayWithObjects:
-                                  [NSArray arrayWithObjects: nil],
-                                  [NSArray arrayWithObjects: nil],
-                                  [NSArray arrayWithObjects: nil],
-                                  
-                                  nil];
-    item2.subItem.subItem.mainFields=[NSArray arrayWithObjects:
+    item2.subItem.subItem.mainMethod = [NSMutableArray arrayWithObjects:
+                                      [NSArray arrayWithObjects: nil],
+                                      [NSArray arrayWithObjects: nil],
+                                      [NSArray arrayWithObjects: nil],
+                                      [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
+                                      nil]; 
+    item2.subItem.subItem.mainParameters = [NSMutableArray arrayWithObjects:
+                                          [NSArray arrayWithObjects: nil],
+                                          [NSArray arrayWithObjects: nil],
+                                          [NSArray arrayWithObjects: nil],
+                                          [NSArray arrayWithObjects: nil],
+                                          nil];
+    item2.subItem.subItem.mainFields = [NSArray arrayWithObjects:
                                       [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                                      
                                       [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                                      
                                       [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                                      
+                                      [NSDictionary dictionaryWithObjectsAndKeys: nil],
                                       nil];
-    item2.subItem.subItem.enableSection=NO;
-    item2.subItem.subItem.rowHeight=76;
-    item2.subItem.subItem.thumbWidth=53;
-    item2.subItem.subItem.defaultThumb=@"nocover_filemode.png";
-    item2.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
+    item2.subItem.subItem.enableSection = NO;
+    item2.subItem.subItem.rowHeight = 76;
+    item2.subItem.subItem.thumbWidth = 53;
+    item2.subItem.subItem.defaultThumb = @"nocover_filemode.png";
+    item2.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
+                                        [NSArray arrayWithObjects: nil],
                                         [NSArray arrayWithObjects: nil],
                                         [NSArray arrayWithObjects: nil],
                                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
                                         nil];
-    item2.subItem.subItem.widthLabel=252;
-    
-
-    
+    item2.subItem.subItem.widthLabel = 252;
     
     item3.mainLabel = @"TV Shows";
     item3.upperLabel = @"Watch your";
@@ -823,8 +868,6 @@ NSMutableArray *mainMenuItems;
     item3.family = 1;
     item3.enableSection=YES;
     item3.mainButtons=[NSArray arrayWithObjects:@"st_tv", @"st_filemode", nil];//, @"st_actor", @"st_genre"
-    
-    
 
     item3.mainMethod=[NSMutableArray arrayWithObjects:
                       [NSArray arrayWithObjects:

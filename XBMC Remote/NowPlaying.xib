@@ -921,7 +921,7 @@
 									<object class="IBUISlider" id="600838162">
 										<reference key="NSNextResponder" ref="914706864"/>
 										<int key="NSvFlags">266</int>
-										<string key="NSFrame">{{18, 295}, {284, 23}}</string>
+										<string key="NSFrame">{{19, 295}, {284, 23}}</string>
 										<reference key="NSSuperview" ref="914706864"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="517998654"/>
@@ -2602,7 +2602,7 @@
 			<string key="now_playing_stop_up@2x.png">{76, 68}</string>
 			<string key="pgbar_act.png">{44, 17}</string>
 			<string key="pgbar_inact_fake.png">{50, 17}</string>
-			<string key="pgbar_thumb.png">{22, 22}</string>
+			<string key="pgbar_thumb.png">{18, 18}</string>
 			<string key="segment_left_down.png">{70, 28}</string>
 			<string key="segment_left_up.png">{70, 28}</string>
 			<string key="segment_right_down.png">{70, 28}</string>
