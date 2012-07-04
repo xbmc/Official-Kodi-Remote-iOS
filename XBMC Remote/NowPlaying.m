@@ -1982,6 +1982,7 @@ int currentItemID;
     playlistData = nil;
     jsonRPC = nil;
     self.remoteController=nil;
+    sheetActions = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
