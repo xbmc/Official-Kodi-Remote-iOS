@@ -144,25 +144,6 @@
     jsonRPC=nil;
 }
 
--(void)powerAction:(NSString *)action params:(NSDictionary *)params{
-    jsonRPC = nil;
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (methodError==nil && error == nil){
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
-        }
-        else{
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Cannot do that" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
-        }
-    }];
-}
-
-
 #pragma Toobar Actions
 
 -(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide forceOpen:(BOOL)open {
@@ -310,7 +291,7 @@
         sheetActions=[NSArray arrayWithObjects:@"Wake On Lan", nil];
     }
     else{
-        sheetActions=[NSArray arrayWithObjects:@"Power off System", @"Hibernate", @"Suspend", @"Reboot", nil];
+        sheetActions=[NSArray arrayWithObjects:@"Power off System", @"Hibernate", @"Suspend", @"Reboot", @"Update Audio Library", @"Update Video Library", nil];
     }
     int numActions=[sheetActions count];
     if (numActions){
@@ -325,6 +306,24 @@
         action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
         [action showInView:self.view];
     }
+}
+
+-(void)powerAction:(NSString *)action params:(NSDictionary *)params{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (methodError==nil && error == nil){
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alertView show];
+        }
+        else{
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Cannot do that" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alertView show];
+        }
+    }];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
@@ -351,6 +350,12 @@
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Reboot"]){
             [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Update Audio Library"]){
+            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Update Video Library"]){
+            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
     }
 }

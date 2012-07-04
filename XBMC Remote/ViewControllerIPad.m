@@ -291,7 +291,7 @@
         sheetActions=[NSArray arrayWithObjects:@"Wake On Lan", nil];
     }
     else{
-        sheetActions=[NSArray arrayWithObjects:@"Power off System", @"Hibernate", @"Suspend", @"Reboot", nil];
+        sheetActions=[NSArray arrayWithObjects:@"Power off System", @"Hibernate", @"Suspend", @"Reboot", @"Update Audio Library", @"Update Video Library", nil];
     }
     int numActions=[sheetActions count];
     if (numActions){
@@ -350,6 +350,12 @@
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Reboot"]){
             [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Update Audio Library"]){
+            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Update Video Library"]){
+            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
     }
 }
