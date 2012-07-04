@@ -1908,6 +1908,7 @@ int currentItemID;
     [timer invalidate];
     currentItemID = -1;
     [volumeSliderView stopTimer];
+    [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
 //    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
 }
 
