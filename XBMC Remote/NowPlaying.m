@@ -1468,6 +1468,8 @@ int currentItemID;
         else{
             DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:TRUE];
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationEnableMusicSection" object: nil]; 
+
         }
     }
 }

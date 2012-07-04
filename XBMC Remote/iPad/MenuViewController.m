@@ -117,10 +117,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     lastSelected=-1;
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleEnableMusicSection)
+                                                 name: @"UIApplicationEnableMusicSection"
+                                               object: nil];
 
 }
 
-
+-(void)handleEnableMusicSection{
+    NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
+    if (selection.row != 0 || selection == nil){
+        [self.tableView deselectRowAtIndexPath:selection animated:YES];
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+        lastSelected=0;
+    }		
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
