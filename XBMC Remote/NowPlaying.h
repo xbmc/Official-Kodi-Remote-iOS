@@ -83,7 +83,7 @@
     BOOL startFlipDemo;
     IBOutlet UISlider *ProgressSlider;
     NSIndexPath *selected;
-    NSArray *sheetActions;
+    NSMutableArray *sheetActions;
     BOOL fromItself;
 }
 

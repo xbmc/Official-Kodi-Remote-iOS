@@ -1352,36 +1352,39 @@ int currentItemID;
         CGPoint p = [gestureRecognizer locationInView:playlistTableView];
         NSIndexPath *indexPath = [playlistTableView indexPathForRowAtPoint:p];
         if (indexPath != nil){
+            [sheetActions removeAllObjects];
             NSDictionary *item = [playlistData objectAtIndex:indexPath.row];
+            selected = indexPath;
+            CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
+            NSString *showAlbumsTitle = nil;
             if ([[item objectForKey:@"artistid"] intValue]>0){
-                selected = indexPath;
-                CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
-//                NSString *showAlbumsTitle = [NSString stringWithFormat:@"%@ albums", [item objectForKey:@"artist"]];
-                NSString *showAlbumsTitle = @"Artist Albums";
-                NSString *showAlbumSongs = nil;
-                if ([[item objectForKey:@"albumid"] intValue]>0){
-//                    showAlbumSongs = [NSString stringWithFormat:@"%@ tracks", [item objectForKey:@"album"]];
-                    showAlbumSongs = [NSString stringWithFormat:@"Album Tracks", [item objectForKey:@"album"]];
+                //                showAlbumsTitle = [NSString stringWithFormat:@"%@ albums", [item objectForKey:@"artist"]];
+                showAlbumsTitle = @"Artist Albums";
+                [sheetActions addObject:showAlbumsTitle];
+            }
+            NSString *showAlbumSongs = nil;
+            if ([[item objectForKey:@"albumid"] intValue]>0){
+                //                    showAlbumSongs = [NSString stringWithFormat:@"%@ tracks", [item objectForKey:@"album"]];
+                showAlbumSongs = [NSString stringWithFormat:@"Album Tracks", [item objectForKey:@"album"]];
+                [sheetActions addObject:showAlbumSongs];
+            }
+            int numActions=[sheetActions count];
+            if (numActions){
+                NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"album"], [item objectForKey:@"artist"]];
+                UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
+                                                                    delegate:self
+                                                           cancelButtonTitle:nil
+                                                      destructiveButtonTitle:nil
+                                                           otherButtonTitles:nil];
+                for (int i = 0; i < numActions; i++) {
+                    [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
                 }
-                sheetActions=[NSArray arrayWithObjects:showAlbumsTitle, showAlbumSongs, nil];
-                int numActions=[sheetActions count];
-                if (numActions){
-                    NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"album"], [item objectForKey:@"artist"]];
-                    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
-                                                                        delegate:self
-                                                               cancelButtonTitle:nil
-                                                          destructiveButtonTitle:nil
-                                                               otherButtonTitles:nil];
-                    for (int i = 0; i < numActions; i++) {
-                        [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
-                    }
-                    action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
-                    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                        [action showInView:self.view];
-                    }
-                    else{
-                        [action showFromRect:CGRectMake(selectedPoint.x, selectedPoint.y, 1, 1) inView:self.view animated:YES];
-                    }
+                action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                    [action showInView:self.view];
+                }
+                else{
+                    [action showFromRect:CGRectMake(selectedPoint.x, selectedPoint.y, 1, 1) inView:self.view animated:YES];
                 }
             }
         }
@@ -1910,6 +1913,7 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    sheetActions = [[NSMutableArray alloc] init];
 //    [ProgressSlider setMaximumTrackImage:[UIImage imageNamed:@"slider-bg.png"] forState:UIControlStateNormal];
 //    [ProgressSlider setMinimumTrackImage:[UIImage imageNamed:@"fill.png"] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateNormal];
