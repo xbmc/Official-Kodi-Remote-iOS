@@ -115,7 +115,7 @@
                  if( [NSJSONSerialization isValidJSONObject:methodResult]){
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                      [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
-                     NSString *infoTitle=[NSString stringWithFormat:@" XBMC %@.%@-%@", [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
+                     NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
                      [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
                  }
@@ -401,6 +401,9 @@
     [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
     xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
     xbmcInfo.titleLabel.minimumFontSize=6.0f;
+    xbmcInfo.titleLabel.numberOfLines=2;
+    xbmcInfo.titleLabel.textAlignment=UITextAlignmentCenter;
+    xbmcInfo.titleEdgeInsets=UIEdgeInsetsMake(0, 3, 0, 3);
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
     xbmcInfo.titleLabel.shadowOffset    = CGSizeMake (1.0, 1.0);
     [xbmcInfo setBackgroundImage:[UIImage imageNamed:@"bottom_text_up.9.png"] forState:UIControlStateNormal];
