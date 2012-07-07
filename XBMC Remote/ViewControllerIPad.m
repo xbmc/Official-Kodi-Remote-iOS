@@ -365,7 +365,16 @@
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
     CGPoint viewPoint = [self.nowPlayingController.jewelView convertPoint:locationPoint fromView:self.view];
-    if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event]) {
+    CGPoint viewPoint2 = [self.nowPlayingController.shuffleButton convertPoint:locationPoint fromView:self.view];
+    CGPoint viewPoint3 = [self.nowPlayingController.repeatButton convertPoint:locationPoint fromView:self.view];
+
+    if ([self.nowPlayingController.shuffleButton pointInside:viewPoint2 withEvent:event] && self.nowPlayingController.songDetailsView.alpha > 0 && !self.nowPlayingController.shuffleButton.hidden) {
+        [self.nowPlayingController changeShuffle:nil];
+    }
+    else if ([self.nowPlayingController.repeatButton pointInside:viewPoint3 withEvent:event]  && self.nowPlayingController.songDetailsView.alpha > 0 && !self.nowPlayingController.repeatButton.hidden) {
+        [self.nowPlayingController changeRepeat:nil];
+    }
+    else if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event]) {
         [self.nowPlayingController toggleSongDetails];
     }
 }

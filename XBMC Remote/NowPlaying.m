@@ -29,6 +29,10 @@
 @synthesize remoteController;
 @synthesize jewelView;
 @synthesize detailViewController;
+@synthesize shuffleButton;
+@synthesize repeatButton;
+@synthesize songDetailsView;
+
 float startx=14;
 float barwidth=280;
 float cellBarWidth=45;
@@ -464,6 +468,8 @@ int currentItemID;
     ProgressSlider.value = 0;
     storedItemID=-1;
     [PartyModeButton setSelected:NO];
+    repeatButton.hidden = YES;
+    shuffleButton.hidden = YES;
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     if (selection){
         [playlistTableView deselectRowAtIndexPath:selection animated:YES];
@@ -648,7 +654,7 @@ int currentItemID;
                  callMethod:@"Player.GetProperties" 
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                                  response, @"playerid",
-                                 [[NSArray alloc] initWithObjects:@"percentage", @"time", @"totaltime", @"partymode", @"position", nil], @"properties",
+                                 [[NSArray alloc] initWithObjects:@"percentage", @"time", @"totaltime", @"partymode", @"position", @"canrepeat", @"canshuffle", @"repeat", @"shuffled", nil], @"properties",
                                  nil] 
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
@@ -656,9 +662,6 @@ int currentItemID;
                              //                             NSLog(@"risposta %@", methodResult);
                              if ([methodResult count]){
                                  ProgressSlider.value = [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue];
-                                 //                                 float newx=barwidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
-                                 //                                 if (newx<1)
-                                 //                                     newx=1;
                                  musicPartyMode=[[methodResult objectForKey:@"partymode"] intValue];
                                  if (musicPartyMode==YES) {
                                      [PartyModeButton setSelected:YES];
@@ -666,9 +669,42 @@ int currentItemID;
                                  else{
                                      [PartyModeButton setSelected:NO];
                                  }
-                                 
-                                 //                                 [self animCursor:startx+newx];
-                                 //                                 [self resizeBar:newx];
+                                 BOOL canrepeat = [[methodResult objectForKey:@"canrepeat"] boolValue] && !musicPartyMode;
+                                 if (canrepeat){
+                                     repeatStatus = [methodResult objectForKey:@"repeat"];
+                                     if (repeatButton.hidden == YES){
+                                         repeatButton.hidden = NO;
+                                     }
+                                     if ([repeatStatus isEqualToString:@"all"]){
+                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
+                                     }
+                                     else if ([repeatStatus isEqualToString:@"one"]){
+                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
+                                     }
+                                     else{
+                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
+                                     }
+                                 }
+                                 else if (repeatButton.hidden == NO){
+                                     repeatButton.hidden = YES;
+                                 }
+                                 BOOL canshuffle = [[methodResult objectForKey:@"canshuffle"] boolValue] && !musicPartyMode;
+                                 if (canshuffle){
+                                     shuffled = [[methodResult objectForKey:@"shuffled"] boolValue];
+                                     if (shuffleButton.hidden == YES){
+                                         shuffleButton.hidden = NO;
+                                     }
+                                     if (shuffled){
+                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+                                     }
+                                     else{
+                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+                                     }
+                                 }
+                                 else if (shuffleButton.hidden == NO){
+                                     shuffleButton.hidden = YES;
+                                 }
+
                                  NSDictionary *timeGlobal=[methodResult objectForKey:@"totaltime"];
                                  int hoursGlobal=[[timeGlobal objectForKey:@"hours"] intValue];
                                  int minutesGlobal=[[timeGlobal objectForKey:@"minutes"] intValue];
@@ -1083,15 +1119,15 @@ int currentItemID;
     [activityIndicatorView stopAnimating];
 }
 
--(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
+-(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters reloadPlaylist:(BOOL)reload{
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (error!=nil || methodError!=nil){
-//            NSLog(@" errore %@ %@",error, methodError);
+        if (error==nil && methodError==nil && reload){
+            [self createPlaylist:NO animTableView:YES];
         }
     }];
 }
@@ -1317,14 +1353,60 @@ int currentItemID;
     }
     [UIView commitAnimations];
 }
+
+-(void)toggleHighlight:(UIButton *)button {
+    button.highlighted = NO;
+}
+
+-(IBAction)changeShuffle:(id)sender{
+    [shuffleButton setHighlighted:YES];
+    [self performSelector:@selector(toggleHighlight:) withObject:shuffleButton afterDelay:.1];
+    lastSelected=-1;
+    storeSelection=nil;
+    if (shuffled){
+        [self SimpleAction:@"Player.UnShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID],@"playerid", nil] reloadPlaylist:YES];
+        [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+    }
+    else{
+        [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", nil] reloadPlaylist:YES];
+        [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+    }
+}
+
+-(IBAction)changeRepeat:(id)sender{
+    [repeatButton setHighlighted:YES];
+    [self performSelector:@selector(toggleHighlight:) withObject:repeatButton afterDelay:.1];
+    if ([repeatStatus isEqualToString:@"off"]){
+        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", @"all", @"state", nil] reloadPlaylist:NO];
+        [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
+    }
+    else if ([repeatStatus isEqualToString:@"all"]){
+        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", @"one", @"state", nil] reloadPlaylist:NO]; 
+        [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
+
+    }
+    else if ([repeatStatus isEqualToString:@"one"]){
+        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", @"off", @"state", nil] reloadPlaylist:NO];
+        [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
+    }
+}
+
 #pragma mark - Touch Events & Gestures
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
-    if([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]){
+    CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
+    CGPoint viewPoint = [shuffleButton convertPoint:locationPoint fromView:self.view];
+    CGPoint viewPoint2 = [repeatButton convertPoint:locationPoint fromView:self.view];
+    if ([shuffleButton pointInside:viewPoint withEvent:event] && songDetailsView.alpha > 0 && !shuffleButton.hidden) {
+        [self changeShuffle:nil];
+    }
+    else if ([repeatButton pointInside:viewPoint2 withEvent:event] && songDetailsView.alpha > 0 && !repeatButton.hidden) {
+        [self changeRepeat:nil];
+    }
+    else if([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]){
         [self toggleSongDetails];
         [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
-
     }
 //    if(![touch.view isEqual:volumeSliderView]){
 //        [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
@@ -1915,6 +1997,7 @@ int currentItemID;
 
 -(void)viewDidDisappear:(BOOL)animated{
     [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom]; 
+    songDetailsView.alpha = 0;
 }
 
 - (void)viewDidLoad{
