@@ -536,6 +536,7 @@ NSInteger buttonAction;
 
 -(IBAction)toggleQuickHelp:(id)sender{
     [xbmcVirtualKeyboard resignFirstResponder];
+    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
     if (quickHelpView.alpha == 0){
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
