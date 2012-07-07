@@ -1304,11 +1304,11 @@ NSMutableArray *mainMenuItems;
     item6.upperLabel = @"Use as";
     item6.icon = @"icon_home_remote.png";
     item6.family = 3;
-    
-    playlistArtistAlbums = item1;
+
+    playlistArtistAlbums = [item1 copy];
     playlistArtistAlbums.subItem.disableNowPlaying = TRUE;
     playlistArtistAlbums.subItem.subItem.disableNowPlaying = TRUE;
-
+    
     MasterViewController *masterViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [mainMenuItems addObject:item1];
@@ -1326,7 +1326,6 @@ NSMutableArray *mainMenuItems;
         [mainMenuItems addObject:item2];
         [mainMenuItems addObject:item3];
         [mainMenuItems addObject:item4];
-//        [mainMenuItems addObject:item5];
         [mainMenuItems addObject:item6];
         self.windowController = [[ViewControllerIPad alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
         self.windowController.mainMenu = mainMenuItems;

@@ -30,9 +30,9 @@
 @property int widthLabel;
 @property int chooseTab;
 @property BOOL disableNowPlaying;
-
-
 @property (nonatomic, copy) NSArray *showRuntime;
 @property BOOL noConvertTime;
+
+-(id) copyWithZone: (NSZone *) zone;
 
 @end
