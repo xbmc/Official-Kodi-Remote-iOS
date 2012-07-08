@@ -1877,6 +1877,7 @@ int currentItemID;
 }
 
 -(void)setIphoneInterface{
+    [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
     volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
     CGRect frame=volumeSliderView.frame;
     frame.origin.x=258;
@@ -1891,6 +1892,8 @@ int currentItemID;
 }
 
 -(void)setIpadInterface{
+    [ProgressSlider setThumbImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateNormal];
+    ProgressSlider.userInteractionEnabled = NO;
     slideFrom=-300;
     CGRect frame;
     [albumName setFont:[UIFont boldSystemFontOfSize:24]];
@@ -2017,7 +2020,6 @@ int currentItemID;
     sheetActions = [[NSMutableArray alloc] init];
 //    [ProgressSlider setMaximumTrackImage:[UIImage imageNamed:@"slider-bg.png"] forState:UIControlStateNormal];
 //    [ProgressSlider setMinimumTrackImage:[UIImage imageNamed:@"fill.png"] forState:UIControlStateNormal];
-    [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
     [[SDImageCache sharedImageCache] clearMemory];
     playerID = -1;
     selectedPlayerID = -1;
