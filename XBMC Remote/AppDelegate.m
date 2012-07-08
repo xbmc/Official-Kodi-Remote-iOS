@@ -266,7 +266,7 @@ NSMutableArray *mainMenuItems;
                        [NSNumber numberWithInt:0], @"playlistid",
                        @"albumid",@"row8",
                        @"albumid", @"row9",
-                    @"artist", @"row10",
+                       @"artist", @"row10",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -854,7 +854,7 @@ NSMutableArray *mainMenuItems;
                        @"votes",@"row15",
                        @"cast",@"row16",
                        @"fanart",@"row7",
-                       @"playcount",@"row17",
+                       @"director",@"row17",
                        @"moviedetails",@"itemid_extra_info",
                        nil],
                       
