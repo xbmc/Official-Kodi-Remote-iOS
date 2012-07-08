@@ -367,7 +367,7 @@
     CGPoint viewPoint = [self.nowPlayingController.jewelView convertPoint:locationPoint fromView:self.view];
     CGPoint viewPoint2 = [self.nowPlayingController.shuffleButton convertPoint:locationPoint fromView:self.view];
     CGPoint viewPoint3 = [self.nowPlayingController.repeatButton convertPoint:locationPoint fromView:self.view];
-
+    
     if ([self.nowPlayingController.shuffleButton pointInside:viewPoint2 withEvent:event] && self.nowPlayingController.songDetailsView.alpha > 0 && !self.nowPlayingController.shuffleButton.hidden) {
         [self.nowPlayingController changeShuffle:nil];
     }
@@ -535,7 +535,11 @@
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:powerButton];
-
+    
+    [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
+    frame = self.nowPlayingController.ProgressSlider.frame;
+    frame.origin.x = self.nowPlayingController.ProgressSlider.frame.origin.x + 300;
+    self.nowPlayingController.ProgressSlider.frame=frame;
     
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
@@ -544,6 +548,24 @@
                                              selector: @selector(handleXBMCServerHasChanged:)
                                                  name: @"XBMCServerHasChanged"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleStackScrollOnScreen:)
+                                                 name: @"StackScrollOnScreen"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleStackScrollOffScreen:)
+                                                 name: @"StackScrollOffScreen"
+                                               object: nil];
+}
+
+- (void)handleStackScrollOnScreen: (NSNotification*) sender{
+    [self.view insertSubview:self.nowPlayingController.ProgressSlider belowSubview:rootView];    
+}
+
+- (void)handleStackScrollOffScreen: (NSNotification*) sender{
+    [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
@@ -594,11 +616,17 @@
 	[menuViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	[stackScrollViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-        
+        CGRect frame = self.nowPlayingController.ProgressSlider.frame;
+        frame.origin.y = 444;
+        self.nowPlayingController.ProgressSlider.frame=frame;
+
         [nowPlayingController setToolbarWidth:768 height:610 YPOS:YPOS playBarWidth:426 portrait:TRUE];
 
 	}
 	else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight){
+        CGRect frame = self.nowPlayingController.ProgressSlider.frame;
+        frame.origin.y = 600;
+        self.nowPlayingController.ProgressSlider.frame=frame;
         
         [nowPlayingController setToolbarWidth:1024 height:768 YPOS:YPOS playBarWidth:680 portrait:FALSE];
 

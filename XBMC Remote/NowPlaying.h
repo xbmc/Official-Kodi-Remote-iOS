@@ -107,5 +107,7 @@
 @property (strong, nonatomic) UIButton *shuffleButton;
 @property (strong, nonatomic) UIButton *repeatButton;
 @property (strong, nonatomic) UIView *songDetailsView;
+@property (strong, nonatomic) UISlider *ProgressSlider;
+
 
 @end

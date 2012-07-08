@@ -159,6 +159,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                          [[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
                          [[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
                          [viewControllersStack removeAllObjects];
+                         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOffScreen" object: nil]; 
                      }];
     return;
 //    int numViews=[[slideViews subviews]count];

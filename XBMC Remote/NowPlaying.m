@@ -32,6 +32,7 @@
 @synthesize shuffleButton;
 @synthesize repeatButton;
 @synthesize songDetailsView;
+@synthesize ProgressSlider;
 
 float startx=14;
 float barwidth=280;
@@ -1892,8 +1893,8 @@ int currentItemID;
 }
 
 -(void)setIpadInterface{
-    [ProgressSlider setThumbImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateNormal];
-    ProgressSlider.userInteractionEnabled = NO;
+    [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
+//    ProgressSlider.userInteractionEnabled = NO;
     slideFrom=-300;
     CGRect frame;
     [albumName setFont:[UIFont boldSystemFontOfSize:24]];
