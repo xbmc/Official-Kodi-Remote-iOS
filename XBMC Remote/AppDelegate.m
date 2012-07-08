@@ -809,7 +809,7 @@ NSMutableArray *mainMenuItems;
                        @"votes",@"row15",
                        @"cast",@"row16",
                        @"fanart",@"row7",
-                       @"playcount",@"row17",
+                       @"director",@"row17",
                        @"moviedetails",@"itemid_extra_info",
                        nil],
                       
@@ -1025,6 +1025,7 @@ NSMutableArray *mainMenuItems;
                        @"premiered",@"row13",
                        @"episode",@"row14",
                        @"fanart",@"row7",
+                       @"plot",@"row15",
                        @"tvshowdetails",@"itemid_extra_info",
                        nil],
                                             
