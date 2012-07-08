@@ -1495,7 +1495,7 @@ int currentItemID;
 }
 
 -(IBAction)updateCurrentTime:(id)sender{
-    if (!updateProgressBar){      
+    if (!updateProgressBar && !nothingIsPlaying){      
         int selectedTime = (ProgressSlider.value/100) * globalSeconds;
         NSUInteger h = selectedTime / 3600;
         NSUInteger m = (selectedTime / 60) % 60;
