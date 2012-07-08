@@ -55,7 +55,6 @@
     IBOutlet UIButton *editTableButton;
     IBOutlet UIButton *PartyModeButton;
     IBOutlet UIImageView *backgroundImageView;
-    BOOL updateDetailsView;
 
     IBOutlet UIView *noFoundView;
     NSIndexPath *storeSelection;

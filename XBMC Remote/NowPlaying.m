@@ -556,7 +556,7 @@ int currentItemID;
                                  currentItemID = [[nowPlayingInfo  objectForKey:@"id"] intValue];
                              if (([nowPlayingInfo count] && currentItemID!=storedItemID) || [nowPlayingInfo  objectForKey:@"id"] == nil){
                                  storedItemID = currentItemID;
-                                 updateDetailsView = YES;
+                                 [self performSelector:@selector(loadCodecView) withObject:nil afterDelay:.5];
                                  NSString *album = [[nowPlayingInfo  objectForKey:@"album"] length] !=0 ?[NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"album"]] : @"" ;
                                  NSString *title = [[nowPlayingInfo  objectForKey:@"title"] length] !=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"title"]] : @"";
                                  NSString *artist = [[nowPlayingInfo objectForKey:@"artist"] length] !=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo objectForKey:@"artist"]] : @"";
@@ -631,9 +631,6 @@ int currentItemID;
                                          startFlipDemo = NO;
                                      }
                                  }
-                             }
-                             else{
-                                 updateDetailsView = NO;
                              }
                          }
                          else {
@@ -827,6 +824,47 @@ int currentItemID;
     }];
 }
 
+-(void)loadCodecView{
+    [jsonRPC 
+     callMethod:@"XBMC.GetInfoLabels" 
+     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
+                     [[NSArray alloc] initWithObjects:@"MusicPlayer.Codec",@"MusicPlayer.SampleRate",@"MusicPlayer.BitRate",@"VideoPlayer.VideoResolution",@"VideoPlayer.VideoAspect", nil], @"labels",
+                     nil] 
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
+             NSString *codec=@"";
+             NSString *bitrate=@"";
+             NSString *samplerate=@"";
+             if (playerID==0){
+                 labelSongCodec.text=@"codec";
+                 labelSongBitRate.text=@"bit rate";
+                 labelSongSampleRate.text=@"sample rate";
+                 codec=[[methodResult objectForKey:@"MusicPlayer.Codec"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"MusicPlayer.Codec"]] ;
+                 songCodec.text=codec;
+                 
+                 bitrate=[[methodResult objectForKey:@"MusicPlayer.BitRate"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@ kbit/s", [methodResult objectForKey:@"MusicPlayer.BitRate"]] ;
+                 songBitRate.text=bitrate;
+        
+                 samplerate=[[methodResult objectForKey:@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@ MHz", [methodResult objectForKey:@"MusicPlayer.SampleRate"]];
+                 songSampleRate.text=samplerate;
+             }
+             else {
+                 labelSongCodec.text=@"resolution";
+                 labelSongBitRate.text=@"aspect ratio";
+                 labelSongSampleRate.text=@"";
+                 
+                 codec=[[methodResult objectForKey:@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoResolution"]] ;
+                 songCodec.text=codec;
+                 
+                 bitrate=[[methodResult objectForKey:@"VideoPlayer.VideoAspect"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoAspect"]] ;
+                 songBitRate.text=bitrate;
+                 
+                 songSampleRate.text=@"";
+             }
+         }
+    }];
+}
+
 -(void)playbackInfo{
     if (![AppDelegate instance].serverOnLine) {
         playerID = -1;
@@ -837,7 +875,6 @@ int currentItemID;
         [self nothingIsPlaying];
         return;
     }
-
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
@@ -866,53 +903,6 @@ int currentItemID;
     }
     else {
         [self getActivePlayers];
-    }
-    if (updateDetailsView==YES){
-        [jsonRPC 
-         callMethod:@"XBMC.GetInfoLabels" 
-         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         [[NSArray alloc] initWithObjects:@"MusicPlayer.Codec",@"MusicPlayer.SampleRate",@"MusicPlayer.BitRate", @"MusicPlayer.PlaylistPosition",@"VideoPlayer.VideoResolution",@"VideoPlayer.VideoAspect",@"Player.TimeRemaining", @"Player.Duration", @"VideoPlayer.PlaylistPosition", nil], @"labels",
-                         nil] 
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-
-             if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
-                 NSNumber *playlistPosition = 0;
-                 NSString *codec=@"";
-                 NSString *bitrate=@"";
-                 NSString *samplerate=@"";
-                 if (playerID==0){
-                     labelSongCodec.text=@"codec";
-                     labelSongBitRate.text=@"bit rate";
-                     labelSongSampleRate.text=@"sample rate";
-                     playlistPosition = [methodResult objectForKey:@"MusicPlayer.PlaylistPosition"];
-                     codec=[[methodResult objectForKey:@"MusicPlayer.Codec"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"MusicPlayer.Codec"]] ;
-                     songCodec.text=codec;
-                     
-                     bitrate=[[methodResult objectForKey:@"MusicPlayer.BitRate"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@ kbit/s", [methodResult objectForKey:@"MusicPlayer.BitRate"]] ;
-                     songBitRate.text=bitrate;
-                     
-                     samplerate=[[methodResult objectForKey:@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@ MHz", [methodResult objectForKey:@"MusicPlayer.SampleRate"]];
-                     songSampleRate.text=samplerate;
-                 }
-                 else {
-                     labelSongCodec.text=@"resolution";
-                     labelSongBitRate.text=@"aspect ratio";
-                     labelSongSampleRate.text=@"";
-                     
-                     playlistPosition = [methodResult objectForKey:@"VideoPlayer.PlaylistPosition"];
-                     codec=[[methodResult objectForKey:@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoResolution"]] ;
-                     songCodec.text=codec;
-                     
-                     bitrate=[[methodResult objectForKey:@"VideoPlayer.VideoAspect"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoAspect"]] ;
-                     songBitRate.text=bitrate;
-
-                     songSampleRate.text=@"";
-                 }
-             }
-//             else {
-//             NSLog(@"ERROR %@", methodError);
-//             }
-         }];  
     }
 }
 
@@ -2009,7 +1999,6 @@ int currentItemID;
     [[SDImageCache sharedImageCache] clearMemory];
     playerID = -1;
     selectedPlayerID = -1;
-    updateDetailsView = YES;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self setIphoneInterface];
     }
@@ -2051,9 +2040,9 @@ int currentItemID;
 - (void) handleXBMCPlaylistHasChanged: (NSNotification*) sender{
     playerID = -1;
     selectedPlayerID = -1;
-    updateDetailsView = YES;
     lastSelected = -1;
-    storedItemID=-1;
+    storedItemID = -1;
+    storeSelection = nil;
     [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     //[self createPlaylist:YES animTableView:NO];
