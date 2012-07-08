@@ -1930,6 +1930,24 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">startUpdateProgressBar:</string>
+						<reference key="source" ref="600838162"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">19</int>
+					</object>
+					<int key="connectionID">200</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">startUpdateProgressBar:</string>
+						<reference key="source" ref="600838162"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">9</int>
+					</object>
+					<int key="connectionID">201</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">handleTableLongPress:</string>
 						<reference key="source" ref="604446871"/>
 						<reference key="destination" ref="372490531"/>
@@ -2517,7 +2535,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">199</int>
+			<int key="maxID">201</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

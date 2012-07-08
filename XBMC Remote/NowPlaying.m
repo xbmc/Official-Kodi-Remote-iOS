@@ -2060,6 +2060,7 @@ int currentItemID;
 
 - (void) handleEnterForeground: (NSNotification*) sender{
     [self handleXBMCPlaylistHasChanged:nil];
+    updateProgressBar = YES;
 }
 
 - (void) handleXBMCPlaylistHasChanged: (NSNotification*) sender{
