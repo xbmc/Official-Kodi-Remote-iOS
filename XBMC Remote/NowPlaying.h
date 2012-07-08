@@ -88,6 +88,8 @@
     IBOutlet UIButton *repeatButton;
     BOOL shuffled;
     NSString *repeatStatus;
+    BOOL updateProgressBar;
+    int globalSeconds;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;

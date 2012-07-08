@@ -658,7 +658,9 @@ int currentItemID;
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
                              //                             NSLog(@"risposta %@", methodResult);
                              if ([methodResult count]){
-                                 ProgressSlider.value = [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue];
+                                 if (updateProgressBar){
+                                     ProgressSlider.value = [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue];
+                                 }
                                  musicPartyMode=[[methodResult objectForKey:@"partymode"] intValue];
                                  if (musicPartyMode==YES) {
                                      [PartyModeButton setSelected:YES];
@@ -707,7 +709,7 @@ int currentItemID;
                                  int minutesGlobal=[[timeGlobal objectForKey:@"minutes"] intValue];
                                  int secondsGlobal=[[timeGlobal objectForKey:@"seconds"] intValue];
                                  NSString *globalTime=[NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"":[NSString stringWithFormat:@"%02i:", hoursGlobal], minutesGlobal, secondsGlobal];
-                                 
+                                 globalSeconds = hoursGlobal * 3600 + minutesGlobal * 60 + secondsGlobal;
                                  duration.text=globalTime;
                                  
                                  NSDictionary *time=[methodResult objectForKey:@"time"];
@@ -715,7 +717,9 @@ int currentItemID;
                                  int minutes=[[time objectForKey:@"minutes"] intValue];
                                  int seconds=[[time objectForKey:@"seconds"] intValue];
                                  NSString *actualTime=[NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"":[NSString stringWithFormat:@"%02i:", hours], minutes, seconds];
-                                 currentTime.text=actualTime;
+                                 if (updateProgressBar){
+                                     currentTime.text=actualTime;
+                                 }
                                  NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
                                  if (storeSelection)
                                      selection=storeSelection;
@@ -1109,15 +1113,25 @@ int currentItemID;
     [activityIndicatorView stopAnimating];
 }
 
--(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters reloadPlaylist:(BOOL)reload{
+-(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters reloadPlaylist:(BOOL)reload startProgressBar:(BOOL)progressBar{
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (error==nil && methodError==nil && reload){
-            [self createPlaylist:NO animTableView:YES];
+        if (error==nil && methodError==nil){
+            if (reload){
+                [self createPlaylist:NO animTableView:YES];
+            }
+            if (progressBar){
+                updateProgressBar = YES;
+            }
+        }
+        else {
+            if (progressBar){
+                updateProgressBar = YES;
+            }
         }
     }];
 }
@@ -1269,12 +1283,7 @@ int currentItemID;
             action=@"Player.GoPrevious";
             params=nil;
             [self playbackAction:action params:nil checkPartyMode:YES];
-//            [timeCursor.layer removeAllAnimations];
-//            [timeBar.layer removeAllAnimations];
-//            [self animCursor:startx];
-//            [self resizeBar:0];
             ProgressSlider.value = 0;
-            //storeSelection=nil;
             break;
             
         case 2:
@@ -1294,18 +1303,13 @@ int currentItemID;
             action=@"Player.GoNext";
             params=nil;
             [self playbackAction:action params:nil checkPartyMode:YES];
-           // storeSelection=nil;
-//            [timeCursor.layer removeAllAnimations];
-//            [timeBar.layer removeAllAnimations];
-//            [self animCursor:startx];
-//            [self resizeBar:0];
             break;
             
         case 5:
-//            [self performTransition];
             [self animViews];       
             [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
             break;
+            
         case 6:
             action=@"Player.Seek";
             params=[NSArray arrayWithObjects:@"smallbackward", @"value", nil];
@@ -1321,13 +1325,11 @@ int currentItemID;
         default:
             break;
     }
-    //    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 
 
 - (void)updateInfo{
-//    NSLog(@"OGNI SECONDO");
     [self playbackInfo];
 }
 
@@ -1354,11 +1356,11 @@ int currentItemID;
     lastSelected=-1;
     storeSelection=nil;
     if (shuffled){
-        [self SimpleAction:@"Player.UnShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID],@"playerid", nil] reloadPlaylist:YES];
+        [self SimpleAction:@"Player.UnShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID],@"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
     }
     else{
-        [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", nil] reloadPlaylist:YES];
+        [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
     }
 }
@@ -1367,16 +1369,16 @@ int currentItemID;
     [repeatButton setHighlighted:YES];
     [self performSelector:@selector(toggleHighlight:) withObject:repeatButton afterDelay:.1];
     if ([repeatStatus isEqualToString:@"off"]){
-        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", @"all", @"state", nil] reloadPlaylist:NO];
+        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", @"all", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
     }
     else if ([repeatStatus isEqualToString:@"all"]){
-        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", @"one", @"state", nil] reloadPlaylist:NO]; 
+        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", @"one", @"state", nil] reloadPlaylist:NO startProgressBar:NO]; 
         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
 
     }
     else if ([repeatStatus isEqualToString:@"one"]){
-        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", @"off", @"state", nil] reloadPlaylist:NO];
+        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", @"off", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
     }
 }
@@ -1475,14 +1477,31 @@ int currentItemID;
                 break;
                 
             case 88:// EDIT TABLE
-//                if (playlistTableView.editing == YES){
                 [self showClearPlaylistAlert];
-//                }
                 break;
 
             default:
                 break;
         }
+    }
+}
+
+-(IBAction)stopUpdateProgressBar:(id)sender{
+    updateProgressBar = FALSE;
+}
+
+-(IBAction)startUpdateProgressBar:(id)sender{
+    [self SimpleAction:@"Player.Seek" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", [NSNumber numberWithFloat:ProgressSlider.value], @"value", nil] reloadPlaylist:NO startProgressBar:YES];
+}
+
+-(IBAction)updateCurrentTime:(id)sender{
+    if (!updateProgressBar){      
+        int selectedTime = (ProgressSlider.value/100) * globalSeconds;
+        NSUInteger h = selectedTime / 3600;
+        NSUInteger m = (selectedTime / 60) % 60;
+        NSUInteger s = selectedTime % 60;
+        NSString *displaySelectedTime=[NSString stringWithFormat:@"%@%02i:%02i", (globalSeconds < 3600) ? @"":[NSString stringWithFormat:@"%02i:", h], m, s];
+        currentTime.text = displaySelectedTime;
     }
 }
 
@@ -1818,22 +1837,24 @@ int currentItemID;
         [self loadImagesForOnscreenRows];
     }
 }
-# pragma  mark - Gestures
+# pragma  mark - Swipe Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (updateProgressBar)
+        [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)showRemoteController{
-    //self.remoteController=nil;
-    if (self.remoteController == nil){
-        self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+    if (updateProgressBar){
+        if (self.remoteController == nil){
+            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+        }
+        mainMenu *item = [[mainMenu alloc] init];
+        item.mainLabel = @"Remote Control";
+        self.remoteController.detailItem = item;
+        fromItself = TRUE;
+        [self.navigationController pushViewController:self.remoteController animated:YES];
     }
-    mainMenu *item = [[mainMenu alloc] init];
-    item.mainLabel = @"Remote Control";
-    self.remoteController.detailItem = item;
-    fromItself = TRUE;
-    [self.navigationController pushViewController:self.remoteController animated:YES];
 }
 
 #pragma mark - Interface customizations
@@ -1970,6 +1991,7 @@ int currentItemID;
 //    playerID = -1;
 //    storedItemID = -1;
 //    selectedPlayerID = -1;
+    updateProgressBar = YES;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
     fromItself = FALSE;
 }
@@ -1995,7 +2017,7 @@ int currentItemID;
     sheetActions = [[NSMutableArray alloc] init];
 //    [ProgressSlider setMaximumTrackImage:[UIImage imageNamed:@"slider-bg.png"] forState:UIControlStateNormal];
 //    [ProgressSlider setMinimumTrackImage:[UIImage imageNamed:@"fill.png"] forState:UIControlStateNormal];
-    [ProgressSlider setThumbImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
     [[SDImageCache sharedImageCache] clearMemory];
     playerID = -1;
     selectedPlayerID = -1;

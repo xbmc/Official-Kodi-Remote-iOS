@@ -992,7 +992,6 @@
 										<reference key="NSNextKeyView" ref="517998654"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
-										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
@@ -1895,6 +1894,42 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">stopUpdateProgressBar:</string>
+						<reference key="source" ref="600838162"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">1</int>
+					</object>
+					<int key="connectionID">193</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">startUpdateProgressBar:</string>
+						<reference key="source" ref="600838162"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">8</int>
+					</object>
+					<int key="connectionID">194</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">startUpdateProgressBar:</string>
+						<reference key="source" ref="600838162"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">195</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">updateCurrentTime:</string>
+						<reference key="source" ref="600838162"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">13</int>
+					</object>
+					<int key="connectionID">199</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">handleTableLongPress:</string>
 						<reference key="source" ref="604446871"/>
 						<reference key="destination" ref="372490531"/>
@@ -2087,6 +2122,7 @@
 						<int key="objectID">5</int>
 						<reference key="object" ref="867353682"/>
 						<reference key="parent" ref="914706864"/>
+						<string key="objectName">Label Album</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">52</int>
@@ -2104,21 +2140,25 @@
 						<int key="objectID">6</int>
 						<reference key="object" ref="937753708"/>
 						<reference key="parent" ref="914706864"/>
+						<string key="objectName">Label Title</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">9</int>
 						<reference key="object" ref="841893484"/>
 						<reference key="parent" ref="914706864"/>
+						<string key="objectName">Label Artist</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">30</int>
 						<reference key="object" ref="537907902"/>
 						<reference key="parent" ref="914706864"/>
+						<string key="objectName">Label Current Time</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">31</int>
 						<reference key="object" ref="969146268"/>
 						<reference key="parent" ref="914706864"/>
+						<string key="objectName">Label Total Time</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">55</int>
@@ -2477,7 +2517,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">182</int>
+			<int key="maxID">199</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
