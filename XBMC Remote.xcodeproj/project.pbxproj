@@ -14,7 +14,6 @@
 		0F175F25154D5C3600C1C61F /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
 		0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F27154D696B00C1C61F /* StackScrollViewController.m */; };
 		0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2D154D6AFA00C1C61F /* MenuViewController.m */; };
-		0F175F31154D6B1700C1C61F /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F30154D6B1700C1C61F /* DataViewController.m */; };
 		0F1ABF01157167C400BF9DA7 /* remote_temp.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F1ABF00157167C400BF9DA7 /* remote_temp.png */; };
 		0F1F67F61563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */; };
 		0F2563D8157503B90024F0F9 /* remote_button_menu_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2563D0157503B90024F0F9 /* remote_button_menu_down@2x.png */; };
@@ -546,8 +545,6 @@
 		0F175F27154D696B00C1C61F /* StackScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StackScrollViewController.m; path = iPad/StackScrollViewController.m; sourceTree = "<group>"; };
 		0F175F2C154D6AFA00C1C61F /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuViewController.h; path = iPad/MenuViewController.h; sourceTree = "<group>"; };
 		0F175F2D154D6AFA00C1C61F /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = iPad/MenuViewController.m; sourceTree = "<group>"; };
-		0F175F2F154D6B1600C1C61F /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataViewController.h; path = iPad/DataViewController.h; sourceTree = "<group>"; };
-		0F175F30154D6B1700C1C61F /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataViewController.m; path = iPad/DataViewController.m; sourceTree = "<group>"; };
 		0F1ABF00157167C400BF9DA7 /* remote_temp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remote_temp.png; sourceTree = "<group>"; };
 		0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DejaVuSans-Bold-Caps.ttf"; sourceTree = "<group>"; };
 		0F2563D0157503B90024F0F9 /* remote_button_menu_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_menu_down@2x.png"; sourceTree = "<group>"; };
@@ -1194,8 +1191,6 @@
 				0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */,
 				0F175F2C154D6AFA00C1C61F /* MenuViewController.h */,
 				0F175F2D154D6AFA00C1C61F /* MenuViewController.m */,
-				0F175F2F154D6B1600C1C61F /* DataViewController.h */,
-				0F175F30154D6B1700C1C61F /* DataViewController.m */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -2422,7 +2417,6 @@
 				0F175F24154D5C3600C1C61F /* ViewControllerIPad.m in Sources */,
 				0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */,
 				0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */,
-				0F175F31154D6B1700C1C61F /* DataViewController.m in Sources */,
 				0F5A504C155FA8640062FD6E /* HostManagementViewController.m in Sources */,
 				0F545D0B1575563100B6320D /* OBShapedButton.m in Sources */,
 				0F545D0C1575563100B6320D /* UIImage+ColorAtPixel.m in Sources */,
