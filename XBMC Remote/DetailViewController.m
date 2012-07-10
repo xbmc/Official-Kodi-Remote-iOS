@@ -1704,9 +1704,11 @@ NSIndexPath *selected;
                      BOOL found;
                      NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
                      NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
-                     for (NSDictionary *item in self.richResults){        
-                         NSString *c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
-                         
+                     for (NSDictionary *item in self.richResults){       
+                         NSString *c = @"/";
+                         if ([[item objectForKey:@"label"] length]>0){
+                             c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
+                         }
                          if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
                              c = @"#";
                          }
@@ -1724,7 +1726,10 @@ NSIndexPath *selected;
                          }
                      }
                      for (NSDictionary *item in self.richResults){
-                         NSString *c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
+                         NSString *c = @"/";
+                         if ([[item objectForKey:@"label"] length]>0){
+                             c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
+                         }
                          if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
                              [[self.sections objectForKey:@"#"] addObject:item];
                          }
