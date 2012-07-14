@@ -37,7 +37,7 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
-        rightSwipe.cancelsTouchesInView=NO;
+        rightSwipe.cancelsTouchesInView=YES;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
@@ -579,6 +579,30 @@ NSInteger buttonAction;
             [xbmcVirtualKeyboard resignFirstResponder];
         }
         else if (x<1000){
+//            jsonRPC = nil;
+//            GlobalData *obj=[GlobalData getInstance]; 
+//            NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+//            NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+//            jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+//                [jsonRPC 
+//                 callMethod:@"XBMC.GetInfoBooleans" 
+//                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
+//                                 [[NSArray alloc] initWithObjects:@"Window.IsActive(virtualkeyboard)", nil], @"booleans",
+//                                 nil] 
+//                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//                     
+//                     if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
+//                         if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(virtualkeyboard)"] != [NSNull null])){
+//                             NSNumber *virtualKeyboardActive = [methodResult objectForKey:@"Window.IsActive(virtualkeyboard)"];
+//                             if ([virtualKeyboardActive intValue] == 1){
+//                                 [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
+//                             }
+//                             else{
+//                                 [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf0%x)", x]];
+//                             }
+//                         }                 
+//                     }
+//                 }];  
             [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
         }
     }
