@@ -24,7 +24,7 @@
 @property (nonatomic, copy) NSArray *sheetActions;
 @property int rowHeight;
 @property int thumbWidth;
-@property BOOL showInfo;
+@property (nonatomic, copy) NSArray *showInfo;
 @property int originYearDuration;
 @property int originLabel;
 @property int widthLabel;

@@ -425,19 +425,21 @@ int flagY = 54;
         item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
     UILabel *title=(UILabel*) [cell viewWithTag:1];
+    UILabel *genre=(UILabel*) [cell viewWithTag:2];
     UILabel *runtimeyear=(UILabel*) [cell viewWithTag:3];
     UILabel *rating=(UILabel*) [cell viewWithTag:5];
 
     frame=title.frame;
-    frame.origin.x=labelPosition;
-    title.frame=frame;
-    
-    [title setText:[item objectForKey:@"label"]];
-    [(UILabel*) [cell viewWithTag:2] setText:[item objectForKey:[mainFields objectForKey:@"row2"]]];
-    
-    frame=title.frame;
+    frame.origin.x=labelPosition;    
     frame.size.width=Menuitem.widthLabel;
     title.frame=frame;
+    [title setText:[item objectForKey:@"label"]];
+
+    frame=genre.frame;
+    frame.size.width=frame.size.width - (labelPosition - frame.origin.x);
+    frame.origin.x=labelPosition; 
+    genre.frame=frame;
+    [genre setText:[item objectForKey:[mainFields objectForKey:@"row2"]]];
     
     frame=runtimeyear.frame;
     frame.origin.x=Menuitem.originYearDuration;
@@ -606,7 +608,7 @@ int flagY = 54;
         }
     }
     else {
-        if (MenuItem.showInfo){
+        if ([MenuItem.showInfo objectAtIndex:choosedTab]){
             [self showInfo:indexPath];
         }
         else {
@@ -1097,7 +1099,7 @@ NSIndexPath *selected;
             }
         }
         else {
-//            NSLog(@"ci deve essere un primo problema %@", methodError);
+            NSLog(@"ci deve essere un primo problema %@", methodError);
             [queuing stopAnimating];
         }
     }];
