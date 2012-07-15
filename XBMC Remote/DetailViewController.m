@@ -1738,7 +1738,6 @@ NSIndexPath *selected;
                  //                 NSLog(@"END STORE");
                  //                 NSLog(@"RICH RESULTS %@", richResults);
                  storeRichResults = [richResults mutableCopy];
-                 [self choseParams];
                  if (watchMode != 0){
                      [self changeViewMode:watchMode];
                  }
@@ -1771,6 +1770,7 @@ NSIndexPath *selected;
 }
 
 -(void)indexAndDisplayData{
+    [self choseParams];
     [dataList setContentOffset:CGPointMake(0, 44)];
     numResults=[self.richResults count];
     if ([self.detailItem enableSection]){ 
