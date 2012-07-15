@@ -27,6 +27,7 @@
     DSJSONRPC *jsonRPC;
     NSMutableArray *richResults;
     NSMutableArray	*filteredListContent;
+    NSMutableArray *storeRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;  
     SDWebImageManager *manager;
@@ -36,6 +37,7 @@
     MPMoviePlayerController *playerViewController;
     int choosedTab;
     int numTabs;
+    int watchMode;
     UILabel *topNavigationLabel;
     IBOutlet UIButton *button1;
     IBOutlet UIButton *button2;

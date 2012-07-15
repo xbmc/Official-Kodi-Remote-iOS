@@ -170,8 +170,70 @@
     [self changeTab:selectedMoreTab];
 }
 
+-(void)changeViewMode:(int)newWatchMode{
+    [activityIndicatorView startAnimating];
+    [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
+    [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:[[[[self.detailItem watchModes] objectAtIndex:choosedTab] objectForKey:@"icons"] objectAtIndex:newWatchMode]] forState:UIControlStateSelected];
+    [self.richResults removeAllObjects];
+    [self.sections removeAllObjects];
+    [dataList reloadData];
+    self.richResults = [storeRichResults mutableCopy];
+    int total = [self.richResults count];
+    NSMutableIndexSet *mutableIndexSet = [[NSMutableIndexSet alloc] init];
+    switch (newWatchMode) {
+        case 0:
+            break;
+            
+        case 1:
+            for (int i = 0; i < total; i++){
+                if ([[[self.richResults objectAtIndex:i] objectForKey:@"playcount"] intValue] > 0){
+                    [mutableIndexSet addIndex:i];
+                }
+            }
+            [self.richResults removeObjectsAtIndexes:mutableIndexSet];
+            break;
+
+        case 2:
+            for (int i = 0; i < total; i++){
+                if ([[[self.richResults objectAtIndex:i] objectForKey:@"playcount"] intValue] == 0){
+                    [mutableIndexSet addIndex:i];
+                }
+            }
+            [self.richResults removeObjectsAtIndexes:mutableIndexSet];
+            break;
+
+        default:
+            break;
+    }
+    [self indexAndDisplayData];
+    return;
+}
+
 -(IBAction)changeTab:(id)sender{
-    if ([sender tag]==choosedTab || activityIndicatorView.hidden == NO) return;
+    if (activityIndicatorView.hidden == NO) return;
+    if ([sender tag]==choosedTab) {
+        NSArray *watchedCycle = [self.detailItem watchModes];
+        int num_modes = [[[watchedCycle objectAtIndex:choosedTab] objectForKey:@"modes"] count];
+        if (num_modes){
+            if (watchMode < num_modes - 1){
+                watchMode ++;
+            }
+            else {
+                watchMode = 0;
+            }
+            [self changeViewMode:watchMode];
+            return;
+        }
+        else {
+            return;
+        }
+    }
+    NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
+    if (choosedTab < [buttonsIB count]){
+        [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
+    }
+    watchMode = 0;
     startTime = 0;
     [countExecutionTime invalidate];
     countExecutionTime = nil;
@@ -187,7 +249,6 @@
     }
     if (newChoosedTab==choosedTab) return;
     [activityIndicatorView startAnimating];
-    NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     if (choosedTab<[buttonsIB count]){
         [[buttonsIB objectAtIndex:choosedTab] setSelected:NO];
     }
@@ -223,7 +284,6 @@
     else {
         [activityIndicatorView stopAnimating];
         [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-       // [self loadImagesForOnscreenRows];
     }
 }
 
@@ -529,6 +589,7 @@ int flagY = 54;
             
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab=choosedTab;
+            MenuItem.subItem.currentWatchMode = watchMode;
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                 self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
                 self.detailViewController.detailItem = MenuItem.subItem;
@@ -1562,8 +1623,10 @@ NSIndexPath *selected;
          if (error==nil && methodError==nil){
 //             NSLog(@"END JSON");
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
-             [self.richResults removeAllObjects];
-             [self.sections removeAllObjects];
+             if ([self.richResults count])
+                 [self.richResults removeAllObjects];
+             if ([self.sections count])
+                 [self.sections removeAllObjects];
              [dataList reloadData];
              
              if( [NSJSONSerialization isValidJSONObject:methodResult]){
@@ -1577,13 +1640,7 @@ NSIndexPath *selected;
                  if (((NSNull *)videoLibraryMovies != [NSNull null])){
                      total=[videoLibraryMovies count];
                  }
-        
-                 if (total==0){
-                     [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-                 }
-                 else {
-                     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
-                 }
+                 
                  NSString *serverURL= @"";
                  serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
                  if ([AppDelegate instance].serverVersion > 11){
@@ -1596,7 +1653,7 @@ NSIndexPath *selected;
                      
                      NSString *year=@"";
                      if([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]] isKindOfClass:[NSNumber class]]){
-                          year=[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]] stringValue];
+                         year=[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]] stringValue];
                      }
                      else{
                          if ([[mainFields objectForKey:@"row3"] isEqualToString:@"blank"])
@@ -1613,15 +1670,15 @@ NSIndexPath *selected;
                      else{
                          runtime=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]]];
                      }
-                   
+                     
                      if ([runtime isEqualToString:@"(null)"]) runtime=@"";
-
+                     
                      
                      NSString *rating=[NSString stringWithFormat:@"%.1f",[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row5"]] floatValue]];
                      
                      if ([rating isEqualToString:@"0.0"])
                          rating=@"";
-
+                     
                      NSString *thumbnailPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"thumbnail"];
                      NSString *fanartPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"];
                      NSString *fanartURL=@"";
@@ -1678,94 +1735,27 @@ NSIndexPath *selected;
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
                                                    nil]];
                  }
-//                 NSLog(@"END STORE");
-//                 NSLog(@"RICH RESULTS %@", richResults);
-                 [dataList setContentOffset:CGPointMake(0, 44)];
-                 [activityIndicatorView stopAnimating];
-                 numResults=[self.richResults count];
-                 if ([self.detailItem enableSection]){ 
-                     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-                     // CONDIZIONE DEBOLE!!!
-                     self.navigationItem.title =[NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
-                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-                         [UIView beginAnimations:nil context:nil];
-                         [UIView setAnimationDuration:0.3];
-                         topNavigationLabel.alpha = 0;
-                         [UIView commitAnimations];
-                         topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
-                         [UIView beginAnimations:nil context:nil];
-                         [UIView setAnimationDuration:0.1];
-                         topNavigationLabel.alpha = 1;
-                         [UIView commitAnimations];
-                     }
-                     // FINE CONDIZIONE
-                 }
-                 if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT){
-                     
-                     [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
-                     BOOL found;
-                     NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
-                     NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
-                     for (NSDictionary *item in self.richResults){       
-                         NSString *c = @"/";
-                         if ([[item objectForKey:@"label"] length]>0){
-                             c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
-                         }
-                         if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
-                             c = @"#";
-                         }
-                         else if ([c rangeOfCharacterFromSet:set].location != NSNotFound) {
-                             c = @"/";
-                         }
-                         found = NO;
-                         for (NSString *str in [self.sections allKeys]){
-                             if ([[str uppercaseString] isEqualToString:c]){
-                                 found = YES;
-                             }
-                         }
-                         if (!found){     
-                             [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
-                         }
-                     }
-                     for (NSDictionary *item in self.richResults){
-                         NSString *c = @"/";
-                         if ([[item objectForKey:@"label"] length]>0){
-                             c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
-                         }
-                         if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
-                             [[self.sections objectForKey:@"#"] addObject:item];
-                         }
-                         else if ([c rangeOfCharacterFromSet:set].location != NSNotFound) {
-                             [[self.sections objectForKey:@"/"] addObject:item];
-                         }
-                         else{
-                             [[self.sections objectForKey:[[[item objectForKey:@"label"] uppercaseString] substringToIndex:1]] addObject:item];
-                         }
-                     }
-                 }
-                 else {
-                     [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
-                     for (NSDictionary *item in self.richResults){
-                         [[self.sections objectForKey:@""] addObject:item];
-                     }
-                 }
-//                 NSLog(@"END INDEX");
+                 //                 NSLog(@"END STORE");
+                 //                 NSLog(@"RICH RESULTS %@", richResults);
+                 storeRichResults = [richResults mutableCopy];
                  [self choseParams];
+                 if (watchMode != 0){
+                     [self changeViewMode:watchMode];
+                 }
+                 else{
+                     [self indexAndDisplayData];
+                 }
+             }
+             else {
+                 [self.richResults removeAllObjects];
+                 [self.sections removeAllObjects];
+                 [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
                  [dataList reloadData];
+                 [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                 //                NSLog(@"NON E' JSON %@", methodError);
+                 [activityIndicatorView stopAnimating];
                  [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-                 //[self loadImagesForOnscreenRows];
-            }
-            else {
-                [self.richResults removeAllObjects];
-                [self.sections removeAllObjects];
-                [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
-                [dataList reloadData];
-                [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-//                NSLog(@"NON E' JSON %@", methodError);
-                [activityIndicatorView stopAnimating];
-                [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-                //[self loadImagesForOnscreenRows];
-            }
+             }
          }
          else {
              [self.richResults removeAllObjects];
@@ -1773,12 +1763,91 @@ NSIndexPath *selected;
              [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
              [dataList reloadData];
              [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-//             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
+             //             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
              [activityIndicatorView stopAnimating];
              [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-             //[self loadImagesForOnscreenRows];
          }
      }];
+}
+
+-(void)indexAndDisplayData{
+    [dataList setContentOffset:CGPointMake(0, 44)];
+    numResults=[self.richResults count];
+    if ([self.detailItem enableSection]){ 
+        NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+        // CONDIZIONE DEBOLE!!!
+        self.navigationItem.title =[NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.3];
+            topNavigationLabel.alpha = 0;
+            [UIView commitAnimations];
+            topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.1];
+            topNavigationLabel.alpha = 1;
+            [UIView commitAnimations];
+        }
+        // FINE CONDIZIONE
+    }
+    if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT){
+        [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
+        BOOL found;
+        NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
+        NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+        for (NSDictionary *item in self.richResults){       
+            NSString *c = @"/";
+            if ([[item objectForKey:@"label"] length]>0){
+                c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
+            }
+            if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
+                c = @"#";
+            }
+            else if ([c rangeOfCharacterFromSet:set].location != NSNotFound) {
+                c = @"/";
+            }
+            found = NO;
+            for (NSString *str in [self.sections allKeys]){
+                if ([[str uppercaseString] isEqualToString:c]){
+                    found = YES;
+                }
+            }
+            if (!found){     
+                [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
+            }
+        }
+        for (NSDictionary *item in self.richResults){
+            NSString *c = @"/";
+            if ([[item objectForKey:@"label"] length]>0){
+                c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
+            }
+            if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
+                [[self.sections objectForKey:@"#"] addObject:item];
+            }
+            else if ([c rangeOfCharacterFromSet:set].location != NSNotFound) {
+                [[self.sections objectForKey:@"/"] addObject:item];
+            }
+            else{
+                [[self.sections objectForKey:[[[item objectForKey:@"label"] uppercaseString] substringToIndex:1]] addObject:item];
+            }
+        }
+    }
+    else {
+        [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
+        for (NSDictionary *item in self.richResults){
+            [[self.sections objectForKey:@""] addObject:item];
+        }
+    }
+    //    NSLog(@"END INDEX");
+    if (![self.richResults count]){
+        [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+    }
+    else {
+        [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    }
+    [activityIndicatorView stopAnimating];
+    [dataList reloadData];
+    [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
 
 # pragma mark - Life-Cycle
@@ -1834,7 +1903,8 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     self.view.userInteractionEnabled = YES;
-    choosedTab=0;
+    choosedTab = 0;
+    watchMode = [self.detailItem currentWatchMode];
     [detailView setClipsToBounds:YES];
     CGRect frame=dataList.frame;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -1861,6 +1931,7 @@ NSIndexPath *selected;
     self.sections = [[NSMutableDictionary alloc] init];
     self.richResults= [[NSMutableArray alloc] init ]; 
     self.filteredListContent = [[NSMutableArray alloc] init ]; 
+    storeRichResults = [[NSMutableArray alloc] init ]; 
     [activityIndicatorView startAnimating];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];

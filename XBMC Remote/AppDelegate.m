@@ -883,6 +883,24 @@ NSMutableArray *mainMenuItems;
                         nil];
 //    item2.showInfo = YES;
     item2.showInfo = [NSArray arrayWithObjects:[NSNumber numberWithBool:YES], [NSNumber numberWithBool:YES], [NSNumber numberWithBool:YES], [NSNumber numberWithBool:YES], nil];
+    item2.watchModes = [NSArray arrayWithObjects:
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes", 
+                         [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons", 
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes", 
+                         [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons", 
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes",
+                         [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons", 
+                         nil], 
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray arrayWithObjects:nil], @"modes", 
+                         [NSArray arrayWithObjects:nil], @"icons", 
+                         nil],
+                        nil];
     
     item2.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               [NSArray arrayWithObjects: nil],
@@ -1089,6 +1107,20 @@ NSMutableArray *mainMenuItems;
                         nil];
     
     item3.showInfo = [NSArray arrayWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], nil];
+    item3.watchModes = [NSArray arrayWithObjects:
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes", 
+                         [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons", 
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes", 
+                         [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons", 
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray arrayWithObjects:nil], @"modes", 
+                         [NSArray arrayWithObjects:nil], @"icons", 
+                         nil],
+                        nil];
     
     item3.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               [NSArray arrayWithObjects:@"VideoLibrary.GetSeasons", @"method", nil],

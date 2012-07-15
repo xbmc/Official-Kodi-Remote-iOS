@@ -32,6 +32,8 @@
 @property BOOL disableNowPlaying;
 @property (nonatomic, copy) NSArray *showRuntime;
 @property BOOL noConvertTime;
+@property (nonatomic, copy) NSArray *watchModes;
+@property int currentWatchMode;
 
 -(id) copyWithZone: (NSZone *) zone;
 
