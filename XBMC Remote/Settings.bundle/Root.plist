@@ -54,6 +54,16 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
+			<string>gesture_preference</string>
+			<key>Title</key>
+			<string>Gesture remote control</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
 			<string>shake_preference</string>
 			<key>Title</key>
 			<string>Shake to clear playlist</string>
