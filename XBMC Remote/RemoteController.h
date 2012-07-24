@@ -19,12 +19,14 @@
     IBOutlet UIView *quickHelpView;
     IBOutlet UIImageView *quickHelpImageView;
     UITextField *xbmcVirtualKeyboard;
+    IBOutlet UIView *gestureZoneView;
+    IBOutlet UIView *buttonZoneView;
+    IBOutlet UIImageView *panFallbackImageView;
 }
 
 - (IBAction)startVibrate:(id)sender;
-
 @property (strong, nonatomic) id detailItem;
-
 @property (nonatomic, retain) NSTimer* holdVolumeTimer;
+@property (strong, nonatomic) UIImageView *panFallbackImageView;
 
 @end

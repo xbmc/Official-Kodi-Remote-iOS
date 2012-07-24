@@ -12,6 +12,9 @@
 #import "GlobalData.h"
 #import "VolumeSliderView.h"
 #import "SDImageCache.h"
+#import "AppDelegate.h"
+#import "ViewControllerIPad.h"
+#import "StackScrollViewController.h"
 
 @interface RemoteController ()
 
@@ -22,6 +25,7 @@
 @synthesize detailItem = _detailItem;
 
 @synthesize holdVolumeTimer;
+@synthesize panFallbackImageView;
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
@@ -44,10 +48,48 @@
     }
     else{
         int newWidth = 477;
-        int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
+        int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;        
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
     }
+    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    rightSwipe.numberOfTouchesRequired = 1;
+    rightSwipe.cancelsTouchesInView=NO;
+    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [gestureZoneView addGestureRecognizer:rightSwipe];
+    
+    UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    leftSwipe.numberOfTouchesRequired = 1;
+    leftSwipe.cancelsTouchesInView=NO;
+    leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    [gestureZoneView addGestureRecognizer:leftSwipe];
+    
+    UISwipeGestureRecognizer *upSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    upSwipe.numberOfTouchesRequired = 1;
+    upSwipe.cancelsTouchesInView=NO;
+    upSwipe.direction = UISwipeGestureRecognizerDirectionUp;
+    [gestureZoneView addGestureRecognizer:upSwipe];
+    
+    UISwipeGestureRecognizer *downSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    downSwipe.numberOfTouchesRequired = 1;
+    downSwipe.cancelsTouchesInView=NO;
+    downSwipe.direction = UISwipeGestureRecognizerDirectionDown;
+    [gestureZoneView addGestureRecognizer:downSwipe];
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchpadLongPress:)];
+    longPress.cancelsTouchesInView = YES;
+    [gestureZoneView addGestureRecognizer:longPress];
+    
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchpadDoubleTap)];
+    doubleTap.numberOfTapsRequired = 2;
+    doubleTap.cancelsTouchesInView=YES;
+    [gestureZoneView addGestureRecognizer:doubleTap];
+        
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchpadSingleTap)];
+    singleTap.numberOfTapsRequired = 1;
+    singleTap.cancelsTouchesInView=YES;
+    [singleTap requireGestureRecognizerToFail:doubleTap];
+    [gestureZoneView addGestureRecognizer:singleTap];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -58,6 +100,130 @@
     return self;
 }
 
+#pragma mark - Touch
+
+-(void)handleTouchpadSwipeFromRight{
+    buttonAction = 14;
+    [self sendAction];
+}
+
+-(void)handleTouchpadSwipeFromLeft{
+    buttonAction = 12;
+    [self sendAction];
+}
+
+-(void)handleTouchpadSwipeFromUp{
+    buttonAction = 10;
+    [self sendAction];
+}
+
+-(void)handleTouchpadSwipeFromDown{
+    buttonAction = 16;
+    [self sendAction];
+}
+
+-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer {
+    if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+        buttonAction = 14;
+        [self sendAction];
+    }
+    else if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
+        buttonAction = 12;
+        [self sendAction];
+    }
+    else if (recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
+        buttonAction = 10;
+        [self sendAction];
+    }
+    else if (recognizer.direction == UISwipeGestureRecognizerDirectionDown ) {
+        buttonAction = 16;
+        [self sendAction];
+    }
+}
+
+-(void)handleTouchpadDoubleTap{
+    buttonAction = 18;
+    [self sendAction];
+}
+
+-(void)handleTouchpadSingleTap{
+    buttonAction = 13;
+    [self sendAction];
+}
+
+- (void)handleTouchpadLongPress:(UILongPressGestureRecognizer*)gestureRecognizer { 
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
+        jsonRPC = nil;
+        GlobalData *obj=[GlobalData getInstance]; 
+        NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+        NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+
+        [jsonRPC 
+         callMethod:@"XBMC.GetInfoBooleans" 
+         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
+                         [[NSArray alloc] initWithObjects:@"Window.IsActive(fullscreenvideo)", @"Window.IsActive(visualisation)", @"Window.IsActive(slideshow)", nil], @"booleans",
+                         nil] 
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+             
+             if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
+                 NSNumber *fullscreenActive = 0;
+                 NSNumber *visualisationActive = 0;
+                 NSNumber *slideshowActive = 0;
+
+                 if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(fullscreenvideo)"] != [NSNull null])){
+                     fullscreenActive = [methodResult objectForKey:@"Window.IsActive(fullscreenvideo)"];
+                 }
+                 if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(visualisation)"] != [NSNull null])){
+                     visualisationActive = [methodResult objectForKey:@"Window.IsActive(visualisation)"];
+                 }
+                 if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(slideshow)"] != [NSNull null])){
+                     slideshowActive = [methodResult objectForKey:@"Window.IsActive(slideshow)"];
+                 }
+                 if ([fullscreenActive intValue] == 1 || [visualisationActive intValue] == 1 || [slideshowActive intValue] == 1){
+                     buttonAction = 15;
+                     [self sendActionNoRepeat];
+                 }
+                 else{
+                     [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+                 }
+             }
+             else{
+                 [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+             }
+         }];   
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    if ([touches count] == 1){
+        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:1.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
+    }
+//    CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
+//    CGPoint viewPoint = [backgroundView convertPoint:locationPoint fromView:self.view];
+//    CGPoint viewPoint2 = [gestureZoneView convertPoint:locationPoint fromView:self.view];
+//    if ([backgroundView pointInside:viewPoint withEvent:event] && ![gestureZoneView pointInside:viewPoint2 withEvent:event]) {
+//        NSLog(@"ho toccato il background - Visualizzo messaggio pan view disabled");
+//        [[AppDelegate instance].windowController.stackScrollViewController  enablePanGestureRecognizer];
+//    }
+//    else {
+//        NSLog(@"disabilito pan");
+//        [[AppDelegate instance].windowController.stackScrollViewController  disablePanGestureRecognizer];
+//    }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self stopHoldKey:nil];
+//    [[AppDelegate instance].windowController.stackScrollViewController  disablePanGestureRecognizer];
+
+}
+
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self stopHoldKey:nil];
+//    [[AppDelegate instance].windowController.stackScrollViewController  disablePanGestureRecognizer];
+
+}
+        
 # pragma mark - view Effects
 
 -(void)showSubInfo:(NSString *)message timeout:(float)timeout color:(UIColor *)color{
@@ -116,6 +282,51 @@
 }
 - (void)toggleVolume{
     [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE];
+}
+
+-(void)toggleGestureZone:(id)sender{
+    NSString *imageName=@"";
+    if (gestureZoneView.alpha == 0){
+        CGRect frame;
+        frame = [gestureZoneView frame];
+        frame.origin.x = -320;
+        gestureZoneView.frame = frame;
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];     
+        [UIView setAnimationDuration:0.3];
+        frame = [gestureZoneView frame];
+        frame.origin.x = 0;
+        gestureZoneView.frame = frame;
+        frame = [buttonZoneView frame];
+        frame.origin.x = 320;
+        buttonZoneView.frame = frame;
+        gestureZoneView.alpha = 1;
+        buttonZoneView.alpha = 0;
+        [UIView commitAnimations];
+        imageName=@"circle.png";
+    }
+    else{
+        CGRect frame;
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.3];      
+        frame = [gestureZoneView frame];
+        frame.origin.x = -320;
+        gestureZoneView.frame = frame;
+        frame = [buttonZoneView frame];
+        frame.origin.x = 0;
+        buttonZoneView.frame = frame;
+        gestureZoneView.alpha = 0;
+        buttonZoneView.alpha = 1;
+        [UIView commitAnimations];
+        imageName=@"finger.png";
+    }
+    if ([sender isKindOfClass: [UIButton class]]){
+        [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+    }
+    else if ([sender isKindOfClass: [UIBarButtonItem class]]){
+        [sender setImage:[UIImage imageNamed:imageName]];        
+    }
 }
 
 # pragma mark - JSON 
@@ -351,11 +562,31 @@ NSInteger buttonAction;
     buttonAction = 0;
 }
 
+-(void)sendActionNoRepeat{
+//    NSString *action;
+    switch (buttonAction) {
+        case 15: // MENU OSD
+            [self sendXbmcHttp:@"SendKey(0xF04D)"];
+            break;
+        default:
+            break;
+    }
+}
+
 -(void)sendAction{
-    if (self.holdVolumeTimer.timeInterval == 0.5f){
-        [self.holdVolumeTimer invalidate];
-        self.holdVolumeTimer=nil;
-        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];        
+    if (!buttonAction) return;
+    if (self.holdVolumeTimer.timeInterval == 0.5f || self.holdVolumeTimer.timeInterval == 1.5f){
+        
+        if (self.holdVolumeTimer.timeInterval == 1.5f){
+            [self.holdVolumeTimer invalidate];
+            self.holdVolumeTimer=nil;
+            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];  
+        }
+        else{
+            [self.holdVolumeTimer invalidate];
+            self.holdVolumeTimer=nil;
+            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(sendAction) userInfo:nil repeats:YES]; 
+        }
     }
     NSString *action;
     switch (buttonAction) {
@@ -504,7 +735,9 @@ NSInteger buttonAction;
 # pragma  mark - Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (gestureZoneView.alpha == 0){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 -(IBAction)handleButtonLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
@@ -634,6 +867,22 @@ NSInteger buttonAction;
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     
+    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger.png"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    BOOL showGesture=[[userDefaults objectForKey:@"gesture_preference"] boolValue];
+    if (showGesture){
+        gestureSwitchImg = [UIImage imageNamed:@"circle.png"];
+        CGRect frame = [gestureZoneView frame];
+        frame.origin.x = 0;
+        gestureZoneView.frame = frame;
+        frame = [buttonZoneView frame];
+        frame.origin.x = 320;
+        buttonZoneView.frame = frame;
+        gestureZoneView.alpha = 1;
+        buttonZoneView.alpha = 0;
+    }
+
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         volumeSliderView = [[VolumeSliderView alloc] 
                             initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
@@ -646,12 +895,22 @@ NSInteger buttonAction;
         UIBarButtonItem *volumeButtonItem =[[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
         UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
         UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVirtualKeyboard)];
+        UIBarButtonItem *gestureSwitchButtonItem =[[UIBarButtonItem alloc] initWithImage:gestureSwitchImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleGestureZone:)];
         UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
         [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *helpButtonItem = [[UIBarButtonItem alloc] initWithCustomView:helpButton];
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: volumeButtonItem, keyboardButtonItem, helpButtonItem, nil];
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: volumeButtonItem, keyboardButtonItem, gestureSwitchButtonItem, helpButtonItem, nil];
     }
     else {
+        UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        gestureButton.frame = CGRectMake(self.view.bounds.size.width - 152, self.view.bounds.size.height - 43, 56.0, 36.0);
+        [gestureButton setContentMode:UIViewContentModeRight];
+        [gestureButton setShowsTouchWhenHighlighted:YES];
+        [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
+        gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+        [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:gestureButton];
+        
         UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
         keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 100, self.view.bounds.size.height - 43, 56.0, 36.0);
         UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
