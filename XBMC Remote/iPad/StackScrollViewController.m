@@ -97,13 +97,35 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		[panRecognizer setDelaysTouchesEnded:TRUE];
 		[panRecognizer setCancelsTouchesInView:TRUE];
 		[self.view addGestureRecognizer:panRecognizer];
-//		[panRecognizer release];
-		
 		[self.view addSubview:slideViews];
-		
 	}
 	
 	return self;
+}
+
+-(void)disablePanGestureRecognizer:(UIImageView *)fallbackView{
+    if ([self.view.gestureRecognizers count]){
+        [self.view removeGestureRecognizer:[self.view.gestureRecognizers objectAtIndex:0]];
+    }
+    if (![fallbackView.gestureRecognizers count]){
+        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+        [panRecognizer setMaximumNumberOfTouches:1];
+        [panRecognizer setDelaysTouchesBegan:TRUE];
+        [panRecognizer setDelaysTouchesEnded:TRUE];
+        [panRecognizer setCancelsTouchesInView:TRUE];
+        [fallbackView addGestureRecognizer:panRecognizer];
+    }
+}
+
+-(void)enablePanGestureRecognizer{
+    if (![self.view.gestureRecognizers count]){
+        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+		[panRecognizer setMaximumNumberOfTouches:1];
+		[panRecognizer setDelaysTouchesBegan:TRUE];
+		[panRecognizer setDelaysTouchesEnded:TRUE];
+		[panRecognizer setCancelsTouchesInView:TRUE];
+		[self.view addGestureRecognizer:panRecognizer];
+    }
 }
 
 -(void)arrangeVerticalBar {
