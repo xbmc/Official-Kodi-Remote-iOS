@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
+#define ROTATION_TRIGGER 0.015f 
 
 @interface RemoteController ()
 
@@ -90,6 +91,9 @@
     singleTap.cancelsTouchesInView=YES;
     [singleTap requireGestureRecognizerToFail:doubleTap];
     [gestureZoneView addGestureRecognizer:singleTap];
+    
+    UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotate:)];
+	[gestureZoneView addGestureRecognizer:rotation];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -195,33 +199,33 @@
     }
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if ([touches count] == 1){
-        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:1.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
+
+-(void)handleRotate:(id)sender {
+    if([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan) {
+        [self volumeInfo];
     }
-//    CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
-//    CGPoint viewPoint = [backgroundView convertPoint:locationPoint fromView:self.view];
-//    CGPoint viewPoint2 = [gestureZoneView convertPoint:locationPoint fromView:self.view];
-//    if ([backgroundView pointInside:viewPoint withEvent:event] && ![gestureZoneView pointInside:viewPoint2 withEvent:event]) {
-//        NSLog(@"ho toccato il background - Visualizzo messaggio pan view disabled");
-//        [[AppDelegate instance].windowController.stackScrollViewController  enablePanGestureRecognizer];
-//    }
-//    else {
-//        NSLog(@"disabilito pan");
-//        [[AppDelegate instance].windowController.stackScrollViewController  disablePanGestureRecognizer];
-//    }
+	else if([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
+		lastRotation = 0.0;
+		return;
+	}
+	CGFloat rotation = 0.0 - (lastRotation - [(UIRotationGestureRecognizer*)sender rotation]);
+    
+    if (rotation > ROTATION_TRIGGER && audioVolume < 100){
+        audioVolume += 1;
+    }
+    else if (rotation < -ROTATION_TRIGGER && audioVolume > 0){
+        audioVolume -= 1;
+    }
+    [self changeServerVolume];
+	lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     [self stopHoldKey:nil];
-//    [[AppDelegate instance].windowController.stackScrollViewController  disablePanGestureRecognizer];
-
 }
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
     [self stopHoldKey:nil];
-//    [[AppDelegate instance].windowController.stackScrollViewController  disablePanGestureRecognizer];
-
 }
         
 # pragma mark - view Effects
@@ -533,8 +537,43 @@
     NSURL *url = [NSURL  URLWithString:serverHTTP];
     NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];  
     requestANS=nil;
-
 }
+
+-(void)volumeInfo{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC 
+     callMethod:@"Application.GetProperties" 
+     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"volume", nil], @"properties", nil]
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if (error==nil && methodError==nil){
+             if( [NSJSONSerialization isValidJSONObject:methodResult] && [methodResult count]){
+                 audioVolume =  [[methodResult objectForKey:@"volume"] intValue];
+             }
+         }
+     }];
+}
+
+-(void)changeServerVolume{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance]; 
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC 
+     callMethod:@"Application.SetVolume" 
+     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:audioVolume], @"volume", nil]];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    if ([touches count] == 1){
+        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:1.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
+    }
+}
+
 
 #pragma mark - Buttons 
 
@@ -850,6 +889,7 @@ NSInteger buttonAction;
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
+    [self volumeInfo];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

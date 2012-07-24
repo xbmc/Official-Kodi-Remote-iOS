@@ -22,6 +22,8 @@
     IBOutlet UIView *gestureZoneView;
     IBOutlet UIView *buttonZoneView;
     IBOutlet UIImageView *panFallbackImageView;
+    int audioVolume;
+    float lastRotation;
 }
 
 - (IBAction)startVibrate:(id)sender;
