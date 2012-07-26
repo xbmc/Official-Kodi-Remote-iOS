@@ -1440,7 +1440,7 @@ int currentItemID;
             NSString *showAlbumSongs = nil;
             if ([[item objectForKey:@"albumid"] intValue]>0){
                 //                    showAlbumSongs = [NSString stringWithFormat:@"%@ tracks", [item objectForKey:@"album"]];
-                showAlbumSongs = [NSString stringWithFormat:@"Album Tracks", [item objectForKey:@"album"]];
+                showAlbumSongs = @"Album Tracks";
                 [sheetActions addObject:showAlbumSongs];
             }
             int numActions=[sheetActions count];
