@@ -1133,7 +1133,7 @@ NSMutableArray *mainMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                                     @"track", @"method",
+                                     @"label", @"method",
                                      nil],@"sort",
                                     
                                     [NSArray arrayWithObjects:@"season", @"thumbnail", @"tvshowid", @"playcount", nil], @"properties",
