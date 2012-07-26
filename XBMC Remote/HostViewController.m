@@ -26,7 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
-- (void)AnimLabel:(UILabel *)Lab AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimLabel:(UIView *)Lab AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	Lab.alpha = alphavalue;
@@ -35,6 +35,7 @@
 	frame.origin.x = X;
 	Lab.frame = frame;
     [UIView commitAnimations];
+    
 }
 
 - (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
@@ -212,7 +213,7 @@
 }
 
 - (void)handleError:(NSNumber *)error {
-    NSLog(@"An error occurred. Error code = %d", [error intValue]);
+//    NSLog(@"An error occurred. Error code = %d", [error intValue]);
     // Handle error here
 }
 
@@ -339,6 +340,7 @@
 }
 
 - (void)viewDidLoad{
+    
     [super viewDidLoad];
     services = [[NSMutableArray alloc] init];
     netServiceBrowser = [[NSNetServiceBrowser alloc] init];

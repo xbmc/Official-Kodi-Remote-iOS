@@ -28,7 +28,7 @@
     NSNetServiceBrowser *netServiceBrowser;
     NSTimer *timer;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
-    IBOutlet UILabel *noInstances;
+    IBOutlet UIView *noInstances;
     IBOutlet UIButton *startDiscover;
     IBOutlet UITableView *discoveredInstancesTableView;
     IBOutlet UIView *discoveredInstancesView;
