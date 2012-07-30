@@ -103,17 +103,22 @@
 // (int)timeout PARAMETER ADDED BY JOE
 
 - (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams withTimeout:(float)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
-    // Set parameters to NSNull if they weren't provided
-    if (methodParams == nil) {
-        methodParams = [NSNull null];
-    }
     
     // Generate a random Id for the call
     NSInteger aId = arc4random();
     
     // Setup the JSON-RPC call payload
-    NSArray *methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"params", @"id", nil];
-    NSArray *methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, methodParams, [NSNumber numberWithInt:aId], nil];
+    NSArray *methodKeys = nil;
+    NSArray *methodObjs = nil;
+    if (methodParams) {
+        methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"params", @"id", nil];
+        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, methodParams, [NSNumber numberWithInt:aId], nil];
+    }
+    else {
+        methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"id", nil];
+        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, [NSNumber numberWithInt:aId], nil];
+    }
+    // Create call payload
     NSDictionary *methodCall = [NSDictionary dictionaryWithObjects:methodObjs forKeys:methodKeys];
     
     // Attempt to serialize the call payload to a JSON string
@@ -155,7 +160,8 @@
     [connectionInfo setObject:methodName forKey:@"method"];
     [connectionInfo setObject:[NSNumber numberWithInt:aId] forKey:@"id"];
     if (completionHandler != nil) {
-        [connectionInfo setObject:[completionHandler copy] forKey:@"completionHandler"];
+        DSJSONRPCCompletionHandler completionHandlerCopy = [completionHandler copy];
+        [connectionInfo setObject:completionHandlerCopy forKey:@"completionHandler"];
     }
     
     // Perform the JSON-RPC method call
