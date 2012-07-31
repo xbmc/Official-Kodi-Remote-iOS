@@ -1964,6 +1964,17 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation duration:(NSTimeInterval)duration {
+	if (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+        dataList.alpha = 1;
+	}
+	else if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight){
+        dataList.alpha = 0;
+	}
+}
+
+
+
 -(void)dealloc{
     jsonRPC=nil;
     [self.richResults removeAllObjects];
@@ -1983,13 +1994,15 @@ NSIndexPath *selected;
     self.showInfoViewController=nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-//    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-//}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+//    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return interfaceOrientation;
+
 }
+
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+//}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
