@@ -868,6 +868,9 @@ NSIndexPath *selected;
             [action showFromRect:CGRectMake(cell.frame.origin.x + (cell.frame.size.width/2), cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y, 1, 1) inView:self.view animated:YES];
         }    
     }
+    else { // No actions found, revert back to standard play action
+        [self addPlayback:indexPath position:indexPath.row];
+    }
 }
 
 -(IBAction)handleLongPress{
