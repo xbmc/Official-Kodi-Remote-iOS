@@ -391,8 +391,20 @@ int h=0;
             label4.text = @"STUDIO";
             directorLabel.text = [[item objectForKey:@"showtitle"] length] == 0 ? @"-" : [item objectForKey:@"showtitle"];
             genreLabel.text = [[item objectForKey:@"premiered"] length] == 0 ? @"-" : [item objectForKey:@"premiered"];
-            runtimeLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
-            studioLabel.text = [[item objectForKey:@"studio"] length] == 0 ? @"-" : [item objectForKey:@"studio"];
+            if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                runtimeLabel.text=[[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
+                runtimeLabel.text=[runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
+            }
+            else{
+                runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
+            }
+            if ([[item objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                studioLabel.text=[[item objectForKey:@"studio"] componentsJoinedByString:@" / "];
+                studioLabel.text=[studioLabel.text length]==0 ? @"-" : studioLabel.text;
+            }
+            else{
+                studioLabel.text=[[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
+            }
             [self setTvShowsToolbar];
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
@@ -426,20 +438,31 @@ int h=0;
             parentalRatingLabelUp.hidden = YES;
             parentalRatingLabel.hidden = YES;
             
-            frame=label6.frame;
-            frame.origin.y=frame.origin.y-40;
-            label6.frame=frame;
+            frame = label6.frame;
+            frame.origin.y = frame.origin.y-40;
+            label6.frame = frame;
             
-            jewelView.image=[UIImage imageNamed:@"jewel_tv.9.png"];
-            frame=jewelView.frame;
-            frame.size.height=coverHeight;
-            jewelView.frame=frame;
+            jewelView.image = [UIImage imageNamed:@"jewel_tv.9.png"];
+            frame = jewelView.frame;
+            frame.size.height = coverHeight;
+            jewelView.frame = frame;
             
-            
-            directorLabel.text=[[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
-            genreLabel.text=[[item objectForKey:@"firstaired"] length]==0 ? @"-" : [item objectForKey:@"firstaired"];
-            runtimeLabel.text=[[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
-            studioLabel.text=[[item objectForKey:@"writer"] length]==0 ? @"-" : [item objectForKey:@"writer"];
+            directorLabel.text = [[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
+            genreLabel.text = [[item objectForKey:@"firstaired"] length]==0 ? @"-" : [item objectForKey:@"firstaired"];
+            if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                runtimeLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
+                runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
+            }
+            else{
+                runtimeLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
+            }
+            if ([[item objectForKey:@"writer"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                studioLabel.text = [[item objectForKey:@"writer"] componentsJoinedByString:@" / "];
+                studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
+            }
+            else{
+                studioLabel.text=[[item objectForKey:@"writer"] length]==0 ? @"-" : [item objectForKey:@"writer"];
+            }
         }
         scrollViewDefaultHeight=scrollViewDefaultHeight - deltaY - shiftY;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
@@ -491,9 +514,22 @@ int h=0;
         frame.size.width = 256;
         frame.size.height = 256;
         coverView.frame = frame;
-        directorLabel.text = [[item objectForKey:@"artist"] length] == 0 ? @"-" : [item objectForKey:@"artist"];
+        
+        if ([[item objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            directorLabel.text = [[item objectForKey:@"artist"] componentsJoinedByString:@" / "];
+            directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
+        }
+        else{
+            directorLabel.text = [[item objectForKey:@"artist"] length] == 0 ? @"-" : [item objectForKey:@"artist"];
+        }
         genreLabel.text = [[item objectForKey:@"year"] length] == 0 ? @"-" : [item objectForKey:@"year"];
-        runtimeLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
+        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            runtimeLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
+            runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
+        }
+        else{
+            runtimeLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
+        }
         studioLabel.text = [[item objectForKey:@"writer"] length] == 0 ? @"-" : [item objectForKey:@"writer"];
         scrollViewDefaultHeight=scrollViewDefaultHeight - deltaY - shiftY;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
@@ -529,12 +565,30 @@ int h=0;
             int deltaY = -(coverHeight - originalHeight);
             [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
         }
-        directorLabel.text=[[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
-        genreLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
-        runtimeLabel.text=[[item objectForKey:@"runtime"] length]==0 ? @"-" : [item objectForKey:@"runtime"];
-        studioLabel.text=[[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
+        if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            directorLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
+            directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
+        }
+        else{
+            directorLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
+        }
+        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            genreLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
+            genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
+        }
+        else{
+            genreLabel.text = [[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
+        }
+        runtimeLabel.text = [[item objectForKey:@"runtime"] length]==0 ? @"-" : [item objectForKey:@"runtime"];
+        if ([[item objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            studioLabel.text = [[item objectForKey:@"studio"] componentsJoinedByString:@" / "];
+            studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
+        }
+        else{
+            studioLabel.text = [[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
+        }
     }
-    NSString *thumbnailPath=[item objectForKey:@"thumbnail"];
+    NSString *thumbnailPath = [item objectForKey:@"thumbnail"];
     NSURL *imageUrl = [NSURL URLWithString: thumbnailPath];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     UIImage *cachedImage = [manager imageWithURL:imageUrl];

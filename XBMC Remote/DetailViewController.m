@@ -465,7 +465,7 @@ int flagY = 54;
         cell = [nib objectAtIndex:0];
     }
     mainMenu *Menuitem = self.detailItem;
-    NSDictionary *mainFields=[[Menuitem mainFields] objectAtIndex:choosedTab];
+//    NSDictionary *mainFields=[[Menuitem mainFields] objectAtIndex:choosedTab];
 /* future - need to be tweaked: doesn't work on file mode. mainLabel need to be resized */
 //    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[Menuitem.subItem mainMethod] objectAtIndex:choosedTab]];
 //    if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
@@ -499,7 +499,7 @@ int flagY = 54;
     frame.size.width=frame.size.width - (labelPosition - frame.origin.x);
     frame.origin.x=labelPosition; 
     genre.frame=frame;
-    [genre setText:[item objectForKey:[mainFields objectForKey:@"row2"]]];
+    [genre setText:[item objectForKey:@"genre"]];
     
     frame=runtimeyear.frame;
     frame.origin.x=Menuitem.originYearDuration;
@@ -508,6 +508,7 @@ int flagY = 54;
     frame=rating.frame;
     frame.origin.x=Menuitem.originYearDuration;
     rating.frame=frame;
+    
     if ([[Menuitem.showRuntime objectAtIndex:choosedTab] boolValue]){
         NSString *duration=@"";
         if (!Menuitem.noConvertTime){
@@ -577,16 +578,21 @@ int flagY = 54;
             NSString *key=@"null";
             if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
                 key=[mainFields objectForKey:@"row15"];
-            }  
+            }
+            id obj = [item objectForKey:[mainFields objectForKey:@"row6"]];
+            id objKey = [mainFields objectForKey:@"row6"];
+            if ([AppDelegate instance].serverVersion==12 && ![MenuItem.subItem disableFilterParameter]){
+                obj = [NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:[mainFields objectForKey:@"row6"]],[mainFields objectForKey:@"row6"], nil];
+                objKey = @"filter";
+            }
             NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            [item objectForKey:[mainFields objectForKey:@"row6"]],[mainFields objectForKey:@"row6"],
+                                            obj, objKey,
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                             [item objectForKey:[mainFields objectForKey:@"row15"]], key,
                                             nil], @"parameters", [parameters objectForKey:@"label"], @"label", 
                                            nil];
-            
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab=choosedTab;
             MenuItem.subItem.currentWatchMode = watchMode;
@@ -1507,7 +1513,13 @@ NSIndexPath *selected;
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                  }
                  NSString *label=[NSString stringWithFormat:@"%@",[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row1"]]];
-                 NSString *genre=[NSString stringWithFormat:@"%@",[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]]];
+                 NSString *genre=@"";
+                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                     genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] componentsJoinedByString:@" / "]];
+                 }
+                 else{
+                     genre=[NSString stringWithFormat:@"%@",[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]]];
+                 }
                  if ([genre isEqualToString:@"(null)"]) genre=@"";
                  
                  NSString *year=@"";
@@ -1521,7 +1533,10 @@ NSIndexPath *selected;
                          year=[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row3"]];
                  }                     
                  NSString *runtime=@"";
-                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
+                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                     runtime=[NSString stringWithFormat:@"%@",[[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] componentsJoinedByString:@" / "]];
+                 }
+                 else if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
                      runtime=[NSString stringWithFormat:@"%d min",[[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] intValue]];
                  }
                  else{
@@ -1649,9 +1664,17 @@ NSIndexPath *selected;
                  if ([AppDelegate instance].serverVersion > 11){
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                  }
+                 
                  for (int i=0; i<total; i++) {
                      NSString *label=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row1"]]];
-                     NSString *genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]]];
+                     
+                     NSString *genre=@"";
+                     if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                         genre=[NSString stringWithFormat:@"%@",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] componentsJoinedByString:@" / "]];
+                     }
+                     else{
+                         genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]]];
+                     }
                      if ([genre isEqualToString:@"(null)"]) genre=@"";
                      
                      NSString *year=@"";
@@ -1666,19 +1689,20 @@ NSIndexPath *selected;
                      } 
                      year = [NSString stringWithFormat:@"%@", year];
                      if ([year isEqualToString:@"(null)"]) year=@"";
+                     
                      NSString *runtime=@"";
-                     if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
+                     if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                         runtime=[NSString stringWithFormat:@"%@",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] componentsJoinedByString:@" / "]];
+                     }
+                     else if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
                          runtime=[NSString stringWithFormat:@"%d min",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]];
                      }
                      else{
                          runtime=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]]];
                      }
-                     
                      if ([runtime isEqualToString:@"(null)"]) runtime=@"";
                      
-                     
                      NSString *rating=[NSString stringWithFormat:@"%.1f",[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row5"]] floatValue]];
-                     
                      if ([rating isEqualToString:@"0.0"])
                          rating=@"";
                      
@@ -1714,6 +1738,7 @@ NSIndexPath *selected;
                              }
                          }
                      }
+
                      [self.richResults	addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    label, @"label",
                                                    genre, @"genre",
@@ -1754,7 +1779,7 @@ NSIndexPath *selected;
                  [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
                  [dataList reloadData];
                  [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-                 //                NSLog(@"NON E' JSON %@", methodError);
+//                NSLog(@"NON E' JSON %@", methodError);
                  [activityIndicatorView stopAnimating];
                  [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
              }
@@ -1765,7 +1790,7 @@ NSIndexPath *selected;
              [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
              [dataList reloadData];
              [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-             //             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
+//             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
              [activityIndicatorView stopAnimating];
              [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
          }

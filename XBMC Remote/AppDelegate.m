@@ -1122,6 +1122,7 @@ NSMutableArray *mainMenuItems;
                          nil],
                         nil];
     
+    item3.subItem.disableFilterParameter = YES;
     item3.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               [NSArray arrayWithObjects:@"VideoLibrary.GetSeasons", @"method", nil],
                               [NSArray arrayWithObjects:nil],
@@ -1199,7 +1200,7 @@ NSMutableArray *mainMenuItems;
     item3.subItem.widthLabel=252;
 
 //    item3.subItem.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
-
+    item3.subItem.subItem.disableFilterParameter = YES;
     item3.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                                       [NSArray arrayWithObjects:@"VideoLibrary.GetEpisodes", @"method", nil],
                                       [NSArray arrayWithObjects:nil],

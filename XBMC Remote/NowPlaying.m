@@ -560,14 +560,28 @@ int currentItemID;
                                  [self performSelector:@selector(loadCodecView) withObject:nil afterDelay:.5];
                                  NSString *album = [[nowPlayingInfo  objectForKey:@"album"] length] !=0 ?[NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"album"]] : @"" ;
                                  NSString *title = [[nowPlayingInfo  objectForKey:@"title"] length] !=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"title"]] : @"";
-                                 NSString *artist = [[nowPlayingInfo objectForKey:@"artist"] length] !=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo objectForKey:@"artist"]] : @"";
+                                 NSString *artist=@"";
+                                 if ([[nowPlayingInfo objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                                     artist = [[nowPlayingInfo objectForKey:@"artist"] componentsJoinedByString:@" / "];
+                                     artist = [artist length]==0 ? @"" : artist;
+                                 }
+                                 else{
+                                     artist=[[nowPlayingInfo objectForKey:@"artist"] length]==0? @"" :[nowPlayingInfo objectForKey:@"artist"];
+                                 }
                                  if ([album length] == 0 && ((NSNull *)[nowPlayingInfo  objectForKey:@"showtitle"] != [NSNull null]) && [nowPlayingInfo objectForKey:@"season"]>0){
                                      album=[[nowPlayingInfo  objectForKey:@"showtitle"] length] !=0 ? [NSString stringWithFormat:@"%@ - %@x%@", [nowPlayingInfo objectForKey:@"showtitle"], [nowPlayingInfo objectForKey:@"season"], [nowPlayingInfo objectForKey:@"episode"]] : @"";
                                  }
                                  if ([title length] == 0)
                                      title = [[nowPlayingInfo  objectForKey:@"label"] length]!=0? [nowPlayingInfo  objectForKey:@"label"] : @"";
+
                                  if ([artist length] == 0 && ((NSNull *)[nowPlayingInfo  objectForKey:@"studio"] != [NSNull null])){
-                                     artist = [[nowPlayingInfo  objectForKey:@"studio"] length]!=0? [nowPlayingInfo  objectForKey:@"studio"] : @"";
+                                     if ([[nowPlayingInfo  objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                                         artist = [[nowPlayingInfo  objectForKey:@"studio"] componentsJoinedByString:@" / "];
+                                         artist = [artist length]==0 ? @"" : artist;
+                                     }
+                                     else{
+                                         artist = [[nowPlayingInfo  objectForKey:@"studio"] length]!=0? [nowPlayingInfo objectForKey:@"studio"] : @"";
+                                     }
                                  }
                                  albumName.text = album;
                                  songName.text = title;
@@ -871,6 +885,7 @@ int currentItemID;
 }
 
 -(void)playbackInfo{
+    
     if (![AppDelegate instance].serverOnLine) {
         playerID = -1;
         selectedPlayerID = -1;
@@ -1051,8 +1066,15 @@ int currentItemID;
                        for (int i=0; i<total; i++) {
                            NSString *idItem=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"id"]];
                            NSString *label=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"label"]];
-                          
-                           NSString *artist=[[[playlistItems objectAtIndex:i] objectForKey:@"artist"] length]==0? @"" :[[playlistItems objectAtIndex:i] objectForKey:@"artist"];
+                           
+                           NSString *artist=@"";
+                           if ([[[playlistItems objectAtIndex:i] objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                               artist = [[[playlistItems objectAtIndex:i] objectForKey:@"artist"] componentsJoinedByString:@" / "];
+                               artist = [artist length]==0 ? @"-" : artist;
+                           }
+                           else{
+                                artist=[[[playlistItems objectAtIndex:i] objectForKey:@"artist"] length]==0? @"" :[[playlistItems objectAtIndex:i] objectForKey:@"artist"];
+                           }
                            NSString *album=[[[playlistItems objectAtIndex:i] objectForKey:@"album"] length]==0? @"" :[[playlistItems objectAtIndex:i] objectForKey:@"album"];
                            NSString *runtime=[[[playlistItems objectAtIndex:i] objectForKey:@"runtime"] length]==0? @"" : [NSString stringWithFormat:@"%@ min",[[playlistItems objectAtIndex:i] objectForKey:@"runtime"]];
                            
@@ -1540,10 +1562,16 @@ int currentItemID;
         NSString *key=@"null";
         if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
             key=[mainFields objectForKey:@"row15"];
-        }  
+        }
+        id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
+        id objKey = [mainFields objectForKey:@"row6"];
+        if ([AppDelegate instance].serverVersion==12 && ![MenuItem.subItem disableFilterParameter]){
+            obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
+            objKey = @"filter";
+        }
         NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"],
+                                        obj,objKey,
                                         [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
                                         [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                         [item objectForKey:[mainFields objectForKey:@"row15"]], key,
@@ -2023,8 +2051,13 @@ int currentItemID;
 //    [ProgressSlider setMaximumTrackImage:[UIImage imageNamed:@"slider-bg.png"] forState:UIControlStateNormal];
 //    [ProgressSlider setMinimumTrackImage:[UIImage imageNamed:@"fill.png"] forState:UIControlStateNormal];
     [[SDImageCache sharedImageCache] clearMemory];
+    
     playerID = -1;
     selectedPlayerID = -1;
+    lastSelected = -1;
+    storedItemID = -1;
+    storeSelection = nil;
+
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self setIphoneInterface];
     }
