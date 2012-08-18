@@ -480,9 +480,13 @@ int h=0;
         voteLabel.frame=frame;
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
+        
         int shiftY = 40;
-        int coverHeight = 290;
-        scrollViewDefaultHeight = 600;
+        int coverHeight = 380;
+        scrollViewDefaultHeight = 700;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            coverHeight = 290;
+        }
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:40];
         jewelView.hidden = NO;
         int deltaY = jewelView.frame.size.height - coverHeight;
@@ -510,10 +514,17 @@ int h=0;
         jewelView.frame = frame;
         
         frame = coverView.frame;
-        frame.origin.x = 42;
-        frame.origin.y = 22;
-        frame.size.width = 256;
-        frame.size.height = 256;
+        frame.origin.x = 5;
+        frame.origin.y = 24;
+        frame.size.width = 336;
+        frame.size.height = 336;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            frame.origin.x = 42;
+            frame.origin.y = 22;
+            frame.size.width = 256;
+            frame.size.height = 256;
+
+        }
         coverView.frame = frame;
         
         if ([[item objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")]){
