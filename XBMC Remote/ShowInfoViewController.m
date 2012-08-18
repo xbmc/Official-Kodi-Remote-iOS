@@ -289,6 +289,7 @@ int h=0;
 -(void)createInfo{
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSDictionary *item=self.detailItem;
+    NSString *placeHolderImage = @"coverbox_back.png";
 //    NSLog(@"ITEM %@", item);
     int scrollViewDefaultHeight = 1660;
     int castFontSize = 14;
@@ -603,10 +604,10 @@ int h=0;
     }
     else{
         if (enableJewel){
-            [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@""]];
+            [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
         }
         else{
-            [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:@""]];
+            [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
             jewelView.hidden = NO;
         }
     }

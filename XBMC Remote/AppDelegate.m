@@ -134,7 +134,10 @@ NSMutableArray *mainMenuItems;
     
     item1.mainMethod=[NSMutableArray arrayWithObjects:
                       
-                      [NSArray arrayWithObjects:@"AudioLibrary.GetAlbums", @"method", nil],
+                      [NSArray arrayWithObjects:
+                       @"AudioLibrary.GetAlbums", @"method",
+                       @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
+                       nil],
                       
                       [NSArray arrayWithObjects:@"AudioLibrary.GetArtists", @"method", nil],
                       
@@ -142,7 +145,10 @@ NSMutableArray *mainMenuItems;
                       
                       [NSArray arrayWithObjects:@"Files.GetSources", @"method", nil],
                       
-                      [NSArray arrayWithObjects:@"AudioLibrary.GetRecentlyAddedAlbums", @"method", nil],
+                      [NSArray arrayWithObjects:
+                       @"AudioLibrary.GetRecentlyAddedAlbums", @"method",
+                       @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
+                       nil],
                       
                       [NSArray arrayWithObjects:@"AudioLibrary.GetRecentlyAddedSongs", @"method", nil],
                       
@@ -154,6 +160,7 @@ NSMutableArray *mainMenuItems;
 
                       nil];
     item1.mainParameters=[NSArray arrayWithObjects:
+                          
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -161,9 +168,14 @@ NSMutableArray *mainMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
                              nil],@"sort",
-                            [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",//@"genre", @"description", @"albumlabel", @"fanart",
-                            nil], @"parameters", @"Albums", @"label", @"Album", @"wikitype", nil], 
-
+                            [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
+                            nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
+                             nil], @"properties",
+                            nil], @"extra_info_parameters",
+                           nil],
+                          
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -199,10 +211,15 @@ NSMutableArray *mainMenuItems;
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                             @"none", @"method",
+                             @"label", @"method",
                              nil],@"sort",
-                            [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",//@"genre", @"description", @"albumlabel", @"fanart",
-                            nil], @"parameters", @"Added albums", @"label", @"Album", @"wikitype", @"Recently added albums", @"morelabel", nil],
+                            [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
+                            nil],  @"parameters", @"Added albums", @"label", @"Album", @"wikitype", @"Recently added albums", @"morelabel",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
+                             nil], @"properties",
+                            nil], @"extra_info_parameters",
+                           nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -267,6 +284,10 @@ NSMutableArray *mainMenuItems;
                        @"albumid",@"row8",
                        @"albumid", @"row9",
                        @"artist", @"row10",
+                       @"genre",@"row11",
+                       @"description",@"row12",
+                       @"albumlabel",@"row13",
+                       @"albumdetails",@"itemid_extra_info",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -320,6 +341,10 @@ NSMutableArray *mainMenuItems;
                        @"albumid",@"row8",
                        @"albumid", @"row9",
                        @"artist", @"row10",
+                       @"genre",@"row11",
+                       @"description",@"row12",
+                       @"albumlabel",@"row13",
+                       @"albumdetails",@"itemid_extra_info",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -390,11 +415,11 @@ NSMutableArray *mainMenuItems;
     item1.defaultThumb=@"nocover_music.png";
     
     item1.sheetActions=[NSArray arrayWithObjects:
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Search Wikipedia", nil],
+                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play",  @"View Details", @"Search Wikipedia", nil],
                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Search Wikipedia", @"Search last.fm charts", nil],
                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
                         [NSArray arrayWithObjects:nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Search Wikipedia", nil],
+                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"View Details", @"Search Wikipedia", nil],
                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
 //                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Search Wikipedia", nil],
 //                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
@@ -405,9 +430,15 @@ NSMutableArray *mainMenuItems;
                               
                               [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil],
                               
-                              [NSArray arrayWithObjects:@"AudioLibrary.GetAlbums", @"method", nil],
+                              [NSArray arrayWithObjects:
+                               @"AudioLibrary.GetAlbums", @"method",
+                               @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
+                               nil],
                               
-                              [NSArray arrayWithObjects:@"AudioLibrary.GetAlbums", @"method", nil],
+                              [NSArray arrayWithObjects:
+                               @"AudioLibrary.GetAlbums", @"method",
+                               @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
+                               nil],
                               
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               
@@ -438,20 +469,30 @@ NSMutableArray *mainMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                                     @"year", @"method",
+                                     @"label", @"method",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", nil], @"properties",
-                                    nil], @"parameters", @"Albums", @"label", nil],
+                                    [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
+                                    nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
+                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
+                                     nil], @"properties",
+                                    nil], @"extra_info_parameters",
+                                   nil],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                                     @"year", @"method",
+                                     @"label", @"method",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", nil], @"properties",
-                                    nil], @"parameters", @"Albums", @"label", nil],
+                                    [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
+                                    nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
+                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
+                                     nil], @"properties",
+                                    nil], @"extra_info_parameters",
+                                   nil],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -513,13 +554,17 @@ NSMutableArray *mainMenuItems;
                                @"label", @"row1",
                                @"artist", @"row2",
                                @"year", @"row3",
-                               @"runtime", @"row4",
+                               @"fanart", @"row4",
                                @"rating",@"row5",
                                @"albumid",@"row6",
                                [NSNumber numberWithInt:0], @"playlistid",
                                @"albumid",@"row8",
                                @"albumid", @"row9",
                                @"artist", @"row10",
+                               @"genre",@"row11",
+                               @"description",@"row12",
+                               @"albumlabel",@"row13",
+                               @"albumdetails",@"itemid_extra_info",
                                nil],
                               
                               [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -527,13 +572,17 @@ NSMutableArray *mainMenuItems;
                                @"label", @"row1",
                                @"artist", @"row2",
                                @"year", @"row3",
-                               @"runtime", @"row4",
+                               @"fanart", @"row4",
                                @"rating",@"row5",
                                @"albumid",@"row6",
                                [NSNumber numberWithInt:0], @"playlistid",
                                @"albumid",@"row8",
                                @"albumid", @"row9",
                                @"artist", @"row10",
+                               @"genre",@"row11",
+                               @"description",@"row12",
+                               @"albumlabel",@"row13",
+                               @"albumdetails",@"itemid_extra_info",
                                nil],
                               
                               [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -596,8 +645,8 @@ NSMutableArray *mainMenuItems;
     item1.subItem.defaultThumb=@"nocover_music.png";
     item1.subItem.sheetActions=[NSArray arrayWithObjects:
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil], //@"Stream to iPhone",
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
+                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"View Details", @"Search Wikipedia", nil],
+                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"View Details", @"Search Wikipedia", nil],
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],

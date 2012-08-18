@@ -591,8 +591,10 @@ int flagY = 54;
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                             [item objectForKey:[mainFields objectForKey:@"row15"]], key,
-                                            nil], @"parameters", [parameters objectForKey:@"label"], @"label", 
+                                            nil], @"parameters", [parameters objectForKey:@"label"], @"label",
+                                           [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            nil];
+
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab=choosedTab;
             MenuItem.subItem.currentWatchMode = watchMode;
