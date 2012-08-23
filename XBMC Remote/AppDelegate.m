@@ -211,7 +211,7 @@ NSMutableArray *mainMenuItems;
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                             @"label", @"method",
+                             @"none", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
                             nil],  @"parameters", @"Added albums", @"label", @"Album", @"wikitype", @"Recently added albums", @"morelabel",
@@ -469,7 +469,7 @@ NSMutableArray *mainMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                                     @"label", @"method",
+                                     @"year", @"method",
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
                                     nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
@@ -484,7 +484,7 @@ NSMutableArray *mainMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                                     @"label", @"method",
+                                     @"year", @"method",
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
                                     nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
