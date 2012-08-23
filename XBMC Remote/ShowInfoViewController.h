@@ -11,7 +11,7 @@
 //
 @class NowPlaying;
 
-@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate>{
+@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>{
     IBOutlet UIImageView *coverView;
     IBOutlet UIImageView *starsView;
     IBOutlet UILabel *voteLabel;
@@ -47,6 +47,8 @@
     BOOL alreadyPush;
     
     UIToolbar *toolbar;
+    NSMutableArray *sheetActions;
+    UIBarButtonItem *actionSheetButtonItemIpad;
 
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

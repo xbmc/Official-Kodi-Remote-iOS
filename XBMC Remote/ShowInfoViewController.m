@@ -57,25 +57,12 @@ int count=0;
         viewTitle.textColor = [UIColor whiteColor];
         viewTitle.text = [item objectForKey:@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
+        sheetActions = [[NSMutableArray alloc] initWithObjects:@"Queue after current", @"Queue", @"Play", nil];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-                        
             toolbar = [UIToolbar new];
-            
             toolbar.barStyle = UIBarStyleBlackTranslucent;
-//            [toolbar setBackgroundImage:[UIImage imageNamed:@"st_background.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-            
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-
-            UIBarButtonItem *queueItem = [[UIBarButtonItem alloc] initWithTitle:@"Queue"
-                                                                         style:UIBarButtonItemStyleBordered	
-                                                                        target:self
-                                                                        action:@selector(addQueue)];
-            
-            
-            UIBarButtonItem *playItem = [[UIBarButtonItem alloc] initWithTitle:@"Play"
-                                                                          style:UIBarButtonItemStyleBordered
-                                                                         target:self
-                                                                         action:@selector(addPlayback)];
+            actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
             viewTitle.numberOfLines=1;
             viewTitle.font = [UIFont systemFontOfSize:22];
             viewTitle.minimumFontSize=6;
@@ -94,8 +81,7 @@ int count=0;
             NSArray *items = [NSArray arrayWithObjects: 
                               title,
                               spacer,
-                              queueItem,
-                              playItem,
+                              actionSheetButtonItemIpad,
                               nil];
             toolbar.items = items;
             
@@ -128,27 +114,59 @@ int count=0;
             
             self.navigationItem.titleView = viewTitle;
             self.navigationItem.title = [item objectForKey:@"label"];
-            UIBarButtonItem *playbackButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(addPlayback)];
-            UIImage* queueImg = [UIImage imageNamed:@"button_playlist.png"];
-            UIBarButtonItem *queueButtonItem =[[UIBarButtonItem alloc] initWithImage:queueImg style:UIBarButtonItemStyleBordered target:self action:@selector(addQueue)];
-            
-            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: playbackButtonItem, queueButtonItem, nil];
-            
+            UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
+            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: actionSheetButtonItem, nil];            
             UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
             rightSwipe.numberOfTouchesRequired = 1;
             rightSwipe.cancelsTouchesInView=NO;
             rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
             [self.view addGestureRecognizer:rightSwipe];
-
         }
-
     }
     UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
     leftSwipe.numberOfTouchesRequired = 1;
     leftSwipe.cancelsTouchesInView=NO;
     leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:leftSwipe];
-    
+}
+
+#pragma mark - ActionSheet
+
+-(void)showActionSheet {
+    int numActions=[sheetActions count];
+    if (numActions){
+        NSDictionary *item=self.detailItem;
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:[item objectForKey:@"label"]
+                                                            delegate:self
+                                                   cancelButtonTitle:nil
+                                              destructiveButtonTitle:nil
+                                                   otherButtonTitles:nil];
+        for (int i = 0; i < numActions; i++) {
+            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+        }
+        action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            [action showInView:self.view];
+        }
+        else{
+            [action showFromBarButtonItem:actionSheetButtonItemIpad animated:YES];
+        }
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex!=actionSheet.cancelButtonIndex){
+        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue after current"]){
+            [self addQueueAfterCurrent:YES];
+
+        }
+        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue"]){
+            [self addQueueAfterCurrent:NO];
+        }
+        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"]){
+            [self addPlayback];
+        }
+    }
 }
 
 -(IBAction)scrollDown:(id)sender{
@@ -507,8 +525,8 @@ int h=0;
         CGRect frame = label6.frame;
         frame.origin.y = frame.origin.y-40;
         label6.frame = frame;
-        
-        jewelView.image = [UIImage imageNamed:@"jewel_cd.9.png"];
+        if (enableJewel)
+            jewelView.image = [UIImage imageNamed:@"jewel_cd.9.png"];
         frame = jewelView.frame;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
@@ -768,19 +786,60 @@ int h=0;
 
 # pragma  mark - JSON Data
 
--(void)addQueue{
+-(void)addQueueAfterCurrent:(BOOL)afterCurrent{
     self.navigationItem.rightBarButtonItem.enabled=NO;
-    //toolbar.
-    [activityIndicatorView startAnimating];
     NSDictionary *item = self.detailItem;
-    [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[item objectForKey:@"family"]], [item objectForKey:@"family"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        
-        [activityIndicatorView stopAnimating];
-        if (error==nil && methodError==nil){
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
-        }
-        self.navigationItem.rightBarButtonItem.enabled=YES;
-    }];
+    if (afterCurrent){
+        [activityIndicatorView startAnimating];
+        [jsonRPC
+         callMethod:@"Player.GetProperties"
+         withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                         [item objectForKey:@"playlistid"], @"playerid",
+                         [[NSArray alloc] initWithObjects:@"percentage", @"time", @"totaltime", @"partymode", @"position", nil], @"properties",
+                         nil]
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+             if (error==nil && methodError==nil){
+                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
+                     if ([methodResult count]){
+                         [activityIndicatorView stopAnimating];
+                         int newPos = [[methodResult objectForKey:@"position"] intValue] + 1;
+                         NSString *action2=@"Playlist.Insert";
+                         NSDictionary *params2=[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [item objectForKey:@"playlistid"], @"playlistid",
+                                                [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[item objectForKey:@"family"]], [item objectForKey:@"family"], nil],@"item",
+                                                [NSNumber numberWithInt:newPos],@"position",
+                                                nil];
+                         [jsonRPC callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                             if (error==nil && methodError==nil){
+                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+                             }
+                             
+                         }];
+                         self.navigationItem.rightBarButtonItem.enabled=YES;
+                     }
+                     else{
+                         [self addQueueAfterCurrent:NO];
+                     }
+                 }
+                 else{
+                     [self addQueueAfterCurrent:NO];
+                 }
+             }
+             else {
+                 [self addQueueAfterCurrent:NO];
+             }
+         }];
+    }
+    else {
+        [activityIndicatorView startAnimating];
+        [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[item objectForKey:@"family"]], [item objectForKey:@"family"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+            [activityIndicatorView stopAnimating];
+            if (error==nil && methodError==nil){
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+            }
+            self.navigationItem.rightBarButtonItem.enabled=YES;
+        }];
+    }
 }
 
 -(void)addPlayback{
