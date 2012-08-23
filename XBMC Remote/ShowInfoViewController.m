@@ -63,6 +63,7 @@ int count=0;
             toolbar.barStyle = UIBarStyleBlackTranslucent;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
+            actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
             viewTitle.numberOfLines=1;
             viewTitle.font = [UIFont systemFontOfSize:22];
             viewTitle.minimumFontSize=6;
@@ -134,22 +135,22 @@ int count=0;
 
 -(void)showActionSheet {
     int numActions=[sheetActions count];
-    if (numActions){
+    if (numActions && !actionSheetView.window){
         NSDictionary *item=self.detailItem;
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:[item objectForKey:@"label"]
+        actionSheetView = [[UIActionSheet alloc] initWithTitle:[item objectForKey:@"label"]
                                                             delegate:self
                                                    cancelButtonTitle:nil
                                               destructiveButtonTitle:nil
                                                    otherButtonTitles:nil];
         for (int i = 0; i < numActions; i++) {
-            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+            [actionSheetView addButtonWithTitle:[sheetActions objectAtIndex:i]];
         }
-        action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+        actionSheetView.cancelButtonIndex = [actionSheetView addButtonWithTitle:@"Cancel"];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            [action showInView:self.view];
+            [actionSheetView showInView:self.view];
         }
         else{
-            [action showFromBarButtonItem:actionSheetButtonItemIpad animated:YES];
+            [actionSheetView showFromBarButtonItem:actionSheetButtonItemIpad animated:YES];
         }
     }
 }

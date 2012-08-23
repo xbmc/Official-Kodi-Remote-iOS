@@ -49,6 +49,7 @@
     UIToolbar *toolbar;
     NSMutableArray *sheetActions;
     UIBarButtonItem *actionSheetButtonItemIpad;
+    UIActionSheet *actionSheetView;
 
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
