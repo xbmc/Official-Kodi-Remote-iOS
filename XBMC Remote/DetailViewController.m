@@ -1615,6 +1615,8 @@ NSIndexPath *selected;
              }
          }
          else {
+             UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Details not found" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+             [alertView show];
              [queuing stopAnimating];
          }
      }];

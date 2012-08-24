@@ -599,7 +599,7 @@ int h=0;
             genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
         }
         else{
-            genreLabel.text = [[item objectForKey:@"style"] length] == 0 ? @"" : [item objectForKey:@"style"];
+            genreLabel.text = [[item objectForKey:@"style"] length] == 0 ? @"-" : [item objectForKey:@"style"];
         }
         genreLabel.numberOfLines = 0;
         CGSize maximunLabelSize= CGSizeMake(pageSize, 9999);
