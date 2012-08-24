@@ -139,7 +139,9 @@ NSMutableArray *mainMenuItems;
                        @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
                        nil],
                       
-                      [NSArray arrayWithObjects:@"AudioLibrary.GetArtists", @"method", nil],
+                      [NSArray arrayWithObjects:@"AudioLibrary.GetArtists", @"method",
+                       @"AudioLibrary.GetArtistDetails", @"extra_info_method",
+                       nil],
                       
                       [NSArray arrayWithObjects:@"AudioLibrary.GetGenres", @"method", nil],
                       
@@ -184,8 +186,11 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", @"genre", nil], @"properties",
-                            nil], @"parameters", @"Artists", @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype",nil], 
-                          
+                            nil], @"parameters", @"Artists", @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype", [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",
+                             nil], @"properties",
+                            nil], @"extra_info_parameters",
+                           nil],
+                       
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -294,13 +299,24 @@ NSMutableArray *mainMenuItems;
                        @"artists",@"itemid",
                        @"label", @"row1",
                        @"genre", @"row2",
-                       @"year", @"row3",
-                       @"runtime", @"row4",
-                       @"rating",@"row5",
+                       @"yearsactive", @"row3",
+                       @"genre", @"row4",
+                       @"disbanded",@"row5",
                        @"artistid",@"row6",
                        [NSNumber numberWithInt:0], @"playlistid",
                        @"artistid",@"row8",
                        @"artistid", @"row9",
+                       @"formed", @"row10",
+                       @"artistid",@"row11",
+                       @"description",@"row12",
+                       @"instrument",@"row13",
+                       @"style", @"row14",
+                       @"mood", @"row15",
+                       @"born", @"row16",
+                       @"formed", @"row17",
+                       @"died", @"row18",
+                       @"artistdetails",@"itemid_extra_info",
+//@"", @"", @"", @"", @"", , @"", @"", , @"", @"", @"",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -416,7 +432,7 @@ NSMutableArray *mainMenuItems;
     
     item1.sheetActions=[NSArray arrayWithObjects:
                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play",  @"View Details", @"Search Wikipedia", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Search Wikipedia", @"Search last.fm charts", nil],
+                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play",  @"View Details", @"Search Wikipedia", @"Search last.fm charts", nil],
                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
                         [NSArray arrayWithObjects:nil],
                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"View Details", @"Search Wikipedia", nil],

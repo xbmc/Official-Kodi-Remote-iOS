@@ -315,7 +315,7 @@ int h=0;
     int size = 0;
     int castWidth = 50;
     int castHeight = 50;
-    int pageSize = 320;
+    int pageSize = 297;
     bool enableJewel = [self enableJewelCases];
     if (!enableJewel) jewelView.image = nil;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -323,7 +323,7 @@ int h=0;
         size = 6;
         castWidth = 75;
         castHeight = 75;
-        pageSize = 477;
+        pageSize = 447;
         [starsView setFrame: 
          CGRectMake(
                     starsView.frame.origin.x, 
@@ -545,7 +545,6 @@ int h=0;
 
         }
         coverView.frame = frame;
-        
         if ([[item objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")]){
             directorLabel.text = [[item objectForKey:@"artist"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
@@ -561,18 +560,75 @@ int h=0;
         else{
             runtimeLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
         }
-        studioLabel.text = [[item objectForKey:@"writer"] length] == 0 ? @"-" : [item objectForKey:@"writer"];
+        studioLabel.text = [[item objectForKey:@"albumlabel"] length] == 0 ? @"-" : [item objectForKey:@"albumlabel"];
         scrollViewDefaultHeight=scrollViewDefaultHeight - deltaY - shiftY;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
+    }
+    else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        enableJewel = NO;
+        jewelView.image = nil;
+        int shiftY = 40;
+        [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:shiftY];
+        [self moveLabel:[NSArray arrayWithObjects:label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:40];
+        label1.text = @"GENRE";
+        label2.text = @"STYLE";
+        label3.text = @"";
+        label4.text = @"BORN / FORMED";
+        label5.text = @"DESCRIPTION";
+        label6.text = @"";
+        parentalRatingLabelUp.hidden = YES;
+        parentalRatingLabel.hidden = YES;
+        runtimeLabel.hidden = YES;
+        label3.hidden = YES;
+        CGRect frame = label6.frame;
+        frame.origin.y = frame.origin.y-40;
+        label6.frame = frame;
+        starsView.hidden = YES;
+        voteLabel.hidden = YES;
+        numVotesLabel.hidden = YES;
+        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            directorLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
+            directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
+        }
+        else{
+            directorLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
+        }
         
-//        frame=starsView.frame;
-//        frame.origin.x=frame.origin.x+29;
-//        starsView.frame=frame;
-//        
-//        frame=voteLabel.frame;
-//        frame.origin.x=frame.origin.x+29;
-//        voteLabel.frame=frame;
+        if ([[item objectForKey:@"style"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            genreLabel.text = [[item objectForKey:@"style"] componentsJoinedByString:@" / "];
+            genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
+        }
+        else{
+            genreLabel.text = [[item objectForKey:@"style"] length] == 0 ? @"" : [item objectForKey:@"style"];
+        }
+        genreLabel.numberOfLines = 0;
+        CGSize maximunLabelSize= CGSizeMake(pageSize, 9999);
+        CGSize expectedLabelSize = [genreLabel.text
+                                    sizeWithFont:genreLabel.font
+                                    constrainedToSize:maximunLabelSize
+                                    lineBreakMode:genreLabel.lineBreakMode];
         
+        //adjust the label the the new height.
+        CGRect newFrame = genreLabel.frame;
+        newFrame.size.height = expectedLabelSize.height + size;
+        genreLabel.frame = newFrame;
+        [self moveLabel:[NSArray arrayWithObjects:label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(expectedLabelSize.height - 20)];
+        
+        if ([[item objectForKey:@"born"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            studioLabel.text = [[item objectForKey:@"born"] componentsJoinedByString:@" / "];
+            studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
+        }
+        else{
+            studioLabel.text = [[item objectForKey:@"born"] length] == 0 ? @"-" : [item objectForKey:@"born"];
+        }
+        
+        if ([[item objectForKey:@"formed"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            studioLabel.text = [[item objectForKey:@"formed"] componentsJoinedByString:@" / "];
+            studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
+        }
+        else{
+            studioLabel.text = [[item objectForKey:@"formed"] length] == 0 ? studioLabel.text : [item objectForKey:@"formed"];
+        }        
     }
     else {
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -641,7 +697,7 @@ int h=0;
             jewelView.hidden = NO;
         }
     }
-    NSString *fanartPath=[item objectForKey:@"fanart"];    
+    NSString *fanartPath=[item objectForKey:@"fanart"];
     NSURL *fanartUrl = [NSURL URLWithString: fanartPath];
     UIImage *cachedFanart = [manager imageWithURL:fanartUrl];
     if (cachedFanart){
@@ -662,12 +718,12 @@ int h=0;
     CGRect frame=summaryLabel.frame;
     summaryLabel.frame=frame;
     summaryLabel.text=[[item objectForKey:@"plot"] length]==0 ? @"-" : [item objectForKey:@"plot"];
-    if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
+    if ([[item objectForKey:@"family"] isEqualToString:@"albumid"] || [[item objectForKey:@"family"] isEqualToString:@"artistid"]){
         summaryLabel.text=[[item objectForKey:@"description"] length]==0 ? @"-" : [item objectForKey:@"description"];
     }
     CGSize maximunLabelSize= CGSizeMake(pageSize, 9999);
     CGSize expectedLabelSize = [summaryLabel.text 
-                                sizeWithFont:summaryLabel.font 
+                                sizeWithFont:summaryLabel.font
                                 constrainedToSize:maximunLabelSize 
                                 lineBreakMode:summaryLabel.lineBreakMode]; 
     
@@ -695,7 +751,7 @@ int h=0;
     label6.frame = frame;
     int startY = label6.frame.origin.y + 20 + size;
     
-    if (![[item objectForKey:@"family"] isEqualToString:@"albumid"]){// TRANSFORM IN SHOW_CAST BOOLEAN
+    if (![[item objectForKey:@"family"] isEqualToString:@"albumid"] && ![[item objectForKey:@"family"] isEqualToString:@"artistid"]){// TRANSFORM IN SHOW_CAST BOOLEAN
         NSArray *cast = [item objectForKey:@"cast"];
         GlobalData *obj = [GlobalData getInstance]; 
         NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
