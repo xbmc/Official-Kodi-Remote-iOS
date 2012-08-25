@@ -90,6 +90,7 @@
     NSString *repeatStatus;
     BOOL updateProgressBar;
     int globalSeconds;
+    NSString *lastThumbnail;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;

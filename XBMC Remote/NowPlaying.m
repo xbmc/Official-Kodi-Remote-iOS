@@ -454,6 +454,7 @@ int currentItemID;
 //    [self animCursor:startx];
 //    [self resizeBar:0];
     thumbnailView.image = nil;
+    lastThumbnail = @"";
     if (![self enableJewelCases]){
         jewelView.image = nil;
     }
@@ -596,60 +597,65 @@ int currentItemID;
                                  NSURL *imageUrl = [NSURL URLWithString: stringURL];
                                  UIImage *cachedImage = [manager imageWithURL:imageUrl];
                                  UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
-                                 if (cachedImage){
-                                     if (enableJewel){
-                                         thumbnailView.image=cachedImage;
-                                         buttonImage=[self resizeImage:cachedImage width:76 height:66 padding:10];
-                                         
+                                 if (![lastThumbnail isEqualToString:stringURL]){
+                                     if (cachedImage){
+                                         if (enableJewel){
+                                             thumbnailView.image=cachedImage;
+                                             buttonImage=[self resizeImage:cachedImage width:76 height:66 padding:10];
+                                             
+                                         }
+                                         else{
+                                             jewelView.image=[self imageWithBorderFromImage:cachedImage];
+                                             buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                                         }
                                      }
                                      else{
-                                         jewelView.image=[self imageWithBorderFromImage:cachedImage];
-                                         buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                                         if (enableJewel){
+                                             [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
+                                         }
+                                         else{
+                                             /* DISABLED due to issues: success comes also from others thread */
+                                             /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                                              [jewelView
+                                              setImageWithURL:[NSURL URLWithString:stringURL]
+                                              placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                              success:^(UIImage *image) {
+                                              jewelView.image = [self imageWithBorderFromImage:image];
+                                              }
+                                              failure:^(NSError *error) {
+                                              }
+                                              ];
+                                              }
+                                              else{
+                                              [jewelView
+                                              setImageWithURL:[NSURL URLWithString:stringURL]
+                                              placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                              ];
+                                              } */
+                                             /* */
+                                             [jewelView
+                                              setImageWithURL:[NSURL URLWithString:stringURL]
+                                              placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                              ];
+                                         }
                                      }
+                                     if (nowPlayingHidden || startFlipDemo){
+                                         [playlistButton setImage:buttonImage forState:UIControlStateNormal];
+                                         [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
+                                         [playlistButton setImage:buttonImage forState:UIControlStateSelected];
+                                         if (startFlipDemo){
+                                             [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+                                             startFlipDemo = NO;
+                                         }
+                                     }
+                                     
                                  }
-                                 else{
-                                     if (enableJewel){
-                                         [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
-                                     }
-                                     else{
-                                         /* DISABLED due to issues: success comes also from others thread */
-                                         /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                                          [jewelView 
-                                          setImageWithURL:[NSURL URLWithString:stringURL] 
-                                          placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
-                                          success:^(UIImage *image) { 
-                                          jewelView.image = [self imageWithBorderFromImage:image];
-                                          } 
-                                          failure:^(NSError *error) {
-                                          }
-                                          ];
-                                          }
-                                          else{ 
-                                          [jewelView 
-                                          setImageWithURL:[NSURL URLWithString:stringURL] 
-                                          placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
-                                          ];
-                                          } */
-                                         /* */
-                                         [jewelView 
-                                          setImageWithURL:[NSURL URLWithString:stringURL] 
-                                          placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] 
-                                          ];
-                                     }
-                                 }
-                                 if (nowPlayingHidden || startFlipDemo){
-                                     [playlistButton setImage:buttonImage forState:UIControlStateNormal];
-                                     [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
-                                     [playlistButton setImage:buttonImage forState:UIControlStateSelected];
-                                     if (startFlipDemo){
-                                         [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
-                                         startFlipDemo = NO;
-                                     }
-                                 }
+                                 lastThumbnail = stringURL;
                              }
                          }
                          else {
                              storedItemID=-1;
+                             lastThumbnail = @"";
                              if (enableJewel){
                                  thumbnailView.image=[UIImage imageNamed:@"coverbox_back.png"];
                              }
@@ -2103,6 +2109,7 @@ int currentItemID;
     lastSelected = -1;
     storedItemID = -1;
     storeSelection = nil;
+    lastThumbnail = @"";
     [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     //[self createPlaylist:YES animTableView:NO];
