@@ -565,6 +565,7 @@ int h=0;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        placeHolderImage = @"coverbox_back_artists.png";
         enableJewel = NO;
         jewelView.image = nil;
         int shiftY = 40;
@@ -631,6 +632,7 @@ int h=0;
         }        
     }
     else {
+        placeHolderImage = @"coverbox_back_movies.png";
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             int originalHeight = jewelView.frame.size.height;
             int coverHeight = 560;
