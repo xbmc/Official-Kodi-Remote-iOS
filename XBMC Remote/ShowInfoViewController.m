@@ -319,6 +319,7 @@ int h=0;
     bool enableJewel = [self enableJewelCases];
     if (!enableJewel) jewelView.image = nil;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        placeHolderImage = @"coverbox_back@2x.png";
         castFontSize = 16;
         size = 6;
         castWidth = 75;
@@ -566,6 +567,9 @@ int h=0;
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
         placeHolderImage = @"coverbox_back_artists.png";
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            placeHolderImage = @"coverbox_back_artists@2x.png";
+        }
         enableJewel = NO;
         jewelView.image = nil;
         int shiftY = 40;
@@ -634,6 +638,7 @@ int h=0;
     else {
         placeHolderImage = @"coverbox_back_movies.png";
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            placeHolderImage = @"coverbox_back_movies@2x.png";
             int originalHeight = jewelView.frame.size.height;
             int coverHeight = 560;
             int coverWidth = 477;
