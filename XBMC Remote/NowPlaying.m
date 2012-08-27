@@ -910,14 +910,15 @@ int currentItemID;
         [jsonRPC 
          callMethod:@"XBMC.GetInfoBooleans" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         [[NSArray alloc] initWithObjects:@"Window.IsActive(virtualkeyboard)", nil], @"booleans",
+                         [[NSArray alloc] initWithObjects:@"Window.IsActive(virtualkeyboard)", @"Window.IsActive(selectdialog)",nil], @"booleans",
                          nil] 
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              
              if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
-                 if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(virtualkeyboard)"] != [NSNull null])){
+                 if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(virtualkeyboard)"] != [NSNull null]) && ((NSNull *)[methodResult objectForKey:@"Window.IsActive(selectdialog)"] != [NSNull null])){
                      NSNumber *virtualKeyboardActive = [methodResult objectForKey:@"Window.IsActive(virtualkeyboard)"];
-                     if ([virtualKeyboardActive intValue] == 1){
+                     NSNumber *selectDialogActive = [methodResult objectForKey:@"Window.IsActive(selectdialog)"];
+                     if ([virtualKeyboardActive intValue] == 1 || [selectDialogActive intValue] == 1){
                          return;
                      }
                      else{
