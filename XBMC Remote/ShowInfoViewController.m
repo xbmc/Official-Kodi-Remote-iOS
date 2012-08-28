@@ -789,7 +789,8 @@ int h=0;
             [actorName setBackgroundColor:[UIColor clearColor]];
             [actorName setTextColor:[UIColor whiteColor]];
             [actorName setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
-
+            [actorName setShadowColor:[UIColor blackColor]];
+            [actorName setShadowOffset:CGSizeMake(1, 1)];
             [scrollView addSubview:actorName];
             
             UILabel *actorRole = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, startY+20, 320 - (castWidth + offsetX + 20) , 16 + size)];
@@ -801,6 +802,8 @@ int h=0;
             [actorRole setFont:[UIFont systemFontOfSize:castFontSize - 1]];
             [actorRole setBackgroundColor:[UIColor clearColor]];
             [actorRole setTextColor:[UIColor grayColor]];
+            [actorRole setShadowColor:[UIColor blackColor]];
+            [actorRole setShadowOffset:CGSizeMake(1, 1)];
             [actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
             [scrollView addSubview:actorRole];
             
@@ -967,7 +970,7 @@ int h=0;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.1f];// cool
+    [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.2f];// cool
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
