@@ -120,6 +120,10 @@
                                              selector: @selector(handleEnableMusicSection)
                                                  name: @"UIApplicationEnableMusicSection"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleEnableMovieSection)
+                                                 name: @"UIApplicationEnableMovieSection"
+                                               object: nil];
 
 }
 
@@ -132,6 +136,17 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil]; 
     }		
 }
+
+-(void)handleEnableMovieSection{
+    NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
+    if (selection.row != 1 || selection == nil){
+        [self.tableView deselectRowAtIndexPath:selection animated:YES];
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+        lastSelected=1;
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
+    }
+}
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
