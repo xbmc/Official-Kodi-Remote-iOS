@@ -1597,7 +1597,7 @@ NSIndexPath *selected;
                   rating, @"rating",
                   [mainFields objectForKey:@"playlistid"], @"playlistid",
                   [mainFields objectForKey:@"row8"], @"family",
-                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row9"]], [mainFields objectForKey:@"row9"],
+                  [NSString stringWithFormat:@"%@", [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row9"]]], [mainFields objectForKey:@"row9"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row11"]], [mainFields objectForKey:@"row11"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
