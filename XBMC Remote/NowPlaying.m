@@ -1094,7 +1094,7 @@ int currentItemID;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:@"Playlist.GetItems" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", nil], @"properties",
+                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"director", nil], @"properties",
                          [NSNumber numberWithInt:playlistID], @"playlistid",
                          nil] 
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1141,7 +1141,15 @@ int currentItemID;
                            NSString *artistid=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"artistid"]];
                            NSString *albumid=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"albumid"]];
                            NSString *movieid=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"id"]];
-
+                           NSString *director = @"";
+                           if ([[[playlistItems objectAtIndex:i] objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                               director=[NSString stringWithFormat:@"%@",[[[playlistItems objectAtIndex:i] objectForKey:@"director"] componentsJoinedByString:@" / "]];
+                           }
+                           else{
+                               director=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"director"]];
+                           }
+                           
+                           if ([director isEqualToString:@"(null)"]) director=@"";
                            NSNumber *itemDurationSec=[[playlistItems objectAtIndex:i] objectForKey:@"duration"];
                            NSString *durationTime=[itemDurationSec longValue]==0 ? @"" : [self convertTimeFromSeconds:itemDurationSec];
 
@@ -1157,6 +1165,7 @@ int currentItemID;
                                                     durationTime, @"duration",
                                                     artistid, @"artistid",
                                                     albumid, @"albumid",
+                                                    director, @"director",
                                                     movieid, @"movieid",
                                                     movieid, @"episodeid",
                                                     stringURL, @"thumbnail",
@@ -1164,6 +1173,7 @@ int currentItemID;
                                                     showtitle,@"showtitle",
                                                     season, @"season",
                                                     episode, @"episode",
+                                                    
                                                     nil]];
                        }                       
                        [self showPlaylistTable];
@@ -1239,7 +1249,12 @@ int currentItemID;
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:TRUE];
         [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableMovieSection" object: nil];
+        if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableTvShowSection" object: nil];
+        }
+        else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableMovieSection" object: nil];
+        }
     }
 }
 
@@ -1368,7 +1383,7 @@ int currentItemID;
                   rating, @"rating",
                   [mainFields objectForKey:@"playlistid"], @"playlistid",
                   [mainFields objectForKey:@"row8"], @"family",
-                  [NSString stringWithFormat:@"%@", [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row9"]]], [mainFields objectForKey:@"row9"],
+                  [NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row9"]]]intValue]], [mainFields objectForKey:@"row9"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row11"]], [mainFields objectForKey:@"row11"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
@@ -1846,12 +1861,15 @@ int currentItemID;
     UIImageView *thumb = (UIImageView*) [cell viewWithTag:4]; 
     [(UILabel*) [cell viewWithTag:1] setText:[item objectForKey:@"label"]];
     [(UILabel*) [cell viewWithTag:2] setText:@""];
-    if ([[item objectForKey:@"season"] intValue]>0){
+    if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
         [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@ - %@x%@", [item objectForKey:@"showtitle"], [item objectForKey:@"season"], [item objectForKey:@"episode"]]];
     }
-    else if (playerID == 0){
+    else if ([[item objectForKey:@"type"] isEqualToString:@"song"]){
         NSString *artist = [[item objectForKey:@"artist"] length]==0? @"" :[NSString stringWithFormat:@" - %@", [item objectForKey:@"artist"]];
         [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@%@",[item objectForKey:@"album"], artist]];
+    }
+    else if ([[item objectForKey:@"type"] isEqualToString:@"movie"]){
+        [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@",[item objectForKey:@"director"]]];
     }
     if (playerID == 0)
         [(UILabel*) [cell viewWithTag:3] setText:[item objectForKey:@"duration"]];
