@@ -36,6 +36,8 @@
 @property (nonatomic, retain) NSMutableArray *arrayServerList;
 
 @property (nonatomic, retain) mainMenu *playlistArtistAlbums;
+@property (nonatomic, retain) mainMenu *playlistMovies;
+@property (nonatomic, retain) mainMenu *playlistTvShows;
 
 @property (retain, nonatomic) NSFileManager *fileManager;
 

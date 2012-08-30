@@ -30,6 +30,8 @@ NSMutableArray *mainMenuItems;
 @synthesize serverVersion;
 @synthesize obj;
 @synthesize playlistArtistAlbums;
+@synthesize playlistMovies;
+@synthesize playlistTvShows;
 
 + (AppDelegate *) instance {
 	return (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -1267,7 +1269,10 @@ NSMutableArray *mainMenuItems;
 //    item3.subItem.sheetActions=[NSArray arrayWithObjects:@"Queue", @"Play", nil];
     item3.subItem.subItem.disableFilterParameter = YES;
     item3.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
-                                      [NSArray arrayWithObjects:@"VideoLibrary.GetEpisodes", @"method", nil],
+                                      [NSArray arrayWithObjects:
+                                       @"VideoLibrary.GetEpisodes", @"method",
+                                       @"VideoLibrary.GetEpisodeDetails", @"extra_info_method",
+                                       nil],
                                       [NSArray arrayWithObjects:nil],
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                                       
@@ -1280,8 +1285,11 @@ NSMutableArray *mainMenuItems;
                                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                              @"episode", @"method",
                                              nil],@"sort",
-                                            [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", nil], @"properties",
-                                            nil], @"parameters", @"Episodes", @"label", nil],
+                                            [NSArray arrayWithObjects:@"playcount", @"episode", @"thumbnail", @"firstaired", nil], @"properties",
+                                            nil], @"parameters", @"Episodes", @"label",
+                                           [NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", nil], @"properties",nil], @"extra_info_parameters",
+                                           nil],
                                           
                                           [NSArray arrayWithObjects:nil],
                                           
@@ -1300,7 +1308,7 @@ NSMutableArray *mainMenuItems;
                                        @"season",@"row7",
                                        @"episodeid",@"row8",
                                        [NSNumber numberWithInt:1], @"playlistid",
-                                       @"episodeid", @"row9",
+                                       @"playcount", @"row9",
                                        @"plot", @"row10",
                                        @"director", @"row11",
                                        @"writer", @"row12",
@@ -1309,8 +1317,8 @@ NSMutableArray *mainMenuItems;
                                        @"season",@"row15",
                                        @"cast",@"row16",
                                        @"file",@"row17",
-                                       @"playcount",@"row18",
                                        @"fanart",@"row7",
+                                       @"episodedetails",@"itemid_extra_info",
                                        nil],
                                       
                                       [NSArray arrayWithObjects:nil],
@@ -1457,6 +1465,14 @@ NSMutableArray *mainMenuItems;
     playlistArtistAlbums = [item1 copy];
     playlistArtistAlbums.subItem.disableNowPlaying = TRUE;
     playlistArtistAlbums.subItem.subItem.disableNowPlaying = TRUE;
+    
+    playlistMovies = [item2 copy];
+    playlistMovies.subItem.disableNowPlaying = TRUE;
+    playlistMovies.subItem.subItem.disableNowPlaying = TRUE;
+
+    playlistTvShows = [item3.subItem.subItem copy];
+    playlistTvShows.subItem.disableNowPlaying = TRUE;
+//    playlistTvShows.subItem.subItem.disableNowPlaying = TRUE;
     
     MasterViewController *masterViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
