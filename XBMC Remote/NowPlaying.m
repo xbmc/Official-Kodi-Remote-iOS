@@ -1094,7 +1094,7 @@ int currentItemID;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:@"Playlist.GetItems" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"director", nil], @"properties",
+                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", nil], @"properties",
                          [NSNumber numberWithInt:playlistID], @"playlistid",
                          nil] 
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1141,15 +1141,15 @@ int currentItemID;
                            NSString *artistid=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"artistid"]];
                            NSString *albumid=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"albumid"]];
                            NSString *movieid=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"id"]];
-                           NSString *director = @"";
-                           if ([[[playlistItems objectAtIndex:i] objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")]){
-                               director=[NSString stringWithFormat:@"%@",[[[playlistItems objectAtIndex:i] objectForKey:@"director"] componentsJoinedByString:@" / "]];
+                           NSString *genre = @"";
+                           if ([[[playlistItems objectAtIndex:i] objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                               genre=[NSString stringWithFormat:@"%@",[[[playlistItems objectAtIndex:i] objectForKey:@"genre"] componentsJoinedByString:@" / "]];
                            }
                            else{
-                               director=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"director"]];
+                               genre=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"genre"]];
                            }
                            
-                           if ([director isEqualToString:@"(null)"]) director=@"";
+                           if ([genre isEqualToString:@"(null)"]) genre=@"";
                            NSNumber *itemDurationSec=[[playlistItems objectAtIndex:i] objectForKey:@"duration"];
                            NSString *durationTime=[itemDurationSec longValue]==0 ? @"" : [self convertTimeFromSeconds:itemDurationSec];
 
@@ -1165,7 +1165,7 @@ int currentItemID;
                                                     durationTime, @"duration",
                                                     artistid, @"artistid",
                                                     albumid, @"albumid",
-                                                    director, @"director",
+                                                    genre, @"genre",
                                                     movieid, @"movieid",
                                                     movieid, @"episodeid",
                                                     stringURL, @"thumbnail",
@@ -1869,7 +1869,7 @@ int currentItemID;
         [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@%@",[item objectForKey:@"album"], artist]];
     }
     else if ([[item objectForKey:@"type"] isEqualToString:@"movie"]){
-        [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@",[item objectForKey:@"director"]]];
+        [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@",[item objectForKey:@"genre"]]];
     }
     if (playerID == 0)
         [(UILabel*) [cell viewWithTag:3] setText:[item objectForKey:@"duration"]];
