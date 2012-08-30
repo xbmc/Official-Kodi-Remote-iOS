@@ -58,11 +58,15 @@ int count=0;
         viewTitle.text = [item objectForKey:@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
         sheetActions = [[NSMutableArray alloc] initWithObjects:@"Queue after current", @"Queue", @"Play", nil];
+        
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlackTranslucent;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
+            if ([self.detailItem objectForKey:@"disableNowPlaying"]){
+                actionSheetButtonItemIpad = nil;
+            }
             actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
             viewTitle.numberOfLines=1;
             viewTitle.font = [UIFont systemFontOfSize:22];
@@ -112,11 +116,13 @@ int count=0;
             scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         }
         else{
-            
             self.navigationItem.titleView = viewTitle;
             self.navigationItem.title = [item objectForKey:@"label"];
-            UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
-            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: actionSheetButtonItem, nil];            
+            if (![self.detailItem objectForKey:@"disableNowPlaying"]){
+
+                UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
+                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: actionSheetButtonItem, nil];
+            }
             UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
             rightSwipe.numberOfTouchesRequired = 1;
             rightSwipe.cancelsTouchesInView=NO;
@@ -124,11 +130,13 @@ int count=0;
             [self.view addGestureRecognizer:rightSwipe];
         }
     }
-    UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
-    leftSwipe.numberOfTouchesRequired = 1;
-    leftSwipe.cancelsTouchesInView=NO;
-    leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.view addGestureRecognizer:leftSwipe];
+    if (![self.detailItem objectForKey:@"disableNowPlaying"]){
+        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
+        leftSwipe.numberOfTouchesRequired = 1;
+        leftSwipe.cancelsTouchesInView=NO;
+        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+        [self.view addGestureRecognizer:leftSwipe];
+    }
 }
 
 #pragma mark - ActionSheet
