@@ -11,6 +11,7 @@
 #import "VolumeSliderView.h"
 #import "UIImageView+WebCache.h"
 
+@class ShowInfoViewController;
 @class RemoteController;
 @class DetailViewController;
 
@@ -86,11 +87,16 @@
     BOOL fromItself;
     IBOutlet UIButton *shuffleButton;
     IBOutlet UIButton *repeatButton;
-    BOOL shuffled;
+    IBOutlet UIButton *albumDetailsButton;
+    IBOutlet UIButton *albumTracksButton;
+    IBOutlet UIButton *artistDetailsButton;
+    IBOutlet UIButton *artistAlbumsButton;
+        BOOL shuffled;
     NSString *repeatStatus;
     BOOL updateProgressBar;
     int globalSeconds;
     NSString *lastThumbnail;
+    int choosedTab;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
@@ -104,6 +110,7 @@
 @property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) RemoteController *remoteController;
 @property (strong, nonatomic) DetailViewController *detailViewController;
+@property (strong, nonatomic) ShowInfoViewController *showInfoViewController;
 @property (strong, nonatomic) UIImageView *jewelView;
 @property (strong, nonatomic) UIButton *shuffleButton;
 @property (strong, nonatomic) UIButton *repeatButton;
