@@ -1758,37 +1758,48 @@ int currentItemID;
         NSString *notificationName = @"";
         if ([[item objectForKey:@"type"] isEqualToString:@"song"]){
             notificationName = @"UIApplicationEnableMusicSection";
-            if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Artist Albums"]) {
-                MenuItem = [AppDelegate instance].playlistArtistAlbums;
-                choosedTab = 1;
+            MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+            if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Album Details"]) {
+                choosedTab = 0;
                 MenuItem.subItem.mainLabel=@"";
-                MenuItem.subItem.upperLabel=[item objectForKey:@"artist"];
+                MenuItem.subItem.upperLabel=[item objectForKey:@"album"];
+                [MenuItem.subItem setMainMethod:nil];
             }
             else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Album Tracks"]){
-                MenuItem = [AppDelegate instance].playlistArtistAlbums;
                 choosedTab = 0;
                 MenuItem.subItem.mainLabel=@"";
                 MenuItem.subItem.upperLabel=[NSString stringWithFormat:@"%@ - %@", [item objectForKey:@"album"], [item objectForKey:@"artist"]];
             }
+            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Artist Details"]) {
+                choosedTab = 1;
+                MenuItem.subItem.mainLabel=@"";
+                MenuItem.subItem.upperLabel=[item objectForKey:@"artist"];
+                [MenuItem.subItem setMainMethod:nil];
+            }
+            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Artist Albums"]) {
+                choosedTab = 1;
+                MenuItem.subItem.mainLabel=@"";
+                MenuItem.subItem.upperLabel=[item objectForKey:@"artist"];
+            }
             else {
                 return;
             }
-            
         }
         else if ([[item objectForKey:@"type"] isEqualToString:@"movie"]){
             MenuItem = [AppDelegate instance].playlistMovies;
             choosedTab = 0;
+            MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
         }
         else if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
             MenuItem = [AppDelegate instance].playlistTvShows;
             choosedTab = 0;
+            MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
         }
         else{
             return;
         }
         NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
         if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
-            MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
             NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
             NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
             NSString *key=@"null";
