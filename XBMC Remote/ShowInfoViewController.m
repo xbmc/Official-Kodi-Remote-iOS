@@ -64,7 +64,7 @@ int count=0;
             toolbar.barStyle = UIBarStyleBlackTranslucent;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
-            if ([self.detailItem objectForKey:@"disableNowPlaying"]){
+            if ([[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
                 actionSheetButtonItemIpad = nil;
             }
             actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
@@ -118,7 +118,7 @@ int count=0;
         else{
             self.navigationItem.titleView = viewTitle;
             self.navigationItem.title = [item objectForKey:@"label"];
-            if (![self.detailItem objectForKey:@"disableNowPlaying"]){
+            if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
 
                 UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
                 self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: actionSheetButtonItem, nil];
@@ -130,7 +130,7 @@ int count=0;
             [self.view addGestureRecognizer:rightSwipe];
         }
     }
-    if (![self.detailItem objectForKey:@"disableNowPlaying"]){
+    if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
         UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
         leftSwipe.numberOfTouchesRequired = 1;
         leftSwipe.cancelsTouchesInView=NO;
@@ -972,9 +972,11 @@ int h=0;
 -(void)viewWillAppear:(BOOL)animated{
     alreadyPush=NO;
     // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
-    UIViewController *c = [[UIViewController alloc]init];
-    [self presentViewController:c animated:NO completion:nil];
-    [self dismissViewControllerAnimated:NO completion:nil];
+    if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
+        UIViewController *c = [[UIViewController alloc]init];
+        [self presentViewController:c animated:NO completion:nil];
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
