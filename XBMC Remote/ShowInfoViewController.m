@@ -328,7 +328,7 @@ int h=0;
     if (!enableJewel) {
         jewelView.image = nil;
         CGRect frame = jewelView.frame;
-        frame.origin.x = frame.origin.x + 4;
+        frame.origin.x = frame.origin.x + 3;
         jewelView.frame = frame;
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -364,6 +364,11 @@ int h=0;
                               label6,
                               nil];
         [self setAndMoveLabels:arrayLabels size:size];
+    }
+    else if (!enableJewel) {
+        CGRect frame = jewelView.frame;
+        frame.origin.x = frame.origin.x + 4;
+        jewelView.frame = frame;
     }
     if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"studio"]){
         int deltaY=0;
