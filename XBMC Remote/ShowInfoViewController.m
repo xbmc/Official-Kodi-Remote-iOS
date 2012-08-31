@@ -325,7 +325,12 @@ int h=0;
     int castHeight = 50;
     int pageSize = 297;
     bool enableJewel = [self enableJewelCases];
-    if (!enableJewel) jewelView.image = nil;
+    if (!enableJewel) {
+        jewelView.image = nil;
+        CGRect frame = jewelView.frame;
+        frame.origin.x = frame.origin.x + 4;
+        jewelView.frame = frame;
+    }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         placeHolderImage = @"coverbox_back@2x.png";
         castFontSize = 16;
