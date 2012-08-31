@@ -1819,6 +1819,7 @@ int currentItemID;
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                             [item objectForKey:[mainFields objectForKey:@"row15"]], key,
                                             nil], @"parameters", [parameters objectForKey:@"label"], @"label",
+                                           [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            nil];
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab=choosedTab;
@@ -1833,7 +1834,6 @@ int currentItemID;
                 [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:TRUE];
                 [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
                 [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
-                
             }
         }
         else{
