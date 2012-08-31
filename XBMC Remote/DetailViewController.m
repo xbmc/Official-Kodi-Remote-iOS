@@ -1584,9 +1584,13 @@ NSIndexPath *selected;
                          }
                      }
                  }
-                 
-                 NSDictionary *newItem = 
+                 BOOL disableNowPlaying = NO;
+                 if ([self.detailItem disableNowPlaying]){
+                     disableNowPlaying = YES;
+                 }
+                 NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                  [NSNumber numberWithBool:disableNowPlaying], @"disableNowPlaying",
                   label, @"label",
                   genre, @"genre",
                   stringURL, @"thumbnail",
