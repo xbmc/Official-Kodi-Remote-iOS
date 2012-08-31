@@ -1249,12 +1249,7 @@ int currentItemID;
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:TRUE];
         [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
-        if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableTvShowSection" object: nil];
-        }
-        else{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableMovieSection" object: nil];
-        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
     }
 }
 
@@ -1755,7 +1750,7 @@ int currentItemID;
         item = [playlistData objectAtIndex:selected.row];
         choosedTab = -1;
         mainMenu *MenuItem = nil;
-        NSString *notificationName = @"";
+        notificationName = @"";
         if ([[item objectForKey:@"type"] isEqualToString:@"song"]){
             notificationName = @"UIApplicationEnableMusicSection";
             MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
@@ -1789,11 +1784,13 @@ int currentItemID;
             MenuItem = [AppDelegate instance].playlistMovies;
             choosedTab = 0;
             MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
+            notificationName = @"UIApplicationEnableMovieSection";
         }
         else if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
             MenuItem = [AppDelegate instance].playlistTvShows;
             choosedTab = 0;
             MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
+            notificationName = @"UIApplicationEnableTvShowSection";
         }
         else{
             return;

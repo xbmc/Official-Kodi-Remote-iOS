@@ -97,6 +97,7 @@
     int globalSeconds;
     NSString *lastThumbnail;
     int choosedTab;
+    NSString *notificationName;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
