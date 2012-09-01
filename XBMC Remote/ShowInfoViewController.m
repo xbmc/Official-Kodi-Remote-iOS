@@ -58,16 +58,17 @@ int count=0;
         viewTitle.text = [item objectForKey:@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
         sheetActions = [[NSMutableArray alloc] initWithObjects:@"Queue after current", @"Queue", @"Play", nil];
-        
+//        UIBarButtonItem *imageGalleryButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:nil];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlackTranslucent;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
-            if ([[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
-                actionSheetButtonItemIpad = nil;
-            }
+//            if ([[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
+//                actionSheetButtonItemIpad = nil;
+//            }
             actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
+//            imageGalleryButtonItem.style = UIBarButtonItemStyleBordered;
             viewTitle.numberOfLines=1;
             viewTitle.font = [UIFont systemFontOfSize:22];
             viewTitle.minimumFontSize=6;
@@ -86,6 +87,7 @@ int count=0;
             NSArray *items = [NSArray arrayWithObjects: 
                               title,
                               spacer,
+//                              imageGalleryButtonItem,
                               actionSheetButtonItemIpad,
                               nil];
             toolbar.items = items;
@@ -118,11 +120,16 @@ int count=0;
         else{
             self.navigationItem.titleView = viewTitle;
             self.navigationItem.title = [item objectForKey:@"label"];
-            if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
-
+//            if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
                 UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
-                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: actionSheetButtonItem, nil];
-            }
+                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+                                                           actionSheetButtonItem,
+//                                                           imageGalleryButtonItem,
+                                                           nil];
+//            }
+//            else{
+//                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: imageGalleryButtonItem, nil];
+//            }
             UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
             rightSwipe.numberOfTouchesRequired = 1;
             rightSwipe.cancelsTouchesInView=NO;
@@ -327,9 +334,6 @@ int h=0;
     bool enableJewel = [self enableJewelCases];
     if (!enableJewel) {
         jewelView.image = nil;
-        CGRect frame = jewelView.frame;
-        frame.origin.x = frame.origin.x + 3;
-        jewelView.frame = frame;
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         placeHolderImage = @"coverbox_back@2x.png";
