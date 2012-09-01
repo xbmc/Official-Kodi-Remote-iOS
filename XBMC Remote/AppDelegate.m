@@ -1469,9 +1469,9 @@ NSMutableArray *mainMenuItems;
     playlistMovies.subItem.disableNowPlaying = TRUE;
     playlistMovies.subItem.subItem.disableNowPlaying = TRUE;
 
-    playlistTvShows = [item3.subItem.subItem copy];
+    playlistTvShows = [item3 copy];
     playlistTvShows.subItem.disableNowPlaying = TRUE;
-//    playlistTvShows.subItem.subItem.disableNowPlaying = TRUE;
+    playlistTvShows.subItem.subItem.disableNowPlaying = TRUE;
     
     MasterViewController *masterViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {

@@ -726,7 +726,7 @@
 											</object>
 											<object class="IBUIButton" id="927452652">
 												<reference key="NSNextResponder" ref="504097466"/>
-												<int key="NSvFlags">292</int>
+												<int key="NSvFlags">-2147483356</int>
 												<string key="NSFrame">{{2, 6}, {46, 41}}</string>
 												<reference key="NSSuperview" ref="504097466"/>
 												<reference key="NSWindow"/>
@@ -2749,6 +2749,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeRepeat:">id</string>
 						<string key="changeShuffle:">id</string>
+						<string key="editTable:forceClose:">id</string>
 						<string key="startVibrate:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -2758,6 +2759,10 @@
 						</object>
 						<object class="IBActionInfo" key="changeShuffle:">
 							<string key="name">changeShuffle:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editTable:forceClose:">
+							<string key="name">editTable:forceClose:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="startVibrate:">

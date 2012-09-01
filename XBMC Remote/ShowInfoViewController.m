@@ -332,9 +332,6 @@ int h=0;
     int castHeight = 50;
     int pageSize = 297;
     bool enableJewel = [self enableJewelCases];
-    if (!enableJewel) {
-        jewelView.image = nil;
-    }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         placeHolderImage = @"coverbox_back@2x.png";
         castFontSize = 16;
@@ -990,6 +987,10 @@ int h=0;
         UIViewController *c = [[UIViewController alloc]init];
         [self presentViewController:c animated:NO completion:nil];
         [self dismissViewControllerAnimated:NO completion:nil];
+    }
+    bool enableJewel = [self enableJewelCases];
+    if (!enableJewel) {
+        jewelView.image = nil;
     }
 }
 

@@ -1788,10 +1788,18 @@ int currentItemID;
             notificationName = @"UIApplicationEnableMovieSection";
         }
         else if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
-            MenuItem = [AppDelegate instance].playlistTvShows;
-            choosedTab = 0;
-            MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
             notificationName = @"UIApplicationEnableTvShowSection";
+            if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Episode Details"]) {
+                MenuItem = [AppDelegate instance].playlistTvShows.subItem.subItem;
+                choosedTab = 0;
+                MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
+            }
+            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Tv Show Details"]) {
+                MenuItem = [AppDelegate instance].playlistTvShows;
+                [MenuItem.subItem setMainMethod:nil];
+                choosedTab = 0;
+                MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
+            }
         }
         else{
             return;
