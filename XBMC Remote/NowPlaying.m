@@ -2177,6 +2177,7 @@ int currentItemID;
 
 -(void)setIphoneInterface{
     [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateHighlighted];
     volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
     CGRect frame=volumeSliderView.frame;
     frame.origin.x=258;
@@ -2192,6 +2193,7 @@ int currentItemID;
 
 -(void)setIpadInterface{
     [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateHighlighted];
 //    ProgressSlider.userInteractionEnabled = NO;
     slideFrom=-300;
     CGRect frame;
