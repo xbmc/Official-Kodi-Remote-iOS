@@ -433,11 +433,11 @@ NSMutableArray *mainMenuItems;
     item1.defaultThumb=@"nocover_music.png";
     
     item1.sheetActions=[NSArray arrayWithObjects:
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play",  @"View Details", @"Search Wikipedia", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play",  @"View Details", @"Search Wikipedia", @"Search last.fm charts", nil],
+                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play",  @"Album Details", @"Search Wikipedia", nil],
+                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play",  @"Artist Details", @"Search Wikipedia", @"Search last.fm charts", nil],
                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
                         [NSArray arrayWithObjects:nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"View Details", @"Search Wikipedia", nil],
+                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Album Details", @"Search Wikipedia", nil],
                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
 //                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Search Wikipedia", nil],
 //                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
@@ -663,8 +663,8 @@ NSMutableArray *mainMenuItems;
     item1.subItem.defaultThumb=@"nocover_music.png";
     item1.subItem.sheetActions=[NSArray arrayWithObjects:
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil], //@"Stream to iPhone",
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"View Details", @"Search Wikipedia", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"View Details", @"Search Wikipedia", nil],
+                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"Album Details", @"Search Wikipedia", nil],
+                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"Album Details", @"Search Wikipedia", nil],
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
@@ -943,9 +943,9 @@ NSMutableArray *mainMenuItems;
     item2.thumbWidth=53;
     item2.defaultThumb=@"nocover_movies.png";
     item2.sheetActions=[NSArray arrayWithObjects:
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"View Details", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"View Details", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"View Details", nil],
+                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Movie Details", nil],
+                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Music Video Details", nil],
+                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Movie Details", nil],
                         [NSArray arrayWithObjects: nil],
                         nil];
 //    item2.showInfo = YES;
@@ -1168,8 +1168,8 @@ NSMutableArray *mainMenuItems;
     item3.defaultThumb=@"nocover_tvshows.png";
     item3.originLabel=60;
     item3.sheetActions=[NSArray arrayWithObjects:
-                        [NSArray arrayWithObjects:@"View Details", nil],
-                        [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
+                        [NSArray arrayWithObjects:@"TV Show Details", nil],
+                        [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"Episode Details", nil],
                         [NSArray arrayWithObjects:nil],
                         nil];
     
@@ -1330,7 +1330,7 @@ NSMutableArray *mainMenuItems;
     item3.subItem.subItem.thumbWidth=95;
     item3.subItem.subItem.defaultThumb=@"nocover_tvshows_episode.png";
     item3.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
+                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Episode Details", nil],
                                         [NSArray arrayWithObjects:nil],
                                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
                                         nil];

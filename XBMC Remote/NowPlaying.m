@@ -1662,7 +1662,7 @@ int currentItemID;
                 }
                 else if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
 //                    NSLog(@"ITEM %@", item);
-                    [sheetActions addObjectsFromArray:[NSArray arrayWithObjects: @"Tv Show Details", @"Episode Details", nil]];
+                    [sheetActions addObjectsFromArray:[NSArray arrayWithObjects: @"TV Show Details", @"Episode Details", nil]];
                 }
             }
             int numActions=[sheetActions count];
@@ -1794,7 +1794,7 @@ int currentItemID;
                 choosedTab = 0;
                 MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
             }
-            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Tv Show Details"]) {
+            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"TV Show Details"]) {
                 MenuItem = [AppDelegate instance].playlistTvShows;
                 [MenuItem.subItem setMainMethod:nil];
                 choosedTab = 0;

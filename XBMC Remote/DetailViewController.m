@@ -955,7 +955,7 @@ NSIndexPath *selected;
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue after current"]){
             [self addQueue:selected afterCurrentItem:YES];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"View Details"]){
+        else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:@"Details"].location!= NSNotFound){
             [self showInfo:selected];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"]){
