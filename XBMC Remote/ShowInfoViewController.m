@@ -58,17 +58,12 @@ int count=0;
         viewTitle.text = [item objectForKey:@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
         sheetActions = [[NSMutableArray alloc] initWithObjects:@"Queue after current", @"Queue", @"Play", nil];
-//        UIBarButtonItem *imageGalleryButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:nil];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlackTranslucent;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
-//            if ([[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
-//                actionSheetButtonItemIpad = nil;
-//            }
             actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
-//            imageGalleryButtonItem.style = UIBarButtonItemStyleBordered;
             viewTitle.numberOfLines=1;
             viewTitle.font = [UIFont systemFontOfSize:22];
             viewTitle.minimumFontSize=6;
@@ -76,22 +71,18 @@ int count=0;
 
             viewTitle.shadowOffset = CGSizeMake(1.0, 1.0);
             viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.7];
-
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
-            [viewTitle setFrame:CGRectMake(0, 0, 320, 36)];
-            [viewTitle sizeThatFits:CGSizeMake(320, 36)];
+            [viewTitle setFrame:CGRectMake(0, 0, 360, 36)];
+            [viewTitle sizeThatFits:CGSizeMake(360, 36)];
             viewTitle.textAlignment = UITextAlignmentLeft;
             UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
-
             NSArray *items = [NSArray arrayWithObjects: 
                               title,
                               spacer,
-//                              imageGalleryButtonItem,
                               actionSheetButtonItemIpad,
                               nil];
             toolbar.items = items;
-            
             toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
             toolbar.contentMode = UIViewContentModeScaleAspectFill;            
             [toolbar sizeToFit];
@@ -109,27 +100,17 @@ int count=0;
             toolbarShadow.alpha = 0.5;
             [toolbar addSubview:toolbarShadow];
             [self.view addSubview:toolbar];
-            
             scrollView.autoresizingMask = UIViewAutoresizingNone;
-            
             [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y + 44, scrollView.frame.size.width, scrollView.frame.size.height-44)];
-            //[arrow_continue_down setFrame:CGRectMake(arrow_continue_down.frame.origin.x, arrow_continue_down.frame.origin.y, arrow_continue_down.frame.size.width, arrow_continue_down.frame.size.height)];
-            
             scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         }
         else{
             self.navigationItem.titleView = viewTitle;
             self.navigationItem.title = [item objectForKey:@"label"];
-//            if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
-                UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
-                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
-                                                           actionSheetButtonItem,
-//                                                           imageGalleryButtonItem,
-                                                           nil];
-//            }
-//            else{
-//                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: imageGalleryButtonItem, nil];
-//            }
+            UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
+            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+                                                       actionSheetButtonItem,
+                                                       nil];
             UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
             rightSwipe.numberOfTouchesRequired = 1;
             rightSwipe.cancelsTouchesInView=NO;
