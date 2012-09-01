@@ -900,10 +900,10 @@ int currentItemID;
              NSString *bitrate=@"";
              NSString *samplerate=@"";
              if (playerID==0 && currentPlayerID==playerID){
-                 albumDetailsButton.hidden = NO;
-                 albumTracksButton.hidden = NO;
-                 artistDetailsButton.hidden = NO;
-                 artistAlbumsButton.hidden = NO;
+//                 albumDetailsButton.hidden = NO;
+//                 albumTracksButton.hidden = NO;
+//                 artistDetailsButton.hidden = NO;
+//                 artistAlbumsButton.hidden = NO;
                  labelSongCodec.text=@"codec";
                  labelSongBitRate.text=@"bit rate";
                  labelSongSampleRate.text=@"sample rate";
@@ -917,10 +917,10 @@ int currentItemID;
                  songSampleRate.text=samplerate;
              }
              else if (currentPlayerID==playerID){
-                 albumDetailsButton.hidden = YES;
-                 albumTracksButton.hidden = YES;
-                 artistDetailsButton.hidden = YES;
-                 artistAlbumsButton.hidden = YES;
+//                 albumDetailsButton.hidden = YES;
+//                 albumTracksButton.hidden = YES;
+//                 artistDetailsButton.hidden = YES;
+//                 artistAlbumsButton.hidden = YES;
                  labelSongCodec.text=@"resolution";
                  labelSongBitRate.text=@"aspect ratio";
                  labelSongSampleRate.text=@"";
@@ -1094,7 +1094,7 @@ int currentItemID;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:@"Playlist.GetItems" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", nil], @"properties",
+                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", @"tvshowid", nil], @"properties",
                          [NSNumber numberWithInt:playlistID], @"playlistid",
                          nil] 
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1155,7 +1155,7 @@ int currentItemID;
 
                            NSString *thumbnail=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"thumbnail"]];
                            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnail stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-                           
+                           NSNumber *tvshowid =[NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i]  objectForKey:@"tvshowid"]]intValue]];
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
                                                     label, @"label",
@@ -1173,7 +1173,7 @@ int currentItemID;
                                                     showtitle,@"showtitle",
                                                     season, @"season",
                                                     episode, @"episode",
-                                                    
+                                                    tvshowid, @"tvshowid",
                                                     nil]];
                        }                       
                        [self showPlaylistTable];
@@ -1661,7 +1661,8 @@ int currentItemID;
                     [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:@"Movie Details", nil]];
                 }
                 else if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
-                    [sheetActions addObjectsFromArray:[NSArray arrayWithObjects: @"Episode Details", nil]];//@"Tv Show Details",
+//                    NSLog(@"ITEM %@", item);
+                    [sheetActions addObjectsFromArray:[NSArray arrayWithObjects: @"Tv Show Details", @"Episode Details", nil]];
                 }
             }
             int numActions=[sheetActions count];
@@ -1870,7 +1871,12 @@ int currentItemID;
     [(UILabel*) [cell viewWithTag:1] setText:[item objectForKey:@"label"]];
     [(UILabel*) [cell viewWithTag:2] setText:@""];
     if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
-        [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@ - %@x%@", [item objectForKey:@"showtitle"], [item objectForKey:@"season"], [item objectForKey:@"episode"]]];
+        if ([[item objectForKey:@"season"] intValue]!=0 || [[item objectForKey:@"episode"] intValue]!=0){
+            [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@ - %@x%@", [item objectForKey:@"showtitle"], [item objectForKey:@"season"], [item objectForKey:@"episode"]]];
+        }
+        else{
+            [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@", [item objectForKey:@"showtitle"]]];
+        }
     }
     else if ([[item objectForKey:@"type"] isEqualToString:@"song"]){
         NSString *artist = [[item objectForKey:@"artist"] length]==0? @"" :[NSString stringWithFormat:@" - %@", [item objectForKey:@"artist"]];
@@ -2007,7 +2013,10 @@ int currentItemID;
     [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             [jsonRPC callMethod:action2 withParameters:params2];
-            [playlistData removeObjectAtIndex:[sourceIndexPath row]];
+            int numObj = [playlistData count];
+            if ([sourceIndexPath row] < numObj){
+                [playlistData removeObjectAtIndex:[sourceIndexPath row]];
+            }
             [playlistData insertObject:objSource atIndex:[destinationIndexPath row]];
             if (sourceIndexPath.row>storeSelection.row && destinationIndexPath.row<=storeSelection.row){
                 storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row+1 inSection:storeSelection.section];
@@ -2039,7 +2048,10 @@ int currentItemID;
                                nil] ;
         [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
-                [playlistData removeObjectAtIndex:indexPath.row];
+                int numObj = [playlistData count];
+                if ([indexPath row] < numObj){
+                    [playlistData removeObjectAtIndex:indexPath.row];
+                }
                 [playlistTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
                 if ((storeSelection) && (indexPath.row<storeSelection.row)){
                     storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
