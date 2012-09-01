@@ -1667,7 +1667,6 @@ NSIndexPath *selected;
                  if (((NSNull *)videoLibraryMovies != [NSNull null])){
                      total=[videoLibraryMovies count];
                  }
-                 
                  NSString *serverURL= @"";
                  serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
                  if ([AppDelegate instance].serverVersion > 11){
@@ -1747,7 +1746,12 @@ NSIndexPath *selected;
                              }
                          }
                      }
-
+                     NSString *key = @"none";
+                     NSString *value = @"";
+                     if (([mainFields objectForKey:@"row7"] != nil)){
+                         key = [mainFields objectForKey:@"row7"];
+                         value = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row7"]]];
+                     }
                      [self.richResults	addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    label, @"label",
                                                    genre, @"genre",
@@ -1759,6 +1763,7 @@ NSIndexPath *selected;
                                                    year, @"year",
                                                    [NSString stringWithFormat:@"%@", rating], @"rating",
                                                    [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                                   value, key,
                                                    [mainFields objectForKey:@"row8"], @"family",
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row9"]], [mainFields objectForKey:@"row9"],
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
