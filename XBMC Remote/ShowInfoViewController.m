@@ -256,13 +256,15 @@ int h=0;
     }
     else{
         self.navigationItem.rightBarButtonItems=nil;
-        UIImage* nowPlayingImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
-        CGRect frameimg = CGRectMake(0, 0, nowPlayingImg.size.width, nowPlayingImg.size.height);
-        UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
-        [nowPlayingButton setBackgroundImage:nowPlayingImg forState:UIControlStateNormal];
-        [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
-        self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
+        if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
+            UIImage* nowPlayingImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
+            CGRect frameimg = CGRectMake(0, 0, nowPlayingImg.size.width, nowPlayingImg.size.height);
+            UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
+            [nowPlayingButton setBackgroundImage:nowPlayingImg forState:UIControlStateNormal];
+            [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
+            UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
+            self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
+        }
     }
     
 }
@@ -332,6 +334,9 @@ int h=0;
     int castHeight = 50;
     int pageSize = 297;
     bool enableJewel = [self enableJewelCases];
+    if (!enableJewel) {
+        jewelView.image = nil;
+    }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         placeHolderImage = @"coverbox_back@2x.png";
         castFontSize = 16;
@@ -987,10 +992,6 @@ int h=0;
         UIViewController *c = [[UIViewController alloc]init];
         [self presentViewController:c animated:NO completion:nil];
         [self dismissViewControllerAnimated:NO completion:nil];
-    }
-    bool enableJewel = [self enableJewelCases];
-    if (!enableJewel) {
-        jewelView.image = nil;
     }
 }
 
