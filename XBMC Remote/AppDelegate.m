@@ -1114,7 +1114,7 @@ NSMutableArray *mainMenuItems;
                        @"rating",@"row5",
                        @"tvshowid",@"row6",
                        [NSNumber numberWithInt:2], @"playlistid",
-                       @"studio",@"row8",
+                       @"tvshowid",@"row8",
                        @"playcount",@"row9",
                        @"mpaa",@"row10",
                        @"votes",@"row11",

@@ -359,12 +359,12 @@ int h=0;
         frame.origin.x = frame.origin.x + 4;
         jewelView.frame = frame;
     }
-    if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"studio"]){
+    if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
         int deltaY=0;
         int coverHeight=0;
         int shiftY=40;
         CGRect frame;
-        if ([[item objectForKey:@"family"] isEqualToString:@"studio"]){
+        if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
             GlobalData *obj=[GlobalData getInstance];     
             if (obj.preferTVPosters==NO){
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
