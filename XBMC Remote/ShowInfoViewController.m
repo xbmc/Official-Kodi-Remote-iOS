@@ -67,8 +67,12 @@ int count=0;
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
             extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];    
         }
-        if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
+            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+        }
+        else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon"];
             extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
         }
 
@@ -82,7 +86,6 @@ int count=0;
             viewTitle.font = [UIFont systemFontOfSize:22];
             viewTitle.minimumFontSize=6;
             viewTitle.adjustsFontSizeToFitWidth = YES;
-
             viewTitle.shadowOffset = CGSizeMake(1.0, 1.0);
             viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.7];
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
@@ -173,53 +176,60 @@ int count=0;
 
 -(void)showContent:(id)sender{
     NSDictionary *item=self.detailItem;
-    if ([[item objectForKey:@"family"] isEqualToString:@"albumid"] || [[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+    mainMenu *MenuItem = nil;
+    choosedTab = 0;
+    if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
         notificationName = @"UIApplicationEnableMusicSection";
-         choosedTab = 0;
-        mainMenu *MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
-        MenuItem.subItem.mainLabel=@"";
-        MenuItem.subItem.upperLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
-        if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
-            choosedTab = 1;
+        MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+    }
+    else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
+        notificationName = @"UIApplicationEnableTvShowSection";
+        MenuItem = [[AppDelegate instance].playlistTvShows copy];
+    }
+    else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        notificationName = @"UIApplicationEnableMusicSection";
+        choosedTab = 1;
+        MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+    }
+    MenuItem.subItem.mainLabel=@"";
+    MenuItem.subItem.upperLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
+    if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
+        NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
+        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
+        NSString *key=@"null";
+        if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
+            key=[mainFields objectForKey:@"row15"];
         }
-        NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
-        if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
-            NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
-            NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
-            NSString *key=@"null";
-            if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
-                key=[mainFields objectForKey:@"row15"];
-            }
-            id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
-            id objKey = [mainFields objectForKey:@"row6"];
-            if ([AppDelegate instance].serverVersion==12 && ![MenuItem.subItem disableFilterParameter]){
-                obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
-                objKey = @"filter";
-            }
-            NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
-                                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            obj,objKey,
-                                            [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
-                                            [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
-                                            nil], @"parameters", [parameters objectForKey:@"label"], @"label",
-                                           [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
-                                           nil];
-            [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-            MenuItem.subItem.chooseTab=choosedTab;
-            if (![[item objectForKey:@"disableNowPlaying"] boolValue]){
-                MenuItem.subItem.disableNowPlaying = NO;
-            }
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                self.detailViewController.detailItem = MenuItem.subItem;
-                [self.navigationController pushViewController:self.detailViewController animated:YES];
-            }
-            else{
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
-                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
-                [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
-                [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
-            }
+        id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
+        id objKey = [mainFields objectForKey:@"row6"];
+        if ([AppDelegate instance].serverVersion==12 && ![MenuItem.subItem disableFilterParameter]){
+            obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
+            objKey = @"filter";
+        }
+        NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
+                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        obj,objKey,
+                                        [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
+                                        [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
+                                        nil], @"parameters", [parameters objectForKey:@"label"], @"label",
+                                       [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
+                                       nil];
+        [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        MenuItem.subItem.chooseTab=choosedTab;
+        if (![[item objectForKey:@"disableNowPlaying"] boolValue]){
+            MenuItem.subItem.disableNowPlaying = NO;
+        }
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            self.detailViewController.detailItem = MenuItem.subItem;
+            [self.navigationController pushViewController:self.detailViewController animated:YES];
+        }
+        else{
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+            [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
+            [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
         }
     }
 }
@@ -327,25 +337,12 @@ int h=0;
         NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
         [newToolbarItems removeObjectAtIndex:(count - 1)];
         toolbar.items = newToolbarItems;
-//        toolbar.hidden = YES;
-//        scrollView.autoresizingMask = UIViewAutoresizingNone;
-//        [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y - 44, scrollView.frame.size.width, scrollView.frame.size.height + 44)];
-//        scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
     }
     else{
-        self.navigationItem.rightBarButtonItems=nil;
-        if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
-            UIImage* nowPlayingImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
-            CGRect frameimg = CGRectMake(0, 0, nowPlayingImg.size.width, nowPlayingImg.size.height);
-            UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
-            [nowPlayingButton setBackgroundImage:nowPlayingImg forState:UIControlStateNormal];
-            [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
-            UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
-            self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
-        }
+        NSMutableArray *navigationItems = [self.navigationItem.rightBarButtonItems mutableCopy];
+        [navigationItems removeObjectAtIndex:0];
+        self.navigationItem.rightBarButtonItems=navigationItems;
     }
-    
 }
 
 - (UIImage*)imageWithShadow:(UIImage *)source {

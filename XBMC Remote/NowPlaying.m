@@ -1810,7 +1810,7 @@ int currentItemID;
                 MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
             }
             else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"TV Show Details"]) {
-                MenuItem = [AppDelegate instance].playlistTvShows;
+                MenuItem = [[AppDelegate instance].playlistTvShows copy];
                 [MenuItem.subItem setMainMethod:nil];
                 choosedTab = 0;
                 MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
