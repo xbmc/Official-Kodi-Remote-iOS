@@ -518,6 +518,9 @@ int currentItemID;
     }
     if (nothingIsPlaying == YES) return;
     nothingIsPlaying = YES;
+    ProgressSlider.userInteractionEnabled = NO;
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
     currentTime.text=@"";
 //    [timeCursor.layer removeAllAnimations];
 //    [timeBar.layer removeAllAnimations];
@@ -711,7 +714,7 @@ int currentItemID;
                  callMethod:@"Player.GetProperties" 
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                                  response, @"playerid",
-                                 [[NSArray alloc] initWithObjects:@"percentage", @"time", @"totaltime", @"partymode", @"position", @"canrepeat", @"canshuffle", @"repeat", @"shuffled", nil], @"properties",
+                                 [[NSArray alloc] initWithObjects:@"percentage", @"time", @"totaltime", @"partymode", @"position", @"canrepeat", @"canshuffle", @"repeat", @"shuffled", @"canseek", nil], @"properties",
                                  nil] 
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
@@ -762,6 +765,18 @@ int currentItemID;
                                  }
                                  else if (shuffleButton.hidden == NO){
                                      shuffleButton.hidden = YES;
+                                 }
+                                 
+                                 BOOL canseek = [[methodResult objectForKey:@"canseek"] boolValue];
+                                 if (canseek && !ProgressSlider.userInteractionEnabled){
+                                     ProgressSlider.userInteractionEnabled = YES;
+                                     [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
+                                     [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateHighlighted];
+                                 }
+                                 if (!canseek && ProgressSlider.userInteractionEnabled){
+                                     ProgressSlider.userInteractionEnabled = NO;
+                                     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+                                     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
                                  }
 
                                  NSDictionary *timeGlobal=[methodResult objectForKey:@"totaltime"];
@@ -2174,8 +2189,8 @@ int currentItemID;
 }
 
 -(void)setIphoneInterface{
-    [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
-    [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateHighlighted];
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
     volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
     CGRect frame=volumeSliderView.frame;
     frame.origin.x=258;
@@ -2190,8 +2205,8 @@ int currentItemID;
 }
 
 -(void)setIpadInterface{
-    [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
-    [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateHighlighted];
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
 //    ProgressSlider.userInteractionEnabled = NO;
     slideFrom=-300;
     CGRect frame;
