@@ -314,11 +314,13 @@ int h=0;
     int castWidth = 50;
     int castHeight = 50;
     int pageSize = 297;
+    int labelSpace = 20;
     bool enableJewel = [self enableJewelCases];
     if (!enableJewel) {
         jewelView.image = nil;
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        labelSpace = 33;
         placeHolderImage = @"coverbox_back@2x.png";
         castFontSize = 16;
         size = 6;
@@ -622,7 +624,7 @@ int h=0;
         CGRect newFrame = genreLabel.frame;
         newFrame.size.height = expectedLabelSize.height + size;
         genreLabel.frame = newFrame;
-        [self moveLabel:[NSArray arrayWithObjects:label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(expectedLabelSize.height - 20)];
+        [self moveLabel:[NSArray arrayWithObjects:label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(expectedLabelSize.height - labelSpace)];
         
         if ([[item objectForKey:@"born"] isKindOfClass:NSClassFromString(@"JKArray")]){
             studioLabel.text = [[item objectForKey:@"born"] componentsJoinedByString:@" / "];
@@ -638,7 +640,24 @@ int h=0;
         }
         else{
             studioLabel.text = [[item objectForKey:@"formed"] length] == 0 ? studioLabel.text : [item objectForKey:@"formed"];
-        }        
+        }
+        
+//        if ([directorLabel.text isEqualToString:@"-"]){
+//            directorLabel.hidden = YES;
+//            label1.hidden = YES;
+//            [self moveLabel:[NSArray arrayWithObjects: label2, label4, label5, label6, genreLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:53];
+//        }
+//        
+//        if ([genreLabel.text isEqualToString:@"-"]){
+//            genreLabel.hidden = YES;
+//            label2.hidden = YES;
+//            [self moveLabel:[NSArray arrayWithObjects: label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:53];
+//        }
+        if ([studioLabel.text isEqualToString:@"-"]){
+            studioLabel.hidden = YES;
+            label4.hidden = YES;
+            [self moveLabel:[NSArray arrayWithObjects: label5, label6, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+        }
     }
     else {
         placeHolderImage = @"coverbox_back_movies.png";

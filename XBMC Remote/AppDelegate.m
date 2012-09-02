@@ -1204,8 +1204,8 @@ NSMutableArray *mainMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     
-                                    [NSArray arrayWithObjects:@"season", @"thumbnail", @"tvshowid", @"playcount", nil], @"properties",
-                                    nil], @"parameters", @"Seasons", @"label", 
+                                    [NSArray arrayWithObjects:@"season", @"thumbnail", @"tvshowid", @"playcount", @"episode", nil], @"properties",
+                                    nil], @"parameters", @"Seasons", @"label",
                                    nil],
                                   
                                   [NSArray arrayWithObjects:nil],
@@ -1229,7 +1229,7 @@ NSMutableArray *mainMenuItems;
                                @"duration", @"row4",
                                @"rating",@"row5",
                                @"tvshowid",@"row6",
-                               @"track",@"row7",
+                               @"episode",@"row7",
                                @"season",@"row8",
                                [NSNumber numberWithInt:1], @"playlistid",
                                @"tvshowid", @"row9",
@@ -1255,8 +1255,8 @@ NSMutableArray *mainMenuItems;
                                nil],
                               nil];
     item3.subItem.enableSection=NO;
-    item3.subItem.rowHeight=76;
-    item3.subItem.thumbWidth=53;
+    item3.subItem.rowHeight=114;
+    item3.subItem.thumbWidth=79;
     item3.subItem.defaultThumb=@"nocover_tvshows_episode.png";
     item3.subItem.sheetActions=[NSArray arrayWithObjects:
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],

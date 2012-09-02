@@ -487,6 +487,7 @@ int flagY = 54;
     UILabel *title=(UILabel*) [cell viewWithTag:1];
     UILabel *genre=(UILabel*) [cell viewWithTag:2];
     UILabel *runtimeyear=(UILabel*) [cell viewWithTag:3];
+    UILabel *runtime = (UILabel*) [cell viewWithTag:4];
     UILabel *rating=(UILabel*) [cell viewWithTag:5];
 
     frame=title.frame;
@@ -499,16 +500,16 @@ int flagY = 54;
     frame.size.width=frame.size.width - (labelPosition - frame.origin.x);
     frame.origin.x=labelPosition; 
     genre.frame=frame;
-    [genre setText:[item objectForKey:@"genre"]];
+    if([[item objectForKey:@"family"] isEqualToString:@"season"]){
+        [genre setText:[NSString stringWithFormat:@"Episodes: %@",  [item objectForKey:@"episode"]]];
+    }
+    else{
+        [genre setText:[item objectForKey:@"genre"]];
+    }
     
     frame=runtimeyear.frame;
     frame.origin.x=Menuitem.originYearDuration;
     runtimeyear.frame=frame;
-    
-    frame=rating.frame;
-    frame.origin.x=Menuitem.originYearDuration;
-    rating.frame=frame;
-    
     if ([[Menuitem.showRuntime objectAtIndex:choosedTab] boolValue]){
         NSString *duration=@"";
         if (!Menuitem.noConvertTime){
@@ -522,9 +523,17 @@ int flagY = 54;
     else {
         [runtimeyear setText:[item objectForKey:@"year"]];
     }
-    [(UILabel*) [cell viewWithTag:4] setText:[item objectForKey:@"runtime"]];
-    [rating setText:[item objectForKey:@"rating"]];
     
+    frame=runtime.frame;
+    frame.size.width=frame.size.width - (labelPosition - frame.origin.x);
+    frame.origin.x=labelPosition;
+    runtime.frame=frame;
+    [runtime setText:[item objectForKey:@"runtime"]];
+    
+    frame=rating.frame;
+    frame.origin.x=Menuitem.originYearDuration;
+    rating.frame=frame;
+    [rating setText:[item objectForKey:@"rating"]];
     
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *displayThumb=defaultThumb;
