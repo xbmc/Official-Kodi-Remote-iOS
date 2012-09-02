@@ -226,13 +226,14 @@ int h=0;
 
 -(void)setTvShowsToolbar{
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-        toolbar.hidden = YES;
-        scrollView.autoresizingMask = UIViewAutoresizingNone;
-        
-        [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y - 44, scrollView.frame.size.width, scrollView.frame.size.height + 44)];
-        //[arrow_continue_down setFrame:CGRectMake(arrow_continue_down.frame.origin.x, arrow_continue_down.frame.origin.y + 44, arrow_continue_down.frame.size.width, arrow_continue_down.frame.size.height)];
-        
-        scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        int count = [toolbar.items count];
+        NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
+        [newToolbarItems removeObjectAtIndex:(count - 1)];
+        toolbar.items = newToolbarItems;
+//        toolbar.hidden = YES;
+//        scrollView.autoresizingMask = UIViewAutoresizingNone;
+//        [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y - 44, scrollView.frame.size.width, scrollView.frame.size.height + 44)];
+//        scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
     }
     else{
