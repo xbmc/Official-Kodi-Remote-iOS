@@ -1285,7 +1285,7 @@ NSMutableArray *mainMenuItems;
                                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                              @"episode", @"method",
                                              nil],@"sort",
-                                            [NSArray arrayWithObjects:@"playcount", @"episode", @"thumbnail", @"firstaired", nil], @"properties",
+                                            [NSArray arrayWithObjects:@"playcount", @"episode", @"thumbnail", @"firstaired", @"showtitle", nil], @"properties",
                                             nil], @"parameters", @"Episodes", @"label",
                                            [NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", nil], @"properties",nil], @"extra_info_parameters",
@@ -1300,7 +1300,7 @@ NSMutableArray *mainMenuItems;
                                       [NSDictionary  dictionaryWithObjectsAndKeys:
                                        @"episodes",@"itemid",
                                        @"label", @"row1",
-                                       @"artist", @"row2",
+                                       @"showtitle", @"row2",
                                        @"firstaired", @"row3",
                                        @"runtime", @"row4",
                                        @"rating",@"row5",

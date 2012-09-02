@@ -1880,11 +1880,9 @@ int currentItemID;
     [(UILabel*) [cell viewWithTag:2] setText:@""];
     if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
         if ([[item objectForKey:@"season"] intValue]!=0 || [[item objectForKey:@"episode"] intValue]!=0){
-            [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@ - %@x%@", [item objectForKey:@"showtitle"], [item objectForKey:@"season"], [item objectForKey:@"episode"]]];
+            [(UILabel*) [cell viewWithTag:1] setText:[NSString stringWithFormat:@"%@x%02i. %@", [item objectForKey:@"season"], [[item objectForKey:@"episode"] intValue], [item objectForKey:@"label"]]];
         }
-        else{
-            [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@", [item objectForKey:@"showtitle"]]];
-        }
+        [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@", [item objectForKey:@"showtitle"]]];
     }
     else if ([[item objectForKey:@"type"] isEqualToString:@"song"]){
         NSString *artist = [[item objectForKey:@"artist"] length]==0? @"" :[NSString stringWithFormat:@" - %@", [item objectForKey:@"artist"]];
