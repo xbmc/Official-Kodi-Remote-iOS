@@ -2189,6 +2189,7 @@ int currentItemID;
 }
 
 -(void)setIphoneInterface{
+    ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
     volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
@@ -2205,6 +2206,7 @@ int currentItemID;
 }
 
 -(void)setIpadInterface{
+    ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
 //    ProgressSlider.userInteractionEnabled = NO;

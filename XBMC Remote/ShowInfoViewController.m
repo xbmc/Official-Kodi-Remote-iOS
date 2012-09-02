@@ -13,6 +13,10 @@
 #import "SDImageCache.h"
 #import "UIImageView+WebCache.h"
 #import <QuartzCore/QuartzCore.h>
+#import "AppDelegate.h"
+#import "DetailViewController.h"
+#import "ViewControllerIPad.h"
+#import "StackScrollViewController.h"
 
 @interface ShowInfoViewController ()
 @end
@@ -20,8 +24,8 @@
 @implementation ShowInfoViewController
 
 @synthesize detailItem = _detailItem;
-
 @synthesize nowPlaying;
+@synthesize detailViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -58,6 +62,16 @@ int count=0;
         viewTitle.text = [item objectForKey:@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
         sheetActions = [[NSMutableArray alloc] initWithObjects:@"Queue after current", @"Queue", @"Play", nil];
+        UIBarButtonItem *extraButton = nil;
+        if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
+            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];    
+        }
+        if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
+            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+        }
+
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlackTranslucent;
@@ -77,9 +91,13 @@ int count=0;
             [viewTitle sizeThatFits:CGSizeMake(360, 36)];
             viewTitle.textAlignment = UITextAlignmentLeft;
             UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
+            if (extraButton == nil){
+                extraButton = spacer;
+            }
             NSArray *items = [NSArray arrayWithObjects: 
                               title,
                               spacer,
+                              extraButton,
                               actionSheetButtonItemIpad,
                               nil];
             toolbar.items = items;
@@ -108,9 +126,17 @@ int count=0;
             self.navigationItem.titleView = viewTitle;
             self.navigationItem.title = [item objectForKey:@"label"];
             UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
-            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
-                                                       actionSheetButtonItem,
-                                                       nil];
+            if (extraButton == nil){
+                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+                                                           actionSheetButtonItem,
+                                                           nil];
+            }
+            else{
+                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+                                                           actionSheetButtonItem,
+                                                           extraButton,
+                                                           nil];
+            }
             UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
             rightSwipe.numberOfTouchesRequired = 1;
             rightSwipe.cancelsTouchesInView=NO;
@@ -124,6 +150,77 @@ int count=0;
         leftSwipe.cancelsTouchesInView=NO;
         leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
         [self.view addGestureRecognizer:leftSwipe];
+    }
+}
+#pragma mark - ToolBar button
+- (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    int numelement=[array count];
+    for (int i=0;i<numelement-1;i+=2){
+        [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
+    }
+    return (NSDictionary *)mutableDictionary;
+}
+
+- (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    int numelement=[array count];
+    for (int i=0;i<numelement-1;i+=2){
+        [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
+    }
+    return (NSMutableDictionary *)mutableDictionary;
+}
+
+-(void)showContent:(id)sender{
+    NSDictionary *item=self.detailItem;
+    if ([[item objectForKey:@"family"] isEqualToString:@"albumid"] || [[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        notificationName = @"UIApplicationEnableMusicSection";
+         choosedTab = 0;
+        mainMenu *MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+        MenuItem.subItem.mainLabel=@"";
+        MenuItem.subItem.upperLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
+        if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+            choosedTab = 1;
+        }
+        NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
+        if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
+            NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
+            NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
+            NSString *key=@"null";
+            if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
+                key=[mainFields objectForKey:@"row15"];
+            }
+            id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
+            id objKey = [mainFields objectForKey:@"row6"];
+            if ([AppDelegate instance].serverVersion==12 && ![MenuItem.subItem disableFilterParameter]){
+                obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
+                objKey = @"filter";
+            }
+            NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
+                                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                            obj,objKey,
+                                            [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
+                                            [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
+                                            nil], @"parameters", [parameters objectForKey:@"label"], @"label",
+                                           [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
+                                           nil];
+            [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+            MenuItem.subItem.chooseTab=choosedTab;
+            if (![[item objectForKey:@"disableNowPlaying"] boolValue]){
+                MenuItem.subItem.disableNowPlaying = NO;
+            }
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+                self.detailViewController.detailItem = MenuItem.subItem;
+                [self.navigationController pushViewController:self.detailViewController animated:YES];
+            }
+            else{
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
+                [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
+            }
+        }
     }
 }
 

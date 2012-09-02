@@ -10,6 +10,7 @@
 #import "DSJSONRPC.h"
 //
 @class NowPlaying;
+@class DetailViewController;
 
 @interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>{
     IBOutlet UIImageView *coverView;
@@ -50,12 +51,14 @@
     NSMutableArray *sheetActions;
     UIBarButtonItem *actionSheetButtonItemIpad;
     UIActionSheet *actionSheetView;
-
+    int choosedTab;
+    NSString *notificationName;
 }
+
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
 
 @property (strong, nonatomic) id detailItem;
-
 @property (strong, nonatomic) NowPlaying *nowPlaying;
+@property (strong, nonatomic) DetailViewController *detailViewController;
 
 @end

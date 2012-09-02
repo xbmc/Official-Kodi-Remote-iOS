@@ -68,6 +68,10 @@
 		0F39C4EF15A37252007AA9CE /* st_concert_recently_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F39C4ED15A37252007AA9CE /* st_concert_recently_off.png */; };
 		0F39C4F315A37261007AA9CE /* st_concert_recently_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F39C4F115A37261007AA9CE /* st_concert_recently_off@2x.png */; };
 		0F39C4F415A37261007AA9CE /* st_concert_recently_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F39C4F215A37261007AA9CE /* st_concert_recently_on@2x.png */; };
+		0F3AFF3A15F3B59B00EF0D73 /* st_song_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3AFF3915F3B59B00EF0D73 /* st_song_icon.png */; };
+		0F3AFF3D15F3B5A300EF0D73 /* st_song_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3AFF3C15F3B5A300EF0D73 /* st_song_icon@2x.png */; };
+		0F3AFF3F15F3C00000EF0D73 /* st_album_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3AFF3E15F3C00000EF0D73 /* st_album_icon.png */; };
+		0F3AFF4115F3C00A00EF0D73 /* st_album_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3AFF4015F3C00A00EF0D73 /* st_album_icon@2x.png */; };
 		0F3B41061541A10700B6B553 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3B41051541A10600B6B553 /* Icon.png */; };
 		0F3B41081541A10D00B6B553 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3B41071541A10C00B6B553 /* Icon@2x.png */; };
 		0F3EB33015B1D908002F3E95 /* icon_not_watched.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3EB32F15B1D908002F3E95 /* icon_not_watched.png */; };
@@ -626,6 +630,10 @@
 		0F39C4ED15A37252007AA9CE /* st_concert_recently_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_concert_recently_off.png; sourceTree = "<group>"; };
 		0F39C4F115A37261007AA9CE /* st_concert_recently_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_concert_recently_off@2x.png"; sourceTree = "<group>"; };
 		0F39C4F215A37261007AA9CE /* st_concert_recently_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_concert_recently_on@2x.png"; sourceTree = "<group>"; };
+		0F3AFF3915F3B59B00EF0D73 /* st_song_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_song_icon.png; sourceTree = "<group>"; };
+		0F3AFF3C15F3B5A300EF0D73 /* st_song_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_song_icon@2x.png"; sourceTree = "<group>"; };
+		0F3AFF3E15F3C00000EF0D73 /* st_album_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_album_icon.png; sourceTree = "<group>"; };
+		0F3AFF4015F3C00A00EF0D73 /* st_album_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_album_icon@2x.png"; sourceTree = "<group>"; };
 		0F3B41051541A10600B6B553 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		0F3B41071541A10C00B6B553 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		0F3EB32F15B1D908002F3E95 /* icon_not_watched.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_not_watched.png; sourceTree = "<group>"; };
@@ -1349,6 +1357,8 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F3AFF4015F3C00A00EF0D73 /* st_album_icon@2x.png */,
+				0F3AFF3C15F3B5A300EF0D73 /* st_song_icon@2x.png */,
 				0F82F78D15EE12FE008A1D81 /* st_artist_albums@2x.png */,
 				0F2E433615ED45A00012E3F6 /* st_album_tracks@2x.png */,
 				0F2E433015ED38BB0012E3F6 /* st_artist_info@2x.png */,
@@ -1582,6 +1592,8 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F3AFF3E15F3C00000EF0D73 /* st_album_icon.png */,
+				0F3AFF3915F3B59B00EF0D73 /* st_song_icon.png */,
 				0F82F78A15EE12F6008A1D81 /* st_artist_albums.png */,
 				0F2E433415ED45980012E3F6 /* st_album_tracks.png */,
 				0F2E433215ED38C40012E3F6 /* st_artist_info.png */,
@@ -2479,6 +2491,10 @@
 				0F2E433715ED45A00012E3F6 /* st_album_tracks@2x.png in Resources */,
 				0F82F78B15EE12F6008A1D81 /* st_artist_albums.png in Resources */,
 				0F82F78E15EE12FE008A1D81 /* st_artist_albums@2x.png in Resources */,
+				0F3AFF3A15F3B59B00EF0D73 /* st_song_icon.png in Resources */,
+				0F3AFF3D15F3B5A300EF0D73 /* st_song_icon@2x.png in Resources */,
+				0F3AFF3F15F3C00000EF0D73 /* st_album_icon.png in Resources */,
+				0F3AFF4115F3C00A00EF0D73 /* st_album_icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
