@@ -1763,7 +1763,13 @@ int currentItemID;
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex!=actionSheet.cancelButtonIndex){
         NSDictionary *item = nil;
-        item = [playlistData objectAtIndex:selected.row];
+        int numPlaylistEntries = [playlistData count];
+        if (selected.row < numPlaylistEntries) {
+            item = [playlistData objectAtIndex:selected.row];
+        }
+        else {
+            return;
+        }
         choosedTab = -1;
         mainMenu *MenuItem = nil;
         notificationName = @"";
