@@ -540,16 +540,14 @@ int flagY = 54;
     if ([[item objectForKey:@"filetype"] length]!=0){
         displayThumb=stringURL;
     }
-    if (((tableView.decelerating == NO) || checkNum<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT) && ![stringURL isEqualToString:@""]){
+    if (![stringURL isEqualToString:@""]){
         if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
             [[SDImageCache sharedImageCache] clearMemory];
         }
         [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
-        cell.tag = 0;
     }
     else {
-        cell.urlImageView.image=[UIImage imageNamed:displayThumb];  
-        cell.tag = 1000;
+        [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
     }
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     UIImageView *flagView = (UIImageView*) [cell viewWithTag:9];
@@ -690,9 +688,16 @@ int flagY = 54;
             [self showInfo:indexPath];
         }
         else {
+            BOOL dontautostartSong;
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults synchronize];   
-            if ([[userDefaults objectForKey:@"song_preference"] boolValue]==YES ){
+            [userDefaults synchronize];
+            if ([userDefaults objectForKey:@"song_preference"]== nil){
+                dontautostartSong = YES;
+            }
+            else{
+                dontautostartSong = [[userDefaults objectForKey:@"song_preference"] boolValue];
+            }
+            if (dontautostartSong == YES){
                 selected=indexPath;
                 [self showActionSheet:indexPath];
             }
@@ -714,68 +719,7 @@ int flagY = 54;
     return 1;
 }
 
-#pragma mark -
-#pragma mark Deferred image loading (UIScrollViewDelegate)
-
-- (void)loadImagesForOnscreenRows{
-    int checkNum=numResults;
-    if ([self.searchDisplayController isActive]){
-        checkNum=numFilteredResults;
-    }
-    if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){//[self.searchDisplayController isActive]
-        NSArray *visiblePaths = nil;
-        if ([self.searchDisplayController isActive]){
-            visiblePaths = [self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows];
-        }
-        else {
-            visiblePaths = [dataList indexPathsForVisibleRows];
-        }
-        for (NSIndexPath *indexPath in visiblePaths){
-            UITableViewCell *cell = nil;
-            NSDictionary *item = nil;
-            if ([self.searchDisplayController isActive]){
-                cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
-                item = [self.filteredListContent objectAtIndex:indexPath.row];
-
-            }
-            else {
-                cell = [dataList cellForRowAtIndexPath:indexPath];
-                item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-            }
-            if (cell.tag == 1000){
-                UIImageView *thumb=(UIImageView*) [cell viewWithTag:6];
-                NSString *stringURL = [item objectForKey:@"thumbnail"];
-                NSString *displayThumb=defaultThumb;
-                if ([[item objectForKey:@"filetype"] length]!=0){
-                    displayThumb=stringURL;
-                }
-                [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
-                cell.tag = 0;
-            }
-        }
-    }
-}
-// Load images for all onscreen rows when scrolling is finished
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    if (!decelerate && numResults>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-        [self loadImagesForOnscreenRows];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    if (numResults>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-        [self loadImagesForOnscreenRows];
-    }
-}
-
-//- (void)scrollViewDidScroll:(UIScrollView *)activeScrollView {  
-//    activeScrollView.decelerationRate = UIScrollViewDecelerationRateFast;
-//    NSLog(@"SPEED: %f", activeScrollView.decelerationRate);
-//}
-
-#pragma mark -
-#pragma mark Content Filtering
-
+#pragma mark - Content Filtering
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope{
 	/*
