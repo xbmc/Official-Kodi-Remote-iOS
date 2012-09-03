@@ -109,6 +109,10 @@
 
 #pragma mark - View lifecycle
 
+-(void)viewWillAppear:(BOOL)animated{
+    [bottomToolbar setBackgroundImage:[UIImage imageNamed:@"st_background"] forToolbarPosition:0 barMetrics:0];
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];

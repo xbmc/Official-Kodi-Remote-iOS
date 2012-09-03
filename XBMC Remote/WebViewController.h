@@ -15,6 +15,7 @@
     IBOutlet UIBarButtonItem *webBackButton;
     IBOutlet UIBarButtonItem *webForwardButton;
     IBOutlet UIBarButtonItem *webActionButton;
+    IBOutlet UIToolbar *bottomToolbar;
     UILabel *topNavigationLabel;
 }
 
