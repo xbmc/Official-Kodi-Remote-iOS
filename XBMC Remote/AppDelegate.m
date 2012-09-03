@@ -1123,6 +1123,7 @@ NSMutableArray *mainMenuItems;
                        @"episode",@"row14",
                        @"fanart",@"row7",
                        @"plot",@"row15",
+                       @"studio",@"row16",
                        @"tvshowdetails",@"itemid_extra_info",
                        nil],
                       
