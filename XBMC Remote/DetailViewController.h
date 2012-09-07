@@ -59,6 +59,8 @@
     NSTimeInterval startTime;
     NSTimeInterval elapsedTime;
     NSTimer *countExecutionTime;
+    __weak IBOutlet UITextView *debugText;
+    BOOL callBack;
 }
 
 - (id)initWithFrame:(CGRect)frame;

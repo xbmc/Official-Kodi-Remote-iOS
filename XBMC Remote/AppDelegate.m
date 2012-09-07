@@ -1225,10 +1225,10 @@ NSMutableArray *mainMenuItems;
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"seasons",@"itemid",
                                @"label", @"row1",
-                               @"genre", @"row2",
-                               @"year", @"row3",
-                               @"duration", @"row4",
-                               @"rating",@"row5",
+                               @"blank", @"row2",
+                               @"blank", @"row3",
+                               @"blank", @"row4",
+                               @"blank",@"row5",
                                @"tvshowid",@"row6",
                                @"episode",@"row7",
                                @"season",@"row8",
@@ -1283,10 +1283,9 @@ NSMutableArray *mainMenuItems;
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                             [NSDictionary dictionaryWithObjectsAndKeys:
                                              @"ascending",@"order",
-                                             [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                              @"episode", @"method",
                                              nil],@"sort",
-                                            [NSArray arrayWithObjects:@"playcount", @"episode", @"thumbnail", @"firstaired", @"showtitle", nil], @"properties",
+                                            [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"showtitle", @"playcount", nil], @"properties",
                                             nil], @"parameters", @"Episodes", @"label",
                                            [NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", nil], @"properties",nil], @"extra_info_parameters",

@@ -1588,7 +1588,8 @@ NSIndexPath *selected;
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
-    [jsonRPC 
+//    debugText.text = [NSString stringWithFormat:@"*METHOD: %@\n*PARAMS: %@", methodToCall, parameters];
+    [jsonRPC
      callMethod:methodToCall
      withParameters:parameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1601,6 +1602,7 @@ NSIndexPath *selected;
              longTimeout = nil;
          }
          if (error==nil && methodError==nil){
+//             debugText.text = [NSString stringWithFormat:@"%@\n*DATA: %@", debugText.text, methodResult];
 //             NSLog(@"END JSON");
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
              if ([self.richResults count])
@@ -1752,14 +1754,23 @@ NSIndexPath *selected;
              }
          }
          else {
-             [self.richResults removeAllObjects];
-             [self.sections removeAllObjects];
-             [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
-             [dataList reloadData];
-             [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-//             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
-             [activityIndicatorView stopAnimating];
-             [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
+             if (!callBack){
+                 callBack = TRUE;
+                 NSMutableDictionary *mutableParameters = [parameters mutableCopy];
+                 [mutableParameters removeObjectForKey:@"sort"];
+                 [self retrieveData:methodToCall parameters:mutableParameters];
+             }
+             else{
+//                 debugText.text = [NSString stringWithFormat:@"%@\n*ERROR: %@", debugText.text, methodError];
+                 [self.richResults removeAllObjects];
+                 [self.sections removeAllObjects];
+                 [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
+                 [dataList reloadData];
+                 [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                 NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
+                 [activityIndicatorView stopAnimating];
+                 [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
+             }
          }
      }];
 }
@@ -1897,6 +1908,7 @@ NSIndexPath *selected;
 }
 
 - (void)viewDidLoad{
+    callBack = FALSE;
     self.view.userInteractionEnabled = YES;
     choosedTab = 0;
     watchMode = [self.detailItem currentWatchMode];
@@ -1945,6 +1957,7 @@ NSIndexPath *selected;
 }
 
 - (void)viewDidUnload{
+//    debugText = nil;
     [super viewDidUnload];
     jsonRPC=nil;
     self.richResults=nil;
