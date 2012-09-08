@@ -189,11 +189,11 @@
                      [self sendActionNoRepeat];
                  }
                  else{
-                     [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+                     [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
                  }
              }
              else{
-                 [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+                 [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
              }
          }];   
     }
@@ -508,7 +508,7 @@
     }];
 }
 
--(void)GUIAction:(NSString *)action params:(NSDictionary *)params{
+-(void)GUIAction:(NSString *)action params:(NSDictionary *)params httpAPIcallback:(NSString *)callback{
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
@@ -519,13 +519,18 @@
             if ([action isEqualToString:@"GUI.SetFullscreen"]){
                 [self sendXbmcHttp:@"SendKey(0xf009)"];
             }
-            if ([action isEqualToString:@"Input.Info"]){
+            else if ([action isEqualToString:@"Input.Info"]){
                 [self sendXbmcHttp:@"SendKey(0xF049)"];
             }
-            if ([action isEqualToString:@"Input.ContextMenu"]){
+            else if ([action isEqualToString:@"Input.ContextMenu"]){
                 [self sendXbmcHttp:@"SendKey(0xF043)"];
             }
-//            NSLog(@"ERRORE %@ %@", methodError, error);
+            else if ([action isEqualToString:@"Input.ShowOSD"]){
+                [self sendXbmcHttp:@"SendKey(0xF04D)"];
+            }
+            else if ([action isEqualToString:@"Input.ShowCodec"]){
+                [self sendXbmcHttp:@"SendKey(0xF04F)"];
+            }
         }
     }];
 }
@@ -606,6 +611,7 @@ NSInteger buttonAction;
     switch (buttonAction) {
         case 15: // MENU OSD
             [self sendXbmcHttp:@"SendKey(0xF04D)"];
+//            [self GUIAction:@"Input.ShowOSD" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
         default:
             break;
@@ -631,33 +637,33 @@ NSInteger buttonAction;
     switch (buttonAction) {
         case 10:
             action=@"Input.Up";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
             
         case 12:
             action=@"Input.Left";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
             
         case 13:
             action=@"Input.Select";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             [xbmcVirtualKeyboard resignFirstResponder];
             break;
             
         case 14:
             action=@"Input.Right";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
             
         case 16:
             action=@"Input.Down";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
             
         case 18:
             action=@"Input.Back";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
             
         default:
@@ -674,7 +680,7 @@ NSInteger buttonAction;
     switch ([sender tag]) {
         case 1:
             action=@"GUI.SetFullscreen";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:@"toggle",@"fullscreen", nil]];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:@"toggle",@"fullscreen", nil] httpAPIcallback:nil];
             break;
         case 2:
             action=@"Player.Seek";
@@ -719,17 +725,18 @@ NSInteger buttonAction;
         
         case 9: // HOME
             action=@"Input.Home";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
             
         case 11: // INFO
             action=@"Input.Info";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-            
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
             
         case 15: // MENU OSD
             [self sendXbmcHttp:@"SendKey(0xF04D)"];
+//            action = @"Input.ShowOSD";
+//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
         
         case 19:
@@ -791,11 +798,11 @@ NSInteger buttonAction;
                 break;
                 
             case 11:// CODEC INFO
-                [self sendXbmcHttp:@"SendKey(0xF04F)"]; 
+                [self GUIAction:@"Input.ShowCodec" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
                 break;
             
             case 15:// CONTEXT MENU 
-                [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+                [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
                 break;    
             
             default:
@@ -847,7 +854,7 @@ NSInteger buttonAction;
     else{ // CHARACTER
         int x = (unichar) [string characterAtIndex: 0];
         if (x==10) {
-            [self GUIAction:@"Input.Select" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self GUIAction:@"Input.Select" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             [xbmcVirtualKeyboard resignFirstResponder];
         }
         else if (x<1000){
