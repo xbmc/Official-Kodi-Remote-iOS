@@ -810,7 +810,6 @@ NSIndexPath *selected;
             cell = [dataList cellForRowAtIndexPath:indexPath];
             offsetPoint = [dataList contentOffset];
         }
-                  
         NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
         UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
                                                             delegate:self
@@ -853,9 +852,13 @@ NSIndexPath *selected;
                     selected=indexPath2;
                     selectedPoint=[longPressGesture locationInView:self.view];
                     item = [self.filteredListContent objectAtIndex:indexPath2.row];
+                    [self.searchDisplayController.searchResultsTableView selectRowAtIndexPath:indexPath2 animated:YES scrollPosition:UITableViewScrollPositionNone];
+                    
+
                 }
                 else{
                     item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+                    [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
                 }
 //                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
 //                    return;
