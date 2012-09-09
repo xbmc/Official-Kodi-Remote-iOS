@@ -924,6 +924,14 @@ NSIndexPath *selected;
             [self searchWeb:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
         }
     }
+    else{
+        if ([self.searchDisplayController isActive]){
+            [self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selected animated:NO];
+        }
+        else{
+            [dataList deselectRowAtIndexPath:selected animated:NO];
+        }
+    }
 }
 
 -(void)searchWeb:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
