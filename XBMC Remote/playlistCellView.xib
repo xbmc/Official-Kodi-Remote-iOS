@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1296</int>
+		<int key="IBDocument.SystemTarget">1280</int>
 		<string key="IBDocument.SystemVersion">12B19</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
 		<string key="IBDocument.AppKitVersion">1187</string>
@@ -42,6 +42,25 @@
 						<reference key="NSNextResponder" ref="620882018"/>
 						<int key="NSvFlags">256</int>
 						<array class="NSMutableArray" key="NSSubviews">
+							<object class="IBUIImageView" id="403308626">
+								<reference key="NSNextResponder" ref="413044437"/>
+								<int key="NSvFlags">288</int>
+								<string key="NSFrameSize">{320, 53}</string>
+								<reference key="NSSuperview" ref="413044437"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="507880089"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">white.png</string>
+								</object>
+								<object class="NSCustomResource" key="IBUIHighlightedImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">blank.png</string>
+								</object>
+							</object>
 							<object class="IBUIImageView" id="507880089">
 								<reference key="NSNextResponder" ref="413044437"/>
 								<int key="NSvFlags">292</int>
@@ -274,7 +293,7 @@
 						<string key="NSFrameSize">{320, 52}</string>
 						<reference key="NSSuperview" ref="620882018"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="403308626"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<reference key="IBUIBackgroundColor" ref="117357138"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -328,6 +347,7 @@
 							<reference ref="161767583"/>
 							<reference ref="9156307"/>
 							<reference ref="819559211"/>
+							<reference ref="403308626"/>
 							<reference ref="1070852635"/>
 							<reference ref="403759955"/>
 						</array>
@@ -390,6 +410,11 @@
 						<reference key="object" ref="403759955"/>
 						<reference key="parent" ref="620882018"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">10</int>
+						<reference key="object" ref="403308626"/>
+						<reference key="parent" ref="620882018"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -397,6 +422,7 @@
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -426,7 +452,9 @@
 						<string key="editTable:forceClose:">id</string>
 						<string key="startUpdateProgressBar:">id</string>
 						<string key="startVibrate:">id</string>
+						<string key="stopUpdateProgressBar:">id</string>
 						<string key="togglePartyMode:">id</string>
+						<string key="updateCurrentTime:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="changeRepeat:">
@@ -449,8 +477,16 @@
 							<string key="name">startVibrate:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="stopUpdateProgressBar:">
+							<string key="name">stopUpdateProgressBar:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="togglePartyMode:">
 							<string key="name">togglePartyMode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="updateCurrentTime:">
+							<string key="name">updateCurrentTime:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -667,16 +703,14 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1296" key="NS.object.0"/>
-		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="blank.png">{18, 18}</string>
 			<string key="pgbar_act.png">{44, 17}</string>
 			<string key="pgbar_inact_fake.png">{50, 17}</string>
 			<string key="timeBackground.png">{53, 17}</string>
+			<string key="white.png">{320, 76}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1498</string>
 	</data>
