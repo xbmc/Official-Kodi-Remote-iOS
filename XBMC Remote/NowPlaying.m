@@ -2218,7 +2218,7 @@ int currentItemID;
 //    ProgressSlider.userInteractionEnabled = NO;
     slideFrom=-300;
     CGRect frame;
-    [albumName setFont:[UIFont boldSystemFontOfSize:24]];
+    [albumName setFont:[UIFont systemFontOfSize:24]];
     frame=albumName.frame;
     frame.origin.y=10;
     albumName.frame=frame;
