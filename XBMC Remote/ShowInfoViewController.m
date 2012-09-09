@@ -62,6 +62,15 @@ int count=0;
         viewTitle.text = [item objectForKey:@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
         sheetActions = [[NSMutableArray alloc] initWithObjects:@"Queue after current", @"Queue", @"Play", nil];
+        NSDictionary *resumePointDict = [item objectForKey:@"resume"];
+        if (resumePointDict != nil){
+            if (((NSNull *)[resumePointDict objectForKey:@"position"] != [NSNull null])){
+                if ([[resumePointDict objectForKey:@"position"] floatValue]>0){
+                    resumePointPercentage = ([[resumePointDict objectForKey:@"position"] floatValue] * 100) / [[resumePointDict objectForKey:@"total"] floatValue];
+                    [sheetActions addObject:[NSString stringWithFormat:@"Resume from %@", [self convertTimeFromSeconds:[NSNumber numberWithFloat:[[resumePointDict objectForKey:@"position"] floatValue]]]]];
+                }
+            }
+        }
         UIBarButtonItem *extraButton = nil;
         if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
@@ -155,7 +164,44 @@ int count=0;
         [self.view addGestureRecognizer:leftSwipe];
     }
 }
+
+#pragma mark - Utility 
+
+- (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
+    NSString *result = @"";
+    int secs = [seconds intValue];
+    int tempHour    = 0;
+    int tempMinute  = 0;
+    int tempSecond  = 0;
+    NSString *hour      = @"";
+    NSString *minute    = @"";
+    NSString *second    = @"";
+    tempHour    = secs / 3600;
+    tempMinute  = secs / 60 - tempHour * 60;
+    tempSecond  = secs - (tempHour * 3600 + tempMinute * 60);
+    hour    = [[NSNumber numberWithInt:tempHour] stringValue];
+    minute  = [[NSNumber numberWithInt:tempMinute] stringValue];
+    second  = [[NSNumber numberWithInt:tempSecond] stringValue];
+    if (tempHour < 10) {
+        hour = [@"0" stringByAppendingString:hour];
+    }
+    if (tempMinute < 10) {
+        minute = [@"0" stringByAppendingString:minute];
+    }
+    if (tempSecond < 10) {
+        second = [@"0" stringByAppendingString:second];
+    }
+    if (tempHour == 0) {
+        result = [NSString stringWithFormat:@"%@:%@", minute, second];
+        
+    } else {
+        result = [NSString stringWithFormat:@"%@:%@:%@",hour, minute, second];
+    }
+    return result;
+}
+
 #pragma mark - ToolBar button
+
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     int numelement=[array count];
@@ -268,7 +314,11 @@ int count=0;
             [self addQueueAfterCurrent:NO];
         }
         else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"]){
-            [self addPlayback];
+            [self addPlayback:0.0];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:@"Resume from"].location!= NSNotFound){
+            [self addPlayback:resumePointPercentage];
+            return;
         }
     }
 }
@@ -1028,7 +1078,7 @@ int h=0;
     }
 }
 
--(void)addPlayback{
+-(void)addPlayback:(float)resumePointLocal{
     self.navigationItem.rightBarButtonItem.enabled=NO;
     [activityIndicatorView startAnimating];
     NSDictionary *item = self.detailItem;
@@ -1041,32 +1091,41 @@ int h=0;
                         if (error==nil && methodError==nil){
                             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                             [activityIndicatorView stopAnimating];
-                            
                             [self showNowPlaying];
+                            if (resumePointLocal){
+                                [self SimpleAction:@"Player.Seek" params:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playerid", [NSNumber numberWithFloat:resumePointLocal], @"value", nil]];
+                            }
                         }
                         else {
                             [activityIndicatorView stopAnimating];
                             self.navigationItem.rightBarButtonItem.enabled=YES;
-//                            NSLog(@"terzo errore %@",methodError);
                         }
                     }];
                 }
                 else {
                     [activityIndicatorView stopAnimating];
-//                    NSLog(@"secondo errore %@",methodError);
                     self.navigationItem.rightBarButtonItem.enabled=YES;
-
                 }
             }];
         }
         else {
             [activityIndicatorView stopAnimating];
-//            NSLog(@"ERRORE %@", methodError);
             self.navigationItem.rightBarButtonItem.enabled=YES;
         }
     }];
 }
+
+-(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance];
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC callMethod:action withParameters:parameters];
+}
+
 # pragma  mark - Gestures
+
 - (void)handleSwipeFromRight:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -53,6 +53,7 @@
     UIActionSheet *actionSheetView;
     int choosedTab;
     NSString *notificationName;
+    float resumePointPercentage;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
