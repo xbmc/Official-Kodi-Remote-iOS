@@ -1865,6 +1865,7 @@ NSIndexPath *selected;
 # pragma mark - Life-Cycle
 -(void)viewWillAppear:(BOOL)animated{
     alreadyPush = NO;
+    self.webViewController = nil;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
 	if (selection)
 		[dataList deselectRowAtIndexPath:selection animated:NO];
