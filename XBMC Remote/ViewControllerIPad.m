@@ -287,18 +287,21 @@
         return;
     }
     NSString *title=[NSString stringWithFormat:@"%@\n%@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
+    NSString *destructive = nil;
+    NSArray *sheetActions = nil;
     if (![AppDelegate instance].serverOnLine){
         sheetActions=[NSArray arrayWithObjects:@"Wake On Lan", nil];
     }
     else{
-        sheetActions=[NSArray arrayWithObjects:@"Power off System", @"Hibernate", @"Suspend", @"Reboot", @"Update Audio Library", @"Update Video Library", nil];
+        destructive = @"Power off System";
+        sheetActions=[NSArray arrayWithObjects: @"Hibernate", @"Suspend", @"Reboot", @"Update Audio Library", @"Update Video Library", nil];
     }
     int numActions=[sheetActions count];
     if (numActions){
         actionSheetPower = [[UIActionSheet alloc] initWithTitle:title
                                                             delegate:self
                                                    cancelButtonTitle:nil
-                                              destructiveButtonTitle:nil
+                                              destructiveButtonTitle:destructive
                                                    otherButtonTitles:nil];
         for (int i = 0; i < numActions; i++) {
             [actionSheetPower addButtonWithTitle:[sheetActions objectAtIndex:i]];
@@ -328,7 +331,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex!=actionSheet.cancelButtonIndex){
-        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Wake On Lan"]){
+        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Wake On Lan"]){
             if ([AppDelegate instance].obj.serverHWAddr != nil){
                 [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
                 UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
@@ -339,22 +342,22 @@
                 [alertView show];
             }
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Power off System"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Power off System"]){
             [self powerAction:@"System.Shutdown" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Hibernate"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Hibernate"]){
             [self powerAction:@"System.Hibernate" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Suspend"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Suspend"]){
             [self powerAction:@"System.Suspend" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Reboot"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Reboot"]){
             [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Update Audio Library"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Update Audio Library"]){
             [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Update Video Library"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Update Video Library"]){
             [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
     }

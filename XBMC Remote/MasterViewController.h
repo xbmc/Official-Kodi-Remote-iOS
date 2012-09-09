@@ -31,7 +31,6 @@
     NSIndexPath *storeServerSelection;
     AppInfoViewController *appInfoView;
     HostManagementViewController *hostManagementViewController;
-    NSArray *sheetActions;
 }
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText;
