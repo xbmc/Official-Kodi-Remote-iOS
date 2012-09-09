@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@class DetailViewController;
 
 @interface WebViewController : UIViewController <UIActionSheetDelegate>{
     IBOutlet UIWebView *Twitterweb;
@@ -19,7 +20,8 @@
     UILabel *topNavigationLabel;
 }
 
+@property (strong, nonatomic) id detailItem;
 @property (nonatomic, retain) NSURLRequest *urlRequest;
-
+@property (strong, nonatomic) DetailViewController *detailViewController;
 
 @end

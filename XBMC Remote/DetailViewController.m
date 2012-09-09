@@ -935,9 +935,6 @@ NSIndexPath *selected;
 }
 
 -(void)searchWeb:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
-//    if (self.webViewController == nil){
-//        self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
-//    }
     self.webViewController = nil;
     self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
     NSDictionary *item = nil;
@@ -950,9 +947,8 @@ NSIndexPath *selected;
     NSString *query = [[item objectForKey:@"label"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSString *url = [NSString stringWithFormat:serviceURL, query]; 
 	NSURL *_url = [NSURL URLWithString:url];    
-    
     self.webViewController.urlRequest = [NSURLRequest requestWithURL:_url];
-    
+    self.webViewController.detailItem = item;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [self.navigationController pushViewController:self.webViewController animated:YES];
     }
@@ -962,7 +958,6 @@ NSIndexPath *selected;
         self.webViewController.view.frame=frame;
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:self.webViewController invokeByController:self isStackStartView:FALSE];
     }
- 
 }
 
 #pragma mark - Gestures
