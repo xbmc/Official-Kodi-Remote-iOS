@@ -283,8 +283,12 @@ int count=0;
 #pragma mark - ActionSheet
 
 -(void)showActionSheet {
+    if (actionSheetView.window){
+        [actionSheetView dismissWithClickedButtonIndex:actionSheetView.cancelButtonIndex animated:YES];
+        return;
+    }
     int numActions=[sheetActions count];
-    if (numActions && !actionSheetView.window){
+    if (numActions){
         NSDictionary *item=self.detailItem;
         actionSheetView = [[UIActionSheet alloc] initWithTitle:[item objectForKey:@"label"]
                                                             delegate:self
