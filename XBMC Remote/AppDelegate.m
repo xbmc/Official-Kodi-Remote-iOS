@@ -1148,7 +1148,7 @@ NSMutableArray *mainMenuItems;
                        @"showtitle", @"row14",
                        @"season",@"row15",
                        @"cast",@"row16",
-                       @"file",@"row17",
+                       @"firstaired",@"row17",
                        @"playcount",@"row18",
                        @"fanart",@"row7",
                        nil],
