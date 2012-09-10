@@ -610,8 +610,7 @@ NSInteger buttonAction;
 //    NSString *action;
     switch (buttonAction) {
         case 15: // MENU OSD
-            [self sendXbmcHttp:@"SendKey(0xF04D)"];
-//            [self GUIAction:@"Input.ShowOSD" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+            [self GUIAction:@"Input.ShowOSD" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
         default:
             break;
@@ -734,9 +733,8 @@ NSInteger buttonAction;
             break;
             
         case 15: // MENU OSD
-            [self sendXbmcHttp:@"SendKey(0xF04D)"];
-//            action = @"Input.ShowOSD";
-//            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+            action = @"Input.ShowOSD";
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
             break;
         
         case 19:
@@ -881,7 +879,8 @@ NSInteger buttonAction;
 //                             }
 //                         }                 
 //                     }
-//                 }];  
+//                 }];
+//            [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:string, @"text", [NSNumber numberWithBool:FALSE], @"done", nil] httpAPIcallback:nil];
             [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
         }
     }
