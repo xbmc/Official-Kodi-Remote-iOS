@@ -1773,7 +1773,7 @@ NSIndexPath *selected;
                  [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
                  [dataList reloadData];
                  [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-                 NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
+//                 NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
                  [activityIndicatorView stopAnimating];
                  [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
              }
