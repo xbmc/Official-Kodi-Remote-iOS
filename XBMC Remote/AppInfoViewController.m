@@ -33,7 +33,20 @@
     UITouch *touch = [touches  anyObject];
     if ([touch tapCount] > 15 && touch.view==creditsSign && creditsMask.hidden){
         creditsMask.hidden = NO;
-        [audioPlayer prepareToPlay];
+        if (audioPlayer == nil){
+            NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
+                                                 pathForResource:@"sign"
+                                                 ofType:@"mp3"]];
+            NSError *error;
+            audioPlayer = [[AVAudioPlayer alloc]
+                           initWithContentsOfURL:url
+                           error:&error];
+            if (!error){
+                audioPlayer.delegate = self;
+                [audioPlayer prepareToPlay];
+            }
+        }
+        [audioPlayer setCurrentTime:0];
         [audioPlayer play];
     }
 }
@@ -44,6 +57,7 @@
 
 -(IBAction)CloseView{
     [audioPlayer stop];
+    audioPlayer = nil;
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -51,23 +65,21 @@
     creditsMask.hidden = YES;
 }
 
+-(void)viewDidDisappear:(BOOL)animated{
+    creditsMask.hidden = YES;
+    [audioPlayer stop];
+    [audioPlayer setCurrentTime:0];
+    audioPlayer = nil;
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
-    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
-                                         pathForResource:@"sign"
-                                         ofType:@"mp3"]];
-    NSError *error;
-    audioPlayer = [[AVAudioPlayer alloc]
-                   initWithContentsOfURL:url
-                   error:&error];
-    if (!error){
-        audioPlayer.delegate = self;
-    }
 }
 
 - (void)viewDidUnload{
     creditsMask = nil;
     creditsSign = nil;
+    audioPlayer = nil;
     [super viewDidUnload];
 }
 
