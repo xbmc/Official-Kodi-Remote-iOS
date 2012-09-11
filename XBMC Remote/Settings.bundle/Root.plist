@@ -26,7 +26,7 @@
 			<key>Key</key>
 			<string>song_preference</string>
 			<key>Title</key>
-			<string>Don&apos;t autostart song</string>
+			<string>Direct Play mode</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
