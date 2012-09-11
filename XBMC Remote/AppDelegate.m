@@ -1485,9 +1485,9 @@ NSMutableArray *mainMenuItems;
         [mainMenuItems addObject:item5];
         [mainMenuItems addObject:item6];
         masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-        self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
-        self.window.rootViewController = self.navigationController;
+        self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];        
         masterViewController.mainMenu =mainMenuItems;
+        self.window.rootViewController = self.navigationController;
     } else {
         [mainMenuItems addObject:item1];
         [mainMenuItems addObject:item2];
