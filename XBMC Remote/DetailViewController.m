@@ -361,12 +361,6 @@ int flagY = 54;
     }
     labelPosition=thumbWidth+8;
     int newWidthLabel=0;
-    flagX = thumbWidth - 10;
-    flagY = cellHeight - 19;
-    if (flagX + 22 > self.view.bounds.size.width){
-        flagX = 2;
-        flagY = 2;
-    }
     if (Menuitem.originLabel && ![parameters objectForKey:@"thumbWidth"])
         labelPosition=Menuitem.originLabel;
     // CHECK IF THERE ARE SECTIONS
@@ -552,6 +546,12 @@ int flagY = 54;
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     UIImageView *flagView = (UIImageView*) [cell viewWithTag:9];
     frame=flagView.frame;
+    flagX = thumbWidth - 10;
+    flagY = cellHeight - 19;
+    if (flagX + 22 > self.view.bounds.size.width){
+        flagX = 2;
+        flagY = 2;
+    }
     frame.origin.x=flagX;
     frame.origin.y=flagY;
     flagView.frame=frame;
