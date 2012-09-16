@@ -423,7 +423,7 @@
 -(void)initHostManagement{
     hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     CGRect frame=hostManagementViewController.view.frame;
-    frame.origin.y = - frame.size.height;
+    frame.origin.y = - frame.size.height - 1000;
     hostManagementViewController.view.frame=frame;
     [self.view addSubview:hostManagementViewController.view];
 }
