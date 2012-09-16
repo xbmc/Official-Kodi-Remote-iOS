@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1280</int>
+		<int key="IBDocument.SystemTarget">1536</int>
 		<string key="IBDocument.SystemVersion">12B19</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
 		<string key="IBDocument.AppKitVersion">1187</string>
 		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1498</string>
+			<string key="NS.object.0">1926</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -96,6 +96,7 @@
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MCAwIDAAA</bytes>
+									<string key="IBUIColorCocoaTouchKeyPath">darkTextColor</string>
 								</object>
 								<object class="NSColor" key="IBUIHighlightedColor" id="709066304">
 									<int key="NSColorSpace">3</int>
@@ -449,12 +450,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeRepeat:">id</string>
 						<string key="changeShuffle:">id</string>
-						<string key="editTable:forceClose:">id</string>
-						<string key="startUpdateProgressBar:">id</string>
 						<string key="startVibrate:">id</string>
-						<string key="stopUpdateProgressBar:">id</string>
-						<string key="togglePartyMode:">id</string>
-						<string key="updateCurrentTime:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="changeRepeat:">
@@ -465,28 +461,8 @@
 							<string key="name">changeShuffle:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="editTable:forceClose:">
-							<string key="name">editTable:forceClose:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="startUpdateProgressBar:">
-							<string key="name">startUpdateProgressBar:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="startVibrate:">
 							<string key="name">startVibrate:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="stopUpdateProgressBar:">
-							<string key="name">stopUpdateProgressBar:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="togglePartyMode:">
-							<string key="name">togglePartyMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="updateCurrentTime:">
-							<string key="name">updateCurrentTime:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -712,6 +688,6 @@
 			<string key="timeBackground.png">{53, 17}</string>
 			<string key="white.png">{320, 76}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1498</string>
+		<string key="IBCocoaTouchPluginVersion">1926</string>
 	</data>
 </archive>
