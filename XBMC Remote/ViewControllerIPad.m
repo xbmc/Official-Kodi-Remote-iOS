@@ -416,51 +416,18 @@
 	leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableWidth, self.view.frame.size.height)];
 	leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;	
     
-//    CGRect maniMenuTitleFrame = CGRectMake(0.0f, 2.0f, tableWidth, headerHeight);
-//    UILabel *mainMenuTitle=[[UILabel alloc] initWithFrame:maniMenuTitleFrame];
-//    [mainMenuTitle setFont:[UIFont fontWithName:@"Optima-Regular" size:12]];
-//    [mainMenuTitle setTextAlignment:UITextAlignmentCenter];
-//    [mainMenuTitle setBackgroundColor:[UIColor clearColor]];
-//    [mainMenuTitle setText:@"Main Menu"];
-//    [mainMenuTitle setTextColor:[UIColor lightGrayColor]];
-//    [mainMenuTitle setShadowColor:[UIColor blackColor]];
-//    [mainMenuTitle setShadowOffset:CGSizeMake(1, 1)];
-//    [leftMenuView addSubview:mainMenuTitle];
-    
 	menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, headerHeight, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:mainMenu];
 	[menuViewController.view setBackgroundColor:[UIColor clearColor]];
 	[menuViewController viewWillAppear:FALSE];
 	[menuViewController viewDidAppear:FALSE];
 	[leftMenuView addSubview:menuViewController.view];
-    int separator = 0;
-
-//    separator = 18;
-//    CGRect leatherBackground = CGRectMake(0.0f, tableHeight + headerHeight - 6, tableWidth, separator + 4);
-//    UIImageView *leather = [[UIImageView alloc] initWithFrame:leatherBackground];
-//    [leather setImage:[UIImage imageNamed:@"denim_seam.png"]];
-//    leather.opaque = YES;
-//    leather.alpha = 0.5;
-//    [leftMenuView addSubview:leather];
-    
-    separator = 5;
+    int separator = 5;
     CGRect seamBackground = CGRectMake(0.0f, tableHeight + headerHeight - 2, tableWidth, separator);
     UIImageView *seam = [[UIImageView alloc] initWithFrame:seamBackground];
     [seam setImage:[UIImage imageNamed:@"denim_single_seam.png"]];
     seam.opaque = YES;
-//    seam.alpha = 0.7;
     [leftMenuView addSubview:seam];
-////    
-//    UILabel *playlistTitle=[[UILabel alloc] initWithFrame:leatherBackground];
-//    [playlistTitle setFont:[UIFont fontWithName:@"Optima-Regular" size:12]];
-//    [playlistTitle setTextAlignment:UITextAlignmentCenter];
-//    [playlistTitle setBackgroundColor:[UIColor clearColor]];
-//    [playlistTitle setText:@"Playlist"];
-//    [playlistTitle setTextColor:[UIColor lightGrayColor]];
-//    [playlistTitle setShadowColor:[UIColor blackColor]];
-//    [playlistTitle setShadowOffset:CGSizeMake(1, 1)];
-//    [leftMenuView addSubview:playlistTitle];
-    
-    
+
     nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     CGRect frame=nowPlayingController.view.frame;
     YPOS=-(tableHeight + separator + headerHeight);
@@ -615,25 +582,25 @@
     }
 }
 
--(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-	[menuViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	[stackScrollViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+- (void)viewWillLayoutSubviews{
+    UIInterfaceOrientation toInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
         CGRect frame = self.nowPlayingController.ProgressSlider.frame;
         frame.origin.y = 444;
         self.nowPlayingController.ProgressSlider.frame=frame;
-
         [nowPlayingController setToolbarWidth:768 height:610 YPOS:YPOS playBarWidth:426 portrait:TRUE];
-
 	}
 	else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight){
         CGRect frame = self.nowPlayingController.ProgressSlider.frame;
         frame.origin.y = 600;
         self.nowPlayingController.ProgressSlider.frame=frame;
-        
         [nowPlayingController setToolbarWidth:1024 height:768 YPOS:YPOS playBarWidth:680 portrait:FALSE];
-
 	}
+}
+
+-(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+	[menuViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	[stackScrollViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     showActionPower = NO;
     if (actionSheetPower.window != nil){
         showActionPower = YES;
