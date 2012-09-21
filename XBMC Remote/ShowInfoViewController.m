@@ -1189,4 +1189,13 @@ int h=0;
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
+-(BOOL)shouldAutorotate{
+    return YES;
+}
+
+-(NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+
 @end

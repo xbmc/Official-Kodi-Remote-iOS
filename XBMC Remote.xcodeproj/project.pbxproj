@@ -150,6 +150,7 @@
 		0F4DCF261520F98100FEFD40 /* volume@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4DCF251520F98100FEFD40 /* volume@2x.png */; };
 		0F4DCF2A1520FED400FEFD40 /* shiny_black_volume.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4DCF291520FED400FEFD40 /* shiny_black_volume.png */; };
 		0F4DCF2C1521284B00FEFD40 /* shiny_black_volume@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4DCF2B1521284B00FEFD40 /* shiny_black_volume@2x.png */; };
+		0F540662160C82E900853B02 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F540661160C82E900853B02 /* CustomNavigationController.m */; };
 		0F545D0A1575563100B6320D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F545D051575563100B6320D /* LICENSE.txt */; };
 		0F545D0B1575563100B6320D /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D071575563100B6320D /* OBShapedButton.m */; };
 		0F545D0C1575563100B6320D /* UIImage+ColorAtPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D091575563100B6320D /* UIImage+ColorAtPixel.m */; };
@@ -722,6 +723,8 @@
 		0F4DCF251520F98100FEFD40 /* volume@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "volume@2x.png"; sourceTree = "<group>"; };
 		0F4DCF291520FED400FEFD40 /* shiny_black_volume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shiny_black_volume.png; sourceTree = "<group>"; };
 		0F4DCF2B1521284B00FEFD40 /* shiny_black_volume@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shiny_black_volume@2x.png"; sourceTree = "<group>"; };
+		0F540660160C82E900853B02 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
+		0F540661160C82E900853B02 /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		0F545D051575563100B6320D /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		0F545D061575563100B6320D /* OBShapedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBShapedButton.h; sourceTree = "<group>"; };
 		0F545D071575563100B6320D /* OBShapedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBShapedButton.m; sourceTree = "<group>"; };
@@ -1215,6 +1218,8 @@
 				0F2EB2101547EA4A005CAD4A /* WebViewController.m */,
 				0F4063331578C6CD00596B61 /* MoreItemsViewController.h */,
 				0F4063341578C6CD00596B61 /* MoreItemsViewController.m */,
+				0F540660160C82E900853B02 /* CustomNavigationController.h */,
+				0F540661160C82E900853B02 /* CustomNavigationController.m */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -2565,6 +2570,7 @@
 				0F545D0B1575563100B6320D /* OBShapedButton.m in Sources */,
 				0F545D0C1575563100B6320D /* UIImage+ColorAtPixel.m in Sources */,
 				0F4063351578C6CD00596B61 /* MoreItemsViewController.m in Sources */,
+				0F540662160C82E900853B02 /* CustomNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

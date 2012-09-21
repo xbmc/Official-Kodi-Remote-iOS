@@ -13,6 +13,7 @@
 #import "SDImageCache.h"
 #import "GlobalData.h"
 #import <arpa/inet.h>
+#import "CustomNavigationController.h"
 
 
 @implementation AppDelegate
@@ -1485,7 +1486,7 @@ NSMutableArray *mainMenuItems;
         [mainMenuItems addObject:item5];
         [mainMenuItems addObject:item6];
         masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-        self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];        
+        self.navigationController = [[CustomNavigationController alloc] initWithRootViewController:masterViewController];
         masterViewController.mainMenu =mainMenuItems;
         self.window.rootViewController = self.navigationController;
     } else {
