@@ -506,7 +506,7 @@
 										<string key="NSFrame">{{5, 1}, {310, 30}}</string>
 										<reference key="NSSuperview" ref="914706864"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="894772413"/>
+										<reference key="NSNextKeyView" ref="908271876"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -936,7 +936,7 @@
 										<string key="NSFrame">{{10, 31}, {300, 266}}</string>
 										<reference key="NSSuperview" ref="914706864"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="81787759"/>
+										<reference key="NSNextKeyView" ref="894772413"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">1</int>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -986,7 +986,7 @@
 										<string key="NSFrame">{{5, 346}, {310, 20}}</string>
 										<reference key="NSSuperview" ref="914706864"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="908271876"/>
+										<reference key="NSNextKeyView" ref="81787759"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -1199,13 +1199,18 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="347497617"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
+								<object class="NSCustomResource" key="IBUIHighlightedImage" id="160111140">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_previous_down@2x.png</string>
+									<string key="NSResourceName">now_playing_previous@2x.png</string>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+								<reference key="IBUINormalImage" ref="160111140"/>
+								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="935529161">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_previous_up@2x.png</string>
+									<string key="NSResourceName">now_playing_empty_down@2x.png</string>
+								</object>
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="1071137362">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">now_playing_empty_up@2x.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="192427472"/>
 								<reference key="IBUIFont" ref="65766340"/>
@@ -1230,14 +1235,13 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="347497617"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
+								<object class="NSCustomResource" key="IBUIHighlightedImage" id="174311367">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_seek_backward_down@2x.png</string>
+									<string key="NSResourceName">now_playing_seek_backward@2x.png</string>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_seek_backward_up@2x.png</string>
-								</object>
+								<reference key="IBUINormalImage" ref="174311367"/>
+								<reference key="IBUIHighlightedBackgroundImage" ref="935529161"/>
+								<reference key="IBUINormalBackgroundImage" ref="1071137362"/>
 								<reference key="IBUIFontDescription" ref="192427472"/>
 								<reference key="IBUIFont" ref="65766340"/>
 							</object>
@@ -1260,14 +1264,13 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="347497617"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
+								<object class="NSCustomResource" key="IBUIHighlightedImage" id="917636268">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_pause_down@2x.png</string>
+									<string key="NSResourceName">now_playing_pause@2x.png</string>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_pause_up@2x.png</string>
-								</object>
+								<reference key="IBUINormalImage" ref="917636268"/>
+								<reference key="IBUIHighlightedBackgroundImage" ref="935529161"/>
+								<reference key="IBUINormalBackgroundImage" ref="1071137362"/>
 								<reference key="IBUIFontDescription" ref="192427472"/>
 								<reference key="IBUIFont" ref="65766340"/>
 							</object>
@@ -1290,14 +1293,13 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="347497617"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
+								<object class="NSCustomResource" key="IBUIHighlightedImage" id="217577608">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_stop_down@2x.png</string>
+									<string key="NSResourceName">now_playing_stop@2x.png</string>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_stop_up@2x.png</string>
-								</object>
+								<reference key="IBUINormalImage" ref="217577608"/>
+								<reference key="IBUIHighlightedBackgroundImage" ref="935529161"/>
+								<reference key="IBUINormalBackgroundImage" ref="1071137362"/>
 								<reference key="IBUIFontDescription" ref="192427472"/>
 								<reference key="IBUIFont" ref="65766340"/>
 							</object>
@@ -1321,14 +1323,13 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="347497617"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
+								<object class="NSCustomResource" key="IBUIHighlightedImage" id="1048024983">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_seek_forward_down@2x.png</string>
+									<string key="NSResourceName">now_playing_seek_forward@2x.png</string>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_seek_forward_up@2x.png</string>
-								</object>
+								<reference key="IBUINormalImage" ref="1048024983"/>
+								<reference key="IBUIHighlightedBackgroundImage" ref="935529161"/>
+								<reference key="IBUINormalBackgroundImage" ref="1071137362"/>
 								<reference key="IBUIFontDescription" ref="192427472"/>
 								<reference key="IBUIFont" ref="65766340"/>
 							</object>
@@ -1351,14 +1352,13 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="347497617"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
+								<object class="NSCustomResource" key="IBUIHighlightedImage" id="563174497">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_next_down@2x.png</string>
+									<string key="NSResourceName">now_playing_next@2x.png</string>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_next_up@2x.png</string>
-								</object>
+								<reference key="IBUINormalImage" ref="563174497"/>
+								<reference key="IBUIHighlightedBackgroundImage" ref="935529161"/>
+								<reference key="IBUINormalBackgroundImage" ref="1071137362"/>
 								<reference key="IBUIFontDescription" ref="192427472"/>
 								<reference key="IBUIFont" ref="65766340"/>
 							</object>
@@ -1389,14 +1389,8 @@
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">xbmc_overlay_small.png</string>
 								</object>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_empty_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">now_playing_empty_up@2x.png</string>
-								</object>
+								<reference key="IBUIHighlightedBackgroundImage" ref="935529161"/>
+								<reference key="IBUINormalBackgroundImage" ref="1071137362"/>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">2</int>
 									<int key="size">2</int>
@@ -2180,13 +2174,13 @@
 							<reference ref="858785070"/>
 							<reference ref="367480920"/>
 							<reference ref="500445989"/>
-							<reference ref="1007640293"/>
 							<reference ref="514398009"/>
 							<reference ref="585920628"/>
 							<reference ref="622583888"/>
 							<reference ref="263128804"/>
 							<reference ref="280586627"/>
 							<reference ref="82400847"/>
+							<reference ref="1007640293"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -2534,11 +2528,6 @@
 						<reference key="parent" ref="627939083"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">79</int>
-						<reference key="object" ref="1007640293"/>
-						<reference key="parent" ref="627939083"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">146</int>
 						<reference key="object" ref="82400847"/>
 						<reference key="parent" ref="627939083"/>
@@ -2641,6 +2630,11 @@
 						<reference key="parent" ref="504097466"/>
 						<string key="objectName">Button ArtistDetails</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">210</int>
+						<reference key="object" ref="1007640293"/>
+						<reference key="parent" ref="627939083"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -2708,6 +2702,7 @@
 				<string key="207.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="1" key="207.IBUIButtonInspectorSelectedEdgeInsetMetadataKey"/>
 				<real value="0.0" key="207.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<string key="210.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="0.0" key="24.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
@@ -2723,12 +2718,11 @@
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="67.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="68.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="68.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<real value="0.0" key="68.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="71.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="72.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="72.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="79.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="0.0" key="72.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="80.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="81.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2743,7 +2737,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">209</int>
+			<int key="maxID">210</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2753,9 +2747,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeRepeat:">id</string>
 						<string key="changeShuffle:">id</string>
-						<string key="editTable:forceClose:">id</string>
 						<string key="startVibrate:">id</string>
-						<string key="togglePartyMode:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="changeRepeat:">
@@ -2766,16 +2758,8 @@
 							<string key="name">changeShuffle:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="editTable:forceClose:">
-							<string key="name">editTable:forceClose:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="startVibrate:">
 							<string key="name">startVibrate:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="togglePartyMode:">
-							<string key="name">togglePartyMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -3008,19 +2992,13 @@
 			<string key="icon_dark.png">{50, 50}</string>
 			<string key="now_playing_empty_down@2x.png">{76, 68}</string>
 			<string key="now_playing_empty_up@2x.png">{76, 68}</string>
-			<string key="now_playing_next_down@2x.png">{76, 68}</string>
-			<string key="now_playing_next_up@2x.png">{76, 68}</string>
-			<string key="now_playing_pause_down@2x.png">{76, 68}</string>
-			<string key="now_playing_pause_up@2x.png">{76, 68}</string>
+			<string key="now_playing_next@2x.png">{76, 68}</string>
+			<string key="now_playing_pause@2x.png">{76, 68}</string>
 			<string key="now_playing_playlist@2x.png">{76, 68}</string>
-			<string key="now_playing_previous_down@2x.png">{76, 68}</string>
-			<string key="now_playing_previous_up@2x.png">{76, 68}</string>
-			<string key="now_playing_seek_backward_down@2x.png">{76, 68}</string>
-			<string key="now_playing_seek_backward_up@2x.png">{76, 68}</string>
-			<string key="now_playing_seek_forward_down@2x.png">{76, 68}</string>
-			<string key="now_playing_seek_forward_up@2x.png">{76, 68}</string>
-			<string key="now_playing_stop_down@2x.png">{76, 68}</string>
-			<string key="now_playing_stop_up@2x.png">{76, 68}</string>
+			<string key="now_playing_previous@2x.png">{76, 68}</string>
+			<string key="now_playing_seek_backward@2x.png">{76, 68}</string>
+			<string key="now_playing_seek_forward@2x.png">{76, 68}</string>
+			<string key="now_playing_stop@2x.png">{76, 68}</string>
 			<string key="pgbar_act.png">{44, 17}</string>
 			<string key="pgbar_inact_fake.png">{50, 17}</string>
 			<string key="pgbar_thumb.png">{18, 18}</string>
