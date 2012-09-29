@@ -515,7 +515,12 @@
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//        NSLog(@"Action %@ ok with %@ ", action , methodResult);
+//        if (methodError!=nil || error != nil){
+//            NSLog(@"method error %@", methodError);
+//        }
         if ((methodError!=nil || error != nil) && callback!=nil){ // Backward compatibility
+//            NSLog(@"method error %@", methodError);
             [self sendXbmcHttp:callback];
         }
     }];
@@ -662,6 +667,7 @@ NSInteger buttonAction;
 - (IBAction)startVibrate:(id)sender {
     NSString *action;
     NSArray *params;
+    NSDictionary *dicParams;
     switch ([sender tag]) {
         case 1:
             action=@"GUI.SetFullscreen";
@@ -734,19 +740,37 @@ NSInteger buttonAction;
             break;
             
         case 21:
-            [self sendXbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
+            action = @"GUI.ActivateWindow";
+            dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                         @"music", @"window",
+                         nil];
+            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
             break;
             
         case 22:
-            [self sendXbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
+            action = @"GUI.ActivateWindow";
+            dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                      @"videos", @"window",
+                      [[NSArray alloc] initWithObjects:@"MovieTitles", nil], @"parameters",
+                      nil];
+            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
             break;
         
         case 23:
-            [self sendXbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
+            action = @"GUI.ActivateWindow";
+            dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                         @"videos", @"window",
+                         [[NSArray alloc] initWithObjects:@"tvshowtitles", nil], @"parameters",
+                         nil];
+            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
             break;
         
         case 24:
-            [self sendXbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
+            action = @"GUI.ActivateWindow";
+            dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                         @"pictures", @"window",
+                         nil];
+            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
             break;
             
         default:
@@ -832,45 +856,39 @@ NSInteger buttonAction;
 }
 
 -(BOOL) textField: (UITextField *)theTextField shouldChangeCharactersInRange: (NSRange)range replacementString: (NSString *)string {
-    if (range.location == 0){ //BACKSPACE
-        [self sendXbmcHttp:@"SendKey(0xf108)"];
-    }
-    else{ // CHARACTER
-        int x = (unichar) [string characterAtIndex: 0];
-        if (x==10) {
-            [self GUIAction:@"Input.Select" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
-            [xbmcVirtualKeyboard resignFirstResponder];
+    if ([AppDelegate instance].serverVersion == 11){
+        if (range.location == 0){ //BACKSPACE
+            [self sendXbmcHttp:@"SendKey(0xf108)"];
         }
-        else if (x<1000){
-//            jsonRPC = nil;
-//            GlobalData *obj=[GlobalData getInstance]; 
-//            NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-//            NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-//            jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-//                [jsonRPC 
-//                 callMethod:@"XBMC.GetInfoBooleans" 
-//                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-//                                 [[NSArray alloc] initWithObjects:@"Window.IsActive(virtualkeyboard)", nil], @"booleans",
-//                                 nil] 
-//                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//                     
-//                     if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
-//                         if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(virtualkeyboard)"] != [NSNull null])){
-//                             NSNumber *virtualKeyboardActive = [methodResult objectForKey:@"Window.IsActive(virtualkeyboard)"];
-//                             if ([virtualKeyboardActive intValue] == 1){
-//                                 [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
-//                             }
-//                             else{
-//                                 [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf0%x)", x]];
-//                             }
-//                         }                 
-//                     }
-//                 }];
-//            [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:string, @"text", [NSNumber numberWithBool:FALSE], @"done", nil] httpAPIcallback:nil];
-            [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
+        else{ // CHARACTER
+            int x = (unichar) [string characterAtIndex: 0];
+            if (x==10) {
+                [self GUIAction:@"Input.Select" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+                [xbmcVirtualKeyboard resignFirstResponder];
+            }
+            else if (x<1000){
+                [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
+            }
         }
+        return NO;
     }
-    return NO;
+    else{
+        NSString *stringToSend = [theTextField.text stringByReplacingCharactersInRange:range withString:string];
+        if ([stringToSend isEqualToString:@""]){
+            stringToSend = @" ";
+        }
+        if ([string length] != 0){
+            int x = (unichar) [string characterAtIndex: 0];
+            if (x==10) {
+                [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", [NSNumber numberWithBool:TRUE], @"done", nil] httpAPIcallback:nil];
+                [xbmcVirtualKeyboard resignFirstResponder];
+                theTextField.text = @" ";
+                return YES;
+            }
+        }
+        [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", [NSNumber numberWithBool:FALSE], @"done", nil] httpAPIcallback:nil];
+        return YES;
+    }
 }
 
 #pragma mark - Life Cycle
