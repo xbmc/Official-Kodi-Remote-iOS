@@ -189,11 +189,11 @@
                      [self sendActionNoRepeat];
                  }
                  else{
-                     [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+                     [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:@"SendKey(0xF043)"];
                  }
              }
              else{
-                 [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+                 [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:@"SendKey(0xF043)"];
              }
          }];   
     }
@@ -515,28 +515,14 @@
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (methodError!=nil || error != nil){ // Backward compatibility
-            if ([action isEqualToString:@"GUI.SetFullscreen"]){
-                [self sendXbmcHttp:@"SendKey(0xf009)"];
-            }
-            else if ([action isEqualToString:@"Input.Info"]){
-                [self sendXbmcHttp:@"SendKey(0xF049)"];
-            }
-            else if ([action isEqualToString:@"Input.ContextMenu"]){
-                [self sendXbmcHttp:@"SendKey(0xF043)"];
-            }
-            else if ([action isEqualToString:@"Input.ShowOSD"]){
-                [self sendXbmcHttp:@"SendKey(0xF04D)"];
-            }
-            else if ([action isEqualToString:@"Input.ShowCodec"]){
-                [self sendXbmcHttp:@"SendKey(0xF04F)"];
-            }
+        if ((methodError!=nil || error != nil) && callback!=nil){ // Backward compatibility
+            [self sendXbmcHttp:callback];
         }
     }];
 }
 
 -(void)sendXbmcHttp:(NSString *) command{
-    GlobalData *obj=[GlobalData getInstance]; 
+    GlobalData *obj=[GlobalData getInstance];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverHTTP=[NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort, command];
     NSURL *url = [NSURL  URLWithString:serverHTTP];
@@ -610,7 +596,7 @@ NSInteger buttonAction;
 //    NSString *action;
     switch (buttonAction) {
         case 15: // MENU OSD
-            [self GUIAction:@"Input.ShowOSD" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+            [self GUIAction:@"Input.ShowOSD" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:@"SendKey(0xF04D)"];
             break;
         default:
             break;
@@ -679,7 +665,7 @@ NSInteger buttonAction;
     switch ([sender tag]) {
         case 1:
             action=@"GUI.SetFullscreen";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:@"toggle",@"fullscreen", nil] httpAPIcallback:nil];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:@"toggle",@"fullscreen", nil] httpAPIcallback:@"SendKey(0xf009)"];
             break;
         case 2:
             action=@"Player.Seek";
@@ -729,12 +715,12 @@ NSInteger buttonAction;
             
         case 11: // INFO
             action=@"Input.Info";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:@"SendKey(0xF049)"];
             break;
             
         case 15: // MENU OSD
             action = @"Input.ShowOSD";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:@"SendKey(0xF04D)"];
             break;
         
         case 19:
@@ -796,11 +782,11 @@ NSInteger buttonAction;
                 break;
                 
             case 11:// CODEC INFO
-                [self GUIAction:@"Input.ShowCodec" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+                [self GUIAction:@"Input.ShowCodec" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:@"SendKey(0xF04F)"];
                 break;
             
             case 15:// CONTEXT MENU 
-                [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+                [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:@"SendKey(0xF043)"];
                 break;    
             
             default:
