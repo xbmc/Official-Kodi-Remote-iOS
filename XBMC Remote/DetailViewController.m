@@ -647,7 +647,7 @@ int flagY = 54;
                 else if ([[item objectForKey:@"genre"] isEqualToString:@"file"]){
                     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                     [userDefaults synchronize];   
-                    if ([[userDefaults objectForKey:@"song_preference"] boolValue]==YES ){
+                    if ([[userDefaults objectForKey:@"song_preference"] boolValue]==NO ){
                         selected=indexPath;
                         [self showActionSheet:indexPath];
                     }
@@ -688,16 +688,9 @@ int flagY = 54;
             [self showInfo:indexPath];
         }
         else {
-            BOOL dontautostartSong;
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults synchronize];
-            if ([userDefaults objectForKey:@"song_preference"]== nil){
-                dontautostartSong = YES;
-            }
-            else{
-                dontautostartSong = [[userDefaults objectForKey:@"song_preference"] boolValue];
-            }
-            if (dontautostartSong == YES){
+            if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO){
                 selected=indexPath;
                 [self showActionSheet:indexPath];
             }
