@@ -231,6 +231,40 @@ float cellBarWidth=45;
 }
 
 -(IBAction)togglePartyMode:(id)sender{
+//    [jsonRPC
+//     callMethod:@"JSONRPC.Introspect"
+//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: nil]
+//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//         if (error==nil && methodError==nil){
+//             NSLog(@"OK %@", methodResult);
+//         }
+//         else {
+//             NSLog(@"ERROR %@", methodError);
+//             
+//         }
+//     }
+//     ];
+//
+//    return;
+    
+//    [jsonRPC
+//     callMethod:@"Player.Open"
+//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+//                     [NSDictionary dictionaryWithObjectsAndKeys:@"music", @"partymode", nil], @"item", nil]
+//
+//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//         if (error==nil && methodError==nil){
+//             NSLog(@"OK %@", methodResult);
+//         }
+//         else {
+//             NSLog(@"ERROR %@", methodError);
+//
+//         }
+//     }
+//     ];
+//
+//    return;
+    
     storedItemID=-1;
     [PartyModeButton setSelected:YES];
     GlobalData *obj=[GlobalData getInstance]; 
@@ -1979,11 +2013,12 @@ int currentItemID;
              UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
              [queuing stopAnimating];
              UIView *timePlaying=(UIView*) [cell viewWithTag:5];
-             if (timePlaying.hidden==YES)
+             if (timePlaying.hidden==YES){
                  [self fadeView:timePlaying hidden:NO];
+             }
+//             [self SimpleAction:@"GUI.SetFullscreen" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"fullscreen", nil] reloadPlaylist:NO startProgressBar:NO];
          }
          else {
-//             NSLog(@"EROR %@", methodError);
              UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
              [queuing stopAnimating];
          }
