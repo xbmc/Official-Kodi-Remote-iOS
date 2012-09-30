@@ -111,7 +111,6 @@ float cellBarWidth=45;
 }
 
 -(IBAction)changePlaylist:(id)sender{
-//    NSLog(@"%d", [sender tag]);
     if ([sender tag]==1 && seg_music.selected) return;
     if ([sender tag]==2 && seg_video.selected) return;
     [self editTable:nil forceClose:YES];
@@ -196,23 +195,6 @@ float cellBarWidth=45;
     [UIView commitAnimations];
 }
 
--(void)resizeBar:(float)width{
-//    float time=1.0f;
-//    if (width==0){
-//        time=0.1f;
-//    }
-//    if (width>barwidth)
-//        width=barwidth;
-//    [UIView beginAnimations:nil context:nil];
-//    [UIView setAnimationDuration:time];
-//    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-//    CGRect frame;
-//    frame = [timeBar frame];
-//    frame.size.width = width;
-//    timeBar.frame = frame;
-//    [UIView commitAnimations];
-}
-
 -(void)resizeCellBar:(float)width image:(UIImageView *)cellBarImage{
     float time=1.0f;
     if (width==0){
@@ -282,13 +264,7 @@ float cellBarWidth=45;
     if (value == view.hidden) {
         return;
     }
-//    [UIView beginAnimations:nil context:nil];
-//    [UIView setAnimationDuration:1];
-//    [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:view cache:NO];
-//    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    
     view.hidden=value;
-//    [UIView commitAnimations];
 }
 
 - (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
@@ -305,7 +281,6 @@ float cellBarWidth=45;
 - (void)AnimButton:(UIButton *)button AnimDuration:(float)seconds hidden:(BOOL)hiddenValue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
-	//button.hidden = hiddenValue;
 	CGRect frame;
 	frame = [button frame];
 	frame.origin.x = X;
@@ -523,8 +498,6 @@ int currentItemID;
             jewelView.frame = frame;
         }
         songDetailsView.frame = thumbnailView.frame;
-//        songDetailsView.layer.cornerRadius = 0;
-
     }
     else {
         [nowPlayingView sendSubviewToBack:jewelView];
@@ -535,9 +508,6 @@ int currentItemID;
             jewelView.frame = frame;
         }
         songDetailsView.center = jewelView.center;
-//        songDetailsView.frame = jewelView.frame;
-//        songDetailsView.layer.cornerRadius = 10;
-
     }
     [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
 }
@@ -556,10 +526,6 @@ int currentItemID;
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
     currentTime.text=@"";
-//    [timeCursor.layer removeAllAnimations];
-//    [timeBar.layer removeAllAnimations];
-//    [self animCursor:startx];
-//    [self resizeBar:0];
     thumbnailView.image = nil;
     lastThumbnail = @"";
     if (![self enableJewelCases]){
@@ -1117,24 +1083,13 @@ int currentItemID;
         playerID=0;
         seg_music.selected=YES;
         seg_video.selected=NO;
-//        PartyModeButton.hidden=NO;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:NO XPos:8];
-//        [self alphaButton:PartyModeButton AnimDuration:0.2 show:NO];
-//        PartyModeButton.hidden=NO;
-
-
     }
     else if (playlistID==1){
         playerID=1;
         seg_music.selected=NO;
         seg_video.selected=YES;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-72];
-
-//        [self alphaButton:PartyModeButton AnimDuration:0.2 show:YES];
-
-//        PartyModeButton.hidden=YES;
-
-        
     }
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     jsonRPC = nil;
@@ -1229,9 +1184,6 @@ int currentItemID;
                        if (musicPartyMode && playlistID==0){
                            [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
                        }
-                       
-                           
-
                    }
                }
                else {
@@ -1544,7 +1496,6 @@ int currentItemID;
 #pragma mark - bottom toolbar
 
 - (IBAction)startVibrate:(id)sender {
-//    NSLog(@"%d", [sender tag]);
     NSString *action;
     NSArray *params;
     switch ([sender tag]) {
@@ -1669,10 +1620,6 @@ int currentItemID;
         [self toggleSongDetails];
         [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
     }
-//    if(![touch.view isEqual:volumeSliderView]){
-//        [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
-//    }
-    
 }
 
 -(void)showClearPlaylistAlert{
@@ -1710,7 +1657,6 @@ int currentItemID;
                     [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:@"Movie Details", nil]];
                 }
                 else if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
-//                    NSLog(@"ITEM %@", item);
                     [sheetActions addObjectsFromArray:[NSArray arrayWithObjects: @"TV Show Details", @"Episode Details", nil]];
                 }
             }
@@ -1899,7 +1845,6 @@ int currentItemID;
         }
         else{
             [self showInfo:item menuItem:MenuItem indexPath:selected];
-//            NSLog(@"SHOW INFO");
         }
     }
     
@@ -1978,8 +1923,6 @@ int currentItemID;
     storeSelection=nil;
     if (timePlaying.hidden==NO)
         [self fadeView:timePlaying hidden:YES];
-
-    //timePlaying.hidden=YES;
 }
 
 -(void)checkPartyMode{
@@ -2159,7 +2102,6 @@ int currentItemID;
         for (NSIndexPath *indexPath in visiblePaths){
             UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
             UIImageView *thumb=(UIImageView*) [cell viewWithTag:4];
-            //            [self alphaImage:thumb AnimDuration:0.1 Alpha:0.0];
             NSDictionary *item = [playlistData objectAtIndex:indexPath.row];
             NSString *stringURL = [item objectForKey:@"thumbnail"];
             NSURL *imageUrl = [NSURL URLWithString: stringURL];    
@@ -2174,7 +2116,6 @@ int currentItemID;
             else {            
                 [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
             }
-            //            [self alphaImage:thumb AnimDuration:0.1 Alpha:1.0];
         }
     }
 }
@@ -2250,7 +2191,6 @@ int currentItemID;
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
-//    ProgressSlider.userInteractionEnabled = NO;
     slideFrom=-300;
     CGRect frame;
     [albumName setFont:[UIFont systemFontOfSize:24]];
@@ -2278,8 +2218,6 @@ int currentItemID;
     frame = ProgressSlider.frame;
     frame.origin.y = frame.origin.y - 5;
     ProgressSlider.frame = frame;
-    
-    
     
     NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
     [items removeObjectAtIndex:1];
@@ -2347,10 +2285,6 @@ int currentItemID;
     [self handleXBMCPlaylistHasChanged:nil];
     [self playbackInfo];
     [volumeSliderView startTimer]; 
-//    lastSelected = -1;
-//    playerID = -1;
-//    storedItemID = -1;
-//    selectedPlayerID = -1;
     updateProgressBar = YES;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
     fromItself = FALSE;
@@ -2364,7 +2298,6 @@ int currentItemID;
     [timer invalidate];
     currentItemID = -1;
     [volumeSliderView stopTimer];
-//    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -2375,10 +2308,7 @@ int currentItemID;
 - (void)viewDidLoad{
     [super viewDidLoad];
     sheetActions = [[NSMutableArray alloc] init];
-//    [ProgressSlider setMaximumTrackImage:[UIImage imageNamed:@"slider-bg.png"] forState:UIControlStateNormal];
-//    [ProgressSlider setMinimumTrackImage:[UIImage imageNamed:@"fill.png"] forState:UIControlStateNormal];
     [[SDImageCache sharedImageCache] clearMemory];
-    
     playerID = -1;
     selectedPlayerID = -1;
     lastSelected = -1;
@@ -2437,7 +2367,6 @@ int currentItemID;
     lastThumbnail = @"";
     [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-    //[self createPlaylist:YES animTableView:NO];
 }
 
 - (void)viewDidUnload{
@@ -2456,9 +2385,6 @@ int currentItemID;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-//    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-//}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
