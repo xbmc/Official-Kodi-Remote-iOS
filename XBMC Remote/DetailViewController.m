@@ -364,7 +364,7 @@ int flagY = 54;
     if (Menuitem.originLabel && ![parameters objectForKey:@"thumbWidth"])
         labelPosition=Menuitem.originLabel;
     // CHECK IF THERE ARE SECTIONS
-    if ([self.richResults count]<SECTIONS_START_AT || ![self.detailItem enableSection]){
+    if ([self.richResults count]<=SECTIONS_START_AT || ![self.detailItem enableSection]){
         newWidthLabel = viewWidth - 8 - labelPosition;
         Menuitem.originYearDuration = viewWidth - 72;
     }
