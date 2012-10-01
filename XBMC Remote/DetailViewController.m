@@ -588,7 +588,7 @@ int flagY = 54;
             }
             id obj = [item objectForKey:[mainFields objectForKey:@"row6"]];
             id objKey = [mainFields objectForKey:@"row6"];
-            if ([AppDelegate instance].serverVersion==12 && ![MenuItem.subItem disableFilterParameter]){
+            if ([AppDelegate instance].serverVersion>11 && ![MenuItem.subItem disableFilterParameter]){
                 obj = [NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:[mainFields objectForKey:@"row6"]],[mainFields objectForKey:@"row6"], nil];
                 objKey = @"filter";
             }
