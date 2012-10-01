@@ -213,51 +213,45 @@ float cellBarWidth=45;
 }
 
 -(IBAction)togglePartyMode:(id)sender{
-//    [jsonRPC
-//     callMethod:@"JSONRPC.Introspect"
-//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: nil]
-//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//         if (error==nil && methodError==nil){
-//             NSLog(@"OK %@", methodResult);
-//         }
-//         else {
-//             NSLog(@"ERROR %@", methodError);
-//             
-//         }
-//     }
-//     ];
-//
-//    return;
-    
-//    [jsonRPC
-//     callMethod:@"Player.Open"
-//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-//                     [NSDictionary dictionaryWithObjectsAndKeys:@"music", @"partymode", nil], @"item", nil]
-//
-//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//         if (error==nil && methodError==nil){
-//             NSLog(@"OK %@", methodResult);
-//         }
-//         else {
-//             NSLog(@"ERROR %@", methodError);
-//
-//         }
-//     }
-//     ];
-//
-//    return;
-    
-    storedItemID=-1;
-    [PartyModeButton setSelected:YES];
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverHTTP=[NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=PlayerControl(Partymode('music'))", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    NSURL *url = [NSURL  URLWithString:serverHTTP];
-    NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];  
-    requestANS=nil;
-    playerID = -1;
-    selectedPlayerID = -1;
-    [self createPlaylist:NO animTableView:YES];
+    if ([AppDelegate instance].serverVersion == 11){
+        storedItemID=-1;
+        [PartyModeButton setSelected:YES];
+        GlobalData *obj=[GlobalData getInstance];
+        NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+        NSString *serverHTTP=[NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=PlayerControl(Partymode('music'))", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+        NSURL *url = [NSURL  URLWithString:serverHTTP];
+        NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
+        requestANS=nil;
+        playerID = -1;
+        selectedPlayerID = -1;
+        [self createPlaylist:NO animTableView:YES];
+    }
+    else{
+        if (musicPartyMode){
+            [PartyModeButton setSelected:NO];
+            [jsonRPC
+             callMethod:@"Player.SetPartymode"
+             withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", @"toggle", @"partymode", nil]
+             onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                 [PartyModeButton setSelected:NO];
+             }];
+        }
+        else{
+            [PartyModeButton setSelected:YES];
+            [jsonRPC
+             callMethod:@"Player.Open"
+             withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSDictionary dictionaryWithObjectsAndKeys:@"music", @"partymode", nil], @"item", nil]
+             onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                 [PartyModeButton setSelected:YES];
+                 playerID = -1;
+                 selectedPlayerID = -1;
+                 storedItemID=-1;
+//                 [self createPlaylist:NO animTableView:YES];
+             }];
+        }
+    }
+    return;
 }
 
 -(void)fadeView:(UIView *)view hidden:(BOOL)value{
