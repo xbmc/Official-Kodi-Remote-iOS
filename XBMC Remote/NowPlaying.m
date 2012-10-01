@@ -228,6 +228,7 @@ float cellBarWidth=45;
     }
     else{
         if (musicPartyMode){
+            NSLog(@"e' attivo");
             [PartyModeButton setSelected:NO];
             [jsonRPC
              callMethod:@"Player.SetPartymode"
@@ -237,6 +238,8 @@ float cellBarWidth=45;
              }];
         }
         else{
+            NSLog(@"non e' attivo");
+
             [PartyModeButton setSelected:YES];
             [jsonRPC
              callMethod:@"Player.Open"
@@ -543,6 +546,7 @@ int currentItemID;
     albumTracksButton.hidden = YES;
     artistDetailsButton.hidden = YES;
     artistAlbumsButton.hidden = YES;
+    musicPartyMode = 0;
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     if (selection){
         [playlistTableView deselectRowAtIndexPath:selection animated:YES];
