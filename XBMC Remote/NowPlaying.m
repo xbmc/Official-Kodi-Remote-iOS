@@ -1495,9 +1495,16 @@ int currentItemID;
     NSArray *params;
     switch ([sender tag]) {
         case 1:
-            action=@"Player.GoPrevious";
-            params=nil;
-            [self playbackAction:action params:nil checkPartyMode:YES];
+            if ([AppDelegate instance].serverVersion>11){
+                action=@"Player.GoTo";
+                params=[NSArray arrayWithObjects:@"previous", @"to", nil];
+                [self playbackAction:action params:params checkPartyMode:YES];
+            }
+            else{
+                action=@"Player.GoPrevious";
+                params=nil;
+                [self playbackAction:action params:nil checkPartyMode:YES];
+            }
             ProgressSlider.value = 0;
             break;
             
@@ -1515,9 +1522,16 @@ int currentItemID;
             break;
             
         case 4:
-            action=@"Player.GoNext";
-            params=nil;
-            [self playbackAction:action params:nil checkPartyMode:YES];
+            if ([AppDelegate instance].serverVersion>11){
+                action=@"Player.GoTo";
+                params=[NSArray arrayWithObjects:@"next", @"to", nil];
+                [self playbackAction:action params:params checkPartyMode:YES];
+            }
+            else{
+                action=@"Player.GoNext";
+                params=nil;
+                [self playbackAction:action params:nil checkPartyMode:YES];
+            }
             break;
             
         case 5:
@@ -1566,36 +1580,61 @@ int currentItemID;
 }
 
 -(IBAction)changeShuffle:(id)sender{
-    
     [shuffleButton setHighlighted:YES];
     [self performSelector:@selector(toggleHighlight:) withObject:shuffleButton afterDelay:.1];
     lastSelected=-1;
     storeSelection=nil;
-    if (shuffled){
-        [self SimpleAction:@"Player.UnShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID],@"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
-        [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+    if ([AppDelegate instance].serverVersion>11){
+        [self SimpleAction:@"Player.SetShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"toggle", @"shuffle", nil] reloadPlaylist:YES startProgressBar:NO];
+        if (shuffled){
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+        }
+        else{
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+        }
     }
     else{
-        [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
-        [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+        if (shuffled){
+            [self SimpleAction:@"Player.UnShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID],@"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+        }
+        else{
+            [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+        }
     }
 }
 
 -(IBAction)changeRepeat:(id)sender{
     [repeatButton setHighlighted:YES];
     [self performSelector:@selector(toggleHighlight:) withObject:repeatButton afterDelay:.1];
-    if ([repeatStatus isEqualToString:@"off"]){
-        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"all", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
-        [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
-    }
-    else if ([repeatStatus isEqualToString:@"all"]){
-        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"one", @"state", nil] reloadPlaylist:NO startProgressBar:NO]; 
-        [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
+    if ([AppDelegate instance].serverVersion>11){
+        [self SimpleAction:@"Player.SetRepeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"cycle", @"repeat", nil] reloadPlaylist:NO startProgressBar:NO];
+        if ([repeatStatus isEqualToString:@"off"]){
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
+        }
+        else if ([repeatStatus isEqualToString:@"all"]){
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
 
+        }
+        else if ([repeatStatus isEqualToString:@"one"]){
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
+        }
     }
-    else if ([repeatStatus isEqualToString:@"one"]){
-        [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"off", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
-        [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
+    else{
+        if ([repeatStatus isEqualToString:@"off"]){
+            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"all", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
+        }
+        else if ([repeatStatus isEqualToString:@"all"]){
+            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"one", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
+            
+        }
+        else if ([repeatStatus isEqualToString:@"one"]){
+            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"off", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
+        }
     }
 }
 
