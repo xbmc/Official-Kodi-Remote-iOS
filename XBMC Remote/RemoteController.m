@@ -691,9 +691,16 @@ NSInteger buttonAction;
             [self playbackAction:action params:params];
             break;
         case 5:
-            action=@"Player.GoPrevious";
-            params=nil;
-            [self playbackAction:action params:nil];
+            if ([AppDelegate instance].serverVersion>11){
+                action=@"Player.GoTo";
+                params=[NSArray arrayWithObjects:@"previous", @"to", nil];
+                [self playbackAction:action params:params];
+            }
+            else{
+                action=@"Player.GoPrevious";
+                params=nil;
+                [self playbackAction:action params:nil];
+            }
             break;
             
         case 6:
@@ -709,9 +716,16 @@ NSInteger buttonAction;
             break;
             
         case 8:
-            action=@"Player.GoNext";
-            params=nil;
-            [self playbackAction:action params:nil];
+            if ([AppDelegate instance].serverVersion>11){
+                action=@"Player.GoTo";
+                params=[NSArray arrayWithObjects:@"next", @"to", nil];
+                [self playbackAction:action params:params];
+            }
+            else{
+                action=@"Player.GoNext";
+                params=nil;
+                [self playbackAction:action params:nil];
+            }
             break;
         
         case 9: // HOME
