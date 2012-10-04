@@ -61,6 +61,17 @@
                 [UIView commitAnimations];
             }
         }
+//        NSString *userPassword=[[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
+//        NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
+//        jsonRPC=nil;
+//        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+//
+//        [jsonRPC
+//         callMethod:@"JSONRPC.Introspect"
+//         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: nil]
+//         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//             NSLog(@"%@", methodResult);
+//         }];
     }
     else{
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
