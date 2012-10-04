@@ -1225,7 +1225,7 @@ NSMutableArray *mainMenuItems;
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                             @"episode", @"method",
+                             @"none", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", @"resume", nil], @"properties",
                             nil], @"parameters", @"Added Episodes", @"label", @"53", @"rowHeight", @"95", @"thumbWidth", nil],
