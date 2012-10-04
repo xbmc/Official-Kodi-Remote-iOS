@@ -228,7 +228,6 @@ float cellBarWidth=45;
     }
     else{
         if (musicPartyMode){
-            NSLog(@"e' attivo");
             [PartyModeButton setSelected:NO];
             [jsonRPC
              callMethod:@"Player.SetPartymode"
@@ -238,8 +237,6 @@ float cellBarWidth=45;
              }];
         }
         else{
-            NSLog(@"non e' attivo");
-
             [PartyModeButton setSelected:YES];
             [jsonRPC
              callMethod:@"Player.Open"
@@ -1569,6 +1566,7 @@ int currentItemID;
 }
 
 -(IBAction)changeShuffle:(id)sender{
+    
     [shuffleButton setHighlighted:YES];
     [self performSelector:@selector(toggleHighlight:) withObject:shuffleButton afterDelay:.1];
     lastSelected=-1;
@@ -1813,7 +1811,7 @@ int currentItemID;
             }
             id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
             id objKey = [mainFields objectForKey:@"row6"];
-            if ([AppDelegate instance].serverVersion==12 && ![MenuItem.subItem disableFilterParameter]){
+            if ([AppDelegate instance].serverVersion>11 && ![MenuItem.subItem disableFilterParameter]){
                 obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
                 objKey = @"filter";
             }
