@@ -133,7 +133,7 @@ NSMutableArray *mainMenuItems;
     item1.icon = @"icon_home_music.png";
     item1.family = 1;
     item1.enableSection=YES;
-    item1.mainButtons=[NSArray arrayWithObjects:@"st_album", @"st_artist", @"st_genre", @"st_filemode", @"st_album_recently", @"st_songs_recently", @"st_song", @"st_song", @"st_song", @"st_song", @"st_song", @"st_song",  nil];//, @"st_album_recently", @"st_songs_recently"
+    item1.mainButtons=[NSArray arrayWithObjects:@"st_album", @"st_artist", @"st_genre", @"st_filemode", @"st_album_recently", @"st_songs_recently", @"st_song", @"st_song", @"st_song", @"st_song", @"st_song", @"st_addons",  nil];//, @"st_album_recently", @"st_songs_recently"
     
     item1.mainMethod=[NSMutableArray arrayWithObjects:
                       
@@ -1016,7 +1016,7 @@ NSMutableArray *mainMenuItems;
     item2.icon = @"icon_home_movie.png";
     item2.family = 1;
     item2.enableSection=YES;
-    item2.mainButtons=[NSArray arrayWithObjects:@"st_movie", @"st_concert", @"st_movie_recently", @"st_filemode", @"st_song", nil];//
+    item2.mainButtons=[NSArray arrayWithObjects:@"st_movie", @"st_concert", @"st_movie_recently", @"st_filemode", @"st_addons", nil];//
 
     item2.mainMethod=[NSMutableArray arrayWithObjects:
                       [NSArray arrayWithObjects:
@@ -1353,7 +1353,7 @@ NSMutableArray *mainMenuItems;
     item3.icon = @"icon_home_tv.png";
     item3.family = 1;
     item3.enableSection=YES;
-    item3.mainButtons=[NSArray arrayWithObjects:@"st_tv", @"st_tv_recently", @"st_filemode", @"st_filemode", nil];//, @"st_actor", @"st_genre"
+    item3.mainButtons=[NSArray arrayWithObjects:@"st_tv", @"st_tv_recently", @"st_filemode", @"st_addons", nil];//, @"st_actor", @"st_genre"
 
     item3.mainMethod=[NSMutableArray arrayWithObjects:
                       [NSArray arrayWithObjects:
@@ -1730,7 +1730,7 @@ NSMutableArray *mainMenuItems;
     item4.icon = @"icon_home_picture.png";
     item4.family = 1;
     item4.enableSection=YES;
-    item4.mainButtons=[NSArray arrayWithObjects:@"st_filemode", @"st_filemode", nil];//, @"st_actor", @"st_genre"
+    item4.mainButtons=[NSArray arrayWithObjects:@"st_filemode", @"st_addons", nil];//, @"st_actor", @"st_genre"
     
     item4.mainMethod=[NSMutableArray arrayWithObjects:
                       
