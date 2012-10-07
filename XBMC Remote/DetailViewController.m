@@ -613,7 +613,6 @@ int originYear=0;
         else { // CHILD IS FILEMODE
             NSString *filemodeRowHeight= @"35";
             NSString *filemodeThumbWidth= @"35";
-            NSLog(@"PARAMS %@", parameters);
             if ([parameters objectForKey:@"rowHeight"] != nil){
                 filemodeRowHeight = [parameters objectForKey:@"rowHeight"];
             }
@@ -633,7 +632,6 @@ int originYear=0;
                                                     nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song",@"fileThumb",
                                                    nil];
                     MenuItem.upperLabel=[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]];
-
                     [[MenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
                     MenuItem.chooseTab=choosedTab;
                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
