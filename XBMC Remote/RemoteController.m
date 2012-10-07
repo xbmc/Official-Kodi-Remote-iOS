@@ -94,6 +94,11 @@
     
     UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotate:)];
 	[gestureZoneView addGestureRecognizer:rotation];
+    
+    UITapGestureRecognizer *twoFingersTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingersTap)];
+    [twoFingersTap setNumberOfTapsRequired:1];
+    [twoFingersTap setNumberOfTouchesRequired:2];
+    [gestureZoneView addGestureRecognizer:twoFingersTap];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -153,6 +158,10 @@
 -(void)handleTouchpadSingleTap{
     buttonAction = 13;
     [self sendAction];
+}
+
+-(void)twoFingersTap{
+    [self GUIAction:@"Input.Home" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
 }
 
 - (void)handleTouchpadLongPress:(UILongPressGestureRecognizer*)gestureRecognizer { 
