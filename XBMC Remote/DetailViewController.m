@@ -113,6 +113,7 @@
 
 -(IBAction)showMore:(id)sender{
 //    if ([sender tag]==choosedTab) return;
+    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [activityIndicatorView startAnimating];
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     if (choosedTab<[buttonsIB count]){
@@ -618,6 +619,15 @@ int flagY = 54;
             
         }
         else { // CHILD IS FILEMODE
+            NSString *filemodeRowHeight= @"35";
+            NSString *filemodeThumbWidth= @"35";
+            NSLog(@"PARAMS %@", parameters);
+            if ([parameters objectForKey:@"rowHeight"] != nil){
+                filemodeRowHeight = [parameters objectForKey:@"rowHeight"];
+            }
+            if ([parameters objectForKey:@"thumbWidth"] != nil){
+                filemodeThumbWidth = [parameters objectForKey:@"thumbWidth"];
+            }
             if ([[item objectForKey:@"filetype"] length]!=0){ // WE ARE ALREADY IN BROWSING FILES MODE
                 if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]){
                     [parameters removeAllObjects];
@@ -627,7 +637,8 @@ int flagY = 54;
                                                     [item objectForKey:[mainFields objectForKey:@"row6"]],@"directory",
                                                     [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
                                                     [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
-                                                    nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", @"icon_song",@"fileThumb",
+                                                    [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
+                                                    nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song",@"fileThumb",
                                                    nil];
                     MenuItem.upperLabel=[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]];
 
@@ -642,7 +653,6 @@ int flagY = 54;
                         DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
                         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
                     }
-
                 }
                 else if ([[item objectForKey:@"genre"] isEqualToString:@"file"]){
                     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -665,8 +675,8 @@ int flagY = 54;
                                                 [item objectForKey:[mainFields objectForKey:@"row6"]],@"directory",
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
-
-                                                nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth",
+                                                [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
+                                                nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                                nil];
                 [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
                 MenuItem.subItem.chooseTab=choosedTab;
@@ -1588,9 +1598,14 @@ NSIndexPath *selected;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
 //    debugText.text = [NSString stringWithFormat:@"*METHOD: %@\n*PARAMS: %@", methodToCall, parameters];
+    NSMutableDictionary *mutableParameters = [parameters mutableCopy];
+    if ([mutableParameters objectForKey: @"file_properties"]!=nil){
+        [mutableParameters setObject: [mutableParameters objectForKey: @"file_properties"] forKey: @"properties"];
+        [mutableParameters removeObjectForKey: @"file_properties"];
+    }
     [jsonRPC
      callMethod:methodToCall
-     withParameters:parameters
+     withParameters:mutableParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          int total=0;
          startTime = 0;
@@ -1601,6 +1616,7 @@ NSIndexPath *selected;
              longTimeout = nil;
          }
          if (error==nil && methodError==nil){
+             callBack = FALSE;
 //             debugText.text = [NSString stringWithFormat:@"%@\n*DATA: %@", debugText.text, methodResult];
 //             NSLog(@"END JSON");
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
@@ -1684,19 +1700,21 @@ NSIndexPath *selected;
                      if ([[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"]!=nil){
                          filetype=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"];
                          type=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"type"];;
-                         if ([filetype isEqualToString:@"directory"]){
-                             stringURL=@"nocover_filemode.png";
-                         }
-                         else if ([filetype isEqualToString:@"file"]){
-                             if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
-                                 stringURL=@"icon_song.png";
-                                 
+                         if ([thumbnailPath length] == 0){
+                             if ([filetype isEqualToString:@"directory"]){
+                                 stringURL=@"nocover_filemode.png";
                              }
-                             else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
-                                 stringURL=@"icon_video.png";
-                             }
-                             else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-                                 stringURL=@"icon_picture.png";
+                             else if ([filetype isEqualToString:@"file"]){
+                                 if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
+                                     stringURL=@"icon_song.png";
+                                     
+                                 }
+                                 else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
+                                     stringURL=@"icon_video.png";
+                                 }
+                                 else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
+                                     stringURL=@"icon_picture.png";
+                                 }
                              }
                          }
                      }
@@ -1732,7 +1750,7 @@ NSIndexPath *selected;
                                                    nil]];
                  }
                  //                 NSLog(@"END STORE");
-                 //                 NSLog(@"RICH RESULTS %@", richResults);
+//                 NSLog(@"RICH RESULTS %@", richResults);
                  storeRichResults = [richResults mutableCopy];
                  if (watchMode != 0){
                      [self changeViewMode:watchMode];
@@ -1753,6 +1771,7 @@ NSIndexPath *selected;
              }
          }
          else {
+//             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
              if (!callBack){
                  callBack = TRUE;
                  NSMutableDictionary *mutableParameters = [parameters mutableCopy];
@@ -1766,7 +1785,6 @@ NSIndexPath *selected;
                  [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
                  [dataList reloadData];
                  [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-//                 NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
                  [activityIndicatorView stopAnimating];
                  [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
              }
