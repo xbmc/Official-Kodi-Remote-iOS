@@ -61,6 +61,9 @@
     NSTimer *countExecutionTime;
     __weak IBOutlet UITextView *debugText;
     BOOL callBack;
+    int labelPosition;
+    int flagX;
+    int flagY;
 }
 
 - (id)initWithFrame:(CGRect)frame;

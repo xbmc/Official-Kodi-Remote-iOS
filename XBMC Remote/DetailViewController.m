@@ -328,13 +328,11 @@
 
 #pragma mark - Cell Formatting 
 
-
 int cellWidth=0;
 int originYear=0;
-int labelPosition=0;
-int flagX = 43;
-int flagY = 54;
 -(void)choseParams{ // DA OTTIMIZZARE TROPPI IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    flagX = 43;
+    flagY = 54;
     mainMenu *Menuitem = self.detailItem;
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([[parameters objectForKey:@"defaultThumb"] length]!=0){
@@ -373,11 +371,14 @@ int flagY = 54;
         newWidthLabel=viewWidth - 38 - labelPosition;
         Menuitem.originYearDuration = viewWidth - 100;
     }
-    
     Menuitem.widthLabel=newWidthLabel;
-    
+    flagX = thumbWidth - 10;
+    flagY = cellHeight - 19;
+    if (flagX + 22 > self.view.bounds.size.width){
+        flagX = 2;
+        flagY = 2;
+    }
 }
-
 
 #pragma mark - Table Management
 
@@ -385,14 +386,12 @@ int flagY = 54;
     return cellHeight;
 }
 
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (tableView == self.searchDisplayController.searchResultsTableView){
         return 1;
     }
 	else{
         return [[self.sections allKeys] count];
-        
     }
 }
 
@@ -449,7 +448,6 @@ int flagY = 54;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {    
 	cell.backgroundColor = [UIColor whiteColor];
-//    cell.accessoryView.
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -547,12 +545,6 @@ int flagY = 54;
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     UIImageView *flagView = (UIImageView*) [cell viewWithTag:9];
     frame=flagView.frame;
-    flagX = thumbWidth - 10;
-    flagY = cellHeight - 19;
-    if (flagX + 22 > self.view.bounds.size.width){
-        flagX = 2;
-        flagY = 2;
-    }
     frame.origin.x=flagX;
     frame.origin.y=flagY;
     flagView.frame=frame;
