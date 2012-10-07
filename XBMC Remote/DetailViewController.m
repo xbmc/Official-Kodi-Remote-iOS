@@ -1583,7 +1583,6 @@ NSIndexPath *selected;
     GlobalData *obj=[GlobalData getInstance]; 
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];    
 //    NSLog(@"START");
-//    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, parameters);
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
@@ -1593,6 +1592,7 @@ NSIndexPath *selected;
         [mutableParameters setObject: [mutableParameters objectForKey: @"file_properties"] forKey: @"properties"];
         [mutableParameters removeObjectForKey: @"file_properties"];
     }
+//    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, mutableParameters);
     [jsonRPC
      callMethod:methodToCall
      withParameters:mutableParameters
