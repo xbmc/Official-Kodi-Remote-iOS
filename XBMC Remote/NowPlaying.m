@@ -585,7 +585,7 @@ int currentItemID;
                                  nil] 
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
-                         //                         NSLog(@"Risposta %@", methodResult);
+//                         NSLog(@"Risposta %@", methodResult);
                          bool enableJewel = [self enableJewelCases];
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
                              NSDictionary *nowPlayingInfo = [methodResult objectForKey:@"item"];
@@ -629,6 +629,9 @@ int currentItemID;
                                  [self setCoverSize:currentType];
                                  GlobalData *obj=[GlobalData getInstance]; 
                                  NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+                                 if ([AppDelegate instance].serverVersion > 11){
+                                     serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
+                                 }
                                  NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
                                  NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                                  NSURL *imageUrl = [NSURL URLWithString: stringURL];
