@@ -935,6 +935,9 @@ int h=0;
         NSArray *cast = [item objectForKey:@"cast"];
         GlobalData *obj = [GlobalData getInstance]; 
         NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+        if ([AppDelegate instance].serverVersion > 11){
+            serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
+        }
         int offsetX = 10;
         for (NSDictionary *actor in cast){
             NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[actor objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
