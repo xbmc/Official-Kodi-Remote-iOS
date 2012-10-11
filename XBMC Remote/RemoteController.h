@@ -24,6 +24,7 @@
     IBOutlet UIImageView *panFallbackImageView;
     int audioVolume;
     float lastRotation;
+    float storeBrightness;
 }
 
 - (IBAction)startVibrate:(id)sender;

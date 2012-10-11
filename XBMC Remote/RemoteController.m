@@ -99,40 +99,45 @@
     [twoFingersTap setNumberOfTapsRequired:1];
     [twoFingersTap setNumberOfTouchesRequired:2];
     [gestureZoneView addGestureRecognizer:twoFingersTap];
+    
+    UISwipeGestureRecognizer *twoFingersDownSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    twoFingersDownSwipe.numberOfTouchesRequired = 2;
+    twoFingersDownSwipe.cancelsTouchesInView=NO;
+    twoFingersDownSwipe.direction = UISwipeGestureRecognizerDirectionDown;
+    [gestureZoneView addGestureRecognizer:twoFingersDownSwipe];
+    
+    UISwipeGestureRecognizer *twoFingersUpSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    twoFingersUpSwipe.numberOfTouchesRequired = 2;
+    twoFingersUpSwipe.cancelsTouchesInView=NO;
+    twoFingersUpSwipe.direction = UISwipeGestureRecognizerDirectionUp;
+    [gestureZoneView addGestureRecognizer:twoFingersUpSwipe];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-
-    }
     return self;
 }
 
 #pragma mark - Touch
 
--(void)handleTouchpadSwipeFromRight{
-    buttonAction = 14;
-    [self sendAction];
-}
-
--(void)handleTouchpadSwipeFromLeft{
-    buttonAction = 12;
-    [self sendAction];
-}
-
--(void)handleTouchpadSwipeFromUp{
-    buttonAction = 10;
-    [self sendAction];
-}
-
--(void)handleTouchpadSwipeFromDown{
-    buttonAction = 16;
-    [self sendAction];
-}
-
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer {
-    if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+    if (recognizer.numberOfTouches == 2 && recognizer.direction == UISwipeGestureRecognizerDirectionDown){
+        NSLog(@"down");
+//        if (storeBrightness == -1){
+//            storeBrightness = [UIScreen mainScreen].brightness;
+//            [[UIScreen mainScreen] setWantsSoftwareDimming:YES];
+//            [[UIScreen mainScreen] setBrightness:0.0];
+//        }
+    }
+    else if (recognizer.numberOfTouches == 2 && recognizer.direction == UISwipeGestureRecognizerDirectionUp){
+        NSLog(@"up");
+//        if (storeBrightness > -1){
+//            [[UIScreen mainScreen] setWantsSoftwareDimming:NO];
+//            [[UIScreen mainScreen] setBrightness:storeBrightness];
+//            storeBrightness = -1;
+//        }
+    }
+    else if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
         buttonAction = 14;
         [self sendAction];
     }
@@ -1010,6 +1015,7 @@ NSInteger buttonAction;
     xbmcVirtualKeyboard.autocapitalizationType = UITextAutocapitalizationTypeNone;
     xbmcVirtualKeyboard.text = @" ";
     [self.view addSubview:xbmcVirtualKeyboard];
+    storeBrightness = -1;
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
 }
 
