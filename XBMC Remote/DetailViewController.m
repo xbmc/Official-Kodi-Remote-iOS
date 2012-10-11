@@ -562,7 +562,7 @@ int originYear=0;
     mainMenu *MenuItem=self.detailItem;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
-        NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
+                NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
         NSDictionary *item = nil;
         if (tableView == self.searchDisplayController.searchResultsTableView){
             item = [self.filteredListContent objectAtIndex:indexPath.row];
@@ -573,7 +573,17 @@ int originYear=0;
         MenuItem.subItem.mainLabel=@"";
         MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
         
-        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]]; 
+        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
+        
+        NSString *libraryRowHeight= [NSString stringWithFormat:@"%d", MenuItem.subItem.rowHeight];
+        NSString *libraryThumbWidth= [NSString stringWithFormat:@"%d", MenuItem.subItem.thumbWidth];
+        if ([parameters objectForKey:@"rowHeight"] != nil){
+            libraryRowHeight = [parameters objectForKey:@"rowHeight"];
+        }
+        if ([parameters objectForKey:@"thumbWidth"] != nil){
+            libraryThumbWidth = [parameters objectForKey:@"thumbWidth"];
+        }
+
         if ([[parameters objectForKey:@"parameters"] objectForKey:@"properties"]!=nil){ // CHILD IS LIBRARY MODE
             NSString *key=@"null";
             if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
@@ -581,17 +591,22 @@ int originYear=0;
             }
             id obj = [item objectForKey:[mainFields objectForKey:@"row6"]];
             id objKey = [mainFields objectForKey:@"row6"];
-            if ([AppDelegate instance].serverVersion>11 && ![MenuItem.subItem disableFilterParameter]){
+            if ([AppDelegate instance].serverVersion>11 && !([MenuItem.subItem disableFilterParameter] || [[parameters objectForKey:@"disableFilterParameter"] boolValue])){
                 obj = [NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:[mainFields objectForKey:@"row6"]],[mainFields objectForKey:@"row6"], nil];
                 objKey = @"filter";
             }
+            if ([parameters objectForKey:@"disableFilterParameter"]==nil)
+                [parameters setObject:@"false" forKey:@"disableFilterParameter"];
             NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                             obj, objKey,
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                             [item objectForKey:[mainFields objectForKey:@"row15"]], key,
-                                            nil], @"parameters", [parameters objectForKey:@"label"], @"label",
+                                            nil], @"parameters",
+                                           [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
+                                           libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
+                                           [parameters objectForKey:@"label"], @"label",
                                            [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            nil];
 
@@ -630,6 +645,7 @@ int originYear=0;
                                                     [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                                     [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
                                                     nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song",@"fileThumb",
+                                                   [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
                                                    nil];
                     MenuItem.upperLabel=[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]];
                     [[MenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
@@ -644,7 +660,7 @@ int originYear=0;
                         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
                     }
                 }
-                else if ([[item objectForKey:@"genre"] isEqualToString:@"file"]){
+                else if ([[item objectForKey:@"genre"] isEqualToString:@"file"] || [[item objectForKey:@"filetype"] isEqualToString:@"file"]){
                     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                     [userDefaults synchronize];   
                     if ([[userDefaults objectForKey:@"song_preference"] boolValue]==NO ){
@@ -667,6 +683,7 @@ int originYear=0;
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
                                                 nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                               [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
                                                nil];
                 [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
                 MenuItem.subItem.chooseTab=choosedTab;
@@ -1261,10 +1278,28 @@ NSIndexPath *selected;
             }
         }];
     }
+    else if ([[mainFields objectForKey:@"row8"] isEqualToString:@"channelid"]){
+        [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+            if (error==nil && methodError==nil){
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+                UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+                UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+                [queuing stopAnimating];
+                [self showNowPlaying];
+            }
+            else {
+                UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+                UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+                [queuing stopAnimating];
+                //                            NSLog(@"terzo errore %@",methodError);
+            }
+        }];
+        
+    }
     else{
+        
         [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
-                
                 [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil){
                         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -1739,7 +1774,7 @@ NSIndexPath *selected;
                                                    [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
                                                    nil]];
                  }
-                 //                 NSLog(@"END STORE");
+//                 NSLog(@"END STORE");
 //                 NSLog(@"RICH RESULTS %@", richResults);
                  storeRichResults = [richResults mutableCopy];
                  if (watchMode != 0){
