@@ -135,7 +135,7 @@ NSMutableArray *mainMenuItems;
     item1.icon = @"icon_home_music.png";
     item1.family = 1;
     item1.enableSection=YES;
-    item1.mainButtons=[NSArray arrayWithObjects:@"st_album", @"st_artist", @"st_genre", @"st_filemode", @"st_album_recently", @"st_songs_recently", @"st_song", @"st_song", @"st_song", @"st_song", @"st_addons", @"st_song", @"st_song", nil]; //
+    item1.mainButtons=[NSArray arrayWithObjects:@"st_album", @"st_artist", @"st_genre", @"st_filemode", @"st_album_recently", @"st_songs_recently", @"st_song", @"st_song", @"st_song", @"st_song", @"st_song", @"st_addons", @"st_song", nil]; //
     
     item1.mainMethod=[NSMutableArray arrayWithObjects:
                       
