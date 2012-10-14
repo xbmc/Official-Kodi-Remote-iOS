@@ -1687,7 +1687,7 @@ int currentItemID;
             if ([[item objectForKey:@"albumid"] intValue]>0){
                 [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:@"Album Details", @"Album Tracks", nil]];
             }
-            if ([[item objectForKey:@"artistid"] intValue]>0){
+            if ([[item objectForKey:@"artistid"] intValue]>0 || ([[item objectForKey:@"type"] isEqualToString:@"song"] && [AppDelegate instance].serverVersion>11)){
                 [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:@"Artist Details", @"Artist Albums", nil]];
             }
             if ([[item objectForKey:@"movieid"] intValue]>0){
@@ -1853,7 +1853,7 @@ int currentItemID;
             }
             id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
             id objKey = [mainFields objectForKey:@"row6"];
-            if ([AppDelegate instance].serverVersion>11 && ![MenuItem.subItem disableFilterParameter]){
+            if ([AppDelegate instance].serverVersion>11 && !([MenuItem.subItem disableFilterParameter] || [[parameters objectForKey:@"disableFilterParameter"] boolValue])){
                 obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
                 objKey = @"filter";
             }
