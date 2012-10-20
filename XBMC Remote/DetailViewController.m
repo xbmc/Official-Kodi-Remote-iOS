@@ -21,6 +21,8 @@
 #import "AppDelegate.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
+#import "QuartzCore/CALayer.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -328,47 +330,54 @@
 
 #pragma mark - Cell Formatting 
 
-int cellWidth=0;
-int originYear=0;
+int cellWidth = 0;
+int originYear = 0;
 -(void)choseParams{ // DA OTTIMIZZARE TROPPI IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     flagX = 43;
     flagY = 54;
     mainMenu *Menuitem = self.detailItem;
-    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([[parameters objectForKey:@"defaultThumb"] length]!=0){
-        defaultThumb= [parameters objectForKey:@"defaultThumb"];
+        defaultThumb = [parameters objectForKey:@"defaultThumb"];
     }
     else {
-        defaultThumb=[self.detailItem defaultThumb];
+        defaultThumb = [self.detailItem defaultThumb];
     }
     if ([parameters objectForKey:@"rowHeight"]!=0)
-        cellHeight =[[parameters objectForKey:@"rowHeight"] intValue];
+        cellHeight = [[parameters objectForKey:@"rowHeight"] intValue];
     else if (Menuitem.rowHeight!=0){
-        cellHeight=Menuitem.rowHeight;
+        cellHeight = Menuitem.rowHeight;
     }
     else {
-        cellHeight=76;
+        cellHeight = 76;
     }
 
     if ([parameters objectForKey:@"thumbWidth"]!=0)
-        thumbWidth =[[parameters objectForKey:@"thumbWidth"] intValue];
+        thumbWidth = [[parameters objectForKey:@"thumbWidth"] intValue];
     else if (Menuitem.thumbWidth!=0){
-        thumbWidth=Menuitem.thumbWidth;
+        thumbWidth = Menuitem.thumbWidth;
     }
     else {
-        thumbWidth=53;
+        thumbWidth = 53;
     }
-    labelPosition=thumbWidth+8;
-    int newWidthLabel=0;
+    if (albumView){
+        thumbWidth = 0;
+        labelPosition=thumbWidth + albumViewPadding + trackCountLabelWidth;
+
+    }
+    else{
+    labelPosition=thumbWidth + 8;
+    }
+    int newWidthLabel = 0;
     if (Menuitem.originLabel && ![parameters objectForKey:@"thumbWidth"])
-        labelPosition=Menuitem.originLabel;
+        labelPosition = Menuitem.originLabel;
     // CHECK IF THERE ARE SECTIONS
     if ([self.richResults count]<=SECTIONS_START_AT || ![self.detailItem enableSection]){
         newWidthLabel = viewWidth - 8 - labelPosition;
         Menuitem.originYearDuration = viewWidth - 72;
     }
     else{
-        newWidthLabel=viewWidth - 38 - labelPosition;
+        newWidthLabel = viewWidth - 38 - labelPosition;
         Menuitem.originYearDuration = viewWidth - 100;
     }
     Menuitem.widthLabel=newWidthLabel;
@@ -456,6 +465,16 @@ int originYear=0;
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
+        if (albumView){
+            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewPadding, cellHeight/2 - (artistFontSize + labelPadding)/2, trackCountLabelWidth, artistFontSize + labelPadding)];
+            [trackNumberLabel setBackgroundColor:[UIColor clearColor]];
+            [trackNumberLabel setFont:[UIFont systemFontOfSize:artistFontSize]];
+            trackNumberLabel.adjustsFontSizeToFitWidth = YES;
+            trackNumberLabel.minimumFontSize = 9;
+            trackNumberLabel.tag = 101;
+            [trackNumberLabel setHighlightedTextColor:[UIColor whiteColor]];
+            [cell addSubview:trackNumberLabel];
+        }
     }
     mainMenu *Menuitem = self.detailItem;
 //    NSDictionary *mainFields=[[Menuitem mainFields] objectAtIndex:choosedTab];
@@ -528,20 +547,27 @@ int originYear=0;
     rating.frame=frame;
     [rating setText:[item objectForKey:@"rating"]];
     
-    NSString *stringURL = [item objectForKey:@"thumbnail"];
-    NSString *displayThumb=defaultThumb;
-    if ([[item objectForKey:@"filetype"] length]!=0){
-        displayThumb=stringURL;
-    }
-    if (![stringURL isEqualToString:@""]){
-        if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-            [[SDImageCache sharedImageCache] clearMemory];
+    if (!albumView){
+        NSString *stringURL = [item objectForKey:@"thumbnail"];
+        NSString *displayThumb=defaultThumb;
+        if ([[item objectForKey:@"filetype"] length]!=0){
+            displayThumb=stringURL;
         }
-        [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        if (![stringURL isEqualToString:@""]){
+            if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+                [[SDImageCache sharedImageCache] clearMemory];
+            }
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        }
+        else {
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        }
     }
-    else {
-        [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+    else{
+        UILabel *trackNumber = (UILabel *)[cell viewWithTag:101];
+        trackNumber.text = [item objectForKey:@"track"];
     }
+    
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     UIImageView *flagView = (UIImageView*) [cell viewWithTag:9];
     frame=flagView.frame;
@@ -559,6 +585,7 @@ int originYear=0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.detailViewController=nil;
+    [self.searchDisplayController.searchBar resignFirstResponder];
     mainMenu *MenuItem=self.detailItem;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
@@ -717,6 +744,90 @@ int originYear=0;
         }
     }
 }
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (albumView){
+        UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = albumDetailView.bounds;
+        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:.95] CGColor], (id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:.95] CGColor], nil];
+        [albumDetailView.layer insertSublayer:gradient atIndex:0];
+        CGRect toolbarShadowFrame = CGRectMake(0.0f, albumViewHeight + 1, viewWidth, 8);
+        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        toolbarShadow.opaque = YES;
+        toolbarShadow.alpha = 0.3;
+        [albumDetailView addSubview:toolbarShadow];
+        NSDictionary *item;
+        item = [richResults objectAtIndex:0];
+        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, albumViewHeight - (albumViewPadding * 2), albumViewHeight - (albumViewPadding * 2))];
+        NSString *stringURL = [item objectForKey:@"thumbnail"];
+        NSString *displayThumb=@"coverbox_back.png";
+        if ([[item objectForKey:@"filetype"] length]!=0){
+            displayThumb=stringURL;
+        }
+        if (![stringURL isEqualToString:@""]){
+            
+            [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        }
+        else {
+            [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        }
+        thumbImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+        thumbImageView.layer.shadowOffset = CGSizeMake(0, 0);
+        thumbImageView.layer.shadowOpacity = 1;
+        thumbImageView.layer.shadowRadius = 2.0;
+        thumbImageView.clipsToBounds = NO;
+
+        [albumDetailView addSubview:thumbImageView];
+        
+        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewPadding / 2, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
+        [artist setBackgroundColor:[UIColor clearColor]];
+        [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
+        artist.adjustsFontSizeToFitWidth = YES;
+        artist.minimumFontSize = 9;
+        artist.text = [item objectForKey:@"genre"];
+        [albumDetailView addSubview:artist];
+        
+        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y +  artistFontSize + labelPadding/2, viewWidth - albumViewHeight - albumViewPadding, albumFontSize + labelPadding)];
+        [albumLabel setBackgroundColor:[UIColor clearColor]];
+        [albumLabel setFont:[UIFont boldSystemFontOfSize:albumFontSize]];
+        albumLabel.text = self.navigationItem.title;
+        albumLabel.numberOfLines = 4;
+        [albumLabel sizeToFit];
+        [albumDetailView addSubview:albumLabel];
+        float result = 0;
+        
+        for(int i=0;i<[richResults count];i++)
+            result += [[[richResults objectAtIndex:i] objectForKey:@"runtime"] intValue];
+        
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setMaximumFractionDigits:0];
+        [formatter setRoundingMode: NSNumberFormatterRoundHalfEven];
+        
+        NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:result/60]];
+
+        UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewHeight - albumViewPadding - (trackCountFontSize + labelPadding/2), viewWidth - albumViewHeight - albumViewPadding, trackCountFontSize + labelPadding)];
+        [trackCountLabel setBackgroundColor:[UIColor clearColor]];
+        [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
+        trackCountLabel.text = [NSString stringWithFormat:@"%d %@, %@ %@", [richResults count], [richResults count] > 1 ? @"Songs" : @"Song", numberString, result/60 > 1 ? @"Mins." : @"Min"];
+        [albumDetailView addSubview:trackCountLabel];
+        return albumDetailView;
+    }
+    return nil;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (albumView){
+        return albumViewHeight + 2;
+    }
+    if (section!=0 || tableView == self.searchDisplayController.searchResultsTableView){
+        return 22;
+    }
+    return 0;
+}
+
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
         UIImage *myImage = [UIImage imageNamed:@"blank.png"];
@@ -1960,11 +2071,24 @@ NSIndexPath *selected;
     watchMode = [self.detailItem currentWatchMode];
     [detailView setClipsToBounds:YES];
     CGRect frame=dataList.frame;
+    trackCountLabelWidth = 26;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         viewWidth=320;
+        albumViewHeight = 116;
+        albumViewPadding = 8;
+        artistFontSize = 12;
+        albumFontSize = 15;
+        trackCountFontSize = 11;
+        labelPadding = 8;
     }
     else {
         viewWidth = 477;
+        albumViewHeight = 166;
+        albumViewPadding = 12;
+        artistFontSize = 14;
+        albumFontSize = 18;
+        trackCountFontSize = 13;
+        labelPadding = 12;
     }
     frame.origin.x = viewWidth;
     dataList.frame=frame;
@@ -1987,6 +2111,10 @@ NSIndexPath *selected;
     storeRichResults = [[NSMutableArray alloc] init ]; 
     [activityIndicatorView startAnimating];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+    if ([[methods objectForKey:@"albumView"] boolValue]==YES){
+        albumView = TRUE;
+        self.searchDisplayController.searchBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
+    }
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){
         [self retrieveData:[methods objectForKey:@"method"] parameters:[parameters objectForKey:@"parameters"]];

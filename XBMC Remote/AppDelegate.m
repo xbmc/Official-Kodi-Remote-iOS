@@ -146,7 +146,8 @@ NSMutableArray *mainMenuItems;
                        @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
                        nil],
                       
-                      [NSArray arrayWithObjects:@"AudioLibrary.GetArtists", @"method",
+                      [NSArray arrayWithObjects:
+                       @"AudioLibrary.GetArtists", @"method",
                        @"AudioLibrary.GetArtistDetails", @"extra_info_method",
                        nil],
                       
@@ -168,7 +169,7 @@ NSMutableArray *mainMenuItems;
                       
                       [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil],
 
-                      [NSArray arrayWithObjects:@"AudioLibrary.GetRecentlyPlayedAlbums", @"method", nil],
+                      [NSArray arrayWithObjects:@"AudioLibrary.GetRecentlyPlayedAlbums", @"method",nil],
 
                       [NSArray arrayWithObjects:@"AudioLibrary.GetRecentlyPlayedSongs", @"method", nil],
                       
@@ -588,7 +589,7 @@ NSMutableArray *mainMenuItems;
 
     item1.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               
-                              [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil],
+                              [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", @"YES", @"albumView", nil],
                               
                               [NSArray arrayWithObjects:
                                @"AudioLibrary.GetAlbums", @"method",
@@ -602,15 +603,24 @@ NSMutableArray *mainMenuItems;
                               
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               
-                              [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil],
+                              [NSArray arrayWithObjects:
+                               @"AudioLibrary.GetSongs", @"method",
+                               @"YES", @"albumView",
+                               nil],
                               
                               [NSArray arrayWithObjects:nil],
                               
-                              [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil],
+                              [NSArray arrayWithObjects:
+                               @"AudioLibrary.GetSongs", @"method",
+                               @"YES", @"albumView",
+                               nil],
                               
                               [NSArray arrayWithObjects:nil],
 
-                              [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil],
+                              [NSArray arrayWithObjects:
+                               @"AudioLibrary.GetSongs", @"method",
+                               @"YES", @"albumView",
+                               nil],
                               
                               [NSArray arrayWithObjects:nil],
                               
@@ -929,9 +939,9 @@ NSMutableArray *mainMenuItems;
                                       
                                       [NSArray arrayWithObjects:nil],
                                       
-                                      [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil],
+                                      [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", @"YES", @"albumView", nil],
                                       
-                                      [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", nil],
+                                      [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", @"YES", @"albumView", nil],
                                       
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                                       

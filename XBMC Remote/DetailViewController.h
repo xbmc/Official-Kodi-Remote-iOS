@@ -64,6 +64,14 @@
     int labelPosition;
     int flagX;
     int flagY;
+    BOOL albumView;
+    int albumViewHeight;
+    int albumViewPadding;
+    int artistFontSize;
+    int albumFontSize;
+    int trackCountFontSize;
+    int trackCountLabelWidth;
+    int labelPadding;
 }
 
 - (id)initWithFrame:(CGRect)frame;
