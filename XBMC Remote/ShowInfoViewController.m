@@ -72,6 +72,7 @@ int count=0;
             }
         }
         UIBarButtonItem *extraButton = nil;
+        int titleWidth = 350;
         if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
             extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];    
@@ -84,6 +85,9 @@ int count=0;
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon"];
             extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
         }
+        else{
+            titleWidth = 400;
+        }
 
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             toolbar = [UIToolbar new];
@@ -92,15 +96,16 @@ int count=0;
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
             actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
             viewTitle.numberOfLines=1;
-            viewTitle.font = [UIFont systemFontOfSize:22];
+            viewTitle.font = [UIFont boldSystemFontOfSize:22];
             viewTitle.minimumFontSize=6;
             viewTitle.adjustsFontSizeToFitWidth = YES;
             viewTitle.shadowOffset = CGSizeMake(1.0, 1.0);
             viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.7];
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
-            [viewTitle setFrame:CGRectMake(0, 0, 360, 36)];
-            [viewTitle sizeThatFits:CGSizeMake(360, 36)];
+//            [viewTitle setBackgroundColor:[UIColor redColor]];
+            [viewTitle setFrame:CGRectMake(0, 0, titleWidth, 36)];
+            [viewTitle sizeThatFits:CGSizeMake(titleWidth, 36)];
             viewTitle.textAlignment = UITextAlignmentLeft;
             UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
             if (extraButton == nil){
