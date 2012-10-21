@@ -782,7 +782,7 @@ int originYear = 0;
 
         [albumDetailView addSubview:thumbImageView];
         
-        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, (albumViewPadding / 2) - 2, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
+        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, (albumViewPadding / 2) - 1, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
         [artist setBackgroundColor:[UIColor clearColor]];
         [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
         artist.adjustsFontSizeToFitWidth = YES;
