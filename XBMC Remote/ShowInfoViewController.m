@@ -77,9 +77,14 @@ int count=0;
         }
         UIBarButtonItem *extraButton = nil;
         int titleWidth = 350;
-        if ([[item objectForKey:@"family"] isEqualToString:@"albumid"] && !fromAlbumView){
+        if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
-            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+            if (fromAlbumView){
+                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(goBack:)];
+            }
+            else{
+                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+            }
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
@@ -175,6 +180,15 @@ int count=0;
 }
 
 #pragma mark - Utility 
+
+-(void)goBack:(id)sender{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object: nil];
+    }
+}
 
 - (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
     NSString *result = @"";
