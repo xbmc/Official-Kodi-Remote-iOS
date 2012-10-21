@@ -1622,17 +1622,17 @@ NSIndexPath *selected;
     NSDictionary *mainFields = nil;
     if (menuItem == nil){
         mainFields = [[self.detailItem mainFields] objectAtIndex:choosedTab];
-        if (((NSNull *)[mainFields objectForKey:@"row6"] != [NSNull null])){
-            itemid = [mainFields objectForKey:@"row6"];
-        }
-        else{
-            return; // something goes wrong
-        }
     }
     else{
-        itemid = @"albumid";
         mainFields = [[menuItem mainFields] objectAtIndex:choosedTab];
     }
+    if (((NSNull *)[mainFields objectForKey:@"row6"] != [NSNull null])){
+        itemid = [mainFields objectForKey:@"row6"];
+    }
+    else{
+        return; // something goes wrong
+    }
+
     UIActivityIndicatorView *queuing= nil;
     if (indexPath != nil){
         UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
@@ -2068,18 +2068,19 @@ NSIndexPath *selected;
 }
 
 # pragma mark - Life-Cycle
--(void)viewWillDisappear:(BOOL)animated{
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
 
-}
+//-(void)viewWillDisappear:(BOOL)animated{
+//    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
+//}
+
 -(void)viewWillAppear:(BOOL)animated{
-    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
-    if ([[methods objectForKey:@"albumView"] boolValue]==YES){
-        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.45 green:.45 blue:.45 alpha:1];
-    }
-    else{
-        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
-    }
+//    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+//    if ([[methods objectForKey:@"albumView"] boolValue]==YES){
+//        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.45 green:.45 blue:.45 alpha:1];
+//    }
+//    else{
+//        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
+//    }
     alreadyPush = NO;
     self.webViewController = nil;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
@@ -2183,7 +2184,6 @@ NSIndexPath *selected;
     if ([[methods objectForKey:@"albumView"] boolValue]==YES){
         albumView = TRUE;
         self.searchDisplayController.searchBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
-        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     }
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){
