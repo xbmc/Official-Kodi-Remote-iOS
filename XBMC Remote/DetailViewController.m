@@ -729,7 +729,7 @@ int originYear = 0;
     }
     else {
         if ([MenuItem.showInfo objectAtIndex:choosedTab]){
-            [self showInfo:indexPath menuItem:self.detailItem item:item];
+            [self showInfo:indexPath menuItem:self.detailItem item:item tabToShow:choosedTab];
         }
         else {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -1065,7 +1065,7 @@ NSIndexPath *selected;
             [self addQueue:selected afterCurrentItem:YES];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:@"Details"].location!= NSNotFound){
-            [self showInfo:selected menuItem:self.detailItem item:item];
+            [self showInfo:selected menuItem:self.detailItem item:item tabToShow:choosedTab];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"]){
             [self addStream:selected];
@@ -1503,23 +1503,23 @@ NSIndexPath *selected;
 -(void)prepareShowAlbumInfo:(id)sender{
     mainMenu *MenuItem = nil;
     MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
-    choosedTab = 0;
+//    choosedTab = 0;
     MenuItem.subItem.mainLabel=@"";
     MenuItem.subItem.upperLabel=self.navigationItem.title;
     [MenuItem.subItem setMainMethod:nil];
     if ([richResults count]>0){
         [self.searchDisplayController.searchBar resignFirstResponder];
-        [self showInfo:nil menuItem:MenuItem item:[richResults objectAtIndex:0]];
+        [self showInfo:nil menuItem:MenuItem item:[richResults objectAtIndex:0] tabToShow:0];
     }
 }
 
--(void)showInfo:(NSIndexPath *)indexPath menuItem:(mainMenu *)menuItem item:(NSDictionary *)item{
+-(void)showInfo:(NSIndexPath *)indexPath menuItem:(mainMenu *)menuItem item:(NSDictionary *)item tabToShow:(int)tabToShow{
     NSDictionary *methods = nil;
     NSDictionary *parameters = nil;
-    methods = [self indexKeyedDictionaryFromArray:[[menuItem mainMethod] objectAtIndex:choosedTab]];
-    parameters = [self indexKeyedDictionaryFromArray:[[menuItem mainParameters] objectAtIndex:choosedTab]];
+    methods = [self indexKeyedDictionaryFromArray:[[menuItem mainMethod] objectAtIndex:tabToShow]];
+    parameters = [self indexKeyedDictionaryFromArray:[[menuItem mainParameters] objectAtIndex:tabToShow]];
     if ([parameters objectForKey:@"extra_info_parameters"]!=nil && [methods objectForKey:@"extra_info_method"]!=nil){
-        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:[parameters objectForKey:@"extra_info_parameters"] index:indexPath item:item menuItem:menuItem];
+        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:[parameters objectForKey:@"extra_info_parameters"] index:indexPath item:item menuItem:menuItem tabToShow:tabToShow];
     }
     else{
         [self displayInfoView:item];
@@ -1611,11 +1611,11 @@ NSIndexPath *selected;
     }
 } 
 
--(void) retrieveExtraInfoData:(NSString *)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath *)indexPath item:(NSDictionary *)item menuItem:(mainMenu *)menuItem{
+-(void) retrieveExtraInfoData:(NSString *)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath *)indexPath item:(NSDictionary *)item menuItem:(mainMenu *)menuItem tabToShow:(int)tabToShow{
    
     NSString *itemid = @"";
     NSDictionary *mainFields = nil;
-    mainFields = [[menuItem mainFields] objectAtIndex:choosedTab];
+    mainFields = [[menuItem mainFields] objectAtIndex:tabToShow];
     if (((NSNull *)[mainFields objectForKey:@"row6"] != [NSNull null])){
         itemid = [mainFields objectForKey:@"row6"];
     }
