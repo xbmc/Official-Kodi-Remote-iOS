@@ -588,15 +588,15 @@ int originYear = 0;
     [self.searchDisplayController.searchBar resignFirstResponder];
     mainMenu *MenuItem=self.detailItem;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
+    NSDictionary *item = nil;
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        item = [self.filteredListContent objectAtIndex:indexPath.row];
+    }
+    else{
+        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    }
     if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
-                NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
-        NSDictionary *item = nil;
-        if (tableView == self.searchDisplayController.searchResultsTableView){
-            item = [self.filteredListContent objectAtIndex:indexPath.row];
-        }
-        else{
-            item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-        }
+        NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
         MenuItem.subItem.mainLabel=@"";
         MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
         
@@ -729,7 +729,7 @@ int originYear = 0;
     }
     else {
         if ([MenuItem.showInfo objectAtIndex:choosedTab]){
-            [self showInfo:indexPath menuItem:nil item:nil];
+            [self showInfo:indexPath menuItem:self.detailItem item:item];
         }
         else {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -1022,15 +1022,14 @@ NSIndexPath *selected;
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
     if (buttonIndex!=actionSheet.cancelButtonIndex){
-        
+        NSDictionary *item = nil;
+        if ([self.searchDisplayController isActive]){
+            item = [self.filteredListContent objectAtIndex:selected.row];
+        }
+        else{
+            item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:selected.section]] objectAtIndex:selected.row];
+        }
         if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"]){
-            NSDictionary *item = nil;
-            if ([self.searchDisplayController isActive]){
-                item = [self.filteredListContent objectAtIndex:selected.row];
-            }
-            else{
-                item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:selected.section]] objectAtIndex:selected.row];
-            }
             NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
             if ([songid intValue]){
                 [self addPlayback:selected position:selected.row];
@@ -1046,7 +1045,7 @@ NSIndexPath *selected;
             [self addQueue:selected afterCurrentItem:YES];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:@"Details"].location!= NSNotFound){
-            [self showInfo:selected menuItem:nil item:nil];
+            [self showInfo:selected menuItem:self.detailItem item:item];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"]){
             [self addStream:selected];
@@ -1488,28 +1487,17 @@ NSIndexPath *selected;
     MenuItem.subItem.mainLabel=@"";
     MenuItem.subItem.upperLabel=self.navigationItem.title;
     [MenuItem.subItem setMainMethod:nil];
-    [self showInfo:nil menuItem:MenuItem item:nil];
+    if ([richResults count]>0){
+        [self.searchDisplayController.searchBar resignFirstResponder];
+        [self showInfo:nil menuItem:MenuItem item:[richResults objectAtIndex:0]];
+    }
 }
 
 -(void)showInfo:(NSIndexPath *)indexPath menuItem:(mainMenu *)menuItem item:(NSDictionary *)item{
     NSDictionary *methods = nil;
     NSDictionary *parameters = nil;
-    if (item == nil){
-        if ([self.searchDisplayController isActive]){
-            item = [self.filteredListContent objectAtIndex:indexPath.row];
-        }
-        else{
-            item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-        }
-    }
-    if (menuItem == nil){
-        methods = [self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
-        parameters = [self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-    }
-    else{
-        methods = [self indexKeyedDictionaryFromArray:[[menuItem mainMethod] objectAtIndex:choosedTab]];
-        parameters = [self indexKeyedDictionaryFromArray:[[menuItem mainParameters] objectAtIndex:choosedTab]];
-    }
+    methods = [self indexKeyedDictionaryFromArray:[[menuItem mainMethod] objectAtIndex:choosedTab]];
+    parameters = [self indexKeyedDictionaryFromArray:[[menuItem mainParameters] objectAtIndex:choosedTab]];
     if ([parameters objectForKey:@"extra_info_parameters"]!=nil && [methods objectForKey:@"extra_info_method"]!=nil){
         [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:[parameters objectForKey:@"extra_info_parameters"] index:indexPath item:item menuItem:menuItem];
     }
@@ -1517,19 +1505,6 @@ NSIndexPath *selected;
         [self displayInfoView:item];
     }
 }
-
-//-(void)showInfo:(NSDictionary *)item menuItem:(mainMenu *)menuItem indexPath:(NSIndexPath *)indexPath{
-    
-//    if ([parameters objectForKey:@"extra_info_parameters"]!=nil && [methods objectForKey:@"extra_info_method"]!=nil){
-//        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:[parameters objectForKey:@"extra_info_parameters"] index:indexPath item:item menuItem:menuItem];
-//    }
-//    else{
-//        [self displayInfoView:item];
-//    }
-//}
-
-
-
 
 //-(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
 //    [jsonRPC callMethod:@"Playlist.GetPlaylists" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1620,12 +1595,7 @@ NSIndexPath *selected;
    
     NSString *itemid = @"";
     NSDictionary *mainFields = nil;
-    if (menuItem == nil){
-        mainFields = [[self.detailItem mainFields] objectAtIndex:choosedTab];
-    }
-    else{
-        mainFields = [[menuItem mainFields] objectAtIndex:choosedTab];
-    }
+    mainFields = [[menuItem mainFields] objectAtIndex:choosedTab];
     if (((NSNull *)[mainFields objectForKey:@"row6"] != [NSNull null])){
         itemid = [mainFields objectForKey:@"row6"];
     }
