@@ -795,7 +795,7 @@ int originYear = 0;
         [albumLabel setFont:[UIFont boldSystemFontOfSize:albumFontSize]];
         albumLabel.text = self.navigationItem.title;
         albumLabel.numberOfLines = 0;
-        CGSize maximunLabelSize= CGSizeMake(viewWidth - albumViewHeight - albumViewPadding, albumViewHeight - albumViewPadding*4);
+        CGSize maximunLabelSize= CGSizeMake(viewWidth - albumViewHeight - albumViewPadding, albumViewHeight - albumViewPadding*4 -28);
         CGSize expectedLabelSize = [albumLabel.text
                                     sizeWithFont:albumLabel.font
                                     constrainedToSize:maximunLabelSize
@@ -816,9 +816,18 @@ int originYear = 0;
         int bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
         UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin, viewWidth - albumViewHeight - albumViewPadding, trackCountFontSize + labelPadding)];
         [trackCountLabel setBackgroundColor:[UIColor clearColor]];
+        [trackCountLabel setTextColor:[UIColor darkGrayColor]];
         [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
         trackCountLabel.text = [NSString stringWithFormat:@"%d %@, %@ %@", [richResults count], [richResults count] > 1 ? @"Songs" : @"Song", numberString, totalTime/60 > 1 ? @"Mins." : @"Min"];
         [albumDetailView addSubview:trackCountLabel];
+        
+        int year = [[item objectForKey:@"year"] intValue];
+        UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize -labelPadding/2, viewWidth - albumViewHeight - albumViewPadding, trackCountFontSize + labelPadding)];
+        [releasedLabel setBackgroundColor:[UIColor clearColor]];
+        [releasedLabel setTextColor:[UIColor darkGrayColor]];
+        [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
+        releasedLabel.text = [NSString stringWithFormat:@"%@", (year > 0) ? [NSString stringWithFormat:@"Released %d", year] : @"" ];
+        [albumDetailView addSubview:releasedLabel];
         
         BOOL fromShowInfo = NO;
         if ([[self.detailItem mainParameters] count]>0){
