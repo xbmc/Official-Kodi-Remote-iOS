@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">12C54</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
+		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1926</string>
+			<string key="NS.object.0">1929</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -47,8 +47,10 @@
 								<int key="NSvFlags">288</int>
 								<string key="NSFrameSize">{320, 53}</string>
 								<reference key="NSSuperview" ref="413044437"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="507880089"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<float key="IBUIAlpha">0.80000001192092896</float>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -65,6 +67,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{53, 53}</string>
 								<reference key="NSSuperview" ref="413044437"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1070852635"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -78,6 +81,7 @@
 								<int key="NSvFlags">294</int>
 								<string key="NSFrame">{{61, 3}, {254, 35}}</string>
 								<reference key="NSSuperview" ref="413044437"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="819559211"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="117357138">
@@ -116,6 +120,7 @@
 								<int key="NSvFlags">294</int>
 								<string key="NSFrame">{{60, 35}, {207, 16}}</string>
 								<reference key="NSSuperview" ref="413044437"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="161767583"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="117357138"/>
@@ -147,6 +152,7 @@
 								<int key="NSvFlags">289</int>
 								<string key="NSFrame">{{275, 35}, {40, 16}}</string>
 								<reference key="NSSuperview" ref="413044437"/>
+								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="117357138"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -180,6 +186,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrameSize">{53, 24}</string>
 										<reference key="NSSuperview" ref="1070852635"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="437419700"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<float key="IBUIAlpha">0.60000002384185791</float>
@@ -196,6 +203,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrameSize">{53, 15}</string>
 										<reference key="NSSuperview" ref="1070852635"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="389094170"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<reference key="IBUIBackgroundColor" ref="117357138"/>
@@ -224,6 +232,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{1, 8}, {50, 17}}</string>
 										<reference key="NSSuperview" ref="1070852635"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="218814614"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">4</int>
@@ -239,6 +248,7 @@
 										<int key="NSvFlags">272</int>
 										<string key="NSFrame">{{4, 8}, {0, 17}}</string>
 										<reference key="NSSuperview" ref="1070852635"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="403759955"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">7</int>
@@ -253,6 +263,7 @@
 								</array>
 								<string key="NSFrame">{{0, 28}, {53, 24}}</string>
 								<reference key="NSSuperview" ref="413044437"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="307393121"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
@@ -268,6 +279,7 @@
 								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{10, 7}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="413044437"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="9156307"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="117357138"/>
@@ -282,6 +294,7 @@
 						</array>
 						<string key="NSFrameSize">{320, 52}</string>
 						<reference key="NSSuperview" ref="620882018"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="403308626"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<reference key="IBUIBackgroundColor" ref="117357138"/>
@@ -294,6 +307,7 @@
 				</array>
 				<string key="NSFrameSize">{320, 53}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="413044437"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="709066304"/>
@@ -429,7 +443,281 @@
 			<nil key="sourceID"/>
 			<int key="maxID">19</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">NowPlaying</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="changePlaylist:">id</string>
+						<string key="changeRepeat:">id</string>
+						<string key="changeShuffle:">id</string>
+						<string key="editTable:forceClose:">id</string>
+						<string key="handleButtonLongPress:">UILongPressGestureRecognizer</string>
+						<string key="handleTableLongPress:">UILongPressGestureRecognizer</string>
+						<string key="startUpdateProgressBar:">id</string>
+						<string key="startVibrate:">id</string>
+						<string key="stopUpdateProgressBar:">id</string>
+						<string key="togglePartyMode:">id</string>
+						<string key="updateCurrentTime:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="changePlaylist:">
+							<string key="name">changePlaylist:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="changeRepeat:">
+							<string key="name">changeRepeat:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="changeShuffle:">
+							<string key="name">changeShuffle:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editTable:forceClose:">
+							<string key="name">editTable:forceClose:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="handleButtonLongPress:">
+							<string key="name">handleButtonLongPress:</string>
+							<string key="candidateClassName">UILongPressGestureRecognizer</string>
+						</object>
+						<object class="IBActionInfo" key="handleTableLongPress:">
+							<string key="name">handleTableLongPress:</string>
+							<string key="candidateClassName">UILongPressGestureRecognizer</string>
+						</object>
+						<object class="IBActionInfo" key="startUpdateProgressBar:">
+							<string key="name">startUpdateProgressBar:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="startVibrate:">
+							<string key="name">startVibrate:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="stopUpdateProgressBar:">
+							<string key="name">stopUpdateProgressBar:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="togglePartyMode:">
+							<string key="name">togglePartyMode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="updateCurrentTime:">
+							<string key="name">updateCurrentTime:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="PartyModeButton">UIButton</string>
+						<string key="ProgressSlider">UISlider</string>
+						<string key="activityIndicatorView">UIActivityIndicatorView</string>
+						<string key="albumDetailsButton">UIButton</string>
+						<string key="albumName">UILabel</string>
+						<string key="albumTracksButton">UIButton</string>
+						<string key="artistAlbumsButton">UIButton</string>
+						<string key="artistDetailsButton">UIButton</string>
+						<string key="artistName">UILabel</string>
+						<string key="backgroundImageView">UIImageView</string>
+						<string key="currentTime">UILabel</string>
+						<string key="duration">UILabel</string>
+						<string key="editTableButton">UIButton</string>
+						<string key="jewelView">UIImageView</string>
+						<string key="labelSongBitRate">UILabel</string>
+						<string key="labelSongCodec">UILabel</string>
+						<string key="labelSongSampleRate">UILabel</string>
+						<string key="noFoundView">UIView</string>
+						<string key="nowPlayingView">UIView</string>
+						<string key="pgbar">UIImageView</string>
+						<string key="playlistActionView">UIView</string>
+						<string key="playlistButton">UIButton</string>
+						<string key="playlistTableView">UITableView</string>
+						<string key="playlistTableViewCell">UITableViewCell</string>
+						<string key="playlistToolbar">UIToolbar</string>
+						<string key="playlistView">UIView</string>
+						<string key="repeatButton">UIButton</string>
+						<string key="seg_music">UIButton</string>
+						<string key="seg_video">UIButton</string>
+						<string key="shuffleButton">UIButton</string>
+						<string key="songBitRate">UILabel</string>
+						<string key="songCodec">UILabel</string>
+						<string key="songDetailsView">UIView</string>
+						<string key="songName">UILabel</string>
+						<string key="songSampleRate">UILabel</string>
+						<string key="thumbnailView">UIImageView</string>
+						<string key="timeBar">UIImageView</string>
+						<string key="timeCursor">UIImageView</string>
+						<string key="xbmcOverlayImage">UIImageView</string>
+						<string key="xbmcOverlayImage_iphone">UIImageView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="PartyModeButton">
+							<string key="name">PartyModeButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ProgressSlider">
+							<string key="name">ProgressSlider</string>
+							<string key="candidateClassName">UISlider</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="activityIndicatorView">
+							<string key="name">activityIndicatorView</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="albumDetailsButton">
+							<string key="name">albumDetailsButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="albumName">
+							<string key="name">albumName</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="albumTracksButton">
+							<string key="name">albumTracksButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="artistAlbumsButton">
+							<string key="name">artistAlbumsButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="artistDetailsButton">
+							<string key="name">artistDetailsButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="artistName">
+							<string key="name">artistName</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="backgroundImageView">
+							<string key="name">backgroundImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="currentTime">
+							<string key="name">currentTime</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="duration">
+							<string key="name">duration</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="editTableButton">
+							<string key="name">editTableButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="jewelView">
+							<string key="name">jewelView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="labelSongBitRate">
+							<string key="name">labelSongBitRate</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="labelSongCodec">
+							<string key="name">labelSongCodec</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="labelSongSampleRate">
+							<string key="name">labelSongSampleRate</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="noFoundView">
+							<string key="name">noFoundView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nowPlayingView">
+							<string key="name">nowPlayingView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="pgbar">
+							<string key="name">pgbar</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="playlistActionView">
+							<string key="name">playlistActionView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="playlistButton">
+							<string key="name">playlistButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="playlistTableView">
+							<string key="name">playlistTableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="playlistTableViewCell">
+							<string key="name">playlistTableViewCell</string>
+							<string key="candidateClassName">UITableViewCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="playlistToolbar">
+							<string key="name">playlistToolbar</string>
+							<string key="candidateClassName">UIToolbar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="playlistView">
+							<string key="name">playlistView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="repeatButton">
+							<string key="name">repeatButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="seg_music">
+							<string key="name">seg_music</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="seg_video">
+							<string key="name">seg_video</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="shuffleButton">
+							<string key="name">shuffleButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="songBitRate">
+							<string key="name">songBitRate</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="songCodec">
+							<string key="name">songCodec</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="songDetailsView">
+							<string key="name">songDetailsView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="songName">
+							<string key="name">songName</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="songSampleRate">
+							<string key="name">songSampleRate</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="thumbnailView">
+							<string key="name">thumbnailView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeBar">
+							<string key="name">timeBar</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeCursor">
+							<string key="name">timeCursor</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="xbmcOverlayImage">
+							<string key="name">xbmcOverlayImage</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="xbmcOverlayImage_iphone">
+							<string key="name">xbmcOverlayImage_iphone</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NowPlaying.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
@@ -441,6 +729,6 @@
 			<string key="timeBackground.png">{53, 17}</string>
 			<string key="white.png">{320, 76}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1926</string>
+		<string key="IBCocoaTouchPluginVersion">1929</string>
 	</data>
 </archive>
