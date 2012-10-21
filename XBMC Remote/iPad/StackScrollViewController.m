@@ -525,7 +525,9 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 			
 		}else if ([dragDirection isEqualToString:@"RIGHT"]) {
 			if (viewAtLeft != nil) {
+
 				if ([[slideViews subviews] indexOfObject:viewAtLeft] == 0 && !(viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS)) {
+
 					[UIView beginAnimations:nil context:NULL];
 					[UIView setAnimationDuration:0.2];			
 					[UIView setAnimationBeginsFromCurrentState:YES];
@@ -591,40 +593,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 					[UIView commitAnimations];
 				}
 				else if (viewAtRight.frame.origin.x < self.view.frame.size.width) {
-					if((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtRight.frame.origin.x < (self.view.frame.size.width - (viewAtRight.frame.size.width/2))){
-						[UIView beginAnimations:@"RIGHT-WITH-RIGHT" context:NULL];
-						[UIView setAnimationDuration:0.2];
-						[UIView setAnimationBeginsFromCurrentState:YES];
-						[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
-						[viewAtRight setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + viewAtLeft.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width,viewAtRight.frame.size.height)];						
-						[UIView setAnimationDelegate:self];
-						[UIView setAnimationDidStopSelector:@selector(bounceBack:finished:context:)];
-						[UIView commitAnimations];
-					}				
-					else{
-						
-						[UIView beginAnimations:@"RIGHT-WITH-LEFT" context:NULL];
-						[UIView setAnimationDuration:0.2];
-						[UIView setAnimationBeginsFromCurrentState:YES];
-						[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
-						if([[slideViews subviews] indexOfObject:viewAtLeft] > 0){ 
-							if (positionOfViewAtRightAtTouchBegan.x  + viewAtRight.frame.size.width <= self.view.frame.size.width) {							
-								[viewAtLeft setFrame:CGRectMake(self.view.frame.size.width - viewAtLeft.frame.size.width, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
-							}
-							else{							
-								[viewAtLeft setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + viewAtLeft2.frame.size.width, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
-							}
-							[viewAtRight setFrame:CGRectMake(self.view.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width,viewAtRight.frame.size.height)];		
-						}
-						else{
-							[viewAtLeft setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
-							[viewAtRight setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + viewAtLeft.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width,viewAtRight.frame.size.height)];
-						}
-						[UIView setAnimationDelegate:self];
-						[UIView setAnimationDidStopSelector:@selector(bounceBack:finished:context:)];
-						[UIView commitAnimations];
-					}
-					
+					[self moveStack];
 				}
 			}			
 		}
@@ -632,6 +601,43 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		dragDirection = @"";
 	}	
 	
+}
+
+-(void)moveStack{
+    if((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtRight.frame.origin.x < (self.view.frame.size.width - (viewAtRight.frame.size.width/2))){
+        
+        [UIView beginAnimations:@"RIGHT-WITH-RIGHT" context:NULL];
+        [UIView setAnimationDuration:0.2];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+        [viewAtRight setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + viewAtLeft.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width,viewAtRight.frame.size.height)];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationDidStopSelector:@selector(bounceBack:finished:context:)];
+        [UIView commitAnimations];
+    }
+    else{
+        
+        [UIView beginAnimations:@"RIGHT-WITH-LEFT" context:NULL];
+        [UIView setAnimationDuration:0.2];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+        if([[slideViews subviews] indexOfObject:viewAtLeft] > 0){
+            if (positionOfViewAtRightAtTouchBegan.x  + viewAtRight.frame.size.width <= self.view.frame.size.width) {
+                [viewAtLeft setFrame:CGRectMake(self.view.frame.size.width - viewAtLeft.frame.size.width, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
+            }
+            else{
+                [viewAtLeft setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + viewAtLeft2.frame.size.width, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
+            }
+            [viewAtRight setFrame:CGRectMake(self.view.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width,viewAtRight.frame.size.height)];
+        }
+        else{
+            [viewAtLeft setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
+            [viewAtRight setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + viewAtLeft.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width,viewAtRight.frame.size.height)];
+        }
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationDidStopSelector:@selector(bounceBack:finished:context:)];
+        [UIView commitAnimations];
+    }
 }
 
 - (void)bounceBack:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context {	
@@ -766,6 +772,14 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleAutoPan)
+                                                 name: @"UIApplicationEnableStackPan"
+                                               object: nil];
+}
+
+-(void)handleAutoPan{
+    [self moveStack];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

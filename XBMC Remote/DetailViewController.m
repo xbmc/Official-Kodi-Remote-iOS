@@ -820,15 +820,35 @@ int originYear = 0;
         trackCountLabel.text = [NSString stringWithFormat:@"%d %@, %@ %@", [richResults count], [richResults count] > 1 ? @"Songs" : @"Song", numberString, totalTime/60 > 1 ? @"Mins." : @"Min"];
         [albumDetailView addSubview:trackCountLabel];
         
+        BOOL fromShowInfo = NO;
+        if ([[self.detailItem mainParameters] count]>0){
+            NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:0]];
+            if (((NSNull *)[parameters objectForKey:@"fromShowInfo"] != [NSNull null])){
+                fromShowInfo = [[parameters objectForKey:@"fromShowInfo"] boolValue];
+            }
+        }
         UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
         [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
-        [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
-
+        if (fromShowInfo){
+            [albumInfoButton addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        else{
+            [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
+        }
         [albumDetailView addSubview:albumInfoButton];
-        
+
         return albumDetailView;
     }
     return nil;
+}
+
+-(void)goBack:(id)sender{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object: nil];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -1714,6 +1734,7 @@ NSIndexPath *selected;
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
                   [NSNumber numberWithBool:disableNowPlaying], @"disableNowPlaying",
+                  [NSNumber numberWithBool:albumView], @"fromAlbumView",
                   label, @"label",
                   genre, @"genre",
                   stringURL, @"thumbnail",

@@ -71,14 +71,17 @@ int count=0;
                 }
             }
         }
+        BOOL fromAlbumView = NO;
+        if (((NSNull *)[item objectForKey:@"fromAlbumView"] != [NSNull null])){
+            fromAlbumView = [[item objectForKey:@"fromAlbumView"] boolValue];
+        }
         UIBarButtonItem *extraButton = nil;
         int titleWidth = 350;
-//        if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
-//            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
-//            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];    
-//        }
-//        else
-        if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        if ([[item objectForKey:@"family"] isEqualToString:@"albumid"] && !fromAlbumView){
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
+            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+        }
+        else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
             extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
         }
@@ -264,7 +267,9 @@ int count=0;
                                         obj,objKey,
                                         [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
                                         [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
-                                        nil], @"parameters", [parameters objectForKey:@"label"], @"label",
+                                        nil], @"parameters",
+                                       [parameters objectForKey:@"label"], @"label",
+                                       [NSNumber numberWithBool:YES], @"fromShowInfo",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        nil];
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
