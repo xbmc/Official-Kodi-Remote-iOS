@@ -729,7 +729,7 @@ int originYear = 0;
     }
     else {
         if ([MenuItem.showInfo objectAtIndex:choosedTab]){
-            [self showInfo:indexPath];
+            [self showInfo:indexPath menuItem:nil item:nil];
         }
         else {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -813,11 +813,19 @@ int originYear = 0;
         [formatter setMaximumFractionDigits:0];
         [formatter setRoundingMode: NSNumberFormatterRoundHalfEven];
         NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:totalTime/60]];
-        UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1), viewWidth - albumViewHeight - albumViewPadding, trackCountFontSize + labelPadding)];
+        int bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
+        UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin, viewWidth - albumViewHeight - albumViewPadding, trackCountFontSize + labelPadding)];
         [trackCountLabel setBackgroundColor:[UIColor clearColor]];
         [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
         trackCountLabel.text = [NSString stringWithFormat:@"%d %@, %@ %@", [richResults count], [richResults count] > 1 ? @"Songs" : @"Song", numberString, totalTime/60 > 1 ? @"Mins." : @"Min"];
         [albumDetailView addSubview:trackCountLabel];
+        
+        UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
+        [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
+        [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
+
+        [albumDetailView addSubview:albumInfoButton];
+        
         return albumDetailView;
     }
     return nil;
@@ -1038,7 +1046,7 @@ NSIndexPath *selected;
             [self addQueue:selected afterCurrentItem:YES];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:@"Details"].location!= NSNotFound){
-            [self showInfo:selected];
+            [self showInfo:selected menuItem:nil item:nil];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"]){
             [self addStream:selected];
@@ -1473,23 +1481,55 @@ NSIndexPath *selected;
 
 }
 
--(void)showInfo:(NSIndexPath *)indexPath{
-    NSDictionary *item = nil;
-    if ([self.searchDisplayController isActive]){
-        item = [self.filteredListContent objectAtIndex:indexPath.row];
+-(void)prepareShowAlbumInfo:(id)sender{
+    mainMenu *MenuItem = nil;
+    MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+    choosedTab = 0;
+    MenuItem.subItem.mainLabel=@"";
+    MenuItem.subItem.upperLabel=self.navigationItem.title;
+    [MenuItem.subItem setMainMethod:nil];
+    [self showInfo:nil menuItem:MenuItem item:nil];
+}
+
+-(void)showInfo:(NSIndexPath *)indexPath menuItem:(mainMenu *)menuItem item:(NSDictionary *)item{
+    NSDictionary *methods = nil;
+    NSDictionary *parameters = nil;
+    if (item == nil){
+        if ([self.searchDisplayController isActive]){
+            item = [self.filteredListContent objectAtIndex:indexPath.row];
+        }
+        else{
+            item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        }
+    }
+    if (menuItem == nil){
+        methods = [self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+        parameters = [self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     }
     else{
-        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        methods = [self indexKeyedDictionaryFromArray:[[menuItem mainMethod] objectAtIndex:choosedTab]];
+        parameters = [self indexKeyedDictionaryFromArray:[[menuItem mainParameters] objectAtIndex:choosedTab]];
     }
-    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
-    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([parameters objectForKey:@"extra_info_parameters"]!=nil && [methods objectForKey:@"extra_info_method"]!=nil){
-        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:[parameters objectForKey:@"extra_info_parameters"] index:indexPath item:item];
+        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:[parameters objectForKey:@"extra_info_parameters"] index:indexPath item:item menuItem:menuItem];
     }
     else{
         [self displayInfoView:item];
     }
 }
+
+//-(void)showInfo:(NSDictionary *)item menuItem:(mainMenu *)menuItem indexPath:(NSIndexPath *)indexPath{
+    
+//    if ([parameters objectForKey:@"extra_info_parameters"]!=nil && [methods objectForKey:@"extra_info_method"]!=nil){
+//        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:[parameters objectForKey:@"extra_info_parameters"] index:indexPath item:item menuItem:menuItem];
+//    }
+//    else{
+//        [self displayInfoView:item];
+//    }
+//}
+
+
+
 
 //-(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
 //    [jsonRPC callMethod:@"Playlist.GetPlaylists" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1576,19 +1616,29 @@ NSIndexPath *selected;
     }
 } 
 
--(void) retrieveExtraInfoData:(NSString *)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath *)indexPath item:(NSDictionary *)item{
+-(void) retrieveExtraInfoData:(NSString *)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath *)indexPath item:(NSDictionary *)item menuItem:(mainMenu *)menuItem{
    
     NSString *itemid = @"";
-    NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
-    if (((NSNull *)[mainFields objectForKey:@"row6"] != [NSNull null])){
-        itemid = [mainFields objectForKey:@"row6"]; 
+    NSDictionary *mainFields = nil;
+    if (menuItem == nil){
+        mainFields = [[self.detailItem mainFields] objectAtIndex:choosedTab];
+        if (((NSNull *)[mainFields objectForKey:@"row6"] != [NSNull null])){
+            itemid = [mainFields objectForKey:@"row6"];
+        }
+        else{
+            return; // something goes wrong
+        }
     }
     else{
-        return; // something goes wrong
+        itemid = @"albumid";
+        mainFields = [[menuItem mainFields] objectAtIndex:choosedTab];
     }
-    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
-    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
-    [queuing startAnimating]; 
+    UIActivityIndicatorView *queuing= nil;
+    if (indexPath != nil){
+        UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+        queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+        [queuing startAnimating];
+    }
     NSMutableArray *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      [parameters objectForKey:@"properties"], @"properties",
                                      [item objectForKey:itemid], itemid,
@@ -1602,7 +1652,6 @@ NSIndexPath *selected;
              [queuing stopAnimating];
              if( [NSJSONSerialization isValidJSONObject:methodResult]){
                  NSString *itemid_extra_info = @"";
-                 NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
                  if (((NSNull *)[mainFields objectForKey:@"itemid_extra_info"] != [NSNull null])){
                      itemid_extra_info = [mainFields objectForKey:@"itemid_extra_info"]; 
                  }
@@ -2108,7 +2157,7 @@ NSIndexPath *selected;
         artistFontSize = 14;
         albumFontSize = 18;
         trackCountFontSize = 13;
-        labelPadding = 12;
+        labelPadding = 8;
     }
     frame.origin.x = viewWidth;
     dataList.frame=frame;

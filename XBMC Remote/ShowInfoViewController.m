@@ -73,11 +73,12 @@ int count=0;
         }
         UIBarButtonItem *extraButton = nil;
         int titleWidth = 350;
-        if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
-            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];    
-        }
-        else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+//        if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
+//            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
+//            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];    
+//        }
+//        else
+        if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
             extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
         }
