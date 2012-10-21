@@ -466,11 +466,11 @@ int originYear = 0;
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
         if (albumView){
-            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewPadding, cellHeight/2 - (artistFontSize + labelPadding)/2, trackCountLabelWidth, artistFontSize + labelPadding)];
+            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewPadding, cellHeight/2 - (artistFontSize + labelPadding)/2, trackCountLabelWidth - 2, artistFontSize + labelPadding)];
             [trackNumberLabel setBackgroundColor:[UIColor clearColor]];
             [trackNumberLabel setFont:[UIFont systemFontOfSize:artistFontSize]];
             trackNumberLabel.adjustsFontSizeToFitWidth = YES;
-            trackNumberLabel.minimumFontSize = 9;
+            trackNumberLabel.minimumFontSize = artistFontSize - 4;
             trackNumberLabel.tag = 101;
             [trackNumberLabel setHighlightedTextColor:[UIColor whiteColor]];
             [cell addSubview:trackNumberLabel];
@@ -746,7 +746,7 @@ int originYear = 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (albumView){
+    if (albumView && [richResults count]>0){
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
@@ -782,7 +782,7 @@ int originYear = 0;
 
         [albumDetailView addSubview:thumbImageView];
         
-        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewPadding / 2, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
+        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, (albumViewPadding / 2) - 2, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
         [artist setBackgroundColor:[UIColor clearColor]];
         [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
         artist.adjustsFontSizeToFitWidth = YES;
@@ -790,28 +790,33 @@ int originYear = 0;
         artist.text = [item objectForKey:@"genre"];
         [albumDetailView addSubview:artist];
         
-        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y +  artistFontSize + labelPadding/2, viewWidth - albumViewHeight - albumViewPadding, albumFontSize + labelPadding)];
+        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y +  artistFontSize + 2, viewWidth - albumViewHeight - albumViewPadding, albumFontSize + labelPadding)];
         [albumLabel setBackgroundColor:[UIColor clearColor]];
         [albumLabel setFont:[UIFont boldSystemFontOfSize:albumFontSize]];
         albumLabel.text = self.navigationItem.title;
-        albumLabel.numberOfLines = 4;
-        [albumLabel sizeToFit];
+        albumLabel.numberOfLines = 0;
+        CGSize maximunLabelSize= CGSizeMake(viewWidth - albumViewHeight - albumViewPadding, albumViewHeight - albumViewPadding*4);
+        CGSize expectedLabelSize = [albumLabel.text
+                                    sizeWithFont:albumLabel.font
+                                    constrainedToSize:maximunLabelSize
+                                    lineBreakMode:albumLabel.lineBreakMode];
+        CGRect newFrame = albumLabel.frame;
+        newFrame.size.height = expectedLabelSize.height + 8;
+        albumLabel.frame = newFrame;
         [albumDetailView addSubview:albumLabel];
-        float result = 0;
         
+        float totalTime = 0;
         for(int i=0;i<[richResults count];i++)
-            result += [[[richResults objectAtIndex:i] objectForKey:@"runtime"] intValue];
+            totalTime += [[[richResults objectAtIndex:i] objectForKey:@"runtime"] intValue];
         
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         [formatter setMaximumFractionDigits:0];
         [formatter setRoundingMode: NSNumberFormatterRoundHalfEven];
-        
-        NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:result/60]];
-
-        UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewHeight - albumViewPadding - (trackCountFontSize + labelPadding/2), viewWidth - albumViewHeight - albumViewPadding, trackCountFontSize + labelPadding)];
+        NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:totalTime/60]];
+        UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1), viewWidth - albumViewHeight - albumViewPadding, trackCountFontSize + labelPadding)];
         [trackCountLabel setBackgroundColor:[UIColor clearColor]];
         [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
-        trackCountLabel.text = [NSString stringWithFormat:@"%d %@, %@ %@", [richResults count], [richResults count] > 1 ? @"Songs" : @"Song", numberString, result/60 > 1 ? @"Mins." : @"Min"];
+        trackCountLabel.text = [NSString stringWithFormat:@"%d %@, %@ %@", [richResults count], [richResults count] > 1 ? @"Songs" : @"Song", numberString, totalTime/60 > 1 ? @"Mins." : @"Min"];
         [albumDetailView addSubview:trackCountLabel];
         return albumDetailView;
     }
@@ -819,7 +824,7 @@ int originYear = 0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (albumView){
+    if (albumView && [richResults count]>0){
         return albumViewHeight + 2;
     }
     if (section!=0 || tableView == self.searchDisplayController.searchResultsTableView){
@@ -1120,12 +1125,13 @@ NSIndexPath *selected;
         topNavigationLabel.highlightedTextColor = [UIColor blackColor];
         topNavigationLabel.opaque=YES;
         if (![self.detailItem enableSection]){ // CONDIZIONE DEBOLE!!!
-            UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
+            //disabled tiny title
+//            UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
 //            titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
             topNavigationLabel.text=[self.detailItem upperLabel];
-            [titleView addSubview:topNavigationLabel];
-            self.navigationItem.title = [self.detailItem upperLabel]; 
-            self.navigationItem.titleView = titleView;
+//            [titleView addSubview:topNavigationLabel];
+            self.navigationItem.title = [self.detailItem upperLabel];
+//            self.navigationItem.titleView = titleView;
         }
         else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
@@ -1930,8 +1936,11 @@ NSIndexPath *selected;
 
 -(void)indexAndDisplayData{
     [self choseParams];
-    [dataList setContentOffset:CGPointMake(0, 44)];
+    [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
     numResults=[self.richResults count];
+    if (numResults==0){
+        albumView = FALSE;
+    }
     if ([self.detailItem enableSection]){ 
         NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
         // CONDIZIONE DEBOLE!!!
@@ -2010,7 +2019,18 @@ NSIndexPath *selected;
 }
 
 # pragma mark - Life-Cycle
+-(void)viewWillDisappear:(BOOL)animated{
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
+
+}
 -(void)viewWillAppear:(BOOL)animated{
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+    if ([[methods objectForKey:@"albumView"] boolValue]==YES){
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.45 green:.45 blue:.45 alpha:1];
+    }
+    else{
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
+    }
     alreadyPush = NO;
     self.webViewController = nil;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
@@ -2114,6 +2134,7 @@ NSIndexPath *selected;
     if ([[methods objectForKey:@"albumView"] boolValue]==YES){
         albumView = TRUE;
         self.searchDisplayController.searchBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     }
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){
