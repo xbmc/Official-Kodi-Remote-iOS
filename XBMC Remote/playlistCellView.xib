@@ -50,7 +50,7 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="507880089"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<float key="IBUIAlpha">0.80000001192092896</float>
+								<float key="IBUIAlpha">0.82999998331069946</float>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -449,23 +449,11 @@
 					<string key="className">NowPlaying</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="changePlaylist:">id</string>
 						<string key="changeRepeat:">id</string>
 						<string key="changeShuffle:">id</string>
-						<string key="editTable:forceClose:">id</string>
-						<string key="handleButtonLongPress:">UILongPressGestureRecognizer</string>
-						<string key="handleTableLongPress:">UILongPressGestureRecognizer</string>
-						<string key="startUpdateProgressBar:">id</string>
 						<string key="startVibrate:">id</string>
-						<string key="stopUpdateProgressBar:">id</string>
-						<string key="togglePartyMode:">id</string>
-						<string key="updateCurrentTime:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="changePlaylist:">
-							<string key="name">changePlaylist:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="changeRepeat:">
 							<string key="name">changeRepeat:</string>
 							<string key="candidateClassName">id</string>
@@ -474,36 +462,8 @@
 							<string key="name">changeShuffle:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="editTable:forceClose:">
-							<string key="name">editTable:forceClose:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="handleButtonLongPress:">
-							<string key="name">handleButtonLongPress:</string>
-							<string key="candidateClassName">UILongPressGestureRecognizer</string>
-						</object>
-						<object class="IBActionInfo" key="handleTableLongPress:">
-							<string key="name">handleTableLongPress:</string>
-							<string key="candidateClassName">UILongPressGestureRecognizer</string>
-						</object>
-						<object class="IBActionInfo" key="startUpdateProgressBar:">
-							<string key="name">startUpdateProgressBar:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="startVibrate:">
 							<string key="name">startVibrate:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="stopUpdateProgressBar:">
-							<string key="name">stopUpdateProgressBar:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="togglePartyMode:">
-							<string key="name">togglePartyMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="updateCurrentTime:">
-							<string key="name">updateCurrentTime:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
