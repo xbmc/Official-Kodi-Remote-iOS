@@ -98,6 +98,7 @@
     NSString *lastThumbnail;
     int choosedTab;
     NSString *notificationName;
+    __weak IBOutlet UIImageView *playlistLeftShadow;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;

@@ -2226,6 +2226,7 @@ int currentItemID;
 }
 
 -(void)setIpadInterface{
+    playlistLeftShadow.hidden = NO;
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
@@ -2408,6 +2409,7 @@ int currentItemID;
 }
 
 - (void)viewDidUnload{
+    playlistLeftShadow = nil;
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     volumeSliderView = nil;
