@@ -303,6 +303,7 @@
                                                    cancelButtonTitle:nil
                                               destructiveButtonTitle:destructive
                                                    otherButtonTitles:nil];
+        actionSheetPower.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
         for (int i = 0; i < numActions; i++) {
             [actionSheetPower addButtonWithTitle:[sheetActions objectAtIndex:i]];
         }

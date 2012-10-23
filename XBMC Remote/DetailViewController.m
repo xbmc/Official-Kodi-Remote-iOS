@@ -56,7 +56,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(mainMenu *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil{
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.detailItem = item;
-        [self.view setFrame:frame]; 
+        [self.view setFrame:frame];
     }
     return self;
 }
@@ -980,6 +980,7 @@ NSIndexPath *selected;
                                               destructiveButtonTitle:nil
                                                    otherButtonTitles:nil
                                  ];
+        action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
         for (int i = 0; i < numActions; i++) {
             [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
         }
@@ -1033,6 +1034,7 @@ NSIndexPath *selected;
                                                       destructiveButtonTitle:nil
                                                            otherButtonTitles:nil
                                          ];
+                action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
                 for (int i = 0; i < numActions; i++) {
                     [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
                 }

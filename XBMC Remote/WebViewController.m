@@ -109,7 +109,7 @@
                                                     cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:@"Open in Safari", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault; 
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     [actionSheet showInView:self.view];
     actionSheet.tag = 30;
 //    [actionSheet release];
