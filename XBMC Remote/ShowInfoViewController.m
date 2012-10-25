@@ -113,8 +113,8 @@ int count=0;
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
 //            [viewTitle setBackgroundColor:[UIColor redColor]];
-            [viewTitle setFrame:CGRectMake(0, 0, titleWidth, 36)];
-            [viewTitle sizeThatFits:CGSizeMake(titleWidth, 36)];
+            [viewTitle setFrame:CGRectMake(0, 0, titleWidth, 44)];
+            [viewTitle sizeThatFits:CGSizeMake(titleWidth, 44)];
             viewTitle.textAlignment = UITextAlignmentLeft;
             UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
             if (extraButton == nil){
