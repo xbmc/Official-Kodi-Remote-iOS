@@ -901,7 +901,7 @@ int originYear = 0;
 
         return albumDetailView;
     }
-    else if (episodesView && [richResults count]>0){
+    else if (episodesView && [richResults count]>0 && !(tableView == self.searchDisplayController.searchResultsTableView)){
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
@@ -922,7 +922,6 @@ int originYear = 0;
         else{
             item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section]] objectAtIndex:0];
         }
-        NSLog(@"EXTRA %@", extraSectionRichResults);
         int seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:extraSectionRichResults];
         float seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
         if (seasonIdx != NSNotFound){
@@ -1034,7 +1033,7 @@ int originYear = 0;
     if (albumView && [richResults count]>0){
         return albumViewHeight + 2;
     }
-    else if (episodesView  && [richResults count]>0){
+    else if (episodesView  && [richResults count]>0 && !(tableView == self.searchDisplayController.searchResultsTableView)){
         return albumViewHeight + 2;
     }
     else if (section!=0 || tableView == self.searchDisplayController.searchResultsTableView){
