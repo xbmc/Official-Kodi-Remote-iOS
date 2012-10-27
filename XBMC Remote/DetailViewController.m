@@ -2342,6 +2342,12 @@ NSIndexPath *selected;
     callBack = FALSE;
     self.view.userInteractionEnabled = YES;
     choosedTab = 0;
+    numTabs=[[self.detailItem mainMethod] count];
+    if ([self.detailItem chooseTab])
+        choosedTab=[self.detailItem chooseTab];
+    if (choosedTab>=numTabs){
+        choosedTab=0;
+    }
     watchMode = [self.detailItem currentWatchMode];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
@@ -2384,13 +2390,7 @@ NSIndexPath *selected;
     dataList.frame=frame;
     [self buildButtons]; // TEMP ?
     [[SDImageCache sharedImageCache] clearMemory];
-    numTabs=[[self.detailItem mainMethod] count];
-    if ([self.detailItem chooseTab]) 
-        choosedTab=[self.detailItem chooseTab];
-    if (choosedTab>=numTabs){
-        choosedTab=0;
-    }
-//    manager = [SDWebImageManager sharedManager];
+    //    manager = [SDWebImageManager sharedManager];
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
