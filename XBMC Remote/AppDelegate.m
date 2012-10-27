@@ -1491,10 +1491,10 @@ NSMutableArray *mainMenuItems;
     item3.upperLabel = @"Watch your";
     item3.icon = @"icon_home_tv.png";
     item3.family = 1;
-    item3.enableSection=YES;
-    item3.mainButtons=[NSArray arrayWithObjects:@"st_tv", @"st_tv_recently", @"st_filemode", @"st_addons", nil];//, @"st_actor", @"st_genre" ||
+    item3.enableSection = YES;
+    item3.mainButtons = [NSArray arrayWithObjects:@"st_tv", @"st_tv_recently", @"st_filemode", @"st_addons", nil];//, @"st_actor", @"st_genre" 
 
-    item3.mainMethod=[NSMutableArray arrayWithObjects:
+    item3.mainMethod = [NSMutableArray arrayWithObjects:
                       [NSArray arrayWithObjects:
                        @"VideoLibrary.GetTVShows", @"method", 
                        @"VideoLibrary.GetTVShowDetails", @"extra_info_method",
@@ -1507,7 +1507,7 @@ NSMutableArray *mainMenuItems;
                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
 
                       nil];
-    item3.mainParameters=[NSMutableArray arrayWithObjects:
+    item3.mainParameters = [NSMutableArray arrayWithObjects:
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1556,7 +1556,7 @@ NSMutableArray *mainMenuItems;
                             nil], @"parameters", @"Video Addons", @"label", @"Video Addons", @"morelabel", @"nocover_filemode.png", @"defaultThumb", @"53", @"rowHeight", @"53", @"thumbWidth", nil],
                           
                           nil];
-    item3.mainFields=[NSArray arrayWithObjects:
+    item3.mainFields = [NSArray arrayWithObjects:
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"tvshows",@"itemid",
                        @"label", @"row1",
@@ -1628,13 +1628,13 @@ NSMutableArray *mainMenuItems;
                        @"file",@"row8",
                        @"file", @"row9",
                        nil],
-                      
                       nil];
-    item3.rowHeight=tvshowHeight;
-    item3.thumbWidth=thumbWidth;
-    item3.defaultThumb=@"nocover_tvshows.png";
-    item3.originLabel=60;
-    item3.sheetActions=[NSArray arrayWithObjects:
+    
+    item3.rowHeight = tvshowHeight;
+    item3.thumbWidth = thumbWidth;
+    item3.defaultThumb = @"nocover_tvshows.png";
+    item3.originLabel = 60;
+    item3.sheetActions = [NSArray arrayWithObjects:
                         [NSArray arrayWithObjects:@"TV Show Details", nil],
                         [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"Episode Details", nil],
                         [NSArray arrayWithObjects:nil],
@@ -1669,23 +1669,37 @@ NSMutableArray *mainMenuItems;
     
     item3.subItem.disableFilterParameter = YES;
     item3.subItem.mainMethod=[NSMutableArray arrayWithObjects:
-                              [NSArray arrayWithObjects:@"VideoLibrary.GetSeasons", @"method", nil],
+                              [NSArray arrayWithObjects:
+                               @"VideoLibrary.GetEpisodes", @"method",
+                               @"VideoLibrary.GetEpisodeDetails", @"extra_info_method",
+                               @"YES", @"episodesView",
+                               @"VideoLibrary.GetSeasons", @"extra_section_method",
+                               nil],
                               [NSArray arrayWithObjects:nil],
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               nil];
-    item3.subItem.mainParameters=[NSMutableArray arrayWithObjects:
-                                  [NSMutableArray arrayWithObjects:
-                                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"ascending",@"order",
-                                     [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                                     @"label", @"method",
-                                     nil],@"sort",
-                                    
-                                    [NSArray arrayWithObjects:@"season", @"thumbnail", @"tvshowid", @"playcount", @"episode", nil], @"properties",
-                                    nil], @"parameters", @"Seasons", @"label",
-                                   nil],
+    
+    item3.subItem.mainParameters = [NSMutableArray arrayWithObjects:
+                                    [NSMutableArray arrayWithObjects:
+                                     [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                      [NSDictionary dictionaryWithObjectsAndKeys:
+                                       @"ascending",@"order",
+                                       @"episode", @"method",
+                                       nil],@"sort",
+                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"showtitle", @"playcount", @"season", nil], @"properties",
+                                      nil], @"parameters", @"Episodes", @"label",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"resume", nil], @"properties",nil], @"extra_info_parameters",
+                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"ascending",@"order",
+                                        [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                                        @"label", @"method",
+                                        nil],@"sort",
+                                       [NSArray arrayWithObjects:@"season", @"thumbnail", @"tvshowid", @"playcount", @"episode", nil], @"properties",
+                                       nil], @"extra_section_parameters",
+                                     nil],
                                   
                                   [NSArray arrayWithObjects:nil],
                                                                     
@@ -1711,25 +1725,50 @@ NSMutableArray *mainMenuItems;
                                     nil], @"parameters", @"Video Addons", @"label", @"nocover_filemode.png", @"defaultThumb", @"35", @"rowHeight", @"35", @"thumbWidth", nil],
                                   
                                   nil];
-    item3.subItem.mainFields=[NSArray arrayWithObjects:
-                              [NSDictionary  dictionaryWithObjectsAndKeys:
-                               @"seasons",@"itemid",
-                               @"label", @"row1",
-                               @"blank", @"row2",
-                               @"blank", @"row3",
-                               @"blank", @"row4",
-                               @"blank",@"row5",
-                               @"tvshowid",@"row6",
-                               @"episode",@"row7",
-                               @"season",@"row8",
-                               [NSNumber numberWithInt:1], @"playlistid",
-                               @"tvshowid", @"row9",
-                               @"playcount", @"row10",
-                               @"season",@"row15",
-                               nil],
+    item3.subItem.mainFields = [NSArray arrayWithObjects:
+                                [NSDictionary  dictionaryWithObjectsAndKeys:
+                                 @"episodes",@"itemid",
+                                 @"label", @"row1",
+                                 @"showtitle", @"row2",
+                                 @"firstaired", @"row3",
+                                 @"runtime", @"row4",
+                                 @"rating",@"row5",
+                                 @"episodeid",@"row6",
+                                 @"playcount",@"row7",
+                                 @"episodeid",@"row8",
+                                 [NSNumber numberWithInt:1], @"playlistid",
+                                 @"episodeid", @"row9",
+                                 @"season", @"row10",
+                                 @"director", @"row11",
+                                 @"writer", @"row12",
+                                 @"firstaired", @"row13",
+                                 @"showtitle", @"row14",
+                                 @"plot",@"row15",
+                                 @"cast",@"row16",
+                                 @"file",@"row17",
+                                 @"resume",@"row18",
+                                 @"episode",@"row19",
+                                 @"episodedetails",@"itemid_extra_info",
+                                 @"seasons",@"itemid_extra_section",
+                                 nil],
+//                                [NSDictionary  dictionaryWithObjectsAndKeys:
+//                                 @"seasons",@"itemid",
+//                                 @"label", @"row1",
+//                                 @"blank", @"row2",
+//                                 @"blank", @"row3",
+//                                 @"blank", @"row4",
+//                                 @"blank",@"row5",
+//                                 @"tvshowid",@"row6",
+//                                 @"episode",@"row7",
+//                                 @"season",@"row8",
+//                                 [NSNumber numberWithInt:1], @"playlistid",
+//                                 @"tvshowid", @"row9",
+//                                 @"playcount", @"row10",
+//                                 @"season",@"row15",
+//                                 nil],
                               
                               [NSArray arrayWithObjects:nil],
-                                                            
+                                
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"files",@"itemid",
                                @"label", @"row1",
@@ -1761,40 +1800,42 @@ NSMutableArray *mainMenuItems;
                                nil],
                               
                               nil];
-    item3.subItem.enableSection=NO;
-    item3.subItem.rowHeight=114;
-    item3.subItem.thumbWidth=79;
-    item3.subItem.defaultThumb=@"nocover_tvshows_episode.png";
-    item3.subItem.sheetActions=[NSArray arrayWithObjects:
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
+    item3.subItem.enableSection = NO;
+    item3.subItem.rowHeight = 53;
+    item3.subItem.thumbWidth = 95;
+    item3.subItem.defaultThumb = @"nocover_tvshows_episode.png";
+    item3.subItem.sheetActions = [NSArray arrayWithObjects:
+                                [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Episode Details", nil],
                                 [NSArray arrayWithObjects:nil],
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
                                 [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
                                 nil];//, @"Stream to iPhone"
+    item3.subItem.originYearDuration=248;
+    item3.subItem.widthLabel=208;
+    item3.subItem.showRuntime=[NSArray arrayWithObjects:
+                                       [NSNumber numberWithBool:NO],
+                                       [NSNumber numberWithBool:NO],
+                                       [NSNumber numberWithBool:NO],
+                                       [NSNumber numberWithBool:NO],
+                                       nil];
+    item3.subItem.noConvertTime=YES;
+    item3.subItem.showInfo = [NSArray arrayWithObjects:
+                                      [NSNumber numberWithBool:YES],
+                                      [NSNumber numberWithBool:YES],
+                                      [NSNumber numberWithBool:YES],
+                                      [NSNumber numberWithBool:YES],
+                                      nil];
 
-    item3.subItem.widthLabel=252;
     item3.subItem.subItem.disableFilterParameter = YES;
+    
     item3.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
-                                      [NSArray arrayWithObjects:
-                                       @"VideoLibrary.GetEpisodes", @"method",
-                                       @"VideoLibrary.GetEpisodeDetails", @"extra_info_method",
-                                       nil],
+                                      [NSArray arrayWithObjects:nil],
                                       [NSArray arrayWithObjects:nil],
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],                                      
                                       nil];
     item3.subItem.subItem.mainParameters=[NSMutableArray arrayWithObjects:
-                                          [NSMutableArray arrayWithObjects:
-                                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            [NSDictionary dictionaryWithObjectsAndKeys:
-                                             @"ascending",@"order",
-                                             @"episode", @"method",
-                                             nil],@"sort",
-                                            [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"showtitle", @"playcount", nil], @"properties",
-                                            nil], @"parameters", @"Episodes", @"label",
-                                           [NSDictionary dictionaryWithObjectsAndKeys:
-                                            [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"resume", nil], @"properties",nil], @"extra_info_parameters",
-                                           nil],
+                                          [NSArray arrayWithObjects:nil],
                                           
                                           [NSArray arrayWithObjects:nil],
                                           
@@ -1804,29 +1845,7 @@ NSMutableArray *mainMenuItems;
                                           
                                           nil];
     item3.subItem.subItem.mainFields=[NSArray arrayWithObjects:
-                                      [NSDictionary  dictionaryWithObjectsAndKeys:
-                                       @"episodes",@"itemid",
-                                       @"label", @"row1",
-                                       @"showtitle", @"row2",
-                                       @"firstaired", @"row3",
-                                       @"runtime", @"row4",
-                                       @"rating",@"row5",
-                                       @"episodeid",@"row6",
-                                       @"playcount",@"row7",
-                                       @"episodeid",@"row8",
-                                       [NSNumber numberWithInt:1], @"playlistid",
-                                       @"episodeid", @"row9",
-                                       @"plot", @"row10",
-                                       @"director", @"row11",
-                                       @"writer", @"row12",
-                                       @"firstaired", @"row13",
-                                       @"showtitle", @"row14",
-                                       @"season",@"row15",
-                                       @"cast",@"row16",
-                                       @"file",@"row17",
-                                       @"resume",@"row18",
-                                       @"episodedetails",@"itemid_extra_info",
-                                       nil],
+                                      [NSArray arrayWithObjects:nil],
                                       
                                       [NSArray arrayWithObjects:nil],
 
@@ -1840,7 +1859,7 @@ NSMutableArray *mainMenuItems;
     item3.subItem.subItem.thumbWidth=95;
     item3.subItem.subItem.defaultThumb=@"nocover_tvshows_episode.png";
     item3.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Episode Details", nil],
+                                        [NSArray arrayWithObjects:nil],
                                         [NSArray arrayWithObjects:nil],
                                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
                                         [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],

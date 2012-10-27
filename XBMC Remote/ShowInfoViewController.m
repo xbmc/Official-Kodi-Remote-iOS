@@ -276,6 +276,15 @@ int count=0;
             obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
             objKey = @"filter";
         }
+        NSMutableDictionary *newSectionParameters = nil;
+        if ([parameters objectForKey:@"extra_section_parameters"] != nil){
+            newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    obj, objKey,
+                                    [[parameters objectForKey:@"extra_section_parameters"] objectForKey:@"properties"], @"properties",
+                                    [[parameters objectForKey:@"extra_section_parameters"] objectForKey:@"sort"],@"sort",
+                                    [item objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
+                                    nil];
+        }
         NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         obj,objKey,
@@ -285,6 +294,7 @@ int count=0;
                                        [parameters objectForKey:@"label"], @"label",
                                        [NSNumber numberWithBool:YES], @"fromShowInfo",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
+                                       newSectionParameters, @"extra_section_parameters",
                                        nil];
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab=choosedTab;

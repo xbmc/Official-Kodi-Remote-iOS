@@ -28,6 +28,7 @@
     NSMutableArray *richResults;
     NSMutableArray	*filteredListContent;
     NSMutableArray *storeRichResults;
+    NSMutableArray *extraSectionRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;  
     SDWebImageManager *manager;
@@ -65,6 +66,7 @@
     int flagX;
     int flagY;
     BOOL albumView;
+    BOOL episodesView;
     int albumViewHeight;
     int albumViewPadding;
     int artistFontSize;
@@ -77,7 +79,7 @@
 - (id)initWithFrame:(CGRect)frame;
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(mainMenu *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
 
-@property (nonatomic, retain) NSMutableArray *richResults;
+//@property (nonatomic, retain) NSMutableArray *richResults;
 @property (nonatomic, retain) NSMutableArray *filteredListContent;
 
 @property (strong, nonatomic) id detailItem;
