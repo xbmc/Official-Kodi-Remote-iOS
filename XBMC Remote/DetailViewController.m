@@ -922,7 +922,7 @@ int originYear = 0;
         else{
             item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section]] objectAtIndex:0];
         }
-        
+        NSLog(@"EXTRA %@", extraSectionRichResults);
         int seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:extraSectionRichResults];
         float seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
         if (seasonIdx != NSNotFound){
@@ -2139,11 +2139,11 @@ NSIndexPath *selected;
                  if (!extraSectionCallBool){
                      storeRichResults = [resultStoreArray mutableCopy];
                  }
+                 if (SectionMethodToCall != nil){
+                     [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:extraSectionRichResults extraSectionCall:YES];
+                 }
                  if (watchMode != 0){
                      [self changeViewMode:watchMode];
-                 }
-                 else if (SectionMethodToCall != nil){
-                     [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:extraSectionRichResults extraSectionCall:YES];
                  }
                  else{
                      [self indexAndDisplayData];
