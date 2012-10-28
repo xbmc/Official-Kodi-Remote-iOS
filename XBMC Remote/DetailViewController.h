@@ -74,6 +74,7 @@
     int trackCountFontSize;
     int trackCountLabelWidth;
     int labelPadding;
+    float thumbBorderWidth;
 }
 
 - (id)initWithFrame:(CGRect)frame;

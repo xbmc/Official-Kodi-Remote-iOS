@@ -362,11 +362,14 @@ int originYear = 0;
     }
     if (albumView){
         thumbWidth = 0;
-        labelPosition=thumbWidth + albumViewPadding + trackCountLabelWidth;
-
+        labelPosition = thumbWidth + albumViewPadding + trackCountLabelWidth;
+    }
+    else if (episodesView){
+        thumbWidth = 0;
+        labelPosition = 14;
     }
     else{
-    labelPosition=thumbWidth + 8;
+        labelPosition=thumbWidth + 8;
     }
     int newWidthLabel = 0;
     if (Menuitem.originLabel && ![parameters objectForKey:@"thumbWidth"])
@@ -383,7 +386,7 @@ int originYear = 0;
     Menuitem.widthLabel=newWidthLabel;
     flagX = thumbWidth - 10;
     flagY = cellHeight - 19;
-    if (flagX + 22 > self.view.bounds.size.width){
+    if ((flagX + 22 > self.view.bounds.size.width) || thumbWidth == 0){
         flagX = 2;
         flagY = 2;
     }
@@ -582,7 +585,7 @@ int originYear = 0;
     rating.frame=frame;
     [rating setText:[item objectForKey:@"rating"]];
     
-    if (!albumView){
+    if (!albumView && !episodesView){
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=defaultThumb;
         if ([[item objectForKey:@"filetype"] length]!=0){
@@ -598,7 +601,7 @@ int originYear = 0;
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
         }
     }
-    else{
+    else if (albumView){
         UILabel *trackNumber = (UILabel *)[cell viewWithTag:101];
         trackNumber.text = [item objectForKey:@"track"];
     }
@@ -831,7 +834,8 @@ int originYear = 0;
         thumbImageView.layer.shadowOpacity = 1;
         thumbImageView.layer.shadowRadius = 2.0;
         thumbImageView.clipsToBounds = NO;
-
+        thumbImageView.layer.borderColor = [UIColor blackColor].CGColor;
+        thumbImageView.layer.borderWidth = thumbBorderWidth;
         [albumDetailView addSubview:thumbImageView];
         
         UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, (albumViewPadding / 2) - 1, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
@@ -905,8 +909,13 @@ int originYear = 0;
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
-        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:.95] CGColor], (id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:.95] CGColor], nil];
+        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:1] CGColor], (id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:.95] CGColor], nil];
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -1, viewWidth, 1)];
+        [lineView setBackgroundColor:[UIColor colorWithRed:.59 green:.59 blue:.59 alpha:1]];
+        [albumDetailView addSubview:lineView];
+
         CGRect toolbarShadowFrame = CGRectMake(0.0f, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
@@ -953,6 +962,9 @@ int originYear = 0;
             thumbImageView.layer.shadowRadius = 2.0;
 //            thumbImageView.layer.shouldRasterize = YES;
             thumbImageView.clipsToBounds = NO;
+            
+            thumbImageView.layer.borderColor = [UIColor blackColor].CGColor;
+            thumbImageView.layer.borderWidth = thumbBorderWidth;
             [albumDetailView addSubview:thumbImageView];
             
             UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + (albumViewPadding * 2), (albumViewPadding / 2) - 1, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
@@ -1012,9 +1024,6 @@ int originYear = 0;
 //            [albumDetailView addSubview:albumInfoButton];
 
         }
-        
-        
-        
         return albumDetailView;
     }
     return nil;
@@ -1034,7 +1043,7 @@ int originYear = 0;
         return albumViewHeight + 2;
     }
     else if (episodesView  && [richResults count]>0 && !(tableView == self.searchDisplayController.searchResultsTableView)){
-        return albumViewHeight + 2;
+        return albumViewHeight + 1;
     }
     else if (section!=0 || tableView == self.searchDisplayController.searchResultsTableView){
         return 22;
@@ -2141,7 +2150,7 @@ NSIndexPath *selected;
                  if (SectionMethodToCall != nil){
                      [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:extraSectionRichResults extraSectionCall:YES];
                  }
-                 if (watchMode != 0){
+                 else if (watchMode != 0){
                      [self changeViewMode:watchMode];
                  }
                  else{
@@ -2233,11 +2242,9 @@ NSIndexPath *selected;
                 [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
             }
             [[self.sections objectForKey:c] addObject:item];
-
         }
     }
     else if (episodesView) {
-
         for (NSDictionary *item in richResults){
             BOOL found;
             NSString *c =  [NSString stringWithFormat:@"%@", [item objectForKey:@"season"]];
@@ -2339,6 +2346,11 @@ NSIndexPath *selected;
 }
 
 - (void)viewDidLoad{
+    thumbBorderWidth = 1.0f;
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+        ([UIScreen mainScreen].scale == 2.0)) {
+        thumbBorderWidth = 0.5f;
+    }
     callBack = FALSE;
     self.view.userInteractionEnabled = YES;
     choosedTab = 0;
@@ -2366,7 +2378,7 @@ NSIndexPath *selected;
         viewWidth=320;
         albumViewHeight = 116;
         if (episodesView){
-            albumViewHeight = 80;
+            albumViewHeight = 90;
         }
         albumViewPadding = 8;
         artistFontSize = 12;
@@ -2378,7 +2390,7 @@ NSIndexPath *selected;
         viewWidth = 477;
         albumViewHeight = 166;
         if (episodesView){
-            albumViewHeight = 92;
+            albumViewHeight = 112;
         }
         albumViewPadding = 12;
         artistFontSize = 14;
