@@ -1039,7 +1039,7 @@ int originYear = 0;
         return albumViewHeight + 2;
     }
     else if (episodesView  && [richResults count]>0 && !(tableView == self.searchDisplayController.searchResultsTableView)){
-        return albumViewHeight + 1;
+        return albumViewHeight + 2;
     }
     else if (section!=0 || tableView == self.searchDisplayController.searchResultsTableView){
         return 22;
@@ -2368,7 +2368,7 @@ NSIndexPath *selected;
         self.searchDisplayController.searchBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     }
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
-        dataList.separatorColor = [UIColor blackColor];
+        dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
     [detailView setClipsToBounds:YES];
     CGRect frame=dataList.frame;
@@ -2377,7 +2377,7 @@ NSIndexPath *selected;
         viewWidth=320;
         albumViewHeight = 116;
         if (episodesView){
-            albumViewHeight = 90;
+            albumViewHeight = 99;
         }
         albumViewPadding = 8;
         artistFontSize = 12;
@@ -2389,7 +2389,7 @@ NSIndexPath *selected;
         viewWidth = 477;
         albumViewHeight = 166;
         if (episodesView){
-            albumViewHeight = 112;
+            albumViewHeight = 110;
         }
         albumViewPadding = 12;
         artistFontSize = 14;
