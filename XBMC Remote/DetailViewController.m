@@ -372,7 +372,7 @@ int originYear = 0;
     }
     else if (episodesView){
         thumbWidth = 0;
-        labelPosition = 14;
+        labelPosition = 18;
     }
     else{
         labelPosition=thumbWidth + 8;
@@ -392,9 +392,13 @@ int originYear = 0;
     Menuitem.widthLabel=newWidthLabel;
     flagX = thumbWidth - 10;
     flagY = cellHeight - 19;
-    if ((flagX + 22 > self.view.bounds.size.width) || thumbWidth == 0){
+    if (flagX + 22 > self.view.bounds.size.width){
         flagX = 2;
         flagY = 2;
+    }
+    if (thumbWidth == 0){
+        flagX = 6;
+        flagY = 4;
     }
 }
 
