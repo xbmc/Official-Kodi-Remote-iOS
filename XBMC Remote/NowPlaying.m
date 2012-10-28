@@ -1830,7 +1830,7 @@ int currentItemID;
         else if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
             notificationName = @"UIApplicationEnableTvShowSection";
             if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Episode Details"]) {
-                MenuItem = [AppDelegate instance].playlistTvShows.subItem.subItem;
+                MenuItem = [AppDelegate instance].playlistTvShows.subItem;
                 choosedTab = 0;
                 MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
             }
