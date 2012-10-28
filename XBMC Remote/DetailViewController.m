@@ -823,19 +823,18 @@ int originYear = 0;
             displayThumb=stringURL;
         }
         if (![stringURL isEqualToString:@""]){
-            
-            [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+            [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
+            thumbImageView.layer.borderColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1].CGColor;
+            thumbImageView.layer.borderWidth = thumbBorderWidth;
+            thumbImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+            thumbImageView.layer.shadowOffset = CGSizeMake(0, 0);
+            thumbImageView.layer.shadowOpacity = 1;
+            thumbImageView.layer.shadowRadius = 2.0;
         }
         else {
             [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
         }
-        thumbImageView.layer.shadowColor = [UIColor blackColor].CGColor;
-        thumbImageView.layer.shadowOffset = CGSizeMake(0, 0);
-        thumbImageView.layer.shadowOpacity = 1;
-        thumbImageView.layer.shadowRadius = 2.0;
         thumbImageView.clipsToBounds = NO;
-        thumbImageView.layer.borderColor = [UIColor blackColor].CGColor;
-        thumbImageView.layer.borderWidth = thumbBorderWidth;
         [albumDetailView addSubview:thumbImageView];
         
         UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, (albumViewPadding / 2) - 1, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
@@ -937,35 +936,23 @@ int originYear = 0;
             
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
             NSString *stringURL = [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"thumbnail"];
-            NSString *displayThumb=@"coverbox_back_movies.png";
+            NSString *displayThumb=@"coverbox_back_section.png";
             if ([[item objectForKey:@"filetype"] length]!=0){
                 displayThumb=stringURL;
             }
             if (![stringURL isEqualToString:@""]){
-                
                 [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+                
             }
             else {
                 [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
-            }
-//            thumbImageView.image = [self imageWithBorderFromImage:thumbImageView.image];
-            
-//            thumbImageView.layer.shadowPath = [UIBezierPath bezierPathWithRect:thumbImageView.layer.bounds].CGPath;
-            
-//            thumbImageView.layer.masksToBounds = NO;
-//            UIBezierPath *path = [UIBezierPath bezierPathWithRect:thumbImageView.layer.bounds];
-//            thumbImageView.layer.shadowPath = path.CGPath;
-            
-            thumbImageView.layer.shadowColor = [UIColor blackColor].CGColor;
-            thumbImageView.layer.shadowOffset = CGSizeMake(0, 0);
-            thumbImageView.layer.shadowOpacity = 1;
-            thumbImageView.layer.shadowRadius = 2.0;
-//            thumbImageView.layer.shouldRasterize = YES;
-            thumbImageView.clipsToBounds = NO;
-            
-            thumbImageView.layer.borderColor = [UIColor blackColor].CGColor;
-            thumbImageView.layer.borderWidth = thumbBorderWidth;
+            }            
             [albumDetailView addSubview:thumbImageView];
+            
+            UIImageView *thumbImageShadowView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding - 3, albumViewPadding - 3, seasonThumbWidth + 6, albumViewHeight - (albumViewPadding * 2) + 6)];
+            [thumbImageShadowView setContentMode:UIViewContentModeScaleToFill];
+            thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow"];
+            [albumDetailView addSubview:thumbImageShadowView];
             
             UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + (albumViewPadding * 2), (albumViewPadding / 2) - 1, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
             [artist setBackgroundColor:[UIColor clearColor]];
