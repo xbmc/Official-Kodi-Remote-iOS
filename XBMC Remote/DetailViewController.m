@@ -281,6 +281,12 @@
     }
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
+        dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+    }
+    else{
+        dataList.separatorColor = [UIColor lightGrayColor];
+    }
     if ([methods objectForKey:@"method"]!=nil){
         [self retrieveData:[methods objectForKey:@"method"] parameters:[parameters objectForKey:@"parameters"] sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:richResults extraSectionCall:NO];
     }
