@@ -1521,6 +1521,7 @@ NSMutableArray *mainMenuItems;
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", @"plot", @"mpaa", @"votes", @"cast", @"premiered", @"episode", @"fanart", nil], @"properties",
                             nil], @"extra_info_parameters",
+                           @"YES", @"blackTableSeparator",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
