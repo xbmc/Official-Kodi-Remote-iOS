@@ -989,7 +989,16 @@ int originYear = 0;
             [releasedLabel setBackgroundColor:[UIColor clearColor]];
             [releasedLabel setTextColor:[UIColor darkGrayColor]];
             [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
-            releasedLabel.text = [NSString stringWithFormat:@"First aired on %@", [item objectForKey:@"year"]];
+            
+            NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+            NSString *aired = @"";
+            NSDateFormatter *format = [[NSDateFormatter alloc] init];
+            [format setLocale:usLocale];
+            [format setDateFormat:@"yyyy-MM-dd"];
+            NSDate *date = [format dateFromString:[item objectForKey:@"year"]];
+            [format setDateFormat:@"MMMM d, YYYY"];
+            aired = [format stringFromDate:date];
+            releasedLabel.text = [NSString stringWithFormat:@"First aired on %@", aired];
             [albumDetailView addSubview:releasedLabel];
 
 //            BOOL fromShowInfo = NO;
