@@ -2365,6 +2365,8 @@ NSIndexPath *selected;
     callBack = FALSE;
     self.view.userInteractionEnabled = YES;
     choosedTab = 0;
+    [self buildButtons]; // TEMP ?
+
     numTabs=[[self.detailItem mainMethod] count];
     if ([self.detailItem chooseTab])
         choosedTab=[self.detailItem chooseTab];
@@ -2372,7 +2374,6 @@ NSIndexPath *selected;
         choosedTab=0;
     }
     watchMode = [self.detailItem currentWatchMode];
-
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
@@ -2415,7 +2416,6 @@ NSIndexPath *selected;
     }
     frame.origin.x = viewWidth;
     dataList.frame=frame;
-    [self buildButtons]; // TEMP ?
     [[SDImageCache sharedImageCache] clearMemory];
     //    manager = [SDWebImageManager sharedManager];
     GlobalData *obj=[GlobalData getInstance]; 
