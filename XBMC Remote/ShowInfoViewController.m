@@ -75,7 +75,12 @@ int count=0;
         if (((NSNull *)[item objectForKey:@"fromAlbumView"] != [NSNull null])){
             fromAlbumView = [[item objectForKey:@"fromAlbumView"] boolValue];
         }
+        BOOL fromEpisodesView = NO;
+        if (((NSNull *)[item objectForKey:@"fromEpisodesView"] != [NSNull null])){
+            fromEpisodesView = [[item objectForKey:@"fromEpisodesView"] boolValue];
+        }
         UIBarButtonItem *extraButton = nil;
+        NSLog(@"EPISODES %d", fromEpisodesView);
         int titleWidth = 350;
         if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
@@ -92,7 +97,12 @@ int count=0;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon"];
-            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+            if (fromEpisodesView){
+                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(goBack:)];
+            }
+            else{
+                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+            }
         }
         else{
             titleWidth = 400;

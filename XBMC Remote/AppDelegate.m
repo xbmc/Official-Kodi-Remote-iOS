@@ -1689,10 +1689,10 @@ NSMutableArray *mainMenuItems;
                                        @"ascending",@"order",
                                        @"episode", @"method",
                                        nil],@"sort",
-                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"showtitle", @"playcount", @"season", nil], @"properties",
+                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"showtitle", @"playcount", @"season", @"tvshowid", nil], @"properties",
                                       nil], @"parameters", @"Episodes", @"label",
                                      [NSDictionary dictionaryWithObjectsAndKeys:
-                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"resume", nil], @"properties",nil], @"extra_info_parameters",
+                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"fanart", @"resume", nil], @"properties",nil], @"extra_info_parameters",
                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        [NSDictionary dictionaryWithObjectsAndKeys:
                                         @"ascending",@"order",
@@ -1741,13 +1741,13 @@ NSMutableArray *mainMenuItems;
                                  [NSNumber numberWithInt:1], @"playlistid",
                                  @"episodeid", @"row9",
                                  @"season", @"row10",
-                                 @"director", @"row11",
+                                 @"tvshowid", @"row11",
                                  @"writer", @"row12",
                                  @"firstaired", @"row13",
                                  @"showtitle", @"row14",
                                  @"plot",@"row15",
                                  @"cast",@"row16",
-                                 @"file",@"row17",
+                                 @"director",@"row17",
                                  @"resume",@"row18",
                                  @"episode",@"row19",
                                  @"episodedetails",@"itemid_extra_info",

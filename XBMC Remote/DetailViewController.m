@@ -1012,23 +1012,24 @@ int originYear = 0;
             releasedLabel.text = [NSString stringWithFormat:@"First aired on %@", aired];
             [albumDetailView addSubview:releasedLabel];
 
-//            BOOL fromShowInfo = NO;
-//            if ([[self.detailItem mainParameters] count]>0){
-//                NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:0]];
-//                if (((NSNull *)[parameters objectForKey:@"fromShowInfo"] != [NSNull null])){
-//                    fromShowInfo = [[parameters objectForKey:@"fromShowInfo"] boolValue];
-//                }
-//            }
-//            UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
-//            [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
-//            if (fromShowInfo){
-//                [albumInfoButton addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
-//            }
-//            else{
-//                albumInfoButton.tag = 1;
-//                [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
-//            }
-//            [albumDetailView addSubview:albumInfoButton];
+            BOOL fromShowInfo = NO;
+            if ([[self.detailItem mainParameters] count]>0){
+                NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:0]];
+                if (((NSNull *)[parameters objectForKey:@"fromShowInfo"] != [NSNull null])){
+                    fromShowInfo = [[parameters objectForKey:@"fromShowInfo"] boolValue];
+                }
+            }
+            UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
+            albumInfoButton.alpha = .5f;
+            [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
+            if (fromShowInfo){
+                [albumInfoButton addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            else{
+                albumInfoButton.tag = 1;
+                [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            [albumDetailView addSubview:albumInfoButton];
 
         }
         return albumDetailView;
@@ -1820,7 +1821,6 @@ NSIndexPath *selected;
 } 
 
 -(void) retrieveExtraInfoData:(NSString *)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath *)indexPath item:(NSDictionary *)item menuItem:(mainMenu *)menuItem tabToShow:(int)tabToShow{
-   
     NSString *itemid = @"";
     NSDictionary *mainFields = nil;
     mainFields = [[menuItem mainFields] objectAtIndex:tabToShow];
@@ -1939,6 +1939,11 @@ NSIndexPath *selected;
                  if ([self.detailItem disableNowPlaying]){
                      disableNowPlaying = YES;
                  }
+                 
+                 NSObject *row11 = [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row11"]];
+                 if (row11 == nil){
+                     row11 = [NSNumber numberWithInt:0];
+                 }
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
                   [NSNumber numberWithBool:disableNowPlaying], @"disableNowPlaying",
@@ -1957,7 +1962,7 @@ NSIndexPath *selected;
                   [mainFields objectForKey:@"row8"], @"family",
                   [NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row9"]]]intValue]], [mainFields objectForKey:@"row9"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
-                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row11"]], [mainFields objectForKey:@"row11"],
+                  row11, [mainFields objectForKey:@"row11"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row13"]], [mainFields objectForKey:@"row13"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row14"]], [mainFields objectForKey:@"row14"],
