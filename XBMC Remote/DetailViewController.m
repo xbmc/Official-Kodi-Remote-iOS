@@ -785,7 +785,8 @@ int originYear = 0;
         }
     }
     else {
-        if ([MenuItem.showInfo objectAtIndex:choosedTab]){
+//        NSLog(@"ECCOLO %@ di id %d", [MenuItem.showInfo objectAtIndex:choosedTab], choosedTab);
+        if ([[MenuItem.showInfo objectAtIndex:choosedTab] boolValue]){
             [self showInfo:indexPath menuItem:self.detailItem item:item tabToShow:choosedTab];
         }
         else {
@@ -1571,7 +1572,7 @@ NSIndexPath *selected;
             [queuing stopAnimating];
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
 
-            //                [self showNowPlaying];
+            [self showNowPlaying];
         }
         else {
             UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
@@ -1637,6 +1638,10 @@ NSIndexPath *selected;
             }
         }];
         
+    }
+    else if ([[mainFields objectForKey:@"row7"] isEqualToString:@"plugin"]){ // TEST
+        NSLog(@"eccoci");
+        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
     }
     else{
         
@@ -2367,6 +2372,7 @@ NSIndexPath *selected;
         choosedTab=0;
     }
     watchMode = [self.detailItem currentWatchMode];
+
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
