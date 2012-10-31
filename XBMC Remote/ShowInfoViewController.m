@@ -102,7 +102,7 @@ int count=0;
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlackTranslucent;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-            actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
+            actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
             viewTitle.numberOfLines=1;
             viewTitle.font = [UIFont boldSystemFontOfSize:22];
@@ -151,7 +151,7 @@ int count=0;
         else{
             self.navigationItem.titleView = viewTitle;
             self.navigationItem.title = [item objectForKey:@"label"];
-            UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
+            UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             if (extraButton == nil){
                 self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
                                                            actionSheetButtonItem,
