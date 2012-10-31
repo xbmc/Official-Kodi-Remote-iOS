@@ -2328,8 +2328,10 @@ NSIndexPath *selected;
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     int i=0;
     int count=[buttons count];
-    if (count>MAX_NORMAL_BUTTONS)
+    if (count > MAX_NORMAL_BUTTONS)
         count = MAX_NORMAL_BUTTONS;
+    if (choosedTab > MAX_NORMAL_BUTTONS)
+        choosedTab = MAX_NORMAL_BUTTONS;
     for (i=0;i<count;i++){
         NSString *imageNameOff=[NSString stringWithFormat:@"%@_off", [buttons objectAtIndex:i]];
         NSString *imageNameOn=[NSString stringWithFormat:@"%@_on", [buttons objectAtIndex:i]];
