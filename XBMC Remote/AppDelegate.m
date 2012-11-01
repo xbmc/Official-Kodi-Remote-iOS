@@ -100,7 +100,10 @@ NSMutableArray *mainMenuItems;
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         thumbWidth = 320;
-        tvshowHeight = 61;        
+        tvshowHeight = 61;
+        NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1],UITextAttributeTextColor, nil];
+        [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     } 
     else {
         thumbWidth = 477;

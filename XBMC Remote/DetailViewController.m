@@ -2431,9 +2431,6 @@ NSIndexPath *selected;
     albumFontSize = 15;
     trackCountFontSize = 11;
     labelPadding = 8;
-    NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                               [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1],UITextAttributeTextColor, nil];
-    [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
 }
 
 -(void)setIpadInterface{
