@@ -1408,7 +1408,7 @@ NSIndexPath *selected;
         topNavigationLabel.opaque=YES;
         topNavigationLabel.text=[self.detailItem mainLabel];
         self.navigationItem.title = [self.detailItem mainLabel];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]){
             UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
             titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
             topNavigationLabel.textAlignment = UITextAlignmentRight;
@@ -2420,6 +2420,80 @@ NSIndexPath *selected;
     }
 }
 
+-(void)setIphoneInterface{
+    viewWidth=320;
+    albumViewHeight = 116;
+    if (episodesView){
+        albumViewHeight = 99;
+    }
+    albumViewPadding = 8;
+    artistFontSize = 12;
+    albumFontSize = 15;
+    trackCountFontSize = 11;
+    labelPadding = 8;
+    NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1],UITextAttributeTextColor, nil];
+    [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
+}
+
+-(void)setIpadInterface{
+    viewWidth = 477;
+    albumViewHeight = 166;
+    if (episodesView){
+        albumViewHeight = 110;
+    }
+    albumViewPadding = 12;
+    artistFontSize = 14;
+    albumFontSize = 18;
+    trackCountFontSize = 13;
+    labelPadding = 8;
+//    if (!(albumView || episodesView)){
+//        int titleWidth = 400;
+//        topNavigationLabel.numberOfLines=1;
+//        topNavigationLabel.font = [UIFont boldSystemFontOfSize:22];
+//        topNavigationLabel.minimumFontSize=6;
+//        topNavigationLabel.textColor = [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1];
+//        topNavigationLabel.adjustsFontSizeToFitWidth = YES;
+//        topNavigationLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+//        topNavigationLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.7];
+//        topNavigationLabel.autoresizingMask = UIViewAutoresizingNone;
+//        topNavigationLabel.contentMode = UIViewContentModeScaleAspectFill;
+//        [topNavigationLabel setFrame:CGRectMake(0, 0, titleWidth, 44)];
+//        [topNavigationLabel sizeThatFits:CGSizeMake(titleWidth, 44)];
+//        topNavigationLabel.textAlignment = UITextAlignmentLeft;
+//        
+//        UIToolbar *toolbar = [UIToolbar new];
+//        toolbar.barStyle = UIBarStyleBlackTranslucent;
+//        UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:topNavigationLabel];
+//        NSArray *items = [NSArray arrayWithObjects:
+//                          title,
+//                          nil];
+//        toolbar.items = items;
+//        toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
+//        toolbar.contentMode = UIViewContentModeScaleAspectFill;
+//        [toolbar sizeToFit];
+//        CGFloat toolbarHeight = [toolbar frame].size.height;
+//        CGRect mainViewBounds = self.view.bounds;
+//        [toolbar setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
+//                                     CGRectGetMinY(mainViewBounds),
+//                                     CGRectGetWidth(mainViewBounds),
+//                                     toolbarHeight)];
+//        CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
+//        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+//        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+//        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+//        toolbarShadow.opaque = YES;
+//        toolbarShadow.alpha = 0.5;
+//        [toolbar addSubview:toolbarShadow];
+//        
+//        [self.view addSubview:toolbar];
+//        
+//        dataList.autoresizingMask = UIViewAutoresizingNone;
+//        [dataList setFrame:CGRectMake(dataList.frame.origin.x, dataList.frame.origin.y + 44, dataList.frame.size.width, dataList.frame.size.height-44)];
+//        dataList.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//    }
+}
+
 - (void)viewDidLoad{
     thumbBorderWidth = 1.0f;
     for(UIView *subView in self.searchDisplayController.searchBar.subviews){
@@ -2435,7 +2509,6 @@ NSIndexPath *selected;
     self.view.userInteractionEnabled = YES;
     choosedTab = 0;
     [self buildButtons]; // TEMP ?
-
     numTabs=[[self.detailItem mainMethod] count];
     if ([self.detailItem chooseTab])
         choosedTab=[self.detailItem chooseTab];
@@ -2457,32 +2530,14 @@ NSIndexPath *selected;
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
     [detailView setClipsToBounds:YES];
-    CGRect frame=dataList.frame;
     trackCountLabelWidth = 26;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        viewWidth=320;
-        albumViewHeight = 116;
-        if (episodesView){
-            albumViewHeight = 99;
-        }
-        albumViewPadding = 8;
-        artistFontSize = 12;
-        albumFontSize = 15;
-        trackCountFontSize = 11;
-        labelPadding = 8;
+        [self setIphoneInterface];
     }
     else {
-        viewWidth = 477;
-        albumViewHeight = 166;
-        if (episodesView){
-            albumViewHeight = 110;
-        }
-        albumViewPadding = 12;
-        artistFontSize = 14;
-        albumFontSize = 18;
-        trackCountFontSize = 13;
-        labelPadding = 8;
+        [self setIpadInterface];
     }
+    CGRect frame=dataList.frame;
     frame.origin.x = viewWidth;
     dataList.frame=frame;
     [[SDImageCache sharedImageCache] clearMemory];
@@ -2493,7 +2548,7 @@ NSIndexPath *selected;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     self.sections = [[NSMutableDictionary alloc] init];
     richResults= [[NSMutableArray alloc] init ];
-    self.filteredListContent = [[NSMutableArray alloc] init ]; 
+    self.filteredListContent = [[NSMutableArray alloc] init ];
     storeRichResults = [[NSMutableArray alloc] init ];
     extraSectionRichResults = [[NSMutableArray alloc] init ];
     [activityIndicatorView startAnimating];
