@@ -643,12 +643,23 @@ int originYear = 0;
     mainMenu *MenuItem=self.detailItem;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *item = nil;
+    UITableViewCell *cell = nil;
+    CGPoint offsetPoint;
     if (tableView == self.searchDisplayController.searchResultsTableView){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
+        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+        offsetPoint = [self.searchDisplayController.searchResultsTableView contentOffset];
+        offsetPoint.y = offsetPoint.y - 44;
     }
     else{
         item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+        offsetPoint = [dataList contentOffset];
     }
+    int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
+    int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
+    
+    NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
     if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
         NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
         MenuItem.subItem.mainLabel=@"";
@@ -755,7 +766,7 @@ int originYear = 0;
                     [userDefaults synchronize];   
                     if ([[userDefaults objectForKey:@"song_preference"] boolValue]==NO ){
                         selected=indexPath;
-                        [self showActionSheet:indexPath];
+                        [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
                     }
                     else {
                         [self addPlayback:indexPath position:indexPath.row];
@@ -800,7 +811,7 @@ int originYear = 0;
             [userDefaults synchronize];
             if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO){
                 selected=indexPath;
-                [self showActionSheet:indexPath];
+                [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
             else {
                 [self addPlayback:indexPath position:indexPath.row];
@@ -833,7 +844,8 @@ int originYear = 0;
         [albumDetailView addSubview:toolbarShadow];
         NSDictionary *item;
         item = [richResults objectAtIndex:0];
-        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, albumViewHeight - (albumViewPadding * 2), albumViewHeight - (albumViewPadding * 2))];
+        int albumThumbHeight = albumViewHeight - (albumViewPadding * 2);
+        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, albumThumbHeight, albumThumbHeight)];
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=@"coverbox_back.png";
         if ([[item objectForKey:@"filetype"] length]!=0){
@@ -918,6 +930,19 @@ int originYear = 0;
             [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
         }
         [albumDetailView addSubview:albumInfoButton];
+        
+        UIButton *albumPlaybackButton =  [UIButton buttonWithType:UIButtonTypeCustom];
+        albumPlaybackButton.tag = 0;
+        albumPlaybackButton.showsTouchWhenHighlighted = YES;
+        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
+        [albumPlaybackButton setImage:btnImage forState:UIControlStateNormal];
+        albumPlaybackButton.alpha = .8f;
+
+        int playbackOriginX = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)]] intValue];
+        int playbackOriginY = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.height/2 + albumViewPadding)]] intValue];
+        [albumPlaybackButton setFrame:CGRectMake(playbackOriginX, playbackOriginY, btnImage.size.width, btnImage.size.height)];
+        [albumPlaybackButton addTarget:self action:@selector(preparePlaybackAlbum:) forControlEvents:UIControlEventTouchUpInside];
+        [albumDetailView addSubview:albumPlaybackButton];
 
         return albumDetailView;
     }
@@ -1150,24 +1175,9 @@ UILongPressGestureRecognizer *longPressGesture;
 
 NSIndexPath *selected;
 
--(void)showActionSheet:(NSIndexPath *)indexPath{
-    NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
+-(void)showActionSheet:(NSIndexPath *)indexPath sheetActions:(NSArray *)sheetActions item:(NSDictionary *)item rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
     int numActions=[sheetActions count];
     if (numActions){
-        NSDictionary *item = nil;
-        UITableViewCell *cell = nil;
-        CGPoint offsetPoint;
-        if ([self.searchDisplayController isActive]){
-            item = [self.filteredListContent objectAtIndex:indexPath.row];
-            cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
-            offsetPoint = [self.searchDisplayController.searchResultsTableView contentOffset];
-            offsetPoint.y = offsetPoint.y - 44;
-        }
-        else{
-            item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-            cell = [dataList cellForRowAtIndexPath:indexPath];
-            offsetPoint = [dataList contentOffset];
-        }
         NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
         UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
                                                             delegate:self
@@ -1184,10 +1194,10 @@ NSIndexPath *selected;
             [action showInView:self.view];
         }
         else{
-            [action showFromRect:CGRectMake(cell.frame.origin.x + (cell.frame.size.width/2), cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y, 1, 1) inView:self.view animated:YES];
+            [action showFromRect:CGRectMake(rectOriginX, rectOriginY, 1, 1) inView:self.view animated:YES];
         }    
     }
-    else { // No actions found, revert back to standard play action
+    else if (indexPath!=nil){ // No actions found, revert back to standard play action
         [self addPlayback:indexPath position:indexPath.row];
     }
 }
@@ -1709,6 +1719,25 @@ NSIndexPath *selected;
     }
 
 }
+
+-(void)preparePlaybackAlbum:(id)sender{
+    mainMenu *MenuItem = nil;
+    if ([sender tag] == 0){
+        MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+    }
+    else if ([sender tag] == 1){
+        MenuItem = [[AppDelegate instance].playlistTvShows copy];
+    }
+    //    choosedTab = 0;
+    MenuItem.subItem.mainLabel=@"";
+    MenuItem.subItem.upperLabel=self.navigationItem.title;
+    [MenuItem.subItem setMainMethod:nil];
+    if ([richResults count]>0){
+        [self.searchDisplayController.searchBar resignFirstResponder];
+        [self showInfo:nil menuItem:MenuItem item:[richResults objectAtIndex:0] tabToShow:0];
+    }
+}
+
 
 -(void)prepareShowAlbumInfo:(id)sender{
     mainMenu *MenuItem = nil;
