@@ -931,18 +931,17 @@ int originYear = 0;
         }
         [albumDetailView addSubview:albumInfoButton];
         
-        UIButton *albumPlaybackButton =  [UIButton buttonWithType:UIButtonTypeCustom];
-        albumPlaybackButton.tag = 0;
-        albumPlaybackButton.showsTouchWhenHighlighted = YES;
-        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
-        [albumPlaybackButton setImage:btnImage forState:UIControlStateNormal];
-        albumPlaybackButton.alpha = .8f;
-
-        int playbackOriginX = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)]] intValue];
-        int playbackOriginY = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.height/2 + albumViewPadding)]] intValue];
-        [albumPlaybackButton setFrame:CGRectMake(playbackOriginX, playbackOriginY, btnImage.size.width, btnImage.size.height)];
-        [albumPlaybackButton addTarget:self action:@selector(preparePlaybackAlbum:) forControlEvents:UIControlEventTouchUpInside];
-        [albumDetailView addSubview:albumPlaybackButton];
+//        UIButton *albumPlaybackButton =  [UIButton buttonWithType:UIButtonTypeCustom];
+//        albumPlaybackButton.tag = 0;
+//        albumPlaybackButton.showsTouchWhenHighlighted = YES;
+//        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
+//        [albumPlaybackButton setImage:btnImage forState:UIControlStateNormal];
+//        albumPlaybackButton.alpha = .8f;
+//        int playbackOriginX = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)]] intValue];
+//        int playbackOriginY = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.height/2 + albumViewPadding)]] intValue];
+//        [albumPlaybackButton setFrame:CGRectMake(playbackOriginX, playbackOriginY, btnImage.size.width, btnImage.size.height)];
+//        [albumPlaybackButton addTarget:self action:@selector(preparePlaybackAlbum:) forControlEvents:UIControlEventTouchUpInside];
+//        [albumDetailView addSubview:albumPlaybackButton];
 
         return albumDetailView;
     }
@@ -1065,7 +1064,50 @@ int originYear = 0;
         }
         return albumDetailView;
     }
-    return nil;
+
+    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
+    if (sectionTitle == nil) {
+        return nil;
+    }
+    int sectionHeight = 22;
+    UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, sectionHeight)];
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = sectionView.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:1] CGColor], (id)[[UIColor colorWithRed:.3 green:.3 blue:.3 alpha:.9f] CGColor], nil];
+    [sectionView.layer insertSublayer:gradient atIndex:0];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -2, viewWidth, 1)];
+    [lineView setBackgroundColor:[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:1]];
+    [sectionView addSubview:lineView];
+    
+    CGRect toolbarShadowFrame = CGRectMake(0.0f, sectionHeight - 1, viewWidth, 4);
+    UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+    toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    toolbarShadow.contentMode = UIViewContentModeScaleToFill;
+    toolbarShadow.opaque = YES;
+    toolbarShadow.alpha = .6f;
+    [sectionView addSubview:toolbarShadow];
+    
+    CGRect toolbarShadowUpFrame = CGRectMake(0.0f, -5, viewWidth, 4);
+    UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowUpFrame];
+    [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
+    toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
+    toolbarUpShadow.opaque = YES;
+    toolbarUpShadow.alpha = .6f;
+    [sectionView addSubview:toolbarUpShadow];
+    
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, viewWidth - 20, sectionHeight)];
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor whiteColor];
+    label.font = [UIFont boldSystemFontOfSize:18];
+    label.text = sectionTitle;    
+    [sectionView addSubview:label];
+    
+    return sectionView;
 }
 
 -(void)goBack:(id)sender{
@@ -1627,7 +1669,6 @@ NSIndexPath *selected;
                         [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
                     }
                     else {
-                        UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
                         UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
                         [queuing stopAnimating];
                     }
@@ -1642,13 +1683,11 @@ NSIndexPath *selected;
         [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
                 UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
                 [queuing stopAnimating];
                 [self showNowPlaying];
             }
             else {
-                UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
                 UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
                 [queuing stopAnimating];
                 //                            NSLog(@"terzo errore %@",methodError);
@@ -1657,11 +1696,9 @@ NSIndexPath *selected;
         
     }
     else if ([[mainFields objectForKey:@"row7"] isEqualToString:@"plugin"]){ // TEST
-        NSLog(@"eccoci");
         [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
     }
     else{
-        
         [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
                 [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1670,13 +1707,11 @@ NSIndexPath *selected;
                         [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: pos], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                             if (error==nil && methodError==nil){
                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                                UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
                                 UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
                                 [queuing stopAnimating];
                                 [self showNowPlaying];
                             }
                             else {
-                                UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
                                 UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
                                 [queuing stopAnimating];
                                 //                            NSLog(@"terzo errore %@",methodError);
@@ -1684,7 +1719,6 @@ NSIndexPath *selected;
                         }];
                     }
                     else {
-                        UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
                         UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
                         [queuing stopAnimating];
                         //                    NSLog(@"secondo errore %@",methodError);
@@ -1692,7 +1726,6 @@ NSIndexPath *selected;
                 }];
             }
             else {
-                UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
                 UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
                 [queuing stopAnimating];
                 //            NSLog(@"ERRORE %@", methodError);
@@ -2312,6 +2345,7 @@ NSIndexPath *selected;
         }
     }
     else {
+        
         [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
         for (NSDictionary *item in richResults){
             [[self.sections objectForKey:@""] addObject:item];
