@@ -1804,7 +1804,9 @@ int currentItemID;
             else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Album Tracks"]){
                 choosedTab = 0;
                 MenuItem.subItem.mainLabel=@"";
-                MenuItem.subItem.upperLabel=[NSString stringWithFormat:@"%@ - %@", [item objectForKey:@"album"], [item objectForKey:@"artist"]];
+//                MenuItem.subItem.upperLabel=[NSString stringWithFormat:@"%@ - %@", [item objectForKey:@"album"], [item objectForKey:@"artist"]];
+                MenuItem.subItem.upperLabel=[item objectForKey:@"album"];
+
             }
             else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Artist Details"]) {
                 choosedTab = 1;
