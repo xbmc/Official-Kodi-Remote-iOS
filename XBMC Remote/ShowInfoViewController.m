@@ -80,7 +80,6 @@ int count=0;
             fromEpisodesView = [[item objectForKey:@"fromEpisodesView"] boolValue];
         }
         UIBarButtonItem *extraButton = nil;
-        NSLog(@"EPISODES %d", fromEpisodesView);
         int titleWidth = 350;
         if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
