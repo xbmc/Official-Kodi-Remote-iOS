@@ -662,11 +662,8 @@ int originYear = 0;
     NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
     if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
         NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
-        MenuItem.subItem.mainLabel=@"";
-        MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
-        
+        MenuItem.subItem.mainLabel=[item objectForKey:@"label"];
         NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
-        
         NSString *libraryRowHeight= [NSString stringWithFormat:@"%d", MenuItem.subItem.rowHeight];
         NSString *libraryThumbWidth= [NSString stringWithFormat:@"%d", MenuItem.subItem.thumbWidth];
         if ([parameters objectForKey:@"rowHeight"] != nil){
@@ -748,7 +745,7 @@ int originYear = 0;
                                                     nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song",@"fileThumb",
                                                    [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
                                                    nil];
-                    MenuItem.upperLabel=[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]];
+                    MenuItem.mainLabel=[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]];
                     [[MenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
                     MenuItem.chooseTab=choosedTab;
                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -1409,16 +1406,9 @@ NSIndexPath *selected;
         topNavigationLabel.shadowOffset    = CGSizeMake (0.0, -1.0);
         topNavigationLabel.highlightedTextColor = [UIColor blackColor];
         topNavigationLabel.opaque=YES;
-        if (![self.detailItem enableSection]){ // CONDIZIONE DEBOLE!!!
-            //disabled tiny title
-//            UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
-//            titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            topNavigationLabel.text=[self.detailItem upperLabel];
-//            [titleView addSubview:topNavigationLabel];
-            self.navigationItem.title = [self.detailItem upperLabel];
-//            self.navigationItem.titleView = titleView;
-        }
-        else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        topNavigationLabel.text=[self.detailItem mainLabel];
+        self.navigationItem.title = [self.detailItem mainLabel];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
             titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
             topNavigationLabel.textAlignment = UITextAlignmentRight;
@@ -1762,8 +1752,7 @@ NSIndexPath *selected;
         MenuItem = [[AppDelegate instance].playlistTvShows copy];
     }
     //    choosedTab = 0;
-    MenuItem.subItem.mainLabel=@"";
-    MenuItem.subItem.upperLabel=self.navigationItem.title;
+    MenuItem.subItem.mainLabel=self.navigationItem.title;
     [MenuItem.subItem setMainMethod:nil];
     if ([richResults count]>0){
         [self.searchDisplayController.searchBar resignFirstResponder];
@@ -1781,8 +1770,7 @@ NSIndexPath *selected;
         MenuItem = [[AppDelegate instance].playlistTvShows copy];
     }
 //    choosedTab = 0;
-    MenuItem.subItem.mainLabel=@"";
-    MenuItem.subItem.upperLabel=self.navigationItem.title;
+    MenuItem.subItem.mainLabel=self.navigationItem.title;
     [MenuItem.subItem setMainMethod:nil];
     if ([richResults count]>0){
         [self.searchDisplayController.searchBar resignFirstResponder];

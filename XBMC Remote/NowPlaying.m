@@ -1797,27 +1797,22 @@ int currentItemID;
             MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
             if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Album Details"]) {
                 choosedTab = 0;
-                MenuItem.subItem.mainLabel=@"";
-                MenuItem.subItem.upperLabel=[item objectForKey:@"album"];
+                MenuItem.subItem.mainLabel=[item objectForKey:@"album"];
                 [MenuItem.subItem setMainMethod:nil];
             }
             else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Album Tracks"]){
                 choosedTab = 0;
-                MenuItem.subItem.mainLabel=@"";
-//                MenuItem.subItem.upperLabel=[NSString stringWithFormat:@"%@ - %@", [item objectForKey:@"album"], [item objectForKey:@"artist"]];
-                MenuItem.subItem.upperLabel=[item objectForKey:@"album"];
+                MenuItem.subItem.mainLabel=[item objectForKey:@"album"];
 
             }
             else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Artist Details"]) {
                 choosedTab = 1;
-                MenuItem.subItem.mainLabel=@"";
-                MenuItem.subItem.upperLabel=[item objectForKey:@"artist"];
+                MenuItem.subItem.mainLabel=[item objectForKey:@"artist"];
                 [MenuItem.subItem setMainMethod:nil];
             }
             else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Artist Albums"]) {
                 choosedTab = 1;
-                MenuItem.subItem.mainLabel=@"";
-                MenuItem.subItem.upperLabel=[item objectForKey:@"artist"];
+                MenuItem.subItem.mainLabel=[item objectForKey:@"artist"];
             }
             else {
                 return;
@@ -1826,7 +1821,7 @@ int currentItemID;
         else if ([[item objectForKey:@"type"] isEqualToString:@"movie"]){
             MenuItem = [AppDelegate instance].playlistMovies;
             choosedTab = 0;
-            MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
+            MenuItem.subItem.mainLabel=[item objectForKey:@"label"];
             notificationName = @"UIApplicationEnableMovieSection";
         }
         else if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
@@ -1834,13 +1829,13 @@ int currentItemID;
             if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Episode Details"]) {
                 MenuItem = [AppDelegate instance].playlistTvShows.subItem;
                 choosedTab = 0;
-                MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
+                MenuItem.subItem.mainLabel=[item objectForKey:@"label"];
             }
             else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"TV Show Details"]) {
                 MenuItem = [[AppDelegate instance].playlistTvShows copy];
                 [MenuItem.subItem setMainMethod:nil];
                 choosedTab = 0;
-                MenuItem.subItem.upperLabel=[item objectForKey:@"label"];
+                MenuItem.subItem.mainLabel=[item objectForKey:@"label"];
             }
         }
         else{

@@ -270,8 +270,8 @@ int count=0;
         choosedTab = 1;
         MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
     }
-    MenuItem.subItem.mainLabel=@"";
-    MenuItem.subItem.upperLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
+//    MenuItem.subItem.mainLabel=@"";
+    MenuItem.subItem.mainLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
         NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
