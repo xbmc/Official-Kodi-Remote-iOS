@@ -2434,6 +2434,11 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     thumbBorderWidth = 1.0f;
+    for(UIView *subView in self.searchDisplayController.searchBar.subviews){
+        if([subView isKindOfClass: [UITextField class]]){
+            [(UITextField *)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
+        }
+    }
     if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
         ([UIScreen mainScreen].scale == 2.0)) {
         thumbBorderWidth = 0.5f;
