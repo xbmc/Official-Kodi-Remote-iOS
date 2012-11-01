@@ -414,7 +414,10 @@
     
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 184, 43)]; 
     [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
-    xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
+//    xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
+    xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
+    [xbmcInfo.titleLabel setTextColor:[UIColor colorWithRed:.8 green:.8 blue:.8 alpha:1]];
+    [xbmcInfo.titleLabel setHighlightedTextColor:[UIColor whiteColor]];
     xbmcInfo.titleLabel.minimumFontSize=6.0f;
     xbmcInfo.titleLabel.numberOfLines=2;
     xbmcInfo.titleLabel.textAlignment=UITextAlignmentCenter;

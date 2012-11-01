@@ -917,7 +917,8 @@ int originYear = 0;
                 fromShowInfo = [[parameters objectForKey:@"fromShowInfo"] boolValue];
             }
         }
-        UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
+        UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ];
+        albumInfoButton.alpha = .5f;
         [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
         if (fromShowInfo){
             [albumInfoButton addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
