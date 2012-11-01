@@ -661,7 +661,7 @@ NSMutableArray *mainMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                                     @"year", @"method",
+                                     @"artist", @"method",
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
                                     nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
