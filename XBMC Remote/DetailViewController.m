@@ -594,12 +594,18 @@ int originYear = 0;
     frame.origin.x=Menuitem.originYearDuration;
     rating.frame=frame;
     [rating setText:[item objectForKey:@"rating"]];
-    
     if (!albumView && !episodesView){
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=defaultThumb;
         if ([[item objectForKey:@"filetype"] length]!=0){
             displayThumb=stringURL;
+            genre.hidden = YES;
+            runtimeyear.hidden = YES;
+            [title setFrame:CGRectMake(title.frame.origin.x, (cellHeight/2) - (title.frame.size.height/2), title.frame.size.width, title.frame.size.height)];
+        }
+        else{
+            genre.hidden = NO;
+            runtimeyear.hidden = NO;
         }
         if (![stringURL isEqualToString:@""]){
             if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
