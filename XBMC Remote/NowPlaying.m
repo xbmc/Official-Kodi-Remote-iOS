@@ -53,13 +53,13 @@ float cellBarWidth=45;
     // Update the user interface for the detail item.
     if (self.detailItem) {
         CGRect frame = CGRectMake(0, 0, 320, 44);
-        viewTitle = [[UILabel alloc] initWithFrame:frame] ;
+        viewTitle = [[UILabel alloc] initWithFrame:frame];
         viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         viewTitle.backgroundColor = [UIColor clearColor];
-        viewTitle.font = [UIFont boldSystemFontOfSize:14];
-        viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
+        viewTitle.font = [UIFont boldSystemFontOfSize:18];
+        viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:.5];
         viewTitle.textAlignment = UITextAlignmentCenter;
-        viewTitle.textColor = [UIColor whiteColor];
+        viewTitle.textColor = [UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1];
         viewTitle.text = @"Now playing";
         [viewTitle sizeToFit];
         self.navigationItem.titleView = viewTitle;
