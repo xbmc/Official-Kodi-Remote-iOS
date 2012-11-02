@@ -601,7 +601,7 @@ int originYear = 0;
             displayThumb=stringURL;
             genre.hidden = YES;
             runtimeyear.hidden = YES;
-            [title setFrame:CGRectMake(title.frame.origin.x, (cellHeight/2) - (title.frame.size.height/2), title.frame.size.width, title.frame.size.height)];
+            [title setFrame:CGRectMake(title.frame.origin.x, (int)((cellHeight/2) - (title.frame.size.height/2)), title.frame.size.width, title.frame.size.height)];
         }
         else{
             genre.hidden = NO;
@@ -1072,7 +1072,7 @@ int originYear = 0;
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = sectionView.bounds;
-    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:1] CGColor], (id)[[UIColor colorWithRed:.3 green:.3 blue:.3 alpha:.9f] CGColor], nil];
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.8] CGColor], (id)[[UIColor colorWithRed:.3 green:.3 blue:.3 alpha:.8f] CGColor], nil];
     [sectionView.layer insertSublayer:gradient atIndex:0];
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -2, viewWidth, 1)];
