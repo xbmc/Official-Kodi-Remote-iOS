@@ -46,6 +46,7 @@
         [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
         [xbmcLogo setImage:nil forState:UIControlStateSelected];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
+//        [xbmcInfo setImage:[UIImage imageNamed:@"connection_on"] forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=YES;
         int n = [menuList numberOfRowsInSection:0];
         for (int i=0;i<n;i++){
@@ -78,6 +79,7 @@
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
+//        [xbmcInfo setImage:[UIImage imageNamed:@"connection_off"] forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=NO;
         int n = [menuList numberOfRowsInSection:0];
         for (int i=0;i<n;i++){
@@ -413,17 +415,21 @@
     self.navigationItem.leftBarButtonItem = setupRemote;
     
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 184, 43)]; 
-    [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
-//    xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
+    [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];
+//    [xbmcInfo setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+//    [xbmcInfo setImageEdgeInsets:UIEdgeInsetsMake(-1, 5, 0, 0)];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
     [xbmcInfo.titleLabel setTextColor:[UIColor colorWithRed:.8 green:.8 blue:.8 alpha:1]];
     [xbmcInfo.titleLabel setHighlightedTextColor:[UIColor whiteColor]];
     xbmcInfo.titleLabel.minimumFontSize=6.0f;
     xbmcInfo.titleLabel.numberOfLines=2;
     xbmcInfo.titleLabel.textAlignment=UITextAlignmentCenter;
+//    xbmcInfo.titleEdgeInsets=UIEdgeInsetsMake(0, 7, 0, 3);
     xbmcInfo.titleEdgeInsets=UIEdgeInsetsMake(0, 3, 0, 3);
+
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
     xbmcInfo.titleLabel.shadowOffset    = CGSizeMake (1.0, 1.0);
+//    [xbmcInfo setImage:[UIImage imageNamed:@"connection_off"] forState:UIControlStateNormal];
     [xbmcInfo setBackgroundImage:[UIImage imageNamed:@"bottom_text_up.9.png"] forState:UIControlStateNormal];
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setupInfo = [[UIBarButtonItem alloc] initWithCustomView:xbmcInfo];
