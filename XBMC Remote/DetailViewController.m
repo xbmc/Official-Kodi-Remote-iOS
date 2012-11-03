@@ -1784,8 +1784,16 @@ NSIndexPath *selected;
     NSDictionary *parameters = nil;
     methods = [self indexKeyedDictionaryFromArray:[[menuItem mainMethod] objectAtIndex:tabToShow]];
     parameters = [self indexKeyedDictionaryFromArray:[[menuItem mainParameters] objectAtIndex:tabToShow]];
+    
+    NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"extra_info_parameters"] mutableCopy];
+    NSMutableArray *mutableProperties = [[[parameters objectForKey:@"extra_info_parameters"] objectForKey:@"properties"] mutableCopy];
+    
+    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
+        [mutableProperties addObject:@"art"];
+        [mutableParameters setObject:mutableProperties forKey:@"properties"];
+    }
     if ([parameters objectForKey:@"extra_info_parameters"]!=nil && [methods objectForKey:@"extra_info_method"]!=nil){
-        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:[parameters objectForKey:@"extra_info_parameters"] index:indexPath item:item menuItem:menuItem tabToShow:tabToShow];
+        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:mutableParameters index:indexPath item:item menuItem:menuItem tabToShow:tabToShow];
     }
     else{
         [self displayInfoView:item];
@@ -1877,6 +1885,8 @@ NSIndexPath *selected;
     }
 } 
 
+// retrieveData and retrieveExtraInfoData should be unified in an unique method!
+
 -(void) retrieveExtraInfoData:(NSString *)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath *)indexPath item:(NSDictionary *)item menuItem:(mainMenu *)menuItem tabToShow:(int)tabToShow{
     NSString *itemid = @"";
     NSDictionary *mainFields = nil;
@@ -1961,6 +1971,10 @@ NSIndexPath *selected;
                      rating=@"";
                  
                  NSString *thumbnailPath = [videoLibraryMovieDetail objectForKey:@"thumbnail"];
+                 NSDictionary *art = [videoLibraryMovieDetail objectForKey:@"art"];
+                 if ([art count] && [[art objectForKey:@"banner"] length]!=0 && [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO){
+                     thumbnailPath = [art objectForKey:@"banner"];
+                 }
                  NSString *fanartPath = [videoLibraryMovieDetail objectForKey:@"fanart"];
                  NSString *fanartURL=@"";
                  NSString *stringURL = @"";
@@ -2524,6 +2538,10 @@ NSIndexPath *selected;
     
     NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
+    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
+        [mutableProperties addObject:@"art"];
+        [mutableParameters setObject:mutableProperties forKey:@"properties"];
+    }
     
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
         albumView = TRUE;
@@ -2536,11 +2554,7 @@ NSIndexPath *selected;
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
-    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
-        [mutableProperties addObject:@"art"];
-//        [mutableParameters removeObjectForKey:@"properties"];
-        [mutableParameters setObject:mutableProperties forKey:@"properties"];
-    }
+    
     [detailView setClipsToBounds:YES];
     trackCountLabelWidth = 26;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
