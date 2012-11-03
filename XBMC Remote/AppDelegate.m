@@ -1520,13 +1520,13 @@ NSMutableArray *mainMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
                              nil],@"sort",
-                            
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", nil], @"properties",
                             nil], @"parameters", @"TV Shows", @"label", @"TV Show", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", @"plot", @"mpaa", @"votes", @"cast", @"premiered", @"episode", @"fanart", nil], @"properties",
                             nil], @"extra_info_parameters",
                            @"YES", @"blackTableSeparator",
+                           @"YES", @"FrodoExtraArt",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:

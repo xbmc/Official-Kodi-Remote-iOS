@@ -2145,16 +2145,21 @@ NSIndexPath *selected;
                          rating=@"";
                      
                      NSString *thumbnailPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"thumbnail"];
+                     NSDictionary *art = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"art"];
+                     if ([art count] && [[art objectForKey:@"banner"] length]!=0 && [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO){
+                         thumbnailPath = [art objectForKey:@"banner"];
+                     }
                      NSString *fanartPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"];
                      NSString *fanartURL=@"";
                      NSString *stringURL = @"";
+                     
                      if (![thumbnailPath isEqualToString:@""]){
                          stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                      }
                      if (![fanartPath isEqualToString:@""]){
                          fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                      }
-                     NSString *filetype=@"";
+                                          NSString *filetype=@"";
                      NSString *type=@"";
                      
                      if ([[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"]!=nil){
@@ -2516,6 +2521,10 @@ NSIndexPath *selected;
     watchMode = [self.detailItem currentWatchMode];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    
+    NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"parameters"] mutableCopy];
+    NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
+    
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
         albumView = TRUE;
         self.searchDisplayController.searchBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
@@ -2526,6 +2535,11 @@ NSIndexPath *selected;
     }
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+    }
+    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
+        [mutableProperties addObject:@"art"];
+//        [mutableParameters removeObjectForKey:@"properties"];
+        [mutableParameters setObject:mutableProperties forKey:@"properties"];
     }
     [detailView setClipsToBounds:YES];
     trackCountLabelWidth = 26;
@@ -2552,7 +2566,7 @@ NSIndexPath *selected;
     [activityIndicatorView startAnimating];
     
     if ([methods objectForKey:@"method"]!=nil){
-        [self retrieveData:[methods objectForKey:@"method"] parameters:[parameters objectForKey:@"parameters"] sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:richResults extraSectionCall:NO];
+        [self retrieveData:[methods objectForKey:@"method"] parameters:mutableParameters sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:richResults extraSectionCall:NO];
     }
     else {
         [activityIndicatorView stopAnimating];
