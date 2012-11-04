@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-//
+#import "JBKenBurnsView.h"
+
 @class NowPlaying;
 @class DetailViewController;
 
-@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>{
+@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, KenBurnsViewDelegate>{
     IBOutlet UIImageView *coverView;
     IBOutlet UIImageView *starsView;
     IBOutlet UILabel *voteLabel;
@@ -54,6 +55,8 @@
     int choosedTab;
     NSString *notificationName;
     float resumePointPercentage;
+    KenBurnsView *kenView;
+    BOOL enableKenBurns;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
@@ -61,5 +64,7 @@
 @property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) NowPlaying *nowPlaying;
 @property (strong, nonatomic) DetailViewController *detailViewController;
+@property (nonatomic, retain) KenBurnsView *kenView;
+
 
 @end

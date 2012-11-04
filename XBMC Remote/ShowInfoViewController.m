@@ -26,6 +26,7 @@
 @synthesize detailItem = _detailItem;
 @synthesize nowPlaying;
 @synthesize detailViewController;
+@synthesize kenView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -936,9 +937,27 @@ int h=0;
         fanartView.image=cachedFanart;
     }
     else{
+        enableKenBurns = NO;
         [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
     }
     [fanartView setClipsToBounds:YES];
+    if (enableKenBurns == YES && fanartView.image!=nil){
+        fanartView.alpha = 0;
+        self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
+        self.kenView.autoresizingMask = fanartView.autoresizingMask;
+        self.kenView.contentMode = fanartView.contentMode;
+        self.kenView.delegate = self;
+        self.kenView.alpha = 0;
+        NSArray *backgroundImages = [NSArray arrayWithObjects:
+                             fanartView.image,
+                             nil];
+        [self.kenView animateWithImages:backgroundImages
+                     transitionDuration:45
+                                   loop:YES
+                            isLandscape:YES];
+        [self.view insertSubview:self.kenView atIndex:1];
+    }
+    
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
     starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];
     
@@ -1112,6 +1131,13 @@ int h=0;
     [UIView commitAnimations];
 }
 
+-(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue{
+    [UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDuration:seconds];
+	view.alpha = alphavalue;
+    [UIView commitAnimations];
+}
+
 #pragma mark - Gestures
 - (void)handleSwipeFromLeft:(id)sender {
     [self showNowPlaying];
@@ -1247,15 +1273,31 @@ int h=0;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.2f];// cool
+    if (!enableKenBurns){
+        [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.2f];// cool
+    }
+    else{
+        [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2f];// cool
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0f];
+    if (self.kenView != nil){
+        [self.kenView stopAnimation];
+        [self.kenView removeFromSuperview];
+        self.kenView = nil;
+    }
 }
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL kenBurns = NO;
+    NSString *kenBurnsString = [userDefaults objectForKey:@"ken_preference"];
+    if (kenBurnsString == nil || [kenBurnsString boolValue]) kenBurns = YES;
+    enableKenBurns = kenBurns                                                ;
+    self.kenView = nil;
     [self configureView];
     GlobalData *obj=[GlobalData getInstance];
     [[SDImageCache sharedImageCache] clearMemory];
@@ -1276,6 +1318,7 @@ int h=0;
     coverView=nil;
     scrollView=nil;
     self.nowPlaying = nil;
+    self.kenView = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
@@ -1290,5 +1333,33 @@ int h=0;
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    if (self.kenView != nil){
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             self.kenView.alpha = 0;
+                         }
+                         completion:^(BOOL finished){
+                             [self.kenView stopAnimation];
+                             [self.kenView removeFromSuperview];
+                             self.kenView = nil;
+                             self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
+                             self.kenView.autoresizingMask = fanartView.autoresizingMask;
+                             self.kenView.contentMode = fanartView.contentMode;
+                             self.kenView.delegate = self;
+                             self.kenView.alpha = 0;
+                             NSArray *backgroundImages = [NSArray arrayWithObjects:
+                                                          fanartView.image,
+                                                          nil];
+                             [self.kenView animateWithImages:backgroundImages
+                                          transitionDuration:45
+                                                        loop:YES
+                                                 isLandscape:YES];
+                             [self.view insertSubview:self.kenView atIndex:1];
+                             [self alphaView:self.kenView AnimDuration:.3 Alpha:0.2f];
+                         }
+         ];
+    }
+}
 
 @end
