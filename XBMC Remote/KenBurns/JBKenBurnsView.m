@@ -39,17 +39,15 @@
 - (void) _startInternetAnimations:(NSArray *)urls;
 - (UIImage *) _downloadImageFrom:(NSString *)url;
 - (void) _notifyDelegate:(NSNumber *) imageIndex;
-@end
 
+@end
 
 @implementation KenBurnsView
 
 @synthesize imagesArray, timeTransition, isLoop, isLandscape;
 @synthesize animationInCurse, currentImage, delegate;
 
-
--(id)init
-{
+-(id)init{
     self = [super init];
     if (self) {
         self.layer.masksToBounds = YES;
@@ -70,8 +68,7 @@
     self.isLoop = NO;
 }
 
-- (void) animateWithImages:(NSMutableArray *)images transitionDuration:(float)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;
-{
+- (void) animateWithImages:(NSMutableArray *)images transitionDuration:(float)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
     self.imagesArray      = images;
     self.timeTransition   = duration;
     self.isLoop           = shouldLoop;
@@ -84,8 +81,7 @@
     
 }
 
-- (void) animateWithURLs:(NSArray *)urls transitionDuration:(float)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;
-{
+- (void) animateWithURLs:(NSArray *)urls transitionDuration:(float)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
     self.imagesArray      = [[NSMutableArray alloc] init];
     self.timeTransition   = duration;
     self.isLoop           = shouldLoop;
@@ -98,7 +94,6 @@
     for (uint i=0; i<bufferSize; i++) {
         NSString *url = [[NSString alloc] initWithString:[urls objectAtIndex:i]];
         [self.imagesArray addObject:[self _downloadImageFrom:url]];
-//        [url release];
     }
     
     self.layer.masksToBounds = YES;
@@ -107,10 +102,7 @@
     
 }
 
-- (void) _startAnimations:(NSArray *)images
-{
-//    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
+- (void) _startAnimations:(NSArray *)images{    
     for (uint i = 0; i < [images count]; i++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
@@ -122,20 +114,14 @@
         i = (i == [images count] - 1) && isLoop ? -1 : i;
         
     }
-    
-//    [pool release];
 }
 
-- (UIImage *) _downloadImageFrom:(NSString *) url
-{
+- (UIImage *) _downloadImageFrom:(NSString *) url{
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
-//    [url release];
     return image;
 }
 
-- (void) _startInternetAnimations:(NSArray *)urls
-{
-//    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+- (void) _startInternetAnimations:(NSArray *)urls{
     BOOL wrapping = NO;
     int bufferIndex = 0;
     
@@ -160,12 +146,9 @@
         
         sleep(self.timeTransition);
     }
-    
-//    [pool release];
 }
 
-- (void) _animate:(NSNumber*)num
-{
+- (void) _animate:(NSNumber*)num{
     UIImage* image = [self.imagesArray objectAtIndex:[num intValue]];
     UIImageView *imageView;
     
@@ -182,14 +165,12 @@
     float frameHeight   = isLandscape? self.frame.size.height : self.frame.size.width;
     
     // Widder than screen 
-    if (image.size.width > frameWidth)
-    {
+    if (image.size.width > frameWidth){
         widthDiff  = image.size.width - frameWidth;
         
         // Higher than screen
 //        if (image.size.height > frameHeight)
 //        {
-//            NSLog(@"FASE 1-1");
             heightDiff = image.size.height - frameHeight;
             
             if (widthDiff > heightDiff) 
@@ -201,7 +182,6 @@
 //        }
 //        else
 //        {
-//            NSLog(@"FASE 1-2");
 //
 //            heightDiff = frameHeight - image.size.height;
 //            
@@ -220,7 +200,6 @@
 //        // Higher than screen
 //        if (image.size.height > frameHeight)
 //        {
-//            NSLog(@"FASE 2-1");
 //
 //            heightDiff = image.size.height - frameHeight;
 //            
@@ -233,7 +212,6 @@
 //        }
 //        else
 //        {
-//            NSLog(@"FASE 2-2");
 //
 //            heightDiff = frameHeight - image.size.height;
 //            
@@ -330,16 +308,11 @@
     [UIView commitAnimations];
     
     [self performSelector:@selector(_notifyDelegate:) withObject:num afterDelay:self.timeTransition];
-    
-//    [imageView release];
-    
 }
 
-- (void) _notifyDelegate: (NSNumber *)imageIndex
-{
+- (void) _notifyDelegate: (NSNumber *)imageIndex{
     if (delegate) {
-        if([self.delegate respondsToSelector:@selector(didShowImageAtIndex:)])
-        {
+        if([self.delegate respondsToSelector:@selector(didShowImageAtIndex:)]){
             [self.delegate didShowImageAtIndex:[imageIndex intValue]];
         }      
         
@@ -347,7 +320,6 @@
             [self.delegate didFinishAllAnimations];        
         } 
     }
-    
 }
 
 @end
