@@ -281,14 +281,22 @@
     }
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"parameters"] mutableCopy];
+    NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
+    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
+        [mutableProperties addObject:@"art"];
+        [mutableParameters setObject:mutableProperties forKey:@"properties"];
+    }
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+        self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
     else{
         dataList.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
+        self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
     }
     if ([methods objectForKey:@"method"]!=nil){
-        [self retrieveData:[methods objectForKey:@"method"] parameters:[parameters objectForKey:@"parameters"] sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:richResults extraSectionCall:NO];
+        [self retrieveData:[methods objectForKey:@"method"] parameters:mutableParameters sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:richResults extraSectionCall:NO];
     }
     else {
         [activityIndicatorView stopAnimating];
@@ -1065,42 +1073,65 @@ int originYear = 0;
 
     NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
     if (sectionTitle == nil) {
-        return nil;
+        UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
+        [sectionView setBackgroundColor:[UIColor colorWithRed:.4 green:.4 blue:.4 alpha:1]];
+        CGRect toolbarShadowFrame = CGRectMake(0.0f, 1, viewWidth, 4);
+        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        toolbarShadow.contentMode = UIViewContentModeScaleToFill;
+        toolbarShadow.opaque = YES;
+        toolbarShadow.alpha = .3f;
+        [sectionView addSubview:toolbarShadow];
+        return sectionView;
     }
     int sectionHeight = 22;
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, sectionHeight)];
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = sectionView.bounds;
-    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.8] CGColor], (id)[[UIColor colorWithRed:.3 green:.3 blue:.3 alpha:.8f] CGColor], nil];
+    
+    // TEST
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:.95] CGColor], (id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:.95] CGColor], nil];
+//    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.8] CGColor], (id)[[UIColor colorWithRed:.3 green:.3 blue:.3 alpha:.8f] CGColor], nil];
+    //END TEST
+
     [sectionView.layer insertSublayer:gradient atIndex:0];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -2, viewWidth, 1)];
-    [lineView setBackgroundColor:[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:1]];
+    //TEST
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -1, viewWidth, 1)];
+    [lineView setBackgroundColor:[UIColor colorWithRed:.5725 green:.5725 blue:.5725 alpha:1]];
     [sectionView addSubview:lineView];
-    
+//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -2, viewWidth, 1)];
+//    [lineView setBackgroundColor:[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:1]];
+//    [sectionView addSubview:lineView];
+    //END TEST
+
     CGRect toolbarShadowFrame = CGRectMake(0.0f, sectionHeight - 1, viewWidth, 4);
     UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
     [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
     toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbarShadow.contentMode = UIViewContentModeScaleToFill;
     toolbarShadow.opaque = YES;
-    toolbarShadow.alpha = .6f;
+    toolbarShadow.alpha = .3f;
     [sectionView addSubview:toolbarShadow];
     
-    CGRect toolbarShadowUpFrame = CGRectMake(0.0f, -5, viewWidth, 4);
-    UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowUpFrame];
-    [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
-    toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
-    toolbarUpShadow.opaque = YES;
-    toolbarUpShadow.alpha = .6f;
-    [sectionView addSubview:toolbarUpShadow];
-    
+    if (section>1){
+        CGRect toolbarShadowUpFrame = CGRectMake(0.0f, -5, viewWidth, 4);
+        UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowUpFrame];
+        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
+        toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
+        toolbarUpShadow.opaque = YES;
+        toolbarUpShadow.alpha = .3f;
+        [sectionView addSubview:toolbarUpShadow];
+    }
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, viewWidth - 20, sectionHeight)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
+    [label setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.6]];
+    [label setShadowOffset:CGSizeMake(0, 1)];
     label.font = [UIFont boldSystemFontOfSize:18];
     label.text = sectionTitle;    
     [sectionView addSubview:label];
@@ -1126,6 +1157,9 @@ int originYear = 0;
     }
     else if (section!=0 || tableView == self.searchDisplayController.searchResultsTableView){
         return 22;
+    }
+    if ([[self.sections allKeys] count] == 1){
+        return 1;
     }
     return 0;
 }
@@ -1972,6 +2006,14 @@ NSIndexPath *selected;
                  
                  NSString *thumbnailPath = [videoLibraryMovieDetail objectForKey:@"thumbnail"];
                  NSDictionary *art = [videoLibraryMovieDetail objectForKey:@"art"];
+                 NSString *clearlogo = @"";
+                 if ([[art objectForKey:@"clearlogo"] length]!=0){
+                     clearlogo = [art objectForKey:@"clearlogo"];
+                 }
+                 NSString *clearart = @"";
+                 if ([[art objectForKey:@"clearart"] length]!=0){
+                     clearart = [art objectForKey:@"clearart"];
+                 }
                  if ([art count] && [[art objectForKey:@"banner"] length]!=0 && [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO){
                      thumbnailPath = [art objectForKey:@"banner"];
                  }
@@ -2020,6 +2062,8 @@ NSIndexPath *selected;
                   [NSNumber numberWithBool:disableNowPlaying], @"disableNowPlaying",
                   [NSNumber numberWithBool:albumView], @"fromAlbumView",
                   [NSNumber numberWithBool:episodesView], @"fromEpisodesView",
+                  clearlogo, @"clearlogo",
+                  clearart, @"clearart",
                   label, @"label",
                   genre, @"genre",
                   stringURL, @"thumbnail",
@@ -2543,16 +2587,16 @@ NSIndexPath *selected;
         [mutableParameters setObject:mutableProperties forKey:@"properties"];
     }
     
+    self.searchDisplayController.searchBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
         albumView = TRUE;
-        self.searchDisplayController.searchBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     }
     else if ([[methods objectForKey:@"episodesView"] boolValue] == YES){
         episodesView = TRUE;
-        self.searchDisplayController.searchBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     }
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+        self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
     
     [detailView setClipsToBounds:YES];

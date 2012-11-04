@@ -111,6 +111,7 @@ int count=0;
             toolbar = [UIToolbar new];
             toolbar.alpha = .8f;
             toolbar.barStyle = UIBarStyleBlackTranslucent;
+//            toolbar.tintColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:.1];
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
@@ -122,7 +123,6 @@ int count=0;
             viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.7];
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
-//            [viewTitle setBackgroundColor:[UIColor redColor]];
             [viewTitle setFrame:CGRectMake(0, 0, titleWidth, 44)];
             [viewTitle sizeThatFits:CGSizeMake(titleWidth, 44)];
             viewTitle.textAlignment = UITextAlignmentLeft;
@@ -514,7 +514,13 @@ int h=0;
     if (!enableJewel) {
         jewelView.image = nil;
     }
+    int clearLogoWidth = 300;
+    int clearLogoHeight = 116;
+    int shiftParentalRating = -20;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        clearLogoWidth = 457;
+        clearLogoHeight = 177;
+        shiftParentalRating = -40;
         labelSpace = 33;
         placeHolderImage = @"coverbox_back@2x.png";
         castFontSize = 16;
@@ -595,12 +601,12 @@ int h=0;
                 int coverWidth = 477;
                 CGRect frame;
                 frame = jewelView.frame;
-                frame.origin.x = -84;
+                frame.origin.x = -79;
                 frame.size.height = coverHeight;
                 frame.size.width = coverWidth;
                 jewelView.frame = frame;
                 frame=coverView.frame;
-                frame.origin.x = 82;
+                frame.origin.x = 87;
                 frame.origin.y = 24;
                 frame.size.width = 353;
                 frame.size.height = 518;
@@ -863,12 +869,12 @@ int h=0;
             int coverWidth = 477;
             CGRect frame;
             frame = jewelView.frame;
-            frame.origin.x = -84;
+            frame.origin.x = -79;
             frame.size.height = coverHeight;
             frame.size.width = coverWidth;
             jewelView.frame = frame;
             frame=coverView.frame;
-            frame.origin.x = 82;
+            frame.origin.x = 87;
             frame.origin.y = 24;
             frame.size.width = 353;
             frame.size.height = 518;
@@ -953,37 +959,65 @@ int h=0;
                                 constrainedToSize:maximunLabelSize 
                                 lineBreakMode:summaryLabel.lineBreakMode]; 
     
-    //adjust the label the the new height.
     CGRect newFrame = summaryLabel.frame;
     newFrame.size.height = expectedLabelSize.height + size;
     summaryLabel.frame = newFrame;
 
-    frame = parentalRatingLabel.frame;
-    frame.origin.y = frame.origin.y + summaryLabel.frame.size.height-20;
-    parentalRatingLabel.frame = frame;
+    if ([[item objectForKey:@"mpaa"] length]==0){
+        parentalRatingLabel.hidden = YES;
+        parentalRatingLabelUp.hidden = YES;
+    }
+    else{
+        frame = parentalRatingLabel.frame;
+        frame.origin.y = frame.origin.y + summaryLabel.frame.size.height-20;
+        parentalRatingLabel.frame = frame;
+        
+        frame = parentalRatingLabelUp.frame;
+        frame.origin.y = frame.origin.y + summaryLabel.frame.size.height-20;
+        parentalRatingLabelUp.frame = frame;
+        
+        frame = parentalRatingLabel.frame;
+        frame.size.height = 2000;
+        parentalRatingLabel.frame = frame;
+        parentalRatingLabel.text = [[item objectForKey:@"mpaa"] length]==0 ? @"-" : [item objectForKey:@"mpaa"];
+        expectedLabelSize = [parentalRatingLabel.text
+                             sizeWithFont:parentalRatingLabel.font
+                             constrainedToSize:maximunLabelSize
+                             lineBreakMode:parentalRatingLabel.lineBreakMode];
+        newFrame = parentalRatingLabel.frame;
+        newFrame.size.height = expectedLabelSize.height + size;
+        parentalRatingLabel.frame = newFrame;        
+        shiftParentalRating = parentalRatingLabel.frame.size.height;
+    }
     
-    frame = parentalRatingLabelUp.frame;
-    frame.origin.y = frame.origin.y + summaryLabel.frame.size.height-20;
-    parentalRatingLabelUp.frame = frame;
-    
-    frame = parentalRatingLabel.frame;
-    frame.size.height = 2000;
-    parentalRatingLabel.frame = frame;
-    parentalRatingLabel.text = [[item objectForKey:@"mpaa"] length]==0 ? @"-" : [item objectForKey:@"mpaa"];
-    [parentalRatingLabel sizeToFit];
-    
+    GlobalData *obj = [GlobalData getInstance];
+    NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+    if ([AppDelegate instance].serverVersion > 11){
+        serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
+    }
     frame = label6.frame;
-    frame.origin.y = frame.origin.y+summaryLabel.frame.size.height+parentalRatingLabel.frame.size.height-40;
+    frame.origin.y = frame.origin.y + summaryLabel.frame.size.height + shiftParentalRating - 40;
     label6.frame = frame;
     int startY = label6.frame.origin.y + 20 + size;
-    
     if (![[item objectForKey:@"family"] isEqualToString:@"albumid"] && ![[item objectForKey:@"family"] isEqualToString:@"artistid"]){// TRANSFORM IN SHOW_CAST BOOLEAN
         NSArray *cast = [item objectForKey:@"cast"];
-        GlobalData *obj = [GlobalData getInstance]; 
-        NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-        if ([AppDelegate instance].serverVersion > 11){
-            serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-        }
+// CLEARART AS CAST TITLE
+//        if ([[item objectForKey:@"clearart"] length] != 0){
+//            UIImageView *clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
+//            [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
+//            [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
+//            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearart"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+//            [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
+//            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+//                [clearLogoImageView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+//            }
+//            [scrollView addSubview:clearLogoImageView];
+//            startY = startY + 20 + clearLogoHeight;
+//            frame = label6.frame;
+//            frame.origin.y = frame.origin.y+clearLogoHeight + 20;
+//            label6.frame = frame;
+//        }
+// END CLEARART
         int offsetX = 10;
         for (NSDictionary *actor in cast){
             NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[actor objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
@@ -1032,15 +1066,25 @@ int h=0;
             startY=startY + castHeight + 10;
         }
         if ([cast count]==0){
-            UILabel *noCast = [[UILabel alloc] initWithFrame:CGRectMake(offsetX, startY - 4, 297, 20)];
-            noCast.text=@"-";
-            [noCast setFont:[UIFont systemFontOfSize:castFontSize]];
-            [noCast setBackgroundColor:[UIColor clearColor]];
-            [noCast setTextColor:[UIColor whiteColor]];
-            [scrollView addSubview:noCast];
-            startY+=20;
+            label6.hidden = YES;
+            startY-=20;
         }
     }
+    // CLEAR LOGO AT THE BOTTOM
+    if ([[item objectForKey:@"clearlogo"] length] != 0){
+        UIImageView *clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
+        [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
+        [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
+        NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+        [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            [clearLogoImageView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+        }
+        [scrollView addSubview:clearLogoImageView];
+        startY = startY + clearLogoHeight;
+    }
+    // END CLEAR LOGO
+    startY = startY + 20 ;
     scrollView.contentSize=CGSizeMake(320, startY);
 }
 
@@ -1213,7 +1257,7 @@ int h=0;
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self configureView];
-    GlobalData *obj=[GlobalData getInstance];     
+    GlobalData *obj=[GlobalData getInstance];
     [[SDImageCache sharedImageCache] clearMemory];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];

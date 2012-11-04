@@ -1134,11 +1134,11 @@ NSMutableArray *mainMenuItems;
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", nil], @"properties",
                             nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", 
-                           
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", nil], @"properties",
                             nil], @"extra_info_parameters",
-                           nil], //@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime" //-> should be not retrieved again
+                           @"YES", @"FrodoExtraArt",
+                           nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1163,6 +1163,7 @@ NSMutableArray *mainMenuItems;
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", nil], @"properties",
                             nil], @"extra_info_parameters",
+                           @"YES", @"FrodoExtraArt",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
