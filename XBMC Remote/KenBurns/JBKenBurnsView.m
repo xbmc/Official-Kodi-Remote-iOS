@@ -189,7 +189,7 @@
         // Higher than screen
 //        if (image.size.height > frameHeight)
 //        {
-            NSLog(@"FASE 1-1");
+//            NSLog(@"FASE 1-1");
             heightDiff = image.size.height - frameHeight;
             
             if (widthDiff > heightDiff) 
