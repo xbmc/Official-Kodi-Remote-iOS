@@ -941,22 +941,6 @@ int h=0;
         [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
     }
     [fanartView setClipsToBounds:YES];
-    if (enableKenBurns == YES && fanartView.image!=nil){
-        fanartView.alpha = 0;
-        self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
-        self.kenView.autoresizingMask = fanartView.autoresizingMask;
-        self.kenView.contentMode = fanartView.contentMode;
-        self.kenView.delegate = self;
-        self.kenView.alpha = 0;
-        NSArray *backgroundImages = [NSArray arrayWithObjects:
-                             fanartView.image,
-                             nil];
-        [self.kenView animateWithImages:backgroundImages
-                     transitionDuration:45
-                                   loop:YES
-                            isLandscape:YES];
-        [self.view insertSubview:self.kenView atIndex:1];
-    }
     
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
     starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];
@@ -1277,6 +1261,22 @@ int h=0;
         [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.2f];// cool
     }
     else{
+        if (fanartView.image!=nil){
+            fanartView.alpha = 0;
+            self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
+            self.kenView.autoresizingMask = fanartView.autoresizingMask;
+            self.kenView.contentMode = fanartView.contentMode;
+            self.kenView.delegate = self;
+            self.kenView.alpha = 0;
+            NSArray *backgroundImages = [NSArray arrayWithObjects:
+                                         fanartView.image,
+                                         nil];
+            [self.kenView animateWithImages:backgroundImages
+                         transitionDuration:45
+                                       loop:YES
+                                isLandscape:YES];
+            [self.view insertSubview:self.kenView atIndex:1];
+        }
         [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2f];// cool
     }
 }
