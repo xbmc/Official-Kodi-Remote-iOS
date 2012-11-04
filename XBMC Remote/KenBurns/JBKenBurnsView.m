@@ -25,7 +25,7 @@
 #import "JBKenBurnsView.h"
 #include <stdlib.h>
 
-#define enlargeRatio 1.1
+#define enlargeRatio 1.2
 #define imageBufer 3
 
 // Private interface
