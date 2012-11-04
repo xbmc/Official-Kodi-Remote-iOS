@@ -1263,6 +1263,9 @@ int h=0;
     else{
         if (fanartView.image!=nil){
             fanartView.alpha = 0;
+            [self.kenView stopAnimation];
+            [self.kenView removeFromSuperview];
+            self.kenView = nil;
             self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
             self.kenView.autoresizingMask = fanartView.autoresizingMask;
             self.kenView.contentMode = fanartView.contentMode;
