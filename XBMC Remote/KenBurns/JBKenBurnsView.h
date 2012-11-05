@@ -41,6 +41,7 @@
     float timeTransition;
     BOOL isLoop;
     BOOL isLandscape;
+    float newEnlargeRatio;
     __weak id <KenBurnsViewDelegate> delegate;
 }
 

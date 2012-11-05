@@ -25,7 +25,7 @@
 #import "JBKenBurnsView.h"
 #include <stdlib.h>
 
-#define enlargeRatio 1.2
+#define enlargeRatio 1.1
 #define imageBufer 3
 
 // Private interface
@@ -77,6 +77,11 @@
     
     self.layer.masksToBounds = YES;
     
+    newEnlargeRatio = 1.2;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        newEnlargeRatio = 1.1;
+    }
+    
     [NSThread detachNewThreadSelector:@selector(_startAnimations:) toTarget:self withObject:images];
     
 }
@@ -97,6 +102,11 @@
     }
     
     self.layer.masksToBounds = YES;
+    
+    newEnlargeRatio = 1.2;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        newEnlargeRatio = 0.8;
+    }
     
     [NSThread detachNewThreadSelector:@selector(_startInternetAnimations:) toTarget:self withObject:urls];
     
@@ -223,8 +233,8 @@
 //    }
     
     // Resize the image.
-    float optimusWidth  = (image.size.width * resizeRatio) * enlargeRatio;
-    float optimusHeight = (image.size.height * resizeRatio) * enlargeRatio;
+    float optimusWidth  = (image.size.width * resizeRatio) * newEnlargeRatio;
+    float optimusHeight = (image.size.height * resizeRatio) * newEnlargeRatio;
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, optimusWidth, optimusHeight)];
     
     // Calcule the maximum move allowed.
@@ -237,8 +247,8 @@
         case 0:
             originX = 0;
             originY = 0;
-            zoomInX = 1.25;
-            zoomInY = 1.25;
+            zoomInX = 1.55;
+            zoomInY = 1.55;
             moveX   = -maxMoveX;
             moveY   = -maxMoveY;
             break;
@@ -246,8 +256,8 @@
         case 1:
             originX = 0;
             originY = frameHeight - optimusHeight;
-            zoomInX = 1.10;
-            zoomInY = 1.10;
+            zoomInX = 1.60;
+            zoomInY = 1.60;
             moveX   = -maxMoveX;
             moveY   = maxMoveY;
             break;
@@ -256,8 +266,8 @@
         case 2:
             originX = frameWidth - optimusWidth;
             originY = 0;
-            zoomInX = 1.30;
-            zoomInY = 1.30;
+            zoomInX = 1.80;
+            zoomInY = 1.80;
             moveX   = maxMoveX;
             moveY   = -maxMoveY;
             break;
@@ -265,8 +275,8 @@
         case 3:
             originX = frameWidth - optimusWidth;
             originY = frameHeight - optimusHeight;
-            zoomInX = 1.20;
-            zoomInY = 1.20;
+            zoomInX = 1.70;
+            zoomInY = 1.70;
             moveX   = maxMoveX;
             moveY   = maxMoveY;
             break;

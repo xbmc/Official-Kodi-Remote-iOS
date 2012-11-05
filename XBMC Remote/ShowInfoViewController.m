@@ -693,6 +693,7 @@ int h=0;
             else{
                 studioLabel.text=[[item objectForKey:@"writer"] length]==0 ? @"-" : [item objectForKey:@"writer"];
             }
+            shiftParentalRating = 0;
         }
         scrollViewDefaultHeight=scrollViewDefaultHeight - deltaY - shiftY;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
