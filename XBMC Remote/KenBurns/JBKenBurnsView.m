@@ -79,7 +79,7 @@
     
     newEnlargeRatio = 1.2;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-        newEnlargeRatio = 1.1;
+        newEnlargeRatio = 1.0;
     }
     
     [NSThread detachNewThreadSelector:@selector(_startAnimations:) toTarget:self withObject:images];
@@ -105,7 +105,7 @@
     
     newEnlargeRatio = 1.2;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-        newEnlargeRatio = 0.8;
+        newEnlargeRatio = 2.2;
     }
     
     [NSThread detachNewThreadSelector:@selector(_startInternetAnimations:) toTarget:self withObject:urls];
@@ -247,8 +247,8 @@
         case 0:
             originX = 0;
             originY = 0;
-            zoomInX = 1.55;
-            zoomInY = 1.55;
+            zoomInX = 1.25;
+            zoomInY = 1.25;
             moveX   = -maxMoveX;
             moveY   = -maxMoveY;
             break;
@@ -256,8 +256,8 @@
         case 1:
             originX = 0;
             originY = frameHeight - optimusHeight;
-            zoomInX = 1.60;
-            zoomInY = 1.60;
+            zoomInX = 1.30;
+            zoomInY = 1.30;
             moveX   = -maxMoveX;
             moveY   = maxMoveY;
             break;
@@ -266,8 +266,8 @@
         case 2:
             originX = frameWidth - optimusWidth;
             originY = 0;
-            zoomInX = 1.80;
-            zoomInY = 1.80;
+            zoomInX = 1.50;
+            zoomInY = 1.50;
             moveX   = maxMoveX;
             moveY   = -maxMoveY;
             break;
@@ -275,8 +275,8 @@
         case 3:
             originX = frameWidth - optimusWidth;
             originY = frameHeight - optimusHeight;
-            zoomInX = 1.70;
-            zoomInY = 1.70;
+            zoomInX = 1.40;
+            zoomInY = 1.40;
             moveX   = maxMoveX;
             moveY   = maxMoveY;
             break;
