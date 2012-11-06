@@ -57,6 +57,11 @@
     float resumePointPercentage;
     KenBurnsView *kenView;
     BOOL enableKenBurns;
+    UIButton *closeButton;
+    UIImageView *clearLogoImageView;
+    int clearLogoWidth;
+    int clearLogoHeight;
+    int clearlogoScrollViewY;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

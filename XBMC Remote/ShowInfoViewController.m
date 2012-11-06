@@ -515,8 +515,8 @@ int h=0;
     if (!enableJewel) {
         jewelView.image = nil;
     }
-    int clearLogoWidth = 300;
-    int clearLogoHeight = 116;
+    clearLogoWidth = 300;
+    clearLogoHeight = 116;
     int shiftParentalRating = -20;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         clearLogoWidth = 457;
@@ -1076,20 +1076,69 @@ int h=0;
     }
     // CLEAR LOGO AT THE BOTTOM
     if ([[item objectForKey:@"clearlogo"] length] != 0){
-        UIImageView *clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
+        UIButton *clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
+        [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
+        clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
         [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
         [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
         NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
         [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            [clearLogoImageView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+            [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
         }
-        [scrollView addSubview:clearLogoImageView];
+        [clearlogoButton addSubview:clearLogoImageView];
+        [scrollView addSubview:clearlogoButton];
         startY = startY + clearLogoHeight;
     }
     // END CLEAR LOGO
     startY = startY + 20 ;
     scrollView.contentSize=CGSizeMake(320, startY);
+}
+
+- (void)showBackground:(id)sender{
+    if ([sender tag]==1){
+        [self alphaView:closeButton AnimDuration:1.5 Alpha:0];
+        [self alphaView:scrollView AnimDuration:1.5 Alpha:1];
+        if (!enableKenBurns){
+            [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.2f];// cool
+        }
+        else{
+            [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
+        }
+    }
+    else{
+        [self alphaView:scrollView AnimDuration:1.5 Alpha:0];
+        if (!enableKenBurns){
+            [self alphaImage:fanartView AnimDuration:1.5 Alpha:1];// cool
+        }
+        else{
+            [self alphaView:self.kenView AnimDuration:1.5 Alpha:1];// cool
+        }
+        if (closeButton == nil){
+            if (clearLogoImageView.frame.size.width == 0){
+                closeButton = [UIButton buttonWithType:UIButtonTypeInfoLight]; // TEMP
+                [closeButton setFrame:CGRectMake(self.view.bounds.size.width - 36, self.view.bounds.size.height - 36, 36, 36)];
+                [closeButton setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin];
+
+            }
+            else{
+                int cbWidth = clearLogoImageView.frame.size.width / 2;
+                int cbHeight = clearLogoImageView.frame.size.height / 2;
+                closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - cbWidth/2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
+                [[closeButton.imageView layer] setMinificationFilter:kCAFilterTrilinear];
+                [closeButton setImage:clearLogoImageView.image forState:UIControlStateNormal];
+                [closeButton setImage:clearLogoImageView.image forState:UIControlStateHighlighted];
+                [closeButton setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth];
+                [closeButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+            }
+            [closeButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
+            closeButton.tag = 1;
+            closeButton.alpha = 0;
+            [self.view addSubview:closeButton];
+        }
+        [self alphaView:closeButton AnimDuration:1.5 Alpha:1];
+    }
 }
 
 - (void) scrollViewDidScroll: (UIScrollView *) theScrollView{
@@ -1339,6 +1388,10 @@ int h=0;
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     if (self.kenView != nil){
+        float alphaValue = 0.2;
+        if (closeButton.alpha==1){
+            alphaValue = 1;
+        }
         [UIView animateWithDuration:0.3
                          animations:^{
                              self.kenView.alpha = 0;
@@ -1360,7 +1413,7 @@ int h=0;
                                                         loop:YES
                                                  isLandscape:YES];
                              [self.view insertSubview:self.kenView atIndex:1];
-                             [self alphaView:self.kenView AnimDuration:.3 Alpha:0.2f];
+                             [self alphaView:self.kenView AnimDuration:.3 Alpha:alphaValue];
                          }
          ];
     }

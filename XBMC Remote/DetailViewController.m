@@ -691,7 +691,7 @@ int originYear = 0;
             if ([AppDelegate instance].serverVersion>11 && !([MenuItem.subItem disableFilterParameter] || [[parameters objectForKey:@"disableFilterParameter"] boolValue])){
                 obj = [NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:[mainFields objectForKey:@"row6"]],[mainFields objectForKey:@"row6"], nil];
                 objKey = @"filter";
-            }
+            }            
             if ([parameters objectForKey:@"disableFilterParameter"]==nil)
                 [parameters setObject:@"false" forKey:@"disableFilterParameter"];
             NSMutableDictionary *newSectionParameters = nil;
@@ -714,6 +714,7 @@ int originYear = 0;
                                            libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
                                            [parameters objectForKey:@"label"], @"label",
                                            [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
+                                           [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
                                            newSectionParameters, @"extra_section_parameters",
                                            nil];
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
@@ -2007,8 +2008,8 @@ NSIndexPath *selected;
                  NSString *thumbnailPath = [videoLibraryMovieDetail objectForKey:@"thumbnail"];
                  NSDictionary *art = [videoLibraryMovieDetail objectForKey:@"art"];
                  NSString *clearlogo = @"";
-                 if ([[art objectForKey:@"clearlogo"] length]!=0){
-                     clearlogo = [art objectForKey:@"clearlogo"];
+                 if ([[art objectForKey:@"clearlogo"] length]!=0 || [[art objectForKey:@"tvshow.clearlogo"] length]!=0){
+                     clearlogo = ([[art objectForKey:@"clearlogo"] length] == 0) ? [art objectForKey:@"tvshow.clearlogo"] :[art objectForKey:@"clearlogo"];
                  }
                  NSString *clearart = @"";
                  if ([[art objectForKey:@"clearart"] length]!=0){
