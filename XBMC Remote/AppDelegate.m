@@ -208,9 +208,9 @@ NSMutableArray *mainMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", @"genre", nil], @"properties",
-                            nil], @"parameters", @"Artists", @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype", [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",
-                                                                                                                                                                                   nil], @"properties",
-                                                                                                                                        nil], @"extra_info_parameters",
+                            nil], @"parameters", @"Artists", @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype",
+                           [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",nil], @"properties",
+                            nil], @"extra_info_parameters",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
