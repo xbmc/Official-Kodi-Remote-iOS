@@ -160,7 +160,7 @@ int count=0;
             scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         }
         else{
-            self.navigationItem.titleView = viewTitle;
+//            self.navigationItem.titleView = viewTitle;
             self.navigationItem.title = [item objectForKey:@"label"];
             UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             if (extraButton == nil){
@@ -1074,25 +1074,26 @@ int h=0;
             startY-=20;
         }
     }
-    // CLEAR LOGO AT THE BOTTOM
+    clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [clearlogoButton setFrame:CGRectMake(self.view.bounds.size.width/2 - clearLogoWidth/2, startY, clearLogoWidth, clearLogoHeight)];
+    [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+    }
     if ([[item objectForKey:@"clearlogo"] length] != 0){
-        UIButton *clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
-        [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
         clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
         [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
         [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
         NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
         [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
-        }
         [clearlogoButton addSubview:clearLogoImageView];
-        [scrollView addSubview:clearlogoButton];
-        startY = startY + clearLogoHeight;
     }
-    // END CLEAR LOGO
-    startY = startY + 20 ;
+    else{
+        [clearlogoButton setTitle:[[item objectForKey:@"showtitle"] length] == 0 ? [item objectForKey:@"label"] :[item objectForKey:@"showtitle"] forState:UIControlStateNormal];
+        [clearlogoButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+    }
+    [scrollView addSubview:clearlogoButton];
+    startY = startY + clearLogoHeight + 20;
     scrollView.contentSize=CGSizeMake(320, startY);
 }
 
@@ -1116,20 +1117,23 @@ int h=0;
             [self alphaView:self.kenView AnimDuration:1.5 Alpha:1];// cool
         }
         if (closeButton == nil){
+            int cbWidth = clearLogoWidth / 2;
+            int cbHeight = clearLogoHeight / 2;
+            closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - cbWidth/2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
+            [closeButton setAutoresizingMask:
+             UIViewAutoresizingFlexibleTopMargin    |
+             UIViewAutoresizingFlexibleRightMargin  |
+             UIViewAutoresizingFlexibleLeftMargin   |
+             UIViewAutoresizingFlexibleWidth
+             ];
             if (clearLogoImageView.frame.size.width == 0){
-                closeButton = [UIButton buttonWithType:UIButtonTypeInfoLight]; // TEMP
-                [closeButton setFrame:CGRectMake(self.view.bounds.size.width - 36, self.view.bounds.size.height - 36, 36, 36)];
-                [closeButton setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin];
-
+                [closeButton setTitle:clearlogoButton.titleLabel.text forState:UIControlStateNormal];
+                [closeButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
             }
             else{
-                int cbWidth = clearLogoImageView.frame.size.width / 2;
-                int cbHeight = clearLogoImageView.frame.size.height / 2;
-                closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - cbWidth/2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
                 [[closeButton.imageView layer] setMinificationFilter:kCAFilterTrilinear];
                 [closeButton setImage:clearLogoImageView.image forState:UIControlStateNormal];
                 [closeButton setImage:clearLogoImageView.image forState:UIControlStateHighlighted];
-                [closeButton setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth];
                 [closeButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
             }
             [closeButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
@@ -1307,8 +1311,12 @@ int h=0;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    float alphaValue = 0.2;
+    if (closeButton.alpha==1){
+        alphaValue = 1;
+    }
     if (!enableKenBurns){
-        [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.2f];// cool
+        [self alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
     else{
         if (fanartView.image!=nil){
@@ -1330,16 +1338,26 @@ int h=0;
                                 isLandscape:YES];
             [self.view insertSubview:self.kenView atIndex:1];
         }
-        [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2f];// cool
+        [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
+    
+}
+-(void)viewDidDisappear:(BOOL)animated{
     [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0f];
     if (self.kenView != nil){
-        [self.kenView stopAnimation];
-        [self.kenView removeFromSuperview];
-        self.kenView = nil;
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             self.kenView.alpha = 0;
+                         }
+                         completion:^(BOOL finished){
+                             [self.kenView stopAnimation];
+                             [self.kenView removeFromSuperview];
+                             self.kenView = nil;
+                         }
+         ];
     }
 }
 
@@ -1386,13 +1404,13 @@ int h=0;
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     if (self.kenView != nil){
         float alphaValue = 0.2;
         if (closeButton.alpha==1){
             alphaValue = 1;
         }
-        [UIView animateWithDuration:0.3
+        [UIView animateWithDuration:0.2
                          animations:^{
                              self.kenView.alpha = 0;
                          }
@@ -1413,10 +1431,11 @@ int h=0;
                                                         loop:YES
                                                  isLandscape:YES];
                              [self.view insertSubview:self.kenView atIndex:1];
-                             [self alphaView:self.kenView AnimDuration:.3 Alpha:alphaValue];
+                             [self alphaView:self.kenView AnimDuration:.2 Alpha:alphaValue];
                          }
          ];
     }
+
 }
 
 @end

@@ -58,6 +58,7 @@
     KenBurnsView *kenView;
     BOOL enableKenBurns;
     UIButton *closeButton;
+    UIButton *clearlogoButton;
     UIImageView *clearLogoImageView;
     int clearLogoWidth;
     int clearLogoHeight;
