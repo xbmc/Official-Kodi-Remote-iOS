@@ -2007,13 +2007,16 @@ NSIndexPath *selected;
                  
                  NSString *thumbnailPath = [videoLibraryMovieDetail objectForKey:@"thumbnail"];
                  NSDictionary *art = [videoLibraryMovieDetail objectForKey:@"art"];
+                 
                  NSString *clearlogo = @"";
-                 if ([[art objectForKey:@"clearlogo"] length]!=0 || [[art objectForKey:@"tvshow.clearlogo"] length]!=0){
-                     clearlogo = ([[art objectForKey:@"clearlogo"] length] == 0) ? [art objectForKey:@"tvshow.clearlogo"] :[art objectForKey:@"clearlogo"];
-                 }
                  NSString *clearart = @"";
-                 if ([[art objectForKey:@"clearart"] length]!=0){
-                     clearart = [art objectForKey:@"clearart"];
+                 for (NSString *key in art) {
+                     if ([key rangeOfString:@"clearlogo"].location != NSNotFound){
+                         clearlogo = [art objectForKey:key];
+                     }
+                     if ([key rangeOfString:@"clearart"].location != NSNotFound){
+                         clearart = [art objectForKey:key];
+                     }
                  }
                  if ([art count] && [[art objectForKey:@"banner"] length]!=0 && [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO){
                      thumbnailPath = [art objectForKey:@"banner"];
