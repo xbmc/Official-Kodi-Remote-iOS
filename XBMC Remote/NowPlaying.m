@@ -1228,8 +1228,17 @@ int currentItemID;
 -(void)showInfo:(NSDictionary *)item menuItem:(mainMenu *)menuItem indexPath:(NSIndexPath *)indexPath{
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[menuItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[menuItem mainParameters] objectAtIndex:choosedTab]];
+    
+    NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"extra_info_parameters"] mutableCopy];
+    NSMutableArray *mutableProperties = [[[parameters objectForKey:@"extra_info_parameters"] objectForKey:@"properties"] mutableCopy];
+    
+    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
+        [mutableProperties addObject:@"art"];
+        [mutableParameters setObject:mutableProperties forKey:@"properties"];
+    }
+
     if ([parameters objectForKey:@"extra_info_parameters"]!=nil && [methods objectForKey:@"extra_info_method"]!=nil){
-        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:[parameters objectForKey:@"extra_info_parameters"] index:indexPath item:item menuItem:menuItem];
+        [self retrieveExtraInfoData:[methods objectForKey:@"extra_info_method"] parameters:mutableParameters index:indexPath item:item menuItem:menuItem];
     }
     else{
         [self displayInfoView:item];
@@ -1277,7 +1286,6 @@ int currentItemID;
              [queuing stopAnimating];
              if( [NSJSONSerialization isValidJSONObject:methodResult]){
                  NSString *itemid_extra_info = @"";
-                 NSDictionary *mainFields=[[menuItem mainFields] objectAtIndex:choosedTab];
                  if (((NSNull *)[mainFields objectForKey:@"itemid_extra_info"] != [NSNull null])){
                      itemid_extra_info = [mainFields objectForKey:@"itemid_extra_info"];
                  }
@@ -1332,6 +1340,21 @@ int currentItemID;
                      rating=@"";
                  
                  NSString *thumbnailPath = [videoLibraryMovieDetail objectForKey:@"thumbnail"];
+                 NSDictionary *art = [videoLibraryMovieDetail objectForKey:@"art"];
+                 
+                 NSString *clearlogo = @"";
+                 NSString *clearart = @"";
+                 for (NSString *key in art) {
+                     if ([key rangeOfString:@"clearlogo"].location != NSNotFound){
+                         clearlogo = [art objectForKey:key];
+                     }
+                     if ([key rangeOfString:@"clearart"].location != NSNotFound){
+                         clearart = [art objectForKey:key];
+                     }
+                 }
+                 if ([art count] && [[art objectForKey:@"banner"] length]!=0 && [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO){
+                     thumbnailPath = [art objectForKey:@"banner"];
+                 }
                  NSString *fanartPath = [videoLibraryMovieDetail objectForKey:@"fanart"];
                  NSString *fanartURL=@"";
                  NSString *stringURL = @"";
@@ -1363,9 +1386,20 @@ int currentItemID;
                          }
                      }
                  }
+                 BOOL disableNowPlaying = NO;
+                 if ([self.detailItem disableNowPlaying]){
+                     disableNowPlaying = YES;
+                 }
+                 
+                 NSObject *row11 = [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row11"]];
+                 if (row11 == nil){
+                     row11 = [NSNumber numberWithInt:0];
+                 }
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                  [NSNumber numberWithBool:YES], @"disableNowPlaying",
+                  [NSNumber numberWithBool:disableNowPlaying], @"disableNowPlaying",
+                  clearlogo, @"clearlogo",
+                  clearart, @"clearart",
                   label, @"label",
                   genre, @"genre",
                   stringURL, @"thumbnail",
@@ -1379,7 +1413,7 @@ int currentItemID;
                   [mainFields objectForKey:@"row8"], @"family",
                   [NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row9"]]]intValue]], [mainFields objectForKey:@"row9"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
-                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row11"]], [mainFields objectForKey:@"row11"],
+                  row11, [mainFields objectForKey:@"row11"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row13"]], [mainFields objectForKey:@"row13"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row14"]], [mainFields objectForKey:@"row14"],
