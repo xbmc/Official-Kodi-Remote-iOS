@@ -56,7 +56,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">icon_home_music.png</string>
+									<string key="NSResourceName">icon_home_music_alt.png</string>
 								</object>
 							</object>
 							<object class="IBUILabel" id="997079534">
@@ -109,7 +109,7 @@
 								<int key="IBUITag">3</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Label</string>
+								<string key="IBUIText">No connection</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC43MDM4MDkzMDY2IDAuNzAwNjQ0Mzg4NyAwLjcwMTU4NTMxMDIAA</bytes>
@@ -157,7 +157,6 @@
 								<string key="NSFrame">{{262, 22}, {10, 14}}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<float key="IBUIAlpha">0.80000001192092896</float>
@@ -352,7 +351,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="icon_home_music.png">{60, 60}</string>
+			<string key="icon_home_music_alt.png">{31, 31}</string>
 			<string key="selected.png">{6, 56}</string>
 			<string key="table_arrow_right.png">{10, 14}</string>
 			<string key="table_arrow_right_selected.png">{10, 14}</string>

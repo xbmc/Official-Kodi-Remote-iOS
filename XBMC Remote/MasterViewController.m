@@ -258,8 +258,8 @@
     }
     else{
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
+        [title setText:[item.mainLabel uppercaseString]];
     }
-    [title setText:[item.mainLabel uppercaseString]];
     if ([AppDelegate instance].serverOnLine || indexPath.row == 0){
         [icon setAlpha:1];
         [upperTitle setAlpha:1];
@@ -546,7 +546,7 @@
 //    }
     firstRun=YES;
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
-    [self initNavigationBar];
+//    [self initNavigationBar];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
