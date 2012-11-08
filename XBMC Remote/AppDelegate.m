@@ -137,7 +137,7 @@ NSMutableArray *mainMenuItems;
 #pragma mark - Music
     item1.mainLabel = @"Music";
     item1.upperLabel = @"Listen to";
-    item1.icon = @"icon_home_music.png";
+    item1.icon = @"icon_home_music_alt.png";
     item1.family = 1;
     item1.enableSection=YES;
     item1.mainButtons=[NSArray arrayWithObjects:@"st_album", @"st_artist", @"st_genre", @"st_filemode", @"st_album_recently", @"st_songs_recently", @"st_album_top100", @"st_songs_top100", @"st_album_recently_played", @"st_songs_recently_played", @"st_song", @"st_addons", @"st_music_playlist", nil]; //
@@ -1100,7 +1100,7 @@ NSMutableArray *mainMenuItems;
 #pragma mark - Movies
     item2.mainLabel = @"Movies";
     item2.upperLabel = @"Watch your";
-    item2.icon = @"icon_home_movie.png";
+    item2.icon = @"icon_home_movie_alt.png";
     item2.family = 1;
     item2.enableSection=YES;
     item2.mainButtons=[NSArray arrayWithObjects:@"st_movie", @"st_concert", @"st_movie_recently", @"st_filemode", @"st_addons", @"st_livetv", nil];
@@ -1496,7 +1496,7 @@ NSMutableArray *mainMenuItems;
 #pragma mark - TV Shows
     item3.mainLabel = @"TV Shows";
     item3.upperLabel = @"Watch your";
-    item3.icon = @"icon_home_tv.png";
+    item3.icon = @"icon_home_tv_alt.png";
     item3.family = 1;
     item3.enableSection = YES;
     item3.mainButtons = [NSArray arrayWithObjects:@"st_tv", @"st_tv_recently", @"st_filemode", @"st_addons", nil];//, @"st_actor", @"st_genre"
@@ -1902,7 +1902,7 @@ NSMutableArray *mainMenuItems;
 #pragma mark - Pictures
     item4.mainLabel = @"Pictures";
     item4.upperLabel = @"Browse your";
-    item4.icon = @"icon_home_picture.png";
+    item4.icon = @"icon_home_picture_alt.png";
     item4.family = 1;
     item4.enableSection=YES;
     item4.mainButtons=[NSArray arrayWithObjects:@"st_filemode", @"st_addons", nil];
@@ -2071,19 +2071,19 @@ NSMutableArray *mainMenuItems;
 #pragma mark - Now Playing
     item5.mainLabel = @"Now playing";
     item5.upperLabel = @"See what's";
-    item5.icon = @"icon_home_playing.png";
+    item5.icon = @"icon_home_playing_alt.png";
     item5.family = 2;
     
 #pragma mark - Remote Control
     item6.mainLabel = @"Remote Control";
     item6.upperLabel = @"Use as";
-    item6.icon = @"icon_home_remote.png";
+    item6.icon = @"icon_home_music_alt.png";
     item6.family = 3;
     
 #pragma mark - XBMC Server Management
     item7.mainLabel = @"XBMC Server";
     item7.upperLabel = @"";
-    item7.icon = @"icon_home_remote.png";
+    item7.icon = @"";
     item7.family = 4;
     
     playlistArtistAlbums = [item1 copy];

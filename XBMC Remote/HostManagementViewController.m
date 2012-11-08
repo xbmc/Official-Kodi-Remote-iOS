@@ -305,6 +305,9 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+        
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:nil action:nil];
         if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
             MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
             masterViewController.mainMenu = self.mainMenu;
