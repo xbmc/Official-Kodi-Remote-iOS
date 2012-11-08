@@ -238,9 +238,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
-
+    int n = [menuList numberOfRowsInSection:0];
     if (![AppDelegate instance].serverOnLine && item.family!=4) {
-//        [menuList deselectRowAtIndexPath:indexPath animated:YES];
+        [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:n + 1 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;
     }
 //    NSIndexPath *selection = [tableView indexPathForSelectedRow];
