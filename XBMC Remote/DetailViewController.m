@@ -2448,7 +2448,8 @@ NSIndexPath *selected;
 
 
     if (buttonsView.hidden == NO){
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"menu" style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+        UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
     }
     alreadyPush = NO;
     self.webViewController = nil;

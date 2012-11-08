@@ -930,7 +930,8 @@ NSInteger buttonAction;
         [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
 //        [remoteControlView addGestureRecognizer:self.slidingViewController.panGesture];
         if ([self.navigationController.viewControllers indexOfObject:self] == 0){
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"menu" style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+            UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
         }
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];

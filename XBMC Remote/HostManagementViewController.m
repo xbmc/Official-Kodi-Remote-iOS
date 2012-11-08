@@ -281,10 +281,12 @@
         if (checkSelection){
             [serverListTableView selectRowAtIndexPath:checkSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:checkSelection];
+            storeServerSelection = checkSelection;
             cell.accessoryType=UITableViewCellAccessoryCheckmark;
         }
     }
     else if (selection){
+        storeServerSelection = selection;
         [self selectServerAtIndexPath:selection];
         [serverListTableView selectRowAtIndexPath:selection animated:NO scrollPosition:UITableViewScrollPositionNone];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
@@ -301,7 +303,8 @@
     [self selectIndex:nil reloadData:YES];
     self.navigationItem.title = @"XBMC Server";
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"menu" style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+        UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
         if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
             MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
             masterViewController.mainMenu = self.mainMenu;
@@ -331,7 +334,6 @@
                 NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
                 if (![AppDelegate instance].serverOnLine){
                     [self selectIndex:lastServerIndexPath reloadData:NO];
-                    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
                     [connectingActivityIndicator startAnimating];
                 }
                 else{
@@ -354,6 +356,7 @@
 - (void)connectionSuccess:(id)sender{
     [connectingActivityIndicator stopAnimating];
     [self revealMenu:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
 }
 
 - (void)viewDidUnload{

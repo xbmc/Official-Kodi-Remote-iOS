@@ -50,11 +50,16 @@
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
 //        [xbmcInfo setImage:[UIImage imageNamed:@"connection_on"] forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=YES;
+        UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        UILabel *title = (UILabel*) [cell viewWithTag:3];
+        [title setText:infoText];
+        UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+        [icon setImage:[UIImage imageNamed:@"connection_on"]];
         int n = [menuList numberOfRowsInSection:0];
-        for (int i=0;i<n-1;i++){
+        for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
-                cell.selectionStyle=UITableViewCellSelectionStyleBlue;
+//                cell.selectionStyle=UITableViewCellSelectionStyleBlue;
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
                 [(UIImageView*) [cell viewWithTag:1] setAlpha:1.0];
@@ -81,13 +86,19 @@
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
+        UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        UILabel *title = (UILabel*) [cell viewWithTag:3];
+        [title setText:infoText];
+        UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+        [icon setImage:[UIImage imageNamed:@"connection_off"]];
+
 //        [xbmcInfo setImage:[UIImage imageNamed:@"connection_off"] forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=NO;
         int n = [menuList numberOfRowsInSection:0];
-        for (int i=0;i<n-1;i++){
+        for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
-                cell.selectionStyle=UITableViewCellSelectionStyleGray;
+//                cell.selectionStyle=UITableViewCellSelectionStyleGray;
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
                 [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
@@ -204,43 +215,71 @@
     return [self.mainMenu count];
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0){
+        cell.backgroundColor = [UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1];
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:NULL];
-    if (cell==nil)
+    if (cell == nil){
         cell = resultMenuCell;
+        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+        [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
+        cell.selectedBackgroundView = backgroundView;
+    }
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
-    [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:item.icon]];
-    [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];   
-    [(UILabel*) [cell viewWithTag:3] setFont:[UIFont fontWithName:@"DejaVuSans-Bold" size:21]];
-    [(UILabel*) [cell viewWithTag:3] setText:item.mainLabel];
-    int n = [menuList numberOfRowsInSection:0];
-    if ([AppDelegate instance].serverOnLine || indexPath.row + 1 == n){
-        [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
-        [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
-        [(UIImageView*) [cell viewWithTag:3] setAlpha:1];
-//        [(UIImageView*) [cell viewWithTag:4] setAlpha:1];
-
-        cell.selectionStyle=UITableViewCellSelectionStyleBlue;
+    UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+    UILabel *upperTitle = (UILabel*) [cell viewWithTag:2];
+    UILabel *title = (UILabel*) [cell viewWithTag:3];
+    UIImageView *line = (UIImageView*) [cell viewWithTag:4];
+    NSString *iconName = item.icon;
+    [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:11]];
+    [upperTitle setText:item.upperLabel];
+    if (indexPath.row == 0){
+        iconName = @"connection_off";
+        if ([AppDelegate instance].serverOnLine){
+            iconName = @"connection_on";
+        }
+        line.hidden = YES;
+        int cellHeight = 44;
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(127, (int)((cellHeight/2) - (36/2)) - 2, 145, 36)];
+        xbmc_logo. alpha = .25f;
+        [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+        [cell insertSubview:xbmc_logo atIndex:0];
+        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
+        [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight/2) - (18/2)), 18, 18)];
+        [title setFrame:CGRectMake(44, (int)((cellHeight/2) - (title.frame.size.height/2)), title.frame.size.width, title.frame.size.height)];
+        UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
+        [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
+    }
+    else{
+        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
+    }
+    [title setText:[item.mainLabel uppercaseString]];
+    if ([AppDelegate instance].serverOnLine || indexPath.row == 0){
+        [icon setAlpha:1];
+        [upperTitle setAlpha:1];
+        [title setAlpha:1];
+//        cell.selectionStyle=UITableViewCellSelectionStyleBlue;
     }
     else {
-        [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
-        [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
-        [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
-//        [(UIImageView*) [cell viewWithTag:4] setAlpha:0.3];
-
-        cell.selectionStyle=UITableViewCellSelectionStyleGray;
+        [icon setAlpha:0.3];
+        [upperTitle setAlpha:0.3];
+        [title setAlpha:0.3];
+//        cell.selectionStyle=UITableViewCellSelectionStyleGray;
     }
-    
+    [icon setImage:[UIImage imageNamed:iconName]];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
-    int n = [menuList numberOfRowsInSection:0];
     if (![AppDelegate instance].serverOnLine && item.family!=4) {
-        [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:n + 1 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
+        [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;
     }
 //    NSIndexPath *selection = [tableView indexPathForSelectedRow];
@@ -296,15 +335,15 @@
     return NO;
 }
 
-- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-	imageView.frame = CGRectMake(0,0,320,8);
-	return imageView;
-}
+//- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+//	imageView.frame = CGRectMake(0,0,320,8);
+//	return imageView;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 8;
+    return 0;
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -315,7 +354,14 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-	return 8;
+	return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0){
+        return 44;
+    }
+    return 56;
 }
 
 #pragma mark - power control action sheet
@@ -511,8 +557,10 @@
                                                  name: @"XBMCServerHasChanged"
                                                object: nil];
     
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
-//    [self.view setBackgroundColor:[UIColor blackColor]];
+//    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
+    [self.view setBackgroundColor:[UIColor colorWithRed:.141f green:.141f blue:.141f alpha:1]];
+    
+      [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender;{
@@ -527,7 +575,7 @@
         thumbWidth = 53;
         tvshowHeight = 76;
     }
-    mainMenu *menuItem=[self.mainMenu objectAtIndex:2];
+    mainMenu *menuItem=[self.mainMenu objectAtIndex:3];
     menuItem.thumbWidth=thumbWidth;
     menuItem.rowHeight=tvshowHeight;
     [self changeServerStatus:NO infoText:@"No connection"];

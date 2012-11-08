@@ -2082,7 +2082,7 @@ NSMutableArray *mainMenuItems;
     
 #pragma mark - XBMC Server Management
     item7.mainLabel = @"XBMC Server";
-    item7.upperLabel = @" ";
+    item7.upperLabel = @"";
     item7.icon = @"icon_home_remote.png";
     item7.family = 4;
     
@@ -2100,13 +2100,13 @@ NSMutableArray *mainMenuItems;
     
     InitialSlidingViewController *initialSlidingViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [mainMenuItems addObject:item7];
         [mainMenuItems addObject:item1];
         [mainMenuItems addObject:item2];
         [mainMenuItems addObject:item3];
         [mainMenuItems addObject:item4];
         [mainMenuItems addObject:item5];
         [mainMenuItems addObject:item6];
-        [mainMenuItems addObject:item7];
         initialSlidingViewController = [[InitialSlidingViewController alloc] initWithNibName:@"InitialSlidingViewController" bundle:nil];
         initialSlidingViewController.mainMenu =mainMenuItems;
         self.window.rootViewController = initialSlidingViewController;
