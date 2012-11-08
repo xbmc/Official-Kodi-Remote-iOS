@@ -102,7 +102,7 @@
 								<string key="NSFrame">{{65, 17}, {236, 34}}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="320802864"/>
+								<reference key="NSNextKeyView" ref="921760392"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -151,7 +151,7 @@
 								<int key="IBUITag">4</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
-							<object class="IBUIImageView" id="320802864">
+							<object class="IBUIImageView" id="921760392">
 								<reference key="NSNextResponder" ref="1067443506"/>
 								<int key="NSvFlags">1285</int>
 								<string key="NSFrame">{{262, 22}, {10, 14}}</string>
@@ -174,12 +174,13 @@
 									<string key="NSResourceName">table_arrow_right_selected.png</string>
 								</object>
 							</object>
-							<object class="IBUIImageView" id="954782446">
+							<object class="IBUIImageView" id="624122847">
 								<reference key="NSNextResponder" ref="1067443506"/>
-								<int key="NSvFlags">1300</int>
+								<int key="NSvFlags">-2147482348</int>
 								<string key="NSFrameSize">{4, 56}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="732234422"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -193,7 +194,7 @@
 						<string key="NSFrameSize">{320, 55}</string>
 						<reference key="NSSuperview" ref="744032922"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="732234422"/>
+						<reference key="NSNextKeyView" ref="624122847"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
@@ -255,8 +256,8 @@
 							<reference ref="997079534"/>
 							<reference ref="1071827094"/>
 							<reference ref="732234422"/>
-							<reference ref="320802864"/>
-							<reference ref="954782446"/>
+							<reference ref="921760392"/>
+							<reference ref="624122847"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -282,13 +283,14 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">12</int>
-						<reference key="object" ref="320802864"/>
+						<reference key="object" ref="921760392"/>
 						<reference key="parent" ref="744032922"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">13</int>
-						<reference key="object" ref="954782446"/>
+						<reference key="object" ref="624122847"/>
 						<reference key="parent" ref="744032922"/>
+						<string key="objectName">Image View - selected line</string>
 					</object>
 				</array>
 			</object>

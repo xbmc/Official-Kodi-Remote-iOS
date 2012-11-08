@@ -236,7 +236,7 @@
     UILabel *upperTitle = (UILabel*) [cell viewWithTag:2];
     UILabel *title = (UILabel*) [cell viewWithTag:3];
     UIImageView *line = (UIImageView*) [cell viewWithTag:4];
-    NSString *iconName = item.icon;
+    NSString *iconName = [NSString stringWithFormat:@"%@_alt", item.icon];
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:11]];
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0){
