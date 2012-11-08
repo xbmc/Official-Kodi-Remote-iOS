@@ -289,23 +289,26 @@
 //    storeServerSelection = indexPath;
     UINavigationController *navController;
     if (item.family == 2){
-        if (self.nowPlaying == nil){
+//        if (self.nowPlaying == nil){
+            self.nowPlaying = nil;
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-        }
+//        }
         self.nowPlaying.detailItem = item;
         navController = [[UINavigationController alloc] initWithRootViewController:self.nowPlaying];
     }
     else if (item.family == 3){
-        if (self.remoteController == nil){
+//        if (self.remoteController == nil){
+        self.remoteController = nil;
             self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
-        }
+//        }
         self.remoteController.detailItem = item;
         navController = [[UINavigationController alloc] initWithRootViewController:self.remoteController];
     }
     else if (item.family == 4){
-        if (self.hostController == nil){
+//        if (self.hostController == nil){
+        self.hostController = nil;
             self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-        }
+//        }
         navController = [[UINavigationController alloc] initWithRootViewController:self.hostController];
     }
     else if (item.family == 1){

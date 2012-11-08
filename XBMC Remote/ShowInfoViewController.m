@@ -1393,8 +1393,19 @@ int h=0;
     }
 }
 
+- (void) disableScrollsToTopPropertyOnAllSubviewsOf:(UIView *)view {
+    for (UIView *subview in view.subviews) {
+        if ([subview isKindOfClass:[UIScrollView class]]) {
+            ((UIScrollView *)subview).scrollsToTop = NO;
+        }
+        [self disableScrollsToTopPropertyOnAllSubviewsOf:subview];
+    }
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
+    scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL kenBurns = NO;
     NSString *kenBurnsString = [userDefaults objectForKey:@"ken_preference"];
