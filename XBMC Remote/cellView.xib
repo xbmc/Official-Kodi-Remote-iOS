@@ -102,6 +102,7 @@
 								<string key="NSFrame">{{65, 17}, {236, 34}}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="320802864"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -150,12 +151,13 @@
 								<int key="IBUITag">4</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
-							<object class="IBUIImageView" id="798324109">
+							<object class="IBUIImageView" id="320802864">
 								<reference key="NSNextResponder" ref="1067443506"/>
 								<int key="NSvFlags">1285</int>
 								<string key="NSFrame">{{262, 22}, {10, 14}}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<float key="IBUIAlpha">0.80000001192092896</float>
@@ -170,6 +172,20 @@
 								<object class="NSCustomResource" key="IBUIHighlightedImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">table_arrow_right_selected.png</string>
+								</object>
+							</object>
+							<object class="IBUIImageView" id="954782446">
+								<reference key="NSNextResponder" ref="1067443506"/>
+								<int key="NSvFlags">1300</int>
+								<string key="NSFrameSize">{4, 56}</string>
+								<reference key="NSSuperview" ref="1067443506"/>
+								<reference key="NSWindow"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIHighlightedImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">selected.png</string>
 								</object>
 							</object>
 						</array>
@@ -239,7 +255,8 @@
 							<reference ref="997079534"/>
 							<reference ref="1071827094"/>
 							<reference ref="732234422"/>
-							<reference ref="798324109"/>
+							<reference ref="320802864"/>
+							<reference ref="954782446"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -265,7 +282,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">12</int>
-						<reference key="object" ref="798324109"/>
+						<reference key="object" ref="320802864"/>
+						<reference key="parent" ref="744032922"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">13</int>
+						<reference key="object" ref="954782446"/>
 						<reference key="parent" ref="744032922"/>
 					</object>
 				</array>
@@ -277,6 +299,7 @@
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<reference key="3.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="3.showNotes"/>
@@ -294,7 +317,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">12</int>
+			<int key="maxID">15</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -328,6 +351,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="icon_home_music.png">{60, 60}</string>
+			<string key="selected.png">{6, 56}</string>
 			<string key="table_arrow_right.png">{10, 14}</string>
 			<string key="table_arrow_right_selected.png">{10, 14}</string>
 		</dictionary>
