@@ -7,21 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ECSlidingViewController.h"
+#import "MasterViewController.h"
 
 @class HostViewController;
 
-@interface HostManagementViewController : UIViewController <UINavigationControllerDelegate, UINavigationBarDelegate>{
+@interface HostManagementViewController : UIViewController {
     IBOutlet UITableView *serverListTableView;
     IBOutlet UITableViewCell *serverListCell;
     IBOutlet UIButton *editTableButton;
     IBOutlet UILongPressGestureRecognizer *lpgr;
     IBOutlet UIImageView *backgroundImageView;
     NSIndexPath *storeServerSelection;
+    __weak IBOutlet UIActivityIndicatorView *connectingActivityIndicator;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 -(void)selectIndex:(NSIndexPath *)selection reloadData:(BOOL)reload;
 
 @property (strong, nonatomic) HostViewController *hostController;
+@property (nonatomic, strong) NSMutableArray *mainMenu;
 
 @end

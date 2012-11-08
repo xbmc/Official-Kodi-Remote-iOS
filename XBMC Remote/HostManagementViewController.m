@@ -18,6 +18,7 @@
 @implementation HostManagementViewController
 
 @synthesize hostController;
+@synthesize mainMenu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -29,7 +30,7 @@
 -(IBAction)addHost:(id)sender{
     self.hostController=nil;
     self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
-    [[AppDelegate instance].navigationController pushViewController:self.hostController animated:YES];
+    [self.navigationController pushViewController:self.hostController animated:YES];
 }
 
 -(void)modifyHost:(NSIndexPath *)item{
@@ -54,7 +55,7 @@
     self.hostController=nil;
     self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
     self.hostController.detailItem=item;
-    [[AppDelegate instance].navigationController pushViewController:self.hostController animated:YES];
+    [self.navigationController pushViewController:self.hostController animated:YES];
 }
 
 #pragma mark - Table view methods & data source
@@ -118,7 +119,6 @@
 }
 
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
-    storeServerSelection = indexPath;
     NSDictionary *item = [[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
     [AppDelegate instance].obj.serverDescription = [item objectForKey:@"serverDescription"];
     [AppDelegate instance].obj.serverUser = [item objectForKey:@"serverUser"];
@@ -136,6 +136,7 @@
     else{
         NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
         if (storeServerSelection && selection.row == storeServerSelection.row){
+            [connectingActivityIndicator stopAnimating];
             UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
             [serverListTableView deselectRowAtIndexPath:selection animated:YES];
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -153,6 +154,8 @@
             }
         }
         else{
+            storeServerSelection = indexPath;
+            [connectingActivityIndicator startAnimating];
             UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             [self selectServerAtIndexPath:indexPath];
@@ -279,12 +282,12 @@
             [serverListTableView selectRowAtIndexPath:checkSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:checkSelection];
             cell.accessoryType=UITableViewCellAccessoryCheckmark;
-        } 
+        }
     }
     else if (selection){
-            [self selectServerAtIndexPath:selection];
-            [serverListTableView selectRowAtIndexPath:selection animated:NO scrollPosition:UITableViewScrollPositionNone];
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
+        [self selectServerAtIndexPath:selection];
+        [serverListTableView selectRowAtIndexPath:selection animated:NO scrollPosition:UITableViewScrollPositionNone];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
     }
 }
 
@@ -296,6 +299,20 @@
     self.contentSizeForViewInPopover = size;
     [super viewWillAppear:animated];
     [self selectIndex:nil reloadData:YES];
+    self.navigationItem.title = @"XBMC Server";
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"menu" style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+        if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
+            MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+            masterViewController.mainMenu = self.mainMenu;
+            self.slidingViewController.underLeftViewController  = masterViewController;
+        }
+        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    }
+}
+
+- (void)revealMenu:(id)sender{
+    [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
 - (void)viewDidLoad{
@@ -305,10 +322,42 @@
         frame.size.height = frame.size.height + 8;
         backgroundImageView.frame = frame;
     }
-    
+    else {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        int lastServer;
+        if ([userDefaults objectForKey:@"lastServer"]!=nil){
+            lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
+            if (lastServer>-1){
+                NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
+                if (![AppDelegate instance].serverOnLine){
+                    [self selectIndex:lastServerIndexPath reloadData:NO];
+                    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
+                    [connectingActivityIndicator startAnimating];
+                }
+                else{
+                    [self selectServerAtIndexPath:lastServerIndexPath];
+                    [serverListTableView selectRowAtIndexPath:lastServerIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+                }
+            }
+        }
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(revealMenu:)
+                                                 name: @"RevealMenu"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionSuccess:)
+                                                 name: @"XBMCServerConnectionSuccess"
+                                               object: nil];
+}
+
+- (void)connectionSuccess:(id)sender{
+    [connectingActivityIndicator stopAnimating];
+    [self revealMenu:nil];
 }
 
 - (void)viewDidUnload{
+    connectingActivityIndicator = nil;
     [super viewDidUnload];
 }
 

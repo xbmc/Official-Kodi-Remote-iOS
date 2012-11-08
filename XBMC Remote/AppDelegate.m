@@ -14,7 +14,7 @@
 #import "GlobalData.h"
 #import <arpa/inet.h>
 #import "CustomNavigationController.h"
-
+#import "InitialSlidingViewController.h"
 
 @implementation AppDelegate
 
@@ -120,7 +120,8 @@ NSMutableArray *mainMenuItems;
     mainMenu *item4 = [[mainMenu alloc] init];
     mainMenu *item5 = [[mainMenu alloc] init];
     mainMenu *item6 = [[mainMenu alloc] init];
-    
+    mainMenu *item7 = [[mainMenu alloc] init];
+
     item1.subItem = [[mainMenu alloc] init];
     item1.subItem.subItem = [[mainMenu alloc] init];
     
@@ -2079,6 +2080,12 @@ NSMutableArray *mainMenuItems;
     item6.icon = @"icon_home_remote.png";
     item6.family = 3;
     
+#pragma mark - XBMC Server Management
+    item7.mainLabel = @"XBMC Server";
+    item7.upperLabel = @" ";
+    item7.icon = @"icon_home_remote.png";
+    item7.family = 4;
+    
     playlistArtistAlbums = [item1 copy];
     playlistArtistAlbums.subItem.disableNowPlaying = TRUE;
     playlistArtistAlbums.subItem.subItem.disableNowPlaying = TRUE;
@@ -2091,7 +2098,7 @@ NSMutableArray *mainMenuItems;
     playlistTvShows.subItem.disableNowPlaying = TRUE;
     playlistTvShows.subItem.subItem.disableNowPlaying = TRUE;
     
-    MasterViewController *masterViewController;
+    InitialSlidingViewController *initialSlidingViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [mainMenuItems addObject:item1];
         [mainMenuItems addObject:item2];
@@ -2099,11 +2106,12 @@ NSMutableArray *mainMenuItems;
         [mainMenuItems addObject:item4];
         [mainMenuItems addObject:item5];
         [mainMenuItems addObject:item6];
-        masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-        self.navigationController = [[CustomNavigationController alloc] initWithRootViewController:masterViewController];
-        masterViewController.mainMenu =mainMenuItems;
-        self.window.rootViewController = self.navigationController;
-    } else {
+        [mainMenuItems addObject:item7];
+        initialSlidingViewController = [[InitialSlidingViewController alloc] initWithNibName:@"InitialSlidingViewController" bundle:nil];
+        initialSlidingViewController.mainMenu =mainMenuItems;
+        self.window.rootViewController = initialSlidingViewController;
+    }
+    else {
         [mainMenuItems addObject:item1];
         [mainMenuItems addObject:item2];
         [mainMenuItems addObject:item3];

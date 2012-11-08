@@ -405,6 +405,8 @@
 		0F7E5F8315890B40003434B7 /* keyboard_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7E5F8215890B40003434B7 /* keyboard_icon.png */; };
 		0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA2164A6D730080A14A /* ECSlidingViewController.m */; };
 		0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA4164A6D730080A14A /* UIImage+ImageWithUIView.m */; };
+		0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */; };
+		0F7F3DAC164AAD0F0080A14A /* InitialSlidingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */; };
 		0F82A5A4152C608100FC8B7A /* PlayFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F82A5A2152C608100FC8B7A /* PlayFileViewController.m */; };
 		0F82A5A5152C608100FC8B7A /* PlayFileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */; };
 		0F82F78B15EE12F6008A1D81 /* st_artist_albums.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F82F78A15EE12F6008A1D81 /* st_artist_albums.png */; };
@@ -1020,6 +1022,9 @@
 		0F7F3DA2164A6D730080A14A /* ECSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSlidingViewController.m; sourceTree = "<group>"; };
 		0F7F3DA3164A6D730080A14A /* UIImage+ImageWithUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageWithUIView.h"; sourceTree = "<group>"; };
 		0F7F3DA4164A6D730080A14A /* UIImage+ImageWithUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageWithUIView.m"; sourceTree = "<group>"; };
+		0F7F3DA8164AAD0F0080A14A /* InitialSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialSlidingViewController.h; sourceTree = "<group>"; };
+		0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialSlidingViewController.m; sourceTree = "<group>"; };
+		0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialSlidingViewController.xib; sourceTree = "<group>"; };
 		0F82A5A1152C608100FC8B7A /* PlayFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayFileViewController.h; path = "XBMC Remote/PlayFileViewController.h"; sourceTree = SOURCE_ROOT; };
 		0F82A5A2152C608100FC8B7A /* PlayFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayFileViewController.m; path = "XBMC Remote/PlayFileViewController.m"; sourceTree = SOURCE_ROOT; };
 		0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayFileViewController.xib; path = "XBMC Remote/PlayFileViewController.xib"; sourceTree = SOURCE_ROOT; };
@@ -1265,6 +1270,8 @@
 				0F4063341578C6CD00596B61 /* MoreItemsViewController.m */,
 				0F540660160C82E900853B02 /* CustomNavigationController.h */,
 				0F540661160C82E900853B02 /* CustomNavigationController.m */,
+				0F7F3DA8164AAD0F0080A14A /* InitialSlidingViewController.h */,
+				0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -1287,6 +1294,7 @@
 				0F487B4B15396D4C004530C1 /* HostViewController.xib */,
 				0F61E199153C828300A89BB1 /* AppInfoViewController.xib */,
 				0F2EB20C1547EA37005CAD4A /* WebViewController.xib */,
+				0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -2631,6 +2639,7 @@
 				0FDDED681643D73D00E9DFDA /* connection_on.png in Resources */,
 				0FDDED6C1643D74B00E9DFDA /* connection_off@2x.png in Resources */,
 				0FDDED6D1643D74B00E9DFDA /* connection_on@2x.png in Resources */,
+				0F7F3DAC164AAD0F0080A14A /* InitialSlidingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2677,6 +2686,7 @@
 				0F4156451646D810009E6DD4 /* JBKenBurnsView.m in Sources */,
 				0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */,
 				0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */,
+				0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

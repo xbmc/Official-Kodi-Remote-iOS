@@ -818,6 +818,9 @@ NSInteger buttonAction;
 
 - (void)handleSwipeFromRight:(id)sender {
     if (gestureZoneView.alpha == 0){
+        if ([self.navigationController.viewControllers indexOfObject:self] == 0){
+            [self revealMenu:nil];
+        }
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
@@ -923,11 +926,20 @@ NSInteger buttonAction;
 
 -(void)viewWillAppear:(BOOL)animated{
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        [volumeSliderView startTimer];   
+        [volumeSliderView startTimer];
+        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+//        [remoteControlView addGestureRecognizer:self.slidingViewController.panGesture];
+        if ([self.navigationController.viewControllers indexOfObject:self] == 0){
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"menu" style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+        }
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
     [self volumeInfo];
+}
+
+- (void)revealMenu:(id)sender{
+    [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -1017,6 +1029,10 @@ NSInteger buttonAction;
     [self.view addSubview:xbmcVirtualKeyboard];
     storeBrightness = -1;
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(revealMenu:)
+                                                 name: @"RevealMenu"
+                                               object: nil];
 }
 
 - (void)viewDidUnload{

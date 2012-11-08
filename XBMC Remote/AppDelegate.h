@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "GlobalData.h"
 #import "mainMenu.h"
+#import "ECSlidingViewController.h"
 
 @class ViewControllerIPad;
 

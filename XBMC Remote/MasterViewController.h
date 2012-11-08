@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
+#import "ECSlidingViewController.h"
 
 @class DetailViewController;
 @class NowPlaying;
 @class RemoteController;
-@class HostViewController;
+@class HostManagementViewController;
 @class AppInfoViewController;
 @class HostManagementViewController;
 
@@ -39,6 +40,6 @@
 @property (strong, nonatomic) DetailViewController *detailViewController;
 @property (strong, nonatomic) NowPlaying *nowPlaying;
 @property (strong, nonatomic) RemoteController *remoteController;
-@property (strong, nonatomic) HostViewController *hostController;
+@property (strong, nonatomic) HostManagementViewController *hostController;
 
 @end

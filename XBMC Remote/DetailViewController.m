@@ -1411,6 +1411,9 @@ NSIndexPath *selected;
 }
 
 - (void)handleSwipeFromRight:(id)sender {
+    if ([self.navigationController.viewControllers indexOfObject:self] == 0){
+        [self revealMenu:nil];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -1509,6 +1512,7 @@ NSIndexPath *selected;
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
         }
         self.nowPlaying.detailItem = self.detailItem;
+        self.nowPlaying.presentedFromNavigation = YES;
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
         alreadyPush=YES;
     }
@@ -2433,6 +2437,19 @@ NSIndexPath *selected;
 //    else{
 //        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
 //    }
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
+        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    }
+    else{
+        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+    }
+
+
+    if (buttonsView.hidden == NO){
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"menu" style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+    }
     alreadyPush = NO;
     self.webViewController = nil;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
@@ -2443,14 +2460,18 @@ NSIndexPath *selected;
 		[self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selection animated:YES];
     [self choseParams];
     // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
-    UIViewController *c = [[UIViewController alloc]init];
-    [self presentViewController:c animated:NO completion:nil];
-    [self dismissViewControllerAnimated:NO completion:nil];
+//    UIViewController *c = [[UIViewController alloc]init];
+//    [self presentViewController:c animated:NO completion:nil];
+//    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     [[SDImageCache sharedImageCache] clearMemory];
+}
+
+- (void)revealMenu:(id)sender{
+    [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
 -(void)buildButtons{
@@ -2637,6 +2658,10 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTabHasChanged:)
                                                  name: @"tabHasChanged"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(revealMenu:)
+                                                 name: @"RevealMenu"
                                                object: nil];
     [super viewDidLoad];
 }

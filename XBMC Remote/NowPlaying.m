@@ -35,6 +35,7 @@
 @synthesize songDetailsView;
 @synthesize ProgressSlider;
 @synthesize showInfoViewController;
+@synthesize presentedFromNavigation;
 
 float startx=14;
 float barwidth=280;
@@ -2204,8 +2205,12 @@ int currentItemID;
 # pragma  mark - Swipe Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
-    if (updateProgressBar)
+    if (updateProgressBar){
+        if ([self.navigationController.viewControllers indexOfObject:self] == 0){
+            [self revealMenu:nil];
+        }
         [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 -(void)showRemoteController{
@@ -2317,6 +2322,17 @@ int currentItemID;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
+    if (!self.presentedFromNavigation){
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults synchronize];
+        if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
+            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+        }
+        else{
+            [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+        }
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"menu" style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+    }
     if (!fromItself){
         if (nowPlayingView.hidden){
             nowPlayingView.hidden = NO;
@@ -2347,9 +2363,13 @@ int currentItemID;
         }
     }
     // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
-    UIViewController *c = [[UIViewController alloc]init];
-    [self presentModalViewController:c animated:NO];
-    [self dismissModalViewControllerAnimated:NO];
+//    UIViewController *c = [[UIViewController alloc]init];
+//    [self presentModalViewController:c animated:NO];
+//    [self dismissModalViewControllerAnimated:NO];
+}
+
+- (void)revealMenu:(id)sender{
+    [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -2412,6 +2432,10 @@ int currentItemID;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleShakeNotification)
                                                  name: @"UIApplicationShakeNotification"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(revealMenu:)
+                                                 name: @"RevealMenu"
                                                object: nil];
 }
 

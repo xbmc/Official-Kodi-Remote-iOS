@@ -385,7 +385,8 @@ int count=0;
         if (self.nowPlaying == nil){
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
         }
-        self.nowPlaying.detailItem = self.detailItem; 
+        self.nowPlaying.detailItem = self.detailItem;
+        self.nowPlaying.presentedFromNavigation = YES;
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
         self.navigationItem.rightBarButtonItem.enabled=YES;
         alreadyPush=YES;
@@ -1075,7 +1076,7 @@ int h=0;
         }
     }
     clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [clearlogoButton setFrame:CGRectMake(self.view.bounds.size.width/2 - clearLogoWidth/2, startY, clearLogoWidth, clearLogoHeight)];
+    [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
     [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
@@ -1302,15 +1303,13 @@ int h=0;
 
 -(void)viewWillAppear:(BOOL)animated{
     alreadyPush=NO;
-    // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
-    if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
-        UIViewController *c = [[UIViewController alloc]init];
-        [self presentViewController:c animated:NO completion:nil];
-        [self dismissViewControllerAnimated:NO completion:nil];
-    }
-}
 
--(void)viewDidAppear:(BOOL)animated{
+    // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
+//    if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
+//        UIViewController *c = [[UIViewController alloc]init];
+//        [self presentViewController:c animated:NO completion:nil];
+//        [self dismissViewControllerAnimated:NO completion:nil];
+//    }
     float alphaValue = 0.2;
     if (closeButton.alpha==1){
         alphaValue = 1;
@@ -1340,6 +1339,39 @@ int h=0;
         }
         [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
+
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+//    float alphaValue = 0.2;
+//    if (closeButton.alpha==1){
+//        alphaValue = 1;
+//    }
+//    if (!enableKenBurns){
+//        [self alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
+//    }
+//    else{
+//        if (fanartView.image!=nil){
+//            fanartView.alpha = 0;
+//            [self.kenView stopAnimation];
+//            [self.kenView removeFromSuperview];
+//            self.kenView = nil;
+//            self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
+//            self.kenView.autoresizingMask = fanartView.autoresizingMask;
+//            self.kenView.contentMode = fanartView.contentMode;
+//            self.kenView.delegate = self;
+//            self.kenView.alpha = 0;
+//            NSArray *backgroundImages = [NSArray arrayWithObjects:
+//                                         fanartView.image,
+//                                         nil];
+//            [self.kenView animateWithImages:backgroundImages
+//                         transitionDuration:45
+//                                       loop:YES
+//                                isLandscape:YES];
+//            [self.view insertSubview:self.kenView atIndex:1];
+//        }
+//        [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
+//    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
