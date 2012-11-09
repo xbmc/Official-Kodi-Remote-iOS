@@ -305,13 +305,15 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
-        
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:nil action:nil];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealUnderRight:)];
         if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
             MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
             masterViewController.mainMenu = self.mainMenu;
-            self.slidingViewController.underLeftViewController  = masterViewController;
+            self.slidingViewController.underLeftViewController = masterViewController;
+        }
+        if (![self.slidingViewController.underRightViewController isKindOfClass:[RightMenuViewController class]]) {
+            self.slidingViewController.underRightViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         }
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
@@ -319,6 +321,10 @@
 
 - (void)revealMenu:(id)sender{
     [self.slidingViewController anchorTopViewTo:ECRight];
+}
+
+- (void)revealUnderRight:(id)sender{
+    [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
 - (void)viewDidLoad{
@@ -349,6 +355,10 @@
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(revealUnderRight:)
+                                                 name: @"revealUnderRight"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionSuccess:)

@@ -930,6 +930,9 @@ NSInteger buttonAction;
         [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
 //        [remoteControlView addGestureRecognizer:self.slidingViewController.panGesture];
     }
+    self.slidingViewController.underRightViewController = nil;
+    self.slidingViewController.anchorLeftPeekAmount     = 0;
+    self.slidingViewController.anchorLeftRevealAmount   = 0;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
     [self volumeInfo];

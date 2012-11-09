@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ECSlidingViewController.h"
 #import "MasterViewController.h"
+#import "RightMenuViewController.h"
 
 @class HostViewController;
 

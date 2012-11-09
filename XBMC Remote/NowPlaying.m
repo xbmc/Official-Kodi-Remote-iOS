@@ -2322,16 +2322,17 @@ int currentItemID;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
-//    if (!self.presentedFromNavigation){
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults synchronize];
-        if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
-            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-        }
-        else{
-            [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
-        }
-//    }
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
+        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    }
+    else{
+        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+    }
+    self.slidingViewController.underRightViewController = nil;
+    self.slidingViewController.anchorLeftPeekAmount     = 0;
+    self.slidingViewController.anchorLeftRevealAmount   = 0;
     if (!fromItself){
         if (nowPlayingView.hidden){
             nowPlayingView.hidden = NO;

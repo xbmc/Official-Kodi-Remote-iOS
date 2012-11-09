@@ -97,6 +97,8 @@
 		0F40635315795D7D00596B61 /* st_song_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F40635215795D7D00596B61 /* st_song_black@2x.png */; };
 		0F40635515795E8C00596B61 /* st_songs_recently_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F40635415795E8C00596B61 /* st_songs_recently_black.png */; };
 		0F40635715795EA000596B61 /* st_songs_recently_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F40635615795EA000596B61 /* st_songs_recently_black@2x.png */; };
+		0F40F5A7164D5FA000AF9DE9 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F40F5A5164D5FA000AF9DE9 /* RightMenuViewController.m */; };
+		0F40F5A8164D5FA000AF9DE9 /* RightMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F40F5A6164D5FA000AF9DE9 /* RightMenuViewController.xib */; };
 		0F4156451646D810009E6DD4 /* JBKenBurnsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4156441646D810009E6DD4 /* JBKenBurnsView.m */; };
 		0F44E2A91526EC6700D5958F /* button_now_playing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2A81526EC6700D5958F /* button_now_playing@2x.png */; };
 		0F44E2AC1526ECC200D5958F /* button_now_playing.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2AB1526ECC200D5958F /* button_now_playing.png */; };
@@ -714,6 +716,9 @@
 		0F40635215795D7D00596B61 /* st_song_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_song_black@2x.png"; sourceTree = "<group>"; };
 		0F40635415795E8C00596B61 /* st_songs_recently_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_songs_recently_black.png; sourceTree = "<group>"; };
 		0F40635615795EA000596B61 /* st_songs_recently_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_songs_recently_black@2x.png"; sourceTree = "<group>"; };
+		0F40F5A4164D5FA000AF9DE9 /* RightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightMenuViewController.h; sourceTree = "<group>"; };
+		0F40F5A5164D5FA000AF9DE9 /* RightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightMenuViewController.m; sourceTree = "<group>"; };
+		0F40F5A6164D5FA000AF9DE9 /* RightMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightMenuViewController.xib; sourceTree = "<group>"; };
 		0F4156431646D810009E6DD4 /* JBKenBurnsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBKenBurnsView.h; sourceTree = "<group>"; };
 		0F4156441646D810009E6DD4 /* JBKenBurnsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBKenBurnsView.m; sourceTree = "<group>"; };
 		0F44E2A81526EC6700D5958F /* button_now_playing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_now_playing@2x.png"; sourceTree = "<group>"; };
@@ -1322,6 +1327,8 @@
 				0F540661160C82E900853B02 /* CustomNavigationController.m */,
 				0F7F3DA8164AAD0F0080A14A /* InitialSlidingViewController.h */,
 				0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */,
+				0F40F5A4164D5FA000AF9DE9 /* RightMenuViewController.h */,
+				0F40F5A5164D5FA000AF9DE9 /* RightMenuViewController.m */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -1345,6 +1352,7 @@
 				0F61E199153C828300A89BB1 /* AppInfoViewController.xib */,
 				0F2EB20C1547EA37005CAD4A /* WebViewController.xib */,
 				0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */,
+				0F40F5A6164D5FA000AF9DE9 /* RightMenuViewController.xib */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -2740,6 +2748,7 @@
 				0FB8467D164C03B500D8F681 /* selected@2x.png in Resources */,
 				0FB8467F164C057F00D8F681 /* icon_home_remote_alt.png in Resources */,
 				0FB84681164C058600D8F681 /* icon_home_remote_alt@2x.png in Resources */,
+				0F40F5A8164D5FA000AF9DE9 /* RightMenuViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2787,6 +2796,7 @@
 				0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */,
 				0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */,
 				0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */,
+				0F40F5A7164D5FA000AF9DE9 /* RightMenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

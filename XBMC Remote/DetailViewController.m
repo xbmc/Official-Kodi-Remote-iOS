@@ -2434,6 +2434,9 @@ NSIndexPath *selected;
     else{
         [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
     }
+    self.slidingViewController.underRightViewController = nil;
+    self.slidingViewController.anchorLeftPeekAmount     = 0;
+    self.slidingViewController.anchorLeftRevealAmount   = 0;
     alreadyPush = NO;
     self.webViewController = nil;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
