@@ -929,10 +929,6 @@ NSInteger buttonAction;
         [volumeSliderView startTimer];
         [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
 //        [remoteControlView addGestureRecognizer:self.slidingViewController.panGesture];
-        if ([self.navigationController.viewControllers indexOfObject:self] == 0){
-            UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
-        }
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;

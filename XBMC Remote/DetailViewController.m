@@ -1512,7 +1512,7 @@ NSIndexPath *selected;
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
         }
         self.nowPlaying.detailItem = self.detailItem;
-        self.nowPlaying.presentedFromNavigation = YES;
+//        self.nowPlaying.presentedFromNavigation = YES;
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
         alreadyPush=YES;
     }
@@ -2425,18 +2425,7 @@ NSIndexPath *selected;
 
 # pragma mark - Life-Cycle
 
-//-(void)viewWillDisappear:(BOOL)animated{
-//    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
-//}
-
 -(void)viewWillAppear:(BOOL)animated{
-//    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
-//    if ([[methods objectForKey:@"albumView"] boolValue]==YES){
-//        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.45 green:.45 blue:.45 alpha:1];
-//    }
-//    else{
-//        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
-//    }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
@@ -2444,12 +2433,6 @@ NSIndexPath *selected;
     }
     else{
         [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
-    }
-
-
-    if (buttonsView.hidden == NO){
-        UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
     }
     alreadyPush = NO;
     self.webViewController = nil;

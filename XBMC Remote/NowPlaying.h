@@ -118,7 +118,7 @@
 @property (strong, nonatomic) UIButton *repeatButton;
 @property (strong, nonatomic) UIView *songDetailsView;
 @property (strong, nonatomic) UISlider *ProgressSlider;
-@property BOOL presentedFromNavigation;
+//@property BOOL presentedFromNavigation;
 
 
 

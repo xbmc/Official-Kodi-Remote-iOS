@@ -35,7 +35,7 @@
 @synthesize songDetailsView;
 @synthesize ProgressSlider;
 @synthesize showInfoViewController;
-@synthesize presentedFromNavigation;
+//@synthesize presentedFromNavigation;
 
 float startx=14;
 float barwidth=280;
@@ -2322,7 +2322,7 @@ int currentItemID;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
-    if (!self.presentedFromNavigation){
+//    if (!self.presentedFromNavigation){
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults synchronize];
         if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
@@ -2331,9 +2331,7 @@ int currentItemID;
         else{
             [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
         }
-        UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
-    }
+//    }
     if (!fromItself){
         if (nowPlayingView.hidden){
             nowPlayingView.hidden = NO;

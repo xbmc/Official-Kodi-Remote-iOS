@@ -42,30 +42,29 @@
 	
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText{
     if (status==YES){
-        
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object: nil];
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateNormal];
         [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
         [xbmcLogo setImage:nil forState:UIControlStateSelected];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-//        [xbmcInfo setImage:[UIImage imageNamed:@"connection_on"] forState:UIControlStateNormal];
+
         [AppDelegate instance].serverOnLine=YES;
+        
         UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
         [title setText:infoText];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_on"]];
+        
         int n = [menuList numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
-//                cell.selectionStyle=UITableViewCellSelectionStyleBlue;
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
                 [(UIImageView*) [cell viewWithTag:1] setAlpha:1.0];
                 [(UIImageView*) [cell viewWithTag:2] setAlpha:1.0];
                 [(UIImageView*) [cell viewWithTag:3] setAlpha:1.0];
-//                [(UIImageView*) [cell viewWithTag:4] setAlpha:1.0];
                 [UIView commitAnimations];
             }
         }
@@ -86,25 +85,24 @@
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
+
         UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
         [title setText:infoText];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_off"]];
 
-//        [xbmcInfo setImage:[UIImage imageNamed:@"connection_off"] forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=NO;
+        
         int n = [menuList numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
-//                cell.selectionStyle=UITableViewCellSelectionStyleGray;
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
                 [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
                 [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
                 [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
-//                [(UIImageView*) [cell viewWithTag:4] setAlpha:0.3];
                 [UIView commitAnimations];
             }
         }
@@ -121,7 +119,6 @@
     if ([[AppDelegate instance].obj.serverIP length]==0){
         if (firstRun){
             firstRun=NO;
-//            [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
         }
         return;
     }
@@ -143,7 +140,6 @@
                      [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
                      NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
-//                     [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE forceOpen:FALSE];
                  }
                  else{
                      if ([AppDelegate instance].serverOnLine){
@@ -151,19 +147,16 @@
                      }
                      if (firstRun){
                          firstRun=NO;
-//                         [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
                      }
                  }
              }
          }
          else {
-//             NSLog(@"ERROR %@ %@ %@",error, methodError, serverJSON);
              if ([AppDelegate instance].serverOnLine){
                  [self changeServerStatus:NO infoText:@"No connection"];
              }
              if (firstRun){
                  firstRun=NO;
-//                 [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:TRUE];
              }
          }
      }];
@@ -209,7 +202,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.mainMenu count];
@@ -264,86 +256,82 @@
         [icon setAlpha:1];
         [upperTitle setAlpha:1];
         [title setAlpha:1];
-//        cell.selectionStyle=UITableViewCellSelectionStyleBlue;
     }
     else {
         [icon setAlpha:0.3];
         [upperTitle setAlpha:0.3];
         [title setAlpha:0.3];
-//        cell.selectionStyle=UITableViewCellSelectionStyleGray;
     }
     [icon setImage:[UIImage imageNamed:iconName]];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (itemIsActive == YES){
+        return;
+    }
+    itemIsActive = YES;
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
     if (![AppDelegate instance].serverOnLine && item.family!=4) {
         [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;
     }
-//    NSIndexPath *selection = [tableView indexPathForSelectedRow];
-//    if (storeServerSelection && selection.row == storeServerSelection.row){
-//        return;
-//    }
-//    storeServerSelection = indexPath;
-    UINavigationController *navController;
+    UIViewController *object;
     if (item.family == 2){
-//        if (self.nowPlaying == nil){
-            self.nowPlaying = nil;
+        if (self.nowPlaying == nil){
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-//        }
+        }
         self.nowPlaying.detailItem = item;
-        navController = [[UINavigationController alloc] initWithRootViewController:self.nowPlaying];
+        object = self.nowPlaying;
     }
     else if (item.family == 3){
-//        if (self.remoteController == nil){
-        self.remoteController = nil;
+        if (self.remoteController == nil){
             self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
-//        }
+        }
         self.remoteController.detailItem = item;
-        navController = [[UINavigationController alloc] initWithRootViewController:self.remoteController];
+        object = self.remoteController;
     }
     else if (item.family == 4){
-//        if (self.hostController == nil){
-        self.hostController = nil;
+        if (self.hostController == nil){
             self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-//        }
-        navController = [[UINavigationController alloc] initWithRootViewController:self.hostController];
+        }
+        object = self.hostController;
     }
     else if (item.family == 1){
         self.detailViewController=nil;
         self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil] ;
         self.detailViewController.detailItem = item;
-        navController = [[UINavigationController alloc] initWithRootViewController:self.detailViewController];
+        object = self.detailViewController;
     }
+    UINavigationController *navController;
+    navController = [[UINavigationController alloc] initWithRootViewController:object];
+    
+    UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+    object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+    
     UINavigationBar *newBar = navController.navigationBar;
     [newBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
     [newBar setBarStyle:UIBarStyleBlackOpaque];
+    
     CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height +44);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [shadow setImage:[UIImage imageNamed:@"tableLeft.png"]];
     shadow.opaque = YES;
     [navController.view addSubview:shadow];
+    
     [self.slidingViewController anchorTopViewOffScreenTo:ECRight animations:nil onComplete:^{
         CGRect frame = self.slidingViewController.topViewController.view.frame;
         self.slidingViewController.topViewController = navController;
         self.slidingViewController.topViewController.view.frame = frame;
         [self.slidingViewController resetTopView];
+        itemIsActive = NO;
     }];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     return NO;
 }
-
-//- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-//	imageView.frame = CGRectMake(0,0,320,8);
-//	return imageView;
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 0;
@@ -371,7 +359,6 @@
 
 -(void)powerControl{
     if ([[AppDelegate instance].obj.serverIP length]==0){
-//        [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
         return;
     }
     NSString *title=[NSString stringWithFormat:@"%@\n%@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
@@ -456,13 +443,8 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     if (timer == nil){
-//        NSLog(@"eccomi");
         timer = [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
     }
-        //	if (selection){
-//		[menuList deselectRowAtIndexPath:selection animated:YES];
-//    }
-//    [hostManagementViewController selectIndex:nil reloadData:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -532,24 +514,9 @@
     [super viewDidLoad];
     [self.slidingViewController setAnchorRightRevealAmount:280.0f];
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
-//    [self.slidingViewController anchorTopViewTo:ECRight];
     [AppDelegate instance].obj=[GlobalData getInstance];
-    
-//    [self initHostManagement];
-//    
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    int lastServer;
-//    if ([userDefaults objectForKey:@"lastServer"]!=nil){
-//        lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
-//        if (lastServer>-1){
-//            NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
-//            [hostManagementViewController selectIndex:lastServerIndexPath reloadData:NO];
-//            [self handleXBMCServerHasChanged:nil];
-//        }
-//    }
     firstRun=YES;
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
-//    [self initNavigationBar];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
@@ -560,10 +527,8 @@
                                                  name: @"XBMCServerHasChanged"
                                                object: nil];
     
-//    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
     [self.view setBackgroundColor:[UIColor colorWithRed:.141f green:.141f blue:.141f alpha:1]];
-    
-      [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+    [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender;{
@@ -595,9 +560,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-//    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-//}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }

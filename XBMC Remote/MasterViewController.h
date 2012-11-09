@@ -32,6 +32,7 @@
     NSIndexPath *storeServerSelection;
     AppInfoViewController *appInfoView;
     HostManagementViewController *hostManagementViewController;
+    BOOL itemIsActive;
 }
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText;

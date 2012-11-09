@@ -154,6 +154,7 @@
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText{
     if (status==YES){
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object: nil];
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateNormal];
         [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
         [xbmcLogo setImage:nil forState:UIControlStateSelected];
