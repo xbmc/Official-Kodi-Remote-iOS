@@ -32,17 +32,30 @@
     UINavigationBar *newBar = navController.navigationBar;
     [newBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
     [newBar setBarStyle:UIBarStyleBlackOpaque];
+    
     CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height + 16);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [shadow setImage:[UIImage imageNamed:@"tableLeft.png"]];
     shadow.opaque = YES;
     [navController.view addSubview:shadow];
+    
+    shadowRect = CGRectMake(self.view.frame.size.width, 0.0f, 16.0f, self.view.frame.size.height);
+    UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
+    [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+    [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
+    shadowRight.opaque = YES;
+    [navController.view addSubview:shadowRight];
+    
     hostManagementViewController.mainMenu = self.mainMenu;
     self.topViewController = navController;
 }
+
 - (void)revealMenu:(id)sender{
     [[NSNotificationCenter defaultCenter] postNotificationName: @"RevealMenu" object: nil];
+}
+- (void)revealUnderRight:(id)sender{
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"revealUnderRight" object: nil];
 }
 
 - (void)didReceiveMemoryWarning{
