@@ -13,12 +13,12 @@
 #import "SDImageCache.h"
 #import "GlobalData.h"
 #import <arpa/inet.h>
-#import "CustomNavigationController.h"
 #import "InitialSlidingViewController.h"
 
 @implementation AppDelegate
 
 NSMutableArray *mainMenuItems;
+NSMutableArray *hostRightMenuItems;
 
 @synthesize window = _window;
 @synthesize navigationController = _navigationController;
@@ -33,6 +33,8 @@ NSMutableArray *mainMenuItems;
 @synthesize playlistArtistAlbums;
 @synthesize playlistMovies;
 @synthesize playlistTvShows;
+@synthesize rightMenuItems;
+@synthesize serverName;
 
 + (AppDelegate *) instance {
 	return (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -2097,7 +2099,166 @@ NSMutableArray *mainMenuItems;
     playlistTvShows = [item3 copy];
     playlistTvShows.subItem.disableNowPlaying = TRUE;
     playlistTvShows.subItem.subItem.disableNowPlaying = TRUE;
+
+#pragma mark - Host Right Menu
+    rightMenuItems = [NSMutableArray arrayWithCapacity:1];
+    mainMenu *rightItem1 = [[mainMenu alloc] init];
+    rightItem1.mainLabel = @"XBMC Server";
+    rightItem1.family = 1;
     
+    rightItem1.mainMethod = [NSArray arrayWithObjects:
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSArray arrayWithObjects:
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"ServerInfo", @"label",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:.086f], @"red",
+                                 [NSNumber numberWithFloat:.086f], @"green",
+                                 [NSNumber numberWithFloat:.086f], @"blue",
+                                 nil], @"bgColor",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:.702f], @"red",
+                                 [NSNumber numberWithFloat:.702f], @"green",
+                                 [NSNumber numberWithFloat:.702f], @"blue",
+                                 nil], @"fontColor",
+
+                                [NSNumber numberWithBool:YES], @"hideLineSeparator",
+                                nil],
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Wake On Lan", @"label",
+                                @"icon_power", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"System.WOL", @"command",
+                                 nil], @"action",
+                                nil],
+                               nil],@"offline",
+                              
+                              [NSArray arrayWithObjects:
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"ServerInfo", @"label",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:.086f], @"red",
+                                 [NSNumber numberWithFloat:.086f], @"green",
+                                 [NSNumber numberWithFloat:.086f], @"blue",
+                                 nil], @"bgColor",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:.702f], @"red",
+                                 [NSNumber numberWithFloat:.702f], @"green",
+                                 [NSNumber numberWithFloat:.702f], @"blue",
+                                 nil], @"fontColor",
+                                [NSNumber numberWithBool:YES], @"hideLineSeparator",
+                                nil],
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Power off System", @"label",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:.741f], @"red",
+                                 [NSNumber numberWithFloat:.141f], @"green",
+                                 [NSNumber numberWithFloat:.141f], @"blue",
+                                 nil], @"bgColor",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:1], @"red",
+                                 [NSNumber numberWithFloat:1], @"green",
+                                 [NSNumber numberWithFloat:1], @"blue",
+                                 nil], @"fontColor",
+                                [NSNumber numberWithBool:YES], @"hideLineSeparator",
+                                @"icon_power", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"System.Shutdown", @"command",
+                                 @"Are you sure you want to power off your XBMC system now?", @"message",
+//                                 @"If you do nothing, the XBMC system will shutdown automatically in", @"countdown_message",
+                                 [NSNumber numberWithInt:5], @"countdown_time",
+                                 @"cancel", @"cancel_button",
+                                 @"Power off", @"ok_button",
+                                 nil], @"action",
+                                nil],
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Hibernate", @"label",
+                                @"icon_sleep", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"System.Hibernate",@"command",
+                                 @"Are you sure you want to hibernate your XBMC system now?", @"message",
+                                 @"cancel", @"cancel_button",
+                                 @"Hibernate", @"ok_button",
+                                 nil], @"action",
+                                nil],
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Suspend", @"label",
+                                @"icon_sleep", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"System.Suspend",@"command",
+                                 @"Are you sure you want to suspend your XBMC system now?", @"message",
+                                 @"cancel", @"cancel_button",
+                                 @"Suspend", @"ok_button",
+                                 nil], @"action",
+                                nil],
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Reboot", @"label",
+                                @"icon_reboot", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"System.Reboot",@"command",
+                                 @"Are you sure you want to reboot your XBMC system now?", @"message",
+                                 @"cancel", @"cancel_button",
+                                 @"Reboot", @"ok_button",
+                                 nil], @"action",
+                                nil],
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Update Audio Library", @"label",
+                                @"icon_update_audio", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"AudioLibrary.Scan",@"command",
+                                 @"Are you sure you want to update your audio library now?", @"message",
+                                 @"cancel", @"cancel_button",
+                                 @"Update Audio", @"ok_button",
+                                 nil], @"action",
+                                nil],
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Clean Audio Library", @"label",
+                                @"icon_clean_audio", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"AudioLibrary.Clean",@"command",
+                                 @"Are you sure you want to clean your audio library now?", @"message",
+                                 @"cancel", @"cancel_button",
+                                 @"Clean Audio", @"ok_button",
+                                 nil], @"action",
+                                nil],
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Update Video Library", @"label",
+                                @"icon_update_video", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"VideoLibrary.Scan",@"command",
+                                 @"Are you sure you want to update your video library now?", @"message",
+                                 @"cancel", @"cancel_button",
+                                 @"Update Video", @"ok_button",
+                                 nil], @"action",
+                                nil],
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Clean Video Library", @"label",
+                                @"icon_clean_video", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"VideoLibrary.Clean",@"command",
+                                 @"Are you sure you want to clean your video library now?", @"message",
+                                 @"cancel", @"cancel_button",
+                                 @"Clean Video", @"ok_button",
+                                 nil], @"action",
+                                nil],
+                               
+                               nil],@"online",
+                              
+                              nil],
+                             nil];
+    [rightMenuItems addObject:rightItem1];
+#pragma mark -
+
+    self.serverName = @"No connection";
     InitialSlidingViewController *initialSlidingViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [mainMenuItems addObject:item7];
@@ -2108,7 +2269,7 @@ NSMutableArray *mainMenuItems;
         [mainMenuItems addObject:item5];
         [mainMenuItems addObject:item6];
         initialSlidingViewController = [[InitialSlidingViewController alloc] initWithNibName:@"InitialSlidingViewController" bundle:nil];
-        initialSlidingViewController.mainMenu =mainMenuItems;
+        initialSlidingViewController.mainMenu = mainMenuItems;
         self.window.rootViewController = initialSlidingViewController;
     }
     else {

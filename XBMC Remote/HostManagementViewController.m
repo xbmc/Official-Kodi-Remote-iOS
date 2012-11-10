@@ -51,6 +51,7 @@
             [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
             [standardUserDefaults synchronize];
         }
+        [connectingActivityIndicator stopAnimating];
     }
     self.hostController=nil;
     self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
@@ -130,6 +131,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    doRevealMenu = YES;
     if ([[AppDelegate instance].arrayServerList count] == 0){
         [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
     }
@@ -147,6 +149,7 @@
             [AppDelegate instance].obj.serverIP = @"";
             [AppDelegate instance].obj.serverPort = @"";
             [AppDelegate instance].obj.serverHWAddr = @"";
+            [AppDelegate instance].serverOnLine = NO;
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (standardUserDefaults) {
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
@@ -312,23 +315,26 @@
             masterViewController.mainMenu = self.mainMenu;
             self.slidingViewController.underLeftViewController = masterViewController;
         }
-        if (![self.slidingViewController.underRightViewController isKindOfClass:[RightMenuViewController class]]) {
-            self.slidingViewController.underRightViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
+        if (![self.slidingViewController.underRightViewController isKindOfClass:[RightMenuViewController class]]){
+            RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
+            self.slidingViewController.underRightViewController = rightMenuViewController;
         }
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
 }
 
-- (void)revealMenu:(id)sender{
+- (void)revealMenu:(NSNotification *)note{
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
-- (void)revealUnderRight:(id)sender{
+- (void)revealUnderRight:(NSNotification *)note{
+    doRevealMenu = NO;
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    doRevealMenu = YES;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         CGRect frame = backgroundImageView.frame;
         frame.size.height = frame.size.height + 8;
@@ -366,14 +372,14 @@
                                                object: nil];
 }
 
-- (void)connectionSuccess:(id)sender{
+- (void)connectionSuccess:(NSNotification *)note {
     [connectingActivityIndicator stopAnimating];
-    [self revealMenu:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
+    if (doRevealMenu) [self revealMenu:nil];
 }
 
 - (void)viewDidUnload{
     connectingActivityIndicator = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
 }
 
@@ -387,6 +393,10 @@
 
 -(NSUInteger)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskPortrait;
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

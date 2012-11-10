@@ -21,6 +21,7 @@
     IBOutlet UIImageView *backgroundImageView;
     NSIndexPath *storeServerSelection;
     __weak IBOutlet UIActivityIndicatorView *connectingActivityIndicator;
+    BOOL doRevealMenu;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;

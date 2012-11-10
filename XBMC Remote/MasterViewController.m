@@ -41,21 +41,17 @@
 }
 	
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText{
+    NSDictionary *dataDict = [NSDictionary dictionaryWithObject:infoText forKey:@"infoText"];
     if (status==YES){
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object: nil];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateNormal];
-        [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
-        [xbmcLogo setImage:nil forState:UIControlStateSelected];
-        [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-
-        [AppDelegate instance].serverOnLine=YES;
-        
+        [AppDelegate instance].serverOnLine = YES;
+        [AppDelegate instance].serverName = infoText;
+        itemIsActive = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:dataDict];
         UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
         [title setText:infoText];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_on"]];
-        
         int n = [menuList numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -81,19 +77,15 @@
 //         }];
     }
     else{
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
-        [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-
+        [AppDelegate instance].serverOnLine = NO;
+        [AppDelegate instance].serverName = infoText;
+        itemIsActive = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:dataDict];
         UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
         [title setText:infoText];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_off"]];
-
-        [AppDelegate instance].serverOnLine=NO;
-        
         int n = [menuList numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -222,6 +214,14 @@
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
+        if (indexPath.row == 0){
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(127, (int)((44/2) - (36/2)) - 2, 145, 36)];
+            xbmc_logo. alpha = .25f;
+            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+            [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo_selected.png"]];
+
+            [cell insertSubview:xbmc_logo atIndex:0];
+        }
     }
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
     UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
@@ -232,20 +232,17 @@
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:11]];
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0){
+        UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
         iconName = @"connection_off";
         if ([AppDelegate instance].serverOnLine){
             iconName = @"connection_on";
         }
         line.hidden = YES;
         int cellHeight = 44;
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(127, (int)((cellHeight/2) - (36/2)) - 2, 145, 36)];
-        xbmc_logo. alpha = .25f;
-        [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
-        [cell insertSubview:xbmc_logo atIndex:0];
-        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
+                [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
         [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight/2) - (18/2)), 18, 18)];
-        [title setFrame:CGRectMake(44, (int)((cellHeight/2) - (title.frame.size.height/2)), title.frame.size.width, title.frame.size.height)];
-        UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
+        [title setFrame:CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight)];
+        [title setNumberOfLines:2];
         [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
     }
     else{
@@ -267,15 +264,15 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (itemIsActive == YES){
-        return;
-    }
-    itemIsActive = YES;
     mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
     if (![AppDelegate instance].serverOnLine && item.family!=4) {
         [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;
     }
+    if (itemIsActive == YES){
+        return;
+    }
+    itemIsActive = YES;
     UIViewController *object;
     if (item.family == 2){
         if (self.nowPlaying == nil){
@@ -450,7 +447,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     if (timer == nil){
-        timer = [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
+        timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
     }
 }
 

@@ -58,7 +58,7 @@
 					<object class="IBUILabel" id="788263793">
 						<reference key="NSNextResponder" ref="918116249"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{0, 6}, {320, 20}}</string>
+						<string key="NSFrame">{{0, 7}, {320, 20}}</string>
 						<reference key="NSSuperview" ref="918116249"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="216335886"/>
@@ -472,6 +472,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">HostManagementViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">addHost:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">addHost:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">addHost:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="backgroundImageView">UIImageView</string>
 						<string key="connectingActivityIndicator">UIActivityIndicatorView</string>

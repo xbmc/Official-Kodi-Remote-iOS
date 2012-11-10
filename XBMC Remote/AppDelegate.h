@@ -50,15 +50,12 @@
 @property (nonatomic, retain) mainMenu *playlistArtistAlbums;
 @property (nonatomic, retain) mainMenu *playlistMovies;
 @property (nonatomic, retain) mainMenu *playlistTvShows;
-
+@property (nonatomic, retain) NSMutableArray *rightMenuItems;
 @property (retain, nonatomic) NSFileManager *fileManager;
-
 @property (retain, nonatomic) NSString *documentsDir;
-
 @property (nonatomic, assign) BOOL serverOnLine;
-
 @property (nonatomic, assign) int serverVersion;
-
+@property (retain, nonatomic) NSString *serverName;
 @property (nonatomic, retain) GlobalData *obj;
 
 @end
