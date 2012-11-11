@@ -2148,18 +2148,39 @@ int currentItemID;
     return UITableViewCellEditingStyleNone;
 }
 
+-(void)addGestures{ // TEMP WORKAROUND
+    self.navigationController.view.gestureRecognizers = nil; // TEMP WORKAROUND
+    self.navigationController.navigationBar.gestureRecognizers = nil; // TEMP WORKAROUND
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
+        if (self.navigationController.view.gestureRecognizers == nil)
+            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    }
+    else{
+        if (self.navigationController.navigationBar.gestureRecognizers == nil)
+            [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+    }
+}
+
 -(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
-    if ([playlistData count]==0 && !playlistTableView.editing) return;
+    if ([playlistData count]==0 && !playlistTableView.editing) {
+        [self addGestures]; 
+        return;
+    }
     if (playlistTableView.editing || forceClose==YES){
         [playlistTableView setEditing:NO animated:YES];
         [editTableButton setSelected:NO];
         lastSelected=-1;
         storeSelection=nil;
+        [self addGestures]; 
     }
     else{
         storeSelection = [playlistTableView indexPathForSelectedRow];
         [playlistTableView setEditing:YES animated:YES];
         [editTableButton setSelected:YES];
+        self.navigationController.view.gestureRecognizers = nil; 
+        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
     }
 }
 
@@ -2324,22 +2345,16 @@ int currentItemID;
 -(void)viewWillAppear:(BOOL)animated{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
+    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO && !playlistTableView.editing){
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
     else{
         [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
     }
     self.slidingViewController.underRightViewController = nil;
-//    if (![self.slidingViewController.underRightViewController isKindOfClass:[RightMenuViewController class]]){
     RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-    rightMenuViewController.rightMenuItems = nil;
+    rightMenuViewController.rightMenuItems = [AppDelegate instance].nowPlayingMenuItems;
     self.slidingViewController.underRightViewController = rightMenuViewController;
-//    }
-    
-//    self.slidingViewController.underRightViewController = nil;
-//    self.slidingViewController.anchorLeftPeekAmount     = 0;
-//    self.slidingViewController.anchorLeftRevealAmount   = 0;
     if (!fromItself){
         if (nowPlayingView.hidden){
             nowPlayingView.hidden = NO;
