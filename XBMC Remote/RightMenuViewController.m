@@ -26,7 +26,7 @@
 #pragma mark Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfo"]){
+    if (indexPath.row == 0){
         return 44;
     }
     return 50;
@@ -56,12 +56,14 @@
     if (cell==nil){
         cell = rightMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
-        [backgroundView setBackgroundColor:[UIColor colorWithRed:.086f green:.086f blue:.086f alpha:1]];
+        [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
         if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfo"]){
+            [backgroundView setBackgroundColor:[UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1]];
+            cell.selectedBackgroundView = backgroundView;
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(165, (int)((44/2) - (36/2)) - 2, 145, 36)];
             xbmc_logo. alpha = .25f;
-            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo_selected.png"]];
+            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
             [cell insertSubview:xbmc_logo atIndex:0];
         }
     }
