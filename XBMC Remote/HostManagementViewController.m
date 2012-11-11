@@ -315,10 +315,12 @@
             masterViewController.mainMenu = self.mainMenu;
             self.slidingViewController.underLeftViewController = masterViewController;
         }
-        if (![self.slidingViewController.underRightViewController isKindOfClass:[RightMenuViewController class]]){
-            RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-            self.slidingViewController.underRightViewController = rightMenuViewController;
-        }
+        self.slidingViewController.underRightViewController = nil;
+//        if (![self.slidingViewController.underRightViewController isKindOfClass:[RightMenuViewController class]]){
+        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
+        rightMenuViewController.rightMenuItems = [AppDelegate instance].rightMenuItems;
+        self.slidingViewController.underRightViewController = rightMenuViewController;
+//        }
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
 }

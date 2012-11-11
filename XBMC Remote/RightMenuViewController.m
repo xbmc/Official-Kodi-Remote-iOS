@@ -15,6 +15,7 @@
 
 @implementation RightMenuViewController
 @synthesize peekLeftAmount;
+@synthesize rightMenuItems;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -233,7 +234,7 @@
     [menuTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [self.view addSubview:menuTableView];
     
-    rightMenuItems = [AppDelegate instance].rightMenuItems;
+//    self.rightMenuItems = [AppDelegate instance].rightMenuItems;
     if ([[AppDelegate instance].obj.serverIP length]!=0){
         if (![AppDelegate instance].serverOnLine){
             [self setRightMenuOption:@"offline"];
@@ -256,7 +257,7 @@
 }
 
 - (void)setRightMenuOption:(NSString *)key{
-    mainMenu *menuItems = [rightMenuItems objectAtIndex:0];
+    mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
     labelsList = [[NSMutableArray alloc] initWithCapacity:0];
     colorsList = [[NSMutableArray alloc] initWithCapacity:0];
     hideLineSeparator = [[NSMutableArray alloc] initWithCapacity:0];

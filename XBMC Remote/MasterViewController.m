@@ -292,6 +292,8 @@
         if (self.hostController == nil){
             self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
         }
+//        self.hostController.rightMenuItems = [AppDelegate instance].rightMenuItems;
+
         object = self.hostController;
     }
     else if (item.family == 1){

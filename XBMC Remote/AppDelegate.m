@@ -35,6 +35,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize playlistTvShows;
 @synthesize rightMenuItems;
 @synthesize serverName;
+@synthesize nowPlayingMenuItems;
 
 + (AppDelegate *) instance {
 	return (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -2176,7 +2177,7 @@ NSMutableArray *hostRightMenuItems;
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"Hibernate", @"label",
-                                @"icon_sleep", @"icon",
+                                @"icon_hibernate", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Hibernate",@"command",
                                  @"Are you sure you want to hibernate your XBMC system now?", @"message",
@@ -2256,6 +2257,12 @@ NSMutableArray *hostRightMenuItems;
                               nil],
                              nil];
     [rightMenuItems addObject:rightItem1];
+    
+#pragma mark - Now Playing Right Menu
+    nowPlayingMenuItems = [NSMutableArray arrayWithCapacity:1];
+    mainMenu *nowPlayingItem1 = [[mainMenu alloc] init];
+    [nowPlayingMenuItems addObject:nowPlayingItem1];
+    
 #pragma mark -
 
     self.serverName = @"No connection";

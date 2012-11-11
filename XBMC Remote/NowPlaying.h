@@ -10,6 +10,7 @@
 #import "DSJSONRPC.h"
 #import "VolumeSliderView.h"
 #import "UIImageView+WebCache.h"
+#import "RightMenuViewController.h"
 
 @class ShowInfoViewController;
 @class RemoteController;

@@ -14,7 +14,6 @@
     UITableView *menuTableView;
     NSMutableArray* _rightMenuItems;
     IBOutlet UITableViewCell *rightMenuCell;
-    NSMutableArray *rightMenuItems;
     NSMutableArray *labelsList;
     NSMutableArray *colorsList;
     NSMutableArray *hideLineSeparator;
@@ -25,5 +24,7 @@
     DSJSONRPC *jsonRPC;
     UIAlertView *actionAlertView;
 }
+
+@property (strong, nonatomic) NSMutableArray *rightMenuItems;
 
 @end
