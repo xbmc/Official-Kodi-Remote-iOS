@@ -2351,10 +2351,19 @@ int currentItemID;
     else{
         [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
     }
+    
+    
+    
     self.slidingViewController.underRightViewController = nil;
     RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
     rightMenuViewController.rightMenuItems = [AppDelegate instance].nowPlayingMenuItems;
     self.slidingViewController.underRightViewController = rightMenuViewController;
+    
+    
+//    self.slidingViewController.underRightViewController = nil;
+//    self.slidingViewController.anchorLeftPeekAmount     = 0;
+//    self.slidingViewController.anchorLeftRevealAmount   = 0;
+
     if (!fromItself){
         if (nowPlayingView.hidden){
             nowPlayingView.hidden = NO;

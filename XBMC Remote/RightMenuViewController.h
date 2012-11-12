@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ECSlidingViewController.h"
 #import "DSJSONRPC.h"
+#import "RemoteController.h"
 
 @interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>{
     UITableView *menuTableView;

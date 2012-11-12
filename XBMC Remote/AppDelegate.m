@@ -2113,9 +2113,9 @@ NSMutableArray *hostRightMenuItems;
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"ServerInfo", @"label",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSNumber numberWithFloat:.086f], @"red",
-                                 [NSNumber numberWithFloat:.086f], @"green",
-                                 [NSNumber numberWithFloat:.086f], @"blue",
+                                 [NSNumber numberWithFloat:.208f], @"red",
+                                 [NSNumber numberWithFloat:.208f], @"green",
+                                 [NSNumber numberWithFloat:.208f], @"blue",
                                  nil], @"bgColor",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  [NSNumber numberWithFloat:.702f], @"red",
@@ -2139,9 +2139,9 @@ NSMutableArray *hostRightMenuItems;
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"ServerInfo", @"label",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSNumber numberWithFloat:.086f], @"red",
-                                 [NSNumber numberWithFloat:.086f], @"green",
-                                 [NSNumber numberWithFloat:.086f], @"blue",
+                                 [NSNumber numberWithFloat:.208f], @"red",
+                                 [NSNumber numberWithFloat:.208f], @"green",
+                                 [NSNumber numberWithFloat:.208f], @"blue",
                                  nil], @"bgColor",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  [NSNumber numberWithFloat:.702f], @"red",
@@ -2261,6 +2261,58 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Now Playing Right Menu
     nowPlayingMenuItems = [NSMutableArray arrayWithCapacity:1];
     mainMenu *nowPlayingItem1 = [[mainMenu alloc] init];
+    nowPlayingItem1.mainLabel = @"VolumeControl";
+    nowPlayingItem1.family = 2;
+    nowPlayingItem1.mainMethod = [NSArray arrayWithObjects:
+                                  [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [NSArray arrayWithObjects:
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"ServerInfo", @"label",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:.208f], @"red",
+                                      [NSNumber numberWithFloat:.208f], @"green",
+                                      [NSNumber numberWithFloat:.208f], @"blue",
+                                      nil], @"bgColor",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:.702f], @"red",
+                                      [NSNumber numberWithFloat:.702f], @"green",
+                                      [NSNumber numberWithFloat:.702f], @"blue",
+                                      nil], @"fontColor",
+                                     [NSNumber numberWithBool:YES], @"hideLineSeparator",
+                                     nil],
+                                    nil],@"offline",
+                                   
+                                   [NSArray arrayWithObjects:
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"ServerInfo", @"label",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:.208f], @"red",
+                                      [NSNumber numberWithFloat:.208f], @"green",
+                                      [NSNumber numberWithFloat:.208f], @"blue",
+                                      nil], @"bgColor",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:.702f], @"red",
+                                      [NSNumber numberWithFloat:.702f], @"green",
+                                      [NSNumber numberWithFloat:.702f], @"blue",
+                                      nil], @"fontColor",
+                                     [NSNumber numberWithBool:YES], @"hideLineSeparator",
+                                     nil],
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"VolumeControl", @"label",
+                                     @"volume", @"icon",
+                                     nil],
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"Shuffle", @"label",
+                                     @"button_shuffle", @"icon",
+                                     nil],
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"Repeat", @"label",
+                                     @"button_repeat", @"icon",
+                                     nil],
+                                    nil],@"online",
+                                   
+                                   nil],
+                                  nil];
     [nowPlayingMenuItems addObject:nowPlayingItem1];
     
 #pragma mark -

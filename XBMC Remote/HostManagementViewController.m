@@ -103,10 +103,6 @@
         NSDictionary *item=[[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
         [cellLabel setText:[item objectForKey:@"serverDescription"]];
         [cellIP setText:[item objectForKey:@"serverIP"]];
-        CGRect frame=cellLabel.frame;
-        frame.origin.x=66;
-        frame.size.width=142;
-        cellLabel.frame=frame;
         NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
         if (selection && indexPath.row == selection.row){
             cell.accessoryType=UITableViewCellAccessoryCheckmark;

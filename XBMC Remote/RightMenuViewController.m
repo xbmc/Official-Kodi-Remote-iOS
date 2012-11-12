@@ -58,7 +58,7 @@
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
-        if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfo"]){
+        if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfo"] || [[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfoLite"]){
             [backgroundView setBackgroundColor:[UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1]];
             cell.selectedBackgroundView = backgroundView;
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(165, (int)((44/2) - (36/2)) - 2, 145, 36)];
@@ -91,7 +91,12 @@
         icon.alpha = .6f;
         iconName = [iconsList objectAtIndex:indexPath.row];
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
-        [title setText:[labelsList objectAtIndex:indexPath.row]];
+        if (![[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfoLite"]){
+            [title setText:[labelsList objectAtIndex:indexPath.row]];
+        }
+        else{
+            [title setText:@""];
+        }
     }
     if ([[hideLineSeparator objectAtIndex:indexPath.row] boolValue] == YES){
         line.hidden = YES;
@@ -234,6 +239,7 @@
     [menuTableView setDataSource:self];
     [menuTableView setBackgroundColor:[UIColor clearColor]];
     [menuTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+    [menuTableView setScrollEnabled:NO];
     [self.view addSubview:menuTableView];
     
 //    self.rightMenuItems = [AppDelegate instance].rightMenuItems;
@@ -256,6 +262,12 @@
                                              selector: @selector(connectionFailed:)
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
+    mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
+
+    if ([menuItems family]==2){
+        
+        
+    }
 }
 
 - (void)setRightMenuOption:(NSString *)key{
