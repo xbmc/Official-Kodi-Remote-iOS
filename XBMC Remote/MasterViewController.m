@@ -127,20 +127,20 @@
          inCheck = FALSE;
          if (error==nil && methodError==nil){
              if (![AppDelegate instance].serverOnLine){
-                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
+//                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                      [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
                      NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
-                 }
-                 else{
-                     if ([AppDelegate instance].serverOnLine){
-                         [self changeServerStatus:NO infoText:@"No connection"];
-                     }
-                     if (firstRun){
-                         firstRun=NO;
-                     }
-                 }
+//                 }
+//                 else{
+//                     if ([AppDelegate instance].serverOnLine){
+//                         [self changeServerStatus:NO infoText:@"No connection"];
+//                     }
+//                     if (firstRun){
+//                         firstRun=NO;
+//                     }
+//                 }
              }
          }
          else {
@@ -363,87 +363,87 @@
 
 #pragma mark - power control action sheet
 
--(void)powerControl{
-    if ([[AppDelegate instance].obj.serverIP length]==0){
-        return;
-    }
-    NSString *title=[NSString stringWithFormat:@"%@\n%@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
-    NSString *destructive = nil;
-    NSArray *sheetActions = nil;
-    if (![AppDelegate instance].serverOnLine){
-        sheetActions=[NSArray arrayWithObjects:@"Wake On Lan", nil];
-    }
-    else{
-        destructive = @"Power off System";
-        sheetActions=[NSArray arrayWithObjects:@"Hibernate", @"Suspend", @"Reboot", @"Update Audio Library", @"Update Video Library", nil];
-    }
-    int numActions=[sheetActions count];
-    if (numActions){
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
-                                                            delegate:self
-                                                   cancelButtonTitle:nil
-                                              destructiveButtonTitle:destructive
-                                                   otherButtonTitles:nil];
-        action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        for (int i = 0; i < numActions; i++) {
-            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
-        }
-        action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
-        [action showInView:self.view];
-    }
-}
-
--(void)powerAction:(NSString *)action params:(NSDictionary *)params{
-    jsonRPC = nil;
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (methodError==nil && error == nil){
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
-        }
-        else{
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Cannot do that" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
-        }
-    }];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex!=actionSheet.cancelButtonIndex){
-        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Wake On Lan"]){
-            if ([AppDelegate instance].obj.serverHWAddr != nil){
-                [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                [alertView show];
-            }
-            else{
-                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"No sever mac address definied" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                [alertView show];
-            }
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Power off System"]){
-            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Hibernate"]){
-            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Suspend"]){
-            [self powerAction:@"System.Suspend" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Reboot"]){
-            [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Update Audio Library"]){
-            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Update Video Library"]){
-            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-        }
-    }
-}
+//-(void)powerControl{
+//    if ([[AppDelegate instance].obj.serverIP length]==0){
+//        return;
+//    }
+//    NSString *title=[NSString stringWithFormat:@"%@\n%@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
+//    NSString *destructive = nil;
+//    NSArray *sheetActions = nil;
+//    if (![AppDelegate instance].serverOnLine){
+//        sheetActions=[NSArray arrayWithObjects:@"Wake On Lan", nil];
+//    }
+//    else{
+//        destructive = @"Power off System";
+//        sheetActions=[NSArray arrayWithObjects:@"Hibernate", @"Suspend", @"Reboot", @"Update Audio Library", @"Update Video Library", nil];
+//    }
+//    int numActions=[sheetActions count];
+//    if (numActions){
+//        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
+//                                                            delegate:self
+//                                                   cancelButtonTitle:nil
+//                                              destructiveButtonTitle:destructive
+//                                                   otherButtonTitles:nil];
+//        action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+//        for (int i = 0; i < numActions; i++) {
+//            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+//        }
+//        action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+//        [action showInView:self.view];
+//    }
+//}
+//
+//-(void)powerAction:(NSString *)action params:(NSDictionary *)params{
+//    jsonRPC = nil;
+//    GlobalData *obj=[GlobalData getInstance]; 
+//    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+//    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+//    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+//    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//        if (methodError==nil && error == nil){
+//            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+//            [alertView show];
+//        }
+//        else{
+//            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Cannot do that" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+//            [alertView show];
+//        }
+//    }];
+//}
+//
+//- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+//    if (buttonIndex!=actionSheet.cancelButtonIndex){
+//        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Wake On Lan"]){
+//            if ([AppDelegate instance].obj.serverHWAddr != nil){
+//                [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
+//                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+//                [alertView show];
+//            }
+//            else{
+//                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"No sever mac address definied" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+//                [alertView show];
+//            }
+//        }
+//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Power off System"]){
+//            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//        }
+//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Hibernate"]){
+//            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//        }
+//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Suspend"]){
+//            [self powerAction:@"System.Suspend" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//        }
+//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Reboot"]){
+//            [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//        }
+//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Update Audio Library"]){
+//            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//        }
+//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Update Video Library"]){
+//            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//        }
+//    }
+//}
 
 #pragma mark - LifeCycle
 
