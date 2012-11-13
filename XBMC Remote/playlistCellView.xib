@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
 		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1929</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -150,7 +150,7 @@
 							<object class="IBUILabel" id="819559211">
 								<reference key="NSNextResponder" ref="413044437"/>
 								<int key="NSvFlags">289</int>
-								<string key="NSFrame">{{275, 35}, {40, 16}}</string>
+								<string key="NSFrame">{{271, 35}, {44, 16}}</string>
 								<reference key="NSSuperview" ref="413044437"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -490,6 +490,7 @@
 						<string key="pgbar">UIImageView</string>
 						<string key="playlistActionView">UIView</string>
 						<string key="playlistButton">UIButton</string>
+						<string key="playlistLeftShadow">UIImageView</string>
 						<string key="playlistTableView">UITableView</string>
 						<string key="playlistTableViewCell">UITableViewCell</string>
 						<string key="playlistToolbar">UIToolbar</string>
@@ -598,6 +599,10 @@
 							<string key="name">playlistButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="playlistLeftShadow">
+							<string key="name">playlistLeftShadow</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="playlistTableView">
 							<string key="name">playlistTableView</string>
 							<string key="candidateClassName">UITableView</string>
@@ -689,6 +694,6 @@
 			<string key="timeBackground.png">{53, 17}</string>
 			<string key="white.png">{320, 76}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1929</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>
