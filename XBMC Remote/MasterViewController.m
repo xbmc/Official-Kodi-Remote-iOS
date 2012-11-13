@@ -126,6 +126,7 @@
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          inCheck = FALSE;
          if (error==nil && methodError==nil){
+             [AppDelegate instance].serverVolume = [[methodResult objectForKey:@"volume"] intValue];
              if (![AppDelegate instance].serverOnLine){
 //                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
@@ -144,6 +145,7 @@
              }
          }
          else {
+             [AppDelegate instance].serverVolume = -1;
              if ([AppDelegate instance].serverOnLine){
                  [self changeServerStatus:NO infoText:@"No connection"];
              }
@@ -522,7 +524,7 @@
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
     [AppDelegate instance].obj=[GlobalData getInstance];
     firstRun=YES;
-    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
+    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)

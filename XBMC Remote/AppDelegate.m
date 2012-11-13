@@ -36,6 +36,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize rightMenuItems;
 @synthesize serverName;
 @synthesize nowPlayingMenuItems;
+@synthesize serverVolume;
 
 + (AppDelegate *) instance {
 	return (AppDelegate *) [[UIApplication sharedApplication] delegate];

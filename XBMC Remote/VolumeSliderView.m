@@ -9,6 +9,7 @@
 #import "VolumeSliderView.h"
 #import "GlobalData.h"
 #import "DSJSONRPC.h"
+#import "AppDelegate.h"
 
 @implementation VolumeSliderView
 
@@ -76,29 +77,37 @@
 }
 
 -(void)volumeInfo{
-    jsonRPC = nil;
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    [jsonRPC 
-     callMethod:@"Application.GetProperties" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"volume", nil], @"properties", nil]
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-         if (error==nil && methodError==nil){
-             //                         NSLog(@"DATO RICEVUTO %@", methodResult);
-             if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                 //                             NSLog(@"risposta %@", methodResult);
-                 if ([methodResult count]){
-                     volumeLabel.text=[(NSNumber*) [methodResult objectForKey:@"volume"] stringValue];
-                     volumeSlider.value=[(NSNumber*) [methodResult objectForKey:@"volume"] floatValue];
-                 }
-             }
-         }
-         else {
-//             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
-         }
-     }];
+    if ([AppDelegate instance].serverVolume > -1){
+        volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
+        volumeSlider.value = [AppDelegate instance].serverVolume;
+    }
+    else{
+        volumeLabel.text = @"0";
+        volumeSlider.value = 0;
+    }
+//    jsonRPC = nil;
+//    GlobalData *obj=[GlobalData getInstance]; 
+//    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+//    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+//    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+//    [jsonRPC 
+//     callMethod:@"Application.GetProperties" 
+//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"volume", nil], @"properties", nil]
+//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//         if (error==nil && methodError==nil){
+//             //                         NSLog(@"DATO RICEVUTO %@", methodResult);
+//             if( [NSJSONSerialization isValidJSONObject:methodResult]){
+//                 //                             NSLog(@"risposta %@", methodResult);
+//                 if ([methodResult count]){
+//                     volumeLabel.text=[(NSNumber*) [methodResult objectForKey:@"volume"] stringValue];
+//                     volumeSlider.value=[(NSNumber*) [methodResult objectForKey:@"volume"] floatValue];
+//                 }
+//             }
+//         }
+//         else {
+////             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
+//         }
+//     }];
 }
 
 -(IBAction)slideVolume:(id)sender{

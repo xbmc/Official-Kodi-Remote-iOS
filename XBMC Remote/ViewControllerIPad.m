@@ -119,23 +119,24 @@
      withTimeout: 2.0
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error==nil && methodError==nil){
+             [AppDelegate instance].serverVolume = [[methodResult objectForKey:@"volume"] intValue];
              if (![AppDelegate instance].serverOnLine){
-                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
+//                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
                      [volumeSliderView startTimer];
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                      [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
                      NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
                      [self showSetup:NO];
-                 }
-                 else{
-                     if ([AppDelegate instance].serverOnLine){
-                         [self changeServerStatus:NO infoText:@"No connection"];
-                     }
-                     if (firstRun){
-                         [self showSetup:YES];
-                     }
-                 }
+//                 }
+//                 else{
+//                     if ([AppDelegate instance].serverOnLine){
+//                         [self changeServerStatus:NO infoText:@"No connection"];
+//                     }
+//                     if (firstRun){
+//                         [self showSetup:YES];
+//                     }
+//                 }
              }
          }
          else {
@@ -514,7 +515,7 @@
     frame.origin.x = self.nowPlayingController.ProgressSlider.frame.origin.x + 300;
     self.nowPlayingController.ProgressSlider.frame=frame;
     
-    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", nil], @"properties", nil];
+    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
