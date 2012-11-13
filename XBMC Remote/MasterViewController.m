@@ -277,6 +277,7 @@
     itemIsActive = YES;
     UIViewController *object;
     if (item.family == 2){
+//        self.nowPlaying = nil;
         if (self.nowPlaying == nil){
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
         }

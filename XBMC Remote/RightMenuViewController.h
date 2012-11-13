@@ -10,6 +10,7 @@
 #import "ECSlidingViewController.h"
 #import "DSJSONRPC.h"
 #import "RemoteController.h"
+#import "VolumeSliderView.h"
 
 @interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>{
     UITableView *menuTableView;
@@ -24,6 +25,7 @@
     UILabel *infoLabel;
     DSJSONRPC *jsonRPC;
     UIAlertView *actionAlertView;
+    VolumeSliderView *volumeSliderView;
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;

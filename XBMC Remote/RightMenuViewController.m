@@ -87,6 +87,15 @@
         UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
         [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
     }
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"VolumeControl"]){
+        [title setText:@""];
+        if (volumeSliderView == nil){
+            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            [cell.contentView addSubview:volumeSliderView];
+            [volumeSliderView startTimer];
+        }
+    }
     else{
         icon.alpha = .6f;
         iconName = [iconsList objectAtIndex:indexPath.row];
@@ -216,6 +225,10 @@
 }
 
 #pragma mark - LifeCycle
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [volumeSliderView stopTimer];
+}
 
 - (void)viewDidLoad{
     [super viewDidLoad];

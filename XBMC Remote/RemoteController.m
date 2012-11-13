@@ -550,21 +550,28 @@
 }
 
 -(void)volumeInfo{
-    jsonRPC = nil;
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    [jsonRPC 
-     callMethod:@"Application.GetProperties" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"volume", nil], @"properties", nil]
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-         if (error==nil && methodError==nil){
-             if( [NSJSONSerialization isValidJSONObject:methodResult] && [methodResult count]){
-                 audioVolume =  [[methodResult objectForKey:@"volume"] intValue];
-             }
-         }
-     }];
+    if ([AppDelegate instance].serverVolume > -1){
+        audioVolume = [AppDelegate instance].serverVolume;
+    }
+    else{
+        audioVolume = 0;
+    }
+
+//    jsonRPC = nil;
+//    GlobalData *obj=[GlobalData getInstance]; 
+//    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+//    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+//    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+//    [jsonRPC 
+//     callMethod:@"Application.GetProperties" 
+//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"volume", nil], @"properties", nil]
+//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//         if (error==nil && methodError==nil){
+//             if( [NSJSONSerialization isValidJSONObject:methodResult] && [methodResult count]){
+//                 audioVolume =  [[methodResult objectForKey:@"volume"] intValue];
+//             }
+//         }
+//     }];
 }
 
 -(void)changeServerVolume{

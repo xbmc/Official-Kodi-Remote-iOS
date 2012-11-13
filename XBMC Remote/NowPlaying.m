@@ -71,11 +71,11 @@ float cellBarWidth=45;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
         
-        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showRemoteController)];
-        leftSwipe.numberOfTouchesRequired = 1;
-        leftSwipe.cancelsTouchesInView=NO;
-        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.view addGestureRecognizer:leftSwipe];
+//        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showRemoteController)];
+//        leftSwipe.numberOfTouchesRequired = 1;
+//        leftSwipe.cancelsTouchesInView=NO;
+//        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+//        [self.view addGestureRecognizer:leftSwipe];
     }
 }
 
@@ -2270,15 +2270,15 @@ int currentItemID;
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
-    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
-    CGRect frame=volumeSliderView.frame;
-    frame.origin.x=258;
-    frame.origin.y=-volumeSliderView.frame.size.height;
-    volumeSliderView.frame=frame;
-    [self.view addSubview:volumeSliderView];
-    UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-    self.navigationItem.rightBarButtonItem = settingsButton;
+//    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
+//    CGRect frame=volumeSliderView.frame;
+//    frame.origin.x=258;
+//    frame.origin.y=-volumeSliderView.frame.size.height;
+//    volumeSliderView.frame=frame;
+//    [self.view addSubview:volumeSliderView];
+//    UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
+//    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+//    self.navigationItem.rightBarButtonItem = settingsButton;
     slideFrom=320;
     xbmcOverlayImage.hidden = YES;
 }
@@ -2343,27 +2343,27 @@ int currentItemID;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO && !playlistTableView.editing){
-        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-    }
-    else{
-        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
-    }
-    
-    
-    
-    self.slidingViewController.underRightViewController = nil;
-    RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-    rightMenuViewController.rightMenuItems = [AppDelegate instance].nowPlayingMenuItems;
-    self.slidingViewController.underRightViewController = rightMenuViewController;
-    
-    
-//    self.slidingViewController.underRightViewController = nil;
-//    self.slidingViewController.anchorLeftPeekAmount     = 0;
-//    self.slidingViewController.anchorLeftRevealAmount   = 0;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        self.slidingViewController.underRightViewController = nil;
+        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
+        rightMenuViewController.rightMenuItems = [AppDelegate instance].nowPlayingMenuItems;
+        self.slidingViewController.underRightViewController = rightMenuViewController;
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults synchronize];
+        if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO && !playlistTableView.editing){
+            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+        }
+        else{
+            [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+        }
+        if ([self.navigationController.viewControllers indexOfObject:self] == 0){
+            UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+        }
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:self action:@selector(revealUnderRight:)];
 
+    }
     if (!fromItself){
         if (nowPlayingView.hidden){
             nowPlayingView.hidden = NO;
@@ -2403,11 +2403,18 @@ int currentItemID;
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
+- (void)revealUnderRight:(id)sender{
+    [self.slidingViewController anchorTopViewTo:ECLeft];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [self handleXBMCPlaylistHasChanged:nil];
     [self playbackInfo];
-    [volumeSliderView startTimer]; 
     updateProgressBar = YES;
+    if (timer != nil){
+        [timer invalidate];
+        timer = nil;
+    }
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
     fromItself = FALSE;
 }
@@ -2419,7 +2426,6 @@ int currentItemID;
 -(void)viewWillDisappear:(BOOL)animated{
     [timer invalidate];
     currentItemID = -1;
-    [volumeSliderView stopTimer];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -2500,6 +2506,8 @@ int currentItemID;
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     volumeSliderView = nil;
+    [timer invalidate];
+    timer = nil;
 }
 
 -(void)dealloc{
@@ -2510,6 +2518,8 @@ int currentItemID;
     self.remoteController=nil;
     sheetActions = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
+    [timer invalidate];
+    timer = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
