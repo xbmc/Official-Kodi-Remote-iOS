@@ -2399,6 +2399,7 @@ NSMutableArray *hostRightMenuItems;
         self.window.rootViewController = initialSlidingViewController;
     }
     else {
+        [mainMenuItems addObject:item7];
         [mainMenuItems addObject:item1];
         [mainMenuItems addObject:item2];
         [mainMenuItems addObject:item3];

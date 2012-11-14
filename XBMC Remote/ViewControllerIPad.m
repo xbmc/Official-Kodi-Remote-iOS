@@ -156,6 +156,9 @@
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText{
     if (status==YES){
+        UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+        [icon setImage:[UIImage imageNamed:@"connection_on"]];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object: nil];
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateNormal];
         [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
@@ -177,6 +180,9 @@
         }
     }
     else{
+        UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+        [icon setImage:[UIImage imageNamed:@"connection_off"]];
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
         [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
@@ -409,7 +415,9 @@
             [self handleXBMCServerHasChanged:nil];
         }
     }
-    int tableHeight = [(NSMutableArray *)mainMenu count] * 64 + 16;
+    int cellHeight = 56;
+    int infoHeight = 22;
+    int tableHeight = ([(NSMutableArray *)mainMenu count] - 1) * cellHeight + infoHeight;
     int tableWidth = 300;
     int headerHeight=0;
    
@@ -425,7 +433,7 @@
 	[menuViewController viewWillAppear:FALSE];
 	[menuViewController viewDidAppear:FALSE];
 	[leftMenuView addSubview:menuViewController.view];
-    int separator = 5;
+    int separator = 2;
     
 //    CGRect seamBackground = CGRectMake(0.0f, tableHeight + headerHeight - 2, tableWidth, separator);
 //    UIImageView *seam = [[UIImageView alloc] initWithFrame:seamBackground];
@@ -556,7 +564,7 @@
         thumbWidth = 53;
         tvshowHeight = 76;
     }
-    mainMenu *menuItem=[self.mainMenu objectAtIndex:2];
+    mainMenu *menuItem=[self.mainMenu objectAtIndex:3];
     menuItem.thumbWidth=thumbWidth;
     menuItem.rowHeight=tvshowHeight;
     [[AppDelegate instance].windowController.stackScrollViewController offView];

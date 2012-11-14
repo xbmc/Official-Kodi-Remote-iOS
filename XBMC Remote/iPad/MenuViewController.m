@@ -54,7 +54,7 @@
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu{
     if (self = [super init]) {
 		[self.view setFrame:frame]; 
-        int tableHeight = [menu count] * 64 + 16;
+        int tableHeight = ([menu count] -1) * 56 + 22;
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, tableHeight) style:UITableViewStylePlain];
         [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 		[_tableView setDelegate:self];
@@ -187,7 +187,10 @@
 #pragma mark Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 64;
+    if (indexPath.row == 0){
+        return 22;
+    }
+    return 56;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -202,6 +205,11 @@
     return [mainMenuItems count];
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0){
+        cell.backgroundColor = [UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1];
+    }
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -213,23 +221,56 @@
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
+        if (indexPath.row == 0){
+            [backgroundView setBackgroundColor:[UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1]];
+            cell.selectedBackgroundView = backgroundView;
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(224, (int)((22/2) - (18/2)) - 1, 73, 18)];
+            xbmc_logo. alpha = .25f;
+            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo"]];
+            [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo"]];
+            [cell insertSubview:xbmc_logo atIndex:0];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        }
     }
     mainMenu *item = [mainMenuItems objectAtIndex:indexPath.row];
-    [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_alt", item.icon]]];
-    [(UILabel*) [cell viewWithTag:2] setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
-    [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];
-    [(UILabel*) [cell viewWithTag:3] setFont:[UIFont fontWithName:@"Roboto-Regular" size:22]];
-    [(UILabel*) [cell viewWithTag:3] setText:[item.mainLabel uppercaseString]];
+    UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+    UILabel *upperTitle = (UILabel*) [cell viewWithTag:2];
+    UILabel *title = (UILabel*) [cell viewWithTag:3];
+    UIImageView *line = (UIImageView*) [cell viewWithTag:4];
+    NSString *iconName = [NSString stringWithFormat:@"%@_alt", item.icon];
+    [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
+    [upperTitle setText:item.upperLabel];
+    if (indexPath.row == 0){
+//        UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
+        iconName = @"connection_off";
+        if ([AppDelegate instance].serverOnLine){
+            iconName = @"connection_on";
+        }
+        line.hidden = YES;
+        int cellHeight = 22;
+        [title setText:@""];
+
+//        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
+        [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight/2) - (18/2)) - 1, 18, 18)];
+//        [title setFrame:CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight)];
+//        [title setNumberOfLines:2];
+//        [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
+    }
+    else{
+        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:22]];
+        [title setText:[item.mainLabel uppercaseString]];
+    }
+    [icon setImage:[UIImage imageNamed:iconName]];
     if ([AppDelegate instance].serverOnLine){
-        [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
-        [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
-        [(UIImageView*) [cell viewWithTag:3] setAlpha:1];
+        [icon setAlpha:1];
+        [upperTitle setAlpha:1];
+        [title setAlpha:1];
         cell.selectionStyle=UITableViewCellSelectionStyleBlue;
     }
     else {
-        [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
-        [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
-        [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
+        [icon setAlpha:0.3];
+        [upperTitle setAlpha:0.3];
+        [title setAlpha:0.3];
         cell.selectionStyle=UITableViewCellSelectionStyleGray;
     }
     return cell;
