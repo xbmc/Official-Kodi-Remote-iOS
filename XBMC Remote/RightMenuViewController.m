@@ -8,6 +8,7 @@
 #import "RightMenuViewController.h"
 #import "mainMenu.h"
 #import "AppDelegate.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -20,6 +21,26 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
+}
+
+- (void)turnTorchOn:(bool)on {
+    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+    if (captureDeviceClass != nil) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        if ([device hasTorch] && [device hasFlash]){
+            [device lockForConfiguration:nil];
+            if (on) {
+                [device setTorchMode:AVCaptureTorchModeOn];
+                [device setFlashMode:AVCaptureFlashModeOn];
+                torchIsOn = YES;
+            } else {
+                [device setTorchMode:AVCaptureTorchModeOff];
+                [device setFlashMode:AVCaptureFlashModeOff];
+                torchIsOn = NO;
+            }
+            [device unlockForConfiguration];
+        }
+    }
 }
 
 #pragma mark -
@@ -56,7 +77,7 @@
     UITableViewCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"rightMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:NULL];
-    if (cell==nil){
+    if (cell==nil || [[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Torch"]){
         cell = rightMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
@@ -205,6 +226,9 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Torch"]){
+        [self turnTorchOn:!torchIsOn];
+    }
 }
 
 #pragma mark - JSON
@@ -260,6 +284,14 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    torchIsOn = NO;
+    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+    if (captureDeviceClass != nil) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        if ([device hasTorch] && [device hasFlash]){
+            torchIsOn = [device torchLevel];
+        }
+    }
     self.peekLeftAmount = 40.0f;
     [self.slidingViewController setAnchorLeftPeekAmount:self.peekLeftAmount];
     self.slidingViewController.underRightWidthLayout = ECFullWidth;
@@ -282,8 +314,6 @@
     [menuTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [menuTableView setScrollEnabled:NO];
     [self.view addSubview:menuTableView];
-    
-//    self.rightMenuItems = [AppDelegate instance].rightMenuItems;
     if ([[AppDelegate instance].obj.serverIP length]!=0){
         if (![AppDelegate instance].serverOnLine){
             [self setRightMenuOption:@"offline"];
@@ -294,6 +324,8 @@
     }
     else {
         infoLabel.alpha = 1;
+        [self setRightMenuOption:@"utility"];
+
     }
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionSuccess:)
@@ -419,6 +451,7 @@
             [labelsList removeAllObjects];
             [menuTableView reloadData];
             infoLabel.alpha = 1;
+            [self setRightMenuOption:@"utility"];
         }
     }
 }

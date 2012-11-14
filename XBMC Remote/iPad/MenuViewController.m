@@ -135,30 +135,30 @@
 
 -(void)handleEnableMusicSection{
     NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
-    if (selection.row != 0 || selection == nil){
+    if (selection.row != 1 || selection == nil){
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
-        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-        lastSelected=0;
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+        lastSelected=1;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil]; 
     }		
 }
 
 -(void)handleEnableMovieSection{
     NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
-    if (selection.row != 1 || selection == nil){
+    if (selection.row != 2 || selection == nil){
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
-        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-        lastSelected=1;
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+        lastSelected=2;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
     }
 }
 
 -(void)handleEnableTvShowSection{
     NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
-    if (selection.row != 2 || selection == nil){
+    if (selection.row != 3 || selection == nil){
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
-        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-        lastSelected=2;
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+        lastSelected=3;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
     }
 }
@@ -241,7 +241,6 @@
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0){
-//        UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
         iconName = @"connection_off";
         if ([AppDelegate instance].serverOnLine){
             iconName = @"connection_on";
@@ -249,12 +248,7 @@
         line.hidden = YES;
         int cellHeight = 22;
         [title setText:@""];
-
-//        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
         [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight/2) - (18/2)) - 1, 18, 18)];
-//        [title setFrame:CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight)];
-//        [title setNumberOfLines:2];
-//        [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
     }
     else{
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:22]];
@@ -265,13 +259,11 @@
         [icon setAlpha:1];
         [upperTitle setAlpha:1];
         [title setAlpha:1];
-        cell.selectionStyle=UITableViewCellSelectionStyleBlue;
     }
-    else {
+    else if (indexPath.row != 0){
         [icon setAlpha:0.3];
         [upperTitle setAlpha:0.3];
         [title setAlpha:0.3];
-        cell.selectionStyle=UITableViewCellSelectionStyleGray;
     }
     return cell;
 }

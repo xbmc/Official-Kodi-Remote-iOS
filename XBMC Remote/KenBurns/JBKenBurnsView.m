@@ -77,10 +77,10 @@
     
     self.layer.masksToBounds = YES;
     
-    newEnlargeRatio = 1.2;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-        newEnlargeRatio = 1.0;
-    }
+    newEnlargeRatio = 1.0;
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+//        newEnlargeRatio = 1.0;
+//    }
     
     [NSThread detachNewThreadSelector:@selector(_startAnimations:) toTarget:self withObject:images];
     

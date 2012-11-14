@@ -28,7 +28,7 @@
     UIAlertView *actionAlertView;
     VolumeSliderView *volumeSliderView;
     RemoteController *remoteControllerView;
-
+    BOOL torchIsOn;
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;

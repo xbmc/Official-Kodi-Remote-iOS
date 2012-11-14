@@ -2134,10 +2134,20 @@ NSMutableArray *hostRightMenuItems;
                                  @"System.WOL", @"command",
                                  nil], @"action",
                                 nil],
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Torch", @"label",
+                                @"torch", @"icon",
+                                nil],
                                nil],@"offline",
                               
                               [NSArray arrayWithObjects:
-                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Torch", @"label",
+                                @"torch", @"icon",
+                                nil],
+                               nil],@"utility",
+                              
+                              [NSArray arrayWithObjects:
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"ServerInfo", @"label",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2338,6 +2348,9 @@ NSMutableArray *hostRightMenuItems;
                                       nil], @"fontColor",
                                      [NSNumber numberWithBool:YES], @"hideLineSeparator",
                                      nil],
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"Torch", @"label",
+                                     nil],
                                     nil],@"offline",
                                    
                                    [NSArray arrayWithObjects:
@@ -2375,6 +2388,10 @@ NSMutableArray *hostRightMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"Help screen", @"label",
                                      @"button_info", @"icon",
+                                     nil],
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"Torch", @"label",
+                                     @"torch", @"icon",
                                      nil],
                                     nil],@"online",
                                    

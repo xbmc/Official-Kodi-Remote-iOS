@@ -166,7 +166,7 @@
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=YES;
         int n = [menuViewController.tableView numberOfRowsInSection:0];
-        for (int i=0;i<n;i++){
+        for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
                 cell.selectionStyle=UITableViewCellSelectionStyleBlue;
@@ -189,7 +189,7 @@
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=NO;
         int n = [menuViewController.tableView numberOfRowsInSection:0];
-        for (int i=0;i<n;i++){
+        for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
                 cell.selectionStyle=UITableViewCellSelectionStyleGray;
