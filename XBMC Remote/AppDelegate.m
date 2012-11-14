@@ -37,6 +37,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize serverName;
 @synthesize nowPlayingMenuItems;
 @synthesize serverVolume;
+@synthesize remoteControlMenuItems;
 
 + (AppDelegate *) instance {
 	return (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -2315,6 +2316,72 @@ NSMutableArray *hostRightMenuItems;
                                   nil];
     [nowPlayingMenuItems addObject:nowPlayingItem1];
     
+#pragma mark - Remote Control Right Menu
+    remoteControlMenuItems = [NSMutableArray arrayWithCapacity:1];
+    mainMenu *remoteControlItem1 = [[mainMenu alloc] init];
+    remoteControlItem1.mainLabel = @"RemoteControl";
+    remoteControlItem1.family = 3;
+    remoteControlItem1.mainMethod = [NSArray arrayWithObjects:
+                                  [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [NSArray arrayWithObjects:
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"ServerInfo", @"label",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:.208f], @"red",
+                                      [NSNumber numberWithFloat:.208f], @"green",
+                                      [NSNumber numberWithFloat:.208f], @"blue",
+                                      nil], @"bgColor",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:.702f], @"red",
+                                      [NSNumber numberWithFloat:.702f], @"green",
+                                      [NSNumber numberWithFloat:.702f], @"blue",
+                                      nil], @"fontColor",
+                                     [NSNumber numberWithBool:YES], @"hideLineSeparator",
+                                     nil],
+                                    nil],@"offline",
+                                   
+                                   [NSArray arrayWithObjects:
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"ServerInfo", @"label",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:.208f], @"red",
+                                      [NSNumber numberWithFloat:.208f], @"green",
+                                      [NSNumber numberWithFloat:.208f], @"blue",
+                                      nil], @"bgColor",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:.702f], @"red",
+                                      [NSNumber numberWithFloat:.702f], @"green",
+                                      [NSNumber numberWithFloat:.702f], @"blue",
+                                      nil], @"fontColor",
+                                     [NSNumber numberWithBool:YES], @"hideLineSeparator",
+                                     nil],
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"VolumeControl", @"label",
+                                     @"volume", @"icon",
+                                     nil],
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"Keyboard", @"label",
+                                     @"keyboard_icon", @"icon",
+                                     [NSNumber numberWithBool:YES], @"revealViewTop",
+                                     nil],
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"Gesture Zone", @"label",
+                                     @"finger", @"icon",
+                                     nil],
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"Button Pad", @"label",
+                                     @"circle", @"icon",
+                                     nil],
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"Help screen", @"label",
+                                     @"button_info", @"icon",
+                                     nil],
+                                    nil],@"online",
+                                   
+                                   nil],
+                                  nil];
+    [remoteControlMenuItems addObject:remoteControlItem1];
+
 #pragma mark -
 
     self.serverName = @"No connection";

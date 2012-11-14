@@ -53,10 +53,14 @@
             [plusButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
             [plusButton setTitle:@"" forState:UIControlStateNormal];
             [plusButton setTitle:@"" forState:UIControlStateHighlighted];
+            [plusButton setShowsTouchWhenHighlighted:YES];
+
             [minusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_minus"] forState:UIControlStateNormal];
             [minusButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
             [minusButton setTitle:@"" forState:UIControlStateNormal];
             [minusButton setTitle:@"" forState:UIControlStateHighlighted];
+            [minusButton setShowsTouchWhenHighlighted:YES];
+
             volumeView.hidden = YES;
             volumeLabel.hidden = YES;
             self.transform = trans;

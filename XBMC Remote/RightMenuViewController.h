@@ -22,6 +22,7 @@
     NSMutableArray *fontColorList;
     NSMutableArray *iconsList;
     NSMutableArray *actionsList;
+    NSMutableArray *revealTopView;
     UILabel *infoLabel;
     DSJSONRPC *jsonRPC;
     UIAlertView *actionAlertView;

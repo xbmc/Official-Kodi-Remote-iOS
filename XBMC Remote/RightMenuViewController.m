@@ -186,7 +186,24 @@
         }
     }
     else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Keyboard"]){
-        [remoteControllerView toggleVirtualKeyboard];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleVirtualKeyboard" object:nil userInfo:nil];
+        if ([[revealTopView objectAtIndex:indexPath.row] boolValue] == YES){
+            [self.slidingViewController resetTopView];
+        }
+    }
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Help screen"]){
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleQuickHelp" object:nil userInfo:nil];
+        [self.slidingViewController resetTopView];
+    }
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Gesture Zone"]){
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"forceGestureZone"];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
+        [self.slidingViewController resetTopView];
+    }
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Button Pad"]){
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:@"forceGestureZone"];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
+        [self.slidingViewController resetTopView];
     }
 }
 
@@ -313,6 +330,8 @@
     fontColorList = [[NSMutableArray alloc] initWithCapacity:0];
     iconsList = [[NSMutableArray alloc] initWithCapacity:0];
     actionsList = [[NSMutableArray alloc] initWithCapacity:0];
+    revealTopView = [[NSMutableArray alloc] initWithCapacity:0];
+
     for (NSDictionary *item in [[[menuItems mainMethod] objectAtIndex:0] objectForKey:key]){
         NSString *label = [item objectForKey:@"label"];
         if (label == nil) label = @"";
@@ -322,6 +341,7 @@
             bgColor = [[NSMutableDictionary alloc] initWithCapacity:0];
         }
         [colorsList addObject:bgColor];
+        
         NSNumber *hideLine = [item objectForKey:@"hideLineSeparator"];
         if (hideLine == nil) hideLine = [NSNumber numberWithBool:NO];
         [hideLineSeparator addObject:hideLine];
@@ -338,6 +358,10 @@
         NSMutableDictionary *action = [item objectForKey:@"action"];
         if (action == nil) action = [[NSMutableDictionary alloc] initWithCapacity:0];
         [actionsList addObject:action];
+        
+        NSNumber *showTop = [item objectForKey:@"revealViewTop"];
+        if (showTop == nil) showTop = [NSNumber numberWithBool:NO];
+        [revealTopView addObject:showTop];
     }
     [UIView animateWithDuration:0.2
                      animations:^{

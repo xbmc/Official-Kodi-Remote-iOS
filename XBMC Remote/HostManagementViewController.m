@@ -326,7 +326,6 @@
 }
 
 - (void)revealUnderRight:(NSNotification *)note{
-    doRevealMenu = NO;
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
@@ -368,6 +367,14 @@
                                              selector: @selector(connectionSuccess:)
                                                  name: @"XBMCServerConnectionSuccess"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(resetDoReveal:)
+                                                 name: @"ECSlidingViewUnderRightWillAppear"
+                                               object: nil];
+}
+
+-(void)resetDoReveal:(NSNotification *)note {
+    doRevealMenu = NO;
 }
 
 - (void)connectionSuccess:(NSNotification *)note {

@@ -15,12 +15,9 @@
 #import "AppDelegate.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
-#define ROTATION_TRIGGER 0.015f 
-#define IS_IPHONE ( [[[UIDevice currentDevice] model] isEqualToString:@"iPhone"] )
-#define IS_IPOD   ( [[[UIDevice currentDevice ] model] isEqualToString:@"iPod touch"] )
-#define IS_HEIGHT_GTE_568 [[UIScreen mainScreen ] bounds].size.height >= 568.0f
-#define IS_IPHONE_5 ( IS_IPHONE && IS_HEIGHT_GTE_568 )
+#import "RightMenuViewController.h"
 
+#define ROTATION_TRIGGER 0.015f 
 
 @interface RemoteController ()
 
@@ -72,12 +69,12 @@
     int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
     [remoteControlView setFrame:CGRectMake(startX, startY, newWidth, newHeight)];
     
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger.png"];
+    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL showGesture=[[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture){
-        gestureSwitchImg = [UIImage imageNamed:@"circle.png"];
+        gestureSwitchImg = [UIImage imageNamed:@"circle"];
         frame = [gestureZoneView frame];
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
@@ -95,6 +92,7 @@
     [gestureButton setContentMode:UIViewContentModeRight];
     [gestureButton setShowsTouchWhenHighlighted:NO];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
+    [gestureButton setImage:gestureSwitchImg forState:UIControlStateHighlighted];
     [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up@2x"] forState:UIControlStateNormal];
     [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down@2x"] forState:UIControlStateHighlighted];
     gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
@@ -115,9 +113,9 @@
 }
 
 - (void)configureView{
-//    if (self.detailItem) {
-//        self.navigationItem.title = [self.detailItem mainLabel]; 
-//    }
+    if (self.detailItem) {
+        self.navigationItem.title = [self.detailItem mainLabel]; 
+    }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
@@ -378,12 +376,19 @@
     [UIView commitAnimations];
 }
 - (void)toggleVolume{
-    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE];
+//    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE];
 }
+
+
 
 -(void)toggleGestureZone:(id)sender{
     NSString *imageName=@"";
-    if (gestureZoneView.alpha == 0){
+    BOOL showGesture = (gestureZoneView.alpha == 0);
+    if ([sender isKindOfClass:[NSNotification class]]){
+        showGesture = [[[sender userInfo] objectForKey:@"forceGestureZone"] boolValue];
+    }
+    if (showGesture == YES && gestureZoneView.alpha == 1) return;
+    if (showGesture == YES){
         CGRect frame;
         frame = [gestureZoneView frame];
         frame.origin.x = -320;
@@ -420,6 +425,8 @@
     }
     if ([sender isKindOfClass: [UIButton class]]){
         [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+        [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateHighlighted];
+
     }
     else if ([sender isKindOfClass: [UIBarButtonItem class]]){
         [sender setImage:[UIImage imageNamed:imageName]];        
@@ -940,7 +947,7 @@ NSInteger buttonAction;
 
 -(IBAction)toggleQuickHelp:(id)sender{
     [xbmcVirtualKeyboard resignFirstResponder];
-    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+//    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
     if (quickHelpView.alpha == 0){
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -963,7 +970,7 @@ NSInteger buttonAction;
 
 #pragma mark - UITextFieldDelegate Methods
 
--(void)toggleVirtualKeyboard{
+-(void)toggleVirtualKeyboard:(id)sender{
     if ([xbmcVirtualKeyboard isFirstResponder]){
         [xbmcVirtualKeyboard resignFirstResponder];
     }
@@ -1012,13 +1019,14 @@ NSInteger buttonAction;
 
 -(void)viewWillAppear:(BOOL)animated{
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-//        [volumeSliderView startTimer];
         [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
-//        [remoteControlView addGestureRecognizer:self.slidingViewController.panGesture];
+        self.slidingViewController.underRightViewController = nil;
+        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
+        rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
+        self.slidingViewController.underRightViewController = rightMenuViewController;
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:self action:@selector(revealUnderRight:)];
     }
-    self.slidingViewController.underRightViewController = nil;
-    self.slidingViewController.anchorLeftPeekAmount     = 0;
-    self.slidingViewController.anchorLeftRevealAmount   = 0;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
     [self volumeInfo];
@@ -1028,13 +1036,17 @@ NSInteger buttonAction;
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
+- (void)revealUnderRight:(id)sender{
+    [self.slidingViewController anchorTopViewTo:ECLeft];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
 //    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
 //        [volumeSliderView stopTimer];
 //    }
     [self stopHoldKey:nil];
     [xbmcVirtualKeyboard resignFirstResponder];
-    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+//    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
@@ -1059,25 +1071,25 @@ NSInteger buttonAction;
         buttonZoneView.alpha = 0;
     }
 
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-//        volumeSliderView = [[VolumeSliderView alloc] 
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+//        volumeSliderView = [[VolumeSliderView alloc]
 //                            initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
 //        CGRect frame=volumeSliderView.frame;
 //        frame.origin.x=258;
 //        frame.origin.y=-volumeSliderView.frame.size.height;
 //        volumeSliderView.frame=frame;
 //        [self.view addSubview:volumeSliderView];
-        UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-        UIBarButtonItem *volumeButtonItem =[[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
-        UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVirtualKeyboard)];
-        UIBarButtonItem *gestureSwitchButtonItem =[[UIBarButtonItem alloc] initWithImage:gestureSwitchImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleGestureZone:)];
-        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-        [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *helpButtonItem = [[UIBarButtonItem alloc] initWithCustomView:helpButton];
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: volumeButtonItem, keyboardButtonItem, gestureSwitchButtonItem, helpButtonItem, nil];
-    }
-    else {
+//        UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
+//        UIBarButtonItem *volumeButtonItem =[[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
+//        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
+//        UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVirtualKeyboard)];
+//        UIBarButtonItem *gestureSwitchButtonItem =[[UIBarButtonItem alloc] initWithImage:gestureSwitchImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleGestureZone:)];
+//        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+//        [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
+//        UIBarButtonItem *helpButtonItem = [[UIBarButtonItem alloc] initWithCustomView:helpButton];
+//        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: keyboardButtonItem, gestureSwitchButtonItem, nil];
+//    }
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
         gestureButton.frame = CGRectMake(self.view.bounds.size.width - 152, self.view.bounds.size.height - 43, 56.0, 36.0);
         [gestureButton setContentMode:UIViewContentModeRight];
@@ -1094,7 +1106,7 @@ NSInteger buttonAction;
         [keyboardButton setShowsTouchWhenHighlighted:YES];
         [keyboardButton setImage:keyboardImg forState:UIControlStateNormal];
         keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard) forControlEvents:UIControlEventTouchUpInside];
+        [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:keyboardButton];
 
         UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -1120,8 +1132,24 @@ NSInteger buttonAction;
                                                  name: @"RevealMenu"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(toggleVirtualKeyboard:)
+                                                 name: @"UIToggleVirtualKeyboard"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(toggleQuickHelp:)
+                                                 name: @"UIToggleQuickHelp"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(toggleGestureZone:)
+                                                 name: @"UIToggleGestureZone"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(hideKeyboard:)
-                                                 name: @"ECSlidingViewUnderRightWillDisappear"
+                                                 name: @"ECSlidingViewUnderRightWillAppear"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(hideKeyboard:)
+                                                 name: @"ECSlidingViewUnderLeftWillAppear"
                                                object: nil];
 }
 
@@ -1132,15 +1160,16 @@ NSInteger buttonAction;
 - (void)viewDidUnload{
     TransitionalView = nil;
     [super viewDidUnload];
-    volumeSliderView = nil;
+//    volumeSliderView = nil;
     jsonRPC = nil;
     xbmcVirtualKeyboard = nil;
 }
 
 -(void)dealloc{
-    volumeSliderView = nil;
+//    volumeSliderView = nil;
     jsonRPC = nil;
     xbmcVirtualKeyboard = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

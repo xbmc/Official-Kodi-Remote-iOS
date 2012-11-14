@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-#import "VolumeSliderView.h"
+//#import "VolumeSliderView.h"
+//#import "RightMenuViewController.h"
 
 @interface RemoteController : UIViewController <UITextFieldDelegate>{
     DSJSONRPC *jsonRPC;
-    VolumeSliderView *volumeSliderView;
+//    VolumeSliderView *volumeSliderView;
     IBOutlet UIView *remoteControlView;
     IBOutlet UILabel *subsInfoLabel;
     NSTimer *fadeoutTimer;
@@ -30,7 +31,6 @@
 
 - (IBAction)startVibrate:(id)sender;
 - (void)setEmbeddedView;
-- (void)toggleVirtualKeyboard;
 @property (strong, nonatomic) id detailItem;
 @property (nonatomic, retain) NSTimer* holdVolumeTimer;
 @property (strong, nonatomic) UIImageView *panFallbackImageView;

@@ -52,6 +52,7 @@
 @property (nonatomic, retain) mainMenu *playlistTvShows;
 @property (nonatomic, retain) NSMutableArray *rightMenuItems;
 @property (nonatomic, retain) NSMutableArray *nowPlayingMenuItems;
+@property (nonatomic, retain) NSMutableArray *remoteControlMenuItems;
 @property (retain, nonatomic) NSFileManager *fileManager;
 @property (retain, nonatomic) NSString *documentsDir;
 @property (nonatomic, assign) BOOL serverOnLine;
