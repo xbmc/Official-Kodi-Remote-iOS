@@ -88,7 +88,7 @@
 
     UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [stopButton setHidden:YES];
-    gestureButton.frame = CGRectMake(stopButton.frame.origin.x, stopButton.frame.origin.y, stopButton.frame.size.width, stopButton.frame.size.height);
+    gestureButton.frame = CGRectMake(stopButton.frame.origin.x + 1, stopButton.frame.origin.y, stopButton.frame.size.width, stopButton.frame.size.height);
     [gestureButton setContentMode:UIViewContentModeRight];
     [gestureButton setShowsTouchWhenHighlighted:NO];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
