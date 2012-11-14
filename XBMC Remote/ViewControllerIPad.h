@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
+#import "gradientUIView.h"
 
 @class MenuViewController;
 @class StackScrollViewController;

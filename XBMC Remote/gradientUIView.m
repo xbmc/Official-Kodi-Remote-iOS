@@ -29,7 +29,7 @@
     size_t num_locations = 2;
     CGFloat locations[2] = { 0.0, 1.0 };
     CGFloat components[8] = { 0.141, 0.141, 0.141, 1,  // Start color
-        0.07, 0.07, 0.07, 1 }; // End color
+        0.086, 0.086, 0.086, 1 }; // End color
     
     rgbColorspace = CGColorSpaceCreateDeviceRGB();
     glossGradient = CGGradientCreateWithColorComponents(rgbColorspace, components, locations, num_locations);

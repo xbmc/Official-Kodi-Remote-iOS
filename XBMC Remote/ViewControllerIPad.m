@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
 #import "AppInfoViewController.h"
+
 #define CONNECTION_TIMEOUT 240.0f
 
 @interface ViewControllerIPad (){
@@ -425,11 +426,17 @@
 	[menuViewController viewDidAppear:FALSE];
 	[leftMenuView addSubview:menuViewController.view];
     int separator = 5;
-    CGRect seamBackground = CGRectMake(0.0f, tableHeight + headerHeight - 2, tableWidth, separator);
-    UIImageView *seam = [[UIImageView alloc] initWithFrame:seamBackground];
-    [seam setImage:[UIImage imageNamed:@"denim_single_seam.png"]];
-    seam.opaque = YES;
-    [leftMenuView addSubview:seam];
+    
+//    CGRect seamBackground = CGRectMake(0.0f, tableHeight + headerHeight - 2, tableWidth, separator);
+//    UIImageView *seam = [[UIImageView alloc] initWithFrame:seamBackground];
+//    [seam setImage:[UIImage imageNamed:@"denim_single_seam.png"]];
+//    seam.opaque = YES;
+//    [leftMenuView addSubview:seam];
+    
+    UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, tableHeight + separator - 2, tableWidth, 1)];
+//    [horizontalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+    [horizontalLineView1 setBackgroundColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:.2]];
+    [leftMenuView addSubview:horizontalLineView1];
 
     nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     CGRect frame=nowPlayingController.view.frame;
@@ -457,9 +464,9 @@
 	[rootView addSubview:leftMenuView];
 	[rootView addSubview:rightSlideView];
     
-//    self.view.backgroundColor = [UIColor blackColor];
+//    self.view.backgroundColor = [UIColor colorWithWhite:.14 alpha:1];
 //    self.view.backgroundColor = [[UIColor scrollViewTexturedBackgroundColor] colorWithAlphaComponent:0.5];
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
+//	[self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
     [self.view addSubview:rootView];
     
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(686, 962, 74, 41)];

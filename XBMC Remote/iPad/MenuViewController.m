@@ -60,6 +60,8 @@
 		[_tableView setDelegate:self];
 		[_tableView setDataSource:self];
         [_tableView setBackgroundColor:[UIColor clearColor]];
+        [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+        [_tableView setSeparatorColor:[UIColor colorWithWhite:.11 alpha:1]];
         mainMenuItems=menu;
         UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
 		_tableView.tableFooterView = footerView;        
@@ -206,13 +208,18 @@
     UITableViewCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"cellViewIPad" owner:self options:NULL];
-    if (cell==nil)
+    if (cell==nil){
         cell = resultMenuCell;
+        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+        [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
+        cell.selectedBackgroundView = backgroundView;
+    }
     mainMenu *item = [mainMenuItems objectAtIndex:indexPath.row];
-    [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:item.icon]];
-    [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];  
-    [(UILabel*) [cell viewWithTag:3] setFont:[UIFont fontWithName:@"DejaVuSans-Bold" size:20]];
-    [(UILabel*) [cell viewWithTag:3] setText:item.mainLabel]; 
+    [(UIImageView*) [cell viewWithTag:1] setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_alt", item.icon]]];
+    [(UILabel*) [cell viewWithTag:2] setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
+    [(UILabel*) [cell viewWithTag:2] setText:item.upperLabel];
+    [(UILabel*) [cell viewWithTag:3] setFont:[UIFont fontWithName:@"Roboto-Regular" size:22]];
+    [(UILabel*) [cell viewWithTag:3] setText:[item.mainLabel uppercaseString]];
     if ([AppDelegate instance].serverOnLine){
         [(UIImageView*) [cell viewWithTag:1] setAlpha:1];
         [(UIImageView*) [cell viewWithTag:2] setAlpha:1];
