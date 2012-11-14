@@ -25,9 +25,12 @@
     int audioVolume;
     float lastRotation;
     float storeBrightness;
+    __weak IBOutlet UIView *TransitionalView;
 }
 
 - (IBAction)startVibrate:(id)sender;
+- (void)setEmbeddedView;
+- (void)toggleVirtualKeyboard;
 @property (strong, nonatomic) id detailItem;
 @property (nonatomic, retain) NSTimer* holdVolumeTimer;
 @property (strong, nonatomic) UIImageView *panFallbackImageView;

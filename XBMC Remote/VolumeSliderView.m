@@ -49,6 +49,14 @@
             
         }
         else if (frame.size.width == 0){
+            [plusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_plus"] forState:UIControlStateNormal];
+            [plusButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+            [plusButton setTitle:@"" forState:UIControlStateNormal];
+            [plusButton setTitle:@"" forState:UIControlStateHighlighted];
+            [minusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_minus"] forState:UIControlStateNormal];
+            [minusButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+            [minusButton setTitle:@"" forState:UIControlStateNormal];
+            [minusButton setTitle:@"" forState:UIControlStateHighlighted];
             volumeView.hidden = YES;
             volumeLabel.hidden = YES;
             self.transform = trans;

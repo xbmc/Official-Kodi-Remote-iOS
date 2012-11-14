@@ -2303,12 +2303,11 @@ NSMutableArray *hostRightMenuItems;
                                      @"volume", @"icon",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"Shuffle", @"label",
-                                     @"button_shuffle", @"icon",
+                                     @"Keyboard", @"label",
+                                     @"keyboard_icon", @"icon",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"Repeat", @"label",
-                                     @"button_repeat", @"icon",
+                                     @"RemoteControl", @"label",
                                      nil],
                                     nil],@"online",
                                    

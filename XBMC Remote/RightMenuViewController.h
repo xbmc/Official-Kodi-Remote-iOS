@@ -26,6 +26,8 @@
     DSJSONRPC *jsonRPC;
     UIAlertView *actionAlertView;
     VolumeSliderView *volumeSliderView;
+    RemoteController *remoteControllerView;
+
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;

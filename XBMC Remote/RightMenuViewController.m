@@ -26,8 +26,11 @@
 #pragma mark Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0){
+    if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfo"]){
         return 44;
+    }
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"RemoteControl"]){
+        return 532;
     }
     return 50;
 }
@@ -58,7 +61,7 @@
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
-        if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfo"] || [[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfoLite"]){
+        if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfo"]){
             [backgroundView setBackgroundColor:[UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1]];
             cell.selectedBackgroundView = backgroundView;
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(165, (int)((44/2) - (36/2)) - 2, 145, 36)];
@@ -93,19 +96,24 @@
             volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [cell.contentView addSubview:volumeSliderView];
-            [volumeSliderView startTimer];
+//            [volumeSliderView startTimer];
         }
     }
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"RemoteControl"]){
+        [title setText:@""];
+        if (remoteControllerView == nil){
+            remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            [cell.contentView addSubview:remoteControllerView.view];
+            [remoteControllerView setEmbeddedView];
+        }
+    }
+
     else{
         icon.alpha = .6f;
         iconName = [iconsList objectAtIndex:indexPath.row];
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
-        if (![[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfoLite"]){
-            [title setText:[labelsList objectAtIndex:indexPath.row]];
-        }
-        else{
-            [title setText:@""];
-        }
+        [title setText:[labelsList objectAtIndex:indexPath.row]];
     }
     if ([[hideLineSeparator objectAtIndex:indexPath.row] boolValue] == YES){
         line.hidden = YES;
@@ -176,6 +184,9 @@
                 [self powerAction:command params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
             }
         }
+    }
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Keyboard"]){
+        [remoteControllerView toggleVirtualKeyboard];
     }
 }
 
@@ -275,12 +286,23 @@
                                              selector: @selector(connectionFailed:)
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
-    mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(startTimer:)
+                                                 name: @"ECSlidingViewUnderRightWillAppear"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(stopTimer:)
+                                                 name: @"ECSlidingViewUnderRightWillDisappear"
+                                               object: nil];
 
-    if ([menuItems family]==2){
-        
-        
-    }
+}
+
+-(void)startTimer:(id)sender{
+    [volumeSliderView startTimer];
+}
+
+-(void)stopTimer:(id)sender{
+    [volumeSliderView stopTimer];
 }
 
 - (void)setRightMenuOption:(NSString *)key{
