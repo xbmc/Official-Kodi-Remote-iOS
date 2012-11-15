@@ -142,7 +142,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Music
     item1.mainLabel = @"Music";
     item1.upperLabel = @"Listen to";
-    item1.icon = @"icon_home_music";
+    item1.icon = @"icon_home_music_alt";
     item1.family = 1;
     item1.enableSection=YES;
     item1.mainButtons=[NSArray arrayWithObjects:@"st_album", @"st_artist", @"st_genre", @"st_filemode", @"st_album_recently", @"st_songs_recently", @"st_album_top100", @"st_songs_top100", @"st_album_recently_played", @"st_songs_recently_played", @"st_song", @"st_addons", @"st_music_playlist", nil]; //
@@ -1105,7 +1105,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Movies
     item2.mainLabel = @"Movies";
     item2.upperLabel = @"Watch your";
-    item2.icon = @"icon_home_movie";
+    item2.icon = @"icon_home_movie_alt";
     item2.family = 1;
     item2.enableSection=YES;
     item2.mainButtons=[NSArray arrayWithObjects:@"st_movie", @"st_concert", @"st_movie_recently", @"st_filemode", @"st_addons", @"st_livetv", nil];
@@ -1501,7 +1501,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - TV Shows
     item3.mainLabel = @"TV Shows";
     item3.upperLabel = @"Watch your";
-    item3.icon = @"icon_home_tv";
+    item3.icon = @"icon_home_tv_alt";
     item3.family = 1;
     item3.enableSection = YES;
     item3.mainButtons = [NSArray arrayWithObjects:@"st_tv", @"st_tv_recently", @"st_filemode", @"st_addons", nil];//, @"st_actor", @"st_genre"
@@ -1907,7 +1907,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Pictures
     item4.mainLabel = @"Pictures";
     item4.upperLabel = @"Browse your";
-    item4.icon = @"icon_home_picture";
+    item4.icon = @"icon_home_picture_alt";
     item4.family = 1;
     item4.enableSection=YES;
     item4.mainButtons=[NSArray arrayWithObjects:@"st_filemode", @"st_addons", nil];
@@ -2076,13 +2076,13 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Now Playing
     item5.mainLabel = @"Now playing";
     item5.upperLabel = @"See what's";
-    item5.icon = @"icon_home_playing";
+    item5.icon = @"icon_home_playing_alt";
     item5.family = 2;
     
 #pragma mark - Remote Control
     item6.mainLabel = @"Remote Control";
     item6.upperLabel = @"Use as";
-    item6.icon = @"icon_home_remote";
+    item6.icon = @"icon_home_remote_alt";
     item6.family = 3;
     
 #pragma mark - XBMC Server Management

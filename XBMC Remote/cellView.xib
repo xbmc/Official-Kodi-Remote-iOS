@@ -139,7 +139,7 @@
 								<string key="NSFrameSize">{320, 1}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="405503193"/>
+								<reference key="NSNextKeyView" ref="624122847"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC4xNTY4NjI3NDUxIDAuMTU2ODYyNzQ1MSAwLjE1Njg2Mjc0NTEAA</bytes>
@@ -157,6 +157,7 @@
 								<string key="NSFrame">{{262, 22}, {10, 14}}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<float key="IBUIAlpha">0.80000001192092896</float>
@@ -175,12 +176,13 @@
 							</object>
 							<object class="IBUIImageView" id="624122847">
 								<reference key="NSNextResponder" ref="1067443506"/>
-								<int key="NSvFlags">-2147482348</int>
+								<int key="NSvFlags">1300</int>
 								<string key="NSFrameSize">{4, 56}</string>
 								<reference key="NSSuperview" ref="1067443506"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="732234422"/>
+								<reference key="NSNextKeyView" ref="405503193"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<float key="IBUIAlpha">0.5</float>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIHighlightedImage">
@@ -193,7 +195,7 @@
 						<string key="NSFrameSize">{320, 55}</string>
 						<reference key="NSSuperview" ref="744032922"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="624122847"/>
+						<reference key="NSNextKeyView" ref="732234422"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
