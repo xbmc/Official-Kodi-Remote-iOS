@@ -118,8 +118,8 @@
         if (volumeSliderView == nil){
             volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            [cell.contentView addSubview:volumeSliderView];
         }
+        [cell.contentView addSubview:volumeSliderView];
     }
     else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"RemoteControl"]){
         [title setText:@""];
