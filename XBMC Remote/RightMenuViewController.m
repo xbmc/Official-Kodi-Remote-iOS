@@ -23,7 +23,7 @@
     return self;
 }
 
-- (void)turnTorchOn:(bool)on {
+- (void)turnTorchOn:(bool)on icon:(UIImageView *)iconTorch {
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
     if (captureDeviceClass != nil) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -33,10 +33,12 @@
                 [device setTorchMode:AVCaptureTorchModeOn];
                 [device setFlashMode:AVCaptureFlashModeOn];
                 torchIsOn = YES;
+                [iconTorch setImage:[UIImage imageNamed:@"torch_on"]];
             } else {
                 [device setTorchMode:AVCaptureTorchModeOff];
                 [device setFlashMode:AVCaptureFlashModeOff];
                 torchIsOn = NO;
+                [iconTorch setImage:[UIImage imageNamed:@"torch"]];
             }
             [device unlockForConfiguration];
         }
@@ -77,7 +79,7 @@
     UITableViewCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"rightMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:NULL];
-    if (cell==nil || [[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Torch"]){
+    if (cell==nil || [[labelsList objectAtIndex:indexPath.row] isEqualToString:@"LED Torch"]){
         cell = rightMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
@@ -117,7 +119,6 @@
             volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [cell.contentView addSubview:volumeSliderView];
-//            [volumeSliderView startTimer];
         }
     }
     else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"RemoteControl"]){
@@ -152,7 +153,14 @@
         [title setTextColor:fontColor];
         [title setHighlightedTextColor:fontColor];
     }
+    if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"LED Torch"]){
+        icon.alpha = .8f;
+        if (torchIsOn){
+            iconName = @"torch_on";
+        }
+    }
     [icon setImage:[UIImage imageNamed:iconName]];
+    
     return cell;
 }
 
@@ -226,8 +234,10 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
-    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Torch"]){
-        [self turnTorchOn:!torchIsOn];
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"LED Torch"]){
+        UIImageView *torchIcon = (UIImageView *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
+        [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
+        [self turnTorchOn:!torchIsOn icon:torchIcon];
     }
 }
 

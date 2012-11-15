@@ -11,7 +11,7 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "SDWebImageDecoder.h"
 
-static NSInteger cacheMaxCacheAge = 60*60*24*7; // 1 week
+static NSInteger cacheMaxCacheAge = 60*60*24*7*30; // 1 month
 
 static SDImageCache *instance;
 

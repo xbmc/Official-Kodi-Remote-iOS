@@ -2135,14 +2135,14 @@ NSMutableArray *hostRightMenuItems;
                                  nil], @"action",
                                 nil],
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Torch", @"label",
+                                @"LED Torch", @"label",
                                 @"torch", @"icon",
                                 nil],
                                nil],@"offline",
                               
                               [NSArray arrayWithObjects:
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Torch", @"label",
+                                @"LED Torch", @"label",
                                 @"torch", @"icon",
                                 nil],
                                nil],@"utility",
@@ -2349,7 +2349,8 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:YES], @"hideLineSeparator",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"Torch", @"label",
+                                     @"LED Torch", @"label",
+                                     @"torch", @"icon",
                                      nil],
                                     nil],@"offline",
                                    
@@ -2390,7 +2391,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"button_info", @"icon",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"Torch", @"label",
+                                     @"LED Torch", @"label",
                                      @"torch", @"icon",
                                      nil],
                                     nil],@"online",
