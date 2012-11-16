@@ -2344,10 +2344,6 @@ int currentItemID;
 
 -(void)viewWillAppear:(BOOL)animated{
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.slidingViewController.underRightViewController = nil;
-        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-        rightMenuViewController.rightMenuItems = [AppDelegate instance].nowPlayingMenuItems;
-        self.slidingViewController.underRightViewController = rightMenuViewController;
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults synchronize];
         if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO && !playlistTableView.editing){
@@ -2417,6 +2413,12 @@ int currentItemID;
     }
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
     fromItself = FALSE;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        self.slidingViewController.underRightViewController = nil;
+        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
+        rightMenuViewController.rightMenuItems = [AppDelegate instance].nowPlayingMenuItems;
+        self.slidingViewController.underRightViewController = rightMenuViewController;
+    }
 }
 
 -(void)startFlipDemo{
