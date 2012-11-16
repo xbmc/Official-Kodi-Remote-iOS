@@ -2310,13 +2310,14 @@ int currentItemID;
     [items removeObjectAtIndex:6];
     [items removeObjectAtIndex:7];
     [playlistToolbar setItems:items animated:YES];
-    
+    playlistToolbar.alpha = .8f;
     UIButton *buttonItem=(UIButton *)[self.view viewWithTag:5];
     [buttonItem removeFromSuperview];
     
     nowPlayingView.hidden=NO;
     playlistView.hidden=NO;
     xbmcOverlayImage_iphone.hidden = YES;
+    
 }
 
 -(bool)enableJewelCases{

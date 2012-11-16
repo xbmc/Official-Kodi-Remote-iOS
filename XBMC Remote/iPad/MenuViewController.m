@@ -209,6 +209,10 @@
     if (indexPath.row == 0){
         cell.backgroundColor = [UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1];
     }
+    else{
+        cell.backgroundColor = [UIColor colorWithRed:.141f green:.141f blue:.141f alpha:1];
+
+    }
 }
 
 // Customize the appearance of table view cells.
