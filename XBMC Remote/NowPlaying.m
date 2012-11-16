@@ -2267,27 +2267,12 @@ int currentItemID;
 }
 
 -(void)setIphoneInterface{
-    ProgressSlider.userInteractionEnabled = NO;
-    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
-//    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
-//    CGRect frame=volumeSliderView.frame;
-//    frame.origin.x=258;
-//    frame.origin.y=-volumeSliderView.frame.size.height;
-//    volumeSliderView.frame=frame;
-//    [self.view addSubview:volumeSliderView];
-//    UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-//    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-//    self.navigationItem.rightBarButtonItem = settingsButton;
     slideFrom=320;
     xbmcOverlayImage.hidden = YES;
 }
 
 -(void)setIpadInterface{
     playlistLeftShadow.hidden = NO;
-    ProgressSlider.userInteractionEnabled = NO;
-    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
     slideFrom=-300;
     CGRect frame;
     [albumName setFont:[UIFont systemFontOfSize:24]];
@@ -2448,14 +2433,19 @@ int currentItemID;
     albumTracksButton.titleLabel.textAlignment = UITextAlignmentCenter;
     artistDetailsButton.titleLabel.textAlignment = UITextAlignmentCenter;
     artistAlbumsButton.titleLabel.textAlignment = UITextAlignmentCenter;
-    
+    ProgressSlider.userInteractionEnabled = NO;
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+    UIImage *sliderRightTrackImage = [[UIImage imageNamed: @"slider"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
+    UIImage *sliderLeftTrackImage = [[UIImage imageNamed: @"slider_on"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
+    [ProgressSlider setMinimumTrackImage: sliderLeftTrackImage forState: UIControlStateNormal];
+    [ProgressSlider setMaximumTrackImage: sliderRightTrackImage forState: UIControlStateNormal];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self setIphoneInterface];
     }
     else{
         [self setIpadInterface];
     }
-    
     playlistData = [[NSMutableArray alloc] init ];
     manager = [SDWebImageManager sharedManager];
     [[NSNotificationCenter defaultCenter] addObserver: self
