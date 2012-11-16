@@ -37,30 +37,48 @@
     }
 }
 
+-(void)moveButton:(NSArray *)buttonsToDo ypos:(int)y{
+    for (UIButton *button in buttonsToDo){
+        [button setFrame:CGRectMake(button.frame.origin.x, button.frame.origin.y + y, button.frame.size.width, button.frame.size.height)];
+    }
+}
+
+-(void)hideButton:(NSArray *)buttonsToDo hide:(BOOL)hide{
+    for (UIButton *button in buttonsToDo){
+        [button setHidden:hide];
+    }
+}
+
 - (void)setEmbeddedView{
     remoteControlView.alpha = .85;
     CGRect frame = TransitionalView.frame;
-    
-    [[(UIButton *) self.view viewWithTag:2] setHidden:YES];
-    [[(UIButton *) self.view viewWithTag:3] setHidden:YES];
-    [[(UIButton *) self.view viewWithTag:4] setHidden:YES];
-    [[(UIButton *) self.view viewWithTag:5] setHidden:YES];
-    [[(UIButton *) self.view viewWithTag:8] setHidden:YES];
+    [self hideButton: [NSArray arrayWithObjects:
+                       [(UIButton *) self.view viewWithTag:2],
+                       [(UIButton *) self.view viewWithTag:3],
+                       [(UIButton *) self.view viewWithTag:4],
+                       [(UIButton *) self.view viewWithTag:5],
+                       [(UIButton *) self.view viewWithTag:8],
+                       nil]
+                hide:YES];
+    UIButton *buttonTodo = (UIButton *)[self.view viewWithTag:10];
+    [buttonTodo setFrame:CGRectMake(buttonTodo.frame.origin.x, buttonTodo.frame.origin.y - 1, buttonTodo.frame.size.width, buttonTodo.frame.size.height)];
     if([[UIScreen mainScreen ] bounds].size.height >= 568){
-        UIButton *buttonTodo = (UIButton *)[self.view viewWithTag:21];
-        [buttonTodo setFrame:CGRectMake(buttonTodo.frame.origin.x, buttonTodo.frame.origin.y -32, buttonTodo.frame.size.width, buttonTodo.frame.size.height)];
-        buttonTodo = (UIButton *)[self.view viewWithTag:22];
-        [buttonTodo setFrame:CGRectMake(buttonTodo.frame.origin.x, buttonTodo.frame.origin.y -32, buttonTodo.frame.size.width, buttonTodo.frame.size.height)];
-        buttonTodo = (UIButton *)[self.view viewWithTag:23];
-        [buttonTodo setFrame:CGRectMake(buttonTodo.frame.origin.x, buttonTodo.frame.origin.y -32, buttonTodo.frame.size.width, buttonTodo.frame.size.height)];
-        buttonTodo = (UIButton *)[self.view viewWithTag:24];
-        [buttonTodo setFrame:CGRectMake(buttonTodo.frame.origin.x, buttonTodo.frame.origin.y -32, buttonTodo.frame.size.width, buttonTodo.frame.size.height)];
+        [self moveButton: [NSArray arrayWithObjects:
+                           (UIButton *)[self.view viewWithTag:21],
+                           (UIButton *)[self.view viewWithTag:22],
+                           (UIButton *)[self.view viewWithTag:23],
+                           (UIButton *)[self.view viewWithTag:24],
+                           nil]
+                    ypos: -32];
     }
     else{
-        [[(UIButton *) self.view viewWithTag:21] setHidden:YES];
-        [[(UIButton *) self.view viewWithTag:22] setHidden:YES];
-        [[(UIButton *) self.view viewWithTag:23] setHidden:YES];
-        [[(UIButton *) self.view viewWithTag:24] setHidden:YES];
+        [self hideButton: [NSArray arrayWithObjects:
+                           [(UIButton *) self.view viewWithTag:21],
+                           [(UIButton *) self.view viewWithTag:22],
+                           [(UIButton *) self.view viewWithTag:23],
+                           [(UIButton *) self.view viewWithTag:24],
+                           nil]
+                    hide: YES];
     }
     int newWidth = 296;
     int startX = 34;
@@ -123,6 +141,10 @@
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
+        if([[UIScreen mainScreen ] bounds].size.height >= 568){
+            CGRect frame = remoteControlView.frame;
+            [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y + 12, frame.size.width * 1.075, frame.size.height * 1.075)];
+        }
     }
     else{
         int newWidth = 477;
@@ -1054,7 +1076,7 @@ NSInteger buttonAction;
     [super viewDidLoad];
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
-    
+    [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
     UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger.png"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
@@ -1159,6 +1181,7 @@ NSInteger buttonAction;
 
 - (void)viewDidUnload{
     TransitionalView = nil;
+    gestureZoneImageView = nil;
     [super viewDidUnload];
 //    volumeSliderView = nil;
     jsonRPC = nil;

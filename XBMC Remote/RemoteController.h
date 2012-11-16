@@ -27,6 +27,7 @@
     float lastRotation;
     float storeBrightness;
     __weak IBOutlet UIView *TransitionalView;
+    __weak IBOutlet UIImageView *gestureZoneImageView;
 }
 
 - (IBAction)startVibrate:(id)sender;
