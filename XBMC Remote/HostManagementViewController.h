@@ -12,6 +12,7 @@
 #import "RightMenuViewController.h"
 
 @class HostViewController;
+@class AppInfoViewController;
 
 @interface HostManagementViewController : UIViewController {
     IBOutlet UITableView *serverListTableView;
@@ -22,6 +23,7 @@
     NSIndexPath *storeServerSelection;
     __weak IBOutlet UIActivityIndicatorView *connectingActivityIndicator;
     BOOL doRevealMenu;
+    AppInfoViewController *appInfoView;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;

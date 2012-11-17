@@ -10,6 +10,7 @@
 #import "HostViewController.h"
 #import "AppDelegate.h"
 #import "mainMenu.h"
+#import "AppInfoViewController.h"
 
 @interface HostManagementViewController ()
 
@@ -298,6 +299,14 @@
     }
 }
 
+- (void)infoView{
+    if (appInfoView==nil)
+        appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil] ;
+    appInfoView.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+	appInfoView.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentModalViewController:appInfoView animated:YES];
+}
+
 
 #pragma mark - LifeCycle
 
@@ -306,7 +315,12 @@
     self.contentSizeForViewInPopover = size;
     [super viewWillAppear:animated];
     [self selectIndex:nil reloadData:YES];
-    self.navigationItem.title = @"XBMC Server";
+    UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 107, 37)];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateNormal];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateHighlighted];
+    xbmcLogo.showsTouchWhenHighlighted = NO;
+    [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];    
+    self.navigationItem.titleView = xbmcLogo;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];

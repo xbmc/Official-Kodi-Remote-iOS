@@ -15,7 +15,6 @@
 #import "GlobalData.h"
 #import "HostViewController.h"
 #import "AppDelegate.h"
-#import "AppInfoViewController.h"
 #import "HostManagementViewController.h"
 
 @interface MasterViewController () {
@@ -30,9 +29,6 @@
 @synthesize nowPlaying = _nowPlaying;
 @synthesize remoteController = _remoteController;
 @synthesize hostController = _hostController;
-
-//@synthesize obj;
-
 @synthesize mainMenu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -128,20 +124,10 @@
          if (error==nil && methodError==nil){
              [AppDelegate instance].serverVolume = [[methodResult objectForKey:@"volume"] intValue];
              if (![AppDelegate instance].serverOnLine){
-//                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                     NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
-                     [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
-                     NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
-                     [self changeServerStatus:YES infoText:infoTitle];
-//                 }
-//                 else{
-//                     if ([AppDelegate instance].serverOnLine){
-//                         [self changeServerStatus:NO infoText:@"No connection"];
-//                     }
-//                     if (firstRun){
-//                         firstRun=NO;
-//                     }
-//                 }
+                 NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
+                 [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
+                 NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
+                 [self changeServerStatus:YES infoText:infoTitle];
              }
          }
          else {
@@ -155,40 +141,6 @@
          }
      }];
     jsonRPC=nil;
-}
-
-#pragma Toobar Actions
-
--(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide forceOpen:(BOOL)open {
-	[UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-	[UIView setAnimationDuration:seconds];
-    int actualPosY=view.frame.origin.y;
-    if (actualPosY==Y || hide){
-        Y=-view.frame.size.height;
-    }
-    if (open){
-        Y=0;
-    }
-    view.alpha = alphavalue;
-	CGRect frame;
-	frame = [view frame];
-	frame.origin.y = Y;
-    view.frame = frame;
-    [UIView commitAnimations];
-}
-
-- (void)toggleSetup{
-//    [self toggleViewToolBar:hostManagementViewController.view AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE forceOpen:FALSE];
-}
-
-- (void) pushController:(UIViewController*)controller withTransition:(UIViewAnimationTransition)transition{
-    [UIView beginAnimations:nil context:NULL];
-    [self.navigationController pushViewController:controller animated:NO];
-    [UIView setAnimationDuration:.5];
-    [UIView setAnimationBeginsFromCurrentState:YES];        
-    [UIView setAnimationTransition:transition forView:self.navigationController.view cache:YES];
-    [UIView commitAnimations];
 }
 
 #pragma mark - Table view methods & data source
@@ -277,7 +229,6 @@
     itemIsActive = YES;
     UIViewController *object;
     if (item.family == 2){
-//        self.nowPlaying = nil;
         if (self.nowPlaying == nil){
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
         }
@@ -295,8 +246,6 @@
         if (self.hostController == nil){
             self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
         }
-//        self.hostController.rightMenuItems = [AppDelegate instance].rightMenuItems;
-
         object = self.hostController;
     }
     else if (item.family == 1){
@@ -364,90 +313,6 @@
     return 56;
 }
 
-#pragma mark - power control action sheet
-
-//-(void)powerControl{
-//    if ([[AppDelegate instance].obj.serverIP length]==0){
-//        return;
-//    }
-//    NSString *title=[NSString stringWithFormat:@"%@\n%@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
-//    NSString *destructive = nil;
-//    NSArray *sheetActions = nil;
-//    if (![AppDelegate instance].serverOnLine){
-//        sheetActions=[NSArray arrayWithObjects:@"Wake On Lan", nil];
-//    }
-//    else{
-//        destructive = @"Power off System";
-//        sheetActions=[NSArray arrayWithObjects:@"Hibernate", @"Suspend", @"Reboot", @"Update Audio Library", @"Update Video Library", nil];
-//    }
-//    int numActions=[sheetActions count];
-//    if (numActions){
-//        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
-//                                                            delegate:self
-//                                                   cancelButtonTitle:nil
-//                                              destructiveButtonTitle:destructive
-//                                                   otherButtonTitles:nil];
-//        action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-//        for (int i = 0; i < numActions; i++) {
-//            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
-//        }
-//        action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
-//        [action showInView:self.view];
-//    }
-//}
-//
-//-(void)powerAction:(NSString *)action params:(NSDictionary *)params{
-//    jsonRPC = nil;
-//    GlobalData *obj=[GlobalData getInstance]; 
-//    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-//    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-//    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-//    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//        if (methodError==nil && error == nil){
-//            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-//            [alertView show];
-//        }
-//        else{
-//            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Cannot do that" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-//            [alertView show];
-//        }
-//    }];
-//}
-//
-//- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-//    if (buttonIndex!=actionSheet.cancelButtonIndex){
-//        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Wake On Lan"]){
-//            if ([AppDelegate instance].obj.serverHWAddr != nil){
-//                [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-//                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-//                [alertView show];
-//            }
-//            else{
-//                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"No sever mac address definied" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-//                [alertView show];
-//            }
-//        }
-//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Power off System"]){
-//            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//        }
-//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Hibernate"]){
-//            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//        }
-//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Suspend"]){
-//            [self powerAction:@"System.Suspend" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//        }
-//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Reboot"]){
-//            [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//        }
-//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Update Audio Library"]){
-//            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//        }
-//        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Update Video Library"]){
-//            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//        }
-//    }
-//}
-
 #pragma mark - LifeCycle
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -460,53 +325,6 @@
     [timer invalidate]; 
     timer=nil;
     jsonRPC=nil;
-}
-
-- (void)infoView{
-    if (appInfoView==nil)
-        appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil] ;
-    appInfoView.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-	appInfoView.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentModalViewController:appInfoView animated:YES];
-}
-
-
--(void)initNavigationBar{
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1];
-    self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
-    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 68, 43)];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
-    [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *setupRemote = [[UIBarButtonItem alloc] initWithCustomView:xbmcLogo];
-    self.navigationItem.leftBarButtonItem = setupRemote;
-    
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 184, 43)]; 
-    [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];
-//    [xbmcInfo setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-//    [xbmcInfo setImageEdgeInsets:UIEdgeInsetsMake(-1, 5, 0, 0)];
-    xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
-    [xbmcInfo.titleLabel setTextColor:[UIColor colorWithRed:.8 green:.8 blue:.8 alpha:1]];
-    [xbmcInfo.titleLabel setHighlightedTextColor:[UIColor whiteColor]];
-    xbmcInfo.titleLabel.minimumFontSize=6.0f;
-    xbmcInfo.titleLabel.numberOfLines=2;
-    xbmcInfo.titleLabel.textAlignment=UITextAlignmentCenter;
-//    xbmcInfo.titleEdgeInsets=UIEdgeInsetsMake(0, 7, 0, 3);
-    xbmcInfo.titleEdgeInsets=UIEdgeInsetsMake(0, 3, 0, 3);
-
-    xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
-    xbmcInfo.titleLabel.shadowOffset    = CGSizeMake (1.0, 1.0);
-//    [xbmcInfo setImage:[UIImage imageNamed:@"connection_off"] forState:UIControlStateNormal];
-    [xbmcInfo setBackgroundImage:[UIImage imageNamed:@"bottom_text_up.9.png"] forState:UIControlStateNormal];
-    [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *setupInfo = [[UIBarButtonItem alloc] initWithCustomView:xbmcInfo];
-    
-    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 42, 43)];
-    [powerButton setBackgroundImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateNormal];
-    [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *powerButtonItem = [[UIBarButtonItem alloc] initWithCustomView:powerButton];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: powerButtonItem, setupInfo, nil];
 }
 
 -(void)initHostManagement{

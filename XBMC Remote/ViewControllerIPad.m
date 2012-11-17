@@ -160,11 +160,7 @@
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_on"]];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object: nil];
-//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
-        xbmcLogo.alpha = .9f;
-
-//        [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
-//        [xbmcLogo setImage:nil forState:UIControlStateSelected];
+//        xbmcLogo.alpha = .9f;
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=YES;
         int n = [menuViewController.tableView numberOfRowsInSection:0];
@@ -185,11 +181,8 @@
         UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_off"]];
-        xbmcLogo.alpha = .1f;
+//        xbmcLogo.alpha = .4f;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:nil];
-//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
-//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
-//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateSelected];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=NO;
         int n = [menuViewController.tableView numberOfRowsInSection:0];
@@ -481,14 +474,13 @@
 //	[self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
     [self.view addSubview:rootView];
     
-    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 66, 36)];
+    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(668, 966, 95, 33)];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
-    xbmcLogo.showsTouchWhenHighlighted = YES;
-//    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateSelected];
+    xbmcLogo.showsTouchWhenHighlighted = NO;
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-    xbmcLogo.alpha = .1f;
+    xbmcLogo.alpha = .9f;
     [self.view addSubview:xbmcLogo];
     
     UIButton  *volumeButton = [[UIButton alloc] initWithFrame:CGRectMake(341, 964, 36, 37)];
@@ -510,9 +502,8 @@
     volumeSliderView.transform = trans;    
     [self.view addSubview:volumeSliderView]; 
     
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(438, 966, 190, 33)]; //225
+    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(428, 966, 190, 33)]; //225
     [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
-//    xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
     xbmcInfo.titleLabel.minimumFontSize=6.0f;
     xbmcInfo.titleLabel.numberOfLines=2;
@@ -525,7 +516,7 @@
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:xbmcInfo];
     
-    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(630, 966, 42, 33)]; //225
+    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(620, 966, 42, 33)]; //225
     [powerButton setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
     [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateNormal];
     [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateHighlighted];
