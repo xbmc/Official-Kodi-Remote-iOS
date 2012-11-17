@@ -186,7 +186,7 @@
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_off"]];
         xbmcLogo.alpha = .1f;
-
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:nil];
 //        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
 //        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
 //        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateSelected];
