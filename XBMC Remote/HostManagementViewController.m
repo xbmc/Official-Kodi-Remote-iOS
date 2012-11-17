@@ -36,6 +36,7 @@
 -(void)modifyHost:(NSIndexPath *)item{
     if (storeServerSelection && item.row == storeServerSelection.row){
         UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:item];
+        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
         [serverListTableView deselectRowAtIndexPath:item animated:YES];
         cell.accessoryType = UITableViewCellAccessoryNone;
         storeServerSelection = nil;
@@ -106,6 +107,9 @@
         NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
         if (selection && indexPath.row == selection.row){
             cell.accessoryType=UITableViewCellAccessoryCheckmark;
+            if ([AppDelegate instance].serverOnLine == YES){
+                [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
+            }
         }
         else {
             cell.accessoryType=UITableViewCellAccessoryNone;
@@ -151,6 +155,7 @@
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
             }
+            [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
         }
         else{
             storeServerSelection = indexPath;
@@ -171,6 +176,7 @@
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType=UITableViewCellAccessoryNone;
+    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -312,11 +318,9 @@
             self.slidingViewController.underLeftViewController = masterViewController;
         }
         self.slidingViewController.underRightViewController = nil;
-//        if (![self.slidingViewController.underRightViewController isKindOfClass:[RightMenuViewController class]]){
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].rightMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
-//        }
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
 }
@@ -368,6 +372,10 @@
                                                  name: @"XBMCServerConnectionSuccess"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionFailed:)
+                                                 name: @"XBMCServerConnectionFailed"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(resetDoReveal:)
                                                  name: @"ECSlidingViewUnderRightWillAppear"
                                                object: nil];
@@ -378,8 +386,19 @@
 }
 
 - (void)connectionSuccess:(NSNotification *)note {
+    if (storeServerSelection!=nil){
+        UITableViewCell *cell  = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
+        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
+    }
     [connectingActivityIndicator stopAnimating];
     if (doRevealMenu) [self revealMenu:nil];
+}
+
+- (void)connectionFailed:(NSNotification *)note {
+    if (storeServerSelection!=nil){
+        UITableViewCell *cell  = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
+        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
+    }
 }
 
 - (void)viewDidUnload{

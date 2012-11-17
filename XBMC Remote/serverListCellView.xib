@@ -43,7 +43,7 @@
 							<object class="IBUILabel" id="564664092">
 								<reference key="NSNextResponder" ref="755551121"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{66, 0}, {142, 44}}</string>
+								<string key="NSFrame">{{36, 0}, {166, 44}}</string>
 								<reference key="NSSuperview" ref="755551121"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="200521502"/>
@@ -75,7 +75,7 @@
 									<double key="NSSize">16</double>
 									<int key="NSfFlags">16</int>
 								</object>
-								<double key="preferredMaxLayoutWidth">142</double>
+								<double key="preferredMaxLayoutWidth">166</double>
 							</object>
 							<object class="IBUILabel" id="200521502">
 								<reference key="NSNextResponder" ref="755551121"/>
@@ -112,19 +112,18 @@
 							<object class="IBUIImageView" id="393793221">
 								<reference key="NSNextResponder" ref="755551121"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrameSize">{60, 44}</string>
+								<string key="NSFrameSize">{34, 44}</string>
 								<reference key="NSSuperview" ref="755551121"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="564664092"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<float key="IBUIAlpha">0.69999998807907104</float>
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<int key="IBUITag">1</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">xbmc_default_thumb.png</string>
+									<string key="NSResourceName">connection_off.png</string>
 								</object>
 							</object>
 						</array>
@@ -263,8 +262,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">xbmc_default_thumb.png</string>
-			<string key="NS.object.0">{60, 44}</string>
+			<string key="NS.key.0">connection_off.png</string>
+			<string key="NS.object.0">{18, 18}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
