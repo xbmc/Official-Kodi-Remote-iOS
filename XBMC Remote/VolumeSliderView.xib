@@ -316,6 +316,24 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">stopVolume:</string>
+						<reference key="source" ref="534362515"/>
+						<reference key="destination" ref="975951072"/>
+						<int key="IBEventType">9</int>
+					</object>
+					<int key="connectionID">38</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">stopVolume:</string>
+						<reference key="source" ref="534362515"/>
+						<reference key="destination" ref="975951072"/>
+						<int key="IBEventType">6</int>
+					</object>
+					<int key="connectionID">41</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">holdVolume:</string>
 						<reference key="source" ref="588989663"/>
 						<reference key="destination" ref="739005154"/>
@@ -340,6 +358,24 @@
 						<int key="IBEventType">8</int>
 					</object>
 					<int key="connectionID">25</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">stopVolume:</string>
+						<reference key="source" ref="588989663"/>
+						<reference key="destination" ref="975951072"/>
+						<int key="IBEventType">9</int>
+					</object>
+					<int key="connectionID">39</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">stopVolume:</string>
+						<reference key="source" ref="588989663"/>
+						<reference key="destination" ref="975951072"/>
+						<int key="IBEventType">6</int>
+					</object>
+					<int key="connectionID">40</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -419,7 +455,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">37</int>
+			<int key="maxID">41</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
