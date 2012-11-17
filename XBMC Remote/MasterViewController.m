@@ -122,7 +122,7 @@
     [jsonRPC 
      callMethod:@"Application.GetProperties" 
      withParameters:checkServerParams
-     withTimeout:2.0
+     withTimeout:3.0
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          inCheck = FALSE;
          if (error==nil && methodError==nil){

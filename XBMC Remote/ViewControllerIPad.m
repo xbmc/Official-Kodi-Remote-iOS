@@ -117,7 +117,7 @@
     [jsonRPC 
      callMethod:@"Application.GetProperties" 
      withParameters:checkServerParams
-     withTimeout: 2.0
+     withTimeout: 3.0
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error==nil && methodError==nil){
              [AppDelegate instance].serverVolume = [[methodResult objectForKey:@"volume"] intValue];
@@ -160,9 +160,11 @@
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_on"]];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object: nil];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateNormal];
-        [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
-        [xbmcLogo setImage:nil forState:UIControlStateSelected];
+//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
+        xbmcLogo.alpha = .9f;
+
+//        [xbmcLogo setImage:nil forState:UIControlStateHighlighted];
+//        [xbmcLogo setImage:nil forState:UIControlStateSelected];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=YES;
         int n = [menuViewController.tableView numberOfRowsInSection:0];
@@ -183,9 +185,11 @@
         UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_off"]];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
+        xbmcLogo.alpha = .1f;
+
+//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
+//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
+//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateSelected];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         [AppDelegate instance].serverOnLine=NO;
         int n = [menuViewController.tableView numberOfRowsInSection:0];
@@ -477,12 +481,14 @@
 //	[self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
     [self.view addSubview:rootView];
     
-    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(686, 962, 74, 41)];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateHighlighted];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_down_blu.png"] forState:UIControlStateSelected];
+    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 66, 36)];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
+    xbmcLogo.showsTouchWhenHighlighted = YES;
+//    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateSelected];
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    xbmcLogo.alpha = .1f;
     [self.view addSubview:xbmcLogo];
     
     UIButton  *volumeButton = [[UIButton alloc] initWithFrame:CGRectMake(341, 964, 36, 37)];
@@ -504,7 +510,7 @@
     volumeSliderView.transform = trans;    
     [self.view addSubview:volumeSliderView]; 
     
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(438, 961, 190, 43)]; //225
+    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(438, 966, 190, 33)]; //225
     [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
 //    xbmcInfo.titleLabel.font = [UIFont fontWithName:@"Courier" size:11];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
@@ -514,13 +520,15 @@
     xbmcInfo.titleEdgeInsets=UIEdgeInsetsMake(0, 3, 0, 3);
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
     xbmcInfo.titleLabel.shadowOffset    = CGSizeMake (1.0, 1.0);
-    [xbmcInfo setBackgroundImage:[UIImage imageNamed:@"bottom_text_up.9.png"] forState:UIControlStateNormal];
+    [xbmcInfo setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
     xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:xbmcInfo];
     
-    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(630, 961, 42, 43)]; //225
-    [powerButton setBackgroundImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateNormal];
+    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(630, 966, 42, 33)]; //225
+    [powerButton setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+    [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateNormal];
+    [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:powerButton];
