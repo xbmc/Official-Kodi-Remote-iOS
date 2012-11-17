@@ -33,6 +33,7 @@
     AppInfoViewController *appInfoView;
     HostManagementViewController *hostManagementViewController;
     BOOL itemIsActive;
+    UINavigationController *navController;
 }
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText;

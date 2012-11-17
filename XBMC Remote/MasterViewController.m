@@ -305,7 +305,7 @@
         self.detailViewController.detailItem = item;
         object = self.detailViewController;
     }
-    UINavigationController *navController;
+    navController = nil;
     navController = [[UINavigationController alloc] initWithRootViewController:object];
     
     UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
@@ -328,7 +328,7 @@
     [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
     shadowRight.opaque = YES;
     [navController.view addSubview:shadowRight];
-
+    
     [self.slidingViewController anchorTopViewOffScreenTo:ECRight animations:nil onComplete:^{
         CGRect frame = self.slidingViewController.topViewController.view.frame;
         self.slidingViewController.topViewController = navController;
@@ -559,13 +559,21 @@
 }
 
 -(void)dealloc{
-    self.nowPlaying=nil;
-    self.remoteController=nil;
+    self.detailViewController = nil;
+    self.nowPlaying = nil;
+    self.remoteController = nil;
+    self.hostController = nil;
+    navController = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 - (void)viewDidUnload{
     [super viewDidUnload];
+    self.detailViewController = nil;
+    self.nowPlaying = nil;
+    self.remoteController = nil;
+    self.hostController = nil;
+    navController = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
