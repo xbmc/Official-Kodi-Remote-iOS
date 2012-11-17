@@ -707,6 +707,10 @@ NSInteger buttonAction;
 -(IBAction)holdKey:(id)sender{
     buttonAction = [sender tag];
     [self sendAction];
+    if (self.holdVolumeTimer!=nil){
+        [self.holdVolumeTimer invalidate];
+        self.holdVolumeTimer=nil;
+    }
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
