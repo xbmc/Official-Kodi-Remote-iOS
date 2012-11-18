@@ -474,7 +474,7 @@
 //	[self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
     [self.view addSubview:rootView];
     
-    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(668, 965, 96, 33)];
+    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(671, 967, 87, 30)];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
     xbmcLogo.showsTouchWhenHighlighted = NO;

@@ -315,13 +315,13 @@
     self.contentSizeForViewInPopover = size;
     [super viewWillAppear:animated];
     [self selectIndex:nil reloadData:YES];
-    UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 107, 37)];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateNormal];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateHighlighted];
-    xbmcLogo.showsTouchWhenHighlighted = NO;
-    [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];    
-    self.navigationItem.titleView = xbmcLogo;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 107, 37)];
+        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateNormal];
+        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateHighlighted];
+        xbmcLogo.showsTouchWhenHighlighted = NO;
+        [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.titleView = xbmcLogo;
         UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
@@ -336,6 +336,9 @@
         rightMenuViewController.rightMenuItems = [AppDelegate instance].rightMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    }
+    else{
+        self.navigationItem.title = @"XBMC Server";
     }
 }
 

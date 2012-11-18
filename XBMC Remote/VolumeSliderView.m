@@ -22,6 +22,7 @@
 		self = [nib objectAtIndex:0];
         CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * -0.5);
         volumeSlider.transform = trans;
+        [volumeLabel setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
 //        [volumeSlider setMaximumTrackImage:[UIImage imageNamed:@"pgbar_inact_fake.png"] forState:UIControlStateNormal];
 //        [volumeSlider setMinimumTrackImage:[UIImage imageNamed:@"pgbar_act.png"] forState:UIControlStateNormal];
         [volumeSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
@@ -40,6 +41,8 @@
             trans = CGAffineTransformMakeRotation(M_PI * - 0.5);
             minusButton.transform = trans;
             volumeLabel.transform = trans;
+            volumeLabel.alpha = .8f;
+            [volumeLabel setFrame:CGRectMake((int)volumeLabel.frame.origin.x, (int)volumeLabel.frame.origin.y, volumeLabel.frame.size.width, volumeLabel.frame.size.height)];
             volumeView.hidden = YES;
             
             volumeSlider.hidden = YES;
