@@ -99,8 +99,8 @@ NSMutableArray *hostRightMenuItems;
     
     int thumbWidth;
     int tvshowHeight;
-    NSString *filemodeRowHeight= @"35";
-    NSString *filemodeThumbWidth= @"35";
+    NSString *filemodeRowHeight= @"53";
+    NSString *filemodeThumbWidth= @"53";
     obj=[GlobalData getInstance];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {

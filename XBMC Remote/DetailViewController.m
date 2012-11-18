@@ -605,8 +605,10 @@ int originYear = 0;
     if (!albumView && !episodesView){
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=defaultThumb;
-        if ([[item objectForKey:@"filetype"] length]!=0){
-            displayThumb=stringURL;
+        if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"]){
+            if (![stringURL isEqualToString:@""]){
+                displayThumb=stringURL;
+            }
             genre.hidden = YES;
             runtimeyear.hidden = YES;
             [title setFrame:CGRectMake(title.frame.origin.x, (int)((cellHeight/2) - (title.frame.size.height/2)), title.frame.size.width, title.frame.size.height)];
@@ -733,8 +735,8 @@ int originYear = 0;
             
         }
         else { // CHILD IS FILEMODE
-            NSString *filemodeRowHeight= @"35";
-            NSString *filemodeThumbWidth= @"35";
+            NSString *filemodeRowHeight= @"53";
+            NSString *filemodeThumbWidth= @"53";
             if ([parameters objectForKey:@"rowHeight"] != nil){
                 filemodeRowHeight = [parameters objectForKey:@"rowHeight"];
             }
@@ -2011,7 +2013,7 @@ NSIndexPath *selected;
                  
                  NSString *thumbnailPath = [videoLibraryMovieDetail objectForKey:@"thumbnail"];
                  NSDictionary *art = [videoLibraryMovieDetail objectForKey:@"art"];
-                 
+
                  NSString *clearlogo = @"";
                  NSString *clearart = @"";
                  for (NSString *key in art) {
@@ -2028,7 +2030,7 @@ NSIndexPath *selected;
                  NSString *fanartPath = [videoLibraryMovieDetail objectForKey:@"fanart"];
                  NSString *fanartURL=@"";
                  NSString *stringURL = @"";
-                 if (![thumbnailPath isEqualToString:@""]){
+                 if (![thumbnailPath isEqualToString:@""] && ![thumbnailPath isEqualToString:@"(null)"]){
                      stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                  }
                  if (![fanartPath isEqualToString:@""]){
@@ -2219,13 +2221,13 @@ NSIndexPath *selected;
                      NSString *fanartURL=@"";
                      NSString *stringURL = @"";
                      
-                     if (![thumbnailPath isEqualToString:@""]){
+                     if (![thumbnailPath isEqualToString:@""] && thumbnailPath != nil){
                          stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                      }
                      if (![fanartPath isEqualToString:@""]){
                          fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                      }
-                                          NSString *filetype=@"";
+                     NSString *filetype=@"";
                      NSString *type=@"";
                      
                      if ([[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"]!=nil){
