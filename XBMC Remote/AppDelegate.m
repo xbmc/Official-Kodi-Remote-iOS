@@ -738,7 +738,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
                                     @"music", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", @"53", @"rowHeight", @"53", @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1007,9 +1007,9 @@ NSMutableArray *hostRightMenuItems;
                                           
                                           [NSArray arrayWithObjects:nil],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSMutableArray arrayWithObjects:@"53", @"rowHeight", @"53", @"thumbWidth", nil],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSMutableArray arrayWithObjects:@"53", @"rowHeight", @"53", @"thumbWidth", nil],
                                           
                                           nil];
     item1.subItem.subItem.mainFields=[NSArray arrayWithObjects:
@@ -1382,7 +1382,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     @"video", @"media",
                                     [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                    nil], @"parameters", @"Video Addons", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", @"Video Addons", @"label", @"nocover_filemode.png", @"defaultThumb", @"53", @"rowHeight", @"53", @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1745,7 +1745,7 @@ NSMutableArray *hostRightMenuItems;
                                        nil],@"sort",
                                       @"video", @"media",
                                       [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                      nil], @"parameters", @"Video Addons", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                      nil], @"parameters", @"Video Addons", @"label", @"nocover_filemode.png", @"defaultThumb", @"53", @"rowHeight", @"53", @"thumbWidth", nil],
                                     
                                     nil];
     item3.subItem.mainFields = [NSArray arrayWithObjects:
@@ -1865,7 +1865,7 @@ NSMutableArray *hostRightMenuItems;
                                           
                                           [NSArray arrayWithObjects:nil],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSMutableArray arrayWithObjects:@"53", @"rowHeight", @"53", @"thumbWidth", nil],
                                           
                                           nil];
     item3.subItem.subItem.mainFields=[NSArray arrayWithObjects:
