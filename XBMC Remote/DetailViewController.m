@@ -605,7 +605,7 @@ int originYear = 0;
     if (!albumView && !episodesView){
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=defaultThumb;
-        if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"]){
+        if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"] || [[item objectForKey:@"family"] isEqualToString:@"genreid"]){
             if (![stringURL isEqualToString:@""]){
                 displayThumb=stringURL;
             }

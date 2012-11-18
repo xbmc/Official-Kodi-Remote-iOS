@@ -16,6 +16,7 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "RightMenuViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 #define ROTATION_TRIGGER 0.015f 
 
@@ -1076,6 +1077,29 @@ NSInteger buttonAction;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
+- (void)turnTorchOn:(UIButton *)sender {
+    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+    torchIsOn = !torchIsOn;
+    if (captureDeviceClass != nil) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        if ([device hasTorch] && [device hasFlash]){
+            [device lockForConfiguration:nil];
+            if (torchIsOn) {
+                [device setTorchMode:AVCaptureTorchModeOn];
+                [device setFlashMode:AVCaptureFlashModeOn];
+                torchIsOn = YES;
+                [sender setImage:[UIImage imageNamed:@"torch_on"] forState:UIControlStateNormal];
+            } else {
+                [device setTorchMode:AVCaptureTorchModeOff];
+                [device setFlashMode:AVCaptureFlashModeOff];
+                torchIsOn = NO;
+                [sender setImage:[UIImage imageNamed:@"torch"] forState:UIControlStateNormal];
+            }
+            [device unlockForConfiguration];
+        }
+    }
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self configureView];
@@ -1095,6 +1119,18 @@ NSInteger buttonAction;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
+    }
+    torchIsOn = NO;
+    NSString *torchIcon = @"torch";
+    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+    if (captureDeviceClass != nil) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        if ([device hasTorch] && [device hasFlash]){
+            if ([device torchLevel] == YES){
+                torchIsOn = YES;
+                torchIcon = @"torch_on";
+            }
+        }
     }
 
 //    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -1116,23 +1152,34 @@ NSInteger buttonAction;
 //        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: keyboardButtonItem, gestureSwitchButtonItem, nil];
 //    }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+//        UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        torchButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
+//        [torchButton setContentMode:UIViewContentModeRight];
+//        [torchButton setShowsTouchWhenHighlighted:YES];
+//        [torchButton setImage:[UIImage imageNamed:torchIcon] forState:UIControlStateNormal];
+//        torchButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+//        [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
+//        [self.view addSubview:torchButton];
+        
         UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        gestureButton.frame = CGRectMake(self.view.bounds.size.width - 152, self.view.bounds.size.height - 43, 56.0, 36.0);
+        gestureButton.frame = CGRectMake(self.view.bounds.size.width - 188, self.view.bounds.size.height - 43, 56.0, 36.0);
         [gestureButton setContentMode:UIViewContentModeRight];
         [gestureButton setShowsTouchWhenHighlighted:YES];
         [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
         gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
+        gestureButton.alpha = .8f;
         [self.view addSubview:gestureButton];
         
         UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 100, self.view.bounds.size.height - 43, 56.0, 36.0);
+        keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 120, self.view.bounds.size.height - 43, 56.0, 36.0);
         UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
         [keyboardButton setContentMode:UIViewContentModeRight];
         [keyboardButton setShowsTouchWhenHighlighted:YES];
         [keyboardButton setImage:keyboardImg forState:UIControlStateNormal];
         keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
+        keyboardButton.alpha = .8f;
         [self.view addSubview:keyboardButton];
 
         UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -1142,6 +1189,7 @@ NSInteger buttonAction;
         buttonRect.origin.x = self.view.bounds.size.width - buttonRect.size.width - 16;
         buttonRect.origin.y = self.view.bounds.size.height - buttonRect.size.height - 16; 
         [helpButton setFrame:buttonRect];
+        helpButton.alpha = .9f;
         [self.view addSubview:helpButton];
     }
     xbmcVirtualKeyboard = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];

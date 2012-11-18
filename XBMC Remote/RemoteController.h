@@ -28,6 +28,7 @@
     float storeBrightness;
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
+    BOOL torchIsOn;
 }
 
 - (IBAction)startVibrate:(id)sender;

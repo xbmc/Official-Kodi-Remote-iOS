@@ -338,7 +338,13 @@
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
     else{
-        self.navigationItem.title = @"XBMC Server";
+        UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom_logo_up"]];
+//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
+//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
+//        xbmcLogo.showsTouchWhenHighlighted = NO;
+//        [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.titleView = xbmcLogoView;
+//        self.navigationItem.title = @"XBMC Server";
     }
 }
 

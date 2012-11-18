@@ -27,7 +27,6 @@
     UIButton *xbmcLogo;
     UIButton *powerButton;
     NSDictionary *checkServerParams;
-    BOOL firstRun;
     BOOL inCheck;
     NSIndexPath *storeServerSelection;
     AppInfoViewController *appInfoView;

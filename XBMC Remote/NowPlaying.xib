@@ -202,22 +202,6 @@
 											<string key="NSResourceName">tableDown.png</string>
 										</object>
 									</object>
-									<object class="IBUIImageView" id="482155821">
-										<reference key="NSNextResponder" ref="913823424"/>
-										<int key="NSvFlags">-2147483375</int>
-										<string key="NSFrame">{{318, 0}, {2, 330}}</string>
-										<reference key="NSSuperview" ref="913823424"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="914706864"/>
-										<bool key="IBUIOpaque">NO</bool>
-										<bool key="IBUIClipsSubviews">YES</bool>
-										<bool key="IBUIMultipleTouchEnabled">YES</bool>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<object class="NSCustomResource" key="IBUIImage">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">tableLeft.png</string>
-										</object>
-									</object>
 									<object class="IBUIView" id="519437062">
 										<reference key="NSNextResponder" ref="913823424"/>
 										<int key="NSvFlags">270</int>
@@ -235,7 +219,7 @@
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 												<object class="NSCustomResource" key="IBUIImage">
 													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">st_background.png</string>
+													<string key="NSResourceName">playlist_background.png</string>
 												</object>
 											</object>
 											<object class="IBUIImageView" id="491044754">
@@ -257,7 +241,7 @@
 											<object class="IBUIButton" id="565735880">
 												<reference key="NSNextResponder" ref="519437062"/>
 												<int key="NSvFlags">303</int>
-												<string key="NSFrame">{{90, 8}, {70, 28}}</string>
+												<string key="NSFrame">{{90, 6}, {70, 28}}</string>
 												<reference key="NSSuperview" ref="519437062"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="331939179"/>
@@ -322,7 +306,7 @@
 											<object class="IBUIButton" id="331939179">
 												<reference key="NSNextResponder" ref="519437062"/>
 												<int key="NSvFlags">303</int>
-												<string key="NSFrame">{{157, 8}, {70, 28}}</string>
+												<string key="NSFrame">{{159, 6}, {70, 28}}</string>
 												<reference key="NSSuperview" ref="519437062"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="87277101"/>
@@ -370,7 +354,7 @@
 											<object class="IBUIButton" id="87277101">
 												<reference key="NSNextResponder" ref="519437062"/>
 												<int key="NSvFlags">299</int>
-												<string key="NSFrame">{{241, 8}, {72, 28}}</string>
+												<string key="NSFrame">{{241, 6}, {72, 28}}</string>
 												<reference key="NSSuperview" ref="519437062"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="491044754"/>
@@ -423,7 +407,7 @@
 											<object class="IBUIButton" id="188113691">
 												<reference key="NSNextResponder" ref="519437062"/>
 												<int key="NSvFlags">303</int>
-												<string key="NSFrame">{{-72, 8}, {72, 28}}</string>
+												<string key="NSFrame">{{-72, 6}, {72, 28}}</string>
 												<reference key="NSSuperview" ref="519437062"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="259203842"/>
@@ -488,6 +472,22 @@
 											<bytes key="NSWhite">MC4xNTA2NjE0OTY0AA</bytes>
 										</object>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+									</object>
+									<object class="IBUIImageView" id="482155821">
+										<reference key="NSNextResponder" ref="913823424"/>
+										<int key="NSvFlags">-2147483375</int>
+										<string key="NSFrame">{{318, 0}, {2, 374}}</string>
+										<reference key="NSSuperview" ref="913823424"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="914706864"/>
+										<bool key="IBUIOpaque">NO</bool>
+										<bool key="IBUIClipsSubviews">YES</bool>
+										<bool key="IBUIMultipleTouchEnabled">YES</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<object class="NSCustomResource" key="IBUIImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">tableLeft.png</string>
+										</object>
 									</object>
 								</array>
 								<string key="NSFrameSize">{320, 372}</string>
@@ -2689,7 +2689,7 @@
 				<string key="122.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="2" key="122.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="123.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="123.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<real value="2" key="123.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="128.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="132.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="133.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -3018,10 +3018,10 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="button_edit.png">{90, 36}</string>
-			<string key="button_edit_down.png">{90, 36}</string>
-			<string key="button_party_off.png">{90, 36}</string>
-			<string key="button_party_on.png">{90, 36}</string>
+			<string key="button_edit.png">{72, 28}</string>
+			<string key="button_edit_down.png">{72, 28}</string>
+			<string key="button_party_off.png">{72, 28}</string>
+			<string key="button_party_on.png">{72, 28}</string>
 			<string key="button_repeat.png">{41, 41}</string>
 			<string key="button_shuffle.png">{41, 41}</string>
 			<string key="icon_dark.png">{50, 50}</string>
@@ -3037,6 +3037,7 @@
 			<string key="pgbar_act.png">{44, 17}</string>
 			<string key="pgbar_inact_fake.png">{50, 17}</string>
 			<string key="pgbar_thumb.png">{18, 18}</string>
+			<string key="playlist_background.png">{60, 44}</string>
 			<string key="segment_left_down.png">{70, 28}</string>
 			<string key="segment_left_up.png">{70, 28}</string>
 			<string key="segment_right_down.png">{70, 28}</string>
@@ -3046,7 +3047,6 @@
 			<string key="st_album_tracks.png">{46, 41}</string>
 			<string key="st_artist_albums.png">{46, 41}</string>
 			<string key="st_artist_info.png">{46, 41}</string>
-			<string key="st_background.png">{320, 44}</string>
 			<string key="tableDown.png">{480, 8}</string>
 			<string key="tableLeft.png">{16, 16}</string>
 			<string key="tableUp.png">{480, 8}</string>

@@ -17,6 +17,8 @@
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
 
+#define SERVER_TIMEOUT 2.0f
+
 @interface MasterViewController () {
     NSMutableArray *_objects;
     NSMutableArray *mainMenu;
@@ -105,9 +107,6 @@
     if (inCheck) return;
     [AppDelegate instance].obj=[GlobalData getInstance];  
     if ([[AppDelegate instance].obj.serverIP length]==0){
-        if (firstRun){
-            firstRun=NO;
-        }
         return;
     }
     inCheck = TRUE;
@@ -118,25 +117,29 @@
     [jsonRPC 
      callMethod:@"Application.GetProperties" 
      withParameters:checkServerParams
-     withTimeout:3.0
+     withTimeout:SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          inCheck = FALSE;
          if (error==nil && methodError==nil){
              [AppDelegate instance].serverVolume = [[methodResult objectForKey:@"volume"] intValue];
              if (![AppDelegate instance].serverOnLine){
+                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
                  NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                  [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
                  NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                  [self changeServerStatus:YES infoText:infoTitle];
+                 }
+                 else{
+                     if ([AppDelegate instance].serverOnLine){
+                         [self changeServerStatus:NO infoText:@"No connection"];
+                     }
+                 }
              }
          }
          else {
              [AppDelegate instance].serverVolume = -1;
              if ([AppDelegate instance].serverOnLine){
                  [self changeServerStatus:NO infoText:@"No connection"];
-             }
-             if (firstRun){
-                 firstRun=NO;
              }
          }
      }];
@@ -317,7 +320,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     if (timer == nil){
-        timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
+        timer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
     }
 }
 
@@ -327,22 +330,11 @@
     jsonRPC=nil;
 }
 
--(void)initHostManagement{
-    timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
-    return;
-    hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-    CGRect frame=hostManagementViewController.view.frame;
-    frame.origin.y = - frame.size.height - 1000;
-    hostManagementViewController.view.frame=frame;
-    [self.view addSubview:hostManagementViewController.view];
-}
-
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self.slidingViewController setAnchorRightRevealAmount:280.0f];
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
     [AppDelegate instance].obj=[GlobalData getInstance];
-    firstRun=YES;
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -363,7 +355,6 @@
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
     inCheck = NO;
-    firstRun = NO;
     int thumbWidth = 320;
     int tvshowHeight = 61;
     if ([AppDelegate instance].obj.preferTVPosters==YES){
