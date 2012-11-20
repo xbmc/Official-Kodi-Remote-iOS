@@ -735,8 +735,8 @@ int originYear = 0;
             
         }
         else { // CHILD IS FILEMODE
-            NSString *filemodeRowHeight= @"53";
-            NSString *filemodeThumbWidth= @"53";
+            NSString *filemodeRowHeight= @"44";
+            NSString *filemodeThumbWidth= @"44";
             if ([parameters objectForKey:@"rowHeight"] != nil){
                 filemodeRowHeight = [parameters objectForKey:@"rowHeight"];
             }
