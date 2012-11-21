@@ -1547,7 +1547,7 @@ NSMutableArray *hostRightMenuItems;
                                @"none", @"method",
                                nil],@"sort",
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"playcount", @"showtitle", nil], @"properties",
-                              nil], @"parameters", @"Added Episodes", @"label", filemodeRowHeight, @"rowHeight", @"95", @"thumbWidth",
+                              nil], @"parameters", @"Added Episodes", @"label", @"53", @"rowHeight", @"95", @"thumbWidth",
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", @"resume", nil], @"properties",
                               nil], @"extra_info_parameters",
