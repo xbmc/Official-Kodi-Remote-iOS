@@ -1006,10 +1006,21 @@ NSInteger buttonAction;
     }
 }
 
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    verboseOutput.text = xbmcVirtualKeyboard.text;
+    [textField setInputAccessoryView:inputAccView];
+}
+
 -(BOOL) textField: (UITextField *)theTextField shouldChangeCharactersInRange: (NSRange)range replacementString: (NSString *)string {
     if ([AppDelegate instance].serverVersion == 11){
         if (range.location == 0){ //BACKSPACE
             [self sendXbmcHttp:@"SendKey(0xf108)"];
+            if ([verboseOutput.text length]>0){
+            [verboseOutput setText:[NSString stringWithFormat:@"%@", [verboseOutput.text substringToIndex:[verboseOutput.text length] - 1]]];
+            }
+            else{
+                verboseOutput.text = @"";
+            }
         }
         else{ // CHARACTER
             int x = (unichar) [string characterAtIndex: 0];
@@ -1020,6 +1031,7 @@ NSInteger buttonAction;
             else if (x<1000){
                 [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
             }
+            [verboseOutput setText:[NSString stringWithFormat:@"%@%@", verboseOutput.text == nil ? @"" : verboseOutput.text, string]];
         }
         return NO;
     }
@@ -1028,6 +1040,7 @@ NSInteger buttonAction;
         if ([stringToSend isEqualToString:@""]){
             stringToSend = @" ";
         }
+        verboseOutput.text = stringToSend;
         if ([string length] != 0){
             int x = (unichar) [string characterAtIndex: 0];
             if (x==10) {
@@ -1132,26 +1145,18 @@ NSInteger buttonAction;
             }
         }
     }
-
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-//        volumeSliderView = [[VolumeSliderView alloc]
-//                            initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
-//        CGRect frame=volumeSliderView.frame;
-//        frame.origin.x=258;
-//        frame.origin.y=-volumeSliderView.frame.size.height;
-//        volumeSliderView.frame=frame;
-//        [self.view addSubview:volumeSliderView];
-//        UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-//        UIBarButtonItem *volumeButtonItem =[[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-//        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
-//        UIBarButtonItem *keyboardButtonItem =[[UIBarButtonItem alloc] initWithImage:keyboardImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVirtualKeyboard)];
-//        UIBarButtonItem *gestureSwitchButtonItem =[[UIBarButtonItem alloc] initWithImage:gestureSwitchImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleGestureZone:)];
-//        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-//        [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
-//        UIBarButtonItem *helpButtonItem = [[UIBarButtonItem alloc] initWithCustomView:helpButton];
-//        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: keyboardButtonItem, gestureSwitchButtonItem, nil];
-//    }
+    int accessoryHeight = 36;
+    int padding = 25;
+    int verboseHeight = 24;
+    int textSize = 14;
+    int background_padding = 6;
+    UIColor *accessoryColor = [UIColor colorWithRed:0.565f green:0.596f blue:0.643f alpha:1];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        accessoryHeight = 54;
+        verboseHeight = 34;
+        padding = 50;
+        textSize = 20;
+        accessoryColor = [UIColor colorWithRed:0.615f green:0.611f blue:0.654f alpha:1];
 //        UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        torchButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
 //        [torchButton setContentMode:UIViewContentModeRight];
@@ -1199,6 +1204,37 @@ NSInteger buttonAction;
     xbmcVirtualKeyboard.autocapitalizationType = UITextAutocapitalizationTypeNone;
     xbmcVirtualKeyboard.text = @" ";
     [self.view addSubview:xbmcVirtualKeyboard];
+    
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    CGFloat screenWidth = screenSize.width;
+
+    verboseOutput = [[UILabel alloc] initWithFrame:CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + 1, screenWidth - padding * 2, verboseHeight)];
+    [verboseOutput setFont:[UIFont boldSystemFontOfSize:textSize]];
+    [verboseOutput setContentMode:UIViewContentModeScaleToFill];
+    [verboseOutput setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+    [verboseOutput setLineBreakMode:NSLineBreakByTruncatingHead];
+    [verboseOutput setUserInteractionEnabled:NO];
+    [verboseOutput setBackgroundColor:[UIColor clearColor]];
+
+    inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
+    [inputAccView setBackgroundColor:accessoryColor];
+    UIImageView *keyboardLineImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 2)];
+    [keyboardLineImageView setImage:[UIImage imageNamed:@"keyboard_line"]];
+    [keyboardLineImageView setContentMode:UIViewContentModeScaleToFill];
+    [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];    
+    [inputAccView addSubview:keyboardLineImageView];
+    
+    UITextField *backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + 1, screenWidth - (padding - background_padding) * 2, verboseHeight)];
+    [backgroundTextField setUserInteractionEnabled:NO];
+    [backgroundTextField setBorderStyle:UITextBorderStyleRoundedRect];
+    [backgroundTextField setBackgroundColor:[UIColor whiteColor]];
+    [backgroundTextField setFont:[UIFont boldSystemFontOfSize:textSize]];
+    [backgroundTextField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+
+    [inputAccView addSubview:backgroundTextField];
+    [inputAccView addSubview:verboseOutput];
+
     storeBrightness = -1;
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
     [[NSNotificationCenter defaultCenter] addObserver: self

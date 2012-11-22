@@ -20,6 +20,7 @@
     IBOutlet UIView *quickHelpView;
     IBOutlet UIImageView *quickHelpImageView;
     UITextField *xbmcVirtualKeyboard;
+    UIView *inputAccView;
     IBOutlet UIView *gestureZoneView;
     IBOutlet UIView *buttonZoneView;
     IBOutlet UIImageView *panFallbackImageView;
@@ -29,6 +30,7 @@
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
     BOOL torchIsOn;
+    UILabel *verboseOutput;
 }
 
 - (IBAction)startVibrate:(id)sender;
