@@ -96,18 +96,29 @@
     return [self callMethod:methodName withParameters:nil onCompletion:completionHandler];
 }
 
-- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
-    // Set parameters to NSNull if they weren't provided
-    if (methodParams == nil) {
-        methodParams = [NSNull null];
-    }
+- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler{
+    return [self callMethod:methodName withParameters:methodParams withTimeout:0 onCompletion:completionHandler];
+}
+
+// (int)timeout PARAMETER ADDED BY JOE
+
+- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams withTimeout:(float)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
     
     // Generate a random Id for the call
     NSInteger aId = arc4random();
     
     // Setup the JSON-RPC call payload
-    NSArray *methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"params", @"id", nil];
-    NSArray *methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, methodParams, [NSNumber numberWithInt:aId], nil];
+    NSArray *methodKeys = nil;
+    NSArray *methodObjs = nil;
+    if (methodParams) {
+        methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"params", @"id", nil];
+        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, methodParams, [NSNumber numberWithInt:aId], nil];
+    }
+    else {
+        methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"id", nil];
+        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, [NSNumber numberWithInt:aId], nil];
+    }
+    // Create call payload
     NSDictionary *methodCall = [NSDictionary dictionaryWithObjects:methodObjs forKeys:methodKeys];
     
     // Attempt to serialize the call payload to a JSON string
@@ -117,7 +128,7 @@
     // TODO: Make this a parameter??
     if (error != nil) {
         if (completionHandler || delegate) {
-            NSError *aError = [NSError errorWithDomain:@"com.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+            NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
             
             if (completionHandler) {
                 completionHandler(methodName, aId, nil, nil, aError);
@@ -133,7 +144,6 @@
     NSMutableURLRequest *serviceRequest = [NSMutableURLRequest requestWithURL:self._serviceEndpoint];
     [serviceRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [serviceRequest setValue:@"DSJSONRPC/1.0" forHTTPHeaderField:@"User-Agent"];
-    
     // Add custom HTTP headers
     for (id key in self._httpHeaders) {
         [serviceRequest setValue:[self._httpHeaders objectForKey:key] forHTTPHeaderField:key];
@@ -143,23 +153,46 @@
     [serviceRequest setValue:[NSString stringWithFormat:@"%i", postData.length] forHTTPHeaderField:@"Content-Length"];
     [serviceRequest setHTTPMethod:@"POST"];
     [serviceRequest setHTTPBody:postData];
-//    [serviceRequest setTimeoutInterval:2];
+    [serviceRequest setTimeoutInterval:240];
     
     // Create dictionary to store information about the request so we can recall it later
     NSMutableDictionary *connectionInfo = [NSMutableDictionary dictionaryWithCapacity:3];
     [connectionInfo setObject:methodName forKey:@"method"];
     [connectionInfo setObject:[NSNumber numberWithInt:aId] forKey:@"id"];
     if (completionHandler != nil) {
-        [connectionInfo setObject:[completionHandler copy] forKey:@"completionHandler"];
+        DSJSONRPCCompletionHandler completionHandlerCopy = [completionHandler copy];
+        [connectionInfo setObject:completionHandlerCopy forKey:@"completionHandler"];
     }
     
     // Perform the JSON-RPC method call
     NSURLConnection *aConnection = [[NSURLConnection alloc] initWithRequest:serviceRequest delegate:self];
     [self._activeConnections setObject:connectionInfo forKey:[NSNumber numberWithInt:(int)aConnection]];
     
+    if (timeout){
+        timer = [NSTimer scheduledTimerWithTimeInterval:timeout 
+                                                 target:self 
+                                               selector:@selector(cancelRequest:) 
+                                               userInfo:aConnection repeats:NO];
+    }
     return aId;
 }
 
+-(void)cancelRequest:(NSTimer*)theTimer {
+    NSURLConnection *connection= (NSURLConnection *)[theTimer userInfo];
+    NSNumber *connectionKey = [NSNumber numberWithInt:(int)connection];
+    NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:connectionKey];
+    DSJSONRPCCompletionHandler completionHandler = [connectionInfo objectForKey:@"completionHandler"];
+    NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection Timeout", NSLocalizedDescriptionKey, nil]];
+    if (completionHandler) {
+        completionHandler([connectionInfo objectForKey:@"method"], [[connectionInfo objectForKey:@"id"] intValue], nil, nil, aError);
+        DS_RELEASE(completionHandler)
+    }
+    if (delegate && [delegate respondsToSelector:@selector(jsonRPC:didFailMethod:forId:withError:)]) {
+        [delegate jsonRPC:self didFailMethod:[connectionInfo objectForKey:@"method"] forId:[[connectionInfo objectForKey:@"id"] intValue] withError:aError];
+    }
+    [(NSURLConnection*)[theTimer userInfo] cancel];
+    timer = nil;
+}
 
 #pragma mark - Runtime Method Invocation Handling
 
@@ -214,7 +247,7 @@
     DSJSONRPCCompletionHandler completionHandler = [connectionInfo objectForKey:@"completionHandler"];
     
     if (completionHandler || delegate) {
-        NSError *aError = [NSError errorWithDomain:@"com.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+        NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
         
         if (completionHandler) {
             completionHandler([connectionInfo objectForKey:@"method"], [[connectionInfo objectForKey:@"id"] intValue], nil, nil, aError);
@@ -240,7 +273,7 @@
     NSError *error = nil;
     NSDictionary *jsonResult = [connectionData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
     if (error) {
-        NSError *aError = [NSError errorWithDomain:@"com.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+        NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
         
         if (completionHandler || delegate) {
             // Pass the error to the delegate if they care, completion handler takes presidence

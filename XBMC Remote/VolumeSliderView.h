@@ -3,7 +3,7 @@
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 27/3/12.
-//  Copyright (c) 2012 Korec s.r.l. All rights reserved.
+//  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -14,7 +14,8 @@
     IBOutlet UISlider *volumeSlider;
     IBOutlet UILabel *volumeLabel;
     DSJSONRPC *jsonRPC;
-   // NSTimer* timer;
+    IBOutlet UIButton *plusButton;
+    IBOutlet UIButton *minusButton;
 }
 
 - (IBAction)slideVolume:(id)sender;
@@ -24,5 +25,8 @@
 -(void)stopTimer;
 
 @property (nonatomic, retain) NSTimer* timer;
+
+@property (nonatomic, retain) NSTimer* holdVolumeTimer;
+
 
 @end

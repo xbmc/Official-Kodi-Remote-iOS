@@ -3,15 +3,17 @@
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 27/3/12.
-//  Copyright (c) 2012 Korec s.r.l. All rights reserved.
+//  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-//
-@class NowPlaying;
+#import "JBKenBurnsView.h"
 
-@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate>{
+@class NowPlaying;
+@class DetailViewController;
+
+@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, KenBurnsViewDelegate>{
     IBOutlet UIImageView *coverView;
     IBOutlet UIImageView *starsView;
     IBOutlet UILabel *voteLabel;
@@ -45,11 +47,30 @@
     IBOutlet UIImageView *fanartView;
 
     BOOL alreadyPush;
-
+    
+    UIToolbar *toolbar;
+    NSMutableArray *sheetActions;
+    UIBarButtonItem *actionSheetButtonItemIpad;
+    UIActionSheet *actionSheetView;
+    int choosedTab;
+    NSString *notificationName;
+    float resumePointPercentage;
+    KenBurnsView *kenView;
+    BOOL enableKenBurns;
+    UIButton *closeButton;
+    UIButton *clearlogoButton;
+    UIImageView *clearLogoImageView;
+    int clearLogoWidth;
+    int clearLogoHeight;
+    int clearlogoScrollViewY;
 }
 
-@property (strong, nonatomic) id detailItem;
+- (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
 
+@property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) NowPlaying *nowPlaying;
+@property (strong, nonatomic) DetailViewController *detailViewController;
+@property (nonatomic, retain) KenBurnsView *kenView;
+
 
 @end

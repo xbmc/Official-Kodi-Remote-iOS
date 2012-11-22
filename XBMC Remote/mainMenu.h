@@ -3,7 +3,7 @@
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 23/3/12.
-//  Copyright (c) 2012 Korec s.r.l. All rights reserved.
+//  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -24,13 +24,19 @@
 @property (nonatomic, copy) NSArray *sheetActions;
 @property int rowHeight;
 @property int thumbWidth;
-@property BOOL showInfo;
+@property (nonatomic, copy) NSArray *showInfo;
 @property int originYearDuration;
 @property int originLabel;
 @property int widthLabel;
 @property int chooseTab;
-
+@property BOOL disableNowPlaying;
 @property (nonatomic, copy) NSArray *showRuntime;
 @property BOOL noConvertTime;
+@property (nonatomic, copy) NSArray *watchModes;
+@property int currentWatchMode;
+@property BOOL disableFilterParameter;
+
+
+-(id) copyWithZone: (NSZone *) zone;
 
 @end

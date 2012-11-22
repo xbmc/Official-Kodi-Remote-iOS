@@ -3,7 +3,7 @@
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 23/3/12.
-//  Copyright (c) 2012 Korec s.r.l. All rights reserved.
+//  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -14,18 +14,21 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "mainMenu.h"
 #import "WebViewController.h"
+#import "MoreItemsViewController.h"
 
 
 @class NowPlaying;
 @class PlayFileViewController;
 //@class DetailViewController;
 
-@interface DetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIWebViewDelegate, UIScrollViewDelegate, UISearchBarDelegate>{
+@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UISearchBarDelegate>{
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     DSJSONRPC *jsonRPC;
     NSMutableArray *richResults;
     NSMutableArray	*filteredListContent;
+    NSMutableArray *storeRichResults;
+    NSMutableArray *extraSectionRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;  
     SDWebImageManager *manager;
@@ -35,6 +38,7 @@
     MPMoviePlayerController *playerViewController;
     int choosedTab;
     int numTabs;
+    int watchMode;
     UILabel *topNavigationLabel;
     IBOutlet UIButton *button1;
     IBOutlet UIButton *button2;
@@ -48,8 +52,35 @@
     int cellHeight;
     int thumbWidth;
     IBOutlet UIView *noFoundView;
+    int viewWidth;
+    IBOutlet UIView *detailView;
+    MoreItemsViewController* moreItemsViewController;
+    UIButton *selectedMoreTab;
+    UIImageView *longTimeout;
+    NSTimeInterval startTime;
+    NSTimeInterval elapsedTime;
+    NSTimer *countExecutionTime;
+    __weak IBOutlet UITextView *debugText;
+    BOOL callBack;
+    int labelPosition;
+    int flagX;
+    int flagY;
+    BOOL albumView;
+    BOOL episodesView;
+    int albumViewHeight;
+    int albumViewPadding;
+    int artistFontSize;
+    int albumFontSize;
+    int trackCountFontSize;
+    int trackCountLabelWidth;
+    int labelPadding;
+    float thumbBorderWidth;
 }
-@property (nonatomic, retain) NSMutableArray *richResults;
+
+- (id)initWithFrame:(CGRect)frame;
+- (id)initWithNibName:(NSString *)nibNameOrNil withItem:(mainMenu *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
+
+//@property (nonatomic, retain) NSMutableArray *richResults;
 @property (nonatomic, retain) NSMutableArray *filteredListContent;
 
 @property (strong, nonatomic) id detailItem;

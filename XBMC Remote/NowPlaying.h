@@ -3,15 +3,20 @@
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 24/3/12.
-//  Copyright (c) 2012 Korec s.r.l. All rights reserved.
+//  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "VolumeSliderView.h"
 #import "UIImageView+WebCache.h"
+#import "RightMenuViewController.h"
 
-@interface NowPlaying : UIViewController <UITableViewDataSource,UITableViewDelegate>{
+@class ShowInfoViewController;
+@class RemoteController;
+@class DetailViewController;
+
+@interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate, SDWebImageManagerDelegate>{
     DSJSONRPC *jsonRPC;
     IBOutlet UITableView *playlistTableView;
     IBOutlet UITableViewCell *playlistTableViewCell;
@@ -51,19 +56,71 @@
     IBOutlet UIButton *seg_video;
     IBOutlet UIButton *editTableButton;
     IBOutlet UIButton *PartyModeButton;
-
+    IBOutlet UIImageView *backgroundImageView;
 
     IBOutlet UIView *noFoundView;
     NSIndexPath *storeSelection;
-
+    int slideFrom;
     int numResults;
     SDWebImageManager *manager;
-
-
+    IBOutlet UIToolbar *playlistToolbar;
+    
+    int iPadOrigX;
+    int iPadOrigY;
+    int iPadthumbWidth;
+    int iPadthumbHeight;
+    IBOutlet UIView *playlistActionView;
+    IBOutlet UIImageView *pgbar;
+    BOOL portraitMode;
+    NSString *currentType;
+    BOOL nothingIsPlaying;
+    IBOutlet UIImageView *xbmcOverlayImage;
+    IBOutlet UIImageView *xbmcOverlayImage_iphone;
+    IBOutlet UIButton *playlistButton;
+    BOOL playlistHidden;
+    BOOL nowPlayingHidden;
+    int anim;
+    int anim2;
+    BOOL startFlipDemo;
+    IBOutlet UISlider *ProgressSlider;
+    NSIndexPath *selected;
+    NSMutableArray *sheetActions;
+    BOOL fromItself;
+    IBOutlet UIButton *shuffleButton;
+    IBOutlet UIButton *repeatButton;
+    IBOutlet UIButton *albumDetailsButton;
+    IBOutlet UIButton *albumTracksButton;
+    IBOutlet UIButton *artistDetailsButton;
+    IBOutlet UIButton *artistAlbumsButton;
+        BOOL shuffled;
+    NSString *repeatStatus;
+    BOOL updateProgressBar;
+    int globalSeconds;
+    NSString *lastThumbnail;
+    int choosedTab;
+    NSString *notificationName;
+    __weak IBOutlet UIImageView *playlistLeftShadow;
 }
 
+- (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
+- (void)toggleSongDetails;
+- (IBAction)changeShuffle:(id)sender;
+- (IBAction)changeRepeat:(id)sender;
+
 
 @property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) RemoteController *remoteController;
+@property (strong, nonatomic) DetailViewController *detailViewController;
+@property (strong, nonatomic) ShowInfoViewController *showInfoViewController;
+@property (strong, nonatomic) UIImageView *jewelView;
+@property (strong, nonatomic) UIButton *shuffleButton;
+@property (strong, nonatomic) UIButton *repeatButton;
+@property (strong, nonatomic) UIView *songDetailsView;
+@property (strong, nonatomic) UISlider *ProgressSlider;
+//@property BOOL presentedFromNavigation;
+
+
 
 @end

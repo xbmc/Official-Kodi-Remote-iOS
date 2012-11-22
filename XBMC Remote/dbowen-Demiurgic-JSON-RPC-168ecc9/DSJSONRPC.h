@@ -99,7 +99,9 @@ typedef enum {
 typedef void (^DSJSONRPCCompletionHandler)(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError);
 
 
-@interface DSJSONRPC : NSObject
+@interface DSJSONRPC : NSObject{
+    NSTimer* timer;
+}
 
 @property (nonatomic, DS_WEAK) id<DSJSONRPCDelegate> delegate;
 
@@ -113,5 +115,6 @@ typedef void (^DSJSONRPCCompletionHandler)(NSString *methodName, NSInteger callI
 #pragma mark - Web Service Invocation Methods (Completion Handler Based)
 - (NSInteger)callMethod:(NSString *)methodName onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
 - (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
+- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams withTimeout:(float)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
 
 @end

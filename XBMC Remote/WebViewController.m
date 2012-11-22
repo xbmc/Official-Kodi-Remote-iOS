@@ -3,11 +3,16 @@
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 26/2/12.
-//  Copyright (c) 2012 Korec s.r.l. All rights reserved.
+//  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
 #import "WebViewController.h"
-
+#import "mainMenu.h"
+#import "AppDelegate.h"
+#import "DetailViewController.h"
+#import "ViewControllerIPad.h"
+#import "StackScrollViewController.h"
+#import "DetailViewController.h"
 
 @interface WebViewController ()
 
@@ -15,7 +20,9 @@
 
 @implementation WebViewController
 
+@synthesize detailItem = _detailItem;
 @synthesize urlRequest;
+@synthesize detailViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -78,7 +85,7 @@
 			//show error alert, etc.
 		}
         UIAlertView *errorAlert = [[UIAlertView alloc]
-								   initWithTitle:@"Errore caricamento pagina"
+								   initWithTitle:@"Error loading page"
 								   message: [error localizedFailureReason]
 								   delegate:nil
 								   cancelButtonTitle:@"OK"
@@ -99,20 +106,112 @@
 -(IBAction)TwitterWebActionButton:(id)sender{
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
-                                                    cancelButtonTitle:@"Annulla"
+                                                    cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Apri in Safari", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault; 
+                                                    otherButtonTitles:@"Open in Safari", nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     [actionSheet showInView:self.view];
     actionSheet.tag = 30;
 //    [actionSheet release];
 }
 
+#pragma mark - JSON calls
+
+- (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    int numelement=[array count];
+    for (int i=0;i<numelement-1;i+=2){
+        [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
+    }
+    return (NSDictionary *)mutableDictionary;
+}
+
+- (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    int numelement=[array count];
+    for (int i=0;i<numelement-1;i+=2){
+        [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
+    }
+    return (NSMutableDictionary *)mutableDictionary;
+}
+
+-(void)showContent:(id)sender{
+    NSDictionary *item=self.detailItem;
+    mainMenu *MenuItem = nil;
+    int choosedTab = 0;
+    NSString *notificationName = nil;
+    if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
+        notificationName = @"UIApplicationEnableMusicSection";
+        MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+    }
+    else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        notificationName = @"UIApplicationEnableMusicSection";
+        choosedTab = 1;
+        MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+    }
+    MenuItem.subItem.mainLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
+    if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
+        NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
+        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
+        NSString *key=@"null";
+        if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
+            key=[mainFields objectForKey:@"row15"];
+        }
+        id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
+        id objKey = [mainFields objectForKey:@"row6"];
+        if ([AppDelegate instance].serverVersion>11 && !([MenuItem.subItem disableFilterParameter] || [[parameters objectForKey:@"disableFilterParameter"] boolValue])){
+            obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
+            objKey = @"filter";
+        }
+        NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
+                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        obj,objKey,
+                                        [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
+                                        [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
+                                        nil], @"parameters", [parameters objectForKey:@"label"], @"label",
+                                       [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
+                                       nil];
+        [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        MenuItem.subItem.chooseTab=choosedTab;
+        if (![[item objectForKey:@"disableNowPlaying"] boolValue]){
+            MenuItem.subItem.disableNowPlaying = NO;
+        }
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            self.detailViewController.detailItem = MenuItem.subItem;
+            [self.navigationController pushViewController:self.detailViewController animated:YES];
+        }
+        else{
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+            [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
+            [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
+        }
+    }
+}
+
 #pragma mark - View lifecycle
+
+-(void)viewWillAppear:(BOOL)animated{
+    [bottomToolbar setBackgroundImage:[UIImage imageNamed:@"st_background"] forToolbarPosition:0 barMetrics:0];
+}
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    UIColor *shadowColor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
+    NSDictionary *item = self.detailItem;
+    UIBarButtonItem *extraButton = nil;
+    int titleWidth = 310;
+    if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
+        UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
+        extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+        titleWidth = 254;
+    }
+    else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
+        extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+        titleWidth = 254;
+    }
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
     titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 244, 40)];
@@ -125,7 +224,6 @@
     topNavigationLabel.adjustsFontSizeToFitWidth = YES;
     topNavigationLabel.textAlignment = UITextAlignmentLeft;
     topNavigationLabel.textColor = [UIColor whiteColor];
-    topNavigationLabel.shadowColor = shadowColor;
     topNavigationLabel.shadowOffset    = CGSizeMake (0.0, -1.0);
     topNavigationLabel.highlightedTextColor = [UIColor blackColor];
     topNavigationLabel.opaque=YES;
@@ -135,11 +233,47 @@
 	[TwitterwebLoadIndicator sizeToFit];  	
     [titleView addSubview:TwitterwebLoadIndicator];
     [titleView addSubview:topNavigationLabel];
-    self.navigationItem.titleView = titleView;
-    [Twitterweb loadRequest:self.urlRequest]; 
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        UIToolbar *toolbar = [UIToolbar new];
+        toolbar.barStyle = UIBarStyleBlackTranslucent;
+        toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
+        toolbar.contentMode = UIViewContentModeScaleAspectFill;            
+        [toolbar sizeToFit];
+        CGFloat toolbarHeight = [toolbar frame].size.height;
+        CGRect mainViewBounds = self.view.bounds;
+        [toolbar setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
+                                     CGRectGetMinY(mainViewBounds),
+                                     CGRectGetWidth(mainViewBounds),
+                                     toolbarHeight)];
+        CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
+        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        toolbarShadow.opaque = YES;
+        toolbarShadow.alpha = 0.5;
+        [toolbar addSubview:toolbarShadow];
+        topNavigationLabel.font = [UIFont systemFontOfSize:16];
+        [titleView setFrame:CGRectMake(10, 0, titleWidth, 44)];
+        [toolbar addSubview:titleView];
+        [self.view addSubview:toolbar];
+        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        NSArray *items = [NSArray arrayWithObjects:
+                          spacer,
+                          extraButton,
+                          nil];
+        toolbar.items = items;
+        Twitterweb.autoresizingMask = UIViewAutoresizingNone;
+        [Twitterweb setFrame:CGRectMake(Twitterweb.frame.origin.x, Twitterweb.frame.origin.y + 44, Twitterweb.frame.size.width, Twitterweb.frame.size.height-44)];
+        Twitterweb.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    }
+    else {
+        self.navigationItem.titleView = titleView;
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+                                                   extraButton,
+                                                   nil];
+    }
+    [Twitterweb loadRequest:self.urlRequest];
 }
-
-
 
 - (void)viewDidUnload{
     [super viewDidUnload];
@@ -152,5 +286,12 @@
     return YES;
 }
 
+-(BOOL)shouldAutorotate{
+    return YES;
+}
+
+-(NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
 
 @end
