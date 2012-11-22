@@ -2590,8 +2590,43 @@ NSIndexPath *selected;
     if (choosedTab>=numTabs){
         choosedTab=0;
     }
-    manager = [SDWebImageManager sharedManager];
-    GlobalData *obj=[GlobalData getInstance];     
+    watchMode = [self.detailItem currentWatchMode];
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    
+    NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"parameters"] mutableCopy];
+    NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
+    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
+        [mutableProperties addObject:@"art"];
+        [mutableParameters setObject:mutableProperties forKey:@"properties"];
+    }
+    
+    self.searchDisplayController.searchBar.tintColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
+    if ([[methods objectForKey:@"albumView"] boolValue] == YES){
+        albumView = TRUE;
+    }
+    else if ([[methods objectForKey:@"episodesView"] boolValue] == YES){
+        episodesView = TRUE;
+    }
+    if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
+        dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+        self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+    }
+    
+    [detailView setClipsToBounds:YES];
+    trackCountLabelWidth = 26;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [self setIphoneInterface];
+    }
+    else {
+        [self setIpadInterface];
+    }
+    CGRect frame=dataList.frame;
+    frame.origin.x = viewWidth;
+    dataList.frame=frame;
+    [[SDImageCache sharedImageCache] clearMemory];
+    //    manager = [SDWebImageManager sharedManager];
+    GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];

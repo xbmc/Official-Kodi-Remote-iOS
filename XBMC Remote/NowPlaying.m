@@ -214,17 +214,45 @@ float cellBarWidth=45;
 }
 
 -(IBAction)togglePartyMode:(id)sender{
-    [PartyModeButton setSelected:YES];
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-
-    NSString *serverHTTP=[NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=PlayerControl(Partymode('music'))", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    NSURL *url = [NSURL  URLWithString:serverHTTP];
-    NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];  
-    requestANS=nil;
-    [self createPlaylist:NO];
-   // NSLog(@"SERVER RESPONSE : %@",requestANS);
-
+    if ([AppDelegate instance].serverVersion == 11){
+        storedItemID=-1;
+        [PartyModeButton setSelected:YES];
+        GlobalData *obj=[GlobalData getInstance];
+        NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+        NSString *serverHTTP=[NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=PlayerControl(Partymode('music'))", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+        NSURL *url = [NSURL  URLWithString:serverHTTP];
+        NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
+        requestANS=nil;
+        playerID = -1;
+        selectedPlayerID = -1;
+        [self createPlaylist:NO animTableView:YES];
+    }
+    else{
+        if (musicPartyMode){
+            [PartyModeButton setSelected:NO];
+            [jsonRPC
+             callMethod:@"Player.SetPartymode"
+             withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", @"toggle", @"partymode", nil]
+             onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                 [PartyModeButton setSelected:NO];
+             }];
+        }
+        else{
+            [PartyModeButton setSelected:YES];
+            [jsonRPC
+             callMethod:@"Player.Open"
+             withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSDictionary dictionaryWithObjectsAndKeys:@"music", @"partymode", nil], @"item", nil]
+             onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                 [PartyModeButton setSelected:YES];
+                 playerID = -1;
+                 selectedPlayerID = -1;
+                 storedItemID=-1;
+//                 [self createPlaylist:NO animTableView:YES];
+             }];
+        }
+    }
+    return;
 }
 
 -(void)fadeView:(UIView *)view hidden:(BOOL)value{
@@ -2395,19 +2423,30 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 226.0f)];
-    CGRect frame=volumeSliderView.frame;
-    frame.origin.x=258;
-    frame.origin.y=-226;
-    volumeSliderView.frame=frame;
-    [self.view addSubview:volumeSliderView];
-    UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-    self.navigationItem.rightBarButtonItem = settingsButton;
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    sheetActions = [[NSMutableArray alloc] init];
+    [[SDImageCache sharedImageCache] clearMemory];
+    playerID = -1;
+    selectedPlayerID = -1;
+    lastSelected = -1;
+    storedItemID = -1;
+    storeSelection = nil;
+    albumDetailsButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    albumTracksButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    artistDetailsButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    artistAlbumsButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    ProgressSlider.userInteractionEnabled = NO;
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+    UIImage *sliderRightTrackImage = [[UIImage imageNamed: @"slider"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
+    UIImage *sliderLeftTrackImage = [[UIImage imageNamed: @"slider_on"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
+    [ProgressSlider setMinimumTrackImage: sliderLeftTrackImage forState: UIControlStateNormal];
+    [ProgressSlider setMaximumTrackImage: sliderRightTrackImage forState: UIControlStateNormal];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [self setIphoneInterface];
+    }
+    else{
+        [self setIpadInterface];
+    }
     playlistData = [[NSMutableArray alloc] init ];
     manager = [SDWebImageManager sharedManager];
     [[NSNotificationCenter defaultCenter] addObserver: self

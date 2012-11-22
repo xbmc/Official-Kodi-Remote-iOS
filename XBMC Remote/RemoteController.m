@@ -650,7 +650,7 @@
 }
 
 -(void)sendXbmcHttp:(NSString *) command{
-    GlobalData *obj=[GlobalData getInstance]; 
+    GlobalData *obj=[GlobalData getInstance];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
 
     NSString *serverHTTP=[NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort, command];
@@ -1226,13 +1226,46 @@ NSInteger buttonAction;
     [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];    
     [inputAccView addSubview:keyboardLineImageView];
     
-    GlobalData *obj=[GlobalData getInstance]; 
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    UIImage* volumeImg = [UIImage imageNamed:@"volume.png"];
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:volumeImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleVolume)];
-    self.navigationItem.rightBarButtonItem = settingsButton;
+    UITextField *backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + 1, screenWidth - (padding - background_padding) * 2, verboseHeight)];
+    [backgroundTextField setUserInteractionEnabled:NO];
+    [backgroundTextField setBorderStyle:UITextBorderStyleRoundedRect];
+    [backgroundTextField setBackgroundColor:[UIColor whiteColor]];
+    [backgroundTextField setFont:[UIFont boldSystemFontOfSize:textSize]];
+    [backgroundTextField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+
+    [inputAccView addSubview:backgroundTextField];
+    [inputAccView addSubview:verboseOutput];
+
+    storeBrightness = -1;
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(revealMenu:)
+                                                 name: @"RevealMenu"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(toggleVirtualKeyboard:)
+                                                 name: @"UIToggleVirtualKeyboard"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(toggleQuickHelp:)
+                                                 name: @"UIToggleQuickHelp"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(toggleGestureZone:)
+                                                 name: @"UIToggleGestureZone"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(hideKeyboard:)
+                                                 name: @"ECSlidingViewUnderRightWillAppear"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(hideKeyboard:)
+                                                 name: @"ECSlidingViewUnderLeftWillAppear"
+                                               object: nil];
+}
+
+-(void) hideKeyboard:(id)sender{
+    [xbmcVirtualKeyboard resignFirstResponder];
 }
 
 - (void)viewDidUnload{
