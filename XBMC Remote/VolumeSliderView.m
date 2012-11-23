@@ -22,7 +22,7 @@
 		self = [nib objectAtIndex:0];
         CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * -0.5);
         volumeSlider.transform = trans;
-        [volumeLabel setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
+//        [volumeLabel setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
 //        [volumeSlider setMaximumTrackImage:[UIImage imageNamed:@"pgbar_inact_fake.png"] forState:UIControlStateNormal];
 //        [volumeSlider setMinimumTrackImage:[UIImage imageNamed:@"pgbar_act.png"] forState:UIControlStateNormal];
         [volumeSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
@@ -69,7 +69,19 @@
             [minusButton setShowsTouchWhenHighlighted:YES];
 
             volumeView.hidden = YES;
-            volumeLabel.hidden = YES;
+            frame_tmp = volumeLabel.frame;
+            frame_tmp.origin.y = (int)((320 - 12) / 2) - (int)(frame_tmp.size.height/2);
+            frame_tmp.origin.x = 22;
+            volumeLabel.frame = frame_tmp;
+            [volumeLabel setFont:[UIFont boldSystemFontOfSize:15]];
+            UIColor *darkShadow =[UIColor colorWithRed:.2 green:.2 blue:.2 alpha:.6];
+            [volumeLabel setTextColor:[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.8]];
+            [volumeLabel setShadowColor:darkShadow];
+            [volumeLabel setShadowOffset:CGSizeMake(.5f, .7f)];
+            volumeLabel.layer.shadowColor = darkShadow.CGColor;
+            volumeLabel.layer.shadowOffset = CGSizeMake(0, 0);
+            volumeLabel.layer.shadowOpacity = 1;
+            volumeLabel.layer.shadowRadius = 1.0;
             self.transform = trans;
             minusButton.transform = trans;
             trans = CGAffineTransformMakeRotation(M_PI * 0.5);
