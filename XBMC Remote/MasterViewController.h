@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "ECSlidingViewController.h"
+#import "tcpJSONRPC.h"
 
 @class DetailViewController;
 @class NowPlaying;
@@ -42,5 +43,6 @@
 @property (strong, nonatomic) NowPlaying *nowPlaying;
 @property (strong, nonatomic) RemoteController *remoteController;
 @property (strong, nonatomic) HostManagementViewController *hostController;
+@property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
 
 @end

@@ -76,6 +76,7 @@
 @synthesize hostPickerViewController = _hostPickerViewController;
 @synthesize appInfoView = _appInfoView;
 @synthesize appInfoPopover = _appInfoPopover;
+@synthesize tcpJSONRPCconnection;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -157,6 +158,7 @@
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText{
     if (status==YES){
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
         UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_on"]];
@@ -179,6 +181,9 @@
         }
     }
     else{
+        if (self.tcpJSONRPCconnection != nil){
+            [tcpJSONRPCconnection stopNetworkCommunication];
+        }
         UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_off"]];
@@ -394,6 +399,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     firstRun=YES;
     [AppDelegate instance].obj=[GlobalData getInstance]; 
     
@@ -579,6 +585,7 @@
 
 - (void)viewDidUnload{
     [super viewDidUnload];
+    self.tcpJSONRPCconnection = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

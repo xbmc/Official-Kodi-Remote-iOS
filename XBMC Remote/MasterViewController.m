@@ -16,6 +16,7 @@
 #import "HostViewController.h"
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
+#import "tcpJSONRPC.h"
 
 #define SERVER_TIMEOUT 2.0f
 
@@ -32,6 +33,7 @@
 @synthesize remoteController = _remoteController;
 @synthesize hostController = _hostController;
 @synthesize mainMenu;
+@synthesize tcpJSONRPCconnection;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -41,6 +43,7 @@
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText{
     NSDictionary *dataDict = [NSDictionary dictionaryWithObject:infoText forKey:@"infoText"];
     if (status==YES){
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
         [AppDelegate instance].serverOnLine = YES;
         [AppDelegate instance].serverName = infoText;
         itemIsActive = NO;
@@ -75,6 +78,9 @@
 //         }];
     }
     else{
+        if (self.tcpJSONRPCconnection != nil){
+            [tcpJSONRPCconnection stopNetworkCommunication];
+        }
         [AppDelegate instance].serverOnLine = NO;
         [AppDelegate instance].serverName = infoText;
         itemIsActive = NO;
@@ -332,6 +338,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     [self.slidingViewController setAnchorRightRevealAmount:280.0f];
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
     [AppDelegate instance].obj=[GlobalData getInstance];
@@ -373,6 +380,7 @@
     self.remoteController = nil;
     self.hostController = nil;
     navController = nil;
+    self.tcpJSONRPCconnection = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
@@ -383,6 +391,7 @@
     self.remoteController = nil;
     self.hostController = nil;
     navController = nil;
+    self.tcpJSONRPCconnection = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 

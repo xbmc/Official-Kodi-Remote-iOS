@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "gradientUIView.h"
+#import "tcpJSONRPC.h"
 
 @class MenuViewController;
 @class StackScrollViewController;
@@ -49,9 +50,8 @@
 @property (nonatomic, strong) StackScrollViewController* stackScrollViewController;
 @property (nonatomic, retain) UIPopoverController *serverPickerPopover;
 @property (nonatomic, retain) UIPopoverController *appInfoPopover;
-
+@property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
 @property (nonatomic, retain) HostManagementViewController *hostPickerViewController;
 @property (nonatomic, retain) AppInfoViewController *appInfoView;
-;
 
 @end
