@@ -88,11 +88,9 @@ NSMutableArray *hostRightMenuItems;
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]==YES){
         xbmcRemote.idleTimerDisabled = YES;
-        [[UIScreen mainScreen] setWantsSoftwareDimming:YES];
     }
     else {
         xbmcRemote.idleTimerDisabled = NO;
-        [[UIScreen mainScreen] setWantsSoftwareDimming:NO];
     }
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

@@ -221,23 +221,24 @@
 #pragma mark - Touch
 
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer {
-    if (recognizer.numberOfTouches == 2 && recognizer.direction == UISwipeGestureRecognizerDirectionDown){
-        NSLog(@"down");
-//        if (storeBrightness == -1){
-//            storeBrightness = [UIScreen mainScreen].brightness;
-//            [[UIScreen mainScreen] setWantsSoftwareDimming:YES];
-//            [[UIScreen mainScreen] setBrightness:0.0];
-//        }
-    }
-    else if (recognizer.numberOfTouches == 2 && recognizer.direction == UISwipeGestureRecognizerDirectionUp){
-        NSLog(@"up");
-//        if (storeBrightness > -1){
-//            [[UIScreen mainScreen] setWantsSoftwareDimming:NO];
-//            [[UIScreen mainScreen] setBrightness:storeBrightness];
-//            storeBrightness = -1;
-//        }
-    }
-    else if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+//    if (recognizer.numberOfTouches == 2 && recognizer.direction == UISwipeGestureRecognizerDirectionDown){
+////        NSLog(@"down");
+////        if (storeBrightness == -1){
+////            storeBrightness = [UIScreen mainScreen].brightness;
+////            [[UIScreen mainScreen] setWantsSoftwareDimming:YES];
+////            [[UIScreen mainScreen] setBrightness:0.0];
+////        }
+//    }
+//    else if (recognizer.numberOfTouches == 2 && recognizer.direction == UISwipeGestureRecognizerDirectionUp){
+////        NSLog(@"up");
+////        if (storeBrightness > -1){
+////            [[UIScreen mainScreen] setWantsSoftwareDimming:NO];
+////            [[UIScreen mainScreen] setBrightness:storeBrightness];
+////            storeBrightness = -1;
+////        }
+//    }
+//    else
+    if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
         buttonAction = 14;
         [self sendAction];
     }
