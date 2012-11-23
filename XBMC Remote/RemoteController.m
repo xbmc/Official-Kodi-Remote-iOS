@@ -1003,12 +1003,28 @@ NSInteger buttonAction;
         [xbmcVirtualKeyboard resignFirstResponder];
     }
     else {
-        [xbmcVirtualKeyboard becomeFirstResponder];
+        [self showKeyboard:nil];
+//        [xbmcVirtualKeyboard becomeFirstResponder];
     }
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     verboseOutput.text = xbmcVirtualKeyboard.text;
+    if ([keyboardTitle.text isEqualToString:@""]){
+        [inputAccView setFrame:
+         CGRectMake(0, 0, screenWidth, accessoryHeight - alignBottom)];
+        [verboseOutput setFrame:
+         CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - 3, screenWidth - padding * 2, verboseHeight)];
+        [backgroundTextField setFrame:
+         CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - 3, screenWidth - (padding - background_padding) * 2, verboseHeight)];
+//        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + 1)];
+    }
+    else{
+        [inputAccView setFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
+        [verboseOutput setFrame:CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - padding * 2, verboseHeight)];
+        [backgroundTextField setFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
+//        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
+    }
     [textField setInputAccessoryView:inputAccView];
 }
 
@@ -1146,17 +1162,19 @@ NSInteger buttonAction;
             }
         }
     }
-    int accessoryHeight = 36;
-    int padding = 25;
-    int verboseHeight = 24;
-    int textSize = 14;
-    int background_padding = 6;
+    accessoryHeight = 52;
+    padding = 25;
+    verboseHeight = 24;
+    textSize = 14;
+    background_padding = 6;
+    alignBottom = 10;
     UIColor *accessoryColor = [UIColor colorWithRed:0.565f green:0.596f blue:0.643f alpha:1];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        accessoryHeight = 54;
+        accessoryHeight = 74;
         verboseHeight = 34;
         padding = 50;
         textSize = 20;
+        alignBottom = 12;
         accessoryColor = [UIColor colorWithRed:0.615f green:0.611f blue:0.654f alpha:1];
 //        UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        torchButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
@@ -1208,10 +1226,10 @@ NSInteger buttonAction;
     
     CGRect screenBound = [[UIScreen mainScreen] bounds];
     CGSize screenSize = screenBound.size;
-    CGFloat screenWidth = screenSize.width;
+    screenWidth = screenSize.width;
 
-    verboseOutput = [[UILabel alloc] initWithFrame:CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + 1, screenWidth - padding * 2, verboseHeight)];
-    [verboseOutput setFont:[UIFont boldSystemFontOfSize:textSize]];
+    verboseOutput = [[UILabel alloc] initWithFrame:CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - padding * 2, verboseHeight)];
+    [verboseOutput setFont:[UIFont systemFontOfSize:textSize]];
     [verboseOutput setContentMode:UIViewContentModeScaleToFill];
     [verboseOutput setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
     [verboseOutput setLineBreakMode:NSLineBreakByTruncatingHead];
@@ -1225,14 +1243,25 @@ NSInteger buttonAction;
     [keyboardLineImageView setContentMode:UIViewContentModeScaleToFill];
     [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];    
     [inputAccView addSubview:keyboardLineImageView];
-    
-    UITextField *backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + 1, screenWidth - (padding - background_padding) * 2, verboseHeight)];
+
+    backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
     [backgroundTextField setUserInteractionEnabled:NO];
     [backgroundTextField setBorderStyle:UITextBorderStyleRoundedRect];
     [backgroundTextField setBackgroundColor:[UIColor whiteColor]];
     [backgroundTextField setFont:[UIFont boldSystemFontOfSize:textSize]];
     [backgroundTextField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
 
+    keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
+    [keyboardTitle setContentMode:UIViewContentModeScaleToFill];
+    [keyboardTitle setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+    [keyboardTitle setTextAlignment:NSTextAlignmentCenter];
+    [keyboardTitle setBackgroundColor:[UIColor clearColor]];
+    [keyboardTitle setFont:[UIFont boldSystemFontOfSize:textSize]];
+    [keyboardTitle setTextColor:[UIColor whiteColor]];
+    [keyboardTitle setShadowColor:[UIColor blackColor]];
+    [keyboardTitle setShadowOffset:CGSizeMake(0, 1)];
+    
+    [inputAccView addSubview:keyboardTitle];
     [inputAccView addSubview:backgroundTextField];
     [inputAccView addSubview:verboseOutput];
 
@@ -1262,10 +1291,39 @@ NSInteger buttonAction;
                                              selector: @selector(hideKeyboard:)
                                                  name: @"ECSlidingViewUnderLeftWillAppear"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(showKeyboard:)
+                                                 name: @"Input.OnInputRequested"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(hideKeyboard:)
+                                                 name: @"Input.OnInputFinished"
+                                               object: nil];
 }
 
 -(void) hideKeyboard:(id)sender{
     [xbmcVirtualKeyboard resignFirstResponder];
+}
+
+-(void) showKeyboard:(NSNotification *)note{
+    NSDictionary *params;
+    if (note!=nil){
+        params = [[note userInfo] objectForKey:@"params"];
+    }
+    keyboardTitle.text = @"";
+    if (params != nil){
+        if (((NSNull *)[params objectForKey:@"data"] != [NSNull null])){
+            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"title"] != [NSNull null])){
+                keyboardTitle.text = [[params objectForKey:@"data"] objectForKey:@"title"];
+            }
+            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"value"] != [NSNull null])){
+                if (![[[params objectForKey:@"data"] objectForKey:@"value"] isEqualToString:@""]){
+                    xbmcVirtualKeyboard.text = [[params objectForKey:@"data"] objectForKey:@"value"];
+                }
+            }
+        }
+    }
+    [xbmcVirtualKeyboard becomeFirstResponder];
 }
 
 - (void)viewDidUnload{

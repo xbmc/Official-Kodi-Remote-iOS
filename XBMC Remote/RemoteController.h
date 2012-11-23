@@ -31,6 +31,15 @@
     __weak IBOutlet UIImageView *gestureZoneImageView;
     BOOL torchIsOn;
     UILabel *verboseOutput;
+    UILabel *keyboardTitle;
+    UITextField *backgroundTextField;
+    int accessoryHeight;
+    int padding;
+    int verboseHeight;
+    int textSize;
+    int background_padding;
+    int alignBottom;
+    CGFloat screenWidth;
 }
 
 - (IBAction)startVibrate:(id)sender;
