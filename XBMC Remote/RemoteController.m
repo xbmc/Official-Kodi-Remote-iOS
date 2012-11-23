@@ -379,31 +379,6 @@
 
 # pragma mark - ToolBar
 
--(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
-	[UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	[UIView setAnimationDuration:seconds];
-    int actualPosY=view.frame.origin.y;
-    
-    if (actualPosY==Y || hide){
-        Y=-view.frame.size.height;
-    }
-    else{
-        [xbmcVirtualKeyboard resignFirstResponder];
-    }
-    view.alpha = alphavalue;
-	CGRect frame;
-	frame = [view frame];
-	frame.origin.y = Y;
-    view.frame = frame;
-    [UIView commitAnimations];
-}
-- (void)toggleVolume{
-//    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE];
-}
-
-
-
 -(void)toggleGestureZone:(id)sender{
     NSString *imageName=@"";
     BOOL showGesture = (gestureZoneView.alpha == 0);
@@ -773,7 +748,7 @@ NSInteger buttonAction;
         case 13:
             action=@"Input.Select";
             [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
-            [xbmcVirtualKeyboard resignFirstResponder];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
             break;
             
         case 14:
@@ -933,8 +908,9 @@ NSInteger buttonAction;
         [[UIDevice currentDevice] playInputClick];
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     }
-    [xbmcVirtualKeyboard resignFirstResponder];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
+
 # pragma  mark - Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
@@ -974,8 +950,7 @@ NSInteger buttonAction;
 #pragma mark - Quick Help
 
 -(IBAction)toggleQuickHelp:(id)sender{
-    [xbmcVirtualKeyboard resignFirstResponder];
-//    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     if (quickHelpView.alpha == 0){
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -996,80 +971,14 @@ NSInteger buttonAction;
     }
 }
 
-#pragma mark - UITextFieldDelegate Methods
-
+#pragma mark - Keyboard methods
+//
 -(void)toggleVirtualKeyboard:(id)sender{
-    if ([xbmcVirtualKeyboard isFirstResponder]){
-        [xbmcVirtualKeyboard resignFirstResponder];
-    }
-    else {
-        [self showKeyboard:nil];
-//        [xbmcVirtualKeyboard becomeFirstResponder];
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"toggleVirtualKeyboard" object:nil userInfo:nil];
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField{
-    verboseOutput.text = xbmcVirtualKeyboard.text;
-    if ([keyboardTitle.text isEqualToString:@""]){
-        [inputAccView setFrame:
-         CGRectMake(0, 0, screenWidth, accessoryHeight - alignBottom)];
-        [verboseOutput setFrame:
-         CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - 3, screenWidth - padding * 2, verboseHeight)];
-        [backgroundTextField setFrame:
-         CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - 3, screenWidth - (padding - background_padding) * 2, verboseHeight)];
-//        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + 1)];
-    }
-    else{
-        [inputAccView setFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
-        [verboseOutput setFrame:CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - padding * 2, verboseHeight)];
-        [backgroundTextField setFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
-//        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
-    }
-    [textField setInputAccessoryView:inputAccView];
-}
-
--(BOOL) textField: (UITextField *)theTextField shouldChangeCharactersInRange: (NSRange)range replacementString: (NSString *)string {
-    if ([AppDelegate instance].serverVersion == 11){
-        if (range.location == 0){ //BACKSPACE
-            [self sendXbmcHttp:@"SendKey(0xf108)"];
-            if ([verboseOutput.text length]>0){
-            [verboseOutput setText:[NSString stringWithFormat:@"%@", [verboseOutput.text substringToIndex:[verboseOutput.text length] - 1]]];
-            }
-            else{
-                verboseOutput.text = @"";
-            }
-        }
-        else{ // CHARACTER
-            int x = (unichar) [string characterAtIndex: 0];
-            if (x==10) {
-                [self GUIAction:@"Input.Select" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
-                [xbmcVirtualKeyboard resignFirstResponder];
-            }
-            else if (x<1000){
-                [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
-            }
-            [verboseOutput setText:[NSString stringWithFormat:@"%@%@", verboseOutput.text == nil ? @"" : verboseOutput.text, string]];
-        }
-        return NO;
-    }
-    else{
-        NSString *stringToSend = [theTextField.text stringByReplacingCharactersInRange:range withString:string];
-        if ([stringToSend isEqualToString:@""]){
-            stringToSend = @" ";
-        }
-        verboseOutput.text = stringToSend;
-        if ([string length] != 0){
-            int x = (unichar) [string characterAtIndex: 0];
-            if (x==10) {
-                [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", [NSNumber numberWithBool:TRUE], @"done", nil] httpAPIcallback:nil];
-                [xbmcVirtualKeyboard resignFirstResponder];
-                theTextField.text = @" ";
-                return YES;
-            }
-        }
-        [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", [NSNumber numberWithBool:FALSE], @"done", nil] httpAPIcallback:nil];
-        return YES;
-    }
+-(void) hideKeyboard:(id)sender{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
 #pragma mark - Life Cycle
@@ -1087,6 +996,30 @@ NSInteger buttonAction;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
     [self volumeInfo];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(revealMenu:)
+                                                 name: @"RevealMenu"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(toggleVirtualKeyboard:)
+                                                 name: @"UIToggleVirtualKeyboard"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(toggleQuickHelp:)
+                                                 name: @"UIToggleQuickHelp"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(toggleGestureZone:)
+                                                 name: @"UIToggleGestureZone"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(hideKeyboard:)
+                                                 name: @"ECSlidingViewUnderRightWillAppear"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(hideKeyboard:)
+                                                 name: @"ECSlidingViewUnderLeftWillAppear"
+                                               object: nil];
 }
 
 - (void)revealMenu:(id)sender{
@@ -1098,13 +1031,10 @@ NSInteger buttonAction;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-//        [volumeSliderView stopTimer];
-//    }
     [self stopHoldKey:nil];
-    [xbmcVirtualKeyboard resignFirstResponder];
-//    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)turnTorchOn:(UIButton *)sender {
@@ -1162,20 +1092,7 @@ NSInteger buttonAction;
             }
         }
     }
-    accessoryHeight = 52;
-    padding = 25;
-    verboseHeight = 24;
-    textSize = 14;
-    background_padding = 6;
-    alignBottom = 10;
-    UIColor *accessoryColor = [UIColor colorWithRed:0.565f green:0.596f blue:0.643f alpha:1];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        accessoryHeight = 74;
-        verboseHeight = 34;
-        padding = 50;
-        textSize = 20;
-        alignBottom = 12;
-        accessoryColor = [UIColor colorWithRed:0.615f green:0.611f blue:0.654f alpha:1];
 //        UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        torchButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
 //        [torchButton setContentMode:UIViewContentModeRight];
@@ -1216,129 +1133,20 @@ NSInteger buttonAction;
         helpButton.alpha = .9f;
         [self.view addSubview:helpButton];
     }
-    xbmcVirtualKeyboard = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-    xbmcVirtualKeyboard.hidden = YES;
-    xbmcVirtualKeyboard.delegate = self;
-    xbmcVirtualKeyboard.autocorrectionType = UITextAutocorrectionTypeNo;
-    xbmcVirtualKeyboard.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    xbmcVirtualKeyboard.text = @" ";
-    [self.view addSubview:xbmcVirtualKeyboard];
-    
-    CGRect screenBound = [[UIScreen mainScreen] bounds];
-    CGSize screenSize = screenBound.size;
-    screenWidth = screenSize.width;
-
-    verboseOutput = [[UILabel alloc] initWithFrame:CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - padding * 2, verboseHeight)];
-    [verboseOutput setFont:[UIFont systemFontOfSize:textSize]];
-    [verboseOutput setContentMode:UIViewContentModeScaleToFill];
-    [verboseOutput setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-    [verboseOutput setLineBreakMode:NSLineBreakByTruncatingHead];
-    [verboseOutput setUserInteractionEnabled:NO];
-    [verboseOutput setBackgroundColor:[UIColor clearColor]];
-
-    inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
-    [inputAccView setBackgroundColor:accessoryColor];
-    UIImageView *keyboardLineImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 2)];
-    [keyboardLineImageView setImage:[UIImage imageNamed:@"keyboard_line"]];
-    [keyboardLineImageView setContentMode:UIViewContentModeScaleToFill];
-    [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];    
-    [inputAccView addSubview:keyboardLineImageView];
-
-    backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
-    [backgroundTextField setUserInteractionEnabled:NO];
-    [backgroundTextField setBorderStyle:UITextBorderStyleRoundedRect];
-    [backgroundTextField setBackgroundColor:[UIColor whiteColor]];
-    [backgroundTextField setFont:[UIFont boldSystemFontOfSize:textSize]];
-    [backgroundTextField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-
-    keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
-    [keyboardTitle setContentMode:UIViewContentModeScaleToFill];
-    [keyboardTitle setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-    [keyboardTitle setTextAlignment:NSTextAlignmentCenter];
-    [keyboardTitle setBackgroundColor:[UIColor clearColor]];
-    [keyboardTitle setFont:[UIFont boldSystemFontOfSize:textSize]];
-    [keyboardTitle setTextColor:[UIColor whiteColor]];
-    [keyboardTitle setShadowColor:[UIColor blackColor]];
-    [keyboardTitle setShadowOffset:CGSizeMake(0, 1)];
-    
-    [inputAccView addSubview:keyboardTitle];
-    [inputAccView addSubview:backgroundTextField];
-    [inputAccView addSubview:verboseOutput];
-
     storeBrightness = -1;
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(revealMenu:)
-                                                 name: @"RevealMenu"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(toggleVirtualKeyboard:)
-                                                 name: @"UIToggleVirtualKeyboard"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(toggleQuickHelp:)
-                                                 name: @"UIToggleQuickHelp"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(toggleGestureZone:)
-                                                 name: @"UIToggleGestureZone"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(hideKeyboard:)
-                                                 name: @"ECSlidingViewUnderRightWillAppear"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(hideKeyboard:)
-                                                 name: @"ECSlidingViewUnderLeftWillAppear"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showKeyboard:)
-                                                 name: @"Input.OnInputRequested"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(hideKeyboard:)
-                                                 name: @"Input.OnInputFinished"
-                                               object: nil];
-}
-
--(void) hideKeyboard:(id)sender{
-    [xbmcVirtualKeyboard resignFirstResponder];
-}
-
--(void) showKeyboard:(NSNotification *)note{
-    NSDictionary *params;
-    if (note!=nil){
-        params = [[note userInfo] objectForKey:@"params"];
-    }
-    keyboardTitle.text = @"";
-    if (params != nil){
-        if (((NSNull *)[params objectForKey:@"data"] != [NSNull null])){
-            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"title"] != [NSNull null])){
-                keyboardTitle.text = [[params objectForKey:@"data"] objectForKey:@"title"];
-            }
-            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"value"] != [NSNull null])){
-                if (![[[params objectForKey:@"data"] objectForKey:@"value"] isEqualToString:@""]){
-                    xbmcVirtualKeyboard.text = [[params objectForKey:@"data"] objectForKey:@"value"];
-                }
-            }
-        }
-    }
-    [xbmcVirtualKeyboard becomeFirstResponder];
 }
 
 - (void)viewDidUnload{
     TransitionalView = nil;
     gestureZoneImageView = nil;
     [super viewDidUnload];
-//    volumeSliderView = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     jsonRPC = nil;
-    xbmcVirtualKeyboard = nil;
 }
 
 -(void)dealloc{
-//    volumeSliderView = nil;
     jsonRPC = nil;
-    xbmcVirtualKeyboard = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

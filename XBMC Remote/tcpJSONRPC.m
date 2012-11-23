@@ -50,7 +50,7 @@ CFReadStreamRef readStream;
 }
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
-    NSLog(@"stream event %i", streamEvent);
+//    NSLog(@"stream event %i", streamEvent);
 	switch (streamEvent) {
 			
 		case NSStreamEventOpenCompleted:
@@ -80,9 +80,9 @@ CFReadStreamRef readStream;
                                     [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:paramsDict];
                                 }
                             }
-                            else{
-                                NSLog(@"ERROR %@", parseError);
-                            }
+//                            else{
+//                                NSLog(@"ERROR %@", parseError);
+//                            }
 						}
 					}
 				}

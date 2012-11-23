@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
 #import "AppInfoViewController.h"
+#import "XBMCVirtualKeyboard.h"
 
 #define CONNECTION_TIMEOUT 240.0f
 #define SERVER_TIMEOUT 2.0f
@@ -400,6 +401,8 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
+    XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+    [self.view addSubview:virtualKeyboard];
     firstRun=YES;
     [AppDelegate instance].obj=[GlobalData getInstance]; 
     

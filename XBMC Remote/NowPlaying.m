@@ -2375,6 +2375,25 @@ int currentItemID;
             }
         }
     }
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleEnterForeground:)
+                                                 name: @"UIApplicationWillEnterForegroundNotification"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleXBMCPlaylistHasChanged:)
+                                                 name: @"XBMCPlaylistHasChanged"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleShakeNotification)
+                                                 name: @"UIApplicationShakeNotification"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(revealMenu:)
+                                                 name: @"RevealMenu"
+                                               object: nil];
+
     // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
 //    UIViewController *c = [[UIViewController alloc]init];
 //    [self presentModalViewController:c animated:NO];
@@ -2419,6 +2438,7 @@ int currentItemID;
 -(void)viewDidDisappear:(BOOL)animated{
     [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom]; 
     songDetailsView.alpha = 0;
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 - (void)viewDidLoad{
@@ -2449,24 +2469,6 @@ int currentItemID;
     }
     playlistData = [[NSMutableArray alloc] init ];
     manager = [SDWebImageManager sharedManager];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleEnterForeground:)
-                                                 name: @"UIApplicationWillEnterForegroundNotification"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleXBMCPlaylistHasChanged:)
-                                                 name: @"XBMCPlaylistHasChanged"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleShakeNotification)
-                                                 name: @"UIApplicationShakeNotification"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(revealMenu:)
-                                                 name: @"RevealMenu"
-                                               object: nil];
 }
 
 -(void)handleShakeNotification{

@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
 #import "tcpJSONRPC.h"
+#import "XBMCVirtualKeyboard.h"
 
 #define SERVER_TIMEOUT 2.0f
 
@@ -339,6 +340,8 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
+    XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+    [self.view addSubview:virtualKeyboard];
     [self.slidingViewController setAnchorRightRevealAmount:280.0f];
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
     [AppDelegate instance].obj=[GlobalData getInstance];

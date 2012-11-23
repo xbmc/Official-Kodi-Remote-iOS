@@ -19,8 +19,8 @@
     NSTimer *fadeoutTimer;
     IBOutlet UIView *quickHelpView;
     IBOutlet UIImageView *quickHelpImageView;
-    UITextField *xbmcVirtualKeyboard;
-    UIView *inputAccView;
+//    UITextField *xbmcVirtualKeyboard;
+//    UIView *inputAccView;
     IBOutlet UIView *gestureZoneView;
     IBOutlet UIView *buttonZoneView;
     IBOutlet UIImageView *panFallbackImageView;
@@ -33,13 +33,13 @@
     UILabel *verboseOutput;
     UILabel *keyboardTitle;
     UITextField *backgroundTextField;
-    int accessoryHeight;
-    int padding;
-    int verboseHeight;
-    int textSize;
-    int background_padding;
-    int alignBottom;
-    CGFloat screenWidth;
+//    int accessoryHeight;
+//    int padding;
+//    int verboseHeight;
+//    int textSize;
+//    int background_padding;
+//    int alignBottom;
+//    CGFloat screenWidth;
 }
 
 - (IBAction)startVibrate:(id)sender;
