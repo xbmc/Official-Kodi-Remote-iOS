@@ -140,9 +140,9 @@
         [inputAccView setFrame:
          CGRectMake(0, 0, screenWidth, accessoryHeight - alignBottom)];
         [verboseOutput setFrame:
-         CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - 3, screenWidth - padding * 2, verboseHeight)];
+         CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - (int)(alignBottom/2), screenWidth - padding * 2, verboseHeight)];
         [backgroundTextField setFrame:
-         CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - 3, screenWidth - (padding - background_padding) * 2, verboseHeight)];
+         CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - (int)(alignBottom/2), screenWidth - (padding - background_padding) * 2, verboseHeight)];
     }
     else{
         [inputAccView setFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
