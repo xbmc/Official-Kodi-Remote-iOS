@@ -14,7 +14,8 @@
 @synthesize serverUser;    
 @synthesize serverPass;    
 @synthesize serverIP;    
-@synthesize serverPort;   
+@synthesize serverPort;
+@synthesize tcpPort;
 @synthesize serverHWAddr;
 @synthesize preferTVPosters;    
 

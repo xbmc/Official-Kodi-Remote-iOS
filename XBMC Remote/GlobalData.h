@@ -14,6 +14,7 @@
     NSString *serverPass; 
     NSString *serverIP; 
     NSString *serverPort;
+    int tcpPort;
     NSString *serverHWAddr; 
     BOOL preferTVPosters;
 
@@ -22,7 +23,8 @@
 @property(nonatomic,retain)NSString *serverDescription;    
 @property(nonatomic,retain)NSString *serverUser;    
 @property(nonatomic,retain)NSString *serverPass;    
-@property(nonatomic,retain)NSString *serverIP;    
+@property(nonatomic,retain)NSString *serverIP;
+@property int tcpPort;
 @property(nonatomic,retain)NSString *serverPort; 
 @property(nonatomic,retain)NSString *serverHWAddr; 
 @property BOOL preferTVPosters;
