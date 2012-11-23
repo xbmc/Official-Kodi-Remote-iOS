@@ -10,7 +10,6 @@
 
 NSInputStream	*inStream;
 NSOutputStream	*outStream;
-CFReadStreamRef readStream;
 //	CFWriteStreamRef writeStream;
 
 @implementation tcpJSONRPC
@@ -19,8 +18,10 @@ CFReadStreamRef readStream;
     if (port == 0){
         port = 9090;
     }
-	CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)server, port, &readStream, NULL);
-	inStream = (__bridge NSInputStream *)readStream;
+    CFReadStreamRef readStream;
+
+	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)CFBridgingRetain(server), port, &readStream, NULL);
+	inStream = (NSInputStream *)CFBridgingRelease(readStream);
 //	outStream = (__bridge NSOutputStream *)writeStream;
 	[inStream setDelegate:self];
 //	[outStream setDelegate:self];
@@ -37,11 +38,11 @@ CFReadStreamRef readStream;
         [inStream setDelegate:nil];
         inStream = nil;
     }
-    if (readStream != nil){
-        CFReadStreamUnscheduleFromRunLoop(readStream, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
-        CFReadStreamClose(readStream);
-        CFRelease(readStream);
-    }
+//    if (readStream != nil){
+//        CFReadStreamUnscheduleFromRunLoop(readStream, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
+//        CFReadStreamClose(readStream);
+//        CFRelease(readStream);
+//    }
 //    if (outStream != nil){
 //        [outStream close];
 //        [outStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
