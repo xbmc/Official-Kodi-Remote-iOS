@@ -12,7 +12,6 @@
 @implementation XBMCVirtualKeyboard
 
 - (id)initWithFrame:(CGRect)frame{
-    NSLog(@"istanzio");
     self = [super initWithFrame:frame];
     if (self) {
         accessoryHeight = 52;
