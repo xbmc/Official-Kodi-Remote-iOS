@@ -45,7 +45,7 @@ NSOutputStream	*outStream;
 }
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
-//    NSLog(@"stream event %i", streamEvent);
+//    NSLog(@"event %i", streamEvent);
 	switch (streamEvent) {
 			
 		case NSStreamEventOpenCompleted:
@@ -85,7 +85,7 @@ NSOutputStream	*outStream;
 			break;
             
 		case NSStreamEventErrorOccurred:
-            //			NSLog(@"Can not connect to the host!");
+//             NSLog(@"Can't connect"); // 8
 			break;
 			
 		case NSStreamEventEndEncountered:
@@ -95,7 +95,6 @@ NSOutputStream	*outStream;
             theStream = nil;
             break;
 		default:
-            //			NSLog(@"Unknown event");
             break;
 	}    
 }

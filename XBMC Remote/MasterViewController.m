@@ -131,10 +131,10 @@
              [AppDelegate instance].serverVolume = [[methodResult objectForKey:@"volume"] intValue];
              if (![AppDelegate instance].serverOnLine){
                  if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                 NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
-                 [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
-                 NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
-                 [self changeServerStatus:YES infoText:infoTitle];
+                     NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
+                     [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
+                     NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
+                     [self changeServerStatus:YES infoText:infoTitle];
                  }
                  else{
                      if ([AppDelegate instance].serverOnLine){

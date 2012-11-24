@@ -690,6 +690,7 @@ int originYear = 0;
             }
             id obj = [item objectForKey:[mainFields objectForKey:@"row6"]];
             id objKey = [mainFields objectForKey:@"row6"];
+//            NSLog(@"ECCOCI %d ");
             if ([AppDelegate instance].serverVersion>11 && !([MenuItem.subItem disableFilterParameter] || [[parameters objectForKey:@"disableFilterParameter"] boolValue])){
                 obj = [NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:[mainFields objectForKey:@"row6"]],[mainFields objectForKey:@"row6"], nil];
                 objKey = @"filter";
@@ -1576,7 +1577,7 @@ NSIndexPath *selected;
             }
         }
         else {
-            NSLog(@"ci deve essere un primo problema %@", methodError);
+//            NSLog(@"ci deve essere un primo problema %@", methodError);
             [queuing stopAnimating];
         }
     }];
@@ -2261,34 +2262,36 @@ NSIndexPath *selected;
                      }
                      NSString *seasonNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row10"]]];
                      
+                      NSString *family = [NSString stringWithFormat:@"%@", [mainFields objectForKey:@"row8"]];
+                     
                       NSString *episodeNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]]];
                      
                      [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                   label, @"label",
-                                                   genre, @"genre",
-                                                   stringURL, @"thumbnail",
-                                                   fanartURL, @"fanart",
-                                                   runtime, @"runtime",
-                                                   seasonNumber, @"season",
-                                                   episodeNumber, @"episode",
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"],
-                                                   year, @"year",
-                                                   [NSString stringWithFormat:@"%@", rating], @"rating",
-                                                   [mainFields objectForKey:@"playlistid"], @"playlistid",
-                                                   value, key,
-                                                   [mainFields objectForKey:@"row8"], @"family",
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row9"]], [mainFields objectForKey:@"row9"],
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row11"]], [mainFields objectForKey:@"row11"],
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]], [mainFields objectForKey:@"row13"],
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]], [mainFields objectForKey:@"row14"],
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]], [mainFields objectForKey:@"row15"],
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row16"]], [mainFields objectForKey:@"row16"],
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row17"]], [mainFields objectForKey:@"row17"],
-                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
-                                                   nil]];
+                                                  label, @"label",
+                                                  genre, @"genre",
+                                                  stringURL, @"thumbnail",
+                                                  fanartURL, @"fanart",
+                                                  runtime, @"runtime",
+                                                  seasonNumber, @"season",
+                                                  episodeNumber, @"episode",
+                                                  family, @"family",
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"],
+                                                  year, @"year",
+                                                  [NSString stringWithFormat:@"%@", rating], @"rating",
+                                                  [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                                  value, key,
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row9"]], [mainFields objectForKey:@"row9"],
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row11"]], [mainFields objectForKey:@"row11"],
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]], [mainFields objectForKey:@"row13"],
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]], [mainFields objectForKey:@"row14"],
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]], [mainFields objectForKey:@"row15"],
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row16"]], [mainFields objectForKey:@"row16"],
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row17"]], [mainFields objectForKey:@"row17"],
+                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
+                                                  nil]];
                  }
 //                 NSLog(@"END STORE");
 //                 NSLog(@"RICH RESULTS %@", resultStoreArray);
@@ -2318,14 +2321,14 @@ NSIndexPath *selected;
          }
          else {
 //             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
-             if (!callBack){
-                 callBack = TRUE;
-                 NSMutableDictionary *mutableParameters = [parameters mutableCopy];
-                 [mutableParameters removeObjectForKey:@"sort"];
-                 [self retrieveData:methodToCall parameters:mutableParameters sectionMethod:SectionMethodToCall sectionParameters:sectionParameters resultStore:resultStoreArray extraSectionCall:NO];
-//                 [self retrieveData:methodToCall parameters:mutableParameters];
-             }
-             else{
+//             if (!callBack){
+//                 callBack = TRUE;
+//                 NSMutableDictionary *mutableParameters = [parameters mutableCopy];
+//                 [mutableParameters removeObjectForKey:@"sort"];
+//                 [self retrieveData:methodToCall parameters:mutableParameters sectionMethod:SectionMethodToCall sectionParameters:sectionParameters resultStore:resultStoreArray extraSectionCall:NO];
+////                 [self retrieveData:methodToCall parameters:mutableParameters];
+//             }
+//             else{
 //                 debugText.text = [NSString stringWithFormat:@"%@\n*ERROR: %@", debugText.text, methodError];
                  [resultStoreArray removeAllObjects];
                  [self.sections removeAllObjects];
@@ -2334,7 +2337,7 @@ NSIndexPath *selected;
                  [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
                  [activityIndicatorView stopAnimating];
                  [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-             }
+//             }
          }
      }];
 }
