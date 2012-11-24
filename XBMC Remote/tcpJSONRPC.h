@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface tcpJSONRPC : NSObject <NSStreamDelegate> 
-- (void) startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port;
-- (void) stopNetworkCommunication;
+- (void)startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port;
+- (void)stopNetworkCommunication;
+- (NSStreamStatus)currentSocketInStatus;
 
 @end

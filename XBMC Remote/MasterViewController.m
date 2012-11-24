@@ -348,6 +348,14 @@
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleWillResignActive:)
+                                                 name: @"UIApplicationWillResignActiveNotification"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleDidEnterBackground:)
+                                                 name: @"UIApplicationDidEnterBackgroundNotification"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
@@ -360,7 +368,18 @@
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
-- (void) handleEnterForeground: (NSNotification*) sender;{
+- (void) handleWillResignActive: (NSNotification*) sender{
+    [tcpJSONRPCconnection stopNetworkCommunication];
+}
+
+- (void) handleDidEnterBackground: (NSNotification*) sender{
+    [tcpJSONRPCconnection stopNetworkCommunication];
+}
+
+- (void) handleEnterForeground: (NSNotification*) sender{
+    if ([AppDelegate instance].serverOnLine == YES){
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
+    }
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{

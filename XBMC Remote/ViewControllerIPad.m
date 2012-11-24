@@ -556,6 +556,18 @@
                                              selector: @selector(handleStackScrollOffScreen:)
                                                  name: @"StackScrollOffScreen"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleWillResignActive:)
+                                                 name: @"UIApplicationWillResignActiveNotification"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleDidEnterBackground:)
+                                                 name: @"UIApplicationDidEnterBackgroundNotification"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleEnterForeground:)
+                                                 name: @"UIApplicationWillEnterForegroundNotification"
+                                               object: nil];
 }
 
 - (void)handleStackScrollOnScreen: (NSNotification*) sender{
@@ -584,6 +596,20 @@
     }
     [self changeServerStatus:NO infoText:@"No connection"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+}
+
+- (void) handleWillResignActive: (NSNotification*) sender{
+    [tcpJSONRPCconnection stopNetworkCommunication];
+}
+
+- (void) handleDidEnterBackground: (NSNotification*) sender{
+    [tcpJSONRPCconnection stopNetworkCommunication];
+}
+
+- (void) handleEnterForeground: (NSNotification*) sender{
+    if ([AppDelegate instance].serverOnLine == YES){
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
+    }
 }
 
 - (void)viewDidUnload{

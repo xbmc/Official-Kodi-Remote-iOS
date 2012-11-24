@@ -14,12 +14,11 @@ NSOutputStream	*outStream;
 
 @implementation tcpJSONRPC
 
-- (void) startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port{
+- (void)startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port{
     if (port == 0){
         port = 9090;
     }
     CFReadStreamRef readStream;
-
 	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)CFBridgingRetain(server), port, &readStream, NULL);
 	inStream = (NSInputStream *)CFBridgingRelease(readStream);
 //	outStream = (__bridge NSOutputStream *)writeStream;
@@ -31,23 +30,18 @@ NSOutputStream	*outStream;
 //	[outStream open];
 }
 
--(void) stopNetworkCommunication{
-    if (inStream != nil){
+-(NSStreamStatus)currentSocketInStatus{
+    return [inStream streamStatus];
+}
+
+-(void)stopNetworkCommunication{
+    NSStreamStatus current_status =[inStream streamStatus];
+    if (current_status == NSStreamStatusOpen){
         [inStream close];
         [inStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         [inStream setDelegate:nil];
         inStream = nil;
     }
-//    if (readStream != nil){
-//        CFReadStreamUnscheduleFromRunLoop(readStream, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
-//        CFReadStreamClose(readStream);
-//        CFRelease(readStream);
-//    }
-//    if (outStream != nil){
-//        [outStream close];
-//        [outStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-////        outStream = nil;
-//    }
 }
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {

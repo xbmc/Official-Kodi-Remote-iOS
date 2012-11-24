@@ -2509,7 +2509,7 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
         xbmcRemote.idleTimerDisabled = NO;
         [[UIScreen mainScreen] setWantsSoftwareDimming:NO];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
 }
 
 - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event{
