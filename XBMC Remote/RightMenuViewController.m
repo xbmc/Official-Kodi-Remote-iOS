@@ -98,6 +98,13 @@
     UIImageView *line = (UIImageView*) [cell viewWithTag:4];
     NSString *iconName = @"";
     if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfo"]){
+        if (putXBMClogo == YES){
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(165, (int)((44/2) - (36/2)) - 2, 145, 36)];
+            xbmc_logo. alpha = .25f;
+            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+            [cell insertSubview:xbmc_logo atIndex:0];
+            putXBMClogo = NO;
+        }
         iconName = @"connection_off";
         icon.alpha = 1;
         if ([AppDelegate instance].serverOnLine){
@@ -334,6 +341,7 @@
     }
     else {
         infoLabel.alpha = 1;
+        putXBMClogo = YES;
         [self setRightMenuOption:@"utility"];
 
     }
@@ -461,6 +469,7 @@
             [labelsList removeAllObjects];
             [menuTableView reloadData];
             infoLabel.alpha = 1;
+            putXBMClogo = YES;
             [self setRightMenuOption:@"utility"];
         }
     }

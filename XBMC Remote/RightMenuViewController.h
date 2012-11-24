@@ -29,6 +29,7 @@
     VolumeSliderView *volumeSliderView;
     RemoteController *remoteControllerView;
     BOOL torchIsOn;
+    BOOL putXBMClogo;
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;
