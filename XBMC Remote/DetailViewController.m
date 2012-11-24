@@ -2429,7 +2429,9 @@ NSIndexPath *selected;
 
 -(void)viewWillDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
@@ -2455,6 +2457,21 @@ NSIndexPath *selected;
 //    UIViewController *c = [[UIViewController alloc]init];
 //    [self presentViewController:c animated:NO completion:nil];
 //    [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleTabHasChanged:)
+                                                 name: @"tabHasChanged"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(revealMenu:)
+                                                 name: @"RevealMenu"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleSwipeFromLeft:)
+                                                 name: @"ECSLidingSwipeLeft"
+                                               object: nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -2573,6 +2590,7 @@ NSIndexPath *selected;
 }
 
 - (void)viewDidLoad{
+    [super viewDidLoad];
     thumbBorderWidth = 1.0f;
     for(UIView *subView in self.searchDisplayController.searchBar.subviews){
         if([subView isKindOfClass: [UITextField class]]){
@@ -2647,15 +2665,6 @@ NSIndexPath *selected;
         [activityIndicatorView stopAnimating];
         [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleTabHasChanged:)
-                                                 name: @"tabHasChanged"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(revealMenu:)
-                                                 name: @"RevealMenu"
-                                               object: nil];
-    [super viewDidLoad];
 }
 
 - (void)viewDidUnload{

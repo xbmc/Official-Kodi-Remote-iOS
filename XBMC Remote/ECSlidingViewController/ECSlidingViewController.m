@@ -16,6 +16,7 @@ NSString *const ECSlidingViewTopDidAnchorLeft        = @"ECSlidingViewTopDidAnch
 NSString *const ECSlidingViewTopDidAnchorRight       = @"ECSlidingViewTopDidAnchorRight";
 NSString *const ECSlidingViewTopWillReset            = @"ECSlidingViewTopWillReset";
 NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidReset";
+#define SWIPE_LEFT_THRESHOLD -100.0f
 
 @interface ECSlidingViewController()
 
@@ -276,7 +277,9 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
   } else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
     CGPoint currentVelocityPoint = [recognizer velocityInView:self.view];
     CGFloat currentVelocityX     = currentVelocityPoint.x;
-    
+    if (currentVelocityX < SWIPE_LEFT_THRESHOLD){ // Detected a swipe to the left
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ECSLidingSwipeLeft" object:nil userInfo:nil];
+    }
     if ([self underLeftShowing] && currentVelocityX > 100) {
       [self anchorTopViewTo:ECRight];
     } else if ([self underRightShowing] && currentVelocityX < 100) {
