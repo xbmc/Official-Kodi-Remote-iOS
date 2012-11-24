@@ -1179,7 +1179,9 @@ int h=0;
 
 #pragma mark - Gestures
 - (void)handleSwipeFromLeft:(id)sender {
-    [self showNowPlaying];
+    if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
+        [self showNowPlaying];
+    }
 }
 
 # pragma  mark - JSON Data
@@ -1303,7 +1305,9 @@ int h=0;
 
 -(void)viewWillAppear:(BOOL)animated{
     alreadyPush=NO;
-
+    self.slidingViewController.underRightViewController = nil;
+    self.slidingViewController.anchorLeftPeekAmount     = 0;
+    self.slidingViewController.anchorLeftRevealAmount   = 0;
     // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
 //    if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
 //        UIViewController *c = [[UIViewController alloc]init];
@@ -1343,40 +1347,16 @@ int h=0;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-//    float alphaValue = 0.2;
-//    if (closeButton.alpha==1){
-//        alphaValue = 1;
-//    }
-//    if (!enableKenBurns){
-//        [self alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
-//    }
-//    else{
-//        if (fanartView.image!=nil){
-//            fanartView.alpha = 0;
-//            [self.kenView stopAnimation];
-//            [self.kenView removeFromSuperview];
-//            self.kenView = nil;
-//            self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
-//            self.kenView.autoresizingMask = fanartView.autoresizingMask;
-//            self.kenView.contentMode = fanartView.contentMode;
-//            self.kenView.delegate = self;
-//            self.kenView.alpha = 0;
-//            NSArray *backgroundImages = [NSArray arrayWithObjects:
-//                                         fanartView.image,
-//                                         nil];
-//            [self.kenView animateWithImages:backgroundImages
-//                         transitionDuration:45
-//                                       loop:YES
-//                                isLandscape:YES];
-//            [self.view insertSubview:self.kenView atIndex:1];
-//        }
-//        [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
-//    }
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleSwipeFromLeft:)
+                                                 name: @"ECSLidingSwipeLeft"
+                                               object: nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
+
 -(void)viewDidDisappear:(BOOL)animated{
     [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0f];
     if (self.kenView != nil){
@@ -1424,6 +1404,7 @@ int h=0;
 
 - (void)viewDidUnload{
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 -(void)dealloc{
@@ -1434,6 +1415,7 @@ int h=0;
     scrollView=nil;
     self.nowPlaying = nil;
     self.kenView = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

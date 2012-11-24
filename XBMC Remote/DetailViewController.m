@@ -1409,7 +1409,9 @@ NSIndexPath *selected;
 #pragma mark - Gestures
 
 - (void)handleSwipeFromLeft:(id)sender {
-    [self showNowPlaying];
+    if (![self.detailItem disableNowPlaying]){
+        [self showNowPlaying];
+    }
 }
 
 - (void)handleSwipeFromRight:(id)sender {
@@ -1469,7 +1471,7 @@ NSIndexPath *selected;
             self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
             UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
             leftSwipe.numberOfTouchesRequired = 1;
-            leftSwipe.cancelsTouchesInView=NO;
+            leftSwipe.cancelsTouchesInView = NO;
             leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
             [self.view addGestureRecognizer:leftSwipe];
         }
