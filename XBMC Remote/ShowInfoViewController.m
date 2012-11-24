@@ -670,7 +670,7 @@ int h=0;
             parentalRatingLabel.hidden = YES;
             
             frame = label6.frame;
-            frame.origin.y = frame.origin.y-40;
+            frame.origin.y = frame.origin.y + shiftParentalRating;
             label6.frame = frame;
             
             jewelView.image = [UIImage imageNamed:@"jewel_tv.9.png"];
