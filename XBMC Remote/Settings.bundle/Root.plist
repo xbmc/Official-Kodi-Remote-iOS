@@ -54,11 +54,17 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>lockscreen_preference</string>
+			<string>shake_preference</string>
 			<key>Title</key>
-			<string>Override Lockscreen</string>
+			<string>Shake to clear playlist</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Remote Control</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
@@ -81,12 +87,18 @@
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
+			<key>Title</key>
+			<string>App Settings</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>shake_preference</string>
+			<string>lockscreen_preference</string>
 			<key>Title</key>
-			<string>Shake to clear playlist</string>
+			<string>Override Lockscreen</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
