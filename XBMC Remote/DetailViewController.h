@@ -75,6 +75,7 @@
     int trackCountLabelWidth;
     int labelPadding;
     float thumbBorderWidth;
+    NSArray *sectionArray;
 }
 
 - (id)initWithFrame:(CGRect)frame;

@@ -460,7 +460,7 @@ int originYear = 0;
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{ 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if (tableView == self.searchDisplayController.searchResultsTableView){
         int numResult=[self.filteredListContent count];
         if (numResult){
@@ -476,7 +476,7 @@ int originYear = 0;
     }
     else {
         if(section == 0){return nil;}
-        return [[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section];
+        return [sectionArray objectAtIndex:section];
     }
 }
 
@@ -485,7 +485,7 @@ int originYear = 0;
         return [self.filteredListContent count];
     }
 	else {
-        return [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section]] count];  
+        return [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count];
     }
 }
 
@@ -503,7 +503,7 @@ int originYear = 0;
     }
     else {
         if ([self.detailItem enableSection]  && [richResults count]>SECTIONS_START_AT){
-            return [[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+            return sectionArray;
         }
         else {
             return nil;
@@ -550,7 +550,7 @@ int originYear = 0;
         item = [self.filteredListContent objectAtIndex:indexPath.row];
     }
 	else{
-        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
     UILabel *title=(UILabel*) [cell viewWithTag:1];
     UILabel *genre=(UILabel*) [cell viewWithTag:2];
@@ -662,13 +662,12 @@ int originYear = 0;
         offsetPoint.y = offsetPoint.y - 44;
     }
     else{
-        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
         cell = [dataList cellForRowAtIndexPath:indexPath];
         offsetPoint = [dataList contentOffset];
     }
     int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
-    
     NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
     if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
         NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
@@ -979,7 +978,7 @@ int originYear = 0;
             item = [richResults objectAtIndex:0];
         }
         else{
-            item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section]] objectAtIndex:0];
+            item = [[self.sections valueForKey:[sectionArray objectAtIndex:section]] objectAtIndex:0];
         }
         int seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:extraSectionRichResults];
         float seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
@@ -1304,7 +1303,7 @@ NSIndexPath *selected;
 
                 }
                 else{
-                    item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+                    item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
                     [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
                 }
 //                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
@@ -1341,7 +1340,7 @@ NSIndexPath *selected;
             item = [self.filteredListContent objectAtIndex:selected.row];
         }
         else{
-            item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:selected.section]] objectAtIndex:selected.row];
+            item = [[self.sections valueForKey:[sectionArray objectAtIndex:selected.section]] objectAtIndex:selected.row];
         }
         if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"]){
             NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
@@ -1389,7 +1388,7 @@ NSIndexPath *selected;
         item = [self.filteredListContent objectAtIndex:indexPath.row];
     }
     else{
-        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
     NSString *query = [[item objectForKey:@"label"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSString *url = [NSString stringWithFormat:serviceURL, query]; 
@@ -1534,7 +1533,7 @@ NSIndexPath *selected;
         item = [self.filteredListContent objectAtIndex:indexPath.row];
     }
     else{
-        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
     [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
@@ -1596,7 +1595,7 @@ NSIndexPath *selected;
         item = [self.filteredListContent objectAtIndex:indexPath.row];
     }
     else{
-        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
     
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
@@ -1686,7 +1685,7 @@ NSIndexPath *selected;
         item = [self.filteredListContent objectAtIndex:indexPath.row];
     }
     else{
-        item = [[self.sections valueForKey:[[[self.sections allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
 
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
@@ -2346,6 +2345,7 @@ NSIndexPath *selected;
     [self choseParams];
     [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
     numResults=[richResults count];
+    sectionArray = nil;
     if (numResults==0){
         albumView = FALSE;
         episodesView = FALSE;
@@ -2418,6 +2418,10 @@ NSIndexPath *selected;
             [[self.sections objectForKey:@""] addObject:item];
         }
     }
+    sectionArray = [[NSArray alloc] initWithArray:
+                    [[self.sections allKeys] sortedArrayUsingComparator:^(id firstObject, id secondObject) {
+        return [self alphaNumericCompare:firstObject secondObject:secondObject];
+    }]];
     //    NSLog(@"END INDEX");
     if (![richResults count]){
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
@@ -2428,6 +2432,13 @@ NSIndexPath *selected;
     [activityIndicatorView stopAnimating];
     [dataList reloadData];
     [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
+}
+
+-(NSComparisonResult)alphaNumericCompare:(id)firstObject secondObject:(id)secondObject{
+    if (episodesView){
+        return [((NSString *)firstObject) compare:((NSString *)secondObject) options:NSNumericSearch];
+    }
+    return [((NSString *)firstObject) localizedCaseInsensitiveCompare:((NSString *)secondObject)];
 }
 
 # pragma mark - Life-Cycle
