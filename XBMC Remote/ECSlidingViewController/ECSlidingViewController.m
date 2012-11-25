@@ -16,7 +16,7 @@ NSString *const ECSlidingViewTopDidAnchorLeft        = @"ECSlidingViewTopDidAnch
 NSString *const ECSlidingViewTopDidAnchorRight       = @"ECSlidingViewTopDidAnchorRight";
 NSString *const ECSlidingViewTopWillReset            = @"ECSlidingViewTopWillReset";
 NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidReset";
-#define SWIPE_LEFT_THRESHOLD -100.0f
+#define SWIPE_LEFT_THRESHOLD -1000.0f
 
 @interface ECSlidingViewController()
 
