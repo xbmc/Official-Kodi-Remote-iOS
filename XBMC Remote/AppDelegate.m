@@ -669,7 +669,7 @@ NSMutableArray *hostRightMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                                     @"artist", @"method",
+                                     @"label", @"method",
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
                                     nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
@@ -1106,7 +1106,7 @@ NSMutableArray *hostRightMenuItems;
     item2.icon = @"icon_home_movie_alt";
     item2.family = 1;
     item2.enableSection=YES;
-    item2.mainButtons=[NSArray arrayWithObjects:@"st_movie",  @"st_genre", @"st_concert", @"st_movie_recently", @"st_filemode", @"st_addons", @"st_livetv", nil];
+    item2.mainButtons=[NSArray arrayWithObjects:@"st_movie",  @"st_movie_genre", @"st_concert", @"st_movie_recently", @"st_filemode", @"st_addons", @"st_livetv", nil];
     item2.mainMethod=[NSMutableArray arrayWithObjects:
                       [NSArray arrayWithObjects:
                        @"VideoLibrary.GetMovies", @"method",
