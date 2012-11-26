@@ -689,8 +689,8 @@ int originYear = 0;
             }
             id obj = [item objectForKey:[mainFields objectForKey:@"row6"]];
             id objKey = [mainFields objectForKey:@"row6"];
-//            NSLog(@"ECCOCI %d ");
-            if ([AppDelegate instance].serverVersion>11 && !([MenuItem.subItem disableFilterParameter] || [[parameters objectForKey:@"disableFilterParameter"] boolValue])){
+//            NSLog(@"ECCOCI %d %d", [MenuItem.subItem disableFilterParameter], [[parameters objectForKey:@"disableFilterParameter"] boolValue]);
+            if ([AppDelegate instance].serverVersion>11 && [[parameters objectForKey:@"disableFilterParameter"] boolValue] == FALSE){
                 obj = [NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:[mainFields objectForKey:@"row6"]],[mainFields objectForKey:@"row6"], nil];
                 objKey = @"filter";
             }            
@@ -717,6 +717,7 @@ int originYear = 0;
                                            [parameters objectForKey:@"label"], @"label",
                                            [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
+                                           [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
                                            newSectionParameters, @"extra_section_parameters",
                                            nil];
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];

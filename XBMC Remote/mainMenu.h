@@ -34,8 +34,6 @@
 @property BOOL noConvertTime;
 @property (nonatomic, copy) NSArray *watchModes;
 @property int currentWatchMode;
-@property BOOL disableFilterParameter;
-
 
 -(id) copyWithZone: (NSZone *) zone;
 
