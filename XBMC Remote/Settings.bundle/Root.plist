@@ -14,16 +14,6 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>reveal_preference</string>
-			<key>Title</key>
-			<string>Menu reveal toolbar</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
 			<string>jewel_preference</string>
 			<key>Title</key>
 			<string>Show jewel cases</string>
@@ -91,6 +81,16 @@
 			<string>App Settings</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>reveal_preference</string>
+			<key>Title</key>
+			<string>Menu reveal toolbar</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
