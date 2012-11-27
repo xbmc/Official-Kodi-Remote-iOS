@@ -1137,7 +1137,7 @@ int currentItemID;
                            NSString *album=[[[playlistItems objectAtIndex:i] objectForKey:@"album"] length]==0? @"" :[[playlistItems objectAtIndex:i] objectForKey:@"album"];
                            
                            NSString *patchRuntime = [NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"runtime"]];
-                           NSString *runtime=[patchRuntime length]==0? @"" : [NSString stringWithFormat:@"%d min",[patchRuntime intValue]/runtimeInMinute];
+                           NSString *runtime=[patchRuntime intValue] == 0 ? @"" : [NSString stringWithFormat:@"%d min",[patchRuntime intValue]/runtimeInMinute];
                            
                            NSString *showtitle=[[playlistItems objectAtIndex:i] objectForKey:@"showtitle"];
                          
@@ -1278,11 +1278,19 @@ int currentItemID;
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
+    id object = [NSNumber numberWithInt:[[item objectForKey:itemid] intValue]];
+    if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]){// WORKAROUND due the lack of the artistid with Playlist.GetItems
+        methodToCall = @"AudioLibrary.GetArtists";
+        NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item objectForKey:@"idItem"]];
+        object = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[artistFrodoWorkaround intValue]], @"songid", nil];
+        itemid = @"filter";
+    }
     NSMutableArray *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      [parameters objectForKey:@"properties"], @"properties",
-                                     [NSNumber numberWithInt:[[item objectForKey:itemid] intValue]], itemid,
+                                     object, itemid,
                                      nil];
     GlobalData *obj=[GlobalData getInstance];
+//    NSLog(@"%@ - %@", methodToCall, newParameters);
     [jsonRPC
      callMethod:methodToCall
      withParameters:newParameters
@@ -1297,15 +1305,27 @@ int currentItemID;
                  else{
                      return; // something goes wrong
                  }
+                 if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]){// WORKAROUND due the lack of the artistid with Playlist.GetItems
+                     itemid_extra_info = @"artists";
+                 }
                  NSDictionary *videoLibraryMovieDetail = [methodResult objectForKey:itemid_extra_info];
                  if (((NSNull *)videoLibraryMovieDetail == [NSNull null]) || videoLibraryMovieDetail == nil){
                      return; // something goes wrong
+                 }
+                 if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]){// WORKAROUND due the lack of the artistid with Playlist.GetItems
+                     if ([[methodResult objectForKey:itemid_extra_info] count]){
+                         videoLibraryMovieDetail = [[methodResult objectForKey:itemid_extra_info] objectAtIndex:0];
+                     }
+                     else{
+                         return; // something goes wrong
+                     }
                  }
                  NSString *serverURL= @"";
                  serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
                  if ([AppDelegate instance].serverVersion > 11){
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                  }
+
                  NSString *label=[NSString stringWithFormat:@"%@",[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row1"]]];
                  NSString *genre=@"";
                  if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:NSClassFromString(@"JKArray")]){
@@ -1434,6 +1454,7 @@ int currentItemID;
              }
          }
          else {
+//             NSLog(@"ERORR %@ ", methodError);
              UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Details not found" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
              [alertView show];
              [queuing stopAnimating];
@@ -1891,7 +1912,13 @@ int currentItemID;
             id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
             id objKey = [mainFields objectForKey:@"row6"];
             if ([AppDelegate instance].serverVersion>11 && [[parameters objectForKey:@"disableFilterParameter"] boolValue] == FALSE){
-                obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
+                if ([[mainFields objectForKey:@"row6"] isEqualToString:@"artistid"]){ // WORKAROUND due the lack of the artistid with Playlist.GetItems
+                    NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item objectForKey:@"artist"]];
+                    obj = [NSDictionary dictionaryWithObjectsAndKeys:artistFrodoWorkaround, @"artist", nil];
+                }
+                else{
+                    obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
+                }
                 objKey = @"filter";
             }
             NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
