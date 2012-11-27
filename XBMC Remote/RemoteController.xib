@@ -880,7 +880,7 @@
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="732936497"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
-				<reference key="IBUIBackgroundColor" ref="260746426"/>
+				<reference key="IBUIBackgroundColor" ref="143455125"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUILongPressGestureRecognizer" id="882878816"/>
@@ -1789,35 +1789,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">RemoteController</string>
 					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="handleButtonLongPress:">UILongPressGestureRecognizer</string>
-						<string key="holdKey:">id</string>
-						<string key="startVibrate:">id</string>
-						<string key="stopHoldKey:">id</string>
-						<string key="toggleQuickHelp:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="handleButtonLongPress:">
-							<string key="name">handleButtonLongPress:</string>
-							<string key="candidateClassName">UILongPressGestureRecognizer</string>
-						</object>
-						<object class="IBActionInfo" key="holdKey:">
-							<string key="name">holdKey:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="startVibrate:">
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">startVibrate:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">startVibrate:</string>
+						<object class="IBActionInfo" key="NS.object.0">
 							<string key="name">startVibrate:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="stopHoldKey:">
-							<string key="name">stopHoldKey:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleQuickHelp:">
-							<string key="name">toggleQuickHelp:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="TransitionalView">UIView</string>
 						<string key="buttonZoneView">UIView</string>
