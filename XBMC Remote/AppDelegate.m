@@ -1106,6 +1106,7 @@ NSMutableArray *hostRightMenuItems;
     item2.icon = @"icon_home_movie_alt";
     item2.family = 1;
     item2.enableSection=YES;
+    item2.noConvertTime = YES;
     item2.mainButtons=[NSArray arrayWithObjects:@"st_movie",  @"st_movie_genre", @"st_concert", @"st_movie_recently", @"st_filemode", @"st_addons", @"st_livetv", nil];
     item2.mainMethod=[NSMutableArray arrayWithObjects:
                       [NSArray arrayWithObjects:
@@ -1397,6 +1398,8 @@ NSMutableArray *hostRightMenuItems;
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", nil],
                               nil];
+    item2.subItem.noConvertTime = YES;
+
     item2.subItem.mainParameters=[NSMutableArray arrayWithObjects:
                                   
                                   [NSArray arrayWithObjects: nil],
@@ -1582,6 +1585,7 @@ NSMutableArray *hostRightMenuItems;
 
     item2.subItem.widthLabel = 252;
     
+    item2.subItem.subItem.noConvertTime = YES;
     item2.subItem.subItem.mainMethod = [NSMutableArray arrayWithObjects:
                                         [NSArray arrayWithObjects: nil],
                                         [NSArray arrayWithObjects: nil],
