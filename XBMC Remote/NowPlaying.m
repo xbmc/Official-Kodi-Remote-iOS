@@ -1303,21 +1303,24 @@ int currentItemID;
                      itemid_extra_info = [mainFields objectForKey:@"itemid_extra_info"];
                  }
                  else{
-                     return; // something goes wrong
+                     [self somethingGoesWrong:@"Details not found"];
+                     return;
                  }
                  if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]){// WORKAROUND due the lack of the artistid with Playlist.GetItems
                      itemid_extra_info = @"artists";
                  }
                  NSDictionary *videoLibraryMovieDetail = [methodResult objectForKey:itemid_extra_info];
                  if (((NSNull *)videoLibraryMovieDetail == [NSNull null]) || videoLibraryMovieDetail == nil){
-                     return; // something goes wrong
+                     [self somethingGoesWrong:@"Details not found"];
+                     return;
                  }
                  if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]){// WORKAROUND due the lack of the artistid with Playlist.GetItems
                      if ([[methodResult objectForKey:itemid_extra_info] count]){
                          videoLibraryMovieDetail = [[methodResult objectForKey:itemid_extra_info] objectAtIndex:0];
                      }
                      else{
-                         return; // something goes wrong
+                         [self somethingGoesWrong:@"Details not found"];
+                         return;
                      }
                  }
                  NSString *serverURL= @"";
@@ -1455,11 +1458,15 @@ int currentItemID;
          }
          else {
 //             NSLog(@"ERORR %@ ", methodError);
-             UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Details not found" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-             [alertView show];
+             [self somethingGoesWrong:@"Details not found"];
              [queuing stopAnimating];
          }
      }];
+}
+
+-(void)somethingGoesWrong:(NSString *)message{
+    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    [alertView show];
 }
 
 # pragma mark -  animations
