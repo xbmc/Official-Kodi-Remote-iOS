@@ -509,7 +509,7 @@ int h=0;
     int castFontSize = 14;
     int size = 0;
     int castWidth = 50;
-    int castHeight = 50;
+    int castHeight = 70;
     int pageSize = 297;
     int labelSpace = 20;
     bool enableJewel = [self enableJewelCases];
@@ -528,7 +528,7 @@ int h=0;
         castFontSize = 16;
         size = 6;
         castWidth = 75;
-        castHeight = 75;
+        castHeight = 105;
         pageSize = 447;
         [starsView setFrame: 
          CGRectMake(
@@ -1038,7 +1038,7 @@ int h=0;
             else { 
                 [actorImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
             }
-            [actorImage.layer setBorderColor: [[UIColor whiteColor] CGColor]];
+            [actorImage.layer setBorderColor: [[UIColor darkGrayColor] CGColor]];
             [actorImage.layer setBorderWidth: 1.0];
             [actorImage setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
             [scrollView addSubview:actorImage];
@@ -1054,18 +1054,20 @@ int h=0;
             [actorName setShadowOffset:CGSizeMake(1, 1)];
             [scrollView addSubview:actorName];
             
-            UILabel *actorRole = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, startY+20, 320 - (castWidth + offsetX + 20) , 16 + size)];
+            UILabel *actorRole = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, startY + 17 + size / 2, 320 - (castWidth + offsetX + 20) , 16 + size)];
             actorRole.text = @"";
-            actorRole.numberOfLines = 2;
+            actorRole.numberOfLines = 3;
             if ([[actor objectForKey:@"role"] length] != 0){
-                actorRole.text = [NSString stringWithFormat:@"as %@", [actor objectForKey:@"role"]];
+                actorRole.text = [NSString stringWithFormat:@"%@", [actor objectForKey:@"role"]];
             }
-            [actorRole setFont:[UIFont systemFontOfSize:castFontSize - 1]];
+            [actorRole setFont:[UIFont systemFontOfSize:castFontSize - 2]];
             [actorRole setBackgroundColor:[UIColor clearColor]];
-            [actorRole setTextColor:[UIColor grayColor]];
+            [actorRole setTextColor:[UIColor lightGrayColor]];
             [actorRole setShadowColor:[UIColor blackColor]];
             [actorRole setShadowOffset:CGSizeMake(1, 1)];
             [actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
+            [actorRole sizeToFit];
+
             [scrollView addSubview:actorRole];
             
             startY=startY + castHeight + 10;
