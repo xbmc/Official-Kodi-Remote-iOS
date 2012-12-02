@@ -49,6 +49,7 @@ NSOutputStream	*outStream;
 	switch (streamEvent) {
 			
 		case NSStreamEventOpenCompleted:
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionOpened" object:nil userInfo:nil];
 			break;
             
 		case NSStreamEventHasBytesAvailable:
@@ -85,6 +86,7 @@ NSOutputStream	*outStream;
 			break;
             
 		case NSStreamEventErrorOccurred:
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionError" object:nil userInfo:nil];
 //             NSLog(@"Can't connect"); // 8
 			break;
 			
@@ -93,6 +95,8 @@ NSOutputStream	*outStream;
             [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             [theStream setDelegate:nil];
             theStream = nil;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionClosed" object:nil userInfo:nil];
+
             break;
 		default:
             break;
