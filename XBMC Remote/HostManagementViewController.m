@@ -129,6 +129,7 @@
     [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
     [AppDelegate instance].obj.serverHWAddr = [item objectForKey:@"serverMacAddress"];
     [AppDelegate instance].obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
+    [AppDelegate instance].obj.tcpPort = [[item objectForKey:@"tcpPort"] intValue];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -151,6 +152,7 @@
             [AppDelegate instance].obj.serverPort = @"";
             [AppDelegate instance].obj.serverHWAddr = @"";
             [AppDelegate instance].serverOnLine = NO;
+            [AppDelegate instance].obj.tcpPort = 0;
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (standardUserDefaults) {
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
@@ -212,7 +214,8 @@
                 [AppDelegate instance].obj.serverIP = @"";
                 [AppDelegate instance].obj.serverPort = @"";
                 [AppDelegate instance].obj.serverHWAddr = @"";
-                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
+                [AppDelegate instance].obj.tcpPort = 0;
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
                 [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
             }

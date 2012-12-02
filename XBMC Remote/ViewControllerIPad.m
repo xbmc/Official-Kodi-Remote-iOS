@@ -97,6 +97,7 @@
     [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
     [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
     [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
+    [AppDelegate instance].obj.tcpPort = [[item objectForKey:@"tcpPort"] intValue];
 }
 
 -(void)wakeUp:(NSString *)macAddress{

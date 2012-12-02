@@ -78,7 +78,7 @@
         if (num_octects>5) mac_5_UI.text = [mac_octect objectAtIndex:5];
 
         preferTVPostersUI.on=[[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"preferTVPosters"] boolValue];
-
+        tcpPortUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"tcpPort"];
 
     }
 }
@@ -95,29 +95,31 @@
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
     if (self.detailItem==nil){
         [[AppDelegate instance].arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                 descriptionUI.text, @"serverDescription",
-                                                 usernameUI.text, @"serverUser",
-                                                 passwordUI.text, @"serverPass",
-                                                 ipUI.text, @"serverIP",
-                                                 portUI.text, @"serverPort",
-                                                 macAddress, @"serverMacAddress",
-                                                 [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
-                                                 nil
-                                                 ]];
+                                                           descriptionUI.text, @"serverDescription",
+                                                           usernameUI.text, @"serverUser",
+                                                           passwordUI.text, @"serverPass",
+                                                           ipUI.text, @"serverIP",
+                                                           portUI.text, @"serverPort",
+                                                           macAddress, @"serverMacAddress",
+                                                           [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
+                                                           tcpPortUI.text, @"tcpPort",
+                                                           nil
+                                                           ]];
     }
     else{
         NSIndexPath *idx = self.detailItem;
         [[AppDelegate instance].arrayServerList removeObjectAtIndex:idx.row];
         [[AppDelegate instance].arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    descriptionUI.text, @"serverDescription",
-                                                    usernameUI.text, @"serverUser",
-                                                    passwordUI.text, @"serverPass",
-                                                    ipUI.text, @"serverIP",
-                                                    portUI.text, @"serverPort",
-                                                    macAddress, @"serverMacAddress",
-                                                    [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
-                                                    nil
-                                                    ] atIndex:idx.row];
+                                                              descriptionUI.text, @"serverDescription",
+                                                              usernameUI.text, @"serverUser",
+                                                              passwordUI.text, @"serverPass",
+                                                              ipUI.text, @"serverIP",
+                                                              portUI.text, @"serverPort",
+                                                              macAddress, @"serverMacAddress",
+                                                              [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
+                                                              tcpPortUI.text, @"tcpPort",
+                                                              nil
+                                                              ] atIndex:idx.row];
     }
     [[AppDelegate instance] saveServerList];
     [self.navigationController popViewControllerAnimated:YES];

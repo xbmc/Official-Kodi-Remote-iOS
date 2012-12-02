@@ -23,6 +23,7 @@
     IBOutlet UITextField *mac_4_UI;
     IBOutlet UITextField *mac_5_UI;
     IBOutlet UISwitch *preferTVPostersUI;
+    IBOutlet UITextField *tcpPortUI;
     NSMutableArray *services;
     BOOL searching;
     NSNetServiceBrowser *netServiceBrowser;
