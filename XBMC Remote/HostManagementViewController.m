@@ -101,6 +101,12 @@
         [(UIImageView*) [cell viewWithTag:1] setHidden:FALSE];
         UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
         UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
+        CGRect frame=cellLabel.frame;
+        frame.origin.x=36;
+        frame.origin.y=0;
+        frame.size.width=166;
+        frame.size.height=44;
+        cellLabel.frame=frame;
         cellLabel.textAlignment=UITextAlignmentLeft;
         NSDictionary *item=[[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
         [cellLabel setText:[item objectForKey:@"serverDescription"]];
