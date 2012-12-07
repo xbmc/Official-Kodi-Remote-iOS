@@ -16,7 +16,7 @@
 @class RemoteController;
 @class DetailViewController;
 
-@interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate, SDWebImageManagerDelegate>{
+@interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate>{
     DSJSONRPC *jsonRPC;
     IBOutlet UITableView *playlistTableView;
     IBOutlet UITableViewCell *playlistTableViewCell;

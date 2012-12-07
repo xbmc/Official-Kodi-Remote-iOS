@@ -2364,6 +2364,15 @@ int currentItemID;
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
+#pragma mark - GestureRecognizer delegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([touch.view isKindOfClass:[UISlider class]]) {
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -2383,6 +2392,7 @@ int currentItemID;
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:self action:@selector(revealUnderRight:)];
         self.slidingViewController.underRightViewController = nil;
+        self.slidingViewController.panGesture.delegate = self;
     }
     if (!fromItself){
         if (nowPlayingView.hidden){
