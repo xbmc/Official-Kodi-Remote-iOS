@@ -2392,7 +2392,7 @@ int currentItemID;
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:self action:@selector(revealUnderRight:)];
         self.slidingViewController.underRightViewController = nil;
-//        self.slidingViewController.panGesture.delegate = self;
+        self.slidingViewController.panGesture.delegate = self;
     }
     if (!fromItself){
         if (nowPlayingView.hidden){
@@ -2481,6 +2481,7 @@ int currentItemID;
 -(void)viewWillDisappear:(BOOL)animated{
     [timer invalidate];
     currentItemID = -1;
+    self.slidingViewController.panGesture.delegate = nil;
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
