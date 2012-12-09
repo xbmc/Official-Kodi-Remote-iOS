@@ -76,6 +76,7 @@
     int labelPadding;
     float thumbBorderWidth;
     NSArray *sectionArray;
+    NSMutableArray *sectionArrayOpen;
 }
 
 - (id)initWithFrame:(CGRect)frame;

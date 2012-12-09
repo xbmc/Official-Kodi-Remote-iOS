@@ -485,6 +485,9 @@ int originYear = 0;
         return [self.filteredListContent count];
     }
 	else {
+        if (episodesView){
+            return ([[sectionArrayOpen objectAtIndex:section] boolValue] ? [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count] : 0);
+        }
         return [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count];
     }
 }
@@ -957,6 +960,24 @@ int originYear = 0;
     }
     else if (episodesView && [richResults count]>0 && !(tableView == self.searchDisplayController.searchResultsTableView)){
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
+        albumDetailView.tag = section;
+        int toggleIconSpace = 0;
+        if ([sectionArray count] > 1){
+            toggleIconSpace = 8;
+            UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleOpen:)];
+            [albumDetailView addGestureRecognizer:tapGesture];
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.tag = 99;
+            button.alpha = .5;
+            button.frame = CGRectMake(3.0, (int)(albumViewHeight / 2) - 6, 11.0, 11.0);
+            [button setImage:[UIImage imageNamed:@"arrow_close"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"arrow_open"] forState:UIControlStateSelected];
+//            [button addTarget:self action:@selector(toggleOpen:) forControlEvents:UIControlEventTouchUpInside];
+            if ([[sectionArrayOpen objectAtIndex:section] boolValue] == TRUE){
+                [button setSelected:YES];
+            }
+            [albumDetailView addSubview:button];
+        }
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
         gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:1] CGColor], (id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:.95] CGColor], nil];
@@ -985,7 +1006,7 @@ int originYear = 0;
         float seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
         if (seasonIdx != NSNotFound){
             
-            UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
+            UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
             NSString *stringURL = [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"thumbnail"];
             NSString *displayThumb=@"coverbox_back_section.png";
             if ([[item objectForKey:@"filetype"] length]!=0){
@@ -1000,12 +1021,12 @@ int originYear = 0;
             }            
             [albumDetailView addSubview:thumbImageView];
             
-            UIImageView *thumbImageShadowView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding - 3, albumViewPadding - 3, seasonThumbWidth + 6, albumViewHeight - (albumViewPadding * 2) + 6)];
+            UIImageView *thumbImageShadowView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace - 3, albumViewPadding - 3, seasonThumbWidth + 6, albumViewHeight - (albumViewPadding * 2) + 6)];
             [thumbImageShadowView setContentMode:UIViewContentModeScaleToFill];
             thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow"];
             [albumDetailView addSubview:thumbImageShadowView];
             
-            UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + (albumViewPadding * 2), (albumViewPadding / 2) - 1, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
+            UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2), (albumViewPadding / 2) - 1, viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
             [artist setBackgroundColor:[UIColor clearColor]];
             [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
             artist.adjustsFontSizeToFitWidth = YES;
@@ -1013,12 +1034,12 @@ int originYear = 0;
             artist.text = [item objectForKey:@"genre"];
             [albumDetailView addSubview:artist];
             
-            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + (albumViewPadding * 2), artist.frame.origin.y +  artistFontSize + 2, viewWidth - albumViewHeight - albumViewPadding, albumFontSize + labelPadding)];
+            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2), artist.frame.origin.y +  artistFontSize + 2, viewWidth - albumViewHeight - albumViewPadding, albumFontSize + labelPadding)];
             [albumLabel setBackgroundColor:[UIColor clearColor]];
             [albumLabel setFont:[UIFont boldSystemFontOfSize:albumFontSize]];
             albumLabel.text = [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"label"];
             albumLabel.numberOfLines = 0;
-            CGSize maximunLabelSize= CGSizeMake(viewWidth - albumViewHeight - albumViewPadding, albumViewHeight - albumViewPadding*4 -28);
+            CGSize maximunLabelSize= CGSizeMake(viewWidth - albumViewHeight - albumViewPadding - toggleIconSpace, albumViewHeight - albumViewPadding*4 -28);
             CGSize expectedLabelSize = [albumLabel.text
                                         sizeWithFont:albumLabel.font
                                         constrainedToSize:maximunLabelSize
@@ -1029,14 +1050,14 @@ int originYear = 0;
             [albumDetailView addSubview:albumLabel];
             
             int bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
-            UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + (albumViewPadding * 2), bottomMargin, viewWidth - albumViewHeight - albumViewPadding, trackCountFontSize + labelPadding)];
+            UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2), bottomMargin, viewWidth - albumViewHeight - albumViewPadding - toggleIconSpace, trackCountFontSize + labelPadding)];
             [trackCountLabel setBackgroundColor:[UIColor clearColor]];
             [trackCountLabel setTextColor:[UIColor darkGrayColor]];
             [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
             trackCountLabel.text = [NSString stringWithFormat:@"Episodes: %@", [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"episode"]];
             [albumDetailView addSubview:trackCountLabel];
 
-            UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + (albumViewPadding * 2), bottomMargin - trackCountFontSize -labelPadding/2, viewWidth - albumViewHeight - albumViewPadding, trackCountFontSize + labelPadding)];
+            UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth +toggleIconSpace + (albumViewPadding * 2), bottomMargin - trackCountFontSize -labelPadding/2, viewWidth - albumViewHeight - albumViewPadding - toggleIconSpace, trackCountFontSize + labelPadding)];
             [releasedLabel setBackgroundColor:[UIColor clearColor]];
             [releasedLabel setTextColor:[UIColor darkGrayColor]];
             [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
@@ -1141,6 +1162,39 @@ int originYear = 0;
     [sectionView addSubview:label];
     
     return sectionView;
+}
+
+-(void)toggleOpen:(UITapGestureRecognizer *)sender {
+    int section = [sender.view tag];
+    [sectionArrayOpen replaceObjectAtIndex:section withObject:[NSNumber numberWithBool:![[sectionArrayOpen objectAtIndex:section] boolValue]]];
+    NSInteger countEpisodes = [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count];
+    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+    for (NSInteger i = 0; i < countEpisodes; i++) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:section]];
+    }
+    UIButton *toggleButton = (UIButton *)[sender.view viewWithTag:99];
+    if ([[sectionArrayOpen objectAtIndex:section] boolValue]){
+        [dataList beginUpdates];
+        [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [dataList endUpdates];
+        [toggleButton setSelected:YES];
+        NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:0 inSection:section];
+        [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+    else{
+        [toggleButton setSelected:NO];
+        NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:0 inSection:section];
+        [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [dataList beginUpdates];
+        [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [dataList endUpdates];
+        if (section>0){
+//            NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:NSNotFound inSection:section];
+//            [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            CGRect sectionRect = [dataList rectForSection:section - 1];
+            [dataList scrollRectToVisible:sectionRect animated:YES];
+        }
+    }
 }
 
 -(void)goBack:(id)sender{
@@ -2427,6 +2481,14 @@ NSIndexPath *selected;
                     [[self.sections allKeys] sortedArrayUsingComparator:^(id firstObject, id secondObject) {
         return [self alphaNumericCompare:firstObject secondObject:secondObject];
     }]];
+    sectionArrayOpen = [[NSMutableArray alloc] init];
+    BOOL defaultValue = FALSE;
+    if ([sectionArray count] == 1){
+        defaultValue = TRUE;
+    }
+    for (int i=0; i<[sectionArray count]; i++) {
+        [sectionArrayOpen addObject:[NSNumber numberWithBool:defaultValue]];
+    }
     //    NSLog(@"END INDEX");
     if (![richResults count]){
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
@@ -2534,10 +2596,10 @@ NSIndexPath *selected;
 -(void)setIphoneInterface{
     viewWidth=320;
     albumViewHeight = 116;
+    albumViewPadding = 8;
     if (episodesView){
         albumViewHeight = 99;
     }
-    albumViewPadding = 8;
     artistFontSize = 12;
     albumFontSize = 15;
     trackCountFontSize = 11;
@@ -2548,7 +2610,7 @@ NSIndexPath *selected;
     viewWidth = 477;
     albumViewHeight = 166;
     if (episodesView){
-        albumViewHeight = 110;
+        albumViewHeight = 120;
     }
     albumViewPadding = 12;
     artistFontSize = 14;
