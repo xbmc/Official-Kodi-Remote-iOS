@@ -1325,7 +1325,7 @@ int h=0;
         [self alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
     else{
-        if (fanartView.image!=nil){
+        if (fanartView.image!=nil && self.kenView==nil){
             fanartView.alpha = 0;
             [self.kenView stopAnimation];
             [self.kenView removeFromSuperview];
