@@ -329,7 +329,10 @@
     [menuTableView setDataSource:self];
     [menuTableView setBackgroundColor:[UIColor clearColor]];
     [menuTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [menuTableView setScrollEnabled:NO];
+    [menuTableView setScrollEnabled:[[self.rightMenuItems objectAtIndex:0] enableSection]];
+    if([[UIScreen mainScreen ] bounds].size.height >= 568){
+        [menuTableView setScrollEnabled:NO];
+    }
     [self.view addSubview:menuTableView];
     if ([[AppDelegate instance].obj.serverIP length]!=0){
         if (![AppDelegate instance].serverOnLine){

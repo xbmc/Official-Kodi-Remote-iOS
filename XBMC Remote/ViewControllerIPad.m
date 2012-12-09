@@ -308,7 +308,7 @@
     }
     else{
         destructive = @"Power off System";
-        sheetActions=[NSArray arrayWithObjects: @"Hibernate", @"Suspend", @"Reboot", @"Update Audio Library", @"Update Video Library", nil];
+        sheetActions=[NSArray arrayWithObjects: @"Quit XBMC Application", @"Hibernate", @"Suspend", @"Reboot", @"Update Audio Library", @"Update Video Library", nil];
     }
     int numActions=[sheetActions count];
     if (numActions){
@@ -359,6 +359,9 @@
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Power off System"]){
             [self powerAction:@"System.Shutdown" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Quit XBMC Application"]){
+            [self powerAction:@"Application.Quit" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Hibernate"]){
             [self powerAction:@"System.Hibernate" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];

@@ -2304,7 +2304,7 @@ NSMutableArray *hostRightMenuItems;
     mainMenu *rightItem1 = [[mainMenu alloc] init];
     rightItem1.mainLabel = @"XBMC Server";
     rightItem1.family = 1;
-    
+    rightItem1.enableSection = YES;
     rightItem1.mainMethod = [NSArray arrayWithObjects:
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSArray arrayWithObjects:
@@ -2380,6 +2380,17 @@ NSMutableArray *hostRightMenuItems;
                                  [NSNumber numberWithInt:5], @"countdown_time",
                                  @"cancel", @"cancel_button",
                                  @"Power off", @"ok_button",
+                                 nil], @"action",
+                                nil],
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Quit XBMC application", @"label",
+                                @"icon_exit", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"Application.Quit",@"command",
+                                 @"Are you sure you want to quit XBMC application now?", @"message",
+                                 @"cancel", @"cancel_button",
+                                 @"Quit", @"ok_button",
                                  nil], @"action",
                                 nil],
                                
