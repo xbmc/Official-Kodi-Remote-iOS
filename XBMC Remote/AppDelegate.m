@@ -1821,7 +1821,7 @@ NSMutableArray *hostRightMenuItems;
     item3.showInfo = [NSArray arrayWithObjects:
                       [NSNumber numberWithBool:NO],
 //                      [NSNumber numberWithBool:NO],
-                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:YES],
                       [NSNumber numberWithBool:NO],
                       [NSNumber numberWithBool:NO],
                       nil];
@@ -1872,7 +1872,7 @@ NSMutableArray *hostRightMenuItems;
                                        @"ascending",@"order",
                                        @"episode", @"method",
                                        nil],@"sort",
-                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"showtitle", @"playcount", @"season", @"tvshowid", nil], @"properties",
+                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"showtitle", @"playcount", @"season", @"tvshowid", @"runtime", nil], @"properties",
                                       nil], @"parameters", @"Episodes", @"label", @"YES", @"disableFilterParameter",
                                      [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"fanart", @"resume", nil], @"properties",nil], @"extra_info_parameters",
@@ -2033,7 +2033,7 @@ NSMutableArray *hostRightMenuItems;
                                nil];
     item3.subItem.noConvertTime=YES;
     item3.subItem.showInfo = [NSArray arrayWithObjects:
-                              [NSNumber numberWithBool:NO],
+                              [NSNumber numberWithBool:YES],
 //                              [NSNumber numberWithBool:NO],
                               [NSNumber numberWithBool:YES],
                               [NSNumber numberWithBool:YES],

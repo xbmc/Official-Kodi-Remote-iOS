@@ -571,12 +571,12 @@ int originYear = 0;
     frame.size.width=frame.size.width - (labelPosition - frame.origin.x);
     frame.origin.x=labelPosition; 
     genre.frame=frame;
-    if([[item objectForKey:@"family"] isEqualToString:@"season"]){
-        [genre setText:[NSString stringWithFormat:@"Episodes: %@",  [item objectForKey:@"episode"]]];
-    }
-    else{
+//    if([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
+//        [genre setText:[item objectForKey:@"runtime"]];
+//    }
+//    else{
         [genre setText:[item objectForKey:@"genre"]];
-    }
+//    }
     
     frame=runtimeyear.frame;
     frame.origin.x=Menuitem.originYearDuration;
@@ -1081,8 +1081,8 @@ int originYear = 0;
                 }
             }
             UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
-            albumInfoButton.alpha = .5f;
-            [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
+            albumInfoButton.alpha = .6f;
+            [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 3, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
             if (fromShowInfo){
                 [albumInfoButton addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
             }
