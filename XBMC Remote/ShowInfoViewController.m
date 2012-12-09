@@ -672,12 +672,12 @@ int h=0;
             frame = label6.frame;
             frame.origin.y = frame.origin.y + shiftParentalRating;
             label6.frame = frame;
-            
-            jewelView.image = [UIImage imageNamed:@"jewel_tv.9.png"];
+            if (enableJewel){
+                jewelView.image = [UIImage imageNamed:@"jewel_tv.9.png"];
+            }
             frame = jewelView.frame;
             frame.size.height = coverHeight;
             jewelView.frame = frame;
-            
             directorLabel.text = [[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
             genreLabel.text = [[item objectForKey:@"firstaired"] length]==0 ? @"-" : [item objectForKey:@"firstaired"];
             if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")]){
@@ -738,8 +738,9 @@ int h=0;
         CGRect frame = label6.frame;
         frame.origin.y = frame.origin.y-40;
         label6.frame = frame;
-        if (enableJewel)
+        if (enableJewel){
             jewelView.image = [UIImage imageNamed:@"jewel_cd.9.png"];
+        }
         frame = jewelView.frame;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
