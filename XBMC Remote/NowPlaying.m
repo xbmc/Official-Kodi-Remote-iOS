@@ -1414,11 +1414,7 @@ int currentItemID;
                          }
                      }
                  }
-                 BOOL disableNowPlaying = NO;
-                 if ([self.detailItem disableNowPlaying]){
-                     disableNowPlaying = YES;
-                 }
-                 
+                 BOOL disableNowPlaying = YES;
                  NSObject *row11 = [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row11"]];
                  if (row11 == nil){
                      row11 = [NSNumber numberWithInt:0];
