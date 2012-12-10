@@ -71,11 +71,11 @@ float cellBarWidth=45;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
         
-//        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showRemoteController)];
-//        leftSwipe.numberOfTouchesRequired = 1;
-//        leftSwipe.cancelsTouchesInView=NO;
-//        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-//        [self.view addGestureRecognizer:leftSwipe];
+        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(revealUnderRight:)];
+        leftSwipe.numberOfTouchesRequired = 1;
+        leftSwipe.cancelsTouchesInView=NO;
+        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+        [self.view addGestureRecognizer:leftSwipe];
     }
 }
 
