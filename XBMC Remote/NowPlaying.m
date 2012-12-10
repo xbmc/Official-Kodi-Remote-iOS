@@ -71,7 +71,7 @@ float cellBarWidth=45;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
         
-        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(revealUnderRight:)];
+        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
         leftSwipe.numberOfTouchesRequired = 1;
         leftSwipe.cancelsTouchesInView=NO;
         leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -2265,6 +2265,12 @@ int currentItemID;
             [self revealMenu:nil];
         }
         [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+- (void)handleSwipeFromLeft:(id)sender {
+    if (updateProgressBar){
+        [self revealUnderRight:nil];
     }
 }
 
