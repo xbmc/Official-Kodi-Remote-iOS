@@ -2384,17 +2384,6 @@ NSMutableArray *hostRightMenuItems;
                                 nil],
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Quit XBMC application", @"label",
-                                @"icon_exit", @"icon",
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                 @"Application.Quit",@"command",
-                                 @"Are you sure you want to quit XBMC application now?", @"message",
-                                 @"cancel", @"cancel_button",
-                                 @"Quit", @"ok_button",
-                                 nil], @"action",
-                                nil],
-                               
-                               [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"Hibernate", @"label",
                                 @"icon_hibernate", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2424,6 +2413,17 @@ NSMutableArray *hostRightMenuItems;
                                  @"Are you sure you want to reboot your XBMC system now?", @"message",
                                  @"cancel", @"cancel_button",
                                  @"Reboot", @"ok_button",
+                                 nil], @"action",
+                                nil],
+                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"Quit XBMC application", @"label",
+                                @"icon_exit", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"Application.Quit",@"command",
+                                 @"Are you sure you want to quit XBMC application now?", @"message",
+                                 @"cancel", @"cancel_button",
+                                 @"Quit", @"ok_button",
                                  nil], @"action",
                                 nil],
                                

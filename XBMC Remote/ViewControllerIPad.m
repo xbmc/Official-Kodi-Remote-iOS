@@ -308,7 +308,7 @@
     }
     else{
         destructive = @"Power off System";
-        sheetActions=[NSArray arrayWithObjects: @"Quit XBMC Application", @"Hibernate", @"Suspend", @"Reboot", @"Update Audio Library", @"Update Video Library", nil];
+        sheetActions=[NSArray arrayWithObjects: @"Hibernate", @"Suspend", @"Reboot", @"Quit XBMC Application", @"Update Audio Library", @"Update Video Library", nil];
     }
     int numActions=[sheetActions count];
     if (numActions){
