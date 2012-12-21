@@ -1591,6 +1591,14 @@ int currentItemID;
             params=nil;
             [self playbackAction:action params:nil checkPartyMode:NO];
             storeSelection=nil;
+
+            // If we're underneath a navigation controller, pop ourself when we stop.
+            if([self.parentViewController isKindOfClass:UINavigationController.class])
+            {
+                UINavigationController *parent = (UINavigationController *) self.parentViewController;
+                [parent popViewControllerAnimated:YES];
+            }
+
             break;
             
         case 4:
