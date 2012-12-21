@@ -1510,6 +1510,12 @@ int currentItemID;
                      }];
 }
 
+- (void) toggleViews:(id)sender
+{
+    [self animViews];       
+    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+}
+
 -(void)animViews{
     if (!nowPlayingView.hidden){
         nowPlayingView.hidden = YES;
@@ -1601,8 +1607,7 @@ int currentItemID;
             break;
             
         case 5:
-            [self animViews];       
-            [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+            [self toggleViews:nil];
             break;
             
         case 6:
@@ -2342,13 +2347,12 @@ int currentItemID;
     ProgressSlider.frame = frame;
     
     NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
+    [items removeObjectAtIndex:0];
     [items removeObjectAtIndex:1];
     [items removeObjectAtIndex:2];
     [items removeObjectAtIndex:3];
     [items removeObjectAtIndex:4];
     [items removeObjectAtIndex:5];
-    [items removeObjectAtIndex:6];
-    [items removeObjectAtIndex:7];
     [playlistToolbar setItems:items animated:YES];
     playlistToolbar.alpha = .8f;
     UIButton *buttonItem=(UIButton *)[self.view viewWithTag:5];
@@ -2392,7 +2396,10 @@ int currentItemID;
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
         }
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:self action:@selector(revealUnderRight:)];
+        UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:self action:@selector(revealUnderRight:)];
+        UIImage* buttonImg = [UIImage imageNamed:@"now_playing_playlist"];
+        UIBarButtonItem *rightButton2 = [[UIBarButtonItem alloc] initWithImage:buttonImg style:UIBarButtonItemStyleBordered target:self action:@selector(toggleViews:)];
+        self.navigationItem.rightBarButtonItems = @[rightButton1, rightButton2];
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
     }
