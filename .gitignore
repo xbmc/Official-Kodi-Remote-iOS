@@ -1,1 +1,12 @@
-.DS_Store
+.gitignore
+*.DS_Store
+XBMC\ Remote.xcodeproj/xcuserdata/*
+XBMC\ Remote.xcodeproj/project.xcworkspace/xcuserdata/*
+XBMC\ Remote/RemoteController_old.xib
+*.swp
+*~.nib
+build/
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.psd
