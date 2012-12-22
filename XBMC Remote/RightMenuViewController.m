@@ -79,7 +79,7 @@
     UITableViewCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"rightMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:NULL];
-    if (cell==nil || [[labelsList objectAtIndex:indexPath.row] isEqualToString:@"LED Torch"]){
+    if (cell==nil || [[labelsList objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
         cell = rightMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
@@ -160,7 +160,7 @@
         [title setTextColor:fontColor];
         [title setHighlightedTextColor:fontColor];
     }
-    if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"LED Torch"]){
+    if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
         icon.alpha = .8f;
         if (torchIsOn){
             iconName = @"torch_on";
@@ -221,27 +221,27 @@
             }
         }
     }
-    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Keyboard"]){
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Keyboard", nil)]){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleVirtualKeyboard" object:nil userInfo:nil];
         if ([[revealTopView objectAtIndex:indexPath.row] boolValue] == YES){
             [self.slidingViewController resetTopView];
         }
     }
-    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Help screen"]){
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Help Screen", nil)]){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleQuickHelp" object:nil userInfo:nil];
         [self.slidingViewController resetTopView];
     }
-    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Gesture Zone"]){
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Gesture Zone", nil)]){
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
-    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"Button Pad"]){
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Button Pad", nil)]){
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
-    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"LED Torch"]){
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
         UIImageView *torchIcon = (UIImageView *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [self turnTorchOn:!torchIsOn icon:torchIcon];
@@ -315,7 +315,7 @@
     int infoLabelHeight = 100;
     infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.peekLeftAmount +10, self.view.frame.size.height/2 - infoLabelHeight/2, self.view.frame.size.width - (self.peekLeftAmount + 20), infoLabelHeight)];
     infoLabel.numberOfLines = 2;
-    [infoLabel setText:@"Select an XBMC Server from the list"];
+    [infoLabel setText:NSLocalizedString(@"Select an XBMC Server from the list", nil)];
     [infoLabel setBackgroundColor:[UIColor clearColor]];
     [infoLabel setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
     [infoLabel setTextAlignment:NSTextAlignmentCenter];
