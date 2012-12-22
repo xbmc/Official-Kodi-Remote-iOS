@@ -61,10 +61,10 @@ float cellBarWidth=45;
         viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:.5];
         viewTitle.textAlignment = UITextAlignmentCenter;
         viewTitle.textColor = [UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1];
-        viewTitle.text = @"Now playing";
+        viewTitle.text = NSLocalizedString(@"Now Playing", nil);
         [viewTitle sizeToFit];
         self.navigationItem.titleView = viewTitle;
-        self.navigationItem.title = @"Now playing"; // DA SISTEMARE COME PARAMETRO
+        self.navigationItem.title = NSLocalizedString(@"Now Playing", nil); // DA SISTEMARE COME PARAMETRO
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
         rightSwipe.cancelsTouchesInView=NO;
@@ -527,7 +527,7 @@ int currentItemID;
         jewelView.image = nil;
     }
     duration.text = @"";
-    albumName.text = @"Nothing is playing";
+    albumName.text = NSLocalizedString(@"Nothing is playing", nil);
     songName.text = @"";
     artistName.text = @"";
     lastSelected = -1;
@@ -1303,7 +1303,7 @@ int currentItemID;
                      itemid_extra_info = [mainFields objectForKey:@"itemid_extra_info"];
                  }
                  else{
-                     [self somethingGoesWrong:@"Details not found"];
+                     [self somethingGoesWrong:NSLocalizedString(@"Details not found", nil)];
                      return;
                  }
                  if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]){// WORKAROUND due the lack of the artistid with Playlist.GetItems
@@ -1311,7 +1311,7 @@ int currentItemID;
                  }
                  NSDictionary *videoLibraryMovieDetail = [methodResult objectForKey:itemid_extra_info];
                  if (((NSNull *)videoLibraryMovieDetail == [NSNull null]) || videoLibraryMovieDetail == nil){
-                     [self somethingGoesWrong:@"Details not found"];
+                     [self somethingGoesWrong:NSLocalizedString(@"Details not found", nil)];
                      return;
                  }
                  if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]){// WORKAROUND due the lack of the artistid with Playlist.GetItems
@@ -1319,7 +1319,7 @@ int currentItemID;
                          videoLibraryMovieDetail = [[methodResult objectForKey:itemid_extra_info] objectAtIndex:0];
                      }
                      else{
-                         [self somethingGoesWrong:@"Details not found"];
+                         [self somethingGoesWrong:NSLocalizedString(@"Details not found", nil)];
                          return;
                      }
                  }
@@ -1454,14 +1454,14 @@ int currentItemID;
          }
          else {
 //             NSLog(@"ERORR %@ ", methodError);
-             [self somethingGoesWrong:@"Details not found"];
+             [self somethingGoesWrong:NSLocalizedString(@"Details not found", nil)];
              [queuing stopAnimating];
          }
      }];
 }
 
 -(void)somethingGoesWrong:(NSString *)message{
-    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
     [alertView show];
 }
 
@@ -1517,8 +1517,8 @@ int currentItemID;
         transitionedView=playlistView;
         playlistHidden = NO;
         nowPlayingHidden = YES;
-        viewTitle.text = @"Playlist";
-        self.navigationItem.title = @"Playlist";
+        viewTitle.text = NSLocalizedString(@"Playlist", nil);
+        self.navigationItem.title = NSLocalizedString(@"Playlist", nil);
         self.navigationItem.titleView.hidden=YES;
         anim=UIViewAnimationTransitionFlipFromRight;
         anim2=UIViewAnimationTransitionFlipFromRight;
@@ -1529,8 +1529,8 @@ int currentItemID;
         transitionedView=nowPlayingView;
         playlistHidden = YES;
         nowPlayingHidden = NO;
-        viewTitle.text = @"Now playing";
-        self.navigationItem.title = @"Now playing";
+        viewTitle.text = NSLocalizedString(@"Now Playing", nil);
+        self.navigationItem.title = NSLocalizedString(@"Now Playing", nil);
         self.navigationItem.titleView.hidden=YES;
         anim=UIViewAnimationTransitionFlipFromLeft;
         anim2=UIViewAnimationTransitionFlipFromLeft;
@@ -1732,8 +1732,8 @@ int currentItemID;
         else if (playerID == 1){
             playlistName=@"Video ";
         }
-        NSString *message=[NSString stringWithFormat:@"Are you sure you want to clear the %@playlist?", playlistName];
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Clear Playlist", nil];
+        NSString *message=[NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to clear the %@playlist?", nil), playlistName];
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Clear Playlist", nil), nil];
         [alertView show];
     }
 }
@@ -1748,17 +1748,17 @@ int currentItemID;
             selected = indexPath;
             CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
             if ([[item objectForKey:@"albumid"] intValue]>0){
-                [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:@"Album Details", @"Album Tracks", nil]];
+                [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Album Tracks", nil), nil]];
             }
             if ([[item objectForKey:@"artistid"] intValue]>0 || ([[item objectForKey:@"type"] isEqualToString:@"song"] && [AppDelegate instance].serverVersion>11)){
-                [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:@"Artist Details", @"Artist Albums", nil]];
+                [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:NSLocalizedString(@"Artist Details", nil), NSLocalizedString(@"Artist Albums", nil), nil]];
             }
             if ([[item objectForKey:@"movieid"] intValue]>0){
                 if ([[item objectForKey:@"type"] isEqualToString:@"movie"]){
-                    [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:@"Movie Details", nil]];
+                    [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:NSLocalizedString(@"Movie Details", nil), nil]];
                 }
                 else if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
-                    [sheetActions addObjectsFromArray:[NSArray arrayWithObjects: @"TV Show Details", @"Episode Details", nil]];
+                    [sheetActions addObjectsFromArray:[NSArray arrayWithObjects: NSLocalizedString(@"TV Show Details", nil), NSLocalizedString(@"Episode Details", nil), nil]];
                 }
             }
             int numActions=[sheetActions count];
@@ -1779,7 +1779,7 @@ int currentItemID;
                 for (int i = 0; i < numActions; i++) {
                     [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
                 }
-                action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+                action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                     [action showInView:self.view];
                 }
@@ -1858,22 +1858,22 @@ int currentItemID;
         if ([[item objectForKey:@"type"] isEqualToString:@"song"]){
             notificationName = @"UIApplicationEnableMusicSection";
             MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
-            if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Album Details"]) {
+            if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Album Details", nil)]) {
                 choosedTab = 0;
                 MenuItem.subItem.mainLabel=[item objectForKey:@"album"];
                 [MenuItem.subItem setMainMethod:nil];
             }
-            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Album Tracks"]){
+            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Album Tracks", nil)]){
                 choosedTab = 0;
                 MenuItem.subItem.mainLabel=[item objectForKey:@"album"];
 
             }
-            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Artist Details"]) {
+            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Artist Details", nil)]) {
                 choosedTab = 1;
                 MenuItem.subItem.mainLabel=[item objectForKey:@"artist"];
                 [MenuItem.subItem setMainMethod:nil];
             }
-            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Artist Albums"]) {
+            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Artist Albums", nil)]) {
                 choosedTab = 1;
                 MenuItem.subItem.mainLabel=[item objectForKey:@"artist"];
             }
@@ -1889,12 +1889,12 @@ int currentItemID;
         }
         else if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
             notificationName = @"UIApplicationEnableTvShowSection";
-            if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Episode Details"]) {
+            if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Episode Details", nil)]) {
                 MenuItem = [AppDelegate instance].playlistTvShows.subItem;
                 choosedTab = 0;
                 MenuItem.subItem.mainLabel=[item objectForKey:@"label"];
             }
-            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"TV Show Details"]) {
+            else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"TV Show Details", nil)]) {
                 MenuItem = [[AppDelegate instance].playlistTvShows copy];
                 [MenuItem.subItem setMainMethod:nil];
                 choosedTab = 0;
@@ -2280,7 +2280,7 @@ int currentItemID;
             self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
         }
         mainMenu *item = [[mainMenu alloc] init];
-        item.mainLabel = @"Remote Control";
+        item.mainLabel = NSLocalizedString(@"Remote Control", nil);
         self.remoteController.detailItem = item;
         fromItself = TRUE;
         [self.navigationController pushViewController:self.remoteController animated:YES];
@@ -2402,7 +2402,7 @@ int currentItemID;
             nowPlayingHidden = NO;
             playlistView.hidden = YES;
             playlistHidden = YES;
-            viewTitle.text = @"Now playing";
+            viewTitle.text = NSLocalizedString(@"Now Playing", nil);
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             startFlipDemo = YES;

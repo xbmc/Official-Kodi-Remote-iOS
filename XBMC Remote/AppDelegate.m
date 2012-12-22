@@ -138,8 +138,8 @@ NSMutableArray *hostRightMenuItems;
     item4.subItem.subItem = [[mainMenu alloc] init];
     
 #pragma mark - Music
-    item1.mainLabel = @"Music";
-    item1.upperLabel = @"Listen to";
+    item1.mainLabel = NSLocalizedString(@"Music", nil);
+    item1.upperLabel = NSLocalizedString(@"Listen to", nil);
     item1.icon = @"icon_home_music_alt";
     item1.family = 1;
     item1.enableSection=YES;
@@ -197,7 +197,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
-                            nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
+                            nil],  @"parameters", NSLocalizedString(@"Albums", nil), @"label", @"Album", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
                              nil], @"properties",
@@ -212,7 +212,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", @"genre", nil], @"properties",
-                            nil], @"parameters", @"Artists", @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype",
+                            nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",nil], @"properties",
                             nil], @"extra_info_parameters",
                            nil],
@@ -225,7 +225,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", nil], @"properties",
-                            nil], @"parameters", @"Genres", @"label", @"nocover_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Genres", nil), @"label", @"nocover_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -235,7 +235,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             @"music", @"media",
-                            nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -245,7 +245,7 @@ NSMutableArray *hostRightMenuItems;
                              @"none", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
-                            nil],  @"parameters", @"Added albums", @"label", @"Album", @"wikitype", @"Recently added albums", @"morelabel",
+                            nil],  @"parameters", NSLocalizedString(@"Added Albums", nil), @"label", @"Album", @"wikitype", NSLocalizedString(@"Recently added albums", nil), @"morelabel",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
                              nil], @"properties",
@@ -264,7 +264,7 @@ NSMutableArray *hostRightMenuItems;
                             //                             [NSNumber numberWithInt:99], @"end",
                             //                             nil], @"limits",
                             [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
-                            nil], @"parameters", @"Added songs", @"label", @"Recently added songs", @"morelabel", nil],
+                            nil], @"parameters", NSLocalizedString(@"Added Songs", nil), @"label", NSLocalizedString(@"Recently added songs", nil), @"morelabel", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -278,7 +278,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithInt:100], @"end",
                              nil], @"limits",
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  @"playcount", nil], @"properties",
-                            nil],  @"parameters", @"Top 100 Albums", @"label", @"Album", @"wikitype", @"Top 100 Albums", @"morelabel",
+                            nil],  @"parameters", NSLocalizedString(@"Top 100 Albums", nil), @"label", @"Album", @"wikitype", NSLocalizedString(@"Top 100 Albums", nil), @"morelabel",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
                              nil], @"properties",
@@ -297,7 +297,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithInt:100], @"end",
                              nil], @"limits",
                             [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
-                            nil], @"parameters", @"Top 100 Songs", @"label", @"Top 100 Songs", @"morelabel", nil],
+                            nil], @"parameters", NSLocalizedString(@"Top 100 Songs", nil), @"label", NSLocalizedString(@"Top 100 Songs", nil), @"morelabel", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -307,7 +307,7 @@ NSMutableArray *hostRightMenuItems;
                              @"none", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",//@"genre", @"description", @"albumlabel", @"fanart",
-                            nil], @"parameters", @"Played albums", @"label", @"Album", @"wikitype", @"Recently played albums", @"morelabel", nil],
+                            nil], @"parameters", NSLocalizedString(@"Played albums", nil), @"label", @"Album", @"wikitype", NSLocalizedString(@"Recently played albums", nil), @"morelabel", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -321,7 +321,7 @@ NSMutableArray *hostRightMenuItems;
                             //                             [NSNumber numberWithInt:99], @"end",
                             //                             nil], @"limits",
                             [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
-                            nil], @"parameters", @"Played songs", @"label", @"Recently played songs", @"morelabel", nil],
+                            nil], @"parameters", NSLocalizedString(@"Played songs", nil), @"label", NSLocalizedString(@"Recently played songs", nil), @"morelabel", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -331,7 +331,7 @@ NSMutableArray *hostRightMenuItems;
                              @"none", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
-                            nil], @"parameters", @"All songs", @"label", @"All songs", @"morelabel", nil],
+                            nil], @"parameters", NSLocalizedString(@"All songs", nil), @"label", NSLocalizedString(@"All songs", nil), @"morelabel", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -343,7 +343,7 @@ NSMutableArray *hostRightMenuItems;
                             @"music", @"media",
                             @"addons://sources/audio", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"properties",
-                            nil], @"parameters", @"Music Addons", @"label", @"Music Addons", @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Music Addons", nil), @"label", NSLocalizedString(@"Music Addons", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -356,7 +356,7 @@ NSMutableArray *hostRightMenuItems;
                             @"special://musicplaylists", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", @"file", @"artist", @"album", @"duration", nil], @"properties",
                             [NSArray arrayWithObjects:@"thumbnail", @"file", @"artist", @"album", @"duration", nil], @"file_properties",
-                            nil], @"parameters", @"Music Playlists", @"label", @"Music Playlists", @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Music Playlists", nil), @"label", NSLocalizedString(@"Music Playlists", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           nil];
     
@@ -579,19 +579,19 @@ NSMutableArray *hostRightMenuItems;
     item1.defaultThumb=@"nocover_music.png";
     
     item1.sheetActions=[NSArray arrayWithObjects:
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play",  @"Album Details", @"Search Wikipedia", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play",  @"Artist Details", @"Search Wikipedia", @"Search last.fm charts", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Artist Details", nil), NSLocalizedString(@"Search Wikipedia", nil), NSLocalizedString(@"Search last.fm charts", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSArray arrayWithObjects:nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Album Details", @"Search Wikipedia", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play",  @"Album Details", @"Search Wikipedia", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Album Details", @"Search Wikipedia", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSArray arrayWithObjects: nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         nil];
     
     item1.subItem.mainMethod=[NSMutableArray arrayWithObjects:
@@ -910,19 +910,19 @@ NSMutableArray *hostRightMenuItems;
     item1.subItem.thumbWidth=53;
     item1.subItem.defaultThumb=@"nocover_music.png";
     item1.subItem.sheetActions=[NSArray arrayWithObjects:
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil], //@"Stream to iPhone",
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"Album Details", @"Search Wikipedia", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"Album Details", @"Search Wikipedia", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
-                                [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
-                                [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                                [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil),  NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil], //@"Stream to iPhone",
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                 nil];//, @"Stream to iPhone"
     item1.subItem.originYearDuration=248;
     item1.subItem.widthLabel=252;
@@ -1071,19 +1071,19 @@ NSMutableArray *hostRightMenuItems;
     item1.subItem.subItem.thumbWidth=53;
     item1.subItem.subItem.defaultThumb=@"nocover_music.png";
     item1.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],//@"Stream to iPhone",
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
+                                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],//@"Stream to iPhone",
+                                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         [NSArray arrayWithObjects:nil],
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                                        [NSArray arrayWithObjects:nil],
-                                        [NSArray arrayWithObjects:nil],
+                                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         [NSArray arrayWithObjects:nil],
                                         [NSArray arrayWithObjects:nil],
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
+                                        [NSArray arrayWithObjects:nil],
+                                        [NSArray arrayWithObjects:nil],
+                                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         nil];
     item1.subItem.subItem.showRuntime=[NSArray arrayWithObjects:
                                        [NSNumber numberWithBool:YES],
@@ -1101,8 +1101,8 @@ NSMutableArray *hostRightMenuItems;
                                        [NSNumber numberWithBool:YES],
                                        nil];
 #pragma mark - Movies
-    item2.mainLabel = @"Movies";
-    item2.upperLabel = @"Watch your";
+    item2.mainLabel = NSLocalizedString(@"Movies", nil);
+    item2.upperLabel = NSLocalizedString(@"Watch your", nil);
     item2.icon = @"icon_home_movie_alt";
     item2.family = 1;
     item2.enableSection=YES;
@@ -1140,7 +1140,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", nil], @"properties",
-                            nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype",
+                            nil], @"parameters", NSLocalizedString(@"Movies", nil), @"label", @"Movie", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", nil], @"properties",
                             nil], @"extra_info_parameters",
@@ -1156,7 +1156,7 @@ NSMutableArray *hostRightMenuItems;
                              nil],@"sort",
                             @"movie", @"type",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                            nil], @"parameters", @"Movie Genres", @"label", @"nocover_movie_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Movie Genres", nil), @"label", @"nocover_movie_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1166,7 +1166,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"playcount", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"file", @"fanart", @"resume", nil], @"properties",
-                            nil], @"parameters", @"Music Videos", @"label", @"Movie", @"wikitype", nil],
+                            nil], @"parameters", NSLocalizedString(@"Music Videos", nil), @"label", @"Movie", @"wikitype", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1176,7 +1176,7 @@ NSMutableArray *hostRightMenuItems;
                              @"none", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", nil], @"properties",
-                            nil], @"parameters", @"Added Movies", @"label", @"Movie", @"wikitype",
+                            nil], @"parameters", NSLocalizedString(@"Added Movies", nil), @"label", @"Movie", @"wikitype",
                            
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", nil], @"properties",
@@ -1187,7 +1187,7 @@ NSMutableArray *hostRightMenuItems;
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"video", @"media",
-                            nil], @"parameters", @"Files", @"label", @"Files", @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", @"Files", @"label", NSLocalizedString(@"Files", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1199,12 +1199,12 @@ NSMutableArray *hostRightMenuItems;
                             @"video", @"media",
                             @"addons://sources/video", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                            nil], @"parameters", @"Video Addons", @"label", @"Video Addons", @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", @"Video Addons", @"label", NSLocalizedString(@"Video Addons", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"tv", @"channeltype",
-                            nil], @"parameters", @"Live TV", @"label", @"Live TV", @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", @"Live TV", @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           //                          "plot" and "runtime" and "plotoutline"
                           nil];
     
@@ -1335,10 +1335,10 @@ NSMutableArray *hostRightMenuItems;
     item2.thumbWidth=53;
     item2.defaultThumb=@"nocover_movies.png";
     item2.sheetActions=[NSArray arrayWithObjects:
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Movie Details", nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil],
                         [NSArray arrayWithObjects: nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Music Video Details", nil],
-                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Movie Details", nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Music Video Details", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil],
                         [NSArray arrayWithObjects: nil],
                         [NSArray arrayWithObjects: nil],
                         [NSArray arrayWithObjects: nil],
@@ -1535,12 +1535,12 @@ NSMutableArray *hostRightMenuItems;
     item2.subItem.defaultThumb = @"nocover_movies.png";
     item2.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSArray arrayWithObjects: nil],
-                                  [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Movie Details", nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil],
                                   [NSArray arrayWithObjects: nil],
                                   [NSArray arrayWithObjects: nil],
-                                  [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                                  [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                                  [NSArray arrayWithObjects:@"Play", nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), nil],
                                   
                                   nil];
     item2.subItem.showInfo = [NSArray arrayWithObjects:
@@ -1623,14 +1623,14 @@ NSMutableArray *hostRightMenuItems;
                                           [NSArray arrayWithObjects: nil],
                                           [NSArray arrayWithObjects: nil],
                                           [NSArray arrayWithObjects: nil],
-                                          [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                                          [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
+                                          [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                          [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                           nil];
     item2.subItem.subItem.widthLabel = 252;
     
 #pragma mark - TV Shows
-    item3.mainLabel = @"TV Shows";
-    item3.upperLabel = @"Watch your";
+    item3.mainLabel = NSLocalizedString(@"TV Shows", nil);
+    item3.upperLabel = NSLocalizedString(@"Watch your", nil);
     item3.icon = @"icon_home_tv_alt";
     item3.family = 1;
     item3.enableSection = YES;
@@ -1662,7 +1662,7 @@ NSMutableArray *hostRightMenuItems;
                                @"label", @"method",
                                nil],@"sort",
                               [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", nil], @"properties",
-                              nil], @"parameters", @"TV Shows", @"label", @"TV Show", @"wikitype",
+                              nil], @"parameters", NSLocalizedString(@"TV Shows", nil), @"label", @"TV Show", @"wikitype",
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", @"plot", @"mpaa", @"votes", @"cast", @"premiered", @"episode", @"fanart", nil], @"properties",
                               nil], @"extra_info_parameters",
@@ -1689,7 +1689,7 @@ NSMutableArray *hostRightMenuItems;
                                @"none", @"method",
                                nil],@"sort",
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"playcount", @"showtitle", nil], @"properties",
-                              nil], @"parameters", @"Added Episodes", @"label", @"53", @"rowHeight", @"95", @"thumbWidth",
+                              nil], @"parameters", NSLocalizedString(@"Added Episodes", nil), @"label", @"53", @"rowHeight", @"95", @"thumbWidth",
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", @"resume", nil], @"properties",
                               nil], @"extra_info_parameters",
@@ -1704,7 +1704,7 @@ NSMutableArray *hostRightMenuItems;
                                @"label", @"method",
                                nil],@"sort",
                               @"video", @"media",
-                              nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                              nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                             
                             [NSMutableArray arrayWithObjects:
                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1716,7 +1716,7 @@ NSMutableArray *hostRightMenuItems;
                               @"video", @"media",
                               @"addons://sources/video", @"directory",
                               [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                              nil], @"parameters", @"Video Addons", @"label", @"Video Addons", @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                              nil], @"parameters", NSLocalizedString(@"Video Addons", nil), @"label", NSLocalizedString(@"Video Addons", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                             
                             nil];
     item3.mainFields = [NSArray arrayWithObjects:
@@ -1811,9 +1811,9 @@ NSMutableArray *hostRightMenuItems;
     item3.defaultThumb = @"nocover_tvshows.png";
     item3.originLabel = 60;
     item3.sheetActions = [NSArray arrayWithObjects:
-                          [NSArray arrayWithObjects:@"TV Show Details", nil],
+                          [NSArray arrayWithObjects:NSLocalizedString(@"TV Show Details", nil), nil],
 //                          [NSArray arrayWithObjects: nil],
-                          [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", @"Episode Details", nil],
+                          [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), nil],
                           [NSArray arrayWithObjects:nil],
                           [NSArray arrayWithObjects:nil],
                           nil];
@@ -2016,11 +2016,11 @@ NSMutableArray *hostRightMenuItems;
     item3.subItem.thumbWidth = 95;
     item3.subItem.defaultThumb = @"nocover_tvshows_episode.png";
     item3.subItem.sheetActions = [NSArray arrayWithObjects:
-                                  [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", @"Episode Details", nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), nil],
 //                                  [NSArray arrayWithObjects:@"TV Show Details", nil],
                                   [NSArray arrayWithObjects:nil],
-                                  [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
-                                  [NSArray arrayWithObjects:@"Queue after current",  @"Queue", @"Play", nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                   nil];//, @"Stream to iPhone"
     item3.subItem.originYearDuration=248;
     item3.subItem.widthLabel=208;
@@ -2079,8 +2079,8 @@ NSMutableArray *hostRightMenuItems;
                                         [NSArray arrayWithObjects:nil],
 //                                        [NSArray arrayWithObjects:nil],
                                         [NSArray arrayWithObjects:nil],
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
-                                        [NSArray arrayWithObjects:@"Queue after current", @"Queue", @"Play", nil],
+                                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         nil];
     item3.subItem.subItem.originYearDuration=248;
     item3.subItem.subItem.widthLabel=208;
@@ -2101,8 +2101,8 @@ NSMutableArray *hostRightMenuItems;
                                       nil];
     
 #pragma mark - Pictures
-    item4.mainLabel = @"Pictures";
-    item4.upperLabel = @"Browse your";
+    item4.mainLabel = NSLocalizedString(@"Pictures", nil);
+    item4.upperLabel = NSLocalizedString(@"Browse your", nil);
     item4.icon = @"icon_home_picture_alt";
     item4.family = 1;
     item4.enableSection=YES;
@@ -2125,7 +2125,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             @"pictures", @"media",
-                            nil], @"parameters", @"Pictures", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Pictures", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -2137,7 +2137,7 @@ NSMutableArray *hostRightMenuItems;
                             @"pictures", @"media",
                             @"addons://sources/image", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                            nil], @"parameters", @"Pictures Addons", @"label", @"Pictures Addons", @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Pictures Addons", nil), @"label", NSLocalizedString(@"Pictures Addons", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           nil];
     item4.mainFields=[NSArray arrayWithObjects:
@@ -2191,7 +2191,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     @"pictures", @"media",
                                     [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -2202,7 +2202,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     @"pictures", @"media",
                                     [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                    nil], @"parameters", @"Video Addons", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", NSLocalizedString(@"Video Addons", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   nil];
     item4.subItem.mainFields=[NSArray arrayWithObjects:
@@ -2270,19 +2270,19 @@ NSMutableArray *hostRightMenuItems;
                                       nil];
     
 #pragma mark - Now Playing
-    item5.mainLabel = @"Now playing";
-    item5.upperLabel = @"See what's";
+    item5.mainLabel = NSLocalizedString(@"Now Playing", nil);
+    item5.upperLabel = NSLocalizedString(@"See what's", nil);
     item5.icon = @"icon_home_playing_alt";
     item5.family = 2;
     
 #pragma mark - Remote Control
-    item6.mainLabel = @"Remote Control";
-    item6.upperLabel = @"Use as";
+    item6.mainLabel = NSLocalizedString(@"Remote Control", nil);
+    item6.upperLabel = NSLocalizedString(@"Use as", nil);
     item6.icon = @"icon_home_remote_alt";
     item6.family = 3;
     
 #pragma mark - XBMC Server Management
-    item7.mainLabel = @"XBMC Server";
+    item7.mainLabel = NSLocalizedString(@"XBMC Server", nil);
     item7.upperLabel = @"";
     item7.icon = @"";
     item7.family = 4;
@@ -2302,7 +2302,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Host Right Menu
     rightMenuItems = [NSMutableArray arrayWithCapacity:1];
     mainMenu *rightItem1 = [[mainMenu alloc] init];
-    rightItem1.mainLabel = @"XBMC Server";
+    rightItem1.mainLabel = NSLocalizedString(@"XBMC Server", nil);
     rightItem1.family = 1;
     rightItem1.enableSection = YES;
     rightItem1.mainMethod = [NSArray arrayWithObjects:
@@ -2324,21 +2324,21 @@ NSMutableArray *hostRightMenuItems;
                                 [NSNumber numberWithBool:YES], @"hideLineSeparator",
                                 nil],
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Wake On Lan", @"label",
+                                NSLocalizedString(@"Wake On Lan", nil), @"label",
                                 @"icon_power", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.WOL", @"command",
                                  nil], @"action",
                                 nil],
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"LED Torch", @"label",
+                                NSLocalizedString(@"LED Torch", nil), @"label",
                                 @"torch", @"icon",
                                 nil],
                                nil],@"offline",
                               
                               [NSArray arrayWithObjects:
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"LED Torch", @"label",
+                                NSLocalizedString(@"LED Torch", nil), @"label",
                                 @"torch", @"icon",
                                 nil],
                                nil],@"utility",
@@ -2360,7 +2360,7 @@ NSMutableArray *hostRightMenuItems;
                                 nil],
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Power off System", @"label",
+                                NSLocalizedString(@"Power off System", nil), @"label",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  [NSNumber numberWithFloat:.741f], @"red",
                                  [NSNumber numberWithFloat:.141f], @"green",
@@ -2375,7 +2375,7 @@ NSMutableArray *hostRightMenuItems;
                                 @"icon_power", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Shutdown", @"command",
-                                 @"Are you sure you want to power off your XBMC system now?", @"message",
+                                 NSLocalizedString(@"Are you sure you want to power off your XBMC system now?", nil), @"message",
 //                                 @"If you do nothing, the XBMC system will shutdown automatically in", @"countdown_message",
                                  [NSNumber numberWithInt:5], @"countdown_time",
                                  @"cancel", @"cancel_button",
@@ -2384,88 +2384,88 @@ NSMutableArray *hostRightMenuItems;
                                 nil],
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Hibernate", @"label",
+                                NSLocalizedString(@"Hibernate", nil), @"label",
                                 @"icon_hibernate", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Hibernate",@"command",
-                                 @"Are you sure you want to hibernate your XBMC system now?", @"message",
+                                 NSLocalizedString(@"Are you sure you want to hibernate your XBMC system now?", nil), @"message",
                                  @"cancel", @"cancel_button",
                                  @"Hibernate", @"ok_button",
                                  nil], @"action",
                                 nil],
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Suspend", @"label",
+                                NSLocalizedString(@"Suspend", nil), @"label",
                                 @"icon_sleep", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Suspend",@"command",
-                                 @"Are you sure you want to suspend your XBMC system now?", @"message",
+                                 NSLocalizedString(@"Are you sure you want to suspend your XBMC system now?", nil), @"message",
                                  @"cancel", @"cancel_button",
                                  @"Suspend", @"ok_button",
                                  nil], @"action",
                                 nil],
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Reboot", @"label",
+                                NSLocalizedString(@"Reboot", nil), @"label",
                                 @"icon_reboot", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Reboot",@"command",
-                                 @"Are you sure you want to reboot your XBMC system now?", @"message",
+                                 NSLocalizedString(@"Are you sure you want to reboot your XBMC system now?", nil), @"message",
                                  @"cancel", @"cancel_button",
                                  @"Reboot", @"ok_button",
                                  nil], @"action",
                                 nil],
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Quit XBMC application", @"label",
+                                NSLocalizedString(@"Quit XBMC application", nil), @"label",
                                 @"icon_exit", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"Application.Quit",@"command",
-                                 @"Are you sure you want to quit XBMC application now?", @"message",
+                                 NSLocalizedString(@"Are you sure you want to quit XBMC application now?", nil), @"message",
                                  @"cancel", @"cancel_button",
                                  @"Quit", @"ok_button",
                                  nil], @"action",
                                 nil],
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Update Audio Library", @"label",
+                                NSLocalizedString(@"Update Audio Library", nil), @"label",
                                 @"icon_update_audio", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"AudioLibrary.Scan",@"command",
-                                 @"Are you sure you want to update your audio library now?", @"message",
+                                 NSLocalizedString(@"Are you sure you want to update your audio library now?", nil), @"message",
                                  @"cancel", @"cancel_button",
                                  @"Update Audio", @"ok_button",
                                  nil], @"action",
                                 nil],
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Clean Audio Library", @"label",
+                                NSLocalizedString(@"Clean Audio Library", nil), @"label",
                                 @"icon_clean_audio", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"AudioLibrary.Clean",@"command",
-                                 @"Are you sure you want to clean your audio library now?", @"message",
+                                 NSLocalizedString(@"Are you sure you want to clean your audio library now?", nil), @"message",
                                  @"cancel", @"cancel_button",
                                  @"Clean Audio", @"ok_button",
                                  nil], @"action",
                                 nil],
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Update Video Library", @"label",
+                                NSLocalizedString(@"Update Video Library", nil), @"label",
                                 @"icon_update_video", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"VideoLibrary.Scan",@"command",
-                                 @"Are you sure you want to update your video library now?", @"message",
+                                 NSLocalizedString(@"Are you sure you want to update your video library now?", nil), @"message",
                                  @"cancel", @"cancel_button",
                                  @"Update Video", @"ok_button",
                                  nil], @"action",
                                 nil],
                                
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Clean Video Library", @"label",
+                                NSLocalizedString(@"Clean Video Library", nil), @"label",
                                 @"icon_clean_video", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"VideoLibrary.Clean",@"command",
-                                 @"Are you sure you want to clean your video library now?", @"message",
+                                 NSLocalizedString(@"Are you sure you want to clean your video library now?", nil), @"message",
                                  @"cancel", @"cancel_button",
                                  @"Clean Video", @"ok_button",
                                  nil], @"action",
@@ -2556,7 +2556,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:YES], @"hideLineSeparator",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"LED Torch", @"label",
+                                     NSLocalizedString(@"LED Torch", nil), @"label",
                                      @"torch", @"icon",
                                      nil],
                                     nil],@"offline",
@@ -2581,24 +2581,24 @@ NSMutableArray *hostRightMenuItems;
                                      @"volume", @"icon",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"Keyboard", @"label",
+                                     NSLocalizedString(@"Keyboard", nil), @"label",
                                      @"keyboard_icon", @"icon",
                                      [NSNumber numberWithBool:YES], @"revealViewTop",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"Gesture Zone", @"label",
+                                     NSLocalizedString(@"Gesture Zone", nil), @"label",
                                      @"finger", @"icon",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"Button Pad", @"label",
+                                     NSLocalizedString(@"Button Pad", nil), @"label",
                                      @"circle", @"icon",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"Help screen", @"label",
+                                     NSLocalizedString(@"Help Screen", nil), @"label",
                                      @"button_info", @"icon",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"LED Torch", @"label",
+                                     NSLocalizedString(@"LED Torch", nil), @"label",
                                      @"torch", @"icon",
                                      nil],
                                     nil],@"online",
@@ -2609,7 +2609,7 @@ NSMutableArray *hostRightMenuItems;
 
 #pragma mark -
 
-    self.serverName = @"No connection";
+    self.serverName = NSLocalizedString(@"No connection", nil);
     InitialSlidingViewController *initialSlidingViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [mainMenuItems addObject:item7];

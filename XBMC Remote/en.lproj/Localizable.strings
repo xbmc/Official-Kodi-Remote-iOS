@@ -1,0 +1,133 @@
+/* 
+  Localisable.strings
+  XBMC Remote
+
+  Created by Pierrick Rouxel on 21/12/12.
+  Copyright (c) 2012 joethefox inc. All rights reserved.
+ */
+
+"Listen to" = "Listen to";
+"Watch your" = "Watch your";
+"Browse your" = "Browse your";
+"See what's" = "See what's";
+"Use as" = "Use as";
+
+"Music" = "Music";
+"Movies" = "Movies";
+"TV Shows" = "TV Shows";
+"Pictures" = "Pictures";
+"Now Playing" = "Now Playing";
+"Remote Control" = "Remote Control";
+"XBMC Server" = "XBMC Server";
+"New XBMC Server" = "New XBMC Server";
+"Modify XBMC Server" = "Modify XBMC Server";
+"Select an XBMC Server from the list" = "Select an XBMC Server from the list";
+
+"Files" = "Files";
+"Video Addons" = "Video Addons";
+"Live TV" = "Live TV";
+"Movie Genres" = "Movie Genres";
+"Music Videos" = "Music Videos";
+"Added Movies" = "Added Movies";
+"More (%d)" = "More (%d)";
+
+"Albums" = "Albums";
+"Artists" = "Artists";
+"Genres" = "Genres";
+"Added Albums" = "Added Albums";
+"Recently added albums" = "Recently added albums";
+"Added Songs" = "Added Songs";
+"Recently added songs" = "Recently added songs";
+"Top 100 Albums" = "Top 100 Albums";
+"Top 100 Songs" = "Top 100 Songs";
+"Played albums" = "Played albums";
+"Recently played albums" = "Recently played albums";
+"Played songs" = "Played songs";
+"Recently played songs" = "Recently played songs";
+"All songs" = "All songs";
+"Music Addons" = "Music Addons";
+"Music Playlists" = "Music Playlists";
+
+"Added Episodes" = "Added Episodes";
+
+"Pictures Addons" = "Pictures Addons";
+
+"Power off System" = "Power off System";
+"Hibernate" = "Hibernate";
+"Suspend" = "Suspend";
+"Reboot" = "Reboot";
+"Quit XBMC application" = "Quit XBMC application";
+"Update Audio Library" = "Update Audio Library";
+"Clean Audio Library" = "Clean Audio Library";
+"Update Video Library" = "Update Video Library";
+"Clean Video Library" = "Clean Video Library";
+
+"Keyboard" = "Keyboard";
+"Gesture Zone" = "Gesture Zone";
+"Button Pad" = "Button Pad";
+"Help Screen" = "Help Screen";
+"LED Torch" = "LED Torch";
+
+"No connection" = "No connection";
+
+"Queue after current" = "Queue after current";
+"Queue" = "Queue";
+"Play" = "Play";
+"Stream to iPhone" = "Stream to iPhone";
+"Search Wikipedia" = "Search Wikipedia";
+"Search last.fm charts" = "Search last.fm charts";
+"Album Tracks" = "Album Tracks";
+"Artist Albums" = "Artist Albums";
+"Artist Details" = "Artist Details";
+"Album Details" = "Album Details";
+"Movie Details" = "Movie Details";
+"Episode Details" = "Episode Details";
+"TV Show Details" = "TV Show Details";
+"Music Video Details" = "Music Video Details";
+
+"Playlist" = "Playlist";
+"Nothing is playing" = "Nothing is playing";
+"Details not found" = "Details not found";
+"Open in Safari" = "Open in Safari";
+"Error loading page" = "Error loading page";
+"OK" = "OK";
+"Cancel" = "Cancel";
+"Resume from %@" = "Resume from %@";
+"Resume from" = "Resume from";
+"First aired on %@" = "First aired on %@";
+"Episodes: %@" = "Episodes: %@";
+"1 result" = "1 result";
+"%d results" = "%d results";
+
+"Clear Playlist" = "Clear Playlist";
+"No server MAC address defined" = "No server MAC address defined";
+"Command executed" = "Command executed";
+"Warning" = "Warning";
+"Cannot do that" = "Cannot do that";
+"Wake On Lan" = "Wake On Lan";
+
+"Are you sure you want to clear the %@playlist?" = "Are you sure you want to clear the %@playlist?";
+"Are you sure you want to power off your XBMC system now?" = "Are you sure you want to power off your XBMC system now?";
+"Are you sure you want to hibernate your XBMC system now?" = "Are you sure you want to hibernate your XBMC system now?";
+"Are you sure you want to suspend your XBMC system now?" = "Are you sure you want to suspend your XBMC system now?";
+"Are you sure you want to reboot your XBMC system now?" = "Are you sure you want to reboot your XBMC system now?";
+"Are you sure you want to quit XBMC application now?" = "Are you sure you want to quit XBMC application now?";
+"Are you sure you want to update your audio library now?" = "Are you sure you want to update your audio library now?";
+"Are you sure you want to clean your audio library now?" = "Are you sure you want to clean your audio library now?";
+"Are you sure you want to update your video library now?" = "Are you sure you want to update your video library now?";
+"Are you sure you want to clean your video library now?" = "Are you sure you want to clean your video library now?";
+
+"EPISODES" = "EPISODES";
+"GENRE" = "GENRE";
+"STUDIO" = "STUDIO";
+"TV SHOW" = "TV SHOW";
+"DIRECTOR" = "DIRECTOR";
+"WRITER" = "WRITER";
+"FIRST AIRED" = "FIRST AIRED";
+"SUMMARY" = "SUMMARY";
+"ARTIST" = "ARTIST";
+"YEAR" = "YEAR";
+"ALBUM LABEL" = "ALBUM LABEL";
+"DESCRIPTION" = "DESCRIPTION";
+"STYLE" = "STYLE";
+"BORN / FORMED" = "BORN / FORMED";

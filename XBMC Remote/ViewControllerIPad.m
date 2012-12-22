@@ -111,7 +111,7 @@
             [self showSetup:YES];
         }
         if ([AppDelegate instance].serverOnLine){
-            [self changeServerStatus:NO infoText:@"No connection"];
+            [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
         }
         return;
     }
@@ -136,7 +136,7 @@
                  }
                  else{
                      if ([AppDelegate instance].serverOnLine){
-                         [self changeServerStatus:NO infoText:@"No connection"];
+                         [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
                      }
                      if (firstRun){
                          [self showSetup:YES];
@@ -148,7 +148,7 @@
              //             NSLog(@"ERROR %@ %@",error, methodError);
              if ([AppDelegate instance].serverOnLine){
                  //                 NSLog(@"mi spengo");
-                 [self changeServerStatus:NO infoText:@"No connection"];
+                 [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
              }
              if (firstRun){
                  [self showSetup:YES];
@@ -304,11 +304,11 @@
     NSString *destructive = nil;
     NSArray *sheetActions = nil;
     if (![AppDelegate instance].serverOnLine){
-        sheetActions=[NSArray arrayWithObjects:@"Wake On Lan", nil];
+        sheetActions=[NSArray arrayWithObjects:NSLocalizedString(@"Wake On Lan", nil), nil];
     }
     else{
-        destructive = @"Power off System";
-        sheetActions=[NSArray arrayWithObjects: @"Hibernate", @"Suspend", @"Reboot", @"Quit XBMC Application", @"Update Audio Library", @"Update Video Library", nil];
+        destructive = NSLocalizedString(@"Power off System", nil);
+        sheetActions=[NSArray arrayWithObjects: NSLocalizedString(@"Hibernate", nil), NSLocalizedString(@"Suspend", nil), NSLocalizedString(@"Reboot", nil), NSLocalizedString(@"Quit XBMC application", nil), NSLocalizedString(@"Update Audio Library", nil), NSLocalizedString(@"Update Video Library", nil), nil];
     }
     int numActions=[sheetActions count];
     if (numActions){
@@ -334,11 +334,11 @@
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
             [alertView show];
         }
         else{
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Cannot do that" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
             [alertView show];
         }
     }];
@@ -346,36 +346,36 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex!=actionSheet.cancelButtonIndex){
-        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Wake On Lan"]){
+        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Wake On Lan", nil)]){
             if ([AppDelegate instance].obj.serverHWAddr != nil){
                 [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
                 [alertView show];
             }
             else{
-                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"No sever mac address definied" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
                 [alertView show];
             }
         }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Power off System"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Power off System", nil)]){
             [self powerAction:@"System.Shutdown" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Quit XBMC Application"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Quit XBMC application", nil)]){
             [self powerAction:@"Application.Quit" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Hibernate"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Hibernate", nil)]){
             [self powerAction:@"System.Hibernate" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Suspend"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Suspend", nil)]){
             [self powerAction:@"System.Suspend" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Reboot"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Reboot", nil)]){
             [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Update Audio Library"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Update Audio Library", nil)]){
             [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Update Video Library"]){
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Update Video Library", nil)]){
             [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
     }
@@ -517,7 +517,7 @@
     [self.view addSubview:volumeSliderView]; 
     
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(428, 966, 190, 33)]; //225
-    [xbmcInfo setTitle:@"No connection" forState:UIControlStateNormal];    
+    [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
     xbmcInfo.titleLabel.minimumFontSize=6.0f;
     xbmcInfo.titleLabel.numberOfLines=2;
@@ -598,7 +598,7 @@
         [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
         [menuViewController setLastSelected:-1];
     }
-    [self changeServerStatus:NO infoText:@"No connection"];
+    [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
 }
 

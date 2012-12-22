@@ -138,7 +138,7 @@
                  }
                  else{
                      if ([AppDelegate instance].serverOnLine){
-                         [self changeServerStatus:NO infoText:@"No connection"];
+                         [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
                      }
                  }
              }
@@ -146,7 +146,7 @@
          else {
              [AppDelegate instance].serverVolume = -1;
              if ([AppDelegate instance].serverOnLine){
-                 [self changeServerStatus:NO infoText:@"No connection"];
+                 [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
              }
          }
      }];
@@ -393,7 +393,7 @@
     mainMenu *menuItem=[self.mainMenu objectAtIndex:3];
     menuItem.thumbWidth=thumbWidth;
     menuItem.rowHeight=tvshowHeight;
-    [self changeServerStatus:NO infoText:@"No connection"];
+    [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
 }
 
 -(void)dealloc{
