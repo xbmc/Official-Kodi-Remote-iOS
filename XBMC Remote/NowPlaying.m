@@ -61,10 +61,10 @@ float cellBarWidth=45;
         viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:.5];
         viewTitle.textAlignment = UITextAlignmentCenter;
         viewTitle.textColor = [UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1];
-        viewTitle.text = NSLocalizedString(@"Now playing", nil);
+        viewTitle.text = NSLocalizedString(@"Now Playing", nil);
         [viewTitle sizeToFit];
         self.navigationItem.titleView = viewTitle;
-        self.navigationItem.title = NSLocalizedString(@"Now playing", nil); // DA SISTEMARE COME PARAMETRO
+        self.navigationItem.title = NSLocalizedString(@"Now Playing", nil); // DA SISTEMARE COME PARAMETRO
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
         rightSwipe.cancelsTouchesInView=NO;
@@ -1529,8 +1529,8 @@ int currentItemID;
         transitionedView=nowPlayingView;
         playlistHidden = YES;
         nowPlayingHidden = NO;
-        viewTitle.text = NSLocalizedString(@"Now playing", nil);
-        self.navigationItem.title = NSLocalizedString(@"Now playing", nil);
+        viewTitle.text = NSLocalizedString(@"Now Playing", nil);
+        self.navigationItem.title = NSLocalizedString(@"Now Playing", nil);
         self.navigationItem.titleView.hidden=YES;
         anim=UIViewAnimationTransitionFlipFromLeft;
         anim2=UIViewAnimationTransitionFlipFromLeft;
@@ -2402,7 +2402,7 @@ int currentItemID;
             nowPlayingHidden = NO;
             playlistView.hidden = YES;
             playlistHidden = YES;
-            viewTitle.text = NSLocalizedString(@"Now playing", nil);
+            viewTitle.text = NSLocalizedString(@"Now Playing", nil);
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             startFlipDemo = YES;
