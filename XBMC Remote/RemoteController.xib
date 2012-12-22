@@ -164,7 +164,7 @@
 								<string key="NSFrame">{{232, 370}, {73, 34}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="470625486"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<int key="IBUITag">24</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -214,7 +214,7 @@
 										<string key="NSFrame">{{-320, 0}, {320, 286}}</string>
 										<reference key="NSSuperview" ref="470625486"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="781111533"/>
+										<reference key="NSNextKeyView" ref="452889805"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<object class="NSColor" key="IBUIBackgroundColor" id="260746426">
 											<int key="NSColorSpace">3</int>
@@ -756,6 +756,7 @@
 								<string key="NSFrame">{{246, 44}, {59, 33}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="470625486"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<int key="IBUITag">8</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -784,7 +785,7 @@
 								<string key="NSFrame">{{0, 269}, {320, 49}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="967985679"/>
+								<reference key="NSNextKeyView" ref="566087471"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="143455125">
 									<int key="NSColorSpace">3</int>
@@ -820,7 +821,7 @@
 										<string key="NSFrameSize">{320, 460}</string>
 										<reference key="NSSuperview" ref="322054878"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="452889805"/>
+										<reference key="NSNextKeyView" ref="667546025"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">1</int>
@@ -833,7 +834,7 @@
 										<string key="NSFrame">{{252, 4}, {64, 30}}</string>
 										<reference key="NSSuperview" ref="322054878"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="566087471"/>
+										<reference key="NSNextKeyView" ref="967985679"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<reference key="IBUIBackgroundColor" ref="260746426"/>
 										<bool key="IBUIOpaque">NO</bool>
@@ -853,7 +854,7 @@
 								<string key="NSFrameSize">{320, 460}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="667546025"/>
+								<reference key="NSNextKeyView" ref="781111533"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">5</int>
@@ -1788,35 +1789,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">RemoteController</string>
 					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="handleButtonLongPress:">UILongPressGestureRecognizer</string>
-						<string key="holdKey:">id</string>
-						<string key="startVibrate:">id</string>
-						<string key="stopHoldKey:">id</string>
-						<string key="toggleQuickHelp:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="handleButtonLongPress:">
-							<string key="name">handleButtonLongPress:</string>
-							<string key="candidateClassName">UILongPressGestureRecognizer</string>
-						</object>
-						<object class="IBActionInfo" key="holdKey:">
-							<string key="name">holdKey:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="startVibrate:">
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">startVibrate:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">startVibrate:</string>
+						<object class="IBActionInfo" key="NS.object.0">
 							<string key="name">startVibrate:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="stopHoldKey:">
-							<string key="name">stopHoldKey:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleQuickHelp:">
-							<string key="name">toggleQuickHelp:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="TransitionalView">UIView</string>
 						<string key="buttonZoneView">UIView</string>
