@@ -51,10 +51,10 @@
 
 - (void)configureView{
     if (self.detailItem==nil){
-        self.navigationItem.title=@"New XBMC Server";
+        self.navigationItem.title=NSLocalizedString(@"New XBMC Server", nil);
     }
     else {
-        self.navigationItem.title=@"Modify XBMC Server";
+        self.navigationItem.title=NSLocalizedString(@"Modify XBMC Server", nil);
         NSIndexPath *idx=self.detailItem;
         
         descriptionUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverDescription"];

@@ -62,13 +62,13 @@ int count=0;
         viewTitle.textColor = [UIColor whiteColor];
         viewTitle.text = [item objectForKey:@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
-        sheetActions = [[NSMutableArray alloc] initWithObjects:@"Queue after current", @"Queue", @"Play", nil];
+        sheetActions = [[NSMutableArray alloc] initWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil];
         NSDictionary *resumePointDict = [item objectForKey:@"resume"];
         if (resumePointDict != nil){
             if (((NSNull *)[resumePointDict objectForKey:@"position"] != [NSNull null])){
                 if ([[resumePointDict objectForKey:@"position"] floatValue]>0){
                     resumePointPercentage = ([[resumePointDict objectForKey:@"position"] floatValue] * 100) / [[resumePointDict objectForKey:@"total"] floatValue];
-                    [sheetActions addObject:[NSString stringWithFormat:@"Resume from %@", [self convertTimeFromSeconds:[NSNumber numberWithFloat:[[resumePointDict objectForKey:@"position"] floatValue]]]]];
+                    [sheetActions addObject:[NSString stringWithFormat:NSLocalizedString(@"Resume from %@", nil), [self convertTimeFromSeconds:[NSNumber numberWithFloat:[[resumePointDict objectForKey:@"position"] floatValue]]]]];
                 }
             }
         }
@@ -345,7 +345,7 @@ int count=0;
         for (int i = 0; i < numActions; i++) {
             [actionSheetView addButtonWithTitle:[sheetActions objectAtIndex:i]];
         }
-        actionSheetView.cancelButtonIndex = [actionSheetView addButtonWithTitle:@"Cancel"];
+        actionSheetView.cancelButtonIndex = [actionSheetView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             [actionSheetView showInView:self.view];
         }
@@ -357,17 +357,17 @@ int count=0;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex!=actionSheet.cancelButtonIndex){
-        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue after current"]){
+        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
             [self addQueueAfterCurrent:YES];
 
         }
-        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue"]){
+        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue", nil)]){
             [self addQueueAfterCurrent:NO];
         }
-        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"]){
+        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play", nil)]){
             [self addPlayback:0.0];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:@"Resume from"].location!= NSNotFound){
+        else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:NSLocalizedString(@"Resume from", nil)].location!= NSNotFound){
             [self addPlayback:resumePointPercentage];
             return;
         }
@@ -617,9 +617,9 @@ int h=0;
                 coverView.frame = frame;
                 deltaY = -(coverHeight - originalHeight);
             }
-            label1.text = @"EPISODES";
-            label3.text = @"GENRE";
-            label4.text = @"STUDIO";
+            label1.text = NSLocalizedString(@"EPISODES", nil);
+            label3.text = NSLocalizedString(@"GENRE", nil);
+            label4.text = NSLocalizedString(@"STUDIO", nil);
             directorLabel.text = [[item objectForKey:@"showtitle"] length] == 0 ? @"-" : [item objectForKey:@"showtitle"];
             genreLabel.text = [[item objectForKey:@"premiered"] length] == 0 ? @"-" : [item objectForKey:@"premiered"];
             if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
@@ -663,9 +663,9 @@ int h=0;
                 frame.size.height = 167;
                 coverView.frame = frame;
             }
-            label1.text = @"TV SHOW";
-            label3.text = @"DIRECTOR";
-            label4.text = @"WRITER";
+            label1.text = NSLocalizedString(@"TV SHOW", nil);
+            label3.text = NSLocalizedString(@"DIRECTOR", nil);
+            label4.text = NSLocalizedString(@"WRITER", nil);
             parentalRatingLabelUp.hidden = YES;
             parentalRatingLabel.hidden = YES;
             
@@ -699,8 +699,8 @@ int h=0;
         scrollViewDefaultHeight=scrollViewDefaultHeight - deltaY - shiftY;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
         
-        label2.text=@"FIRST AIRED";
-        label5.text=@"SUMMARY";
+        label2.text=NSLocalizedString(@"FIRST AIRED", nil);
+        label5.text=NSLocalizedString(@"SUMMARY", nil);
         
         frame=starsView.frame;
         frame.origin.x=frame.origin.x+29;
@@ -721,11 +721,11 @@ int h=0;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:40];
         jewelView.hidden = NO;
         int deltaY = jewelView.frame.size.height - coverHeight;
-        label1.text = @"ARTIST";
-        label2.text = @"YEAR";
-        label3.text = @"GENRE";
-        label4.text = @"ALBUM LABEL";
-        label5.text = @"DESCRIPTION";
+        label1.text = NSLocalizedString(@"ARTIST", nil);
+        label2.text = NSLocalizedString(@"YEAR", nil);
+        label3.text = NSLocalizedString(@"GENRE", nil);
+        label4.text = NSLocalizedString(@"ALBUM LABEL", nil);
+        label5.text = NSLocalizedString(@"DESCRIPTION", nil);
         label6.text = @"";
         
         starsView.hidden = YES;
@@ -787,11 +787,11 @@ int h=0;
         int shiftY = 40;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:shiftY];
         [self moveLabel:[NSArray arrayWithObjects:label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:40];
-        label1.text = @"GENRE";
-        label2.text = @"STYLE";
+        label1.text = NSLocalizedString(@"GENRE", nil);
+        label2.text = NSLocalizedString(@"STYLE", nil);
         label3.text = @"";
-        label4.text = @"BORN / FORMED";
-        label5.text = @"DESCRIPTION";
+        label4.text = NSLocalizedString(@"BORN / FORMED", nil);
+        label5.text = NSLocalizedString(@"DESCRIPTION", nil);
         label6.text = @"";
         parentalRatingLabelUp.hidden = YES;
         parentalRatingLabel.hidden = YES;

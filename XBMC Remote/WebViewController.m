@@ -85,10 +85,10 @@
 			//show error alert, etc.
 		}
         UIAlertView *errorAlert = [[UIAlertView alloc]
-								   initWithTitle:@"Error loading page"
+								   initWithTitle:NSLocalizedString(@"Error loading page", nil)
 								   message: [error localizedFailureReason]
 								   delegate:nil
-								   cancelButtonTitle:@"OK"
+								   cancelButtonTitle:NSLocalizedString(@"OK", nil)
 								   otherButtonTitles:nil];
         [errorAlert show];
 //        [errorAlert release];
@@ -106,9 +106,9 @@
 -(IBAction)TwitterWebActionButton:(id)sender{
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
-                                                    cancelButtonTitle:@"Cancel"
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Open in Safari", nil];
+                                                    otherButtonTitles:NSLocalizedString(@"Open in Safari", nil), nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     [actionSheet showInView:self.view];
     actionSheet.tag = 30;

@@ -147,13 +147,13 @@
         [detailView addSubview:moreItemsViewController.view];
     }
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
-    self.navigationItem.title = [NSString stringWithFormat:@"More (%d)", (count - MAX_NORMAL_BUTTONS)];
+    self.navigationItem.title = [NSString stringWithFormat:NSLocalizedString(@"More (%d)", nil), (count - MAX_NORMAL_BUTTONS)];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.3];
         topNavigationLabel.alpha = 0;
         [UIView commitAnimations];
-        topNavigationLabel.text = [NSString stringWithFormat:@"More (%d)", (count - MAX_NORMAL_BUTTONS)];
+        topNavigationLabel.text = [NSString stringWithFormat:NSLocalizedString(@"More (%d)", nil), (count - MAX_NORMAL_BUTTONS)];
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.1];
         topNavigationLabel.alpha = 1;
@@ -465,9 +465,9 @@ int originYear = 0;
         int numResult=[self.filteredListContent count];
         if (numResult){
             if (numResult!=1)
-                return [NSString stringWithFormat:@"%d results", [self.filteredListContent count]];
+                return [NSString stringWithFormat:NSLocalizedString(@"%d results", nil), [self.filteredListContent count]];
             else {
-                return @"1 result";
+                return NSLocalizedString(@"1 result", nil);
             }
         }
         else {
@@ -1054,7 +1054,7 @@ int originYear = 0;
             [trackCountLabel setBackgroundColor:[UIColor clearColor]];
             [trackCountLabel setTextColor:[UIColor darkGrayColor]];
             [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
-            trackCountLabel.text = [NSString stringWithFormat:@"Episodes: %@", [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"episode"]];
+            trackCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Episodes: %@", nil), [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"episode"]];
             [albumDetailView addSubview:trackCountLabel];
 
             UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth +toggleIconSpace + (albumViewPadding * 2), bottomMargin - trackCountFontSize -labelPadding/2, viewWidth - albumViewHeight - albumViewPadding - toggleIconSpace, trackCountFontSize + labelPadding)];
@@ -1070,7 +1070,7 @@ int originYear = 0;
             NSDate *date = [format dateFromString:[item objectForKey:@"year"]];
             [format setDateFormat:@"MMMM d, YYYY"];
             aired = [format stringFromDate:date];
-            releasedLabel.text = [NSString stringWithFormat:@"First aired on %@", aired];
+            releasedLabel.text = [NSString stringWithFormat:NSLocalizedString(@"First aired on %@", nil), aired];
             [albumDetailView addSubview:releasedLabel];
 
             BOOL fromShowInfo = NO;
@@ -1321,7 +1321,7 @@ NSIndexPath *selected;
         for (int i = 0; i < numActions; i++) {
             [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
         }
-        action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+        action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             [action showInView:self.view];
         }
@@ -1375,7 +1375,7 @@ NSIndexPath *selected;
                 for (int i = 0; i < numActions; i++) {
                     [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
                 }
-                action.cancelButtonIndex = [action addButtonWithTitle:@"Cancel"];
+                action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                     [action showInView:self.view];
                 }
@@ -1397,7 +1397,7 @@ NSIndexPath *selected;
         else{
             item = [[self.sections valueForKey:[sectionArray objectAtIndex:selected.section]] objectAtIndex:selected.row];
         }
-        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Play"]){
+        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play", nil)]){
             NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
             if ([songid intValue]){
                 [self addPlayback:selected position:selected.row];
@@ -1406,22 +1406,22 @@ NSIndexPath *selected;
                 [self addPlayback:selected position:0];
             }
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue"]){
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue", nil)]){
             [self addQueue:selected];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Queue after current"]){
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
             [self addQueue:selected afterCurrentItem:YES];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:@"Details"].location!= NSNotFound){
+        else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:NSLocalizedString(@"Details", nil)].location!= NSNotFound){
             [self showInfo:selected menuItem:self.detailItem item:item tabToShow:choosedTab];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Stream to iPhone"]){
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Stream to iPhone", nil)]){
             [self addStream:selected];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Search Wikipedia"]){
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Search Wikipedia", nil)]){
             [self searchWeb:selected serviceURL:@"http://en.m.wikipedia.org/wiki?search=%@"];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:@"Search last.fm charts"]){
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Search last.fm charts", nil)]){
             [self searchWeb:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
         }
     }
@@ -2162,7 +2162,7 @@ NSIndexPath *selected;
              }
          }
          else {
-             UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Details not found" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+             UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Details not found", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
              [alertView show];
              [queuing stopAnimating];
          }
