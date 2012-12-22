@@ -149,9 +149,21 @@
     }
     else{
         int newWidth = 477;
+        [quickHelpView setFrame:CGRectMake(quickHelpView.frame.origin.x, quickHelpView.frame.origin.y, quickHelpView.frame.size.width, quickHelpView.frame.size.height - 20)];
+        [quickHelpView
+         setAutoresizingMask:
+         UIViewAutoresizingFlexibleBottomMargin |
+         UIViewAutoresizingFlexibleTopMargin |
+         UIViewAutoresizingFlexibleLeftMargin |
+         UIViewAutoresizingFlexibleRightMargin |
+         UIViewAutoresizingFlexibleHeight |
+         UIViewAutoresizingFlexibleWidth
+         ];
+
         int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;        
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
+                 
     }
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     rightSwipe.numberOfTouchesRequired = 1;
