@@ -106,6 +106,7 @@
 "Warning" = "Warning";
 "Cannot do that" = "Impossible de faire ceci";
 "Wake On Lan" = "Wake On Lan";
+"No saved hosts found" = "Aucun serveur sauvegardé";
 
 "Are you sure you want to clear the %@playlist?" = "Etes-vous sur de vouloir nettoyer %@playlist ?";
 "Are you sure you want to power off your XBMC system now?" = "Etes-vous sur de vouloir éteindre votre système XBMC maintenant ?";
