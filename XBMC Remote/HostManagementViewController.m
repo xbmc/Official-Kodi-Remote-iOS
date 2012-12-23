@@ -86,7 +86,7 @@
         UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
         UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
         cellLabel.textAlignment=UITextAlignmentCenter;
-        [cellLabel setText:@"No saved hosts found"];
+        [cellLabel setText:NSLocalizedString(@"No saved hosts found", nil)];
         [cellIP setText:@""];
         CGRect frame=cellLabel.frame;
         frame.origin.x=10;

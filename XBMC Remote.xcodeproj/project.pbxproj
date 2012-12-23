@@ -365,7 +365,6 @@
 		0F73AD2B157A44E900285682 /* xbmc_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F73AD2A157A44E900285682 /* xbmc_overlay.png */; };
 		0F73AD2E157A44F500285682 /* xbmc_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F73AD2D157A44F500285682 /* xbmc_overlay@2x.png */; };
 		0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74772C151DD77400EF78AD /* NowPlaying.m */; };
-		0F74772F151DD77400EF78AD /* NowPlaying.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F74772D151DD77400EF78AD /* NowPlaying.xib */; };
 		0F747734151DD91D00EF78AD /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F747732151DD91D00EF78AD /* RemoteController.m */; };
 		0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F747733151DD91D00EF78AD /* RemoteController.xib */; };
 		0F747738151DE5CF00EF78AD /* pgbar_inact_fake.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F747737151DE5CF00EF78AD /* pgbar_inact_fake.png */; };
@@ -656,6 +655,7 @@
 		0FFBCF0F152BAC2D00066B30 /* nocover_tvshows_episode.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */; };
 		0FFFC8C11642A81300600E80 /* button_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFFC8C01642A81300600E80 /* button_play.png */; };
 		0FFFC8C41642A83A00600E80 /* button_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFFC8C31642A83A00600E80 /* button_play@2x.png */; };
+		1A30F0571687314300FFC67D /* NowPlaying.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A30F0591687314300FFC67D /* NowPlaying.xib */; };
 		1A6742E9168479FD00E8D5AF /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6742E8168479FC00E8D5AF /* MasterViewController.xib */; };
 		1A6742EB16847C0F00E8D5AF /* button_now_playing_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A6742ED16847C0F00E8D5AF /* button_now_playing_empty@2x.png */; };
 		1A6742EF1684848800E8D5AF /* button_now_playing_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A6742F11684848800E8D5AF /* button_now_playing_empty.png */; };
@@ -1049,7 +1049,6 @@
 		0F73AD2D157A44F500285682 /* xbmc_overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xbmc_overlay@2x.png"; sourceTree = "<group>"; };
 		0F74772B151DD77400EF78AD /* NowPlaying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlaying.h; sourceTree = "<group>"; };
 		0F74772C151DD77400EF78AD /* NowPlaying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NowPlaying.m; sourceTree = "<group>"; };
-		0F74772D151DD77400EF78AD /* NowPlaying.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NowPlaying.xib; sourceTree = "<group>"; };
 		0F747731151DD91D00EF78AD /* RemoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteController.h; sourceTree = "<group>"; };
 		0F747732151DD91D00EF78AD /* RemoteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteController.m; sourceTree = "<group>"; };
 		0F747733151DD91D00EF78AD /* RemoteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RemoteController.xib; sourceTree = "<group>"; };
@@ -1363,6 +1362,8 @@
 		0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_tvshows_episode.png; sourceTree = "<group>"; };
 		0FFFC8C01642A81300600E80 /* button_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_play.png; sourceTree = "<group>"; };
 		0FFFC8C31642A83A00600E80 /* button_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_play@2x.png"; sourceTree = "<group>"; };
+		1A30F0581687314300FFC67D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NowPlaying.xib; sourceTree = "<group>"; };
+		1A30F05B1687314700FFC67D /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/NowPlaying.xib; sourceTree = "<group>"; };
 		1A6742E8168479FC00E8D5AF /* MasterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MasterViewController.xib; sourceTree = "<group>"; };
 		1A6742EC16847C0F00E8D5AF /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
 		1A6742EE16847C3300E8D5AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fr; path = "fr.lproj/button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
@@ -1446,7 +1447,7 @@
 				0F487B5915399716004530C1 /* serverListCellView.xib */,
 				1A6742E8168479FC00E8D5AF /* MasterViewController.xib */,
 				0F554915151D1187007E633F /* DetailViewController.xib */,
-				0F74772D151DD77400EF78AD /* NowPlaying.xib */,
+				1A30F0591687314300FFC67D /* NowPlaying.xib */,
 				0F747733151DD91D00EF78AD /* RemoteController.xib */,
 				0F4883D31521CD1C00883243 /* VolumeSliderView.xib */,
 				0F4883E41522418D00883243 /* ShowInfoViewController.xib */,
@@ -2497,7 +2498,7 @@
 				0F554C1A151D13CA007E633F /* tableDown.png in Resources */,
 				0F554C1B151D13CA007E633F /* tableUp.png in Resources */,
 				0F554C1D151D13CA007E633F /* waiting.png in Resources */,
-				0F74772F151DD77400EF78AD /* NowPlaying.xib in Resources */,
+				1A30F0571687314300FFC67D /* NowPlaying.xib in Resources */,
 				0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */,
 				0F747738151DE5CF00EF78AD /* pgbar_inact_fake.png in Resources */,
 				0F74773C151E15BA00EF78AD /* bottom_logo_down_blu@2x.png in Resources */,
@@ -3018,6 +3019,15 @@
 				1A9786B11683CEEA00B4F3F8 /* fr */,
 			);
 			name = DetailViewController.xib;
+			sourceTree = "<group>";
+		};
+		1A30F0591687314300FFC67D /* NowPlaying.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A30F0581687314300FFC67D /* en */,
+				1A30F05B1687314700FFC67D /* fr */,
+			);
+			name = NowPlaying.xib;
 			sourceTree = "<group>";
 		};
 		1A6742ED16847C0F00E8D5AF /* button_now_playing_empty@2x.png */ = {
