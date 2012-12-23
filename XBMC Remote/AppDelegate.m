@@ -2521,7 +2521,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"volume", @"icon",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"Keyboard", @"label",
+                                     NSLocalizedString(@"Keyboard", nil), @"label",
                                      @"keyboard_icon", @"icon",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
