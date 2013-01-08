@@ -2387,14 +2387,29 @@ NSIndexPath *selected;
 ////                 [self retrieveData:methodToCall parameters:mutableParameters];
 //             }
 //             else{
-//                 debugText.text = [NSString stringWithFormat:@"%@\n*ERROR: %@", debugText.text, methodError];
-                 [resultStoreArray removeAllObjects];
-                 [self.sections removeAllObjects];
-                 [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
-                 [dataList reloadData];
-                 [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-                 [activityIndicatorView stopAnimating];
-                 [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
+//             debugText.text = [NSString stringWithFormat:@"%@\n*ERROR: %@\n*METHOD ERROR: %@", debugText.text, error, methodError];
+//             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"DEBUG INFO"
+//                                                                 message:debugText.text
+//                                                                delegate:self
+//                                                       cancelButtonTitle:nil
+//                                                       otherButtonTitles:@"OK", nil];
+//             alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+//             UITextField *textField = [alertView textFieldAtIndex:0];
+//             textField.text = debugText.text;
+//             [textField setFrame:CGRectMake(0, 0, 320, 320)];
+//             [alertView show];
+//             
+//             UITextRange *textRange = [textField textRangeFromPosition:textField.beginningOfDocument
+//                                                            toPosition:textField.endOfDocument];
+//             [textField setSelectedTextRange:textRange];
+             
+             [resultStoreArray removeAllObjects];
+             [self.sections removeAllObjects];
+             [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
+             [dataList reloadData];
+             [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+             [activityIndicatorView stopAnimating];
+             [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
 //             }
          }
      }];
