@@ -254,7 +254,7 @@
 												<bool key="IBUIAdjustsImageWhenHighlighted">NO</bool>
 												<bool key="IBUIAdjustsImageWhenDisabled">NO</bool>
 												<string key="IBUITitleShadowOffset">{1, 1}</string>
-												<string key="IBUINormalTitle"> Music</string>
+												<string key="IBUINormalTitle"> Musik</string>
 												<object class="NSColor" key="IBUIHighlightedTitleColor" id="534553050">
 													<int key="NSColorSpace">3</int>
 													<bytes key="NSWhite">MQA</bytes>
@@ -354,7 +354,7 @@
 											<object class="IBUIButton" id="87277101">
 												<reference key="NSNextResponder" ref="519437062"/>
 												<int key="NSvFlags">299</int>
-												<string key="NSFrame">{{241, 6}, {72, 28}}</string>
+												<string key="NSFrame">{{233, 6}, {80, 28}}</string>
 												<reference key="NSSuperview" ref="519437062"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="491044754"/>
@@ -367,7 +367,7 @@
 												<int key="IBUIContentVerticalAlignment">0</int>
 												<string key="IBUITitleShadowOffset">{1, 1}</string>
 												<string key="IBUISelectedTitle">Done</string>
-												<string key="IBUINormalTitle">Edit</string>
+												<string key="IBUINormalTitle">Bearbeiten</string>
 												<object class="NSColor" key="IBUIHighlightedTitleColor">
 													<int key="NSColorSpace">3</int>
 													<bytes key="NSWhite">MSAwLjkAA</bytes>
@@ -2691,7 +2691,7 @@
 				<string key="122.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="2" key="122.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="123.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="2" key="123.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<real value="0.0" key="123.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="128.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="132.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="133.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
