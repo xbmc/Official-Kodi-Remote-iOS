@@ -1,0 +1,134 @@
+/* 
+  Localisable.strings
+  XBMC Remote
+
+  Created by Gerd Flender on 13/01/27
+  Copyright (c) 2012 joethefox inc. All rights reserved.
+ */
+
+"Listen to" = "Höre deine";
+"Watch your" = "Schaue deine";
+"Browse your" = "Durchsuche deine";
+"See what's" = "Schaue was";
+"Use as" = "Benutze als";
+
+"Music" = "Musik";
+"Movies" = "Filme";
+"TV Shows" = "TV Serien";
+"Pictures" = "Bilder";
+"Now Playing" = "Gerade gespielt";
+"Remote Control" = "Fernbedienung";
+"XBMC Server" = "XBMC Server";
+"New XBMC Server" = "Neuer XBMC Server";
+"Modify XBMC Server" = "XBMC Server bearbeiten";
+"Select an XBMC Server from the list" = "Wähle einen XBMC-Server aus der Liste";
+
+"Files" = "Dateien";
+"Video Addons" = "Video Addons";
+"Live TV" = "Live TV";
+"Movie Genres" = "Filmgenre";
+"Music Videos" = "Musikvideos";
+"Added Movies" = "Hinzugefügte Filme";
+"More (%d)" = "Mehr (%d)";
+
+"Albums" = "Alben";
+"Artists" = "Künstler";
+"Genres" = "Genres";
+"Added Albums" = "Hinzugefügte Alben";
+"Recently added albums" = "Kürzlich hinzugefügte Alben";
+"Added Songs" = "Hinzugefügte Lieder";
+"Recently added songs" = "Kürzlich hinzugefügte Lieder";
+"Top 100 Albums" = "Top 100 Alben";
+"Top 100 Songs" = "Top 100 Lieder";
+"Played albums" = "Gespielte Albe";
+"Recently played albums" = "Kürzlich gespielte Alben";
+"Played songs" = "Gespielte Lieder";
+"Recently played songs" = "Kürzlich gespielte Lieder";
+"All songs" = "Alle Lieder";
+"Music Addons" = "Musik Addons";
+"Music Playlists" = "Music Playlists";
+
+"Added Episodes" = "Hinzugefügte Episoden";
+
+"Pictures Addons" = "Bilder Addons";
+
+"Power off System" = "System ausschalten";
+"Hibernate" = "Ruhezustand";
+"Suspend" = "Standby";
+"Reboot" = "Neu starten";
+"Quit XBMC application" = "XBMC beenden";
+"Update Audio Library" = "Audiobibliothek aktualisieren";
+"Clean Audio Library" = "Audiobibliothek bereinigen";
+"Update Video Library" = "Videobibliothek aktualisieren";
+"Clean Video Library" = "Videobibliothek bereinigen";
+
+"Keyboard" = "Tastatur";
+"Gesture Zone" = "Gestenzone";
+"Button Pad" = "Button Pad";
+"Help Screen" = "Hilfeseite";
+"LED Torch" = "LED-Licht";
+
+"No connection" = "Keine Verbindung";
+
+"Queue after current" = "Nach Aktuellem einordnen";
+"Queue" = "Einordnen";
+"Play" = "Abspielen";
+"Stream to iPhone" = "Zu iPhone streamen";
+"Search Wikipedia" = "Wikipedia durchsuchen";
+"Search last.fm charts" = "Durchsuche last.fm-Charts";
+"Album Tracks" = "Album-Titel";
+"Artist Albums" = "Künstler-Alben";
+"Artist Details" = "Künstlerdetails";
+"Album Details" = "Albumdetails";
+"Movie Details" = "Filmdetails";
+"Episode Details" = "Episondenetails";
+"TV Show Details" = "Seriendetails";
+"Music Video Details" = "Music-Video Details";
+
+"Playlist" = "Abspielliste";
+"Nothing is playing" = "Nichts wird gespielt";
+"Details not found" = "Details  nicht gefunden";
+"Open in Safari" = "In Safari öffnen";
+"Error loading page" = "Fehler beim Laden der Seite";
+"OK" = "OK";
+"Cancel" = "Abbrechen";
+"Resume from %@" = "Fortsetzen von %@";
+"Resume from" = "Fortsetzen von";
+"First aired on %@" = "Erstausstrahlung %@";
+"Episodes: %@" = "Episoden: %@";
+"1 result" = "1 Ergebnis";
+"%d results" = "%d Ergebnisse";
+
+"Clear Playlist" = "Playliste löschen";
+"No server MAC address defined" = "Keine Server-MAC-Adresse definiert";
+"Command executed" = "Kommando ausgeführt";
+"Warning" = "Achtung";
+"Cannot do that" = "Dies ist nicht möglich";
+"Wake On Lan" = "Wake On Lan";
+"No saved hosts found" = "Keine gespeicherten Server gefunden";
+
+"Are you sure you want to clear the %@playlist?" = "Bist du sicher, dass Du %@playlist löschen möchtest?";
+"Are you sure you want to power off your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt ausschalten möchtest?";
+"Are you sure you want to hibernate your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt in den Ruhezustand gehen soll?";
+"Are you sure you want to suspend your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt in den Stanyby gehen soll?";
+"Are you sure you want to reboot your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt neu starten möchtest?";
+"Are you sure you want to quit XBMC application now?" = "Bist du sicher, dass Du die XBMC jetzt beenden möchtest?";
+"Are you sure you want to update your audio library now?" = "Bist du sicher, dass Du deine Audiobibliothek jetzt aktualisieren möchtest?";
+"Are you sure you want to clean your audio library now?" = "Bist du sicher, dass Du deine Audiobibliothek jetzt bereinigen möchtest?";
+"Are you sure you want to update your video library now?" = "Bist du sicher, dass Du deine Videobibliothek jetzt aktualisieren möchtest??";
+"Are you sure you want to clean your video library now?" = "Bist du sicher, dass Du deine Videoobibliothek jetzt bereinigen möchtest?";
+
+"EPISODES" = "EPISODEN";
+"GENRE" = "GENRE";
+"STUDIO" = "STUDIO";
+"TV SHOW" = "SERIE";
+"DIRECTOR" = "REGISSEUR";
+"WRITER" = "AUTOR";
+"FIRST AIRED" = "ERSTAUSSTRAHLUNG";
+"SUMMARY" = "ZUSAMMENFASSUNG";
+"ARTIST" = "KÜNSTLER";
+"YEAR" = "JAHR";
+"ALBUM LABEL" = "ALBUM TITEL";
+"DESCRIPTION" = "BESCHREIBUNG";
+"STYLE" = "STIL";
+"BORN / FORMED" = "GEGRÜNDET";
