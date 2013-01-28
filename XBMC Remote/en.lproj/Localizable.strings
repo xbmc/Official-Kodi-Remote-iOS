@@ -138,3 +138,8 @@
 "sample rate" = "sample rate";
 "resolution" = "resolution";
 "aspect ratio" = "aspect ratio";
+"Subtitles not available" = "Subtitles not available";
+"Audiostreams not available" = "Audiostreams not available";
+
+"LongDateTimeFormat" = "MMMM d, YYYY";
+"LocaleIdentifier" = "en_US";

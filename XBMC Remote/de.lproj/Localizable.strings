@@ -94,7 +94,7 @@
 "Cancel" = "Abbrechen";
 "Resume from %@" = "Fortsetzen von %@";
 "Resume from" = "Fortsetzen von";
-"First aired on %@" = "Erstausstrahlung %@";
+"First aired on %@" = "Erstausstrahlung am %@";
 "Episodes: %@" = "Episoden: %@";
 "1 result" = "1 Ergebnis";
 "%d results" = "%d Ergebnisse";
@@ -138,3 +138,8 @@
 "sample rate" = "Abtastrate";
 "resolution" = "Auflösung";
 "aspect ratio" = "Seitenverhältnis";
+"Subtitles not available" = "Keine Untertitel verfügbar";
+"Audiostreams not available" = "Keine Audiospuren nicht verfügbar";
+
+"LongDateTimeFormat" = "d. MMMM YYYY";
+"LocaleIdentifier" = "de_DE";
