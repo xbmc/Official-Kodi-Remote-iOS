@@ -132,3 +132,9 @@
 "DESCRIPTION" = "BESCHREIBUNG";
 "STYLE" = "STIL";
 "BORN / FORMED" = "GEGRÜNDET";
+
+"codec" = "Codec";
+"bit rate" = "Bitrate";
+"sample rate" = "Abtastrate";
+"resolution" = "Auflösung";
+"aspect ratio" = "Seitenverhältnis";

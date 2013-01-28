@@ -132,3 +132,9 @@
 "DESCRIPTION" = "DESCRIPTION";
 "STYLE" = "STYLE";
 "BORN / FORMED" = "BORN / FORMED";
+
+"codec" = "codec";
+"bit rate" = "bit rate";
+"sample rate" = "sample rate";
+"resolution" = "resolution";
+"aspect ratio" = "aspect ratio";
