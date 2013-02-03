@@ -918,9 +918,9 @@ int currentItemID;
 //                 albumTracksButton.hidden = NO;
 //                 artistDetailsButton.hidden = NO;
 //                 artistAlbumsButton.hidden = NO;
-                 labelSongCodec.text=@"codec";
-                 labelSongBitRate.text=@"bit rate";
-                 labelSongSampleRate.text=@"sample rate";
+                 labelSongCodec.text=NSLocalizedString(@"codec",nil);
+                 labelSongBitRate.text=NSLocalizedString(@"bit rate",nil);
+                 labelSongSampleRate.text=NSLocalizedString(@"sample rate",nil);
                  codec=[[methodResult objectForKey:@"MusicPlayer.Codec"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"MusicPlayer.Codec"]] ;
                  songCodec.text=codec;
                  
@@ -935,8 +935,8 @@ int currentItemID;
 //                 albumTracksButton.hidden = YES;
 //                 artistDetailsButton.hidden = YES;
 //                 artistAlbumsButton.hidden = YES;
-                 labelSongCodec.text=@"resolution";
-                 labelSongBitRate.text=@"aspect ratio";
+                 labelSongCodec.text=NSLocalizedString(@"resolution",nil);
+                 labelSongBitRate.text=NSLocalizedString(@"aspect ratio",nil);
                  labelSongSampleRate.text=@"";
                  
                  codec=[[methodResult objectForKey:@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoResolution"]] ;
