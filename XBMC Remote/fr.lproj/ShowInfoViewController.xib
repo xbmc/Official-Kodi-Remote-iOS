@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<int key="IBDocument.SystemTarget">1552</int>
+		<string key="IBDocument.SystemVersion">12C2034</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1930</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -192,7 +192,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">DIRECTED BYx</string>
+								<string key="IBUIText">REALISE PAR</string>
 								<reference key="IBUITextColor" ref="424771311"/>
 								<nil key="IBUIHighlightedColor"/>
 								<reference key="IBUIShadowColor" ref="1056953200"/>
@@ -290,7 +290,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">RUNTIME</string>
+								<string key="IBUIText">DUREE</string>
 								<reference key="IBUITextColor" ref="424771311"/>
 								<nil key="IBUIHighlightedColor"/>
 								<reference key="IBUIShadowColor" ref="1056953200"/>
@@ -378,7 +378,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">SUMMARY</string>
+								<string key="IBUIText">RESUME</string>
 								<reference key="IBUITextColor" ref="424771311"/>
 								<nil key="IBUIHighlightedColor"/>
 								<reference key="IBUIShadowColor" ref="1056953200"/>
@@ -426,7 +426,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">PARENTAL RATING</string>
+								<string key="IBUIText">NOTE PARENTALE</string>
 								<reference key="IBUITextColor" ref="424771311"/>
 								<nil key="IBUIHighlightedColor"/>
 								<reference key="IBUIShadowColor" ref="1056953200"/>
@@ -472,7 +472,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">CAST</string>
+								<string key="IBUIText">AVEC</string>
 								<reference key="IBUITextColor" ref="424771311"/>
 								<nil key="IBUIHighlightedColor"/>
 								<reference key="IBUIShadowColor" ref="1056953200"/>
@@ -802,8 +802,30 @@
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
+						<int key="objectID">92</int>
+						<reference key="object" ref="637893196"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
+					<object class="IBObjectRecord">
 						<int key="objectID">4</int>
 						<reference key="object" ref="714833679"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">90</int>
+						<reference key="object" ref="121834089"/>
+						<reference key="parent" ref="191373211"/>
+						<string key="objectName">Image View - fanart</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">87</int>
+						<reference key="object" ref="764993300"/>
+						<reference key="parent" ref="191373211"/>
+						<string key="objectName">Arrow Continue Button</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">32</int>
+						<reference key="object" ref="532261119"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -832,83 +854,8 @@
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">67</int>
-						<reference key="object" ref="1039394669"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">64</int>
-						<reference key="object" ref="412070854"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">63</int>
-						<reference key="object" ref="101418982"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">60</int>
-						<reference key="object" ref="896274535"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">59</int>
-						<reference key="object" ref="63586367"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">51</int>
-						<reference key="object" ref="625536309"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">52</int>
-						<reference key="object" ref="545396043"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">44</int>
-						<reference key="object" ref="298936269"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">43</int>
-						<reference key="object" ref="1054211284"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">40</int>
-						<reference key="object" ref="968574400"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">39</int>
-						<reference key="object" ref="50679259"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">38</int>
-						<reference key="object" ref="593755305"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">37</int>
-						<reference key="object" ref="147564278"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">21</int>
-						<reference key="object" ref="106339914"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">23</int>
-						<reference key="object" ref="7580899"/>
-						<reference key="parent" ref="53240158"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">25</int>
-						<reference key="object" ref="39292935"/>
+						<int key="objectID">27</int>
+						<reference key="object" ref="47313548"/>
 						<reference key="parent" ref="53240158"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -917,31 +864,84 @@
 						<reference key="parent" ref="53240158"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">27</int>
-						<reference key="object" ref="47313548"/>
+						<int key="objectID">25</int>
+						<reference key="object" ref="39292935"/>
 						<reference key="parent" ref="53240158"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">87</int>
-						<reference key="object" ref="764993300"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Arrow Continue Button</string>
+						<int key="objectID">23</int>
+						<reference key="object" ref="7580899"/>
+						<reference key="parent" ref="53240158"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">90</int>
-						<reference key="object" ref="121834089"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Image View - fanart</string>
+						<int key="objectID">21</int>
+						<reference key="object" ref="106339914"/>
+						<reference key="parent" ref="53240158"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">32</int>
-						<reference key="object" ref="532261119"/>
-						<reference key="parent" ref="191373211"/>
+						<int key="objectID">37</int>
+						<reference key="object" ref="147564278"/>
+						<reference key="parent" ref="53240158"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">92</int>
-						<reference key="object" ref="637893196"/>
-						<reference key="parent" ref="191373211"/>
+						<int key="objectID">38</int>
+						<reference key="object" ref="593755305"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">39</int>
+						<reference key="object" ref="50679259"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">40</int>
+						<reference key="object" ref="968574400"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">43</int>
+						<reference key="object" ref="1054211284"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">44</int>
+						<reference key="object" ref="298936269"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">52</int>
+						<reference key="object" ref="545396043"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">51</int>
+						<reference key="object" ref="625536309"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">59</int>
+						<reference key="object" ref="63586367"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">60</int>
+						<reference key="object" ref="896274535"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">63</int>
+						<reference key="object" ref="101418982"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">64</int>
+						<reference key="object" ref="412070854"/>
+						<reference key="parent" ref="53240158"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">67</int>
+						<reference key="object" ref="1039394669"/>
+						<reference key="parent" ref="53240158"/>
 					</object>
 				</array>
 			</object>
@@ -987,7 +987,7 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1536" key="NS.object.0"/>
+			<real value="1552" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
@@ -998,6 +998,6 @@
 			<string key="stars_9.png">{130, 45}</string>
 			<string key="tableDown.png">{480, 8}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1930</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>
