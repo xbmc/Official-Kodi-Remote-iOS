@@ -609,12 +609,6 @@
 		0FDFC67D15377CE9000BE837 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDFC67C15377CE9000BE837 /* Settings.bundle */; };
 		0FE025E9157BDB2A00027C09 /* xbmc_overlay_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE025E8157BDB2A00027C09 /* xbmc_overlay_small.png */; };
 		0FE025EB157BDC2200027C09 /* xbmc_overlay_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE025EA157BDC2200027C09 /* xbmc_overlay_small@2x.png */; };
-		0FE15E0A16BE6C47005D3A4C /* button_now_playing_empty.psd in Resources */ = {isa = PBXBuildFile; fileRef = 0FE15E0416BE6C47005D3A4C /* button_now_playing_empty.psd */; };
-		0FE15E0B16BE6C47005D3A4C /* button_now_playing_empty@2x.psd in Resources */ = {isa = PBXBuildFile; fileRef = 0FE15E0516BE6C47005D3A4C /* button_now_playing_empty@2x.psd */; };
-		0FE15E0C16BE6C47005D3A4C /* gesture_zone@2x.psd in Resources */ = {isa = PBXBuildFile; fileRef = 0FE15E0616BE6C47005D3A4C /* gesture_zone@2x.psd */; };
-		0FE15E0D16BE6C47005D3A4C /* remote quick help.psd in Resources */ = {isa = PBXBuildFile; fileRef = 0FE15E0716BE6C47005D3A4C /* remote quick help.psd */; };
-		0FE15E0E16BE6C47005D3A4C /* remote quick help@2x.psd in Resources */ = {isa = PBXBuildFile; fileRef = 0FE15E0816BE6C47005D3A4C /* remote quick help@2x.psd */; };
-		0FE15E0F16BE6C47005D3A4C /* remote quick help_ipad@2x.psd in Resources */ = {isa = PBXBuildFile; fileRef = 0FE15E0916BE6C47005D3A4C /* remote quick help_ipad@2x.psd */; };
 		0FE3455B1538A404006A17C1 /* button_playlist@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3455A1538A404006A17C1 /* button_playlist@2x.png */; };
 		0FE3455E1538A412006A17C1 /* button_playlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3455D1538A412006A17C1 /* button_playlist.png */; };
 		0FE5190115716AE800AE5D95 /* remote_button_back_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE518EB15716AE800AE5D95 /* remote_button_back_up@2x.png */; };
@@ -1321,12 +1315,6 @@
 		0FDFC67C15377CE9000BE837 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0FE025E8157BDB2A00027C09 /* xbmc_overlay_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xbmc_overlay_small.png; sourceTree = "<group>"; };
 		0FE025EA157BDC2200027C09 /* xbmc_overlay_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xbmc_overlay_small@2x.png"; sourceTree = "<group>"; };
-		0FE15E0416BE6C47005D3A4C /* button_now_playing_empty.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = button_now_playing_empty.psd; sourceTree = "<group>"; };
-		0FE15E0516BE6C47005D3A4C /* button_now_playing_empty@2x.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "button_now_playing_empty@2x.psd"; sourceTree = "<group>"; };
-		0FE15E0616BE6C47005D3A4C /* gesture_zone@2x.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "gesture_zone@2x.psd"; sourceTree = "<group>"; };
-		0FE15E0716BE6C47005D3A4C /* remote quick help.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "remote quick help.psd"; sourceTree = "<group>"; };
-		0FE15E0816BE6C47005D3A4C /* remote quick help@2x.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "remote quick help@2x.psd"; sourceTree = "<group>"; };
-		0FE15E0916BE6C47005D3A4C /* remote quick help_ipad@2x.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "remote quick help_ipad@2x.psd"; sourceTree = "<group>"; };
 		0FE3455A1538A404006A17C1 /* button_playlist@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_playlist@2x.png"; sourceTree = "<group>"; };
 		0FE3455D1538A412006A17C1 /* button_playlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_playlist.png; sourceTree = "<group>"; };
 		0FE518EB15716AE800AE5D95 /* remote_button_back_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_back_up@2x.png"; sourceTree = "<group>"; };
@@ -2334,12 +2322,6 @@
 		0FE15E0316BE6C47005D3A4C /* PSD */ = {
 			isa = PBXGroup;
 			children = (
-				0FE15E0416BE6C47005D3A4C /* button_now_playing_empty.psd */,
-				0FE15E0516BE6C47005D3A4C /* button_now_playing_empty@2x.psd */,
-				0FE15E0616BE6C47005D3A4C /* gesture_zone@2x.psd */,
-				0FE15E0716BE6C47005D3A4C /* remote quick help.psd */,
-				0FE15E0816BE6C47005D3A4C /* remote quick help@2x.psd */,
-				0FE15E0916BE6C47005D3A4C /* remote quick help_ipad@2x.psd */,
 			);
 			path = PSD;
 			sourceTree = "<group>";
@@ -3006,12 +2988,6 @@
 				0F4401691674EDC100A28D7B /* icon_exit@2x.png in Resources */,
 				1A9786C01683D87800B4F3F8 /* Localizable.strings in Resources */,
 				1A6742E9168479FD00E8D5AF /* MasterViewController.xib in Resources */,
-				0FE15E0A16BE6C47005D3A4C /* button_now_playing_empty.psd in Resources */,
-				0FE15E0B16BE6C47005D3A4C /* button_now_playing_empty@2x.psd in Resources */,
-				0FE15E0C16BE6C47005D3A4C /* gesture_zone@2x.psd in Resources */,
-				0FE15E0D16BE6C47005D3A4C /* remote quick help.psd in Resources */,
-				0FE15E0E16BE6C47005D3A4C /* remote quick help@2x.psd in Resources */,
-				0FE15E0F16BE6C47005D3A4C /* remote quick help_ipad@2x.psd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
