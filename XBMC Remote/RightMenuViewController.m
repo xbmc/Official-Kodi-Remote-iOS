@@ -195,9 +195,9 @@
                 countdown_message = [NSString stringWithFormat:@"%@ %d seconds.", countdown_message, [[[actionsList objectAtIndex:indexPath.row] objectForKey:@"countdown_time"] intValue]];
             }
             NSString *cancel_button = [[actionsList objectAtIndex:indexPath.row] objectForKey:@"cancel_button"];
-            if (cancel_button == nil) cancel_button = @"Cancel";
+            if (cancel_button == nil) cancel_button = NSLocalizedString(@"Cancel", nil);
             NSString *ok_button = [[actionsList objectAtIndex:indexPath.row] objectForKey:@"ok_button"];
-            if (ok_button == nil) ok_button = @"Yes";
+            if (ok_button == nil) ok_button = NSLocalizedString(@"Yes", nil);
             actionAlertView = [[UIAlertView alloc] initWithTitle:message message:countdown_message delegate:self cancelButtonTitle:cancel_button otherButtonTitles:ok_button, nil];
             
             [actionAlertView show];
@@ -208,11 +208,11 @@
                 NSString *serverMAC = [AppDelegate instance].obj.serverHWAddr;
                 if (serverMAC != nil && ![serverMAC isEqualToString:@":::::"]){
                     [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                     [alertView show];
                 }
                 else{
-                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"No sever mac address definied" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No sever mac address definied", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                     [alertView show];
                 }
             }
@@ -258,11 +258,11 @@
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Command executed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
             [alertView show];
         }
         else{
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Cannot do that" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
             [alertView show];
         }
     }];

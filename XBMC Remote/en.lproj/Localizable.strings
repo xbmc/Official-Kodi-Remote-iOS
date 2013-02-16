@@ -53,14 +53,20 @@
 "Pictures Addons" = "Pictures Addons";
 
 "Power off System" = "Power off System";
+"Power off" = "Power off";
 "Hibernate" = "Hibernate";
 "Suspend" = "Suspend";
 "Reboot" = "Reboot";
 "Quit XBMC application" = "Quit XBMC application";
 "Update Audio Library" = "Update Audio Library";
+"Update Audio" = "Update Audio";
 "Clean Audio Library" = "Clean Audio Library";
+"Clean Audio" = "Clean Audio";
 "Update Video Library" = "Update Video Library";
+"Update Video" = "Update Video";
 "Clean Video Library" = "Clean Video Library";
+"Clean Video" = "Clean Video";
+"Quit" = "Quit";
 
 "Keyboard" = "Keyboard";
 "Gesture Zone" = "Gesture Zone";
@@ -143,3 +149,7 @@
 
 "LongDateTimeFormat" = "MMMM d, YYYY";
 "LocaleIdentifier" = "en_US";
+
+"No sever mac address definied" = "No sever mac address definied";
+"Yes" = "Yes";
+"No" = "No";
