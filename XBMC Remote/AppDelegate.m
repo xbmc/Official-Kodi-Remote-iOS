@@ -2470,9 +2470,12 @@ NSMutableArray *hostRightMenuItems;
                                  @"Clean Video", @"ok_button",
                                  nil], @"action",
                                 nil],
-                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                NSLocalizedString(@"LED Torch", nil), @"label",
+                                @"torch", @"icon",
+                                nil],
                                nil],@"online",
-                              
+                        
                               nil],
                              nil];
     [rightMenuItems addObject:rightItem1];
