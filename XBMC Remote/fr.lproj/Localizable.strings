@@ -59,9 +59,13 @@
 "Reboot" = "Redémarrer";
 "Quit XBMC application" = "Quitter l'application XBMC";
 "Update Audio Library" = "Mettre à jour la bibliothèque audio";
+"Update Audio" = "Mettre à jour";
 "Clean Audio Library" = "Nettoyer la bibliothèque audio";
+"Clean Audio" = "Nettoyer";
 "Update Video Library" = "Mettre à jour la bibliothèque vidéo";
+"Update Video" = "Mettre à jour";
 "Clean Video Library" = "Nettoyer la bibliothèque vidéo";
+"Clean Video" = "Nettoyer";
 "Quit" = "Quitter";
 
 "Keyboard" = "Clavier";

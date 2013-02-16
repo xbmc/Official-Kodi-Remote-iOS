@@ -2378,8 +2378,8 @@ NSMutableArray *hostRightMenuItems;
                                  NSLocalizedString(@"Are you sure you want to power off your XBMC system now?", nil), @"message",
 //                                 @"If you do nothing, the XBMC system will shutdown automatically in", @"countdown_message",
                                  [NSNumber numberWithInt:5], @"countdown_time",
-                                 NSLocalizedString(@"No", nil), @"cancel_button",
-                                 NSLocalizedString(@"Yes", nil), @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Power off", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2389,8 +2389,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Hibernate",@"command",
                                  NSLocalizedString(@"Are you sure you want to hibernate your XBMC system now?", nil), @"message",
-                                 NSLocalizedString(@"No", nil), @"cancel_button",
-                                 NSLocalizedString(@"Yes", nil), @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Hibernate", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2400,8 +2400,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Suspend",@"command",
                                  NSLocalizedString(@"Are you sure you want to suspend your XBMC system now?", nil), @"message",
-                                 NSLocalizedString(@"No", nil), @"cancel_button",
-                                 NSLocalizedString(@"Yes", nil), @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Suspend", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2411,8 +2411,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Reboot",@"command",
                                  NSLocalizedString(@"Are you sure you want to reboot your XBMC system now?", nil), @"message",
-                                 NSLocalizedString(@"No", nil), @"cancel_button",
-                                 NSLocalizedString(@"Yes", nil), @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Reboot", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2422,8 +2422,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"Application.Quit",@"command",
                                  NSLocalizedString(@"Are you sure you want to quit XBMC application now?", nil), @"message",
-                                 NSLocalizedString(@"No", nil), @"cancel_button",
-                                 NSLocalizedString(@"Yes", nil), @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Quit", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2433,8 +2433,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"AudioLibrary.Scan",@"command",
                                  NSLocalizedString(@"Are you sure you want to update your audio library now?", nil), @"message",
-                                 NSLocalizedString(@"No", nil), @"cancel_button",
-                                 NSLocalizedString(@"Yes", nil), @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Update Audio", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2444,8 +2444,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"AudioLibrary.Clean",@"command",
                                  NSLocalizedString(@"Are you sure you want to clean your audio library now?", nil), @"message",
-                                 NSLocalizedString(@"No", nil), @"cancel_button",
-                                 NSLocalizedString(@"Yes", nil), @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Clean Audio", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2455,8 +2455,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"VideoLibrary.Scan",@"command",
                                  NSLocalizedString(@"Are you sure you want to update your video library now?", nil), @"message",
-                                 NSLocalizedString(@"No", nil), @"cancel_button",
-                                 NSLocalizedString(@"Yes", nil), @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Update Video", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2466,8 +2466,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"VideoLibrary.Clean",@"command",
                                  NSLocalizedString(@"Are you sure you want to clean your video library now?", nil), @"message",
-                                 NSLocalizedString(@"No", nil), @"cancel_button",
-                                 NSLocalizedString(@"Yes", nil), @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Clean Video", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                [NSDictionary dictionaryWithObjectsAndKeys:
