@@ -592,7 +592,16 @@ int originYear = 0;
         [runtimeyear setText:duration];        
     }
     else {
-        [runtimeyear setText:[item objectForKey:@"year"]];
+        
+        NSString *aired = @"-";
+        if ([[item objectForKey:@"year"] length] > 0) {
+            NSDateFormatter *format = [[NSDateFormatter alloc] init];
+            [format setDateFormat:@"yyyy-MM-dd"];
+            NSDate *date = [format dateFromString:[item objectForKey:@"year"]];
+            [format setDateStyle:NSDateFormatterShortStyle];
+            aired = [format stringFromDate:date];
+        }
+        runtimeyear.text = aired;
     }
     
     frame=runtime.frame;
@@ -1062,13 +1071,13 @@ int originYear = 0;
             [releasedLabel setTextColor:[UIColor darkGrayColor]];
             [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
             
-            NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+            NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
             NSString *aired = @"";
             NSDateFormatter *format = [[NSDateFormatter alloc] init];
             [format setLocale:usLocale];
             [format setDateFormat:@"yyyy-MM-dd"];
             NSDate *date = [format dateFromString:[item objectForKey:@"year"]];
-            [format setDateFormat:@"MMMM d, YYYY"];
+            [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
             aired = [format stringFromDate:date];
             releasedLabel.text = [NSString stringWithFormat:NSLocalizedString(@"First aired on %@", nil), aired];
             [albumDetailView addSubview:releasedLabel];

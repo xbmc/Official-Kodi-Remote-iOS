@@ -512,7 +512,7 @@
                                      }
                                  }
                                  else{
-                                     [self showSubInfo:@"Subtitles not available" timeout:2.0 color:[UIColor redColor]];
+                                     [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[UIColor redColor]];
                                  }
                              }
                          }
@@ -520,7 +520,7 @@
                  }];
             }
             else{
-                [self showSubInfo:@"Subtitles not available" timeout:2.0 color:[UIColor redColor]];
+                [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[UIColor redColor]];
             }
         }
 //        else {
@@ -572,7 +572,7 @@
                                      [self playbackAction:action params:parameters];
                                 }
                                  else{
-                                     [self showSubInfo:@"Audiostreams not available" timeout:2.0 color:[UIColor redColor]];
+                                     [self showSubInfo:NSLocalizedString(@"Audiostreams not available",nil) timeout:2.0 color:[UIColor redColor]];
                                  }
                              }
                          }
@@ -580,7 +580,7 @@
                  }];
             }
             else{
-                [self showSubInfo:@"Audiostream not available" timeout:2.0 color:[UIColor redColor]];
+                [self showSubInfo:NSLocalizedString(@"Audiostream not available",nil) timeout:2.0 color:[UIColor redColor]];
             }
         }
         //        else {

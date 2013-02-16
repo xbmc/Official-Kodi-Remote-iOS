@@ -679,7 +679,19 @@ int h=0;
             frame.size.height = coverHeight;
             jewelView.frame = frame;
             directorLabel.text = [[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
-            genreLabel.text = [[item objectForKey:@"firstaired"] length]==0 ? @"-" : [item objectForKey:@"firstaired"];
+            
+
+            NSString *aired = @"-";
+            if ([[item objectForKey:@"firstaired"] length] > 0) {
+                NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+                NSDateFormatter *format = [[NSDateFormatter alloc] init];
+                [format setLocale:locale];
+                [format setDateFormat:@"yyyy-MM-dd"];
+                NSDate *date = [format dateFromString:[item objectForKey:@"firstaired"]];
+                [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
+                aired = [format stringFromDate:date];
+            }
+            genreLabel.text = aired;
             if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")]){
                 runtimeLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
                 runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
