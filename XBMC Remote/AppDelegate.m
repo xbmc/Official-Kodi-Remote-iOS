@@ -2716,13 +2716,6 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    if ([[userDefaults objectForKey:@"lang_preference"] length]){
-        [userDefaults setObject:[NSArray arrayWithObjects:[userDefaults objectForKey:@"lang_preference"], nil] forKey:@"AppleLanguages"];
-        [userDefaults synchronize];
-    }
-    else{
-        [userDefaults removeObjectForKey:@"AppleLanguages"];
-    }
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]==YES ){
         xbmcRemote.idleTimerDisabled = YES;
