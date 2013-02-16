@@ -53,6 +53,7 @@
 "Pictures Addons" = "Pictures Addons";
 
 "Power off System" = "Power off System";
+"Power off" = "Power off";
 "Hibernate" = "Hibernate";
 "Suspend" = "Suspend";
 "Reboot" = "Reboot";
@@ -61,6 +62,7 @@
 "Clean Audio Library" = "Clean Audio Library";
 "Update Video Library" = "Update Video Library";
 "Clean Video Library" = "Clean Video Library";
+"Quit" = "Quit";
 
 "Keyboard" = "Keyboard";
 "Gesture Zone" = "Gesture Zone";
@@ -143,3 +145,7 @@
 
 "LongDateTimeFormat" = "MMMM d, YYYY";
 "LocaleIdentifier" = "en_US";
+
+"No sever mac address definied" = "No sever mac address definied";
+"Yes" = "Yes";
+"No" = "No";

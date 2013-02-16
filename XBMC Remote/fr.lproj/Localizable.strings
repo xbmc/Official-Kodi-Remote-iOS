@@ -53,6 +53,7 @@
 "Picture Addons" = "Addons Images";
 
 "Power off System" = "Eteindre";
+"Power off" = "Eteindre";
 "Hibernate" = "Veille prolongée";
 "Suspend" = "Veille";
 "Reboot" = "Redémarrer";
@@ -61,6 +62,7 @@
 "Clean Audio Library" = "Nettoyer la bibliothèque audio";
 "Update Video Library" = "Mettre à jour la bibliothèque vidéo";
 "Clean Video Library" = "Nettoyer la bibliothèque vidéo";
+"Quit" = "Quitter";
 
 "Keyboard" = "Clavier";
 "Gesture Zone" = "Zone Tactile";
@@ -70,7 +72,7 @@
 
 "No connection" = "Aucune connexion";
 
-"Queue after current" = "Ajouter à la queue comme suivant";
+"Queue after current" = "Ajouter comme suivant";
 "Queue" = "Ajouter à la queue";
 "Play" = "Lire";
 "Stream to iPhone" = "Envoyer sur l'iPhone";
@@ -103,10 +105,10 @@
 "Clear Playlist" = "Nettoyer la playlist";
 "No server MAC address defined" = "Aucune adresse MAC serveur définie";
 "Command executed" = "Commande executée";
-"Warning" = "Warning";
+"Warning" = "Attention";
 "Cannot do that" = "Impossible de faire ceci";
 "Wake On Lan" = "Wake On Lan";
-"No saved hosts found" = "Aucun serveur sauvegardé";
+"No saved hosts found" = "Aucun serveur enregistré";
 
 "Are you sure you want to clear the %@playlist?" = "Etes-vous sur de vouloir nettoyer %@playlist ?";
 "Are you sure you want to power off your XBMC system now?" = "Etes-vous sur de vouloir éteindre votre système XBMC maintenant ?";
@@ -137,10 +139,14 @@
 "codec" = "codec";
 "bit rate" = "bit rate";
 "sample rate" = "sample rate";
-"resolution" = "resolution";
+"resolution" = "résolution";
 "aspect ratio" = "aspect ratio";
-"Subtitles not available" = "Subtitles not available";
-"Audiostreams not available" = "Audiostreams not available";
+"Subtitles not available" = "Sous-titres non disponibles";
+"Audiostreams not available" = "Audiostreams non disponibles";
 
-"LongDateTimeFormat" = "MMMM d, YYYY";
-"LocaleIdentifier" = "en_US";
+"LongDateTimeFormat" = "dd MMMM, YYYY";
+"LocaleIdentifier" = "fr_FR";
+
+"No sever mac address definied" = "Aucune adresse MAC définie";
+"Yes" = "Oui";
+"No" = "Non";
