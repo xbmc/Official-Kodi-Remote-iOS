@@ -206,11 +206,11 @@
 								<bool key="IBUICanCancelContentTouches">NO</bool>
 								<bool key="IBUIEditable">NO</bool>
 								<object class="NSMutableString" key="IBUIText">
-									<bytes key="NS.bytes">T2ZmaWNpYWwgWEJNQyBSZW1vdGUgYXBwIHVzZXMgYXJ0IGNvbWluZyBmcm9tIGh0dHA6Ly9mYW5hcnQu
-dHYsIGRvd25sb2FkIGFuZCBleGVjdXRlIHRoZSAiYXJ0d29yayBkb3dubG9hZGVyIiBYQk1DIGFkZC1v
-biB0byB1bmxvY2sgdGhlIGJlYXV0eSBvZiBhZGRpdGlvbmFsIGFydHdvcmshCuKAqApYQk1DIGxvZ28s
-IFphcHB5IG1hc2NvdCBhbmQgT2ZmaWNpYWwgWEJNQyBSZW1vdGUgaWNvbnMgYXJlIHByb3BlcnR5IG9m
-IFhCTUMKaHR0cDovL3d3dy54Ym1jLm9yZy9jb250cmlidXRlA</bytes>
+									<bytes key="NS.bytes">T2ZmaWNpYWwgWEJNQyBSZW1vdGUgYXBwIHV0aWxpenphIGltbWFnaW5pIHByb3ZlbmllbnRpIGRhIGh0
+dHA6Ly9mYW5hcnQudHYsIHNjYXJpY2FyZSBlZCBlc2VndWlyZSBsJ2FkZC1vbiBYQk1DICJhcnR3b3Jr
+IGRvd25sb2FkZXIiIHBlciBzYmxvY2NhcmUgbGEgYmVsbGV6emEgZGkgaWxsdXN0cmF6aW9uaSBpbiBw
+acO5IQrigKgKWEJNQyBsb2dvLCBaYXBweSBtYXNjb3R0ZSBlIGxlIGljb25lIHNvbm8gcHJvcHJpZXTD
+oCBkaSBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmcvY29udHJpYnV0ZQ</bytes>
 								</object>
 								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 									<int key="IBUIAutocapitalizationType">2</int>
