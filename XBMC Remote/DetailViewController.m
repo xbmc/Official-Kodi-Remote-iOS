@@ -592,16 +592,7 @@ int originYear = 0;
         [runtimeyear setText:duration];        
     }
     else {
-        
-        NSString *aired = @"-";
-        if ([[item objectForKey:@"year"] length] > 0) {
-            NSDateFormatter *format = [[NSDateFormatter alloc] init];
-            [format setDateFormat:@"yyyy-MM-dd"];
-            NSDate *date = [format dateFromString:[item objectForKey:@"year"]];
-            [format setDateStyle:NSDateFormatterShortStyle];
-            aired = [format stringFromDate:date];
-        }
-        runtimeyear.text = aired;
+        [runtimeyear setText:[item objectForKey:@"year"]];
     }
     
     frame=runtime.frame;
