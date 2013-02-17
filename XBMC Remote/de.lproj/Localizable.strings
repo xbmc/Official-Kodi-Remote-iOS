@@ -84,6 +84,7 @@
 "Episode Details" = "Episondenetails";
 "TV Show Details" = "Seriendetails";
 "Music Video Details" = "Music-Video Details";
+"Details" = "details";
 
 "Playlist" = "Abspielliste";
 "Nothing is playing" = "Nichts wird gespielt";
@@ -98,6 +99,8 @@
 "Episodes: %@" = "Episoden: %@";
 "1 result" = "1 Ergebnis";
 "%d results" = "%d Ergebnisse";
+"Music " = "Music ";
+"Video " = "Video ";
 
 "Clear Playlist" = "Playliste löschen";
 "No server MAC address defined" = "Keine Server-MAC-Adresse definiert";

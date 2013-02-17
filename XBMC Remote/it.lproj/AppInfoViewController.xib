@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1536</int>
+		<int key="IBDocument.SystemTarget">1552</int>
 		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1930</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -120,7 +120,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string type="base64-UTF8" key="IBUIText">T2ZmaWNpYWwgWEJNQyBSZW1vdGUKZsO8ciBpT1MgICAgICAgA</string>
+						<string type="base64-UTF8" key="IBUIText">T2ZmaWNpYWwgWEJNQyBSZW1vdGUKZm9yIGlPUyAgICAgICA</string>
 						<object class="NSColor" key="IBUITextColor" id="788696272">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -193,8 +193,8 @@
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUITextView" id="388984212">
 								<reference key="NSNextResponder" ref="448480065"/>
-								<int key="NSvFlags">290</int>
-								<string key="NSFrameSize">{310, 180}</string>
+								<int key="NSvFlags">298</int>
+								<string key="NSFrameSize">{307, 180}</string>
 								<reference key="NSSuperview" ref="448480065"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="791430201"/>
@@ -206,11 +206,11 @@
 								<bool key="IBUICanCancelContentTouches">NO</bool>
 								<bool key="IBUIEditable">NO</bool>
 								<object class="NSMutableString" key="IBUIText">
-									<bytes key="NS.bytes">RGllICJPZmZpY2lhbCBYQk1DIFJlbW90ZSBhcHAiIGJlbnV0enQgQmlsZGVyIGRpZSB2b24gIGh0dHA6
-Ly9mYW5hcnQudHYga29tbWVuLiBJbnN0YWxsaWVyZSBkYXMgImFydHdvcmsgZG93bmxvYWRlciIgWEJN
-QyBBZGQtb24gdW0gZGllcyBhdWNoIGluIFhCTUMgenUgbnV0emVuIQoKRGFzIFhCTUMtTG9nbywgZGFz
-IFphcHB5IE1hc2tvdHRjaGVuIHVuZCBkaWUgIk9mZmljaWFsIFhCTUMgUmVtb3RlIi1JY29ucyBzaW5k
-IEVpZ2VudHVtIHZvbiBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmcvY29udHJpYnV0ZQ</bytes>
+									<bytes key="NS.bytes">T2ZmaWNpYWwgWEJNQyBSZW1vdGUgYXBwIHV0aWxpenphIGltbWFnaW5pIHByb3ZlbmllbnRpIGRhIGh0
+dHA6Ly9mYW5hcnQudHYsIHNjYXJpY2FyZSBlZCBlc2VndWlyZSBsJ2FkZC1vbiBYQk1DICJhcnR3b3Jr
+IGRvd25sb2FkZXIiIHBlciBzYmxvY2NhcmUgbGEgYmVsbGV6emEgZGkgaWxsdXN0cmF6aW9uaSBpbiBw
+acO5IQrigKgKWEJNQyBsb2dvLCBaYXBweSBtYXNjb3R0ZSBlIGxlIGljb25lIHNvbm8gcHJvcHJpZXTD
+oCBkaSBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmcvY29udHJpYnV0ZQ</bytes>
 								</object>
 								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 									<int key="IBUIAutocapitalizationType">2</int>
@@ -230,7 +230,7 @@ IEVpZ2VudHVtIHZvbiBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmcvY29udHJpYnV0ZQ</bytes>
 							<object class="IBUILabel" id="791430201">
 								<reference key="NSNextResponder" ref="448480065"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{7, 175}, {137, 21}}</string>
+								<string key="NSFrame">{{7, 163}, {137, 21}}</string>
 								<reference key="NSSuperview" ref="448480065"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="995327098"/>
@@ -256,7 +256,7 @@ IEVpZ2VudHVtIHZvbiBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmcvY29udHJpYnV0ZQ</bytes>
 								</object>
 							</object>
 						</array>
-						<string key="NSFrame">{{5, 259}, {310, 195}}</string>
+						<string key="NSFrame">{{5, 262}, {307, 187}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="388984212"/>
@@ -583,6 +583,6 @@ IEVpZ2VudHVtIHZvbiBYQk1DCmh0dHA6Ly93d3cueGJtYy5vcmcvY29udHJpYnV0ZQ</bytes>
 			<string key="mask.png">{53, 54}</string>
 			<string key="speech_balloon.png">{128, 90}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1930</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

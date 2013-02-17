@@ -72,7 +72,13 @@ NSMutableArray *hostRightMenuItems;
     
     [application setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
+    if ([[userDefaults objectForKey:@"lang_preference"] length]){
+        [userDefaults setObject:[NSArray arrayWithObjects:[userDefaults objectForKey:@"lang_preference"], nil] forKey:@"AppleLanguages"];
+        [userDefaults synchronize];
+    }
+    else{
+         [userDefaults removeObjectForKey:@"AppleLanguages"];
+    }
     BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
     if (clearCache==YES){
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -2378,8 +2384,8 @@ NSMutableArray *hostRightMenuItems;
                                  NSLocalizedString(@"Are you sure you want to power off your XBMC system now?", nil), @"message",
 //                                 @"If you do nothing, the XBMC system will shutdown automatically in", @"countdown_message",
                                  [NSNumber numberWithInt:5], @"countdown_time",
-                                 @"cancel", @"cancel_button",
-                                 @"Power off", @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Power off", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2389,8 +2395,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Hibernate",@"command",
                                  NSLocalizedString(@"Are you sure you want to hibernate your XBMC system now?", nil), @"message",
-                                 @"cancel", @"cancel_button",
-                                 @"Hibernate", @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Hibernate", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2400,8 +2406,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Suspend",@"command",
                                  NSLocalizedString(@"Are you sure you want to suspend your XBMC system now?", nil), @"message",
-                                 @"cancel", @"cancel_button",
-                                 @"Suspend", @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Suspend", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2411,8 +2417,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.Reboot",@"command",
                                  NSLocalizedString(@"Are you sure you want to reboot your XBMC system now?", nil), @"message",
-                                 @"cancel", @"cancel_button",
-                                 @"Reboot", @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Reboot", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2422,8 +2428,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"Application.Quit",@"command",
                                  NSLocalizedString(@"Are you sure you want to quit XBMC application now?", nil), @"message",
-                                 @"cancel", @"cancel_button",
-                                 @"Quit", @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Quit", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2433,8 +2439,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"AudioLibrary.Scan",@"command",
                                  NSLocalizedString(@"Are you sure you want to update your audio library now?", nil), @"message",
-                                 @"cancel", @"cancel_button",
-                                 @"Update Audio", @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Update Audio", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2444,8 +2450,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"AudioLibrary.Clean",@"command",
                                  NSLocalizedString(@"Are you sure you want to clean your audio library now?", nil), @"message",
-                                 @"cancel", @"cancel_button",
-                                 @"Clean Audio", @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Clean Audio", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2455,8 +2461,8 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"VideoLibrary.Scan",@"command",
                                  NSLocalizedString(@"Are you sure you want to update your video library now?", nil), @"message",
-                                 @"cancel", @"cancel_button",
-                                 @"Update Video", @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Update Video", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
                                
@@ -2466,13 +2472,16 @@ NSMutableArray *hostRightMenuItems;
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"VideoLibrary.Clean",@"command",
                                  NSLocalizedString(@"Are you sure you want to clean your video library now?", nil), @"message",
-                                 @"cancel", @"cancel_button",
-                                 @"Clean Video", @"ok_button",
+                                 NSLocalizedString(@"Cancel", nil), @"cancel_button",
+                                 NSLocalizedString(@"Clean Video", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
-                               
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                NSLocalizedString(@"LED Torch", nil), @"label",
+                                @"torch", @"icon",
+                                nil],
                                nil],@"online",
-                              
+                        
                               nil],
                              nil];
     [rightMenuItems addObject:rightItem1];
@@ -2707,7 +2716,6 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]==YES ){
         xbmcRemote.idleTimerDisabled = YES;

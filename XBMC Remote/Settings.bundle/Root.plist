@@ -9,6 +9,34 @@
 			<string>General</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
+			<key>FooterText</key>
+			<string>Language changes needs app restart</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<string></string>
+			<key>Key</key>
+			<string>lang_preference</string>
+			<key>Title</key>
+			<string>Language</string>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Titles</key>
+			<array>
+				<string>Automatic</string>
+				<string>English</string>
+				<string>Français</string>
+				<string>Italiano</string>
+				<string>Deutsch</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string></string>
+				<string>en</string>
+				<string>fr</string>
+				<string>it</string>
+				<string>de</string>
+			</array>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>

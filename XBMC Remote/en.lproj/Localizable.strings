@@ -53,14 +53,20 @@
 "Pictures Addons" = "Pictures Addons";
 
 "Power off System" = "Power off System";
+"Power off" = "Power off";
 "Hibernate" = "Hibernate";
 "Suspend" = "Suspend";
 "Reboot" = "Reboot";
 "Quit XBMC application" = "Quit XBMC application";
 "Update Audio Library" = "Update Audio Library";
+"Update Audio" = "Update Audio";
 "Clean Audio Library" = "Clean Audio Library";
+"Clean Audio" = "Clean Audio";
 "Update Video Library" = "Update Video Library";
+"Update Video" = "Update Video";
 "Clean Video Library" = "Clean Video Library";
+"Clean Video" = "Clean Video";
+"Quit" = "Quit";
 
 "Keyboard" = "Keyboard";
 "Gesture Zone" = "Gesture Zone";
@@ -84,6 +90,7 @@
 "Episode Details" = "Episode Details";
 "TV Show Details" = "TV Show Details";
 "Music Video Details" = "Music Video Details";
+"Details" = "Details";
 
 "Playlist" = "Playlist";
 "Nothing is playing" = "Nothing is playing";
@@ -98,6 +105,8 @@
 "Episodes: %@" = "Episodes: %@";
 "1 result" = "1 result";
 "%d results" = "%d results";
+"Music " = "Music ";
+"Video " = "Video ";
 
 "Clear Playlist" = "Clear Playlist";
 "No server MAC address defined" = "No server MAC address defined";
@@ -143,3 +152,7 @@
 
 "LongDateTimeFormat" = "MMMM d, YYYY";
 "LocaleIdentifier" = "en_US";
+
+"No sever mac address definied" = "No sever mac address definied";
+"Yes" = "Yes";
+"No" = "No";

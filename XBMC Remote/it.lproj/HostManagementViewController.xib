@@ -45,6 +45,7 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{320, 248}</string>
 						<reference key="NSSuperview" ref="918116249"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="788263793"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -59,6 +60,7 @@
 						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{0, 7}, {320, 20}}</string>
 						<reference key="NSSuperview" ref="918116249"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="216335886"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -66,7 +68,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Unterstütze XBMC-Versionen Eden (11) oder höher</string>
+						<string key="IBUIText">Versione XBMC supportata Eden (11) o superiore</string>
 						<object class="NSColor" key="IBUITextColor" id="48250789">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
@@ -95,7 +97,7 @@
 						<int key="NSvFlags">271</int>
 						<string key="NSFrame">{{0, 203}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="918116249"/>
-						<reference key="NSNextKeyView" ref="539208386"/>
+						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -110,6 +112,7 @@
 						<int key="NSvFlags">269</int>
 						<string key="NSFrame">{{11, 209}, {90, 28}}</string>
 						<reference key="NSSuperview" ref="918116249"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="661406768"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -117,7 +120,7 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<string key="IBUITitleShadowOffset">{1, 1}</string>
-						<string key="IBUINormalTitle">Hinzufügen</string>
+						<string key="IBUINormalTitle">Aggiungi</string>
 						<reference key="IBUIHighlightedTitleColor" ref="48250789"/>
 						<object class="NSColor" key="IBUISelectedTitleColor">
 							<int key="NSColorSpace">3</int>
@@ -154,15 +157,16 @@
 					<object class="IBUIButton" id="661406768">
 						<reference key="NSNextResponder" ref="918116249"/>
 						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{219, 209}, {90, 28}}</string>
+						<string key="NSFrame">{{237, 209}, {72, 28}}</string>
 						<reference key="NSSuperview" ref="918116249"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUISelectedTitle">Fertig</string>
-						<string key="IBUINormalTitle">Bearbeiten</string>
+						<string key="IBUISelectedTitle">Fatto</string>
+						<string key="IBUINormalTitle">Modifica</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MSAwLjkAA</bytes>
@@ -193,6 +197,7 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{0, 34}, {320, 169}}</string>
 						<reference key="NSSuperview" ref="918116249"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="691564284"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="291557152">
@@ -215,6 +220,7 @@
 						<int key="NSvFlags">288</int>
 						<string key="NSFrame">{{0, 34}, {320, 4}}</string>
 						<reference key="NSSuperview" ref="918116249"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="793278462"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -230,7 +236,8 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{0, 199}, {320, 4}}</string>
 						<reference key="NSSuperview" ref="918116249"/>
-						<reference key="NSNextKeyView" ref="371702562"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="539208386"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -245,6 +252,7 @@
 						<int key="NSvFlags">-2147483356</int>
 						<string key="NSFrame">{{142, 95}, {37, 37}}</string>
 						<reference key="NSSuperview" ref="918116249"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1030723338"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -254,6 +262,7 @@
 				</array>
 				<string key="NSFrameSize">{320, 248}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="762338911"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="291557152"/>
@@ -478,7 +487,52 @@
 			<nil key="sourceID"/>
 			<int key="maxID">29</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">HostManagementViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="backgroundImageView">UIImageView</string>
+						<string key="connectingActivityIndicator">UIActivityIndicatorView</string>
+						<string key="editTableButton">UIButton</string>
+						<string key="lpgr">UILongPressGestureRecognizer</string>
+						<string key="serverListCell">UITableViewCell</string>
+						<string key="serverListTableView">UITableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="backgroundImageView">
+							<string key="name">backgroundImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="connectingActivityIndicator">
+							<string key="name">connectingActivityIndicator</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="editTableButton">
+							<string key="name">editTableButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="lpgr">
+							<string key="name">lpgr</string>
+							<string key="candidateClassName">UILongPressGestureRecognizer</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="serverListCell">
+							<string key="name">serverListCell</string>
+							<string key="candidateClassName">UITableViewCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="serverListTableView">
+							<string key="name">serverListTableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/HostManagementViewController.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>

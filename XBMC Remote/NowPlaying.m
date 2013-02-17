@@ -374,6 +374,9 @@ int currentItemID;
 
 -(void)setCoverSize:(NSString *)type{
     NSString *jewelImg = @"";
+    float screenSize = [[UIScreen mainScreen ] bounds].size.height;
+    float originalSize = 465.0f;
+
     if ([type isEqualToString:@"song"]){
         jewelImg = @"jewel_cd.9.png";
         CGRect frame = thumbnailView.frame;
@@ -382,6 +385,9 @@ int currentItemID;
             frame.origin.y = 43;
             frame.size.width = 238;
             frame.size.height = 238;
+            if(screenSize >= 568){
+                frame.origin.y = frame.origin.y  + 36;
+            }
         }
         else {
             jewelImg=@"jewel_cd.9@2x.png";
@@ -409,7 +415,12 @@ int currentItemID;
             frame.origin.y = 39;
             frame.size.width = 172;
             frame.size.height = 248;
-            
+            if(screenSize >= 568 && [self enableJewelCases]){
+                frame.origin.x = frame.origin.x * (originalSize/screenSize);
+                frame.origin.y = frame.origin.y * (screenSize/originalSize);
+                frame.size.width = frame.size.width * (screenSize/originalSize);
+                frame.size.height = frame.size.height * (screenSize/originalSize);
+            }
         }
         else{
             jewelImg=@"jewel_dvd.9@2x.png";
@@ -437,6 +448,9 @@ int currentItemID;
             frame.origin.y = 78;
             frame.size.width = 280;
             frame.size.height = 158;
+            if(screenSize >= 568){
+                frame.origin.y = frame.origin.y  + 36;
+            }
         }
         else{
             jewelImg=@"jewel_tv.9@2x.png";
@@ -1727,10 +1741,10 @@ int currentItemID;
     if (playlistView.hidden == NO && self.view.superview != nil){
         NSString *playlistName=@"";
         if (playerID == 0){
-            playlistName=@"Music ";
+            playlistName=NSLocalizedString(@"Music ", nil);
         }
         else if (playerID == 1){
-            playlistName=@"Video ";
+            playlistName=NSLocalizedString(@"Video ", nil);
         }
         NSString *message=[NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to clear the %@playlist?", nil), playlistName];
         UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Clear Playlist", nil), nil];
