@@ -26,6 +26,7 @@
 				<string>Automatic</string>
 				<string>English</string>
 				<string>Français</string>
+				<string>Italiano</string>
 				<string>Deutsch</string>
 			</array>
 			<key>Values</key>
@@ -33,6 +34,7 @@
 				<string></string>
 				<string>en</string>
 				<string>fr</string>
+				<string>it</string>
 				<string>de</string>
 			</array>
 		</dict>

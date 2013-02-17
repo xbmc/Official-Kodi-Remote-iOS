@@ -1305,6 +1305,20 @@
 		0FCCFF5A16D0EE93008EBABE /* icon_not_watched@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_not_watched@2x.png"; sourceTree = "<group>"; };
 		0FCCFF5D16D0EEF8008EBABE /* icon_not_watched.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_not_watched.png; sourceTree = "<group>"; };
 		0FCCFF5E16D0EEF8008EBABE /* icon_watched.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_watched.png; sourceTree = "<group>"; };
+		0FCCFF6116D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0FCCFF6216D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0FCCFF6316D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/cellViewIPad.xib; sourceTree = "<group>"; };
+		0FCCFF6416D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/cellView.xib; sourceTree = "<group>"; };
+		0FCCFF6516D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/rightCellView.xib; sourceTree = "<group>"; };
+		0FCCFF6616D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/DetailViewController.xib; sourceTree = "<group>"; };
+		0FCCFF6716D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/NowPlaying.xib; sourceTree = "<group>"; };
+		0FCCFF6816D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/ShowInfoViewController.xib; sourceTree = "<group>"; };
+		0FCCFF6916D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/HostManagementViewController.xib; sourceTree = "<group>"; };
+		0FCCFF6A16D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/HostViewController.xib; sourceTree = "<group>"; };
+		0FCCFF6B16D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/AppInfoViewController.xib; sourceTree = "<group>"; };
+		0FCCFF6C16D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = it; path = "it.lproj/button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
+		0FCCFF6D16D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = it; path = it.lproj/button_now_playing_empty.png; sourceTree = "<group>"; };
+		0FCCFF6E16D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = it; path = it.lproj/button_now_playing.png; sourceTree = "<group>"; };
 		0FCD786115585055006F5E13 /* button_party_off_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_party_off_down.png; sourceTree = "<group>"; };
 		0FCD786415585069006F5E13 /* button_party_off_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_party_off_down@2x.png"; sourceTree = "<group>"; };
 		0FD1F1F916034C0300408DA5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -2343,6 +2357,7 @@
 				en,
 				fr,
 				de,
+				it,
 			);
 			mainGroup = 0F5548EB151D1187007E633F;
 			productRefGroup = 0F5548F7151D1187007E633F /* Products */;
@@ -3030,6 +3045,7 @@
 				0F554904151D1187007E633F /* en */,
 				1A9786AF1683CEEA00B4F3F8 /* fr */,
 				8ED18E7A16B572D700CA03F4 /* de */,
+				0FCCFF6116D0F1EF008EBABE /* it */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3040,6 +3056,7 @@
 				0F554916151D1187007E633F /* en */,
 				1A9786B11683CEEA00B4F3F8 /* fr */,
 				8ED18E7C16B572D800CA03F4 /* de */,
+				0FCCFF6616D0F1EF008EBABE /* it */,
 			);
 			name = DetailViewController.xib;
 			sourceTree = "<group>";
@@ -3050,6 +3067,7 @@
 				1A30F0581687314300FFC67D /* en */,
 				1A30F05B1687314700FFC67D /* fr */,
 				8ED18E7D16B572D800CA03F4 /* de */,
+				0FCCFF6716D0F1F0008EBABE /* it */,
 			);
 			name = NowPlaying.xib;
 			sourceTree = "<group>";
@@ -3060,6 +3078,7 @@
 				1A6742EC16847C0F00E8D5AF /* en */,
 				1A6742EE16847C3300E8D5AF /* fr */,
 				8ED18E8016B572D800CA03F4 /* de */,
+				0FCCFF6C16D0F1F0008EBABE /* it */,
 			);
 			name = "button_now_playing_empty@2x.png";
 			sourceTree = "<group>";
@@ -3070,6 +3089,7 @@
 				1A6742F01684848800E8D5AF /* en */,
 				1A6742F21684848F00E8D5AF /* fr */,
 				8ED18E8116B572D800CA03F4 /* de */,
+				0FCCFF6D16D0F1F0008EBABE /* it */,
 			);
 			name = button_now_playing_empty.png;
 			sourceTree = "<group>";
@@ -3080,6 +3100,7 @@
 				1A6742F41685584B00E8D5AF /* en */,
 				1A6742F61685592100E8D5AF /* fr */,
 				8ED18E8216B572D900CA03F4 /* de */,
+				0FCCFF6E16D0F1F0008EBABE /* it */,
 			);
 			name = button_now_playing.png;
 			sourceTree = "<group>";
@@ -3090,6 +3111,7 @@
 				1A9786B31683CF8100B4F3F8 /* en */,
 				1A9786B51683CF8F00B4F3F8 /* fr */,
 				8ED18E7E16B572D800CA03F4 /* de */,
+				0FCCFF6916D0F1F0008EBABE /* it */,
 			);
 			name = HostManagementViewController.xib;
 			sourceTree = "<group>";
@@ -3100,6 +3122,7 @@
 				1A9786B71683D21C00B4F3F8 /* en */,
 				1A9786B91683D22300B4F3F8 /* fr */,
 				8ED18E7F16B572D800CA03F4 /* de */,
+				0FCCFF6A16D0F1F0008EBABE /* it */,
 			);
 			name = HostViewController.xib;
 			sourceTree = "<group>";
@@ -3110,6 +3133,7 @@
 				1A9786C11683D87800B4F3F8 /* en */,
 				1A9786C31683D8E900B4F3F8 /* fr */,
 				8ED18E7B16B572D700CA03F4 /* de */,
+				0FCCFF6216D0F1EF008EBABE /* it */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3119,6 +3143,7 @@
 			children = (
 				1AF2B83216CFD96E00147334 /* en */,
 				1AF2B83416CFD97300147334 /* fr */,
+				0FCCFF6316D0F1EF008EBABE /* it */,
 			);
 			name = cellViewIPad.xib;
 			sourceTree = "<group>";
@@ -3128,6 +3153,7 @@
 			children = (
 				1AFC88EA16CFC57A00E2FB2B /* en */,
 				1AFC88EC16CFC58600E2FB2B /* fr */,
+				0FCCFF6516D0F1EF008EBABE /* it */,
 			);
 			name = rightCellView.xib;
 			sourceTree = "<group>";
@@ -3137,6 +3163,7 @@
 			children = (
 				1AFC88EE16CFC5C500E2FB2B /* en */,
 				1AFC88F016CFC5C900E2FB2B /* fr */,
+				0FCCFF6416D0F1EF008EBABE /* it */,
 			);
 			name = cellView.xib;
 			sourceTree = "<group>";
@@ -3147,6 +3174,7 @@
 				8ED18E8416B6C08F00CA03F4 /* en */,
 				8ED18E8616B6C09E00CA03F4 /* fr */,
 				8ED18E8716B6C09F00CA03F4 /* de */,
+				0FCCFF6B16D0F1F0008EBABE /* it */,
 			);
 			name = AppInfoViewController.xib;
 			sourceTree = "<group>";
@@ -3157,6 +3185,7 @@
 				8ED18ECE16B6D17D00CA03F4 /* en */,
 				8ED18ED116B6D18300CA03F4 /* fr */,
 				8ED18ED216B6D18400CA03F4 /* de */,
+				0FCCFF6816D0F1F0008EBABE /* it */,
 			);
 			name = ShowInfoViewController.xib;
 			sourceTree = "<group>";

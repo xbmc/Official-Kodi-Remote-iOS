@@ -90,6 +90,7 @@
 "Episode Details" = "Episode Details";
 "TV Show Details" = "TV Show Details";
 "Music Video Details" = "Music Video Details";
+"Details" = "Details";
 
 "Playlist" = "Playlist";
 "Nothing is playing" = "Nothing is playing";
@@ -104,6 +105,8 @@
 "Episodes: %@" = "Episodes: %@";
 "1 result" = "1 result";
 "%d results" = "%d results";
+"Music " = "Music ";
+"Video " = "Video ";
 
 "Clear Playlist" = "Clear Playlist";
 "No server MAC address defined" = "No server MAC address defined";

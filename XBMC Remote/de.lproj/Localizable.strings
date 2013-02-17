@@ -99,6 +99,8 @@
 "Episodes: %@" = "Episoden: %@";
 "1 result" = "1 Ergebnis";
 "%d results" = "%d Ergebnisse";
+"Music " = "Music ";
+"Video " = "Video ";
 
 "Clear Playlist" = "Playliste löschen";
 "No server MAC address defined" = "Keine Server-MAC-Adresse definiert";

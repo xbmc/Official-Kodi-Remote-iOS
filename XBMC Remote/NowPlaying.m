@@ -1741,10 +1741,10 @@ int currentItemID;
     if (playlistView.hidden == NO && self.view.superview != nil){
         NSString *playlistName=@"";
         if (playerID == 0){
-            playlistName=@"Music ";
+            playlistName=NSLocalizedString(@"Music ", nil);
         }
         else if (playerID == 1){
-            playlistName=@"Video ";
+            playlistName=NSLocalizedString(@"Video ", nil);
         }
         NSString *message=[NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to clear the %@playlist?", nil), playlistName];
         UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Clear Playlist", nil), nil];
