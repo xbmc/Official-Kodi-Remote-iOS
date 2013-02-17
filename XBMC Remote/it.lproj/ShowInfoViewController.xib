@@ -394,7 +394,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">RIASSUNTO</string>
+								<string key="IBUIText">TRAMA</string>
 								<reference key="IBUITextColor" ref="424771311"/>
 								<nil key="IBUIHighlightedColor"/>
 								<reference key="IBUIShadowColor" ref="1056953200"/>
