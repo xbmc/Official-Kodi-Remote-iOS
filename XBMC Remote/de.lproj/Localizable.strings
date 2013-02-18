@@ -10,7 +10,7 @@
 "Watch your" = "Schaue deine";
 "Browse your" = "Durchsuche deine";
 "See what's" = "Schaue was";
-"Use as" = "Benutze als";
+"Use as" = "Benutze die";
 
 "Music" = "Musik";
 "Movies" = "Filme";
@@ -83,8 +83,8 @@
 "Movie Details" = "Filmdetails";
 "Episode Details" = "Episondenetails";
 "TV Show Details" = "Seriendetails";
-"Music Video Details" = "Music-Video Details";
-"Details" = "details";
+"Music Video Details" = "Musikvideo Details";
+"Details" = "Details";
 
 "Playlist" = "Abspielliste";
 "Nothing is playing" = "Nichts wird gespielt";
@@ -142,7 +142,8 @@
 "resolution" = "Auflösung";
 "aspect ratio" = "Seitenverhältnis";
 "Subtitles not available" = "Keine Untertitel verfügbar";
-"Audiostreams not available" = "Keine Audiospuren nicht verfügbar";
+"Audiostream not available" = "Audiospur nicht verfügbar";
+"Audiostreams not available" = "Keine Audiospuren verfügbar";
 
 "LongDateTimeFormat" = "d. MMMM YYYY";
 "LocaleIdentifier" = "de_DE";

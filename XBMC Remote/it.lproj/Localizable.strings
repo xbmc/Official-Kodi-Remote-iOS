@@ -148,6 +148,7 @@
 "resolution" = "resolution";
 "aspect ratio" = "aspect ratio";
 "Subtitles not available" = "Sottotitoli non disponibili";
+"Audiostream not available" = "Flussi audio non disponibili";
 "Audiostreams not available" = "Flussi audio non disponibili";
 
 "LongDateTimeFormat" = "dd MMMM YYYY";
