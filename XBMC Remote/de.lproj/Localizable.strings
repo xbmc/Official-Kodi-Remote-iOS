@@ -63,8 +63,8 @@
 "Clean Video Library" = "Videobibliothek bereinigen";
 
 "Keyboard" = "Tastatur";
-"Gesture Zone" = "Gestenzone";
-"Button Pad" = "Button Pad";
+"Gesture Zone" = "Gestenbereich";
+"Button Pad" = "Tastenfeld";
 "Help Screen" = "Hilfeseite";
 "LED Torch" = "LED-Licht";
 
@@ -99,7 +99,7 @@
 "Episodes: %@" = "Episoden: %@";
 "1 result" = "1 Ergebnis";
 "%d results" = "%d Ergebnisse";
-"Music " = "Music ";
+"Music " = "Musik ";
 "Video " = "Video ";
 
 "Clear Playlist" = "Playliste löschen";
