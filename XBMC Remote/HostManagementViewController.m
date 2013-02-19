@@ -348,12 +348,7 @@
     }
     else{
         UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom_logo_up"]];
-//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
-//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
-//        xbmcLogo.showsTouchWhenHighlighted = NO;
-//        [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogoView;
-//        self.navigationItem.title = @"XBMC Server";
     }
 }
 
@@ -374,6 +369,11 @@
         backgroundImageView.frame = frame;
     }
     else {
+        if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
+            MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+            masterViewController.mainMenu = self.mainMenu;
+            self.slidingViewController.underLeftViewController = masterViewController;
+        }
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         int lastServer;
         if ([userDefaults objectForKey:@"lastServer"]!=nil){
