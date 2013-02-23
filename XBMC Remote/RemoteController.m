@@ -731,6 +731,40 @@ NSInteger buttonAction;
     }
 }
 
+-(void)playerStep:(NSString *)step musicPlayerGo:(NSString *)musicAction{
+    if ([AppDelegate instance].serverVersion>11){
+        if (jsonRPC == nil){
+            GlobalData *obj=[GlobalData getInstance];
+            NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+            NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+            jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+        }
+        [jsonRPC
+         callMethod:@"GUI.GetProperties"
+         withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                         [[NSArray alloc] initWithObjects:@"currentwindow", @"fullscreen",nil], @"properties",
+                         nil]
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+             if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
+                 if (((NSNull *)[methodResult objectForKey:@"currentwindow"] != [NSNull null])){
+                     int winID = [[[methodResult objectForKey:@"currentwindow"] objectForKey:@"id"] intValue];
+                     if ([[methodResult objectForKey:@"fullscreen"] boolValue] == YES && (winID == 12005 || winID == 12006)){
+                         if (winID == 12005){
+                             [self playbackAction:@"Player.Seek" params:[NSArray arrayWithObjects:step, @"value", nil]];
+                         }
+                         else if (winID == 12006){
+                             if (musicAction != nil){
+                                 [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
+                             }
+                         }
+                     }
+                 }
+             }
+         }];
+    }
+    return;
+}
+
 -(void)sendAction{
     if (!buttonAction) return;
     if (self.holdVolumeTimer.timeInterval == 0.5f || self.holdVolumeTimer.timeInterval == 1.5f){
@@ -751,11 +785,13 @@ NSInteger buttonAction;
         case 10:
             action=@"Input.Up";
             [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+            [self playerStep:@"bigforward" musicPlayerGo:nil];
             break;
             
         case 12:
             action=@"Input.Left";
             [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+            [self playerStep:@"smallbackward" musicPlayerGo:@"previous"];
             break;
             
         case 13:
@@ -767,11 +803,13 @@ NSInteger buttonAction;
         case 14:
             action=@"Input.Right";
             [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+            [self playerStep:@"smallforward" musicPlayerGo:@"next"];
             break;
             
         case 16:
             action=@"Input.Down";
             [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+            [self playerStep:@"bigbackward" musicPlayerGo:nil];
             break;
             
         case 18:
