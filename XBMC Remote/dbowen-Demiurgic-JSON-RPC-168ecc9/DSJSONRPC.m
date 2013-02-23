@@ -271,7 +271,9 @@
     
     // Attempt to deserialize result
     NSError *error = nil;
-    NSDictionary *jsonResult = [connectionData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+    int parseOption = JKParseOptionLooseUnicode;
+//    NSDictionary *jsonResult = [connectionData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+    NSDictionary *jsonResult = [connectionData objectFromJSONDataWithParseOptions:parseOption error:&error];
     if (error) {
         NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
         
