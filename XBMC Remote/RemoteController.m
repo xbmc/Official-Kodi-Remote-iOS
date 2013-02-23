@@ -752,10 +752,8 @@ NSInteger buttonAction;
                          if (winID == 12005){
                              [self playbackAction:@"Player.Seek" params:[NSArray arrayWithObjects:step, @"value", nil]];
                          }
-                         else if (winID == 12006){
-                             if (musicAction != nil){
-                                 [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
-                             }
+                         else if (winID == 12006 && musicAction != nil){
+                             [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
                          }
                      }
                  }
