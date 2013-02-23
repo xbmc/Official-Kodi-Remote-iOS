@@ -344,6 +344,7 @@
 		0F61E19F153C85F300A89BB1 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F61E19E153C85F300A89BB1 /* info.png */; };
 		0F643313154F2C6700901763 /* leather.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F643312154F2C6700901763 /* leather.png */; };
 		0F643316154F2C7200901763 /* leather@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F643315154F2C7200901763 /* leather@2x.png */; };
+		0F68A83316D9333D0023F178 /* gesture_zone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F68A83516D9333D0023F178 /* gesture_zone@2x.png */; };
 		0F6C086715F401A70094286D /* st_tv_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F6C086615F401A70094286D /* st_tv_icon.png */; };
 		0F6C086A15F401AF0094286D /* st_tv_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F6C086915F401AF0094286D /* st_tv_icon@2x.png */; };
 		0F7123AA160F051900B8921F /* now_playing_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7123A9160F051900B8921F /* now_playing_next@2x.png */; };
@@ -591,7 +592,6 @@
 		0FC3ABB416628FB7005F98CC /* st_movie_genre_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC3ABB216628FB7005F98CC /* st_movie_genre_off@2x.png */; };
 		0FC9525C164FBABF00A8CACC /* icon_hibernate.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC9525B164FBABF00A8CACC /* icon_hibernate.png */; };
 		0FC9525F164FBACB00A8CACC /* icon_hibernate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC9525E164FBACB00A8CACC /* icon_hibernate@2x.png */; };
-		0FCCFF4E16D0EB11008EBABE /* gesture_zone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FCCFF4D16D0EB11008EBABE /* gesture_zone@2x.png */; };
 		0FCCFF5016D0EDC7008EBABE /* remote quick help_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FCCFF4F16D0EDC7008EBABE /* remote quick help_ipad@2x.png */; };
 		0FCCFF5216D0EE00008EBABE /* remote quick help@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FCCFF5116D0EE00008EBABE /* remote quick help@2x.png */; };
 		0FCCFF5516D0EE46008EBABE /* remote quick help_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FCCFF5316D0EE46008EBABE /* remote quick help_ipad.png */; };
@@ -1026,6 +1026,8 @@
 		0F61E19E153C85F300A89BB1 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		0F643312154F2C6700901763 /* leather.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leather.png; sourceTree = "<group>"; };
 		0F643315154F2C7200901763 /* leather@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leather@2x.png"; sourceTree = "<group>"; };
+		0F68A83416D9333D0023F178 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = "en.lproj/gesture_zone@2x.png"; sourceTree = "<group>"; };
+		0F68A83616D933430023F178 /* it */ = {isa = PBXFileReference; lastKnownFileType = file; name = it; path = "it.lproj/gesture_zone@2x.png"; sourceTree = "<group>"; };
 		0F6C086615F401A70094286D /* st_tv_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_tv_icon.png; sourceTree = "<group>"; };
 		0F6C086915F401AF0094286D /* st_tv_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_tv_icon@2x.png"; sourceTree = "<group>"; };
 		0F7123A9160F051900B8921F /* now_playing_next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "now_playing_next@2x.png"; sourceTree = "<group>"; };
@@ -1296,7 +1298,6 @@
 		0FC3ABB216628FB7005F98CC /* st_movie_genre_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_movie_genre_off@2x.png"; sourceTree = "<group>"; };
 		0FC9525B164FBABF00A8CACC /* icon_hibernate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_hibernate.png; sourceTree = "<group>"; };
 		0FC9525E164FBACB00A8CACC /* icon_hibernate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_hibernate@2x.png"; sourceTree = "<group>"; };
-		0FCCFF4D16D0EB11008EBABE /* gesture_zone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gesture_zone@2x.png"; sourceTree = "<group>"; };
 		0FCCFF4F16D0EDC7008EBABE /* remote quick help_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote quick help_ipad@2x.png"; sourceTree = "<group>"; };
 		0FCCFF5116D0EE00008EBABE /* remote quick help@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote quick help@2x.png"; sourceTree = "<group>"; };
 		0FCCFF5316D0EE46008EBABE /* remote quick help_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote quick help_ipad.png"; sourceTree = "<group>"; };
@@ -1642,7 +1643,7 @@
 				0FCCFF5A16D0EE93008EBABE /* icon_not_watched@2x.png */,
 				0FCCFF5116D0EE00008EBABE /* remote quick help@2x.png */,
 				0FCCFF4F16D0EDC7008EBABE /* remote quick help_ipad@2x.png */,
-				0FCCFF4D16D0EB11008EBABE /* gesture_zone@2x.png */,
+				0F68A83516D9333D0023F178 /* gesture_zone@2x.png */,
 				0F4401681674EDC100A28D7B /* icon_exit@2x.png */,
 				0F2CE9731674B994009072E0 /* arrow_open@2x.png */,
 				0F2CE9711674B88F009072E0 /* arrow_close@2x.png */,
@@ -2973,7 +2974,7 @@
 				0F4401691674EDC100A28D7B /* icon_exit@2x.png in Resources */,
 				1A9786C01683D87800B4F3F8 /* Localizable.strings in Resources */,
 				1A6742E9168479FD00E8D5AF /* MasterViewController.xib in Resources */,
-				0FCCFF4E16D0EB11008EBABE /* gesture_zone@2x.png in Resources */,
+				0F68A83316D9333D0023F178 /* gesture_zone@2x.png in Resources */,
 				0FCCFF5016D0EDC7008EBABE /* remote quick help_ipad@2x.png in Resources */,
 				0FCCFF5216D0EE00008EBABE /* remote quick help@2x.png in Resources */,
 				0FCCFF5516D0EE46008EBABE /* remote quick help_ipad.png in Resources */,
@@ -3059,6 +3060,15 @@
 				0FCCFF6616D0F1EF008EBABE /* it */,
 			);
 			name = DetailViewController.xib;
+			sourceTree = "<group>";
+		};
+		0F68A83516D9333D0023F178 /* gesture_zone@2x.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0F68A83416D9333D0023F178 /* en */,
+				0F68A83616D933430023F178 /* it */,
+			);
+			name = "gesture_zone@2x.png";
 			sourceTree = "<group>";
 		};
 		1A30F0591687314300FFC67D /* NowPlaying.xib */ = {
