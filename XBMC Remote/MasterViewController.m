@@ -246,9 +246,10 @@
         object = self.nowPlaying;
     }
     else if (item.family == 3){
-        if (self.remoteController == nil){
-            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
-        }
+        self.remoteController = nil;
+        //        if (self.remoteController == nil){
+        self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+        //        }
         self.remoteController.detailItem = item;
         object = self.remoteController;
     }
