@@ -105,6 +105,13 @@ NSMutableArray *hostRightMenuItems;
     int tvshowHeight;
     NSString *filemodeRowHeight= @"44";
     NSString *filemodeThumbWidth= @"44";
+    NSString *filemodeVideoType = @"video";
+    NSString *filemodeMusicType = @"music";
+    if ([[userDefaults objectForKey:@"fileType_preference"] boolValue]==YES){
+        filemodeVideoType = @"files";
+        filemodeMusicType = @"files";
+    }
+    
     obj=[GlobalData getInstance];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -692,7 +699,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
                                      nil],@"sort",
-                                    @"music", @"media",
+                                    filemodeMusicType, @"media",
                                     nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
@@ -1436,7 +1443,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
                                      nil],@"sort",
-                                    @"video", @"media",
+                                    filemodeVideoType, @"media",
                                     nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
@@ -1919,7 +1926,7 @@ NSMutableArray *hostRightMenuItems;
                                        [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                        @"label", @"method",
                                        nil],@"sort",
-                                      @"video", @"media",
+                                      filemodeVideoType, @"media",
                                       nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                     
                                     [NSMutableArray arrayWithObjects:

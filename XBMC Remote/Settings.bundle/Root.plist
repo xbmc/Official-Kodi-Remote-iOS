@@ -109,6 +109,8 @@
 			<string>App Settings</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
+			<key>FooterText</key>
+			<string>Filemode changes needs app restart</string>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
@@ -137,6 +139,16 @@
 			<string>lockscreen_preference</string>
 			<key>Title</key>
 			<string>Override Lockscreen</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>fileType_preference</string>
+			<key>Title</key>
+			<string>Show all files in filemode</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
