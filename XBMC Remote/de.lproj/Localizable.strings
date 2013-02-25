@@ -101,6 +101,11 @@
 "%d results" = "%d Ergebnisse";
 "Music " = "Music ";
 "Video " = "Video ";
+"Songs" = "Songs";
+"Song" = "Song";
+"Mins." = "Mins.";
+"Min" = "Min";
+"Released %d" = "Released %d";
 
 "Clear Playlist" = "Playliste löschen";
 "No server MAC address defined" = "Keine Server-MAC-Adresse definiert";
