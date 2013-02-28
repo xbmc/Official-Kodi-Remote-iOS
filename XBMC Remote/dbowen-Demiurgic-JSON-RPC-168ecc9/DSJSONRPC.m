@@ -230,6 +230,10 @@
 
 #pragma mark - NSURLConnection Delegate Methods
 
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerAuthenticationFailed" object:nil userInfo:nil];
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:[NSNumber numberWithInt:(int)connection]];
     [connectionInfo setObject:[NSMutableData data] forKey:@"data"];

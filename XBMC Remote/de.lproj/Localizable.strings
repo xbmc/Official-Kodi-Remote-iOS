@@ -151,3 +151,5 @@
 
 "LongDateTimeFormat" = "d. MMMM YYYY";
 "LocaleIdentifier" = "de_DE";
+"Authentication Failed" = "Authentication Failed";
+"Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";

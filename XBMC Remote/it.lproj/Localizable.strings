@@ -161,3 +161,5 @@
 "No sever mac address definied" = "Nessun indirizzo MAC del Server definito";
 "Yes" = "Si";
 "No" = "No";
+"Authentication Failed" = "Autenticazione Fallita";
+"Incorrect Username or Password.\nCheck your settings." = "Username o Password errati.\nVerifica i settaggi.";

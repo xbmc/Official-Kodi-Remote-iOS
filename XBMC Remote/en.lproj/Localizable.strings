@@ -161,3 +161,5 @@
 "No sever mac address definied" = "No sever mac address definied";
 "Yes" = "Yes";
 "No" = "No";
+"Authentication Failed" = "Authentication Failed";
+"Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
