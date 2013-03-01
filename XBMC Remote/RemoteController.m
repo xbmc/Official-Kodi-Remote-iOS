@@ -1079,11 +1079,16 @@ NSInteger buttonAction;
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
+-(void)resetRemote{
     [self stopHoldKey:nil];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+ 
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [self resetRemote];
 }
 
 - (void)turnTorchOn:(UIButton *)sender {

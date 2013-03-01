@@ -44,6 +44,7 @@
 
 - (IBAction)startVibrate:(id)sender;
 - (void)setEmbeddedView;
+-(void)resetRemote;
 @property (strong, nonatomic) id detailItem;
 @property (nonatomic, retain) NSTimer* holdVolumeTimer;
 @property (strong, nonatomic) UIImageView *panFallbackImageView;
