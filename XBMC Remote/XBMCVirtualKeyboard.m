@@ -30,12 +30,14 @@
             accessoryColor = [UIColor colorWithRed:0.615f green:0.611f blue:0.654f alpha:1];
         }
 
-        xbmcVirtualKeyboard = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-        xbmcVirtualKeyboard.hidden = YES;
+        xbmcVirtualKeyboard = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
+        xbmcVirtualKeyboard.hidden = NO;
         xbmcVirtualKeyboard.delegate = self;
         xbmcVirtualKeyboard.autocorrectionType = UITextAutocorrectionTypeNo;
         xbmcVirtualKeyboard.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        xbmcVirtualKeyboard.text = @" ";
+        if ([AppDelegate instance].serverVersion == 11){
+            xbmcVirtualKeyboard.text = @" ";
+        }
         [self addSubview:xbmcVirtualKeyboard];
         
         CGRect screenBound = [[UIScreen mainScreen] bounds];
@@ -178,16 +180,16 @@
     }
     else{
         NSString *stringToSend = [theTextField.text stringByReplacingCharactersInRange:range withString:string];
-        if ([stringToSend isEqualToString:@""]){
-            stringToSend = @" ";
-        }
+//        if ([stringToSend isEqualToString:@""]){
+//            stringToSend = @"";
+//        }
         verboseOutput.text = stringToSend;
         if ([string length] != 0){
             int x = (unichar) [string characterAtIndex: 0];
             if (x==10) {
                 [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", [NSNumber numberWithBool:TRUE], @"done", nil] httpAPIcallback:nil];
                 [xbmcVirtualKeyboard resignFirstResponder];
-                theTextField.text = @" ";
+                theTextField.text = @"";
                 return YES;
             }
         }
