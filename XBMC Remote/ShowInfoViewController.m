@@ -567,10 +567,14 @@ int h=0;
         int coverHeight=0;
         int shiftY=40;
         CGRect frame;
-        placeHolderImage = @"";
+        placeHolderImage = @"coverbox_back_tvshows";
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            placeHolderImage = @"coverbox_back_tvshows@2x.png";
+        }
         if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
             GlobalData *obj=[GlobalData getInstance];
             if (obj.preferTVPosters==NO && [AppDelegate instance].serverVersion < 12){
+                placeHolderImage = @"";
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                     coverHeight=70;
                     deltaY=coverView.frame.size.height - coverHeight;
