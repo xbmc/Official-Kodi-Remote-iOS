@@ -1070,7 +1070,10 @@ int originYear = 0;
             NSDate *date = [format dateFromString:[item objectForKey:@"year"]];
             [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
             aired = [format stringFromDate:date];
-            releasedLabel.text = [NSString stringWithFormat:NSLocalizedString(@"First aired on %@", nil), aired];
+            releasedLabel.text = @"";
+            if (aired!=nil){
+                releasedLabel.text = [NSString stringWithFormat:NSLocalizedString(@"First aired on %@", nil), aired];
+            }
             [albumDetailView addSubview:releasedLabel];
 
             BOOL fromShowInfo = NO;
