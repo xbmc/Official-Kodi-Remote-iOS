@@ -497,7 +497,7 @@
     xbmcLogo.alpha = .9f;
     [self.view addSubview:xbmcLogo];
     
-    UIButton  *volumeButton = [[UIButton alloc] initWithFrame:CGRectMake(341, 964, 36, 37)];
+    UIButton  *volumeButton = [[UIButton alloc] initWithFrame:CGRectMake(411, 964, 36, 37)];
     [volumeButton setImage:[UIImage imageNamed:@"volume@2x.png"] forState:UIControlStateNormal];
     [volumeButton setImage:[UIImage imageNamed:@"volume@2x.png"] forState:UIControlStateHighlighted];
     [volumeButton setImage:[UIImage imageNamed:@"volume@2x.png"] forState:UIControlStateSelected];
@@ -509,7 +509,7 @@
     volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
     volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     frame=volumeSliderView.frame;
-    frame.origin.x=408;
+    frame.origin.x=478;
     frame.origin.y=self.view.frame.size.height - 170;
     volumeSliderView.frame=frame;
     CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * 0.5);
