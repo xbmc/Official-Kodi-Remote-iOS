@@ -2083,9 +2083,9 @@ NSIndexPath *selected;
                          clearart = [art objectForKey:key];
                      }
                  }
-                 if ([art count] && [[art objectForKey:@"banner"] length]!=0 && [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO){
-                     thumbnailPath = [art objectForKey:@"banner"];
-                 }
+//                 if ([art count] && [[art objectForKey:@"banner"] length]!=0 && [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO){
+//                     thumbnailPath = [art objectForKey:@"banner"];
+//                 }
                  NSString *fanartPath = [videoLibraryMovieDetail objectForKey:@"fanart"];
                  NSString *fanartURL=@"";
                  NSString *stringURL = @"";
