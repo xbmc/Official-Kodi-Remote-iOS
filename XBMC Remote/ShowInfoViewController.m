@@ -946,7 +946,21 @@ int h=0;
             [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
         }
         else{
-            [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
+            BOOL inEnableKenBurns = enableKenBurns;
+            __weak UIImageView *jV = jewelView;
+            __weak UIImageView *fV = fanartView;
+            __weak ShowInfoViewController *sf = self;
+            [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage] options:0 success:^(UIImage *image) {
+                if ([jV.image isEqual:image]){
+                    [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
+                }
+                if ([fV.image isEqual:image] && inEnableKenBurns){
+                    [sf elabKenBurns:image];
+                    [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
+                }
+            } failure:^(NSError *error) {
+                
+            }];
             jewelView.hidden = NO;
         }
     }
@@ -957,8 +971,19 @@ int h=0;
         fanartView.image=cachedFanart;
     }
     else{
-        enableKenBurns = NO;
-        [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
+        BOOL inEnableKenBurns = enableKenBurns;
+        __weak UIImageView *jV = jewelView;
+        __weak UIImageView *fV = fanartView;
+        __weak ShowInfoViewController *sf = self;
+        [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""] success:^(UIImage *image) {
+            if ([jV.image isEqual:image]){
+                [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
+            }
+            if ([fV.image isEqual:image] && inEnableKenBurns){
+                [sf elabKenBurns:image];
+                [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
+            }
+        } failure:^(NSError *error) {}];
     }
     [fanartView setClipsToBounds:YES];
     
@@ -1314,6 +1339,27 @@ int h=0;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+# pragma mark - Utility
+
+-(void) elabKenBurns:(UIImage *)image{
+    [self.kenView stopAnimation];
+    [self.kenView removeFromSuperview];
+    self.kenView = nil;
+    self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
+    self.kenView.autoresizingMask = fanartView.autoresizingMask;
+    self.kenView.contentMode = fanartView.contentMode;
+    self.kenView.delegate = self;
+    self.kenView.alpha = 0;
+    NSArray *backgroundImages = [NSArray arrayWithObjects:
+                                 image,
+                                 nil];
+    [self.kenView animateWithImages:backgroundImages
+                 transitionDuration:45
+                               loop:YES
+                        isLandscape:YES];
+    [self.view insertSubview:self.kenView atIndex:1];
+}
+
 # pragma  mark - Life Cycle
 
 - (void)setDetailItem:(id)newDetailItem{
@@ -1344,22 +1390,7 @@ int h=0;
     else{
         if (fanartView.image!=nil && self.kenView==nil){
             fanartView.alpha = 0;
-            [self.kenView stopAnimation];
-            [self.kenView removeFromSuperview];
-            self.kenView = nil;
-            self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
-            self.kenView.autoresizingMask = fanartView.autoresizingMask;
-            self.kenView.contentMode = fanartView.contentMode;
-            self.kenView.delegate = self;
-            self.kenView.alpha = 0;
-            NSArray *backgroundImages = [NSArray arrayWithObjects:
-                                         fanartView.image,
-                                         nil];
-            [self.kenView animateWithImages:backgroundImages
-                         transitionDuration:45
-                                       loop:YES
-                                isLandscape:YES];
-            [self.view insertSubview:self.kenView atIndex:1];
+            [self elabKenBurns:fanartView.image];
         }
         [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
@@ -1461,27 +1492,11 @@ int h=0;
                              self.kenView.alpha = 0;
                          }
                          completion:^(BOOL finished){
-                             [self.kenView stopAnimation];
-                             [self.kenView removeFromSuperview];
-                             self.kenView = nil;
-                             self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
-                             self.kenView.autoresizingMask = fanartView.autoresizingMask;
-                             self.kenView.contentMode = fanartView.contentMode;
-                             self.kenView.delegate = self;
-                             self.kenView.alpha = 0;
-                             NSArray *backgroundImages = [NSArray arrayWithObjects:
-                                                          fanartView.image,
-                                                          nil];
-                             [self.kenView animateWithImages:backgroundImages
-                                          transitionDuration:45
-                                                        loop:YES
-                                                 isLandscape:YES];
-                             [self.view insertSubview:self.kenView atIndex:1];
+                             [self elabKenBurns:fanartView.image];
                              [self alphaView:self.kenView AnimDuration:.2 Alpha:alphaValue];
                          }
          ];
     }
-
 }
 
 @end
