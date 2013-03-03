@@ -928,6 +928,10 @@ int h=0;
             studioLabel.text = [[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
         }
     }
+    BOOL inEnableKenBurns = enableKenBurns;
+    __weak UIImageView *jV = jewelView;
+    __weak UIImageView *fV = fanartView;
+    __weak ShowInfoViewController *sf = self;
     NSString *thumbnailPath = [item objectForKey:@"thumbnail"];
     NSURL *imageUrl = [NSURL URLWithString: thumbnailPath];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
@@ -946,10 +950,6 @@ int h=0;
             [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
         }
         else{
-            BOOL inEnableKenBurns = enableKenBurns;
-            __weak UIImageView *jV = jewelView;
-            __weak UIImageView *fV = fanartView;
-            __weak ShowInfoViewController *sf = self;
             [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage] options:0 success:^(UIImage *image) {
                 if ([jV.image isEqual:image]){
                     [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
@@ -971,10 +971,6 @@ int h=0;
         fanartView.image=cachedFanart;
     }
     else{
-        BOOL inEnableKenBurns = enableKenBurns;
-        __weak UIImageView *jV = jewelView;
-        __weak UIImageView *fV = fanartView;
-        __weak ShowInfoViewController *sf = self;
         [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""] success:^(UIImage *image) {
             if ([jV.image isEqual:image]){
                 [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
