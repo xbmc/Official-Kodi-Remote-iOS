@@ -77,6 +77,8 @@
     float thumbBorderWidth;
     NSArray *sectionArray;
     NSMutableArray *sectionArrayOpen;
+    UIColor *albumColor;
+    BOOL enableBarColor;
 }
 
 - (id)initWithFrame:(CGRect)frame;

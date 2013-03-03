@@ -111,6 +111,84 @@
     }
     return (NSMutableDictionary *)mutableDictionary;
 }
+
+#pragma mark - Utility
+
+- (UIColor *)averageColor:(UIImage *)image{
+    CGImageRef rawImageRef = [image CGImage];
+    
+    // This function returns the raw pixel values
+	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
+    const UInt8 *rawPixelData = CFDataGetBytePtr(data);
+    
+    NSUInteger imageHeight = CGImageGetHeight(rawImageRef);
+    NSUInteger imageWidth  = CGImageGetWidth(rawImageRef);
+    NSUInteger bytesPerRow = CGImageGetBytesPerRow(rawImageRef);
+	NSUInteger stride = CGImageGetBitsPerPixel(rawImageRef) / 8;
+    
+    // Here I sort the R,G,B, values and get the average over the whole image
+    unsigned int red   = 0;
+    unsigned int green = 0;
+    unsigned int blue  = 0;
+    
+	for (int row = 0; row < imageHeight; row++) {
+		const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+		for (int column = 0; column < imageWidth; column++) {
+            red    += rowPtr[0];
+            green  += rowPtr[1];
+            blue   += rowPtr[2];
+			rowPtr += stride;
+            
+        }
+    }
+	CFRelease(data);
+    
+	CGFloat f = 1.0f / (255.0f * imageWidth * imageHeight);
+	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
+}
+
+-(void)toggleOpen:(UITapGestureRecognizer *)sender {
+    int section = [sender.view tag];
+    [sectionArrayOpen replaceObjectAtIndex:section withObject:[NSNumber numberWithBool:![[sectionArrayOpen objectAtIndex:section] boolValue]]];
+    NSInteger countEpisodes = [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count];
+    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+    for (NSInteger i = 0; i < countEpisodes; i++) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:section]];
+    }
+    UIButton *toggleButton = (UIButton *)[sender.view viewWithTag:99];
+    if ([[sectionArrayOpen objectAtIndex:section] boolValue]){
+        [dataList beginUpdates];
+        [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [dataList endUpdates];
+        [toggleButton setSelected:YES];
+        NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:0 inSection:section];
+        [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+    else{
+        [toggleButton setSelected:NO];
+        NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:0 inSection:section];
+        [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [dataList beginUpdates];
+        [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [dataList endUpdates];
+        if (section>0){
+            //            NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:NSNotFound inSection:section];
+            //            [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            CGRect sectionRect = [dataList rectForSection:section - 1];
+            [dataList scrollRectToVisible:sectionRect animated:YES];
+        }
+    }
+}
+
+-(void)goBack:(id)sender{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object: nil];
+    }
+}
+
 #pragma mark - Tabbar management
 
 -(IBAction)showMore:(id)sender{
@@ -864,7 +942,17 @@ int originYear = 0;
             displayThumb=stringURL;
         }
         if (![stringURL isEqualToString:@""]){
-            [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
+            [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] success:^(UIImage *image) {
+                if (enableBarColor == YES){
+                    UIColor *color = [self averageColor:image];
+                    CGFloat red, green, blue, alpha;
+                    [color getRed:&red green:&green blue:&blue alpha:&alpha];
+                    albumColor = [UIColor colorWithRed:blue green:green blue:red alpha:1];
+                    self.navigationController.navigationBar.tintColor = albumColor;
+                }
+            } failure:^(NSError *error) {
+                
+            }];
             thumbImageView.layer.borderColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1].CGColor;
             thumbImageView.layer.borderWidth = thumbBorderWidth;
             thumbImageView.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -1165,48 +1253,6 @@ int originYear = 0;
     [sectionView addSubview:label];
     
     return sectionView;
-}
-
--(void)toggleOpen:(UITapGestureRecognizer *)sender {
-    int section = [sender.view tag];
-    [sectionArrayOpen replaceObjectAtIndex:section withObject:[NSNumber numberWithBool:![[sectionArrayOpen objectAtIndex:section] boolValue]]];
-    NSInteger countEpisodes = [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count];
-    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-    for (NSInteger i = 0; i < countEpisodes; i++) {
-        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:section]];
-    }
-    UIButton *toggleButton = (UIButton *)[sender.view viewWithTag:99];
-    if ([[sectionArrayOpen objectAtIndex:section] boolValue]){
-        [dataList beginUpdates];
-        [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
-        [dataList endUpdates];
-        [toggleButton setSelected:YES];
-        NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:0 inSection:section];
-        [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    }
-    else{
-        [toggleButton setSelected:NO];
-        NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:0 inSection:section];
-        [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionTop animated:NO];
-        [dataList beginUpdates];
-        [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
-        [dataList endUpdates];
-        if (section>0){
-//            NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:NSNotFound inSection:section];
-//            [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            CGRect sectionRect = [dataList rectForSection:section - 1];
-            [dataList scrollRectToVisible:sectionRect animated:YES];
-        }
-    }
-}
-
--(void)goBack:(id)sender{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else{
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object: nil];
-    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -2531,9 +2577,13 @@ NSIndexPath *selected;
 -(void)viewWillDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
+    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    if (albumColor!=nil){
+        [self.navigationController.navigationBar setTintColor:albumColor];
+    }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
@@ -2684,6 +2734,7 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     thumbBorderWidth = 1.0f;
+    enableBarColor = NO;
     for(UIView *subView in self.searchDisplayController.searchBar.subviews){
         if([subView isKindOfClass: [UITextField class]]){
             [(UITextField *)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
