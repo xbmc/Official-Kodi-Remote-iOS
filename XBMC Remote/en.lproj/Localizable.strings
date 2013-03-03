@@ -163,3 +163,5 @@
 "No" = "No";
 "Authentication Failed" = "Authentication Failed";
 "Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
+
+"WIKI_LANG" = "en";
