@@ -114,67 +114,6 @@
 
 #pragma mark - Utility
 
-- (UIColor *)averageColor:(UIImage *)image{
-    CGImageRef rawImageRef = [image CGImage];
-    
-	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
-    const UInt8 *rawPixelData = CFDataGetBytePtr(data);
-    
-    NSUInteger imageHeight = CGImageGetHeight(rawImageRef);
-    NSUInteger imageWidth  = CGImageGetWidth(rawImageRef);
-    NSUInteger bytesPerRow = CGImageGetBytesPerRow(rawImageRef);
-	NSUInteger stride = CGImageGetBitsPerPixel(rawImageRef) / 8;
-    
-    unsigned int red   = 0;
-    unsigned int green = 0;
-    unsigned int blue  = 0;
-    
-	for (int row = 0; row < imageHeight; row++) {
-		const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-		for (int column = 0; column < imageWidth; column++) {
-            blue    += rowPtr[0];
-            green  += rowPtr[1];
-            red   += rowPtr[2];
-			rowPtr += stride;
-        }
-    }
-	CFRelease(data);
-    
-	CGFloat f = 1.0f / (255.0f * imageWidth * imageHeight);
-	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
-}
-
-- (UIColor *)lighterColorForColor:(UIColor *)c{
-    float r, g, b, a;
-    if ([c getRed:&r green:&g blue:&b alpha:&a])
-        return [UIColor colorWithRed:MIN(r + 0.4, 1.0)
-                               green:MIN(g + 0.4, 1.0)
-                                blue:MIN(b + 0.4, 1.0)
-                               alpha:a];
-    return nil;
-}
-
-- (UIColor *)darkerColorForColor:(UIColor *)c{
-    float r, g, b, a;
-    if ([c getRed:&r green:&g blue:&b alpha:&a])
-        return [UIColor colorWithRed:MAX(r - 0.1, 0.0)
-                               green:MAX(g - 0.1, 0.0)
-                                blue:MAX(b - 0.1, 0.0)
-                               alpha:a];
-    return nil;
-}
-
-- (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker{
-    const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
-    CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
-    if (colorBrightness < 0.3){
-        return lighter;
-    }
-    else{
-        return darker;
-    }
-}
-
 -(void)toggleOpen:(UITapGestureRecognizer *)sender {
     int section = [sender.view tag];
     [sectionArrayOpen replaceObjectAtIndex:section withObject:[NSNumber numberWithBool:![[sectionArrayOpen objectAtIndex:section] boolValue]]];
@@ -981,7 +920,7 @@ int originYear = 0;
             UIImageView *tV = thumbImageView;
             [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] success:^(UIImage *image) {
                 if (enableBarColor == YES && [tV.image isEqual:image]){
-                    albumColor = [self averageColor:image];
+                    albumColor = [utils averageColor:image];
                     CGFloat red, green, blue, alpha;
                     [albumColor getRed:&red green:&green blue:&blue alpha:&alpha];
                     self.navigationController.navigationBar.tintColor = albumColor;
@@ -992,12 +931,12 @@ int originYear = 0;
                     [self.searchDisplayController.searchBar setBackgroundColor:albumColor];
                     CAGradientLayer *gradient = [CAGradientLayer layer];
                     gradient.frame = albumDetailView.bounds;
-                    gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[self lighterColorForColor:albumColor] CGColor], nil];
+                    gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
                     [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                    albumFontColor = [self updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
+                    albumFontColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
                     [artist setTextColor:albumFontColor];
                     [albumLabel setTextColor:albumFontColor];
-                    albumDetailsColor = [self updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor darkGrayColor]];
+                    albumDetailsColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor darkGrayColor]];
                     [trackCountLabel setTextColor:albumDetailsColor];
                     [releasedLabel setTextColor:albumDetailsColor];
                 }
@@ -2785,6 +2724,7 @@ NSIndexPath *selected;
 - (void)viewDidLoad{
     thumbBorderWidth = 1.0f;
     enableBarColor = YES;
+    utils = [[Utilities alloc] init];
     for(UIView *subView in self.searchDisplayController.searchBar.subviews){
         if([subView isKindOfClass: [UITextField class]]){
             [(UITextField *)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];

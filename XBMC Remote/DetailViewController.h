@@ -15,7 +15,7 @@
 #import "mainMenu.h"
 #import "WebViewController.h"
 #import "MoreItemsViewController.h"
-
+#import "Utilities.h"
 
 @class NowPlaying;
 @class PlayFileViewController;
@@ -80,6 +80,7 @@
     UIColor *albumColor;
     UIColor *searchBarColor;
     BOOL enableBarColor;
+    Utilities *utils;
 }
 
 - (id)initWithFrame:(CGRect)frame;
