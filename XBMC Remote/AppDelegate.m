@@ -118,7 +118,7 @@ NSMutableArray *hostRightMenuItems;
         thumbWidth = 320;
         tvshowHeight = 61;
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                   [UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1],UITextAttributeTextColor,
+                                                   [UIColor colorWithRed:1 green:1 blue:1 alpha:1],UITextAttributeTextColor,
                                                    [UIFont boldSystemFontOfSize:18], UITextAttributeFont, nil];
         [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     }

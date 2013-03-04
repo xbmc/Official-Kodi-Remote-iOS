@@ -78,6 +78,7 @@
     NSArray *sectionArray;
     NSMutableArray *sectionArrayOpen;
     UIColor *albumColor;
+    UIColor *searchBarColor;
     BOOL enableBarColor;
 }
 
