@@ -628,10 +628,9 @@
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //        NSLog(@"Action %@ ok with %@ ", action , methodResult);
 //        if (methodError!=nil || error != nil){
-//            NSLog(@"method error %@", methodError);
+//            NSLog(@"method error %@ %@", methodError, error);
 //        }
         if ((methodError!=nil || error != nil) && callback!=nil){ // Backward compatibility
-//            NSLog(@"method error %@", methodError);
             [self sendXbmcHttp:callback];
         }
     }];
@@ -974,6 +973,10 @@ NSInteger buttonAction;
 -(IBAction)handleButtonLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
         switch (gestureRecognizer.view.tag) {
+            case 1:// FULLSCREEN BUTTON
+                [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:@"togglefullscreen", @"action", nil] httpAPIcallback:nil];
+                break;
+                
             case 2:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
                 [self playbackAction:@"Player.SetSpeed" params:[NSArray arrayWithObjects:@"decrement", @"speed", nil]];
                 break;
