@@ -921,8 +921,6 @@ int originYear = 0;
             [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] success:^(UIImage *image) {
                 if (enableBarColor == YES && [tV.image isEqual:image]){
                     albumColor = [utils averageColor:image];
-                    CGFloat red, green, blue, alpha;
-                    [albumColor getRed:&red green:&green blue:&blue alpha:&alpha];
                     self.navigationController.navigationBar.tintColor = albumColor;
                     self.searchDisplayController.searchBar.tintColor = albumColor;
                     if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
@@ -2722,6 +2720,7 @@ NSIndexPath *selected;
 }
 
 - (void)viewDidLoad{
+    [super viewDidLoad];
     thumbBorderWidth = 1.0f;
     enableBarColor = YES;
     utils = [[Utilities alloc] init];
@@ -2806,7 +2805,6 @@ NSIndexPath *selected;
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"
                                                object: nil];
-    [super viewDidLoad];
 }
 
 - (void)viewDidUnload{
