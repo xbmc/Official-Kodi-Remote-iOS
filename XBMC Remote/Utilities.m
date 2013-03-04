@@ -10,7 +10,7 @@
 
 @implementation Utilities
 
-- (UIColor *)averageColor:(UIImage *)image{
+- (UIColor *)averageColor:(UIImage *)image inverse:(BOOL)inverse{
     CGImageRef rawImageRef = [image CGImage];
     
 	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
@@ -28,9 +28,15 @@
 	for (int row = 0; row < imageHeight; row++) {
 		const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
 		for (int column = 0; column < imageWidth; column++) {
-            blue    += rowPtr[0];
+            if (inverse == YES){
+                blue    += rowPtr[0];
+                red   += rowPtr[2];
+            }
+            else{
+                red    += rowPtr[0];
+                blue   += rowPtr[2];
+            }
             green  += rowPtr[1];
-            red   += rowPtr[2];
 			rowPtr += stride;
         }
     }

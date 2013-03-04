@@ -920,7 +920,7 @@ int originYear = 0;
             UIImageView *tV = thumbImageView;
             [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] success:^(UIImage *image) {
                 if (enableBarColor == YES && [tV.image isEqual:image]){
-                    albumColor = [utils averageColor:image];
+                    albumColor = [utils averageColor:image inverse:YES];
                     self.navigationController.navigationBar.tintColor = albumColor;
                     self.searchDisplayController.searchBar.tintColor = albumColor;
                     if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
@@ -2563,7 +2563,7 @@ NSIndexPath *selected;
 -(void)viewWillDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
-    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
+//    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
     self.searchDisplayController.searchBar.tintColor = searchBarColor;
 }
 
