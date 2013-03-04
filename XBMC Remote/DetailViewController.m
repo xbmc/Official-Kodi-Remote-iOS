@@ -2563,7 +2563,7 @@ NSIndexPath *selected;
 -(void)viewWillDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
-//    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
+    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
     self.searchDisplayController.searchBar.tintColor = searchBarColor;
 }
 
