@@ -1652,6 +1652,7 @@ NSMutableArray *hostRightMenuItems;
                         [NSArray arrayWithObjects:
                          @"VideoLibrary.GetTVShows", @"method",
                          @"VideoLibrary.GetTVShowDetails", @"extra_info_method",
+                         @"YES", @"tvshowsView",
                          nil],
                         
 //                        [NSArray arrayWithObjects:@"VideoLibrary.GetGenres", @"method", nil],

@@ -67,6 +67,7 @@
     int flagY;
     BOOL albumView;
     BOOL episodesView;
+    BOOL tvshowsView;
     int albumViewHeight;
     int albumViewPadding;
     int artistFontSize;

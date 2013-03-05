@@ -2333,7 +2333,7 @@ NSIndexPath *selected;
                      
                      NSString *thumbnailPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"thumbnail"];
                      NSDictionary *art = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"art"];
-                     if ([art count] && [[art objectForKey:@"banner"] length]!=0 && [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO){
+                     if ([art count] && [[art objectForKey:@"banner"] length]!=0 && tvshowsView){
                          thumbnailPath = [art objectForKey:@"banner"];
                      }
                      NSString *fanartPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"];
@@ -2783,6 +2783,9 @@ NSIndexPath *selected;
     else if ([[methods objectForKey:@"episodesView"] boolValue] == YES){
         episodesView = TRUE;
         searchBarColor = [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1];
+    }
+    else if ([[methods objectForKey:@"tvshowsView"] boolValue] == YES){
+        tvshowsView = [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO;
     }
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
