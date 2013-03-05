@@ -974,7 +974,7 @@ NSInteger buttonAction;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
         switch (gestureRecognizer.view.tag) {
             case 1:// FULLSCREEN BUTTON
-                [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:@"togglefullscreen", @"action", nil] httpAPIcallback:nil];
+                [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:@"togglefullscreen", @"action", nil] httpAPIcallback:@"Action(199)"];
                 break;
                 
             case 2:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
