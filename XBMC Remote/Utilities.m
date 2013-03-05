@@ -69,7 +69,7 @@
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker{
     const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
     CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
-    if (colorBrightness < 0.3){
+    if (colorBrightness < 0.4){
         return lighter;
     }
     else{

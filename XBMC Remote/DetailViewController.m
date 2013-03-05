@@ -888,6 +888,7 @@ int originYear = 0;
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (albumView && [richResults count]>0){
         __block UIColor *albumFontColor = [UIColor blackColor];
+        __block UIColor *albumFontShadowColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
         __block UIColor *albumDetailsColor = [UIColor darkGrayColor];
 
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
@@ -932,11 +933,17 @@ int originYear = 0;
                     gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
                     [albumDetailView.layer insertSublayer:gradient atIndex:1];
                     albumFontColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
-                    [artist setTextColor:albumFontColor];
-                    [albumLabel setTextColor:albumFontColor];
+                    albumFontShadowColor = [utils updateColor:albumColor lightColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3] darkColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.3]];
                     albumDetailsColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor darkGrayColor]];
+                    [artist setTextColor:albumFontColor];
+                    [artist setShadowColor:albumFontShadowColor];
+                    [albumLabel setTextColor:albumFontColor];
+                    [albumLabel setShadowColor:albumFontShadowColor];
                     [trackCountLabel setTextColor:albumDetailsColor];
+                    [trackCountLabel setShadowColor:albumFontShadowColor];
                     [releasedLabel setTextColor:albumDetailsColor];
+                    [releasedLabel setShadowColor:albumFontShadowColor];
+
                 }
             } failure:^(NSError *error) {
                 
@@ -956,6 +963,8 @@ int originYear = 0;
         
         [artist setBackgroundColor:[UIColor clearColor]];
         [artist setTextColor:albumFontColor];
+        [artist setShadowColor:albumFontShadowColor];
+        [artist setShadowOffset:CGSizeMake(0, 1)];
         [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
         artist.adjustsFontSizeToFitWidth = YES;
         artist.minimumFontSize = 9;
@@ -964,6 +973,8 @@ int originYear = 0;
         
         [albumLabel setBackgroundColor:[UIColor clearColor]];
         [albumLabel setTextColor:albumFontColor];
+        [albumLabel setShadowColor:albumFontShadowColor];
+        [albumLabel setShadowOffset:CGSizeMake(0, 1)];
         [albumLabel setFont:[UIFont boldSystemFontOfSize:albumFontSize]];
         albumLabel.text = self.navigationItem.title;
         albumLabel.numberOfLines = 0;
@@ -987,14 +998,17 @@ int originYear = 0;
         NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:totalTime/60]];
         
         [trackCountLabel setBackgroundColor:[UIColor clearColor]];
-        [trackCountLabel setTextColor:albumDetailsColor];      
+        [trackCountLabel setTextColor:albumDetailsColor];
+        [trackCountLabel setShadowColor:albumFontShadowColor];
+        [trackCountLabel setShadowOffset:CGSizeMake(0, 1)];
         [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
         trackCountLabel.text = [NSString stringWithFormat:@"%d %@, %@ %@", [richResults count], [richResults count] > 1 ? NSLocalizedString(@"Songs", nil)  : NSLocalizedString(@"Song", nil), numberString, totalTime/60 > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
         [albumDetailView addSubview:trackCountLabel];
-        
         int year = [[item objectForKey:@"year"] intValue];
         [releasedLabel setBackgroundColor:[UIColor clearColor]];
         [releasedLabel setTextColor:albumDetailsColor];
+        [releasedLabel setShadowColor:albumFontShadowColor];
+        [releasedLabel setShadowOffset:CGSizeMake(0, 1)];
         [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
         releasedLabel.text = [NSString stringWithFormat:@"%@", (year > 0) ? [NSString stringWithFormat:NSLocalizedString(@"Released %d", nil), year] : @"" ];
         [albumDetailView addSubview:releasedLabel];
@@ -1033,6 +1047,7 @@ int originYear = 0;
         return albumDetailView;
     }
     else if (episodesView && [richResults count]>0 && !(tableView == self.searchDisplayController.searchResultsTableView)){
+        UIColor *seasonFontShadowColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
         albumDetailView.tag = section;
         int toggleIconSpace = 0;
@@ -1102,6 +1117,8 @@ int originYear = 0;
             
             UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2), (albumViewPadding / 2), viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
             [artist setBackgroundColor:[UIColor clearColor]];
+            [artist setShadowColor:seasonFontShadowColor];
+            [artist setShadowOffset:CGSizeMake(0, 1)];
             [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
             artist.adjustsFontSizeToFitWidth = YES;
             artist.minimumFontSize = 9;
@@ -1110,6 +1127,8 @@ int originYear = 0;
             
             UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2), artist.frame.origin.y +  artistFontSize + 2, viewWidth - albumViewHeight - albumViewPadding, albumFontSize + labelPadding)];
             [albumLabel setBackgroundColor:[UIColor clearColor]];
+            [albumLabel setShadowColor:seasonFontShadowColor];
+            [albumLabel setShadowOffset:CGSizeMake(0, 1)];
             [albumLabel setFont:[UIFont boldSystemFontOfSize:albumFontSize]];
             albumLabel.text = [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"label"];
             albumLabel.numberOfLines = 0;
@@ -1126,6 +1145,8 @@ int originYear = 0;
             int bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
             UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2), bottomMargin, viewWidth - albumViewHeight - albumViewPadding - toggleIconSpace, trackCountFontSize + labelPadding)];
             [trackCountLabel setBackgroundColor:[UIColor clearColor]];
+            [trackCountLabel setShadowColor:seasonFontShadowColor];
+            [trackCountLabel setShadowOffset:CGSizeMake(0, 1)];
             [trackCountLabel setTextColor:[UIColor darkGrayColor]];
             [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
             trackCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Episodes: %@", nil), [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"episode"]];
@@ -1133,6 +1154,8 @@ int originYear = 0;
 
             UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth +toggleIconSpace + (albumViewPadding * 2), bottomMargin - trackCountFontSize -labelPadding/2, viewWidth - albumViewHeight - albumViewPadding - toggleIconSpace, trackCountFontSize + labelPadding)];
             [releasedLabel setBackgroundColor:[UIColor clearColor]];
+            [releasedLabel setShadowColor:seasonFontShadowColor];
+            [releasedLabel setShadowOffset:CGSizeMake(0, 1)];
             [releasedLabel setTextColor:[UIColor darkGrayColor]];
             [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
             
