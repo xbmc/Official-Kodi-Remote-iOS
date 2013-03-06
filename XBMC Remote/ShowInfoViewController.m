@@ -1118,6 +1118,8 @@ int h=0;
     }
     clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
+    [clearlogoButton.titleLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+    [clearlogoButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
     [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
@@ -1162,6 +1164,8 @@ int h=0;
             int cbWidth = clearLogoWidth / 2;
             int cbHeight = clearLogoHeight / 2;
             closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - cbWidth/2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
+            [closeButton.titleLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+            [closeButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
             [closeButton setAutoresizingMask:
              UIViewAutoresizingFlexibleTopMargin    |
              UIViewAutoresizingFlexibleRightMargin  |
