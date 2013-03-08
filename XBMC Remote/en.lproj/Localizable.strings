@@ -107,6 +107,11 @@
 "%d results" = "%d results";
 "Music " = "Music ";
 "Video " = "Video ";
+"Songs" = "Songs";
+"Song" = "Song";
+"Mins." = "Mins.";
+"Min" = "Min";
+"Released %d" = "Released %d";
 
 "Clear Playlist" = "Clear Playlist";
 "No server MAC address defined" = "No server MAC address defined";
@@ -157,3 +162,7 @@
 "No sever mac address definied" = "No sever mac address definied";
 "Yes" = "Yes";
 "No" = "No";
+"Authentication Failed" = "Authentication Failed";
+"Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
+
+"WIKI_LANG" = "en";

@@ -249,6 +249,9 @@
         if (self.remoteController == nil){
             self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
         }
+        else{
+            [self.remoteController resetRemote];
+        }
         self.remoteController.detailItem = item;
         object = self.remoteController;
     }
@@ -328,6 +331,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     if (timer == nil){
         timer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
+        [self checkServer];
     }
 }
 
@@ -394,6 +398,7 @@
     menuItem.thumbWidth=thumbWidth;
     menuItem.rowHeight=tvshowHeight;
     [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
+    [self checkServer];
 }
 
 -(void)dealloc{

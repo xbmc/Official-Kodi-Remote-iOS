@@ -15,7 +15,7 @@
 #import "mainMenu.h"
 #import "WebViewController.h"
 #import "MoreItemsViewController.h"
-
+#import "Utilities.h"
 
 @class NowPlaying;
 @class PlayFileViewController;
@@ -67,6 +67,7 @@
     int flagY;
     BOOL albumView;
     BOOL episodesView;
+    BOOL tvshowsView;
     int albumViewHeight;
     int albumViewPadding;
     int artistFontSize;
@@ -77,6 +78,10 @@
     float thumbBorderWidth;
     NSArray *sectionArray;
     NSMutableArray *sectionArrayOpen;
+    UIColor *albumColor;
+    UIColor *searchBarColor;
+    BOOL enableBarColor;
+    Utilities *utils;
 }
 
 - (id)initWithFrame:(CGRect)frame;

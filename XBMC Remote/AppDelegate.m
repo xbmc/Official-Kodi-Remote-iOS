@@ -105,13 +105,20 @@ NSMutableArray *hostRightMenuItems;
     int tvshowHeight;
     NSString *filemodeRowHeight= @"44";
     NSString *filemodeThumbWidth= @"44";
+    NSString *filemodeVideoType = @"video";
+    NSString *filemodeMusicType = @"music";
+    if ([[userDefaults objectForKey:@"fileType_preference"] boolValue]==YES){
+        filemodeVideoType = @"files";
+        filemodeMusicType = @"files";
+    }
+    
     obj=[GlobalData getInstance];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         thumbWidth = 320;
         tvshowHeight = 61;
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                   [UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1],UITextAttributeTextColor,
+                                                   [UIColor colorWithRed:1 green:1 blue:1 alpha:1],UITextAttributeTextColor,
                                                    [UIFont boldSystemFontOfSize:18], UITextAttributeFont, nil];
         [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     }
@@ -692,7 +699,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
                                      nil],@"sort",
-                                    @"music", @"media",
+                                    filemodeMusicType, @"media",
                                     nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
@@ -1436,7 +1443,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
                                      nil],@"sort",
-                                    @"video", @"media",
+                                    filemodeVideoType, @"media",
                                     nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
@@ -1645,6 +1652,7 @@ NSMutableArray *hostRightMenuItems;
                         [NSArray arrayWithObjects:
                          @"VideoLibrary.GetTVShows", @"method",
                          @"VideoLibrary.GetTVShowDetails", @"extra_info_method",
+                         @"YES", @"tvshowsView",
                          nil],
                         
 //                        [NSArray arrayWithObjects:@"VideoLibrary.GetGenres", @"method", nil],
@@ -1695,7 +1703,7 @@ NSMutableArray *hostRightMenuItems;
                                @"none", @"method",
                                nil],@"sort",
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"playcount", @"showtitle", nil], @"properties",
-                              nil], @"parameters", NSLocalizedString(@"Added Episodes", nil), @"label", @"53", @"rowHeight", @"95", @"thumbWidth",
+                              nil], @"parameters", NSLocalizedString(@"Added Episodes", nil), @"label", @"53", @"rowHeight", @"95", @"thumbWidth", @"nocover_tvshows_episode", @"defaultThumb",
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", @"resume", nil], @"properties",
                               nil], @"extra_info_parameters",
@@ -1919,7 +1927,7 @@ NSMutableArray *hostRightMenuItems;
                                        [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                        @"label", @"method",
                                        nil],@"sort",
-                                      @"video", @"media",
+                                      filemodeVideoType, @"media",
                                       nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                     
                                     [NSMutableArray arrayWithObjects:

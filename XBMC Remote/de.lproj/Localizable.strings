@@ -101,6 +101,11 @@
 "%d results" = "%d Ergebnisse";
 "Music " = "Musik ";
 "Video " = "Video ";
+"Songs" = "Songs";
+"Song" = "Song";
+"Mins." = "Mins.";
+"Min" = "Min";
+"Released %d" = "Released %d";
 
 "Clear Playlist" = "Playliste löschen";
 "No server MAC address defined" = "Keine Server-MAC-Adresse definiert";
@@ -147,3 +152,7 @@
 
 "LongDateTimeFormat" = "d. MMMM YYYY";
 "LocaleIdentifier" = "de_DE";
+"Authentication Failed" = "Authentication Failed";
+"Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
+
+"WIKI_LANG" = "de";

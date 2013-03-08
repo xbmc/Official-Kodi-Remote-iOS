@@ -669,28 +669,17 @@ int currentItemID;
                                              [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
                                          }
                                          else{
-                                             /* DISABLED due to issues: success comes also from others thread */
-                                             /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                                              [jewelView
-                                              setImageWithURL:[NSURL URLWithString:stringURL]
-                                              placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
-                                              success:^(UIImage *image) {
-                                              jewelView.image = [self imageWithBorderFromImage:image];
-                                              }
-                                              failure:^(NSError *error) {
-                                              }
-                                              ];
-                                              }
-                                              else{
-                                              [jewelView
-                                              setImageWithURL:[NSURL URLWithString:stringURL]
-                                              placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
-                                              ];
-                                              } */
-                                             /* */
+                                             __weak UIImageView *jV = jewelView;
+                                             __weak NowPlaying *sf = self;
                                              [jewelView
                                               setImageWithURL:[NSURL URLWithString:stringURL]
                                               placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                              success:^(UIImage *image) {
+                                                  if ([jV.image isEqual:image]){
+                                                      jV.image=[sf imageWithBorderFromImage:image];
+                                                  }
+                                              }
+                                              failure:^(NSError *error) {}
                                               ];
                                          }
                                      }

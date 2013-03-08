@@ -138,6 +138,28 @@
     [AppDelegate instance].obj.tcpPort = [[item objectForKey:@"tcpPort"] intValue];
 }
 
+-(void)deselectServerAtIndexPath:(NSIndexPath *)indexPath{
+    [connectingActivityIndicator stopAnimating];
+    UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
+    [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    storeServerSelection = nil;
+    [AppDelegate instance].obj.serverDescription = @"";
+    [AppDelegate instance].obj.serverUser = @"";
+    [AppDelegate instance].obj.serverPass = @"";
+    [AppDelegate instance].obj.serverIP = @"";
+    [AppDelegate instance].obj.serverPort = @"";
+    [AppDelegate instance].obj.serverHWAddr = @"";
+    [AppDelegate instance].serverOnLine = NO;
+    [AppDelegate instance].obj.tcpPort = 0;
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if (standardUserDefaults) {
+        [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
+        [standardUserDefaults synchronize];
+    }
+    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     doRevealMenu = YES;
     if ([[AppDelegate instance].arrayServerList count] == 0){
@@ -146,25 +168,7 @@
     else{
         NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
         if (storeServerSelection && selection.row == storeServerSelection.row){
-            [connectingActivityIndicator stopAnimating];
-            UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
-            [serverListTableView deselectRowAtIndexPath:selection animated:YES];
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            storeServerSelection = nil;
-            [AppDelegate instance].obj.serverDescription = @"";
-            [AppDelegate instance].obj.serverUser = @"";
-            [AppDelegate instance].obj.serverPass = @"";
-            [AppDelegate instance].obj.serverIP = @"";
-            [AppDelegate instance].obj.serverPort = @"";
-            [AppDelegate instance].obj.serverHWAddr = @"";
-            [AppDelegate instance].serverOnLine = NO;
-            [AppDelegate instance].obj.tcpPort = 0;
-            NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-            if (standardUserDefaults) {
-                [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
-                [standardUserDefaults synchronize];
-            }
-            [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
+            [self deselectServerAtIndexPath:indexPath];
         }
         else{
             storeServerSelection = indexPath;
@@ -348,12 +352,7 @@
     }
     else{
         UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom_logo_up"]];
-//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
-//        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
-//        xbmcLogo.showsTouchWhenHighlighted = NO;
-//        [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogoView;
-//        self.navigationItem.title = @"XBMC Server";
     }
 }
 
@@ -374,6 +373,11 @@
         backgroundImageView.frame = frame;
     }
     else {
+        if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
+            MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+            masterViewController.mainMenu = self.mainMenu;
+            self.slidingViewController.underLeftViewController = masterViewController;
+        }
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         int lastServer;
         if ([userDefaults objectForKey:@"lastServer"]!=nil){
@@ -411,6 +415,16 @@
                                              selector: @selector(resetDoReveal:)
                                                  name: @"ECSlidingViewUnderRightWillAppear"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(authFailed:)
+                                                 name: @"XBMCServerAuthenticationFailed"
+                                               object: nil];
+}
+
+-(void)authFailed:(NSNotification *)note {
+    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Authentication Failed", nil) message:NSLocalizedString(@"Incorrect Username or Password.\nCheck your settings.", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+    [alertView show];
+    [self modifyHost:storeServerSelection];
 }
 
 -(void)resetDoReveal:(NSNotification *)note {

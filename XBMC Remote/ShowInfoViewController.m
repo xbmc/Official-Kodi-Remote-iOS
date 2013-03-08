@@ -17,6 +17,7 @@
 #import "DetailViewController.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
+#import "ActorCell.h"
 
 @interface ShowInfoViewController ()
 @end
@@ -413,10 +414,10 @@ int count=0;
     }
 }
 
--(void)setAndMoveLabels:(NSArray *)arrayLabels size:(int)size{
+-(void)setAndMoveLabels:(NSArray *)arrayLabels size:(int)moveSize{
     UIFont *fontFace=[UIFont systemFontOfSize:16];
 
-    int offset = size;
+    int offset = moveSize;
     for (UILabel *label in arrayLabels) {
         [label setFont:fontFace];
         [label setFrame:
@@ -424,10 +425,10 @@ int count=0;
                     label.frame.origin.x, 
                     label.frame.origin.y + offset, 
                     label.frame.size.width, 
-                    label.frame.size.height + size
+                    label.frame.size.height + moveSize
                     )
          ];
-        offset += size;
+        offset += moveSize;
     }
 }
 
@@ -465,9 +466,9 @@ int h=0;
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source{
-    CGSize size = [source size];
-    UIGraphicsBeginImageContext(size);
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    CGSize imgSize = [source size];
+    UIGraphicsBeginImageContext(imgSize);
+    CGRect rect = CGRectMake(0, 0, imgSize.width, imgSize.height);
     [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
     
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -506,10 +507,10 @@ int h=0;
     NSString *placeHolderImage = @"coverbox_back.png";
 //    NSLog(@"ITEM %@", item);
     int scrollViewDefaultHeight = 1660;
-    int castFontSize = 14;
-    int size = 0;
-    int castWidth = 50;
-    int castHeight = 70;
+    castFontSize = 14;
+    size = 0;
+    castWidth = 50;
+    castHeight = 70;
     int pageSize = 297;
     int labelSpace = 20;
     bool enableJewel = [self enableJewelCases];
@@ -567,9 +568,14 @@ int h=0;
         int coverHeight=0;
         int shiftY=40;
         CGRect frame;
+        placeHolderImage = @"coverbox_back_tvshows";
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            placeHolderImage = @"coverbox_back_tvshows@2x.png";
+        }
         if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
-            GlobalData *obj=[GlobalData getInstance];     
-            if (obj.preferTVPosters==NO){
+            GlobalData *obj=[GlobalData getInstance];
+            if (obj.preferTVPosters==NO && [AppDelegate instance].serverVersion < 12){
+                placeHolderImage = @"";
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                     coverHeight=70;
                     deltaY=coverView.frame.size.height - coverHeight;
@@ -923,6 +929,10 @@ int h=0;
             studioLabel.text = [[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
         }
     }
+    BOOL inEnableKenBurns = enableKenBurns;
+    __weak UIImageView *jV = jewelView;
+    __weak UIImageView *fV = fanartView;
+    __weak ShowInfoViewController *sf = self;
     NSString *thumbnailPath = [item objectForKey:@"thumbnail"];
     NSURL *imageUrl = [NSURL URLWithString: thumbnailPath];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
@@ -941,7 +951,17 @@ int h=0;
             [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
         }
         else{
-            [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
+            [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage] options:0 success:^(UIImage *image) {
+                if ([jV.image isEqual:image]){
+                    [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
+                }
+                if ([fV.image isEqual:image] && inEnableKenBurns){
+                    [sf elabKenBurns:image];
+                    [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
+                }
+            } failure:^(NSError *error) {
+                
+            }];
             jewelView.hidden = NO;
         }
     }
@@ -952,8 +972,15 @@ int h=0;
         fanartView.image=cachedFanart;
     }
     else{
-        enableKenBurns = NO;
-        [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""]];
+        [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""] success:^(UIImage *image) {
+            if ([jV.image isEqual:image]){
+                [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
+            }
+            if ([fV.image isEqual:image] && inEnableKenBurns){
+                [sf elabKenBurns:image];
+                [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
+            }
+        } failure:^(NSError *error) {}];
     }
     [fanartView setClipsToBounds:YES];
     
@@ -1018,7 +1045,7 @@ int h=0;
     label6.frame = frame;
     int startY = label6.frame.origin.y + 20 + size;
     if (![[item objectForKey:@"family"] isEqualToString:@"albumid"] && ![[item objectForKey:@"family"] isEqualToString:@"artistid"]){// TRANSFORM IN SHOW_CAST BOOLEAN
-        NSArray *cast = [item objectForKey:@"cast"];
+        cast = [item objectForKey:@"cast"];
 // CLEARART AS CAST TITLE
 //        if ([[item objectForKey:@"clearart"] length] != 0){
 //            UIImageView *clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
@@ -1036,55 +1063,15 @@ int h=0;
 //            label6.frame = frame;
 //        }
 // END CLEARART
-        int offsetX = 10;
-        for (NSDictionary *actor in cast){
-            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[actor objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-            UIImageView *actorImage = [[UIImageView alloc] initWithFrame:CGRectMake(offsetX, startY, castWidth, castHeight)];
-            [actorImage setClipsToBounds:YES];
-            [actorImage setContentMode:UIViewContentModeScaleAspectFill];
-            
-            NSURL *imageUrl = [NSURL URLWithString: stringURL];    
-            UIImage *cachedImage = [manager imageWithURL:imageUrl];
-            if (cachedImage){
-                actorImage.image=cachedImage;
-            }
-            else { 
-                [actorImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
-            }
-            [actorImage.layer setBorderColor: [[UIColor darkGrayColor] CGColor]];
-            [actorImage.layer setBorderWidth: 1.0];
-            [actorImage setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
-            [scrollView addSubview:actorImage];
-            
-            UILabel *actorName=[[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, startY, 320 - (castWidth + offsetX + 20) , 16 + size)];
-            actorName.text = [actor objectForKey:@"name"];
-            [actorName setFont:[UIFont systemFontOfSize:castFontSize]];
-
-            [actorName setBackgroundColor:[UIColor clearColor]];
-            [actorName setTextColor:[UIColor whiteColor]];
-            [actorName setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
-            [actorName setShadowColor:[UIColor blackColor]];
-            [actorName setShadowOffset:CGSizeMake(1, 1)];
-            [scrollView addSubview:actorName];
-            
-            UILabel *actorRole = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, startY + 17 + size / 2, 320 - (castWidth + offsetX + 20) , 16 + size)];
-            actorRole.text = @"";
-            actorRole.numberOfLines = 3;
-            if ([[actor objectForKey:@"role"] length] != 0){
-                actorRole.text = [NSString stringWithFormat:@"%@", [actor objectForKey:@"role"]];
-            }
-            [actorRole setFont:[UIFont systemFontOfSize:castFontSize - 2]];
-            [actorRole setBackgroundColor:[UIColor clearColor]];
-            [actorRole setTextColor:[UIColor lightGrayColor]];
-            [actorRole setShadowColor:[UIColor blackColor]];
-            [actorRole setShadowOffset:CGSizeMake(1, 1)];
-            [actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
-            [actorRole sizeToFit];
-
-            [scrollView addSubview:actorRole];
-            
-            startY=startY + castHeight + 10;
-        }
+        
+        UITableView *actorsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, startY, 320, [cast count]*(castHeight + 10)) style:UITableViewStylePlain];
+        [actorsTable setBackgroundColor:[UIColor clearColor]];
+        [actorsTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        [actorsTable setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin ];
+        [actorsTable setDelegate:self];
+        [actorsTable setDataSource:self];
+        [scrollView addSubview:actorsTable];
+        startY = startY + [cast count]*(castHeight + 10);
         if ([cast count]==0){
             label6.hidden = YES;
             startY-=20;
@@ -1092,6 +1079,8 @@ int h=0;
     }
     clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
+    [clearlogoButton.titleLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+    [clearlogoButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
     [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
@@ -1136,6 +1125,8 @@ int h=0;
             int cbWidth = clearLogoWidth / 2;
             int cbHeight = clearLogoHeight / 2;
             closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - cbWidth/2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
+            [closeButton.titleLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+            [closeButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
             [closeButton setAutoresizingMask:
              UIViewAutoresizingFlexibleTopMargin    |
              UIViewAutoresizingFlexibleRightMargin  |
@@ -1192,7 +1183,51 @@ int h=0;
     [UIView commitAnimations];
 }
 
+#pragma mark - Actors UITableView data source & delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return castHeight + 10;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [cast count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *CellIdentifier = @"CellActor";
+    ActorCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil){
+        cell = [[ActorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier castWidth:castWidth castHeight:castHeight size:size castFontSize:castFontSize];
+    }
+    GlobalData *obj = [GlobalData getInstance];
+    NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+    if ([AppDelegate instance].serverVersion > 11){
+        serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
+    }
+    NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+    NSURL *imageUrl = [NSURL URLWithString: stringURL];
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    UIImage *cachedImage = [manager imageWithURL:imageUrl];
+    if (cachedImage){
+        [cell.actorThumbnail setImage:cachedImage];
+    }
+    else {
+        [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
+    }
+    cell.actorName.text = [[cast objectAtIndex:indexPath.row] objectForKey:@"name"];
+    if ([[[cast objectAtIndex:indexPath.row] objectForKey:@"role"] length] != 0){
+        cell.actorRole.text = [NSString stringWithFormat:@"%@", [[cast objectAtIndex:indexPath.row] objectForKey:@"role"]];
+        [cell.actorRole sizeToFit];
+    }
+    return cell;
+}
+
 #pragma mark - Gestures
+
 - (void)handleSwipeFromLeft:(id)sender {
     if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
         [self showNowPlaying];
@@ -1309,6 +1344,27 @@ int h=0;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+# pragma mark - Utility
+
+-(void) elabKenBurns:(UIImage *)image{
+    [self.kenView stopAnimation];
+    [self.kenView removeFromSuperview];
+    self.kenView = nil;
+    self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
+    self.kenView.autoresizingMask = fanartView.autoresizingMask;
+    self.kenView.contentMode = fanartView.contentMode;
+    self.kenView.delegate = self;
+    self.kenView.alpha = 0;
+    NSArray *backgroundImages = [NSArray arrayWithObjects:
+                                 image,
+                                 nil];
+    [self.kenView animateWithImages:backgroundImages
+                 transitionDuration:45
+                               loop:YES
+                        isLandscape:YES];
+    [self.view insertSubview:self.kenView atIndex:1];
+}
+
 # pragma  mark - Life Cycle
 
 - (void)setDetailItem:(id)newDetailItem{
@@ -1339,22 +1395,7 @@ int h=0;
     else{
         if (fanartView.image!=nil && self.kenView==nil){
             fanartView.alpha = 0;
-            [self.kenView stopAnimation];
-            [self.kenView removeFromSuperview];
-            self.kenView = nil;
-            self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
-            self.kenView.autoresizingMask = fanartView.autoresizingMask;
-            self.kenView.contentMode = fanartView.contentMode;
-            self.kenView.delegate = self;
-            self.kenView.alpha = 0;
-            NSArray *backgroundImages = [NSArray arrayWithObjects:
-                                         fanartView.image,
-                                         nil];
-            [self.kenView animateWithImages:backgroundImages
-                         transitionDuration:45
-                                       loop:YES
-                                isLandscape:YES];
-            [self.view insertSubview:self.kenView atIndex:1];
+            [self elabKenBurns:fanartView.image];
         }
         [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
@@ -1456,27 +1497,11 @@ int h=0;
                              self.kenView.alpha = 0;
                          }
                          completion:^(BOOL finished){
-                             [self.kenView stopAnimation];
-                             [self.kenView removeFromSuperview];
-                             self.kenView = nil;
-                             self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
-                             self.kenView.autoresizingMask = fanartView.autoresizingMask;
-                             self.kenView.contentMode = fanartView.contentMode;
-                             self.kenView.delegate = self;
-                             self.kenView.alpha = 0;
-                             NSArray *backgroundImages = [NSArray arrayWithObjects:
-                                                          fanartView.image,
-                                                          nil];
-                             [self.kenView animateWithImages:backgroundImages
-                                          transitionDuration:45
-                                                        loop:YES
-                                                 isLandscape:YES];
-                             [self.view insertSubview:self.kenView atIndex:1];
+                             [self elabKenBurns:fanartView.image];
                              [self alphaView:self.kenView AnimDuration:.2 Alpha:alphaValue];
                          }
          ];
     }
-
 }
 
 @end
