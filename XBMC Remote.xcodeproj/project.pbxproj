@@ -644,6 +644,7 @@
 		0FE5191615716AE800AE5D95 /* remote_button_xbmc_select_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE5190015716AE800AE5D95 /* remote_button_xbmc_select_up@2x.png */; };
 		0FE6087F164B3094009CA3A9 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6087E164B3094009CA3A9 /* Roboto-Regular.ttf */; };
 		0FEA79FC165FBBED00BB281F /* XBMCVirtualKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA79FB165FBBEC00BB281F /* XBMCVirtualKeyboard.m */; };
+		0FEAE76816EA632800387DED /* ActorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEAE76716EA632800387DED /* ActorCell.m */; };
 		0FF2F56D155ED28F00CB4885 /* tableLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2F56B155ED28F00CB4885 /* tableLeft@2x.png */; };
 		0FF2F56E155ED28F00CB4885 /* tableRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2F56C155ED28F00CB4885 /* tableRight@2x.png */; };
 		0FF4DC0615A36F12002F6D0C /* st_movie_recently_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF4DC0415A36F12002F6D0C /* st_movie_recently_off.png */; };
@@ -1371,6 +1372,8 @@
 		0FE6087E164B3094009CA3A9 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		0FEA79FA165FBBEC00BB281F /* XBMCVirtualKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBMCVirtualKeyboard.h; sourceTree = "<group>"; };
 		0FEA79FB165FBBEC00BB281F /* XBMCVirtualKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBMCVirtualKeyboard.m; sourceTree = "<group>"; };
+		0FEAE76616EA632800387DED /* ActorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActorCell.h; sourceTree = "<group>"; };
+		0FEAE76716EA632800387DED /* ActorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActorCell.m; sourceTree = "<group>"; };
 		0FF2F56B155ED28F00CB4885 /* tableLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tableLeft@2x.png"; sourceTree = "<group>"; };
 		0FF2F56C155ED28F00CB4885 /* tableRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tableRight@2x.png"; sourceTree = "<group>"; };
 		0FF4DC0415A36F12002F6D0C /* st_movie_recently_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_movie_recently_off.png; sourceTree = "<group>"; };
@@ -1473,6 +1476,8 @@
 				0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */,
 				0F40F5A4164D5FA000AF9DE9 /* RightMenuViewController.h */,
 				0F40F5A5164D5FA000AF9DE9 /* RightMenuViewController.m */,
+				0FEAE76616EA632800387DED /* ActorCell.h */,
+				0FEAE76716EA632800387DED /* ActorCell.m */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -3056,6 +3061,7 @@
 				0FB133AA165EC1E5003756C1 /* tcpJSONRPC.m in Sources */,
 				0FEA79FC165FBBED00BB281F /* XBMCVirtualKeyboard.m in Sources */,
 				0F90904516E53C590021EFA9 /* Utilities.m in Sources */,
+				0FEAE76816EA632800387DED /* ActorCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
