@@ -68,6 +68,8 @@
     int castWidth;
     int castHeight;
     int castFontSize;
+    int thumbWidth;
+    int tvshowHeight;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

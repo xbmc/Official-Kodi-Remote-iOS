@@ -262,6 +262,7 @@ int count=0;
     choosedTab = 0;
     id movieObj = nil;
     id movieObjKey = nil;
+    NSString *blackTableSeparator=@"NO";
     if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
         notificationName = @"UIApplicationEnableMusicSection";
         MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
@@ -306,6 +307,13 @@ int count=0;
             choosedMenuItem.mainLabel=actorName;
             [MenuItem setEnableSection:NO];
             [MenuItem setMainButtons:nil];
+            if ([AppDelegate instance].obj.preferTVPosters==YES){
+                thumbWidth = 53;
+                tvshowHeight = 76;
+            }
+            MenuItem.thumbWidth=thumbWidth;
+            MenuItem.rowHeight=tvshowHeight;
+            blackTableSeparator=@"YES";
         }
     }
     else{
@@ -344,6 +352,7 @@ int count=0;
                                         [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
                                         [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                         nil], @"parameters",
+                                       blackTableSeparator, @"blackTableSeparator",
                                        [parameters objectForKey:@"label"], @"label",
                                        [NSNumber numberWithBool:YES], @"fromShowInfo",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
@@ -565,10 +574,14 @@ int h=0;
     }
     clearLogoWidth = 300;
     clearLogoHeight = 116;
+    thumbWidth = 320;
+    tvshowHeight = 61;
     int shiftParentalRating = -20;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         clearLogoWidth = 457;
         clearLogoHeight = 177;
+        thumbWidth = 477;
+        tvshowHeight = 91;
         shiftParentalRating = -40;
         labelSpace = 33;
         placeHolderImage = @"coverbox_back@2x.png";
