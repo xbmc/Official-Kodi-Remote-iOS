@@ -154,6 +154,9 @@
 "ShortDateTimeFormat" = "dd.MM.YYYY";
 "LocaleIdentifier" = "de_DE";
 
+"No sever mac address definied" = "Keine Server-MAC-Adresse definiert";
+"Yes" = "Ja";
+"No" = "Nein";
 "Authentication Failed" = "Authentifizierung fehlgeschlagen";
 "Incorrect Username or Password.\nCheck your settings." = "Falscher Username oder Passwort.\nBitte überprüfe die Einstellungen.";
 
