@@ -1124,6 +1124,7 @@ int h=0;
 // END CLEARART
         
         UITableView *actorsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, startY, 320, [cast count]*(castHeight + 10)) style:UITableViewStylePlain];
+        [actorsTable setScrollsToTop:NO];
         [actorsTable setBackgroundColor:[UIColor clearColor]];
         [actorsTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
         [actorsTable setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin ];
