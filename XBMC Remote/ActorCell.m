@@ -8,6 +8,7 @@
 
 #import "ActorCell.h"
 #import <QuartzCore/QuartzCore.h>
+#import "AppDelegate.h"
 
 @implementation ActorCell
 
@@ -22,6 +23,9 @@ int offsetY = 5;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
+        if ([AppDelegate instance].serverVersion>11){
+            [self setSelectionStyle:UITableViewCellSelectionStyleGray];
+        }
         _actorThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(offsetX, offsetY, castWidth, castHeight)];
         [_actorThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_actorThumbnail setClipsToBounds:YES];
@@ -49,14 +53,16 @@ int offsetY = 5;
         [_actorRole setShadowOffset:CGSizeMake(1, 1)];
         [_actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];        
         [self addSubview:_actorRole];
+        
+        UIView *myBackView = [[UIView alloc] initWithFrame:self.frame];
+        myBackView.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.5];
+        self.selectedBackgroundView = myBackView;
     }
     return self;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated{
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

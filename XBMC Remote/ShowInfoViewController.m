@@ -258,33 +258,72 @@ int count=0;
 -(void)showContent:(id)sender{
     NSDictionary *item=self.detailItem;
     mainMenu *MenuItem = nil;
+    mainMenu *choosedMenuItem = nil;
     choosedTab = 0;
+    id movieObj = nil;
+    id movieObjKey = nil;
     if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
         notificationName = @"UIApplicationEnableMusicSection";
         MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+        choosedMenuItem = MenuItem.subItem;
+        choosedMenuItem.mainLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
+
     }
-    else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
+    else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"] && ![sender isKindOfClass:[NSString class]]){
         notificationName = @"UIApplicationEnableTvShowSection";
         MenuItem = [[AppDelegate instance].playlistTvShows copy];
+        choosedMenuItem = MenuItem.subItem;
+        choosedMenuItem.mainLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
+
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
         notificationName = @"UIApplicationEnableMusicSection";
         choosedTab = 1;
         MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+        choosedMenuItem = MenuItem.subItem;
+        choosedMenuItem.mainLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
+
     }
-//    MenuItem.subItem.mainLabel=@"";
-    MenuItem.subItem.mainLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
-    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
+    else if ([[item objectForKey:@"family"] isEqualToString:@"movieid"] && [AppDelegate instance].serverVersion>11){
+        if ([sender isKindOfClass:[NSString class]]){
+            NSString *actorName = (NSString *)sender;
+            choosedTab = 1;
+            MenuItem = [[AppDelegate instance].playlistMovies copy];
+            movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName,@"actor", nil];
+            movieObjKey = @"filter";
+            choosedMenuItem = MenuItem.subItem;
+            choosedMenuItem.mainLabel=actorName;
+        }
+    }
+    else if (([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"tvshowid"]) && [AppDelegate instance].serverVersion>11){
+        if ([sender isKindOfClass:[NSString class]]){
+            NSString *actorName = (NSString *)sender;
+            choosedTab = 0;
+            MenuItem = [[AppDelegate instance].playlistTvShows copy];
+            movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName,@"actor", nil];
+            movieObjKey = @"filter";
+            choosedMenuItem = MenuItem;
+            choosedMenuItem.mainLabel=actorName;
+        }
+    }
+    else{
+        return;
+    }
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[choosedMenuItem mainMethod] objectAtIndex:choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
         NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
-        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
+        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[choosedMenuItem mainParameters] objectAtIndex:choosedTab]];
         NSString *key=@"null";
         if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
             key=[mainFields objectForKey:@"row15"];
         }
         id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
         id objKey = [mainFields objectForKey:@"row6"];
-        if ([AppDelegate instance].serverVersion>11 && [[parameters objectForKey:@"disableFilterParameter"] boolValue] == FALSE){
+        if (movieObj!= nil && movieObjKey!=nil){
+            obj = movieObj;
+            objKey = movieObjKey;
+        }
+        else if ([AppDelegate instance].serverVersion>11 && [[parameters objectForKey:@"disableFilterParameter"] boolValue] == FALSE){
             obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
             objKey = @"filter";
         }
@@ -308,18 +347,18 @@ int count=0;
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        newSectionParameters, @"extra_section_parameters",
                                        nil];
-        [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-        MenuItem.subItem.chooseTab=choosedTab;
+        [[choosedMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        choosedMenuItem.chooseTab=choosedTab;
         if (![[item objectForKey:@"disableNowPlaying"] boolValue]){
-            MenuItem.subItem.disableNowPlaying = NO;
+            choosedMenuItem.disableNowPlaying = NO;
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            self.detailViewController.detailItem = MenuItem.subItem;
+            self.detailViewController.detailItem = choosedMenuItem;
             [self.navigationController pushViewController:self.detailViewController animated:YES];
         }
         else{
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
             [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
             [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
@@ -1224,6 +1263,12 @@ int h=0;
         [cell.actorRole sizeToFit];
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([AppDelegate instance].serverVersion>11){
+        [self showContent:[[cast objectAtIndex:indexPath.row] objectForKey:@"name"]];
+    }
 }
 
 #pragma mark - Gestures
