@@ -157,6 +157,7 @@
 "Audiostreams not available" = "Audiostreams not available";
 
 "LongDateTimeFormat" = "MMMM d, YYYY";
+"ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "en_US";
 
 "No sever mac address definied" = "No sever mac address definied";

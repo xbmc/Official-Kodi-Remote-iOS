@@ -70,8 +70,8 @@
 
 "No connection" = "Keine Verbindung";
 
-"Queue after current" = "Nach Aktuellem einordnen";
-"Queue" = "Einordnen";
+"Queue after current" = "Nach Aktuellem hinzufügen";
+"Queue" = "Hinzufügen";
 "Play" = "Abspielen";
 "Stream to iPhone" = "Zu iPhone streamen";
 "Search Wikipedia" = "Wikipedia durchsuchen";
@@ -101,11 +101,11 @@
 "%d results" = "%d Ergebnisse";
 "Music " = "Musik ";
 "Video " = "Video ";
-"Songs" = "Songs";
-"Song" = "Song";
-"Mins." = "Mins.";
+"Songs" = "Lieder";
+"Song" = "Lied";
+"Mins." = "Min.";
 "Min" = "Min";
-"Released %d" = "Released %d";
+"Released %d" = "Veröffentlicht %d";
 
 "Clear Playlist" = "Playliste löschen";
 "No server MAC address defined" = "Keine Server-MAC-Adresse definiert";
@@ -151,8 +151,10 @@
 "Audiostreams not available" = "Keine Audiospuren verfügbar";
 
 "LongDateTimeFormat" = "d. MMMM YYYY";
+"ShortDateTimeFormat" = "dd.MM.YYYY";
 "LocaleIdentifier" = "de_DE";
-"Authentication Failed" = "Authentication Failed";
-"Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
+
+"Authentication Failed" = "Authentifizierung fehlgeschlagen";
+"Incorrect Username or Password.\nCheck your settings." = "Falscher Username oder Passwort.\nBitte überprüfe die Einstellungen.";
 
 "WIKI_LANG" = "de";

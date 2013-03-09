@@ -91,6 +91,7 @@
 								<string key="NSFrame">{{0, 452}, {320, 8}}</string>
 								<reference key="NSSuperview" ref="993193761"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">4</int>
@@ -517,7 +518,7 @@
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<string key="IBUIText"/>
 								<int key="IBUIBorderStyle">1</int>
-								<string key="IBUIPlaceholder">e.g. My XBMC</string>
+								<string key="IBUIPlaceholder">z.B. Mein XBMC</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MAA</bytes>
@@ -799,7 +800,7 @@
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<string key="IBUIText"/>
 								<int key="IBUIBorderStyle">1</int>
-								<string key="IBUIPlaceholder">User</string>
+								<string key="IBUIPlaceholder">Username</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MAA</bytes>
@@ -831,7 +832,7 @@
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<string key="IBUIText"/>
 								<int key="IBUIBorderStyle">1</int>
-								<string key="IBUIPlaceholder">Password</string>
+								<string key="IBUIPlaceholder">Passwort</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MAA</bytes>
