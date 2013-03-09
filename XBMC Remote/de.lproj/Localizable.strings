@@ -161,3 +161,6 @@
 "Incorrect Username or Password.\nCheck your settings." = "Falscher Username oder Passwort.\nBitte überprüfe die Einstellungen.";
 
 "WIKI_LANG" = "de";
+
+"vote" = "Bewertung";
+"votes" = "Bewertungen";
