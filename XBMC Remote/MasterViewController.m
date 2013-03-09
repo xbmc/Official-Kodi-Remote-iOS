@@ -331,7 +331,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     if (timer == nil){
         timer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
-        [self checkServer];
+//        [self checkServer];
     }
 }
 
@@ -398,7 +398,7 @@
     menuItem.thumbWidth=thumbWidth;
     menuItem.rowHeight=tvshowHeight;
     [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
-    [self checkServer];
+//    [self checkServer];
 }
 
 -(void)dealloc{
