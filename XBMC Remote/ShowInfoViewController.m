@@ -304,6 +304,8 @@ int count=0;
             movieObjKey = @"filter";
             choosedMenuItem = MenuItem;
             choosedMenuItem.mainLabel=actorName;
+            [MenuItem setEnableSection:NO];
+            [MenuItem setMainButtons:nil];
         }
     }
     else{
@@ -347,6 +349,11 @@ int count=0;
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        newSectionParameters, @"extra_section_parameters",
                                        nil];
+        NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
+        if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
+            [mutableProperties addObject:@"art"];
+            [[newParameters objectAtIndex:0] setObject:mutableProperties forKey:@"properties"];
+        }
         [[choosedMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         choosedMenuItem.chooseTab=choosedTab;
         if (![[item objectForKey:@"disableNowPlaying"] boolValue]){
