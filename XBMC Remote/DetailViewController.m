@@ -2625,6 +2625,8 @@ NSIndexPath *selected;
                                              selector: @selector(handleSwipeFromLeft:)
                                                  name: @"ECSLidingSwipeLeft"
                                                object: nil];
+    [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
+    [dataList setScrollsToTop:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -2742,8 +2744,18 @@ NSIndexPath *selected;
 //    }
 }
 
+- (void) disableScrollsToTopPropertyOnAllSubviewsOf:(UIView *)view {
+    for (UIView *subview in view.subviews) {
+        if ([subview isKindOfClass:[UIScrollView class]]) {
+            ((UIScrollView *)subview).scrollsToTop = NO;
+        }
+        [self disableScrollsToTopPropertyOnAllSubviewsOf:subview];
+    }
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     thumbBorderWidth = 1.0f;
     enableBarColor = YES;
     utils = [[Utilities alloc] init];
