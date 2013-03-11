@@ -165,3 +165,11 @@
 "Incorrect Username or Password.\nCheck your settings." = "Username o Password errati.\nVerificare le impostazioni.";
 
 "WIKI_LANG" = "it";
+
+"Slide your finger up to adjust the scrubbing rate." = "Scorri il dito verso l'alto per regolare la velocità di scrubbing.";
+"Scrubbing 1" = "Scrubbing ad alta velocità";
+"Scrubbing 0.5" = "Scrubbing con velocità al 50%";
+"Scrubbing 0.25" = "Scrubbing con velocità al 25%";
+"Scrubbing 0.1" = "Scrubbing con velocità al 10%";
+"Scrubbing 0.05" = "Scrubbing con velocità al 5%";
+"Scrubbing 0.025" = "Scrubbing di precisione";

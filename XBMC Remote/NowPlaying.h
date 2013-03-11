@@ -11,6 +11,7 @@
 #import "VolumeSliderView.h"
 #import "UIImageView+WebCache.h"
 #import "RightMenuViewController.h"
+#import "OBSlider.h"
 
 @class ShowInfoViewController;
 @class RemoteController;
@@ -82,7 +83,7 @@
     int anim;
     int anim2;
     BOOL startFlipDemo;
-    IBOutlet UISlider *ProgressSlider;
+    IBOutlet OBSlider *ProgressSlider;
     NSIndexPath *selected;
     NSMutableArray *sheetActions;
     BOOL fromItself;
@@ -100,6 +101,9 @@
     int choosedTab;
     NSString *notificationName;
     __weak IBOutlet UIImageView *playlistLeftShadow;
+    __weak IBOutlet UIView *scrabbingView;
+    __weak IBOutlet UILabel *scrabbingMessage;
+    __weak IBOutlet UILabel *scrabbingRate;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
@@ -118,7 +122,7 @@
 @property (strong, nonatomic) UIButton *shuffleButton;
 @property (strong, nonatomic) UIButton *repeatButton;
 @property (strong, nonatomic) UIView *songDetailsView;
-@property (strong, nonatomic) UISlider *ProgressSlider;
+@property (strong, nonatomic) OBSlider *ProgressSlider;
 //@property BOOL presentedFromNavigation;
 
 

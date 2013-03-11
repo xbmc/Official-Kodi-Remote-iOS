@@ -19,6 +19,7 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "ShowInfoViewController.h"
+#import "OBSlider.h"
 
 @interface NowPlaying ()
 
@@ -1815,12 +1816,21 @@ int currentItemID;
     }
 }
 
+-(void)changeAlphaView:(UIView *)view alpha:(float)value time:(float)sec{
+    [UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDuration:sec];
+	view.alpha = value;
+    [UIView commitAnimations];
+}
+
 -(IBAction)stopUpdateProgressBar:(id)sender{
     updateProgressBar = FALSE;
+    [self changeAlphaView:scrabbingView alpha:1.0 time:0.3];
 }
 
 -(IBAction)startUpdateProgressBar:(id)sender{
     [self SimpleAction:@"Player.Seek" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", [NSNumber numberWithFloat:ProgressSlider.value], @"value", nil] reloadPlaylist:NO startProgressBar:YES];
+    [self changeAlphaView:scrabbingView alpha:0.0 time:0.3];
 }
 
 -(IBAction)updateCurrentTime:(id)sender{
@@ -1831,6 +1841,7 @@ int currentItemID;
         NSUInteger s = selectedTime % 60;
         NSString *displaySelectedTime=[NSString stringWithFormat:@"%@%02i:%02i", (globalSeconds < 3600) ? @"":[NSString stringWithFormat:@"%02i:", h], m, s];
         currentTime.text = displaySelectedTime;
+        scrabbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@",[NSNumber numberWithFloat:ProgressSlider.scrubbingSpeed]]), nil);
     }
 }
 
@@ -2497,6 +2508,8 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [scrabbingMessage setText:NSLocalizedString(@"Slide your finger up to adjust the scrubbing rate.", nil)];
+    [scrabbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
     sheetActions = [[NSMutableArray alloc] init];
     [[SDImageCache sharedImageCache] clearMemory];
     playerID = -1;
@@ -2552,6 +2565,9 @@ int currentItemID;
 
 - (void)viewDidUnload{
     playlistLeftShadow = nil;
+    scrabbingView = nil;
+    scrabbingMessage = nil;
+    scrabbingRate = nil;
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     volumeSliderView = nil;
