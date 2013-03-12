@@ -35,9 +35,6 @@
         xbmcVirtualKeyboard.delegate = self;
         xbmcVirtualKeyboard.autocorrectionType = UITextAutocorrectionTypeNo;
         xbmcVirtualKeyboard.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        if ([AppDelegate instance].serverVersion == 11){
-            xbmcVirtualKeyboard.text = @" ";
-        }
         [self addSubview:xbmcVirtualKeyboard];
         
         CGRect screenBound = [[UIScreen mainScreen] bounds];
@@ -104,6 +101,9 @@
 }
 
 -(void) showKeyboard:(NSNotification *)note{
+    if ([AppDelegate instance].serverVersion == 11){
+        xbmcVirtualKeyboard.text = @" ";
+    }
     NSDictionary *params;
     if (note!=nil){
         params = [[note userInfo] objectForKey:@"params"];
