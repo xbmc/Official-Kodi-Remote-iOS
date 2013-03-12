@@ -554,6 +554,7 @@
 								<reference key="NSNextKeyView" ref="714210518"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<int key="IBUITag">19</int>
+								<reference key="IBUIGestureRecognizers" ref="0"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
@@ -889,6 +890,7 @@
 			<object class="IBUILongPressGestureRecognizer" id="549245233"/>
 			<object class="IBUILongPressGestureRecognizer" id="47498672"/>
 			<object class="IBUILongPressGestureRecognizer" id="129859538"/>
+			<object class="IBUILongPressGestureRecognizer" id="114173479"/>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
@@ -1338,6 +1340,16 @@
 					<int key="connectionID">119</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
+						<string key="label">gestureRecognizers</string>
+						<reference key="source" ref="478187634"/>
+						<reference key="destination" ref="114173479"/>
+						<string key="cachedDesigntimeCollectionClassName">NSArray</string>
+						<bool key="addsContentToExistingCollection">YES</bool>
+					</object>
+					<int key="connectionID">198</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">startVibrate:</string>
 						<reference key="source" ref="714210518"/>
@@ -1430,6 +1442,14 @@
 						<reference key="destination" ref="372490531"/>
 					</object>
 					<int key="connectionID">196</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">handleButtonLongPress:</string>
+						<reference key="source" ref="114173479"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">199</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1524,6 +1544,7 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">118</int>
 						<reference key="object" ref="478187634"/>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="191373211"/>
 						<string key="objectName">Button - subtitles</string>
 					</object>
@@ -1723,6 +1744,12 @@
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Long Press Gesture Recognizer - fullscreen</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">197</int>
+						<reference key="object" ref="114173479"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">Long Press Gesture Recognizer - subtitles add-on</string>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1758,6 +1785,7 @@
 				<string key="175.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="178.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="194.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="197.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="1" key="25.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1803,7 +1831,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">196</int>
+			<int key="maxID">199</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1818,35 +1846,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">RemoteController</string>
 					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="handleButtonLongPress:">UILongPressGestureRecognizer</string>
-						<string key="holdKey:">id</string>
-						<string key="startVibrate:">id</string>
-						<string key="stopHoldKey:">id</string>
-						<string key="toggleQuickHelp:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="handleButtonLongPress:">
-							<string key="name">handleButtonLongPress:</string>
-							<string key="candidateClassName">UILongPressGestureRecognizer</string>
-						</object>
-						<object class="IBActionInfo" key="holdKey:">
-							<string key="name">holdKey:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="startVibrate:">
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">startVibrate:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">startVibrate:</string>
+						<object class="IBActionInfo" key="NS.object.0">
 							<string key="name">startVibrate:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="stopHoldKey:">
-							<string key="name">stopHoldKey:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleQuickHelp:">
-							<string key="name">toggleQuickHelp:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="TransitionalView">UIView</string>
 						<string key="buttonZoneView">UIView</string>
@@ -1905,10 +1915,6 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1552" key="NS.object.0"/>
-		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
