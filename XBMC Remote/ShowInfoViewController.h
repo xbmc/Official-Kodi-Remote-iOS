@@ -13,7 +13,7 @@
 @class NowPlaying;
 @class DetailViewController;
 
-@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate>{
+@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate>{
     IBOutlet UIImageView *coverView;
     IBOutlet UIImageView *starsView;
     IBOutlet UILabel *voteLabel;
@@ -70,6 +70,9 @@
     int castFontSize;
     int thumbWidth;
     int tvshowHeight;
+    UIWebView *trailerView;
+    NSString *embedVideoURL;
+    UIActivityIndicatorView *embedVideoActivityIndicator;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

@@ -1402,7 +1402,9 @@ NSIndexPath *selected;
         if (indexPath != nil || indexPath2 != nil ){
             selected=indexPath;
             selectedPoint=[lpgr locationInView:self.view];
-
+            if ([[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
+                [[[self.detailItem sheetActions] objectAtIndex:choosedTab] removeObject:NSLocalizedString(@"Play Trailer", nil)];
+            }
             NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
             int numActions=[sheetActions count];
             if (numActions){
@@ -1412,8 +1414,6 @@ NSIndexPath *selected;
                     selectedPoint=[longPressGesture locationInView:self.view];
                     item = [self.filteredListContent objectAtIndex:indexPath2.row];
                     [self.searchDisplayController.searchResultsTableView selectRowAtIndexPath:indexPath2 animated:YES scrollPosition:UITableViewScrollPositionNone];
-                    
-
                 }
                 else{
                     item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
@@ -1432,6 +1432,12 @@ NSIndexPath *selected;
                 action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
                 for (int i = 0; i < numActions; i++) {
                     [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+                }
+                if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
+                    if ([[item objectForKey:@"trailer"] length]!=0 && [[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
+                        [action addButtonWithTitle:NSLocalizedString(@"Play Trailer", nil)];
+                        [[[self.detailItem sheetActions] objectAtIndex:choosedTab] addObject:NSLocalizedString(@"Play Trailer", nil)];
+                    }
                 }
                 action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -1472,6 +1478,9 @@ NSIndexPath *selected;
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:NSLocalizedString(@"Details", nil)].location!= NSNotFound){
             [self showInfo:selected menuItem:self.detailItem item:item tabToShow:choosedTab];
+        }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
+            [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"trailer"], @"file", nil], @"item", nil] index:selected];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Stream to iPhone", nil)]){
             [self addStream:selected];
@@ -1637,6 +1646,10 @@ NSIndexPath *selected;
 
 # pragma mark - Playback Management
 
+//-(void)playTrailer:(NSDictionary *)params index:(NSIndexPath *) indexPath{
+//    
+//}
+
 -(void)addStream:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
@@ -1771,23 +1784,18 @@ NSIndexPath *selected;
 }
 
 -(void)openFile:(NSDictionary *)params index:(NSIndexPath *) indexPath{
+    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+    [queuing startAnimating];
     [jsonRPC callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [queuing stopAnimating];
         if (error==nil && methodError==nil){
-            UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
-            UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
-            [queuing stopAnimating];
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
-
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
             [self showNowPlaying];
-        }
-        else {
-            UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
-            UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
-            [queuing stopAnimating];
-            //                            NSLog(@"terzo errore %@",methodError);
         }
     }];
 }
+
 -(void)addPlayback:(NSIndexPath *)indexPath position:(int)pos{
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
     if ([mainFields count]==0){

@@ -73,6 +73,11 @@ int count=0;
                 }
             }
         }
+        if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
+            if ([[item objectForKey:@"trailer"] length] > 0){
+                [sheetActions addObject:NSLocalizedString(@"Play Trailer", nil)];
+            }
+        }
         BOOL fromAlbumView = NO;
         if (((NSNull *)[item objectForKey:@"fromAlbumView"] != [NSNull null])){
             fromAlbumView = [[item objectForKey:@"fromAlbumView"] boolValue];
@@ -356,13 +361,9 @@ int count=0;
                                        [parameters objectForKey:@"label"], @"label",
                                        [NSNumber numberWithBool:YES], @"fromShowInfo",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
+                                       [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
                                        newSectionParameters, @"extra_section_parameters",
                                        nil];
-        NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
-        if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
-            [mutableProperties addObject:@"art"];
-            [[newParameters objectAtIndex:0] setObject:mutableProperties forKey:@"properties"];
-        }
         [[choosedMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         choosedMenuItem.chooseTab=choosedTab;
         if (![[item objectForKey:@"disableNowPlaying"] boolValue]){
@@ -380,6 +381,21 @@ int count=0;
             [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
         }
     }
+}
+
+#pragma mark - UIWebView delegates
+
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    NSString *requestString = [[request URL] absoluteString];
+    return (([requestString isEqualToString:@"about:blank"] || [requestString isEqualToString:embedVideoURL]) || ([embedVideoURL rangeOfString:@"http://www.youtube.com/embed/"].location == NSNotFound));
+}
+
+-(void)webViewDidStartLoad:(UIWebView *)webView{
+    [embedVideoActivityIndicator startAnimating];
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView{
+    [embedVideoActivityIndicator stopAnimating];
 }
 
 #pragma mark - ActionSheet
@@ -426,6 +442,9 @@ int count=0;
         else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:NSLocalizedString(@"Resume from", nil)].location!= NSNotFound){
             [self addPlayback:resumePointPercentage];
             return;
+        }
+        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
+            [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"trailer"], @"file", nil], @"item", nil]];
         }
     }
 }
@@ -598,7 +617,7 @@ int h=0;
                     starsView.frame.size.height + size*2
                     )];
         [voteLabel setFont:[UIFont systemFontOfSize:26]];
-        [numVotesLabel setFont:[UIFont systemFontOfSize:18]];        
+        [numVotesLabel setFont:[UIFont systemFontOfSize:18]];
 
         NSArray *arrayLabels=[NSArray arrayWithObjects:
                               label1,
@@ -1102,27 +1121,100 @@ int h=0;
     frame = label6.frame;
     frame.origin.y = frame.origin.y + summaryLabel.frame.size.height + shiftParentalRating - 40;
     label6.frame = frame;
-    int startY = label6.frame.origin.y + 20 + size;
+    int startY = label6.frame.origin.y - label6.frame.size.height + size;
+    if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
+        if ([[item objectForKey:@"trailer"] length]> 0){
+            NSString *param = nil;
+            embedVideoURL = nil;
+            if (([[item objectForKey:@"trailer"] rangeOfString:@"plugin://plugin.video.youtube"].location!= NSNotFound)){
+                NSString *url = [[item objectForKey:@"trailer"] lastPathComponent];
+                NSRange start = [url rangeOfString:@"videoid="];
+                if (start.location != NSNotFound){
+                    param = [url substringFromIndex:start.location + start.length];
+                    NSRange end = [param rangeOfString:@"&"];
+                    if (end.location != NSNotFound){
+                        param = [param substringToIndex:end.location];
+                    }
+                }
+                if ([param length] > 0){
+                    NSString *param = nil;
+                    NSString *url = [[item objectForKey:@"trailer"] lastPathComponent];
+                    NSRange start = [url rangeOfString:@"videoid="];
+                    if (start.location != NSNotFound){
+                        param = [url substringFromIndex:start.location + start.length];
+                        NSRange end = [param rangeOfString:@"&"];
+                        if (end.location != NSNotFound){
+                            param = [param substringToIndex:end.location];
+                        }
+                    }
+                    embedVideoURL = [NSString stringWithFormat:@"http://www.youtube.com/embed/%@?&hd=1&autohide=1&rel=0", param];
+                }
+            }
+            else{
+                embedVideoURL = [item objectForKey:@"trailer"];
+            }
+            if (embedVideoURL != nil){
+                startY = startY + 20;
+                UILabel *trailerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, label1.frame.size.height)];
+                [trailerLabel setText:NSLocalizedString(@"TRAILER", nil)];
+                [trailerLabel setTextColor:label1.textColor];
+                [trailerLabel setFont:label1.font];
+                [trailerLabel setShadowColor:label1.shadowColor];
+                [trailerLabel setShadowOffset:label1.shadowOffset];
+                [trailerLabel setBackgroundColor:[UIColor clearColor]];
+                [scrollView addSubview:trailerLabel];
+                startY = startY + label1.frame.size.height;
+                int videoHeight = (int)((clearLogoWidth * 9) / 16);
+                if (trailerView == nil){
+                    trailerView = [[UIWebView alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, videoHeight)];
+                    trailerView.delegate = self;
+                }
+                if (((NSNull *)[[trailerView subviews] objectAtIndex:0] != [NSNull null])){
+                    ((UIScrollView *)[[trailerView subviews] objectAtIndex:0]).scrollsToTop = NO;
+                }
+                [trailerView setBackgroundColor:[UIColor colorWithRed:0.5f green:0.5f blue:0.5f alpha:0.5f]];
+                [trailerView setClipsToBounds: NO];
+                trailerView.layer.shadowColor = [UIColor blackColor].CGColor;
+                trailerView.layer.shadowOpacity = 0.7f;
+                trailerView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+                trailerView.layer.shadowRadius = 3.0f;
+                trailerView.layer.masksToBounds = NO;
+                
+                UIBezierPath *path = [UIBezierPath bezierPathWithRect:trailerView.bounds];
+                trailerView.layer.shadowPath = path.CGPath;
+                
+                [trailerView.layer setBorderWidth:1];
+                [trailerView.layer setBorderColor:[[UIColor blackColor] CGColor]];
+                NSString *embedVideo = [NSString stringWithFormat:@"\
+                                          <html>\
+                                          <head>\
+                                          <style type=\"text/css\">\
+                                          iframe {position:absolute; top:50%%; margin-top:-%dpx;}\
+                                          body {background-color:#000; margin:0;}\
+                                          </style>\
+                                          </head>\
+                                          <body>\
+                                          <iframe width=\"100%%\" height=\"%dpx\" src=\"%@\" frameborder=\"0\" allowfullscreen></iframe>\
+                                          </body>\
+                                          </html>", videoHeight/2, videoHeight, embedVideoURL];
+                
+                [trailerView loadHTMLString:embedVideo baseURL:nil];
+                embedVideoActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+                embedVideoActivityIndicator.hidesWhenStopped = YES;
+                embedVideoActivityIndicator.center = CGPointMake(clearLogoWidth/2, videoHeight/2);
+                [trailerView addSubview:embedVideoActivityIndicator];
+                [embedVideoActivityIndicator startAnimating];
+                [scrollView addSubview:trailerView];
+                startY = startY + videoHeight - 10;
+            }
+        }
+    }
+    frame = label6.frame;
+    frame.origin.y = startY + 20;
+    label6.frame = frame;
+    startY = startY + 16 + size + label6.frame.size.height;
     if (![[item objectForKey:@"family"] isEqualToString:@"albumid"] && ![[item objectForKey:@"family"] isEqualToString:@"artistid"]){// TRANSFORM IN SHOW_CAST BOOLEAN
         cast = [item objectForKey:@"cast"];
-// CLEARART AS CAST TITLE
-//        if ([[item objectForKey:@"clearart"] length] != 0){
-//            UIImageView *clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
-//            [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
-//            [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
-//            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearart"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-//            [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
-//            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-//                [clearLogoImageView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
-//            }
-//            [scrollView addSubview:clearLogoImageView];
-//            startY = startY + 20 + clearLogoHeight;
-//            frame = label6.frame;
-//            frame.origin.y = frame.origin.y+clearLogoHeight + 20;
-//            label6.frame = frame;
-//        }
-// END CLEARART
-        
         UITableView *actorsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, startY, 320, [cast count]*(castHeight + 10)) style:UITableViewStylePlain];
         [actorsTable setScrollsToTop:NO];
         [actorsTable setBackgroundColor:[UIColor clearColor]];
@@ -1395,6 +1487,17 @@ int h=0;
     }];
 }
 
+-(void)openFile:(NSDictionary *)params{
+    [activityIndicatorView startAnimating];
+    [jsonRPC callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [activityIndicatorView stopAnimating];
+        if (error==nil && methodError==nil){
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+            [self showNowPlaying];
+        }
+    }];
+}
+
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance];
@@ -1530,6 +1633,12 @@ int h=0;
 }
 
 -(void)dealloc{
+    trailerView.delegate = nil;
+    [trailerView stopLoading];
+    [trailerView removeFromSuperview];
+    trailerView = nil;
+    kenView = nil;
+    clearLogoImageView = nil;
     nowPlaying=nil;
     jsonRPC=nil;
     fanartView=nil;
