@@ -1147,7 +1147,7 @@ int h=0;
                             param = [param substringToIndex:end.location];
                         }
                     }
-                    embedVideoURL = [NSString stringWithFormat:@"http://www.youtube.com/embed/%@?&hd=1&autohide=1&rel=0", param];
+                    embedVideoURL = [NSString stringWithFormat:@"http://www.youtube.com/embed/%@?&hd=1&showinfo=0&autohide=1&rel=0", param];
                 }
             }
             else{
