@@ -70,6 +70,7 @@
     int castFontSize;
     int thumbWidth;
     int tvshowHeight;
+    UITableView *actorsTable;
     UIWebView *trailerView;
     NSString *embedVideoURL;
     UIActivityIndicatorView *embedVideoActivityIndicator;

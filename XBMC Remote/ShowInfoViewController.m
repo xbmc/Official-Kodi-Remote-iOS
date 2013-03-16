@@ -1215,7 +1215,9 @@ int h=0;
     startY = startY + 16 + size + label6.frame.size.height;
     if (![[item objectForKey:@"family"] isEqualToString:@"albumid"] && ![[item objectForKey:@"family"] isEqualToString:@"artistid"]){// TRANSFORM IN SHOW_CAST BOOLEAN
         cast = [item objectForKey:@"cast"];
-        UITableView *actorsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, startY, 320, [cast count]*(castHeight + 10)) style:UITableViewStylePlain];
+        if (actorsTable == nil){
+            actorsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, startY, 320, [cast count]*(castHeight + 10)) style:UITableViewStylePlain];
+        }
         [actorsTable setScrollsToTop:NO];
         [actorsTable setBackgroundColor:[UIColor clearColor]];
         [actorsTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -1568,7 +1570,7 @@ int h=0;
         }
         [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
-
+    [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -1637,6 +1639,9 @@ int h=0;
     [trailerView stopLoading];
     [trailerView removeFromSuperview];
     trailerView = nil;
+    actorsTable = nil;
+    [kenView removeFromSuperview];
+    [self.kenView removeFromSuperview];
     kenView = nil;
     clearLogoImageView = nil;
     nowPlaying=nil;
