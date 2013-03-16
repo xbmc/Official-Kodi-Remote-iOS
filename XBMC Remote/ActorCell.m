@@ -26,14 +26,25 @@ int offsetY = 5;
         if ([AppDelegate instance].serverVersion>11){
             [self setSelectionStyle:UITableViewCellSelectionStyleGray];
         }
-        _actorThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(offsetX, offsetY, castWidth, castHeight)];
+        
+        UIView *actorContainer = [[UIView alloc] initWithFrame:CGRectMake(offsetX, offsetY, castWidth, castHeight)];
+        [actorContainer setClipsToBounds: NO];
+        [actorContainer setBackgroundColor:[UIColor clearColor]];
+        actorContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+        actorContainer.layer.shadowOpacity = 0.7f;
+        actorContainer.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+        actorContainer.layer.shadowRadius = 2.0f;
+        actorContainer.layer.masksToBounds = NO;
+        UIBezierPath *path = [UIBezierPath bezierPathWithRect:actorContainer.bounds];
+        actorContainer.layer.shadowPath = path.CGPath;
+        
+        _actorThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, castWidth, castHeight)];
         [_actorThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_actorThumbnail setClipsToBounds:YES];
         [_actorThumbnail setContentMode:UIViewContentModeScaleAspectFill];
-        [_actorThumbnail.layer setBorderColor: [[UIColor darkGrayColor] CGColor]];
-        [_actorThumbnail.layer setBorderWidth: 1.0];
         [_actorThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
-        [self addSubview:_actorThumbnail];
+        [actorContainer addSubview:_actorThumbnail];
+        [self addSubview:actorContainer];
         
         _actorName=[[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, offsetY, self.frame.size.width - (castWidth + offsetX + 20) , 16 + size)];
         [_actorName setFont:[UIFont systemFontOfSize:castFontSize]];
