@@ -30,7 +30,7 @@ int offsetY = 5;
         UIView *actorContainer = [[UIView alloc] initWithFrame:CGRectMake(offsetX, offsetY, castWidth, castHeight)];
         [actorContainer setClipsToBounds: NO];
         [actorContainer setBackgroundColor:[UIColor clearColor]];
-        actorContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+        actorContainer.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8].CGColor;
         actorContainer.layer.shadowOpacity = 0.7f;
         actorContainer.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
         actorContainer.layer.shadowRadius = 2.0f;
