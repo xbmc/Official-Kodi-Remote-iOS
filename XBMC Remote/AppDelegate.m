@@ -1176,7 +1176,9 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"thumbnail", @"playcount", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Movie Sets", nil), @"label", nil],
+                            nil], @"parameters",
+                           @"YES", @"enableCollectionView",
+                           NSLocalizedString(@"Movie Sets", nil), @"label", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1191,6 +1193,7 @@ NSMutableArray *hostRightMenuItems;
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                             nil], @"extra_info_parameters",
                            @"YES", @"FrodoExtraArt",
+                           @"YES", @"enableCollectionView",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
