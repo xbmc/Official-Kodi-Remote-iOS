@@ -1,5 +1,5 @@
 //
-//  posterCell.h
+//  PosterCell.h
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 17/3/13.
@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PosterLabel.h"
 
-@interface posterCell : UICollectionViewCell
+@interface PosterCell : UICollectionViewCell
 
 @property (nonatomic, readonly) UIImageView *posterThumbnail;
+@property (nonatomic, readonly) PosterLabel *posterLabel;
 
 @end

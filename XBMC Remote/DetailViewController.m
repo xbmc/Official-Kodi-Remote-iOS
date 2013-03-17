@@ -23,7 +23,8 @@
 #import "StackScrollViewController.h"
 #import "QuartzCore/CALayer.h"
 #import <QuartzCore/QuartzCore.h>
-#import "posterCell.h"
+#import "PosterCell.h"
+#import "PosterLabel.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -416,14 +417,14 @@
     return [richResults count];
 }
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return  1;
+}
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"Cell";
-    
-    posterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    if (cell == nil){
-        NSLog(@"era  nil");
-    }
+    PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     NSDictionary *item=[richResults objectAtIndex:indexPath.row];
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *displayThumb=defaultThumb;
@@ -432,27 +433,17 @@
             displayThumb=stringURL;
         }
     }
-//    NSLog(@"URL %d - %@", indexPath.row, stringURL);
-  
-    UIImageView *_posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 105.0f, 134.0f)];
-    [_posterThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
-    [_posterThumbnail setClipsToBounds:YES];
-    [_posterThumbnail setContentMode:UIViewContentModeScaleAspectFill];
-    [_posterThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
-    [_posterThumbnail setBackgroundColor:[UIColor grayColor]];
+    int checkNum=numResults;
     if (![stringURL isEqualToString:@""]){
-        [_posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+            [[SDImageCache sharedImageCache] clearMemory];
+        }
+        [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
     }
     else {
-        [_posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
     }
-    [cell addSubview:_posterThumbnail];
-//    cell.posterThumbnail.image = [UIImage imageNamed:@"speech_balloon"];
-
-//    cell.posterThumbnail = nil;
-//    [cell setBackgroundColor:[UIColor redColor]];
-//    cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"speech_ballon"]];
-    
+    [cell.posterLabel setText:[item objectForKey:@"label"]];
     return cell;
 }
 
@@ -3006,14 +2997,15 @@ NSIndexPath *selected;
     enableCollectionView = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES);
     if (enableCollectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        [flowLayout setItemSize:CGSizeMake(105.0f, 134.0f)];
-        [flowLayout setMinimumInteritemSpacing:2.0f];
-        [flowLayout setMinimumLineSpacing:2.0f];
+        [flowLayout setItemSize:CGSizeMake(104.0f, 149.0f)];
+        [flowLayout setMinimumInteritemSpacing:4.0f];
+        [flowLayout setMinimumLineSpacing:4.0f];
+        [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
-        [collectionView setBackgroundColor:[UIColor clearColor]];
+        [collectionView setBackgroundColor:[UIColor blackColor]];
         [collectionView setDelegate:self];
         [collectionView setDataSource:self];
-        [collectionView registerClass:[posterCell class] forCellWithReuseIdentifier:@"Cell"];
+        [collectionView registerClass:[PosterCell class] forCellWithReuseIdentifier:@"Cell"];
         [collectionView setAutoresizingMask:dataList.autoresizingMask];
         [dataList setDelegate:nil];
         [dataList setDataSource:nil];
