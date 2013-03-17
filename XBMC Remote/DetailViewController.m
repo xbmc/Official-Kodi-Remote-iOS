@@ -336,7 +336,7 @@
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     
-    BOOL newEnableCollectionView = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES);
+    BOOL newEnableCollectionView = [self collectionViewIsEnabled];
     float animDuration = 0.3f;
     if (newEnableCollectionView != enableCollectionView){
         animDuration = 0.0;
@@ -349,6 +349,7 @@
     }
     enableCollectionView = newEnableCollectionView;
     if (enableCollectionView){
+        [self initCollectionView];
         [dataList setDelegate:nil];
         [dataList setDataSource:nil];
         [collectionView setDelegate:self];
@@ -433,11 +434,11 @@
             displayThumb=stringURL;
         }
     }
-    int checkNum=numResults;
+//    int checkNum=numResults;
     if (![stringURL isEqualToString:@""]){
-        if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-            [[SDImageCache sharedImageCache] clearMemory];
-        }
+//        if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+//            [[SDImageCache sharedImageCache] clearMemory];
+//        }
         [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
     }
     else {
@@ -778,7 +779,7 @@ int originYear = 0;
 //            if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
 //                [[SDImageCache sharedImageCache] clearMemory];
 //            }
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
         }
         else {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
@@ -2932,6 +2933,32 @@ NSIndexPath *selected;
     }
 }
 
+-(BOOL)collectionViewIsEnabled{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:@"grid_preference"] boolValue] == YES));
+}
+
+-(void)initCollectionView{
+    if (collectionView == nil){
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        [flowLayout setItemSize:CGSizeMake(104.0f, 149.0f)];
+        [flowLayout setMinimumInteritemSpacing:4.0f];
+        [flowLayout setMinimumLineSpacing:4.0f];
+        [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+        collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
+        [collectionView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+        [collectionView setDelegate:self];
+        [collectionView setDataSource:self];
+        [collectionView registerClass:[PosterCell class] forCellWithReuseIdentifier:@"Cell"];
+        [collectionView setAutoresizingMask:dataList.autoresizingMask];
+        [dataList setDelegate:nil];
+        [dataList setDataSource:nil];
+        [self.view addSubview:collectionView];
+    }
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
@@ -2994,24 +3021,11 @@ NSIndexPath *selected;
     CGRect frame=dataList.frame;
     frame.origin.x = viewWidth;
     dataList.frame=frame;
-    enableCollectionView = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES);
+    enableCollectionView = [self collectionViewIsEnabled];
     if (enableCollectionView) {
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        [flowLayout setItemSize:CGSizeMake(104.0f, 149.0f)];
-        [flowLayout setMinimumInteritemSpacing:4.0f];
-        [flowLayout setMinimumLineSpacing:4.0f];
-        [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-        collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
-        [collectionView setBackgroundColor:[UIColor blackColor]];
-        [collectionView setDelegate:self];
-        [collectionView setDataSource:self];
-        [collectionView registerClass:[PosterCell class] forCellWithReuseIdentifier:@"Cell"];
-        [collectionView setAutoresizingMask:dataList.autoresizingMask];
-        [dataList setDelegate:nil];
-        [dataList setDataSource:nil];
-        [self.view addSubview:collectionView];
+        [self initCollectionView];
     }
-    [[SDImageCache sharedImageCache] clearMemory];
+//    [[SDImageCache sharedImageCache] clearMemory];
     //    manager = [SDWebImageManager sharedManager];
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
