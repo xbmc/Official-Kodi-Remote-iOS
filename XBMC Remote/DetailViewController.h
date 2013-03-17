@@ -84,6 +84,8 @@
     Utilities *utils;
     UICollectionView *collectionView;
     BOOL enableCollectionView;
+    int cellGridWidth;
+    int cellGridHeight;
 }
 
 - (id)initWithFrame:(CGRect)frame;

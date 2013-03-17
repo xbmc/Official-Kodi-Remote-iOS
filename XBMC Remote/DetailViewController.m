@@ -2864,6 +2864,8 @@ NSIndexPath *selected;
     albumFontSize = 15;
     trackCountFontSize = 11;
     labelPadding = 8;
+    cellGridWidth =104.0f;
+    cellGridHeight =  149.0f;
 }
 
 -(void)setIpadInterface{
@@ -2877,6 +2879,10 @@ NSIndexPath *selected;
     albumFontSize = 18;
     trackCountFontSize = 13;
     labelPadding = 8;
+//    cellGridWidth =116.0f;
+//    cellGridHeight =  166.0f;
+    cellGridWidth =156.0f;
+    cellGridHeight =  224.0f;
 //    if (!(albumView || episodesView)){
 //        int titleWidth = 400;
 //        topNavigationLabel.numberOfLines=1;
@@ -2943,7 +2949,7 @@ NSIndexPath *selected;
 -(void)initCollectionView{
     if (collectionView == nil){
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        [flowLayout setItemSize:CGSizeMake(104.0f, 149.0f)];
+        [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
         [flowLayout setMinimumInteritemSpacing:4.0f];
         [flowLayout setMinimumLineSpacing:4.0f];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
@@ -2955,7 +2961,7 @@ NSIndexPath *selected;
         [collectionView setAutoresizingMask:dataList.autoresizingMask];
         [dataList setDelegate:nil];
         [dataList setDataSource:nil];
-        [self.view addSubview:collectionView];
+        [detailView addSubview:collectionView];
     }
 }
 
