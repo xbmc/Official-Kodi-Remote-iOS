@@ -21,7 +21,7 @@
 @class PlayFileViewController;
 //@class DetailViewController;
 
-@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UISearchBarDelegate>{
+@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate>{
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     DSJSONRPC *jsonRPC;
@@ -82,6 +82,8 @@
     UIColor *searchBarColor;
     BOOL enableBarColor;
     Utilities *utils;
+    UICollectionView *collectionView;
+    BOOL enableCollectionView;
 }
 
 - (id)initWithFrame:(CGRect)frame;
