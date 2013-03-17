@@ -434,11 +434,11 @@
             displayThumb=stringURL;
         }
     }
-//    int checkNum=numResults;
+    int checkNum=numResults;
     if (![stringURL isEqualToString:@""]){
-//        if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-//            [[SDImageCache sharedImageCache] clearMemory];
-//        }
+        if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+            [[SDImageCache sharedImageCache] clearMemory];
+        }
         [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
     }
     else {
@@ -949,9 +949,9 @@ int originYear = 0;
             runtimeyear.hidden = NO;
         }
         if (![stringURL isEqualToString:@""]){
-//            if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-//                [[SDImageCache sharedImageCache] clearMemory];
-//            }
+            if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+                [[SDImageCache sharedImageCache] clearMemory];
+            }
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
         }
         else {

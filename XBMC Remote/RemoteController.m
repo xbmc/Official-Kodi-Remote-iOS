@@ -1128,7 +1128,7 @@ NSInteger buttonAction;
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self configureView];
-//    [[SDImageCache sharedImageCache] clearMemory];
+    [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
     UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger.png"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

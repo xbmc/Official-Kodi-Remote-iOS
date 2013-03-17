@@ -2457,7 +2457,7 @@ int currentItemID;
     [scrabbingMessage setText:NSLocalizedString(@"Slide your finger up to adjust the scrubbing rate.", nil)];
     [scrabbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
     sheetActions = [[NSMutableArray alloc] init];
-//    [[SDImageCache sharedImageCache] clearMemory];
+    [[SDImageCache sharedImageCache] clearMemory];
     playerID = -1;
     selectedPlayerID = -1;
     lastSelected = -1;
