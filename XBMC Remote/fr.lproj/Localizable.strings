@@ -30,6 +30,7 @@
 "Music Videos" = "Clips Vidéo";
 "Added Movies" = "Récemment Ajouté";
 "More (%d)" = "Autre (%d)";
+"Movie Sets" = "Movie Sets";
 
 "Albums" = "Albums";
 "Artists" = "Artistes";
@@ -170,3 +171,11 @@
 
 "vote" = "vote";
 "votes" = "votes";
+
+"Slide your finger up to adjust the scrubbing rate." = "Slide your finger up to adjust the scrubbing rate.";
+"Scrubbing 1" = "Hi-Speed Scrubbing";
+"Scrubbing 0.5" = "Half-Speed Scrubbing";
+"Scrubbing 0.25" = "Quarter-Speed Scrubbing";
+"Scrubbing 0.1" = "Fine Scrubbing";
+"Scrubbing 0.05" = "Very-Fine Scrubbing";
+"Scrubbing 0.025" = "Ultra-Fine Scrubbing";
