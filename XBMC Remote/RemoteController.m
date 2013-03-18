@@ -991,7 +991,15 @@ NSInteger buttonAction;
             
             case 15:// CONTEXT MENU 
                 [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:@"SendKey(0xF043)"];
-                break;    
+                break;
+                
+            case 19:// SUBTITLES BUTTON
+                [self GUIAction:@"Addons.ExecuteAddon"
+                         params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                               @"script.xbmc.subtitles", @"addonid",
+                                                               nil]
+                httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
+                break;
             
             default:
                 break;
