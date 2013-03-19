@@ -820,8 +820,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		
 		NSInteger viewControllerCount = [viewControllersStack count];
 		for (int i = indexOfViewController; i < viewControllerCount; i++) {
+            [viewControllersStack removeObjectAtIndex:indexOfViewController];
 			[[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
-			[viewControllersStack removeObjectAtIndex:indexOfViewController];
 			viewXPosition = self.view.frame.size.width - [controller view].frame.size.width;
 		}
 	}else if([viewControllersStack count] == 0) {
