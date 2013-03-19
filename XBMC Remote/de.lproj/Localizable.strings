@@ -57,11 +57,17 @@
 "Hibernate" = "Ruhezustand";
 "Suspend" = "Standby";
 "Reboot" = "Neu starten";
+
 "Quit XBMC application" = "XBMC beenden";
 "Update Audio Library" = "Audiobibliothek aktualisieren";
+"Update Audio" = "Aktualisieren";
 "Clean Audio Library" = "Audiobibliothek bereinigen";
+"Clean Audio" = "Bereinigen";
 "Update Video Library" = "Videobibliothek aktualisieren";
+"Update Video" = "Aktualisieren";
 "Clean Video Library" = "Videobibliothek bereinigen";
+"Clean Video" = "Bereinigen";
+"Quit" = "Beenden";
 
 "Keyboard" = "Tastatur";
 "Gesture Zone" = "Gestenbereich";
