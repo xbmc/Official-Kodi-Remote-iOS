@@ -32,7 +32,6 @@
         [_posterLabel setTextColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
         [_posterLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6]];
         [_posterLabel setShadowOffset:CGSizeMake(0,1)];
-        [_posterLabel setFont:[UIFont boldSystemFontOfSize:11.0f]];
         [_posterLabel setNumberOfLines:2];
         [_posterLabel setMinimumFontSize:8.0f];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
