@@ -16,7 +16,7 @@
 "Movies" = "Filme";
 "TV Shows" = "TV-Serien";
 "Pictures" = "Bilder";
-"Now Playing" = "Gerade gespielt";
+"Now Playing" = "Gerade spielt";
 "Remote Control" = "Fernbedienung";
 "XBMC Server" = "XBMC Server";
 "New XBMC Server" = "Neuer XBMC Server";
@@ -41,7 +41,7 @@
 "Recently added songs" = "Kürzlich hinzugefügte Lieder";
 "Top 100 Albums" = "Top 100 Alben";
 "Top 100 Songs" = "Top 100 Lieder";
-"Played albums" = "Gespielte Albe";
+"Played albums" = "Gespielte Alben";
 "Recently played albums" = "Kürzlich gespielte Alben";
 "Played songs" = "Gespielte Lieder";
 "Recently played songs" = "Kürzlich gespielte Lieder";
