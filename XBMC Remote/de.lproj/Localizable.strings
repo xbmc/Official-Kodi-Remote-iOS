@@ -10,13 +10,13 @@
 "Watch your" = "Schaue deine";
 "Browse your" = "Durchsuche deine";
 "See what's" = "Schaue was";
-"Use as" = "Benutze als";
+"Use as" = "Benutze die";
 
 "Music" = "Musik";
 "Movies" = "Filme";
-"TV Shows" = "TV Serien";
+"TV Shows" = "TV-Serien";
 "Pictures" = "Bilder";
-"Now Playing" = "Gerade gespielt";
+"Now Playing" = "Gerade spielt";
 "Remote Control" = "Fernbedienung";
 "XBMC Server" = "XBMC Server";
 "New XBMC Server" = "Neuer XBMC Server";
@@ -41,38 +41,45 @@
 "Recently added songs" = "Kürzlich hinzugefügte Lieder";
 "Top 100 Albums" = "Top 100 Alben";
 "Top 100 Songs" = "Top 100 Lieder";
-"Played albums" = "Gespielte Albe";
+"Played albums" = "Gespielte Alben";
 "Recently played albums" = "Kürzlich gespielte Alben";
 "Played songs" = "Gespielte Lieder";
 "Recently played songs" = "Kürzlich gespielte Lieder";
 "All songs" = "Alle Lieder";
 "Music Addons" = "Musik Addons";
-"Music Playlists" = "Music Playlists";
+"Music Playlists" = "Musik Playlisten";
 
 "Added Episodes" = "Hinzugefügte Episoden";
 
 "Pictures Addons" = "Bilder Addons";
 
 "Power off System" = "System ausschalten";
+"Power off" = "Ausschalten";
 "Hibernate" = "Ruhezustand";
 "Suspend" = "Standby";
 "Reboot" = "Neu starten";
+
 "Quit XBMC application" = "XBMC beenden";
 "Update Audio Library" = "Audiobibliothek aktualisieren";
+"Update Audio" = "Aktualisieren";
 "Clean Audio Library" = "Audiobibliothek bereinigen";
+"Clean Audio" = "Bereinigen";
 "Update Video Library" = "Videobibliothek aktualisieren";
+"Update Video" = "Aktualisieren";
 "Clean Video Library" = "Videobibliothek bereinigen";
+"Clean Video" = "Bereinigen";
+"Quit" = "Beenden";
 
 "Keyboard" = "Tastatur";
-"Gesture Zone" = "Gestenzone";
-"Button Pad" = "Button Pad";
+"Gesture Zone" = "Gestenbereich";
+"Button Pad" = "Tastenfeld";
 "Help Screen" = "Hilfeseite";
 "LED Torch" = "LED-Licht";
 
 "No connection" = "Keine Verbindung";
 
-"Queue after current" = "Nach Aktuellem einordnen";
-"Queue" = "Einordnen";
+"Queue after current" = "Nach Aktuellem hinzufügen";
+"Queue" = "Hinzufügen";
 "Play" = "Abspielen";
 "Stream to iPhone" = "Zu iPhone streamen";
 "Search Wikipedia" = "Wikipedia durchsuchen";
@@ -84,8 +91,8 @@
 "Movie Details" = "Filmdetails";
 "Episode Details" = "Episondenetails";
 "TV Show Details" = "Seriendetails";
-"Music Video Details" = "Music-Video Details";
-"Details" = "details";
+"Music Video Details" = "Musikvideo Details";
+"Details" = "Details";
 
 "Playlist" = "Abspielliste";
 "Nothing is playing" = "Nichts wird gespielt";
@@ -100,13 +107,13 @@
 "Episodes: %@" = "Episoden: %@";
 "1 result" = "1 Ergebnis";
 "%d results" = "%d Ergebnisse";
-"Music " = "Music ";
+"Music " = "Musik ";
 "Video " = "Video ";
-"Songs" = "Songs";
-"Song" = "Song";
-"Mins." = "Mins.";
+"Songs" = "Lieder";
+"Song" = "Lied";
+"Mins." = "Min.";
 "Min" = "Min";
-"Released %d" = "Released %d";
+"Released %d" = "Veröffentlicht %d";
 
 "Clear Playlist" = "Playliste löschen";
 "No server MAC address defined" = "Keine Server-MAC-Adresse definiert";
@@ -148,19 +155,28 @@
 "resolution" = "Auflösung";
 "aspect ratio" = "Seitenverhältnis";
 "Subtitles not available" = "Keine Untertitel verfügbar";
-"Audiostreams not available" = "Keine Audiospuren nicht verfügbar";
+"Audiostream not available" = "Audiospur nicht verfügbar";
+"Audiostreams not available" = "Keine Audiospuren verfügbar";
 
 "LongDateTimeFormat" = "d. MMMM YYYY";
+"ShortDateTimeFormat" = "dd.MM.YYYY";
 "LocaleIdentifier" = "de_DE";
-"Authentication Failed" = "Authentication Failed";
-"Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
+
+"No sever mac address definied" = "Keine Server-MAC-Adresse definiert";
+"Yes" = "Ja";
+"No" = "Nein";
+"Authentication Failed" = "Authentifizierung fehlgeschlagen";
+"Incorrect Username or Password.\nCheck your settings." = "Falscher Username oder Passwort.\nBitte überprüfe die Einstellungen.";
 
 "WIKI_LANG" = "de";
 
-"Slide your finger up to adjust the scrubbing rate." = "Slide your finger up to adjust the scrubbing rate.";
-"Scrubbing 1" = "Hi-Speed Scrubbing";
-"Scrubbing 0.5" = "Half-Speed Scrubbing";
-"Scrubbing 0.25" = "Quarter-Speed Scrubbing";
-"Scrubbing 0.1" = "Fine Scrubbing";
-"Scrubbing 0.05" = "Very-Fine Scrubbing";
-"Scrubbing 0.025" = "Ultra-Fine Scrubbing";
+"vote" = "Bewertung";
+"votes" = "Bewertungen";
+
+"Slide your finger up to adjust the scrubbing rate." = "Zum Anpassen mit dem Finger nach oben streichen.";
+"Scrubbing 1" = "Scrubbing-Geschwindigkeit: 100%";
+"Scrubbing 0.5" = "Scrubbing-Geschwindigkeit: 50%";
+"Scrubbing 0.25" = "Scrubbing-Geschwindigkeit: 25%";
+"Scrubbing 0.1" = "Scrubbing-Geschwindigkeit: Fein";
+"Scrubbing 0.05" = "Scrubbing.Geschwindigkeit: Sehr fein";
+"Scrubbing 0.025" = "Scrubbing.Geschwindigkeit: Super fein";
