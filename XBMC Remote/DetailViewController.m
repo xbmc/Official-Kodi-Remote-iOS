@@ -361,6 +361,8 @@
         [dataList setScrollsToTop:NO];
         [collectionView setScrollsToTop:YES];
         activeLayoutView = collectionView;
+        [collectionView setContentOffset:collectionView.contentOffset animated:NO];
+
     }
     else{
         [dataList setDelegate:self];
@@ -370,10 +372,8 @@
         [dataList setScrollsToTop:YES];
         [collectionView setScrollsToTop:NO];
         activeLayoutView = dataList;
-    }
-    if ([richResults count] && (dataList.dragging == YES || dataList.decelerating == YES)){
-        NSArray *visiblePaths = [dataList indexPathsForVisibleRows];
-        [dataList scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [dataList setContentOffset:dataList.contentOffset animated:NO];
+
     }
     self.navigationItem.title = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"label"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -2722,7 +2722,6 @@ NSIndexPath *selected;
 
 -(void)indexAndDisplayData{
     [self choseParams];
-    [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
     numResults=[richResults count];
     sectionArray = nil;
     if (numResults==0){
@@ -2818,6 +2817,8 @@ NSIndexPath *selected;
     }
     [activityIndicatorView stopAnimating];
     [activeLayoutView reloadData];
+    [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
+    [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
 //    if (enableCollectionView){
 //        [collectionView reloadData];
