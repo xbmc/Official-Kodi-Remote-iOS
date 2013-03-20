@@ -13,5 +13,7 @@
 
 @property (nonatomic, readonly) UIImageView *posterThumbnail;
 @property (nonatomic, readonly) PosterLabel *posterLabel;
+@property (nonatomic, readonly) UIActivityIndicatorView *busyView;
+
 
 @end
