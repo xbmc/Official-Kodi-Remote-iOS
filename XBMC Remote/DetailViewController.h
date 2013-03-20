@@ -87,6 +87,8 @@
     int cellGridWidth;
     int cellGridHeight;
     id activeLayoutView;
+    UILongPressGestureRecognizer *longPressGesture;
+    int posterFontSize;
 }
 
 - (id)initWithFrame:(CGRect)frame;

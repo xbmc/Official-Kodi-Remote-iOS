@@ -604,6 +604,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"posterCell";
     PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
     NSDictionary *item=[richResults objectAtIndex:indexPath.row];
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *displayThumb=defaultThumb;
@@ -1465,13 +1466,14 @@ int originYear = 0;
 
 #pragma mark -
 #pragma mark UISearchDisplayController Delegate Methods
-UILongPressGestureRecognizer *longPressGesture;
 
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
     //[controller.searchResultsTableView setDelegate:self];
-    controller.searchResultsTableView.backgroundColor = [UIColor blackColor]; 
-    longPressGesture = [UILongPressGestureRecognizer new];
-    [longPressGesture addTarget:self action:@selector(handleLongPress)];
+    controller.searchResultsTableView.backgroundColor = [UIColor blackColor];
+    if (longPressGesture == nil){
+        longPressGesture = [UILongPressGestureRecognizer new];
+        [longPressGesture addTarget:self action:@selector(handleLongPress)];
+    }
     [self.searchDisplayController.searchResultsTableView addGestureRecognizer:longPressGesture];
 //    [self.searchDisplayController.searchResultsTableView.setN
 }
@@ -1479,7 +1481,7 @@ UILongPressGestureRecognizer *longPressGesture;
 -(void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
     if (longPressGesture) {
         [self.searchDisplayController.searchResultsTableView removeGestureRecognizer:longPressGesture];
-        longPressGesture = nil;
+//        longPressGesture = nil;
     }
 }
 
@@ -1536,25 +1538,26 @@ NSIndexPath *selected;
 -(IBAction)handleLongPress{
     if (lpgr.state == UIGestureRecognizerStateBegan || longPressGesture.state == UIGestureRecognizerStateBegan){
         CGPoint p;
-        NSIndexPath *indexPath;
-        p = [lpgr locationInView:activeLayoutView];
-        indexPath = [activeLayoutView indexPathForItemAtPoint:p];
-
-//        if (enableCollectionView){
-//            p = [lpgr locationInView:collectionView];
-//            indexPath = [collectionView indexPathForItemAtPoint:p];
-//        }
-//        else{
-//           p = [lpgr locationInView:dataList];
-//            indexPath = [dataList indexPathForRowAtPoint:p];
-//        }
-        
-        CGPoint p2 = [longPressGesture locationInView:self.searchDisplayController.searchResultsTableView];
-        NSIndexPath *indexPath2 = [self.searchDisplayController.searchResultsTableView indexPathForRowAtPoint:p2];
         CGPoint selectedPoint;
+        NSIndexPath *indexPath = nil;
+        NSIndexPath *indexPath2 = nil;
+        if (enableCollectionView){
+            p = [longPressGesture locationInView:collectionView];
+            selectedPoint=[longPressGesture locationInView:self.view];
+            indexPath = [collectionView indexPathForItemAtPoint:p];
+           
+        }
+        else{
+            p = [lpgr locationInView:dataList];
+            selectedPoint=[lpgr locationInView:self.view];
+            indexPath = [dataList indexPathForRowAtPoint:p];
+            CGPoint p2 = [longPressGesture locationInView:self.searchDisplayController.searchResultsTableView];
+            indexPath2 = [self.searchDisplayController.searchResultsTableView indexPathForRowAtPoint:p2];
+        }
+        
         if (indexPath != nil || indexPath2 != nil ){
             selected=indexPath;
-            selectedPoint=[lpgr locationInView:self.view];
+            
             if ([[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
                 [[[self.detailItem sheetActions] objectAtIndex:choosedTab] removeObject:NSLocalizedString(@"Play Trailer", nil)];
             }
@@ -1566,16 +1569,17 @@ NSIndexPath *selected;
                     selected=indexPath2;
                     selectedPoint=[longPressGesture locationInView:self.view];
                     item = [self.filteredListContent objectAtIndex:indexPath2.row];
-                    [self.searchDisplayController.searchResultsTableView selectRowAtIndexPath:indexPath2 animated:YES scrollPosition:UITableViewScrollPositionNone];
+                    [self.searchDisplayController.searchResultsTableView selectRowAtIndexPath:indexPath2 animated:NO scrollPosition:UITableViewScrollPositionNone];
                 }
-                else{
-                    item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-                    
+                else{                    
                     if (enableCollectionView){
                         [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+                        item = [richResults objectAtIndex:indexPath.row];
                     }
                     else{
                         [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+                        item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+
                     }
 
                 }
@@ -1818,7 +1822,14 @@ NSIndexPath *selected;
 //}
 
 -(void)addStream:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+//    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+    id cell;
+    if (enableCollectionView){
+        cell = [collectionView cellForItemAtIndexPath:indexPath];
+    }
+    else{
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+    }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     NSDictionary *item = nil;
@@ -1831,7 +1842,7 @@ NSIndexPath *selected;
     [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
-                GlobalData *obj=[GlobalData getInstance];     
+                GlobalData *obj=[GlobalData getInstance];
                 //NSDictionary *itemid = [methodResult objectForKey:@"details"]; 
                // ;
                 NSString *serverURL=[NSString stringWithFormat:@"%@:%@", obj.serverIP, obj.serverPort];
@@ -1839,7 +1850,16 @@ NSIndexPath *selected;
                // NSLog(@"RESULT %@", stringURL);
                 NSURLRequest *request = [[NSURLRequest alloc] initWithURL: [NSURL URLWithString: stringURL] cachePolicy: NSURLRequestReloadIgnoringCacheData timeoutInterval: 10];  
                 CGRect frame=webPlayView.frame;
-                frame.origin.y=cell.frame.origin.y;
+                CGRect targetFrame;
+                if (enableCollectionView){
+                    UICollectionViewCell *tmp_cell = (UICollectionViewCell *)cell;
+                    targetFrame = tmp_cell.frame;
+                }
+                else{
+                    UITableViewCell *tmp_cell = (UITableViewCell *)cell;
+                    targetFrame = tmp_cell.frame;
+                }
+                frame.origin.y=targetFrame.origin.y;
                 webPlayView.frame=frame;   
                 //NSLog(@"%d", webPlayView.loading);
                 [webPlayView loadRequest:request];  
@@ -1880,7 +1900,14 @@ NSIndexPath *selected;
 }
 
 -(void)addQueue:(NSIndexPath *)indexPath afterCurrentItem:(BOOL)afterCurrent{
-    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+//    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+    id cell;
+    if (enableCollectionView){
+        cell = [collectionView cellForItemAtIndexPath:indexPath];
+    }
+    else{
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+    }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     NSDictionary *item = nil;
@@ -1951,7 +1978,13 @@ NSIndexPath *selected;
 }
 
 -(void)openFile:(NSDictionary *)params index:(NSIndexPath *) indexPath{
-    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+    id cell;
+    if (enableCollectionView){
+        cell = [collectionView cellForItemAtIndexPath:indexPath];
+    }
+    else{
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+    }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     [jsonRPC callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1975,8 +2008,14 @@ NSIndexPath *selected;
     else{
         item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
-
-    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+    id cell;
+    if (enableCollectionView){
+        cell = [collectionView cellForItemAtIndexPath:indexPath];
+    }
+    else{
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+    }
+//    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
@@ -2908,6 +2947,7 @@ NSIndexPath *selected;
     labelPadding = 8;
     cellGridWidth =105.0f;
     cellGridHeight =  151.0f;
+    posterFontSize = 10;
 }
 
 -(void)setIpadInterface{
@@ -2925,6 +2965,7 @@ NSIndexPath *selected;
 //    cellGridHeight =  166.0f;
     cellGridWidth =157.0f;
     cellGridHeight =  225.0f;
+    posterFontSize = 11;
 //    if (!(albumView || episodesView)){
 //        int titleWidth = 400;
 //        topNavigationLabel.numberOfLines=1;
@@ -3003,6 +3044,11 @@ NSIndexPath *selected;
         [collectionView setAutoresizingMask:dataList.autoresizingMask];
         [dataList setDelegate:nil];
         [dataList setDataSource:nil];
+        if (longPressGesture == nil){
+            longPressGesture = [UILongPressGestureRecognizer new];
+            [longPressGesture addTarget:self action:@selector(handleLongPress)];
+        }
+        [collectionView addGestureRecognizer:longPressGesture];
         [detailView addSubview:collectionView];
     }
     activeLayoutView = collectionView;
