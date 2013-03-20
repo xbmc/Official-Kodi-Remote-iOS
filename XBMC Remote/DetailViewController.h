@@ -86,6 +86,7 @@
     BOOL enableCollectionView;
     int cellGridWidth;
     int cellGridHeight;
+    id activeLayoutView;
 }
 
 - (id)initWithFrame:(CGRect)frame;
