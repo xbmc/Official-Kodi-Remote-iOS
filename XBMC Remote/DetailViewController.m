@@ -2774,9 +2774,9 @@ NSIndexPath *selected;
         // FINE CONDIZIONE
     }
     if ([self.detailItem enableSection] && [richResults count]>SECTIONS_START_AT){
-        if (enableCollectionView == FALSE){
+//        if (enableCollectionView == FALSE){
             [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
-        }
+//        }
         BOOL found;
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
@@ -2847,9 +2847,10 @@ NSIndexPath *selected;
     }
     [activityIndicatorView stopAnimating];
     [activeLayoutView reloadData];
+    [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
     [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
-    [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+
 //    if (enableCollectionView){
 //        [collectionView reloadData];
 //        [self AnimTable:(UITableView *)collectionView AnimDuration:0.3 Alpha:1.0 XPos:0];
@@ -3217,7 +3218,6 @@ NSIndexPath *selected;
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([self collectionViewCanBeEnabled] == YES && self.view.superview != nil && ![[methods objectForKey:@"method"] isEqualToString:@""]){
         NSString *viewKey = [NSString stringWithFormat:@"%@%@_grid_preference", [methods objectForKey:@"method"], [parameters objectForKey:@"collectionViewUniqueKey"]];
-        NSLog(@"KEY: %@", viewKey);
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults synchronize];
         [userDefaults setObject:[NSNumber numberWithBool:![[userDefaults objectForKey:viewKey] boolValue]]
@@ -3242,7 +3242,7 @@ NSIndexPath *selected;
                                  [dataList setScrollsToTop:NO];
                                  [collectionView setScrollsToTop:YES];
                                  activeLayoutView = collectionView;
-                                 [collectionView setContentOffset:collectionView.contentOffset animated:NO];
+                                 [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
                              }
                              else{
                                  [dataList setDelegate:self];
@@ -3253,7 +3253,7 @@ NSIndexPath *selected;
                                  [dataList setScrollsToTop:YES];
                                  [collectionView setScrollsToTop:NO];
                                  activeLayoutView = dataList;
-                                 [dataList setContentOffset:dataList.contentOffset animated:NO];
+                                 [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
                                  
                              }
                              [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
