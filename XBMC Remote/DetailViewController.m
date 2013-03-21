@@ -482,6 +482,7 @@
                                            [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                           [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewUniqueKey"] intValue]], @"collectionViewUniqueKey",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
                                            newSectionParameters, @"extra_section_parameters",
                                            nil];
@@ -3068,7 +3069,9 @@ NSIndexPath *selected;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:@"enablegrid_preference"] boolValue] == YES));
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+    NSString *viewKey = [NSString stringWithFormat:@"%@%@_grid_preference", [methods objectForKey:@"method"], [parameters objectForKey:@"collectionViewUniqueKey"]];
+    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
 }
 
 -(void)initCollectionView{
@@ -3210,11 +3213,15 @@ NSIndexPath *selected;
 }
 
 -(void)handleShakeNotification{
-    if ([self collectionViewCanBeEnabled] == YES && self.view.superview != nil){
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    if ([self collectionViewCanBeEnabled] == YES && self.view.superview != nil && ![[methods objectForKey:@"method"] isEqualToString:@""]){
+        NSString *viewKey = [NSString stringWithFormat:@"%@%@_grid_preference", [methods objectForKey:@"method"], [parameters objectForKey:@"collectionViewUniqueKey"]];
+        NSLog(@"KEY: %@", viewKey);
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults synchronize];
-        [userDefaults setObject:[NSNumber numberWithBool:![[userDefaults objectForKey:@"enablegrid_preference"] boolValue]]
-                         forKey:@"enablegrid_preference"];
+        [userDefaults setObject:[NSNumber numberWithBool:![[userDefaults objectForKey:viewKey] boolValue]]
+                         forKey:viewKey];
         enableCollectionView = [self collectionViewIsEnabled];
         [UIView animateWithDuration:0.2
                          animations:^{

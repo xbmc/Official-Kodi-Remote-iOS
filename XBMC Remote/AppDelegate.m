@@ -1157,6 +1157,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"extra_info_parameters",
                            @"YES", @"FrodoExtraArt",
                            @"YES", @"enableCollectionView",
+                           @"1", @"collectionViewUniqueKey",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -1180,6 +1181,7 @@ NSMutableArray *hostRightMenuItems;
                             [NSArray arrayWithObjects:@"thumbnail", @"playcount", nil], @"properties",
                             nil], @"parameters",
                            @"YES", @"enableCollectionView",
+                           @"2", @"collectionViewUniqueKey",
                            NSLocalizedString(@"Movie Sets", nil), @"label", nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -1196,6 +1198,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"extra_info_parameters",
                            @"YES", @"FrodoExtraArt",
                            @"YES", @"enableCollectionView",
+                           @"3", @"collectionViewUniqueKey",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -1467,6 +1470,7 @@ NSMutableArray *hostRightMenuItems;
                                     nil], @"extra_info_parameters",
                                    @"YES", @"FrodoExtraArt",
                                    @"YES", @"enableCollectionView",
+                                   @"4", @"collectionViewUniqueKey",
                                    nil],
                                   
                                   [NSMutableArray arrayWithObjects:
@@ -1483,6 +1487,7 @@ NSMutableArray *hostRightMenuItems;
                                     nil], @"extra_info_parameters",
                                    @"YES", @"FrodoExtraArt",
                                    @"YES", @"enableCollectionView",
+                                   @"5", @"collectionViewUniqueKey",
                                    nil],
                                   
                                   [NSArray arrayWithObjects: nil],
