@@ -432,7 +432,6 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 								[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
 								
 							}
-							
 							// Removes the selection of row for the first slide view
 							for (UIView* tableView in [[[slideViews subviews] objectAtIndex:0] subviews]) {
                                 if([tableView isKindOfClass:[UIView class]]){
@@ -442,6 +441,11 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                             NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
                                             [(UITableView*)tableView2 reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
                                         }
+                                        if([tableView2 isKindOfClass:[UICollectionView class]]){
+                                            for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
+                                                [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
+                                            }
+                                        }
                                     }
                                 }
 								if([tableView isKindOfClass:[UITableView class]]){
@@ -449,6 +453,12 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 									NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
 									[(UITableView*)tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
 								}
+                                if([tableView isKindOfClass:[UICollectionView class]]){
+
+                                    for (NSIndexPath* selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
+                                        [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
+                                    }
+                                }
 							}
 							viewAtLeft2 = nil;
 							viewAtRight = nil;
@@ -547,7 +557,6 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 								[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
 								[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
 							}
-							
 							// Removes the selection of row for the first slide view
 							for (UIView* tableView in [[[slideViews subviews] objectAtIndex:0] subviews]) {
                                 if([tableView isKindOfClass:[UIView class]]){
@@ -557,6 +566,11 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                             NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
                                             [(UITableView*)tableView2 reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
                                         }
+                                        if([tableView2 isKindOfClass:[UICollectionView class]]){
+                                            for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
+                                                [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
+                                            }
+                                        }
                                     }
                                 }
 								if([tableView isKindOfClass:[UITableView class]]){
@@ -564,6 +578,11 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 									NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
 									[(UITableView*)tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
 								}
+                                if([tableView isKindOfClass:[UICollectionView class]]){
+                                    for (NSIndexPath* selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
+                                        [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
+                                    }
+                                }
 							}
 							
 							viewAtLeft2 = nil;
