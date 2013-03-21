@@ -25,6 +25,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PosterCell.h"
 #import "PosterLabel.h"
+#import "PosterHeaderView.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -358,6 +359,7 @@
         [dataList setDataSource:nil];
         [collectionView setDelegate:self];
         [collectionView setDataSource:self];
+//        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 20)];
         [dataList setScrollsToTop:NO];
         [collectionView setScrollsToTop:YES];
         activeLayoutView = collectionView;
@@ -369,6 +371,7 @@
         [dataList setDataSource:self];
         [collectionView setDelegate:nil];
         [collectionView setDataSource:nil];
+//        [flowLayout setHeaderReferenceSize:CGSizeMake(0, 0)];
         [dataList setScrollsToTop:YES];
         [collectionView setScrollsToTop:NO];
         activeLayoutView = dataList;
@@ -592,20 +595,44 @@
 
 #pragma mark - UICollectionView delegate
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+//    return [[self.sections allKeys] count];
+    return  1;
+}
+
+//- (UICollectionReusableView *)collectionView:(UICollectionView *)cView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+////    UICollectionReusableView *headerView = [cView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"posterHeader" forIndexPath:indexPath];
+////    [headerView setBackgroundColor:[UIColor redColor]];
+//    static NSString *identifier = @"posterHeaderView";
+//
+//    PosterHeaderView *headerView = [cView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:identifier forIndexPath:indexPath];
+//    NSString *searchTerm = [sectionArray objectAtIndex:indexPath.section];
+//    [headerView setHeaderText:searchTerm];
+//    NSLog(@"HEADER %@", searchTerm);
+//
+//    return headerView;
+//}
+
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+//    if (episodesView){
+//        return ([[sectionArrayOpen objectAtIndex:section] boolValue] ? [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count] : 0);
+//    }
+//
+//    return [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count];
     return [richResults count];
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return  1;
-}
+
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"posterCell";
     PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
-    NSDictionary *item=[richResults objectAtIndex:indexPath.row];
+//    NSDictionary *item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    NSDictionary *item = [richResults objectAtIndex:indexPath.row];
+
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *displayThumb=defaultThumb;
     if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"] || [[item objectForKey:@"family"] isEqualToString:@"genreid"]){
@@ -2746,7 +2773,9 @@ NSIndexPath *selected;
         // FINE CONDIZIONE
     }
     if ([self.detailItem enableSection] && [richResults count]>SECTIONS_START_AT){
-        [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
+        if (enableCollectionView == FALSE){
+            [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
+        }
         BOOL found;
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
@@ -2864,11 +2893,13 @@ NSIndexPath *selected;
     alreadyPush = NO;
     self.webViewController = nil;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
-	if (selection)
+	if (selection){
 		[dataList deselectRowAtIndexPath:selection animated:NO];
+    }
     selection = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
-    if (selection)
+    if (selection){
 		[self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selection animated:YES];
+    }
     [self choseParams];
 // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
 //    UIViewController *c = [[UIViewController alloc]init];
@@ -3023,25 +3054,34 @@ NSIndexPath *selected;
     }
 }
 
+-(BOOL)collectionViewCanBeEnabled{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES));
+}
+
 -(BOOL)collectionViewIsEnabled{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:@"grid_preference"] boolValue] == YES));
+    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:@"enablegrid_preference"] boolValue] == YES));
 }
 
 -(void)initCollectionView{
     if (collectionView == nil){
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        flowLayout = [[UICollectionViewFlowLayout alloc] init];
         [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
         [flowLayout setMinimumInteritemSpacing:2.0f];
         [flowLayout setMinimumLineSpacing:2.0f];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+//        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 20)];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
         [collectionView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
         [collectionView setDelegate:self];
         [collectionView setDataSource:self];
         [collectionView registerClass:[PosterCell class] forCellWithReuseIdentifier:@"posterCell"];
+        [collectionView registerClass:[PosterHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"posterHeaderView"];
         [collectionView setAutoresizingMask:dataList.autoresizingMask];
         [dataList setDelegate:nil];
         [dataList setDataSource:nil];
@@ -3159,6 +3199,57 @@ NSIndexPath *selected;
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleShakeNotification)
+                                                 name: @"UIApplicationShakeNotification"
+                                               object: nil];
+
+}
+
+-(void)handleShakeNotification{
+    if ([self collectionViewCanBeEnabled] == YES && self.view.superview != nil){
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults synchronize];
+        [userDefaults setObject:[NSNumber numberWithBool:![[userDefaults objectForKey:@"enablegrid_preference"] boolValue]]
+                         forKey:@"enablegrid_preference"];
+        enableCollectionView = [self collectionViewIsEnabled];
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             CGRect frame;
+                             frame = [activeLayoutView frame];
+                             frame.origin.x = viewWidth;
+                             [(UITableView *)activeLayoutView setFrame:frame];
+                             [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+                         }
+                         completion:^(BOOL finished){
+                             if (enableCollectionView){
+                                 [self initCollectionView];
+                                 [dataList setDelegate:nil];
+                                 [dataList setDataSource:nil];
+                                 [collectionView setDelegate:self];
+                                 [collectionView setDataSource:self];
+                                 //        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 20)];
+                                 [dataList setScrollsToTop:NO];
+                                 [collectionView setScrollsToTop:YES];
+                                 activeLayoutView = collectionView;
+                                 [collectionView setContentOffset:collectionView.contentOffset animated:NO];
+                             }
+                             else{
+                                 [dataList setDelegate:self];
+                                 [dataList setDataSource:self];
+                                 [collectionView setDelegate:nil];
+                                 [collectionView setDataSource:nil];
+                                 //        [flowLayout setHeaderReferenceSize:CGSizeMake(0, 0)];
+                                 [dataList setScrollsToTop:YES];
+                                 [collectionView setScrollsToTop:NO];
+                                 activeLayoutView = dataList;
+                                 [dataList setContentOffset:dataList.contentOffset animated:NO];
+                                 
+                             }
+                             [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                             
+                         }];
+    }
 }
 
 - (void)viewDidUnload{

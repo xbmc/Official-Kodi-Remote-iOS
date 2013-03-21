@@ -99,6 +99,8 @@ NSMutableArray *hostRightMenuItems;
     int tvshowHeight;
     NSString *filemodeRowHeight= @"44";
     NSString *filemodeThumbWidth= @"44";
+    NSString *livetvThumbWidth= @"64";
+
     NSString *filemodeVideoType = @"video";
     NSString *filemodeMusicType = @"music";
     if ([[userDefaults objectForKey:@"fileType_preference"] boolValue]==YES){
@@ -1511,7 +1513,7 @@ NSMutableArray *hostRightMenuItems;
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"thumbnail", @"channel", nil], @"properties",
-                                    nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", filemodeRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth", nil],
                                   nil];
     item2.subItem.mainFields=[NSArray arrayWithObjects:
                               

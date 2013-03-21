@@ -7,6 +7,7 @@
 //
 
 #import "PosterLabel.h"
+//#import <QuartzCore/QuartzCore.h>
 
 @implementation PosterLabel
 
@@ -19,7 +20,14 @@
 }
 
 - (void)drawRect:(CGRect)rect{
-    UIEdgeInsets insets = {0, 4, 0, 4};
+//    UIEdgeInsets insets = {0, 5, 2, 5};
+//    UIBezierPath* rounded = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerBottomLeft|UIRectCornerBottomRight cornerRadii:CGSizeMake(5.0f, 5.0f)];
+//    CAShapeLayer* shape = [[CAShapeLayer alloc] init];
+//    [shape setPath:rounded.CGPath];
+//    self.layer.mask = shape;
+
+    UIEdgeInsets insets = {0, 3, 1, 3};
+
     return [super drawTextInRect:UIEdgeInsetsInsetRect(rect, insets)];
 }
 

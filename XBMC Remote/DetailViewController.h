@@ -89,6 +89,7 @@
     id activeLayoutView;
     UILongPressGestureRecognizer *longPressGesture;
     int posterFontSize;
+    UICollectionViewFlowLayout *flowLayout;
 }
 
 - (id)initWithFrame:(CGRect)frame;
