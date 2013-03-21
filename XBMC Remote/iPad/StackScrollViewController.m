@@ -438,8 +438,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                     for (UIView* tableView2 in [tableView subviews]) {
                                         if([tableView2 isKindOfClass:[UITableView class]]){
                                             NSIndexPath* selectedRow =  [(UITableView*)tableView2 indexPathForSelectedRow];
-                                            NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
-                                            [(UITableView*)tableView2 reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+                                            [(UITableView*)tableView2 deselectRowAtIndexPath:selectedRow animated:YES];
                                         }
                                         if([tableView2 isKindOfClass:[UICollectionView class]]){
                                             for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
@@ -450,8 +449,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                 }
 								if([tableView isKindOfClass:[UITableView class]]){
 									NSIndexPath* selectedRow =  [(UITableView*)tableView indexPathForSelectedRow];
-									NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
-									[(UITableView*)tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+                                    [(UITableView*)tableView deselectRowAtIndexPath:selectedRow animated:YES];
 								}
                                 if([tableView isKindOfClass:[UICollectionView class]]){
 
@@ -563,8 +561,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                     for (UIView* tableView2 in [tableView subviews]) {
                                         if([tableView2 isKindOfClass:[UITableView class]]){
                                             NSIndexPath* selectedRow =  [(UITableView*)tableView2 indexPathForSelectedRow];
-                                            NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
-                                            [(UITableView*)tableView2 reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+                                            [(UITableView*)tableView2 deselectRowAtIndexPath:selectedRow animated:YES];
                                         }
                                         if([tableView2 isKindOfClass:[UICollectionView class]]){
                                             for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
@@ -575,8 +572,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                 }
 								if([tableView isKindOfClass:[UITableView class]]){
 									NSIndexPath* selectedRow =  [(UITableView*)tableView indexPathForSelectedRow];
-									NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
-									[(UITableView*)tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+                                    [(UITableView*)tableView deselectRowAtIndexPath:selectedRow animated:YES];
 								}
                                 if([tableView isKindOfClass:[UICollectionView class]]){
                                     for (NSIndexPath* selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
