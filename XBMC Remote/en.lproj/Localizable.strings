@@ -158,7 +158,7 @@
 "Audiostream not available" = "Audiostream not available";
 "Audiostreams not available" = "Audiostreams not available";
 
-"LongDateTimeFormat" = "MMMM d, YYYY";
+"LongDateTimeFormat" = "MMMM d, yyyy";
 "ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "en_US";
 

@@ -650,6 +650,9 @@ int h=0;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             placeHolderImage = @"coverbox_back_tvshows@2x.png";
         }
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setLocale:locale];
         if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
             GlobalData *obj=[GlobalData getInstance];
             if (obj.preferTVPosters==NO && [AppDelegate instance].serverVersion < 12){
@@ -705,7 +708,10 @@ int h=0;
             label3.text = NSLocalizedString(@"GENRE", nil);
             label4.text = NSLocalizedString(@"STUDIO", nil);
             directorLabel.text = [[item objectForKey:@"showtitle"] length] == 0 ? @"-" : [item objectForKey:@"showtitle"];
-            genreLabel.text = [[item objectForKey:@"premiered"] length] == 0 ? @"-" : [item objectForKey:@"premiered"];
+            [format setDateFormat:@"yyyy-MM-dd"];
+            NSDate *date = [format dateFromString:[item objectForKey:@"premiered"]];
+            [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
+            genreLabel.text = date == nil ? @"-" : [format stringFromDate:date];
             if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
                 runtimeLabel.text=[[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
                 runtimeLabel.text=[runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
@@ -767,9 +773,6 @@ int h=0;
 
             NSString *aired = @"-";
             if ([[item objectForKey:@"firstaired"] length] > 0) {
-                NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
-                NSDateFormatter *format = [[NSDateFormatter alloc] init];
-                [format setLocale:locale];
                 [format setDateFormat:@"yyyy-MM-dd"];
                 NSDate *date = [format dateFromString:[item objectForKey:@"firstaired"]];
                 [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
