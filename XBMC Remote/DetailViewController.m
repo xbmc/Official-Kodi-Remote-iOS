@@ -642,8 +642,13 @@ int originYear = 0;
         [format setLocale:locale];
         [format setDateFormat:@"yyyy-MM-dd"];
         NSDate *date = [format dateFromString:[item objectForKey:@"year"]];
-        [format setDateFormat:NSLocalizedString(@"ShortDateTimeFormat", nil)];
-        [runtimeyear setText:[format stringFromDate:date]];
+        if (date == nil){
+            [runtimeyear setText:[item objectForKey:@"year"]];
+        }
+        else{
+            [format setDateFormat:NSLocalizedString(@"ShortDateTimeFormat", nil)];
+            [runtimeyear setText:[format stringFromDate:date]];
+        }
     }
     
     frame=runtime.frame;
