@@ -89,7 +89,7 @@
 											<object class="IBUILabel" id="54324047">
 												<reference key="NSNextResponder" ref="852249264"/>
 												<int key="NSvFlags">292</int>
-												<string key="NSFrame">{{69, 10}, {119, 22}}</string>
+												<string key="NSFrame">{{69, 10}, {181, 22}}</string>
 												<reference key="NSSuperview" ref="852249264"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="895140529"/>
@@ -366,7 +366,7 @@
 												<int key="IBUIContentHorizontalAlignment">0</int>
 												<int key="IBUIContentVerticalAlignment">0</int>
 												<string key="IBUITitleShadowOffset">{1, 1}</string>
-												<string key="IBUISelectedTitle">Done</string>
+												<string key="IBUISelectedTitle">Fertig</string>
 												<string key="IBUINormalTitle">Bearbeiten</string>
 												<object class="NSColor" key="IBUIHighlightedTitleColor">
 													<int key="NSColorSpace">3</int>
@@ -2843,7 +2843,7 @@
 				<string key="111.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="112.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="117.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="2" key="117.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<real value="3" key="117.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="118.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="122.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

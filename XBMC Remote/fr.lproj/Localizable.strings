@@ -155,9 +155,11 @@
 "resolution" = "résolution";
 "aspect ratio" = "aspect ratio";
 "Subtitles not available" = "Sous-titres non disponibles";
+"Audiostream not available" = "Audiostreams non disponibles";
 "Audiostreams not available" = "Audiostreams non disponibles";
 
 "LongDateTimeFormat" = "dd MMMM, YYYY";
+"ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "fr_FR";
 
 "No sever mac address definied" = "Aucune adresse MAC définie";
@@ -167,6 +169,9 @@
 "Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
 
 "WIKI_LANG" = "fr";
+
+"vote" = "vote";
+"votes" = "votes";
 
 "Slide your finger up to adjust the scrubbing rate." = "Slide your finger up to adjust the scrubbing rate.";
 "Scrubbing 1" = "Hi-Speed Scrubbing";
