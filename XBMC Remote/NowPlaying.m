@@ -650,50 +650,46 @@ int currentItemID;
                                  }
                                  NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
                                  NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-                                 NSURL *imageUrl = [NSURL URLWithString: stringURL];
-                                 UIImage *cachedImage = [manager imageWithURL:imageUrl];
-                                 UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                  if (![lastThumbnail isEqualToString:stringURL]){
-                                     if (cachedImage){
-                                         if (enableJewel){
-                                             thumbnailView.image=cachedImage;
-                                             buttonImage=[self resizeImage:cachedImage width:76 height:66 padding:10];
-                                             
+                                     [imageCache queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
+                                         UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
+                                         if (image!=nil){
+                                             if (enableJewel){
+                                                 thumbnailView.image=image;
+                                                 buttonImage=[self resizeImage:image width:76 height:66 padding:10];
+                                             }
+                                             else{
+                                                 jewelView.image=[self imageWithBorderFromImage:image];
+                                                 buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                                             }
                                          }
                                          else{
-                                             jewelView.image=[self imageWithBorderFromImage:cachedImage];
-                                             buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                                             if (enableJewel){
+                                                 [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
+                                             }
+                                             else{
+                                                 __weak UIImageView *jV = jewelView;
+                                                 __weak NowPlaying *sf = self;
+                                                 [jewelView
+                                                  setImageWithURL:[NSURL URLWithString:stringURL]
+                                                  placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                      if (![thumbnailPath isEqualToString:@""]){
+                                                        jV.image=[sf imageWithBorderFromImage:image];
+                                                      }
+                                                  }];
+                                             }
                                          }
-                                     }
-                                     else{
-                                         if (enableJewel){
-                                             [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"coverbox_back.png"] ];
+                                         if (nowPlayingHidden || startFlipDemo){
+                                             [playlistButton setImage:buttonImage forState:UIControlStateNormal];
+                                             [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
+                                             [playlistButton setImage:buttonImage forState:UIControlStateSelected];
+                                             if (startFlipDemo){
+                                                 [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+                                                 startFlipDemo = NO;
+                                             }
                                          }
-                                         else{
-                                             __weak UIImageView *jV = jewelView;
-                                             __weak NowPlaying *sf = self;
-                                             [jewelView
-                                              setImageWithURL:[NSURL URLWithString:stringURL]
-                                              placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
-                                              success:^(UIImage *image) {
-                                                  if ([jV.image isEqual:image]){
-                                                      jV.image=[sf imageWithBorderFromImage:image];
-                                                  }
-                                              }
-                                              failure:^(NSError *error) {}
-                                              ];
-                                         }
-                                     }
-                                     if (nowPlayingHidden || startFlipDemo){
-                                         [playlistButton setImage:buttonImage forState:UIControlStateNormal];
-                                         [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
-                                         [playlistButton setImage:buttonImage forState:UIControlStateSelected];
-                                         if (startFlipDemo){
-                                             [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
-                                             startFlipDemo = NO;
-                                         }
-                                     }
-                                     
+                                     }];  
                                  }
                                  lastThumbnail = stringURL;
                              }
@@ -2014,20 +2010,8 @@ int currentItemID;
         [(UILabel*) [cell viewWithTag:3] setText:[item objectForKey:@"duration"]];
     if (playerID == 1)
         [(UILabel*) [cell viewWithTag:3] setText:[item objectForKey:@"runtime"]];
-    NSString *stringURL = [item objectForKey:@"thumbnail"];
-    if ((playlistTableView.decelerating == NO) || numResults<SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-        NSURL *imageUrl = [NSURL URLWithString: stringURL];    
-        UIImage *cachedImage = [manager imageWithURL:imageUrl];
-        if (cachedImage){
-            thumb.image = cachedImage;
-        }
-        else {    
-            [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"] ];
-        }
-    }
-    else {
-        thumb.image = [UIImage imageNamed:@"nocover_music.png"];  
-    }
+    NSString *stringURL = [item objectForKey:@"thumbnail"]; 
+    [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"] ];
     UIView *timePlaying = (UIView*) [cell viewWithTag:5];
     if (timePlaying.hidden == NO){
         [self fadeView:timePlaying hidden:YES];
@@ -2232,45 +2216,6 @@ int currentItemID;
     }
 }
 
-#pragma mark -
-#pragma mark Deferred image loading (UIScrollViewDelegate)
-
-- (void)loadImagesForOnscreenRows{
-    if ([playlistData count] > 0 && numResults>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-        NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
-        NSString *defaultThumb=@"nocover_music.png";
-        for (NSIndexPath *indexPath in visiblePaths){
-            UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
-            UIImageView *thumb=(UIImageView*) [cell viewWithTag:4];
-            NSDictionary *item = [playlistData objectAtIndex:indexPath.row];
-            NSString *stringURL = [item objectForKey:@"thumbnail"];
-            NSURL *imageUrl = [NSURL URLWithString: stringURL];    
-            UIImage *cachedImage = [manager imageWithURL:imageUrl];
-            NSString *displayThumb=defaultThumb;
-            if ([[item objectForKey:@"filetype"] length]!=0){
-                displayThumb=stringURL;
-            }
-            if (cachedImage){
-                thumb.image=cachedImage;
-            }
-            else {            
-                [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
-            }
-        }
-    }
-}
-// Load images for all onscreen rows when scrolling is finished
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    if (!decelerate && numResults>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-        [self loadImagesForOnscreenRows];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    if (numResults>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-        [self loadImagesForOnscreenRows];
-    }
-}
 # pragma  mark - Swipe Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
@@ -2508,10 +2453,11 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
     [scrabbingMessage setText:NSLocalizedString(@"Slide your finger up to adjust the scrubbing rate.", nil)];
     [scrabbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
     sheetActions = [[NSMutableArray alloc] init];
-    [[SDImageCache sharedImageCache] clearMemory];
+//    [[SDImageCache sharedImageCache] clearMemory];
     playerID = -1;
     selectedPlayerID = -1;
     lastSelected = -1;

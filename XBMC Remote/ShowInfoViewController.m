@@ -1008,58 +1008,55 @@ int h=0;
         }
     }
     BOOL inEnableKenBurns = enableKenBurns;
-    __weak UIImageView *jV = jewelView;
-    __weak UIImageView *fV = fanartView;
     __weak ShowInfoViewController *sf = self;
     NSString *thumbnailPath = [item objectForKey:@"thumbnail"];
-    NSURL *imageUrl = [NSURL URLWithString: thumbnailPath];
-    SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    UIImage *cachedImage = [manager imageWithURL:imageUrl];
-    if (cachedImage){
-        if (enableJewel){
-            coverView.image = cachedImage;
-        }
-        else{
-            [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:self withObject:cachedImage];
-            jewelView.hidden = NO;
-        }
-    }
-    else{
-        if (enableJewel){
-            [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
-        }
-        else{
-            [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage] options:0 success:^(UIImage *image) {
-                if ([jV.image isEqual:image]){
-                    [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
-                }
-                if ([fV.image isEqual:image] && inEnableKenBurns){
-                    [sf elabKenBurns:image];
-                    [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
-                }
-            } failure:^(NSError *error) {
-                
-            }];
-            jewelView.hidden = NO;
-        }
-    }
-    NSString *fanartPath=[item objectForKey:@"fanart"];
-    NSURL *fanartUrl = [NSURL URLWithString: fanartPath];
-    UIImage *cachedFanart = [manager imageWithURL:fanartUrl];
-    if (cachedFanart){
-        fanartView.image=cachedFanart;
-    }
-    else{
-        [fanartView setImageWithURL:[NSURL URLWithString:fanartPath] placeholderImage:[UIImage imageNamed:@""] success:^(UIImage *image) {
-            if ([jV.image isEqual:image]){
-                [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
+    [imageCache queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
+        if (image!=nil){
+            if (enableJewel){
+                coverView.image = image;
             }
-            if ([fV.image isEqual:image] && inEnableKenBurns){
+            else{
+                [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:self withObject:image];
+                jewelView.hidden = NO;
+            }
+        }
+        else{
+            if (enableJewel){
+                [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
+            }
+            else{
+                [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath]
+                          placeholderImage:[UIImage imageNamed:placeHolderImage]
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                     [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
+                                 }
+                 ];
+                jewelView.hidden = NO;
+            }
+        }
+    }];
+    NSString *fanartPath=[item objectForKey:@"fanart"];
+    [imageCache queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
+        if (image!=nil){
+            fanartView.image=image;
+            if (inEnableKenBurns){
+                fanartView.alpha = 0;
                 [sf elabKenBurns:image];
                 [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
             }
-        } failure:^(NSError *error) {}];
-    }
+        }
+        else{
+            [fanartView setImageWithURL:[NSURL URLWithString:fanartPath]
+                       placeholderImage:[UIImage imageNamed:@""]
+                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                  if (inEnableKenBurns){
+                                      [sf elabKenBurns:image];
+                                      [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
+                                  }
+                              }
+             ];
+        }
+    }];
     [fanartView setClipsToBounds:YES];
     
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
@@ -1363,15 +1360,15 @@ int h=0;
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-    NSURL *imageUrl = [NSURL URLWithString: stringURL];
-    SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    UIImage *cachedImage = [manager imageWithURL:imageUrl];
-    if (cachedImage){
-        [cell.actorThumbnail setImage:cachedImage];
-    }
-    else {
-        [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
-    }
+    [imageCache queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
+        if (image!=nil){
+            [cell.actorThumbnail setImage:image];
+            
+        }
+        else{
+            [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
+        }
+    }];
     cell.actorName.text = [[cast objectAtIndex:indexPath.row] objectForKey:@"name"];
     if ([[[cast objectAtIndex:indexPath.row] objectForKey:@"role"] length] != 0){
         cell.actorRole.text = [NSString stringWithFormat:@"%@", [[cast objectAtIndex:indexPath.row] objectForKey:@"role"]];
@@ -1611,6 +1608,7 @@ int h=0;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -1621,8 +1619,6 @@ int h=0;
     self.kenView = nil;
     [self configureView];
     GlobalData *obj=[GlobalData getInstance];
-    [[SDImageCache sharedImageCache] clearMemory];
-    //    [manager cancelForDelegate:self];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];

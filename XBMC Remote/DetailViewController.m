@@ -677,10 +677,10 @@ int originYear = 0;
             runtimeyear.hidden = NO;
         }
         if (![stringURL isEqualToString:@""]){
-            if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-                [[SDImageCache sharedImageCache] clearMemory];
-            }
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+//            if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
+//                [[SDImageCache sharedImageCache] clearMemory];
+//            }
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
         }
         else {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
@@ -929,10 +929,13 @@ int originYear = 0;
             displayThumb=stringURL;
         }
         if (![stringURL isEqualToString:@""]){
-            UIImageView *tV = thumbImageView;
-            [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] success:^(UIImage *image) {
-                if (enableBarColor == YES && [tV.image isEqual:image]){
-                    albumColor = [utils averageColor:image inverse:YES];
+//            UIImageView *tV = thumbImageView;
+            [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
+                           placeholderImage:[UIImage imageNamed:displayThumb]
+                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+//                                    success:^(UIImage *image) {
+                if (enableBarColor == YES){
+                    albumColor = [utils averageColor:image inverse:NO];
                     self.navigationController.navigationBar.tintColor = albumColor;
                     self.searchDisplayController.searchBar.tintColor = albumColor;
                     if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
@@ -956,9 +959,11 @@ int originYear = 0;
                     [releasedLabel setShadowColor:albumFontShadowColor];
 
                 }
-            } failure:^(NSError *error) {
-                
-            }];
+            }
+//              failure:^(NSError *error) {
+//                
+//            }
+             ];
             thumbImageView.layer.borderColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1].CGColor;
             thumbImageView.layer.borderWidth = thumbBorderWidth;
             thumbImageView.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -2834,7 +2839,7 @@ NSIndexPath *selected;
     CGRect frame=dataList.frame;
     frame.origin.x = viewWidth;
     dataList.frame=frame;
-    [[SDImageCache sharedImageCache] clearMemory];
+//    [[SDImageCache sharedImageCache] clearMemory];
     //    manager = [SDWebImageManager sharedManager];
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];

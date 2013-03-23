@@ -104,6 +104,7 @@
     __weak IBOutlet UIView *scrabbingView;
     __weak IBOutlet UILabel *scrabbingMessage;
     __weak IBOutlet UILabel *scrabbingRate;
+    SDImageCache *imageCache;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
