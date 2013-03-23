@@ -10,10 +10,10 @@
 #import "mainMenu.h"
 #import "MasterViewController.h"
 #import "ViewControllerIPad.h"
-#import "SDImageCache.h"
 #import "GlobalData.h"
 #import <arpa/inet.h>
 #import "InitialSlidingViewController.h"
+#import "UIImageView+WebCache.h"
 
 @implementation AppDelegate
 
@@ -81,13 +81,7 @@ NSMutableArray *hostRightMenuItems;
     }
     BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
     if (clearCache==YES){
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        NSString *diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"ImageCache"];
-        [[NSFileManager defaultManager] removeItemAtPath:diskCachePath error:nil];
-        [[NSFileManager defaultManager] createDirectoryAtPath:diskCachePath
-                                  withIntermediateDirectories:YES
-                                                   attributes:nil
-                                                        error:NULL];
+        [SDWebImageManager.sharedManager.imageCache clearDisk];
     }
 	[userDefaults removeObjectForKey:@"clearcache_preference"];
     
