@@ -58,7 +58,6 @@
 "Hibernate" = "Ruhezustand";
 "Suspend" = "Standby";
 "Reboot" = "Neu starten";
-
 "Quit XBMC application" = "XBMC beenden";
 "Update Audio Library" = "Audiobibliothek aktualisieren";
 "Update Audio" = "Aktualisieren";
@@ -93,6 +92,7 @@
 "TV Show Details" = "Seriendetails";
 "Music Video Details" = "Musikvideo details";
 "Details" = "details";
+"Play Trailer" = "Play Trailer";
 
 "Playlist" = "Abspielliste";
 "Nothing is playing" = "Nichts wird gespielt";
