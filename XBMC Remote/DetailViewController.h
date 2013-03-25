@@ -90,6 +90,9 @@
     UILongPressGestureRecognizer *longPressGesture;
     int posterFontSize;
     UICollectionViewFlowLayout *flowLayout;
+    //  EXPERIMENTAL CODE
+    NSMutableArray *darkCells;
+    // END EXPERIMENTAL CODE
 }
 
 - (id)initWithFrame:(CGRect)frame;

@@ -641,11 +641,7 @@
             displayThumb=stringURL;
         }
     }
-    int checkNum=numResults;
     if (![stringURL isEqualToString:@""]){
-        if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-            [[SDImageCache sharedImageCache] clearMemory];
-        }
         [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
     }
     else {
@@ -656,13 +652,66 @@
 }
 
 -(void)collectionView:(UICollectionView *)cView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSDictionary *item = [richResults objectAtIndex:indexPath.row];;
-    UICollectionViewCell *cell = [cView cellForItemAtIndexPath:indexPath];    
+    NSDictionary *item = [richResults objectAtIndex:indexPath.row];
+    UICollectionViewCell *cell = [cView cellForItemAtIndexPath:indexPath];
+    [cell setAlpha:1];
     CGPoint offsetPoint = [cView contentOffset];
     int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
+    // EXPERIMENTAL CODE
+//    [cView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+//    int k = [cView numberOfSections];
+//    for (int j = 0; j < k; j++){
+//        int n = [cView numberOfItemsInSection:j];
+//        for (int i = 0; i < n; i++){
+//            UICollectionViewCell *cell = [cView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+//            if (cell != nil && ![[NSIndexPath indexPathForRow:i inSection:0] isEqual:indexPath]){
+//                [UIView beginAnimations:nil context:nil];
+//                [UIView setAnimationDuration:0.5];
+//                [cell setAlpha:0.3];
+//                [UIView commitAnimations];
+//                [darkCells addObject:cell];
+//            }
+//        }
+//    }
+    
+    
+    [darkCells removeAllObjects];
+    [darkCells addObjectsFromArray:[cView indexPathsForVisibleItems]];
+    [darkCells removeObject:indexPath];
+    for (NSIndexPath *idx in darkCells) {
+        UICollectionViewCell *darkcell = [cView cellForItemAtIndexPath:idx];
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.5];
+        [darkcell setAlpha:0.3];
+        [UIView commitAnimations];
+    }
+    // END EXPERIMENTAL CODE
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
 }
+
+// EXPERIMENTAL CODE
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    for (NSIndexPath *idx in darkCells) {
+        UICollectionViewCell *darkcell = [collectionView cellForItemAtIndexPath:idx];
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.1];
+        [darkcell setAlpha:1];
+        [UIView commitAnimations];
+    }
+    [darkCells removeAllObjects];
+
+//    if ([darkCells count]){
+//        for (UICollectionViewCell *cell in darkCells) {
+//            [UIView beginAnimations:nil context:nil];
+//            [UIView setAnimationDuration:0.1];
+//            [cell setAlpha:1];
+//            [UIView commitAnimations];
+//        }
+//        [darkCells removeAllObjects];
+//    }
+}
+// END EXPERIMENTAL CODE
 
 #pragma mark - Table Animation
 
@@ -3101,6 +3150,7 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    darkCells = [[NSMutableArray alloc] init];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     thumbBorderWidth = 1.0f;
     enableBarColor = YES;
