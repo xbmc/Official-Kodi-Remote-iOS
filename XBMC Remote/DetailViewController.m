@@ -992,13 +992,10 @@ int originYear = 0;
             runtimeyear.hidden = NO;
         }
         if (![stringURL isEqualToString:@""]){
-            if (checkNum>=SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT){
-                [[SDImageCache sharedImageCache] clearMemory];
-            }
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
         }
         else {
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
         }
     }
     else if (albumView){
@@ -3169,8 +3166,6 @@ NSIndexPath *selected;
     if (enableCollectionView) {
         [self initCollectionView];
     }
-//    [[SDImageCache sharedImageCache] clearMemory];
-    //    manager = [SDWebImageManager sharedManager];
     GlobalData *obj=[GlobalData getInstance]; 
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
@@ -3188,15 +3183,6 @@ NSIndexPath *selected;
     else {
         [activityIndicatorView stopAnimating];
         [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
-
-//        if (enableCollectionView){
-//            [self AnimTable:(UITableView *)collectionView AnimDuration:0.3 Alpha:1.0 XPos:0];
-//
-//        }
-//        else{
-//            [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-//
-//        }
     }
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTabHasChanged:)
