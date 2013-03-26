@@ -2956,6 +2956,7 @@ NSIndexPath *selected;
         [collectionView deselectItemAtIndexPath:selection animated:YES];
     }
     [self choseParams];
+    [self brightCells];
 // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
 //    UIViewController *c = [[UIViewController alloc]init];
 //    [self presentViewController:c animated:NO completion:nil];
