@@ -691,16 +691,20 @@
 }
 
 // EXPERIMENTAL CODE
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+
+-(void)brightCells{
     for (NSIndexPath *idx in darkCells) {
         UICollectionViewCell *darkcell = [collectionView cellForItemAtIndexPath:idx];
         [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.1];
+        [UIView setAnimationDuration:0.2];
         [darkcell setAlpha:1];
         [UIView commitAnimations];
     }
     [darkCells removeAllObjects];
+}
 
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self brightCells];
 //    if ([darkCells count]){
 //        for (UICollectionViewCell *cell in darkCells) {
 //            [UIView beginAnimations:nil context:nil];
@@ -3245,6 +3249,10 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleShakeNotification)
                                                  name: @"UIApplicationShakeNotification"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(brightCells)
+                                                 name: @"StackScrollCardDropNotification"
                                                object: nil];
 
 }

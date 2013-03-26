@@ -444,6 +444,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                             for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
                                                 [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
                                             }
+                                            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
+
                                         }
                                     }
                                 }
@@ -452,10 +454,10 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                     [(UITableView*)tableView deselectRowAtIndexPath:selectedRow animated:YES];
 								}
                                 if([tableView isKindOfClass:[UICollectionView class]]){
-
                                     for (NSIndexPath* selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
                                         [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
                                     }
+                                    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
                                 }
 							}
 							viewAtLeft2 = nil;
@@ -567,6 +569,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                             for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
                                                 [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
                                             }
+                                            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
                                         }
                                     }
                                 }
@@ -578,6 +581,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                     for (NSIndexPath* selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
                                         [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
                                     }
+                                    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
                                 }
 							}
 							
