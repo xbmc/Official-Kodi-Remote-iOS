@@ -674,23 +674,35 @@
 //            }
 //        }
 //    }
-    
-    
+    [cView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+    autoScroll = YES;
+    [self darkCells];
+    // END EXPERIMENTAL CODE
+    [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
+}
+// EXPERIMENTAL CODE
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    if ([scrollView isKindOfClass:[UICollectionView class]] && autoScroll == YES){
+        [self darkCells];
+        autoScroll = NO;
+    }
+}
+
+
+-(void)darkCells{
+        
     [darkCells removeAllObjects];
-    [darkCells addObjectsFromArray:[cView indexPathsForVisibleItems]];
-    [darkCells removeObject:indexPath];
+    [darkCells addObjectsFromArray:[collectionView indexPathsForVisibleItems]];
+    [darkCells removeObjectsInArray:[collectionView indexPathsForSelectedItems]];
     for (NSIndexPath *idx in darkCells) {
-        UICollectionViewCell *darkcell = [cView cellForItemAtIndexPath:idx];
+        UICollectionViewCell *darkcell = [collectionView cellForItemAtIndexPath:idx];
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.5];
         [darkcell setAlpha:0.3];
         [UIView commitAnimations];
     }
-    // END EXPERIMENTAL CODE
-    [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
 }
-
-// EXPERIMENTAL CODE
 
 -(void)brightCells{
     for (NSIndexPath *idx in darkCells) {
@@ -3336,8 +3348,6 @@ NSIndexPath *selected;
 //	}
 //}
 
-
-
 -(void)dealloc{
     jsonRPC=nil;
     [richResults removeAllObjects];
@@ -3374,6 +3384,14 @@ NSIndexPath *selected;
 
 -(NSUInteger)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskPortrait;
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    if ([[collectionView indexPathsForSelectedItems] count] > 0){
+        [self darkCells];
+        [collectionView selectItemAtIndexPath:[[collectionView indexPathsForSelectedItems] objectAtIndex:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+        autoScroll = YES;
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{

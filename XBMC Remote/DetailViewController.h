@@ -92,6 +92,7 @@
     UICollectionViewFlowLayout *flowLayout;
     //  EXPERIMENTAL CODE
     NSMutableArray *darkCells;
+    BOOL autoScroll;
     // END EXPERIMENTAL CODE
 }
 
