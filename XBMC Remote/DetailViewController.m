@@ -2967,11 +2967,14 @@ NSIndexPath *selected;
     if (selection){
 		[self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selection animated:YES];
     }
-    for (selection in [collectionView indexPathsForSelectedItems]) {
-        [collectionView deselectItemAtIndexPath:selection animated:YES];
-    }
+    
+//    for (selection in [collectionView indexPathsForSelectedItems]) {
+//        [collectionView deselectItemAtIndexPath:selection animated:YES];
+//    }
+//    [self brightCells];
+
     [self choseParams];
-    [self brightCells];
+
 // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
 //    UIViewController *c = [[UIViewController alloc]init];
 //    [self presentViewController:c animated:NO completion:nil];
