@@ -1699,7 +1699,12 @@ NSIndexPath *selected;
             item = [self.filteredListContent objectAtIndex:selected.row];
         }
         else{
-            item = [[self.sections valueForKey:[sectionArray objectAtIndex:selected.section]] objectAtIndex:selected.row];
+            if (enableCollectionView){
+                item = item = [richResults objectAtIndex:selected.row];
+            }
+            else{
+                item = [[self.sections valueForKey:[sectionArray objectAtIndex:selected.section]] objectAtIndex:selected.row];
+            }
         }
         if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play", nil)]){
             NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
