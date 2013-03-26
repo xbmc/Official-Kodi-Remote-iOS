@@ -960,9 +960,7 @@ int originYear = 0;
     frame.size.width=thumbWidth;
     cell.urlImageView.frame=frame;
     NSDictionary *item=nil;
-    int checkNum=numResults;
     if (tableView == self.searchDisplayController.searchResultsTableView){
-        checkNum=numFilteredResults;
         item = [self.filteredListContent objectAtIndex:indexPath.row];
     }
 	else{
