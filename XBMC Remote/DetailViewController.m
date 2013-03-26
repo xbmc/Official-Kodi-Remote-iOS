@@ -658,76 +658,76 @@
     CGPoint offsetPoint = [cView contentOffset];
     int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
-    // EXPERIMENTAL CODE
+//    // EXPERIMENTAL CODE
+////    [cView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+////    int k = [cView numberOfSections];
+////    for (int j = 0; j < k; j++){
+////        int n = [cView numberOfItemsInSection:j];
+////        for (int i = 0; i < n; i++){
+////            UICollectionViewCell *cell = [cView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+////            if (cell != nil && ![[NSIndexPath indexPathForRow:i inSection:0] isEqual:indexPath]){
+////                [UIView beginAnimations:nil context:nil];
+////                [UIView setAnimationDuration:0.5];
+////                [cell setAlpha:0.3];
+////                [UIView commitAnimations];
+////                [darkCells addObject:cell];
+////            }
+////        }
+////    }
 //    [cView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
-//    int k = [cView numberOfSections];
-//    for (int j = 0; j < k; j++){
-//        int n = [cView numberOfItemsInSection:j];
-//        for (int i = 0; i < n; i++){
-//            UICollectionViewCell *cell = [cView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-//            if (cell != nil && ![[NSIndexPath indexPathForRow:i inSection:0] isEqual:indexPath]){
-//                [UIView beginAnimations:nil context:nil];
-//                [UIView setAnimationDuration:0.5];
-//                [cell setAlpha:0.3];
-//                [UIView commitAnimations];
-//                [darkCells addObject:cell];
-//            }
-//        }
-//    }
-    [cView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
-    autoScroll = YES;
-    [self darkCells];
-    // END EXPERIMENTAL CODE
+//    autoScroll = YES;
+//    [self darkCells];
+//    // END EXPERIMENTAL CODE
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
 }
-// EXPERIMENTAL CODE
-
--(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
-    if ([scrollView isKindOfClass:[UICollectionView class]] && autoScroll == YES){
-        [self darkCells];
-        autoScroll = NO;
-    }
-}
-
-
--(void)darkCells{
-        
-    [darkCells removeAllObjects];
-    [darkCells addObjectsFromArray:[collectionView indexPathsForVisibleItems]];
-    [darkCells removeObjectsInArray:[collectionView indexPathsForSelectedItems]];
-    for (NSIndexPath *idx in darkCells) {
-        UICollectionViewCell *darkcell = [collectionView cellForItemAtIndexPath:idx];
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.5];
-        [darkcell setAlpha:0.3];
-        [UIView commitAnimations];
-    }
-}
-
--(void)brightCells{
-    for (NSIndexPath *idx in darkCells) {
-        UICollectionViewCell *darkcell = [collectionView cellForItemAtIndexPath:idx];
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.2];
-        [darkcell setAlpha:1];
-        [UIView commitAnimations];
-    }
-    [darkCells removeAllObjects];
-}
-
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    [self brightCells];
-//    if ([darkCells count]){
-//        for (UICollectionViewCell *cell in darkCells) {
-//            [UIView beginAnimations:nil context:nil];
-//            [UIView setAnimationDuration:0.1];
-//            [cell setAlpha:1];
-//            [UIView commitAnimations];
-//        }
-//        [darkCells removeAllObjects];
+//// EXPERIMENTAL CODE
+//
+//-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+//    if ([scrollView isKindOfClass:[UICollectionView class]] && autoScroll == YES){
+//        [self darkCells];
+//        autoScroll = NO;
 //    }
-}
-// END EXPERIMENTAL CODE
+//}
+//
+//
+//-(void)darkCells{
+//        
+//    [darkCells removeAllObjects];
+//    [darkCells addObjectsFromArray:[collectionView indexPathsForVisibleItems]];
+//    [darkCells removeObjectsInArray:[collectionView indexPathsForSelectedItems]];
+//    for (NSIndexPath *idx in darkCells) {
+//        UICollectionViewCell *darkcell = [collectionView cellForItemAtIndexPath:idx];
+//        [UIView beginAnimations:nil context:nil];
+//        [UIView setAnimationDuration:0.5];
+//        [darkcell setAlpha:0.3];
+//        [UIView commitAnimations];
+//    }
+//}
+//
+//-(void)brightCells{
+//    for (NSIndexPath *idx in darkCells) {
+//        UICollectionViewCell *darkcell = [collectionView cellForItemAtIndexPath:idx];
+//        [UIView beginAnimations:nil context:nil];
+//        [UIView setAnimationDuration:0.2];
+//        [darkcell setAlpha:1];
+//        [UIView commitAnimations];
+//    }
+//    [darkCells removeAllObjects];
+//}
+//
+//-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+//    [self brightCells];
+////    if ([darkCells count]){
+////        for (UICollectionViewCell *cell in darkCells) {
+////            [UIView beginAnimations:nil context:nil];
+////            [UIView setAnimationDuration:0.1];
+////            [cell setAlpha:1];
+////            [UIView commitAnimations];
+////        }
+////        [darkCells removeAllObjects];
+////    }
+//}
+//// END EXPERIMENTAL CODE
 
 #pragma mark - Table Animation
 
@@ -3269,10 +3269,12 @@ NSIndexPath *selected;
                                              selector: @selector(handleShakeNotification)
                                                  name: @"UIApplicationShakeNotification"
                                                object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(brightCells)
-                                                 name: @"StackScrollCardDropNotification"
-                                               object: nil];
+//    //EXPERIMENTAL CODE
+//    [[NSNotificationCenter defaultCenter] addObserver: self
+//                                             selector: @selector(brightCells)
+//                                                 name: @"StackScrollCardDropNotification"
+//                                               object: nil];
+//    //END EXPERIMENTAL CODE
 
 }
 
@@ -3388,14 +3390,15 @@ NSIndexPath *selected;
 -(NSUInteger)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskPortrait;
 }
-
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    if ([[collectionView indexPathsForSelectedItems] count] > 0){
-        [self darkCells];
-        [collectionView selectItemAtIndexPath:[[collectionView indexPathsForSelectedItems] objectAtIndex:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
-        autoScroll = YES;
-    }
-}
+////EXPERIMENTAL CODE
+//-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+//    if ([[collectionView indexPathsForSelectedItems] count] > 0){
+//        [self darkCells];
+//        [collectionView selectItemAtIndexPath:[[collectionView indexPathsForSelectedItems] objectAtIndex:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+//        autoScroll = YES;
+//    }
+//}
+////END EXPERIMENTAL CODE
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
