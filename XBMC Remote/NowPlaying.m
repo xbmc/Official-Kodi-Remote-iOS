@@ -326,6 +326,7 @@ float cellBarWidth=45;
 	UIImage *result = [UIImage imageWithCGImage:ref];
 	
 	CGContextRelease(bitmap);
+    CGColorSpaceRelease(colorSpace);
 	CGImageRelease(ref);
 	
 	return result;
