@@ -2,6 +2,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#define DEFAULT_ALPHA 0.3f
+
 @interface BDKCollectionIndexView ()
 
 /** A component that shows up under the letters to indicate the view is handling a touch or a pan.
@@ -14,25 +16,20 @@
 
 /** A gesture recognizer that handles panning.
  */
-@property (strong, nonatomic) UIPanGestureRecognizer *panner;
+//@property (strong, nonatomic) UIPanGestureRecognizer *panner;
 
 /** A gesture recognizer that handles tapping.
  */
-@property (strong, nonatomic) UITapGestureRecognizer *tapper;
+@property (strong, nonatomic) UILongPressGestureRecognizer *tapper;
 
 /** A gesture recognizer that handles panning.
  */
 @property (readonly) CGFloat theDimension;
 
-/** Handles events sent by the tap gesture recognizer.
- *  @param recognizer the sender of the event; usually a UIPanGestureRecognizer.
+/** Handles events sent by the long press gesture recognizer.
+ *  @param recognizer the sender of the event; usually a UILongPressGestureRecognizer.
  */
-- (void)handleTap:(UITapGestureRecognizer *)recognizer;
-
-/** Handles events sent by the pan gesture recognizer.
- *  @param recognizer the sender of the event; usually a UIPanGestureRecognizer.
- */
-- (void)handlePan:(UIPanGestureRecognizer *)recognizer;
+- (void)handleTap:(UILongPressGestureRecognizer *)recognizer;
 
 /** Handles logic for determining which label is under a given touch point, and sets `currentIndex` accordingly.
  *  @param point the touch point.
@@ -63,14 +60,16 @@
         _currentIndex = 0;
         _endPadding = 2;
 
-        _panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-        [self addGestureRecognizer:_panner];
-        _tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        _tapper = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        [_tapper setMinimumPressDuration:0];
+        
         [self addGestureRecognizer:_tapper];
 
         [self addSubview:self.touchStatusView];
 
         self.indexTitles = indexTitles;
+        
+        self.alpha = DEFAULT_ALPHA;
     }
 
     return self;
@@ -86,7 +85,7 @@
             break;
         case BDKCollectionIndexViewDirectionVertical:
             _theDimension = CGRectGetWidth(self.frame);
-            maxLength = CGRectGetHeight(self.frame) - (self.endPadding * 2);
+            maxLength = CGRectGetHeight(self.frame);
             break;
     }
 
@@ -106,7 +105,7 @@
                 break;
             case BDKCollectionIndexViewDirectionVertical:
                 labelSize.height = otherDimension;
-                label.frame = (CGRect){ { 0, cumulativeLength }, labelSize };
+                label.frame = (CGRect){ { 0, cumulativeLength + 8 }, labelSize };
                 cumulativeLength += CGRectGetHeight(label.frame);
                 break;
         }
@@ -151,14 +150,13 @@
     for (NSString *indexTitle in self.indexTitles) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.text = indexTitle;
-        label.font = [UIFont boldSystemFontOfSize:12];
+        label.font = [UIFont boldSystemFontOfSize:11];
         label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor colorWithRed:0.415 green:0.451 blue:0.490 alpha:1.0];
+        label.textColor = [UIColor colorWithRed:65.0f/255.0f green:71.0f/255.0f blue:77.0/255.0f alpha:1.0];
         label.textAlignment = NSTextAlignmentCenter;
         [self addSubview:label];
         [workingLabels addObject:label];
     }
-
     self.indexLabels = [NSArray arrayWithArray:workingLabels];
 }
 
@@ -175,21 +173,22 @@
 }
 
 - (void)setBackgroundVisibility:(BOOL)flag {
-    CGFloat alpha = flag ? 0.25 : 0;
-    self.touchStatusView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:alpha];
+    CGFloat alpha = flag ? 0.65 : 0;
+    self.touchStatusView.backgroundColor = [UIColor colorWithRed:125.0f/255.0f green:132.0f/255.0f blue:135.0f/255.0f alpha:alpha];
 }
 
 #pragma mark - Gestures
 
-- (void)handleTap:(UITapGestureRecognizer *)recognizer {
-    [self setBackgroundVisibility:!(recognizer.state == UIGestureRecognizerStateEnded)];
+- (void)handleTap:(UILongPressGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateEnded){
+        [self setBackgroundVisibility:FALSE];
+        self.alpha = DEFAULT_ALPHA;
+    }
+    else{
+        [self setBackgroundVisibility:TRUE];
+        self.alpha = 1.0f;
+    }
     [self setNewIndexForPoint:[recognizer locationInView:self]];
-}
-
-- (void)handlePan:(UIPanGestureRecognizer *)recognizer {
-    [self setBackgroundVisibility:!(recognizer.state == UIGestureRecognizerStateEnded)];
-    CGPoint translation = [recognizer locationInView:self];
-    [self setNewIndexForPoint:translation];
 }
 
 @end
