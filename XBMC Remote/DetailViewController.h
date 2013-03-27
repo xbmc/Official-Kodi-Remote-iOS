@@ -16,6 +16,7 @@
 #import "WebViewController.h"
 #import "MoreItemsViewController.h"
 #import "Utilities.h"
+#import "BDKCollectionIndexView.h"
 
 @class NowPlaying;
 @class PlayFileViewController;
@@ -99,19 +100,15 @@
 - (id)initWithFrame:(CGRect)frame;
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(mainMenu *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
 
-//@property (nonatomic, retain) NSMutableArray *richResults;
 @property (nonatomic, retain) NSMutableArray *filteredListContent;
-
 @property (strong, nonatomic) id detailItem;
 @property(nonatomic,readonly) UIActivityIndicatorView *activityIndicatorView;
 @property (strong, nonatomic) ShowInfoViewController *showInfoViewController;
-
 @property (strong, nonatomic) DetailViewController *detailViewController;
 @property (strong, nonatomic) NowPlaying *nowPlaying;
 @property (strong, nonatomic) PlayFileViewController *playFileViewController;
 @property (strong, nonatomic) WebViewController *webViewController;
-
-
+@property (strong, nonatomic) BDKCollectionIndexView *indexView;
 @property (nonatomic,retain) NSMutableDictionary *sections;
 
 @end

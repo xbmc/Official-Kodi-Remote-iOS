@@ -306,6 +306,7 @@
             return;
         }
     }
+    self.indexView.hidden = YES;
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     if (choosedTab < [buttonsIB count]){
         [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
@@ -359,7 +360,6 @@
         [dataList setDataSource:nil];
         [collectionView setDelegate:self];
         [collectionView setDataSource:self];
-//        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 24)];
         [dataList setScrollsToTop:NO];
         [collectionView setScrollsToTop:YES];
         activeLayoutView = collectionView;
@@ -370,12 +370,11 @@
         [dataList setDataSource:self];
         [collectionView setDelegate:nil];
         [collectionView setDataSource:nil];
-//        [flowLayout setHeaderReferenceSize:CGSizeMake(0, 0)];
         [dataList setScrollsToTop:YES];
         [collectionView setScrollsToTop:NO];
         activeLayoutView = dataList;
         [dataList setContentOffset:dataList.contentOffset animated:NO];
-
+        self.indexView.hidden = YES;
     }
     self.navigationItem.title = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"label"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -727,6 +726,32 @@
 ////    }
 //}
 //// END EXPERIMENTAL CODE
+
+#pragma mark - BDKCollectionIndexView init
+
+- (BDKCollectionIndexView *)indexView {
+    if (_indexView) return _indexView;
+    CGFloat indexWidth = 28;
+    CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
+                              CGRectGetMinY(dataList.frame) + 4,
+                              indexWidth,
+                              CGRectGetHeight(dataList.frame) - 4);
+    _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
+    _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
+    [_indexView addTarget:self action:@selector(indexViewValueChanged:) forControlEvents:UIControlEventValueChanged];
+    return _indexView;
+}
+
+- (void)indexViewValueChanged:(BDKCollectionIndexView *)sender {
+    if (sender.currentIndex == 0) return;
+    NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];    
+    [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+    
+    // I bump the y-offset up by 45 points here to account for aligning the top of
+    // the section header view with the top of the collectionView frame. It's
+    // hardcoded, but you get the idea.
+    collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - 24);
+}
 
 #pragma mark - Table Animation
 
@@ -2840,9 +2865,7 @@ NSIndexPath *selected;
         // FINE CONDIZIONE
     }
     if ([self.detailItem enableSection] && [richResults count]>SECTIONS_START_AT){
-//        if (enableCollectionView == FALSE){
-            [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
-//        }
+        [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
         BOOL found;
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
@@ -2896,6 +2919,7 @@ NSIndexPath *selected;
                     [[self.sections allKeys] sortedArrayUsingComparator:^(id firstObject, id secondObject) {
         return [self alphaNumericCompare:firstObject secondObject:secondObject];
     }]];
+    
     sectionArrayOpen = [[NSMutableArray alloc] init];
     BOOL defaultValue = FALSE;
     if ([sectionArray count] == 1){
@@ -2916,15 +2940,19 @@ NSIndexPath *selected;
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
     [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
-
-//    if (enableCollectionView){
-//        [collectionView reloadData];
-//        [self AnimTable:(UITableView *)collectionView AnimDuration:0.3 Alpha:1.0 XPos:0];
-//    }
-//    else{
-//        [dataList reloadData];
-//        [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-//    }
+    if (collectionView != nil){
+        NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:sectionArray];
+        if ([tmpArr count] > 1){
+            [tmpArr replaceObjectAtIndex:0 withObject:[NSString stringWithUTF8String:"\xF0\x9F\x94\x8D"]];
+            
+            self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+            [detailView addSubview:self.indexView];
+            self.indexView.hidden = YES;
+            if (enableCollectionView){
+                self.indexView.hidden = NO;
+            }
+        }
+    }
 }
 
 -(NSComparisonResult)alphaNumericCompare:(id)firstObject secondObject:(id)secondObject{
@@ -3168,6 +3196,12 @@ NSIndexPath *selected;
         }
         [collectionView addGestureRecognizer:longPressGesture];
         [detailView addSubview:collectionView];
+        NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:sectionArray];
+        if ([tmpArr count] > 1){
+            [tmpArr replaceObjectAtIndex:0 withObject:[NSString stringWithUTF8String:"\xF0\x9F\x94\x8D"]];
+            self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+            [detailView addSubview:self.indexView];
+        }
     }
     activeLayoutView = collectionView;
 }
@@ -3304,23 +3338,22 @@ NSIndexPath *selected;
                                  [dataList setDataSource:nil];
                                  [collectionView setDelegate:self];
                                  [collectionView setDataSource:self];
-//                                 [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 24)];
                                  [dataList setScrollsToTop:NO];
                                  [collectionView setScrollsToTop:YES];
                                  activeLayoutView = collectionView;
                                  [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
+                                 self.indexView.hidden = NO;
                              }
                              else{
                                  [dataList setDelegate:self];
                                  [dataList setDataSource:self];
                                  [collectionView setDelegate:nil];
                                  [collectionView setDataSource:nil];
-//                                 [flowLayout setHeaderReferenceSize:CGSizeMake(0, 0)];
                                  [dataList setScrollsToTop:YES];
                                  [collectionView setScrollsToTop:NO];
                                  activeLayoutView = dataList;
                                  [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
-                                 
+                                 self.indexView.hidden = YES;
                              }
                              [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
                              
