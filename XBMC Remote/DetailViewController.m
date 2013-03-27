@@ -48,6 +48,7 @@
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 #define MAX_NORMAL_BUTTONS 4
 #define WARNING_TIMEOUT 30.0f
+#define COLLECTION_HEADER_HEIGHT 24
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -592,6 +593,17 @@
     }
 }
 
+#pragma mark - UICollectionView FlowLayout deleagate
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+    if (enableCollectionView && [richResults count] > SECTIONS_START_AT && section > 0){
+        return CGSizeMake(dataList.frame.size.width, COLLECTION_HEADER_HEIGHT);
+    }
+    else{
+        return CGSizeMake(0, 0);
+    }
+}
+
 #pragma mark - UICollectionView delegate
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -605,15 +617,6 @@
     NSString *searchTerm = [sectionArray objectAtIndex:indexPath.section];
     [headerView setHeaderText:searchTerm];
     return headerView;
-}
-
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    if (enableCollectionView && [richResults count] > SECTIONS_START_AT && section > 0){
-        return CGSizeMake(dataList.frame.size.width, 24);
-    }
-    else{
-        return CGSizeMake(0, 0);
-    }
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -746,11 +749,7 @@
     if (sender.currentIndex == 0) return;
     NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];    
     [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-    
-    // I bump the y-offset up by 45 points here to account for aligning the top of
-    // the section header view with the top of the collectionView frame. It's
-    // hardcoded, but you get the idea.
-    collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - 24);
+    collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT);
 }
 
 #pragma mark - Table Animation
