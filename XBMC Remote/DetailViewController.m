@@ -2997,9 +2997,9 @@ NSIndexPath *selected;
 		[self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selection animated:YES];
     }
     
-//    for (selection in [collectionView indexPathsForSelectedItems]) {
-//        [collectionView deselectItemAtIndexPath:selection animated:YES];
-//    }
+    for (selection in [collectionView indexPathsForSelectedItems]) {
+        [collectionView deselectItemAtIndexPath:selection animated:YES];
+    }
 //    [self brightCells];
 
     [self choseParams];

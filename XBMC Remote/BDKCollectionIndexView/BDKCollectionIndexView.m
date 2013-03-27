@@ -105,7 +105,7 @@
                 break;
             case BDKCollectionIndexViewDirectionVertical:
                 labelSize.height = otherDimension;
-                label.frame = (CGRect){ { 0, cumulativeLength + 8 }, labelSize };
+                label.frame = (CGRect){ { 0, cumulativeLength + 4 }, labelSize };
                 cumulativeLength += CGRectGetHeight(label.frame);
                 break;
         }
