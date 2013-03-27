@@ -25,11 +25,8 @@
 //    CAShapeLayer* shape = [[CAShapeLayer alloc] init];
 //    [shape setPath:rounded.CGPath];
 //    self.layer.mask = shape;
-
-    UIEdgeInsets insets = {1, 3, 0, 3};
-
+    UIEdgeInsets insets = {0, 3, 0, 3};
     return [super drawTextInRect:UIEdgeInsetsInsetRect(rect, insets)];
 }
-
 
 @end

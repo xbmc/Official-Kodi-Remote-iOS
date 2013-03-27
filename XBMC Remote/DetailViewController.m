@@ -359,12 +359,11 @@
         [dataList setDataSource:nil];
         [collectionView setDelegate:self];
         [collectionView setDataSource:self];
-//        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 20)];
+//        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 24)];
         [dataList setScrollsToTop:NO];
         [collectionView setScrollsToTop:YES];
         activeLayoutView = collectionView;
         [collectionView setContentOffset:collectionView.contentOffset animated:NO];
-
     }
     else{
         [dataList setDelegate:self];
@@ -597,42 +596,41 @@
 #pragma mark - UICollectionView delegate
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-//    return [[self.sections allKeys] count];
-    return  1;
+    return [[self.sections allKeys] count];
+//    return  1;
 }
 
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)cView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-////    UICollectionReusableView *headerView = [cView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"posterHeader" forIndexPath:indexPath];
-////    [headerView setBackgroundColor:[UIColor redColor]];
-//    static NSString *identifier = @"posterHeaderView";
-//
-//    PosterHeaderView *headerView = [cView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:identifier forIndexPath:indexPath];
-//    NSString *searchTerm = [sectionArray objectAtIndex:indexPath.section];
-//    [headerView setHeaderText:searchTerm];
-//    NSLog(@"HEADER %@", searchTerm);
-//
-//    return headerView;
-//}
+- (UICollectionReusableView *)collectionView:(UICollectionView *)cView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    static NSString *identifier = @"posterHeaderView";
+    PosterHeaderView *headerView = [cView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:identifier forIndexPath:indexPath];
+    NSString *searchTerm = [sectionArray objectAtIndex:indexPath.section];
+    [headerView setHeaderText:searchTerm];
+    return headerView;
+}
 
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+    if (enableCollectionView && [richResults count] > SECTIONS_START_AT && section > 0){
+        return CGSizeMake(dataList.frame.size.width, 24);
+    }
+    else{
+        return CGSizeMake(0, 0);
+    }
+}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-//    if (episodesView){
-//        return ([[sectionArrayOpen objectAtIndex:section] boolValue] ? [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count] : 0);
-//    }
-//
-//    return [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count];
-    return [richResults count];
+    if (episodesView){
+        return ([[sectionArrayOpen objectAtIndex:section] boolValue] ? [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count] : 0);
+    }
+    return [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count];
+//    return [richResults count];
 }
-
-
-
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"posterCell";
     PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
-//    NSDictionary *item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    NSDictionary *item = [richResults objectAtIndex:indexPath.row];
+    NSDictionary *item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+//    NSDictionary *item = [richResults objectAtIndex:indexPath.row];
 
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *displayThumb=defaultThumb;
@@ -652,7 +650,8 @@
 }
 
 -(void)collectionView:(UICollectionView *)cView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSDictionary *item = [richResults objectAtIndex:indexPath.row];
+//    NSDictionary *item = [richResults objectAtIndex:indexPath.row];
+    NSDictionary *item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     UICollectionViewCell *cell = [cView cellForItemAtIndexPath:indexPath];
     [cell setAlpha:1];
     CGPoint offsetPoint = [cView contentOffset];
@@ -1712,7 +1711,9 @@ NSIndexPath *selected;
         }
         else{
             if (enableCollectionView){
-                item = item = [richResults objectAtIndex:selected.row];
+//                item = item = [richResults objectAtIndex:selected.row];
+                item = [[self.sections valueForKey:[sectionArray objectAtIndex:selected.section]] objectAtIndex:selected.row];
+
             }
             else{
                 item = [[self.sections valueForKey:[sectionArray objectAtIndex:selected.section]] objectAtIndex:selected.row];
@@ -3067,10 +3068,10 @@ NSIndexPath *selected;
     albumFontSize = 18;
     trackCountFontSize = 13;
     labelPadding = 8;
-//    cellGridWidth =116.0f;
-//    cellGridHeight =  166.0f;
-    cellGridWidth =157.0f;
-    cellGridHeight =  225.0f;
+    cellGridWidth =116.0f;
+    cellGridHeight =  166.0f;
+//    cellGridWidth =157.0f;
+//    cellGridHeight =  225.0f;
     posterFontSize = 11;
 //    if (!(albumView || episodesView)){
 //        int titleWidth = 400;
@@ -3151,7 +3152,7 @@ NSIndexPath *selected;
         [flowLayout setMinimumInteritemSpacing:2.0f];
         [flowLayout setMinimumLineSpacing:2.0f];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-//        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 20)];
+//        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 24)];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
         [collectionView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
         [collectionView setDelegate:self];
@@ -3303,7 +3304,7 @@ NSIndexPath *selected;
                                  [dataList setDataSource:nil];
                                  [collectionView setDelegate:self];
                                  [collectionView setDataSource:self];
-                                 //        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 20)];
+//                                 [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 24)];
                                  [dataList setScrollsToTop:NO];
                                  [collectionView setScrollsToTop:YES];
                                  activeLayoutView = collectionView;
@@ -3314,7 +3315,7 @@ NSIndexPath *selected;
                                  [dataList setDataSource:self];
                                  [collectionView setDelegate:nil];
                                  [collectionView setDataSource:nil];
-                                 //        [flowLayout setHeaderReferenceSize:CGSizeMake(0, 0)];
+//                                 [flowLayout setHeaderReferenceSize:CGSizeMake(0, 0)];
                                  [dataList setScrollsToTop:YES];
                                  [collectionView setScrollsToTop:NO];
                                  activeLayoutView = dataList;
