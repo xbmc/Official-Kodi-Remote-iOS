@@ -95,6 +95,8 @@
     NSMutableArray *darkCells;
     BOOL autoScroll;
     // END EXPERIMENTAL CODE
+    UIView *sectionNameOverlayView;
+    UILabel *sectionNameLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame;

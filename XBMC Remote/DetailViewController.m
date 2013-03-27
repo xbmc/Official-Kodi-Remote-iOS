@@ -613,7 +613,6 @@
         [flowLayout setMinimumInteritemSpacing:2.0f];
         [flowLayout setMinimumLineSpacing:2.0f];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-        //        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 24)];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
         [collectionView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
         [collectionView setDelegate:self];
@@ -765,10 +764,37 @@
 
 #pragma mark - BDKCollectionIndexView init
 
+-(void)initSectionNameOverlayView{
+    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width / 4, self.view.frame.size.width / 4)];
+    sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
+
+    [sectionNameOverlayView setBackgroundColor:[UIColor clearColor]];
+    sectionNameOverlayView.center = self.view.center;
+    float cornerRadius = 6.0f;
+    sectionNameOverlayView.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.85f].CGColor;
+    sectionNameOverlayView.layer.shadowOpacity = 1.0f;
+    sectionNameOverlayView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+    sectionNameOverlayView.layer.shadowRadius = 1.0f;
+    sectionNameOverlayView.layer.masksToBounds = NO;
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:sectionNameOverlayView.bounds
+                                               byRoundingCorners:UIRectCornerAllCorners
+                                                     cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
+    sectionNameOverlayView.layer.shadowPath = path.CGPath;
+    
+    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height/2 - 10, sectionNameOverlayView.frame.size.width, 20)];
+    [sectionNameLabel setFont:[UIFont boldSystemFontOfSize:17]];
+    [sectionNameLabel setTextColor:[UIColor whiteColor]];
+    [sectionNameLabel setBackgroundColor:[UIColor clearColor]];
+    [sectionNameLabel setTextAlignment:NSTextAlignmentCenter];    
+    [sectionNameOverlayView addSubview:sectionNameLabel];
+    
+    [self.view addSubview:sectionNameOverlayView];
+}
+
 - (BDKCollectionIndexView *)indexView {
     if (_indexView) return _indexView;
     CGFloat indexWidth = 28;
-    CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
+    CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth - 4,
                               CGRectGetMinY(dataList.frame) + 4,
                               indexWidth,
                               CGRectGetHeight(dataList.frame) - 4);
@@ -783,6 +809,11 @@
     NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];    
     [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
     collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT);
+    if (sectionNameOverlayView == nil){
+        [self initSectionNameOverlayView];
+    }
+    sectionNameLabel.text = [sectionArray objectAtIndex:sender.currentIndex];
+    [self alphaView:sectionNameOverlayView AnimDuration:0.1f Alpha:1];
 }
 
 #pragma mark - Table Animation
@@ -3311,7 +3342,25 @@ NSIndexPath *selected;
 //                                                 name: @"StackScrollCardDropNotification"
 //                                               object: nil];
 //    //END EXPERIMENTAL CODE
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleCollectionIndexStateBegin)
+                                                 name: @"BDKCollectionIndexViewGestureRecognizerStateBegin"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleCollectionIndexStateEnded)
+                                                 name: @"BDKCollectionIndexViewGestureRecognizerStateEnded"
+                                               object: nil];
 
+}
+
+-(void)handleCollectionIndexStateBegin{
+    [self alphaView:sectionNameOverlayView AnimDuration:0.1f Alpha:1];
+}
+
+-(void)handleCollectionIndexStateEnded{
+    [self alphaView:sectionNameOverlayView AnimDuration:0.3f Alpha:0];
 }
 
 -(void)handleShakeNotification{

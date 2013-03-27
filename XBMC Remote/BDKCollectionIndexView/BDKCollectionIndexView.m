@@ -183,10 +183,13 @@
     if (recognizer.state == UIGestureRecognizerStateEnded){
         [self setBackgroundVisibility:FALSE];
         self.alpha = DEFAULT_ALPHA;
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateEnded" object: nil];
     }
     else{
         [self setBackgroundVisibility:TRUE];
         self.alpha = 1.0f;
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateBegin" object: nil];
+
     }
     [self setNewIndexForPoint:[recognizer locationInView:self]];
 }
