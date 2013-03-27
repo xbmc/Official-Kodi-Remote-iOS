@@ -400,6 +400,7 @@
 		0F7D9A58163D45600069BC16 /* coverbox_back_section_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7D9A57163D45600069BC16 /* coverbox_back_section_shadow@2x.png */; };
 		0F7E5F8015890AEE003434B7 /* keyboard_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7E5F7F15890AEE003434B7 /* keyboard_icon@2x.png */; };
 		0F7E5F8315890B40003434B7 /* keyboard_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7E5F8215890B40003434B7 /* keyboard_icon.png */; };
+		0F7F0DCC1703490A0098FF75 /* BDKCollectionIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F0DC91703490A0098FF75 /* BDKCollectionIndexView.m */; };
 		0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA2164A6D730080A14A /* ECSlidingViewController.m */; };
 		0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA4164A6D730080A14A /* UIImage+ImageWithUIView.m */; };
 		0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */; };
@@ -1121,6 +1122,8 @@
 		0F7D9A57163D45600069BC16 /* coverbox_back_section_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coverbox_back_section_shadow@2x.png"; sourceTree = "<group>"; };
 		0F7E5F7F15890AEE003434B7 /* keyboard_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_icon@2x.png"; sourceTree = "<group>"; };
 		0F7E5F8215890B40003434B7 /* keyboard_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = keyboard_icon.png; sourceTree = "<group>"; };
+		0F7F0DC81703490A0098FF75 /* BDKCollectionIndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDKCollectionIndexView.h; sourceTree = "<group>"; };
+		0F7F0DC91703490A0098FF75 /* BDKCollectionIndexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDKCollectionIndexView.m; sourceTree = "<group>"; };
 		0F7F3DA1164A6D730080A14A /* ECSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingViewController.h; sourceTree = "<group>"; };
 		0F7F3DA2164A6D730080A14A /* ECSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSlidingViewController.m; sourceTree = "<group>"; };
 		0F7F3DA3164A6D730080A14A /* UIImage+ImageWithUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageWithUIView.h"; sourceTree = "<group>"; };
@@ -1614,7 +1617,6 @@
 		0F5548EB151D1187007E633F = {
 			isa = PBXGroup;
 			children = (
-				0F32092F16FE193400636BA2 /* ImageIO.framework */,
 				0FD1F1F916034C0300408DA5 /* Default-568h@2x.png */,
 				0F59E2661564796B00184AE8 /* CONTRIBUTING */,
 				0F59E26315646FB800184AE8 /* LICENSE */,
@@ -1643,6 +1645,7 @@
 		0F5548F9151D1187007E633F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F32092F16FE193400636BA2 /* ImageIO.framework */,
 				0FB8598515FF9ED10070F324 /* AVFoundation.framework */,
 				0F49885C152879FF0041DA92 /* QuartzCore.framework */,
 				0F747739151E094C00EF78AD /* AudioToolbox.framework */,
@@ -2241,6 +2244,7 @@
 				0F00207316EE247A003822B5 /* OBSlider */,
 				0F4156421646D810009E6DD4 /* KenBurns */,
 				0F7F3DA0164A6D730080A14A /* ECSlidingViewController */,
+				0F7F0DC71703490A0098FF75 /* BDKCollectionIndexView */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -2258,6 +2262,15 @@
 			);
 			name = "Demiurgic-JSON-RPC";
 			path = "dbowen-Demiurgic-JSON-RPC-168ecc9";
+			sourceTree = "<group>";
+		};
+		0F7F0DC71703490A0098FF75 /* BDKCollectionIndexView */ = {
+			isa = PBXGroup;
+			children = (
+				0F7F0DC81703490A0098FF75 /* BDKCollectionIndexView.h */,
+				0F7F0DC91703490A0098FF75 /* BDKCollectionIndexView.m */,
+			);
+			path = BDKCollectionIndexView;
 			sourceTree = "<group>";
 		};
 		0F7F3DA0164A6D730080A14A /* ECSlidingViewController */ = {
@@ -3133,6 +3146,7 @@
 				0F32092C16FE181300636BA2 /* SDWebImagePrefetcher.m in Sources */,
 				0F32092D16FE181300636BA2 /* UIButton+WebCache.m in Sources */,
 				0F32092E16FE181300636BA2 /* UIImageView+WebCache.m in Sources */,
+				0F7F0DCC1703490A0098FF75 /* BDKCollectionIndexView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
