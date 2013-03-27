@@ -189,7 +189,6 @@
         [self setBackgroundVisibility:TRUE];
         self.alpha = 1.0f;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateBegin" object: nil];
-
     }
     [self setNewIndexForPoint:[recognizer locationInView:self]];
 }

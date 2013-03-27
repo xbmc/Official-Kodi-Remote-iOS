@@ -813,7 +813,14 @@
         [self initSectionNameOverlayView];
     }
     sectionNameLabel.text = [sectionArray objectAtIndex:sender.currentIndex];
+}
+
+-(void)handleCollectionIndexStateBegin{
     [self alphaView:sectionNameOverlayView AnimDuration:0.1f Alpha:1];
+}
+
+-(void)handleCollectionIndexStateEnded{
+    [self alphaView:sectionNameOverlayView AnimDuration:0.3f Alpha:0];
 }
 
 #pragma mark - Table Animation
@@ -3353,14 +3360,6 @@ NSIndexPath *selected;
                                                  name: @"BDKCollectionIndexViewGestureRecognizerStateEnded"
                                                object: nil];
 
-}
-
--(void)handleCollectionIndexStateBegin{
-    [self alphaView:sectionNameOverlayView AnimDuration:0.1f Alpha:1];
-}
-
--(void)handleCollectionIndexStateEnded{
-    [self alphaView:sectionNameOverlayView AnimDuration:0.3f Alpha:0];
 }
 
 -(void)handleShakeNotification{
