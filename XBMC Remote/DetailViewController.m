@@ -48,7 +48,7 @@
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 #define MAX_NORMAL_BUTTONS 4
 #define WARNING_TIMEOUT 30.0f
-#define COLLECTION_HEADER_HEIGHT 24
+#define COLLECTION_HEADER_HEIGHT 1
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -421,7 +421,7 @@
     }
 }
 
-#pragma mark - UICollectionView & UITableView didSelect
+#pragma mark - Library item didSelect
 
 -(void)didSelectItemAtIndexPath:(NSIndexPath *)indexPath item:(NSDictionary *)item displayPoint:(CGPoint) point{
     
@@ -604,7 +604,40 @@
     }
 }
 
-#pragma mark - UICollectionView delegate
+#pragma mark - UICollectionView methods
+
+-(void)initCollectionView{
+    if (collectionView == nil){
+        flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
+        [flowLayout setMinimumInteritemSpacing:2.0f];
+        [flowLayout setMinimumLineSpacing:2.0f];
+        [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+        //        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 24)];
+        collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
+        [collectionView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+        [collectionView setDelegate:self];
+        [collectionView setDataSource:self];
+        [collectionView registerClass:[PosterCell class] forCellWithReuseIdentifier:@"posterCell"];
+        [collectionView registerClass:[PosterHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"posterHeaderView"];
+        [collectionView setAutoresizingMask:dataList.autoresizingMask];
+        [dataList setDelegate:nil];
+        [dataList setDataSource:nil];
+        if (longPressGesture == nil){
+            longPressGesture = [UILongPressGestureRecognizer new];
+            [longPressGesture addTarget:self action:@selector(handleLongPress)];
+        }
+        [collectionView addGestureRecognizer:longPressGesture];
+        [detailView addSubview:collectionView];
+        NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:sectionArray];
+        if ([tmpArr count] > 1){
+            [tmpArr replaceObjectAtIndex:0 withObject:[NSString stringWithUTF8String:"\xF0\x9F\x94\x8D"]];
+            self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+            [detailView addSubview:self.indexView];
+        }
+    }
+    activeLayoutView = collectionView;
+}
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return [[self.sections allKeys] count];
@@ -1685,13 +1718,15 @@ NSIndexPath *selected;
                 else{                    
                     if (enableCollectionView){
                         [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-                        item = [richResults objectAtIndex:indexPath.row];
+//                        item = [richResults objectAtIndex:indexPath.row];
                     }
                     else{
                         [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-                        item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+//                        item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
 
                     }
+                    item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+
 
                 }
 //                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
@@ -3170,39 +3205,6 @@ NSIndexPath *selected;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSString *viewKey = [NSString stringWithFormat:@"%@%@_grid_preference", [methods objectForKey:@"method"], [parameters objectForKey:@"collectionViewUniqueKey"]];
     return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
-}
-
--(void)initCollectionView{
-    if (collectionView == nil){
-        flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
-        [flowLayout setMinimumInteritemSpacing:2.0f];
-        [flowLayout setMinimumLineSpacing:2.0f];
-        [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-//        [flowLayout setHeaderReferenceSize:CGSizeMake(dataList.frame.size.width, 24)];
-        collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
-        [collectionView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
-        [collectionView setDelegate:self];
-        [collectionView setDataSource:self];
-        [collectionView registerClass:[PosterCell class] forCellWithReuseIdentifier:@"posterCell"];
-        [collectionView registerClass:[PosterHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"posterHeaderView"];
-        [collectionView setAutoresizingMask:dataList.autoresizingMask];
-        [dataList setDelegate:nil];
-        [dataList setDataSource:nil];
-        if (longPressGesture == nil){
-            longPressGesture = [UILongPressGestureRecognizer new];
-            [longPressGesture addTarget:self action:@selector(handleLongPress)];
-        }
-        [collectionView addGestureRecognizer:longPressGesture];
-        [detailView addSubview:collectionView];
-        NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:sectionArray];
-        if ([tmpArr count] > 1){
-            [tmpArr replaceObjectAtIndex:0 withObject:[NSString stringWithUTF8String:"\xF0\x9F\x94\x8D"]];
-            self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
-            [detailView addSubview:self.indexView];
-        }
-    }
-    activeLayoutView = collectionView;
 }
 
 - (void)viewDidLoad{
