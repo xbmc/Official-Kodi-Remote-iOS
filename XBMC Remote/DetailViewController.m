@@ -610,10 +610,13 @@
     }
 }
 
-#pragma mark - UICollectionView methods
+#pragma mark - UIScrollView delegate
+
 -(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
-    [SDWebImageManager.sharedManager cancelAll];
+    [SDWebImageManager.sharedManager.imageCache clearMemory];
 }
+
+#pragma mark - UICollectionView methods
 
 -(void)initCollectionView{
     if (collectionView == nil){
@@ -833,7 +836,7 @@
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView *)sender {
-    [SDWebImageManager.sharedManager cancelAll];
+    [SDWebImageManager.sharedManager.imageCache clearMemory];
     if (sender.currentIndex == 0){
         [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
         return;
