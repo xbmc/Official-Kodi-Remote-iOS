@@ -76,6 +76,7 @@
     NSString *embedVideoURL;
     UIActivityIndicatorView *embedVideoActivityIndicator;
     SDImageCache *imageCache;
+    NSString *embedVideo;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

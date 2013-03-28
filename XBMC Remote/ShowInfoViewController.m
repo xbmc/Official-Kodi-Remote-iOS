@@ -1185,7 +1185,7 @@ int h=0;
                 
                 [trailerView.layer setBorderWidth:1];
                 [trailerView.layer setBorderColor:[[UIColor blackColor] CGColor]];
-                NSString *embedVideo = [NSString stringWithFormat:@"\
+                embedVideo = [NSString stringWithFormat:@"\
                                           <html>\
                                           <head>\
                                           <style type=\"text/css\">\
@@ -1254,6 +1254,10 @@ int h=0;
     [scrollView addSubview:clearlogoButton];
     startY = startY + clearLogoHeight + 20;
     scrollView.contentSize=CGSizeMake(320, startY);
+}
+
+-(void)buildTrailerView{
+    
 }
 
 - (void)showBackground:(id)sender{
@@ -1618,7 +1622,7 @@ int h=0;
     BOOL kenBurns = NO;
     NSString *kenBurnsString = [userDefaults objectForKey:@"ken_preference"];
     if (kenBurnsString == nil || [kenBurnsString boolValue]) kenBurns = YES;
-    enableKenBurns = kenBurns                                                ;
+    enableKenBurns = kenBurns;
     self.kenView = nil;
     [self configureView];
     GlobalData *obj=[GlobalData getInstance];
@@ -1631,6 +1635,12 @@ int h=0;
 - (void)viewDidUnload{
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    [trailerView stopLoading];
+    [trailerView loadHTMLString:embedVideo baseURL:nil];
 }
 
 -(void)dealloc{
