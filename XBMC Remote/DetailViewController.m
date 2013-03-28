@@ -164,6 +164,7 @@
 
 -(IBAction)showMore:(id)sender{
 //    if ([sender tag]==choosedTab) return;
+    self.indexView.hidden = YES;
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [activityIndicatorView startAnimating];
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
