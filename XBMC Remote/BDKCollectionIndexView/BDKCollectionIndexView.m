@@ -2,7 +2,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#define DEFAULT_ALPHA 0.3f
+#define DEFAULT_ALPHA 0.5f
 
 @interface BDKCollectionIndexView ()
 
@@ -57,7 +57,7 @@
             _direction = BDKCollectionIndexViewDirectionHorizontal;
         else _direction = BDKCollectionIndexViewDirectionVertical;
 
-        _currentIndex = 0;
+        _currentIndex = -1;
         _endPadding = 2;
 
         _tapper = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];

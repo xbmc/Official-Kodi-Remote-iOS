@@ -20,11 +20,11 @@
     if (self) {
         self.restorationIdentifier = @"posterHeaderView";
         
-        if (self.frame.size.height > 0){
-            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
-            [lineView setBackgroundColor:[UIColor colorWithRed:130.0f/255.0f green:130.0f/255.0f blue:130.0f/255.0f alpha:1]];
-            [self addSubview:lineView];
-        }
+//        if (self.frame.size.height > 0){
+//            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
+//            [lineView setBackgroundColor:[UIColor colorWithRed:130.0f/255.0f green:130.0f/255.0f blue:130.0f/255.0f alpha:1]];
+//            [self addSubview:lineView];
+//        }
         
         if (self.frame.size.height > 1){
             UIView *lineViewBottom = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];

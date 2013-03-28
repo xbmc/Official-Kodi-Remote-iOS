@@ -48,7 +48,7 @@
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 #define MAX_NORMAL_BUTTONS 4
 #define WARNING_TIMEOUT 30.0f
-#define COLLECTION_HEADER_HEIGHT 1
+#define COLLECTION_HEADER_HEIGHT 24
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -288,6 +288,31 @@
     return;
 }
 
+-(void)configureLibraryView{
+    if (enableCollectionView){
+        [self initCollectionView];
+        [dataList setDelegate:nil];
+        [dataList setDataSource:nil];
+        [collectionView setDelegate:self];
+        [collectionView setDataSource:self];
+        [dataList setScrollsToTop:NO];
+        [collectionView setScrollsToTop:YES];
+        activeLayoutView = collectionView;
+        self.indexView.hidden = NO;
+    }
+    else{
+        [dataList setDelegate:self];
+        [dataList setDataSource:self];
+        [collectionView setDelegate:nil];
+        [collectionView setDataSource:nil];
+        [dataList setScrollsToTop:YES];
+        [collectionView setScrollsToTop:NO];
+        activeLayoutView = dataList;
+        self.indexView.hidden = YES;
+    }
+    [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+}
+
 -(IBAction)changeTab:(id)sender{
     if (activityIndicatorView.hidden == NO) return;
     if ([sender tag]==choosedTab) {
@@ -347,36 +372,9 @@
         animDuration = 0.0;
     }
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
-
-//    if (enableCollectionView){
-//        [self AnimTable:(UITableView *)collectionView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
-//    }
-//    else{
-//        [self AnimTable:dataList AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
-//    }
     enableCollectionView = newEnableCollectionView;
-    if (enableCollectionView){
-        [self initCollectionView];
-        [dataList setDelegate:nil];
-        [dataList setDataSource:nil];
-        [collectionView setDelegate:self];
-        [collectionView setDataSource:self];
-        [dataList setScrollsToTop:NO];
-        [collectionView setScrollsToTop:YES];
-        activeLayoutView = collectionView;
-        [collectionView setContentOffset:collectionView.contentOffset animated:NO];
-    }
-    else{
-        [dataList setDelegate:self];
-        [dataList setDataSource:self];
-        [collectionView setDelegate:nil];
-        [collectionView setDataSource:nil];
-        [dataList setScrollsToTop:YES];
-        [collectionView setScrollsToTop:NO];
-        activeLayoutView = dataList;
-        [dataList setContentOffset:dataList.contentOffset animated:NO];
-        self.indexView.hidden = YES;
-    }
+    [self configureLibraryView];
+    [activeLayoutView setContentOffset:[(UITableView *)activeLayoutView contentOffset] animated:NO];
     self.navigationItem.title = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"label"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         [UIView beginAnimations:nil context:nil];
@@ -627,6 +625,7 @@
             [longPressGesture addTarget:self action:@selector(handleLongPress)];
         }
         [collectionView addGestureRecognizer:longPressGesture];
+        [collectionView addSubview:self.searchDisplayController.searchBar];
         [detailView addSubview:collectionView];
         NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:sectionArray];
         if ([tmpArr count] > 1){
@@ -641,6 +640,13 @@
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return [[self.sections allKeys] count];
 //    return  1;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    if (section == 0) {
+        return UIEdgeInsetsMake(CGRectGetHeight(self.searchDisplayController.searchBar.frame), 0, 0, 0);
+    }
+    return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)cView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
@@ -767,11 +773,11 @@
 -(void)initSectionNameOverlayView{
     sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width / 4, self.view.frame.size.width / 4)];
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
-
     [sectionNameOverlayView setBackgroundColor:[UIColor clearColor]];
     sectionNameOverlayView.center = self.view.center;
     float cornerRadius = 6.0f;
-    sectionNameOverlayView.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.85f].CGColor;
+    sectionNameOverlayView.layer.cornerRadius = cornerRadius;
+    sectionNameOverlayView.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1.0f].CGColor;
     sectionNameOverlayView.layer.shadowOpacity = 1.0f;
     sectionNameOverlayView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
     sectionNameOverlayView.layer.shadowRadius = 1.0f;
@@ -781,46 +787,63 @@
                                                      cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
     sectionNameOverlayView.layer.shadowPath = path.CGPath;
     
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = sectionNameOverlayView.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:.95] CGColor], (id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:.95] CGColor], nil];
+    gradient.cornerRadius = cornerRadius;
+    [sectionNameOverlayView.layer insertSublayer:gradient atIndex:0];
+    
     sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height/2 - 10, sectionNameOverlayView.frame.size.width, 20)];
-    [sectionNameLabel setFont:[UIFont boldSystemFontOfSize:17]];
+    [sectionNameLabel setFont:[UIFont boldSystemFontOfSize:20]];
     [sectionNameLabel setTextColor:[UIColor whiteColor]];
     [sectionNameLabel setBackgroundColor:[UIColor clearColor]];
-    [sectionNameLabel setTextAlignment:NSTextAlignmentCenter];    
+    [sectionNameLabel setTextAlignment:NSTextAlignmentCenter];
+    [sectionNameLabel setShadowColor:[UIColor darkGrayColor]];
+    [sectionNameLabel setShadowOffset:CGSizeMake(0, 1)];
     [sectionNameOverlayView addSubview:sectionNameLabel];
-    
     [self.view addSubview:sectionNameOverlayView];
 }
 
 - (BDKCollectionIndexView *)indexView {
     if (_indexView) return _indexView;
-    CGFloat indexWidth = 28;
-    CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth - 4,
+    CGFloat indexWidth = 32;
+    CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
                               CGRectGetMinY(dataList.frame) + 4,
                               indexWidth,
                               CGRectGetHeight(dataList.frame) - 4);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
+
     [_indexView addTarget:self action:@selector(indexViewValueChanged:) forControlEvents:UIControlEventValueChanged];
     return _indexView;
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView *)sender {
-    if (sender.currentIndex == 0) return;
-    NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];    
-    [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-    collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT);
-    if (sectionNameOverlayView == nil){
-        [self initSectionNameOverlayView];
+    if (sender.currentIndex == 0){
+        [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
+        return;
     }
-    sectionNameLabel.text = [sectionArray objectAtIndex:sender.currentIndex];
+    else{
+        NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
+        [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+        collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT);
+        if (sectionNameOverlayView == nil && COLLECTION_HEADER_HEIGHT <= 10){
+            [self initSectionNameOverlayView];
+        }
+        sectionNameLabel.text = [sectionArray objectAtIndex:sender.currentIndex];
+    }
 }
 
 -(void)handleCollectionIndexStateBegin{
-    [self alphaView:sectionNameOverlayView AnimDuration:0.1f Alpha:1];
+    if (COLLECTION_HEADER_HEIGHT <= 10){
+        [self alphaView:sectionNameOverlayView AnimDuration:0.1f Alpha:1];
+    }
 }
 
 -(void)handleCollectionIndexStateEnded{
-    [self alphaView:sectionNameOverlayView AnimDuration:0.3f Alpha:0];
+    if (COLLECTION_HEADER_HEIGHT <= 10){
+        [self alphaView:sectionNameOverlayView AnimDuration:0.3f Alpha:0];
+    }
 }
 
 #pragma mark - Table Animation
@@ -1657,6 +1680,9 @@ int originYear = 0;
         [longPressGesture addTarget:self action:@selector(handleLongPress)];
     }
     [self.searchDisplayController.searchResultsTableView addGestureRecognizer:longPressGesture];
+    if (enableCollectionView){
+        self.indexView.hidden = YES;
+    }
 //    [self.searchDisplayController.searchResultsTableView.setN
 }
 
@@ -1664,6 +1690,9 @@ int originYear = 0;
     if (longPressGesture) {
         [self.searchDisplayController.searchResultsTableView removeGestureRecognizer:longPressGesture];
 //        longPressGesture = nil;
+    }
+    if (enableCollectionView){
+        self.indexView.hidden = NO;
     }
 }
 
@@ -3011,7 +3040,7 @@ NSIndexPath *selected;
     [activeLayoutView reloadData];
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
-    [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
+    [collectionView setContentOffset:CGPointMake(0, 44) animated:NO];
     if (collectionView != nil){
         NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:sectionArray];
         if ([tmpArr count] > 1){
@@ -3381,31 +3410,9 @@ NSIndexPath *selected;
                              [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          }
                          completion:^(BOOL finished){
-                             if (enableCollectionView){
-                                 [self initCollectionView];
-                                 [dataList setDelegate:nil];
-                                 [dataList setDataSource:nil];
-                                 [collectionView setDelegate:self];
-                                 [collectionView setDataSource:self];
-                                 [dataList setScrollsToTop:NO];
-                                 [collectionView setScrollsToTop:YES];
-                                 activeLayoutView = collectionView;
-                                 [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
-                                 self.indexView.hidden = NO;
-                             }
-                             else{
-                                 [dataList setDelegate:self];
-                                 [dataList setDataSource:self];
-                                 [collectionView setDelegate:nil];
-                                 [collectionView setDataSource:nil];
-                                 [dataList setScrollsToTop:YES];
-                                 [collectionView setScrollsToTop:NO];
-                                 activeLayoutView = dataList;
-                                 [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
-                                 self.indexView.hidden = YES;
-                             }
+                             [self configureLibraryView];
                              [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
-                             
+                             [activeLayoutView setContentOffset:CGPointMake(0, 44) animated:NO];
                          }];
     }
 }
