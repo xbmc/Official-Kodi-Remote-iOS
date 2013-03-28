@@ -703,6 +703,13 @@
         [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
     }
     [cell.posterLabel setText:[item objectForKey:@"label"]];
+    NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
+    if ([playcount intValue]){
+        [cell setOverlayWatched:YES];
+    }
+    else{
+        [cell setOverlayWatched:NO];
+    }
     return cell;
 }
 

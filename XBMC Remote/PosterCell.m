@@ -50,4 +50,21 @@
     return self;
 }
 
+-(void)setOverlayWatched:(BOOL)enable{
+    if (enable == YES){
+        if (overlayWatched == nil){
+            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
+            overlayWatched.frame = CGRectMake(self.frame.size.width - overlayWatched.frame.size.width + 2,
+                                              self.frame.size.height - overlayWatched.frame.size.height + 1,
+                                              overlayWatched.frame.size.width,
+                                              overlayWatched.frame.size.height);
+            [self addSubview:overlayWatched];
+        }
+        overlayWatched.hidden = NO;
+    }
+    else{
+        overlayWatched.hidden = YES;
+    }
+}
+
 @end

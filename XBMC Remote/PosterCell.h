@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "PosterLabel.h"
 
-@interface PosterCell : UICollectionViewCell
+@interface PosterCell : UICollectionViewCell {
+    UIImageView *overlayWatched;
+}
+
+-(void)setOverlayWatched:(BOOL)enable;
 
 @property (nonatomic, readonly) UIImageView *posterThumbnail;
 @property (nonatomic, readonly) PosterLabel *posterLabel;
 @property (nonatomic, readonly) UIActivityIndicatorView *busyView;
-
 
 @end
