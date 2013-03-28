@@ -611,6 +611,9 @@
 }
 
 #pragma mark - UICollectionView methods
+-(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
+    [SDWebImageManager.sharedManager cancelAll];
+}
 
 -(void)initCollectionView{
     if (collectionView == nil){
@@ -830,6 +833,7 @@
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView *)sender {
+    [SDWebImageManager.sharedManager cancelAll];
     if (sender.currentIndex == 0){
         [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
         return;
@@ -3209,10 +3213,10 @@ NSIndexPath *selected;
     albumFontSize = 18;
     trackCountFontSize = 13;
     labelPadding = 8;
-    cellGridWidth =116.0f;
-    cellGridHeight =  166.0f;
-//    cellGridWidth =157.0f;
-//    cellGridHeight =  225.0f;
+    cellGridWidth =116.0f; // 4 columns
+    cellGridHeight =  166.0f;// 4 columns
+//    cellGridWidth =157.0f;// 3 columns
+//    cellGridHeight =  225.0f;// 3 columns
     posterFontSize = 11;
 //    if (!(albumView || episodesView)){
 //        int titleWidth = 400;
