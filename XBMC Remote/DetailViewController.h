@@ -17,6 +17,7 @@
 #import "MoreItemsViewController.h"
 #import "Utilities.h"
 #import "BDKCollectionIndexView.h"
+#import "FloatingHeaderFlowLayout.h"
 
 @class NowPlaying;
 @class PlayFileViewController;
@@ -81,6 +82,8 @@
     NSMutableArray *sectionArrayOpen;
     UIColor *albumColor;
     UIColor *searchBarColor;
+    UIColor *tableViewSearchBarColor;
+    UIColor *collectionViewSearchBarColor;
     BOOL enableBarColor;
     Utilities *utils;
     UICollectionView *collectionView;
@@ -90,7 +93,7 @@
     id activeLayoutView;
     UILongPressGestureRecognizer *longPressGesture;
     int posterFontSize;
-    UICollectionViewFlowLayout *flowLayout;
+    FloatingHeaderFlowLayout *flowLayout;
     //  EXPERIMENTAL CODE
     NSMutableArray *darkCells;
     BOOL autoScroll;

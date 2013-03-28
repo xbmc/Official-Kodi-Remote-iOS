@@ -28,11 +28,11 @@
         
         if (self.frame.size.height > 1){
             UIView *lineViewBottom = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
-            [lineViewBottom setBackgroundColor:[UIColor colorWithRed:154.0f/255.0f green:154.0f/255.0f blue:154.0f/255.0f alpha:1]];
+            [lineViewBottom setBackgroundColor:[UIColor colorWithRed:52.0f/255.0f green:52.0f/255.0f blue:52.0f/255.0f alpha:1]];
             [self addSubview:lineViewBottom];
             CAGradientLayer *gradient = [CAGradientLayer layer];
             gradient.frame = self.bounds;
-            gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:.95] CGColor], (id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:.95] CGColor], nil];
+            gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:100.0f/255.0f green:100.0f/255.0f blue:100.0f/255.0f alpha:.9] CGColor], (id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.9] CGColor], nil];
             [self.layer insertSublayer:gradient atIndex:0];
         }
 

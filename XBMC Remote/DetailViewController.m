@@ -298,7 +298,12 @@
         [dataList setScrollsToTop:NO];
         [collectionView setScrollsToTop:YES];
         activeLayoutView = collectionView;
-        self.indexView.hidden = NO;
+        self.indexView.hidden = YES;
+        if ([self.indexView.indexTitles count]>1){
+            self.indexView.hidden = NO;
+        }
+        self.searchDisplayController.searchBar.tintColor = collectionViewSearchBarColor;
+        searchBarColor = collectionViewSearchBarColor;
     }
     else{
         [dataList setDelegate:self];
@@ -309,6 +314,8 @@
         [collectionView setScrollsToTop:NO];
         activeLayoutView = dataList;
         self.indexView.hidden = YES;
+        self.searchDisplayController.searchBar.tintColor = tableViewSearchBarColor;
+        searchBarColor = tableViewSearchBarColor;
     }
     [activeLayoutView addSubview:self.searchDisplayController.searchBar];
 }
@@ -332,6 +339,7 @@
             return;
         }
     }
+    self.indexView.indexTitles = nil;
     self.indexView.hidden = YES;
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     if (choosedTab < [buttonsIB count]){
@@ -606,7 +614,7 @@
 
 -(void)initCollectionView{
     if (collectionView == nil){
-        flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        flowLayout = [[FloatingHeaderFlowLayout alloc] init];
         [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
         [flowLayout setMinimumInteritemSpacing:2.0f];
         [flowLayout setMinimumLineSpacing:2.0f];
@@ -626,6 +634,9 @@
         }
         [collectionView addGestureRecognizer:longPressGesture];
         [collectionView addSubview:self.searchDisplayController.searchBar];
+        self.searchDisplayController.searchBar.tintColor = collectionViewSearchBarColor;
+        searchBarColor = collectionViewSearchBarColor;
+        collectionView.alwaysBounceVertical = YES;
         [detailView addSubview:collectionView];
         NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:sectionArray];
         if ([tmpArr count] > 1){
@@ -3042,17 +3053,18 @@ NSIndexPath *selected;
     [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
     [collectionView setContentOffset:CGPointMake(0, 44) animated:NO];
     if (collectionView != nil){
+        if (enableCollectionView){
+            self.indexView.hidden = NO;
+        }
         NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:sectionArray];
         if ([tmpArr count] > 1){
             [tmpArr replaceObjectAtIndex:0 withObject:[NSString stringWithUTF8String:"\xF0\x9F\x94\x8D"]];
-            
-            self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
-            [detailView addSubview:self.indexView];
-            self.indexView.hidden = YES;
-            if (enableCollectionView){
-                self.indexView.hidden = NO;
-            }
         }
+        else{
+            self.indexView.hidden = YES;
+        }
+        self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+        [detailView addSubview:self.indexView];
     }
 }
 
@@ -3311,6 +3323,7 @@ NSIndexPath *selected;
         [mutableParameters setObject:mutableProperties forKey:@"properties"];
     }
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
+    collectionViewSearchBarColor = [UIColor blackColor];
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
         albumView = TRUE;
     }
@@ -3321,6 +3334,7 @@ NSIndexPath *selected;
     else if ([[methods objectForKey:@"tvshowsView"] boolValue] == YES){
         tvshowsView = [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO;
     }
+    tableViewSearchBarColor = searchBarColor;
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
         self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
