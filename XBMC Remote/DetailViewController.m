@@ -174,15 +174,6 @@
     choosedTab=MAX_NORMAL_BUTTONS;
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-
-//    if (enableCollectionView){
-//        [self AnimTable:(UITableView *)collectionView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-//
-//    }
-//    else{
-//        [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-//
-//    }
     int i;
     int count = [[self.detailItem mainParameters] count];
     NSMutableArray *mainMenu = [[NSMutableArray alloc] init];
@@ -235,28 +226,11 @@
 -(void)changeViewMode:(int)newWatchMode{
     [activityIndicatorView startAnimating];
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-
-//    if (enableCollectionView){
-//        [self AnimTable:(UITableView *)collectionView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-//
-//    }
-//    else{
-//        [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-// 
-//    }
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:[[[[self.detailItem watchModes] objectAtIndex:choosedTab] objectForKey:@"icons"] objectAtIndex:newWatchMode]] forState:UIControlStateSelected];
     [richResults removeAllObjects];
     [self.sections removeAllObjects];
     [activeLayoutView reloadData];
-//    if (enableCollectionView){
-//        [collectionView reloadData];
-//
-//    }
-//    else{
-//        [dataList reloadData];
-//
-//    }
     richResults = [storeRichResults mutableCopy];
     int total = [richResults count];
     NSMutableIndexSet *mutableIndexSet = [[NSMutableIndexSet alloc] init];
@@ -416,15 +390,6 @@
     else {
         [activityIndicatorView stopAnimating];
         [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
-
-//        if (enableCollectionView){
-//            [self AnimTable:(UITableView *)collectionView AnimDuration:0.3 Alpha:1.0 XPos:0];
-//
-//        }
-//        else{
-//            [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-//
-//        }
     }
 }
 
@@ -485,9 +450,9 @@
                                            [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
                                            libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
                                            [parameters objectForKey:@"label"], @"label",
+                                           [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                            [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
-                                           [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewUniqueKey"] intValue]], @"collectionViewUniqueKey",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
                                            newSectionParameters, @"extra_section_parameters",
@@ -503,9 +468,7 @@
             else{
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
                 [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
-                
             }
-            
         }
         else { // CHILD IS FILEMODE
             NSString *filemodeRowHeight= @"44";
@@ -2732,15 +2695,6 @@ NSIndexPath *selected;
                  [self.sections removeAllObjects];
              }
              [activeLayoutView reloadData];
-//             if (enableCollectionView){
-//                 [collectionView reloadData];
-//
-//             }
-//             else{
-//                 [dataList reloadData];
-//
-//             }
-             
              if( [NSJSONSerialization isValidJSONObject:methodResult]){
                  NSString *itemid = @"";
                  NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
@@ -2910,14 +2864,6 @@ NSIndexPath *selected;
                  [activityIndicatorView stopAnimating];
                  [activeLayoutView reloadData];
                  [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
-//                 if (enableCollectionView){
-//                     [collectionView reloadData];
-//                     [self AnimTable:(UITableView*)collectionView AnimDuration:0.3 Alpha:1.0 XPos:0];
-//                 }
-//                 else{
-//                     [dataList reloadData];
-//                     [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-//                 }
              }
          }
          else {
@@ -2953,14 +2899,6 @@ NSIndexPath *selected;
              [activityIndicatorView stopAnimating];
              [activeLayoutView reloadData];
              [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
-//             if (enableCollectionView){
-//                 [collectionView reloadData];
-//                 [self AnimTable:(UITableView *)collectionView AnimDuration:0.3 Alpha:1.0 XPos:0];
-//             }
-//             else{
-//                 [dataList reloadData];
-//                 [self AnimTable:dataList AnimDuration:0.3 Alpha:1.0 XPos:0];
-//             }
 //             }
          }
      }];
@@ -3145,12 +3083,6 @@ NSIndexPath *selected;
                                                object: nil];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     [activeLayoutView setScrollsToTop:YES];
-//    if (enableCollectionView){
-//        [collectionView setScrollsToTop:YES];
-//    }
-//    else{
-//        [dataList setScrollsToTop:YES];
-//    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -3197,7 +3129,7 @@ NSIndexPath *selected;
     }
 }
 
--(void)setIphoneInterface{
+-(void)setIphoneInterface:(NSDictionary *)itemSizes{
     viewWidth=320;
     albumViewHeight = 116;
     albumViewPadding = 8;
@@ -3211,9 +3143,13 @@ NSIndexPath *selected;
     cellGridWidth =105.0f;
     cellGridHeight =  151.0f;
     posterFontSize = 10;
+    if ([itemSizes objectForKey:@"width"] && [itemSizes objectForKey:@"height"]){
+        cellGridWidth = [[itemSizes objectForKey:@"width"] floatValue];
+        cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
+    }
 }
 
--(void)setIpadInterface{
+-(void)setIpadInterface:(NSDictionary *)itemSizes{
     viewWidth = 477;
     albumViewHeight = 166;
     if (episodesView){
@@ -3229,51 +3165,10 @@ NSIndexPath *selected;
 //    cellGridWidth =157.0f;// 3 columns
 //    cellGridHeight =  225.0f;// 3 columns
     posterFontSize = 11;
-//    if (!(albumView || episodesView)){
-//        int titleWidth = 400;
-//        topNavigationLabel.numberOfLines=1;
-//        topNavigationLabel.font = [UIFont boldSystemFontOfSize:22];
-//        topNavigationLabel.minimumFontSize=6;
-//        topNavigationLabel.textColor = [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1];
-//        topNavigationLabel.adjustsFontSizeToFitWidth = YES;
-//        topNavigationLabel.shadowOffset = CGSizeMake(1.0, 1.0);
-//        topNavigationLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.7];
-//        topNavigationLabel.autoresizingMask = UIViewAutoresizingNone;
-//        topNavigationLabel.contentMode = UIViewContentModeScaleAspectFill;
-//        [topNavigationLabel setFrame:CGRectMake(0, 0, titleWidth, 44)];
-//        [topNavigationLabel sizeThatFits:CGSizeMake(titleWidth, 44)];
-//        topNavigationLabel.textAlignment = UITextAlignmentLeft;
-//        
-//        UIToolbar *toolbar = [UIToolbar new];
-//        toolbar.barStyle = UIBarStyleBlackTranslucent;
-//        UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:topNavigationLabel];
-//        NSArray *items = [NSArray arrayWithObjects:
-//                          title,
-//                          nil];
-//        toolbar.items = items;
-//        toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
-//        toolbar.contentMode = UIViewContentModeScaleAspectFill;
-//        [toolbar sizeToFit];
-//        CGFloat toolbarHeight = [toolbar frame].size.height;
-//        CGRect mainViewBounds = self.view.bounds;
-//        [toolbar setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
-//                                     CGRectGetMinY(mainViewBounds),
-//                                     CGRectGetWidth(mainViewBounds),
-//                                     toolbarHeight)];
-//        CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
-//        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-//        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
-//        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//        toolbarShadow.opaque = YES;
-//        toolbarShadow.alpha = 0.5;
-//        [toolbar addSubview:toolbarShadow];
-//        
-//        [self.view addSubview:toolbar];
-//        
-//        dataList.autoresizingMask = UIViewAutoresizingNone;
-//        [dataList setFrame:CGRectMake(dataList.frame.origin.x, dataList.frame.origin.y + 44, dataList.frame.size.width, dataList.frame.size.height-44)];
-//        dataList.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-//    }
+    if ([itemSizes objectForKey:@"width"] && [itemSizes objectForKey:@"height"]){
+        cellGridWidth = [[itemSizes objectForKey:@"width"] floatValue];
+        cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
+    }
 }
 
 - (void) disableScrollsToTopPropertyOnAllSubviewsOf:(UIView *)view {
@@ -3289,7 +3184,7 @@ NSIndexPath *selected;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES));
+    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"collectionViewUniqueKey"] intValue] > 0));
 }
 
 -(BOOL)collectionViewIsEnabled{
@@ -3298,7 +3193,7 @@ NSIndexPath *selected;
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSString *viewKey = [NSString stringWithFormat:@"%@%@_grid_preference", [methods objectForKey:@"method"], [parameters objectForKey:@"collectionViewUniqueKey"]];
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
+    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"collectionViewUniqueKey"] intValue] > 0) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
 }
 
 - (void)viewDidLoad{
@@ -3357,11 +3252,12 @@ NSIndexPath *selected;
     self.searchDisplayController.searchBar.tintColor = searchBarColor;
     [detailView setClipsToBounds:YES];
     trackCountLabelWidth = 26;
+    NSDictionary *itemSizes = [parameters objectForKey:@"itemSizes"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        [self setIphoneInterface];
+        [self setIphoneInterface:[itemSizes objectForKey:@"iphone"]];
     }
     else {
-        [self setIpadInterface];
+        [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
     }
     CGRect frame=dataList.frame;
     frame.origin.x = viewWidth;
