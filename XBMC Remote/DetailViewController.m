@@ -3000,14 +3000,14 @@ NSIndexPath *selected;
     else {
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     }
-//    NSDictionary *itemSizes = [parameters objectForKey:@"itemSizes"];
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-//        [self setIphoneInterface:[itemSizes objectForKey:@"iphone"]];
-//    }
-//    else {
-//        [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
-//    }
-//    [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
+    NSDictionary *itemSizes = [parameters objectForKey:@"itemSizes"];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [self setIphoneInterface:[itemSizes objectForKey:@"iphone"]];
+    }
+    else {
+        [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
+    }
+    [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
 
     [activityIndicatorView stopAnimating];
     [activeLayoutView reloadData];
