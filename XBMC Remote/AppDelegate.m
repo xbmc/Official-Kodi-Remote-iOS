@@ -211,6 +211,15 @@ NSMutableArray *hostRightMenuItems;
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
                              nil], @"properties",
                             nil], @"extra_info_parameters",
+                           @"6", @"collectionViewUniqueKey",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:105.0f], @"width",
+                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:116.0f], @"width",
+                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                            nil], @"itemSizes",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -224,6 +233,15 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",nil], @"properties",
                             nil], @"extra_info_parameters",
+                           @"7", @"collectionViewUniqueKey",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:105.0f], @"width",
+                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:116.0f], @"width",
+                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                            nil], @"itemSizes",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -1156,8 +1174,15 @@ NSMutableArray *hostRightMenuItems;
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                             nil], @"extra_info_parameters",
                            @"YES", @"FrodoExtraArt",
-                           @"YES", @"enableCollectionView",
                            @"1", @"collectionViewUniqueKey",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:105.0f], @"width",
+                             [NSNumber numberWithFloat:151.0f], @"height", nil], @"iphone",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:116.0f], @"width",
+                             [NSNumber numberWithFloat:166.0f], @"height", nil], @"ipad",
+                            nil], @"itemSizes",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -1180,8 +1205,15 @@ NSMutableArray *hostRightMenuItems;
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"thumbnail", @"playcount", nil], @"properties",
                             nil], @"parameters",
-                           @"YES", @"enableCollectionView",
                            @"2", @"collectionViewUniqueKey",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:105.0f], @"width",
+                             [NSNumber numberWithFloat:151.0f], @"height", nil], @"iphone",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:116.0f], @"width",
+                             [NSNumber numberWithFloat:166.0f], @"height", nil], @"ipad",
+                            nil], @"itemSizes",
                            NSLocalizedString(@"Movie Sets", nil), @"label", nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -1197,8 +1229,15 @@ NSMutableArray *hostRightMenuItems;
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                             nil], @"extra_info_parameters",
                            @"YES", @"FrodoExtraArt",
-                           @"YES", @"enableCollectionView",
                            @"3", @"collectionViewUniqueKey",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:105.0f], @"width",
+                             [NSNumber numberWithFloat:151.0f], @"height", nil], @"iphone",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:116.0f], @"width",
+                             [NSNumber numberWithFloat:166.0f], @"height", nil], @"ipad",
+                            nil], @"itemSizes",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -1469,8 +1508,15 @@ NSMutableArray *hostRightMenuItems;
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                                     nil], @"extra_info_parameters",
                                    @"YES", @"FrodoExtraArt",
-                                   @"YES", @"enableCollectionView",
                                    @"4", @"collectionViewUniqueKey",
+                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithFloat:105.0f], @"width",
+                                     [NSNumber numberWithFloat:151.0f], @"height", nil], @"iphone",
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithFloat:116.0f], @"width",
+                                     [NSNumber numberWithFloat:166.0f], @"height", nil], @"ipad",
+                                    nil], @"itemSizes",
                                    nil],
                                   
                                   [NSMutableArray arrayWithObjects:
@@ -1486,8 +1532,15 @@ NSMutableArray *hostRightMenuItems;
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                                     nil], @"extra_info_parameters",
                                    @"YES", @"FrodoExtraArt",
-                                   @"YES", @"enableCollectionView",
                                    @"5", @"collectionViewUniqueKey",
+                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithFloat:105.0f], @"width",
+                                     [NSNumber numberWithFloat:151.0f], @"height", nil], @"iphone",
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithFloat:116.0f], @"width",
+                                     [NSNumber numberWithFloat:166.0f], @"height", nil], @"ipad",
+                                    nil], @"itemSizes",
                                    nil],
                                   
                                   [NSArray arrayWithObjects: nil],
