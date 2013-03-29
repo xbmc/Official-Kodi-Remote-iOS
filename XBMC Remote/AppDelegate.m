@@ -123,6 +123,18 @@ NSMutableArray *hostRightMenuItems;
         tvshowHeight = 91;
     }
     
+    float itemMusicWidthIphone = 105;
+    float itemMusicHeightIphone = 105;
+
+    float itemMusicWidthIpad = 117;
+    float itemMusicHeightIpad = 117;
+
+    float itemMovieWidthIphone = 105;
+    float itemMovieHeightIphone = 151;
+        
+    float itemMovieWidthIpad = 117;
+    float itemMovieHeightIpad = 168;
+
     [self.window makeKeyAndVisible];
     
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];
@@ -214,11 +226,11 @@ NSMutableArray *hostRightMenuItems;
                            @"6", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -236,11 +248,11 @@ NSMutableArray *hostRightMenuItems;
                            @"7", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -281,11 +293,11 @@ NSMutableArray *hostRightMenuItems;
                            @"10", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -323,11 +335,11 @@ NSMutableArray *hostRightMenuItems;
                            @"11", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -357,11 +369,11 @@ NSMutableArray *hostRightMenuItems;
                            @"12", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -402,11 +414,11 @@ NSMutableArray *hostRightMenuItems;
                            @"13", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -730,11 +742,11 @@ NSMutableArray *hostRightMenuItems;
                                    @"8", @"collectionViewUniqueKey",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:105.0f], @"width",
-                                     [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                                     [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                                     [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:116.0f], @"width",
-                                     [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                                     [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                                     [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
                                     nil], @"itemSizes",
                                    nil],
                                   
@@ -754,11 +766,11 @@ NSMutableArray *hostRightMenuItems;
                                    @"9", @"collectionViewUniqueKey",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:105.0f], @"width",
-                                     [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                                     [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                                     [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:116.0f], @"width",
-                                     [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                                     [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                                     [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
                                     nil], @"itemSizes",
                                    nil],
                                   
@@ -1233,11 +1245,11 @@ NSMutableArray *hostRightMenuItems;
                            @"1", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:151.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMovieHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:166.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMovieHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -1264,11 +1276,11 @@ NSMutableArray *hostRightMenuItems;
                            @"2", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:151.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMovieHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:166.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMovieHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            NSLocalizedString(@"Movie Sets", nil), @"label", nil],
                           
@@ -1288,11 +1300,11 @@ NSMutableArray *hostRightMenuItems;
                            @"3", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:151.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMovieHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:166.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMovieHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -1308,11 +1320,11 @@ NSMutableArray *hostRightMenuItems;
                            @"14", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMovieHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMovieHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
 
@@ -1335,11 +1347,11 @@ NSMutableArray *hostRightMenuItems;
                            @"15", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -1350,11 +1362,11 @@ NSMutableArray *hostRightMenuItems;
                            @"16", @"collectionViewUniqueKey",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:105.0f], @"width",
-                             [NSNumber numberWithFloat:105.0f], @"height", nil], @"iphone",
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithFloat:116.0f], @"width",
-                             [NSNumber numberWithFloat:116.0f], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           //                          "plot" and "runtime" and "plotoutline"
@@ -1597,11 +1609,11 @@ NSMutableArray *hostRightMenuItems;
                                    @"4", @"collectionViewUniqueKey",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:105.0f], @"width",
-                                     [NSNumber numberWithFloat:151.0f], @"height", nil], @"iphone",
+                                     [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                                     [NSNumber numberWithFloat:itemMovieHeightIphone], @"height", nil], @"iphone",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:116.0f], @"width",
-                                     [NSNumber numberWithFloat:166.0f], @"height", nil], @"ipad",
+                                     [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                                     [NSNumber numberWithFloat:itemMovieHeightIpad], @"height", nil], @"ipad",
                                     nil], @"itemSizes",
                                    nil],
                                   
@@ -1621,11 +1633,11 @@ NSMutableArray *hostRightMenuItems;
                                    @"5", @"collectionViewUniqueKey",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:105.0f], @"width",
-                                     [NSNumber numberWithFloat:151.0f], @"height", nil], @"iphone",
+                                     [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                                     [NSNumber numberWithFloat:itemMovieHeightIphone], @"height", nil], @"iphone",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:116.0f], @"width",
-                                     [NSNumber numberWithFloat:166.0f], @"height", nil], @"ipad",
+                                     [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                                     [NSNumber numberWithFloat:itemMovieHeightIpad], @"height", nil], @"ipad",
                                     nil], @"itemSizes",
                                    nil],
                                   

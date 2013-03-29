@@ -2912,8 +2912,8 @@ NSIndexPath *selected;
         albumView = FALSE;
         episodesView = FALSE;
     }
-    if ([self.detailItem enableSection]){ 
-        NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    if ([self.detailItem enableSection]){
         // CONDIZIONE DEBOLE!!!
         self.navigationItem.title =[NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -3000,6 +3000,15 @@ NSIndexPath *selected;
     else {
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     }
+//    NSDictionary *itemSizes = [parameters objectForKey:@"itemSizes"];
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+//        [self setIphoneInterface:[itemSizes objectForKey:@"iphone"]];
+//    }
+//    else {
+//        [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
+//    }
+//    [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
+
     [activityIndicatorView stopAnimating];
     [activeLayoutView reloadData];
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
@@ -3160,8 +3169,8 @@ NSIndexPath *selected;
     albumFontSize = 18;
     trackCountFontSize = 13;
     labelPadding = 8;
-    cellGridWidth =116.0f; // 4 columns
-    cellGridHeight =  166.0f;// 4 columns
+    cellGridWidth =117.0f; // 4 columns
+    cellGridHeight =  168.0f;// 4 columns
 //    cellGridWidth =157.0f;// 3 columns
 //    cellGridHeight =  225.0f;// 3 columns
     posterFontSize = 11;
