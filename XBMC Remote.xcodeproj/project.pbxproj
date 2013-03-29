@@ -172,7 +172,7 @@
 		0F545D0C1575563100B6320D /* UIImage+ColorAtPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D091575563100B6320D /* UIImage+ColorAtPixel.m */; };
 		0F548BF815827203005C6DE7 /* OverlayWatched.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F548BF715827203005C6DE7 /* OverlayWatched.png */; };
 		0F548BFB15827211005C6DE7 /* OverlayWatched@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F548BFA15827211005C6DE7 /* OverlayWatched@2x.png */; };
-		0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FA151D1187007E633F /* UIKit.framework */; };
+		0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FA151D1187007E633F /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5548FD151D1187007E633F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FC151D1187007E633F /* Foundation.framework */; };
 		0F5548FF151D1187007E633F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FE151D1187007E633F /* CoreGraphics.framework */; };
 		0F554905151D1187007E633F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F554903151D1187007E633F /* InfoPlist.strings */; };
