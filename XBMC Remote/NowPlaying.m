@@ -1927,7 +1927,7 @@ int currentItemID;
             id objKey = [mainFields objectForKey:@"row6"];
             if ([AppDelegate instance].serverVersion>11 && [[parameters objectForKey:@"disableFilterParameter"] boolValue] == FALSE){
                 if ([[mainFields objectForKey:@"row6"] isEqualToString:@"artistid"]){ // WORKAROUND due the lack of the artistid with Playlist.GetItems
-                    NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item objectForKey:@"artist"]];
+                    NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [[item objectForKey:@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                     obj = [NSDictionary dictionaryWithObjectsAndKeys:artistFrodoWorkaround, @"artist", nil];
                 }
                 else{
@@ -1943,6 +1943,8 @@ int currentItemID;
                                             [item objectForKey:[mainFields objectForKey:@"row15"]], key,
                                             nil], @"parameters", [parameters objectForKey:@"label"], @"label",
                                            [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
+                                           [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
+                                           [NSNumber numberWithInt:98], @"collectionViewUniqueKey",
                                            nil];
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab=choosedTab;
