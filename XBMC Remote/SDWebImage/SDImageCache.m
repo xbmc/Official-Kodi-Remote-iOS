@@ -9,7 +9,6 @@
 #import "SDImageCache.h"
 #import "SDWebImageDecoder.h"
 #import <CommonCrypto/CommonDigest.h>
-#import "SDWebImageDecoder.h"
 #import <mach/mach.h>
 #import <mach/mach_host.h>
 
@@ -284,9 +283,9 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 7; // 1 week
     });
 }
 
--(int)getSize
+-(unsigned long long)getSize
 {
-    int size = 0;
+    unsigned long long size = 0;
     NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:self.diskCachePath];
     for (NSString *fileName in fileEnumerator)
     {
