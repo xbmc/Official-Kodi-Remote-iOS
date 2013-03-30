@@ -83,7 +83,7 @@
 
 -(CGSize)collectionViewContentSize{
     CGSize size = [super collectionViewContentSize];
-    if (size.height < self.collectionView.frame.size.height){
+    if (size.height < self.collectionView.frame.size.height + 44 ){
         size.height = self.collectionView.frame.size.height + 44;
     }    
     return size;
