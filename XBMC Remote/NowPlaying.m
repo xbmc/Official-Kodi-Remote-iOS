@@ -652,7 +652,7 @@ int currentItemID;
                                  NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
                                  NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                                  if (![lastThumbnail isEqualToString:stringURL]){
-                                     [imageCache queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
+                                     [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
                                          UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                          if (image!=nil){
                                              if (enableJewel){
@@ -2454,11 +2454,11 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
+//    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
     [scrabbingMessage setText:NSLocalizedString(@"Slide your finger up to adjust the scrubbing rate.", nil)];
     [scrabbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
     sheetActions = [[NSMutableArray alloc] init];
-    [[SDImageCache sharedImageCache] clearMemory];
+//    [[SDImageCache sharedImageCache] clearMemory];
     playerID = -1;
     selectedPlayerID = -1;
     lastSelected = -1;

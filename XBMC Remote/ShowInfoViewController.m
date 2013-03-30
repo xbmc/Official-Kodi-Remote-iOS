@@ -1015,7 +1015,7 @@ int h=0;
     BOOL inEnableKenBurns = enableKenBurns;
     __weak ShowInfoViewController *sf = self;
     NSString *thumbnailPath = [item objectForKey:@"thumbnail"];
-    [imageCache queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
+    [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image!=nil){
             if (enableJewel){
                 coverView.image = image;
@@ -1041,7 +1041,7 @@ int h=0;
         }
     }];
     NSString *fanartPath=[item objectForKey:@"fanart"];
-    [imageCache queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
+    [[SDImageCache sharedImageCache] queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image!=nil){
             fanartView.image=image;
             if (inEnableKenBurns){
@@ -1369,7 +1369,7 @@ int h=0;
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-    [imageCache queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
+    [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image!=nil){
             [cell.actorThumbnail setImage:image];
             
@@ -1617,7 +1617,8 @@ int h=0;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
+//    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
+//    [[SDImageCache sharedImageCache] clearMemory];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
