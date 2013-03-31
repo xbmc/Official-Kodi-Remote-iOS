@@ -1650,7 +1650,6 @@ int originYear = 0;
 #pragma mark UISearchDisplayController Delegate Methods
 
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
-    //[controller.searchResultsTableView setDelegate:self];
     controller.searchResultsTableView.backgroundColor = [UIColor blackColor];
     if (longPressGesture == nil){
         longPressGesture = [UILongPressGestureRecognizer new];
@@ -1660,16 +1659,15 @@ int originYear = 0;
     if (enableCollectionView){
         self.indexView.hidden = YES;
     }
-//    [self.searchDisplayController.searchResultsTableView.setN
 }
 
 -(void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
     if (longPressGesture) {
         [self.searchDisplayController.searchResultsTableView removeGestureRecognizer:longPressGesture];
-//        longPressGesture = nil;
     }
     if (enableCollectionView){
         self.indexView.hidden = NO;
+        [collectionView addGestureRecognizer:longPressGesture];
     }
 }
 
@@ -1729,7 +1727,7 @@ NSIndexPath *selected;
         CGPoint selectedPoint;
         NSIndexPath *indexPath = nil;
         NSIndexPath *indexPath2 = nil;
-        if (enableCollectionView){
+        if (enableCollectionView && ![self.searchDisplayController isActive]){
             p = [longPressGesture locationInView:collectionView];
             selectedPoint=[longPressGesture locationInView:self.view];
             indexPath = [collectionView indexPathForItemAtPoint:p];
