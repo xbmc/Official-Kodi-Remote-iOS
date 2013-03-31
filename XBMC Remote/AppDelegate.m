@@ -81,6 +81,14 @@ NSMutableArray *hostRightMenuItems;
     }
     BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
     if (clearCache==YES){
+        NSString *fullNamespace = @"ImageCache";
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:fullNamespace];
+        [[NSFileManager defaultManager] removeItemAtPath:diskCachePath error:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:diskCachePath
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:NULL];
         [SDWebImageManager.sharedManager.imageCache clearDisk];
     }
 	[userDefaults removeObjectForKey:@"clearcache_preference"];
@@ -128,13 +136,19 @@ NSMutableArray *hostRightMenuItems;
 
     float itemMusicWidthIpad = 117;
     float itemMusicHeightIpad = 117;
+    
+    float itemMusicWidthLargeIpad = 157.0f;
+    float itemMusicHeightLargeIpad = 157.0f;
 
     float itemMovieWidthIphone = 105;
     float itemMovieHeightIphone = 151;
         
     float itemMovieWidthIpad = 117;
     float itemMovieHeightIpad = 168;
-
+    
+    float itemMovieWidthLargeIpad =157.0f;
+    float itemMovieHeightLargeIpad =  225.0f;
+    
     [self.window makeKeyAndVisible];
     
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];
@@ -745,8 +759,8 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
                                      [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
-                                     [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
+                                     [NSNumber numberWithFloat:itemMusicWidthLargeIpad], @"width",
+                                     [NSNumber numberWithFloat:itemMusicHeightLargeIpad], @"height", nil], @"ipad",
                                     nil], @"itemSizes",
                                    nil],
                                   
@@ -1636,8 +1650,8 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
                                      [NSNumber numberWithFloat:itemMovieHeightIphone], @"height", nil], @"iphone",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
-                                     [NSNumber numberWithFloat:itemMovieHeightIpad], @"height", nil], @"ipad",
+                                     [NSNumber numberWithFloat:itemMovieWidthLargeIpad], @"width",
+                                     [NSNumber numberWithFloat:itemMovieHeightLargeIpad], @"height", nil], @"ipad",
                                     nil], @"itemSizes",
                                    nil],
                                   
