@@ -1655,6 +1655,7 @@ int originYear = 0;
         longPressGesture = [UILongPressGestureRecognizer new];
         [longPressGesture addTarget:self action:@selector(handleLongPress)];
     }
+    [collectionView removeGestureRecognizer:longPressGesture];
     [self.searchDisplayController.searchResultsTableView addGestureRecognizer:longPressGesture];
     if (enableCollectionView){
         self.indexView.hidden = YES;
