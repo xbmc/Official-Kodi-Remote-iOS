@@ -1015,19 +1015,26 @@ int h=0;
     BOOL inEnableKenBurns = enableKenBurns;
     __weak ShowInfoViewController *sf = self;
     NSString *thumbnailPath = [item objectForKey:@"thumbnail"];
+    if (![[item objectForKey:@"thumbnail"] isEqualToString:@""]){
+        jewelView.alpha = 0;
+        [activityIndicatorView startAnimating];
+    }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image!=nil){
             if (enableJewel){
                 coverView.image = image;
+                [activityIndicatorView stopAnimating];
+                jewelView.alpha = 1;
             }
             else{
                 [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:self withObject:image];
-                jewelView.hidden = NO;
             }
         }
         else{
             if (enableJewel){
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
+                [activityIndicatorView stopAnimating];
+                jewelView.alpha = 1;
             }
             else{
                 [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath]
@@ -1036,10 +1043,10 @@ int h=0;
                                      [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
                                  }
                  ];
-                jewelView.hidden = NO;
             }
         }
     }];
+    
     NSString *fanartPath=[item objectForKey:@"fanart"];
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image!=nil){
