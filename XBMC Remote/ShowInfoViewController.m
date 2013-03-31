@@ -574,7 +574,7 @@ int h=0;
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
     jewelView.image = image;
-    [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0f];
+    [self alphaImage:jewelView AnimDuration:0.2f Alpha:1.0f];
 }
 
 -(void)createInfo{
