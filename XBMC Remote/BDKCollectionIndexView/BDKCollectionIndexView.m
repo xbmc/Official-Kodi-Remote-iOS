@@ -2,7 +2,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#define DEFAULT_ALPHA 0.5f
+#define DEFAULT_ALPHA 0.3f
 
 @interface BDKCollectionIndexView ()
 
@@ -152,7 +152,9 @@
         label.text = indexTitle;
         label.font = [UIFont boldSystemFontOfSize:11];
         label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor colorWithRed:65.0f/255.0f green:71.0f/255.0f blue:77.0/255.0f alpha:1.0];
+        label.textColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0];
+        label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1.0];
+        label.shadowOffset = CGSizeMake(0, 1);
         label.textAlignment = NSTextAlignmentCenter;
         [self addSubview:label];
         [workingLabels addObject:label];
@@ -173,8 +175,8 @@
 }
 
 - (void)setBackgroundVisibility:(BOOL)flag {
-    CGFloat alpha = flag ? 0.65 : 0;
-    self.touchStatusView.backgroundColor = [UIColor colorWithRed:125.0f/255.0f green:132.0f/255.0f blue:135.0f/255.0f alpha:alpha];
+    CGFloat alpha = flag ? 0.5f : 0;
+    self.touchStatusView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:alpha];
 }
 
 #pragma mark - Gestures
