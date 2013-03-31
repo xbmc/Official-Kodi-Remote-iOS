@@ -1240,6 +1240,7 @@ int originYear = 0;
 //            UIImageView *tV = thumbImageView;
             [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
                            placeholderImage:[UIImage imageNamed:displayThumb]
+                                  andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
 //                                    success:^(UIImage *image) {
                 if (enableBarColor == YES){
@@ -1426,7 +1427,7 @@ int originYear = 0;
                 displayThumb=stringURL;
             }
             if (![stringURL isEqualToString:@""]){
-                [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+                [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
                 
             }
             else {

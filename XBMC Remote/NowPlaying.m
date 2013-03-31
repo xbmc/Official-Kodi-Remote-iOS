@@ -2014,7 +2014,7 @@ int currentItemID;
     if (playerID == 1)
         [(UILabel*) [cell viewWithTag:3] setText:[item objectForKey:@"runtime"]];
     NSString *stringURL = [item objectForKey:@"thumbnail"]; 
-    [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"] ];
+    [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"] andResize:CGSizeMake(thumb.frame.size.width, thumb.frame.size.height)];
     UIView *timePlaying = (UIView*) [cell viewWithTag:5];
     if (timePlaying.hidden == NO){
         [self fadeView:timePlaying hidden:YES];
