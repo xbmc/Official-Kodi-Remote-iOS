@@ -118,6 +118,20 @@
  *
  * @param url The url for the image.
  * @param placeholder The image to be set initially, until the image request finishes.
+ * @param resize Resize the downloaded image to the specified size
+ * @param completedBlock A block called when operation has been completed. This block as no return value
+ *                       and takes the requested UIImage as first parameter. In case of error the image parameter
+ *                       is nil and the second parameter may contain an NSError. The third parameter is a Boolean
+ *                       indicating if the image was retrived from the local cache of from the network.
+ */
+- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder andResize:(CGSize)size completed:(SDWebImageCompletedBlock)completedBlock;
+/**
+ * Set the imageView `image` with an `url`, placeholder.
+ *
+ * The downloand is asynchronous and cached.
+ *
+ * @param url The url for the image.
+ * @param placeholder The image to be set initially, until the image request finishes.
  * @param completedBlock A block called when operation has been completed. This block as no return value
  *                       and takes the requested UIImage as first parameter. In case of error the image parameter
  *                       is nil and the second parameter may contain an NSError. The third parameter is a Boolean

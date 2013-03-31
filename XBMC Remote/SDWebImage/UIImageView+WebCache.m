@@ -46,6 +46,11 @@ static char operationKey;
     [self setImageWithURL:url placeholderImage:nil options:0 andResize:CGSizeZero progress:nil completed:completedBlock];
 }
 
+- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder andResize:(CGSize)size completed:(SDWebImageCompletedBlock)completedBlock
+{
+    [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:size progress:nil completed:completedBlock];
+}
+
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder completed:(SDWebImageCompletedBlock)completedBlock
 {
     [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:CGSizeZero progress:nil completed:completedBlock];
