@@ -293,7 +293,7 @@ int count=0;
     else if ([[item objectForKey:@"family"] isEqualToString:@"movieid"] && [AppDelegate instance].serverVersion>11){
         if ([sender isKindOfClass:[NSString class]]){
             NSString *actorName = (NSString *)sender;
-            choosedTab = 1;
+            choosedTab = 2;
             MenuItem = [[AppDelegate instance].playlistMovies copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName,@"actor", nil];
             movieObjKey = @"filter";
@@ -1384,6 +1384,13 @@ int h=0;
         [cell.actorRole sizeToFit];
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([AppDelegate instance].serverVersion>11){
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
+        cell.accessoryView.alpha = 0.5f;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
