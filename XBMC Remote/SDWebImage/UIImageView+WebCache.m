@@ -48,6 +48,7 @@ static char operationKey;
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder andResize:(CGSize)size completed:(SDWebImageCompletedBlock)completedBlock
 {
+    size = [self doubleSizeIfRetina:size];
     [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:size progress:nil completed:completedBlock];
 }
 
