@@ -13,37 +13,50 @@ static char operationKey;
 
 @implementation UIImageView (WebCache)
 
+- (CGSize)doubleSizeIfRetina:(CGSize)size
+{
+    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
+    size = isRetina ? CGSizeMake(size.width *2, size.height *2) : size;
+    return size;
+}
+
 - (void)setImageWithURL:(NSURL *)url
 {
-    [self setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil];
+    [self setImageWithURL:url placeholderImage:nil options:0 andResize:CGSizeZero progress:nil completed:nil];
 }
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder
 {
-    [self setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:nil];
+    [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:CGSizeZero progress:nil completed:nil];
+}
+
+- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder andResize:(CGSize)size
+{
+    size = [self doubleSizeIfRetina:size];
+    [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:size progress:nil completed:nil];
 }
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options
 {
-    [self setImageWithURL:url placeholderImage:placeholder options:options progress:nil completed:nil];
+    [self setImageWithURL:url placeholderImage:placeholder options:options andResize:CGSizeZero progress:nil completed:nil];
 }
 
 - (void)setImageWithURL:(NSURL *)url completed:(SDWebImageCompletedBlock)completedBlock
 {
-    [self setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:completedBlock];
+    [self setImageWithURL:url placeholderImage:nil options:0 andResize:CGSizeZero progress:nil completed:completedBlock];
 }
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder completed:(SDWebImageCompletedBlock)completedBlock
 {
-    [self setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:completedBlock];
+    [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:CGSizeZero progress:nil completed:completedBlock];
 }
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options completed:(SDWebImageCompletedBlock)completedBlock
 {
-    [self setImageWithURL:url placeholderImage:placeholder options:options progress:nil completed:completedBlock];
+    [self setImageWithURL:url placeholderImage:placeholder options:options andResize:CGSizeZero progress:nil completed:completedBlock];
 }
 
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock;
+- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options andResize:(CGSize)size progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock;
 {
     [self cancelCurrentImageLoad];
 
@@ -51,8 +64,14 @@ static char operationKey;
     
     if (url)
     {
+        NSDictionary *userInfo = nil;
+        if (size.width && size.height){
+            userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"resize", @"transformation",
+                                  NSStringFromCGSize(size), @"size",
+                                   nil];
+        }
         __weak UIImageView *wself = self;
-        id<SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadWithURL:url options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
+        id<SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadWithURL:url options:options userInfo:userInfo progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
         {
             __strong UIImageView *sself = wself;
             if (!sself) return;

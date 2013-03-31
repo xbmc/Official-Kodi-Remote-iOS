@@ -18,6 +18,7 @@
 - (id)initWithRequest:(NSURLRequest *)request
                 queue:(dispatch_queue_t)queue
               options:(SDWebImageDownloaderOptions)options
+             userInfo:(NSDictionary *)userInfo
              progress:(SDWebImageDownloaderProgressBlock)progressBlock
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
             cancelled:(void (^)())cancelBlock;

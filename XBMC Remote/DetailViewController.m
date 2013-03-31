@@ -574,12 +574,6 @@
     }
 }
 
-#pragma mark - UIScrollView delegate
-
--(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
-    [SDWebImageManager.sharedManager.imageCache clearMemory];
-}
-
 #pragma mark - UICollectionView methods
 
 -(void)initCollectionView{
@@ -620,7 +614,6 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return [[self.sections allKeys] count];
-//    return  1;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -643,7 +636,6 @@
         return ([[sectionArrayOpen objectAtIndex:section] boolValue] ? [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count] : 0);
     }
     return [[self.sections valueForKey:[sectionArray objectAtIndex:section]] count];
-//    return [richResults count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -651,8 +643,6 @@
     PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
     NSDictionary *item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-//    NSDictionary *item = [richResults objectAtIndex:indexPath.row];
-
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *displayThumb=defaultThumb;
     if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"] || [[item objectForKey:@"family"] isEqualToString:@"genreid"]){
@@ -661,7 +651,7 @@
         }
     }
     if (![stringURL isEqualToString:@""]){
-        [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellGridWidth, cellGridHeight)];
     }
     else {
         [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
@@ -678,7 +668,6 @@
 }
 
 -(void)collectionView:(UICollectionView *)cView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-//    NSDictionary *item = [richResults objectAtIndex:indexPath.row];
     NSDictionary *item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     UICollectionViewCell *cell = [cView cellForItemAtIndexPath:indexPath];
     [cell setAlpha:1];
@@ -807,7 +796,7 @@
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView *)sender {
-    [SDWebImageManager.sharedManager.imageCache clearMemory];
+//    [SDWebImageManager.sharedManager.imageCache clearMemory];
     if (sender.currentIndex == 0){
         [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
         return;
@@ -875,7 +864,6 @@
 
 #pragma mark - Cell Formatting 
 
-int cellWidth = 0;
 int originYear = 0;
 -(void)choseParams{ // DA OTTIMIZZARE TROPPI IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     flagX = 43;
@@ -1161,7 +1149,7 @@ int originYear = 0;
             runtimeyear.hidden = NO;
         }
         if (![stringURL isEqualToString:@""]){
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]];
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight)];
         }
         else {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
@@ -3096,7 +3084,8 @@ NSIndexPath *selected;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    [[SDImageCache sharedImageCache] clearMemory];
+//    [SDWebImageManager.sharedManager cancelAll];
+//    [[SDImageCache sharedImageCache] clearMemory];
 }
 
 - (void)revealMenu:(id)sender{

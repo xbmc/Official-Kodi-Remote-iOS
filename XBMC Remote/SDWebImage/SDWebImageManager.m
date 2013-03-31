@@ -48,20 +48,31 @@
 }
 
 
-- (NSString *)cacheKeyForURL:(NSURL *)url
+- (NSString *)cacheKeyForURL:(NSURL *)url withDict:(NSDictionary *)info
 {
+    NSString *cacheKey;
+    
     if (self.cacheKeyFilter)
     {
-        return self.cacheKeyFilter(url);
+        cacheKey = self.cacheKeyFilter(url);
     }
     else
     {
-        return [url absoluteString];
+        cacheKey = [url absoluteString];
     }
+    
+    NSString *transformation = [info objectForKey:@"transformation"];
+    
+    if ([transformation isEqualToString:@"resize"])
+    {
+        cacheKey = [NSString stringWithFormat:@"%@_resize_%@", cacheKey, [info objectForKey:@"size"]];
+    }
+
+    return cacheKey;
 }
 
-- (id<SDWebImageOperation>)downloadWithURL:(NSURL *)url options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedWithFinishedBlock)completedBlock
-{    
+- (id<SDWebImageOperation>)downloadWithURL:(NSURL *)url options:(SDWebImageOptions)options userInfo:(NSDictionary *)userInfo progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedWithFinishedBlock)completedBlock
+{
     // Very common mistake is to send the URL using NSString object instead of NSURL. For some strange reason, XCode won't
     // throw any warning for this type mismatch. Here we failsafe this error by allowing URLs to be passed as NSString.
     if ([url isKindOfClass:NSString.class])
@@ -88,7 +99,7 @@
     {
         [self.runningOperations addObject:operation];
     }
-    NSString *key = [self cacheKeyForURL:url];
+    NSString *key = [self cacheKeyForURL:url withDict:userInfo];
 
     [self.imageCache queryDiskCacheForKey:key done:^(UIImage *image, SDImageCacheType cacheType)
     {
@@ -115,7 +126,7 @@
                 // ignore image read from NSURLCache if image if cached but force refreshing
                 downloaderOptions |= SDWebImageDownloaderIgnoreCachedResponse;
             }
-            __block id<SDWebImageOperation> subOperation = [self.imageDownloader downloadImageWithURL:url options:downloaderOptions progress:progressBlock completed:^(UIImage *downloadedImage, NSData *data, NSError *error, BOOL finished)
+            __block id<SDWebImageOperation> subOperation = [self.imageDownloader downloadImageWithURL:url options:downloaderOptions userInfo:(NSDictionary *)userInfo progress:progressBlock completed:^(UIImage *downloadedImage, NSData *data, NSError *error, BOOL finished)
             {
                 if (weakOperation.cancelled)
                 {

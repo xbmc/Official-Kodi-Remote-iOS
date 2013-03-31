@@ -46,6 +46,18 @@
 /**
  * Set the imageView `image` with an `url`.
  *
+ * The downloand is asynchronous and cached. After the image is downloaded the result image is cropped.
+ *
+ * @param url The url for the image.
+ * @param bounds Bounds of the cropped image.
+ * @param size Resize the downloaded image to the specified size
+ * @param mode Content mode of the resize strategy. Can be UIViewContentModeScaleAspectFill or UIViewContentModeScaleAspectFit
+ */
+//- (void)setImageWithURL:(NSURL *)url andResize:(CGSize)size withContentMode:(UIViewContentMode)mode;
+
+/**
+ * Set the imageView `image` with an `url`.
+ *
  * The downloand is asynchronous and cached.
  *
  * @param url The url for the image.
@@ -62,6 +74,18 @@
  * @see setImageWithURL:placeholderImage:options:
  */
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder;
+
+/**
+ * Set the imageView `image` with an `url` a placeholder and resize.
+ *
+ * The downloand is asynchronous and cached.
+ *
+ * @param url The url for the image.
+ * @param placeholder The image to be set initially, until the image request finishes.
+ * @param resize Resize the downloaded image to the specified size
+ * @see setImageWithURL:placeholderImage:options:
+ */
+- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder andResize:(CGSize)size;
 
 /**
  * Set the imageView `image` with an `url`, placeholder and custom options.
@@ -130,7 +154,7 @@
  *                       is nil and the second parameter may contain an NSError. The third parameter is a Boolean
  *                       indicating if the image was retrived from the local cache of from the network.
  */
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock;
+- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options andResize:(CGSize)size progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock;
 
 /**
  * Cancel the current download
