@@ -54,6 +54,7 @@
     if (enable == YES){
         if (overlayWatched == nil){
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
+            [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleBottomMargin];
             overlayWatched.frame = CGRectMake(self.frame.size.width - overlayWatched.frame.size.width + 2,
                                               self.frame.size.height - overlayWatched.frame.size.height + 1,
                                               overlayWatched.frame.size.width,

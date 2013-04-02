@@ -90,9 +90,11 @@
     BOOL enableCollectionView;
     int cellGridWidth;
     int cellGridHeight;
+    int cellMinimumLineSpacing;
     id activeLayoutView;
     UILongPressGestureRecognizer *longPressGesture;
     int posterFontSize;
+    int fanartFontSize;
     FloatingHeaderFlowLayout *flowLayout;
     //  EXPERIMENTAL CODE
     NSMutableArray *darkCells;
@@ -100,6 +102,7 @@
     // END EXPERIMENTAL CODE
     UIView *sectionNameOverlayView;
     UILabel *sectionNameLabel;
+    BOOL recentlyAddedView;
 }
 
 - (id)initWithFrame:(CGRect)frame;

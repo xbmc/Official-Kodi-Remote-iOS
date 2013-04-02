@@ -26,6 +26,7 @@
 #import "PosterCell.h"
 #import "PosterLabel.h"
 #import "PosterHeaderView.h"
+#import "RecentlyAddedCell.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -356,6 +357,12 @@
     }
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
     enableCollectionView = newEnableCollectionView;
+    if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){
+        recentlyAddedView = TRUE;
+    }
+    else{
+        recentlyAddedView = FALSE;
+    }
     [self configureLibraryView];
     [activeLayoutView setContentOffset:[(UITableView *)activeLayoutView contentOffset] animated:NO];
     self.navigationItem.title = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"label"];
@@ -454,6 +461,7 @@
                                            [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewUniqueKey"] intValue]], @"collectionViewUniqueKey",
+                                           [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
                                            newSectionParameters, @"extra_section_parameters",
                                            nil];
@@ -574,20 +582,26 @@
     }
 }
 
+-(void)setFlowLayoutParams{
+    [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
+    if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 2;
+    [flowLayout setMinimumLineSpacing:cellMinimumLineSpacing];
+}
+
 #pragma mark - UICollectionView methods
 
 -(void)initCollectionView{
     if (collectionView == nil){
         flowLayout = [[FloatingHeaderFlowLayout alloc] init];
-        [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
+        [self setFlowLayoutParams];
         [flowLayout setMinimumInteritemSpacing:2.0f];
-        [flowLayout setMinimumLineSpacing:2.0f];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
         [collectionView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
         [collectionView setDelegate:self];
         [collectionView setDataSource:self];
         [collectionView registerClass:[PosterCell class] forCellWithReuseIdentifier:@"posterCell"];
+        [collectionView registerClass:[RecentlyAddedCell class] forCellWithReuseIdentifier:@"recentlyAddedCell"];
         [collectionView registerClass:[PosterHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"posterHeaderView"];
         [collectionView setAutoresizingMask:dataList.autoresizingMask];
         [dataList setDelegate:nil];
@@ -639,32 +653,74 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier = @"posterCell";
-    PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
+    
     NSDictionary *item = [[self.sections valueForKey:[sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     NSString *stringURL = [item objectForKey:@"thumbnail"];
+    NSString *fanartURL = [item objectForKey:@"fanart"];
     NSString *displayThumb=defaultThumb;
-    if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"] || [[item objectForKey:@"family"] isEqualToString:@"genreid"]){
-        if (![stringURL isEqualToString:@""]){
-            displayThumb=stringURL;
-        }
-    }
-    if (![stringURL isEqualToString:@""]){
-        [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellGridWidth, cellGridHeight)];
-    }
-    else {
-        [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
-    }
-    [cell.posterLabel setText:[item objectForKey:@"label"]];
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
-    if ([playcount intValue]){
-        [cell setOverlayWatched:YES];
+
+    if (recentlyAddedView == FALSE){
+        static NSString *identifier = @"posterCell";
+        PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+        [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
+        if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"] || [[item objectForKey:@"family"] isEqualToString:@"genreid"]){
+            if (![stringURL isEqualToString:@""]){
+                displayThumb=stringURL;
+            }
+        }
+        if (![stringURL isEqualToString:@""]){
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellGridWidth, cellGridHeight)];
+        }
+        else {
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        }
+        [cell.posterLabel setText:[item objectForKey:@"label"]];
+        if ([playcount intValue]){
+            [cell setOverlayWatched:YES];
+        }
+        else{
+            [cell setOverlayWatched:NO];
+        }
+        return cell;
     }
     else{
-        [cell setOverlayWatched:NO];
+        static NSString *identifier = @"recentlyAddedCell";
+        RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+        float posterWidth = cellGridHeight * 0.66f;
+        float fanartWidth = cellGridWidth - posterWidth;
+
+        if (![stringURL isEqualToString:@""]){
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(posterWidth, cellGridHeight)];
+        }
+        else {
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        }
+
+        if (![fanartURL isEqualToString:@""]){
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@""]andResize:CGSizeMake(fanartWidth, cellGridHeight)];
+        }
+        else {
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@""]];
+        }
+        
+        [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:fanartFontSize + 8]];
+        [cell.posterLabel setText:[item objectForKey:@"label"]];
+        
+        [cell.posterGenre setFont:[UIFont systemFontOfSize:fanartFontSize + 2]];
+        [cell.posterGenre setText:[item objectForKey:@"genre"]];
+        
+        [cell.posterYear setFont:[UIFont systemFontOfSize:fanartFontSize]];
+//        [cell.posterYear setText:[NSString stringWithFormat:@"%@%@", [item objectForKey:@"year"], [item objectForKey:@"runtime"] == nil ? @"" : [NSString stringWithFormat:@" - %@", [item objectForKey:@"runtime"]]]];
+        [cell.posterYear setText:[item objectForKey:@"year"]];
+        if ([playcount intValue]){
+            [cell setOverlayWatched:YES];
+        }
+        else{
+            [cell setOverlayWatched:NO];
+        }
+        return cell;
     }
-    return cell;
 }
 
 -(void)collectionView:(UICollectionView *)cView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -2995,8 +3051,7 @@ NSIndexPath *selected;
     else {
         [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
     }
-    [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
-
+    [self setFlowLayoutParams];
     [activityIndicatorView stopAnimating];
     [activeLayoutView reloadData];
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
@@ -3127,6 +3182,22 @@ NSIndexPath *selected;
     }
 }
 
+-(void)checkParamSize:(NSDictionary *)itemSizes viewWidth:(int)fullWidth{
+    if ([itemSizes objectForKey:@"width"] && [itemSizes objectForKey:@"height"]){
+        if ([[itemSizes objectForKey:@"width"] isKindOfClass:[NSString class]]){
+            if ([[itemSizes objectForKey:@"width"] isEqualToString:@"fullWidth"]){
+                cellGridWidth = fullWidth;
+            }
+            cellMinimumLineSpacing = 2;
+        }
+        else{
+            cellMinimumLineSpacing = 2;
+            cellGridWidth = [[itemSizes objectForKey:@"width"] floatValue];
+        }
+        cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
+    }
+}
+
 -(void)setIphoneInterface:(NSDictionary *)itemSizes{
     viewWidth=320;
     albumViewHeight = 116;
@@ -3141,10 +3212,8 @@ NSIndexPath *selected;
     cellGridWidth =105.0f;
     cellGridHeight =  151.0f;
     posterFontSize = 10;
-    if ([itemSizes objectForKey:@"width"] && [itemSizes objectForKey:@"height"]){
-        cellGridWidth = [[itemSizes objectForKey:@"width"] floatValue];
-        cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
-    }
+    fanartFontSize = 10;
+    [self checkParamSize:itemSizes viewWidth:viewWidth];
 }
 
 -(void)setIpadInterface:(NSDictionary *)itemSizes{
@@ -3158,15 +3227,11 @@ NSIndexPath *selected;
     albumFontSize = 18;
     trackCountFontSize = 13;
     labelPadding = 8;
-    cellGridWidth =117.0f; // 4 columns
-    cellGridHeight =  168.0f;// 4 columns
-//    cellGridWidth =157.0f;// 3 columns
-//    cellGridHeight =  225.0f;// 3 columns
+    cellGridWidth =117.0f;
+    cellGridHeight =  168.0f;
     posterFontSize = 11;
-    if ([itemSizes objectForKey:@"width"] && [itemSizes objectForKey:@"height"]){
-        cellGridWidth = [[itemSizes objectForKey:@"width"] floatValue];
-        cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
-    }
+    fanartFontSize = 13;
+    [self checkParamSize:itemSizes viewWidth:viewWidth];
 }
 
 - (void) disableScrollsToTopPropertyOnAllSubviewsOf:(UIView *)view {
@@ -3261,6 +3326,12 @@ NSIndexPath *selected;
     frame.origin.x = viewWidth;
     dataList.frame=frame;
     activeLayoutView = dataList;
+    if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){
+        recentlyAddedView = TRUE;
+    }
+    else{
+        recentlyAddedView = FALSE;
+    }
     enableCollectionView = [self collectionViewIsEnabled];
     if (enableCollectionView) {
         [self initCollectionView];
@@ -3324,6 +3395,12 @@ NSIndexPath *selected;
         [userDefaults setObject:[NSNumber numberWithBool:![[userDefaults objectForKey:viewKey] boolValue]]
                          forKey:viewKey];
         enableCollectionView = [self collectionViewIsEnabled];
+        if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){
+            recentlyAddedView = TRUE;
+        }
+        else{
+            recentlyAddedView = FALSE;
+        }
         [UIView animateWithDuration:0.2
                          animations:^{
                              CGRect frame;
