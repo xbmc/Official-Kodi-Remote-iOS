@@ -1447,6 +1447,9 @@
 		8ED18ECE16B6D17D00CA03F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ShowInfoViewController.xib; sourceTree = "<group>"; };
 		8ED18ED116B6D18300CA03F4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/ShowInfoViewController.xib; sourceTree = "<group>"; };
 		8ED18ED216B6D18400CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/ShowInfoViewController.xib; sourceTree = "<group>"; };
+		B1FD2267170B337B00FB1669 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/remote quick help_ipad@2x.png"; sourceTree = "<group>"; };
+		B1FD2268170B33C300FB1669 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/remote quick help_ipad.png"; sourceTree = "<group>"; };
+		B1FD2269170B33DE00FB1669 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/remote quick help.png"; sourceTree = "<group>"; };
 		B1FF37DE1709D1EB005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B1FF37E01709D1F1005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/cellViewIPad.xib"; sourceTree = "<group>"; };
@@ -3305,6 +3308,7 @@
 			children = (
 				8E1B3AFA16EAABA80089A043 /* en */,
 				8E1B3B0216EAABC00089A043 /* de */,
+				B1FD2267170B337B00FB1669 /* zh-Hans */,
 			);
 			name = "remote quick help_ipad@2x.png";
 			sourceTree = "<group>";
@@ -3314,6 +3318,7 @@
 			children = (
 				8E1B3AFD16EAABAD0089A043 /* en */,
 				8E1B3B0416EAABCC0089A043 /* de */,
+				B1FD2268170B33C300FB1669 /* zh-Hans */,
 			);
 			name = "remote quick help_ipad.png";
 			sourceTree = "<group>";
@@ -3323,6 +3328,7 @@
 			children = (
 				8E1B3B0016EAABB50089A043 /* en */,
 				8E1B3B0516EAABD20089A043 /* de */,
+				B1FD2269170B33DE00FB1669 /* zh-Hans */,
 			);
 			name = "remote quick help.png";
 			sourceTree = "<group>";
