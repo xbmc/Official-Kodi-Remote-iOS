@@ -1,0 +1,182 @@
+/* 
+  Localisable.strings
+  XBMC Remote
+
+  Created by Pierrick Rouxel on 21/12/12.
+  Copyright (c) 2012 joethefox inc. All rights reserved.
+ */
+
+"Listen to" = "收听";
+"Watch your" = "观看";
+"Browse your" = "浏览";
+"See what's" = "查看";
+"Use as" = "使用";
+
+"Music" = "音乐";
+"Movies" = "电影";
+"TV Shows" = "剧集";
+"Pictures" = "图片";
+"Now Playing" = "当前播放";
+"Remote Control" = "遥控器";
+"XBMC Server" = "XBMC服务器";
+"New XBMC Server" = "新XBMC服务器";
+"Modify XBMC Server" = "修改XBMC服务器";
+"Select an XBMC Server from the list" = "从列表中选择一个XBMC服务器";
+
+"Files" = "文件";
+"Video Addons" = "视频插件";
+"Live TV" = "直播电视";
+"Movie Genres" = "电影类型";
+"Music Videos" = "音乐电视";
+"Added Movies" = "已加入电影";
+"More (%d)" = "更多（%d）";
+"Movie Sets" = "影片集";
+
+"Albums" = "专辑";
+"Artists" = "艺人";
+"Genres" = "类型";
+"Added Albums" = "已加入专辑";
+"Recently added albums" = "最近加入的专辑";
+"Added Songs" = "已加入歌曲";
+"Recently added songs" = "最近加入的歌曲";
+"Top 100 Albums" = "排名前100专辑";
+"Top 100 Songs" = "排名前100歌曲";
+"Played albums" = "已播放专辑";
+"Recently played albums" = "最近播放的专辑";
+"Played songs" = "已播放歌曲";
+"Recently played songs" = "最近播放的歌曲";
+"All songs" = "全部歌曲";
+"Music Addons" = "音乐插件";
+"Music Playlists" = "音乐播放列表";
+
+"Added Episodes" = "已加入剧集";
+
+"Pictures Addons" = "图片插件";
+
+"Power off System" = "关闭系统";
+"Power off" = "关机";
+"Hibernate" = "休眠";
+"Suspend" = "待机";
+"Reboot" = "重启";
+"Quit XBMC application" = "退出XBMC程序";
+"Update Audio Library" = "更新音频资料库";
+"Update Audio" = "更新音频";
+"Clean Audio Library" = "清理音频资料库";
+"Clean Audio" = "清理音频";
+"Update Video Library" = "更新视频资料库";
+"Update Video" = "更新视频";
+"Clean Video Library" = "清理视频资料库";
+"Clean Video" = "清理视频";
+"Quit" = "退出";
+
+"Keyboard" = "键盘";
+"Gesture Zone" = "手势区";
+"Button Pad" = "按键板";
+"Help Screen" = "帮助屏";
+"LED Torch" = "LED电筒";
+
+"No connection" = "无连接";
+
+"Queue after current" = "队列当前位置后";
+"Queue" = "队列";
+"Play" = "播放";
+"Stream to iPhone" = "流化到iPhone";
+"Search Wikipedia" = "搜索Wikipedia";
+"Search last.fm charts" = "搜索last.fm歌单";
+"Album Tracks" = "专辑曲目";
+"Artist Albums" = "艺人专辑";
+"Artist Details" = "艺人详情";
+"Album Details" = "专辑详情";
+"Movie Details" = "电影详情";
+"Episode Details" = "集详情";
+"TV Show Details" = "剧集详情";
+"Music Video Details" = "音乐电视详情";
+"Details" = "详细资料";
+"Play Trailer" = "播放预告片";
+
+"Playlist" = "播放列表";
+"Nothing is playing" = "未播放任何项目";
+"Details not found" = "详细资料未找到";
+"Open in Safari" = "在Safari中打开";
+"Error loading page" = "载入页面错误";
+"OK" = "确定";
+"Cancel" = "取消";
+"Resume from %@" = "继续于 %@";
+"Resume from" = "继续于";
+"First aired on %@" = "首播于 %@";
+"Episodes: %@" = "集：%@";
+"1 result" = "1个结果";
+"%d results" = "%d个结果";
+"Music " = "音乐 ";
+"Video " = "视频 ";
+"Songs" = "音乐";
+"Song" = "音乐";
+"Mins." = "分";
+"Min" = "分";
+"Released %d" = "发布 %d";
+
+"Clear Playlist" = "清除播放列表";
+"No server MAC address defined" = "未定义服务器MAC地址";
+"Command executed" = "命令已执行";
+"Warning" = "注意";
+"Cannot do that" = "无法做到";
+"Wake On Lan" = "网络唤醒";
+"No saved hosts found" = "未找到保存的主机";
+
+"Are you sure you want to clear the %@playlist?" = "确定要清除%@playlist?";
+"Are you sure you want to power off your XBMC system now?" = "确定现在要让XBMC系统关机？";
+"Are you sure you want to hibernate your XBMC system now?" = "确定现在要让XBMC系统休眠？";
+"Are you sure you want to suspend your XBMC system now?" = "确定现在要让XBMC系统待机？";
+"Are you sure you want to reboot your XBMC system now?" = "确定现在要重启XBMC系统？";
+"Are you sure you want to quit XBMC application now?" = "确定现在要退出XBMC程序？";
+"Are you sure you want to update your audio library now?" = "确定现在要更新你的音频资料库？";
+"Are you sure you want to clean your audio library now?" = "确定现在要清理你的音频资料库？";
+"Are you sure you want to update your video library now?" = "确定现在要更新你的视频资料库？";
+"Are you sure you want to clean your video library now?" = "确定现在要清理你的视频资料库？";
+
+"EPISODES" = "集";
+"GENRE" = "类型";
+"STUDIO" = "制片";
+"TV SHOW" = "剧集";
+"DIRECTOR" = "导演";
+"WRITER" = "编剧";
+"FIRST AIRED" = "首播";
+"SUMMARY" = "摘要";
+"ARTIST" = "艺人";
+"YEAR" = "年份";
+"ALBUM LABEL" = "专辑标签";
+"DESCRIPTION" = "介绍";
+"STYLE" = "风格";
+"BORN / FORMED" = "诞生 / 组建";
+
+"codec" = "编码";
+"bit rate" = "比特率";
+"sample rate" = "采样率";
+"resolution" = "分辨率";
+"aspect ratio" = "宽高比";
+"Subtitles not available" = "字幕不可用";
+"Audiostream not available" = "音频流不可用";
+"Audiostreams not available" = "音频流不可用";
+
+"LongDateTimeFormat" = "YYYY年M月d日";
+"ShortDateTimeFormat" = "yyyy-MM-dd";
+"LocaleIdentifier" = "zh_CN";
+
+"No sever mac address definied" = "未定义服务器mac地址";
+"Yes" = "是";
+"No" = "否";
+"Authentication Failed" = "验证失败";
+"Incorrect Username or Password.\nCheck your settings." = "错误用户名或密码。\n请检查你的设置。";
+
+"WIKI_LANG" = "zh";
+
+"vote" = "投票";
+"votes" = "票";
+
+"Slide your finger up to adjust the scrubbing rate." = "向上滑动手指来调整scrubbing速度。";
+"Scrubbing 1" = "高速Scrubbing";
+"Scrubbing 0.5" = "半速Scrubbing";
+"Scrubbing 0.25" = "四分之一速Scrubbing";
+"Scrubbing 0.1" = "精细Scrubbing";
+"Scrubbing 0.05" = "很精细Scrubbing";
+"Scrubbing 0.025" = "超精细Scrubbing";
