@@ -149,10 +149,9 @@ NSMutableArray *hostRightMenuItems;
     float itemMovieWidthLargeIpad =157.0f;
     float itemMovieHeightLargeIpad =  225.0f;
     
-    float itemMovieHeightRecentlyIphone =  131.0f;
+    float itemMovieHeightRecentlyIphone =  132.0f;
     float itemMovieHeightRecentlyIpad =  196.0f;
 
-    
     [self.window makeKeyAndVisible];
     
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];

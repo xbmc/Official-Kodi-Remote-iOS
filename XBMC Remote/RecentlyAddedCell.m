@@ -15,12 +15,12 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.restorationIdentifier = @"recentlyAddedCell";
-
+        self.backgroundColor = [UIColor lightGrayColor];
         float labelHeight = (int)(frame.size.height * 0.19f);
         float genreHeight = (int)(frame.size.height * 0.12f);
         float yearHeight = (int)(frame.size.height * 0.12f);
         int borderWidth = 2;
-        int posterWidth = frame.size.height * 0.66f;
+        int posterWidth = (int)(frame.size.height * 0.66f) + 1;
         int fanartWidth = frame.size.width - posterWidth;
 //        int posterStartX = borderWidth * 2 + fanartWidth;
         int posterStartX = borderWidth;

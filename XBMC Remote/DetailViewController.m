@@ -3188,7 +3188,7 @@ NSIndexPath *selected;
             if ([[itemSizes objectForKey:@"width"] isEqualToString:@"fullWidth"]){
                 cellGridWidth = fullWidth;
             }
-            cellMinimumLineSpacing = 8;
+            cellMinimumLineSpacing = 2;
         }
         else{
             cellMinimumLineSpacing = 2;
