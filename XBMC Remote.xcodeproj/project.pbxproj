@@ -686,6 +686,8 @@
 		0F089931154F0F9C006EA34A /* tableRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tableRight.png; sourceTree = "<group>"; };
 		0F09E9BF1567D77A006D1EA3 /* eden.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eden.png; sourceTree = "<group>"; };
 		0F09E9C11567D785006D1EA3 /* eden@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eden@2x.png"; sourceTree = "<group>"; };
+		0F13A02E170B560F00EBDD4C /* button_now_playing_empty.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = button_now_playing_empty.psd; sourceTree = "<group>"; };
+		0F13A02F170B560F00EBDD4C /* button_now_playing_empty@2x.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "button_now_playing_empty@2x.psd"; sourceTree = "<group>"; };
 		0F175F21154D5C3600C1C61F /* ViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerIPad.h; sourceTree = "<group>"; };
 		0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerIPad.m; sourceTree = "<group>"; };
 		0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerIPad.xib; sourceTree = "<group>"; };
@@ -2402,6 +2404,8 @@
 		0FE15E0316BE6C47005D3A4C /* PSD */ = {
 			isa = PBXGroup;
 			children = (
+				0F13A02E170B560F00EBDD4C /* button_now_playing_empty.psd */,
+				0F13A02F170B560F00EBDD4C /* button_now_playing_empty@2x.psd */,
 			);
 			path = PSD;
 			sourceTree = "<group>";
