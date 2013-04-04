@@ -3405,8 +3405,6 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
-    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     enableDiskCache = [[userDefaults objectForKey:@"diskcache_preference"] boolValue];
@@ -3440,8 +3438,9 @@ NSIndexPath *selected;
         choosedTab=0;
     }
     watchMode = [self.detailItem currentWatchMode];
-    
-    
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
@@ -3495,7 +3494,8 @@ NSIndexPath *selected;
     self.extraSectionRichResults = [[NSMutableArray alloc] init ];
     
     [activityIndicatorView startAnimating];
-    
+        
+
     [self startRetrieveDataWithRefresh:NO];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
