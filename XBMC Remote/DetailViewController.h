@@ -27,7 +27,6 @@
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     DSJSONRPC *jsonRPC;
-    NSMutableArray *richResults;
     NSMutableArray	*filteredListContent;
     NSMutableArray *storeRichResults;
     NSMutableArray *extraSectionRichResults;
@@ -78,8 +77,6 @@
     int trackCountLabelWidth;
     int labelPadding;
     float thumbBorderWidth;
-    NSArray *sectionArray;
-    NSMutableArray *sectionArrayOpen;
     UIColor *albumColor;
     UIColor *searchBarColor;
     UIColor *tableViewSearchBarColor;
@@ -118,5 +115,8 @@
 @property (strong, nonatomic) WebViewController *webViewController;
 @property (strong, nonatomic) BDKCollectionIndexView *indexView;
 @property (nonatomic,retain) NSMutableDictionary *sections;
+@property (nonatomic,retain) NSMutableArray *richResults;
+@property (nonatomic,retain) NSArray *sectionArray;
+@property (nonatomic,retain) NSMutableArray *sectionArrayOpen;
 
 @end
