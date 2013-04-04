@@ -3408,8 +3408,9 @@ NSIndexPath *selected;
     [super viewDidLoad];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-
-    enableDiskCache = YES;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    enableDiskCache = [[userDefaults objectForKey:@"diskcache_preference"] boolValue];
     __weak DetailViewController *weakSelf = self;
     [dataList addPullToRefreshWithActionHandler:^{
         [weakSelf startRetrieveDataWithRefresh:YES];
@@ -3526,7 +3527,20 @@ NSIndexPath *selected;
                                              selector: @selector(handleCollectionIndexStateEnded)
                                                  name: @"BDKCollectionIndexViewGestureRecognizerStateEnded"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleEnterForeground:)
+                                                 name: @"UIApplicationWillEnterForegroundNotification"
+                                               object: nil];
 
+}
+
+- (void) handleEnterForeground: (NSNotification*) sender{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    enableDiskCache = [[userDefaults objectForKey:@"diskcache_preference"] boolValue];
+    [dataList setShowsPullToRefresh:enableDiskCache];
+    [collectionView setShowsPullToRefresh:enableDiskCache];
 }
 
 -(void)handleShakeNotification{
