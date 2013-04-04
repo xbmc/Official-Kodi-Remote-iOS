@@ -372,29 +372,28 @@
         frame.size.height = frame.size.height + 8;
         backgroundImageView.frame = frame;
     }
-    else {
-        if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
-            MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-            masterViewController.mainMenu = self.mainMenu;
-            self.slidingViewController.underLeftViewController = masterViewController;
-        }
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        int lastServer;
-        if ([userDefaults objectForKey:@"lastServer"]!=nil){
-            lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
-            if (lastServer>-1){
-                NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
-                if (![AppDelegate instance].serverOnLine){
-                    [self selectIndex:lastServerIndexPath reloadData:NO];
-                    [connectingActivityIndicator startAnimating];
-                }
-                else{
-                    [self selectServerAtIndexPath:lastServerIndexPath];
-                    [serverListTableView selectRowAtIndexPath:lastServerIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-                }
+    else if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
+        MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+        masterViewController.mainMenu = self.mainMenu;
+        self.slidingViewController.underLeftViewController = masterViewController;
+    }
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    int lastServer;
+    if ([userDefaults objectForKey:@"lastServer"]!=nil){
+        lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
+        if (lastServer > -1 && lastServer < [[AppDelegate instance].arrayServerList count]){
+            NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
+            if (![AppDelegate instance].serverOnLine){
+                [self selectIndex:lastServerIndexPath reloadData:NO];
+                [connectingActivityIndicator startAnimating];
+            }
+            else{
+                [self selectServerAtIndexPath:lastServerIndexPath];
+                [serverListTableView selectRowAtIndexPath:lastServerIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             }
         }
     }
+
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"

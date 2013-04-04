@@ -256,15 +256,6 @@
                                     initWithContentViewController:[AppDelegate instance].navigationController];
         self.serverPickerPopover.delegate = self;
         [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        int lastServer;
-        if ([userDefaults objectForKey:@"lastServer"]!=nil){
-            lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
-            if (lastServer>-1){
-                NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
-                [self.hostPickerViewController selectIndex:lastServerIndexPath reloadData:NO];
-            }
-        }    
     }
     [self.serverPickerPopover presentPopoverFromRect:xbmcInfo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
@@ -416,16 +407,7 @@
                                 initWithContentViewController:[AppDelegate instance].navigationController];
     self.serverPickerPopover.delegate = self;
     [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    int lastServer;
-    if ([userDefaults objectForKey:@"lastServer"]!=nil){
-        lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
-        if (lastServer>-1){
-            NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
-            [self.hostPickerViewController selectIndex:lastServerIndexPath reloadData:NO];
-            [self handleXBMCServerHasChanged:nil];
-        }
-    }
+
     int cellHeight = 56;
     int infoHeight = 22;
     int tableHeight = ([(NSMutableArray *)mainMenu count] - 1) * cellHeight + infoHeight;
