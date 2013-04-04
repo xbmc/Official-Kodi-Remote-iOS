@@ -129,7 +129,7 @@
 }
 
 -(void)saveData:(NSMutableDictionary *)mutableParameters{
-    if (enableDiskCache == NO) return;
+    if (!enableDiskCache) return;
     if (mutableParameters != nil){
         NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
         NSString *viewKey = [self getCacheKey:[methods objectForKey:@"method"] parameters:mutableParameters];
@@ -139,19 +139,19 @@
             NSString  *dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
             [NSKeyedArchiver archiveRootObject:self.richResults toFile:dicPath];
             
-            filename = [NSString stringWithFormat:@"%@.sections.dat", viewKey];
-            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
-            [NSKeyedArchiver archiveRootObject:self.sections toFile:dicPath];
-            
-            filename = [NSString stringWithFormat:@"%@.sectionArray.dat", viewKey];
-            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
-            
-            [NSKeyedArchiver archiveRootObject:self.sectionArray toFile:dicPath];
-            
-            filename = [NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey];
-            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
-            [NSKeyedArchiver archiveRootObject:self.sectionArrayOpen toFile:dicPath];
-            
+//            filename = [NSString stringWithFormat:@"%@.sections.dat", viewKey];
+//            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
+//            [NSKeyedArchiver archiveRootObject:self.sections toFile:dicPath];
+//            
+//            filename = [NSString stringWithFormat:@"%@.sectionArray.dat", viewKey];
+//            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
+//            
+//            [NSKeyedArchiver archiveRootObject:self.sectionArray toFile:dicPath];
+//            
+//            filename = [NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey];
+//            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
+//            [NSKeyedArchiver archiveRootObject:self.sectionArrayOpen toFile:dicPath];
+//            
             filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
             dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
             [NSKeyedArchiver archiveRootObject:self.extraSectionRichResults toFile:dicPath];
@@ -165,39 +165,41 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     NSMutableArray *tempArray;
-    NSMutableDictionary *tempDict;
+//    NSMutableDictionary *tempDict;
     self.richResults = nil;
-    self.sections = nil;
+//    self.sections = nil;
     self.sectionArray = nil;
     self.sectionArrayOpen = nil;
     self.extraSectionRichResults = nil;
     
+    self.sections = [[NSMutableDictionary alloc] init];
+    
     tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     [self setRichResults:tempArray];
     
-    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sections.dat", viewKey]];
-    tempDict = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    [self setSections:tempDict];
-    
-    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sectionArray.dat", viewKey]];
-    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    [self setSectionArray:tempArray];
-    
-    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey]];
-    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    [self setSectionArrayOpen:tempArray];
-    
+//    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sections.dat", viewKey]];
+//    tempDict = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+//    [self setSections:tempDict];
+//    
+//    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sectionArray.dat", viewKey]];
+//    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+//    [self setSectionArray:tempArray];
+//    
+//    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey]];
+//    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+//    [self setSectionArrayOpen:tempArray];
+//    
     path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey]];
     tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     [self setExtraSectionRichResults:tempArray];
     
     storeRichResults = [self.richResults mutableCopy];
-    [self performSelectorOnMainThread:@selector(displayData) withObject:nil waitUntilDone:YES];
+    [self performSelectorOnMainThread:@selector(indexAndDisplayData:) withObject:nil waitUntilDone:YES];
 }
 
 -(BOOL)loadedDataFromDisk:(NSString *)methodToCall parameters:(NSMutableDictionary*)mutableParameters refresh:(BOOL)forceRefresh{
     if (forceRefresh) return NO;
-    if (enableDiskCache == NO) return NO;
+    if (!enableDiskCache) return NO;
     NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
     NSFileManager *fileManager1 = [NSFileManager defaultManager];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -703,12 +705,11 @@
         [collectionView registerClass:[RecentlyAddedCell class] forCellWithReuseIdentifier:@"recentlyAddedCell"];
         [collectionView registerClass:[PosterHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"posterHeaderView"];
         [collectionView setAutoresizingMask:dataList.autoresizingMask];
-        if (enableDiskCache){
-            __weak DetailViewController *weakSelf = self;
-            [collectionView addPullToRefreshWithActionHandler:^{
-                [weakSelf startRetrieveDataWithRefresh:YES];
-            }];
-        }
+        __weak DetailViewController *weakSelf = self;
+        [collectionView addPullToRefreshWithActionHandler:^{
+            [weakSelf startRetrieveDataWithRefresh:YES];
+        }];
+        [collectionView setShowsPullToRefresh:enableDiskCache];
         [dataList setDelegate:nil];
         [dataList setDataSource:nil];
         if (longPressGesture == nil){
@@ -3032,6 +3033,7 @@ NSIndexPath *selected;
                          [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
                          [activeLayoutView setUserInteractionEnabled:YES];
                      }
+                     [self saveData:mutableParameters];
                      [self indexAndDisplayData:mutableParameters];
                  }
              }
@@ -3155,7 +3157,7 @@ NSIndexPath *selected;
     }
     //    NSLog(@"END INDEX");
 
-    [self saveData:mutableParameters];
+//    [self saveData:mutableParameters];
     
     [self displayData];
 }
@@ -3404,13 +3406,15 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+
     enableDiskCache = YES;
-    if (enableDiskCache){
-        __weak DetailViewController *weakSelf = self;
-        [dataList addPullToRefreshWithActionHandler:^{
-            [weakSelf startRetrieveDataWithRefresh:YES];
-        }];
-    }
+    __weak DetailViewController *weakSelf = self;
+    [dataList addPullToRefreshWithActionHandler:^{
+        [weakSelf startRetrieveDataWithRefresh:YES];
+    }];
+    [dataList setShowsPullToRefresh:enableDiskCache];
     darkCells = [[NSMutableArray alloc] init];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     thumbBorderWidth = 1.0f;
@@ -3437,9 +3441,7 @@ NSIndexPath *selected;
     }
     watchMode = [self.detailItem currentWatchMode];
     
-    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
-    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-
+    
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
@@ -3593,6 +3595,9 @@ NSIndexPath *selected;
     self.filteredListContent=nil;
     [self.sections removeAllObjects];
     self.sections=nil;
+    self.sectionArray = nil;
+    self.sectionArrayOpen = nil;
+    self.extraSectionRichResults = nil;
     dataList=nil;
     collectionView = nil;
     jsonCell=nil;
