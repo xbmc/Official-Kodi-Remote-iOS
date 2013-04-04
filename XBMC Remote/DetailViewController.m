@@ -149,14 +149,16 @@
             filename = [NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey];
             dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
             [NSKeyedArchiver archiveRootObject:self.sectionArrayOpen toFile:dicPath];
+            
+            filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
+            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
+            [NSKeyedArchiver archiveRootObject:self.extraSectionRichResults toFile:dicPath];
         }
     }    
 }
 
 -(void)loadDataFromDisk:(NSDictionary*)params{
-    
-    NSString *viewKey = [self getCacheKey:[params objectForKey:@"methodToCall"] parameters:[params objectForKey:@"mutableParameters"]];
-
+    NSString *viewKey = [self getCacheKey:[params objectForKey:@"methodToCall"] parameters:[params objectForKey:@"mutableParameters"]];    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
@@ -166,6 +168,7 @@
     self.sections = nil;
     self.sectionArray = nil;
     self.sectionArrayOpen = nil;
+    self.extraSectionRichResults = nil;
     
     tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     [self setRichResults:tempArray];
@@ -181,6 +184,10 @@
     path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey]];
     tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     [self setSectionArrayOpen:tempArray];
+    
+    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey]];
+    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    [self setExtraSectionRichResults:tempArray];
     
     storeRichResults = [self.richResults mutableCopy];
     [self performSelectorOnMainThread:@selector(displayData) withObject:nil waitUntilDone:YES];
@@ -1558,12 +1565,12 @@ int originYear = 0;
         else{
             item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:section]] objectAtIndex:0];
         }
-        int seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:extraSectionRichResults];
+        int seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:self.extraSectionRichResults];
         float seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
         if (seasonIdx != NSNotFound){
             
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
-            NSString *stringURL = [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"thumbnail"];
+            NSString *stringURL = [[self.extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"thumbnail"];
             NSString *displayThumb=@"coverbox_back_section.png";
             if ([[item objectForKey:@"filetype"] length]!=0){
                 displayThumb=stringURL;
@@ -1597,7 +1604,7 @@ int originYear = 0;
             [albumLabel setShadowColor:seasonFontShadowColor];
             [albumLabel setShadowOffset:CGSizeMake(0, 1)];
             [albumLabel setFont:[UIFont boldSystemFontOfSize:albumFontSize]];
-            albumLabel.text = [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"label"];
+            albumLabel.text = [[self.extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"label"];
             albumLabel.numberOfLines = 0;
             CGSize maximunLabelSize= CGSizeMake(viewWidth - albumViewHeight - albumViewPadding - toggleIconSpace, albumViewHeight - albumViewPadding*4 -28);
             CGSize expectedLabelSize = [albumLabel.text
@@ -1616,7 +1623,7 @@ int originYear = 0;
             [trackCountLabel setShadowOffset:CGSizeMake(0, 1)];
             [trackCountLabel setTextColor:[UIColor darkGrayColor]];
             [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
-            trackCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Episodes: %@", nil), [[extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"episode"]];
+            trackCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Episodes: %@", nil), [[self.extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"episode"]];
             [albumDetailView addSubview:trackCountLabel];
 
             UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth +toggleIconSpace + (albumViewPadding * 2), bottomMargin - trackCountFontSize -labelPadding/2, viewWidth - albumViewHeight - albumViewPadding - toggleIconSpace, trackCountFontSize + labelPadding)];
@@ -2793,7 +2800,9 @@ NSIndexPath *selected;
         [mutableParameters setObject: [mutableParameters objectForKey: @"file_properties"] forKey: @"properties"];
         [mutableParameters removeObjectForKey: @"file_properties"];
     }
-    if ([self loadedDataFromDisk:methodToCall parameters:mutableParameters] == YES){
+    
+    
+    if ([self loadedDataFromDisk:methodToCall parameters:(sectionParameters == nil) ? mutableParameters : [NSMutableDictionary dictionaryWithDictionary:sectionParameters]] == YES){
         return;
     }
 
@@ -2980,7 +2989,7 @@ NSIndexPath *selected;
                      storeRichResults = [resultStoreArray mutableCopy];
                  }
                  if (SectionMethodToCall != nil){
-                     [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:extraSectionRichResults extraSectionCall:YES];
+                     [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:self.extraSectionRichResults extraSectionCall:YES];
                  }
                  else if (watchMode != 0){
                      [self changeViewMode:watchMode];
@@ -3117,7 +3126,6 @@ NSIndexPath *selected;
 -(void)displayData{
     [self configureLibraryView];
     [activeLayoutView setContentOffset:[(UITableView *)activeLayoutView contentOffset] animated:NO];
-
     [self choseParams];
     numResults=[self.richResults count];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
@@ -3442,7 +3450,7 @@ NSIndexPath *selected;
     self.richResults= [[NSMutableArray alloc] init ];
     self.filteredListContent = [[NSMutableArray alloc] init ];
     storeRichResults = [[NSMutableArray alloc] init ];
-    extraSectionRichResults = [[NSMutableArray alloc] init ];
+    self.extraSectionRichResults = [[NSMutableArray alloc] init ];
     [activityIndicatorView startAnimating];
     
     

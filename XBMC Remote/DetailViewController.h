@@ -29,7 +29,6 @@
     DSJSONRPC *jsonRPC;
     NSMutableArray	*filteredListContent;
     NSMutableArray *storeRichResults;
-    NSMutableArray *extraSectionRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;  
     SDWebImageManager *manager;
@@ -118,5 +117,6 @@
 @property (nonatomic,retain) NSMutableArray *richResults;
 @property (nonatomic,retain) NSArray *sectionArray;
 @property (nonatomic,retain) NSMutableArray *sectionArrayOpen;
+@property (nonatomic,retain) NSMutableArray *extraSectionRichResults;
 
 @end
