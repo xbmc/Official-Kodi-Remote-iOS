@@ -464,8 +464,7 @@
     else{
         recentlyAddedView = FALSE;
     }
-//    [self configureLibraryView];
-//    [activeLayoutView setContentOffset:[(UITableView *)activeLayoutView contentOffset] animated:NO];
+    [activeLayoutView setContentOffset:[(UITableView *)activeLayoutView contentOffset] animated:NO];
     self.navigationItem.title = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"label"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         [UIView beginAnimations:nil context:nil];
@@ -3164,7 +3163,7 @@ NSIndexPath *selected;
 
 -(void)displayData{
     [self configureLibraryView];
-    [activeLayoutView setContentOffset:[(UITableView *)activeLayoutView contentOffset] animated:NO];
+//    [activeLayoutView setContentOffset:[(UITableView *)activeLayoutView contentOffset] animated:NO];
     [self choseParams];
     numResults=[self.richResults count];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
