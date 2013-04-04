@@ -57,6 +57,7 @@
 @property (retain, nonatomic) NSString *documentsDir;
 @property (nonatomic, assign) BOOL serverOnLine;
 @property (nonatomic, assign) int serverVersion;
+@property (nonatomic, assign) int serverMinorVersion;
 @property (nonatomic, assign) int serverVolume;
 @property (retain, nonatomic) NSString *serverName;
 @property (nonatomic, retain) GlobalData *obj;

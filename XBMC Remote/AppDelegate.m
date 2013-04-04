@@ -29,6 +29,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize documentsDir;
 @synthesize serverOnLine;
 @synthesize serverVersion;
+@synthesize serverMinorVersion;
 @synthesize obj;
 @synthesize playlistArtistAlbums;
 @synthesize playlistMovies;

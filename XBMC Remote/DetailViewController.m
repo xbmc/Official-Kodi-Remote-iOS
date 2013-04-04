@@ -125,7 +125,7 @@
 
 -(NSString *)getCacheKey:(NSString *)fieldA parameters:(NSMutableDictionary *)fieldB{
     GlobalData *obj=[GlobalData getInstance];
-    return [[NSString stringWithFormat:@"%@%@%@%@%@", obj.serverIP, obj.serverPort, obj.serverDescription, fieldA, fieldB] MD5String];
+    return [[NSString stringWithFormat:@"%@%@%@%d%d%@%@", obj.serverIP, obj.serverPort, obj.serverDescription, [AppDelegate instance].serverVersion, [AppDelegate instance].serverMinorVersion, fieldA, fieldB] MD5String];
 }
 
 -(void)saveData:(NSMutableDictionary *)mutableParameters{
