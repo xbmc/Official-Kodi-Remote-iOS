@@ -99,6 +99,7 @@
     UIView *sectionNameOverlayView;
     UILabel *sectionNameLabel;
     BOOL recentlyAddedView;
+    BOOL enableDiskCache;
 }
 
 - (id)initWithFrame:(CGRect)frame;

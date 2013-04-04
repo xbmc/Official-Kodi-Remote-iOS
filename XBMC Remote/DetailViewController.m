@@ -28,6 +28,7 @@
 #import "PosterHeaderView.h"
 #import "RecentlyAddedCell.h"
 #import "NSString+MD5.h"
+#import "UIScrollView+SVPullToRefresh.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -128,6 +129,7 @@
 }
 
 -(void)saveData:(NSMutableDictionary *)mutableParameters{
+    if (enableDiskCache == NO) return;
     if (mutableParameters != nil){
         NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
         NSString *viewKey = [self getCacheKey:[methods objectForKey:@"method"] parameters:mutableParameters];
@@ -193,7 +195,9 @@
     [self performSelectorOnMainThread:@selector(displayData) withObject:nil waitUntilDone:YES];
 }
 
--(BOOL)loadedDataFromDisk:(NSString *)methodToCall parameters:(NSMutableDictionary*)mutableParameters{
+-(BOOL)loadedDataFromDisk:(NSString *)methodToCall parameters:(NSMutableDictionary*)mutableParameters refresh:(BOOL)forceRefresh{
+    if (forceRefresh) return NO;
+    if (enableDiskCache == NO) return NO;
     NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
     NSFileManager *fileManager1 = [NSFileManager defaultManager];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -391,6 +395,8 @@
 
 -(IBAction)changeTab:(id)sender{
     if (activityIndicatorView.hidden == NO) return;
+    [activeLayoutView setUserInteractionEnabled:YES];
+    [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
     if ([sender tag]==choosedTab) {
         NSArray *watchedCycle = [self.detailItem watchModes];
         int num_modes = [[[watchedCycle objectAtIndex:choosedTab] objectForKey:@"modes"] count];
@@ -485,7 +491,7 @@
         self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
     }
     if ([methods objectForKey:@"method"]!=nil){
-        [self retrieveData:[methods objectForKey:@"method"] parameters:mutableParameters sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO];
+        [self retrieveData:[methods objectForKey:@"method"] parameters:mutableParameters sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:NO];
     }
     else {
         [activityIndicatorView stopAnimating];
@@ -697,6 +703,12 @@
         [collectionView registerClass:[RecentlyAddedCell class] forCellWithReuseIdentifier:@"recentlyAddedCell"];
         [collectionView registerClass:[PosterHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"posterHeaderView"];
         [collectionView setAutoresizingMask:dataList.autoresizingMask];
+        if (enableDiskCache){
+            __weak DetailViewController *weakSelf = self;
+            [collectionView addPullToRefreshWithActionHandler:^{
+                [weakSelf startRetrieveDataWithRefresh:YES];
+            }];
+        }
         [dataList setDelegate:nil];
         [dataList setDataSource:nil];
         if (longPressGesture == nil){
@@ -2794,15 +2806,36 @@ NSIndexPath *selected;
      }];
 }
 
--(void) retrieveData:(NSString *)methodToCall parameters:(NSDictionary*)parameters sectionMethod:(NSString *)SectionMethodToCall sectionParameters:(NSDictionary*)sectionParameters resultStore:(NSMutableArray *)resultStoreArray extraSectionCall:(BOOL) extraSectionCallBool{
+-(void)startRetrieveDataWithRefresh:(BOOL)forceRefresh{
+    if (forceRefresh == YES){
+        [activeLayoutView setUserInteractionEnabled:NO];
+        self.indexView.hidden = YES;
+    }
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"parameters"] mutableCopy];
+    NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
+    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
+        [mutableProperties addObject:@"art"];
+        [mutableParameters setObject:mutableProperties forKey:@"properties"];
+    }
+    if ([methods objectForKey:@"method"]!=nil){
+        [self retrieveData:[methods objectForKey:@"method"] parameters:mutableParameters sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:forceRefresh];
+    }
+    else {
+        [activityIndicatorView stopAnimating];
+        [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    }
+}
+
+-(void) retrieveData:(NSString *)methodToCall parameters:(NSDictionary*)parameters sectionMethod:(NSString *)SectionMethodToCall sectionParameters:(NSDictionary*)sectionParameters resultStore:(NSMutableArray *)resultStoreArray extraSectionCall:(BOOL) extraSectionCallBool refresh:(BOOL)forceRefresh{
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
     if ([mutableParameters objectForKey: @"file_properties"]!=nil){
         [mutableParameters setObject: [mutableParameters objectForKey: @"file_properties"] forKey: @"properties"];
         [mutableParameters removeObjectForKey: @"file_properties"];
     }
     
-    
-    if ([self loadedDataFromDisk:methodToCall parameters:(sectionParameters == nil) ? mutableParameters : [NSMutableDictionary dictionaryWithDictionary:sectionParameters]] == YES){
+    if ([self loadedDataFromDisk:methodToCall parameters:(sectionParameters == nil) ? mutableParameters : [NSMutableDictionary dictionaryWithDictionary:sectionParameters] refresh:forceRefresh] == YES){
         return;
     }
 
@@ -2989,12 +3022,16 @@ NSIndexPath *selected;
                      storeRichResults = [resultStoreArray mutableCopy];
                  }
                  if (SectionMethodToCall != nil){
-                     [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:self.extraSectionRichResults extraSectionCall:YES];
+                     [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:self.extraSectionRichResults extraSectionCall:YES refresh:forceRefresh];
                  }
                  else if (watchMode != 0){
                      [self changeViewMode:watchMode];
                  }
                  else{
+                     if (forceRefresh == YES){
+                         [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
+                         [activeLayoutView setUserInteractionEnabled:YES];
+                     }
                      [self indexAndDisplayData:mutableParameters];
                  }
              }
@@ -3367,6 +3404,13 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    enableDiskCache = YES;
+    if (enableDiskCache){
+        __weak DetailViewController *weakSelf = self;
+        [dataList addPullToRefreshWithActionHandler:^{
+            [weakSelf startRetrieveDataWithRefresh:YES];
+        }];
+    }
     darkCells = [[NSMutableArray alloc] init];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     thumbBorderWidth = 1.0f;
@@ -3392,15 +3436,10 @@ NSIndexPath *selected;
         choosedTab=0;
     }
     watchMode = [self.detailItem currentWatchMode];
+    
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-    
-    NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
-    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
-        [mutableProperties addObject:@"art"];
-        [mutableParameters setObject:mutableProperties forKey:@"properties"];
-    }
+
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
@@ -3446,23 +3485,17 @@ NSIndexPath *selected;
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    
     self.sections = [[NSMutableDictionary alloc] init];
     self.richResults= [[NSMutableArray alloc] init ];
     self.filteredListContent = [[NSMutableArray alloc] init ];
     storeRichResults = [[NSMutableArray alloc] init ];
     self.extraSectionRichResults = [[NSMutableArray alloc] init ];
+    
     [activityIndicatorView startAnimating];
     
+    [self startRetrieveDataWithRefresh:NO];
     
-    
-    
-    if ([methods objectForKey:@"method"]!=nil){
-        [self retrieveData:[methods objectForKey:@"method"] parameters:mutableParameters sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO];
-    }
-    else {
-        [activityIndicatorView stopAnimating];
-        [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
-    }
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTabHasChanged:)
                                                  name: @"tabHasChanged"

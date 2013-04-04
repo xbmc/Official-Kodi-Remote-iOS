@@ -626,6 +626,7 @@
 		0FD8389D1655788300611180 /* torch_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FD8389C1655788300611180 /* torch_on.png */; };
 		0FD838A01655788E00611180 /* torch_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FD8389F1655788E00611180 /* torch_on@2x.png */; };
 		0FDC26B3158A7CED0063A9D6 /* pgbar_inact_fake@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FDC26B2158A7CED0063A9D6 /* pgbar_inact_fake@2x.png */; };
+		0FDC891A170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDC8919170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m */; };
 		0FDDED671643D73D00E9DFDA /* connection_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FDDED651643D73D00E9DFDA /* connection_off.png */; };
 		0FDDED681643D73D00E9DFDA /* connection_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FDDED661643D73D00E9DFDA /* connection_on.png */; };
 		0FDDED6C1643D74B00E9DFDA /* connection_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FDDED6A1643D74B00E9DFDA /* connection_off@2x.png */; };
@@ -1378,6 +1379,8 @@
 		0FD8389C1655788300611180 /* torch_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = torch_on.png; sourceTree = "<group>"; };
 		0FD8389F1655788E00611180 /* torch_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "torch_on@2x.png"; sourceTree = "<group>"; };
 		0FDC26B2158A7CED0063A9D6 /* pgbar_inact_fake@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pgbar_inact_fake@2x.png"; sourceTree = "<group>"; };
+		0FDC8918170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
+		0FDC8919170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
 		0FDDED651643D73D00E9DFDA /* connection_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = connection_off.png; sourceTree = "<group>"; };
 		0FDDED661643D73D00E9DFDA /* connection_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = connection_on.png; sourceTree = "<group>"; };
 		0FDDED6A1643D74B00E9DFDA /* connection_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "connection_off@2x.png"; sourceTree = "<group>"; };
@@ -2272,6 +2275,7 @@
 				0F7F3DA0164A6D730080A14A /* ECSlidingViewController */,
 				0F7F0DC71703490A0098FF75 /* BDKCollectionIndexView */,
 				0F05FB66170D79B000BBA833 /* NSString+MD5 */,
+				0FDC8917170DCAEA00419F58 /* SVPullToRefresh */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -2442,6 +2446,15 @@
 				0FB8598215FF9DCF0070F324 /* sign.mp3 */,
 			);
 			name = audio;
+			sourceTree = "<group>";
+		};
+		0FDC8917170DCAEA00419F58 /* SVPullToRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				0FDC8918170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.h */,
+				0FDC8919170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m */,
+			);
+			path = SVPullToRefresh;
 			sourceTree = "<group>";
 		};
 		0FE15E0316BE6C47005D3A4C /* PSD */ = {
@@ -3187,6 +3200,7 @@
 				0F7B951A1708975500880F33 /* UIImage+Resize.m in Sources */,
 				0F4205D217099AE500EA533C /* RecentlyAddedCell.m in Sources */,
 				0F05FB69170D79D400BBA833 /* NSString+MD5.m in Sources */,
+				0FDC891A170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
