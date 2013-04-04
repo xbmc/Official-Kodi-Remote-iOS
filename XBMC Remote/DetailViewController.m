@@ -133,7 +133,7 @@
     if (mutableParameters != nil){
         NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
         NSString *viewKey = [self getCacheKey:[methods objectForKey:@"method"] parameters:mutableParameters];
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         if ([paths count] > 0) {
             NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
             NSString  *dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
@@ -161,7 +161,7 @@
 
 -(void)loadDataFromDisk:(NSDictionary*)params{
     NSString *viewKey = [self getCacheKey:[params objectForKey:@"methodToCall"] parameters:[params objectForKey:@"mutableParameters"]];    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     NSMutableArray *tempArray;
@@ -202,7 +202,7 @@
     if (!enableDiskCache) return NO;
     NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
     NSFileManager *fileManager1 = [NSFileManager defaultManager];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     if([fileManager1 fileExistsAtPath:path]){
