@@ -3400,9 +3400,19 @@ NSIndexPath *selected;
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:[parameters objectForKey:@"parameters"]];
-    if ([tempDict objectForKey:@"filter"] != nil){
-        [tempDict removeObjectForKey:@"filter"];
-        [tempDict setObject:@"YES" forKey:@"filtered"];        
+    if ([AppDelegate instance].serverVersion > 11) {
+        if ([tempDict objectForKey:@"filter"] != nil) {
+            [tempDict removeObjectForKey:@"filter"];
+            [tempDict setObject:@"YES" forKey:@"filtered"];
+        }
+    }
+    else {
+        if ([tempDict count] > 2) {
+            [tempDict removeAllObjects];
+            [tempDict setObject:[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] forKey:@"properties"];
+            [tempDict setObject:[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] forKey:@"sort"];
+            [tempDict setObject:@"YES" forKey:@"filtered"];
+        }
     }
     NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:[methods objectForKey:@"method"] parameters:tempDict]];
     return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
@@ -3552,9 +3562,19 @@ NSIndexPath *selected;
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([self collectionViewCanBeEnabled] == YES && self.view.superview != nil && ![[methods objectForKey:@"method"] isEqualToString:@""]){
         NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:[parameters objectForKey:@"parameters"]];
-        if ([tempDict objectForKey:@"filter"] != nil){
-            [tempDict removeObjectForKey:@"filter"];
-            [tempDict setObject:@"YES" forKey:@"filtered"];
+        if ([AppDelegate instance].serverVersion > 11) {
+            if ([tempDict objectForKey:@"filter"] != nil) {
+                [tempDict removeObjectForKey:@"filter"];
+                [tempDict setObject:@"YES" forKey:@"filtered"];
+            }
+        }
+        else {
+            if ([tempDict count] > 2) {
+                [tempDict removeAllObjects];
+                [tempDict setObject:[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] forKey:@"properties"];
+                [tempDict setObject:[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] forKey:@"sort"];
+                [tempDict setObject:@"YES" forKey:@"filtered"];
+            }
         }
         NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:[methods objectForKey:@"method"] parameters:tempDict]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
