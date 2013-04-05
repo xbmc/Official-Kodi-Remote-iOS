@@ -360,7 +360,7 @@ int count=0;
                                        blackTableSeparator, @"blackTableSeparator",
                                        [parameters objectForKey:@"label"], @"label",
                                        [NSNumber numberWithBool:YES], @"fromShowInfo",
-                                       @"99", @"collectionViewUniqueKey",
+                                       [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                        [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",

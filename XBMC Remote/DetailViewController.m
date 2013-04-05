@@ -560,7 +560,7 @@
                                            [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                            [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
-                                           [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewUniqueKey"] intValue]], @"collectionViewUniqueKey",
+                                           [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
                                            newSectionParameters, @"extra_section_parameters",
@@ -3391,7 +3391,7 @@ NSIndexPath *selected;
 
 -(BOOL)collectionViewCanBeEnabled{
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"collectionViewUniqueKey"] intValue] > 0));
+    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES));
 }
 
 -(BOOL)collectionViewIsEnabled{
@@ -3399,8 +3399,13 @@ NSIndexPath *selected;
     [userDefaults synchronize];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
-    NSString *viewKey = [NSString stringWithFormat:@"%@%@_grid_preference", [methods objectForKey:@"method"], [parameters objectForKey:@"collectionViewUniqueKey"]];
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"collectionViewUniqueKey"] intValue] > 0) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
+    NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:[parameters objectForKey:@"parameters"]];
+    if ([tempDict objectForKey:@"filter"] != nil){
+        [tempDict removeObjectForKey:@"filter"];
+        [tempDict setObject:@"YES" forKey:@"filtered"];        
+    }
+    NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:[methods objectForKey:@"method"] parameters:tempDict]];
+    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
 }
 
 - (void)viewDidLoad{
@@ -3546,7 +3551,12 @@ NSIndexPath *selected;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([self collectionViewCanBeEnabled] == YES && self.view.superview != nil && ![[methods objectForKey:@"method"] isEqualToString:@""]){
-        NSString *viewKey = [NSString stringWithFormat:@"%@%@_grid_preference", [methods objectForKey:@"method"], [parameters objectForKey:@"collectionViewUniqueKey"]];
+        NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:[parameters objectForKey:@"parameters"]];
+        if ([tempDict objectForKey:@"filter"] != nil){
+            [tempDict removeObjectForKey:@"filter"];
+            [tempDict setObject:@"YES" forKey:@"filtered"];
+        }
+        NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:[methods objectForKey:@"method"] parameters:tempDict]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults synchronize];
         [userDefaults setObject:[NSNumber numberWithBool:![[userDefaults objectForKey:viewKey] boolValue]]
