@@ -3037,6 +3037,10 @@ NSIndexPath *selected;
                  }
              }
              else {
+                 if (forceRefresh == YES){
+                     [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
+                     [activeLayoutView setUserInteractionEnabled:YES];
+                 }
                  [resultStoreArray removeAllObjects];
                  [self.sections removeAllObjects];
                  [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
@@ -3072,7 +3076,10 @@ NSIndexPath *selected;
 //             UITextRange *textRange = [textField textRangeFromPosition:textField.beginningOfDocument
 //                                                            toPosition:textField.endOfDocument];
 //             [textField setSelectedTextRange:textRange];
-             
+             if (forceRefresh == YES){
+                 [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
+                 [activeLayoutView setUserInteractionEnabled:YES];
+             }
              [resultStoreArray removeAllObjects];
              [self.sections removeAllObjects];
              [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
