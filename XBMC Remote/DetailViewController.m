@@ -452,6 +452,7 @@
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     
     BOOL newEnableCollectionView = [self collectionViewIsEnabled];
+    [self checkDiskCache];
     float animDuration = 0.3f;
     if (newEnableCollectionView != enableCollectionView){
         animDuration = 0.0;
@@ -560,6 +561,7 @@
                                            [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                            [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
+                                           [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
@@ -3427,14 +3429,10 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-    enableDiskCache = [[userDefaults objectForKey:@"diskcache_preference"] boolValue];
     __weak DetailViewController *weakSelf = self;
     [dataList addPullToRefreshWithActionHandler:^{
         [weakSelf startRetrieveDataWithRefresh:YES];
     }];
-    [dataList setShowsPullToRefresh:enableDiskCache];
     darkCells = [[NSMutableArray alloc] init];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     thumbBorderWidth = 1.0f;
@@ -3462,7 +3460,7 @@ NSIndexPath *selected;
     watchMode = [self.detailItem currentWatchMode];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-
+    [self checkDiskCache];
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
@@ -3556,12 +3554,17 @@ NSIndexPath *selected;
 
 }
 
-- (void) handleEnterForeground: (NSNotification*) sender{
+-(void)checkDiskCache{
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    enableDiskCache = [[userDefaults objectForKey:@"diskcache_preference"] boolValue];
+    enableDiskCache = [[userDefaults objectForKey:@"diskcache_preference"] boolValue] && [[parameters objectForKey:@"enableLibraryCache"] boolValue];
     [dataList setShowsPullToRefresh:enableDiskCache];
     [collectionView setShowsPullToRefresh:enableDiskCache];
+}
+
+- (void) handleEnterForeground: (NSNotification*) sender{
+    [self checkDiskCache];
 }
 
 -(void)handleShakeNotification{

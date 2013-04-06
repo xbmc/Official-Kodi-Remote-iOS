@@ -243,7 +243,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"extra_info_parameters",
                            @"6", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
-
+                           @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -267,7 +267,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"extra_info_parameters",
                            @"7", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
-
+                           @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -287,6 +287,7 @@ NSMutableArray *hostRightMenuItems;
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", nil], @"properties",
                             nil], @"parameters", NSLocalizedString(@"Genres", nil), @"label", @"nocover_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                           @"YES", @"enableLibraryCache",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -426,7 +427,9 @@ NSMutableArray *hostRightMenuItems;
                              @"none", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"All songs", nil), @"label", NSLocalizedString(@"All songs", nil), @"morelabel", nil],
+                            nil], @"parameters", NSLocalizedString(@"All songs", nil), @"label", NSLocalizedString(@"All songs", nil), @"morelabel",
+                           @"YES", @"enableLibraryCache",
+                           nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -771,7 +774,6 @@ NSMutableArray *hostRightMenuItems;
                                     nil], @"extra_info_parameters",
                                    @"YES", @"enableCollectionView",
                                    @"8", @"collectionViewUniqueKey",
-
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -797,6 +799,7 @@ NSMutableArray *hostRightMenuItems;
                                     nil], @"extra_info_parameters",
                                    @"YES", @"enableCollectionView",
                                    @"9", @"collectionViewUniqueKey",
+                                   @"YES", @"enableLibraryCache",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -1277,6 +1280,7 @@ NSMutableArray *hostRightMenuItems;
                            @"YES", @"FrodoExtraArt",
                            @"YES", @"enableCollectionView",
                            @"1", @"collectionViewUniqueKey",
+                           @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
@@ -1305,7 +1309,9 @@ NSMutableArray *hostRightMenuItems;
                              nil],@"sort",
                             @"movie", @"type",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Movie Genres", nil), @"label", @"nocover_movie_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Movie Genres", nil), @"label", @"nocover_movie_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                           @"YES", @"enableLibraryCache",
+                           nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1318,6 +1324,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"parameters",
                            @"2", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
+                           @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
@@ -1365,6 +1372,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"parameters", NSLocalizedString(@"Music Videos", nil), @"label", NSLocalizedString(@"Music Videos", nil), @"morelabel", @"Movie", @"wikitype",
                            @"14", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
+                           @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
@@ -1659,7 +1667,7 @@ NSMutableArray *hostRightMenuItems;
                                    @"YES", @"FrodoExtraArt",
                                    @"4", @"collectionViewUniqueKey",
                                    @"YES", @"enableCollectionView",
-
+                                   @"YES", @"enableLibraryCache",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
@@ -1989,6 +1997,7 @@ NSMutableArray *hostRightMenuItems;
                               nil], @"extra_info_parameters",
                              @"YES", @"blackTableSeparator",
                              @"YES", @"FrodoExtraArt",
+                             @"YES", @"enableLibraryCache",
                              nil],
                             
 //                            [NSMutableArray arrayWithObjects:
@@ -2048,7 +2057,17 @@ NSMutableArray *hostRightMenuItems;
                               @"video", @"media",
                               @"addons://sources/video", @"directory",
                               [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                              nil], @"parameters", NSLocalizedString(@"Video Addons", nil), @"label", NSLocalizedString(@"Video Addons", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                              nil], @"parameters", NSLocalizedString(@"Video Addons", nil), @"label", NSLocalizedString(@"Video Addons", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                             @"YES", @"enableCollectionView",
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSDictionary dictionaryWithObjectsAndKeys:
+                               [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                               [NSNumber numberWithFloat:itemMovieWidthIphone], @"height", nil], @"iphone",
+                              [NSDictionary dictionaryWithObjectsAndKeys:
+                               [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                               [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
+                              nil], @"itemSizes",
+                             nil],
                             
                             nil];
     item3.mainFields = [NSArray arrayWithObjects:
