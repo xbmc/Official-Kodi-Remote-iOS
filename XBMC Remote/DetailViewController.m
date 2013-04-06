@@ -3555,10 +3555,13 @@ NSIndexPath *selected;
 }
 
 -(void)checkDiskCache{
-    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];    
+        NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    enableDiskCache = [[userDefaults objectForKey:@"diskcache_preference"] boolValue] && [[parameters objectForKey:@"enableLibraryCache"] boolValue];
+    BOOL diskcache_preference = NO;
+    NSString *diskcache_preferenceString = [userDefaults objectForKey:@"diskcache_preference"];
+    if (diskcache_preferenceString == nil || [diskcache_preferenceString boolValue] == YES) diskcache_preference = YES;
+    enableDiskCache = diskcache_preference && [[parameters objectForKey:@"enableLibraryCache"] boolValue];
     [dataList setShowsPullToRefresh:enableDiskCache];
     [collectionView setShowsPullToRefresh:enableDiskCache];
 }
