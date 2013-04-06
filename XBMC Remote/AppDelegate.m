@@ -25,8 +25,6 @@ NSMutableArray *hostRightMenuItems;
 @synthesize windowController = _windowController;
 @synthesize dataFilePath;
 @synthesize arrayServerList;
-@synthesize fileManager;
-@synthesize documentsDir;
 @synthesize serverOnLine;
 @synthesize serverVersion;
 @synthesize serverMinorVersion;
@@ -49,20 +47,22 @@ NSMutableArray *hostRightMenuItems;
 
 - (id) init {
 	if ((self = [super init])) {
-        self.fileManager = [NSFileManager defaultManager];
-        NSArray *pathslocal = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
-        self.documentsDir = [pathslocal objectAtIndex:0];
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"serverList_saved.dat"];
-        [self setDataFilePath:path];
+        self.dataFilePath = [documentsDirectory stringByAppendingPathComponent:@"serverList_saved.dat"];
         NSFileManager *fileManager1 = [NSFileManager defaultManager];
-        if([fileManager1 fileExistsAtPath:dataFilePath]) {
+        if([fileManager1 fileExistsAtPath:self.dataFilePath]) {
             NSMutableArray *tempArray;
-            tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:dataFilePath];
+            tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:self.dataFilePath];
             [self setArrayServerList:tempArray];
         } else {
             arrayServerList = [[NSMutableArray alloc] init];
+        }
+        NSString *fullNamespace = @"LibraryCache";
+        paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        self.libraryCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:fullNamespace];
+        if (![fileManager1 fileExistsAtPath:self.libraryCachePath]){
+            [fileManager1 createDirectoryAtPath:self.libraryCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
         }
     }
 	return self;
@@ -70,9 +70,9 @@ NSMutableArray *hostRightMenuItems;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-    
     [application setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
     if ([[userDefaults objectForKey:@"lang_preference"] length]){
         [userDefaults setObject:[NSArray arrayWithObjects:[userDefaults objectForKey:@"lang_preference"], nil] forKey:@"AppleLanguages"];
         [userDefaults synchronize];
@@ -80,20 +80,6 @@ NSMutableArray *hostRightMenuItems;
     else{
          [userDefaults removeObjectForKey:@"AppleLanguages"];
     }
-    BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
-    if (clearCache==YES){
-        NSString *fullNamespace = @"ImageCache";
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        NSString *diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:fullNamespace];
-        [[NSFileManager defaultManager] removeItemAtPath:diskCachePath error:nil];
-        [[NSFileManager defaultManager] createDirectoryAtPath:diskCachePath
-                                  withIntermediateDirectories:YES
-                                                   attributes:nil
-                                                        error:NULL];
-        [SDWebImageManager.sharedManager.imageCache clearDisk];
-    }
-	[userDefaults removeObjectForKey:@"clearcache_preference"];
-    
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]==YES){
         xbmcRemote.idleTimerDisabled = YES;
@@ -3096,8 +3082,31 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
 -(void)saveServerList{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     if ([paths count] > 0) { 
-        NSString  *dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"serverList_saved.dat"];
-        [NSKeyedArchiver archiveRootObject:arrayServerList toFile:dicPath];
+        [NSKeyedArchiver archiveRootObject:arrayServerList toFile:self.dataFilePath];
     }
 }
+
+-(void)clearAppDiskCache{
+    // OLD SDWEBImageCache
+    NSString *fullNamespace = @"ImageCache"; 
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:fullNamespace];
+    [[NSFileManager defaultManager] removeItemAtPath:[paths objectAtIndex:0] error:nil];
+    
+    // TO BE CHANGED!!!
+    fullNamespace = @"com.hackemist.SDWebImageCache.default";
+    diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:fullNamespace];
+    [[NSFileManager defaultManager] removeItemAtPath:diskCachePath error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:diskCachePath
+                              withIntermediateDirectories:YES
+                                               attributes:nil
+                                                    error:NULL];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:self.libraryCachePath error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:self.libraryCachePath
+                              withIntermediateDirectories:YES
+                                               attributes:nil
+                                                    error:NULL];
+}
+
 @end

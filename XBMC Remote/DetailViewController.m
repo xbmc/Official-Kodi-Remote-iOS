@@ -133,36 +133,37 @@
     if (mutableParameters != nil){
         NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
         NSString *viewKey = [self getCacheKey:[methods objectForKey:@"method"] parameters:mutableParameters];
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        if ([paths count] > 0) {
+        NSString *diskCachePath = [AppDelegate instance].libraryCachePath;
+//        if ([paths count] > 0) {
+        
+
             NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
-            NSString  *dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
+            NSString  *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
             [NSKeyedArchiver archiveRootObject:self.richResults toFile:dicPath];
             
 //            filename = [NSString stringWithFormat:@"%@.sections.dat", viewKey];
-//            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
+//            dicPath = [[[paths objectAtIndex:0] stringByAppendingPathComponent:fullNamespace] stringByAppendingPathComponent:filename];
 //            [NSKeyedArchiver archiveRootObject:self.sections toFile:dicPath];
 //            
 //            filename = [NSString stringWithFormat:@"%@.sectionArray.dat", viewKey];
-//            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
+//            dicPath = [[[paths objectAtIndex:0] stringByAppendingPathComponent:fullNamespace] stringByAppendingPathComponent:filename];
 //            
 //            [NSKeyedArchiver archiveRootObject:self.sectionArray toFile:dicPath];
 //            
 //            filename = [NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey];
-//            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
+//            dicPath = [[[paths objectAtIndex:0] stringByAppendingPathComponent:fullNamespace] stringByAppendingPathComponent:filename];
 //            [NSKeyedArchiver archiveRootObject:self.sectionArrayOpen toFile:dicPath];
 //            
             filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
-            dicPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:filename];
+            dicPath = [diskCachePath stringByAppendingPathComponent:filename];
             [NSKeyedArchiver archiveRootObject:self.extraSectionRichResults toFile:dicPath];
-        }
-    }    
+//        }
+    }
 }
 
 -(void)loadDataFromDisk:(NSDictionary*)params{
     NSString *viewKey = [self getCacheKey:[params objectForKey:@"methodToCall"] parameters:[params objectForKey:@"mutableParameters"]];    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = [AppDelegate instance].libraryCachePath;
     NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     NSMutableArray *tempArray;
 //    NSMutableDictionary *tempDict;
@@ -202,8 +203,7 @@
     if (!enableDiskCache) return NO;
     NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
     NSFileManager *fileManager1 = [NSFileManager defaultManager];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = [AppDelegate instance].libraryCachePath;
     NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     if([fileManager1 fileExistsAtPath:path]){
         NSDictionary *extraParams = [NSDictionary dictionaryWithObjectsAndKeys:

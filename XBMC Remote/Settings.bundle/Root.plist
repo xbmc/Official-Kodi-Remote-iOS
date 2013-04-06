@@ -116,9 +116,9 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>diskcache_preference</string>
+			<string>clearcache_preference</string>
 			<key>Title</key>
-			<string>Enable library cache</string>
+			<string>Clear cache on next start</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -126,9 +126,9 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>clearcache_preference</string>
+			<string>diskcache_preference</string>
 			<key>Title</key>
-			<string>Clear cache on next start</string>
+			<string>Enable library cache</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
