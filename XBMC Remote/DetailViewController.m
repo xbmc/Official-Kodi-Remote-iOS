@@ -141,7 +141,8 @@
             NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
             NSString  *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
             [NSKeyedArchiver archiveRootObject:self.richResults toFile:dicPath];
-            
+            [self updateSyncDate:dicPath];
+
 //            filename = [NSString stringWithFormat:@"%@.sections.dat", viewKey];
 //            dicPath = [[[paths objectAtIndex:0] stringByAppendingPathComponent:fullNamespace] stringByAppendingPathComponent:filename];
 //            [NSKeyedArchiver archiveRootObject:self.sections toFile:dicPath];
@@ -203,18 +204,40 @@
     if (forceRefresh) return NO;
     if (!enableDiskCache) return NO;
     NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
-    NSFileManager *fileManager1 = [NSFileManager defaultManager];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *documentsDirectory = [AppDelegate instance].libraryCachePath;
     NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
-    if([fileManager1 fileExistsAtPath:path]){
+    if([fileManager fileExistsAtPath:path]){
         NSDictionary *extraParams = [NSDictionary dictionaryWithObjectsAndKeys:
                                      methodToCall, @"methodToCall",
                                      mutableParameters, @"mutableParameters",
                                      nil];
+        [self updateSyncDate:path];
         [NSThread detachNewThreadSelector:@selector(loadDataFromDisk:) toTarget:self withObject:extraParams];
         return YES;
     }
     return NO;
+}
+
+-(void)updateSyncDate:(NSString *)filePath{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if([fileManager fileExistsAtPath:filePath]){
+        NSError *attributesRetrievalError = nil;
+        NSDictionary *attributes = [fileManager attributesOfItemAtPath:filePath error:&attributesRetrievalError];
+        if (attributes){
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+            [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+            NSLocale *userLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+            [dateFormatter setLocale:userLocale];
+            NSString *dateString = [dateFormatter stringFromDate:[attributes fileModificationDate]];
+            NSString *title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Last sync", nil),dateString];
+            [dataList.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateStopped];
+            [dataList.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateTriggered];
+            [collectionView.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateStopped];
+            [collectionView.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateTriggered];
+        }
+    }
 }
 
 #pragma mark - Utility
@@ -3525,7 +3548,10 @@ NSIndexPath *selected;
     if (enableCollectionView) {
         [self initCollectionView];
     }
-    GlobalData *obj=[GlobalData getInstance]; 
+//    [((UITableView *)activeLayoutView).pullToRefreshView
+//     setSubtitle:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Last sync", nil),NSLocalizedString(@"never", nil)]
+//     forState:SVPullToRefreshStateStopped];
+    GlobalData *obj=[GlobalData getInstance];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];

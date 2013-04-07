@@ -349,7 +349,7 @@ static char UIScrollViewPullToRefreshView;
         _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
         _subtitleLabel.font = [UIFont systemFontOfSize:12];
         _subtitleLabel.backgroundColor = [UIColor clearColor];
-        _subtitleLabel.textColor = textColor;
+        _subtitleLabel.textColor = [UIColor lightGrayColor];
         [self addSubview:_subtitleLabel];
     }
     return _subtitleLabel;
@@ -429,7 +429,7 @@ static char UIScrollViewPullToRefreshView;
 - (void)setTextColor:(UIColor *)newTextColor {
     textColor = newTextColor;
     self.titleLabel.textColor = newTextColor;
-	self.subtitleLabel.textColor = newTextColor;
+	self.subtitleLabel.textColor = [UIColor lightGrayColor];
 }
 
 - (void)setActivityIndicatorViewStyle:(UIActivityIndicatorViewStyle)viewStyle {
