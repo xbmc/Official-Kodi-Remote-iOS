@@ -248,7 +248,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", @"genre", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype",
+                            nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist", @"defaultThumb", @"Artist", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",nil], @"properties",
                             nil], @"extra_info_parameters",
                            @"7", @"collectionViewUniqueKey",
@@ -672,7 +672,7 @@ NSMutableArray *hostRightMenuItems;
                       nil];
     item1.rowHeight=53;
     item1.thumbWidth=53;
-    item1.defaultThumb=@"nocover_music.png";
+    item1.defaultThumb=@"nocover_music";
     
     item1.sheetActions=[NSArray arrayWithObjects:
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
@@ -1025,7 +1025,7 @@ NSMutableArray *hostRightMenuItems;
     item1.subItem.enableSection=NO;
     item1.subItem.rowHeight=53;
     item1.subItem.thumbWidth=53;
-    item1.subItem.defaultThumb=@"nocover_music.png";
+    item1.subItem.defaultThumb=@"nocover_music";
     item1.subItem.sheetActions=[NSArray arrayWithObjects:
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil),  NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil], //@"Stream to iPhone",
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
@@ -1186,7 +1186,7 @@ NSMutableArray *hostRightMenuItems;
                                       nil];
     item1.subItem.subItem.rowHeight=53;
     item1.subItem.subItem.thumbWidth=53;
-    item1.subItem.subItem.defaultThumb=@"nocover_music.png";
+    item1.subItem.subItem.defaultThumb=@"nocover_music";
     item1.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],//@"Stream to iPhone",
@@ -1556,7 +1556,7 @@ NSMutableArray *hostRightMenuItems;
                       nil];
     item2.rowHeight=76;
     item2.thumbWidth=53;
-    item2.defaultThumb=@"nocover_movies.png";
+    item2.defaultThumb=@"nocover_movies";
     item2.sheetActions=[NSArray arrayWithObjects:
                         [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil],
                         [NSArray arrayWithObjects: nil],

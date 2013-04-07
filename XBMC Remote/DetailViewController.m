@@ -29,6 +29,7 @@
 #import "RecentlyAddedCell.h"
 #import "NSString+MD5.h"
 #import "UIScrollView+SVPullToRefresh.h"
+#import "UISearchBar+LeftButton.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -364,8 +365,14 @@
 }
 
 -(void)configureLibraryView{
+    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     if (enableCollectionView){
         [self initCollectionView];
+        if (longPressGesture == nil){
+            longPressGesture = [UILongPressGestureRecognizer new];
+            [longPressGesture addTarget:self action:@selector(handleLongPress)];
+        }
+        [collectionView addGestureRecognizer:longPressGesture];
         [dataList setDelegate:nil];
         [dataList setDataSource:nil];
         [collectionView setDelegate:self];
@@ -379,6 +386,8 @@
         }
         self.searchDisplayController.searchBar.tintColor = collectionViewSearchBarColor;
         searchBarColor = collectionViewSearchBarColor;
+        [bar.viewLabel setText:NSLocalizedString(@"View: Wall", nil)];
+        [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
     }
     else{
         [dataList setDelegate:self];
@@ -391,6 +400,8 @@
         self.indexView.hidden = YES;
         self.searchDisplayController.searchBar.tintColor = tableViewSearchBarColor;
         searchBarColor = tableViewSearchBarColor;
+        [bar.viewLabel setText:NSLocalizedString(@"View: List", nil)];
+        [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
     }
     [activeLayoutView addSubview:self.searchDisplayController.searchBar];
 }
@@ -452,6 +463,12 @@
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     
     BOOL newEnableCollectionView = [self collectionViewIsEnabled];
+    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+    bar.leftPadding = 0;
+    if ([self collectionViewCanBeEnabled] == YES){
+        bar.leftPadding = SEARCH_BAR_LEFT_PADDING;
+    }
+    [bar layoutSubviews];
     [self checkDiskCache];
     float animDuration = 0.3f;
     if (newEnableCollectionView != enableCollectionView){
@@ -711,16 +728,14 @@
             [weakSelf startRetrieveDataWithRefresh:YES];
         }];
         [collectionView setShowsPullToRefresh:enableDiskCache];
-        [dataList setDelegate:nil];
-        [dataList setDataSource:nil];
-        if (longPressGesture == nil){
-            longPressGesture = [UILongPressGestureRecognizer new];
-            [longPressGesture addTarget:self action:@selector(handleLongPress)];
-        }
-        [collectionView addGestureRecognizer:longPressGesture];
-        [collectionView addSubview:self.searchDisplayController.searchBar];
-        self.searchDisplayController.searchBar.tintColor = collectionViewSearchBarColor;
-        searchBarColor = collectionViewSearchBarColor;
+//        [dataList setDelegate:nil];
+//        [dataList setDataSource:nil];
+//        [collectionView addSubview:self.searchDisplayController.searchBar];
+//        self.searchDisplayController.searchBar.tintColor = collectionViewSearchBarColor;
+//        UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+//        [bar.viewLabel setText:NSLocalizedString(@"View: Wall", nil)];
+//        [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
+//        searchBarColor = collectionViewSearchBarColor;
         collectionView.alwaysBounceVertical = YES;
         [detailView addSubview:collectionView];
         NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
@@ -764,7 +779,7 @@
     NSDictionary *item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *fanartURL = [item objectForKey:@"fanart"];
-    NSString *displayThumb=defaultThumb;
+    NSString *displayThumb=[NSString stringWithFormat:@"%@_wall", defaultThumb];
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
 
     if (recentlyAddedView == FALSE){
@@ -3100,7 +3115,10 @@ NSIndexPath *selected;
         albumView = FALSE;
         episodesView = FALSE;
     }
+    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+    bar.rightPadding = 0;
     if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT){
+        bar.rightPadding = 26;
         [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
         BOOL found;
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
@@ -3150,6 +3168,7 @@ NSIndexPath *selected;
             [[self.sections objectForKey:@""] addObject:item];
         }
     }
+    [bar layoutSubviews];
     self.sectionArray = [[NSArray alloc] initWithArray:
                     [[self.sections allKeys] sortedArrayUsingComparator:^(id firstObject, id secondObject) {
         return [self alphaNumericCompare:firstObject secondObject:secondObject];
@@ -3461,6 +3480,10 @@ NSIndexPath *selected;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     [self checkDiskCache];
+    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+    if ([self collectionViewCanBeEnabled] == YES){
+        bar.leftPadding = SEARCH_BAR_LEFT_PADDING;
+    }
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
@@ -3515,7 +3538,6 @@ NSIndexPath *selected;
     
     [activityIndicatorView startAnimating];
         
-
     [self startRetrieveDataWithRefresh:NO];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -3526,10 +3548,7 @@ NSIndexPath *selected;
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"
                                                object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleShakeNotification)
-                                                 name: @"UIApplicationShakeNotification"
-                                               object: nil];
+
 //    //EXPERIMENTAL CODE
 //    [[NSNotificationCenter defaultCenter] addObserver: self
 //                                             selector: @selector(brightCells)
@@ -3551,7 +3570,6 @@ NSIndexPath *selected;
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
-
 }
 
 -(void)checkDiskCache{
@@ -3570,7 +3588,8 @@ NSIndexPath *selected;
     [self checkDiskCache];
 }
 
--(void)handleShakeNotification{
+-(void)handleChangeLibraryView{
+    if ([self.searchDisplayController isActive]) return;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([self collectionViewCanBeEnabled] == YES && self.view.superview != nil && ![[methods objectForKey:@"method"] isEqualToString:@""]){
