@@ -2302,7 +2302,10 @@ NSIndexPath *selected;
 -(void)addQueue:(NSIndexPath *)indexPath afterCurrentItem:(BOOL)afterCurrent{
 //    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     id cell;
-    if (enableCollectionView){
+    if ([self.searchDisplayController isActive]){
+        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    }
+    else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
     }
     else{
@@ -2379,7 +2382,10 @@ NSIndexPath *selected;
 
 -(void)openFile:(NSDictionary *)params index:(NSIndexPath *) indexPath{
     id cell;
-    if (enableCollectionView){
+    if ([self.searchDisplayController isActive]){
+        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    }
+    else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
     }
     else{
@@ -2409,7 +2415,10 @@ NSIndexPath *selected;
         item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
     id cell;
-    if (enableCollectionView){
+    if ([self.searchDisplayController isActive]){
+        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    }
+    else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
     }
     else{
@@ -2672,7 +2681,10 @@ NSIndexPath *selected;
     
     if (indexPath != nil){
         id cell = nil;
-        if (enableCollectionView){
+        if ([self.searchDisplayController isActive]){
+            cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+        }
+        else if (enableCollectionView){
             cell = [collectionView cellForItemAtIndexPath:indexPath];
         }
         else{
