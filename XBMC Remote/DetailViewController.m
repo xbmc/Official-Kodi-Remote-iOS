@@ -2643,7 +2643,7 @@ NSIndexPath *selected;
                                         nil];        
         longTimeout.animationDuration = 5.0f;
         longTimeout.animationRepeatCount = 0;
-        longTimeout.center = self.view.center;
+        longTimeout.center = activityIndicatorView.center;
         CGRect frame = longTimeout.frame;
         frame.origin.y = frame.origin.y + 30.0f;
         frame.origin.x = frame.origin.x - 3.0f;
