@@ -1646,7 +1646,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", nil], @"properties",
-                                    nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies.png", @"defaultThumb",
+                                    nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies", @"defaultThumb",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                                     nil], @"extra_info_parameters",
@@ -1672,7 +1672,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"year", @"method",
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", nil], @"properties", //, @"fanart"
-                                    nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies.png", @"defaultThumb",
+                                    nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies", @"defaultThumb",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                                     nil], @"extra_info_parameters",
@@ -1836,7 +1836,7 @@ NSMutableArray *hostRightMenuItems;
     item2.subItem.enableSection = NO;
     item2.subItem.rowHeight = 76;
     item2.subItem.thumbWidth = 53;
-    item2.subItem.defaultThumb = @"nocover_movies.png";
+    item2.subItem.defaultThumb = @"nocover_movies";
     item2.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSArray arrayWithObjects: nil],
                                   [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil],
