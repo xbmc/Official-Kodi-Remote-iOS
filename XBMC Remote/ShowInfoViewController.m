@@ -1652,8 +1652,8 @@ int h=0;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    [trailerView stopLoading];
-    [trailerView loadHTMLString:embedVideo baseURL:nil];
+//    [trailerView stopLoading];
+//    [trailerView loadHTMLString:embedVideo baseURL:nil];
 }
 
 -(void)dealloc{
