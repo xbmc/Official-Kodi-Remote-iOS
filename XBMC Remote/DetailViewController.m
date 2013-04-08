@@ -1869,7 +1869,9 @@ int originYear = 0;
         [self.searchDisplayController.searchResultsTableView removeGestureRecognizer:longPressGesture];
     }
     if (enableCollectionView){
-        self.indexView.hidden = NO;
+        if ([[self.indexView indexTitles] count] > 1){
+            self.indexView.hidden = NO;
+        }
         [collectionView addGestureRecognizer:longPressGesture];
     }
 }
