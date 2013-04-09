@@ -89,4 +89,20 @@
     return size;
 }
 
+
+
+- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity{
+    float offsetAdjustment = 0;
+    float searchBarHeight = 44.0f;
+    float threshold = searchBarHeight / 2;
+    if (proposedContentOffset.y <= threshold){
+        offsetAdjustment = - proposedContentOffset.y;
+    }
+    else if (proposedContentOffset.y > threshold && proposedContentOffset.y < searchBarHeight){
+        offsetAdjustment = searchBarHeight - proposedContentOffset.y;
+
+    }
+    return CGPointMake(proposedContentOffset.x, proposedContentOffset.y + offsetAdjustment);
+}
+
 @end
