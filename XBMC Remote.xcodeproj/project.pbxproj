@@ -356,7 +356,7 @@
 		0F577CC6166BAF2300E71D95 /* appInfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F577CC5166BAF2300E71D95 /* appInfo.png */; };
 		0F577CC9166BAF3000E71D95 /* appInfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F577CC8166BAF3000E71D95 /* appInfo@2x.png */; };
 		0F59E26415646FB800184AE8 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0F59E26315646FB800184AE8 /* LICENSE */; };
-		0F59E2671564796B00184AE8 /* CONTRIBUTING in Resources */ = {isa = PBXBuildFile; fileRef = 0F59E2661564796B00184AE8 /* CONTRIBUTING */; };
+		0F59E2671564796B00184AE8 /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 0F59E2661564796B00184AE8 /* CONTRIBUTING.md */; };
 		0F5A504C155FA8640062FD6E /* HostManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5A504A155FA8630062FD6E /* HostManagementViewController.m */; };
 		0F5D0AC215BA998800D692EC /* finger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5D0AC115BA998800D692EC /* finger@2x.png */; };
 		0F5D0AC415BA999300D692EC /* finger.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5D0AC315BA999300D692EC /* finger.png */; };
@@ -1089,7 +1089,7 @@
 		0F577CC5166BAF2300E71D95 /* appInfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appInfo.png; sourceTree = "<group>"; };
 		0F577CC8166BAF3000E71D95 /* appInfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appInfo@2x.png"; sourceTree = "<group>"; };
 		0F59E26315646FB800184AE8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		0F59E2661564796B00184AE8 /* CONTRIBUTING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CONTRIBUTING; sourceTree = "<group>"; };
+		0F59E2661564796B00184AE8 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		0F5A5049155FA8630062FD6E /* HostManagementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostManagementViewController.h; sourceTree = "<group>"; };
 		0F5A504A155FA8630062FD6E /* HostManagementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostManagementViewController.m; sourceTree = "<group>"; };
 		0F5D0AC115BA998800D692EC /* finger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "finger@2x.png"; sourceTree = "<group>"; };
@@ -1683,7 +1683,7 @@
 			isa = PBXGroup;
 			children = (
 				0FD1F1F916034C0300408DA5 /* Default-568h@2x.png */,
-				0F59E2661564796B00184AE8 /* CONTRIBUTING */,
+				0F59E2661564796B00184AE8 /* CONTRIBUTING.md */,
 				0F59E26315646FB800184AE8 /* LICENSE */,
 				0F8717911564566300AE2D48 /* README.md */,
 				0F8F01EF166B89250063B4EE /* Icon-Small@2x.png */,
@@ -2835,7 +2835,7 @@
 				0F1F67F61563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf in Resources */,
 				0F8717921564566300AE2D48 /* README.md in Resources */,
 				0F59E26415646FB800184AE8 /* LICENSE in Resources */,
-				0F59E2671564796B00184AE8 /* CONTRIBUTING in Resources */,
+				0F59E2671564796B00184AE8 /* CONTRIBUTING.md in Resources */,
 				0F9C375D156684B8008BE1A3 /* line@2x.png in Resources */,
 				0F9C3760156684D0008BE1A3 /* line.png in Resources */,
 				0F09E9C01567D77A006D1EA3 /* eden.png in Resources */,
