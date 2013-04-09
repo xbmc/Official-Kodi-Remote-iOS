@@ -1098,7 +1098,7 @@ int currentItemID;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:@"Playlist.GetItems" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", @"tvshowid", nil], @"properties",
+                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", @"tvshowid", @"file", nil], @"properties",
                          [NSNumber numberWithInt:playlistID], @"playlistid",
                          nil] 
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1107,7 +1107,6 @@ int currentItemID;
                    [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
                    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
                    if( [NSJSONSerialization isValidJSONObject:methodResult]){
-//                       NSLog(@"%@", methodResult);
                        NSArray *playlistItems = [methodResult objectForKey:@"items"];
                        total=[playlistItems count];
                        if (total==0){
@@ -1164,8 +1163,10 @@ int currentItemID;
                            NSString *thumbnail=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"thumbnail"]];
                            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnail stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                            NSNumber *tvshowid =[NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i]  objectForKey:@"tvshowid"]]intValue]];
+                           NSString *file=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"file"]];
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
+                                                    file, @"file",
                                                     label, @"label",
                                                     type,@"type",
                                                     artist, @"artist",
@@ -2101,8 +2102,19 @@ int currentItemID;
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
     
     NSDictionary *objSource = [playlistData objectAtIndex:sourceIndexPath.row];
-        
+    NSDictionary *itemToMove;
+    
     int idItem=[[objSource objectForKey:@"idItem"] intValue];
+    if (idItem){
+        itemToMove = [NSDictionary dictionaryWithObjectsAndKeys:
+                      [NSNumber numberWithInt:idItem], [NSString stringWithFormat:@"%@id", [objSource objectForKey:@"type"]],
+                      nil];
+    }
+    else{
+        itemToMove = [NSDictionary dictionaryWithObjectsAndKeys:
+                      [objSource objectForKey:@"file"], @"file",
+                      nil];
+    }
     
     NSString *action1=@"Playlist.Remove";
     NSDictionary *params1=[NSDictionary dictionaryWithObjectsAndKeys:
@@ -2112,9 +2124,7 @@ int currentItemID;
     NSString *action2=@"Playlist.Insert";
     NSDictionary *params2=[NSDictionary dictionaryWithObjectsAndKeys:
                           [NSNumber numberWithInt:playerID], @"playlistid",
-                          [NSDictionary dictionaryWithObjectsAndKeys: 
-                           [NSNumber numberWithInt:idItem], [NSString stringWithFormat:@"%@id", [objSource objectForKey:@"type"]], 
-                           nil],@"item",
+                          itemToMove, @"item",
                           [NSNumber numberWithInt:destinationIndexPath.row],@"position",
                           nil];
     jsonRPC = nil;
