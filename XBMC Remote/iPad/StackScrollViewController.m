@@ -432,23 +432,33 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 								[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
 								
 							}
-							
 							// Removes the selection of row for the first slide view
 							for (UIView* tableView in [[[slideViews subviews] objectAtIndex:0] subviews]) {
                                 if([tableView isKindOfClass:[UIView class]]){
                                     for (UIView* tableView2 in [tableView subviews]) {
                                         if([tableView2 isKindOfClass:[UITableView class]]){
                                             NSIndexPath* selectedRow =  [(UITableView*)tableView2 indexPathForSelectedRow];
-                                            NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
-                                            [(UITableView*)tableView2 reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+                                            [(UITableView*)tableView2 deselectRowAtIndexPath:selectedRow animated:YES];
+                                        }
+                                        if([tableView2 isKindOfClass:[UICollectionView class]]){
+                                            for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
+                                                [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
+                                            }
+                                            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
+
                                         }
                                     }
                                 }
 								if([tableView isKindOfClass:[UITableView class]]){
 									NSIndexPath* selectedRow =  [(UITableView*)tableView indexPathForSelectedRow];
-									NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
-									[(UITableView*)tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+                                    [(UITableView*)tableView deselectRowAtIndexPath:selectedRow animated:YES];
 								}
+                                if([tableView isKindOfClass:[UICollectionView class]]){
+                                    for (NSIndexPath* selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
+                                        [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
+                                    }
+                                    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
+                                }
 							}
 							viewAtLeft2 = nil;
 							viewAtRight = nil;
@@ -547,23 +557,32 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 								[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
 								[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
 							}
-							
 							// Removes the selection of row for the first slide view
 							for (UIView* tableView in [[[slideViews subviews] objectAtIndex:0] subviews]) {
                                 if([tableView isKindOfClass:[UIView class]]){
                                     for (UIView* tableView2 in [tableView subviews]) {
                                         if([tableView2 isKindOfClass:[UITableView class]]){
                                             NSIndexPath* selectedRow =  [(UITableView*)tableView2 indexPathForSelectedRow];
-                                            NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
-                                            [(UITableView*)tableView2 reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+                                            [(UITableView*)tableView2 deselectRowAtIndexPath:selectedRow animated:YES];
+                                        }
+                                        if([tableView2 isKindOfClass:[UICollectionView class]]){
+                                            for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
+                                                [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
+                                            }
+                                            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
                                         }
                                     }
                                 }
 								if([tableView isKindOfClass:[UITableView class]]){
 									NSIndexPath* selectedRow =  [(UITableView*)tableView indexPathForSelectedRow];
-									NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
-									[(UITableView*)tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+                                    [(UITableView*)tableView deselectRowAtIndexPath:selectedRow animated:YES];
 								}
+                                if([tableView isKindOfClass:[UICollectionView class]]){
+                                    for (NSIndexPath* selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
+                                        [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
+                                    }
+                                    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
+                                }
 							}
 							
 							viewAtLeft2 = nil;
@@ -820,8 +839,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		
 		NSInteger viewControllerCount = [viewControllersStack count];
 		for (int i = indexOfViewController; i < viewControllerCount; i++) {
+            [viewControllersStack removeObjectAtIndex:indexOfViewController];
 			[[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
-			[viewControllersStack removeObjectAtIndex:indexOfViewController];
 			viewXPosition = self.view.frame.size.width - [controller view].frame.size.width;
 		}
 	}else if([viewControllersStack count] == 0) {

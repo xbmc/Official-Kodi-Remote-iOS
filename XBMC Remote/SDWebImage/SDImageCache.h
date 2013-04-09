@@ -20,7 +20,7 @@ enum SDImageCacheType
      */
     SDImageCacheTypeDisk,
     /**
-     * The image was obtained from the disk cache.
+     * The image was obtained from the memory cache.
      */
     SDImageCacheTypeMemory
 };
@@ -134,7 +134,7 @@ typedef enum SDImageCacheType SDImageCacheType;
 /**
  * Get the size used by the disk cache
  */
-- (int)getSize;
+- (unsigned long long)getSize;
 
 /**
  * Get the number of images in the disk cache

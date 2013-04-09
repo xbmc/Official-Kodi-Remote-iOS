@@ -9,6 +9,7 @@
 #import "SDWebImageDownloaderOperation.h"
 #import "SDWebImageDecoder.h"
 #import <ImageIO/ImageIO.h>
+#import "UIImage+Resize.h"
 
 @interface SDWebImageDownloaderOperation ()
 
@@ -21,6 +22,8 @@
 @property (assign, nonatomic) long long expectedSize;
 @property (strong, nonatomic) NSMutableData *imageData;
 @property (strong, nonatomic) NSURLConnection *connection;
+@property (strong, nonatomic) NSDictionary *userInfo;
+
 @property (SDDispatchQueueSetterSementics, nonatomic) dispatch_queue_t queue;
 
 @end
@@ -31,13 +34,14 @@
     BOOL responseFromCached;
 }
 
-- (id)initWithRequest:(NSURLRequest *)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)())cancelBlock
+- (id)initWithRequest:(NSURLRequest *)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary *)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)())cancelBlock
 {
     if ((self = [super init]))
     {
         _queue = queue;
         _request = request;
         _options = options;
+        _userInfo = userInfo;
         _progressBlock = [progressBlock copy];
         _completedBlock = [completedBlock copy];
         _cancelBlock = [cancelBlock copy];
@@ -185,7 +189,7 @@
     dispatch_async(self.queue, ^
     {
         [self.imageData appendData:data];
-
+        
         if ((self.options & SDWebImageDownloaderProgressiveDownload) && self.expectedSize > 0 && self.completedBlock)
         {
             // The following code is from http://www.cocoaintheshell.com/2011/05/progressive-images-download-imageio/
@@ -286,6 +290,15 @@
         {
             dispatch_async(self.queue, ^
             {
+                if ([[self.userInfo objectForKey:@"transformation"] isEqualToString:@"resize"])
+                {
+                    CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
+                    UIImage *elab = [UIImage imageWithData:self.imageData];
+//                    [elab setContentMode:UIViewContentModeScaleAspectFill];
+
+                    NSData *elabData = UIImageJPEGRepresentation([elab resizedImage:elab.CGImage size:size interpolationQuality:kCGInterpolationHigh],(CGFloat)0.8);
+                    self.imageData = [NSMutableData dataWithData:elabData];
+                }
                 UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, self.imageData)];
                 dispatch_async(dispatch_get_main_queue(), ^
                 {

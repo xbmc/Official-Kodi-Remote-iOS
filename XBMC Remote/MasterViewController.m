@@ -18,6 +18,7 @@
 #import "HostManagementViewController.h"
 #import "tcpJSONRPC.h"
 #import "XBMCVirtualKeyboard.h"
+#import "ClearCacheView.h"
 
 #define SERVER_TIMEOUT 2.0f
 
@@ -133,6 +134,7 @@
                  if( [NSJSONSerialization isValidJSONObject:methodResult]){
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                      [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
+                     [AppDelegate instance].serverMinorVersion=[[serverInfo objectForKey:@"minor"] intValue];
                      NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
                      [self changeServerStatus:YES infoText:infoTitle];
                  }
@@ -326,6 +328,28 @@
     return 56;
 }
 
+#pragma mark - App clear disk cache methods
+
+-(void)startClearAppDiskCache:(ClearCacheView *)clearView{
+    [[AppDelegate instance] clearAppDiskCache];
+    [self performSelectorOnMainThread:@selector(clearAppDiskCacheFinished:) withObject:clearView waitUntilDone:YES];
+}
+
+-(void)clearAppDiskCacheFinished:(ClearCacheView *)clearView{
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         [clearView stopActivityIndicator];
+                         clearView.alpha = 0;
+                     }
+                     completion:^(BOOL finished){
+                         [clearView stopActivityIndicator];
+                         [clearView removeFromSuperview];
+                         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                         [userDefaults synchronize];
+                         [userDefaults removeObjectForKey:@"clearcache_preference"];
+                     }];
+}
+
 #pragma mark - LifeCycle
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -343,6 +367,15 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
+    if (clearCache==YES){
+        ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame border:40];
+        [clearView startActivityIndicator];
+        [self.view addSubview:clearView];
+        [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
+    }
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];

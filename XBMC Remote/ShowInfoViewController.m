@@ -293,7 +293,7 @@ int count=0;
     else if ([[item objectForKey:@"family"] isEqualToString:@"movieid"] && [AppDelegate instance].serverVersion>11){
         if ([sender isKindOfClass:[NSString class]]){
             NSString *actorName = (NSString *)sender;
-            choosedTab = 1;
+            choosedTab = 2;
             MenuItem = [[AppDelegate instance].playlistMovies copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName,@"actor", nil];
             movieObjKey = @"filter";
@@ -360,8 +360,12 @@ int count=0;
                                        blackTableSeparator, @"blackTableSeparator",
                                        [parameters objectForKey:@"label"], @"label",
                                        [NSNumber numberWithBool:YES], @"fromShowInfo",
+                                       [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                       [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
+                                       [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
+                                       [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
                                        newSectionParameters, @"extra_section_parameters",
                                        nil];
         [[choosedMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
@@ -1013,19 +1017,26 @@ int h=0;
     BOOL inEnableKenBurns = enableKenBurns;
     __weak ShowInfoViewController *sf = self;
     NSString *thumbnailPath = [item objectForKey:@"thumbnail"];
-    [imageCache queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
+    if (![[item objectForKey:@"thumbnail"] isEqualToString:@""]){
+        jewelView.alpha = 0;
+        [activityIndicatorView startAnimating];
+    }
+    [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image!=nil){
             if (enableJewel){
                 coverView.image = image;
+                [activityIndicatorView stopAnimating];
+                jewelView.alpha = 1;
             }
             else{
                 [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:self withObject:image];
-                jewelView.hidden = NO;
             }
         }
         else{
             if (enableJewel){
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
+                [activityIndicatorView stopAnimating];
+                jewelView.alpha = 1;
             }
             else{
                 [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath]
@@ -1034,12 +1045,12 @@ int h=0;
                                      [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
                                  }
                  ];
-                jewelView.hidden = NO;
             }
         }
     }];
+    
     NSString *fanartPath=[item objectForKey:@"fanart"];
-    [imageCache queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
+    [[SDImageCache sharedImageCache] queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image!=nil){
             fanartView.image=image;
             if (inEnableKenBurns){
@@ -1059,7 +1070,9 @@ int h=0;
                               }
              ];
         }
+        
     }];
+
     [fanartView setClipsToBounds:YES];
     
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
@@ -1185,7 +1198,7 @@ int h=0;
                 
                 [trailerView.layer setBorderWidth:1];
                 [trailerView.layer setBorderColor:[[UIColor blackColor] CGColor]];
-                NSString *embedVideo = [NSString stringWithFormat:@"\
+                embedVideo = [NSString stringWithFormat:@"\
                                           <html>\
                                           <head>\
                                           <style type=\"text/css\">\
@@ -1254,6 +1267,10 @@ int h=0;
     [scrollView addSubview:clearlogoButton];
     startY = startY + clearLogoHeight + 20;
     scrollView.contentSize=CGSizeMake(320, startY);
+}
+
+-(void)buildTrailerView{
+    
 }
 
 - (void)showBackground:(id)sender{
@@ -1363,21 +1380,20 @@ int h=0;
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-    [imageCache queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
-        if (image!=nil){
-            [cell.actorThumbnail setImage:image];
-            
-        }
-        else{
-            [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"]];
-        }
-    }];
+    [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"] andResize:CGSizeMake(castWidth, castHeight)];
     cell.actorName.text = [[cast objectAtIndex:indexPath.row] objectForKey:@"name"];
     if ([[[cast objectAtIndex:indexPath.row] objectForKey:@"role"] length] != 0){
         cell.actorRole.text = [NSString stringWithFormat:@"%@", [[cast objectAtIndex:indexPath.row] objectForKey:@"role"]];
         [cell.actorRole sizeToFit];
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([AppDelegate instance].serverVersion>11){
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
+        cell.accessoryView.alpha = 0.5f;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1611,14 +1627,15 @@ int h=0;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
+//    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
+//    [[SDImageCache sharedImageCache] clearMemory];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL kenBurns = NO;
     NSString *kenBurnsString = [userDefaults objectForKey:@"ken_preference"];
     if (kenBurnsString == nil || [kenBurnsString boolValue]) kenBurns = YES;
-    enableKenBurns = kenBurns                                                ;
+    enableKenBurns = kenBurns;
     self.kenView = nil;
     [self configureView];
     GlobalData *obj=[GlobalData getInstance];
@@ -1631,6 +1648,12 @@ int h=0;
 - (void)viewDidUnload{
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+//    [trailerView stopLoading];
+//    [trailerView loadHTMLString:embedVideo baseURL:nil];
 }
 
 -(void)dealloc{

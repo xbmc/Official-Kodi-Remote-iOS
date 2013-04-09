@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "JBKenBurnsView.h"
-#import "UIImageView+WebCache.h"
+//#import "UIImageView+WebCache.h"
 
 @class NowPlaying;
 @class DetailViewController;
@@ -75,7 +75,8 @@
     UIWebView *trailerView;
     NSString *embedVideoURL;
     UIActivityIndicatorView *embedVideoActivityIndicator;
-    SDImageCache *imageCache;
+//    SDImageCache *imageCache;
+    NSString *embedVideo;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

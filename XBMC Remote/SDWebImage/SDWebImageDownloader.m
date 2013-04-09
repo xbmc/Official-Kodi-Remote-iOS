@@ -67,7 +67,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
 {
     if ((self = [super init]))
     {
-        _queueMode = SDWebImageDownloaderFILOQueueMode;
+        _executionOrder = SDWebImageDownloaderFIFOExecutionOrder;
         _downloadQueue = NSOperationQueue.new;
         _downloadQueue.maxConcurrentOperationCount = 2;
         _URLCallbacks = NSMutableDictionary.new;
@@ -112,7 +112,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
     return _downloadQueue.maxConcurrentOperationCount;
 }
 
-- (id<SDWebImageOperation>)downloadImageWithURL:(NSURL *)url options:(SDWebImageDownloaderOptions)options progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock
+- (id<SDWebImageOperation>)downloadImageWithURL:(NSURL *)url options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary *)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock
 {
     __block SDWebImageDownloaderOperation *operation;
     __weak SDWebImageDownloader *wself = self;
@@ -124,7 +124,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
         request.HTTPShouldHandleCookies = NO;
         request.HTTPShouldUsePipelining = YES;
         request.allHTTPHeaderFields = wself.HTTPHeaders;
-        operation = [SDWebImageDownloaderOperation.alloc initWithRequest:request queue:wself.workingQueue options:options progress:^(NSUInteger receivedSize, long long expectedSize)
+        operation = [SDWebImageDownloaderOperation.alloc initWithRequest:request queue:wself.workingQueue options:options userInfo:userInfo progress:^(NSUInteger receivedSize, long long expectedSize)
         {
             if (!wself) return;
             SDWebImageDownloader *sself = wself;
@@ -158,9 +158,9 @@ static NSString *const kCompletedCallbackKey = @"completed";
             [sself removeCallbacksForURL:url];
         }];
         [wself.downloadQueue addOperation:operation];
-        if (wself.queueMode == SDWebImageDownloaderLIFOQueueMode)
+        if (wself.executionOrder == SDWebImageDownloaderLIFOExecutionOrder)
         {
-            // Emulate LIFO queue mode by systematically adding new operations as last operation's dependency
+            // Emulate LIFO execution order by systematically adding new operations as last operation's dependency
             [wself.lastAddedOperation addDependency:operation];
             wself.lastAddedOperation = operation;
         }
