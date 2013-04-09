@@ -194,20 +194,23 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
     }
 
     dispatch_async(self.ioQueue, ^
-    {
-        UIImage *diskImage = [UIImage decodedImageWithImage:SDScaledImageForPath(key, [NSData dataWithContentsOfFile:[self cachePathForKey:key]])];
-
-        if (diskImage)
-        {
-            CGFloat cost = diskImage.size.height * diskImage.size.width * diskImage.scale;
-            [self.memCache setObject:diskImage forKey:key cost:cost];
-        }
-
-        dispatch_async(dispatch_get_main_queue(), ^
-        {
-            doneBlock(diskImage, SDImageCacheTypeDisk);
-        });
-    });
+                   {
+                       @autoreleasepool
+                       {
+                           UIImage *diskImage = [UIImage decodedImageWithImage:SDScaledImageForPath(key, [NSData dataWithContentsOfFile:[self cachePathForKey:key]])];
+                           
+                           if (diskImage)
+                           {
+                               CGFloat cost = diskImage.size.height * diskImage.size.width * diskImage.scale;
+                               [self.memCache setObject:diskImage forKey:key cost:cost];
+                           }
+                           
+                           dispatch_async(dispatch_get_main_queue(), ^
+                                          {
+                                              doneBlock(diskImage, SDImageCacheTypeDisk);
+                                          });
+                       }
+                   });
 }
 
 - (void)removeImageForKey:(NSString *)key
