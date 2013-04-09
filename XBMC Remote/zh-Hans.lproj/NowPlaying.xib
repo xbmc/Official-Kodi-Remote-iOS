@@ -421,7 +421,7 @@
 												<double key="IBUIContentEdgeInsets.left">6</double>
 												<double key="IBUIContentEdgeInsets.right">0.0</double>
 												<string key="IBUITitleShadowOffset">{1, 1}</string>
-												<string key="IBUIHighlightedTitle">Party</string>
+												<string key="IBUIHighlightedTitle">舞会</string>
 												<string key="IBUISelectedTitle">舞会</string>
 												<string key="IBUINormalTitle">舞会</string>
 												<object class="NSColor" key="IBUIHighlightedTitleColor">
