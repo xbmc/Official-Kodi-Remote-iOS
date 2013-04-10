@@ -197,7 +197,7 @@
     [self setExtraSectionRichResults:tempArray];
     
     storeRichResults = [self.richResults mutableCopy];
-    [self performSelectorOnMainThread:@selector(indexAndDisplayData:) withObject:nil waitUntilDone:YES];
+    [self performSelectorOnMainThread:@selector(indexAndDisplayData) withObject:nil waitUntilDone:YES];
 }
 
 -(BOOL)loadedDataFromDisk:(NSString *)methodToCall parameters:(NSMutableDictionary*)mutableParameters refresh:(BOOL)forceRefresh{
@@ -347,9 +347,11 @@
     [self changeTab:selectedMoreTab];
 }
 
--(void)changeViewMode:(int)newWatchMode{
+-(void)changeViewMode:(int)newWatchMode forceRefresh:(BOOL)refresh{
     [activityIndicatorView startAnimating];
-    [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    if (!refresh){
+        [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    }
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:[[[[self.detailItem watchModes] objectAtIndex:choosedTab] objectForKey:@"icons"] objectAtIndex:newWatchMode]] forState:UIControlStateSelected];
     [self.richResults removeAllObjects];
@@ -383,7 +385,7 @@
         default:
             break;
     }
-    [self indexAndDisplayData:nil];
+    [self indexAndDisplayData];
     return;
 }
 
@@ -443,7 +445,7 @@
             else {
                 watchMode = 0;
             }
-            [self changeViewMode:watchMode];
+            [self changeViewMode:watchMode forceRefresh:FALSE];
             return;
         }
         else {
@@ -3079,7 +3081,12 @@ NSIndexPath *selected;
                      [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:self.extraSectionRichResults extraSectionCall:YES refresh:forceRefresh];
                  }
                  else if (watchMode != 0){
-                     [self changeViewMode:watchMode];
+                     if (forceRefresh == YES){
+                         [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
+                         [activeLayoutView setUserInteractionEnabled:YES];
+                         [self saveData:mutableParameters];
+                     }
+                    [self changeViewMode:watchMode forceRefresh:forceRefresh];
                  }
                  else{
                      if (forceRefresh == YES){
@@ -3087,7 +3094,7 @@ NSIndexPath *selected;
                          [activeLayoutView setUserInteractionEnabled:YES];
                      }
                      [self saveData:mutableParameters];
-                     [self indexAndDisplayData:mutableParameters];
+                     [self indexAndDisplayData];
                  }
              }
              else {
@@ -3146,7 +3153,7 @@ NSIndexPath *selected;
      }];
 }
 
--(void)indexAndDisplayData:(NSMutableDictionary *)mutableParameters{
+-(void)indexAndDisplayData{
     self.sectionArray = nil;
     if ([self.richResults count] == 0){
         albumView = FALSE;
