@@ -997,8 +997,9 @@
                               CGRectGetHeight(dataList.frame) - 4);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
-
+    _indexView.hidden = YES;
     [_indexView addTarget:self action:@selector(indexViewValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [detailView addSubview:_indexView];
     return _indexView;
 }
 
@@ -3291,7 +3292,6 @@ NSIndexPath *selected;
             self.indexView.hidden = YES;
         }
         self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
-        [detailView addSubview:self.indexView];
     }
 }
 
