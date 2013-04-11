@@ -100,6 +100,7 @@
     UILabel *sectionNameLabel;
     BOOL recentlyAddedView;
     BOOL enableDiskCache;
+    BOOL blackTableSeparator;
 }
 
 - (id)initWithFrame:(CGRect)frame;
