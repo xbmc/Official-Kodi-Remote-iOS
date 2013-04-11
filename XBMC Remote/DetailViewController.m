@@ -3287,6 +3287,7 @@ NSIndexPath *selected;
     [activeLayoutView reloadData];
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
+    [collectionView layoutSubviews];
     [collectionView setContentOffset:CGPointMake(0, 44) animated:NO];
     if (collectionView != nil){
         if (enableCollectionView){
