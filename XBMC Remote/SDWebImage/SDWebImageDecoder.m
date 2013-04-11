@@ -75,7 +75,14 @@
 	
     CGContextRelease(context);
 	
-    UIImage *decompressedImage = [UIImage imageWithCGImage:decompressedImageRef scale:image.scale orientation:image.imageOrientation];
+    UIImage *decompressedImage;
+    if (newSize.width && newSize.height){
+        decompressedImage = [UIImage imageWithData:UIImageJPEGRepresentation([UIImage imageWithCGImage:decompressedImageRef scale:image.scale orientation:image.imageOrientation],(CGFloat)0.8)];
+    }
+    else{
+        decompressedImage = [UIImage imageWithCGImage:decompressedImageRef scale:image.scale orientation:image.imageOrientation];
+    }
+    
     CGImageRelease(decompressedImageRef);
     return decompressedImage;
 }
