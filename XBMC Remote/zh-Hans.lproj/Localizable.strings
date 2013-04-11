@@ -180,3 +180,11 @@
 "Scrubbing 0.1" = "精细Scrubbing";
 "Scrubbing 0.05" = "很精细Scrubbing";
 "Scrubbing 0.025" = "超精细Scrubbing";
+
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Clearing app disk cache...\n\nPlease wait, since this may take a while";
+"Pull to sync with XBMC..." = "Pull to sync with XBMC...";
+"Release to sync with XBMC..." = "Release to sync with XBMC...";
+"Syncing..." = "Syncing...";
+"Last sync" = "Last sync";
+"View: Wall" = "View: Wall";
+"View: List" = "View: List";
