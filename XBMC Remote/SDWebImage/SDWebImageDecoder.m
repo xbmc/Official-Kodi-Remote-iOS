@@ -12,7 +12,11 @@
 
 @implementation UIImage (ForceDecode)
 
-+ (UIImage *)decodedImageWithImage:(UIImage *)image
++ (UIImage *)decodedImageWithImage:(UIImage *)image{
+    return [self decodedImageWithImage:image size:CGSizeZero interpolationQuality:kCGInterpolationDefault];
+}
+
++ (UIImage *)decodedImageWithImage:(UIImage *)image size:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality
 {	
     CGImageRef imageRef = image.CGImage;
     CGSize imageSize = CGSizeMake(CGImageGetWidth(imageRef), CGImageGetHeight(imageRef));
@@ -44,6 +48,14 @@
         bitmapInfo |= kCGImageAlphaPremultipliedFirst;
     }
 
+    if (newSize.width && newSize.height){
+        CGFloat horizontalRatio = newSize.width / imageSize.width;
+        CGFloat verticalRatio = newSize.height / imageSize.height;
+        CGFloat ratio;
+        ratio = MAX(horizontalRatio, verticalRatio); //UIViewContentModeScaleAspectFill
+        imageSize = CGSizeMake(imageSize.width * ratio, imageSize.height * ratio);
+        imageRect = CGRectIntegral(CGRectMake(0, 0, newSize.width, newSize.height));
+    }
     // It calculates the bytes-per-row based on the bitsPerComponent and width arguments.
     CGContextRef context = CGBitmapContextCreate(NULL,
                                                  imageSize.width,
@@ -56,7 +68,8 @@
 
     // If failed, return undecompressed image
     if (!context) return image;
-	
+    
+    CGContextSetInterpolationQuality(context, quality);
     CGContextDrawImage(context, imageRect, imageRef);
     CGImageRef decompressedImageRef = CGBitmapContextCreateImage(context);
 	
