@@ -1042,17 +1042,13 @@ NSInteger buttonAction;
 }
 
 #pragma mark - Keyboard methods
-//
+
 -(void)toggleVirtualKeyboard:(id)sender{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"toggleVirtualKeyboard" object:nil userInfo:nil];
 }
 
 -(void) hideKeyboard:(id)sender{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO){
-        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-    }
+    [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
@@ -1108,20 +1104,12 @@ NSInteger buttonAction;
 }
 
 - (void)revealMenu:(id)sender{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO){
-        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-    }
+    [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
 - (void)revealUnderRight:(id)sender{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO){
-        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-    }
+    [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
