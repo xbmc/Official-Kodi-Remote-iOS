@@ -601,12 +601,12 @@
                                            libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
                                            [parameters objectForKey:@"label"], @"label",
                                            [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
-                                           [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
+                                           [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                            newSectionParameters, @"extra_section_parameters",
                                            nil];
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
@@ -642,6 +642,8 @@
                                                     [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                                     [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
                                                     nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song",@"fileThumb",
+                                                   [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
+                                                   [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                                    [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
                                                    nil];
                     MenuItem.mainLabel=[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]];
@@ -680,6 +682,8 @@
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
                                                 nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                               [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
+                                               [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                                [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
                                                nil];
                 [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
