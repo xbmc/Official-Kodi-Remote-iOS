@@ -141,6 +141,11 @@
         rightSwipe.cancelsTouchesInView=YES;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
+        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
+        leftSwipe.numberOfTouchesRequired = 1;
+        leftSwipe.cancelsTouchesInView=YES;
+        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+        [self.view addGestureRecognizer:leftSwipe];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         if([[UIScreen mainScreen ] bounds].size.height >= 568){
             CGRect frame = remoteControlView.frame;
@@ -962,12 +967,17 @@ NSInteger buttonAction;
 # pragma  mark - Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
-    if (gestureZoneView.alpha == 0){
-        if ([self.navigationController.viewControllers indexOfObject:self] == 0){
-            [self revealMenu:nil];
-        }
-        [self.navigationController popViewControllerAnimated:YES];
+    if ([self.navigationController.viewControllers indexOfObject:self] == 0){
+        [self revealMenu:nil];
     }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)handleSwipeFromLeft:(id)sender {
+    if ([self.navigationController.viewControllers indexOfObject:self] == 0){
+        [self revealUnderRight:nil];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(IBAction)handleButtonLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
