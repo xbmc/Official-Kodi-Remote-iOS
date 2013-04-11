@@ -130,7 +130,7 @@
 			<key>Key</key>
 			<string>diskcache_preference</string>
 			<key>Title</key>
-			<string>Enable library cache</string>
+			<string>Enable contents cache</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
