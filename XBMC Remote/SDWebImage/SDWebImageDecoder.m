@@ -48,6 +48,10 @@
         bitmapInfo |= kCGImageAlphaPremultipliedFirst;
     }
 
+//    CGRect newRect;
+//    float ImageWidth = imageSize.width;
+//    float ImageHeight = imageSize.height;
+
     if (newSize.width && newSize.height){
         CGFloat horizontalRatio = newSize.width / imageSize.width;
         CGFloat verticalRatio = newSize.height / imageSize.height;
@@ -69,20 +73,13 @@
     // If failed, return undecompressed image
     if (!context) return image;
     
-    CGContextSetInterpolationQuality(context, quality);
+//    CGContextSetInterpolationQuality(context, quality);
     CGContextDrawImage(context, imageRect, imageRef);
     CGImageRef decompressedImageRef = CGBitmapContextCreateImage(context);
 	
     CGContextRelease(context);
 	
-    UIImage *decompressedImage;
-    if (newSize.width && newSize.height){
-        decompressedImage = [UIImage imageWithData:UIImageJPEGRepresentation([UIImage imageWithCGImage:decompressedImageRef scale:image.scale orientation:image.imageOrientation],(CGFloat)0.8)];
-    }
-    else{
-        decompressedImage = [UIImage imageWithCGImage:decompressedImageRef scale:image.scale orientation:image.imageOrientation];
-    }
-    
+    UIImage *decompressedImage = [UIImage imageWithCGImage:decompressedImageRef scale:image.scale orientation:image.imageOrientation];
     CGImageRelease(decompressedImageRef);
     return decompressedImage;
 }
