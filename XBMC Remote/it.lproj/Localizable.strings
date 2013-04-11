@@ -181,10 +181,10 @@
 "Scrubbing 0.05" = "Scrubbing con velocità al 5%";
 "Scrubbing 0.025" = "Scrubbing di precisione";
 
-"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Clearing app disk cache...\n\nPlease wait, since this may take a while";
-"Pull to sync with XBMC..." = "Pull to sync with XBMC...";
-"Release to sync with XBMC..." = "Release to sync with XBMC...";
-"Syncing..." = "Syncing...";
-"Last sync" = "Last sync";
-"View: Wall" = "View: Wall";
-"View: List" = "View: List";
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Rimozione cache dal disco...\n\nPer favore attendere, l'operazione potrebbe richiedere qualche minuto";
+"Pull to sync with XBMC..." = "Trascina in basso per sincronizzare con XBMC...";
+"Release to sync with XBMC..." = "Rilascia per sincronizzare con XBMC...";
+"Syncing..." = "Sincronizzazione...";
+"Last sync" = "Ultima sincr.";
+"View: Wall" = "Vedi: Muro";
+"View: List" = "Vedi: Lista";
