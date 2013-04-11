@@ -9,7 +9,6 @@
 #import "SDWebImageDownloaderOperation.h"
 #import "SDWebImageDecoder.h"
 #import <ImageIO/ImageIO.h>
-//#import "UIImage+Resize.h"
 
 @interface SDWebImageDownloaderOperation ()
 
@@ -291,13 +290,6 @@
             dispatch_async(self.queue, ^
             {
                 CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
-//                if ([[self.userInfo objectForKey:@"transformation"] isEqualToString:@"resize"])
-//                {
-//                    CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
-//                    UIImage *elab = [UIImage imageWithData:self.imageData];
-//                    NSData *elabData = UIImageJPEGRepresentation([elab resizedImage:elab.CGImage size:size interpolationQuality:kCGInterpolationHigh],(CGFloat)0.8);
-//                    self.imageData = [NSMutableData dataWithData:elabData];
-//                }
                 UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, self.imageData) size:size interpolationQuality:kCGInterpolationHigh];
                 dispatch_async(dispatch_get_main_queue(), ^
                 {
