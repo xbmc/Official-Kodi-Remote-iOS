@@ -1038,6 +1038,11 @@ NSInteger buttonAction;
 }
 
 -(void) hideKeyboard:(id)sender{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO){
+        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
@@ -1045,6 +1050,7 @@ NSInteger buttonAction;
 
 -(void)viewWillAppear:(BOOL)animated{
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [self.navigationController.view removeGestureRecognizer:self.slidingViewController.panGesture];
         [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
         self.slidingViewController.underRightViewController = nil;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
@@ -1080,13 +1086,32 @@ NSInteger buttonAction;
                                              selector: @selector(hideKeyboard:)
                                                  name: @"ECSlidingViewUnderLeftWillAppear"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleECSlidingViewTopDidReset:)
+                                                 name: @"ECSlidingViewTopDidReset"
+                                               object: nil];
+}
+
+-(void)handleECSlidingViewTopDidReset:(id)sender{
+    [self.navigationController.view removeGestureRecognizer:self.slidingViewController.panGesture];
+    [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
 }
 
 - (void)revealMenu:(id)sender{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO){
+        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    }
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
 - (void)revealUnderRight:(id)sender{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO){
+        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    }
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
