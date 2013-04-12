@@ -839,8 +839,12 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		
 		NSInteger viewControllerCount = [viewControllersStack count];
 		for (int i = indexOfViewController; i < viewControllerCount; i++) {
-            [viewControllersStack removeObjectAtIndex:indexOfViewController];
-			[[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
+            [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
+//FIXME: 
+            if (!TARGET_IPHONE_SIMULATOR){
+                [viewControllersStack removeObjectAtIndex:indexOfViewController];
+            }
+// END FIXME
 			viewXPosition = self.view.frame.size.width - [controller view].frame.size.width;
 		}
 	}else if([viewControllersStack count] == 0) {
@@ -856,9 +860,6 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	if ([slideViews.subviews count] != 0) {
 //        NSLog(@"QUATTRO");
         UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, 40 , self.view.frame.size.height)];
-        
-        
-        
 		[verticalLineView setBackgroundColor:[UIColor clearColor]];
 		[verticalLineView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
 		[verticalLineView setClipsToBounds:NO];
