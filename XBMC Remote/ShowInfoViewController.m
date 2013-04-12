@@ -1344,6 +1344,9 @@ int h=0;
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	image.alpha = alphavalue;
+    if (alphavalue) {
+        image.hidden = NO;
+    }
     [UIView commitAnimations];
 }
 
