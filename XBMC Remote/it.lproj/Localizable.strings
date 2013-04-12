@@ -182,7 +182,7 @@
 "Scrubbing 0.025" = "Scrubbing di precisione";
 
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Rimozione cache dal disco...\n\nPer favore attendere, l'operazione potrebbe richiedere qualche minuto";
-"Pull to sync with XBMC..." = "Trascina in basso per sincronizzare con XBMC...";
+"Pull to sync with XBMC..." = "Trascina per sincronizzare con XBMC...";
 "Release to sync with XBMC..." = "Rilascia per sincronizzare con XBMC...";
 "Syncing..." = "Sincronizzazione...";
 "Last sync" = "Ultima sincronizzazione";

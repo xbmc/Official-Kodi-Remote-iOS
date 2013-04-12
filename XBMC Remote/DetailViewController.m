@@ -546,6 +546,54 @@
     }
 }
 
+-(void)exploreItem:(NSDictionary *)item{
+    self.detailViewController=nil;
+    mainMenu *MenuItem=self.detailItem;
+    NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
+    MenuItem.subItem.mainLabel=[item objectForKey:@"label"];
+    NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
+    NSString *libraryRowHeight= [NSString stringWithFormat:@"%d", MenuItem.subItem.rowHeight];
+    NSString *libraryThumbWidth= [NSString stringWithFormat:@"%d", MenuItem.subItem.thumbWidth];
+    if ([parameters objectForKey:@"rowHeight"] != nil){
+        libraryRowHeight = [parameters objectForKey:@"rowHeight"];
+    }
+    if ([parameters objectForKey:@"thumbWidth"] != nil){
+        libraryThumbWidth = [parameters objectForKey:@"thumbWidth"];
+    }
+    NSString *filemodeRowHeight= @"44";
+    NSString *filemodeThumbWidth= @"44";
+    if ([parameters objectForKey:@"rowHeight"] != nil){
+        filemodeRowHeight = [parameters objectForKey:@"rowHeight"];
+    }
+    if ([parameters objectForKey:@"thumbWidth"] != nil){
+        filemodeThumbWidth = [parameters objectForKey:@"thumbWidth"];
+    }
+    NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
+                                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    [item objectForKey:[mainFields objectForKey:@"row6"]],@"directory",
+                                    [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
+                                    [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
+                                    [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
+                                    nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                   [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
+                                   [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                   @"YES", @"exploreItem",
+                                   [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
+                                   nil];
+    [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+    MenuItem.subItem.chooseTab=choosedTab;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+        self.detailViewController.detailItem = MenuItem.subItem;
+        [self.navigationController pushViewController:self.detailViewController animated:YES];
+    }
+    else{
+        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+    }
+}
+
 #pragma mark - Library item didSelect
 
 -(void)didSelectItemAtIndexPath:(NSIndexPath *)indexPath item:(NSDictionary *)item displayPoint:(CGPoint) point{
@@ -709,6 +757,8 @@
             [self showInfo:indexPath menuItem:self.detailItem item:item tabToShow:choosedTab];
         }
         else {
+//            NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem mainParameters] objectAtIndex:choosedTab]];
+//            NSLog(@"ECCOCI %@", [parameters objectForKey:@"isMusicPlaylist"]);
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults synchronize];
             if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO){
@@ -2055,6 +2105,9 @@ NSIndexPath *selected;
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
             [self addQueue:selected afterCurrentItem:YES];
         }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Explore", nil)]){
+            [self exploreItem:item];
+        }
         else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:NSLocalizedString(@"Details", nil)].location!= NSNotFound){
             [self showInfo:selected menuItem:self.detailItem item:item tabToShow:choosedTab];
         }
@@ -2888,8 +2941,12 @@ NSIndexPath *selected;
         [mutableProperties addObject:@"art"];
         [mutableParameters setObject:mutableProperties forKey:@"properties"];
     }
-    if ([methods objectForKey:@"method"]!=nil){
-        [self retrieveData:[methods objectForKey:@"method"] parameters:mutableParameters sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:forceRefresh];
+    NSString *methodToCall = [methods objectForKey:@"method"];
+    if ([[parameters objectForKey:@"exploreItem"] boolValue] == YES){
+        methodToCall = @"Files.GetDirectory";
+    }
+    if (methodToCall!=nil){
+        [self retrieveData:methodToCall parameters:mutableParameters sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:forceRefresh];
     }
     else {
         [activityIndicatorView stopAnimating];

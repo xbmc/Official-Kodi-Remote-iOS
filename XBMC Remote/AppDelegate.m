@@ -452,7 +452,10 @@ NSMutableArray *hostRightMenuItems;
                             @"special://musicplaylists", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", @"file", @"artist", @"album", @"duration", nil], @"properties",
                             [NSArray arrayWithObjects:@"thumbnail", @"file", @"artist", @"album", @"duration", nil], @"file_properties",
-                            nil], @"parameters", NSLocalizedString(@"Music Playlists", nil), @"label", NSLocalizedString(@"Music Playlists", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Music Playlists", nil), @"label", NSLocalizedString(@"Music Playlists", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                           @"YES", @"isMusicPlaylist",
+                           nil],
+                          
                           
                           nil];
     
@@ -687,7 +690,7 @@ NSMutableArray *hostRightMenuItems;
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSArray arrayWithObjects: nil],
-                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Explore", nil), nil],
                         nil];
     
     item1.subItem.mainMethod=[NSMutableArray arrayWithObjects:
@@ -731,7 +734,8 @@ NSMutableArray *hostRightMenuItems;
                               
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               
-                              [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
+                              [NSArray arrayWithObjects:nil],
+//                              [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               
                               nil];
     item1.subItem.mainParameters=[NSMutableArray arrayWithObjects:
@@ -865,6 +869,7 @@ NSMutableArray *hostRightMenuItems;
                                     nil], @"itemSizes",
                                    nil],
                                   
+//                                  [NSArray arrayWithObjects:nil],
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
@@ -961,7 +966,7 @@ NSMutableArray *hostRightMenuItems;
                                @"artist", @"row11",
                                nil],
                               
-                              [NSArray arrayWithObjects:nil],
+                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
                               
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"songs",@"itemid",
@@ -979,7 +984,7 @@ NSMutableArray *hostRightMenuItems;
                                @"artist", @"row11",
                                nil],
                               
-                              [NSArray arrayWithObjects:nil],
+                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
                               
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"songs",@"itemid",
@@ -997,9 +1002,9 @@ NSMutableArray *hostRightMenuItems;
                                @"artist", @"row11",
                                nil],
                               
-                              [NSArray arrayWithObjects:nil],
+                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
                               
-                              [NSArray arrayWithObjects:nil],
+                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
                               
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"files",@"itemid",
@@ -1016,6 +1021,7 @@ NSMutableArray *hostRightMenuItems;
                                @"type", @"row11",
                                nil],
                               
+//                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"files",@"itemid",
                                @"label", @"row1",
@@ -1049,6 +1055,7 @@ NSMutableArray *hostRightMenuItems;
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+//                                [NSArray arrayWithObjects:nil],
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                 nil];//, @"Stream to iPhone"
     item1.subItem.originYearDuration=248;
@@ -1089,6 +1096,7 @@ NSMutableArray *hostRightMenuItems;
                                       [NSArray arrayWithObjects:nil],
                                       [NSArray arrayWithObjects:nil],
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
+//                                      [NSArray arrayWithObjects:nil],
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                                       nil];
     
@@ -1134,6 +1142,7 @@ NSMutableArray *hostRightMenuItems;
                                           
                                           [NSMutableArray arrayWithObjects:filemodeRowHeight, @"rowHeight", @"53", @"thumbWidth", nil],
                                           
+//                                          [NSArray arrayWithObjects:nil],
                                           [NSMutableArray arrayWithObjects:filemodeRowHeight, @"rowHeight", @"53", @"thumbWidth", nil],
                                           
                                           nil];
@@ -1210,6 +1219,7 @@ NSMutableArray *hostRightMenuItems;
                                         [NSArray arrayWithObjects:nil],
                                         [NSArray arrayWithObjects:nil],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+//                                        [NSArray arrayWithObjects:nil],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         nil];
     item1.subItem.subItem.showRuntime=[NSArray arrayWithObjects:
