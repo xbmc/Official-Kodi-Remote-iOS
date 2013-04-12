@@ -1411,7 +1411,7 @@ int originYear = 0;
         }
         if (![stringURL isEqualToString:@""]){
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                if (blackTableSeparator == YES && [AppDelegate instance].obj.preferTVPosters == NO && [indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:0]]){
+                if (blackTableSeparator == YES && [AppDelegate instance].obj.preferTVPosters == NO && [indexPath isEqual:[NSIndexPath indexPathForRow:0 inSection:0]]){
                     UIColor *barColor = [utils darkerColorForColor:[utils averageColor:image inverse:NO]];
                     self.searchDisplayController.searchBar.tintColor = barColor;
                 }
@@ -3537,6 +3537,7 @@ NSIndexPath *selected;
 }
 
 -(BOOL)collectionViewIsEnabled{
+    if (![self collectionViewCanBeEnabled]) return NO;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
@@ -3551,8 +3552,21 @@ NSIndexPath *selected;
     else {
         if ([tempDict count] > 2) {
             [tempDict removeAllObjects];
-            [tempDict setObject:[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] forKey:@"properties"];
-            [tempDict setObject:[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] forKey:@"sort"];
+            NSArray *arr_properties = [[parameters objectForKey:@"parameters"] objectForKey:@"properties"];
+            if (arr_properties == nil){
+                arr_properties = [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"];
+            }
+            
+            if (arr_properties == nil){
+                arr_properties = [NSArray arrayWithArray:nil];
+            }
+            
+            NSArray *arr_sort = [[parameters objectForKey:@"parameters"] objectForKey:@"sort"];
+            if (arr_sort == nil){
+                arr_sort = [NSArray arrayWithArray:nil];
+            }
+            [tempDict setObject:arr_properties forKey:@"properties"];
+            [tempDict setObject:arr_sort forKey:@"sort"];
             [tempDict setObject:@"YES" forKey:@"filtered"];
         }
     }
