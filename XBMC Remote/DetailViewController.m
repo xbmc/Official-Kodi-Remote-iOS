@@ -713,11 +713,19 @@
             [userDefaults synchronize];
             if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO){
                 NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem mainParameters] objectAtIndex:choosedTab]];
-                if ([sheetActions isKindOfClass:[NSMutableArray class]]){
-                    [sheetActions removeObject:NSLocalizedString(@"Play in party mode", nil)];
-                }
-                if ([[parameters objectForKey:@"isMusicPlaylist"] boolValue] == YES && [[[item objectForKey:@"file"] pathExtension] isEqualToString:@"xsp"]){
-                    [sheetActions addObject:NSLocalizedString(@"Play in party mode", nil)];
+                if ([[parameters objectForKey:@"isMusicPlaylist"] boolValue] == YES){
+                    if ([sheetActions isKindOfClass:[NSMutableArray class]]){
+                        [sheetActions removeAllObjects];
+                        if ([[[item objectForKey:@"file"] pathExtension] isEqualToString:@"xsp"]){
+                            [sheetActions addObject:NSLocalizedString(@"Play in party mode", nil)];
+                        }
+                        else{
+                            [sheetActions addObject:NSLocalizedString(@"Play", nil)];
+                            [sheetActions addObject:NSLocalizedString(@"Queue", nil)];
+                            [sheetActions addObject:NSLocalizedString(@"Queue after current", nil)];
+                        }
+                        [sheetActions addObject:NSLocalizedString(@"Show Content", nil)];
+                    }
                 }
                 selected=indexPath;
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
