@@ -26,16 +26,22 @@
         [_posterThumbnail setContentMode:UIViewContentModeScaleAspectFill];
         [self.contentView addSubview:_posterThumbnail];
         
-        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
+        UIImageView *labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
+        [labelImageView setImage:[UIImage imageNamed:@"cell_bg"]];
+        [labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
+
+        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
         [_posterLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
-        [_posterLabel setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6]];
+        [_posterLabel setBackgroundColor:[UIColor clearColor]];
         [_posterLabel setTextColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
         [_posterLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6]];
         [_posterLabel setShadowOffset:CGSizeMake(0,1)];
         [_posterLabel setNumberOfLines:2];
         [_posterLabel setMinimumFontSize:8.0f];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
-        [self.contentView addSubview:_posterLabel];
+        
+        [labelImageView addSubview:_posterLabel];
+        [self.contentView addSubview:labelImageView];
         
         _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _busyView.hidesWhenStopped = YES;
