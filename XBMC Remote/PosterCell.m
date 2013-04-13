@@ -24,7 +24,7 @@
         [_posterThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterThumbnail setClipsToBounds:YES];
         [_posterThumbnail setContentMode:UIViewContentModeScaleAspectFill];
-        [self addSubview:_posterThumbnail];
+        [self.contentView addSubview:_posterThumbnail];
         
         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
         [_posterLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
@@ -35,13 +35,13 @@
         [_posterLabel setNumberOfLines:2];
         [_posterLabel setMinimumFontSize:8.0f];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
-        [self addSubview:_posterLabel];
+        [self.contentView addSubview:_posterLabel];
         
         _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _busyView.hidesWhenStopped = YES;
         _busyView.center = CGPointMake(frame.size.width / 2, (frame.size.height / 2) - borderWidth);
         _busyView.tag = 8;
-        [self addSubview:_busyView];
+        [self.contentView addSubview:_busyView];
 
         UIView *bgView = [[UIView alloc] initWithFrame:frame];
         [bgView setBackgroundColor:[UIColor colorWithRed:0.0f green:132.0f/255.0f blue:1.0f alpha:1]];
@@ -55,11 +55,11 @@
         if (overlayWatched == nil){
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
             [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleBottomMargin];
-            overlayWatched.frame = CGRectMake(self.frame.size.width - overlayWatched.frame.size.width + 2,
-                                              self.frame.size.height - overlayWatched.frame.size.height + 1,
+            overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width + 2,
+                                              self.contentView.frame.size.height - overlayWatched.frame.size.height + 1,
                                               overlayWatched.frame.size.width,
                                               overlayWatched.frame.size.height);
-            [self addSubview:overlayWatched];
+            [self.contentView addSubview:overlayWatched];
         }
         overlayWatched.hidden = NO;
     }
