@@ -670,7 +670,7 @@
                         [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
                     }
                     else {
-                        [self addPlayback:indexPath position:indexPath.row];
+                        [self addPlayback:item indexPath:indexPath position:indexPath.row];
                     }
                     return;
                 }
@@ -723,7 +723,7 @@
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
             else {
-                [self addPlayback:indexPath position:indexPath.row];
+                [self addPlayback:item indexPath:indexPath position:indexPath.row];
             }
         }
     }
@@ -1944,7 +1944,7 @@ NSIndexPath *selected;
         }    
     }
     else if (indexPath!=nil){ // No actions found, revert back to standard play action
-        [self addPlayback:indexPath position:indexPath.row];
+        [self addPlayback:item indexPath:indexPath position:indexPath.row];
     }
 }
 
@@ -2043,17 +2043,17 @@ NSIndexPath *selected;
         if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play", nil)]){
             NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
             if ([songid intValue]){
-                [self addPlayback:selected position:selected.row];
+                [self addPlayback:item indexPath:selected position:selected.row];
             }
             else {
-                [self addPlayback:selected position:0];
+                [self addPlayback:item indexPath:selected position:0];
             }
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue", nil)]){
-            [self addQueue:selected];
+            [self addQueue:item indexPath:selected];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
-            [self addQueue:selected afterCurrentItem:YES];
+            [self addQueue:item indexPath:selected afterCurrentItem:YES];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Show Content", nil)]){
             [self exploreItem:item];
@@ -2068,13 +2068,13 @@ NSIndexPath *selected;
             [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"trailer"], @"file", nil], @"item", nil] index:selected];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Stream to iPhone", nil)]){
-            [self addStream:selected];
+            [self addStream:item indexPath:selected];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Search Wikipedia", nil)]){            
-            [self searchWeb:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", NSLocalizedString(@"WIKI_LANG", nil)]];
+            [self searchWeb:item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", NSLocalizedString(@"WIKI_LANG", nil)]];
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Search last.fm charts", nil)]){
-            [self searchWeb:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
+            [self searchWeb:item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
         }
     }
     else{
@@ -2084,7 +2084,6 @@ NSIndexPath *selected;
         else{
             if (enableCollectionView){
                 [collectionView deselectItemAtIndexPath:selected animated:NO];
-
             }
             else{
                 [dataList deselectRowAtIndexPath:selected animated:NO];
@@ -2094,16 +2093,9 @@ NSIndexPath *selected;
     }
 }
 
--(void)searchWeb:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
+-(void)searchWeb:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
     self.webViewController = nil;
     self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
-    NSDictionary *item = nil;
-    if ([self.searchDisplayController isActive]){
-        item = [self.filteredListContent objectAtIndex:indexPath.row];
-    }
-    else{
-        item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    }
     NSString *query = [[item objectForKey:@"label"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSString *url = [NSString stringWithFormat:serviceURL, query]; 
 	NSURL *_url = [NSURL URLWithString:url];    
@@ -2315,7 +2307,7 @@ NSIndexPath *selected;
     }
 }
 
--(void)addStream:(NSIndexPath *)indexPath{
+-(void)addStream:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath{
     id cell;
     if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -2325,13 +2317,13 @@ NSIndexPath *selected;
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
-    NSDictionary *item = nil;
-    if ([self.searchDisplayController isActive]){
-        item = [self.filteredListContent objectAtIndex:indexPath.row];
-    }
-    else{
-        item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    }
+//    NSDictionary *item = nil;
+//    if ([self.searchDisplayController isActive]){
+//        item = [self.filteredListContent objectAtIndex:indexPath.row];
+//    }
+//    else{
+//        item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+//    }
     [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
@@ -2388,11 +2380,11 @@ NSIndexPath *selected;
     }];
 }
 
--(void)addQueue:(NSIndexPath *)indexPath{
-    [self addQueue:indexPath afterCurrentItem:NO];
+-(void)addQueue:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath{
+    [self addQueue:item indexPath:indexPath afterCurrentItem:NO];
 }
 
--(void)addQueue:(NSIndexPath *)indexPath afterCurrentItem:(BOOL)afterCurrent{
+-(void)addQueue:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath afterCurrentItem:(BOOL)afterCurrent{
 //    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     id cell;
     if ([self.searchDisplayController isActive]){
@@ -2406,14 +2398,6 @@ NSIndexPath *selected;
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
-    NSDictionary *item = nil;
-    if ([self.searchDisplayController isActive]){
-        item = [self.filteredListContent objectAtIndex:indexPath.row];
-    }
-    else{
-        item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    }
-    
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
     NSString *key=[mainFields objectForKey:@"row9"];
     if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]){
@@ -2495,17 +2479,10 @@ NSIndexPath *selected;
     }];
 }
 
--(void)addPlayback:(NSIndexPath *)indexPath position:(int)pos{
+-(void)addPlayback:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath position:(int)pos{
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
     if ([mainFields count]==0){
         return;
-    }
-    NSDictionary *item = nil;
-    if ([self.searchDisplayController isActive]){
-        item = [self.filteredListContent objectAtIndex:indexPath.row];
-    }
-    else{
-        item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
     id cell;
     if ([self.searchDisplayController isActive]){
@@ -2517,7 +2494,6 @@ NSIndexPath *selected;
     else{
         cell = [dataList cellForRowAtIndexPath:indexPath];
     }
-//    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
