@@ -31,14 +31,14 @@
         [_posterThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterThumbnail setClipsToBounds:YES];
         [_posterThumbnail setContentMode:UIViewContentModeScaleAspectFill];
-        [self addSubview:_posterThumbnail];
+        [self.contentView addSubview:_posterThumbnail];
         
         _posterFanart = [[UIImageView alloc] initWithFrame:CGRectMake(startX, borderWidth, fanartWidth - borderWidth * 3, frame.size.height - borderWidth * 2)];
         [_posterFanart setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterFanart setClipsToBounds:YES];
         [_posterFanart setContentMode:UIViewContentModeScaleAspectFit];
         _posterFanart.alpha = 0.9f;
-        [self addSubview:_posterFanart];
+        [self.contentView addSubview:_posterFanart];
 
 //        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
          _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(startX, frame.size.height - genreHeight - yearHeight - labelHeight + borderWidth*2, fanartWidth - borderWidth * 3, labelHeight - borderWidth)];
@@ -50,7 +50,7 @@
         [_posterLabel setNumberOfLines:1];
         [_posterLabel setMinimumFontSize:8.0f];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
-        [self addSubview:_posterLabel];
+        [self.contentView addSubview:_posterLabel];
         
         _posterGenre = [[PosterLabel alloc] initWithFrame:CGRectMake(startX, frame.size.height - genreHeight - yearHeight + borderWidth, fanartWidth - borderWidth * 3, genreHeight - borderWidth)];
         [_posterGenre setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
@@ -61,7 +61,7 @@
         [_posterGenre setNumberOfLines:1];
         [_posterGenre setMinimumFontSize:8.0f];
         [_posterGenre setAdjustsFontSizeToFitWidth:YES];
-        [self addSubview:_posterGenre];
+        [self.contentView addSubview:_posterGenre];
         
         _posterYear = [[PosterLabel alloc] initWithFrame:CGRectMake(startX, frame.size.height - yearHeight, fanartWidth - borderWidth * 3, yearHeight - borderWidth)];
         [_posterYear setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
@@ -72,7 +72,7 @@
         [_posterYear setNumberOfLines:1];
         [_posterYear setMinimumFontSize:8.0f];
         [_posterYear setAdjustsFontSizeToFitWidth:YES];
-        [self addSubview:_posterYear];
+        [self.contentView addSubview:_posterYear];
 
 
         UIView *bgView = [[UIView alloc] initWithFrame:frame];
@@ -87,11 +87,11 @@
         if (overlayWatched == nil){
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
             [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleBottomMargin];
-            overlayWatched.frame = CGRectMake(self.frame.size.width - overlayWatched.frame.size.width - 4,
-                                              self.frame.size.height - overlayWatched.frame.size.height - 4,
+            overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width - 4,
+                                              self.contentView.frame.size.height - overlayWatched.frame.size.height - 4,
                                               overlayWatched.frame.size.width,
                                               overlayWatched.frame.size.height);
-            [self addSubview:overlayWatched];
+            [self.contentView addSubview:overlayWatched];
         }
         overlayWatched.hidden = NO;
     }
