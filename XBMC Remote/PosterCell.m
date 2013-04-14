@@ -27,6 +27,7 @@
         [self.contentView addSubview:_posterThumbnail];
         
         UIImageView *labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
+        [labelImageView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [labelImageView setImage:[UIImage imageNamed:@"cell_bg"]];
         [labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
 
