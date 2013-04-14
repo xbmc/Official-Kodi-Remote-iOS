@@ -764,7 +764,9 @@
                     if ([sheetActions isKindOfClass:[NSMutableArray class]]){
                         [sheetActions removeAllObjects];
                         if ([[[item objectForKey:@"file"] pathExtension] isEqualToString:@"xsp"]){
-                            [sheetActions addObject:NSLocalizedString(@"Play in party mode", nil)];
+                            if ([AppDelegate instance].serverVersion > 11){
+                                [sheetActions addObject:NSLocalizedString(@"Play in party mode", nil)];
+                            }
                         }
                         else{
                             [sheetActions addObject:NSLocalizedString(@"Play", nil)];
