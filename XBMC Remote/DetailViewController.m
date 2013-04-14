@@ -327,7 +327,6 @@
 -(void)showImage:(NSDictionary *)params{
     UIImage *image = [params objectForKey:@"image"];
     UIImageView *destinationView = [params objectForKey:@"destinationView"];
-    destinationView.alpha = 0;
     destinationView.image = image;
     [self alphaView:destinationView AnimDuration:0.1 Alpha:1.0f];
 }
@@ -1474,23 +1473,33 @@ int originYear = 0;
         NSDictionary *item;
         item = [self.richResults objectAtIndex:0];
         int albumThumbHeight = albumViewHeight - (albumViewPadding * 2);
-        BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
-        int shadowRadius = isRetina ? 6 : 3;
-        int imagePadding = 3;
-        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding - imagePadding, albumViewPadding - imagePadding, albumThumbHeight + imagePadding * 2, albumThumbHeight + imagePadding * 2)];
-        thumbImageView.alpha = 0;
+        UIView *thumbImageContainer = [[UIView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, albumThumbHeight, albumThumbHeight)];
+        [thumbImageContainer setClipsToBounds: NO];
+        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, albumThumbHeight, albumThumbHeight)];
+        [thumbImageView setClipsToBounds:YES];
+        [thumbImageView setContentMode:UIViewContentModeScaleAspectFill];
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=@"coverbox_back.png";
         if ([[item objectForKey:@"filetype"] length]!=0){
             displayThumb=stringURL;
         }
         if (![stringURL isEqualToString:@""]){
-            UIImageView *tV = thumbImageView;
             [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      [self elaborateImage:image shadowRadius:shadowRadius destination:tV];
+                                      BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
+                                      float thumbBorder = isRetina ? 0.5f : 1.0f;
+                                      [thumbImageContainer setBackgroundColor:[UIColor clearColor]];
+                                      thumbImageContainer.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1].CGColor;
+                                      thumbImageContainer.layer.shadowOpacity = 1.0f;
+                                      thumbImageContainer.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+                                      thumbImageContainer.layer.shadowRadius = 2.0f;
+                                      thumbImageContainer.layer.masksToBounds = NO;
+                                      thumbImageContainer.layer.borderWidth = thumbBorder;
+                                      thumbImageContainer.layer.borderColor = [UIColor blackColor].CGColor;
+                                      UIBezierPath *path = [UIBezierPath bezierPathWithRect:thumbImageContainer.bounds];
+                                      thumbImageContainer.layer.shadowPath = path.CGPath;
                                       if (enableBarColor == YES){
                                           albumColor = [utils averageColor:image inverse:NO];
                                           self.navigationController.navigationBar.tintColor = albumColor;
@@ -1519,11 +1528,10 @@ int originYear = 0;
                                   }];
         }
         else {
-            thumbImageView.alpha = 1;
             [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
         }
-        thumbImageView.clipsToBounds = NO;
-        [albumDetailView addSubview:thumbImageView];
+        [thumbImageContainer addSubview:thumbImageView];
+        [albumDetailView addSubview:thumbImageContainer];
         
         [artist setBackgroundColor:[UIColor clearColor]];
         [artist setTextColor:albumFontColor];
