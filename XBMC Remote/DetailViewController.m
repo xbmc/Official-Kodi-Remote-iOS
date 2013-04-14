@@ -670,7 +670,7 @@
                         [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
                     }
                     else {
-                        [self addPlayback:item indexPath:indexPath position:indexPath.row];
+                        [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
                     }
                     return;
                 }
@@ -731,7 +731,7 @@
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
             else {
-                [self addPlayback:item indexPath:indexPath position:indexPath.row];
+                [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
             }
         }
     }
@@ -1952,7 +1952,7 @@ NSIndexPath *selected;
         }    
     }
     else if (indexPath!=nil){ // No actions found, revert back to standard play action
-        [self addPlayback:item indexPath:indexPath position:indexPath.row];
+        [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
     }
 }
 
@@ -2051,10 +2051,10 @@ NSIndexPath *selected;
         if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play", nil)]){
             NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
             if ([songid intValue]){
-                [self addPlayback:item indexPath:selected position:selected.row];
+                [self addPlayback:item indexPath:selected position:selected.row shuffle:NO];
             }
             else {
-                [self addPlayback:item indexPath:selected position:0];
+                [self addPlayback:item indexPath:selected position:0 shuffle:NO];
             }
         }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue", nil)]){
@@ -2487,7 +2487,7 @@ NSIndexPath *selected;
     }];
 }
 
--(void)addPlayback:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath position:(int)pos{
+-(void)addPlayback:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath position:(int)pos shuffle:(BOOL)shuffled{
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
     if ([mainFields count]==0){
         return;
@@ -2551,7 +2551,7 @@ NSIndexPath *selected;
                 [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil){
                         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                        [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: pos], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                        [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: pos], @"position", nil], @"item", [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:shuffled], @"shuffled", nil], @"options", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                             if (error==nil && methodError==nil){
                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                                 UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
@@ -2561,7 +2561,7 @@ NSIndexPath *selected;
                             else {
                                 UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
                                 [queuing stopAnimating];
-                                //                            NSLog(@"terzo errore %@",methodError);
+                                                            NSLog(@"terzo errore %@",methodError);
                             }
                         }];
                     }
