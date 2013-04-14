@@ -687,9 +687,8 @@ int currentItemID;
                                                      [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
                                                                    placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
                                                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                                                              UIImage *buttonImage = [sf resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                                                               if (error == nil){
-                                                                                  buttonImage=[sf resizeImage:[sf imageWithBorderFromImage:image] width:76 height:66 padding:10];
+                                                                                  UIImage *buttonImage=[sf resizeImage:[sf imageWithBorderFromImage:image] width:76 height:66 padding:10];
                                                                                   [sf setButtonImageAndStartDemo:buttonImage];
                                                                               }
                                                                           }];
@@ -700,10 +699,9 @@ int currentItemID;
                                                       setImageWithURL:[NSURL URLWithString:stringURL]
                                                       placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
                                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {                                                          
-                                                          UIImage *buttonImage = [sf resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                                           if (error == nil){
                                                               jV.image=[sf imageWithBorderFromImage:image];
-                                                              buttonImage=[sf resizeImage:jV.image width:76 height:66 padding:10];
+                                                              UIImage *buttonImage=[sf resizeImage:jV.image width:76 height:66 padding:10];
                                                               [sf setButtonImageAndStartDemo:buttonImage];
                                                           }
                                                       }];
