@@ -284,6 +284,54 @@
     }
 }
 
+- (UIImage*)imageWithShadow:(UIImage *)source {
+    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 6, source.size.height + 6, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGImageAlphaPremultipliedLast);
+    CGColorSpaceRelease(colourSpace);
+    
+    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 3, [UIColor blackColor].CGColor);
+    CGContextDrawImage(shadowContext, CGRectMake(3, 3, source.size.width, source.size.height), source.CGImage);
+    
+    CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
+    CGContextRelease(shadowContext);
+    
+    UIImage * shadowedImage = [UIImage imageWithCGImage:shadowedCGImage];
+    CGImageRelease(shadowedCGImage);
+    
+    return shadowedImage;
+}
+
+- (UIImage*)imageWithBorderFromImage:(UIImage*)source{
+    CGSize size = [source size];
+    UIGraphicsBeginImageContext(size);
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
+    CGFloat borderWidth = 2.0f;
+	CGContextSetLineWidth(context, borderWidth);
+    CGContextStrokeRect(context, rect);
+    
+    UIImage *Img =  UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return [self imageWithShadow:Img];
+}
+
+-(void)elaborateImage:(UIImage *)image destination:(UIImageView *)imageViewDestination{
+    UIImage *elabImage = [self imageWithBorderFromImage:image];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:elabImage, @"image", imageViewDestination, @"destinationView", nil];
+    [self performSelectorOnMainThread:@selector(showImage:) withObject:params waitUntilDone:YES];
+}
+
+-(void)showImage:(NSDictionary *)params{
+    UIImage *image = [params objectForKey:@"image"];
+    UIImageView *destinationView = [params objectForKey:@"destinationView"];
+    destinationView.alpha = 0;
+    destinationView.image = image;
+    [self alphaView:destinationView AnimDuration:0.1 Alpha:1.0f];
+}
+
 #pragma mark - Tabbar management
 
 -(IBAction)showMore:(id)sender{
@@ -1155,41 +1203,6 @@ int originYear = 0;
     }
 }
 
-- (UIImage*)imageWithShadow:(UIImage *)source {
-    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGImageAlphaPremultipliedLast);
-    CGColorSpaceRelease(colourSpace);
-    
-    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 10, [UIColor blackColor].CGColor);
-    CGContextDrawImage(shadowContext, CGRectMake(10, 10, source.size.width, source.size.height), source.CGImage);
-    
-    CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
-    CGContextRelease(shadowContext);
-    
-    UIImage * shadowedImage = [UIImage imageWithCGImage:shadowedCGImage];
-    CGImageRelease(shadowedCGImage);
-    
-    return shadowedImage;
-}
-
-- (UIImage*)imageWithBorderFromImage:(UIImage*)source{
-    CGSize size = [source size];
-    UIGraphicsBeginImageContext(size);
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-    CGFloat borderWidth = 2.0;
-	CGContextSetLineWidth(context, borderWidth);
-    CGContextStrokeRect(context, rect);
-    
-    UIImage *Img =  UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return [self imageWithShadow:Img];
-}
-
-
 #pragma mark - Table Management
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -1462,56 +1475,48 @@ int originYear = 0;
         item = [self.richResults objectAtIndex:0];
         int albumThumbHeight = albumViewHeight - (albumViewPadding * 2);
         UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, albumThumbHeight, albumThumbHeight)];
+        thumbImageView.alpha = 0;
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=@"coverbox_back.png";
         if ([[item objectForKey:@"filetype"] length]!=0){
             displayThumb=stringURL;
         }
         if (![stringURL isEqualToString:@""]){
-//            UIImageView *tV = thumbImageView;
+            UIImageView *tV = thumbImageView;
             [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-//                                    success:^(UIImage *image) {
-                if (enableBarColor == YES){
-                    albumColor = [utils averageColor:image inverse:NO];
-                    self.navigationController.navigationBar.tintColor = albumColor;
-                    self.searchDisplayController.searchBar.tintColor = albumColor;
-                    if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
-                        [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
-                    }
-                    [self.searchDisplayController.searchBar setBackgroundColor:albumColor];
-                    CAGradientLayer *gradient = [CAGradientLayer layer];
-                    gradient.frame = albumDetailView.bounds;
-                    gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
-                    [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                    albumFontColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
-                    albumFontShadowColor = [utils updateColor:albumColor lightColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3] darkColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.3]];
-                    albumDetailsColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor darkGrayColor]];
-                    [artist setTextColor:albumFontColor];
-                    [artist setShadowColor:albumFontShadowColor];
-                    [albumLabel setTextColor:albumFontColor];
-                    [albumLabel setShadowColor:albumFontShadowColor];
-                    [trackCountLabel setTextColor:albumDetailsColor];
-                    [trackCountLabel setShadowColor:albumFontShadowColor];
-                    [releasedLabel setTextColor:albumDetailsColor];
-                    [releasedLabel setShadowColor:albumFontShadowColor];
-
-                }
-            }
-//              failure:^(NSError *error) {
-//                
-//            }
-             ];
-            thumbImageView.layer.borderColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1].CGColor;
-            thumbImageView.layer.borderWidth = thumbBorderWidth;
-            thumbImageView.layer.shadowColor = [UIColor blackColor].CGColor;
-            thumbImageView.layer.shadowOffset = CGSizeMake(0, 0);
-            thumbImageView.layer.shadowOpacity = 1;
-            thumbImageView.layer.shadowRadius = 2.0;
+                                      [self elaborateImage:image destination:tV];
+                                      if (enableBarColor == YES){
+                                          albumColor = [utils averageColor:image inverse:NO];
+                                          self.navigationController.navigationBar.tintColor = albumColor;
+                                          self.searchDisplayController.searchBar.tintColor = albumColor;
+                                          if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
+                                              [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
+                                          }
+                                          [self.searchDisplayController.searchBar setBackgroundColor:albumColor];
+                                          CAGradientLayer *gradient = [CAGradientLayer layer];
+                                          gradient.frame = albumDetailView.bounds;
+                                          gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
+                                          [albumDetailView.layer insertSublayer:gradient atIndex:1];
+                                          albumFontColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
+                                          albumFontShadowColor = [utils updateColor:albumColor lightColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3] darkColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.3]];
+                                          albumDetailsColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor darkGrayColor]];
+                                          [artist setTextColor:albumFontColor];
+                                          [artist setShadowColor:albumFontShadowColor];
+                                          [albumLabel setTextColor:albumFontColor];
+                                          [albumLabel setShadowColor:albumFontShadowColor];
+                                          [trackCountLabel setTextColor:albumDetailsColor];
+                                          [trackCountLabel setShadowColor:albumFontShadowColor];
+                                          [releasedLabel setTextColor:albumDetailsColor];
+                                          [releasedLabel setShadowColor:albumFontShadowColor];
+                                          
+                                      }
+                                  }];
         }
         else {
+            thumbImageView.alpha = 1;
             [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
         }
         thumbImageView.clipsToBounds = NO;
@@ -3591,17 +3596,12 @@ NSIndexPath *selected;
     }];
     darkCells = [[NSMutableArray alloc] init];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
-    thumbBorderWidth = 1.0f;
     enableBarColor = YES;
     utils = [[Utilities alloc] init];
     for(UIView *subView in self.searchDisplayController.searchBar.subviews){
         if([subView isKindOfClass: [UITextField class]]){
             [(UITextField *)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
         }
-    }
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
-        ([UIScreen mainScreen].scale == 2.0)) {
-        thumbBorderWidth = 0.5f;
     }
     callBack = FALSE;
     self.view.userInteractionEnabled = YES;

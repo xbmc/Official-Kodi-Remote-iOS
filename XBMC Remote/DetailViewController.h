@@ -75,7 +75,6 @@
     int trackCountFontSize;
     int trackCountLabelWidth;
     int labelPadding;
-    float thumbBorderWidth;
     UIColor *albumColor;
     UIColor *searchBarColor;
     UIColor *tableViewSearchBarColor;
