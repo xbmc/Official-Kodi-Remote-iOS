@@ -284,13 +284,13 @@
     }
 }
 
-- (UIImage*)imageWithShadow:(UIImage *)source {
+- (UIImage*)imageWithShadow:(UIImage *)source shadowRadius:(int)shadowRadius {
     CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 6, source.size.height + 6, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGImageAlphaPremultipliedLast);
+    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + shadowRadius * 2, source.size.height + shadowRadius * 2, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
-    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 3, [UIColor blackColor].CGColor);
-    CGContextDrawImage(shadowContext, CGRectMake(3, 3, source.size.width, source.size.height), source.CGImage);
+    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), shadowRadius, [UIColor blackColor].CGColor);
+    CGContextDrawImage(shadowContext, CGRectMake(shadowRadius, shadowRadius, source.size.width, source.size.height), source.CGImage);
     
     CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
     CGContextRelease(shadowContext);
@@ -301,7 +301,7 @@
     return shadowedImage;
 }
 
-- (UIImage*)imageWithBorderFromImage:(UIImage*)source{
+- (UIImage*)imageWithBorderFromImage:(UIImage*)source shadowRadius:(int)shadowRadius{
     CGSize size = [source size];
     UIGraphicsBeginImageContext(size);
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
@@ -315,11 +315,11 @@
     
     UIImage *Img =  UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return [self imageWithShadow:Img];
+    return [self imageWithShadow:Img shadowRadius:shadowRadius];
 }
 
--(void)elaborateImage:(UIImage *)image destination:(UIImageView *)imageViewDestination{
-    UIImage *elabImage = [self imageWithBorderFromImage:image];
+-(void)elaborateImage:(UIImage *)image shadowRadius:(int)shadowRadius destination:(UIImageView *)imageViewDestination{
+    UIImage *elabImage = [self imageWithBorderFromImage:image shadowRadius:shadowRadius];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:elabImage, @"image", imageViewDestination, @"destinationView", nil];
     [self performSelectorOnMainThread:@selector(showImage:) withObject:params waitUntilDone:YES];
 }
@@ -1474,7 +1474,8 @@ int originYear = 0;
         NSDictionary *item;
         item = [self.richResults objectAtIndex:0];
         int albumThumbHeight = albumViewHeight - (albumViewPadding * 2);
-        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, albumThumbHeight, albumThumbHeight)];
+        int shadowRadius = 3;
+        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding - shadowRadius, albumViewPadding - shadowRadius, albumThumbHeight + shadowRadius * 2, albumThumbHeight + shadowRadius * 2)];
         thumbImageView.alpha = 0;
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=@"coverbox_back.png";
@@ -1487,7 +1488,7 @@ int originYear = 0;
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      [self elaborateImage:image destination:tV];
+                                      [self elaborateImage:image shadowRadius:shadowRadius destination:tV];
                                       if (enableBarColor == YES){
                                           albumColor = [utils averageColor:image inverse:NO];
                                           self.navigationController.navigationBar.tintColor = albumColor;
