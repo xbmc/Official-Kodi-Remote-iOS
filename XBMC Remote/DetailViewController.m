@@ -760,9 +760,10 @@
             [userDefaults synchronize];
             if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO){
                 NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem mainParameters] objectAtIndex:choosedTab]];
-                if ([[parameters objectForKey:@"isMusicPlaylist"] boolValue] == YES){
+                if ([[parameters objectForKey:@"isMusicPlaylist"] boolValue] == YES){ // NOTE: sheetActions objects must be moved outside from there
                     if ([sheetActions isKindOfClass:[NSMutableArray class]]){
                         [sheetActions removeAllObjects];
+                        [sheetActions addObject:NSLocalizedString(@"Play in shuffle mode", nil)];
                         if ([[[item objectForKey:@"file"] pathExtension] isEqualToString:@"xsp"]){
                             if ([AppDelegate instance].serverVersion > 11){
                                 [sheetActions addObject:NSLocalizedString(@"Play in party mode", nil)];
@@ -2075,6 +2076,9 @@ NSIndexPath *selected;
                 [self addPlayback:item indexPath:selected position:0 shuffle:NO];
             }
         }
+        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play in shuffle mode", nil)]){
+            [self addPlayback:item indexPath:selected position:0 shuffle:YES];
+        }
         else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue", nil)]){
             [self addQueue:item indexPath:selected];
         }
@@ -2285,6 +2289,7 @@ NSIndexPath *selected;
          }
      }];
 }
+
 -(void)exploreItem:(NSDictionary *)item{
     self.detailViewController=nil;
     mainMenu *MenuItem=self.detailItem;
