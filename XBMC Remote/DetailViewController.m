@@ -2566,7 +2566,11 @@ NSIndexPath *selected;
     else{
         [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
-                [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                NSString *key=[mainFields objectForKey:@"row8"];
+                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]){ 
+                    key=@"directory";
+                }
+                [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil){
                         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                         id optionsParam = nil;
@@ -2592,7 +2596,7 @@ NSIndexPath *selected;
                     else {
                         UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
                         [queuing stopAnimating];
-                        //                    NSLog(@"secondo errore %@",methodError);
+//                                            NSLog(@"secondo errore %@",methodError);
                     }
                 }];
             }
