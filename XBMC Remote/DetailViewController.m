@@ -763,17 +763,18 @@
                 if ([[parameters objectForKey:@"isMusicPlaylist"] boolValue] == YES){ // NOTE: sheetActions objects must be moved outside from there
                     if ([sheetActions isKindOfClass:[NSMutableArray class]]){
                         [sheetActions removeAllObjects];
+                        [sheetActions addObject:NSLocalizedString(@"Queue after current", nil)];
+                        [sheetActions addObject:NSLocalizedString(@"Queue", nil)];
+                        [sheetActions addObject:NSLocalizedString(@"Play", nil)];
                         [sheetActions addObject:NSLocalizedString(@"Play in shuffle mode", nil)];
-                        if ([[[item objectForKey:@"file"] pathExtension] isEqualToString:@"xsp"]){
-                            if ([AppDelegate instance].serverVersion > 11){
-                                [sheetActions addObject:NSLocalizedString(@"Play in party mode", nil)];
-                            }
+                        if ([[[item objectForKey:@"file"] pathExtension] isEqualToString:@"xsp"] && [AppDelegate instance].serverVersion > 11){
+                            [sheetActions addObject:NSLocalizedString(@"Play in party mode", nil)];
                         }
-                        else{
-                            [sheetActions addObject:NSLocalizedString(@"Play", nil)];
-                            [sheetActions addObject:NSLocalizedString(@"Queue", nil)];
-                            [sheetActions addObject:NSLocalizedString(@"Queue after current", nil)];
-                        }
+//                        else{
+//                            [sheetActions addObject:NSLocalizedString(@"Play", nil)];
+//                            [sheetActions addObject:NSLocalizedString(@"Queue", nil)];
+//                            [sheetActions addObject:NSLocalizedString(@"Queue after current", nil)];
+//                        }
                         [sheetActions addObject:NSLocalizedString(@"Show Content", nil)];
                     }
                 }
