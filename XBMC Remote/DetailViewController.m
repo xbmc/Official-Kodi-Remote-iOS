@@ -2594,37 +2594,37 @@ NSIndexPath *selected;
                      callMethod:@"Player.SetPartymode"
                      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", [NSNumber numberWithBool:NO], @"partymode", nil]
                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
-                         [self PlaylistAddAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                   [mainFields objectForKey:@"playlistid"], @"playlistid",
-                                                   [NSDictionary dictionaryWithObjectsAndKeys:
-                                                    [item objectForKey:[mainFields objectForKey:@"row8"]], key, nil], @"item",
-                                                   nil]
-                                   playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                   [NSDictionary dictionaryWithObjectsAndKeys:
-                                                    [mainFields objectForKey:@"playlistid"], @"playlistid",
-                                                    [NSNumber numberWithInt: pos], @"position",
-                                                    nil], @"item",
-                                                   optionsValue, optionsParam,
-                                                   nil]
-                                        indexPath:indexPath
-                                             cell:cell];
+                         [self playlistAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [item objectForKey:[mainFields objectForKey:@"row8"]], key, nil], @"item",
+                                                nil]
+                                playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                                 [NSNumber numberWithInt: pos], @"position",
+                                                 nil], @"item",
+                                                optionsValue, optionsParam,
+                                                nil]
+                                     indexPath:indexPath
+                                          cell:cell];
                      }];
                 }
                 else{
-                    [self PlaylistAddAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
-                                              [mainFields objectForKey:@"playlistid"], @"playlistid",
-                                              [NSDictionary dictionaryWithObjectsAndKeys:
-                                               [item objectForKey:[mainFields objectForKey:@"row8"]], key, nil], @"item",
-                                              nil]
-                              playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
-                                              [NSDictionary dictionaryWithObjectsAndKeys:
-                                               [mainFields objectForKey:@"playlistid"], @"playlistid",
-                                               [NSNumber numberWithInt: pos], @"position",
-                                               nil], @"item",
-                                              optionsValue, optionsParam,
-                                              nil]
-                                   indexPath:indexPath
-                                        cell:cell];
+                    [self playlistAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
+                                           [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                           [NSDictionary dictionaryWithObjectsAndKeys:
+                                            [item objectForKey:[mainFields objectForKey:@"row8"]], key, nil], @"item",
+                                           nil]
+                           playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
+                                           [NSDictionary dictionaryWithObjectsAndKeys:
+                                            [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                            [NSNumber numberWithInt: pos], @"position",
+                                            nil], @"item",
+                                           optionsValue, optionsParam,
+                                           nil]
+                                indexPath:indexPath
+                                     cell:cell];
                 }
             }
             else {
@@ -2636,7 +2636,7 @@ NSIndexPath *selected;
     }
 }
 
--(void)PlaylistAddAndPlay:(NSDictionary *)playlistParams playbackParams:(NSDictionary *)playbackParams indexPath:(NSIndexPath *)indexPath cell:(id)cell{
+-(void)playlistAndPlay:(NSDictionary *)playlistParams playbackParams:(NSDictionary *)playbackParams indexPath:(NSIndexPath *)indexPath cell:(id)cell{
     [jsonRPC callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
