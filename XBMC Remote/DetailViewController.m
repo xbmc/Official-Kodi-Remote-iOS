@@ -2577,39 +2577,55 @@ NSIndexPath *selected;
         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
     }
     else{
+        id optionsParam = nil;
+        id optionsValue = nil;
+        if ([AppDelegate instance].serverVersion > 11){
+            optionsParam = @"options";
+            optionsValue = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:shuffled], @"shuffled", nil];
+        }
         [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
                 NSString *key=[mainFields objectForKey:@"row8"];
                 if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]){ 
                     key=@"directory";
                 }
-                [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                    if (error==nil && methodError==nil){
-                        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                        id optionsParam = nil;
-                        id optionsValue = nil;
-                        if ([AppDelegate instance].serverVersion > 11){
-                            optionsParam = @"options";
-                            optionsValue = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:shuffled], @"shuffled", nil];
-                        }
-                        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: pos], @"position", nil], @"item", optionsValue, optionsParam, nil] index:indexPath];
-//                        [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: pos], @"position", nil], @"item", optionsValue, optionsParam, nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//                            [queuing stopAnimating];
-//                            if (error==nil && methodError==nil){
-//                                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-//                                [self showNowPlaying];
-//                            }
-////                            else {
-////                                NSLog(@"terzo errore %@",methodError);
-////                            }
-//                        }];
-                    }
-                    else {
-                        UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
-                        [queuing stopAnimating];
-//                                            NSLog(@"secondo errore %@",methodError);
-                    }
-                }];
+                if (shuffled && [AppDelegate instance].serverVersion > 11){
+                    [jsonRPC
+                     callMethod:@"Player.SetPartymode"
+                     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", [NSNumber numberWithBool:NO], @"partymode", nil]
+                     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
+                         [self PlaylistAddAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [item objectForKey:[mainFields objectForKey:@"row8"]], key, nil], @"item",
+                                                   nil]
+                                   playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                                    [NSNumber numberWithInt: pos], @"position",
+                                                    nil], @"item",
+                                                   optionsValue, optionsParam,
+                                                   nil]
+                                        indexPath:indexPath
+                                             cell:cell];
+                     }];
+                }
+                else{
+                    [self PlaylistAddAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
+                                              [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                              [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [item objectForKey:[mainFields objectForKey:@"row8"]], key, nil], @"item",
+                                              nil]
+                              playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                               [NSNumber numberWithInt: pos], @"position",
+                                               nil], @"item",
+                                              optionsValue, optionsParam,
+                                              nil]
+                                   indexPath:indexPath
+                                        cell:cell];
+                }
             }
             else {
                 UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
@@ -2618,6 +2634,20 @@ NSIndexPath *selected;
             }
         }];
     }
+}
+
+-(void)PlaylistAddAndPlay:(NSDictionary *)playlistParams playbackParams:(NSDictionary *)playbackParams indexPath:(NSIndexPath *)indexPath cell:(id)cell{
+    [jsonRPC callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error==nil && methodError==nil){
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+            [self playerOpen:playbackParams index:indexPath];
+        }
+        else {
+            UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+            [queuing stopAnimating];
+            //                                            NSLog(@"secondo errore %@",methodError);
+        }
+    }];
 }
 
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
