@@ -667,7 +667,7 @@ NSMutableArray *hostRightMenuItems;
                        [NSNumber numberWithInt:0], @"playlistid",
                        @"file",@"row8",
                        @"file", @"row9",
-                       //                       @"filetype", @"row10",
+                       @"filetype", @"row10",
                        @"type", @"row11",
                        //                       @"filetype",@"row11",
                        nil],
