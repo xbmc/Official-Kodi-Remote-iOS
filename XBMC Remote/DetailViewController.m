@@ -458,7 +458,7 @@
         }
         self.searchDisplayController.searchBar.tintColor = collectionViewSearchBarColor;
         searchBarColor = collectionViewSearchBarColor;
-        [bar.viewLabel setText:NSLocalizedString(@"View: Wall", nil)];
+        [bar.viewLabel setText:currentCollectionViewName];
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
     }
     else{
@@ -550,9 +550,11 @@
     enableCollectionView = newEnableCollectionView;
     if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){
         recentlyAddedView = TRUE;
+        currentCollectionViewName = NSLocalizedString(@"View: Fanart", nil);
     }
     else{
         recentlyAddedView = FALSE;
+        currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
     }
     [activeLayoutView setContentOffset:[(UITableView *)activeLayoutView contentOffset] animated:NO];
     self.navigationItem.title = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"label"];
@@ -826,14 +828,6 @@
             [weakSelf startRetrieveDataWithRefresh:YES];
         }];
         [collectionView setShowsPullToRefresh:enableDiskCache];
-//        [dataList setDelegate:nil];
-//        [dataList setDataSource:nil];
-//        [collectionView addSubview:self.searchDisplayController.searchBar];
-//        self.searchDisplayController.searchBar.tintColor = collectionViewSearchBarColor;
-//        UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
-//        [bar.viewLabel setText:NSLocalizedString(@"View: Wall", nil)];
-//        [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
-//        searchBarColor = collectionViewSearchBarColor;
         collectionView.alwaysBounceVertical = YES;
         [detailView addSubview:collectionView];
         NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
@@ -3717,8 +3711,10 @@ NSIndexPath *selected;
     frame.origin.x = viewWidth;
     dataList.frame=frame;
     activeLayoutView = dataList;
+    currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
     if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){
         recentlyAddedView = TRUE;
+        currentCollectionViewName = NSLocalizedString(@"View: Fanart", nil);
     }
     else{
         recentlyAddedView = FALSE;
@@ -3821,9 +3817,11 @@ NSIndexPath *selected;
         enableCollectionView = [self collectionViewIsEnabled];
         if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){
             recentlyAddedView = TRUE;
+            currentCollectionViewName = NSLocalizedString(@"View: Fanart", nil);
         }
         else{
             recentlyAddedView = FALSE;
+            currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
         }
         [UIView animateWithDuration:0.2
                          animations:^{

@@ -100,6 +100,7 @@
     BOOL recentlyAddedView;
     BOOL enableDiskCache;
     BOOL blackTableSeparator;
+    NSString *currentCollectionViewName;
 }
 
 - (id)initWithFrame:(CGRect)frame;
