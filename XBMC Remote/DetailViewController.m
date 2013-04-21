@@ -878,12 +878,16 @@
         static NSString *identifier = @"posterCell";
         PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
         [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
+        [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFill];
         if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"] || [[item objectForKey:@"family"] isEqualToString:@"genreid"]){
             if (![stringURL isEqualToString:@""]){
                 displayThumb=stringURL;
             }
         }
         if (![stringURL isEqualToString:@""]){
+            if ([[item objectForKey:@"family"] isEqualToString:@"channelid"]){
+                [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
+            }
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellGridWidth, cellGridHeight)];
         }
         else {
@@ -1369,6 +1373,7 @@ int originYear = 0;
     frame.origin.x=Menuitem.originYearDuration;
     rating.frame=frame;
     [rating setText:[item objectForKey:@"rating"]];
+    [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFill];
     if (!albumView && !episodesView){
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=defaultThumb;
@@ -1385,6 +1390,9 @@ int originYear = 0;
             runtimeyear.hidden = NO;
         }
         if (![stringURL isEqualToString:@""]){
+            if ([[item objectForKey:@"family"] isEqualToString:@"channelid"]){
+                [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
+            }
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (blackTableSeparator == YES && [AppDelegate instance].obj.preferTVPosters == NO && [indexPath isEqual:[NSIndexPath indexPathForRow:0 inSection:0]]){
                     UIColor *barColor = [utils darkerColorForColor:[utils averageColor:image inverse:NO]];
