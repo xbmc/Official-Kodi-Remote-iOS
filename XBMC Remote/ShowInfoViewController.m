@@ -402,6 +402,13 @@ int count=0;
     [embedVideoActivityIndicator stopAnimating];
 }
 
+-(void)loadUrl:(id)sender{
+    [trailerView stopLoading];
+    [embedVideoActivityIndicator startAnimating];
+    [(UIButton *)sender setHidden:YES];
+    [trailerView loadHTMLString:embedVideo baseURL:nil];
+}
+
 #pragma mark - ActionSheet
 
 -(void)showActionSheet {
@@ -1136,9 +1143,11 @@ int h=0;
     label6.frame = frame;
     int startY = label6.frame.origin.y - label6.frame.size.height + size;
     if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
+        BOOL isYoutubeVideoLink = NO;
         if ([[item objectForKey:@"trailer"] length]> 0){
             NSString *param = nil;
             embedVideoURL = nil;
+            
             if (([[item objectForKey:@"trailer"] rangeOfString:@"plugin://plugin.video.youtube"].location!= NSNotFound)){
                 NSString *url = [[item objectForKey:@"trailer"] lastPathComponent];
                 NSRange start = [url rangeOfString:@"videoid="];
@@ -1161,6 +1170,7 @@ int h=0;
                         }
                     }
                     embedVideoURL = [NSString stringWithFormat:@"http://www.youtube.com/embed/%@?&hd=1&showinfo=0&autohide=1&rel=0", param];
+                    isYoutubeVideoLink = YES;
                 }
             }
             else{
@@ -1210,13 +1220,32 @@ int h=0;
                                           <iframe width=\"100%%\" height=\"%dpx\" src=\"%@\" frameborder=\"0\" allowfullscreen></iframe>\
                                           </body>\
                                           </html>", videoHeight/2, videoHeight, embedVideoURL];
-                
-                [trailerView loadHTMLString:embedVideo baseURL:nil];
+                if (isYoutubeVideoLink){
+                    [trailerView loadHTMLString:embedVideo baseURL:nil];
+                }
+                else{
+                    NSString *blackPage = @"\
+                    <html>\
+                    <head>\
+                    <style type=\"text/css\">\
+                    body {background-color:#000; margin:0;}\
+                    </style>\
+                    </head>\
+                    <body>\
+                    </body>\
+                    </html>";
+                    [trailerView loadHTMLString:blackPage baseURL:nil];
+                    UIButton *playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                    UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
+                    [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
+                    [playTrailerButton setFrame:CGRectMake(0, 0, trailerView.frame.size.width, trailerView.frame.size.height)];
+                    [playTrailerButton addTarget:self action:@selector(loadUrl:) forControlEvents:UIControlEventTouchUpInside];
+                    [trailerView addSubview:playTrailerButton];
+                }
                 embedVideoActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
                 embedVideoActivityIndicator.hidesWhenStopped = YES;
-                embedVideoActivityIndicator.center = CGPointMake(clearLogoWidth/2, videoHeight/2);
+                embedVideoActivityIndicator.center = CGPointMake(clearLogoWidth / 2, videoHeight / 2);
                 [trailerView addSubview:embedVideoActivityIndicator];
-                [embedVideoActivityIndicator startAnimating];
                 [scrollView addSubview:trailerView];
                 startY = startY + videoHeight - 10;
             }
@@ -1655,8 +1684,6 @@ int h=0;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-//    [trailerView stopLoading];
-//    [trailerView loadHTMLString:embedVideo baseURL:nil];
 }
 
 -(void)dealloc{
