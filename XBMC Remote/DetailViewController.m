@@ -761,25 +761,7 @@
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults synchronize];
             if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO){
-                NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem mainParameters] objectAtIndex:choosedTab]];
-                if ([[parameters objectForKey:@"isMusicPlaylist"] boolValue] == YES){ // NOTE: sheetActions objects must be moved outside from there
-                    if ([sheetActions isKindOfClass:[NSMutableArray class]]){
-                        [sheetActions removeAllObjects];
-                        [sheetActions addObject:NSLocalizedString(@"Queue after current", nil)];
-                        [sheetActions addObject:NSLocalizedString(@"Queue", nil)];
-                        [sheetActions addObject:NSLocalizedString(@"Play", nil)];
-                        [sheetActions addObject:NSLocalizedString(@"Play in shuffle mode", nil)];
-                        if ([[[item objectForKey:@"file"] pathExtension] isEqualToString:@"xsp"] && [AppDelegate instance].serverVersion > 11){
-                            [sheetActions addObject:NSLocalizedString(@"Play in party mode", nil)];
-                        }
-//                        else{
-//                            [sheetActions addObject:NSLocalizedString(@"Play", nil)];
-//                            [sheetActions addObject:NSLocalizedString(@"Queue", nil)];
-//                            [sheetActions addObject:NSLocalizedString(@"Queue after current", nil)];
-//                        }
-                        [sheetActions addObject:NSLocalizedString(@"Show Content", nil)];
-                    }
-                }
+                sheetActions = [self checkMusicPlaylists:sheetActions item:item params:[self indexKeyedMutableDictionaryFromArray:[[MenuItem mainParameters] objectAtIndex:choosedTab]]];
                 selected=indexPath;
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
@@ -788,6 +770,23 @@
             }
         }
     }
+}
+
+-(NSMutableArray *)checkMusicPlaylists:(NSMutableArray *)sheetActions item:(NSDictionary *)item params:(NSMutableDictionary *)parameters{
+    if ([[parameters objectForKey:@"isMusicPlaylist"] boolValue] == YES){ // NOTE: sheetActions objects must be moved outside from there
+        if ([sheetActions isKindOfClass:[NSMutableArray class]]){
+            [sheetActions removeAllObjects];
+            [sheetActions addObject:NSLocalizedString(@"Queue after current", nil)];
+            [sheetActions addObject:NSLocalizedString(@"Queue", nil)];
+            [sheetActions addObject:NSLocalizedString(@"Play", nil)];
+            [sheetActions addObject:NSLocalizedString(@"Play in shuffle mode", nil)];
+            if ([[[item objectForKey:@"file"] pathExtension] isEqualToString:@"xsp"] && [AppDelegate instance].serverVersion > 11){
+                [sheetActions addObject:NSLocalizedString(@"Play in party mode", nil)];
+            }
+            [sheetActions addObject:NSLocalizedString(@"Show Content", nil)];
+        }
+    }
+    return sheetActions;
 }
 
 #pragma mark - UICollectionView FlowLayout deleagate
@@ -2004,7 +2003,7 @@ NSIndexPath *selected;
             if ([[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
                 [[[self.detailItem sheetActions] objectAtIndex:choosedTab] removeObject:NSLocalizedString(@"Play Trailer", nil)];
             }
-            NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
+            NSMutableArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
             int numActions=[sheetActions count];
             if (numActions){
                 NSDictionary *item = nil;
@@ -2017,17 +2016,14 @@ NSIndexPath *selected;
                 else{                    
                     if (enableCollectionView){
                         [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-//                        item = [self.richResults objectAtIndex:indexPath.row];
                     }
                     else{
                         [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-//                        item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-
                     }
                     item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-
-
                 }
+                 sheetActions = [self checkMusicPlaylists:sheetActions item:item params:[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]]];
+                numActions=[sheetActions count];
 //                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
 //                    return;
 //                }                
