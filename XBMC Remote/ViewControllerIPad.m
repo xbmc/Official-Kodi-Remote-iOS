@@ -112,6 +112,7 @@
         [AppDelegate instance].serverOnLine=YES;
         [AppDelegate instance].serverName = infoText;
 
+        [volumeSliderView startTimer];
         UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_on"]];
@@ -465,8 +466,7 @@
     volumeSliderView.frame=frame;
     CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * 0.5);
     volumeSliderView.transform = trans;
-    [volumeSliderView startTimer];
-    [self.view addSubview:volumeSliderView]; 
+    [self.view addSubview:volumeSliderView];
     
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(428, 966, 190, 33)]; //225
     [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];

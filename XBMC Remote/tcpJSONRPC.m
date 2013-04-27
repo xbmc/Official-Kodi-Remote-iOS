@@ -20,8 +20,16 @@ NSOutputStream	*outStream;
 -(id)init{
     if ((self = [super init])){
         heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleSystemOnSleep:)
+                                                     name: @"System.OnSleep"
+                                                   object: nil];
     }
     return self;
+}
+
+-(void)handleSystemOnSleep:(NSNotification *)sender{
+    [AppDelegate instance].serverTCPConnectionOpen = NO;
 }
 
 - (void)startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port{
@@ -45,6 +53,7 @@ NSOutputStream	*outStream;
 }
 
 -(void)stopNetworkCommunication{
+    [AppDelegate instance].serverTCPConnectionOpen = NO;
     NSStreamStatus current_status =[inStream streamStatus];
     if (current_status == NSStreamStatusOpen){
         [inStream close];
@@ -135,6 +144,9 @@ NSOutputStream	*outStream;
         }
         return;
     }
+    if ([AppDelegate instance].serverTCPConnectionOpen == YES){
+        return;
+    }
     inCheck = TRUE;
     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
     NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
@@ -190,6 +202,7 @@ NSOutputStream	*outStream;
 
 - (void)dealloc{
     inStream = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 //    outStream = nil;
 }
 
