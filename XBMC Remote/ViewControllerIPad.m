@@ -370,13 +370,6 @@
     [self.view addSubview:virtualKeyboard];
     firstRun=YES;
     [AppDelegate instance].obj=[GlobalData getInstance]; 
-    
-    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
-    self.serverPickerPopover = [[UIPopoverController alloc] 
-                                initWithContentViewController:[AppDelegate instance].navigationController];
-    self.serverPickerPopover.delegate = self;
-    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
 
     int cellHeight = 56;
     int infoHeight = 22;
@@ -540,6 +533,14 @@
                                              selector: @selector(handleTcpJSONRPCChangeServerStatus:)
                                                  name: @"TcpJSONRPCChangeServerStatus"
                                                object: nil];
+    
+    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
+    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
+    self.serverPickerPopover = [[UIPopoverController alloc]
+                                initWithContentViewController:[AppDelegate instance].navigationController];
+    self.serverPickerPopover.delegate = self;
+    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
+
 }
 
 -(void)handleTcpJSONRPCShowSetup:(NSNotification *)sender{
