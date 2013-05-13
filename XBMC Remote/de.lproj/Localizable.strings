@@ -30,7 +30,7 @@
 "Music Videos" = "Musikvideos";
 "Added Movies" = "Hinzugefügte Filme";
 "More (%d)" = "Mehr (%d)";
-"Movie Sets" = "Movie Sets";
+"Movie Sets" = "Filmreihen";
 
 "Albums" = "Alben";
 "Artists" = "Künstler";
@@ -181,15 +181,15 @@
 "Scrubbing 0.05" = "Scrubbing.Geschwindigkeit: Sehr fein";
 "Scrubbing 0.025" = "Scrubbing.Geschwindigkeit: Super fein";
 
-"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Clearing app disk cache...\n\nPlease wait, since this may take a while";
-"Pull to sync with XBMC..." = "Pull to sync with XBMC...";
-"Release to sync with XBMC..." = "Release to sync with XBMC...";
-"Syncing..." = "Syncing...";
-"Last sync" = "Last sync";
-"View: Wall" = "View: Wall";
-"View: List" = "View: List";
-"View: Fanart" = "View: Fanart";
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Lösche App-Cache...\n\nBitte warten. Dies kann einen Moment dauern...";
+"Pull to sync with XBMC..." = "Herunterziehen zum Sync mit XBMC...";
+"Release to sync with XBMC..." = "Loslassen zum Sync mit XBMC...";
+"Syncing..." = "Synchronisierung...";
+"Last sync" = "Letzte Synchronisierung";
+"View: Wall" = "Galerie";
+"View: List" = "Liste";
+"View: Fanart" = "Fanart";
 
-"Show Content" = "Show Content";
-"Play in party mode" = "Play in party mode";
-"Play in shuffle mode" = "Play in shuffle mode";
+"Show Content" = "Zeige Inhalt";
+"Play in party mode" = "Spiele im Partymodus";
+"Play in shuffle mode" = "Spiele im Shuffle-Modus";
