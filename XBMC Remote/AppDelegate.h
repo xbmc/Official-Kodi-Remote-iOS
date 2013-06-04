@@ -53,6 +53,7 @@
 @property (nonatomic, retain) NSMutableArray *nowPlayingMenuItems;
 @property (nonatomic, retain) NSMutableArray *remoteControlMenuItems;
 @property (nonatomic, assign) BOOL serverOnLine;
+@property (nonatomic, assign) BOOL serverTCPConnectionOpen;
 @property (nonatomic, assign) int serverVersion;
 @property (nonatomic, assign) int serverMinorVersion;
 @property (nonatomic, assign) int serverVolume;

@@ -35,8 +35,6 @@
     VolumeSliderView *volumeSliderView;
     DSJSONRPC *jsonRPC;
     BOOL firstRun;
-    NSDictionary *checkServerParams;
-    NSTimer* timer;
     NSTimer* extraTimer;
     UIPopoverController *_serverPickerPopover;
     HostManagementViewController *_hostPickerViewController;

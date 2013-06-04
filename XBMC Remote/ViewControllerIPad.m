@@ -105,71 +105,18 @@
     [[AppDelegate instance] wake:macAddress];
 }
 
--(void)checkServer{
-    jsonRPC=nil;
-    if ([[AppDelegate instance].obj.serverIP length]==0){
-        if (firstRun){
-            [self showSetup:YES];
-        }
-        if ([AppDelegate instance].serverOnLine){
-            [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
-        }
-        return;
-    }
-    NSString *userPassword=[[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    [jsonRPC 
-     callMethod:@"Application.GetProperties" 
-     withParameters:checkServerParams
-     withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-         if (error==nil && methodError==nil){
-             [AppDelegate instance].serverVolume = [[methodResult objectForKey:@"volume"] intValue];
-             if (![AppDelegate instance].serverOnLine){
-                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                     [volumeSliderView startTimer];
-                     NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
-                     [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
-                     [AppDelegate instance].serverMinorVersion=[[serverInfo objectForKey:@"minor"] intValue];
-                     NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
-                     [self changeServerStatus:YES infoText:infoTitle];
-                     [self showSetup:NO];
-                 }
-                 else{
-                     if ([AppDelegate instance].serverOnLine){
-                         [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
-                     }
-                     if (firstRun){
-                         [self showSetup:YES];
-                     }
-                 }
-             }
-         }
-         else {
-             //             NSLog(@"ERROR %@ %@",error, methodError);
-             if ([AppDelegate instance].serverOnLine){
-                 //                 NSLog(@"mi spengo");
-                 [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
-             }
-             if (firstRun){
-                 [self showSetup:YES];
-             }
-         }
-     }];
-    jsonRPC=nil;
-}
-
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText{
     if (status==YES){
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object: nil];
+        [AppDelegate instance].serverOnLine=YES;
+        [AppDelegate instance].serverName = infoText;
+
+        [volumeSliderView startTimer];
         UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_on"]];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object: nil];
-//        xbmcLogo.alpha = .9f;
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        [AppDelegate instance].serverOnLine=YES;
         int n = [menuViewController.tableView numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -185,16 +132,15 @@
         }
     }
     else{
-        if (self.tcpJSONRPCconnection != nil){
-            [tcpJSONRPCconnection stopNetworkCommunication];
-        }
+        [self.tcpJSONRPCconnection stopNetworkCommunication];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:nil];
+        [AppDelegate instance].serverOnLine=NO;
+        [AppDelegate instance].serverName = infoText;
+
         UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_off"]];
-//        xbmcLogo.alpha = .4f;
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:nil];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        [AppDelegate instance].serverOnLine=NO;
         int n = [menuViewController.tableView numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -424,13 +370,6 @@
     [self.view addSubview:virtualKeyboard];
     firstRun=YES;
     [AppDelegate instance].obj=[GlobalData getInstance]; 
-    
-    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
-    self.serverPickerPopover = [[UIPopoverController alloc] 
-                                initWithContentViewController:[AppDelegate instance].navigationController];
-    self.serverPickerPopover.delegate = self;
-    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
 
     int cellHeight = 56;
     int infoHeight = 22;
@@ -519,8 +458,8 @@
     frame.origin.y=self.view.frame.size.height - 170;
     volumeSliderView.frame=frame;
     CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * 0.5);
-    volumeSliderView.transform = trans;    
-    [self.view addSubview:volumeSliderView]; 
+    volumeSliderView.transform = trans;
+    [self.view addSubview:volumeSliderView];
     
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(428, 966, 190, 33)]; //225
     [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
@@ -548,10 +487,6 @@
     frame = self.nowPlayingController.ProgressSlider.frame;
     frame.origin.x = self.nowPlayingController.ProgressSlider.frame.origin.x + 300;
     self.nowPlayingController.ProgressSlider.frame=frame;
-    
-    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
-    timer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
-//    [self checkServer];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
@@ -588,6 +523,37 @@
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleTcpJSONRPCShowSetup:)
+                                                 name: @"TcpJSONRPCShowSetup"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleTcpJSONRPCChangeServerStatus:)
+                                                 name: @"TcpJSONRPCChangeServerStatus"
+                                               object: nil];
+    
+    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
+    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
+    self.serverPickerPopover = [[UIPopoverController alloc]
+                                initWithContentViewController:[AppDelegate instance].navigationController];
+    self.serverPickerPopover.delegate = self;
+    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
+
+}
+
+-(void)handleTcpJSONRPCShowSetup:(NSNotification *)sender{
+    BOOL showValue = [[[sender userInfo] valueForKey:@"showSetup"] boolValue];
+    if ((showValue && firstRun) || !showValue){
+        [self showSetup:showValue];
+    }
+}
+
+-(void)handleTcpJSONRPCChangeServerStatus:(NSNotification*) sender{
+    BOOL statusValue = [[[sender userInfo] valueForKey:@"status"] boolValue];
+    NSString *message = [[sender userInfo] valueForKey:@"message"];
+    [self changeServerStatus:statusValue infoText:message];
 }
 
 - (void)handleStackScrollOnScreen: (NSNotification*) sender{
@@ -615,20 +581,22 @@
         [menuViewController setLastSelected:-1];
     }
     [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
-//    [self checkServer];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
 }
 
 - (void) handleWillResignActive: (NSNotification*) sender{
-    [tcpJSONRPCconnection stopNetworkCommunication];
+    [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
 
 - (void) handleDidEnterBackground: (NSNotification*) sender{
-    [tcpJSONRPCconnection stopNetworkCommunication];
+    [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
     if ([AppDelegate instance].serverOnLine == YES){
+        if (self.tcpJSONRPCconnection == nil){
+            self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
+        }
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
     }
 }

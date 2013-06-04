@@ -7,8 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DSJSONRPC.h"
 
-@interface tcpJSONRPC : NSObject <NSStreamDelegate> 
+@interface tcpJSONRPC : NSObject <NSStreamDelegate> {
+    BOOL inCheck;
+    DSJSONRPC *jsonRPC;
+    NSTimer* heartbeatTimer;
+}
+
 - (void)startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port;
 - (void)stopNetworkCommunication;
 - (NSStreamStatus)currentSocketInStatus;

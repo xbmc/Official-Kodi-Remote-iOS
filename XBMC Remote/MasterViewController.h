@@ -18,17 +18,14 @@
 @class AppInfoViewController;
 @class HostManagementViewController;
 
-
 @interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>{
     IBOutlet UITableView *menuList;
     IBOutlet UITableViewCell *resultMenuCell;
     DSJSONRPC *jsonRPC;
-    NSTimer* timer;
     UIButton *xbmcInfo;
     UIButton *xbmcLogo;
     UIButton *powerButton;
     NSDictionary *checkServerParams;
-    BOOL inCheck;
     NSIndexPath *storeServerSelection;
     AppInfoViewController *appInfoView;
     HostManagementViewController *hostManagementViewController;

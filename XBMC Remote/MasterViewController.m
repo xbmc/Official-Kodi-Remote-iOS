@@ -46,10 +46,11 @@
     NSDictionary *dataDict = [NSDictionary dictionaryWithObject:infoText forKey:@"infoText"];
     if (status==YES){
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:dataDict];
         [AppDelegate instance].serverOnLine = YES;
         [AppDelegate instance].serverName = infoText;
+        
         itemIsActive = NO;
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:dataDict];
         UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
         [title setText:infoText];
@@ -80,13 +81,12 @@
 //         }];
     }
     else{
-        if (self.tcpJSONRPCconnection != nil){
-            [tcpJSONRPCconnection stopNetworkCommunication];
-        }
+        [self.tcpJSONRPCconnection stopNetworkCommunication];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:dataDict];
         [AppDelegate instance].serverOnLine = NO;
         [AppDelegate instance].serverName = infoText;
+        
         itemIsActive = NO;
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:dataDict];
         UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
         [title setText:infoText];
@@ -109,50 +109,6 @@
 
 -(void)wakeUp:(NSString *)macAddress{
     [[AppDelegate instance] wake:macAddress];
-}
-
--(void)checkServer{
-    if (inCheck) return;
-    [AppDelegate instance].obj=[GlobalData getInstance];  
-    if ([[AppDelegate instance].obj.serverIP length]==0){
-        return;
-    }
-    inCheck = TRUE;
-    NSString *userPassword=[[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
-    jsonRPC=nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    [jsonRPC 
-     callMethod:@"Application.GetProperties" 
-     withParameters:checkServerParams
-     withTimeout:SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-         inCheck = FALSE;
-         if (error==nil && methodError==nil){
-             [AppDelegate instance].serverVolume = [[methodResult objectForKey:@"volume"] intValue];
-             if (![AppDelegate instance].serverOnLine){
-                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                     NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
-                     [AppDelegate instance].serverVersion=[[serverInfo objectForKey:@"major"] intValue];
-                     [AppDelegate instance].serverMinorVersion=[[serverInfo objectForKey:@"minor"] intValue];
-                     NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@", [AppDelegate instance].obj.serverDescription, [serverInfo objectForKey:@"major"], [serverInfo objectForKey:@"minor"], [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
-                     [self changeServerStatus:YES infoText:infoTitle];
-                 }
-                 else{
-                     if ([AppDelegate instance].serverOnLine){
-                         [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
-                     }
-                 }
-             }
-         }
-         else {
-             [AppDelegate instance].serverVolume = -1;
-             if ([AppDelegate instance].serverOnLine){
-                 [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
-             }
-         }
-     }];
-    jsonRPC=nil;
 }
 
 #pragma mark - Table view methods & data source
@@ -352,16 +308,7 @@
 
 #pragma mark - LifeCycle
 
--(void)viewWillAppear:(BOOL)animated{
-    if (timer == nil){
-        timer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
-//        [self checkServer];
-    }
-}
-
 -(void)viewWillDisappear:(BOOL)animated{
-    [timer invalidate]; 
-    timer=nil;
     jsonRPC=nil;
 }
 
@@ -400,27 +347,39 @@
                                              selector: @selector(handleXBMCServerHasChanged:)
                                                  name: @"XBMCServerHasChanged"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleTcpJSONRPCChangeServerStatus:)
+                                                 name: @"TcpJSONRPCChangeServerStatus"
+                                               object: nil];
     
     [self.view setBackgroundColor:[UIColor colorWithRed:.141f green:.141f blue:.141f alpha:1]];
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
+-(void)handleTcpJSONRPCChangeServerStatus:(NSNotification*) sender{
+    BOOL statusValue = [[[sender userInfo] valueForKey:@"status"] boolValue];
+    NSString *message = [[sender userInfo] valueForKey:@"message"];
+    [self changeServerStatus:statusValue infoText:message];
+}
+
 - (void) handleWillResignActive: (NSNotification*) sender{
-    [tcpJSONRPCconnection stopNetworkCommunication];
+    [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
 
 - (void) handleDidEnterBackground: (NSNotification*) sender{
-    [tcpJSONRPCconnection stopNetworkCommunication];
+    [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
     if ([AppDelegate instance].serverOnLine == YES){
+        if (self.tcpJSONRPCconnection == nil){
+            self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
+        }
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
     }
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    inCheck = NO;
     int thumbWidth = 320;
     int tvshowHeight = 61;
     if ([AppDelegate instance].obj.preferTVPosters==YES){
@@ -431,7 +390,6 @@
     menuItem.thumbWidth=thumbWidth;
     menuItem.rowHeight=tvshowHeight;
     [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
-//    [self checkServer];
 }
 
 -(void)dealloc{

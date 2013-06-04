@@ -99,8 +99,18 @@
             frame_tmp = volumeSlider.frame;
             [volumeSlider setFrame:CGRectMake(frame_tmp.origin.x, 33 + minusButton.frame.size.width, frame_tmp.size.width, frame_tmp.size.height)];
         }
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleApplicationOnVolumeChanged:)
+                                                     name: @"Application.OnVolumeChanged"
+                                                   object: nil];
     }
     return self;
+}
+
+-(void)handleApplicationOnVolumeChanged:(NSNotification *)sender{
+    [AppDelegate instance].serverVolume = [[[[[sender userInfo] valueForKey:@"params"] objectForKey:@"data"] objectForKey:@"volume"] intValue];
+    volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
+    volumeSlider.value = [AppDelegate instance].serverVolume;
 }
 
 -(void)changeServerVolume:(id)sender{
@@ -118,7 +128,9 @@
 }
 
 -(void)startTimer{
-    [self stopTimer]; 
+    volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
+    volumeSlider.value = [AppDelegate instance].serverVolume;
+    [self stopTimer];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(volumeInfo) userInfo:nil repeats:YES];
 }
 
@@ -130,6 +142,9 @@
 }
 
 -(void)volumeInfo{
+    if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+        return;
+    }
     if ([AppDelegate instance].serverVolume > -1){
         volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
         volumeSlider.value = [AppDelegate instance].serverVolume;
@@ -181,6 +196,10 @@ NSInteger action;
     [AppDelegate instance].serverVolume = volumeSlider.value;
     volumeLabel.text=[NSString  stringWithFormat:@"%.0f", volumeSlider.value];
     [self changeServerVolume:nil];
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 @end
