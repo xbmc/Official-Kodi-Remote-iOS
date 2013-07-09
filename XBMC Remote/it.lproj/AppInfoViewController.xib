@@ -52,7 +52,7 @@ per iOS       </string>
                     <color key="shadowColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="v1.3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="11">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="v1.3.1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="11">
                     <rect key="frame" x="197" y="237" width="37" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
@@ -68,10 +68,10 @@ per iOS       </string>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" canCancelContentTouches="NO" editable="NO" id="9">
                             <rect key="frame" x="0.0" y="0.0" width="307" height="180"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            <mutableString key="text">Official XBMC Remote app utilizza immagini provenienti da http://fanart.tv, scaricare ed eseguire l'add-on XBMC "artwork downloader" per sbloccare la bellezza di illustrazioni in più!
+                            <string key="text">Official XBMC Remote app utilizza immagini provenienti da http://fanart.tv, scaricare ed eseguire l'add-on XBMC "artwork downloader" per sbloccare la bellezza di illustrazioni in più!
  
 XBMC logo, Zappy mascotte e le icone sono proprietà di XBMC
-http://www.xbmc.org/contribute</mutableString>
+http://www.xbmc.org/contribute</string>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             <dataDetectorType key="dataDetectorTypes" link="YES"/>
