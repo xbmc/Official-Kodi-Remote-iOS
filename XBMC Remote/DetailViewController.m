@@ -2837,7 +2837,7 @@ NSIndexPath *selected;
         queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
         [queuing startAnimating];
     }
-    NSMutableArray *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      [parameters objectForKey:@"properties"], @"properties",
                                      [item objectForKey:itemid], itemid,
                                      nil];
@@ -3650,6 +3650,9 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        self.edgesForExtendedLayout = UIExtendedEdgeNone;
+    }
     __weak DetailViewController *weakSelf = self;
     [dataList addPullToRefreshWithActionHandler:^{
         [weakSelf startRetrieveDataWithRefresh:YES];

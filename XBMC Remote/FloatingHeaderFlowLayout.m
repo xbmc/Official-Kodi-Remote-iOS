@@ -33,8 +33,9 @@
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:idx];
         
         UICollectionViewLayoutAttributes *layoutAttributes = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
-        
-        [answer addObject:layoutAttributes];
+        if (layoutAttributes != nil){
+            [answer addObject:layoutAttributes];
+        }
         
     }];
     

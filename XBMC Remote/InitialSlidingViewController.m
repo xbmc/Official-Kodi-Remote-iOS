@@ -8,6 +8,7 @@
 
 #import "InitialSlidingViewController.h"
 #import "HostManagementViewController.h"
+#import "AppDelegate.h"
 
 @interface InitialSlidingViewController ()
 
@@ -24,6 +25,9 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        self.edgesForExtendedLayout = UIExtendedEdgeNone;
+    }
     HostManagementViewController *hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     
     UINavigationController *navController = [[UINavigationController alloc]

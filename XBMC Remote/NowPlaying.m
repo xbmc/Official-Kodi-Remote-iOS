@@ -2484,6 +2484,9 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        self.edgesForExtendedLayout = UIExtendedEdgeNone;
+    }
 //    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
     [scrabbingMessage setText:NSLocalizedString(@"Slide your finger up to adjust the scrubbing rate.", nil)];
     [scrabbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];

@@ -301,6 +301,10 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    int deltaY = 0;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        deltaY = 22;
+    }
     torchIsOn = NO;
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
     if (captureDeviceClass != nil) {
@@ -322,7 +326,7 @@
     [infoLabel setTextColor:[UIColor colorWithRed:.49f green:.49f blue:.49f alpha:1]];
     infoLabel.alpha = 0;
     [self.view addSubview:infoLabel];
-    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
+    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY) style:UITableViewStylePlain];
     [menuTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     [menuTableView setSeparatorColor:[UIColor colorWithRed:0.114f green:0.114f blue:0.114f alpha:1]];
     [menuTableView setDelegate:self];

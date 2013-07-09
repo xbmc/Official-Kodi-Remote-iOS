@@ -1150,6 +1150,9 @@ NSInteger buttonAction;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        self.edgesForExtendedLayout = UIExtendedEdgeNone;
+    }
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];

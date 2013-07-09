@@ -314,6 +314,12 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        CGRect frame = menuList.frame;
+        frame.origin.y = 22;
+        frame.size.height = frame.size.height - 22;
+        [menuList setFrame:frame];
+    }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
