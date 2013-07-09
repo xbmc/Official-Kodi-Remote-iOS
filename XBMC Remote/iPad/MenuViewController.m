@@ -96,14 +96,14 @@
 //		[self.view addSubview:verticalLineView1];
 //        [self.view bringSubviewToFront:verticalLineView1];
         
-		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, -5, 1, self.view.frame.size.height-39)];
+		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, 1, self.view.frame.size.height-39)];
 		[verticalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
 		[verticalLineView1 setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:.3]];
 		[self.view addSubview:verticalLineView1];
         [self.view bringSubviewToFront:verticalLineView1];
 
         
-        UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, -5, 1, self.view.frame.size.height-39)];
+        UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, 0, 1, self.view.frame.size.height-39)];
 		[verticalLineView2 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
 		[verticalLineView2 setBackgroundColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:0.2f]];
 		[self.view addSubview:verticalLineView2];

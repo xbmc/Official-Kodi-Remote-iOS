@@ -365,6 +365,10 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    int deltaY = 0;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        deltaY = 22;
+    }
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
@@ -377,7 +381,7 @@
     int tableWidth = 300;
     int headerHeight=0;
    
-    rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY)];
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
 	[rootView setBackgroundColor:[UIColor clearColor]];
 	
@@ -407,7 +411,7 @@
     YPOS=-(tableHeight + separator + headerHeight);
     frame.origin.y=tableHeight + separator + headerHeight;
     frame.size.width=tableWidth;
-    frame.size.height=self.view.frame.size.height - tableHeight - separator - headerHeight;
+    frame.size.height=self.view.frame.size.height - tableHeight - separator - headerHeight - deltaY;
     nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
     nowPlayingController.view.frame=frame;
     
