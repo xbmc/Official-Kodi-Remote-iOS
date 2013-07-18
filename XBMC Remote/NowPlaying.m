@@ -1304,7 +1304,7 @@ int currentItemID;
         object = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[artistFrodoWorkaround intValue]], @"songid", nil];
         itemid = @"filter";
     }
-    NSMutableArray *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      [parameters objectForKey:@"properties"], @"properties",
                                      object, itemid,
                                      nil];
