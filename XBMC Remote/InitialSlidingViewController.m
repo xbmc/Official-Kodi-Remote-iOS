@@ -25,9 +25,6 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = UIExtendedEdgeNone;
-    }
     HostManagementViewController *hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     
     UINavigationController *navController = [[UINavigationController alloc]
@@ -36,7 +33,11 @@
     UINavigationBar *newBar = navController.navigationBar;
     [newBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
     [newBar setBarStyle:UIBarStyleBlackOpaque];
-    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        self.edgesForExtendedLayout = UIExtendedEdgeNone;
+        [newBar setTintColor:[UIColor colorWithRed:.74 green:.74 blue:.74 alpha:1]];
+        [newBar setBarTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
+    }
     CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height + 22);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];

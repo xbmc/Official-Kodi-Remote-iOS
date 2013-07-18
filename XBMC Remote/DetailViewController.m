@@ -1509,6 +1509,10 @@ int originYear = 0;
                                           albumColor = [utils averageColor:image inverse:NO];
                                           self.navigationController.navigationBar.tintColor = albumColor;
                                           self.searchDisplayController.searchBar.tintColor = albumColor;
+                                          if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                                              self.navigationController.navigationBar.tintColor = [utils darkerColorForColor:[utils darkerColorForColor:albumColor]];
+                                              self.navigationController.navigationBar.barTintColor = albumColor;
+                                          }
                                           if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
                                               [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
                                           }
@@ -3448,6 +3452,10 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
     [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:.74 green:.74 blue:.74 alpha:1]];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
+    }
     self.searchDisplayController.searchBar.tintColor = searchBarColor;
 }
 
