@@ -1512,6 +1512,8 @@ int originYear = 0;
                                           if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
                                               self.navigationController.navigationBar.tintColor = [utils darkerColorForColor:[utils darkerColorForColor:albumColor]];
                                               self.navigationController.navigationBar.barTintColor = albumColor;
+                                              self.searchDisplayController.searchBar.barTintColor = albumColor;
+
                                           }
                                           if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
                                               [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
@@ -2201,13 +2203,25 @@ NSIndexPath *selected;
             [self.view addSubview:titleView];
         }
         if (![self.detailItem disableNowPlaying]){
-            UIImage* nowPlayingImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
-            CGRect frameimg = CGRectMake(0, 0, nowPlayingImg.size.width, nowPlayingImg.size.height);
-            UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
-            [nowPlayingButton setBackgroundImage:nowPlayingImg forState:UIControlStateNormal];
-            [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
-            UIBarButtonItem *nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
+            UIBarButtonItem *nowPlayingButtonItem = nil;
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Now Playing", nil) style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
+                [nowPlayingButtonItem setTitleTextAttributes:
+                 [NSDictionary dictionaryWithObjectsAndKeys:
+                  [UIFont systemFontOfSize:14], UITextAttributeFont,
+                  nil] 
+                forState:UIControlStateNormal];
+            }
+            else{
+                UIImage* nowPlayingImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
+                CGRect frameimg = CGRectMake(0, 0, nowPlayingImg.size.width, nowPlayingImg.size.height);
+                UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
+                [nowPlayingButton setBackgroundImage:nowPlayingImg forState:UIControlStateNormal];
+                [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
+                nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
+            }
             self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
+            
             UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
             leftSwipe.numberOfTouchesRequired = 1;
             leftSwipe.cancelsTouchesInView = NO;
@@ -3455,6 +3469,8 @@ NSIndexPath *selected;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [self.navigationController.navigationBar setTintColor:TINT_COLOR];
         [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
+        self.searchDisplayController.searchBar.barTintColor = searchBarColor;
+
     }
     self.searchDisplayController.searchBar.tintColor = searchBarColor;
 }
@@ -3465,6 +3481,8 @@ NSIndexPath *selected;
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [self.navigationController.navigationBar setTintColor:[utils darkerColorForColor:[utils darkerColorForColor:albumColor]]];
             [self.navigationController.navigationBar setBarTintColor:albumColor];
+            self.searchDisplayController.searchBar.barTintColor = albumColor;
+
         }
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
