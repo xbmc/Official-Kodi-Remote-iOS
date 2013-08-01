@@ -235,8 +235,8 @@
     [newBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
     [newBar setBarStyle:UIBarStyleBlackOpaque];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [newBar setTintColor:[UIColor colorWithRed:.74 green:.74 blue:.74 alpha:1]];
-        [newBar setBarTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
+        [newBar setTintColor:TINT_COLOR];
+        [newBar setBarTintColor:BAR_TINT_COLOR];
     }
     
     CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height + 22);
@@ -260,6 +260,9 @@
         [self.slidingViewController resetTopView];
         itemIsActive = NO;
     }];
+}
+
+-(void)revealMenu:(id)sender{
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{

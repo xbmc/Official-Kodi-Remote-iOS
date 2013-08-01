@@ -27,7 +27,8 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
-
+#define TINT_COLOR [UIColor colorWithRed:.5f green:.5f blue:.5f alpha:1]
+#define BAR_TINT_COLOR [UIColor colorWithRed:.14f green:.14f blue:.14f alpha:1]
 
 + (AppDelegate *) instance;
 

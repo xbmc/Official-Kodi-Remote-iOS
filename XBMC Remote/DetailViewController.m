@@ -3453,8 +3453,8 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
     [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:.74 green:.74 blue:.74 alpha:1]];
-        [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
+        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
+        [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
     }
     self.searchDisplayController.searchBar.tintColor = searchBarColor;
 }
