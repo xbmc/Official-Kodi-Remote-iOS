@@ -1605,7 +1605,7 @@ int originYear = 0;
         }
         UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ];
         albumInfoButton.alpha = .5f;
-        [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
+        [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 3, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
         if (fromShowInfo){
             [albumInfoButton addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
         }
@@ -3465,7 +3465,7 @@ NSIndexPath *selected;
 -(void)viewWillDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
-    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
+    [self.navigationController.navigationBar setTintColor:IOS6_BAR_TINT_COLOR];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [self.navigationController.navigationBar setTintColor:TINT_COLOR];
         [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
@@ -3682,6 +3682,7 @@ NSIndexPath *selected;
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         self.edgesForExtendedLayout = 0;
+        [self.searchDisplayController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
     }
     __weak DetailViewController *weakSelf = self;
     [dataList addPullToRefreshWithActionHandler:^{

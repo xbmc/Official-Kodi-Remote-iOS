@@ -232,8 +232,8 @@
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
     
     UINavigationBar *newBar = navController.navigationBar;
-    [newBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
-    [newBar setBarStyle:UIBarStyleBlackOpaque];
+    [newBar setTintColor:IOS6_BAR_TINT_COLOR];
+    [newBar setBarStyle:UIBarStyleBlack];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [newBar setTintColor:TINT_COLOR];
         [newBar setBarTintColor:BAR_TINT_COLOR];

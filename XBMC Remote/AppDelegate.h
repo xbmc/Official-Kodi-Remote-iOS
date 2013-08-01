@@ -27,8 +27,12 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+
+#define APP_TINT_COLOR [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]
 #define TINT_COLOR [UIColor colorWithRed:.5f green:.5f blue:.5f alpha:1]
 #define BAR_TINT_COLOR [UIColor colorWithRed:.14f green:.14f blue:.14f alpha:1]
+#define IOS6_BAR_TINT_COLOR [UIColor colorWithRed:.14f green:.14f blue:.14f alpha:1]
+
 
 #define PHONE_TV_SHOWS_BANNER_HEIGHT 61
 #define PHONE_TV_SHOWS_POSTER_HEIGHT 76
