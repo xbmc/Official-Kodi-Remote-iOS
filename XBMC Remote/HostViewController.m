@@ -345,7 +345,7 @@
     
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = UIExtendedEdgeNone;
+        self.edgesForExtendedLayout = 0;
     }
     services = [[NSMutableArray alloc] init];
     netServiceBrowser = [[NSNetServiceBrowser alloc] init];

@@ -34,7 +34,7 @@
     [newBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
     [newBar setBarStyle:UIBarStyleBlackOpaque];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = UIExtendedEdgeNone;
+        self.edgesForExtendedLayout = 0;
         [newBar setTintColor:[UIColor colorWithRed:.74 green:.74 blue:.74 alpha:1]];
         [newBar setBarTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
     }
