@@ -3462,6 +3462,10 @@ NSIndexPath *selected;
 -(void)viewWillAppear:(BOOL)animated{
     if (albumColor!=nil){
         [self.navigationController.navigationBar setTintColor:albumColor];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [self.navigationController.navigationBar setTintColor:[utils darkerColorForColor:[utils darkerColorForColor:albumColor]]];
+            [self.navigationController.navigationBar setBarTintColor:albumColor];
+        }
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
