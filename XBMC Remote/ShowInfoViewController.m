@@ -313,8 +313,8 @@ int count=0;
             [MenuItem setEnableSection:NO];
             [MenuItem setMainButtons:nil];
             if ([AppDelegate instance].obj.preferTVPosters==YES){
-                thumbWidth = 53;
-                tvshowHeight = 76;
+                thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
+                tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
             }
             MenuItem.thumbWidth=thumbWidth;
             MenuItem.rowHeight=tvshowHeight;
@@ -604,14 +604,14 @@ int h=0;
     }
     clearLogoWidth = 300;
     clearLogoHeight = 116;
-    thumbWidth = 320;
-    tvshowHeight = 61;
+    thumbWidth = PHONE_TV_SHOWS_BANNER_WIDTH;
+    tvshowHeight = PHONE_TV_SHOWS_BANNER_HEIGHT;
     int shiftParentalRating = -20;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         clearLogoWidth = 457;
         clearLogoHeight = 177;
-        thumbWidth = 477;
-        tvshowHeight = 91;
+        thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
+        tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
         shiftParentalRating = -40;
         labelSpace = 33;
         placeHolderImage = @"coverbox_back@2x.png";

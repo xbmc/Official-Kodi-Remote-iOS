@@ -106,16 +106,16 @@ NSMutableArray *hostRightMenuItems;
     obj=[GlobalData getInstance];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        thumbWidth = 320;
-        tvshowHeight = 61;
+        thumbWidth = PHONE_TV_SHOWS_BANNER_WIDTH;
+        tvshowHeight = PHONE_TV_SHOWS_BANNER_HEIGHT;
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                    [UIColor colorWithRed:1 green:1 blue:1 alpha:1],UITextAttributeTextColor,
                                                    [UIFont boldSystemFontOfSize:18], UITextAttributeFont, nil];
         [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     }
     else {
-        thumbWidth = 477;
-        tvshowHeight = 91;
+        thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
+        tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
     }
     
     float itemMusicWidthIphone = 105;

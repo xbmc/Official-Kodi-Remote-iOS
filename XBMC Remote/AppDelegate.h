@@ -30,6 +30,19 @@
 #define TINT_COLOR [UIColor colorWithRed:.5f green:.5f blue:.5f alpha:1]
 #define BAR_TINT_COLOR [UIColor colorWithRed:.14f green:.14f blue:.14f alpha:1]
 
+#define PHONE_TV_SHOWS_BANNER_HEIGHT 61
+#define PHONE_TV_SHOWS_POSTER_HEIGHT 76
+
+#define PHONE_TV_SHOWS_BANNER_WIDTH 320
+#define PHONE_TV_SHOWS_POSTER_WIDTH 53
+
+#define PAD_TV_SHOWS_BANNER_HEIGHT 91
+#define PAD_TV_SHOWS_POSTER_HEIGHT 76
+
+#define PAD_TV_SHOWS_BANNER_WIDTH 477
+#define PAD_TV_SHOWS_POSTER_WIDTH 53
+
+
 + (AppDelegate *) instance;
 
 -(void)saveServerList;

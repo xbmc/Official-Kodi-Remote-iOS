@@ -393,11 +393,11 @@
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    int thumbWidth = 320;
-    int tvshowHeight = 61;
+    int thumbWidth = PHONE_TV_SHOWS_BANNER_WIDTH;
+    int tvshowHeight = PHONE_TV_SHOWS_BANNER_HEIGHT;
     if ([AppDelegate instance].obj.preferTVPosters==YES){
-        thumbWidth = 53;
-        tvshowHeight = 76;
+        thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
+        tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
     }
     mainMenu *menuItem=[self.mainMenu objectAtIndex:3];
     menuItem.thumbWidth=thumbWidth;
