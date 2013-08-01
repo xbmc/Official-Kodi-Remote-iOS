@@ -173,7 +173,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" tag="88" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="117">
-                                            <rect key="frame" x="241" y="6" width="72.000000000000057" height="28"/>
+                                            <rect key="frame" x="241" y="6" width="72.000000000000043" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <gestureRecognizers/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -372,7 +372,7 @@ albums</string>
                                             </state>
                                         </button>
                                         <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="179" userLabel="Button Repeat">
-                                            <rect key="frame" x="66" y="188.00000000000003" width="41" height="41"/>
+                                            <rect key="frame" x="66" y="188" width="41" height="41"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" backgroundImage="button_repeat.png">
@@ -387,7 +387,7 @@ albums</string>
                                             </connections>
                                         </button>
                                         <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="176" userLabel="Button Shuffle">
-                                            <rect key="frame" x="130" y="188.00000000000003" width="41" height="41"/>
+                                            <rect key="frame" x="130" y="188" width="41" height="41"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" backgroundImage="button_shuffle.png">
@@ -519,9 +519,10 @@ albums</string>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                     <items>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="LsS-vL-2cF"/>
                         <barButtonItem tag="1" style="plain" id="12">
                             <button key="customView" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="11">
-                                <rect key="frame" x="16" y="6" width="38" height="33"/>
+                                <rect key="frame" x="11" y="6" width="38" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" image="now_playing_previous.png" backgroundImage="now_playing_empty_up.png">
@@ -539,7 +540,7 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="210"/>
                         <barButtonItem tag="6" style="plain" id="15">
                             <button key="customView" opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="16">
-                                <rect key="frame" x="59" y="6" width="38" height="33"/>
+                                <rect key="frame" x="55" y="6" width="38" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -562,7 +563,7 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="80"/>
                         <barButtonItem tag="2" style="plain" id="67">
                             <button key="customView" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="68">
-                                <rect key="frame" x="101" y="6" width="38" height="33"/>
+                                <rect key="frame" x="98" y="6" width="38" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" image="now_playing_pause.png" backgroundImage="now_playing_empty_up.png">
@@ -583,7 +584,7 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="81"/>
                         <barButtonItem tag="3" style="plain" id="17">
                             <button key="customView" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="18">
-                                <rect key="frame" x="144" y="6" width="38" height="33"/>
+                                <rect key="frame" x="141" y="6" width="38" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" image="now_playing_stop.png" backgroundImage="now_playing_empty_up.png">
@@ -604,7 +605,7 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="82"/>
                         <barButtonItem tag="7" style="plain" id="71">
                             <button key="customView" opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="72">
-                                <rect key="frame" x="186" y="6" width="38" height="33"/>
+                                <rect key="frame" x="184" y="6" width="38" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -627,7 +628,7 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="83"/>
                         <barButtonItem tag="4" style="plain" id="19">
                             <button key="customView" opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="20">
-                                <rect key="frame" x="229" y="6" width="38" height="33"/>
+                                <rect key="frame" x="228" y="6" width="38" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" image="now_playing_next.png" backgroundImage="now_playing_empty_up.png">
