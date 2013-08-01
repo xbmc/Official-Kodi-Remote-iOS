@@ -2332,6 +2332,7 @@ int currentItemID;
     ProgressSlider.frame = frame;
     
     NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
+    [items removeObjectAtIndex:0];
     [items removeObjectAtIndex:1];
     [items removeObjectAtIndex:2];
     [items removeObjectAtIndex:3];
