@@ -97,9 +97,7 @@
     float searchBarHeight = 44.0f;
     float threshold = searchBarHeight / 2;
     float contentOffsetInset = proposedContentOffset.y;
-    if (proposedContentOffset.y < 0){
-        contentOffsetInset = contentOffsetInset + 64;
-    }
+    contentOffsetInset = contentOffsetInset + self.collectionView.contentInset.top;
     if (contentOffsetInset  <= threshold){
         offsetAdjustment = - contentOffsetInset;
     }
