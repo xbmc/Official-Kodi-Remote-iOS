@@ -839,7 +839,7 @@
         }];
         [collectionView setShowsPullToRefresh:enableDiskCache];
         collectionView.alwaysBounceVertical = YES;
-        [detailView addSubview:collectionView];
+        [detailView insertSubview:collectionView belowSubview:dataList];
         NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
         if ([tmpArr count] > 1){
             [tmpArr replaceObjectAtIndex:0 withObject:[NSString stringWithUTF8String:"\xF0\x9F\x94\x8D"]];
@@ -1071,7 +1071,7 @@
     CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
                               CGRectGetMinY(dataList.frame) + dataList.contentInset.top + 4,
                               indexWidth,
-                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - 4);
+                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
     _indexView.hidden = YES;
@@ -1836,7 +1836,7 @@ int originYear = 0;
     [sectionView addSubview:toolbarShadow];
     
     if (section>1){
-        CGRect toolbarShadowUpFrame = CGRectMake(0.0f, -5, viewWidth, 4);
+        CGRect toolbarShadowUpFrame = CGRectMake(0.0f, -3, viewWidth, 2);
         UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowUpFrame];
         [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
         toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -3590,6 +3590,13 @@ NSIndexPath *selected;
         CGRect frame=dataList.frame;
         frame.size.height=self.view.bounds.size.height;
         dataList.frame=frame;
+        
+        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+        tableViewInsets.bottom = 0;
+        dataList.contentInset = tableViewInsets;
+        dataList.scrollIndicatorInsets = tableViewInsets;
+        collectionView.contentInset = tableViewInsets;
+        collectionView.scrollIndicatorInsets = tableViewInsets;
     }
     if ([[self.detailItem mainMethod] count]>MAX_NORMAL_BUTTONS){
         NSString *imageNameOff=@"st_more_off";
@@ -3715,7 +3722,6 @@ NSIndexPath *selected;
         [self.searchDisplayController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
         iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.bottom = self.bottomLayoutGuide.length;
         tableViewInsets.top = 44 + fabs(iOSYDelta);
         dataList.contentInset = tableViewInsets;
         dataList.scrollIndicatorInsets = tableViewInsets;
@@ -3723,6 +3729,17 @@ NSIndexPath *selected;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [dataList setSectionIndexBackgroundColor:[UIColor clearColor]];
         [dataList setSectionIndexTrackingBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+        
+        UIEdgeInsets tableViewInsets = dataList.contentInset;
+        tableViewInsets.bottom = 44;
+        dataList.contentInset = tableViewInsets;
+        dataList.scrollIndicatorInsets = tableViewInsets;
+        CGRect frame = dataList.frame;
+        frame.size.height=self.view.bounds.size.height;
+        dataList.frame = frame;
+        buttonsViewBgImage.hidden = YES;
+        buttonsViewBgToolbar.hidden = NO;
+
     }
     __weak DetailViewController *weakSelf = self;
     [dataList addPullToRefreshWithActionHandler:^{

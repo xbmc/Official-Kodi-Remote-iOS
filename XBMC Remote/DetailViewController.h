@@ -102,6 +102,8 @@
     BOOL blackTableSeparator;
     NSString *currentCollectionViewName;
     CGFloat iOSYDelta;
+    __weak IBOutlet UIImageView *buttonsViewBgImage;
+    __weak IBOutlet UIToolbar *buttonsViewBgToolbar;
 }
 
 - (id)initWithFrame:(CGRect)frame;

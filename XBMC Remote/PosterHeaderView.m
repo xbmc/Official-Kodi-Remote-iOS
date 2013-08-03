@@ -10,6 +10,7 @@
 #import "QuartzCore/CALayer.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PosterLabel.h"
+#import "AppDelegate.h"
 
 @implementation PosterHeaderView
 
@@ -28,13 +29,24 @@
 //        }
         
         if (self.frame.size.height > 1){
-            UIView *lineViewBottom = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
-            [lineViewBottom setBackgroundColor:[UIColor colorWithRed:52.0f/255.0f green:52.0f/255.0f blue:52.0f/255.0f alpha:1]];
-            [self addSubview:lineViewBottom];
-            CAGradientLayer *gradient = [CAGradientLayer layer];
-            gradient.frame = self.bounds;
-            gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:103.0f/255.0f green:103.0f/255.0f blue:103.0f/255.0f alpha:.9] CGColor], (id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.9] CGColor], nil];
-            [self.layer insertSublayer:gradient atIndex:0];
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+//                UIToolbar *buttonsToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+//                [buttonsToolbar setBarStyle:UIBarStyleDefault];
+//                [buttonsToolbar setTranslucent:YES];
+//                [buttonsToolbar setBackgroundColor:[UIColor clearColor]];
+//                [buttonsToolbar setBarTintColor:BAR_TINT_COLOR];
+//                [self insertSubview: buttonsToolbar atIndex:0];
+                [self setBackgroundColor:[UIColor colorWithRed:80.0f/255.0f green:80.0f/255.0f blue:80.0f/255.0f alpha:.9]];
+            }
+            else{
+                UIView *lineViewBottom = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
+                [lineViewBottom setBackgroundColor:[UIColor colorWithRed:52.0f/255.0f green:52.0f/255.0f blue:52.0f/255.0f alpha:1]];
+                [self addSubview:lineViewBottom];
+                CAGradientLayer *gradient = [CAGradientLayer layer];
+                gradient.frame = self.bounds;
+                gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:103.0f/255.0f green:103.0f/255.0f blue:103.0f/255.0f alpha:.9] CGColor], (id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.9] CGColor], nil];
+                [self.layer insertSublayer:gradient atIndex:0];
+            }
         }
 
         if (self.frame.size.height > 10){
