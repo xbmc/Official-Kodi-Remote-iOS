@@ -1919,6 +1919,10 @@ int originYear = 0;
 #pragma mark -
 #pragma mark UISearchDisplayController Delegate Methods
 
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+    ((UITableView *)activeLayoutView).pullToRefreshView.alpha = 0;
+}
+
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
     controller.searchResultsTableView.backgroundColor = [UIColor blackColor];
     if (longPressGesture == nil){
@@ -1929,6 +1933,9 @@ int originYear = 0;
     [self.searchDisplayController.searchResultsTableView addGestureRecognizer:longPressGesture];
     if (enableCollectionView){
         self.indexView.hidden = YES;
+    }
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [activeLayoutView setFrame:CGRectMake(((UITableView *)activeLayoutView).frame.origin.x, ((UITableView *)activeLayoutView).frame.origin.y - 44, ((UITableView *)activeLayoutView).frame.size.width, ((UITableView *)activeLayoutView).frame.size.height)];
     }
 }
 
@@ -1942,6 +1949,17 @@ int originYear = 0;
         }
         [collectionView addGestureRecognizer:longPressGesture];
     }
+}
+
+- (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller{
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        [UIView setAnimationDuration:0.3];
+        [activeLayoutView setFrame:CGRectMake(((UITableView *)activeLayoutView).frame.origin.x, ((UITableView *)activeLayoutView).frame.origin.y + 44, ((UITableView *)activeLayoutView).frame.size.width, ((UITableView *)activeLayoutView).frame.size.height)];
+        [UIView commitAnimations];
+    }
+    ((UITableView *)activeLayoutView).pullToRefreshView.alpha = 1;
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
@@ -3745,6 +3763,9 @@ NSIndexPath *selected;
     else if ([[methods objectForKey:@"episodesView"] boolValue] == YES){
         episodesView = TRUE;
         searchBarColor = [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            searchBarColor = [UIColor colorWithRed:229.0f/255.0f green:229.0f/255.0f blue:229.0f/255.0f alpha:1];
+        }
     }
     else if ([[methods objectForKey:@"tvshowsView"] boolValue] == YES){
         tvshowsView = [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO;
@@ -3780,9 +3801,9 @@ NSIndexPath *selected;
         recentlyAddedView = FALSE;
     }
     enableCollectionView = [self collectionViewIsEnabled];
-    if (enableCollectionView) {
-        [self initCollectionView];
-    }
+//    if (enableCollectionView) {
+//        [self initCollectionView];
+//    }
 //    [((UITableView *)activeLayoutView).pullToRefreshView
 //     setSubtitle:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Last sync", nil),NSLocalizedString(@"never", nil)]
 //     forState:SVPullToRefreshStateStopped];
