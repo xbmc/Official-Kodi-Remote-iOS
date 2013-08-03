@@ -1660,7 +1660,12 @@ int h=0;
 - (void)viewDidLoad{
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = 0;
+//        self.edgesForExtendedLayout = 0;
+        float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
+        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+        tableViewInsets.top = 44 + fabs(iOSYDelta);
+        scrollView.contentInset = tableViewInsets;
+        scrollView.scrollIndicatorInsets = tableViewInsets;
     }
 //    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
 //    [[SDImageCache sharedImageCache] clearMemory];
