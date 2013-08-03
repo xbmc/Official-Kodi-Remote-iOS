@@ -96,7 +96,6 @@
     float offsetAdjustment = 0;
     float searchBarHeight = 44.0f;
     float threshold = searchBarHeight / 2;
-    NSLog(@"AAA %f", proposedContentOffset.y);
     float contentOffsetInset = proposedContentOffset.y;
     if (proposedContentOffset.y < 0){
         contentOffsetInset = contentOffsetInset + 64;
