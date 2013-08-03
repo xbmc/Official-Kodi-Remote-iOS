@@ -227,7 +227,6 @@
     }
     navController = nil;
     navController = [[UINavigationController alloc] initWithRootViewController:object];
-    
     UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
     
@@ -237,6 +236,8 @@
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [newBar setTintColor:TINT_COLOR];
         [newBar setBarTintColor:BAR_TINT_COLOR];
+//        navController.navigationBar.translucent = FALSE;
+//        navController.toolbar.translucent = FALSE;
     }
     
     CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height + 22);

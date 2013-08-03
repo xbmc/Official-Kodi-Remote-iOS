@@ -365,8 +365,17 @@
         [moreItemsViewController.view setBackgroundColor:[UIColor clearColor]];
         [moreItemsViewController viewWillAppear:FALSE];
         [moreItemsViewController viewDidAppear:FALSE];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+            tableViewInsets.bottom = self.bottomLayoutGuide.length;
+            tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+            moreItemsViewController.tableView.contentInset = tableViewInsets;
+            moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
+            [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
+        }
         [detailView addSubview:moreItemsViewController.view];
     }
+
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
     self.navigationItem.title = [NSString stringWithFormat:NSLocalizedString(@"More (%d)", nil), (count - MAX_NORMAL_BUTTONS)];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -815,6 +824,8 @@
         [flowLayout setMinimumInteritemSpacing:2.0f];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
+        collectionView.contentInset = dataList.contentInset;
+        collectionView.scrollIndicatorInsets = dataList.scrollIndicatorInsets;
         [collectionView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
         [collectionView setDelegate:self];
         [collectionView setDataSource:self];
@@ -1058,9 +1069,9 @@
     if (_indexView) return _indexView;
     CGFloat indexWidth = 32;
     CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
-                              CGRectGetMinY(dataList.frame) + 4,
+                              CGRectGetMinY(dataList.frame) + dataList.contentInset.top + 4,
                               indexWidth,
-                              CGRectGetHeight(dataList.frame) - 4);
+                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - 4);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
     _indexView.hidden = YES;
@@ -3397,7 +3408,6 @@ NSIndexPath *selected;
 
 -(void)displayData{
     [self configureLibraryView];
-//    [activeLayoutView setContentOffset:[(UITableView *)activeLayoutView contentOffset] animated:NO];
     [self choseParams];
     numResults=[self.richResults count];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
@@ -3435,9 +3445,9 @@ NSIndexPath *selected;
     [activityIndicatorView stopAnimating];
     [activeLayoutView reloadData];
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
-    [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
+    [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     [collectionView layoutSubviews];
-    [collectionView setContentOffset:CGPointMake(0, 44) animated:NO];
+    [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     if (collectionView != nil){
         if (enableCollectionView){
             self.indexView.hidden = NO;
@@ -3680,9 +3690,21 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = 0;
+    
+    iOSYDelta = 44;
+
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [self.searchDisplayController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
+        iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
+        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+        tableViewInsets.bottom = self.bottomLayoutGuide.length;
+        tableViewInsets.top = 44 + fabs(iOSYDelta);
+        dataList.contentInset = tableViewInsets;
+        dataList.scrollIndicatorInsets = tableViewInsets;
+    }
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [dataList setSectionIndexBackgroundColor:[UIColor clearColor]];
+        [dataList setSectionIndexTrackingBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
     }
     __weak DetailViewController *weakSelf = self;
     [dataList addPullToRefreshWithActionHandler:^{
@@ -3734,6 +3756,8 @@ NSIndexPath *selected;
         self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
     self.searchDisplayController.searchBar.tintColor = searchBarColor;
+    [self.searchDisplayController.searchBar setBackgroundColor:searchBarColor];
+
     [detailView setClipsToBounds:YES];
     trackCountLabelWidth = 26;
     NSDictionary *itemSizes = [parameters objectForKey:@"itemSizes"];
@@ -3870,7 +3894,7 @@ NSIndexPath *selected;
                          completion:^(BOOL finished){
                              [self configureLibraryView];
                              [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
-                             [activeLayoutView setContentOffset:CGPointMake(0, 44) animated:NO];
+                             [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                          }];
     }
 }

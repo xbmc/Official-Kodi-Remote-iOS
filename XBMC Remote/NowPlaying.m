@@ -54,17 +54,17 @@ float cellBarWidth=45;
 - (void)configureView{
     // Update the user interface for the detail item.
     if (self.detailItem) {
-        CGRect frame = CGRectMake(0, 0, 320, 44);
-        viewTitle = [[UILabel alloc] initWithFrame:frame];
-        viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        viewTitle.backgroundColor = [UIColor clearColor];
-        viewTitle.font = [UIFont boldSystemFontOfSize:18];
-        viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:.5];
-        viewTitle.textAlignment = UITextAlignmentCenter;
-        viewTitle.textColor = [UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1];
-        viewTitle.text = NSLocalizedString(@"Now Playing", nil);
-        [viewTitle sizeToFit];
-        self.navigationItem.titleView = viewTitle;
+//        CGRect frame = CGRectMake(0, 0, 320, 44);
+//        viewTitle = [[UILabel alloc] initWithFrame:frame];
+//        viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+//        viewTitle.backgroundColor = [UIColor clearColor];
+//        viewTitle.font = [UIFont boldSystemFontOfSize:18];
+//        viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:.5];
+//        viewTitle.textAlignment = UITextAlignmentCenter;
+//        viewTitle.textColor = [UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1];
+//        viewTitle.text = NSLocalizedString(@"Now Playing", nil);
+//        [viewTitle sizeToFit];
+//        self.navigationItem.titleView = viewTitle;
         self.navigationItem.title = NSLocalizedString(@"Now Playing", nil); // DA SISTEMARE COME PARAMETRO
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;

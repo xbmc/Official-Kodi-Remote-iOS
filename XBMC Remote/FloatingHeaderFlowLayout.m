@@ -14,8 +14,8 @@
     
     NSMutableArray *answer = [[super layoutAttributesForElementsInRect:rect] mutableCopy];
     UICollectionView * const cv = self.collectionView;
-    CGPoint const contentOffset = cv.contentOffset;
-    
+    CGPoint contentOffset = cv.contentOffset;
+    contentOffset.y = contentOffset.y + cv.contentInset.top;
     NSMutableIndexSet *missingSections = [NSMutableIndexSet indexSet];
     for (UICollectionViewLayoutAttributes *layoutAttributes in answer) {
         if (layoutAttributes.representedElementCategory == UICollectionElementCategoryCell) {
@@ -96,12 +96,16 @@
     float offsetAdjustment = 0;
     float searchBarHeight = 44.0f;
     float threshold = searchBarHeight / 2;
-    if (proposedContentOffset.y <= threshold){
-        offsetAdjustment = - proposedContentOffset.y;
+    NSLog(@"AAA %f", proposedContentOffset.y);
+    float contentOffsetInset = proposedContentOffset.y;
+    if (proposedContentOffset.y < 0){
+        contentOffsetInset = contentOffsetInset + 64;
     }
-    else if (proposedContentOffset.y > threshold && proposedContentOffset.y < searchBarHeight){
-        offsetAdjustment = searchBarHeight - proposedContentOffset.y;
-
+    if (contentOffsetInset  <= threshold){
+        offsetAdjustment = - contentOffsetInset;
+    }
+    else if (contentOffsetInset > threshold && contentOffsetInset < searchBarHeight){
+        offsetAdjustment = searchBarHeight - contentOffsetInset;
     }
     return CGPointMake(proposedContentOffset.x, proposedContentOffset.y + offsetAdjustment);
 }

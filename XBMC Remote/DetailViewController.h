@@ -101,6 +101,7 @@
     BOOL enableDiskCache;
     BOOL blackTableSeparator;
     NSString *currentCollectionViewName;
+    CGFloat iOSYDelta;
 }
 
 - (id)initWithFrame:(CGRect)frame;

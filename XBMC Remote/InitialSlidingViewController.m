@@ -29,15 +29,16 @@
     
     UINavigationController *navController = [[UINavigationController alloc]
                                              initWithRootViewController:hostManagementViewController];
-
     UINavigationBar *newBar = navController.navigationBar;
     [newBar setTintColor:IOS6_BAR_TINT_COLOR];
     [newBar setBarStyle:UIBarStyleBlackTranslucent];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = 0;
+//        self.edgesForExtendedLayout = 0;
         [newBar setTintColor:TINT_COLOR];
         [newBar setBarTintColor:BAR_TINT_COLOR];
         self.view.tintColor = APP_TINT_COLOR;
+//        navController.navigationBar.translucent = FALSE;
+//        navController.toolbar.translucent = FALSE;
     }
     CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height + 22);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
