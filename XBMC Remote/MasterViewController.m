@@ -196,6 +196,7 @@
     }
     itemIsActive = YES;
     UIViewController *object;
+    BOOL setBarTintColor = NO;
     if (item.family == 2){
         if (self.nowPlaying == nil){
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
@@ -218,6 +219,8 @@
             self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
         }
         object = self.hostController;
+        setBarTintColor = YES;
+        
     }
     else if (item.family == 1){
         self.detailViewController=nil;
@@ -235,7 +238,9 @@
     [newBar setBarStyle:UIBarStyleBlack];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [newBar setTintColor:TINT_COLOR];
-//        [newBar setBarTintColor:BAR_TINT_COLOR];
+        if (setBarTintColor){
+            [newBar setBarTintColor:BAR_TINT_COLOR];
+        }
 //        navController.navigationBar.translucent = FALSE;
 //        navController.toolbar.translucent = FALSE;
     }
