@@ -1540,7 +1540,7 @@ int originYear = 0;
                                           [albumDetailView.layer insertSublayer:gradient atIndex:1];
                                           albumFontColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
                                           albumFontShadowColor = [utils updateColor:albumColor lightColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3] darkColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.3]];
-                                          albumDetailsColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor darkGrayColor]];
+                                          albumDetailsColor = [utils updateColor:albumColor lightColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7] darkColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6]];
                                           [artist setTextColor:albumFontColor];
                                           [artist setShadowColor:albumFontShadowColor];
                                           [albumLabel setTextColor:albumFontColor];
@@ -2241,7 +2241,7 @@ NSIndexPath *selected;
                 nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Now Playing", nil) style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
                 [nowPlayingButtonItem setTitleTextAttributes:
                  [NSDictionary dictionaryWithObjectsAndKeys:
-                  [UIFont systemFontOfSize:14], UITextAttributeFont,
+                  [UIFont systemFontOfSize:12], UITextAttributeFont,
                   nil] 
                 forState:UIControlStateNormal];
             }
