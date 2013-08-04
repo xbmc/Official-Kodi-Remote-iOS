@@ -59,7 +59,7 @@
         if (self.frame.size.height > 10){
             _headerLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width - 10, self.frame.size.height - 1)];
             [_headerLabel setBackgroundColor:[UIColor clearColor]];
-            [_headerLabel setFont:[UIFont boldSystemFontOfSize:(self.frame.size.height > 20 ? 17 : self.frame.size.height - 2)]];
+            [_headerLabel setFont:[UIFont boldSystemFontOfSize:(self.frame.size.height > 20 ? 17 : self.frame.size.height - 5)]];
             [_headerLabel setShadowColor:[UIColor darkGrayColor]];
             [_headerLabel setShadowOffset:CGSizeMake(0, 1)];
             

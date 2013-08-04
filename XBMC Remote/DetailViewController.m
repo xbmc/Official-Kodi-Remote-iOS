@@ -54,7 +54,7 @@
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 #define MAX_NORMAL_BUTTONS 4
 #define WARNING_TIMEOUT 30.0f
-#define COLLECTION_HEADER_HEIGHT 24
+#define COLLECTION_HEADER_HEIGHT 20
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
