@@ -2341,7 +2341,6 @@ int currentItemID;
     [items removeObjectAtIndex:6];
     [items removeObjectAtIndex:7];
     [playlistToolbar setItems:items animated:YES];
-    playlistToolbar.alpha = .8f;
     UIButton *buttonItem=(UIButton *)[self.view viewWithTag:5];
     [buttonItem removeFromSuperview];
     
@@ -2484,10 +2483,52 @@ int currentItemID;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
+-(void)setIOS7toolbar{
+    UIButton *buttonItem= nil;
+    for (int i=1; i<8; i++) {
+        buttonItem=(UIButton *)[self.view viewWithTag:i];
+        [buttonItem setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+        [buttonItem setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    }
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = 0;
+        int barHeight = 44;
+        int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+
+            tableViewInsets.top = barHeight + statusBarHeight;
+            playlistTableView.contentInset = tableViewInsets;
+            playlistTableView.scrollIndicatorInsets = tableViewInsets;
+            CGRect frame = xbmcOverlayImage.frame;
+            frame.origin.y = tableViewInsets.top;
+            xbmcOverlayImage.frame = frame;
+            
+        }
+        [self setIOS7toolbar];
+        UIEdgeInsets tableViewInsets = playlistTableView.contentInset;
+        tableViewInsets.bottom = barHeight * 2;
+        playlistTableView.contentInset = tableViewInsets;
+        playlistTableView.scrollIndicatorInsets = tableViewInsets;
+        CGRect frame = playlistTableView.frame;
+        frame.size.height=self.view.bounds.size.height;
+        playlistView.frame = frame;
+        playlistTableView.frame = frame;
+
+        frame = playlistActionView.frame;
+        frame.origin.y = frame.origin.y - barHeight;
+        playlistActionView.frame = frame;
+        
+        frame = nowPlayingView.frame;
+        frame.origin.y = barHeight + statusBarHeight;
+        frame.size.height = frame.size.height - barHeight - statusBarHeight;
+        nowPlayingView.frame = frame;
+    }
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+//        self.edgesForExtendedLayout = 0;
     }
 //    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
     [scrabbingMessage setText:NSLocalizedString(@"Slide your finger up to adjust the scrubbing rate.", nil)];
