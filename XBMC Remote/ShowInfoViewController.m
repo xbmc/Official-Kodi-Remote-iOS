@@ -1445,6 +1445,7 @@ int h=0;
 - (void)handleSwipeFromLeft:(id)sender {
     if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
         [self showNowPlaying];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
 }
 
@@ -1613,6 +1614,9 @@ int h=0;
     float alphaValue = 0.2;
     if (closeButton.alpha==1){
         alphaValue = 1;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+        }
     }
     if (!enableKenBurns){
         [self alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
