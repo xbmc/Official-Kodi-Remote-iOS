@@ -1068,8 +1068,8 @@
 - (BDKCollectionIndexView *)indexView {
     if (_indexView) return _indexView;
     CGFloat indexWidth = 32;
-    CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
-                              CGRectGetMinY(dataList.frame) + dataList.contentInset.top + 4,
+    CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth + 2,
+                              CGRectGetMinY(dataList.frame) + dataList.contentInset.top + 2,
                               indexWidth,
                               CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
