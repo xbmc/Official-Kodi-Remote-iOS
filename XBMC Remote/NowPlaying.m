@@ -2394,6 +2394,7 @@ int currentItemID;
             playlistView.hidden = YES;
             playlistHidden = YES;
             viewTitle.text = NSLocalizedString(@"Now Playing", nil);
+            self.navigationItem.title = NSLocalizedString(@"Now Playing", nil);
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             startFlipDemo = YES;
