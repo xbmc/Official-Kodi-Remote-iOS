@@ -1312,8 +1312,14 @@ int h=0;
         else{
             [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
         }
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+        }
     }
     else{
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+        }
         [self alphaView:scrollView AnimDuration:1.5 Alpha:0];
         if (!enableKenBurns){
             [self alphaImage:fanartView AnimDuration:1.5 Alpha:1];// cool

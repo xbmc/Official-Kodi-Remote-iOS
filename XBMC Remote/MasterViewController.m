@@ -235,7 +235,7 @@
     [newBar setBarStyle:UIBarStyleBlack];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [newBar setTintColor:TINT_COLOR];
-        [newBar setBarTintColor:BAR_TINT_COLOR];
+//        [newBar setBarTintColor:BAR_TINT_COLOR];
 //        navController.navigationBar.translucent = FALSE;
 //        navController.toolbar.translucent = FALSE;
     }

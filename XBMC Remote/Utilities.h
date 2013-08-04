@@ -11,6 +11,7 @@
 @interface Utilities : NSObject
 
 - (UIColor *)averageColor:(UIImage *)image inverse:(BOOL)inverse;
+- (UIColor *)slightLighterColorForColor:(UIColor *)c;
 - (UIColor *)lighterColorForColor:(UIColor *)c;
 - (UIColor *)darkerColorForColor:(UIColor *)c;
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker;

@@ -368,8 +368,6 @@
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         self.edgesForExtendedLayout = 2;
-        [self.view setBackgroundColor:[UIColor whiteColor]];
-
     }
     doRevealMenu = YES;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
