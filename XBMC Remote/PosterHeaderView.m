@@ -36,7 +36,12 @@
 //                [buttonsToolbar setBackgroundColor:[UIColor clearColor]];
 //                [buttonsToolbar setBarTintColor:BAR_TINT_COLOR];
 //                [self insertSubview: buttonsToolbar atIndex:0];
-                [self setBackgroundColor:[UIColor colorWithRed:80.0f/255.0f green:80.0f/255.0f blue:80.0f/255.0f alpha:.9]];
+//                [self setBackgroundColor:[UIColor colorWithRed:75.0f/255.0f green:75.0f/255.0f blue:75.0f/255.0f alpha:.95]];
+                
+                CAGradientLayer *gradient = [CAGradientLayer layer];
+                gradient.frame = self.bounds;
+                gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:75.0f/255.0f green:75.0f/255.0f blue:75.0f/255.0f alpha:.95] CGColor], (id)[[UIColor colorWithRed:35.0f/255.0f green:35.0f/255.0f blue:35.0f/255.0f alpha:.95] CGColor], nil];
+                [self.layer insertSublayer:gradient atIndex:0];
             }
             else{
                 UIView *lineViewBottom = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];

@@ -1193,13 +1193,18 @@ int originYear = 0;
     if (Menuitem.originLabel && ![parameters objectForKey:@"thumbWidth"])
         labelPosition = Menuitem.originLabel;
     // CHECK IF THERE ARE SECTIONS
+    
+    int iOS7offset = 0;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        iOS7offset = 12;
+    }
     if ([self.richResults count]<=SECTIONS_START_AT || ![self.detailItem enableSection]){
         newWidthLabel = viewWidth - 8 - labelPosition;
         Menuitem.originYearDuration = viewWidth - 72;
     }
     else{
-        newWidthLabel = viewWidth - 38 - labelPosition;
-        Menuitem.originYearDuration = viewWidth - 100;
+        newWidthLabel = viewWidth - 38 - labelPosition + iOS7offset;
+        Menuitem.originYearDuration = viewWidth - 100 + iOS7offset;
     }
     Menuitem.widthLabel=newWidthLabel;
     flagX = thumbWidth - 10;

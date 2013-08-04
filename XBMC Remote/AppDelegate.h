@@ -28,12 +28,12 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
-#define APP_TINT_COLOR [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]
+#define APP_TINT_COLOR [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]
 //#define APP_TINT_COLOR [UIColor colorWithRed:61.0f/255.0f green:132.0f/255.0f blue:1.0f alpha:1]
 
 #define TINT_COLOR [UIColor colorWithRed:.9f green:.9f blue:.9f alpha:.6f]
 #define BAR_TINT_COLOR [UIColor colorWithRed:.14f green:.14f blue:.14f alpha:1]
-#define REMOTE_CONTROL_BAR_TINT_COLOR [UIColor colorWithRed:37.0f/255.0f green:37.0f/255.0f blue:40.0f/255.0f alpha:1]
+#define REMOTE_CONTROL_BAR_TINT_COLOR [UIColor colorWithRed:19.0f/255.0f green:19.0f/255.0f blue:21.0f/255.0f alpha:1]
 #define IOS6_BAR_TINT_COLOR [UIColor colorWithRed:.14f green:.14f blue:.14f alpha:1]
 
 
