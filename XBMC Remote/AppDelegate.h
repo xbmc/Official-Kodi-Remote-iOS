@@ -31,7 +31,7 @@
 #define APP_TINT_COLOR [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]
 //#define APP_TINT_COLOR [UIColor colorWithRed:61.0f/255.0f green:132.0f/255.0f blue:1.0f alpha:1]
 
-#define TINT_COLOR [UIColor colorWithRed:.9f green:.9f blue:.9f alpha:.6f]
+#define TINT_COLOR [UIColor colorWithRed:.7f green:.7f blue:.7f alpha:.6f]
 //#define TINT_COLOR [UIColor colorWithRed:88.0f/255.0f green:149.0f/255.0f blue:1.0f alpha:1]
 
 #define BAR_TINT_COLOR [UIColor colorWithRed:.14f green:.14f blue:.14f alpha:1]
