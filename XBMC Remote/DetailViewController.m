@@ -1529,7 +1529,7 @@ int originYear = 0;
                                               self.navigationController.navigationBar.tintColor = [utils darkerColorForColor:[utils darkerColorForColor:albumColor]];
                                               self.navigationController.navigationBar.barTintColor = albumColor;
                                               self.searchDisplayController.searchBar.barTintColor = albumColor;
-                                              self.navigationController.navigationBar.translucent = NO;
+//                                              self.navigationController.navigationBar.translucent = NO;
                                           }
                                           if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
                                               [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
@@ -1939,7 +1939,7 @@ int originYear = 0;
     if (enableCollectionView){
         self.indexView.hidden = YES;
     }
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [activeLayoutView setFrame:CGRectMake(((UITableView *)activeLayoutView).frame.origin.x, ((UITableView *)activeLayoutView).frame.origin.y - 44, ((UITableView *)activeLayoutView).frame.size.width, ((UITableView *)activeLayoutView).frame.size.height)];
     }
 }
@@ -1957,7 +1957,7 @@ int originYear = 0;
 }
 
 - (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller{
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationDuration:0.3];
@@ -3503,7 +3503,7 @@ NSIndexPath *selected;
         [self.navigationController.navigationBar setTintColor:TINT_COLOR];
         [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
         self.searchDisplayController.searchBar.barTintColor = searchBarColor;
-        self.navigationController.navigationBar.translucent = YES;
+//        self.navigationController.navigationBar.translucent = YES;
     }
     self.searchDisplayController.searchBar.tintColor = searchBarColor;
 }
@@ -3515,20 +3515,20 @@ NSIndexPath *selected;
             [self.navigationController.navigationBar setTintColor:[utils darkerColorForColor:[utils darkerColorForColor:albumColor]]];
             [self.navigationController.navigationBar setBarTintColor:albumColor];
             self.searchDisplayController.searchBar.barTintColor = albumColor;
-            self.navigationController.navigationBar.translucent = NO;
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-                dataList.contentInset = tableViewInsets;
-                dataList.scrollIndicatorInsets = tableViewInsets;
-                [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
-            }
+//            self.navigationController.navigationBar.translucent = NO;
+//            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+//                UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+//                dataList.contentInset = tableViewInsets;
+//                dataList.scrollIndicatorInsets = tableViewInsets;
+//                [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
+//            }
         }
     }
-    else{
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            self.navigationController.navigationBar.translucent = YES;
-        }
-    }
+//    else{
+//        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+//            self.navigationController.navigationBar.translucent = YES;
+//        }
+//    }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
@@ -3734,15 +3734,15 @@ NSIndexPath *selected;
     
     iOSYDelta = 44;
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        [self.searchDisplayController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
-        iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
-        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.top = 44 + fabs(iOSYDelta);
-        dataList.contentInset = tableViewInsets;
-        dataList.scrollIndicatorInsets = tableViewInsets;
-    }
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
+            UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+            tableViewInsets.top = 44 + fabs(iOSYDelta);
+            dataList.contentInset = tableViewInsets;
+            dataList.scrollIndicatorInsets = tableViewInsets;
+        }
+        [self.searchDisplayController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
         [dataList setSectionIndexBackgroundColor:[UIColor clearColor]];
         [dataList setSectionIndexTrackingBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
         
