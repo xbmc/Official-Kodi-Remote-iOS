@@ -363,10 +363,15 @@
 
 #pragma mark - Lifecycle
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     int deltaY = 0;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [self setNeedsStatusBarAppearanceUpdate];
         deltaY = 22;
         self.view.tintColor = APP_TINT_COLOR;
     }
