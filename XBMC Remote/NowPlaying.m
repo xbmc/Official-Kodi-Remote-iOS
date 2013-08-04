@@ -2503,9 +2503,9 @@ int currentItemID;
             tableViewInsets.top = barHeight + statusBarHeight;
             playlistTableView.contentInset = tableViewInsets;
             playlistTableView.scrollIndicatorInsets = tableViewInsets;
-            CGRect frame = xbmcOverlayImage.frame;
-            frame.origin.y = tableViewInsets.top;
-            xbmcOverlayImage.frame = frame;
+            CGRect frame = xbmcOverlayImage_iphone.frame;
+            frame.origin.y = frame.origin.y + barHeight - statusBarHeight/2;
+            xbmcOverlayImage_iphone.frame = frame;
             
         }
         [self setIOS7toolbar];
