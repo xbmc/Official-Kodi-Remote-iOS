@@ -367,13 +367,13 @@
         [moreItemsViewController viewDidAppear:FALSE];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-            tableViewInsets.bottom = self.bottomLayoutGuide.length;
+            tableViewInsets.bottom = 44;
             tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
             moreItemsViewController.tableView.contentInset = tableViewInsets;
             moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
             [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
         }
-        [detailView addSubview:moreItemsViewController.view];
+        [detailView insertSubview:moreItemsViewController.view aboveSubview:dataList];
     }
 
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
