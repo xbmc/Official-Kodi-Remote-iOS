@@ -118,7 +118,9 @@ int count=0;
             toolbar = [UIToolbar new];
             toolbar.alpha = .8f;
             toolbar.barStyle = UIBarStyleBlackTranslucent;
-//            toolbar.tintColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:.1];
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                toolbar.tintColor = TINT_COLOR;
+            }
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
@@ -1669,7 +1671,7 @@ int h=0;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
 //        self.edgesForExtendedLayout = 0;
         float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
