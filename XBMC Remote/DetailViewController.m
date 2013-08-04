@@ -1529,7 +1529,7 @@ int originYear = 0;
                                               self.navigationController.navigationBar.tintColor = [utils darkerColorForColor:[utils darkerColorForColor:albumColor]];
                                               self.navigationController.navigationBar.barTintColor = albumColor;
                                               self.searchDisplayController.searchBar.barTintColor = albumColor;
-
+                                              self.navigationController.navigationBar.translucent = NO;
                                           }
                                           if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
                                               [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
@@ -3503,7 +3503,7 @@ NSIndexPath *selected;
         [self.navigationController.navigationBar setTintColor:TINT_COLOR];
         [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
         self.searchDisplayController.searchBar.barTintColor = searchBarColor;
-
+        self.navigationController.navigationBar.translucent = YES;
     }
     self.searchDisplayController.searchBar.tintColor = searchBarColor;
 }
@@ -3515,7 +3515,18 @@ NSIndexPath *selected;
             [self.navigationController.navigationBar setTintColor:[utils darkerColorForColor:[utils darkerColorForColor:albumColor]]];
             [self.navigationController.navigationBar setBarTintColor:albumColor];
             self.searchDisplayController.searchBar.barTintColor = albumColor;
-
+            self.navigationController.navigationBar.translucent = NO;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+                dataList.contentInset = tableViewInsets;
+                dataList.scrollIndicatorInsets = tableViewInsets;
+                [dataList setContentOffset:CGPointMake(0, 44) animated:NO];
+            }
+        }
+    }
+    else{
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            self.navigationController.navigationBar.translucent = YES;
         }
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
