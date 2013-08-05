@@ -466,6 +466,10 @@
             self.indexView.hidden = NO;
         }
         self.searchDisplayController.searchBar.tintColor = collectionViewSearchBarColor;
+        [self.searchDisplayController.searchBar setBackgroundColor:collectionViewSearchBarColor];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
+        }
         searchBarColor = collectionViewSearchBarColor;
         [bar.viewLabel setText:currentCollectionViewName];
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
@@ -480,6 +484,10 @@
         activeLayoutView = dataList;
         self.indexView.hidden = YES;
         self.searchDisplayController.searchBar.tintColor = tableViewSearchBarColor;
+        [self.searchDisplayController.searchBar setBackgroundColor:tableViewSearchBarColor];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
+        }
         searchBarColor = tableViewSearchBarColor;
         [bar.viewLabel setText:NSLocalizedString(@"View: List", nil)];
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
@@ -1413,8 +1421,17 @@ int originYear = 0;
             }
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (blackTableSeparator == YES && [AppDelegate instance].obj.preferTVPosters == NO && [indexPath isEqual:[NSIndexPath indexPathForRow:0 inSection:0]]){
-                    UIColor *barColor = [utils darkerColorForColor:[utils averageColor:image inverse:NO]];
-                    self.searchDisplayController.searchBar.tintColor = barColor;
+                    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                        UIColor *barColor = [utils averageColor:image inverse:NO];
+                        [self.searchDisplayController.searchBar setBackgroundColor:barColor];
+                        [self.searchDisplayController.searchBar setTintColor:[utils slightLighterColorForColor:barColor]];
+                    }
+                    else{
+                        UIColor *barColor = [utils darkerColorForColor:[utils averageColor:image inverse:NO]];
+                        self.searchDisplayController.searchBar.tintColor = barColor;
+                    }
+
+                    
                 }
             }];
         }
@@ -3780,7 +3797,7 @@ NSIndexPath *selected;
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         searchBarColor = [UIColor colorWithRed:.572f green:.572f blue:.572f alpha:1];
-        collectionViewSearchBarColor = searchBarColor;
+        collectionViewSearchBarColor = [UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:.95];
     }
 
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
