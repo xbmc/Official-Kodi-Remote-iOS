@@ -37,7 +37,7 @@
 
 @implementation DetailViewController
 
-@synthesize detailItem = _detailItem;
+@synthesize detailItem = _detailItem;i
 @synthesize activityIndicatorView;
 @synthesize sections;
 @synthesize detailViewController;
@@ -3521,8 +3521,11 @@ NSIndexPath *selected;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [self.navigationController.navigationBar setTintColor:TINT_COLOR];
         self.searchDisplayController.searchBar.barTintColor = searchBarColor;
+        self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:searchBarColor];
     }
-    self.searchDisplayController.searchBar.tintColor = searchBarColor;
+    else{
+        self.searchDisplayController.searchBar.tintColor = searchBarColor;
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
