@@ -592,7 +592,8 @@ int currentItemID;
 }
 
 -(void)setIOS7backgroundEffect:(UIColor *)color barTintColor:(UIColor *)barColor{
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+    foundEffectColor = color;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && nowPlayingView.hidden == NO){
         [iOS7bgEffect setBackgroundColor:color];
         [iOS7navBarEffect setBackgroundColor:color];
 //        self.navigationController.navigationBar.tintColor = barColor;
@@ -1554,6 +1555,7 @@ int currentItemID;
 }
 
 -(void)animViews{
+    UIColor *effectColor;
     if (!nowPlayingView.hidden){
         nowPlayingView.hidden = YES;
         transitionView=nowPlayingView;
@@ -1565,6 +1567,7 @@ int currentItemID;
         self.navigationItem.titleView.hidden=YES;
         anim=UIViewAnimationTransitionFlipFromRight;
         anim2=UIViewAnimationTransitionFlipFromRight;
+        effectColor = [UIColor clearColor];
     }
     else {
         playlistView.hidden = YES;
@@ -1577,12 +1580,16 @@ int currentItemID;
         self.navigationItem.titleView.hidden=YES;
         anim=UIViewAnimationTransitionFlipFromLeft;
         anim2=UIViewAnimationTransitionFlipFromLeft;
+        effectColor = foundEffectColor;
+
     }
     [UIView animateWithDuration:0.2
                      animations:^{ 
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          [UIView setAnimationTransition:anim forView:transitionView cache:YES];
-                     } 
+                         [iOS7bgEffect setBackgroundColor:effectColor];
+                         [iOS7navBarEffect setBackgroundColor:effectColor];
+                     }
                      completion:^(BOOL finished){
                          [UIView beginAnimations:nil context:nil];
                          playlistView.hidden=playlistHidden;
@@ -2530,9 +2537,9 @@ int currentItemID;
     [timer invalidate];
     currentItemID = -1;
     self.slidingViewController.panGesture.delegate = nil;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+//    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
 //        self.navigationController.navigationBar.tintColor = TINT_COLOR;
-    }
+//    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated{

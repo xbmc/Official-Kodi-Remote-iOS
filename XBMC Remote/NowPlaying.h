@@ -106,6 +106,7 @@
     __weak IBOutlet UILabel *scrabbingRate;
     UIView *iOS7bgEffect;
     UIView *iOS7navBarEffect;
+    UIColor *foundEffectColor;
 //    SDImageCache *imageCache;
 }
 
