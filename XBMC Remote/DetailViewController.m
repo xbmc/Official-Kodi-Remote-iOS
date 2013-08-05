@@ -1319,6 +1319,14 @@ int originYear = 0;
             [trackNumberLabel setHighlightedTextColor:[UIColor whiteColor]];
             [cell addSubview:trackNumberLabel];
         }
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
+            [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
+            [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
+            [(UILabel*) [cell viewWithTag:4] setHighlightedTextColor:[UIColor blackColor]];
+            [(UILabel*) [cell viewWithTag:5] setHighlightedTextColor:[UIColor blackColor]];
+            [(UILabel*) [cell viewWithTag:101] setHighlightedTextColor:[UIColor blackColor]];
+        }
     }
     mainMenu *Menuitem = self.detailItem;
 //    NSDictionary *mainFields=[[Menuitem mainFields] objectAtIndex:choosedTab];

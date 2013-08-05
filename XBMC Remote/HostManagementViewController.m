@@ -80,6 +80,10 @@
     [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:NULL];
     if (cell==nil){
         cell = serverListCell;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
+            [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
+        }
     }
     if ([[AppDelegate instance].arrayServerList count] == 0){
         [(UIImageView*) [cell viewWithTag:1] setHidden:TRUE];
