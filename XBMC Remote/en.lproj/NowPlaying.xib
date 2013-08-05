@@ -126,7 +126,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="123">
-                                            <rect key="frame" x="90" y="6" width="70" height="28"/>
+                                            <rect key="frame" x="90.000000000000014" y="6" width="70.000000000000014" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -150,7 +150,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="122">
-                                            <rect key="frame" x="159" y="6" width="70" height="28"/>
+                                            <rect key="frame" x="159" y="6" width="70.000000000000014" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -173,7 +173,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" tag="88" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="117">
-                                            <rect key="frame" x="241" y="6" width="72.000000000000028" height="28"/>
+                                            <rect key="frame" x="241.00000000000006" y="6" width="72" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <gestureRecognizers/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -228,7 +228,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="92" userLabel="Now Playing View">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="371.99999999999994"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.40000000596046448" contentMode="scaleAspectFit" image="xbmc_overlay.png" id="154" userLabel="Image View - xbmc_overlay_ipad.png">
@@ -250,7 +250,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </imageView>
                                 <view alpha="0.0" contentMode="scaleToFill" id="104" userLabel="Song Details View">
-                                    <rect key="frame" x="50" y="42" width="237" height="240"/>
+                                    <rect key="frame" x="50" y="42" width="237" height="239.99999999999997"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="codec" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="106">
@@ -281,7 +281,7 @@
                                             <size key="shadowOffset" width="1" height="1"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="110">
-                                            <rect key="frame" x="123.00000000000001" y="72" width="114" height="21"/>
+                                            <rect key="frame" x="123" y="72" width="114" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -290,7 +290,7 @@
                                             <size key="shadowOffset" width="1" height="1"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="111">
-                                            <rect key="frame" x="123" y="110" width="114.00000000000001" height="21"/>
+                                            <rect key="frame" x="123" y="110" width="114" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -299,7 +299,7 @@
                                             <size key="shadowOffset" width="1" height="1"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="112">
-                                            <rect key="frame" x="123" y="148" width="114.00000000000001" height="21"/>
+                                            <rect key="frame" x="123" y="148" width="114" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -324,7 +324,7 @@ details</string>
                                             </state>
                                         </button>
                                         <button hidden="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="wordWrap" id="203" userLabel="Button AlbumTracks">
-                                            <rect key="frame" x="63.999999999999993" y="6" width="46" height="41"/>
+                                            <rect key="frame" x="64" y="6" width="46" height="41"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                             <inset key="titleEdgeInsets" minX="0.0" minY="16" maxX="0.0" maxY="0.0"/>
@@ -409,7 +409,7 @@ albums</string>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="6" userLabel="Label Title">
-                                    <rect key="frame" x="5" y="321" width="310" height="28"/>
+                                    <rect key="frame" x="5" y="320.99999999999994" width="310" height="28"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" white="0.90011975359999996" alpha="1" colorSpace="calibratedWhite"/>
@@ -418,7 +418,7 @@ albums</string>
                                     <size key="shadowOffset" width="1" height="1"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="9" userLabel="Label Artist">
-                                    <rect key="frame" x="5" y="346" width="310" height="20"/>
+                                    <rect key="frame" x="5" y="345.99999999999994" width="310" height="20"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -427,7 +427,7 @@ albums</string>
                                     <size key="shadowOffset" width="1" height="1"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="30" userLabel="Label Current Time">
-                                    <rect key="frame" x="4" y="310" width="47" height="18"/>
+                                    <rect key="frame" x="4" y="309.99999999999994" width="47" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -436,7 +436,7 @@ albums</string>
                                     <size key="shadowOffset" width="1" height="1"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="31" userLabel="Label Total Time">
-                                    <rect key="frame" x="269" y="310" width="47" height="18"/>
+                                    <rect key="frame" x="269" y="309.99999999999994" width="47" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -445,21 +445,20 @@ albums</string>
                                     <size key="shadowOffset" width="1" height="1"/>
                                 </label>
                                 <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="pgbar_inact_fake.png" id="28">
-                                    <rect key="frame" x="20" y="297" width="280" height="17"/>
+                                    <rect key="frame" x="20" y="296.99999999999994" width="280" height="17"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 </imageView>
                                 <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="pgbar_act.png" id="55">
-                                    <rect key="frame" x="20" y="297" width="0.0" height="18"/>
+                                    <rect key="frame" x="20" y="296.99999999999994" width="0.0" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </imageView>
                                 <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="pgbar_thumb.png" id="29">
-                                    <rect key="frame" x="14" y="298" width="15" height="16"/>
+                                    <rect key="frame" x="14" y="297.99999999999994" width="15" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </imageView>
                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" id="171" userLabel="Horizontal progress bar" customClass="OBSlider">
-                                    <rect key="frame" x="19" y="289" width="284" height="29"/>
+                                    <rect key="frame" x="19" y="288.99999999999994" width="284" height="29"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
                                     <color key="minimumTrackTintColor" cyan="0.57082572990000002" magenta="0.1166094542" yellow="0.084519743920000001" black="0.00065612792969999998" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                                     <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -472,7 +471,7 @@ albums</string>
                                     </connections>
                                 </slider>
                                 <view alpha="0.0" contentMode="scaleToFill" id="220" userLabel="View scrubbing message">
-                                    <rect key="frame" x="0.0" y="243" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="242.99999999999994" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="tableDown.png" id="223">
