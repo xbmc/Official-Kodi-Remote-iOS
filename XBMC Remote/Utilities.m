@@ -13,7 +13,15 @@
 
 - (UIColor *)averageColor:(UIImage *)image inverse:(BOOL)inverse{
     CGImageRef rawImageRef = [image CGImage];
-    if (rawImageRef == nil) return TINT_COLOR;
+    if (rawImageRef == nil) return [UIColor clearColor];
+    
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
+
+    int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
+    BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
+                        infoMask == kCGImageAlphaNoneSkipFirst ||
+                        infoMask == kCGImageAlphaNoneSkipLast);
+    if (!anyNonAlpha) return [UIColor clearColor];
 	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
     const UInt8 *rawPixelData = CFDataGetBytePtr(data);
     
