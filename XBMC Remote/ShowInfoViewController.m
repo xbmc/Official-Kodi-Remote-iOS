@@ -120,6 +120,7 @@ int count=0;
             toolbar.barStyle = UIBarStyleBlackTranslucent;
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
                 toolbar.tintColor = TINT_COLOR;
+                toolbar.alpha = 1.0f;
             }
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];

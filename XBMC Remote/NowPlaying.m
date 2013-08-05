@@ -2301,7 +2301,7 @@ int currentItemID;
     xbmcOverlayImage.hidden = YES;
 }
 
--(void)setIpadInterface{
+-(void)setIpadInterface:(float)toolbarAlpha{
     playlistLeftShadow.hidden = NO;
     slideFrom=-300;
     CGRect frame;
@@ -2341,6 +2341,7 @@ int currentItemID;
     [items removeObjectAtIndex:6];
     [items removeObjectAtIndex:7];
     [playlistToolbar setItems:items animated:YES];
+    playlistToolbar.alpha = toolbarAlpha;
     UIButton *buttonItem=(UIButton *)[self.view viewWithTag:5];
     [buttonItem removeFromSuperview];
     
@@ -2494,7 +2495,9 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    float toolbarAlpha = 0.8f;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        toolbarAlpha = 1.0f;
         int barHeight = 44;
         int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -2527,14 +2530,9 @@ int currentItemID;
         frame.size.height = frame.size.height - barHeight - statusBarHeight;
         nowPlayingView.frame = frame;
     }
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-//        self.edgesForExtendedLayout = 0;
-    }
-//    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
     [scrabbingMessage setText:NSLocalizedString(@"Slide your finger up to adjust the scrubbing rate.", nil)];
     [scrabbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
     sheetActions = [[NSMutableArray alloc] init];
-//    [[SDImageCache sharedImageCache] clearMemory];
     playerID = -1;
     selectedPlayerID = -1;
     lastSelected = -1;
@@ -2555,7 +2553,7 @@ int currentItemID;
         [self setIphoneInterface];
     }
     else{
-        [self setIpadInterface];
+        [self setIpadInterface:toolbarAlpha];
     }
     playlistData = [[NSMutableArray alloc] init ];
     manager = [SDWebImageManager sharedManager];
