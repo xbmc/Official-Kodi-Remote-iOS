@@ -18,6 +18,7 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "ActorCell.h"
+#import "Utilities.h"
 
 @interface ShowInfoViewController ()
 @end
@@ -1033,6 +1034,11 @@ int h=0;
     }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image!=nil){
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                Utilities *utils = [[Utilities alloc] init];
+                foundTintColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                self.navigationController.navigationBar.tintColor = foundTintColor;
+            }
             if (enableJewel){
                 coverView.image = image;
                 [activityIndicatorView stopAnimating];
@@ -1043,8 +1049,19 @@ int h=0;
             }
         }
         else{
+            __weak UINavigationController *sfNavigationController = self.navigationController;
+            __block UIColor *newColor = nil;
             if (enableJewel){
-                [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
+                [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
+                          placeholderImage:[UIImage imageNamed:placeHolderImage]
+                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                         Utilities *utils = [[Utilities alloc] init];
+                         newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                         sfNavigationController.navigationBar.tintColor = newColor;
+                     }
+                 }];
+                foundTintColor = newColor;
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
             }
@@ -1052,9 +1069,15 @@ int h=0;
                 [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                                         Utilities *utils = [[Utilities alloc] init];
+                                         newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                                         sfNavigationController.navigationBar.tintColor = newColor;
+                                     }
                                      [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
                                  }
                  ];
+                foundTintColor = newColor;
             }
         }
     }];
@@ -1639,10 +1662,16 @@ int h=0;
                                              selector: @selector(handleSwipeFromLeft:)
                                                  name: @"ECSLidingSwipeLeft"
                                                object: nil];
+    if (foundTintColor != nil){
+        self.navigationController.navigationBar.tintColor = foundTintColor;
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] removeObserver: self];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -1673,15 +1702,12 @@ int h=0;
 - (void)viewDidLoad{
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-//        self.edgesForExtendedLayout = 0;
         float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.top = 44 + fabs(iOSYDelta);
         scrollView.contentInset = tableViewInsets;
         scrollView.scrollIndicatorInsets = tableViewInsets;
     }
-//    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
-//    [[SDImageCache sharedImageCache] clearMemory];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
