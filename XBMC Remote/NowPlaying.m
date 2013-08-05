@@ -696,6 +696,7 @@ int currentItemID;
                                              if ([thumbnailPath isEqualToString:@""]){
                                                  UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                                  [self setButtonImageAndStartDemo:buttonImage];
+                                                 [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
                                              }
                                              __weak NowPlaying *sf = self;
                                              __block UIColor *newColor = nil;
