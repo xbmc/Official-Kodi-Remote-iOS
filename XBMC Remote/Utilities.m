@@ -7,12 +7,13 @@
 //
 
 #import "Utilities.h"
+#import "AppDelegate.h"
 
 @implementation Utilities
 
 - (UIColor *)averageColor:(UIImage *)image inverse:(BOOL)inverse{
     CGImageRef rawImageRef = [image CGImage];
-    
+    if (rawImageRef == nil) return TINT_COLOR;
 	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
     const UInt8 *rawPixelData = CFDataGetBytePtr(data);
     

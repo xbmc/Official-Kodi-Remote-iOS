@@ -1055,10 +1055,12 @@ int h=0;
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && error == nil){
+                         if (image !=nil){
                          Utilities *utils = [[Utilities alloc] init];
                          newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
                          sfNavigationController.navigationBar.tintColor = newColor;
+                         }
                      }
                  }];
                 foundTintColor = newColor;
@@ -1069,12 +1071,14 @@ int h=0;
                 [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                                         Utilities *utils = [[Utilities alloc] init];
-                                         newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
-                                         sfNavigationController.navigationBar.tintColor = newColor;
+                                     if (image !=nil){
+                                         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && error == nil){
+                                             Utilities *utils = [[Utilities alloc] init];
+                                             newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                                             sfNavigationController.navigationBar.tintColor = newColor;
+                                         }
+                                         [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
                                      }
-                                     [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
                                  }
                  ];
                 foundTintColor = newColor;
