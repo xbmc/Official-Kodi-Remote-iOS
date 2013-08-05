@@ -104,6 +104,8 @@
     __weak IBOutlet UIView *scrabbingView;
     __weak IBOutlet UILabel *scrabbingMessage;
     __weak IBOutlet UILabel *scrabbingRate;
+    UIView *iOS7bgEffect;
+    UIView *iOS7navBarEffect;
 //    SDImageCache *imageCache;
 }
 

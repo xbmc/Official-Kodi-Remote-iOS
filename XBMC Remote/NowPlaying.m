@@ -20,6 +20,7 @@
 #import "StackScrollViewController.h"
 #import "ShowInfoViewController.h"
 #import "OBSlider.h"
+#import "Utilities.h"
 
 @interface NowPlaying ()
 
@@ -563,6 +564,7 @@ int currentItemID;
     artistDetailsButton.hidden = YES;
     artistAlbumsButton.hidden = YES;
     musicPartyMode = 0;
+    [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     if (selection){
         [playlistTableView deselectRowAtIndexPath:selection animated:YES];
@@ -586,6 +588,14 @@ int currentItemID;
             [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
             startFlipDemo = NO;
         }
+    }
+}
+
+-(void)setIOS7backgroundEffect:(UIColor *)color barTintColor:(UIColor *)barColor{
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [iOS7bgEffect setBackgroundColor:color];
+        [iOS7navBarEffect setBackgroundColor:color];
+//        self.navigationController.navigationBar.tintColor = barColor;
     }
 }
 
@@ -669,6 +679,9 @@ int currentItemID;
                                      [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
                                          UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                          if (image!=nil){
+                                             Utilities *utils = [[Utilities alloc] init];
+                                             UIColor *effectColor = [utils averageColor:image inverse:NO];
+                                             [self setIOS7backgroundEffect:effectColor barTintColor:effectColor];
                                              if (enableJewel){
                                                  thumbnailView.image=image;
                                                  buttonImage=[self resizeImage:[self imageWithBorderFromImage:image] width:76 height:66 padding:10];
@@ -685,29 +698,37 @@ int currentItemID;
                                                  [self setButtonImageAndStartDemo:buttonImage];
                                              }
                                              __weak NowPlaying *sf = self;
-                                                 if (enableJewel){
-                                                     [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
-                                                                   placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
-                                                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                                                              if (error == nil){
-                                                                                  UIImage *buttonImage=[sf resizeImage:[sf imageWithBorderFromImage:image] width:76 height:66 padding:10];
-                                                                                  [sf setButtonImageAndStartDemo:buttonImage];
-                                                                              }
-                                                                          }];
-                                                 }
-                                                 else{
-                                                     __weak UIImageView *jV = jewelView;
-                                                     [jewelView
-                                                      setImageWithURL:[NSURL URLWithString:stringURL]
-                                                      placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
-                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {                                                          
-                                                          if (error == nil){
-                                                              jV.image=[sf imageWithBorderFromImage:image];
-                                                              UIImage *buttonImage=[sf resizeImage:jV.image width:76 height:66 padding:10];
-                                                              [sf setButtonImageAndStartDemo:buttonImage];
-                                                          }
-                                                      }];
-                                                 }
+                                             __block UIColor *newColor = nil;
+                                             if (enableJewel){
+                                                 [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
+                                                               placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                                          if (error == nil){
+                                                                              Utilities *utils = [[Utilities alloc] init];
+                                                                              newColor = [utils averageColor:image inverse:NO];
+                                                                              UIImage *buttonImage=[sf resizeImage:[sf imageWithBorderFromImage:image] width:76 height:66 padding:10];
+                                                                              [sf setButtonImageAndStartDemo:buttonImage];
+                                                                              [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
+                                                                              
+                                                                          }
+                                                                      }];
+                                             }
+                                             else{
+                                                 __weak UIImageView *jV = jewelView;
+                                                 [jewelView
+                                                  setImageWithURL:[NSURL URLWithString:stringURL]
+                                                  placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                      if (error == nil){
+                                                          Utilities *utils = [[Utilities alloc] init];
+                                                          newColor = [utils averageColor:image inverse:NO];
+                                                          [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
+                                                          jV.image=[sf imageWithBorderFromImage:image];
+                                                          UIImage *buttonImage=[sf resizeImage:jV.image width:76 height:66 padding:10];
+                                                          [sf setButtonImageAndStartDemo:buttonImage];
+                                                      }
+                                                  }];
+                                             }
                                          }
                                      }];
                                  }
@@ -2011,28 +2032,38 @@ int currentItemID;
     if (cell == nil){
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"playlistCellView" owner:self options:nil];
         cell = [nib objectAtIndex:0];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
+            [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
+            [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
+        }
     }
     NSDictionary *item = [playlistData objectAtIndex:indexPath.row];
-    UIImageView *thumb = (UIImageView*) [cell viewWithTag:4]; 
-    [(UILabel*) [cell viewWithTag:1] setText:[item objectForKey:@"label"]];
+    UIImageView *thumb = (UIImageView*) [cell viewWithTag:4];
+    
+    UILabel *mainLabel = (UILabel*) [cell viewWithTag:1];
+    UILabel *subLabel = (UILabel*) [cell viewWithTag:2];
+    UILabel *cornerLabel = (UILabel*) [cell viewWithTag:3];
+
+    [mainLabel setText:[item objectForKey:@"label"]];
     [(UILabel*) [cell viewWithTag:2] setText:@""];
     if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
         if ([[item objectForKey:@"season"] intValue]!=0 || [[item objectForKey:@"episode"] intValue]!=0){
-            [(UILabel*) [cell viewWithTag:1] setText:[NSString stringWithFormat:@"%@x%02i. %@", [item objectForKey:@"season"], [[item objectForKey:@"episode"] intValue], [item objectForKey:@"label"]]];
+            [mainLabel setText:[NSString stringWithFormat:@"%@x%02i. %@", [item objectForKey:@"season"], [[item objectForKey:@"episode"] intValue], [item objectForKey:@"label"]]];
         }
-        [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@", [item objectForKey:@"showtitle"]]];
+        [subLabel setText:[NSString stringWithFormat:@"%@", [item objectForKey:@"showtitle"]]];
     }
     else if ([[item objectForKey:@"type"] isEqualToString:@"song"]){
         NSString *artist = [[item objectForKey:@"artist"] length]==0? @"" :[NSString stringWithFormat:@" - %@", [item objectForKey:@"artist"]];
-        [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@%@",[item objectForKey:@"album"], artist]];
+        [subLabel setText:[NSString stringWithFormat:@"%@%@",[item objectForKey:@"album"], artist]];
     }
     else if ([[item objectForKey:@"type"] isEqualToString:@"movie"]){
-        [(UILabel*) [cell viewWithTag:2] setText:[NSString stringWithFormat:@"%@",[item objectForKey:@"genre"]]];
+        [subLabel setText:[NSString stringWithFormat:@"%@",[item objectForKey:@"genre"]]];
     }
     if (playerID == 0)
-        [(UILabel*) [cell viewWithTag:3] setText:[item objectForKey:@"duration"]];
+        [cornerLabel setText:[item objectForKey:@"duration"]];
     if (playerID == 1)
-        [(UILabel*) [cell viewWithTag:3] setText:[item objectForKey:@"runtime"]];
+        [cornerLabel setText:[item objectForKey:@"runtime"]];
     NSString *stringURL = [item objectForKey:@"thumbnail"]; 
     [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"]];
     // andResize:CGSizeMake(thumb.frame.size.width, thumb.frame.size.height)
@@ -2040,6 +2071,7 @@ int currentItemID;
     if (timePlaying.hidden == NO){
         [self fadeView:timePlaying hidden:YES];
     }
+    
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -2295,6 +2327,10 @@ int currentItemID;
     frame.size.width=width - 302;
     nowPlayingView.frame=frame;
     portraitMode = isPortrait;
+    
+    frame = iOS7bgEffect.frame;
+    frame.size.width = width;
+    iOS7bgEffect.frame = frame;
     [self setCoverSize:currentType];
 }
 
@@ -2468,16 +2504,34 @@ int currentItemID;
         rightMenuViewController.rightMenuItems = [AppDelegate instance].nowPlayingMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
     }
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        int effectHeight = 4;
+        int barEffectHeight = 36;
+        if (iOS7bgEffect == nil){
+            iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - effectHeight, self.view.frame.size.width, effectHeight)];
+            iOS7bgEffect.autoresizingMask = playlistToolbar.autoresizingMask;
+            [self.view insertSubview:iOS7bgEffect atIndex:0];
+        }
+        if (iOS7navBarEffect == nil && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, barEffectHeight)];
+            iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+            [self.view insertSubview:iOS7navBarEffect belowSubview:playlistView];
+        }
+    }
+
 }
 
 -(void)startFlipDemo{
-    [self flipAnimButton:playlistButton demo:YES]; 
+    [self flipAnimButton:playlistButton demo:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [timer invalidate];
     currentItemID = -1;
     self.slidingViewController.panGesture.delegate = nil;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+//        self.navigationController.navigationBar.tintColor = TINT_COLOR;
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -2504,28 +2558,30 @@ int currentItemID;
         int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-
             tableViewInsets.top = barHeight + statusBarHeight;
             playlistTableView.contentInset = tableViewInsets;
             playlistTableView.scrollIndicatorInsets = tableViewInsets;
             CGRect frame = xbmcOverlayImage_iphone.frame;
             frame.origin.y = frame.origin.y + barHeight - statusBarHeight/2;
             xbmcOverlayImage_iphone.frame = frame;
-            
         }
         [self setIOS7toolbar];
         UIEdgeInsets tableViewInsets = playlistTableView.contentInset;
-        tableViewInsets.bottom = barHeight * 2;
+//        tableViewInsets.bottom = barHeight * 2;
+        tableViewInsets.bottom = barHeight;
         playlistTableView.contentInset = tableViewInsets;
         playlistTableView.scrollIndicatorInsets = tableViewInsets;
-        CGRect frame = playlistTableView.frame;
+        CGRect frame;
+        frame= playlistTableView.frame;
         frame.size.height=self.view.bounds.size.height;
+        frame.size.height=self.view.bounds.size.height - barHeight;
+
         playlistView.frame = frame;
         playlistTableView.frame = frame;
 
-        frame = playlistActionView.frame;
-        frame.origin.y = frame.origin.y - barHeight;
-        playlistActionView.frame = frame;
+//        frame = playlistActionView.frame;
+//        frame.origin.y = frame.origin.y - barHeight;
+//        playlistActionView.frame = frame;
         
         frame = nowPlayingView.frame;
         frame.origin.y = barHeight + statusBarHeight;
