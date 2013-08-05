@@ -3847,9 +3847,9 @@ NSIndexPath *selected;
         recentlyAddedView = FALSE;
     }
     enableCollectionView = [self collectionViewIsEnabled];
-//    if (enableCollectionView) {
-//        [self initCollectionView];
-//    }
+    if (enableCollectionView) {
+        [self initCollectionView];
+    }
 //    [((UITableView *)activeLayoutView).pullToRefreshView
 //     setSubtitle:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Last sync", nil),NSLocalizedString(@"never", nil)]
 //     forState:SVPullToRefreshStateStopped];
