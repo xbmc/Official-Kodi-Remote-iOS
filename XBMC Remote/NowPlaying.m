@@ -594,9 +594,12 @@ int currentItemID;
 -(void)setIOS7backgroundEffect:(UIColor *)color barTintColor:(UIColor *)barColor{
     foundEffectColor = color;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && nowPlayingView.hidden == NO){
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:1.0f];
         [iOS7bgEffect setBackgroundColor:color];
         [iOS7navBarEffect setBackgroundColor:color];
-//        self.navigationController.navigationBar.tintColor = barColor;
+        [UIView commitAnimations];
+        //        self.navigationController.navigationBar.tintColor = barColor;
     }
 }
 
