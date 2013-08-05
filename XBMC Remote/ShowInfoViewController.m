@@ -145,6 +145,7 @@ int count=0;
                               title,
                               spacer,
                               extraButton,
+                              spacer,
                               actionSheetButtonItemIpad,
                               nil];
             toolbar.items = items;
@@ -528,6 +529,7 @@ int h=0;
         int count = [toolbar.items count];
         NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
         [newToolbarItems removeObjectAtIndex:(count - 1)];
+        [newToolbarItems removeObjectAtIndex:(count - 2)];
         toolbar.items = newToolbarItems;
     }
     else{
@@ -588,6 +590,11 @@ int h=0;
     jewelView.alpha = 0;
     jewelView.image = image;
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0f];
+}
+
+-(void)setIOS7barTintColor:(UIColor *)tintColor{
+    self.navigationController.navigationBar.tintColor = tintColor;
+    toolbar.tintColor = tintColor;
 }
 
 -(void)createInfo{
@@ -1038,6 +1045,7 @@ int h=0;
                 Utilities *utils = [[Utilities alloc] init];
                 foundTintColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
                 self.navigationController.navigationBar.tintColor = foundTintColor;
+                toolbar.tintColor = foundTintColor;
             }
             if (enableJewel){
                 coverView.image = image;
@@ -1049,7 +1057,7 @@ int h=0;
             }
         }
         else{
-            __weak UINavigationController *sfNavigationController = self.navigationController;
+            __weak ShowInfoViewController *sf = self;
             __block UIColor *newColor = nil;
             if (enableJewel){
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
@@ -1057,9 +1065,9 @@ int h=0;
                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                      if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && error == nil){
                          if (image !=nil){
-                         Utilities *utils = [[Utilities alloc] init];
-                         newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
-                         sfNavigationController.navigationBar.tintColor = newColor;
+                             Utilities *utils = [[Utilities alloc] init];
+                             newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                             [sf setIOS7barTintColor:newColor];
                          }
                      }
                  }];
@@ -1075,7 +1083,7 @@ int h=0;
                                          if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && error == nil){
                                              Utilities *utils = [[Utilities alloc] init];
                                              newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
-                                             sfNavigationController.navigationBar.tintColor = newColor;
+                                             [sf setIOS7barTintColor:newColor];
                                          }
                                          [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
                                      }
@@ -1668,6 +1676,7 @@ int h=0;
                                                object: nil];
     if (foundTintColor != nil){
         self.navigationController.navigationBar.tintColor = foundTintColor;
+        toolbar.tintColor = foundTintColor;
     }
 }
 
@@ -1675,6 +1684,7 @@ int h=0;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [self.navigationController.navigationBar setTintColor:TINT_COLOR];
+        toolbar.tintColor = TINT_COLOR;
     }
 }
 
