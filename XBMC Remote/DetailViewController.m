@@ -37,7 +37,7 @@
 
 @implementation DetailViewController
 
-@synthesize detailItem = _detailItem;i
+@synthesize detailItem = _detailItem;
 @synthesize activityIndicatorView;
 @synthesize sections;
 @synthesize detailViewController;
