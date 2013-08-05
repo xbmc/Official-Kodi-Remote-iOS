@@ -288,7 +288,9 @@ float cellBarWidth=45;
 	int w = image.size.width;
     int h = image.size.height;
     if (!w || !h) return image;
-    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        destPadding = 0;
+    }
 	CGImageRef imageRef = [image CGImage];
 	
 	int width, height;
