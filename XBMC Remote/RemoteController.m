@@ -1155,6 +1155,7 @@ NSInteger buttonAction;
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         self.edgesForExtendedLayout = 0;
+        self.view.tintColor = TINT_COLOR;
     }
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
