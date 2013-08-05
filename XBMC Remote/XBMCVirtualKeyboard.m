@@ -51,12 +51,28 @@
         [verboseOutput setTextAlignment:NSTextAlignmentCenter];
         
         inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
-        [inputAccView setBackgroundColor:accessoryColor];
-        UIImageView *keyboardLineImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 2)];
-        [keyboardLineImageView setImage:[UIImage imageNamed:@"keyboard_line"]];
-        [keyboardLineImageView setContentMode:UIViewContentModeScaleToFill];
-        [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-        [inputAccView addSubview:keyboardLineImageView];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            UIToolbar *buttonsToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight - alignBottom)];
+            [buttonsToolbar setBarStyle:UIBarStyleDefault];
+            [buttonsToolbar setTranslucent:YES];
+            [buttonsToolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+
+            [inputAccView insertSubview: buttonsToolbar atIndex:0];
+            UIImageView *keyboardLineImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, accessoryHeight - alignBottom, screenWidth, 2)];
+            keyboardLineImageView.alpha = 0.1f;
+            [keyboardLineImageView setImage:[UIImage imageNamed:@"keyboard_line"]];
+            [keyboardLineImageView setContentMode:UIViewContentModeScaleToFill];
+            [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+            [inputAccView addSubview:keyboardLineImageView];
+        }
+        else{
+            [inputAccView setBackgroundColor:accessoryColor];
+            UIImageView *keyboardLineImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 2)];
+            [keyboardLineImageView setImage:[UIImage imageNamed:@"keyboard_line"]];
+            [keyboardLineImageView setContentMode:UIViewContentModeScaleToFill];
+            [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+            [inputAccView addSubview:keyboardLineImageView];
+        }
         
         backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
         [backgroundTextField setUserInteractionEnabled:NO];
