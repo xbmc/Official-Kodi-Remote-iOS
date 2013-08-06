@@ -1908,14 +1908,11 @@ int originYear = 0;
 
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-        UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-        imageView.frame = CGRectMake(0,0,viewWidth,1);
-        return imageView;
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 1;
+    return 0;
 }
 
 #pragma mark - Content Filtering
@@ -3748,7 +3745,9 @@ NSIndexPath *selected;
     [super viewDidLoad];
     
     iOSYDelta = 44;
-
+    dataList.tableFooterView = [UIView new];
+    self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
+    
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
