@@ -100,8 +100,9 @@ static CGRect initialTextFieldFrame;
 }
 
 - (void)drawRect:(CGRect)rect{
-    if ([self.delegate respondsToSelector:@selector(handleChangeLibraryView)]){
-        [self.leftButton addTarget:self.delegate action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
+    SEL selector = NSSelectorFromString(@"handleChangeLibraryView");
+    if ([self.delegate respondsToSelector:selector]){
+        [self.leftButton addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
     }
 }
 

@@ -541,7 +541,7 @@ int h=0;
 
 - (UIImage*)imageWithShadow:(UIImage *)source {
     CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGImageAlphaPremultipliedLast);
+    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
     CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 10, [UIColor blackColor].CGColor);

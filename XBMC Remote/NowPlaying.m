@@ -306,7 +306,7 @@ float cellBarWidth=45;
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
 	CGContextRef bitmap;
-	bitmap = CGBitmapContextCreate(NULL, destWidth, destHeight, 8, 4 * destWidth, colorSpace, kCGImageAlphaPremultipliedFirst);
+	bitmap = CGBitmapContextCreate(NULL, destWidth, destHeight, 8, 4 * destWidth, colorSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
 	
 	if (image.imageOrientation == UIImageOrientationLeft) {
 		CGContextRotateCTM (bitmap, M_PI/2);
@@ -337,7 +337,7 @@ float cellBarWidth=45;
 
 - (UIImage*)imageWithShadow:(UIImage *)source {
     CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGImageAlphaPremultipliedLast);
+    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
     CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 10, [UIColor blackColor].CGColor);

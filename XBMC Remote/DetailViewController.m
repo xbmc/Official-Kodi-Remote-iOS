@@ -286,7 +286,7 @@
 
 - (UIImage*)imageWithShadow:(UIImage *)source shadowRadius:(int)shadowRadius {
     CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + shadowRadius * 2, source.size.height + shadowRadius * 2, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGImageAlphaPremultipliedLast);
+    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + shadowRadius * 2, source.size.height + shadowRadius * 2, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
     CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), shadowRadius, [UIColor blackColor].CGColor);
