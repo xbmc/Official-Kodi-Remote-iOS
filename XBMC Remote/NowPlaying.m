@@ -2040,6 +2040,8 @@ int currentItemID;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 //	cell.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];
+    cell.backgroundColor = [UIColor whiteColor];
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
