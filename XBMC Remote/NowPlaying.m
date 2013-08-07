@@ -2503,11 +2503,30 @@ int currentItemID;
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"
                                                object: nil];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(disableInteractivePopGestureRecognizer:)
+                                                     name: @"ECSlidingViewUnderRightWillAppear"
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(disableInteractivePopGestureRecognizer:)
+                                                     name: @"ECSlidingViewTopDidReset"
+                                                   object: nil];
+    }
 
     // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
 //    UIViewController *c = [[UIViewController alloc]init];
 //    [self presentModalViewController:c animated:NO];
 //    [self dismissModalViewControllerAnimated:NO];
+}
+
+-(void)disableInteractivePopGestureRecognizer:(id)sender{
+    if ([[sender name] isEqualToString:@"ECSlidingViewUnderRightWillAppear"]){
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
+    else{
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
 }
 
 - (void)revealMenu:(id)sender{
