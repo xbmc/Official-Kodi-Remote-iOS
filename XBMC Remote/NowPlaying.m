@@ -43,7 +43,6 @@ float startx=14;
 float barwidth=280;
 float cellBarWidth=45;
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
-#define SLIDER_DEFAULT_COLOR [UIColor colorWithRed:87.0f/255.0f green:158.0f/255.0f blue:186.0f/255.0f alpha:1]
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
@@ -828,8 +827,9 @@ int currentItemID;
                                  BOOL canseek = [[methodResult objectForKey:@"canseek"] boolValue];
                                  if (canseek && !ProgressSlider.userInteractionEnabled){
                                      ProgressSlider.userInteractionEnabled = YES;
-                                     [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
-                                     [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateHighlighted];
+                                     [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
+                                     [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
+//                                     [ProgressSlider setThumbTintColor:[UIColor lightGrayColor]];
 
                                  }
                                  if (!canseek && ProgressSlider.userInteractionEnabled){
@@ -2601,7 +2601,10 @@ int currentItemID;
 - (void)viewDidLoad{
     [super viewDidLoad];
     float toolbarAlpha = 0.8f;
+    pg_thumb_name = @"pgbar_thumb";
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        pg_thumb_name = @"pgbar_thumb_iOS7";
+
         toolbarAlpha = 1.0f;
         int barHeight = 44;
         int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
@@ -2639,6 +2642,7 @@ int currentItemID;
         frame.origin.y = barHeight + statusBarHeight;
         frame.size.height = frame.size.height - barHeight - statusBarHeight;
         nowPlayingView.frame = frame;
+        [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
         [ProgressSlider setMaximumTrackTintColor:APP_TINT_COLOR];
     }
     else{

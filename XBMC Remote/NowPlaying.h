@@ -107,7 +107,7 @@
     UIView *iOS7bgEffect;
     UIView *iOS7navBarEffect;
     UIColor *foundEffectColor;
-//    SDImageCache *imageCache;
+    NSString *pg_thumb_name;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
