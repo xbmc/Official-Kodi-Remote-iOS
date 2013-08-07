@@ -2039,7 +2039,7 @@ int currentItemID;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-	cell.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];
+//	cell.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -2520,15 +2520,15 @@ int currentItemID;
         self.slidingViewController.underRightViewController = rightMenuViewController;
     }
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        int effectHeight = 4;
-        int barEffectHeight = 36;
+        int effectHeight = 22;
+        int barEffectHeight = 32;
         if (iOS7bgEffect == nil){
-            iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - effectHeight, self.view.frame.size.width, effectHeight)];
+            iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, effectHeight)];
             iOS7bgEffect.autoresizingMask = playlistToolbar.autoresizingMask;
             [self.view insertSubview:iOS7bgEffect atIndex:0];
         }
         if (iOS7navBarEffect == nil && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, barEffectHeight)];
+            iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, 64 - barEffectHeight, self.view.frame.size.width, barEffectHeight)];
             iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
             [self.view insertSubview:iOS7navBarEffect belowSubview:playlistView];
         }
