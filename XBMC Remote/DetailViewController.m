@@ -1555,8 +1555,7 @@ int originYear = 0;
                                           self.searchDisplayController.searchBar.tintColor = albumColor;
                                           if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
                                               self.navigationController.navigationBar.tintColor = [utils slightLighterColorForColor:albumColor];
-
-                                              self.searchDisplayController.searchBar.barTintColor = albumColor;
+//                                              self.searchDisplayController.searchBar.barTintColor = albumColor;
                                           }
                                           if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
                                               [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
@@ -3525,7 +3524,7 @@ NSIndexPath *selected;
     [self.navigationController.navigationBar setTintColor:IOS6_BAR_TINT_COLOR];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [self.navigationController.navigationBar setTintColor:TINT_COLOR];
-        self.searchDisplayController.searchBar.barTintColor = searchBarColor;
+//        self.searchDisplayController.searchBar.barTintColor = searchBarColor;
         self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:searchBarColor];
     }
     else{
@@ -3580,7 +3579,7 @@ NSIndexPath *selected;
         [self.navigationController.navigationBar setTintColor:albumColor];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [self.navigationController.navigationBar setTintColor:[utils slightLighterColorForColor:albumColor]];
-            self.searchDisplayController.searchBar.barTintColor = albumColor;
+//            self.searchDisplayController.searchBar.barTintColor = albumColor;
         }
     }
 }
@@ -3854,7 +3853,7 @@ NSIndexPath *selected;
         recentlyAddedView = FALSE;
     }
     enableCollectionView = [self collectionViewIsEnabled];
-    if (enableCollectionView) {
+    if ([self collectionViewCanBeEnabled]) { // TEMP FIX
         [self initCollectionView];
     }
 //    [((UITableView *)activeLayoutView).pullToRefreshView
