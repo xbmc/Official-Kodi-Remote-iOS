@@ -15,5 +15,6 @@
 - (UIColor *)lighterColorForColor:(UIColor *)c;
 - (UIColor *)darkerColorForColor:(UIColor *)c;
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker;
+- (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker trigger:(CGFloat)trigger;
 
 @end

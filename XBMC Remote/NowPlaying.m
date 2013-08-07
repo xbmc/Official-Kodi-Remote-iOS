@@ -43,6 +43,7 @@ float startx=14;
 float barwidth=280;
 float cellBarWidth=45;
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
+#define SLIDER_DEFAULT_COLOR [UIColor colorWithRed:87.0f/255.0f green:158.0f/255.0f blue:186.0f/255.0f alpha:1]
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
@@ -591,13 +592,25 @@ int currentItemID;
     }
 }
 
+-(void)IOS7effect:(UIColor *)color barTintColor:(UIColor *)barColor{
+    [iOS7bgEffect setBackgroundColor:color];
+    [iOS7navBarEffect setBackgroundColor:color];
+    if ([color isEqual:[UIColor clearColor]]){
+        [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
+    }
+    else{
+        Utilities *utils = [[Utilities alloc] init];
+        UIColor *progressColor =[utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.2];
+        [ProgressSlider setMinimumTrackTintColor:progressColor];
+    }
+}
+
 -(void)setIOS7backgroundEffect:(UIColor *)color barTintColor:(UIColor *)barColor{
     foundEffectColor = color;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && nowPlayingView.hidden == NO){
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:1.0f];
-        [iOS7bgEffect setBackgroundColor:color];
-        [iOS7navBarEffect setBackgroundColor:color];
+        [self IOS7effect:color barTintColor:barColor];
         [UIView commitAnimations];
         //        self.navigationController.navigationBar.tintColor = barColor;
     }
@@ -680,6 +693,11 @@ int currentItemID;
                                  NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
                                  NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                                  if (![lastThumbnail isEqualToString:stringURL]){
+                                     if ([thumbnailPath isEqualToString:@""]){
+                                         UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
+                                         [self setButtonImageAndStartDemo:buttonImage];
+                                         [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
+                                     }
                                      [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
                                          UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                          if (image!=nil){
@@ -697,12 +715,7 @@ int currentItemID;
                                              [self setIOS7backgroundEffect:effectColor barTintColor:effectColor];
                                          }
                                          else{
-                                             if ([thumbnailPath isEqualToString:@""]){
-                                                 UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
-                                                 [self setButtonImageAndStartDemo:buttonImage];
-                                                 [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
-                                             }
-                                             __weak NowPlaying *sf = self;
+                                            __weak NowPlaying *sf = self;
                                              __block UIColor *newColor = nil;
                                              if (enableJewel){
                                                  [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
@@ -817,6 +830,7 @@ int currentItemID;
                                      ProgressSlider.userInteractionEnabled = YES;
                                      [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
                                      [ProgressSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateHighlighted];
+
                                  }
                                  if (!canseek && ProgressSlider.userInteractionEnabled){
                                      ProgressSlider.userInteractionEnabled = NO;
@@ -1587,11 +1601,10 @@ int currentItemID;
 
     }
     [UIView animateWithDuration:0.2
-                     animations:^{ 
+                     animations:^{
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          [UIView setAnimationTransition:anim forView:transitionView cache:YES];
-                         [iOS7bgEffect setBackgroundColor:effectColor];
-                         [iOS7navBarEffect setBackgroundColor:effectColor];
+                         [self IOS7effect:effectColor barTintColor:effectColor];
                      }
                      completion:^(BOOL finished){
                          [UIView beginAnimations:nil context:nil];
@@ -2522,7 +2535,7 @@ int currentItemID;
         self.slidingViewController.underRightViewController = rightMenuViewController;
     }
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        int effectHeight = 22;
+        int effectHeight = 12;
         int barEffectHeight = 32;
         if (iOS7bgEffect == nil){
             iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, effectHeight)];
@@ -2607,7 +2620,17 @@ int currentItemID;
         frame.origin.y = barHeight + statusBarHeight;
         frame.size.height = frame.size.height - barHeight - statusBarHeight;
         nowPlayingView.frame = frame;
+        [ProgressSlider setMaximumTrackTintColor:APP_TINT_COLOR];
     }
+    else{
+        UIImage *sliderRightTrackImage = [[UIImage imageNamed: @"slider"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
+        UIImage *sliderLeftTrackImage = [[UIImage imageNamed: @"slider_on"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
+        [ProgressSlider setMinimumTrackImage: sliderLeftTrackImage forState: UIControlStateNormal];
+        [ProgressSlider setMaximumTrackImage: sliderRightTrackImage forState: UIControlStateNormal];
+    }
+    ProgressSlider.userInteractionEnabled = NO;
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
     [scrabbingMessage setText:NSLocalizedString(@"Slide your finger up to adjust the scrubbing rate.", nil)];
     [scrabbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
     sheetActions = [[NSMutableArray alloc] init];
@@ -2620,13 +2643,6 @@ int currentItemID;
     albumTracksButton.titleLabel.textAlignment = UITextAlignmentCenter;
     artistDetailsButton.titleLabel.textAlignment = UITextAlignmentCenter;
     artistAlbumsButton.titleLabel.textAlignment = UITextAlignmentCenter;
-    ProgressSlider.userInteractionEnabled = NO;
-    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
-    UIImage *sliderRightTrackImage = [[UIImage imageNamed: @"slider"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
-    UIImage *sliderLeftTrackImage = [[UIImage imageNamed: @"slider_on"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
-    [ProgressSlider setMinimumTrackImage: sliderLeftTrackImage forState: UIControlStateNormal];
-    [ProgressSlider setMaximumTrackImage: sliderRightTrackImage forState: UIControlStateNormal];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self setIphoneInterface];
     }

@@ -86,9 +86,14 @@
 }
 
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker{
+    CGFloat trigger = 0.4f;
+    return [self updateColor:newColor lightColor:lighter darkColor:darker trigger:trigger];
+}
+
+- (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker trigger:(CGFloat)trigger{
     const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
     CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
-    if (colorBrightness < 0.4){
+    if (colorBrightness < trigger){
         return lighter;
     }
     else{
