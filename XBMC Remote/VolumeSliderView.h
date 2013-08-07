@@ -16,6 +16,7 @@
     DSJSONRPC *jsonRPC;
     IBOutlet UIButton *plusButton;
     IBOutlet UIButton *minusButton;
+    NSString *pg_thumb_name;
 }
 
 - (IBAction)slideVolume:(id)sender;

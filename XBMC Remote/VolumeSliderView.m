@@ -22,15 +22,20 @@
 		self = [nib objectAtIndex:0];
         CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * -0.5);
         volumeSlider.transform = trans;
-//        [volumeLabel setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
-//        [volumeSlider setMaximumTrackImage:[UIImage imageNamed:@"pgbar_inact_fake.png"] forState:UIControlStateNormal];
-//        [volumeSlider setMinimumTrackImage:[UIImage imageNamed:@"pgbar_act.png"] forState:UIControlStateNormal];
-        [volumeSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateNormal];
-        [volumeSlider setThumbImage:[UIImage imageNamed:@"pgbar_thumb.png"] forState:UIControlStateHighlighted];
-        UIImage *sliderRightTrackImage = [[UIImage imageNamed: @"slider"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
-        UIImage *sliderLeftTrackImage = [[UIImage imageNamed: @"slider_on"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
-        [volumeSlider setMinimumTrackImage: sliderLeftTrackImage forState: UIControlStateNormal];
-        [volumeSlider setMaximumTrackImage: sliderRightTrackImage forState: UIControlStateNormal];
+        pg_thumb_name = @"pgbar_thumb";
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
+            [volumeSlider setMaximumTrackTintColor:APP_TINT_COLOR];
+            pg_thumb_name = @"pgbar_thumb_iOS7";
+        }
+        else{
+            UIImage *sliderRightTrackImage = [[UIImage imageNamed: @"slider"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
+            UIImage *sliderLeftTrackImage = [[UIImage imageNamed: @"slider_on"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
+            [volumeSlider setMinimumTrackImage: sliderLeftTrackImage forState: UIControlStateNormal];
+            [volumeSlider setMaximumTrackImage: sliderRightTrackImage forState: UIControlStateNormal];
+        }
+        [volumeSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
+        [volumeSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
         [self volumeInfo];
         volumeSlider.tag = 10;
         [volumeSlider addTarget:self action:@selector(changeServerVolume:) forControlEvents:UIControlEventTouchUpInside];
