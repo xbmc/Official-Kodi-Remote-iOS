@@ -596,11 +596,14 @@ int currentItemID;
     [iOS7navBarEffect setBackgroundColor:color];
     if ([color isEqual:[UIColor clearColor]]){
         [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
+        self.navigationController.navigationBar.tintColor = TINT_COLOR;
     }
     else{
         Utilities *utils = [[Utilities alloc] init];
         UIColor *progressColor =[utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.2];
+        UIColor *navBarColor = [utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.4];
         [ProgressSlider setMinimumTrackTintColor:progressColor];
+        self.navigationController.navigationBar.tintColor = navBarColor;
     }
 }
 
@@ -611,7 +614,6 @@ int currentItemID;
         [UIView setAnimationDuration:1.0f];
         [self IOS7effect:color barTintColor:barColor];
         [UIView commitAnimations];
-        //        self.navigationController.navigationBar.tintColor = barColor;
     }
 }
 
@@ -1573,6 +1575,7 @@ int currentItemID;
 
 -(void)animViews{
     UIColor *effectColor;
+    UIColor *barColor;
     if (!nowPlayingView.hidden){
         nowPlayingView.hidden = YES;
         transitionView=nowPlayingView;
@@ -1585,6 +1588,8 @@ int currentItemID;
         anim=UIViewAnimationTransitionFlipFromRight;
         anim2=UIViewAnimationTransitionFlipFromRight;
         effectColor = [UIColor clearColor];
+        barColor = TINT_COLOR;
+        
     }
     else {
         playlistView.hidden = YES;
@@ -1598,13 +1603,13 @@ int currentItemID;
         anim=UIViewAnimationTransitionFlipFromLeft;
         anim2=UIViewAnimationTransitionFlipFromLeft;
         effectColor = foundEffectColor;
-
+        barColor = foundEffectColor;
     }
     [UIView animateWithDuration:0.2
                      animations:^{
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          [UIView setAnimationTransition:anim forView:transitionView cache:YES];
-                         [self IOS7effect:effectColor barTintColor:effectColor];
+                         [self IOS7effect:effectColor barTintColor:barColor];
                      }
                      completion:^(BOOL finished){
                          [UIView beginAnimations:nil context:nil];
