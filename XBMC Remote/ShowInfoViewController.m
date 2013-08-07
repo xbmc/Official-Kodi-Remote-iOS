@@ -1649,6 +1649,18 @@ int h=0;
 //        [self presentViewController:c animated:NO completion:nil];
 //        [self dismissViewControllerAnimated:NO completion:nil];
 //    }
+        [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleSwipeFromLeft:)
+                                                 name: @"ECSLidingSwipeLeft"
+                                               object: nil];
+    if (foundTintColor != nil){
+        self.navigationController.navigationBar.tintColor = foundTintColor;
+        toolbar.tintColor = foundTintColor;
+    }
     float alphaValue = 0.2;
     if (closeButton.alpha==1){
         alphaValue = 1;
@@ -1666,18 +1678,7 @@ int h=0;
         }
         [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
-    [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
-}
 
--(void)viewDidAppear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleSwipeFromLeft:)
-                                                 name: @"ECSLidingSwipeLeft"
-                                               object: nil];
-    if (foundTintColor != nil){
-        self.navigationController.navigationBar.tintColor = foundTintColor;
-        toolbar.tintColor = foundTintColor;
-    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
