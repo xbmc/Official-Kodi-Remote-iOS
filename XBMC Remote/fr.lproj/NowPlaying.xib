@@ -396,24 +396,24 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="128" userLabel="PlaylistActionView">
-                    <rect key="frame" x="0.0" y="416" width="320" height="44"/>
+                    <rect key="frame" x="0.0" y="416" width="319" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="tableDown.png" id="118">
-                            <rect key="frame" x="0.0" y="-3" width="320" height="4"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.49999999999999961" contentMode="scaleToFill" image="tableDown.png" id="118">
+                            <rect key="frame" x="0.0" y="-3" width="319" height="4"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         </imageView>
                         <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="playlist_background.png" id="150">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="319" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         </imageView>
                         <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="jLA-oF-Evd">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="319" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <items/>
                         </toolbar>
                         <imageView userInteractionEnabled="NO" alpha="0.30000001192092896" contentMode="scaleToFill" id="153">
-                            <rect key="frame" x="320" y="2" width="1" height="42"/>
+                            <rect key="frame" x="319" y="2" width="1" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </imageView>
@@ -465,7 +465,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="88" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="117">
-                            <rect key="frame" x="241" y="6" width="71.999999999999986" height="28"/>
+                            <rect key="frame" x="241" y="6" width="70.999999999999986" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
