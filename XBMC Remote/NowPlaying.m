@@ -606,9 +606,12 @@ int currentItemID;
         Utilities *utils = [[Utilities alloc] init];
         UIColor *progressColor =[utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.2];
         UIColor *navBarColor = [utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.4];
+        UIColor *pgThumbColor = [utils updateColor:color lightColor:[utils lighterColorForColor:color] darkColor:[utils slightLighterColorForColor:color] trigger:0.2];
+        
         [ProgressSlider setMinimumTrackTintColor:progressColor];
         self.navigationController.navigationBar.tintColor = navBarColor;
-        UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:pg_thumb_name] withColor:[utils slightLighterColorForColor:color]];
+        
+        UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:pg_thumb_name] withColor:pgThumbColor];
         [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
         [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
     }
