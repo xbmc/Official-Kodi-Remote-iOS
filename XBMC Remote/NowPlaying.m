@@ -114,8 +114,8 @@ float cellBarWidth=45;
 }
 
 -(IBAction)changePlaylist:(id)sender{
-    if ([sender tag]==1 && seg_music.selected) return;
-    if ([sender tag]==2 && seg_video.selected) return;
+    if ([sender tag]==101 && seg_music.selected) return;
+    if ([sender tag]==102 && seg_video.selected) return;
     [self editTable:nil forceClose:YES];
     if ([playlistData count] && (playlistTableView.dragging == YES || playlistTableView.decelerating == YES)){
         NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
@@ -592,28 +592,30 @@ int currentItemID;
 }
 
 -(void)IOS7effect:(UIColor *)color barTintColor:(UIColor *)barColor{
-    [iOS7bgEffect setBackgroundColor:color];
-    [iOS7navBarEffect setBackgroundColor:color];
-    if ([color isEqual:[UIColor clearColor]]){
-        [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
-        self.navigationController.navigationBar.tintColor = TINT_COLOR;
-        if ([ProgressSlider thumbImageForState:UIControlStateNormal] != nil){
-            [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
-            [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [iOS7bgEffect setBackgroundColor:color];
+        [iOS7navBarEffect setBackgroundColor:color];
+        if ([color isEqual:[UIColor clearColor]]){
+            [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
+            self.navigationController.navigationBar.tintColor = TINT_COLOR;
+            if ([ProgressSlider thumbImageForState:UIControlStateNormal] != nil){
+                [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
+                [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
+            }
         }
-    }
-    else{
-        Utilities *utils = [[Utilities alloc] init];
-        UIColor *progressColor =[utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.2];
-        UIColor *navBarColor = [utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.4];
-        UIColor *pgThumbColor = [utils updateColor:color lightColor:[utils lighterColorForColor:color] darkColor:[utils slightLighterColorForColor:color] trigger:0.2];
-        
-        [ProgressSlider setMinimumTrackTintColor:progressColor];
-        self.navigationController.navigationBar.tintColor = navBarColor;
-        
-        UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:pg_thumb_name] withColor:pgThumbColor];
-        [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
-        [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
+        else{
+            Utilities *utils = [[Utilities alloc] init];
+            UIColor *progressColor =[utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.2];
+            UIColor *navBarColor = [utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.4];
+            UIColor *pgThumbColor = [utils updateColor:color lightColor:[utils lighterColorForColor:color] darkColor:[utils slightLighterColorForColor:color] trigger:0.2];
+            
+            [ProgressSlider setMinimumTrackTintColor:progressColor];
+            self.navigationController.navigationBar.tintColor = navBarColor;
+            
+            UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:pg_thumb_name] withColor:pgThumbColor];
+            [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
+            [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
+        }
     }
 }
 
@@ -1152,12 +1154,14 @@ int currentItemID;
     
     if (playlistID==0){
         playerID=0;
+        [playlistSegmentedControl setSelectedSegmentIndex:0];
         seg_music.selected=YES;
         seg_video.selected=NO;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:NO XPos:8];
     }
     else if (playlistID==1){
         playerID=1;
+        [playlistSegmentedControl setSelectedSegmentIndex:1];
         seg_music.selected=NO;
         seg_video.selected=YES;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-72];
@@ -1586,6 +1590,7 @@ int currentItemID;
 -(void)animViews{
     UIColor *effectColor;
     UIColor *barColor;
+    __block CGRect playlistToolBarOriginY = playlistActionView.frame;
     if (!nowPlayingView.hidden){
         nowPlayingView.hidden = YES;
         transitionView=nowPlayingView;
@@ -1599,7 +1604,7 @@ int currentItemID;
         anim2=UIViewAnimationTransitionFlipFromRight;
         effectColor = [UIColor clearColor];
         barColor = TINT_COLOR;
-        
+        playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height - playlistTableView.contentInset.bottom;
     }
     else {
         playlistView.hidden = YES;
@@ -1614,6 +1619,7 @@ int currentItemID;
         anim2=UIViewAnimationTransitionFlipFromLeft;
         effectColor = foundEffectColor;
         barColor = foundEffectColor;
+        playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height;
     }
     [UIView animateWithDuration:0.2
                      animations:^{
@@ -1628,6 +1634,8 @@ int currentItemID;
                          self.navigationItem.titleView.hidden=NO;
                          [UIView setAnimationDuration:0.5];
                          [UIView setAnimationDelegate:self];
+                         playlistActionView.frame = playlistToolBarOriginY;
+                         playlistActionView.alpha = (int)nowPlayingHidden;
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
                          [UIView setAnimationTransition:anim2 forView:transitionedView cache:YES];
                          [UIView commitAnimations];
@@ -2449,6 +2457,47 @@ int currentItemID;
     return YES;
 }
 
+#pragma mark - UISegmentControl
+
+-(void)addSegmentControl{
+    seg_music.hidden = YES;
+    seg_video.hidden = YES;
+    playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Music", nil),
+                                                                          [[NSLocalizedString(@"Video ", nil) capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], nil
+                                                                          ]
+                                ];
+    playlistSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    playlistSegmentedControl.frame = CGRectMake(99, 7, 122, 29);
+    playlistSegmentedControl.tintColor = [UIColor whiteColor];
+    [playlistSegmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents: UIControlEventValueChanged];
+    [playlistActionView addSubview:playlistSegmentedControl];
+}
+
+- (void)segmentValueChanged:(UISegmentedControl *)segment {
+    [self editTable:nil forceClose:YES];
+    if ([playlistData count] && (playlistTableView.dragging == YES || playlistTableView.decelerating == YES)){
+        NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
+        [playlistTableView  scrollToRowAtIndexPath:[visiblePaths objectAtIndex:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
+    if(segment.selectedSegmentIndex == 0) {
+        lastSelected=-1;
+        seg_music.selected=YES;
+        seg_video.selected=NO;
+        selectedPlayerID=0;
+        musicPartyMode=0;
+        [self createPlaylist:NO animTableView:YES];
+        
+    }else if(segment.selectedSegmentIndex == 1){
+        lastSelected=-1;
+        seg_music.selected=NO;
+        seg_video.selected=YES;
+        selectedPlayerID=1;
+        musicPartyMode=0;
+        [self createPlaylist:NO animTableView:YES];
+    }
+}
+
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -2478,6 +2527,9 @@ int currentItemID;
             playlistHidden = YES;
             viewTitle.text = NSLocalizedString(@"Now Playing", nil);
             self.navigationItem.title = NSLocalizedString(@"Now Playing", nil);
+            CGRect playlistToolBarOriginY = playlistActionView.frame;
+            playlistToolBarOriginY.origin.y = playlistToolbar.frame.origin.y + playlistToolbar.frame.size.height;
+            playlistActionView.frame = playlistToolBarOriginY;
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             startFlipDemo = YES;
@@ -2611,15 +2663,33 @@ int currentItemID;
         [buttonItem setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
         [buttonItem setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
     }
+    
+    [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+    [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+    [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
+    [editTableButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    [editTableButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [editTableButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [editTableButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+    
+    [PartyModeButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    [PartyModeButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [PartyModeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [PartyModeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [PartyModeButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+
+
 }
 
 - (void)viewDidLoad{
     [super viewDidLoad];
     float toolbarAlpha = 0.8f;
     pg_thumb_name = @"pgbar_thumb";
+    
+    
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [self addSegmentControl];
         pg_thumb_name = @"pgbar_thumb_iOS7";
-
         toolbarAlpha = 1.0f;
         int barHeight = 44;
         int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
@@ -2637,29 +2707,21 @@ int currentItemID;
         }
         [self setIOS7toolbar];
         UIEdgeInsets tableViewInsets = playlistTableView.contentInset;
-        
         tableViewInsets.bottom = barHeight * 2;
-//        tableViewInsets.bottom = barHeight; // ALT
-        
         playlistTableView.contentInset = tableViewInsets;
         playlistTableView.scrollIndicatorInsets = tableViewInsets;
+        
         CGRect frame;
         frame= playlistTableView.frame;
-        
         frame.size.height=self.view.bounds.size.height;
-//        frame.size.height=self.view.bounds.size.height - barHeight; // ALT
-
         playlistView.frame = frame;
         playlistTableView.frame = frame;
-
-        frame = playlistActionView.frame;// AALT
-        frame.origin.y = frame.origin.y - barHeight;// AALT
-        playlistActionView.frame = frame;// AALT
         
         frame = nowPlayingView.frame;
         frame.origin.y = barHeight + statusBarHeight;
         frame.size.height = frame.size.height - barHeight - statusBarHeight;
         nowPlayingView.frame = frame;
+        
         [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
         [ProgressSlider setMaximumTrackTintColor:APP_TINT_COLOR];
     }
