@@ -474,23 +474,33 @@
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(428, 966, 190, 33)]; //225
     [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
-    xbmcInfo.titleLabel.minimumFontSize=6.0f;
-    xbmcInfo.titleLabel.numberOfLines=2;
+    xbmcInfo.titleLabel.minimumFontSize = 6.0f;
+    xbmcInfo.titleLabel.numberOfLines = 2;
     xbmcInfo.titleLabel.textAlignment=UITextAlignmentCenter;
-    xbmcInfo.titleEdgeInsets=UIEdgeInsetsMake(0, 3, 0, 3);
+    xbmcInfo.titleEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
-    xbmcInfo.titleLabel.shadowOffset    = CGSizeMake (1.0, 1.0);
-    [xbmcInfo setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+    xbmcInfo.titleLabel.shadowOffset = CGSizeMake (1.0, 1.0);
     xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:xbmcInfo];
     
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(620, 966, 42, 33)]; //225
-    [powerButton setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
+        xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
+        xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
+        [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+    }
+    else{
+        [xbmcInfo setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+        [powerButton setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+    }
     [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateNormal];
     [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:xbmcInfo];
     [self.view addSubview:powerButton];
     
     [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
