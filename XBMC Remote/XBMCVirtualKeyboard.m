@@ -56,14 +56,7 @@
             [buttonsToolbar setBarStyle:UIBarStyleDefault];
             [buttonsToolbar setTranslucent:YES];
             [buttonsToolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-
             [inputAccView insertSubview: buttonsToolbar atIndex:0];
-            UIImageView *keyboardLineImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, accessoryHeight - alignBottom, screenWidth, 2)];
-            keyboardLineImageView.alpha = 0.1f;
-            [keyboardLineImageView setImage:[UIImage imageNamed:@"keyboard_line"]];
-            [keyboardLineImageView setContentMode:UIViewContentModeScaleToFill];
-            [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-            [inputAccView addSubview:keyboardLineImageView];
         }
         else{
             [inputAccView setBackgroundColor:accessoryColor];
