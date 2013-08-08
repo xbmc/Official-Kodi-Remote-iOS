@@ -2634,21 +2634,24 @@ int currentItemID;
         }
         [self setIOS7toolbar];
         UIEdgeInsets tableViewInsets = playlistTableView.contentInset;
-//        tableViewInsets.bottom = barHeight * 2;
-        tableViewInsets.bottom = barHeight;
+        
+        tableViewInsets.bottom = barHeight * 2;
+//        tableViewInsets.bottom = barHeight; // ALT
+        
         playlistTableView.contentInset = tableViewInsets;
         playlistTableView.scrollIndicatorInsets = tableViewInsets;
         CGRect frame;
         frame= playlistTableView.frame;
+        
         frame.size.height=self.view.bounds.size.height;
-        frame.size.height=self.view.bounds.size.height - barHeight;
+//        frame.size.height=self.view.bounds.size.height - barHeight; // ALT
 
         playlistView.frame = frame;
         playlistTableView.frame = frame;
 
-//        frame = playlistActionView.frame;
-//        frame.origin.y = frame.origin.y - barHeight;
-//        playlistActionView.frame = frame;
+        frame = playlistActionView.frame;// AALT
+        frame.origin.y = frame.origin.y - barHeight;// AALT
+        playlistActionView.frame = frame;// AALT
         
         frame = nowPlayingView.frame;
         frame.origin.y = barHeight + statusBarHeight;
