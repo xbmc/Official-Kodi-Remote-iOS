@@ -2440,6 +2440,10 @@ int currentItemID;
     playlistView.hidden=NO;
     xbmcOverlayImage_iphone.hidden = YES;
     
+    frame = playlistActionView.frame;
+    frame.origin.y = playlistToolbar.frame.origin.y - playlistToolbar.frame.size.height;
+    playlistActionView.frame = frame;
+    playlistActionView.alpha = 1.0f;
 }
 
 -(bool)enableJewelCases{
