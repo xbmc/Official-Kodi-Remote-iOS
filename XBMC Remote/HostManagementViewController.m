@@ -372,6 +372,21 @@
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         self.edgesForExtendedLayout = 2;
+        [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+        [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+        [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
+        [editTableButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+        [editTableButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [editTableButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [editTableButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+        
+        [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+        [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+        [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
+        [addHostButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+        [addHostButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [addHostButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [addHostButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
     }
     doRevealMenu = YES;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {

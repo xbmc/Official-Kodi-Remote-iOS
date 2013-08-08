@@ -24,6 +24,7 @@
     __weak IBOutlet UIActivityIndicatorView *connectingActivityIndicator;
     BOOL doRevealMenu;
     AppInfoViewController *appInfoView;
+    __weak IBOutlet UIButton *addHostButton;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
