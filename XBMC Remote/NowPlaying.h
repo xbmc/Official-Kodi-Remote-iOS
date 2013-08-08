@@ -109,6 +109,7 @@
     UIColor *foundEffectColor;
     NSString *pg_thumb_name;
     UISegmentedControl *playlistSegmentedControl;
+    UIColor *cellBackgroundColor;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;

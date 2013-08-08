@@ -2076,7 +2076,7 @@ int currentItemID;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 //	cell.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = cellBackgroundColor;
 
 }
 
@@ -2689,11 +2689,12 @@ int currentItemID;
     [super viewDidLoad];
     float toolbarAlpha = 0.8f;
     pg_thumb_name = @"pgbar_thumb";
-    
+    cellBackgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];
     
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [self addSegmentControl];
         pg_thumb_name = @"pgbar_thumb_iOS7";
+        cellBackgroundColor = [UIColor whiteColor];
         toolbarAlpha = 1.0f;
         int barHeight = 44;
         int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
