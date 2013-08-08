@@ -471,6 +471,7 @@
 		0F934D9215FF7ECD00D5168F /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F934D9115FF7ECD00D5168F /* mask.png */; };
 		0F94B20316E239C300485E8E /* coverbox_back_tvshows@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F94B20216E239C300485E8E /* coverbox_back_tvshows@2x.png */; };
 		0F94B20516E239CC00485E8E /* coverbox_back_tvshows.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F94B20416E239CC00485E8E /* coverbox_back_tvshows.png */; };
+		0F95AEE017B39DEA006AB094 /* pgbar_thumb_iOS7.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F95AEDF17B39DEA006AB094 /* pgbar_thumb_iOS7.png */; };
 		0F9C375D156684B8008BE1A3 /* line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F9C375C156684B8008BE1A3 /* line@2x.png */; };
 		0F9C3760156684D0008BE1A3 /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F9C375F156684D0008BE1A3 /* line.png */; };
 		0F9DF9E3165959510045440D /* playlist_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F9DF9E2165959510045440D /* playlist_background.png */; };
@@ -1222,6 +1223,7 @@
 		0F934D9115FF7ECD00D5168F /* mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask.png; sourceTree = "<group>"; };
 		0F94B20216E239C300485E8E /* coverbox_back_tvshows@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coverbox_back_tvshows@2x.png"; sourceTree = "<group>"; };
 		0F94B20416E239CC00485E8E /* coverbox_back_tvshows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coverbox_back_tvshows.png; sourceTree = "<group>"; };
+		0F95AEDF17B39DEA006AB094 /* pgbar_thumb_iOS7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pgbar_thumb_iOS7.png; sourceTree = "<group>"; };
 		0F9C375C156684B8008BE1A3 /* line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line@2x.png"; sourceTree = "<group>"; };
 		0F9C375F156684D0008BE1A3 /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = line.png; sourceTree = "<group>"; };
 		0F9DF9E2165959510045440D /* playlist_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playlist_background.png; sourceTree = "<group>"; };
@@ -2074,6 +2076,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F95AEDF17B39DEA006AB094 /* pgbar_thumb_iOS7.png */,
 				0F64C63E1719B1E20061BFBA /* cell_bg.png */,
 				0F64C63F1719B1E20061BFBA /* cell_bg_selected.png */,
 				0FD4E87C1716EC620020EAFE /* nocover_filemode_wall.png */,
@@ -3081,6 +3084,7 @@
 				0F90CD6316329CBC00B256F0 /* st_songs_recently_played_black@2x.png in Resources */,
 				0F881282163933F1005E0D0F /* st_music_playlist_black.png in Resources */,
 				0F88128516393400005E0D0F /* st_music_playlist_black@2x.png in Resources */,
+				0F95AEE017B39DEA006AB094 /* pgbar_thumb_iOS7.png in Resources */,
 				0F8812871639366B005E0D0F /* st_livetv_black.png in Resources */,
 				0F88128916393673005E0D0F /* st_livetv_black@2x.png in Resources */,
 				0F7D9A51163D40F10069BC16 /* coverbox_back_section.png in Resources */,

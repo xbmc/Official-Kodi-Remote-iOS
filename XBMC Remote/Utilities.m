@@ -101,4 +101,46 @@
     }
 }
 
+- (UIImage*)colorizeImage:(UIImage *)image withColor:(UIColor*)color{
+    UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
+    
+    CGRect contextRect;
+    contextRect.origin.x = 0.0f;
+    contextRect.origin.y = 0.0f;
+    contextRect.size = [image size];
+    
+    CGSize itemImageSize = [image size];
+    CGPoint itemImagePosition;
+    itemImagePosition.x = ceilf((contextRect.size.width - itemImageSize.width) / 2);
+    itemImagePosition.y = ceilf((contextRect.size.height - itemImageSize.height) );
+    
+    UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, [[UIScreen mainScreen] scale]);
+    
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    
+    CGContextBeginTransparencyLayer(c, NULL);
+    CGContextScaleCTM(c, 1.0, -1.0);
+    CGContextClipToMask(c, CGRectMake(itemImagePosition.x, -itemImagePosition.y, itemImageSize.width, -itemImageSize.height), [image CGImage]);
+
+    CGColorSpaceRef colorSpace = CGColorGetColorSpace(color.CGColor);
+    CGColorSpaceModel model = CGColorSpaceGetModel(colorSpace);
+    const CGFloat* colors = CGColorGetComponents(color.CGColor);
+    
+    if(model == kCGColorSpaceModelMonochrome){
+        CGContextSetRGBFillColor(c, colors[0], colors[0], colors[0], colors[1]);
+    }
+    else{
+        CGContextSetRGBFillColor(c, colors[0], colors[1], colors[2], colors[3]);
+    }
+    
+    contextRect.size.height = -contextRect.size.height;
+    contextRect.size.height -= 15;
+    CGContextFillRect(c, contextRect);
+    CGContextEndTransparencyLayer(c);
+    
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return img;
+}
+
 @end

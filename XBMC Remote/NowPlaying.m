@@ -597,6 +597,10 @@ int currentItemID;
     if ([color isEqual:[UIColor clearColor]]){
         [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
         self.navigationController.navigationBar.tintColor = TINT_COLOR;
+        if ([ProgressSlider thumbImageForState:UIControlStateNormal] != nil){
+            [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
+            [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
+        }
     }
     else{
         Utilities *utils = [[Utilities alloc] init];
@@ -604,6 +608,9 @@ int currentItemID;
         UIColor *navBarColor = [utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.4];
         [ProgressSlider setMinimumTrackTintColor:progressColor];
         self.navigationController.navigationBar.tintColor = navBarColor;
+        UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:pg_thumb_name] withColor:[utils slightLighterColorForColor:color]];
+        [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
+        [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
     }
 }
 
