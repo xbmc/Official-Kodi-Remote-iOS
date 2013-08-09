@@ -393,6 +393,9 @@
         CGRect frame = backgroundImageView.frame;
         frame.size.height = frame.size.height + 8;
         backgroundImageView.frame = frame;
+        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
+        [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+        [self.view setBackgroundColor:[UIColor blackColor]];
     }
     else if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
         MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];

@@ -195,15 +195,19 @@
     [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:volumeSliderView.frame.origin.y - volumeSliderView.frame.size.height - 42 forceHide:FALSE];
 }
 
+-(void)initHostManagemetPopOver{
+    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
+    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
+    self.serverPickerPopover = [[UIPopoverController alloc]
+                                initWithContentViewController:[AppDelegate instance].navigationController];
+    self.serverPickerPopover.delegate = self;
+    [self.serverPickerPopover setBackgroundColor:[UIColor clearColor]];
+    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
+}
+
 - (void)toggleSetup {
     if (_hostPickerViewController == nil) {
-        
-        self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-        [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
-        self.serverPickerPopover = [[UIPopoverController alloc] 
-                                    initWithContentViewController:[AppDelegate instance].navigationController];
-        self.serverPickerPopover.delegate = self;
-        [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
+        [self initHostManagemetPopOver];
     }
     [self.serverPickerPopover presentPopoverFromRect:xbmcInfo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
@@ -553,14 +557,7 @@
                                              selector: @selector(handleTcpJSONRPCChangeServerStatus:)
                                                  name: @"TcpJSONRPCChangeServerStatus"
                                                object: nil];
-    
-    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
-    self.serverPickerPopover = [[UIPopoverController alloc]
-                                initWithContentViewController:[AppDelegate instance].navigationController];
-    self.serverPickerPopover.delegate = self;
-    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
-
+    [self initHostManagemetPopOver];
 }
 
 -(void)handleTcpJSONRPCShowSetup:(NSNotification *)sender{
