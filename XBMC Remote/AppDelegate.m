@@ -2997,8 +2997,8 @@ NSMutableArray *hostRightMenuItems;
     [remoteControlMenuItems addObject:remoteControlItem1];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(detectOrientation:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     
-    [UIDevice currentDevice].proximityMonitoringEnabled = YES;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleProximityChangeNotification:) name:UIDeviceProximityStateDidChangeNotification object:nil];
+//    [UIDevice currentDevice].proximityMonitoringEnabled = YES;
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleProximityChangeNotification:) name:UIDeviceProximityStateDidChangeNotification object:nil];
 
 #pragma mark -
 

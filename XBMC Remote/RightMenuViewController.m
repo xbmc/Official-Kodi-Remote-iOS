@@ -296,7 +296,6 @@
 #pragma mark - LifeCycle
 
 -(void)viewWillDisappear:(BOOL)animated{
-    NSLog(@"DISAPPEAR ");
     [volumeSliderView stopTimer];
 }
 
