@@ -2710,19 +2710,20 @@ int currentItemID;
             frame = noFoundView.frame;
             frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
             noFoundView.frame = frame;
+            
+            tableViewInsets = playlistTableView.contentInset;
+            tableViewInsets.bottom = barHeight * 2;
+            playlistTableView.contentInset = tableViewInsets;
+            playlistTableView.scrollIndicatorInsets = tableViewInsets;
+            
+            frame= playlistTableView.frame;
+            frame.size.height=self.view.bounds.size.height;
+            playlistView.frame = frame;
+            playlistTableView.frame = frame;
         }
         [self setIOS7toolbar];
-        UIEdgeInsets tableViewInsets = playlistTableView.contentInset;
-        tableViewInsets.bottom = barHeight * 2;
-        playlistTableView.contentInset = tableViewInsets;
-        playlistTableView.scrollIndicatorInsets = tableViewInsets;
-        
+
         CGRect frame;
-        frame= playlistTableView.frame;
-        frame.size.height=self.view.bounds.size.height;
-        playlistView.frame = frame;
-        playlistTableView.frame = frame;
-        
         frame = nowPlayingView.frame;
         frame.origin.y = barHeight + statusBarHeight;
         frame.size.height = frame.size.height - barHeight - statusBarHeight;
