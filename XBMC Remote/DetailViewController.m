@@ -3818,10 +3818,10 @@ NSIndexPath *selected;
     }
     else if ([[methods objectForKey:@"episodesView"] boolValue] == YES){
         episodesView = TRUE;
-        [dataList setSeparatorInset:UIEdgeInsetsMake(0, 18, 0, 0)];
         searchBarColor = [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             searchBarColor = [UIColor colorWithRed:229.0f/255.0f green:229.0f/255.0f blue:229.0f/255.0f alpha:1];
+            [dataList setSeparatorInset:UIEdgeInsetsMake(0, 18, 0, 0)];
         }
     }
     else if ([[methods objectForKey:@"tvshowsView"] boolValue] == YES){
@@ -3830,7 +3830,9 @@ NSIndexPath *selected;
     tableViewSearchBarColor = searchBarColor;
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         blackTableSeparator = YES;
-        [dataList setSeparatorInset:UIEdgeInsetsZero];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [dataList setSeparatorInset:UIEdgeInsetsZero];
+        }
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
         self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
