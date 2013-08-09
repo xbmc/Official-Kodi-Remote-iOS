@@ -24,12 +24,31 @@ NSOutputStream	*outStream;
                                                  selector: @selector(handleSystemOnSleep:)
                                                      name: @"System.OnSleep"
                                                    object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleEnterForeground:)
+                                                     name: @"UIApplicationWillEnterForegroundNotification"
+                                                   object: nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleDidEnterBackground:)
+                                                     name: @"UIApplicationDidEnterBackgroundNotification"
+                                                   object: nil];
+
     }
     return self;
 }
 
 -(void)handleSystemOnSleep:(NSNotification *)sender{
     [AppDelegate instance].serverTCPConnectionOpen = NO;
+}
+
+- (void) handleDidEnterBackground: (NSNotification*) sender{
+    [heartbeatTimer invalidate];
+    heartbeatTimer = nil;
+}
+
+- (void) handleEnterForeground: (NSNotification*) sender{
+    heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
 }
 
 - (void)startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port{

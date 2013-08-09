@@ -2995,6 +2995,10 @@ NSMutableArray *hostRightMenuItems;
                                    nil],
                                   nil];
     [remoteControlMenuItems addObject:remoteControlItem1];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(detectOrientation:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+    
+    [UIDevice currentDevice].proximityMonitoringEnabled = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleProximityChangeNotification:) name:UIDeviceProximityStateDidChangeNotification object:nil];
 
 #pragma mark -
 
@@ -3025,6 +3029,34 @@ NSMutableArray *hostRightMenuItems;
     }
     return YES;
 }
+
+-(void)handleProximityChangeNotification:(id)sender{
+    if([[UIDevice currentDevice] proximityState]){
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationDidEnterBackgroundNotification" object: nil];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
+    }
+}
+
+//-(void)detectOrientation:(id)sender{
+//    
+//    switch ([[UIDevice currentDevice] orientation]) {
+//        case UIDeviceOrientationFaceDown:
+//        {
+//            NSLog(@"facedown!!");
+//            [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationDidEnterBackgroundNotification" object: nil];
+//
+//        }
+//            break;
+//            
+//        default:
+//            [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
+//
+//            break;
+//    }
+//}
+
 
 -(void)wake:(NSString *)macAddress{
     Wake_on_LAN("255.255.255.255", [macAddress UTF8String]);

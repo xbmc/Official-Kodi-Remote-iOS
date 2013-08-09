@@ -2506,6 +2506,8 @@ int currentItemID;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
+    NSLog(@"appear");
+
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults synchronize];
@@ -2563,6 +2565,11 @@ int currentItemID;
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleDidEnterBackground:)
+                                                 name: @"UIApplicationDidEnterBackgroundNotification"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleXBMCPlaylistHasChanged:)
                                                  name: @"XBMCPlaylistHasChanged"
                                                object: nil];
@@ -2575,6 +2582,7 @@ int currentItemID;
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"
                                                object: nil];
+
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(disableInteractivePopGestureRecognizer:)
@@ -2590,6 +2598,10 @@ int currentItemID;
 //    UIViewController *c = [[UIViewController alloc]init];
 //    [self presentModalViewController:c animated:NO];
 //    [self dismissModalViewControllerAnimated:NO];
+}
+
+- (void) handleDidEnterBackground: (NSNotification*) sender{
+    [self viewWillDisappear:YES];
 }
 
 -(void)disableInteractivePopGestureRecognizer:(id)sender{
@@ -2656,7 +2668,7 @@ int currentItemID;
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
-    [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom]; 
+    [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     songDetailsView.alpha = 0;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
@@ -2775,6 +2787,7 @@ int currentItemID;
 - (void) handleEnterForeground: (NSNotification*) sender{
     [self handleXBMCPlaylistHasChanged:nil];
     updateProgressBar = YES;
+    [self viewDidAppear:YES];
 }
 
 - (void) handleXBMCPlaylistHasChanged: (NSNotification*) sender{

@@ -108,6 +108,16 @@
                                                  selector: @selector(handleApplicationOnVolumeChanged:)
                                                      name: @"Application.OnVolumeChanged"
                                                    object: nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleEnterForeground:)
+                                                     name: @"UIApplicationWillEnterForegroundNotification"
+                                                   object: nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleDidEnterBackground:)
+                                                     name: @"UIApplicationDidEnterBackgroundNotification"
+                                                   object: nil];
     }
     return self;
 }
@@ -116,6 +126,14 @@
     [AppDelegate instance].serverVolume = [[[[[sender userInfo] valueForKey:@"params"] objectForKey:@"data"] objectForKey:@"volume"] intValue];
     volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
     volumeSlider.value = [AppDelegate instance].serverVolume;
+}
+
+- (void) handleDidEnterBackground: (NSNotification*) sender{
+    [self stopTimer];
+}
+
+- (void) handleEnterForeground: (NSNotification*) sender{
+    [self startTimer];
 }
 
 -(void)changeServerVolume:(id)sender{
@@ -205,6 +223,7 @@ NSInteger action;
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver: self];
+    [self stopTimer];
 }
 
 @end
