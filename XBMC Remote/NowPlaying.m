@@ -2722,7 +2722,7 @@ int currentItemID;
             playlistTableView.frame = frame;
         }
         [self setIOS7toolbar];
-
+        [playlistTableView setSeparatorInset:UIEdgeInsetsMake(0, 53, 0, 0)];
         CGRect frame;
         frame = nowPlayingView.frame;
         frame.origin.y = barHeight + statusBarHeight;
