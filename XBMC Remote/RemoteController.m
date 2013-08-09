@@ -51,7 +51,6 @@
 }
 
 - (void)setEmbeddedView{
-    remoteControlView.alpha = .85;
     CGRect frame = TransitionalView.frame;
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton *) self.view viewWithTag:2],
