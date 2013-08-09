@@ -25,6 +25,8 @@
     BOOL doRevealMenu;
     AppInfoViewController *appInfoView;
     __weak IBOutlet UIButton *addHostButton;
+    UIView *iOS7navBarEffect;
+    __weak IBOutlet UIView *supportedVersionView;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;

@@ -239,25 +239,27 @@
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-	imageView.frame = CGRectMake(0,0,320,8);
-	return imageView;
+    return nil;
+//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+//	imageView.frame = CGRectMake(0,0,320,8);
+//	return imageView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 4;
+    return 0;
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-	imageView.frame = CGRectMake(0,0,320,8);
-	return imageView;
+    return nil;
+//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+//	imageView.frame = CGRectMake(0,0,320,8);
+//	return imageView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 4;
+    return 0;
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
@@ -368,10 +370,23 @@
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+//    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+//        int barEffectHeight = 1;
+//        if (iOS7navBarEffect == nil && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+//            iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, barEffectHeight)];
+//            iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+//            [iOS7navBarEffect setBackgroundColor:[UIColor redColor]];
+//            [self.view insertSubview:iOS7navBarEffect atIndex:1];
+//        }
+//    }
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = 2;
+        [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
+
         [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
         [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
         [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
@@ -387,19 +402,43 @@
         [addHostButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
         [addHostButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         [addHostButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            self.edgesForExtendedLayout = 0;
+            self.view.tintColor = APP_TINT_COLOR;
+        }
+        else{
+            int barHeight = 44;
+            int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+            
+            CGRect frame = supportedVersionView.frame;
+            frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+            supportedVersionView.frame = frame;
+            
+            frame = serverListTableView.frame;
+            frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+            frame.size.height = frame.size.height - (barHeight + statusBarHeight);
+            serverListTableView.frame = frame;
+            
+            frame = connectingActivityIndicator.frame;
+            frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+            connectingActivityIndicator.frame = frame;
+
+        }
     }
     doRevealMenu = YES;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         CGRect frame = backgroundImageView.frame;
         frame.size.height = frame.size.height + 8;
         backgroundImageView.frame = frame;
-        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
-        [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
         [self.view setBackgroundColor:[UIColor blackColor]];
+        [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
     }
     else if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
         MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
         masterViewController.mainMenu = self.mainMenu;
+        masterViewController.hostController = self;
         self.slidingViewController.underLeftViewController = masterViewController;
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -456,6 +495,8 @@
 }
 
 - (void)connectionSuccess:(NSNotification *)note {
+//    [iOS7navBarEffect setBackgroundColor:[UIColor greenColor]];
+//    [self.view setNeedsDisplay];
     if (storeServerSelection!=nil){
         UITableViewCell *cell  = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
         [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
@@ -465,6 +506,8 @@
 }
 
 - (void)connectionFailed:(NSNotification *)note {
+//    [iOS7navBarEffect setBackgroundColor:[UIColor redColor]];
+//    [self.view setNeedsDisplay];
     if (storeServerSelection!=nil){
         UITableViewCell *cell  = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
         [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
