@@ -630,6 +630,16 @@ int currentItemID;
     }
 }
 
+-(void)changeImage:(UIImageView *)imageView image:(UIImage *)newImage{
+    [UIView transitionWithView:jewelView
+                      duration:0.2f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        imageView.image=newImage;
+                    }
+                    completion:NULL];
+}
+
 -(void)getActivePlayers{
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
@@ -711,58 +721,66 @@ int currentItemID;
                                          UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                          [self setButtonImageAndStartDemo:buttonImage];
                                          [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
-                                     }
-                                     [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
-                                         UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
-                                         if (image!=nil){
-                                             if (enableJewel){
-                                                 thumbnailView.image=image;
-                                                 buttonImage=[self resizeImage:[self imageWithBorderFromImage:image] width:76 height:66 padding:10];
-                                             }
-                                             else{
-                                                 jewelView.image=[self imageWithBorderFromImage:image];
-                                                 buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
-                                             }
-                                             [self setButtonImageAndStartDemo:buttonImage];
-                                             Utilities *utils = [[Utilities alloc] init];
-                                             UIColor *effectColor = [utils averageColor:image inverse:NO];
-                                             [self setIOS7backgroundEffect:effectColor barTintColor:effectColor];
+                                         if (enableJewel){
+                                             thumbnailView.image=[UIImage imageNamed:@"coverbox_back.png"];
                                          }
                                          else{
-                                            __weak NowPlaying *sf = self;
-                                             __block UIColor *newColor = nil;
-                                             if (enableJewel){
-                                                 [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
-                                                               placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
-                                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                                                          if (error == nil){
-                                                                              
-                                                                              UIImage *buttonImage=[sf resizeImage:[sf imageWithBorderFromImage:image] width:76 height:66 padding:10];
-                                                                              [sf setButtonImageAndStartDemo:buttonImage];
-                                                                              Utilities *utils = [[Utilities alloc] init];
-                                                                              newColor = [utils averageColor:image inverse:NO];
-                                                                              [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
-                                                                          }
-                                                                      }];
+                                             [self changeImage:jewelView image:[UIImage imageNamed:@"coverbox_back.png"]];
+                                         }
+                                     }
+                                     else{
+                                         [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
+                                             UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
+                                             if (image!=nil){
+                                                 if (enableJewel){
+                                                     thumbnailView.image=image;
+                                                     buttonImage=[self resizeImage:[self imageWithBorderFromImage:image] width:76 height:66 padding:10];
+                                                 }
+                                                 else{
+                                                     [self changeImage:jewelView image:[self imageWithBorderFromImage:image]];
+                                                     buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                                                 }
+                                                 [self setButtonImageAndStartDemo:buttonImage];
+                                                 Utilities *utils = [[Utilities alloc] init];
+                                                 UIColor *effectColor = [utils averageColor:image inverse:NO];
+                                                 [self setIOS7backgroundEffect:effectColor barTintColor:effectColor];
                                              }
                                              else{
-                                                 __weak UIImageView *jV = jewelView;
-                                                 [jewelView
-                                                  setImageWithURL:[NSURL URLWithString:stringURL]
-                                                  placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
-                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                                      if (error == nil){
-                                                          jV.image=[sf imageWithBorderFromImage:image];
-                                                          UIImage *buttonImage=[sf resizeImage:jV.image width:76 height:66 padding:10];
-                                                          [sf setButtonImageAndStartDemo:buttonImage];
-                                                          Utilities *utils = [[Utilities alloc] init];
-                                                          newColor = [utils averageColor:image inverse:NO];
-                                                          [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
-                                                      }
-                                                  }];
+                                                 __weak NowPlaying *sf = self;
+                                                 __block UIColor *newColor = nil;
+                                                 if (enableJewel){
+                                                     [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
+                                                                   placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                                              if (error == nil){
+                                                                                  
+                                                                                  UIImage *buttonImage=[sf resizeImage:[sf imageWithBorderFromImage:image] width:76 height:66 padding:10];
+                                                                                  [sf setButtonImageAndStartDemo:buttonImage];
+                                                                                  Utilities *utils = [[Utilities alloc] init];
+                                                                                  newColor = [utils averageColor:image inverse:NO];
+                                                                                  [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
+                                                                              }
+                                                                          }];
+                                                 }
+                                                 else{
+                                                     __weak UIImageView *jV = jewelView;
+                                                     [jewelView
+                                                      setImageWithURL:[NSURL URLWithString:stringURL]
+                                                      placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                          if (error == nil){
+                                                              [sf changeImage:jV image:[sf imageWithBorderFromImage:image]];
+                                                              UIImage *buttonImage=[sf resizeImage:jV.image width:76 height:66 padding:10];
+                                                              [sf setButtonImageAndStartDemo:buttonImage];
+                                                              Utilities *utils = [[Utilities alloc] init];
+                                                              newColor = [utils averageColor:image inverse:NO];
+                                                              [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
+                                                          }
+                                                      }];
+                                                 }
                                              }
-                                         }
-                                     }];
+                                         }];
+                                     }
                                  }
                                  lastThumbnail = stringURL;
                              }
