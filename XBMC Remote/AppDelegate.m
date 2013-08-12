@@ -2711,6 +2711,16 @@ NSMutableArray *hostRightMenuItems;
                                 nil],
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 NSLocalizedString(@"Wake On Lan", nil), @"label",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:.741f], @"red",
+                                 [NSNumber numberWithFloat:.141f], @"green",
+                                 [NSNumber numberWithFloat:.141f], @"blue",
+                                 nil], @"bgColor",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:1], @"red",
+                                 [NSNumber numberWithFloat:1], @"green",
+                                 [NSNumber numberWithFloat:1], @"blue",
+                                 nil], @"fontColor",
                                 @"icon_power", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.WOL", @"command",
