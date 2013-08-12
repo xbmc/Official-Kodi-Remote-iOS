@@ -1329,7 +1329,7 @@ int originYear = 0;
             [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
             [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
             [(UILabel*) [cell viewWithTag:4] setHighlightedTextColor:[UIColor blackColor]];
-            [(UILabel*) [cell viewWithTag:5] setHighlightedTextColor:[UIColor blackColor]];
+            [(UILabel*) [cell viewWithTag:5] setHighlightedTextColor:[UIColor darkGrayColor]];
             [(UILabel*) [cell viewWithTag:101] setHighlightedTextColor:[UIColor blackColor]];
         }
     }
