@@ -150,7 +150,7 @@ porta TCP</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Indirizzo MAC" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" id="76">
-                            <rect key="frame" x="14" y="61" width="69" height="31"/>
+                            <rect key="frame" x="7" y="61" width="76" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                             <color key="textColor" white="0.89980611310000003" alpha="1" colorSpace="calibratedWhite"/>
@@ -355,15 +355,15 @@ porta TCP</string>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="tip.png" id="101">
-                            <rect key="frame" x="28" y="314" width="15" height="15"/>
+                            <rect key="frame" x="28" y="315" width="15" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" id="99">
-                            <rect key="frame" x="1" y="328" width="318" height="42"/>
+                            <rect key="frame" x="1" y="329" width="318" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <string key="text">Eden
 Impostazioni ->Rete ->Permetti il controllo di XBMC via HTTP</string>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                             <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
@@ -374,7 +374,7 @@ Impostazioni ->Rete ->Permetti il controllo di XBMC via HTTP</string>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <string key="text">Frodo
 Impostazioni ->Servizi ->Webserver ->Permetti il controllo di XBMC via HTTP</string>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                             <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
@@ -425,8 +425,9 @@ Impostazioni ->Servizi ->Webserver ->Permetti il controllo di XBMC via HTTP</str
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="56">
-                            <rect key="frame" x="221" y="125" width="51" height="31"/>
+                            <rect key="frame" x="232" y="125" width="51" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <inset key="insetFor6xAndEarlier" minX="10" minY="0.0" maxX="-10" maxY="0.0"/>
                         </switch>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
