@@ -203,6 +203,7 @@
         }
         self.nowPlaying.detailItem = item;
         object = self.nowPlaying;
+        [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     }
     else if (item.family == 3){
         if (self.remoteController == nil){
@@ -258,7 +259,7 @@
     [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
     shadowRight.opaque = YES;
     [navController.view addSubview:shadowRight];
-    
+
     [self.slidingViewController anchorTopViewOffScreenTo:ECRight animations:nil onComplete:^{
         CGRect frame = self.slidingViewController.topViewController.view.frame;
         self.slidingViewController.topViewController = navController;
@@ -320,6 +321,15 @@
 }
 
 #pragma mark - LifeCycle
+
+- (void) disableScrollsToTopPropertyOnAllSubviewsOf:(UIView *)view {
+    for (UIView *subview in view.subviews) {
+        if ([subview isKindOfClass:[UIScrollView class]]) {
+            ((UIScrollView *)subview).scrollsToTop = NO;
+        }
+        [self disableScrollsToTopPropertyOnAllSubviewsOf:subview];
+    }
+}
 
 -(void)viewWillDisappear:(BOOL)animated{
     jsonRPC=nil;
