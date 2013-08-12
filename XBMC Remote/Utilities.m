@@ -91,6 +91,7 @@
 }
 
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker trigger:(CGFloat)trigger{
+    if ([newColor isEqual:[UIColor clearColor]] || newColor == nil) return lighter;
     const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
     CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
     if (colorBrightness < trigger){
@@ -102,6 +103,7 @@
 }
 
 - (UIImage*)colorizeImage:(UIImage *)image withColor:(UIColor*)color{
+    if (color == nil) return image;
     UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
     
     CGRect contextRect;

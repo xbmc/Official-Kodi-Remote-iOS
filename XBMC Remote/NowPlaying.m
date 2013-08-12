@@ -1618,8 +1618,14 @@ int currentItemID;
         self.navigationItem.titleView.hidden=YES;
         anim=UIViewAnimationTransitionFlipFromLeft;
         anim2=UIViewAnimationTransitionFlipFromLeft;
-        effectColor = foundEffectColor;
-        barColor = foundEffectColor;
+        if (foundEffectColor == nil){
+            effectColor = [UIColor clearColor];
+            barColor = TINT_COLOR;
+        }
+        else{
+            effectColor = foundEffectColor;
+            barColor = foundEffectColor;
+        }
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height;
     }
     [UIView animateWithDuration:0.2
