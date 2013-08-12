@@ -104,6 +104,7 @@
     CGFloat iOSYDelta;
     __weak IBOutlet UIImageView *buttonsViewBgImage;
     __weak IBOutlet UIToolbar *buttonsViewBgToolbar;
+    BOOL isViewDidLoad;
 }
 
 - (id)initWithFrame:(CGRect)frame;

@@ -492,7 +492,9 @@
         [bar.viewLabel setText:NSLocalizedString(@"View: List", nil)];
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
     }
-    [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+    if (!isViewDidLoad){
+        [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+    }
 }
 
 -(IBAction)changeTab:(id)sender{
@@ -3585,6 +3587,10 @@ NSIndexPath *selected;
 //            self.searchDisplayController.searchBar.barTintColor = albumColor;
         }
     }
+    if (isViewDidLoad){
+        [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+        isViewDidLoad = FALSE;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -3745,7 +3751,7 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    
+    isViewDidLoad = YES;
     iOSYDelta = 44;
     dataList.tableFooterView = [UIView new];
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
