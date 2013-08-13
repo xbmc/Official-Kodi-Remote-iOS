@@ -1788,6 +1788,9 @@ int originYear = 0;
             [releasedLabel setShadowOffset:CGSizeMake(0, 1)];
             [releasedLabel setTextColor:[UIColor darkGrayColor]];
             [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
+            [releasedLabel setMinimumFontSize:trackCountFontSize - 2];
+            [releasedLabel setNumberOfLines:1];
+            [releasedLabel setAdjustsFontSizeToFitWidth:YES];
             
             NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
             NSString *aired = @"";
