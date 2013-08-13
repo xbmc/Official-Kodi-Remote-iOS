@@ -3630,7 +3630,7 @@ NSIndexPath *selected;
         frame.size.height=self.view.bounds.size.height;
         dataList.frame=frame;
         
-        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+        UIEdgeInsets tableViewInsets = dataList.contentInset;
         tableViewInsets.bottom = 0;
         dataList.contentInset = tableViewInsets;
         dataList.scrollIndicatorInsets = tableViewInsets;
