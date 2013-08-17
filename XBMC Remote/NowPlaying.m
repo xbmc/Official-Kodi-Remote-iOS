@@ -2808,8 +2808,13 @@ int currentItemID;
 
 - (void) handleEnterForeground: (NSNotification*) sender{
     [self handleXBMCPlaylistHasChanged:nil];
+    [self playbackInfo];
     updateProgressBar = YES;
-    [self viewDidAppear:YES];
+    if (timer != nil){
+        [timer invalidate];
+        timer = nil;
+    }
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
 }
 
 - (void) handleXBMCPlaylistHasChanged: (NSNotification*) sender{
