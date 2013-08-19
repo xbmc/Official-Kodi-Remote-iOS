@@ -18,7 +18,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         float labelHeight = (int)(frame.size.height * 0.19f);
-        int borderWidth = 2;
+        int borderWidth = 1;
         self.restorationIdentifier = @"posterCell";
         _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, borderWidth, frame.size.width - borderWidth * 2, frame.size.height - borderWidth * 2)];
         [_posterThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];

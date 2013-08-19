@@ -689,7 +689,7 @@
                 [self.navigationController pushViewController:self.detailViewController animated:YES];
             }
             else{
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
             }
         }
@@ -726,7 +726,7 @@
                         [self.navigationController pushViewController:self.detailViewController animated:YES];
                     }
                     else{
-                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
                     }
                 }
@@ -766,7 +766,7 @@
                     [self.navigationController pushViewController:self.detailViewController animated:YES];
                 }
                 else{
-                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                     [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
                 }
             }
@@ -821,8 +821,10 @@
 
 -(void)setFlowLayoutParams{
     [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
-    if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 2;
+    if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0;
     [flowLayout setMinimumLineSpacing:cellMinimumLineSpacing];
+    [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
+
 }
 
 #pragma mark - UICollectionView methods
@@ -831,7 +833,6 @@
     if (collectionView == nil){
         flowLayout = [[FloatingHeaderFlowLayout alloc] init];
         [self setFlowLayoutParams];
-        [flowLayout setMinimumInteritemSpacing:2.0f];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
         collectionView.contentInset = dataList.contentInset;
@@ -2206,7 +2207,7 @@ NSIndexPath *selected;
     }
     else{
         CGRect frame=self.webViewController.view.frame;
-        frame.size.width=477;
+        frame.size.width=STACKSCROLL_WIDTH;
         self.webViewController.view.frame=frame;
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:self.webViewController invokeByController:self isStackStartView:FALSE];
     }
@@ -2421,7 +2422,7 @@ NSIndexPath *selected;
         [self.navigationController pushViewController:self.detailViewController animated:YES];
     }
     else{
-        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
     }
 }
@@ -2744,7 +2745,7 @@ NSIndexPath *selected;
         [self.navigationController pushViewController:self.showInfoViewController animated:YES];
     }
     else{
-        ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];                
+        ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:FALSE];
     }
 
@@ -3654,10 +3655,10 @@ NSIndexPath *selected;
             if ([[itemSizes objectForKey:@"width"] isEqualToString:@"fullWidth"]){
                 cellGridWidth = fullWidth;
             }
-            cellMinimumLineSpacing = 2;
+            cellMinimumLineSpacing = 1;
         }
         else{
-            cellMinimumLineSpacing = 2;
+            cellMinimumLineSpacing = 0;
             cellGridWidth = [[itemSizes objectForKey:@"width"] floatValue];
         }
         cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
@@ -3683,7 +3684,7 @@ NSIndexPath *selected;
 }
 
 -(void)setIpadInterface:(NSDictionary *)itemSizes{
-    viewWidth = 477;
+    viewWidth = STACKSCROLL_WIDTH;
     albumViewHeight = 166;
     if (episodesView){
         albumViewHeight = 120;

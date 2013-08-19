@@ -39,6 +39,8 @@
 #define IOS6_BAR_TINT_COLOR [UIColor colorWithRed:.14f green:.14f blue:.14f alpha:1]
 #define SLIDER_DEFAULT_COLOR [UIColor colorWithRed:87.0f/255.0f green:158.0f/255.0f blue:186.0f/255.0f alpha:1]
 
+#define STACKSCROLL_WIDTH 476
+
 #define PHONE_TV_SHOWS_BANNER_HEIGHT 61
 #define PHONE_TV_SHOWS_POSTER_HEIGHT 76
 
@@ -48,9 +50,8 @@
 #define PAD_TV_SHOWS_BANNER_HEIGHT 91
 #define PAD_TV_SHOWS_POSTER_HEIGHT 76
 
-#define PAD_TV_SHOWS_BANNER_WIDTH 477
+#define PAD_TV_SHOWS_BANNER_WIDTH STACKSCROLL_WIDTH
 #define PAD_TV_SHOWS_POSTER_WIDTH 53
-
 
 + (AppDelegate *) instance;
 

@@ -384,7 +384,7 @@ int count=0;
             [self.navigationController pushViewController:self.detailViewController animated:YES];
         }
         else{
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
             [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
             [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
@@ -700,7 +700,7 @@ int h=0;
                     frame=coverView.frame;
                     frame.origin.x=-78;
                     frame.origin.y=12;
-                    frame.size.width=477;
+                    frame.size.width=STACKSCROLL_WIDTH;
                     frame.size.height=90;
                     coverView.frame=frame;
                     jewelView.frame = frame;
@@ -709,7 +709,7 @@ int h=0;
             else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
                 int originalHeight = jewelView.frame.size.height;
                 int coverHeight = 560;
-                int coverWidth = 477;
+                int coverWidth = STACKSCROLL_WIDTH;
                 CGRect frame;
                 frame = jewelView.frame;
                 frame.origin.x = -79;
@@ -1001,7 +1001,7 @@ int h=0;
             placeHolderImage = @"coverbox_back_movies@2x.png";
             int originalHeight = jewelView.frame.size.height;
             int coverHeight = 560;
-            int coverWidth = 477;
+            int coverWidth = STACKSCROLL_WIDTH;
             CGRect frame;
             frame = jewelView.frame;
             frame.origin.x = -79;

@@ -37,13 +37,14 @@
 //
 
 #import "StackScrollViewController.h"
+#import "AppDelegate.h"
 //#import "UIViewWithShadow.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define VIEW_TAG 1000
 
 
-const NSInteger SLIDE_VIEWS_MINUS_X_POSITION = -230;
+const NSInteger SLIDE_VIEWS_MINUS_X_POSITION = -228;
 const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 
 @implementation StackScrollViewController
@@ -888,7 +889,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     shadow.opaque = YES;
     [controller.view addSubview:shadow];
     
-    shadowRect = CGRectMake(477, 0.0f, 16.0f, self.view.frame.size.height);
+    shadowRect = CGRectMake(STACKSCROLL_WIDTH, 0.0f, 16.0f, self.view.frame.size.height);
     UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];

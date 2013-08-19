@@ -118,27 +118,27 @@ NSMutableArray *hostRightMenuItems;
         tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
     }
     
-    float itemMusicWidthIphone = 105;
-    float itemMusicHeightIphone = 105;
-
-    float itemMusicWidthIpad = 117;
-    float itemMusicHeightIpad = 117;
+    float itemMusicWidthIphone = 106.0f;
+    float itemMusicHeightIphone = 106.0f;
     
-    float itemMusicWidthLargeIpad = 157.0f;
-    float itemMusicHeightLargeIpad = 157.0f;
-
-    float itemMovieWidthIphone = 105;
-    float itemMovieHeightIphone = 151;
-        
-    float itemMovieWidthIpad = 117;
-    float itemMovieHeightIpad = 168;
+    float itemMusicWidthIpad = 119.0f;
+    float itemMusicHeightIpad = 119.0f;
     
-    float itemMovieWidthLargeIpad =157.0f;
-    float itemMovieHeightLargeIpad =  225.0f;
+    float itemMusicWidthLargeIpad = 158.0f;
+    float itemMusicHeightLargeIpad = 158.0f;
+    
+    float itemMovieWidthIphone = 106.0f;
+    float itemMovieHeightIphone = 151.0f;
+    
+    float itemMovieWidthIpad = 119.0f;
+    float itemMovieHeightIpad = 170.0f;
+    
+    float itemMovieWidthLargeIpad =158.0f;
+    float itemMovieHeightLargeIpad =  230.0f;
     
     float itemMovieHeightRecentlyIphone =  132.0f;
     float itemMovieHeightRecentlyIpad =  196.0f;
-
+    
     [self.window makeKeyAndVisible];
     
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];

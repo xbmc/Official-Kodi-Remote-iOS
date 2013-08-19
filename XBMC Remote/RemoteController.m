@@ -152,7 +152,7 @@
         }
     }
     else{
-        int newWidth = 477;
+        int newWidth = STACKSCROLL_WIDTH;
         [quickHelpView setFrame:CGRectMake(quickHelpView.frame.origin.x, quickHelpView.frame.origin.y, quickHelpView.frame.size.width, quickHelpView.frame.size.height - 20)];
         [quickHelpView
          setAutoresizingMask:

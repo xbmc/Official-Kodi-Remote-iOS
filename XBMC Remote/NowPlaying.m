@@ -1355,7 +1355,7 @@ int currentItemID;
         [self.navigationController pushViewController:self.showInfoViewController animated:YES];
     }
     else{
-        ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+        ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:TRUE];
         [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
         [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
@@ -2068,7 +2068,7 @@ int currentItemID;
                 [self.navigationController pushViewController:self.detailViewController animated:YES];
             }
             else{
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:TRUE];
                 [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
                 [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
