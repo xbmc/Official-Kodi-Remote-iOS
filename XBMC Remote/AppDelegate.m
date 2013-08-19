@@ -3005,7 +3005,6 @@ NSMutableArray *hostRightMenuItems;
                                    nil],
                                   nil];
     [remoteControlMenuItems addObject:remoteControlItem1];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(detectOrientation:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     
 //    [UIDevice currentDevice].proximityMonitoringEnabled = YES;
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleProximityChangeNotification:) name:UIDeviceProximityStateDidChangeNotification object:nil];
@@ -3048,25 +3047,6 @@ NSMutableArray *hostRightMenuItems;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
     }
 }
-
-//-(void)detectOrientation:(id)sender{
-//    
-//    switch ([[UIDevice currentDevice] orientation]) {
-//        case UIDeviceOrientationFaceDown:
-//        {
-//            NSLog(@"facedown!!");
-//            [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationDidEnterBackgroundNotification" object: nil];
-//
-//        }
-//            break;
-//            
-//        default:
-//            [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
-//
-//            break;
-//    }
-//}
-
 
 -(void)wake:(NSString *)macAddress{
     Wake_on_LAN("255.255.255.255", [macAddress UTF8String]);
@@ -3141,12 +3121,10 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]==YES ){
         xbmcRemote.idleTimerDisabled = YES;
-        [[UIScreen mainScreen] setWantsSoftwareDimming:YES];
         
     }
     else {
         xbmcRemote.idleTimerDisabled = NO;
-        [[UIScreen mainScreen] setWantsSoftwareDimming:NO];
     }
 //    [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
 }
