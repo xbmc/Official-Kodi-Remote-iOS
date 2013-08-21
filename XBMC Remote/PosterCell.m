@@ -18,7 +18,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         float labelHeight = (int)(frame.size.height * 0.19f);
-        int borderWidth = 1;
+        float borderWidth = [self halfSizeIfRetina:1.0f];
         self.restorationIdentifier = @"posterCell";
         _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, borderWidth, frame.size.width - borderWidth * 2, frame.size.height - borderWidth * 2)];
         [_posterThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
@@ -55,6 +55,12 @@
         self.selectedBackgroundView = bgView;
     }
     return self;
+}
+
+- (float)halfSizeIfRetina:(float)size{
+    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
+    size = isRetina ? size / 2 : size;
+    return size;
 }
 
 -(void)setOverlayWatched:(BOOL)enable{
