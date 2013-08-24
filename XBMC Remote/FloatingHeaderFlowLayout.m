@@ -34,8 +34,8 @@
         
         UICollectionViewLayoutAttributes *layoutAttributes = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
         
-        [answer addObject:layoutAttributes];
-        
+        if (layoutAttributes)
+            [answer addObject:layoutAttributes];
     }];
     
     for (UICollectionViewLayoutAttributes *layoutAttributes in answer) {
