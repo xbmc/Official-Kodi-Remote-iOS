@@ -194,13 +194,33 @@
 #pragma mark - View lifecycle
 
 -(void)viewWillAppear:(BOOL)animated{
-    [bottomToolbar setBackgroundImage:[UIImage imageNamed:@"st_background"] forToolbarPosition:0 barMetrics:0];
 }
 
 - (void)viewDidLoad{
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = 0;
+        [bottomToolbar setTintColor:TINT_COLOR];
+        CGRect frame = Twitterweb.frame;
+        frame.size.height = frame.size.height + bottomToolbar.frame.size.height;
+        [Twitterweb setFrame:frame];
+        
+        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+
+        float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
+        tableViewInsets.top = 44 + fabs(iOSYDelta);
+        Twitterweb.scrollView.contentInset = tableViewInsets;
+        Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
+        }
+        
+        tableViewInsets = Twitterweb.scrollView.contentInset;
+        tableViewInsets.bottom = 44;
+        Twitterweb.scrollView.contentInset = tableViewInsets;
+        Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
+    }
+    else{
+        [bottomToolbar setBackgroundImage:[UIImage imageNamed:@"st_background"] forToolbarPosition:0 barMetrics:0];
     }
     NSDictionary *item = self.detailItem;
     UIBarButtonItem *extraButton = nil;
