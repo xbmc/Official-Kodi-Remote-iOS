@@ -26,7 +26,7 @@
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <webView contentMode="scaleToFill" scalesPageToFit="YES" id="18">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>

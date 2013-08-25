@@ -76,6 +76,12 @@
     tweetURL.text=[[Twitterweb.request URL] absoluteString];
     topNavigationLabel.text=[Twitterweb stringByEvaluatingJavaScriptFromString:@"document.title"];
     [self fade:topNavigationLabel AnimDuration:0.2 startAlpha:0 endAlpha:1];
+    UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+    tableViewInsets = Twitterweb.scrollView.contentInset;
+    tableViewInsets.bottom = 44;
+    Twitterweb.scrollView.contentInset = tableViewInsets;
+    Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
+
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -193,31 +199,17 @@
 
 #pragma mark - View lifecycle
 
--(void)viewWillAppear:(BOOL)animated{
-}
-
 - (void)viewDidLoad{
     [super viewDidLoad];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [bottomToolbar setTintColor:TINT_COLOR];
-        CGRect frame = Twitterweb.frame;
-        frame.size.height = frame.size.height + bottomToolbar.frame.size.height;
-        [Twitterweb setFrame:frame];
-        
-        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-
-        float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
-        tableViewInsets.top = 44 + fabs(iOSYDelta);
-        Twitterweb.scrollView.contentInset = tableViewInsets;
-        Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
+            UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+            float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
+            tableViewInsets.top = 44 + fabs(iOSYDelta);
+            Twitterweb.scrollView.contentInset = tableViewInsets;
+            Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
         }
-        
-        tableViewInsets = Twitterweb.scrollView.contentInset;
-        tableViewInsets.bottom = 44;
-        Twitterweb.scrollView.contentInset = tableViewInsets;
-        Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
     }
     else{
         [bottomToolbar setBackgroundImage:[UIImage imageNamed:@"st_background"] forToolbarPosition:0 barMetrics:0];
