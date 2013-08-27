@@ -342,6 +342,7 @@
         frame.origin.y = 22;
         frame.size.height = frame.size.height - 22;
         [menuList setFrame:frame];
+        [menuList setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];

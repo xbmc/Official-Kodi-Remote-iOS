@@ -496,6 +496,8 @@
         xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
         [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
         [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+        [menuViewController.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+
     }
     else{
         [xbmcInfo setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
