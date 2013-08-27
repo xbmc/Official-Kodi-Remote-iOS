@@ -31,7 +31,6 @@ static CGRect initialTextFieldFrame;
 }
 
 -(void)configureView{
-    storedWidth = self.frame.size.width;
     self.leftPadding = 0;
     self.rightPadding = 0;
     float buttonWidth = 44;
@@ -83,8 +82,7 @@ static CGRect initialTextFieldFrame;
 
 -(void)updateTextFieldFrame:(float)rightMargin leftPadding:(float)leftMargin{
     CGRect frame = self.frame;
-    frame.size.width = storedWidth;
-//    NSLog(@"%f", storedWidth);
+    frame.size.width = self.storedWidth;
     self.frame = frame;
     int originX = self.textField.frame.origin.x + leftMargin;
     int width = initialTextFieldFrame.size.width - leftMargin - rightMargin;

@@ -11,7 +11,6 @@
 
 @interface UISearchBarLeftButton : UISearchBar {
     float cancelButtonWidth;
-    float storedWidth;
 }
 
 @property (readonly) UITextField *textField;
@@ -19,5 +18,6 @@
 @property (nonatomic) int rightPadding;
 @property (nonatomic, retain) UILabel *viewLabel;
 @property (nonatomic, retain) UIButton *leftButton;
+@property (nonatomic) float storedWidth;
 
 @end

@@ -3865,6 +3865,9 @@ NSIndexPath *selected;
     CGRect frame=dataList.frame;
     frame.origin.x = viewWidth;
     dataList.frame=frame;
+    
+    bar.storedWidth = viewWidth;
+    
     activeLayoutView = dataList;
     currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
     if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){
