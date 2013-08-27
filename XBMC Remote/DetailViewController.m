@@ -469,6 +469,8 @@
         [self.searchDisplayController.searchBar setBackgroundColor:collectionViewSearchBarColor];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
+            [bar.viewLabel setTextColor:[UIColor colorWithRed:0.4f green:0.4f blue:0.4f alpha:0.65f]];
+            [bar.viewLabel setShadowColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:0.3f]];
         }
         searchBarColor = collectionViewSearchBarColor;
         [bar.viewLabel setText:currentCollectionViewName];
@@ -487,6 +489,8 @@
         [self.searchDisplayController.searchBar setBackgroundColor:tableViewSearchBarColor];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
+            [bar.viewLabel setTextColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.65f]];
+            [bar.viewLabel setShadowColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.3f]];
         }
         searchBarColor = tableViewSearchBarColor;
         [bar.viewLabel setText:NSLocalizedString(@"View: List", nil)];
