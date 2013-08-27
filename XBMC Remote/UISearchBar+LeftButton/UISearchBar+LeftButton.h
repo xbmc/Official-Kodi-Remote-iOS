@@ -11,7 +11,7 @@
 
 @interface UISearchBarLeftButton : UISearchBar {
     float cancelButtonWidth;
-//    UIButton *leftButton;
+    float storedWidth;
 }
 
 @property (readonly) UITextField *textField;
