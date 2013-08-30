@@ -561,7 +561,26 @@
                                              selector: @selector(handleTcpJSONRPCChangeServerStatus:)
                                                  name: @"TcpJSONRPCChangeServerStatus"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleStackScrollFullScreenEnabled:)
+                                                 name: @"StackScrollFullScreenEnabled"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleStackScrollFullScreenDisabled:)
+                                                 name: @"StackScrollFullScreenDisabled"
+                                               object: nil];
+    
     [self initHostManagemetPopOver];
+}
+
+-(void)handleStackScrollFullScreenEnabled:(NSNotification *)sender{
+    stackScrollIsFullscreen = YES;
+}
+
+-(void)handleStackScrollFullScreenDisabled:(NSNotification *)sender{
+    stackScrollIsFullscreen = NO;
 }
 
 -(void)handleTcpJSONRPCShowSetup:(NSNotification *)sender{
@@ -582,6 +601,7 @@
 }
 
 - (void)handleStackScrollOffScreen: (NSNotification*) sender{
+    stackScrollIsFullscreen = NO;
     [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
 }
 
@@ -676,5 +696,10 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
 	return YES;
 }
+
+-(BOOL)shouldAutorotate{
+    return !stackScrollIsFullscreen;
+}
+
 
 @end

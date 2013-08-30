@@ -158,13 +158,17 @@ int count=0;
                                          CGRectGetMinY(mainViewBounds),
                                          CGRectGetWidth(mainViewBounds),
                                          toolbarHeight)];
-            CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
-            UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-            [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
-            toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            toolbarShadow.opaque = YES;
-            toolbarShadow.alpha = 0.5;
-            [toolbar addSubview:toolbarShadow];
+            
+            if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
+                UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+                [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+                toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+                toolbarShadow.opaque = YES;
+                toolbarShadow.alpha = 0.5;
+                [toolbar addSubview:toolbarShadow];
+            }
+            
             [self.view addSubview:toolbar];
             scrollView.autoresizingMask = UIViewAutoresizingNone;
             [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y + 44, scrollView.frame.size.width, scrollView.frame.size.height-44)];
@@ -1354,7 +1358,15 @@ int h=0;
 }
 
 - (void)showBackground:(id)sender{
-    if ([sender tag]==1){
+    scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    int foundTag = 0;
+    if ([sender isKindOfClass:[UITapGestureRecognizer class]]){
+        foundTag = [sender view].tag;
+    }
+    else{
+        foundTag = [sender tag];
+    }
+    if (foundTag== 1){
         [self alphaView:closeButton AnimDuration:1.5 Alpha:0];
         [self alphaView:scrollView AnimDuration:1.5 Alpha:1];
         if (!enableKenBurns){
@@ -1366,10 +1378,45 @@ int h=0;
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [self.navigationController setNavigationBarHidden:NO animated:YES];
         }
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            [[self.view viewWithTag:2002] setHidden:NO];
+            [UIView animateWithDuration:1.5f
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object: self.view];
+                [toolbar setAlpha:1.0];
+            }
+                             completion:^(BOOL finished) {}
+             ];
+        }
     }
     else{
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [self.navigationController setNavigationBarHidden:YES animated:YES];
+        }
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            [[self.view viewWithTag:2002] setHidden:YES];
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:1.5];
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+            self.kenView.alpha = 0;
+            [toolbar setAlpha:0.0];
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object: self.view];
+            [UIView commitAnimations];
+            if (self.kenView != nil){
+                float alphaValue = 1;
+                [UIView animateWithDuration:0.2
+                                 animations:^{
+                                     self.kenView.alpha = 0;
+                                 }
+                                 completion:^(BOOL finished){
+                                     [self elabKenBurns:fanartView.image];
+                                     [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];
+                                 }
+                 ];
+            }
         }
         [self alphaView:scrollView AnimDuration:1.5 Alpha:0];
         if (!enableKenBurns){
@@ -1429,6 +1476,7 @@ int h=0;
 -(void)alphaImage:(UIImageView *)image AnimDuration:(float)seconds Alpha:(float)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	image.alpha = alphavalue;
     if (alphavalue) {
         image.hidden = NO;
@@ -1439,6 +1487,7 @@ int h=0;
 -(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	view.alpha = alphavalue;
     [UIView commitAnimations];
 }
@@ -1632,6 +1681,7 @@ int h=0;
     self.kenView.contentMode = fanartView.contentMode;
     self.kenView.delegate = self;
     self.kenView.alpha = 0;
+    self.kenView.tag = 1;
     NSArray *backgroundImages = [NSArray arrayWithObjects:
                                  image,
                                  nil];
@@ -1639,6 +1689,10 @@ int h=0;
                  transitionDuration:45
                                loop:YES
                         isLandscape:YES];
+    UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
+    [touchOnKenView setNumberOfTapsRequired:1];
+    [touchOnKenView setNumberOfTouchesRequired:1];
+    [self.kenView addGestureRecognizer:touchOnKenView];
     [self.view insertSubview:self.kenView atIndex:1];
 }
 
@@ -1729,6 +1783,12 @@ int h=0;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    fanartView.tag = 1;
+    fanartView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
+    [touchOnKenView setNumberOfTapsRequired:1];
+    [touchOnKenView setNumberOfTouchesRequired:1];
+    [fanartView addGestureRecognizer:touchOnKenView];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
