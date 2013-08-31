@@ -135,16 +135,16 @@
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+        rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
         rightSwipe.cancelsTouchesInView=YES;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-        [self.view addGestureRecognizer:rightSwipe];
-        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
+        [remoteControlView addGestureRecognizer:rightSwipe];
+        leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
         leftSwipe.numberOfTouchesRequired = 1;
         leftSwipe.cancelsTouchesInView=YES;
         leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.view addGestureRecognizer:leftSwipe];
+        [remoteControlView addGestureRecognizer:leftSwipe];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         if([[UIScreen mainScreen ] bounds].size.height >= 568){
             CGRect frame = remoteControlView.frame;
@@ -169,17 +169,17 @@
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
                  
     }
-    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    rightSwipe.numberOfTouchesRequired = 1;
-    rightSwipe.cancelsTouchesInView=NO;
-    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-    [gestureZoneView addGestureRecognizer:rightSwipe];
+    UISwipeGestureRecognizer *gestureRightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    gestureRightSwipe.numberOfTouchesRequired = 1;
+    gestureRightSwipe.cancelsTouchesInView=NO;
+    gestureRightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [gestureZoneView addGestureRecognizer:gestureRightSwipe];
     
-    UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    leftSwipe.numberOfTouchesRequired = 1;
-    leftSwipe.cancelsTouchesInView=NO;
-    leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-    [gestureZoneView addGestureRecognizer:leftSwipe];
+    UISwipeGestureRecognizer *gestureLeftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    gestureLeftSwipe.numberOfTouchesRequired = 1;
+    gestureLeftSwipe.cancelsTouchesInView=NO;
+    gestureLeftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    [gestureZoneView addGestureRecognizer:gestureLeftSwipe];
     
     UISwipeGestureRecognizer *upSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     upSwipe.numberOfTouchesRequired = 1;
@@ -419,6 +419,8 @@
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
+        leftSwipe.enabled = NO;
+        rightSwipe.enabled = NO;
         [UIView commitAnimations];
         imageName=@"circle.png";
     }
@@ -435,6 +437,8 @@
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 0;
         buttonZoneView.alpha = 1;
+        leftSwipe.enabled = YES;
+        rightSwipe.enabled = YES;
         [UIView commitAnimations];
         imageName=@"finger.png";
     }
@@ -1173,6 +1177,8 @@ NSInteger buttonAction;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
+        leftSwipe.enabled = NO;
+        rightSwipe.enabled = NO;
     }
     torchIsOn = NO;
     NSString *torchIcon = @"torch";
