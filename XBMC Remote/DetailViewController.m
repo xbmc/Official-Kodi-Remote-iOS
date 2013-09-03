@@ -1930,33 +1930,35 @@ int originYear = 0;
 
 #pragma mark - ScrollView Delegate
 
-//-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-//    hideSearchBarActive = YES;
-//}
-//
-//-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-//    if (!decelerate){
-//        hideSearchBarActive = NO;
-//    }
-//}
-//
-//-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-//    hideSearchBarActive = NO;
-//}
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    hideSearchBarActive = YES;
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (!decelerate){
+        hideSearchBarActive = NO;
+    }
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    hideSearchBarActive = NO;
+}
 
 // iOS7 scrolling performance boost for a UITableView/UICollectionView with a custom UISearchBar header
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (!hideSearchBarActive) return;
     NSArray *paths;
     NSIndexPath *searchBarPath;
+    NSInteger sectionNumber = [self.sections count] > 1 ? 1 : 0;
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     if ([self.richResults count]){
         if ([scrollView isEqual:dataList]){
             paths = [dataList indexPathsForVisibleRows];
-            searchBarPath = [NSIndexPath indexPathForRow:0 inSection:[self.sections count] > 1 ? 1 : 0];
+            searchBarPath = [NSIndexPath indexPathForRow:0 inSection:sectionNumber];
         }
         else{
             paths = [collectionView indexPathsForVisibleItems];
-            searchBarPath = [NSIndexPath indexPathForItem:0 inSection:[self.sections count] > 1 ? 1 : 0];
+            searchBarPath = [NSIndexPath indexPathForItem:0 inSection:sectionNumber];
         }
         if ([paths containsObject:searchBarPath]){
             bar.isVisible = YES;

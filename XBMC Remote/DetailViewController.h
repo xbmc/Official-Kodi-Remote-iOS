@@ -105,6 +105,7 @@
     __weak IBOutlet UIImageView *buttonsViewBgImage;
     __weak IBOutlet UIToolbar *buttonsViewBgToolbar;
     BOOL isViewDidLoad;
+    BOOL hideSearchBarActive;
 }
 
 - (id)initWithFrame:(CGRect)frame;
