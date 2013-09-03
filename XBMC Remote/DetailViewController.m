@@ -477,6 +477,7 @@
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
     }
     else{
+        dataList.tableHeaderView = [[UIView alloc] initWithFrame:self.searchDisplayController.searchBar.frame];
         [dataList setDelegate:self];
         [dataList setDataSource:self];
         [collectionView setDelegate:nil];
@@ -563,7 +564,7 @@
     if ([self collectionViewCanBeEnabled] == YES){
         bar.leftPadding = SEARCH_BAR_LEFT_PADDING;
     }
-    [bar layoutSubviews];
+//    [bar layoutSubviews];
     [self checkDiskCache];
     float animDuration = 0.3f;
     if (newEnableCollectionView != enableCollectionView){
@@ -1848,7 +1849,7 @@ int originYear = 0;
         [sectionView addSubview:toolbarShadow];
         return sectionView;
     }
-    int sectionHeight = 22;
+    int sectionHeight = 16;
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, sectionHeight)];
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -1895,7 +1896,7 @@ int originYear = 0;
     label.textColor = [UIColor whiteColor];
     [label setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.6]];
     [label setShadowOffset:CGSizeMake(0, 1)];
-    label.font = [UIFont boldSystemFontOfSize:18];
+    label.font = [UIFont boldSystemFontOfSize: sectionHeight - 5];
     label.text = sectionTitle;    
     [sectionView addSubview:label];
     
@@ -1910,7 +1911,7 @@ int originYear = 0;
         return albumViewHeight + 2;
     }
     else if (section!=0 || tableView == self.searchDisplayController.searchResultsTableView){
-        return 22;
+        return 16;
     }
     if ([[self.sections allKeys] count] == 1){
         return 1;
@@ -1925,6 +1926,45 @@ int originYear = 0;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0;
+}
+
+#pragma mark - ScrollView Delegate
+
+//-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+//    hideSearchBarActive = YES;
+//}
+//
+//-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+//    if (!decelerate){
+//        hideSearchBarActive = NO;
+//    }
+//}
+//
+//-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+//    hideSearchBarActive = NO;
+//}
+
+// iOS7 scrolling performance boost for a UITableView/UICollectionView with a custom UISearchBar header
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    NSArray *paths;
+    NSIndexPath *searchBarPath;
+    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+    if ([self.richResults count]){
+        if ([scrollView isEqual:dataList]){
+            paths = [dataList indexPathsForVisibleRows];
+            searchBarPath = [NSIndexPath indexPathForRow:0 inSection:[self.sections count] > 1 ? 1 : 0];
+        }
+        else{
+            paths = [collectionView indexPathsForVisibleItems];
+            searchBarPath = [NSIndexPath indexPathForItem:0 inSection:[self.sections count] > 1 ? 1 : 0];
+        }
+        if ([paths containsObject:searchBarPath]){
+            bar.isVisible = YES;
+        }
+        else{
+            bar.isVisible = NO;
+        }
+    }
 }
 
 #pragma mark - Content Filtering
@@ -3763,7 +3803,6 @@ NSIndexPath *selected;
     iOSYDelta = 44;
     dataList.tableFooterView = [UIView new];
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
-    
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
@@ -3866,7 +3905,7 @@ NSIndexPath *selected;
     frame.origin.x = viewWidth;
     dataList.frame=frame;
     
-    bar.storedWidth = viewWidth;
+//    bar.storedWidth = viewWidth;
     
     activeLayoutView = dataList;
     currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);

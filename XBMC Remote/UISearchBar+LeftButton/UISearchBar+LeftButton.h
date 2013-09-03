@@ -18,6 +18,6 @@
 @property (nonatomic) int rightPadding;
 @property (nonatomic, retain) UILabel *viewLabel;
 @property (nonatomic, retain) UIButton *leftButton;
-@property (nonatomic) float storedWidth;
+@property (nonatomic) BOOL isVisible;
 
 @end
