@@ -1933,6 +1933,10 @@ int originYear = 0;
 -(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     bar.isVisible = YES;
+    if (enableCollectionView == YES  && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){ // temp hack to avoid the iOS7 search bar disappearing!!!
+        [self.searchDisplayController.searchBar removeFromSuperview];
+        [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+    }
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -1961,12 +1965,16 @@ int originYear = 0;
             paths = [dataList indexPathsForVisibleRows];
             searchBarPath = [NSIndexPath indexPathForRow:0 inSection:sectionNumber];
         }
-        else{
+        else if ([scrollView isEqual:collectionView]){
             paths = [collectionView indexPathsForVisibleItems];
             searchBarPath = [NSIndexPath indexPathForItem:0 inSection:sectionNumber];
         }
         if ([paths containsObject:searchBarPath]){
             bar.isVisible = YES;
+            if (enableCollectionView == YES && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){ // temp hack to avoid the iOS7 search bar disappearing!!!
+                [self.searchDisplayController.searchBar removeFromSuperview];
+                [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+            }
         }
         else{
             bar.isVisible = NO;
