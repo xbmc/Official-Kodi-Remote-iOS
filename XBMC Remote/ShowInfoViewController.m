@@ -1367,6 +1367,7 @@ int h=0;
         foundTag = [sender tag];
     }
     if (foundTag== 1){
+        self.view.clipsToBounds = NO;
         [self alphaView:closeButton AnimDuration:1.5 Alpha:0];
         [self alphaView:scrollView AnimDuration:1.5 Alpha:1];
         if (!enableKenBurns){
@@ -1394,8 +1395,8 @@ int h=0;
     else{
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [self.navigationController setNavigationBarHidden:YES animated:YES];
+            self.view.clipsToBounds = YES;
         }
-        
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             [[self.view viewWithTag:2002] setHidden:YES];
             [UIView beginAnimations:nil context:nil];
