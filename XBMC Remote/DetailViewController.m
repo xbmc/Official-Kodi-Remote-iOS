@@ -1930,6 +1930,11 @@ int originYear = 0;
 
 #pragma mark - ScrollView Delegate
 
+-(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
+    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+    bar.isVisible = YES;
+}
+
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     hideSearchBarActive = YES;
 }
