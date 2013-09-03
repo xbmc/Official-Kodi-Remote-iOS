@@ -50,13 +50,21 @@
         [verboseOutput setBackgroundColor:[UIColor clearColor]];
         [verboseOutput setTextAlignment:NSTextAlignmentCenter];
         
+        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
+        [keyboardTitle setContentMode:UIViewContentModeScaleToFill];
+        [keyboardTitle setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+        [keyboardTitle setTextAlignment:NSTextAlignmentCenter];
+        [keyboardTitle setBackgroundColor:[UIColor clearColor]];
+        [keyboardTitle setFont:[UIFont boldSystemFontOfSize:textSize]];
+        
         inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            UIToolbar *buttonsToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight - alignBottom)];
+            UIToolbar *buttonsToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
             [buttonsToolbar setBarStyle:UIBarStyleDefault];
             [buttonsToolbar setTranslucent:YES];
-            [buttonsToolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+            [buttonsToolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
             [inputAccView insertSubview: buttonsToolbar atIndex:0];
+            [keyboardTitle setTextColor:BAR_TINT_COLOR];
         }
         else{
             [inputAccView setBackgroundColor:accessoryColor];
@@ -65,6 +73,9 @@
             [keyboardLineImageView setContentMode:UIViewContentModeScaleToFill];
             [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
             [inputAccView addSubview:keyboardLineImageView];
+            [keyboardTitle setTextColor:[UIColor whiteColor]];
+            [keyboardTitle setShadowColor:[UIColor blackColor]];
+            [keyboardTitle setShadowOffset:CGSizeMake(0, 1)];
         }
         
         backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
@@ -73,17 +84,7 @@
         [backgroundTextField setBackgroundColor:[UIColor whiteColor]];
         [backgroundTextField setFont:[UIFont boldSystemFontOfSize:textSize]];
         [backgroundTextField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-        
-        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
-        [keyboardTitle setContentMode:UIViewContentModeScaleToFill];
-        [keyboardTitle setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-        [keyboardTitle setTextAlignment:NSTextAlignmentCenter];
-        [keyboardTitle setBackgroundColor:[UIColor clearColor]];
-        [keyboardTitle setFont:[UIFont boldSystemFontOfSize:textSize]];
-        [keyboardTitle setTextColor:[UIColor whiteColor]];
-        [keyboardTitle setShadowColor:[UIColor blackColor]];
-        [keyboardTitle setShadowOffset:CGSizeMake(0, 1)];
-        
+
         [inputAccView addSubview:keyboardTitle];
         [inputAccView addSubview:backgroundTextField];
         [inputAccView addSubview:verboseOutput];
