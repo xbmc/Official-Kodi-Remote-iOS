@@ -477,7 +477,6 @@
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
     }
     else{
-        dataList.tableHeaderView = [[UIView alloc] initWithFrame:self.searchDisplayController.searchBar.frame];
         [dataList setDelegate:self];
         [dataList setDataSource:self];
         [collectionView setDelegate:nil];
@@ -489,6 +488,7 @@
         self.searchDisplayController.searchBar.tintColor = tableViewSearchBarColor;
         [self.searchDisplayController.searchBar setBackgroundColor:tableViewSearchBarColor];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            dataList.tableHeaderView = [[UIView alloc] initWithFrame:self.searchDisplayController.searchBar.frame];
             self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
             [bar.viewLabel setTextColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.65f]];
             [bar.viewLabel setShadowColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.3f]];
