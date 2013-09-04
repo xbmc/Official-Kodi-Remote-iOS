@@ -195,15 +195,21 @@
     [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:volumeSliderView.frame.origin.y - volumeSliderView.frame.size.height - 42 forceHide:FALSE];
 }
 
+-(void)initHostManagemetPopOver{
+    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
+    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
+    self.serverPickerPopover = [[UIPopoverController alloc]
+                                initWithContentViewController:[AppDelegate instance].navigationController];
+    self.serverPickerPopover.delegate = self;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [self.serverPickerPopover setBackgroundColor:[UIColor clearColor]];
+    }
+    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
+}
+
 - (void)toggleSetup {
     if (_hostPickerViewController == nil) {
-        
-        self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-        [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
-        self.serverPickerPopover = [[UIPopoverController alloc] 
-                                    initWithContentViewController:[AppDelegate instance].navigationController];
-        self.serverPickerPopover.delegate = self;
-        [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
+        [self initHostManagemetPopOver];
     }
     [self.serverPickerPopover presentPopoverFromRect:xbmcInfo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
@@ -363,8 +369,18 @@
 
 #pragma mark - Lifecycle
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
+    int deltaY = 0;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [self setNeedsStatusBarAppearanceUpdate];
+        deltaY = 22;
+        self.view.tintColor = APP_TINT_COLOR;
+    }
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
@@ -377,7 +393,7 @@
     int tableWidth = 300;
     int headerHeight=0;
    
-    rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY - 1)];
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
 	[rootView setBackgroundColor:[UIColor clearColor]];
 	
@@ -407,7 +423,7 @@
     YPOS=-(tableHeight + separator + headerHeight);
     frame.origin.y=tableHeight + separator + headerHeight;
     frame.size.width=tableWidth;
-    frame.size.height=self.view.frame.size.height - tableHeight - separator - headerHeight;
+    frame.size.height=self.view.frame.size.height - tableHeight - separator - headerHeight - deltaY;
     nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
     nowPlayingController.view.frame=frame;
     
@@ -464,23 +480,35 @@
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(428, 966, 190, 33)]; //225
     [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
-    xbmcInfo.titleLabel.minimumFontSize=6.0f;
-    xbmcInfo.titleLabel.numberOfLines=2;
+    xbmcInfo.titleLabel.minimumFontSize = 6.0f;
+    xbmcInfo.titleLabel.numberOfLines = 2;
     xbmcInfo.titleLabel.textAlignment=UITextAlignmentCenter;
-    xbmcInfo.titleEdgeInsets=UIEdgeInsetsMake(0, 3, 0, 3);
+    xbmcInfo.titleEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
-    xbmcInfo.titleLabel.shadowOffset    = CGSizeMake (1.0, 1.0);
-    [xbmcInfo setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+    xbmcInfo.titleLabel.shadowOffset = CGSizeMake (1.0, 1.0);
     xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:xbmcInfo];
     
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(620, 966, 42, 33)]; //225
-    [powerButton setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
+        xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
+        xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
+        [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+        [menuViewController.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+
+    }
+    else{
+        [xbmcInfo setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+        [powerButton setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+    }
     [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateNormal];
     [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:xbmcInfo];
     [self.view addSubview:powerButton];
     
     [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
@@ -534,13 +562,25 @@
                                                  name: @"TcpJSONRPCChangeServerStatus"
                                                object: nil];
     
-    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
-    self.serverPickerPopover = [[UIPopoverController alloc]
-                                initWithContentViewController:[AppDelegate instance].navigationController];
-    self.serverPickerPopover.delegate = self;
-    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleStackScrollFullScreenEnabled:)
+                                                 name: @"StackScrollFullScreenEnabled"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleStackScrollFullScreenDisabled:)
+                                                 name: @"StackScrollFullScreenDisabled"
+                                               object: nil];
+    
+    [self initHostManagemetPopOver];
+}
 
+-(void)handleStackScrollFullScreenEnabled:(NSNotification *)sender{
+    stackScrollIsFullscreen = YES;
+}
+
+-(void)handleStackScrollFullScreenDisabled:(NSNotification *)sender{
+    stackScrollIsFullscreen = NO;
 }
 
 -(void)handleTcpJSONRPCShowSetup:(NSNotification *)sender{
@@ -561,15 +601,16 @@
 }
 
 - (void)handleStackScrollOffScreen: (NSNotification*) sender{
+    stackScrollIsFullscreen = NO;
     [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    int thumbWidth = 477;
-    int tvshowHeight = 91;
+    int thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
+    int tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
     if ([AppDelegate instance].obj.preferTVPosters==YES){
-        thumbWidth = 53;
-        tvshowHeight = 76;
+        thumbWidth = PAD_TV_SHOWS_POSTER_WIDTH;
+        tvshowHeight = PAD_TV_SHOWS_POSTER_HEIGHT;
     }
     mainMenu *menuItem=[self.mainMenu objectAtIndex:3];
     menuItem.thumbWidth=thumbWidth;
@@ -655,5 +696,10 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
 	return YES;
 }
+
+-(BOOL)shouldAutorotate{
+    return !stackScrollIsFullscreen;
+}
+
 
 @end

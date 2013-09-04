@@ -7,6 +7,7 @@
 //
 
 #import "MoreItemsViewController.h"
+#import "AppDelegate.h"
 
 @implementation MoreItemsViewController
 
@@ -14,6 +15,7 @@
 
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu{
     if (self = [super init]) {
+        cellLabelOffset = 50;
 		[self.view setFrame:frame];
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
 //        [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -22,7 +24,10 @@
         [_tableView setBackgroundColor:[UIColor clearColor]];
         mainMenuItems=menu;
         UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-		_tableView.tableFooterView = footerView;        
+		_tableView.tableFooterView = footerView;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [_tableView setSeparatorInset:UIEdgeInsetsMake(0, cellLabelOffset, 0, 0)];
+        }
 		[self.view addSubview:_tableView];
 	}
     return self;
@@ -50,8 +55,6 @@
 	cell.backgroundColor = [UIColor whiteColor];
 }
 
-int offset = 50;
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *tableCellIdentifier = @"UITableViewCell";
 	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
@@ -60,7 +63,7 @@ int offset = 50;
 	}
     cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator; 
 
-    UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(offset, 0, self.view.bounds.size.width - offset - 24, 43)];
+    UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 0, self.view.bounds.size.width - cellLabelOffset - 24, 43)];
     [cellLabel setFont:[UIFont systemFontOfSize:18]];
     [cellLabel setTextColor:[UIColor blackColor]];
     [cellLabel setHighlightedTextColor:[UIColor whiteColor]];

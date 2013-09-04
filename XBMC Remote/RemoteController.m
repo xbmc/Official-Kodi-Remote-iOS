@@ -51,7 +51,6 @@
 }
 
 - (void)setEmbeddedView{
-    remoteControlView.alpha = .85;
     CGRect frame = TransitionalView.frame;
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton *) self.view viewWithTag:2],
@@ -136,16 +135,16 @@
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+        rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
         rightSwipe.cancelsTouchesInView=YES;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-        [self.view addGestureRecognizer:rightSwipe];
-        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
+        [remoteControlView addGestureRecognizer:rightSwipe];
+        leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
         leftSwipe.numberOfTouchesRequired = 1;
         leftSwipe.cancelsTouchesInView=YES;
         leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.view addGestureRecognizer:leftSwipe];
+        [remoteControlView addGestureRecognizer:leftSwipe];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         if([[UIScreen mainScreen ] bounds].size.height >= 568){
             CGRect frame = remoteControlView.frame;
@@ -153,7 +152,7 @@
         }
     }
     else{
-        int newWidth = 477;
+        int newWidth = STACKSCROLL_WIDTH;
         [quickHelpView setFrame:CGRectMake(quickHelpView.frame.origin.x, quickHelpView.frame.origin.y, quickHelpView.frame.size.width, quickHelpView.frame.size.height - 20)];
         [quickHelpView
          setAutoresizingMask:
@@ -170,17 +169,17 @@
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
                  
     }
-    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    rightSwipe.numberOfTouchesRequired = 1;
-    rightSwipe.cancelsTouchesInView=NO;
-    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-    [gestureZoneView addGestureRecognizer:rightSwipe];
+    UISwipeGestureRecognizer *gestureRightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    gestureRightSwipe.numberOfTouchesRequired = 1;
+    gestureRightSwipe.cancelsTouchesInView=NO;
+    gestureRightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [gestureZoneView addGestureRecognizer:gestureRightSwipe];
     
-    UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    leftSwipe.numberOfTouchesRequired = 1;
-    leftSwipe.cancelsTouchesInView=NO;
-    leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-    [gestureZoneView addGestureRecognizer:leftSwipe];
+    UISwipeGestureRecognizer *gestureLeftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    gestureLeftSwipe.numberOfTouchesRequired = 1;
+    gestureLeftSwipe.cancelsTouchesInView=NO;
+    gestureLeftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    [gestureZoneView addGestureRecognizer:gestureLeftSwipe];
     
     UISwipeGestureRecognizer *upSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     upSwipe.numberOfTouchesRequired = 1;
@@ -420,6 +419,8 @@
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
+        leftSwipe.enabled = NO;
+        rightSwipe.enabled = NO;
         [UIView commitAnimations];
         imageName=@"circle.png";
     }
@@ -436,6 +437,8 @@
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 0;
         buttonZoneView.alpha = 1;
+        leftSwipe.enabled = YES;
+        rightSwipe.enabled = YES;
         [UIView commitAnimations];
         imageName=@"finger.png";
     }
@@ -1064,6 +1067,9 @@ NSInteger buttonAction;
         self.slidingViewController.underRightViewController = rightMenuViewController;
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:self action:@selector(revealUnderRight:)];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];            
+        }
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
@@ -1150,6 +1156,10 @@ NSInteger buttonAction;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        self.edgesForExtendedLayout = 0;
+        self.view.tintColor = TINT_COLOR;
+    }
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
@@ -1167,6 +1177,8 @@ NSInteger buttonAction;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
+        leftSwipe.enabled = NO;
+        rightSwipe.enabled = NO;
     }
     torchIsOn = NO;
     NSString *torchIcon = @"torch";

@@ -106,39 +106,39 @@ NSMutableArray *hostRightMenuItems;
     obj=[GlobalData getInstance];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        thumbWidth = 320;
-        tvshowHeight = 61;
+        thumbWidth = PHONE_TV_SHOWS_BANNER_WIDTH;
+        tvshowHeight = PHONE_TV_SHOWS_BANNER_HEIGHT;
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                    [UIColor colorWithRed:1 green:1 blue:1 alpha:1],UITextAttributeTextColor,
                                                    [UIFont boldSystemFontOfSize:18], UITextAttributeFont, nil];
         [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     }
     else {
-        thumbWidth = 477;
-        tvshowHeight = 91;
+        thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
+        tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
     }
     
-    float itemMusicWidthIphone = 105;
-    float itemMusicHeightIphone = 105;
-
-    float itemMusicWidthIpad = 117;
-    float itemMusicHeightIpad = 117;
+    float itemMusicWidthIphone = 106.0f;
+    float itemMusicHeightIphone = 106.0f;
     
-    float itemMusicWidthLargeIpad = 157.0f;
-    float itemMusicHeightLargeIpad = 157.0f;
-
-    float itemMovieWidthIphone = 105;
-    float itemMovieHeightIphone = 151;
-        
-    float itemMovieWidthIpad = 117;
-    float itemMovieHeightIpad = 168;
+    float itemMusicWidthIpad = 119.0f;
+    float itemMusicHeightIpad = 119.0f;
     
-    float itemMovieWidthLargeIpad =157.0f;
-    float itemMovieHeightLargeIpad =  225.0f;
+    float itemMusicWidthLargeIpad = 158.0f;
+    float itemMusicHeightLargeIpad = 158.0f;
+    
+    float itemMovieWidthIphone = 106.0f;
+    float itemMovieHeightIphone = 151.0f;
+    
+    float itemMovieWidthIpad = 119.0f;
+    float itemMovieHeightIpad = 170.0f;
+    
+    float itemMovieWidthLargeIpad =158.0f;
+    float itemMovieHeightLargeIpad =  230.0f;
     
     float itemMovieHeightRecentlyIphone =  132.0f;
     float itemMovieHeightRecentlyIpad =  196.0f;
-
+    
     [self.window makeKeyAndVisible];
     
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];
@@ -2711,6 +2711,16 @@ NSMutableArray *hostRightMenuItems;
                                 nil],
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 NSLocalizedString(@"Wake On Lan", nil), @"label",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:.741f], @"red",
+                                 [NSNumber numberWithFloat:.141f], @"green",
+                                 [NSNumber numberWithFloat:.141f], @"blue",
+                                 nil], @"bgColor",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:1], @"red",
+                                 [NSNumber numberWithFloat:1], @"green",
+                                 [NSNumber numberWithFloat:1], @"blue",
+                                 nil], @"fontColor",
                                 @"icon_power", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.WOL", @"command",
@@ -2995,6 +3005,9 @@ NSMutableArray *hostRightMenuItems;
                                    nil],
                                   nil];
     [remoteControlMenuItems addObject:remoteControlItem1];
+    
+//    [UIDevice currentDevice].proximityMonitoringEnabled = YES;
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleProximityChangeNotification:) name:UIDeviceProximityStateDidChangeNotification object:nil];
 
 #pragma mark -
 
@@ -3024,6 +3037,15 @@ NSMutableArray *hostRightMenuItems;
         self.window.rootViewController = self.windowController;
     }
     return YES;
+}
+
+-(void)handleProximityChangeNotification:(id)sender{
+    if([[UIDevice currentDevice] proximityState]){
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationDidEnterBackgroundNotification" object: nil];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
+    }
 }
 
 -(void)wake:(NSString *)macAddress{
@@ -3099,12 +3121,10 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]==YES ){
         xbmcRemote.idleTimerDisabled = YES;
-        [[UIScreen mainScreen] setWantsSoftwareDimming:YES];
         
     }
     else {
         xbmcRemote.idleTimerDisabled = NO;
-        [[UIScreen mainScreen] setWantsSoftwareDimming:NO];
     }
 //    [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
 }

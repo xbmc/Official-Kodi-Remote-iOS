@@ -18,6 +18,7 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "ActorCell.h"
+#import "Utilities.h"
 
 @interface ShowInfoViewController ()
 @end
@@ -118,7 +119,10 @@ int count=0;
             toolbar = [UIToolbar new];
             toolbar.alpha = .8f;
             toolbar.barStyle = UIBarStyleBlackTranslucent;
-//            toolbar.tintColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:.1];
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                toolbar.tintColor = TINT_COLOR;
+                toolbar.alpha = 1.0f;
+            }
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
@@ -141,6 +145,7 @@ int count=0;
                               title,
                               spacer,
                               extraButton,
+                              spacer,
                               actionSheetButtonItemIpad,
                               nil];
             toolbar.items = items;
@@ -153,13 +158,17 @@ int count=0;
                                          CGRectGetMinY(mainViewBounds),
                                          CGRectGetWidth(mainViewBounds),
                                          toolbarHeight)];
-            CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
-            UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-            [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
-            toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            toolbarShadow.opaque = YES;
-            toolbarShadow.alpha = 0.5;
-            [toolbar addSubview:toolbarShadow];
+            
+            if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
+                UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+                [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+                toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+                toolbarShadow.opaque = YES;
+                toolbarShadow.alpha = 0.5;
+                [toolbar addSubview:toolbarShadow];
+            }
+            
             [self.view addSubview:toolbar];
             scrollView.autoresizingMask = UIViewAutoresizingNone;
             [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y + 44, scrollView.frame.size.width, scrollView.frame.size.height-44)];
@@ -313,8 +322,8 @@ int count=0;
             [MenuItem setEnableSection:NO];
             [MenuItem setMainButtons:nil];
             if ([AppDelegate instance].obj.preferTVPosters==YES){
-                thumbWidth = 53;
-                tvshowHeight = 76;
+                thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
+                tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
             }
             MenuItem.thumbWidth=thumbWidth;
             MenuItem.rowHeight=tvshowHeight;
@@ -379,7 +388,7 @@ int count=0;
             [self.navigationController pushViewController:self.detailViewController animated:YES];
         }
         else{
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
             [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
             [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
@@ -524,6 +533,7 @@ int h=0;
         int count = [toolbar.items count];
         NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
         [newToolbarItems removeObjectAtIndex:(count - 1)];
+        [newToolbarItems removeObjectAtIndex:(count - 2)];
         toolbar.items = newToolbarItems;
     }
     else{
@@ -535,7 +545,7 @@ int h=0;
 
 - (UIImage*)imageWithShadow:(UIImage *)source {
     CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGImageAlphaPremultipliedLast);
+    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
     CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 10, [UIColor blackColor].CGColor);
@@ -586,6 +596,11 @@ int h=0;
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0f];
 }
 
+-(void)setIOS7barTintColor:(UIColor *)tintColor{
+    self.navigationController.navigationBar.tintColor = tintColor;
+    toolbar.tintColor = tintColor;
+}
+
 -(void)createInfo{
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSDictionary *item=self.detailItem;
@@ -604,14 +619,14 @@ int h=0;
     }
     clearLogoWidth = 300;
     clearLogoHeight = 116;
-    thumbWidth = 320;
-    tvshowHeight = 61;
+    thumbWidth = PHONE_TV_SHOWS_BANNER_WIDTH;
+    tvshowHeight = PHONE_TV_SHOWS_BANNER_HEIGHT;
     int shiftParentalRating = -20;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         clearLogoWidth = 457;
         clearLogoHeight = 177;
-        thumbWidth = 477;
-        tvshowHeight = 91;
+        thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
+        tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
         shiftParentalRating = -40;
         labelSpace = 33;
         placeHolderImage = @"coverbox_back@2x.png";
@@ -689,7 +704,7 @@ int h=0;
                     frame=coverView.frame;
                     frame.origin.x=-78;
                     frame.origin.y=12;
-                    frame.size.width=477;
+                    frame.size.width=STACKSCROLL_WIDTH;
                     frame.size.height=90;
                     coverView.frame=frame;
                     jewelView.frame = frame;
@@ -698,7 +713,7 @@ int h=0;
             else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
                 int originalHeight = jewelView.frame.size.height;
                 int coverHeight = 560;
-                int coverWidth = 477;
+                int coverWidth = STACKSCROLL_WIDTH;
                 CGRect frame;
                 frame = jewelView.frame;
                 frame.origin.x = -79;
@@ -723,14 +738,16 @@ int h=0;
             NSDate *date = [format dateFromString:[item objectForKey:@"premiered"]];
             [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
             genreLabel.text = date == nil ? @"-" : [format stringFromDate:date];
-            if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+                [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
                 runtimeLabel.text=[[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
                 runtimeLabel.text=[runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
             }
             else{
                 runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
             }
-            if ([[item objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            if ([[item objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+                [[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
                 studioLabel.text=[[item objectForKey:@"studio"] componentsJoinedByString:@" / "];
                 studioLabel.text=[studioLabel.text length]==0 ? @"-" : studioLabel.text;
             }
@@ -790,14 +807,16 @@ int h=0;
                 aired = [format stringFromDate:date];
             }
             genreLabel.text = aired;
-            if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+                [[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
                 runtimeLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
                 runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
             }
             else{
                 runtimeLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
             }
-            if ([[item objectForKey:@"writer"] isKindOfClass:NSClassFromString(@"JKArray")]){
+            if ([[item objectForKey:@"writer"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+                [[item objectForKey:@"writer"] isKindOfClass:[NSArray class]]){
                 studioLabel.text = [[item objectForKey:@"writer"] componentsJoinedByString:@" / "];
                 studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
             }
@@ -868,7 +887,8 @@ int h=0;
 
         }
         coverView.frame = frame;
-        if ([[item objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")]){
+        if ([[item objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+            [[item objectForKey:@"artist"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"artist"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
         }
@@ -876,7 +896,8 @@ int h=0;
             directorLabel.text = [[item objectForKey:@"artist"] length] == 0 ? @"-" : [item objectForKey:@"artist"];
         }
         genreLabel.text = [[item objectForKey:@"year"] length] == 0 ? @"-" : [item objectForKey:@"year"];
-        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
+        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+            [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
             runtimeLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
             runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
         }
@@ -913,7 +934,8 @@ int h=0;
         starsView.hidden = YES;
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
-        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
+        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+            [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
         }
@@ -921,7 +943,8 @@ int h=0;
             directorLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
         }
         
-        if ([[item objectForKey:@"style"] isKindOfClass:NSClassFromString(@"JKArray")]){
+        if ([[item objectForKey:@"style"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+            [[item objectForKey:@"style"] isKindOfClass:[NSArray class]]){
             genreLabel.text = [[item objectForKey:@"style"] componentsJoinedByString:@" / "];
             genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
         }
@@ -941,7 +964,8 @@ int h=0;
         genreLabel.frame = newFrame;
         [self moveLabel:[NSArray arrayWithObjects:label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(expectedLabelSize.height - labelSpace)];
         
-        if ([[item objectForKey:@"born"] isKindOfClass:NSClassFromString(@"JKArray")]){
+        if ([[item objectForKey:@"born"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+            [[item objectForKey:@"born"] isKindOfClass:[NSArray class]]){
             studioLabel.text = [[item objectForKey:@"born"] componentsJoinedByString:@" / "];
             studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
         }
@@ -949,7 +973,8 @@ int h=0;
             studioLabel.text = [[item objectForKey:@"born"] length] == 0 ? @"-" : [item objectForKey:@"born"];
         }
         
-        if ([[item objectForKey:@"formed"] isKindOfClass:NSClassFromString(@"JKArray")]){
+        if ([[item objectForKey:@"formed"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+            [[item objectForKey:@"formed"] isKindOfClass:[NSArray class]]){
             studioLabel.text = [[item objectForKey:@"formed"] componentsJoinedByString:@" / "];
             studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
         }
@@ -980,7 +1005,7 @@ int h=0;
             placeHolderImage = @"coverbox_back_movies@2x.png";
             int originalHeight = jewelView.frame.size.height;
             int coverHeight = 560;
-            int coverWidth = 477;
+            int coverWidth = STACKSCROLL_WIDTH;
             CGRect frame;
             frame = jewelView.frame;
             frame.origin.x = -79;
@@ -998,14 +1023,16 @@ int h=0;
             int deltaY = -(coverHeight - originalHeight);
             [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
         }
-        if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")]){
+        if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+            [[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
         }
         else{
             directorLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
         }
-        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
+        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+            [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
             genreLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
             genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
         }
@@ -1013,7 +1040,8 @@ int h=0;
             genreLabel.text = [[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
         }
         runtimeLabel.text = [[item objectForKey:@"runtime"] length]==0 ? @"-" : [item objectForKey:@"runtime"];
-        if ([[item objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")]){
+        if ([[item objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")] ||
+            [[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
             studioLabel.text = [[item objectForKey:@"studio"] componentsJoinedByString:@" / "];
             studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
         }
@@ -1030,6 +1058,12 @@ int h=0;
     }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image!=nil){
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                Utilities *utils = [[Utilities alloc] init];
+                foundTintColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                self.navigationController.navigationBar.tintColor = foundTintColor;
+                toolbar.tintColor = foundTintColor;
+            }
             if (enableJewel){
                 coverView.image = image;
                 [activityIndicatorView stopAnimating];
@@ -1040,8 +1074,21 @@ int h=0;
             }
         }
         else{
+            __weak ShowInfoViewController *sf = self;
+            __block UIColor *newColor = nil;
             if (enableJewel){
-                [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath] placeholderImage:[UIImage imageNamed:placeHolderImage]];
+                [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
+                          placeholderImage:[UIImage imageNamed:placeHolderImage]
+                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && error == nil){
+                         if (image !=nil){
+                             Utilities *utils = [[Utilities alloc] init];
+                             newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                             [sf setIOS7barTintColor:newColor];
+                         }
+                     }
+                 }];
+                foundTintColor = newColor;
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
             }
@@ -1049,9 +1096,17 @@ int h=0;
                 [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                     [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
+                                     if (image !=nil){
+                                         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && error == nil){
+                                             Utilities *utils = [[Utilities alloc] init];
+                                             newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                                             [sf setIOS7barTintColor:newColor];
+                                         }
+                                         [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
+                                     }
                                  }
                  ];
+                foundTintColor = newColor;
             }
         }
     }];
@@ -1303,7 +1358,16 @@ int h=0;
 }
 
 - (void)showBackground:(id)sender{
-    if ([sender tag]==1){
+    scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    int foundTag = 0;
+    if ([sender isKindOfClass:[UITapGestureRecognizer class]]){
+        foundTag = [sender view].tag;
+    }
+    else{
+        foundTag = [sender tag];
+    }
+    if (foundTag== 1){
+        self.view.clipsToBounds = NO;
         [self alphaView:closeButton AnimDuration:1.5 Alpha:0];
         [self alphaView:scrollView AnimDuration:1.5 Alpha:1];
         if (!enableKenBurns){
@@ -1312,8 +1376,49 @@ int h=0;
         else{
             [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
         }
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+        }
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            [[self.view viewWithTag:2002] setHidden:NO];
+            [UIView animateWithDuration:1.5f
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object: self.view];
+                [toolbar setAlpha:1.0];
+            }
+                             completion:^(BOOL finished) {}
+             ];
+        }
     }
     else{
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+            self.view.clipsToBounds = YES;
+        }
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            [[self.view viewWithTag:2002] setHidden:YES];
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:1.5];
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+            self.kenView.alpha = 0;
+            [toolbar setAlpha:0.0];
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object: self.view];
+            [UIView commitAnimations];
+            if (self.kenView != nil){
+                float alphaValue = 1;
+                [UIView animateWithDuration:0.2
+                                 animations:^{
+                                     self.kenView.alpha = 0;
+                                 }
+                                 completion:^(BOOL finished){
+                                     [self elabKenBurns:fanartView.image];
+                                     [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];
+                                 }
+                 ];
+            }
+        }
         [self alphaView:scrollView AnimDuration:1.5 Alpha:0];
         if (!enableKenBurns){
             [self alphaImage:fanartView AnimDuration:1.5 Alpha:1];// cool
@@ -1372,6 +1477,7 @@ int h=0;
 -(void)alphaImage:(UIImageView *)image AnimDuration:(float)seconds Alpha:(float)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	image.alpha = alphavalue;
     if (alphavalue) {
         image.hidden = NO;
@@ -1382,6 +1488,7 @@ int h=0;
 -(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	view.alpha = alphavalue;
     [UIView commitAnimations];
 }
@@ -1439,6 +1546,7 @@ int h=0;
 - (void)handleSwipeFromLeft:(id)sender {
     if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
         [self showNowPlaying];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
 }
 
@@ -1574,6 +1682,7 @@ int h=0;
     self.kenView.contentMode = fanartView.contentMode;
     self.kenView.delegate = self;
     self.kenView.alpha = 0;
+    self.kenView.tag = 1;
     NSArray *backgroundImages = [NSArray arrayWithObjects:
                                  image,
                                  nil];
@@ -1581,6 +1690,10 @@ int h=0;
                  transitionDuration:45
                                loop:YES
                         isLandscape:YES];
+    UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
+    [touchOnKenView setNumberOfTapsRequired:1];
+    [touchOnKenView setNumberOfTouchesRequired:1];
+    [self.kenView addGestureRecognizer:touchOnKenView];
     [self.view insertSubview:self.kenView atIndex:1];
 }
 
@@ -1604,9 +1717,24 @@ int h=0;
 //        [self presentViewController:c animated:NO completion:nil];
 //        [self dismissViewControllerAnimated:NO completion:nil];
 //    }
+        [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleSwipeFromLeft:)
+                                                 name: @"ECSLidingSwipeLeft"
+                                               object: nil];
+    if (foundTintColor != nil){
+        self.navigationController.navigationBar.tintColor = foundTintColor;
+        toolbar.tintColor = foundTintColor;
+    }
     float alphaValue = 0.2;
     if (closeButton.alpha==1){
         alphaValue = 1;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+        }
     }
     if (!enableKenBurns){
         [self alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
@@ -1618,18 +1746,15 @@ int h=0;
         }
         [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
-    [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
-}
 
--(void)viewDidAppear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleSwipeFromLeft:)
-                                                 name: @"ECSLidingSwipeLeft"
-                                               object: nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] removeObserver: self];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
+        toolbar.tintColor = TINT_COLOR;
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -1659,8 +1784,19 @@ int h=0;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-//    imageCache = [SDImageCache.alloc initWithNamespace:@"default"];
-//    [[SDImageCache sharedImageCache] clearMemory];
+    fanartView.tag = 1;
+    fanartView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
+    [touchOnKenView setNumberOfTapsRequired:1];
+    [touchOnKenView setNumberOfTouchesRequired:1];
+    [fanartView addGestureRecognizer:touchOnKenView];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
+        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+        tableViewInsets.top = 44 + fabs(iOSYDelta);
+        scrollView.contentInset = tableViewInsets;
+        scrollView.scrollIndicatorInsets = tableViewInsets;
+    }
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

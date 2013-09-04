@@ -96,14 +96,14 @@
 //		[self.view addSubview:verticalLineView1];
 //        [self.view bringSubviewToFront:verticalLineView1];
         
-		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, -5, 1, self.view.frame.size.height-39)];
+		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, 1, self.view.frame.size.height-39)];
 		[verticalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
 		[verticalLineView1 setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:.3]];
 		[self.view addSubview:verticalLineView1];
         [self.view bringSubviewToFront:verticalLineView1];
 
         
-        UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, -5, 1, self.view.frame.size.height-39)];
+        UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, 0, 1, self.view.frame.size.height-39)];
 		[verticalLineView2 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
 		[verticalLineView2 setBackgroundColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:0.2f]];
 		[self.view addSubview:verticalLineView2];
@@ -294,13 +294,13 @@
         }
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil]; 
         if (item.family == 1){
-            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:TRUE];
             [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
         }   
         else if (item.family == 3){
             RemoteController *remoteController=[[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil]; 
-            [remoteController.view setFrame:CGRectMake(0, 0, 477, self.view.frame.size.height)];
+            [remoteController.view setFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height)];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:remoteController invokeByController:self isStackStartView:TRUE];
             [[AppDelegate instance].windowController.stackScrollViewController disablePanGestureRecognizer:remoteController.panFallbackImageView];
         }

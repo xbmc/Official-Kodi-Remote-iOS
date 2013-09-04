@@ -31,6 +31,7 @@ static CGRect initialTextFieldFrame;
 }
 
 -(void)configureView{
+    self.isVisible = YES;
     self.leftPadding = 0;
     self.rightPadding = 0;
     float buttonWidth = 44;
@@ -55,6 +56,7 @@ static CGRect initialTextFieldFrame;
 
 - (void) layoutSubviews {
     [super layoutSubviews];
+    if (!self.isVisible) return;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         initialTextFieldFrame = self.textField.frame;
@@ -95,13 +97,21 @@ static CGRect initialTextFieldFrame;
         if ([view isKindOfClass: [UITextField class]]){
             return (UITextField *)view;
         }
+        else if ([view isKindOfClass:[UIView class]]){
+            for (UIView *view2 in view.subviews) {
+                if ([view2 isKindOfClass: [UITextField class]]){
+                    return (UITextField *)view2;
+                }
+            }
+        }
     }
     return nil;
 }
 
 - (void)drawRect:(CGRect)rect{
-    if ([self.delegate respondsToSelector:@selector(handleChangeLibraryView)]){
-        [self.leftButton addTarget:self.delegate action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
+    SEL selector = NSSelectorFromString(@"handleChangeLibraryView");
+    if ([self.delegate respondsToSelector:selector]){
+        [self.leftButton addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
     }
 }
 
