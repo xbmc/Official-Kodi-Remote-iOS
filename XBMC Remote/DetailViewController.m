@@ -1562,11 +1562,14 @@ int originYear = 0;
                                       thumbImageContainer.layer.shadowPath = path.CGPath;
                                       if (enableBarColor == YES){
                                           albumColor = [utils averageColor:image inverse:NO];
-                                          self.navigationController.navigationBar.tintColor = albumColor;
-                                          self.searchDisplayController.searchBar.tintColor = albumColor;
+                                          UIColor *slightLightAlbumColor = [utils slightLighterColorForColor:albumColor];
                                           if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                                              self.navigationController.navigationBar.tintColor = [utils slightLighterColorForColor:albumColor];
-//                                              self.searchDisplayController.searchBar.barTintColor = albumColor;
+                                              self.navigationController.navigationBar.tintColor = slightLightAlbumColor;
+                                              self.searchDisplayController.searchBar.tintColor = slightLightAlbumColor;
+                                          }
+                                          else{
+                                              self.navigationController.navigationBar.tintColor = albumColor;
+                                              self.searchDisplayController.searchBar.tintColor = albumColor;
                                           }
                                           if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
                                               [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
@@ -2017,6 +2020,8 @@ int originYear = 0;
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
     ((UITableView *)activeLayoutView).pullToRefreshView.alpha = 0;
+    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+    bar.iOS7widthHack = 0;
 }
 
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
@@ -2054,8 +2059,11 @@ int originYear = 0;
         [UIView setAnimationDuration:0.3];
         [activeLayoutView setFrame:CGRectMake(((UITableView *)activeLayoutView).frame.origin.x, ((UITableView *)activeLayoutView).frame.origin.y + 44, ((UITableView *)activeLayoutView).frame.size.width, ((UITableView *)activeLayoutView).frame.size.height)];
         [UIView commitAnimations];
+        UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+        bar.iOS7widthHack = 8;
     }
     ((UITableView *)activeLayoutView).pullToRefreshView.alpha = 1;
+    
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
@@ -3876,7 +3884,9 @@ NSIndexPath *selected;
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
 
+    bar.iOS7widthHack = 0;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        bar.iOS7widthHack = 8;
         searchBarColor = [UIColor colorWithRed:.572f green:.572f blue:.572f alpha:1];
         collectionViewSearchBarColor = [UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:.95];
     }
