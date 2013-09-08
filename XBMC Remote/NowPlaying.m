@@ -2702,7 +2702,7 @@ int currentItemID;
         self.slidingViewController.underRightViewController = rightMenuViewController;
     }
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        int effectHeight = 12;
+        int effectHeight = 22;
         int barEffectHeight = 32;
         if (iOS7bgEffect == nil){
             iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, effectHeight)];
