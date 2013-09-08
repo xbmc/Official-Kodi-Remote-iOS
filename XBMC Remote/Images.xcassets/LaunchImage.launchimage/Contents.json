@@ -49,6 +49,7 @@
       "orientation" : "portrait",
       "idiom" : "iphone",
       "extent" : "full-screen",
+      "filename" : "li-phone3.5-iOS6.png",
       "scale" : "1x"
     },
     {
@@ -70,25 +71,28 @@
       "orientation" : "portrait",
       "idiom" : "ipad",
       "extent" : "to-status-bar",
+      "filename" : "li-ipad-portrait-iOS6.png",
       "scale" : "1x"
     },
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
       "extent" : "to-status-bar",
-      "filename" : "li-ipad-1.png",
+      "filename" : "li-ipad-iOS6.png",
       "scale" : "1x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
       "extent" : "to-status-bar",
+      "filename" : "li-ipad-portrait-iOS6@2x.png",
       "scale" : "2x"
     },
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
       "extent" : "to-status-bar",
+      "filename" : "li-ipad-iOS6@2x.png",
       "scale" : "2x"
     }
   ],
