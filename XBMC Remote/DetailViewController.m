@@ -1974,7 +1974,7 @@ int originYear = 0;
             paths = [collectionView indexPathsForVisibleItems];
             searchBarPath = [NSIndexPath indexPathForItem:0 inSection:sectionNumber];
         }
-        if ([paths containsObject:searchBarPath]){
+        if ([paths containsObject:searchBarPath] || [scrollView isEqual:self.searchDisplayController.searchResultsTableView]){
             bar.isVisible = YES;
             if (enableCollectionView == YES && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){ // temp hack to avoid the iOS7 search bar disappearing!!!
                 [self.searchDisplayController.searchBar removeFromSuperview];
@@ -2025,6 +2025,8 @@ int originYear = 0;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && enableCollectionView){
         enableIpadWA = YES;
     }
+    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+    bar.isVisible = YES;
 }
 
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
