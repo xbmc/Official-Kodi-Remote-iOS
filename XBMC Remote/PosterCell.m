@@ -40,7 +40,8 @@
         [_posterLabel setNumberOfLines:2];
         [_posterLabel setMinimumFontSize:8.0f];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
-        
+        [_posterLabel setMinimumScaleFactor:1.0f];
+
         [labelImageView addSubview:_posterLabel];
         [self.contentView addSubview:labelImageView];
         
