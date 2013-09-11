@@ -698,13 +698,15 @@ int currentItemID;
                              [iOS7navBarEffect setBackgroundColor:color];
                              if ([color isEqual:[UIColor clearColor]]){
                                  self.navigationController.navigationBar.tintColor = TINT_COLOR;
-                                 [UIView transitionWithView:backgroundImageView
-                                                   duration:1.0f
-                                                    options:UIViewAnimationOptionTransitionCrossDissolve
-                                                 animations:^{
-                                                     backgroundImageView.image=[UIImage imageNamed:@"shiny_black_back"];
-                                                 }
-                                                 completion:NULL];
+                                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                                     [UIView transitionWithView:backgroundImageView
+                                                       duration:1.0f
+                                                        options:UIViewAnimationOptionTransitionCrossDissolve
+                                                     animations:^{
+                                                         backgroundImageView.image=[UIImage imageNamed:@"shiny_black_back"];
+                                                     }
+                                                     completion:NULL];
+                                 }
                              }
                              else{
                                  Utilities *utils = [[Utilities alloc] init];
@@ -712,13 +714,15 @@ int currentItemID;
                                  UIColor *slightLighterColor = [utils slightLighterColorForColor:color];
                                  UIColor *navBarColor = [utils updateColor:color lightColor:slightLighterColor darkColor:color trigger:0.4];
                                  self.navigationController.navigationBar.tintColor = navBarColor;
-                                 [UIView transitionWithView:backgroundImageView
-                                                   duration:1.0f
-                                                    options:UIViewAnimationOptionTransitionCrossDissolve
-                                                 animations:^{
-                                                     backgroundImageView.image=[utils colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
-                                                 }
-                                                 completion:NULL];
+                                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                                     [UIView transitionWithView:backgroundImageView
+                                                       duration:1.0f
+                                                        options:UIViewAnimationOptionTransitionCrossDissolve
+                                                     animations:^{
+                                                         backgroundImageView.image=[utils colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
+                                                     }
+                                                     completion:NULL];
+                                 }
                              }
                          }
                          completion:NULL];
