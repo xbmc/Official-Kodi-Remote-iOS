@@ -1960,7 +1960,7 @@ int originYear = 0;
 
 // iOS7 scrolling performance boost for a UITableView/UICollectionView with a custom UISearchBar header
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (!hideSearchBarActive) return;
+    if (!hideSearchBarActive || [scrollView isEqual:self.searchDisplayController.searchResultsTableView]) return;
     NSArray *paths;
     NSIndexPath *searchBarPath;
     NSInteger sectionNumber = [self.sections count] > 1 ? 1 : 0;
@@ -1974,7 +1974,7 @@ int originYear = 0;
             paths = [collectionView indexPathsForVisibleItems];
             searchBarPath = [NSIndexPath indexPathForItem:0 inSection:sectionNumber];
         }
-        if ([paths containsObject:searchBarPath] || [scrollView isEqual:self.searchDisplayController.searchResultsTableView]){
+        if ([paths containsObject:searchBarPath]){
             bar.isVisible = YES;
             if (enableCollectionView == YES && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){ // temp hack to avoid the iOS7 search bar disappearing!!!
                 [self.searchDisplayController.searchBar removeFromSuperview];
