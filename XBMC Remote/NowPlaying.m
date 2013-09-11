@@ -602,6 +602,41 @@ int currentItemID;
                                 [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
                             }
+                            [UIView transitionWithView:albumName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [albumName setTextColor:[UIColor whiteColor]];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:songName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [songName setTextColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0f]];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:artistName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [artistName setTextColor:[UIColor lightGrayColor]];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:currentTime
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [currentTime setTextColor:[UIColor lightGrayColor]];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:duration
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [duration setTextColor:[UIColor lightGrayColor]];
+                                            }
+                                            completion:NULL];
                         }
                         else{
                             Utilities *utils = [[Utilities alloc] init];
@@ -615,6 +650,41 @@ int currentItemID;
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
                             }
+                            [UIView transitionWithView:albumName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [albumName setTextColor:pgThumbColor];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:songName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [songName setTextColor:pgThumbColor];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:artistName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [artistName setTextColor:progressColor];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:currentTime
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [currentTime setTextColor:progressColor];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:duration
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [duration setTextColor:progressColor];
+                                            }
+                                            completion:NULL];
                         }
                     }
                     completion:NULL];
