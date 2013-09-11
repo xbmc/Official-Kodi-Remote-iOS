@@ -3933,7 +3933,7 @@ NSIndexPath *selected;
     frame.origin.x = viewWidth;
     dataList.frame=frame;
     
-//    bar.storedWidth = viewWidth;
+    bar.storeWidth = viewWidth;
     
     activeLayoutView = dataList;
     currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);

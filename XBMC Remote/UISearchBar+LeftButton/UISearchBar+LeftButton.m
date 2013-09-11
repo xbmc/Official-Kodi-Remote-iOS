@@ -84,17 +84,15 @@ static CGRect initialTextFieldFrame;
 
 -(void)updateTextFieldFrame:(float)rightMargin leftPadding:(float)leftMargin widthHack:(float)addWidth {
     int originX = self.textField.frame.origin.x + leftMargin;
-    int width = initialTextFieldFrame.size.width - leftMargin - rightMargin;
+    int width = initialTextFieldFrame.size.width - leftMargin - rightMargin + addWidth;
     CGRect newFrame = CGRectMake (originX,
                                   self.textField.frame.origin.y,
                                   width,
                                   self.textField.frame.size.height);
     self.textField.frame = newFrame;
-    if (addWidth){
-        newFrame = self.frame;
-        newFrame.size.width += addWidth;
-        self.frame = newFrame;
-    }
+    newFrame = self.frame;
+    newFrame.size.width = self.storeWidth + addWidth;
+    self.frame = newFrame;
 }
 
 -(UITextField *)textField{
