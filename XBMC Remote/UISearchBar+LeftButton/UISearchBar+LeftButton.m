@@ -70,7 +70,7 @@ static CGRect initialTextFieldFrame;
                 cancelButtonWidth = view.frame.size.width;
             }
         }
-        [self updateTextFieldFrame:cancelButtonWidth + CANCEL_BUTTON_PADDING leftPadding:0 widthHack:0.0];
+        [self updateTextFieldFrame:cancelButtonWidth + CANCEL_BUTTON_PADDING leftPadding:0];
     }
     else{
         if (self.leftPadding){
@@ -78,20 +78,20 @@ static CGRect initialTextFieldFrame;
             self.viewLabel.alpha = 1;
 
         }
-        [self updateTextFieldFrame:self.rightPadding leftPadding:self.leftPadding widthHack:self.iOS7widthHack];
+        [self updateTextFieldFrame:self.rightPadding leftPadding:self.leftPadding];
     }
 }
 
--(void)updateTextFieldFrame:(float)rightMargin leftPadding:(float)leftMargin widthHack:(float)addWidth {
+-(void)updateTextFieldFrame:(float)rightMargin leftPadding:(float)leftMargin {
     int originX = self.textField.frame.origin.x + leftMargin;
-    int width = initialTextFieldFrame.size.width - leftMargin - rightMargin + addWidth;
+    int width = initialTextFieldFrame.size.width - leftMargin - rightMargin;
     CGRect newFrame = CGRectMake (originX,
                                   self.textField.frame.origin.y,
                                   width,
                                   self.textField.frame.size.height);
     self.textField.frame = newFrame;
     newFrame = self.frame;
-    newFrame.size.width = self.storeWidth + addWidth;
+    newFrame.size.width = self.storeWidth;
     self.frame = newFrame;
 }
 
