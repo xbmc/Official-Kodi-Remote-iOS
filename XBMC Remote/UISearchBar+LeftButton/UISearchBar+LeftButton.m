@@ -82,7 +82,7 @@ static CGRect initialTextFieldFrame;
     }
 }
 
--(void)updateTextFieldFrame:(float)rightMargin leftPadding:(float)leftMargin{
+-(void)updateTextFieldFrame:(float)rightMargin leftPadding:(float)leftMargin {
     int originX = self.textField.frame.origin.x + leftMargin;
     int width = initialTextFieldFrame.size.width - leftMargin - rightMargin;
     CGRect newFrame = CGRectMake (originX,
@@ -90,6 +90,9 @@ static CGRect initialTextFieldFrame;
                                   width,
                                   self.textField.frame.size.height);
     self.textField.frame = newFrame;
+    newFrame = self.frame;
+    newFrame.size.width = self.storeWidth;
+    self.frame = newFrame;
 }
 
 -(UITextField *)textField{

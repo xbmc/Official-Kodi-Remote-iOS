@@ -591,42 +591,149 @@ int currentItemID;
     }
 }
 
--(void)IOS7effect:(UIColor *)color barTintColor:(UIColor *)barColor{
+-(void)IOS7colorProgressSlider:(UIColor *)color{
+    [UIView transitionWithView:ProgressSlider
+                      duration:0.3f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        if ([color isEqual:[UIColor clearColor]]){
+                            [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
+                            if (ProgressSlider.userInteractionEnabled){
+                                [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
+                                [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
+                            }
+                            [UIView transitionWithView:albumName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [albumName setTextColor:[UIColor whiteColor]];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:songName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [songName setTextColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0f]];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:artistName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [artistName setTextColor:[UIColor lightGrayColor]];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:currentTime
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [currentTime setTextColor:[UIColor lightGrayColor]];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:duration
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [duration setTextColor:[UIColor lightGrayColor]];
+                                            }
+                                            completion:NULL];
+                        }
+                        else{
+                            Utilities *utils = [[Utilities alloc] init];
+                            UIColor *lighterColor = [utils lighterColorForColor:color];
+                            UIColor *slightLighterColor = [utils slightLighterColorForColor:color];
+                            UIColor *progressColor =[utils updateColor:color lightColor:slightLighterColor darkColor:color trigger:0.2];
+                            UIColor *pgThumbColor = [utils updateColor:color lightColor:lighterColor darkColor:slightLighterColor trigger:0.2];
+                            [ProgressSlider setMinimumTrackTintColor:progressColor];
+                            if (ProgressSlider.userInteractionEnabled){
+                                UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:pg_thumb_name] withColor:pgThumbColor];
+                                [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
+                                [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
+                            }
+                            [UIView transitionWithView:albumName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [albumName setTextColor:pgThumbColor];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:songName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [songName setTextColor:pgThumbColor];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:artistName
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [artistName setTextColor:progressColor];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:currentTime
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [currentTime setTextColor:progressColor];
+                                            }
+                                            completion:NULL];
+                            [UIView transitionWithView:duration
+                                              duration:1.0f
+                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                            animations:^{
+                                                [duration setTextColor:progressColor];
+                                            }
+                                            completion:NULL];
+                        }
+                    }
+                    completion:NULL];
+}
+
+-(void)IOS7effect:(UIColor *)color barTintColor:(UIColor *)barColor effectDuration:(float)time{
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [iOS7bgEffect setBackgroundColor:color];
-        [iOS7navBarEffect setBackgroundColor:color];
-        if ([color isEqual:[UIColor clearColor]]){
-            [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
-            self.navigationController.navigationBar.tintColor = TINT_COLOR;
-            if (ProgressSlider.userInteractionEnabled){
-                [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
-                [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
-            }
-        }
-        else{
-            Utilities *utils = [[Utilities alloc] init];
-            UIColor *progressColor =[utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.2];
-            UIColor *navBarColor = [utils updateColor:color lightColor:[utils slightLighterColorForColor:color] darkColor:color trigger:0.4];
-            UIColor *pgThumbColor = [utils updateColor:color lightColor:[utils lighterColorForColor:color] darkColor:[utils slightLighterColorForColor:color] trigger:0.2];
-            
-            [ProgressSlider setMinimumTrackTintColor:progressColor];
-            self.navigationController.navigationBar.tintColor = navBarColor;
-            if (ProgressSlider.userInteractionEnabled){
-                UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:pg_thumb_name] withColor:pgThumbColor];
-                [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
-                [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
-            }
-        }
+        [UIView animateWithDuration:time
+                         animations:^{
+                             [iOS7bgEffect setBackgroundColor:color];
+                             [iOS7navBarEffect setBackgroundColor:color];
+                             if ([color isEqual:[UIColor clearColor]]){
+                                 self.navigationController.navigationBar.tintColor = TINT_COLOR;
+                                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                                     [UIView transitionWithView:backgroundImageView
+                                                       duration:1.0f
+                                                        options:UIViewAnimationOptionTransitionCrossDissolve
+                                                     animations:^{
+                                                         backgroundImageView.image=[UIImage imageNamed:@"shiny_black_back"];
+                                                     }
+                                                     completion:NULL];
+                                 }
+                             }
+                             else{
+                                 Utilities *utils = [[Utilities alloc] init];
+                                 UIColor *lighterColor = [utils lighterColorForColor:color];
+                                 UIColor *slightLighterColor = [utils slightLighterColorForColor:color];
+                                 UIColor *navBarColor = [utils updateColor:color lightColor:slightLighterColor darkColor:color trigger:0.4];
+                                 self.navigationController.navigationBar.tintColor = navBarColor;
+                                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                                     [UIView transitionWithView:backgroundImageView
+                                                       duration:1.0f
+                                                        options:UIViewAnimationOptionTransitionCrossDissolve
+                                                     animations:^{
+                                                         backgroundImageView.image=[utils colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
+                                                     }
+                                                     completion:NULL];
+                                 }
+                             }
+                         }
+                         completion:NULL];
     }
 }
 
 -(void)setIOS7backgroundEffect:(UIColor *)color barTintColor:(UIColor *)barColor{
     foundEffectColor = color;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && nowPlayingView.hidden == NO){
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:1.0f];
-        [self IOS7effect:color barTintColor:barColor];
-        [UIView commitAnimations];
+        [self IOS7colorProgressSlider:color];
+        [self IOS7effect:color barTintColor:barColor effectDuration:1.0f];
     }
 }
 
@@ -1610,7 +1717,9 @@ int currentItemID;
     UIColor *effectColor;
     UIColor *barColor;
     __block CGRect playlistToolBarOriginY = playlistActionView.frame;
+    float iOS7effectDuration = 1.0f;
     if (!nowPlayingView.hidden){
+        iOS7effectDuration = 0.0f;
         nowPlayingView.hidden = YES;
         transitionView=nowPlayingView;
         transitionedView=playlistView;
@@ -1624,6 +1733,7 @@ int currentItemID;
         effectColor = [UIColor clearColor];
         barColor = TINT_COLOR;
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height - playlistTableView.contentInset.bottom;
+        [self IOS7effect:effectColor barTintColor:barColor effectDuration:0.2f];
     }
     else {
         playlistView.hidden = YES;
@@ -1646,24 +1756,30 @@ int currentItemID;
         }
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height;
     }
+    [self IOS7colorProgressSlider:effectColor];
+
     [UIView animateWithDuration:0.2
                      animations:^{
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          [UIView setAnimationTransition:anim forView:transitionView cache:YES];
-                         [self IOS7effect:effectColor barTintColor:barColor];
                      }
                      completion:^(BOOL finished){
-                         [UIView beginAnimations:nil context:nil];
-                         playlistView.hidden=playlistHidden;
-                         nowPlayingView.hidden=nowPlayingHidden;
-                         self.navigationItem.titleView.hidden=NO;
-                         [UIView setAnimationDuration:0.5];
-                         [UIView setAnimationDelegate:self];
-                         playlistActionView.frame = playlistToolBarOriginY;
-                         playlistActionView.alpha = (int)nowPlayingHidden;
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-                         [UIView setAnimationTransition:anim2 forView:transitionedView cache:YES];
-                         [UIView commitAnimations];
+                         [UIView animateWithDuration:0.5
+                                          animations:^{
+                                              [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+                                              playlistView.hidden=playlistHidden;
+                                              nowPlayingView.hidden=nowPlayingHidden;
+                                              self.navigationItem.titleView.hidden=NO;
+                                              playlistActionView.frame = playlistToolBarOriginY;
+                                              playlistActionView.alpha = (int)nowPlayingHidden;
+                                              [UIView setAnimationTransition:anim2 forView:transitionedView cache:YES];
+                                              
+                                          }
+                                          completion:^(BOOL finished){
+                                              if (iOS7effectDuration){
+                                                  [self IOS7effect:effectColor barTintColor:barColor effectDuration:iOS7effectDuration];
+                                              }
+                                          }];
                      }];
     [self flipAnimButton:playlistButton demo:NO];
 }
@@ -2660,7 +2776,7 @@ int currentItemID;
         self.slidingViewController.underRightViewController = rightMenuViewController;
     }
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        int effectHeight = 12;
+        int effectHeight = 22;
         int barEffectHeight = 32;
         if (iOS7bgEffect == nil){
             iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, effectHeight)];

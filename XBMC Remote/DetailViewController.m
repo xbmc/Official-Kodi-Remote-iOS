@@ -488,7 +488,9 @@
         self.searchDisplayController.searchBar.tintColor = tableViewSearchBarColor;
         [self.searchDisplayController.searchBar setBackgroundColor:tableViewSearchBarColor];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            dataList.tableHeaderView = [[UIView alloc] initWithFrame:self.searchDisplayController.searchBar.frame];
+            UISearchBar *hackSearchBar = [[UISearchBar alloc] initWithFrame:self.searchDisplayController.searchBar.frame];
+            hackSearchBar.hidden = YES;
+            dataList.tableHeaderView = hackSearchBar;
             self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
             [bar.viewLabel setTextColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.65f]];
             [bar.viewLabel setShadowColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.3f]];
@@ -855,7 +857,7 @@
         }];
         [collectionView setShowsPullToRefresh:enableDiskCache];
         collectionView.alwaysBounceVertical = YES;
-        [detailView insertSubview:collectionView belowSubview:dataList];
+        [detailView insertSubview:collectionView belowSubview:buttonsView];
         NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
         if ([tmpArr count] > 1){
             [tmpArr replaceObjectAtIndex:0 withObject:[NSString stringWithUTF8String:"\xF0\x9F\x94\x8D"]];
@@ -1218,7 +1220,12 @@ int originYear = 0;
     
     int iOS7offset = 0;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        iOS7offset = 12;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            iOS7offset = 12;
+        }
+        else{
+            iOS7offset = 4;
+        }
     }
     if ([self.richResults count]<=SECTIONS_START_AT || ![self.detailItem enableSection]){
         newWidthLabel = viewWidth - 8 - labelPosition;
@@ -1562,11 +1569,14 @@ int originYear = 0;
                                       thumbImageContainer.layer.shadowPath = path.CGPath;
                                       if (enableBarColor == YES){
                                           albumColor = [utils averageColor:image inverse:NO];
-                                          self.navigationController.navigationBar.tintColor = albumColor;
-                                          self.searchDisplayController.searchBar.tintColor = albumColor;
+                                          UIColor *slightLightAlbumColor = [utils slightLighterColorForColor:albumColor];
                                           if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                                              self.navigationController.navigationBar.tintColor = [utils slightLighterColorForColor:albumColor];
-//                                              self.searchDisplayController.searchBar.barTintColor = albumColor;
+                                              self.navigationController.navigationBar.tintColor = slightLightAlbumColor;
+                                              self.searchDisplayController.searchBar.tintColor = slightLightAlbumColor;
+                                          }
+                                          else{
+                                              self.navigationController.navigationBar.tintColor = albumColor;
+                                              self.searchDisplayController.searchBar.tintColor = albumColor;
                                           }
                                           if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
                                               [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
@@ -1955,7 +1965,7 @@ int originYear = 0;
 
 // iOS7 scrolling performance boost for a UITableView/UICollectionView with a custom UISearchBar header
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (!hideSearchBarActive) return;
+    if (!hideSearchBarActive || [scrollView isEqual:self.searchDisplayController.searchResultsTableView]) return;
     NSArray *paths;
     NSIndexPath *searchBarPath;
     NSInteger sectionNumber = [self.sections count] > 1 ? 1 : 0;
@@ -2017,6 +2027,11 @@ int originYear = 0;
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
     ((UITableView *)activeLayoutView).pullToRefreshView.alpha = 0;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && enableCollectionView){
+        enableIpadWA = YES;
+    }
+    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+    bar.isVisible = YES;
 }
 
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
@@ -2030,8 +2045,13 @@ int originYear = 0;
     if (enableCollectionView){
         self.indexView.hidden = YES;
     }
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [activeLayoutView setFrame:CGRectMake(((UITableView *)activeLayoutView).frame.origin.x, ((UITableView *)activeLayoutView).frame.origin.y - 44, ((UITableView *)activeLayoutView).frame.size.width, ((UITableView *)activeLayoutView).frame.size.height)];
+        }
+        else if (enableIpadWA == YES){
+            [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+        }
     }
 }
 
@@ -2045,6 +2065,12 @@ int originYear = 0;
         }
         [collectionView addGestureRecognizer:longPressGesture];
     }
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        if (enableIpadWA == YES){
+            [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+        }
+        [self.searchDisplayController.searchBar layoutSubviews];
+    }
 }
 
 - (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller{
@@ -2056,6 +2082,7 @@ int originYear = 0;
         [UIView commitAnimations];
     }
     ((UITableView *)activeLayoutView).pullToRefreshView.alpha = 1;
+    
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
@@ -3920,7 +3947,7 @@ NSIndexPath *selected;
     frame.origin.x = viewWidth;
     dataList.frame=frame;
     
-//    bar.storedWidth = viewWidth;
+    bar.storeWidth = viewWidth;
     
     activeLayoutView = dataList;
     currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);

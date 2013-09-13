@@ -106,6 +106,7 @@
     __weak IBOutlet UIToolbar *buttonsViewBgToolbar;
     BOOL isViewDidLoad;
     BOOL hideSearchBarActive;
+    BOOL enableIpadWA;
 }
 
 - (id)initWithFrame:(CGRect)frame;
