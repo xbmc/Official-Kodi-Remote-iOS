@@ -250,6 +250,9 @@
     [titleView addSubview:topNavigationLabel];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         UIToolbar *toolbar = [UIToolbar new];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [toolbar setTintColor:TINT_COLOR];
+        }
         toolbar.barStyle = UIBarStyleBlackTranslucent;
         toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         toolbar.contentMode = UIViewContentModeScaleAspectFill;            
