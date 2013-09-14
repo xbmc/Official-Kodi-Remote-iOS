@@ -562,6 +562,8 @@
 		0FA70F331656CD0900CAAF01 /* now_playing_empty_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FA70F311656CD0900CAAF01 /* now_playing_empty_down.png */; };
 		0FAAADFC1541CEAD00854BEB /* io.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FAAADFB1541CEAD00854BEB /* io.png */; };
 		0FAAADFF1541CF5300854BEB /* speech_balloon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FAAADFE1541CF5300854BEB /* speech_balloon.png */; };
+		0FAF8A5317E4ECD700AB6C73 /* stackScrollUpShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FAF8A5217E4ECD700AB6C73 /* stackScrollUpShadow.png */; };
+		0FAF8A5517E4F0AB00AB6C73 /* stackScrollUpShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FAF8A5417E4F0AB00AB6C73 /* stackScrollUpShadow@2x.png */; };
 		0FB133AA165EC1E5003756C1 /* tcpJSONRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB133A9165EC1E5003756C1 /* tcpJSONRPC.m */; };
 		0FB16164151F156A001BA2D4 /* jsonDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB16163151F156A001BA2D4 /* jsonDataCell.xib */; };
 		0FB20DA916F2153C00592012 /* st_concert_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FB20DA816F2153C00592012 /* st_concert_black.png */; };
@@ -1313,6 +1315,8 @@
 		0FA70F311656CD0900CAAF01 /* now_playing_empty_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = now_playing_empty_down.png; sourceTree = "<group>"; };
 		0FAAADFB1541CEAD00854BEB /* io.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = io.png; sourceTree = "<group>"; };
 		0FAAADFE1541CF5300854BEB /* speech_balloon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = speech_balloon.png; sourceTree = "<group>"; };
+		0FAF8A5217E4ECD700AB6C73 /* stackScrollUpShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stackScrollUpShadow.png; sourceTree = "<group>"; };
+		0FAF8A5417E4F0AB00AB6C73 /* stackScrollUpShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stackScrollUpShadow@2x.png"; sourceTree = "<group>"; };
 		0FB133A8165EC1E5003756C1 /* tcpJSONRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcpJSONRPC.h; sourceTree = "<group>"; };
 		0FB133A9165EC1E5003756C1 /* tcpJSONRPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tcpJSONRPC.m; sourceTree = "<group>"; };
 		0FB16163151F156A001BA2D4 /* jsonDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = jsonDataCell.xib; sourceTree = "<group>"; };
@@ -1786,6 +1790,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FAF8A5417E4F0AB00AB6C73 /* stackScrollUpShadow@2x.png */,
 				0FA1365717B2B01E00BEF47D /* pgbar_thumb_iOS7@2x.png */,
 				0FD4E87E1716EC6A0020EAFE /* nocover_filemode_wall@2x.png */,
 				0F22198B171222B300B111F2 /* nocover_artist_wall@2x.png */,
@@ -2070,6 +2075,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FAF8A5217E4ECD700AB6C73 /* stackScrollUpShadow.png */,
 				0F95AEDF17B39DEA006AB094 /* pgbar_thumb_iOS7.png */,
 				0F64C63E1719B1E20061BFBA /* cell_bg.png */,
 				0F64C63F1719B1E20061BFBA /* cell_bg_selected.png */,
@@ -2590,6 +2596,7 @@
 				0F554AA4151D13CA007E633F /* bottom_text_up.9@2x.png in Resources */,
 				0F554AA5151D13CA007E633F /* bottombar_bg@2x.png in Resources */,
 				0F554AA9151D13CA007E633F /* coverbox_back@2x.png in Resources */,
+				0FAF8A5517E4F0AB00AB6C73 /* stackScrollUpShadow@2x.png in Resources */,
 				0F554AAA151D13CA007E633F /* default_album@2x.png in Resources */,
 				0F554AAB151D13CA007E633F /* default_jewel@2x.png in Resources */,
 				0F554AAC151D13CA007E633F /* default_poster@2x.png in Resources */,
@@ -3145,6 +3152,7 @@
 				0FB5855A1653EBB900180576 /* button_info.png in Resources */,
 				0FB5855D1653EBC100180576 /* button_info@2x.png in Resources */,
 				0FA39CC41654447F00A61E4A /* torch.png in Resources */,
+				0FAF8A5317E4ECD700AB6C73 /* stackScrollUpShadow.png in Resources */,
 				0FA39CC71654448600A61E4A /* torch@2x.png in Resources */,
 				0FD8389D1655788300611180 /* torch_on.png in Resources */,
 				0FD838A01655788E00611180 /* torch_on@2x.png in Resources */,

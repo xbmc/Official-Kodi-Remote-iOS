@@ -966,6 +966,13 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     shadowRight.tag = 2002;
 
     [controller.view addSubview:shadowRight];
+    
+    shadowRect = CGRectMake(-15.0f, -15.0f, 506.0f, 15);
+    UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
+    [shadowUp setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    [shadowUp setImage:[UIImage imageNamed:@"stackScrollUpShadow"]];
+    [controller.view addSubview:shadowUp];
+    
 	[slideViews addSubview:[controller view]];
     if ([[slideViews subviews] count] > 0) {
 		if ([[slideViews subviews] count]==1) {
