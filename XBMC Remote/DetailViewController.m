@@ -2027,8 +2027,10 @@ int originYear = 0;
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
     ((UITableView *)activeLayoutView).pullToRefreshView.alpha = 0;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && enableCollectionView){
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         enableIpadWA = YES;
+        [[activeLayoutView superview] addSubview:self.searchDisplayController.searchBar];
+        [self.searchDisplayController.searchResultsTableView setContentOffset:CGPointMake(0, 0)];
     }
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     bar.isVisible = YES;
@@ -2049,9 +2051,6 @@ int originYear = 0;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [activeLayoutView setFrame:CGRectMake(((UITableView *)activeLayoutView).frame.origin.x, ((UITableView *)activeLayoutView).frame.origin.y - 44, ((UITableView *)activeLayoutView).frame.size.width, ((UITableView *)activeLayoutView).frame.size.height)];
         }
-        else if (enableIpadWA == YES){
-            [activeLayoutView addSubview:self.searchDisplayController.searchBar];
-        }
     }
 }
 
@@ -2068,6 +2067,7 @@ int originYear = 0;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         if (enableIpadWA == YES){
             [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+            [self.searchDisplayController.searchResultsTableView setContentOffset:CGPointMake(0, 0)];
         }
         [self.searchDisplayController.searchBar layoutSubviews];
     }
@@ -2101,8 +2101,6 @@ int originYear = 0;
     // Return YES to cause the search result table view to be reloaded.
     return YES;
 }
-
-
 
 #pragma mark - Long Press & Action sheet
 
