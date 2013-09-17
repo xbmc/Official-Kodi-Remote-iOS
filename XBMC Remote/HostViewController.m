@@ -94,15 +94,21 @@
     [self textFieldDoneEditing:nil];
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
     if (self.detailItem==nil){
+        if (descriptionUI.text == nil) descriptionUI.text = @"";
+        if (usernameUI.text == nil) descriptionUI.text = @"";
+        if (descriptionUI.text == nil) descriptionUI.text = @"";
+        if (descriptionUI.text == nil) descriptionUI.text = @"";
+        if (descriptionUI.text == nil) descriptionUI.text = @"";
+
         [[AppDelegate instance].arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                           descriptionUI.text, @"serverDescription",
-                                                           usernameUI.text, @"serverUser",
-                                                           passwordUI.text, @"serverPass",
-                                                           ipUI.text, @"serverIP",
-                                                           portUI.text, @"serverPort",
+                                                           [NSString stringWithFormat:@"%@", descriptionUI.text], @"serverDescription",
+                                                           [NSString stringWithFormat:@"%@", usernameUI.text], @"serverUser",
+                                                           [NSString stringWithFormat:@"%@", passwordUI.text], @"serverPass",
+                                                           [NSString stringWithFormat:@"%@", ipUI.text], @"serverIP",
+                                                           [NSString stringWithFormat:@"%@", portUI.text], @"serverPort",
                                                            macAddress, @"serverMacAddress",
                                                            [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
-                                                           tcpPortUI.text, @"tcpPort",
+                                                           [NSString stringWithFormat:@"%@", tcpPortUI.text], @"tcpPort",
                                                            nil
                                                            ]];
     }
@@ -110,14 +116,14 @@
         NSIndexPath *idx = self.detailItem;
         [[AppDelegate instance].arrayServerList removeObjectAtIndex:idx.row];
         [[AppDelegate instance].arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                              descriptionUI.text, @"serverDescription",
-                                                              usernameUI.text, @"serverUser",
-                                                              passwordUI.text, @"serverPass",
-                                                              ipUI.text, @"serverIP",
-                                                              portUI.text, @"serverPort",
+                                                              [NSString stringWithFormat:@"%@", descriptionUI.text], @"serverDescription",
+                                                              [NSString stringWithFormat:@"%@", usernameUI.text], @"serverUser",
+                                                              [NSString stringWithFormat:@"%@", passwordUI.text], @"serverPass",
+                                                              [NSString stringWithFormat:@"%@", ipUI.text], @"serverIP",
+                                                              [NSString stringWithFormat:@"%@", portUI.text], @"serverPort",
                                                               macAddress, @"serverMacAddress",
                                                               [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
-                                                              tcpPortUI.text, @"tcpPort",
+                                                              [NSString stringWithFormat:@"%@", tcpPortUI.text], @"tcpPort",
                                                               nil
                                                               ] atIndex:idx.row];
     }
