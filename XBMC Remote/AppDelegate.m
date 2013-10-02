@@ -3040,11 +3040,23 @@ NSMutableArray *hostRightMenuItems;
 }
 
 -(void)handleProximityChangeNotification:(id)sender{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if([[UIDevice currentDevice] proximityState]){
+        xbmcRemote.idleTimerDisabled = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationDidEnterBackgroundNotification" object: nil];
     }
     else{
+        if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]==YES){
+            xbmcRemote.idleTimerDisabled = YES;
+        }
+        else {
+            xbmcRemote.idleTimerDisabled = NO;
+        }
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
+        [UIDevice currentDevice].proximityMonitoringEnabled = NO;
+        [UIDevice currentDevice].proximityMonitoringEnabled = YES;
     }
 }
 

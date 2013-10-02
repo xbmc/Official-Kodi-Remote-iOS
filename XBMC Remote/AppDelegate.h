@@ -35,7 +35,7 @@
 //#define TINT_COLOR [UIColor colorWithRed:88.0f/255.0f green:149.0f/255.0f blue:1.0f alpha:1]
 
 #define BAR_TINT_COLOR [UIColor colorWithRed:.1f green:.1f blue:.1f alpha:1]
-#define REMOTE_CONTROL_BAR_TINT_COLOR [UIColor colorWithRed:19.0f/255.0f green:19.0f/255.0f blue:21.0f/255.0f alpha:1]
+#define REMOTE_CONTROL_BAR_TINT_COLOR [UIColor colorWithRed:12.0f/255.0f green:12.0f/255.0f blue:15.0f/255.0f alpha:1]
 #define IOS6_BAR_TINT_COLOR [UIColor colorWithRed:.14f green:.14f blue:.14f alpha:1]
 #define SLIDER_DEFAULT_COLOR [UIColor colorWithRed:87.0f/255.0f green:158.0f/255.0f blue:186.0f/255.0f alpha:1]
 
@@ -52,6 +52,9 @@
 
 #define PAD_TV_SHOWS_BANNER_WIDTH STACKSCROLL_WIDTH
 #define PAD_TV_SHOWS_POSTER_WIDTH 53
+
+#define PAD_MENU_HEIGHT 56.0f
+#define PAD_MENU_INFO_HEIGHT 22.0f
 
 + (AppDelegate *) instance;
 

@@ -17,6 +17,7 @@
 #import "AppInfoViewController.h"
 #import "XBMCVirtualKeyboard.h"
 #import "ClearCacheView.h"
+#import "gradientUIView.h"
 
 #define CONNECTION_TIMEOUT 240.0f
 #define SERVER_TIMEOUT 2.0f
@@ -387,8 +388,8 @@
     firstRun=YES;
     [AppDelegate instance].obj=[GlobalData getInstance]; 
 
-    int cellHeight = 56;
-    int infoHeight = 22;
+    int cellHeight = PAD_MENU_HEIGHT;
+    int infoHeight = PAD_MENU_INFO_HEIGHT;
     int tableHeight = ([(NSMutableArray *)mainMenu count] - 1) * cellHeight + infoHeight;
     int tableWidth = 300;
     int headerHeight=0;
@@ -572,7 +573,22 @@
                                                  name: @"StackScrollFullScreenDisabled"
                                                object: nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleChangeBackgroundGradientColor:)
+                                                 name: @"UIViewChangeBackgroundGradientColor"
+                                               object: nil];
+    
     [self initHostManagemetPopOver];
+    
+    [(gradientUIView *)self.view setColoursWithCGColors:[UIColor colorWithRed:0.141f green:0.141f blue:0.141f alpha:1.0f].CGColor
+                                               endColor:[UIColor colorWithRed:0.086f green:0.086f blue:0.086f alpha:1.0f].CGColor];
+}
+
+-(void)handleChangeBackgroundGradientColor:(NSNotification *)sender{
+    UIColor *startColor = (UIColor *)[[sender userInfo] valueForKey:@"startColor"];
+    UIColor *endColor = (UIColor *)[[sender userInfo] valueForKey:@"endColor"];
+    [(gradientUIView *)self.view setColoursWithCGColors:startColor.CGColor endColor:endColor.CGColor];
+    [(gradientUIView *)self.view setNeedsDisplay];
 }
 
 -(void)handleStackScrollFullScreenEnabled:(NSNotification *)sender{

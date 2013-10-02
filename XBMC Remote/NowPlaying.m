@@ -698,14 +698,19 @@ int currentItemID;
                              [iOS7navBarEffect setBackgroundColor:color];
                              if ([color isEqual:[UIColor clearColor]]){
                                  self.navigationController.navigationBar.tintColor = TINT_COLOR;
-                                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                                     [UIView transitionWithView:backgroundImageView
-                                                       duration:1.0f
-                                                        options:UIViewAnimationOptionTransitionCrossDissolve
-                                                     animations:^{
-                                                         backgroundImageView.image=[UIImage imageNamed:@"shiny_black_back"];
-                                                     }
-                                                     completion:NULL];
+                                 [UIView transitionWithView:backgroundImageView
+                                                   duration:1.0f
+                                                    options:UIViewAnimationOptionTransitionCrossDissolve
+                                                 animations:^{
+                                                     backgroundImageView.image=[UIImage imageNamed:@"shiny_black_back"];
+                                                 }
+                                                 completion:NULL];
+                                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+                                     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                             [UIColor colorWithRed:0.141f green:0.141f blue:0.141f alpha:1.0f], @"startColor",
+                                                             [UIColor colorWithRed:0.086f green:0.086f blue:0.086f alpha:1.0f], @"endColor",
+                                                             nil];
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundGradientColor" object:nil userInfo:params];
                                  }
                              }
                              else{
@@ -714,14 +719,26 @@ int currentItemID;
                                  UIColor *slightLighterColor = [utils slightLighterColorForColor:color];
                                  UIColor *navBarColor = [utils updateColor:color lightColor:slightLighterColor darkColor:color trigger:0.4];
                                  self.navigationController.navigationBar.tintColor = navBarColor;
-                                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                                     [UIView transitionWithView:backgroundImageView
-                                                       duration:1.0f
-                                                        options:UIViewAnimationOptionTransitionCrossDissolve
-                                                     animations:^{
-                                                         backgroundImageView.image=[utils colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
-                                                     }
-                                                     completion:NULL];
+                                 [UIView transitionWithView:backgroundImageView
+                                                   duration:1.0f
+                                                    options:UIViewAnimationOptionTransitionCrossDissolve
+                                                 animations:^{
+                                                     backgroundImageView.image=[utils colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
+                                                 }
+                                                 completion:NULL];
+                                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+                                     CGFloat hue, saturation, brightness, alpha;
+                                     BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+                                     if (ok) {
+                                         UIColor *iPadStartColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2f alpha:alpha];
+                                         
+                                         UIColor *iPadEndColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.1f alpha:alpha];
+                                         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                 iPadStartColor, @"startColor",
+                                                                 iPadEndColor, @"endColor",
+                                                                 nil];
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundGradientColor" object:nil userInfo:params];
+                                     }
                                  }
                              }
                          }
