@@ -681,6 +681,12 @@
 		0FF4DC0C15A36F27002F6D0C /* st_movie_recently_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF4DC0A15A36F27002F6D0C /* st_movie_recently_on@2x.png */; };
 		0FFBCF0C152BAC1600066B30 /* nocover_tvshows_episode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFBCF0B152BAC1600066B30 /* nocover_tvshows_episode@2x.png */; };
 		0FFBCF0F152BAC2D00066B30 /* nocover_tvshows_episode.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */; };
+		0FFF725D18226AB9007A6E25 /* st_livetv_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFF725B18226AB9007A6E25 /* st_livetv_off.png */; };
+		0FFF725E18226AB9007A6E25 /* st_livetv_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFF725C18226AB9007A6E25 /* st_livetv_on.png */; };
+		0FFF726118226AC3007A6E25 /* st_livetv_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFF725F18226AC3007A6E25 /* st_livetv_off@2x.png */; };
+		0FFF726218226AC3007A6E25 /* st_livetv_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFF726018226AC3007A6E25 /* st_livetv_on@2x.png */; };
+		0FFF726418226CFF007A6E25 /* icon_home_livetv_alt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFF726318226CFF007A6E25 /* icon_home_livetv_alt@2x.png */; };
+		0FFF726618226D09007A6E25 /* icon_home_livetv_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFF726518226D09007A6E25 /* icon_home_livetv_alt.png */; };
 		0FFFC8C11642A81300600E80 /* button_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFFC8C01642A81300600E80 /* button_play.png */; };
 		0FFFC8C41642A83A00600E80 /* button_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFFC8C31642A83A00600E80 /* button_play@2x.png */; };
 		1A30F0571687314300FFC67D /* NowPlaying.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A30F0591687314300FFC67D /* NowPlaying.xib */; };
@@ -1453,6 +1459,12 @@
 		0FF4DC0A15A36F27002F6D0C /* st_movie_recently_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_movie_recently_on@2x.png"; sourceTree = "<group>"; };
 		0FFBCF0B152BAC1600066B30 /* nocover_tvshows_episode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_tvshows_episode@2x.png"; sourceTree = "<group>"; };
 		0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_tvshows_episode.png; sourceTree = "<group>"; };
+		0FFF725B18226AB9007A6E25 /* st_livetv_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_livetv_off.png; sourceTree = "<group>"; };
+		0FFF725C18226AB9007A6E25 /* st_livetv_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_livetv_on.png; sourceTree = "<group>"; };
+		0FFF725F18226AC3007A6E25 /* st_livetv_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_livetv_off@2x.png"; sourceTree = "<group>"; };
+		0FFF726018226AC3007A6E25 /* st_livetv_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_livetv_on@2x.png"; sourceTree = "<group>"; };
+		0FFF726318226CFF007A6E25 /* icon_home_livetv_alt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_home_livetv_alt@2x.png"; sourceTree = "<group>"; };
+		0FFF726518226D09007A6E25 /* icon_home_livetv_alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_home_livetv_alt.png; sourceTree = "<group>"; };
 		0FFFC8C01642A81300600E80 /* button_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_play.png; sourceTree = "<group>"; };
 		0FFFC8C31642A83A00600E80 /* button_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_play@2x.png"; sourceTree = "<group>"; };
 		1A30F0581687314300FFC67D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NowPlaying.xib; sourceTree = "<group>"; };
@@ -1790,6 +1802,9 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FFF726318226CFF007A6E25 /* icon_home_livetv_alt@2x.png */,
+				0FFF725F18226AC3007A6E25 /* st_livetv_off@2x.png */,
+				0FFF726018226AC3007A6E25 /* st_livetv_on@2x.png */,
 				0FAF8A5417E4F0AB00AB6C73 /* stackScrollUpShadow@2x.png */,
 				0FA1365717B2B01E00BEF47D /* pgbar_thumb_iOS7@2x.png */,
 				0FD4E87E1716EC6A0020EAFE /* nocover_filemode_wall@2x.png */,
@@ -2075,6 +2090,9 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FFF726518226D09007A6E25 /* icon_home_livetv_alt.png */,
+				0FFF725B18226AB9007A6E25 /* st_livetv_off.png */,
+				0FFF725C18226AB9007A6E25 /* st_livetv_on.png */,
 				0FAF8A5217E4ECD700AB6C73 /* stackScrollUpShadow.png */,
 				0F95AEDF17B39DEA006AB094 /* pgbar_thumb_iOS7.png */,
 				0F64C63E1719B1E20061BFBA /* cell_bg.png */,
@@ -2672,6 +2690,7 @@
 				0F554B5C151D13CA007E633F /* bottom_text_up.9.png in Resources */,
 				0F554B5D151D13CA007E633F /* bottombar_bg.png in Resources */,
 				0F554B61151D13CA007E633F /* check_mark.png in Resources */,
+				0FFF726118226AC3007A6E25 /* st_livetv_off@2x.png in Resources */,
 				0F554B62151D13CA007E633F /* coverbox_back.png in Resources */,
 				0F554B63151D13CA007E633F /* default_album.png in Resources */,
 				0F554B64151D13CA007E633F /* default_jewel.png in Resources */,
@@ -2688,6 +2707,7 @@
 				0F554B72151D13CA007E633F /* icon_folder.png in Resources */,
 				0F554B73151D13CA007E633F /* icon_folder_dark.png in Resources */,
 				0F554B74151D13CA007E633F /* icon_genre.png in Resources */,
+				0FFF725E18226AB9007A6E25 /* st_livetv_on.png in Resources */,
 				0F554B75151D13CA007E633F /* icon_genre_dark.png in Resources */,
 				0F554B7F151D13CA007E633F /* icon_lastfm.png in Resources */,
 				0F554B80151D13CA007E633F /* icon_movie_dark.png in Resources */,
@@ -2735,6 +2755,7 @@
 				0F554C07151D13CA007E633F /* st_song_on.png in Resources */,
 				0F554C09151D13CA007E633F /* st_tv_off.png in Resources */,
 				0F554C0A151D13CA007E633F /* st_tv_on.png in Resources */,
+				0FFF725D18226AB9007A6E25 /* st_livetv_off.png in Resources */,
 				0F554C0C151D13CA007E633F /* st_va_off.png in Resources */,
 				0F554C0D151D13CA007E633F /* st_va_on.png in Resources */,
 				0F554C0F151D13CA007E633F /* stars_0.png in Resources */,
@@ -2782,6 +2803,7 @@
 				0F44E2D71527C87600D5958F /* blank.png in Resources */,
 				0F49885515284C800041DA92 /* timeBackground.png in Resources */,
 				0F49886B1528F37E0041DA92 /* segment_left_down@2x.png in Resources */,
+				0FFF726418226CFF007A6E25 /* icon_home_livetv_alt@2x.png in Resources */,
 				0F49886C1528F37E0041DA92 /* segment_left_up@2x.png in Resources */,
 				0F49886D1528F37E0041DA92 /* segment_right_down@2x.png in Resources */,
 				0F49886E1528F37E0041DA92 /* segment_right_up@2x.png in Resources */,
@@ -2997,6 +3019,7 @@
 				0FA3535D15852F570055177A /* monkeys_30@2x.png in Resources */,
 				0FA3535E15852F570055177A /* monkeys_31@2x.png in Resources */,
 				0FA3535F15852F570055177A /* monkeys_32@2x.png in Resources */,
+				0FFF726218226AC3007A6E25 /* st_livetv_on@2x.png in Resources */,
 				0FA3536015852F570055177A /* monkeys_33@2x.png in Resources */,
 				0FA3536115852F570055177A /* monkeys_34@2x.png in Resources */,
 				0FA3536215852F570055177A /* monkeys_35@2x.png in Resources */,
@@ -3176,6 +3199,7 @@
 				0FC3ABB316628FB7005F98CC /* st_movie_genre_on@2x.png in Resources */,
 				0FC3ABB416628FB7005F98CC /* st_movie_genre_off@2x.png in Resources */,
 				0F577CC6166BAF2300E71D95 /* appInfo.png in Resources */,
+				0FFF726618226D09007A6E25 /* icon_home_livetv_alt.png in Resources */,
 				0F577CC9166BAF3000E71D95 /* appInfo@2x.png in Resources */,
 				0F2CE96F1674B888009072E0 /* arrow_close.png in Resources */,
 				0F2CE9721674B88F009072E0 /* arrow_close@2x.png in Resources */,

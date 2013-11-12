@@ -1426,7 +1426,11 @@ int originYear = 0;
     if (!albumView && !episodesView){
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=defaultThumb;
-        if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"] || [[item objectForKey:@"family"] isEqualToString:@"genreid"]){
+        if ([[item objectForKey:@"filetype"] length]!=0 ||
+            [[item objectForKey:@"family"] isEqualToString:@"file"] ||
+            [[item objectForKey:@"family"] isEqualToString:@"genreid"] ||
+            [[item objectForKey:@"family"] isEqualToString:@"channelgroupid"] ||
+            [[item objectForKey:@"family"] isEqualToString:@"channelid"]){
             if (![stringURL isEqualToString:@""]){
                 displayThumb=stringURL;
             }
@@ -3939,6 +3943,11 @@ NSIndexPath *selected;
     else {
         [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
     }
+    
+    if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length]){
+        [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
+    }
+    
     CGRect frame=dataList.frame;
     frame.origin.x = viewWidth;
     dataList.frame=frame;

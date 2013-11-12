@@ -230,10 +230,11 @@
             cell.selectedBackgroundView = backgroundView;
             int cellHeight = PAD_MENU_INFO_HEIGHT;
             int cellHeightPad = cellHeight - 4;
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(224, (int)((cellHeight/2) - (cellHeightPad/2)) - 1, 73, cellHeightPad)];
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(232, (int)((cellHeight/2) - (cellHeightPad/2)) - 1, 73, cellHeightPad)];
             xbmc_logo. alpha = .25f;
             [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo"]];
             [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo"]];
+            [xbmc_logo setContentMode:UIViewContentModeScaleAspectFit];
             [cell insertSubview:xbmc_logo atIndex:0];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
@@ -255,10 +256,10 @@
         int cellHeight = PAD_MENU_INFO_HEIGHT;
         int cellHeightPad = cellHeight - 4;
         [title setText:@""];
-        [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight / 2) - (cellHeightPad / 2)) - 1, cellHeightPad, cellHeightPad)];
+        [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight / 2) - (cellHeightPad / 2)), cellHeightPad, cellHeightPad)];
     }
     else{
-        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:22]];
+        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
         [title setText:[item.mainLabel uppercaseString]];
     }
     [icon setImage:[UIImage imageNamed:iconName]];
