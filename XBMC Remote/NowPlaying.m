@@ -2720,11 +2720,6 @@ int currentItemID;
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleDidEnterBackground:)
-                                                 name: @"UIApplicationDidEnterBackgroundNotification"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleXBMCPlaylistHasChanged:)
                                                  name: @"XBMCPlaylistHasChanged"
                                                object: nil];
