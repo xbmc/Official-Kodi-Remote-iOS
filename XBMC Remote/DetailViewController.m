@@ -3216,7 +3216,7 @@ NSIndexPath *selected;
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
-    debugText.text = [NSString stringWithFormat:@"*METHOD: %@\n*PARAMS: %@", methodToCall, parameters];
+    debugText.text = [NSString stringWithFormat:@"**METHOD**\n%@\n\n**PARAMETERS**\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, mutableParameters);
     [jsonRPC
      callMethod:methodToCall
@@ -3439,15 +3439,21 @@ NSIndexPath *selected;
 //             else{
              
              // DISPLAY DEBUG
-//             debugText.text = [NSString stringWithFormat:@"*ERROR: %@\n*METHOD ERROR: %@\n%@\n", error, methodError, debugText.text];
-//             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"DEBUG INFO"
-//                                                                 message:debugText.text
-//                                                                delegate:self
-//                                                       cancelButtonTitle:nil
-//                                                       otherButtonTitles:@"Copy to clipboard", nil];
-//             [alertView show];
-//             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-//             pasteboard.string = debugText.text;
+             if (methodError != nil){
+                 debugText.text = [NSString stringWithFormat:@"**METHOD ERROR**\n%@\n\n%@\n", methodError, debugText.text];
+             }
+             if (error != nil){
+                 debugText.text = [NSString stringWithFormat:@"**ERROR**\n%@\n\n%@\n", error, debugText.text];
+                 
+             }
+             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"DEBUG INFO"
+                                                                 message:debugText.text
+                                                                delegate:self
+                                                       cancelButtonTitle:nil
+                                                       otherButtonTitles:@"Copy to clipboard", nil];
+             [alertView show];
+             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+             pasteboard.string = debugText.text;
              // END DISPLAY DEBUG
              
              if (forceRefresh == YES){
@@ -4084,7 +4090,7 @@ NSIndexPath *selected;
 }
 
 - (void)viewDidUnload{
-//    debugText = nil;
+    debugText = nil;
     [super viewDidUnload];
     jsonRPC=nil;
     self.richResults=nil;
