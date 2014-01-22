@@ -1033,11 +1033,36 @@ NSInteger buttonAction;
             case 19:// SUBTITLES BUTTON
                 [self GUIAction:@"Addons.ExecuteAddon"
                          params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                               @"script.xbmc.subtitles", @"addonid",
-                                                               nil]
+                                 @"script.xbmc.subtitles", @"addonid",
+                                 nil]
                 httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
                 break;
-            
+                
+            case 22:
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"pvr", @"window",
+                                 [[NSArray alloc] initWithObjects:@"31", @"0", @"10", @"0", nil], @"parameters",
+                                 nil]
+                httpAPIcallback:nil];
+                break;
+                
+            case 23:
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"pvrosdguide", @"window",
+                                 nil]
+                httpAPIcallback:nil];
+                break;
+                
+            case 24:
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"pvrosdchannels", @"window",
+                                 nil]
+                httpAPIcallback:nil];
+                break;
+
             default:
                 break;
         }
