@@ -254,7 +254,15 @@
     }
     else{
         destructive = NSLocalizedString(@"Power off System", nil);
-        sheetActions=[NSArray arrayWithObjects: NSLocalizedString(@"Hibernate", nil), NSLocalizedString(@"Suspend", nil), NSLocalizedString(@"Reboot", nil), NSLocalizedString(@"Quit XBMC application", nil), NSLocalizedString(@"Update Audio Library", nil), NSLocalizedString(@"Update Video Library", nil), nil];
+        sheetActions=[NSArray arrayWithObjects:
+                      NSLocalizedString(@"Hibernate", nil),
+                      NSLocalizedString(@"Suspend", nil),
+                      NSLocalizedString(@"Reboot", nil),
+                      NSLocalizedString(@"Quit XBMC application", nil),
+                      NSLocalizedString(@"Update Audio Library", nil),
+                      NSLocalizedString(@"Clean Audio Library", nil),
+                      NSLocalizedString(@"Update Video Library", nil),
+                      NSLocalizedString(@"Clean Video Library", nil),  nil];
     }
     int numActions=[sheetActions count];
     if (numActions){
@@ -321,8 +329,14 @@
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Update Audio Library", nil)]){
             [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Clean Audio Library", nil)]){
+            [self powerAction:@"AudioLibrary.Clean" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Update Video Library", nil)]){
             [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+        }
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Clean Video Library", nil)]){
+            [self powerAction:@"VideoLibrary.Clean" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
     }
 }

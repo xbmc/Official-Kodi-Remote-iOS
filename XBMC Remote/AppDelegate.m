@@ -3013,6 +3013,25 @@ NSMutableArray *hostRightMenuItems;
                                  NSLocalizedString(@"Clean Video", nil), @"ok_button",
                                  nil], @"action",
                                 nil],
+// PERSONAL STUFF ;)
+//                               [NSDictionary dictionaryWithObjectsAndKeys:
+//                                NSLocalizedString(@"Audio TV Out", nil), @"label",
+//                                @"icon_update_video", @"icon",
+//                                [NSDictionary dictionaryWithObjectsAndKeys:
+//                                 @"Settings.SetSettingValue",@"command",
+//                                 [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:hdmi:CARD=NVidia,DEV=0", @"value", nil], @"params",
+//                                 nil], @"action",
+//                                nil],
+//
+//                               [NSDictionary dictionaryWithObjectsAndKeys:
+//                                NSLocalizedString(@"Audio Analog Out", nil), @"label",
+//                                @"icon_update_video", @"icon",
+//                                [NSDictionary dictionaryWithObjectsAndKeys:
+//                                 @"Settings.SetSettingValue",@"command",
+//                                 [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:@", @"value", nil], @"params",
+//                                 nil], @"action",
+//                                nil],
+
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 NSLocalizedString(@"LED Torch", nil), @"label",
                                 @"torch", @"icon",
