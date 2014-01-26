@@ -127,8 +127,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
             CGRect frame = subview.frame;
             frame.origin.x = 0 - 300;
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                frame.origin.y = frame.origin.y - 20;
-                frame.size.height = frame.size.height + 20;
+                frame.origin.y = frame.origin.y - 22;
+                frame.size.height = frame.size.height + 22;
             }
             frame.size.width = self.view.frame.size.width + 300;
             subview.frame = frame;
@@ -966,6 +966,13 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     shadowRight.tag = 2002;
 
     [controller.view addSubview:shadowRight];
+    
+    shadowRect = CGRectMake(-15.0f, -15.0f, 506.0f, 15);
+    UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
+    [shadowUp setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    [shadowUp setImage:[UIImage imageNamed:@"stackScrollUpShadow"]];
+    [controller.view addSubview:shadowUp];
+    
 	[slideViews addSubview:[controller view]];
     if ([[slideViews subviews] count] > 0) {
 		if ([[slideViews subviews] count]==1) {
