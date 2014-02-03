@@ -150,7 +150,7 @@
     return;
 }
 
--(BOOL)setEPGCurrentNext:(NSMutableArray *)epgData current:(UILabel *)current next:(UILabel *)next{
+-(BOOL)setEPGCurrentNext:(NSMutableArray *)epgData current:(UILabel *)current next:(UILabel *)next item:(NSMutableDictionary *)item{
     if (epgData == nil) return false;
     NSDictionary *objectToSearch;
     NSDateFormatter *local_fmt = [[NSDateFormatter alloc] init];
@@ -165,7 +165,13 @@
                         [local_fmt stringFromDate:[objectToSearch objectForKey:@"starttime"]],
                         [objectToSearch objectForKey:@"title"]
                         ];
-        
+        [item setObject:[NSString stringWithFormat:@"\n%@\n\n%@\n\n%@ - %@",
+                         [objectToSearch objectForKey:@"title"],
+                         [objectToSearch objectForKey:@"plot"],
+                         [local_fmt stringFromDate:[objectToSearch objectForKey:@"starttime"]],
+                         [local_fmt stringFromDate:[objectToSearch objectForKey:@"endtime"]]
+                         ]
+                 forKey:@"genre"];
         predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", [objectToSearch objectForKey:@"endtime"]];
         NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
         if ([nextFilteredArray count] > 0) {
@@ -196,7 +202,7 @@
     
 }
 
--(void)retrieveEPGinfo:(NSDictionary *)item label:(UILabel *)label next:(UILabel *)next{
+-(void)retrieveEPGinfo:(NSMutableDictionary *)item label:(UILabel *)label next:(UILabel *)next{
     NSNumber *channelid = [item objectForKey:@"channelid"];
     if ([channelid intValue] > 0){
         label.text = NSLocalizedString(@"Not Available",nil);
@@ -213,10 +219,10 @@
         NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
         
         retrievedEPG = [self loadEPGFromMemory:channelid];
-        if (![self setEPGCurrentNext:retrievedEPG current:label next:next]){
+        if (![self setEPGCurrentNext:retrievedEPG current:label next:next item:item]){
             
             retrievedEPG = [self loadEPGFromDisk:channelid];
-            if (![self setEPGCurrentNext:retrievedEPG current:label next:next]){
+            if (![self setEPGCurrentNext:retrievedEPG current:label next:next item:item]){
                 jsonRPC = nil;
                 GlobalData *obj=[GlobalData getInstance];
                 NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
@@ -225,14 +231,13 @@
                 [jsonRPC callMethod:@"PVR.GetBroadcasts"
                      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                      channelid, @"channelid",
-                                     [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", nil], @"properties",
+                                     [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", nil], @"properties",
                                      nil]
                        onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                            if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
                                if (((NSNull *)[methodResult objectForKey:@"broadcasts"] != [NSNull null])){
                                    NSArray *broadcasts = [methodResult objectForKey:@"broadcasts"];
                                    NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
-                                   
                                    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
                                    [fmt setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"]; // MySQL format
                                    NSDateFormatter *local_fmt = [[NSDateFormatter alloc] init];
@@ -246,10 +251,11 @@
                                                                 endtime, @"endtime",
                                                                 [EPGobject objectForKey:@"title"], @"title",
                                                                 [EPGobject objectForKey:@"label"], @"label",
+                                                                [EPGobject objectForKey:@"plot"], @"plot",
                                                                 nil]];
                                    }
                                    [self saveEPGToDisk:channelid epgData:retrievedEPG];
-                                   //                               [self setEPGCurrentNext:retrievedEPG current:label next:next];
+                                   //                               [self setEPGCurrentNext:retrievedEPG current:label next:next item:item];
                                }
                                //                           else{
                                //                               label.text = NSLocalizedString(@"Not Available",nil);
@@ -1497,10 +1503,10 @@ int originYear = 0;
 //        cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator; 
 //    }
 /* end future */
-    CGRect frame=cell.urlImageView.frame;
-    frame.size.width=thumbWidth;
-    cell.urlImageView.frame=frame;
-    NSDictionary *item=nil;
+    CGRect frame = cell.urlImageView.frame;
+    frame.size.width = thumbWidth;
+    cell.urlImageView.frame = frame;
+    NSMutableDictionary *item = nil;
     if (tableView == self.searchDisplayController.searchResultsTableView){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
     }
