@@ -70,6 +70,7 @@
 
 @property (retain, nonatomic) NSString *dataFilePath;
 @property (retain, nonatomic) NSString *libraryCachePath;
+@property (retain, nonatomic) NSString *epgCachePath;
 
 @property (nonatomic, retain) NSMutableArray *arrayServerList;
 

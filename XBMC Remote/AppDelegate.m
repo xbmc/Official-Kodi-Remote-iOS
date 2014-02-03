@@ -64,6 +64,12 @@ NSMutableArray *hostRightMenuItems;
         if (![fileManager1 fileExistsAtPath:self.libraryCachePath]){
             [fileManager1 createDirectoryAtPath:self.libraryCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
         }
+        
+        self.epgCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"EPGDataTest"];
+        if (![fileManager1 fileExistsAtPath:self.epgCachePath]){
+            [fileManager1 createDirectoryAtPath:self.epgCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
+        }
+        
     }
 	return self;
 	
@@ -95,6 +101,8 @@ NSMutableArray *hostRightMenuItems;
     NSString *filemodeRowHeight= @"44";
     NSString *filemodeThumbWidth= @"44";
     NSString *livetvThumbWidth= @"64";
+    NSString *livetvRowHeight= @"76";
+
 
     NSString *filemodeVideoType = @"video";
     NSString *filemodeMusicType = @"music";
@@ -2563,7 +2571,7 @@ NSMutableArray *hostRightMenuItems;
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"thumbnail", @"channel", nil], @"properties",
-                                    nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", filemodeRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
+                                    nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
                                    @"YES", @"enableCollectionView",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:

@@ -107,6 +107,8 @@
     BOOL isViewDidLoad;
     BOOL hideSearchBarActive;
     BOOL enableIpadWA;
+    BOOL tmpFromAlbumView;
+    NSMutableDictionary *epgDict;
 }
 
 - (id)initWithFrame:(CGRect)frame;

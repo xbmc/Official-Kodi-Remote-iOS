@@ -122,6 +122,152 @@
     return (NSMutableDictionary *)mutableDictionary;
 }
 
+#pragma mark - live tv epg memory/disk cache management
+
+-(NSMutableArray *)loadEPGFromMemory:(NSNumber *)channelid {
+    return [epgDict objectForKey:channelid];
+}
+
+-(NSMutableArray *)loadEPGFromDisk:(NSNumber *)channelid {
+    NSString *documentsDirectory = [AppDelegate instance].epgCachePath;
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.epg.dat", channelid]];
+    NSMutableArray *epgArray;
+    epgArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    if (epgArray != nil) {
+        [epgDict setObject:epgArray forKey:channelid];
+    }
+    return epgArray;
+}
+
+-(void)saveEPGToDisk:(NSNumber *)channelid  epgData:(NSMutableArray *)epgArray{
+    if (epgArray != nil){
+        NSString *diskCachePath = [AppDelegate instance].epgCachePath;
+        NSString *filename = [NSString stringWithFormat:@"%@.epg.dat", channelid];
+        NSString  *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
+        [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
+        [epgDict setObject:epgArray forKey:channelid];
+    }
+    return;
+}
+
+-(BOOL)setEPGCurrentNext:(NSMutableArray *)epgData current:(UILabel *)current next:(UILabel *)next{
+    if (epgData == nil) return false;
+    NSDictionary *objectToSearch;
+    NSDateFormatter *local_fmt = [[NSDateFormatter alloc] init];
+    [local_fmt setDateFormat:@"HH:mm"]; // MySQL format
+    local_fmt.timeZone = [NSTimeZone systemTimeZone];
+    NSDate *nowDate = [NSDate date];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"starttime <= %@ AND endtime >= %@", nowDate, nowDate];
+    NSArray *filteredArray = [epgData filteredArrayUsingPredicate:predicate];
+    if ([filteredArray count] > 0) {
+        objectToSearch = [filteredArray objectAtIndex:0];
+        current.text = [NSString stringWithFormat:@"%@ %@",
+                        [local_fmt stringFromDate:[objectToSearch objectForKey:@"starttime"]],
+                        [objectToSearch objectForKey:@"title"]
+                        ];
+        
+        predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", [objectToSearch objectForKey:@"endtime"]];
+        NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
+        if ([nextFilteredArray count] > 0) {
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"starttime"
+                                                         ascending:YES];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            NSArray *sortedArray;
+            sortedArray = [nextFilteredArray sortedArrayUsingDescriptors:sortDescriptors];
+            next.text = [NSString stringWithFormat:@"%@ %@",
+                         [local_fmt stringFromDate:[[sortedArray objectAtIndex:0] objectForKey:@"starttime"]],
+                         [[sortedArray objectAtIndex:0] objectForKey:@"title"]
+                         ];
+            return true;
+        }
+        else{
+            //            next.text = NSLocalizedString(@"Not Available",nil);
+            return false;
+        }
+    }
+    else{
+        //        current.text = NSLocalizedString(@"Not Available",nil);
+        //        next.text = NSLocalizedString(@"Not Available",nil);
+        return false;
+    }
+    
+    return false;
+    
+}
+
+-(void)retrieveEPGinfo:(NSDictionary *)item label:(UILabel *)label next:(UILabel *)next{
+    NSNumber *channelid = [item objectForKey:@"channelid"];
+    if ([channelid intValue] > 0){
+        label.text = NSLocalizedString(@"Not Available",nil);
+        next.text = NSLocalizedString(@"Not Available",nil);
+        mainMenu *Menuitem = self.detailItem;
+        CGRect frame = label.frame;
+        frame.size.width=Menuitem.widthLabel;
+        label.frame = frame;
+        [label setTextColor:[UIColor blackColor]];
+        [label setFont:[UIFont boldSystemFontOfSize:label.font.pointSize]];
+        frame = next.frame;
+        frame.size.width=Menuitem.widthLabel;
+        next.frame = frame;
+        NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
+        
+        retrievedEPG = [self loadEPGFromMemory:channelid];
+        if (![self setEPGCurrentNext:retrievedEPG current:label next:next]){
+            
+            retrievedEPG = [self loadEPGFromDisk:channelid];
+            if (![self setEPGCurrentNext:retrievedEPG current:label next:next]){
+                jsonRPC = nil;
+                GlobalData *obj=[GlobalData getInstance];
+                NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+                NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+                jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+                [jsonRPC callMethod:@"PVR.GetBroadcasts"
+                     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                     channelid, @"channelid",
+                                     [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", nil], @"properties",
+                                     nil]
+                       onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                           if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
+                               if (((NSNull *)[methodResult objectForKey:@"broadcasts"] != [NSNull null])){
+                                   NSArray *broadcasts = [methodResult objectForKey:@"broadcasts"];
+                                   NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
+                                   
+                                   NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+                                   [fmt setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"]; // MySQL format
+                                   NSDateFormatter *local_fmt = [[NSDateFormatter alloc] init];
+                                   [local_fmt setDateFormat:@"HH:mm"]; // MySQL format
+                                   local_fmt.timeZone = [NSTimeZone systemTimeZone];
+                                   for (id EPGobject in broadcasts) {
+                                       NSDate *starttime = [fmt dateFromString:[NSString stringWithFormat:@"%@ UTC", [EPGobject objectForKey:@"starttime"]]];// all times in XBMC PVR are UTC
+                                       NSDate *endtime = [fmt dateFromString:[NSString stringWithFormat:@"%@ UTC", [EPGobject objectForKey:@"endtime"]]];// all times in XBMC PVR are UTC
+                                       [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                starttime, @"starttime",
+                                                                endtime, @"endtime",
+                                                                [EPGobject objectForKey:@"title"], @"title",
+                                                                [EPGobject objectForKey:@"label"], @"label",
+                                                                nil]];
+                                   }
+                                   [self saveEPGToDisk:channelid epgData:retrievedEPG];
+                                   //                               [self setEPGCurrentNext:retrievedEPG current:label next:next];
+                               }
+                               //                           else{
+                               //                               label.text = NSLocalizedString(@"Not Available",nil);
+                               //                               next.text = NSLocalizedString(@"Not Available",nil);
+                               //                           }
+                           }
+                           //                       else{
+                           //                           label.text = NSLocalizedString(@"Not Available",nil);
+                           //                           next.text = NSLocalizedString(@"Not Available",nil);
+                           //                           //                       NSLog(@"method error %@ %@", methodError, error);
+                           //                       }
+                       }];
+            }
+        }
+    }
+}
+
+
 #pragma mark - library disk cache management
 
 -(NSString *)getCacheKey:(NSString *)fieldA parameters:(NSMutableDictionary *)fieldB{
@@ -1368,7 +1514,7 @@ int originYear = 0;
     UILabel *rating=(UILabel*) [cell viewWithTag:5];
 
     frame=title.frame;
-    frame.origin.x=labelPosition;    
+    frame.origin.x=labelPosition;
     frame.size.width=Menuitem.widthLabel;
     title.frame=frame;
     [title setText:[item objectForKey:@"label"]];
@@ -1424,13 +1570,14 @@ int originYear = 0;
     [rating setText:[item objectForKey:@"rating"]];
     [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFill];
     if (!albumView && !episodesView){
+        [self retrieveEPGinfo:item label:genre next:runtime];
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=defaultThumb;
         if ([[item objectForKey:@"filetype"] length]!=0 ||
             [[item objectForKey:@"family"] isEqualToString:@"file"] ||
             [[item objectForKey:@"family"] isEqualToString:@"genreid"] ||
-            [[item objectForKey:@"family"] isEqualToString:@"channelgroupid"] ||
-            [[item objectForKey:@"family"] isEqualToString:@"channelid"]){
+            [[item objectForKey:@"family"] isEqualToString:@"channelgroupid"]
+            ){
             if (![stringURL isEqualToString:@""]){
                 displayThumb=stringURL;
             }
@@ -1544,8 +1691,15 @@ int originYear = 0;
         UIView *thumbImageContainer = [[UIView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, albumThumbHeight, albumThumbHeight)];
         [thumbImageContainer setClipsToBounds: NO];
         UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, albumThumbHeight, albumThumbHeight)];
+        thumbImageView.userInteractionEnabled = YES;
         [thumbImageView setClipsToBounds:YES];
         [thumbImageView setContentMode:UIViewContentModeScaleAspectFill];
+        
+        UITapGestureRecognizer *touchOnAlbumView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAlbumActions:)];
+        [touchOnAlbumView setNumberOfTapsRequired:1];
+        [touchOnAlbumView setNumberOfTouchesRequired:1];
+        [thumbImageView addGestureRecognizer:touchOnAlbumView];
+    
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=@"coverbox_back.png";
         if ([[item objectForKey:@"filetype"] length]!=0){
@@ -2108,6 +2262,7 @@ int originYear = 0;
 NSIndexPath *selected;
 
 -(void)showActionSheet:(NSIndexPath *)indexPath sheetActions:(NSArray *)sheetActions item:(NSDictionary *)item rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
+    if (tmpFromAlbumView) choosedTab = 1; else if (albumView) choosedTab = 0;
     int numActions=[sheetActions count];
     if (numActions){
         NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
@@ -2214,7 +2369,7 @@ NSIndexPath *selected;
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
+    NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
     if (buttonIndex!=actionSheet.cancelButtonIndex){
         NSDictionary *item = nil;
         if ([self.searchDisplayController isActive]){
@@ -2223,7 +2378,7 @@ NSIndexPath *selected;
         else{
             item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:selected.section]] objectAtIndex:selected.row];
         }
-        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play", nil)]){
+        if ([option isEqualToString:NSLocalizedString(@"Play", nil)]){
             NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
             if ([songid intValue]){
                 [self addPlayback:item indexPath:selected position:selected.row shuffle:NO];
@@ -2232,34 +2387,34 @@ NSIndexPath *selected;
                 [self addPlayback:item indexPath:selected position:0 shuffle:NO];
             }
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play in shuffle mode", nil)]){
+        else if ([option isEqualToString:NSLocalizedString(@"Play in shuffle mode", nil)]){
             [self addPlayback:item indexPath:selected position:0 shuffle:YES];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue", nil)]){
+        else if ([option isEqualToString:NSLocalizedString(@"Queue", nil)]){
             [self addQueue:item indexPath:selected];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
+        else if ([option isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
             [self addQueue:item indexPath:selected afterCurrentItem:YES];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Show Content", nil)]){
+        else if ([option isEqualToString:NSLocalizedString(@"Show Content", nil)]){
             [self exploreItem:item];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play in party mode", nil)]){
+        else if ([option isEqualToString:NSLocalizedString(@"Play in party mode", nil)]){
             [self partyModeItem:item indexPath:selected];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:NSLocalizedString(@"Details", nil)].location!= NSNotFound){
+        else if ([option rangeOfString:NSLocalizedString(@"Details", nil)].location!= NSNotFound){
             [self showInfo:selected menuItem:self.detailItem item:item tabToShow:choosedTab];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
+        else if ([option isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
             [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"trailer"], @"file", nil], @"item", nil] index:selected];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Stream to iPhone", nil)]){
+        else if ([option isEqualToString:NSLocalizedString(@"Stream to iPhone", nil)]){
             [self addStream:item indexPath:selected];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Search Wikipedia", nil)]){            
+        else if ([option isEqualToString:NSLocalizedString(@"Search Wikipedia", nil)]){
             [self searchWeb:item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", NSLocalizedString(@"WIKI_LANG", nil)]];
         }
-        else if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Search last.fm charts", nil)]){
+        else if ([option isEqualToString:NSLocalizedString(@"Search last.fm charts", nil)]){
             [self searchWeb:item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
         }
     }
@@ -2277,6 +2432,8 @@ NSIndexPath *selected;
             }
         }
     }
+    if (tmpFromAlbumView) choosedTab = 0;
+    tmpFromAlbumView = NO;
 }
 
 -(void)searchWeb:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
@@ -2890,6 +3047,17 @@ NSIndexPath *selected;
     else{
         [self displayInfoView:item];
     }
+}
+
+
+-(void)showAlbumActions:(UITapGestureRecognizer *)tap {
+    NSArray *sheetActions = [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil];
+    selected = [NSIndexPath indexPathForItem:0 inSection:0];
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:[[self.sections valueForKey:[self.sectionArray objectAtIndex:0]] objectAtIndex:0]];
+    [item setObject:self.navigationItem.title forKey:@"label"];
+    tmpFromAlbumView = YES;
+    int rectOrigin = (int)((albumViewHeight - (albumViewPadding * 2))/2);
+    [self showActionSheet:nil sheetActions:sheetActions item:item rectOriginX:rectOrigin + albumViewPadding rectOriginY:rectOrigin];
 }
 
 //-(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
@@ -3849,6 +4017,7 @@ NSIndexPath *selected;
     isViewDidLoad = YES;
     iOSYDelta = 44;
     dataList.tableFooterView = [UIView new];
+    epgDict = [[NSMutableDictionary alloc] init];
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -4024,7 +4193,7 @@ NSIndexPath *selected;
 }
 
 -(void)checkDiskCache{
-        NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];    
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL diskcache_preference = NO;
