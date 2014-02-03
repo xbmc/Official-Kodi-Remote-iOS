@@ -65,7 +65,7 @@ NSMutableArray *hostRightMenuItems;
             [fileManager1 createDirectoryAtPath:self.libraryCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
         }
         
-        self.epgCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"EPGDataTest"];
+        self.epgCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"EPGDataCache"];
         if (![fileManager1 fileExistsAtPath:self.epgCachePath]){
             [fileManager1 createDirectoryAtPath:self.epgCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
         }
