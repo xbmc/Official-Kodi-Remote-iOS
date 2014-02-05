@@ -139,8 +139,8 @@
     return epgArray;
 }
 
--(void)saveEPGToDisk:(NSNumber *)channelid  epgData:(NSMutableArray *)epgArray{
-    if (epgArray != nil){
+-(void)saveEPGToDisk:(NSNumber *)channelid epgData:(NSMutableArray *)epgArray{
+    if (epgArray != nil && channelid != nil && [epgArray count] > 0){
         NSString *diskCachePath = [AppDelegate instance].epgCachePath;
         NSString *filename = [NSString stringWithFormat:@"%@.epg.dat", channelid];
         NSString  *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
@@ -150,129 +150,175 @@
     return;
 }
 
--(BOOL)setEPGCurrentNext:(NSMutableArray *)epgData current:(UILabel *)current next:(UILabel *)next item:(NSMutableDictionary *)item{
-    if (epgData == nil) return false;
-    NSDictionary *objectToSearch;
-    NSDateFormatter *local_fmt = [[NSDateFormatter alloc] init];
-    [local_fmt setDateFormat:@"HH:mm"]; // MySQL format
-    local_fmt.timeZone = [NSTimeZone systemTimeZone];
-    NSDate *nowDate = [NSDate date];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"starttime <= %@ AND endtime >= %@", nowDate, nowDate];
-    NSArray *filteredArray = [epgData filteredArrayUsingPredicate:predicate];
-    if ([filteredArray count] > 0) {
-        objectToSearch = [filteredArray objectAtIndex:0];
-        current.text = [NSString stringWithFormat:@"%@ %@",
-                        [local_fmt stringFromDate:[objectToSearch objectForKey:@"starttime"]],
-                        [objectToSearch objectForKey:@"title"]
-                        ];
-        [item setObject:[NSString stringWithFormat:@"\n%@\n\n%@\n\n%@ - %@",
-                         [objectToSearch objectForKey:@"title"],
-                         [objectToSearch objectForKey:@"plot"],
-                         [local_fmt stringFromDate:[objectToSearch objectForKey:@"starttime"]],
-                         [local_fmt stringFromDate:[objectToSearch objectForKey:@"endtime"]]
-                         ]
-                 forKey:@"genre"];
-        predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", [objectToSearch objectForKey:@"endtime"]];
-        NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
-        if ([nextFilteredArray count] > 0) {
-            NSSortDescriptor *sortDescriptor;
-            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"starttime"
-                                                         ascending:YES];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            NSArray *sortedArray;
-            sortedArray = [nextFilteredArray sortedArrayUsingDescriptors:sortDescriptors];
-            next.text = [NSString stringWithFormat:@"%@ %@",
-                         [local_fmt stringFromDate:[[sortedArray objectAtIndex:0] objectForKey:@"starttime"]],
-                         [[sortedArray objectAtIndex:0] objectForKey:@"title"]
-                         ];
-            return true;
-        }
-        else{
-            //            next.text = NSLocalizedString(@"Not Available",nil);
-            return false;
-        }
-    }
-    else{
-        //        current.text = NSLocalizedString(@"Not Available",nil);
-        //        next.text = NSLocalizedString(@"Not Available",nil);
-        return false;
-    }
-    
-    return false;
-    
-}
+#pragma mark - live tv epg management
 
--(void)retrieveEPGinfo:(NSMutableDictionary *)item label:(UILabel *)label next:(UILabel *)next{
-    NSNumber *channelid = [item objectForKey:@"channelid"];
+-(void)getChannelEpgInfo:(NSDictionary *)parameters {
+    NSNumber *channelid = [parameters objectForKey:@"channelid"];
+    NSIndexPath *indexPath = [parameters objectForKey:@"indexPath"];
+    UITableView *tableView = [parameters objectForKey:@"tableView"];
+    NSMutableDictionary *item = [parameters objectForKey:@"item"];
+    NSMutableDictionary *channelEPG = [[NSMutableDictionary alloc] init];
     if ([channelid intValue] > 0){
-        label.text = NSLocalizedString(@"Not Available",nil);
-        next.text = NSLocalizedString(@"Not Available",nil);
-        mainMenu *Menuitem = self.detailItem;
-        CGRect frame = label.frame;
-        frame.size.width=Menuitem.widthLabel;
-        label.frame = frame;
-        [label setTextColor:[UIColor blackColor]];
-        [label setFont:[UIFont boldSystemFontOfSize:label.font.pointSize]];
-        frame = next.frame;
-        frame.size.width=Menuitem.widthLabel;
-        next.frame = frame;
         NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
-        
         retrievedEPG = [self loadEPGFromMemory:channelid];
-        if (![self setEPGCurrentNext:retrievedEPG current:label next:next item:item]){
-            
+        channelEPG = [self parseEpgData:retrievedEPG];
+        NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   channelEPG, @"channelEPG",
+                                   indexPath, @"indexPath",
+                                   tableView, @"tableView",
+                                   item, @"item",
+                                   nil];
+        [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
+        if ([[channelEPG objectForKey:@"refresh_data"] boolValue] == YES){
             retrievedEPG = [self loadEPGFromDisk:channelid];
-            if (![self setEPGCurrentNext:retrievedEPG current:label next:next item:item]){
-                jsonRPC = nil;
-                GlobalData *obj=[GlobalData getInstance];
-                NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-                NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-                jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-                [jsonRPC callMethod:@"PVR.GetBroadcasts"
-                     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                     channelid, @"channelid",
-                                     [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", nil], @"properties",
-                                     nil]
-                       onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                           if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
-                               if (((NSNull *)[methodResult objectForKey:@"broadcasts"] != [NSNull null])){
-                                   NSArray *broadcasts = [methodResult objectForKey:@"broadcasts"];
-                                   NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
-                                   NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-                                   [fmt setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"]; // MySQL format
-                                   NSDateFormatter *local_fmt = [[NSDateFormatter alloc] init];
-                                   [local_fmt setDateFormat:@"HH:mm"]; // MySQL format
-                                   local_fmt.timeZone = [NSTimeZone systemTimeZone];
-                                   for (id EPGobject in broadcasts) {
-                                       NSDate *starttime = [fmt dateFromString:[NSString stringWithFormat:@"%@ UTC", [EPGobject objectForKey:@"starttime"]]];// all times in XBMC PVR are UTC
-                                       NSDate *endtime = [fmt dateFromString:[NSString stringWithFormat:@"%@ UTC", [EPGobject objectForKey:@"endtime"]]];// all times in XBMC PVR are UTC
-                                       [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                starttime, @"starttime",
-                                                                endtime, @"endtime",
-                                                                [EPGobject objectForKey:@"title"], @"title",
-                                                                [EPGobject objectForKey:@"label"], @"label",
-                                                                [EPGobject objectForKey:@"plot"], @"plot",
-                                                                nil]];
-                                   }
-                                   [self saveEPGToDisk:channelid epgData:retrievedEPG];
-                                   //                               [self setEPGCurrentNext:retrievedEPG current:label next:next item:item];
-                               }
-                               //                           else{
-                               //                               label.text = NSLocalizedString(@"Not Available",nil);
-                               //                               next.text = NSLocalizedString(@"Not Available",nil);
-                               //                           }
-                           }
-                           //                       else{
-                           //                           label.text = NSLocalizedString(@"Not Available",nil);
-                           //                           next.text = NSLocalizedString(@"Not Available",nil);
-                           //                           //                       NSLog(@"method error %@ %@", methodError, error);
-                           //                       }
-                       }];
+            channelEPG = [self parseEpgData:retrievedEPG];
+            NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       channelEPG, @"channelEPG",
+                                       indexPath, @"indexPath",
+                                       tableView, @"tableView",
+                                       item, @"item",
+                                       nil];
+            [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
+            if ([[channelEPG objectForKey:@"refresh_data"] boolValue] == YES){
+                [self performSelectorOnMainThread:@selector(getJsonEPG:) withObject:parameters waitUntilDone:NO];
             }
         }
     }
+    return;
 }
 
+-(NSMutableDictionary *)parseEpgData:(NSMutableArray *)epgData {
+    NSMutableDictionary *channelEPG = [[NSMutableDictionary alloc] init];
+    [channelEPG setObject: NSLocalizedString(@"Not Available",nil) forKey:@"current"];
+    [channelEPG setObject: NSLocalizedString(@"Not Available",nil) forKey:@"next"];
+    [channelEPG setObject: @"" forKey:@"current_details"];
+    [channelEPG setObject: [NSNumber numberWithBool:YES] forKey:@"refresh_data"];
+    if (epgData != nil) {
+        NSDictionary *objectToSearch;
+        NSDateFormatter *local_fmt = [[NSDateFormatter alloc] init];
+        [local_fmt setDateFormat:@"HH:mm"]; // MySQL format
+        local_fmt.timeZone = [NSTimeZone systemTimeZone];
+        NSDate *nowDate = [NSDate date];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"starttime <= %@ AND endtime >= %@", nowDate, nowDate];
+        NSArray *filteredArray = [epgData filteredArrayUsingPredicate:predicate];
+        if ([filteredArray count] > 0) {
+            objectToSearch = [filteredArray objectAtIndex:0];
+            [channelEPG setObject: [NSString stringWithFormat:@"%@ %@",
+                                    [local_fmt stringFromDate:[objectToSearch objectForKey:@"starttime"]],
+                                    [objectToSearch objectForKey:@"title"]
+                                    ] forKey:@"current"];
+            [channelEPG setObject: [NSString stringWithFormat:@"\n%@\n\n%@\n\n%@ - %@",
+                                    [objectToSearch objectForKey:@"title"],
+                                    [objectToSearch objectForKey:@"plot"],
+                                    [local_fmt stringFromDate:[objectToSearch objectForKey:@"starttime"]],
+                                    [local_fmt stringFromDate:[objectToSearch objectForKey:@"endtime"]]
+                                    ] forKey:@"current_details"];
+            predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", [objectToSearch objectForKey:@"endtime"]];
+            NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
+            if ([nextFilteredArray count] > 0) {
+                NSSortDescriptor *sortDescriptor;
+                sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"starttime"
+                                                             ascending:YES];
+                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+                NSArray *sortedArray;
+                sortedArray = [nextFilteredArray sortedArrayUsingDescriptors:sortDescriptors];
+                [channelEPG setObject: [NSString stringWithFormat:@"%@ %@",
+                                        [local_fmt stringFromDate:[[sortedArray objectAtIndex:0] objectForKey:@"starttime"]],
+                                        [[sortedArray objectAtIndex:0] objectForKey:@"title"]
+                                        ] forKey:@"next"];
+                [channelEPG setObject: [NSNumber numberWithBool:NO] forKey:@"refresh_data"];
+            }
+        }
+    }
+    return channelEPG;
+}
+
+-(void)updateEpgTableInfo:(NSDictionary *)parameters{
+    NSMutableDictionary *channelEPG = [parameters objectForKey:@"channelEPG"];
+    NSIndexPath *indexPath = [parameters objectForKey:@"indexPath"];
+    UITableView *tableView = [parameters objectForKey:@"tableView"];
+    NSMutableDictionary *item = [parameters objectForKey:@"item"];
+    UITableViewCell *cell = nil;
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    }
+    else{
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+    }
+    UILabel *current = (UILabel*) [cell viewWithTag:2];
+    UILabel *next = (UILabel*) [cell viewWithTag:4];
+    current.text = [channelEPG objectForKey:@"current"];
+    next.text = [channelEPG objectForKey:@"next"];
+    [item setObject:[channelEPG objectForKey:@"current_details"] forKey:@"genre"];
+}
+
+-(void)parseBroadcasts:(NSDictionary *)parameters{
+    NSArray *broadcasts = [parameters objectForKey:@"broadcasts"];
+    NSNumber *channelid = [parameters objectForKey:@"channelid"];
+    NSIndexPath *indexPath = [parameters objectForKey:@"indexPath"];
+    UITableView *tableView = [parameters objectForKey:@"tableView"];
+    NSMutableDictionary *item = [parameters objectForKey:@"item"];
+    NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
+    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    [fmt setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"]; // MySQL format
+    NSDateFormatter *local_fmt = [[NSDateFormatter alloc] init];
+    [local_fmt setDateFormat:@"HH:mm"]; // MySQL format
+    local_fmt.timeZone = [NSTimeZone systemTimeZone];
+    for (id EPGobject in broadcasts) {
+        NSDate *starttime = [fmt dateFromString:[NSString stringWithFormat:@"%@ UTC", [EPGobject objectForKey:@"starttime"]]];// all times in XBMC PVR are UTC
+        NSDate *endtime = [fmt dateFromString:[NSString stringWithFormat:@"%@ UTC", [EPGobject objectForKey:@"endtime"]]];// all times in XBMC PVR are UTC
+        [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 starttime, @"starttime",
+                                 endtime, @"endtime",
+                                 [EPGobject objectForKey:@"title"], @"title",
+                                 [EPGobject objectForKey:@"label"], @"label",
+                                 [EPGobject objectForKey:@"plot"], @"plot",
+                                 nil]];
+    }
+    [self saveEPGToDisk:channelid epgData:retrievedEPG];
+    NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
+                               [self parseEpgData:retrievedEPG], @"channelEPG",
+                               indexPath, @"indexPath",
+                               tableView, @"tableView",
+                               item, @"item",
+                               nil];
+    [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
+}
+
+-(void)getJsonEPG:(NSDictionary *)parameters{
+    NSNumber *channelid = [parameters objectForKey:@"channelid"];
+    NSIndexPath *indexPath = [parameters objectForKey:@"indexPath"];
+    UITableView *tableView = [parameters objectForKey:@"tableView"];
+    NSMutableDictionary *item = [parameters objectForKey:@"item"];
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance];
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC callMethod:@"PVR.GetBroadcasts"
+         withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                         channelid, @"channelid",
+                         [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", nil], @"properties",
+                         nil]
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+               if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
+                   if (((NSNull *)[methodResult objectForKey:@"broadcasts"] != [NSNull null])){
+                       
+                       NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               channelid, @"channelid",
+                                               indexPath, @"indexPath",
+                                               tableView, @"tableView",
+                                               item, @"item",
+                                               [methodResult objectForKey:@"broadcasts"], @"broadcasts",
+                                               nil];
+                       [NSThread detachNewThreadSelector:@selector(parseBroadcasts:) toTarget:self withObject:params];
+                   }
+               }
+//               else{
+//                   NSLog(@"method error %@ %@", methodError, error);
+//               }
+           }];
+}
 
 #pragma mark - library disk cache management
 
@@ -1576,7 +1622,24 @@ int originYear = 0;
     [rating setText:[item objectForKey:@"rating"]];
     [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFill];
     if (!albumView && !episodesView){
-        [self retrieveEPGinfo:item label:genre next:runtime];
+        NSNumber *channelid = [item objectForKey:@"channelid"];
+        if ([channelid intValue] > 0){
+            CGRect frame = genre.frame;
+            frame.size.width=Menuitem.widthLabel;
+            genre.frame = frame;
+            [genre setTextColor:[UIColor blackColor]];
+            [genre setFont:[UIFont boldSystemFontOfSize:genre.font.pointSize]];
+            frame = runtime.frame;
+            frame.size.width=Menuitem.widthLabel;
+            runtime.frame = frame;
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    channelid, @"channelid",
+                                    tableView, @"tableView",
+                                    indexPath, @"indexPath",
+                                    item, @"item",
+                                    nil];
+            [NSThread detachNewThreadSelector:@selector(getChannelEpgInfo:) toTarget:self withObject:params];
+        }
         NSString *stringURL = [item objectForKey:@"thumbnail"];
         NSString *displayThumb=defaultThumb;
         if ([[item objectForKey:@"filetype"] length]!=0 ||
