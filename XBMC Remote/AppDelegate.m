@@ -3364,6 +3364,12 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
                               withIntermediateDirectories:YES
                                                attributes:nil
                                                     error:NULL];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:self.epgCachePath error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:self.epgCachePath
+                              withIntermediateDirectories:YES
+                                               attributes:nil
+                                                    error:NULL];
 }
 
 @end
