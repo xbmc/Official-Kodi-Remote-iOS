@@ -229,15 +229,15 @@
             predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", [objectToSearch objectForKey:@"endtime"]];
             NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
             if ([nextFilteredArray count] > 0) {
-                NSSortDescriptor *sortDescriptor;
-                sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"starttime"
-                                                             ascending:YES];
-                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-                NSArray *sortedArray;
-                sortedArray = [nextFilteredArray sortedArrayUsingDescriptors:sortDescriptors];
+//                NSSortDescriptor *sortDescriptor;
+//                sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"starttime"
+//                                                             ascending:YES];
+//                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+//                NSArray *sortedArray;
+//                sortedArray = [nextFilteredArray sortedArrayUsingDescriptors:sortDescriptors];
                 [channelEPG setObject: [NSString stringWithFormat:@"%@ %@",
-                                        [localHourMinuteFormatter stringFromDate:[[sortedArray objectAtIndex:0] objectForKey:@"starttime"]],
-                                        [[sortedArray objectAtIndex:0] objectForKey:@"title"]
+                                        [localHourMinuteFormatter stringFromDate:[[nextFilteredArray objectAtIndex:0] objectForKey:@"starttime"]],
+                                        [[nextFilteredArray objectAtIndex:0] objectForKey:@"title"]
                                         ] forKey:@"next"];
                 [channelEPG setObject: [NSNumber numberWithBool:NO] forKey:@"refresh_data"];
             }
@@ -3799,12 +3799,10 @@ NSIndexPath *selected;
                 c = @"/";
             }
             found = NO;
-            for (NSString *str in [self.sections allKeys]){
-                if ([[str uppercaseString] isEqualToString:c]){
-                    found = YES;
-                }
+            if ([[self.sections allKeys] containsObject:c]){
+                found = YES;
             }
-            if (!found){     
+            if (!found){
                 [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
             }
             [[self.sections objectForKey:c] addObject:item];
@@ -3815,10 +3813,8 @@ NSIndexPath *selected;
             BOOL found;
             NSString *c =  [NSString stringWithFormat:@"%@", [item objectForKey:@"season"]];
             found = NO;
-            for (NSString *str in [self.sections allKeys]){
-                if ([[str uppercaseString] isEqualToString:c]){
-                    found = YES;
-                }
+            if ([[self.sections allKeys] containsObject:c]){
+                found = YES;
             }
             if (!found){
                 [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
@@ -3826,7 +3822,28 @@ NSIndexPath *selected;
             [[self.sections objectForKey:c] addObject:item];
         }
     }
-    else {
+    else if (channelGuideView){
+        [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
+        BOOL found;
+        NSDateFormatter *localDate = [[NSDateFormatter alloc] init];
+        [localDate setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
+        localDate.timeZone = [NSTimeZone systemTimeZone];
+        for (NSDictionary *item in self.richResults){
+            NSString *c = NSLocalizedString(@"No Date", nil);
+            if ([[item objectForKey:@"starttime"] length] > 0){
+                c = [localDate stringFromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]]];
+            }
+            found = NO;
+            if ([[self.sections allKeys] containsObject:c]){
+                found = YES;
+            }
+            if (!found){
+                [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
+            }
+            [[self.sections objectForKey:c] addObject:item];
+        }
+    }
+    else{
         [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
         for (NSDictionary *item in self.richResults){
             [[self.sections objectForKey:@""] addObject:item];
