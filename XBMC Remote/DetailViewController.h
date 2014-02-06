@@ -109,6 +109,7 @@
     BOOL enableIpadWA;
     BOOL tmpFromAlbumView;
     NSMutableDictionary *epgDict;
+    NSMutableArray *epgDownloadQueue;
 }
 
 - (id)initWithFrame:(CGRect)frame;

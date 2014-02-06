@@ -146,6 +146,9 @@
         NSString  *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
         [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
         [epgDict setObject:epgArray forKey:channelid];
+        @synchronized(epgDownloadQueue){
+            [epgDownloadQueue removeObject:channelid];
+        }
     }
     return;
 }
@@ -179,7 +182,10 @@
                                        item, @"item",
                                        nil];
             [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
-            if ([[channelEPG objectForKey:@"refresh_data"] boolValue] == YES){
+            if ([[channelEPG objectForKey:@"refresh_data"] boolValue] == YES && ![epgDownloadQueue containsObject:channelid]){
+                @synchronized(epgDownloadQueue){
+                    [epgDownloadQueue addObject:channelid];
+                }
                 [self performSelectorOnMainThread:@selector(getJsonEPG:) withObject:parameters waitUntilDone:NO];
             }
         }
@@ -4087,6 +4093,7 @@ NSIndexPath *selected;
     iOSYDelta = 44;
     dataList.tableFooterView = [UIView new];
     epgDict = [[NSMutableDictionary alloc] init];
+    epgDownloadQueue = [[NSMutableArray alloc] init];
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -4330,17 +4337,18 @@ NSIndexPath *selected;
 - (void)viewDidUnload{
     debugText = nil;
     [super viewDidUnload];
-    jsonRPC=nil;
-    self.richResults=nil;
-    self.filteredListContent=nil;
-    self.sections=nil;
-    dataList=nil;
+    jsonRPC = nil;
+    self.richResults = nil;
+    self.filteredListContent = nil;
+    self.sections = nil;
+    dataList = nil;
     collectionView = nil;
-    jsonCell=nil;
-    activityIndicatorView=nil;  
-//    manager=nil;
-    nowPlaying=nil;
-    playFileViewController=nil;
+    jsonCell = nil;
+    activityIndicatorView = nil;
+    nowPlaying = nil;
+    playFileViewController = nil;
+    epgDownloadQueue = nil;
+    epgDict = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
@@ -4354,26 +4362,27 @@ NSIndexPath *selected;
 //}
 
 -(void)dealloc{
-    jsonRPC=nil;
+    jsonRPC = nil;
     [self.richResults removeAllObjects];
     [self.filteredListContent removeAllObjects];
-    self.richResults=nil;
-    self.filteredListContent=nil;
+    self.richResults = nil;
+    self.filteredListContent = nil;
     [self.sections removeAllObjects];
-    self.sections=nil;
+    self.sections = nil;
     self.sectionArray = nil;
     self.sectionArrayOpen = nil;
     self.extraSectionRichResults = nil;
-    dataList=nil;
+    dataList = nil;
     collectionView = nil;
-    jsonCell=nil;
-    activityIndicatorView=nil;  
-//    manager=nil;
-    nowPlaying=nil;
-    playFileViewController=nil;
+    jsonCell = nil;
+    activityIndicatorView = nil;
+    nowPlaying = nil;
+    playFileViewController = nil;
     self.nowPlaying = nil;
-    self.webViewController=nil;
-    self.showInfoViewController=nil;
+    self.webViewController = nil;
+    self.showInfoViewController = nil;
+    epgDownloadQueue = nil;
+    epgDict = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
