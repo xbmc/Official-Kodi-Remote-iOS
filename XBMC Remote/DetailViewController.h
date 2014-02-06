@@ -68,12 +68,14 @@
     BOOL albumView;
     BOOL episodesView;
     BOOL tvshowsView;
+    BOOL channelGuideView;
     int albumViewHeight;
     int albumViewPadding;
     int artistFontSize;
     int albumFontSize;
     int trackCountFontSize;
     int trackCountLabelWidth;
+    int epgChannelTimeLabelWidth;
     int labelPadding;
     UIColor *albumColor;
     UIColor *searchBarColor;
@@ -110,6 +112,8 @@
     BOOL tmpFromAlbumView;
     NSMutableDictionary *epgDict;
     NSMutableArray *epgDownloadQueue;
+    NSDateFormatter *xbmcDateFormatter;
+    NSDateFormatter *localHourMinuteFormatter;
 }
 
 - (id)initWithFrame:(CGRect)frame;

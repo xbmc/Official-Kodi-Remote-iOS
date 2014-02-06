@@ -64,8 +64,8 @@ NSMutableArray *hostRightMenuItems;
         if (![fileManager1 fileExistsAtPath:self.libraryCachePath]){
             [fileManager1 createDirectoryAtPath:self.libraryCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
         }
-        
         self.epgCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"EPGDataCache"];
+//        [[NSFileManager defaultManager] removeItemAtPath:self.epgCachePath error:nil];
         if (![fileManager1 fileExistsAtPath:self.epgCachePath]){
             [fileManager1 createDirectoryAtPath:self.epgCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
         }
@@ -102,6 +102,7 @@ NSMutableArray *hostRightMenuItems;
     NSString *filemodeThumbWidth= @"44";
     NSString *livetvThumbWidth= @"64";
     NSString *livetvRowHeight= @"76";
+    NSString *channelEPGRowHeight= @"82";
 
 
     NSString *filemodeVideoType = @"video";
@@ -2562,6 +2563,7 @@ NSMutableArray *hostRightMenuItems;
                          nil],
                         nil];
     
+    
     item8.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", nil],
                               nil];
@@ -2599,7 +2601,6 @@ NSMutableArray *hostRightMenuItems;
                                @"filetype", @"row10",
                                @"type", @"row11",
                                nil],
-                              
                               nil];
     
     item8.subItem.enableSection = NO;
@@ -2607,7 +2608,7 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.thumbWidth = 53;
     item8.subItem.defaultThumb = @"nocover_movies";
     item8.subItem.sheetActions = [NSArray arrayWithObjects:
-                                  [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Channel Guide", nil), nil],
                                   nil];
     item8.subItem.showInfo = [NSArray arrayWithObjects:
                                 [NSNumber numberWithBool:NO],
@@ -2620,16 +2621,42 @@ NSMutableArray *hostRightMenuItems;
                                 nil];
     
     item8.subItem.widthLabel = 252;
-    
     item8.subItem.subItem.noConvertTime = YES;
     item8.subItem.subItem.mainMethod = [NSMutableArray arrayWithObjects:
-                                        [NSArray arrayWithObjects: nil],
+                                        [NSArray arrayWithObjects:@"PVR.GetBroadcasts", @"method", @"YES", @"channelGuideView", nil],
                                         nil];
     item8.subItem.subItem.mainParameters = [NSMutableArray arrayWithObjects:
-                                            [NSArray arrayWithObjects: nil],
+                                            [NSMutableArray arrayWithObjects:
+                                             [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                              [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", nil], @"properties",
+                                              nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
+                                             [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                                               [NSNumber numberWithFloat:itemMovieWidthIphone], @"height", nil], @"iphone",
+                                              [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                                               [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
+                                              livetvThumbWidth, @"separatorInset",
+                                              nil], @"itemSizes",
+                                             [NSNumber numberWithBool:YES], @"forceActionSheet",
+                                             nil],
                                             nil];
     item8.subItem.subItem.mainFields = [NSArray arrayWithObjects:
-                                        [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                                        [NSDictionary  dictionaryWithObjectsAndKeys:
+                                         @"broadcasts",@"itemid",
+                                         @"title", @"row1",
+                                         @"plot", @"row2",
+                                         @"broadcastid", @"row3",
+                                         @"broadcastid", @"row4",
+                                         @"starttime",@"row5",
+                                         @"broadcastid",@"row6",
+                                         [NSNumber numberWithInt:1], @"playlistid",
+                                         @"broadcastid",@"row8",
+                                         @"broadcastid", @"row9",
+                                         @"starttime", @"row10",
+                                         @"endtime", @"row11",
+                                         nil],
                                         nil];
     item8.subItem.subItem.enableSection = NO;
     item8.subItem.subItem.rowHeight = 76;
@@ -2639,6 +2666,8 @@ NSMutableArray *hostRightMenuItems;
                                           [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                           nil];
     item8.subItem.subItem.widthLabel = 252;
+    
+    
 
     
 #pragma mark - Pictures
@@ -3022,23 +3051,23 @@ NSMutableArray *hostRightMenuItems;
                                  nil], @"action",
                                 nil],
 // PERSONAL STUFF ;)
-//                               [NSDictionary dictionaryWithObjectsAndKeys:
-//                                NSLocalizedString(@"Audio TV Out", nil), @"label",
-//                                @"icon_update_video", @"icon",
-//                                [NSDictionary dictionaryWithObjectsAndKeys:
-//                                 @"Settings.SetSettingValue",@"command",
-//                                 [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:hdmi:CARD=NVidia,DEV=0", @"value", nil], @"params",
-//                                 nil], @"action",
-//                                nil],
-//
-//                               [NSDictionary dictionaryWithObjectsAndKeys:
-//                                NSLocalizedString(@"Audio Analog Out", nil), @"label",
-//                                @"icon_update_video", @"icon",
-//                                [NSDictionary dictionaryWithObjectsAndKeys:
-//                                 @"Settings.SetSettingValue",@"command",
-//                                 [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:@", @"value", nil], @"params",
-//                                 nil], @"action",
-//                                nil],
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                NSLocalizedString(@"Audio TV Out", nil), @"label",
+                                @"icon_update_video", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"Settings.SetSettingValue",@"command",
+                                 [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:hdmi:CARD=NVidia,DEV=0", @"value", nil], @"params",
+                                 nil], @"action",
+                                nil],
+
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                NSLocalizedString(@"Audio Analog Out", nil), @"label",
+                                @"icon_update_video", @"icon",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"Settings.SetSettingValue",@"command",
+                                 [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:@", @"value", nil], @"params",
+                                 nil], @"action",
+                                nil],
 
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 NSLocalizedString(@"LED Torch", nil), @"label",
