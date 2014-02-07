@@ -3835,19 +3835,29 @@ NSIndexPath *selected;
         NSDateFormatter *localDate = [[NSDateFormatter alloc] init];
         [localDate setDateFormat:@"yyyy-MM-dd"];
         localDate.timeZone = [NSTimeZone systemTimeZone];
+        NSDate *nowDate = [NSDate date];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSInteger comps = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);
+        NSDateComponents *nowDateComponents = [calendar components:comps
+                                                        fromDate: nowDate];
+        nowDate = [calendar dateFromComponents:nowDateComponents];
         for (NSDictionary *item in self.richResults){
-            NSString *c = NSLocalizedString(@"No Date", nil);
-            if ([[item objectForKey:@"starttime"] length] > 0){
-                c = [localDate stringFromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]]];
+            NSDate *itemDate = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
+            NSDateComponents *itemDateComponents = [calendar components:comps
+                                                            fromDate: itemDate];
+            itemDate = [calendar dateFromComponents:itemDateComponents];
+            NSComparisonResult datesCompare = [itemDate compare:nowDate];
+            if (datesCompare == NSOrderedDescending || datesCompare == NSOrderedSame){
+                NSString *c = [localDate stringFromDate:itemDate];
+                found = NO;
+                if ([[self.sections allKeys] containsObject:c]){
+                    found = YES;
+                }
+                if (!found){
+                    [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
+                }
+                [[self.sections objectForKey:c] addObject:item];
             }
-            found = NO;
-            if ([[self.sections allKeys] containsObject:c]){
-                found = YES;
-            }
-            if (!found){
-                [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
-            }
-            [[self.sections objectForKey:c] addObject:item];
         }
     }
     else{
