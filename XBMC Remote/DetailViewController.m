@@ -1427,9 +1427,6 @@ int originYear = 0;
     else if (channelGuideView){
         thumbWidth = 0;
         labelPosition = epgChannelTimeLabelWidth;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [dataList setSeparatorInset:UIEdgeInsetsMake(0, epgChannelTimeLabelWidth, 0, 0)];
-        }
     }
     else{
         labelPosition=thumbWidth + 8;

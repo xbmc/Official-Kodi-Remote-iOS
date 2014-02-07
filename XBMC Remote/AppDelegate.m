@@ -2582,7 +2582,7 @@ NSMutableArray *hostRightMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
                                      [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
-                                    livetvThumbWidth, @"separatorInset",
+                                    @"72", @"separatorInset",
                                     nil], @"itemSizes",
                                    nil],
                                   nil];
@@ -2637,7 +2637,7 @@ NSMutableArray *hostRightMenuItems;
                                               [NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
                                                [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
-                                              livetvThumbWidth, @"separatorInset",
+                                              @"48", @"separatorInset",
                                               nil], @"itemSizes",
                                              [NSNumber numberWithBool:YES], @"forceActionSheet",
                                              nil],
