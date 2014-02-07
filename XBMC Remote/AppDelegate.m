@@ -2605,8 +2605,8 @@ NSMutableArray *hostRightMenuItems;
     
     item8.subItem.enableSection = NO;
     item8.subItem.rowHeight = 76;
-    item8.subItem.thumbWidth = 53;
-    item8.subItem.defaultThumb = @"nocover_movies";
+    item8.subItem.thumbWidth = [livetvThumbWidth intValue];
+    item8.subItem.defaultThumb = @"nocover_channels";
     item8.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Channel Guide", nil), nil],
                                   nil];

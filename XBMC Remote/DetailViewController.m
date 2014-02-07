@@ -1497,7 +1497,17 @@ int originYear = 0;
     }
     else {
         if(section == 0){return nil;}
-        return [self.sectionArray objectAtIndex:section];
+        NSString *sectionName = [self.sectionArray objectAtIndex:section];
+        if (channelGuideView){
+            NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+            NSDateFormatter *format = [[NSDateFormatter alloc] init];
+            [format setLocale:locale];
+            [format setDateFormat:@"yyyy-MM-dd"];
+            NSDate *date = [format dateFromString:sectionName];
+            [format setDateStyle:NSDateFormatterLongStyle];
+            sectionName = [format stringFromDate:date];
+        }
+        return sectionName;
     }
 }
 
@@ -3823,7 +3833,7 @@ NSIndexPath *selected;
         [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
         BOOL found;
         NSDateFormatter *localDate = [[NSDateFormatter alloc] init];
-        [localDate setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
+        [localDate setDateFormat:@"yyyy-MM-dd"];
         localDate.timeZone = [NSTimeZone systemTimeZone];
         for (NSDictionary *item in self.richResults){
             NSString *c = NSLocalizedString(@"No Date", nil);
