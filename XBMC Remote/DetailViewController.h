@@ -114,6 +114,7 @@
     NSMutableArray *epgDownloadQueue;
     NSDateFormatter *xbmcDateFormatter;
     NSDateFormatter *localHourMinuteFormatter;
+    NSIndexPath *autoScrollTable;
 }
 
 - (id)initWithFrame:(CGRect)frame;

@@ -1747,12 +1747,20 @@ int originYear = 0;
         [genre setMinimumFontSize:11];
         [genre sizeToFit];
         UILabel *programStartTime = (UILabel *)[cell viewWithTag:102];
-        
         NSDateFormatter *test= [[NSDateFormatter alloc] init];
         [test setDateFormat:@"yyyy-MM-dd HH:mm"];
         test.timeZone = [NSTimeZone systemTimeZone];
-
         programStartTime.text = [localHourMinuteFormatter stringFromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]]];
+        if ([[item objectForKey:@"isactive"] boolValue] == TRUE){
+            [title setTextColor:[UIColor blueColor]];
+            [genre setTextColor:[UIColor blueColor]];
+            [programStartTime setTextColor:[UIColor blueColor]];
+        }
+        else{
+            [title setTextColor:[UIColor blackColor]];
+            [genre setTextColor:[UIColor blackColor]];
+            [programStartTime setTextColor:[UIColor blackColor]];
+        }
     }
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     UIImageView *flagView = (UIImageView*) [cell viewWithTag:9];
@@ -3782,6 +3790,7 @@ NSIndexPath *selected;
 
 -(void)indexAndDisplayData{
     self.sectionArray = nil;
+    autoScrollTable = nil;
     if ([self.richResults count] == 0){
         albumView = FALSE;
         episodesView = FALSE;
@@ -3837,14 +3846,13 @@ NSIndexPath *selected;
         localDate.timeZone = [NSTimeZone systemTimeZone];
         NSDate *nowDate = [NSDate date];
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSInteger comps = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);
-        NSDateComponents *nowDateComponents = [calendar components:comps
-                                                        fromDate: nowDate];
+        NSInteger components = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);
+        NSDateComponents *nowDateComponents = [calendar components:components fromDate: nowDate];
         nowDate = [calendar dateFromComponents:nowDateComponents];
+        NSUInteger countRow = 0;
         for (NSDictionary *item in self.richResults){
             NSDate *itemDate = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
-            NSDateComponents *itemDateComponents = [calendar components:comps
-                                                            fromDate: itemDate];
+            NSDateComponents *itemDateComponents = [calendar components:components fromDate: itemDate];
             itemDate = [calendar dateFromComponents:itemDateComponents];
             NSComparisonResult datesCompare = [itemDate compare:nowDate];
             if (datesCompare == NSOrderedDescending || datesCompare == NSOrderedSame){
@@ -3855,8 +3863,14 @@ NSIndexPath *selected;
                 }
                 if (!found){
                     [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
+                    countRow = 0;
                 }
                 [[self.sections objectForKey:c] addObject:item];
+                if ([[item objectForKey:@"isactive"] boolValue] == TRUE){
+                    NSLog(@"item %@", item);
+                    autoScrollTable = [NSIndexPath indexPathForRow:countRow inSection:[self.sections count] - 1];
+                }
+                countRow ++;
             }
         }
     }
@@ -3941,6 +3955,9 @@ NSIndexPath *selected;
             self.indexView.hidden = YES;
         }
         self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+    }
+    if (channelGuideView && autoScrollTable != nil){
+        [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition: UITableViewScrollPositionTop animated: NO];
     }
 }
 
