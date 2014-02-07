@@ -4277,7 +4277,7 @@ NSIndexPath *selected;
         [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
     }
     
-    if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length]){
+    if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length] && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
     }
     
