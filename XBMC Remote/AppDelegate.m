@@ -2628,7 +2628,7 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.mainParameters = [NSMutableArray arrayWithObjects:
                                             [NSMutableArray arrayWithObjects:
                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                              [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", nil], @"properties",
+                                              [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"progresspercentage", @"isactive", nil], @"properties",
                                               nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
                                              [NSDictionary dictionaryWithObjectsAndKeys:
                                               [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2656,6 +2656,8 @@ NSMutableArray *hostRightMenuItems;
                                          @"broadcastid", @"row9",
                                          @"starttime", @"row10",
                                          @"endtime", @"row11",
+                                         @"progresspercentage", @"row12",
+                                         @"isactive", @"row13",
                                          nil],
                                         nil];
     item8.subItem.subItem.enableSection = NO;
@@ -2663,7 +2665,7 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.thumbWidth = 53;
     item8.subItem.subItem.defaultThumb = @"nocover_filemode";
     item8.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
-                                          [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                          [NSArray arrayWithObjects:NSLocalizedString(@"To be continued...", nil), nil],
                                           nil];
     item8.subItem.subItem.widthLabel = 252;
     
