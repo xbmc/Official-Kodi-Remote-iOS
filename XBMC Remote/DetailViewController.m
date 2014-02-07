@@ -130,7 +130,9 @@
 
 -(NSMutableArray *)loadEPGFromDisk:(NSNumber *)channelid {
     NSString *documentsDirectory = [AppDelegate instance].epgCachePath;
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.epg.dat", channelid]];
+    NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
+    NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:filename];
     NSMutableArray *epgArray;
     epgArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     if (epgArray != nil) {
@@ -142,7 +144,8 @@
 -(void)saveEPGToDisk:(NSNumber *)channelid epgData:(NSMutableArray *)epgArray{
     if (epgArray != nil && channelid != nil && [epgArray count] > 0){
         NSString *diskCachePath = [AppDelegate instance].epgCachePath;
-        NSString *filename = [NSString stringWithFormat:@"%@.epg.dat", channelid];
+        NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
+        NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
         NSString  *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
         [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
         [epgDict setObject:epgArray forKey:channelid];
@@ -1679,6 +1682,10 @@ int originYear = 0;
             frame = runtime.frame;
             frame.size.width=Menuitem.widthLabel;
             runtime.frame = frame;
+            frame = cell.urlImageView.frame;
+            frame.size.width = thumbWidth - 8;
+            frame.origin.x = 6;
+            cell.urlImageView.frame = frame;
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     channelid, @"channelid",
                                     tableView, @"tableView",
@@ -3867,7 +3874,6 @@ NSIndexPath *selected;
                 }
                 [[self.sections objectForKey:c] addObject:item];
                 if ([[item objectForKey:@"isactive"] boolValue] == TRUE){
-                    NSLog(@"item %@", item);
                     autoScrollTable = [NSIndexPath indexPathForRow:countRow inSection:[self.sections count] - 1];
                 }
                 countRow ++;
