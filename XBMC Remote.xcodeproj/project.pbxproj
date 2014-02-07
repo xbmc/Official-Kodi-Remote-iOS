@@ -382,6 +382,8 @@
 		0F7123B3160F074900B8921F /* now_playing_previous@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7123B0160F074900B8921F /* now_playing_previous@2x.png */; };
 		0F7123B4160F074900B8921F /* now_playing_seek_backward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7123B1160F074900B8921F /* now_playing_seek_backward@2x.png */; };
 		0F7123B5160F074900B8921F /* now_playing_pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7123B2160F074900B8921F /* now_playing_pause@2x.png */; };
+		0F73533718A52B5C00B7EC73 /* nocover_channels.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F73533618A52B5C00B7EC73 /* nocover_channels.png */; };
+		0F73533918A52B6700B7EC73 /* nocover_channels@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F73533818A52B6700B7EC73 /* nocover_channels@2x.png */; };
 		0F73AD2B157A44E900285682 /* xbmc_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F73AD2A157A44E900285682 /* xbmc_overlay.png */; };
 		0F73AD2E157A44F500285682 /* xbmc_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F73AD2D157A44F500285682 /* xbmc_overlay@2x.png */; };
 		0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74772C151DD77400EF78AD /* NowPlaying.m */; };
@@ -1126,6 +1128,8 @@
 		0F7123B0160F074900B8921F /* now_playing_previous@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "now_playing_previous@2x.png"; sourceTree = "<group>"; };
 		0F7123B1160F074900B8921F /* now_playing_seek_backward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "now_playing_seek_backward@2x.png"; sourceTree = "<group>"; };
 		0F7123B2160F074900B8921F /* now_playing_pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "now_playing_pause@2x.png"; sourceTree = "<group>"; };
+		0F73533618A52B5C00B7EC73 /* nocover_channels.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_channels.png; sourceTree = "<group>"; };
+		0F73533818A52B6700B7EC73 /* nocover_channels@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_channels@2x.png"; sourceTree = "<group>"; };
 		0F73AD2A157A44E900285682 /* xbmc_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xbmc_overlay.png; sourceTree = "<group>"; };
 		0F73AD2D157A44F500285682 /* xbmc_overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xbmc_overlay@2x.png"; sourceTree = "<group>"; };
 		0F74772B151DD77400EF78AD /* NowPlaying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlaying.h; sourceTree = "<group>"; };
@@ -1802,6 +1806,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F73533818A52B6700B7EC73 /* nocover_channels@2x.png */,
 				0FFF726318226CFF007A6E25 /* icon_home_livetv_alt@2x.png */,
 				0FFF725F18226AC3007A6E25 /* st_livetv_off@2x.png */,
 				0FFF726018226AC3007A6E25 /* st_livetv_on@2x.png */,
@@ -2090,6 +2095,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F73533618A52B5C00B7EC73 /* nocover_channels.png */,
 				0FFF726518226D09007A6E25 /* icon_home_livetv_alt.png */,
 				0FFF725B18226AB9007A6E25 /* st_livetv_off.png */,
 				0FFF725C18226AB9007A6E25 /* st_livetv_on.png */,
@@ -2919,6 +2925,7 @@
 				0F77D8D21574A4A200FE904E /* remote_button_pictures_down@2x.png in Resources */,
 				0F2563D8157503B90024F0F9 /* remote_button_menu_down@2x.png in Resources */,
 				0F2563DA157503B90024F0F9 /* remote_button_back_down@2x.png in Resources */,
+				0F73533918A52B6700B7EC73 /* nocover_channels@2x.png in Resources */,
 				0F2563DC157503B90024F0F9 /* remote_button_info_down@2x.png in Resources */,
 				0F2563DE157503B90024F0F9 /* remote_button_home_down@2x.png in Resources */,
 				0F2563E7157506A20024F0F9 /* remote_button_display_down@2x.png in Resources */,
@@ -3081,6 +3088,7 @@
 				0F3AFF3D15F3B5A300EF0D73 /* st_song_icon@2x.png in Resources */,
 				0F3AFF3F15F3C00000EF0D73 /* st_album_icon.png in Resources */,
 				0F3AFF4115F3C00A00EF0D73 /* st_album_icon@2x.png in Resources */,
+				0F73533718A52B5C00B7EC73 /* nocover_channels.png in Resources */,
 				0F6C086715F401A70094286D /* st_tv_icon.png in Resources */,
 				0F6C086A15F401AF0094286D /* st_tv_icon@2x.png in Resources */,
 				0F934D9215FF7ECD00D5168F /* mask.png in Resources */,
