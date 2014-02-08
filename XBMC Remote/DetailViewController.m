@@ -1616,7 +1616,7 @@ int originYear = 0;
             [programTimeLabel setHighlightedTextColor:[UIColor whiteColor]];
             [cell addSubview:programTimeLabel];
             
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(4, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 8, epgChannelTimeLabelWidth - 8, epgChannelTimeLabelWidth - 8)];
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(4, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, epgChannelTimeLabelWidth - 8, epgChannelTimeLabelWidth - 8)];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell addSubview:progressView];
