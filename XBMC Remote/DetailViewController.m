@@ -129,7 +129,7 @@
     return [epgDict objectForKey:channelid];
 }
 
--(NSMutableArray *)loadEPGFromDisk:(NSNumber *)channelid {
+-(NSMutableArray *)loadEPGFromDisk:(NSNumber *)channelid parameters:(NSDictionary *)params{
     NSString *documentsDirectory = [AppDelegate instance].epgCachePath;
     NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
     NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
@@ -138,6 +138,13 @@
     epgArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     if (epgArray != nil) {
         [epgDict setObject:epgArray forKey:channelid];
+//        // UPDATE DISK CACHE
+//        if (![epgDownloadQueue containsObject:channelid]){
+//            @synchronized(epgDownloadQueue){
+//                [epgDownloadQueue addObject:channelid];
+//            }
+//            [self performSelectorOnMainThread:@selector(getJsonEPG:) withObject:params waitUntilDone:NO];
+//        }
     }
     return epgArray;
 }
@@ -177,7 +184,7 @@
                                    nil];
         [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
         if ([[channelEPG objectForKey:@"refresh_data"] boolValue] == YES){
-            retrievedEPG = [self loadEPGFromDisk:channelid];
+            retrievedEPG = [self loadEPGFromDisk:channelid parameters:parameters];
             channelEPG = [self parseEpgData:retrievedEPG];
             NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
                                        channelEPG, @"channelEPG",
@@ -1449,11 +1456,14 @@ int originYear = 0;
             iOS7offset = 4;
         }
     }
-    if ([self.richResults count]<=SECTIONS_START_AT || ![self.detailItem enableSection]){
+    if (([self.richResults count]<=SECTIONS_START_AT || ![self.detailItem enableSection]) && !channelGuideView){
         newWidthLabel = viewWidth - 8 - labelPosition;
         Menuitem.originYearDuration = viewWidth - 72;
     }
     else{
+        if (channelGuideView){
+            iOS7offset += 6;
+        }
         newWidthLabel = viewWidth - 38 - labelPosition + iOS7offset;
         Menuitem.originYearDuration = viewWidth - 100 + iOS7offset;
     }
@@ -1547,6 +1557,26 @@ int originYear = 0;
     }
     else {
         if ([self.detailItem enableSection]  && [self.richResults count]>SECTIONS_START_AT){
+            return self.sectionArray;
+        }
+        else if (channelGuideView){
+            if ([self.sectionArray count] > 0){
+                NSMutableArray *channelGuideTableIndexTitles = [[NSMutableArray alloc] init];
+                for (NSString *label in self.sectionArray){
+                        NSString *dateString = label;
+                        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+                        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+                        [format setLocale:locale];
+                        [format setDateFormat:@"yyyy-MM-dd"];
+                        NSDate *date = [format dateFromString:label];
+                        [format setDateFormat:@"ccccc"];
+                    if ([format stringFromDate:date] != nil){
+                        dateString = [format stringFromDate:date];
+                    }
+                    [channelGuideTableIndexTitles addObject:dateString];
+                }
+                return channelGuideTableIndexTitles;
+            }
             return self.sectionArray;
         }
         else {
@@ -3893,12 +3923,12 @@ NSIndexPath *selected;
         localDate.timeZone = [NSTimeZone systemTimeZone];
         NSDate *nowDate = [NSDate date];
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSInteger components = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit);
+        NSInteger components = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);//| NSHourCalendarUnit | NSMinuteCalendarUnit
         NSDateComponents *nowDateComponents = [calendar components:components fromDate: nowDate];
         nowDate = [calendar dateFromComponents:nowDateComponents];
         NSUInteger countRow = 0;
         for (NSDictionary *item in self.richResults){
-            NSDate *itemDate = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
+            NSDate *itemDate = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
             NSDateComponents *itemDateComponents = [calendar components:components fromDate: itemDate];
             itemDate = [calendar dateFromComponents:itemDateComponents];
             NSComparisonResult datesCompare = [itemDate compare:nowDate];
