@@ -1792,7 +1792,7 @@ int originYear = 0;
                                                           toDate:endtime
                                                          options:0];
             NSInteger minutes = [components minute];
-            progressView.pieLabel.text = [NSString stringWithFormat:@"%ld'", (long)minutes];
+            progressView.pieLabel.text = [NSString stringWithFormat:@" %ld'", (long)minutes];
             
             progressView.hidden = NO;
 
