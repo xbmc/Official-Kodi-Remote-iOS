@@ -18,14 +18,15 @@
         padding = 8;
         BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
         lineWidth = isRetina ? 0.5f : 1.0f;
+        int pieLabelFontSize = isRetina ? 7 : 9;
         [self setBackgroundColor:[UIColor clearColor]];
         pieColor = [UIColor blueColor];
         radius = (MIN(self.frame.size.width, self.frame.size.height) / 2 ) - padding;
         pieLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (radius * 2) + 4, self.frame.size.width, 8)];
         [pieLabel setBackgroundColor:[UIColor clearColor]];
-        [pieLabel setFont:[UIFont systemFontOfSize:7]];
+        [pieLabel setFont:[UIFont systemFontOfSize:pieLabelFontSize]];
         pieLabel.adjustsFontSizeToFitWidth = YES;
-        pieLabel.minimumFontSize = 6;
+        pieLabel.minimumFontSize =pieLabelFontSize;
         pieLabel.textAlignment = NSTextAlignmentCenter;
         [pieLabel setTextColor:[UIColor blueColor]];
         [pieLabel setHighlightedTextColor:[UIColor blueColor]];
