@@ -77,6 +77,7 @@
     int trackCountLabelWidth;
     int epgChannelTimeLabelWidth;
     int labelPadding;
+    int sectionHeight;
     UIColor *albumColor;
     UIColor *searchBarColor;
     UIColor *tableViewSearchBarColor;

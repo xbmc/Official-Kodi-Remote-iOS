@@ -137,6 +137,7 @@
 		0F44E2D31527A3D200D5958F /* white.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D21527A3D200D5958F /* white.png */; };
 		0F44E2D51527A9DF00D5958F /* playlistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* playlistCellView.xib */; };
 		0F44E2D71527C87600D5958F /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D61527C87600D5958F /* blank.png */; };
+		0F44EC5118A6672100BE44BD /* ProgressPieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F44EC5018A6672100BE44BD /* ProgressPieView.m */; };
 		0F46F7A616218CA500C98028 /* st_addons_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F46F7A416218CA500C98028 /* st_addons_on@2x.png */; };
 		0F46F7A716218CA500C98028 /* st_addons_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F46F7A516218CA500C98028 /* st_addons_off@2x.png */; };
 		0F46F7AB16218CFB00C98028 /* st_addons_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F46F7A916218CFB00C98028 /* st_addons_off.png */; };
@@ -865,6 +866,8 @@
 		0F44E2D21527A3D200D5958F /* white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white.png; sourceTree = "<group>"; };
 		0F44E2D41527A9DF00D5958F /* playlistCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = playlistCellView.xib; sourceTree = "<group>"; };
 		0F44E2D61527C87600D5958F /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
+		0F44EC4F18A6672100BE44BD /* ProgressPieView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressPieView.h; sourceTree = "<group>"; };
+		0F44EC5018A6672100BE44BD /* ProgressPieView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressPieView.m; sourceTree = "<group>"; };
 		0F46F7A416218CA500C98028 /* st_addons_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_addons_on@2x.png"; sourceTree = "<group>"; };
 		0F46F7A516218CA500C98028 /* st_addons_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_addons_off@2x.png"; sourceTree = "<group>"; };
 		0F46F7A916218CFB00C98028 /* st_addons_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_addons_off.png; sourceTree = "<group>"; };
@@ -1584,6 +1587,8 @@
 				0F680CB817103DB60092298A /* ClearCacheView.m */,
 				0F55490F151D1187007E633F /* DetailViewController.h */,
 				0F554910151D1187007E633F /* DetailViewController.m */,
+				0F44EC4F18A6672100BE44BD /* ProgressPieView.h */,
+				0F44EC5018A6672100BE44BD /* ProgressPieView.m */,
 				0FEE08141704819A00EC9BC7 /* FloatingHeaderFlowLayout.h */,
 				0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */,
 				0F370052151F6A9E00A3D42C /* jsonDataCell.h */,
@@ -3298,6 +3303,7 @@
 				0FEAE76816EA632800387DED /* ActorCell.m in Sources */,
 				0F00207816EE247A003822B5 /* OBSlider.m in Sources */,
 				0F284A5216F63C9A00AFC1EF /* PosterLabel.m in Sources */,
+				0F44EC5118A6672100BE44BD /* ProgressPieView.m in Sources */,
 				0F284A5516F6419700AFC1EF /* PosterCell.m in Sources */,
 				0F8E308816FA536C009DEE72 /* PosterHeaderView.m in Sources */,
 				0F32092616FE181300636BA2 /* SDImageCache.m in Sources */,

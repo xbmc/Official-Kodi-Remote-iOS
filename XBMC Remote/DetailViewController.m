@@ -30,6 +30,7 @@
 #import "NSString+MD5.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UISearchBar+LeftButton.h"
+#import "ProgressPieView.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -1502,13 +1503,19 @@ int originYear = 0;
         if(section == 0){return nil;}
         NSString *sectionName = [self.sectionArray objectAtIndex:section];
         if (channelGuideView){
+            NSString *dateString = @"";
             NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
             NSDateFormatter *format = [[NSDateFormatter alloc] init];
             [format setLocale:locale];
             [format setDateFormat:@"yyyy-MM-dd"];
             NSDate *date = [format dateFromString:sectionName];
             [format setDateStyle:NSDateFormatterLongStyle];
-            sectionName = [format stringFromDate:date];
+            dateString = [format stringFromDate:date];
+            [format setDateFormat:@"yyyy-MM-dd"];
+            date = [format dateFromString:sectionName];
+            [format setDateFormat:@"cccc"];
+
+            sectionName = [NSString stringWithFormat:@"%@ - %@", [format stringFromDate:date], dateString];
         }
         return sectionName;
     }
@@ -1578,6 +1585,11 @@ int originYear = 0;
             programTimeLabel.tag = 102;
             [programTimeLabel setHighlightedTextColor:[UIColor whiteColor]];
             [cell addSubview:programTimeLabel];
+            
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(4, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 8, epgChannelTimeLabelWidth - 8, epgChannelTimeLabelWidth - 8)];
+            progressView.tag = 103;
+            progressView.hidden = YES;
+            [cell addSubview:progressView];
         }
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
@@ -1758,15 +1770,42 @@ int originYear = 0;
         [test setDateFormat:@"yyyy-MM-dd HH:mm"];
         test.timeZone = [NSTimeZone systemTimeZone];
         programStartTime.text = [localHourMinuteFormatter stringFromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]]];
+        ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
         if ([[item objectForKey:@"isactive"] boolValue] == TRUE){
             [title setTextColor:[UIColor blueColor]];
             [genre setTextColor:[UIColor blueColor]];
             [programStartTime setTextColor:[UIColor blueColor]];
+
+            [title setHighlightedTextColor:[UIColor blueColor]];
+            [genre setHighlightedTextColor:[UIColor blueColor]];
+            [programStartTime setHighlightedTextColor:[UIColor blueColor]];
+
+            [progressView updateProgressPercentage:[[item objectForKey:@"progresspercentage"] floatValue]];
+            progressView.pieLabel.hidden = NO;
+            NSCalendar *gregorian = [[NSCalendar alloc]
+                                     initWithCalendarIdentifier:NSGregorianCalendar];
+            NSUInteger unitFlags = NSMinuteCalendarUnit;
+            NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
+            NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
+            NSDateComponents *components = [gregorian components:unitFlags
+                                                        fromDate:starttime
+                                                          toDate:endtime
+                                                         options:0];
+            NSInteger minutes = [components minute];
+            progressView.pieLabel.text = [NSString stringWithFormat:@"%ld'", (long)minutes];
+            
+            progressView.hidden = NO;
+
         }
         else{
+            progressView.hidden = YES;
+            progressView.pieLabel.hidden = YES;
             [title setTextColor:[UIColor blackColor]];
             [genre setTextColor:[UIColor blackColor]];
             [programStartTime setTextColor:[UIColor blackColor]];
+            [title setHighlightedTextColor:[UIColor blackColor]];
+            [genre setHighlightedTextColor:[UIColor blackColor]];
+            [programStartTime setHighlightedTextColor:[UIColor blackColor]];
         }
     }
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
@@ -2165,7 +2204,6 @@ int originYear = 0;
         [sectionView addSubview:toolbarShadow];
         return sectionView;
     }
-    int sectionHeight = 16;
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, sectionHeight)];
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -2207,13 +2245,16 @@ int originYear = 0;
         [sectionView addSubview:toolbarUpShadow];
     }
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, viewWidth - 20, sectionHeight)];
+    int labelFontSize = sectionHeight > 16 ? sectionHeight - 10 : sectionHeight - 5;
+    int labelOriginY = sectionHeight > 16 ? 1 : 0;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, labelOriginY, viewWidth - 20, sectionHeight)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
-    [label setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.6]];
+    [label setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.4]];
     [label setShadowOffset:CGSizeMake(0, 1)];
-    label.font = [UIFont boldSystemFontOfSize: sectionHeight - 5];
-    label.text = sectionTitle;    
+    label.font = [UIFont boldSystemFontOfSize: labelFontSize];
+    label.text = sectionTitle;
+    [label sizeToFit];
     [sectionView addSubview:label];
     
     return sectionView;
@@ -2227,14 +2268,13 @@ int originYear = 0;
         return albumViewHeight + 2;
     }
     else if (section!=0 || tableView == self.searchDisplayController.searchResultsTableView){
-        return 16;
+        return sectionHeight;
     }
     if ([[self.sections allKeys] count] == 1){
         return 1;
     }
     return 0;
 }
-
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return nil;
@@ -4206,6 +4246,7 @@ NSIndexPath *selected;
     [super viewDidLoad];
     isViewDidLoad = YES;
     iOSYDelta = 44;
+    sectionHeight = 16;
     dataList.tableFooterView = [UIView new];
     epgDict = [[NSMutableDictionary alloc] init];
     epgDownloadQueue = [[NSMutableArray alloc] init];
@@ -4295,6 +4336,7 @@ NSIndexPath *selected;
     }
     else if ([[methods objectForKey:@"channelGuideView"] boolValue] == YES){
         channelGuideView = YES;
+        sectionHeight = 24;
     }
     
     tableViewSearchBarColor = searchBarColor;
