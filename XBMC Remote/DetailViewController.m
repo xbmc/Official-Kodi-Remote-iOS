@@ -2276,7 +2276,7 @@ int originYear = 0;
     }
     
     int labelFontSize = sectionHeight > 16 ? sectionHeight - 10 : sectionHeight - 5;
-    int labelOriginY = sectionHeight > 16 ? 1 : 0;
+    int labelOriginY = sectionHeight > 16 ? 2 : 0;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, labelOriginY, viewWidth - 20, sectionHeight)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
