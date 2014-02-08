@@ -16,7 +16,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         padding = 8;
-        lineWidth = 0.5;
+        BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
+        lineWidth = isRetina ? 0.5f : 1.0f;
         [self setBackgroundColor:[UIColor clearColor]];
         pieColor = [UIColor blueColor];
         radius = (MIN(self.frame.size.width, self.frame.size.height) / 2 ) - padding;
