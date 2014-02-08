@@ -2276,12 +2276,14 @@ int originYear = 0;
     }
     
     int labelFontSize = sectionHeight > 16 ? sectionHeight - 10 : sectionHeight - 5;
-    int labelOriginY = sectionHeight > 16 ? 2 : 0;
+    int labelOriginY = sectionHeight > 16 ? 2 : 1;
+    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
+    float shadowOffset = isRetina ? 0.5f : 1.0f;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, labelOriginY, viewWidth - 20, sectionHeight)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
     [label setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.4]];
-    [label setShadowOffset:CGSizeMake(0, 1)];
+    [label setShadowOffset:CGSizeMake(0, shadowOffset)];
     label.font = [UIFont boldSystemFontOfSize: labelFontSize];
     label.text = sectionTitle;
     [label sizeToFit];
