@@ -3893,12 +3893,12 @@ NSIndexPath *selected;
         localDate.timeZone = [NSTimeZone systemTimeZone];
         NSDate *nowDate = [NSDate date];
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSInteger components = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);
+        NSInteger components = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit);
         NSDateComponents *nowDateComponents = [calendar components:components fromDate: nowDate];
         nowDate = [calendar dateFromComponents:nowDateComponents];
         NSUInteger countRow = 0;
         for (NSDictionary *item in self.richResults){
-            NSDate *itemDate = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
+            NSDate *itemDate = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
             NSDateComponents *itemDateComponents = [calendar components:components fromDate: itemDate];
             itemDate = [calendar dateFromComponents:itemDateComponents];
             NSComparisonResult datesCompare = [itemDate compare:nowDate];
