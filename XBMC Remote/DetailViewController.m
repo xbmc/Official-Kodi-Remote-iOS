@@ -274,6 +274,16 @@
     current.text = [channelEPG objectForKey:@"current"];
     next.text = [channelEPG objectForKey:@"next"];
     [item setObject:[channelEPG objectForKey:@"current_details"] forKey:@"genre"];
+    ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
+    if (![current.text isEqualToString:NSLocalizedString(@"Not Available",nil)]){
+        int min = 0;
+        int max = 100;
+        [progressView updateProgressPercentage:(arc4random() % (max-min+1)) + min];
+        progressView.hidden = NO;
+    }
+    else {
+        progressView.hidden = YES;
+    }
 }
 
 -(void)parseBroadcasts:(NSDictionary *)parameters{
@@ -1592,6 +1602,14 @@ int originYear = 0;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"jsonDataCellIdentifier";
     jsonDataCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    NSMutableDictionary *item = nil;
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        item = [self.filteredListContent objectAtIndex:indexPath.row];
+    }
+	else{
+        item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    }
+    NSNumber *channelid = [item objectForKey:@"channelid"];
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
@@ -1615,8 +1633,13 @@ int originYear = 0;
             programTimeLabel.tag = 102;
             [programTimeLabel setHighlightedTextColor:[UIColor whiteColor]];
             [cell addSubview:programTimeLabel];
-            
             ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(4, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, epgChannelTimeLabelWidth - 8, epgChannelTimeLabelWidth - 8)];
+            progressView.tag = 103;
+            progressView.hidden = YES;
+            [cell addSubview:progressView];
+        }
+        else if ([channelid intValue] > 0) {
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(4, 44, 36, 36) color:[UIColor lightGrayColor]];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell addSubview:progressView];
@@ -1643,13 +1666,7 @@ int originYear = 0;
     CGRect frame = cell.urlImageView.frame;
     frame.size.width = thumbWidth;
     cell.urlImageView.frame = frame;
-    NSMutableDictionary *item = nil;
-    if (tableView == self.searchDisplayController.searchResultsTableView){
-        item = [self.filteredListContent objectAtIndex:indexPath.row];
-    }
-	else{
-        item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    }
+    
     UILabel *title=(UILabel*) [cell viewWithTag:1];
     UILabel *genre=(UILabel*) [cell viewWithTag:2];
     UILabel *runtimeyear=(UILabel*) [cell viewWithTag:3];
@@ -1713,7 +1730,6 @@ int originYear = 0;
     [rating setText:[item objectForKey:@"rating"]];
     [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFill];
     if (!albumView && !episodesView && !channelGuideView){
-        NSNumber *channelid = [item objectForKey:@"channelid"];
         if ([channelid intValue] > 0){
             CGRect frame = genre.frame;
             genre.autoresizingMask = title.autoresizingMask;
@@ -1725,9 +1741,14 @@ int originYear = 0;
             frame.size.width=Menuitem.widthLabel;
             runtime.frame = frame;
             frame = cell.urlImageView.frame;
-            frame.size.width = thumbWidth - 8;
-            frame.origin.x = 6;
+            frame.size.width = thumbWidth * 0.9f;
+            frame.origin.x = 4;
+            frame.origin.y = 10;
+            frame.size.height = thumbWidth * 0.7f;
             cell.urlImageView.frame = frame;
+            ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
+            progressView.hidden = YES;
+//            cell.urlImageView.backgroundColor = [UIColor greenColor];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     channelid, @"channelid",
                                     tableView, @"tableView",
