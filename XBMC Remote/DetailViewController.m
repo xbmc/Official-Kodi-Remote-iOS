@@ -1462,12 +1462,15 @@ int originYear = 0;
     // CHECK IF THERE ARE SECTIONS
     
     int iOS7offset = 0;
+    int iOS7insetSeparator = 0;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             iOS7offset = 12;
+            iOS7insetSeparator = 20;
         }
         else{
             iOS7offset = 4;
+            iOS7insetSeparator = 30;
         }
     }
     if (([self.richResults count]<=SECTIONS_START_AT || ![self.detailItem enableSection]) && !channelGuideView){
@@ -1482,7 +1485,7 @@ int originYear = 0;
     else{
         if (iOS7offset > 0 && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
             UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
-            dataListSeparatorInset.right = iOS7offset + 6;
+            dataListSeparatorInset.right = iOS7insetSeparator;
             [dataList setSeparatorInset:dataListSeparatorInset];
         }
         if (channelGuideView){
