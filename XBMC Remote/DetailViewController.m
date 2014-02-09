@@ -193,7 +193,11 @@
                                        item, @"item",
                                        nil];
             [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
-            if ([[channelEPG objectForKey:@"refresh_data"] boolValue] == YES && ![epgDownloadQueue containsObject:channelid]){
+            BOOL alreadyInDownloadQueue = FALSE;
+            @synchronized(epgDownloadQueue){
+                alreadyInDownloadQueue = [epgDownloadQueue containsObject:channelid];
+            }
+            if ([[channelEPG objectForKey:@"refresh_data"] boolValue] == YES && !alreadyInDownloadQueue){
                 @synchronized(epgDownloadQueue){
                     [epgDownloadQueue addObject:channelid];
                 }
