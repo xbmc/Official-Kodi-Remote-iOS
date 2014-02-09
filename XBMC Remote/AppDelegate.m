@@ -2573,7 +2573,7 @@ NSMutableArray *hostRightMenuItems;
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"thumbnail", @"channel", nil], @"properties",
-                                    nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
+                                    nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", @"48", @"thumbWidth",
                                    @"YES", @"enableCollectionView",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2582,7 +2582,7 @@ NSMutableArray *hostRightMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
                                      [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
-                                    @"72", @"separatorInset",
+                                    @"56", @"separatorInset",
                                     nil], @"itemSizes",
                                    nil],
                                   nil];
@@ -2658,6 +2658,8 @@ NSMutableArray *hostRightMenuItems;
                                          @"endtime", @"row11",
                                          @"progresspercentage", @"row12",
                                          @"isactive", @"row13",
+                                         @"plot", @"row14",
+                                         @"title", @"row15",
                                          nil],
                                         nil];
     item8.subItem.subItem.enableSection = NO;
