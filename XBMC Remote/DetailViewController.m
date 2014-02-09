@@ -1475,6 +1475,11 @@ int originYear = 0;
         Menuitem.originYearDuration = viewWidth - 72;
     }
     else{
+        if (iOS7offset > 0 && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
+            dataListSeparatorInset.right = iOS7offset + 6;
+            [dataList setSeparatorInset:dataListSeparatorInset];
+        }
         if (channelGuideView){
             iOS7offset += 6;
         }
