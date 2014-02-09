@@ -13,8 +13,10 @@
     float lineWidth;
     UIColor *pieColor;
     CGFloat radius;
+    CAShapeLayer *progressShape;
 }
 
+- (id)initWithFrame:(CGRect)frame color:(UIColor *)aColor;
 - (void)updateProgressPercentage:(CGFloat)progresspercentage;
 
 @property(nonatomic,readonly) UILabel *pieLabel;

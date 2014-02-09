@@ -12,27 +12,39 @@
 
 @synthesize pieLabel;
 
+- (id)initWithFrame:(CGRect)frame color:(UIColor *)aColor {
+    self = [super init];
+    if (self) {
+        [self setFrame:frame];
+        [self pieCustomization:aColor];
+    }
+    return self;
+}
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        padding = 8;
-        BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
-        lineWidth = isRetina ? 0.5f : 1.0f;
-        int pieLabelFontSize = isRetina ? 7 : 9;
-        [self setBackgroundColor:[UIColor clearColor]];
-        pieColor = [UIColor blueColor];
-        radius = (MIN(self.frame.size.width, self.frame.size.height) / 2 ) - padding;
-        pieLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (radius * 2) + 4, self.frame.size.width, 8)];
-        [pieLabel setBackgroundColor:[UIColor clearColor]];
-        [pieLabel setFont:[UIFont systemFontOfSize:pieLabelFontSize]];
-        pieLabel.adjustsFontSizeToFitWidth = YES;
-        pieLabel.minimumFontSize =pieLabelFontSize;
-        pieLabel.textAlignment = NSTextAlignmentCenter;
-        [pieLabel setTextColor:[UIColor blueColor]];
-        [pieLabel setHighlightedTextColor:[UIColor blueColor]];
-        [self addSubview:pieLabel];
+        [self pieCustomization:[UIColor blueColor]];
     }
     return self;
+}
+
+-(void)pieCustomization:(UIColor *)color{
+    padding = 8;
+    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
+    lineWidth = isRetina ? 0.5f : 1.0f;
+    int pieLabelFontSize = isRetina ? 7 : 9;
+    [self setBackgroundColor:[UIColor clearColor]];
+    pieColor = color;
+    radius = (MIN(self.frame.size.width, self.frame.size.height) / 2 ) - padding;
+    pieLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (radius * 2) + 4, self.frame.size.width, 8)];
+    [pieLabel setBackgroundColor:[UIColor clearColor]];
+    [pieLabel setFont:[UIFont systemFontOfSize:pieLabelFontSize]];
+    pieLabel.adjustsFontSizeToFitWidth = YES;
+    pieLabel.minimumFontSize =pieLabelFontSize;
+    pieLabel.textAlignment = NSTextAlignmentCenter;
+    [pieLabel setTextColor:color];
+    [pieLabel setHighlightedTextColor:color];
+    [self addSubview:pieLabel];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -47,8 +59,10 @@
     progresspercentage = progresspercentage < 0 ? 0 : progresspercentage > 100 ? 100 : progresspercentage;
     [self setNeedsLayout];
     CGFloat angle = (progresspercentage * 2 * M_PI) / 100;
-    CAShapeLayer *mShapeLayer = [self createPieSliceForRadian:angle];
-    [self.layer addSublayer:mShapeLayer];
+    [progressShape removeFromSuperlayer];
+    progressShape = nil;
+    progressShape = [self createPieSliceForRadian:angle];
+    [self.layer addSublayer:progressShape];
 }
 
 - (CAShapeLayer *)createPieSliceForRadian:(CGFloat)angle {
