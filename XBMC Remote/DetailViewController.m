@@ -2506,7 +2506,7 @@ int originYear = 0;
 NSIndexPath *selected;
 
 -(void)showActionSheet:(NSIndexPath *)indexPath sheetActions:(NSArray *)sheetActions item:(NSDictionary *)item rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
-    if (tmpFromAlbumView) choosedTab = 1; else if (albumView) choosedTab = 0;
+//    if (tmpFromAlbumView) choosedTab = 1; else if (albumView) choosedTab = 0;
     int numActions=[sheetActions count];
     if (numActions){
         NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
@@ -2680,7 +2680,7 @@ NSIndexPath *selected;
             }
         }
     }
-    if (tmpFromAlbumView) choosedTab = 0;
+//    if (tmpFromAlbumView) choosedTab = 0;
     tmpFromAlbumView = NO;
 }
 
