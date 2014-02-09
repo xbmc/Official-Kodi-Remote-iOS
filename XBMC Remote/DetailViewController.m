@@ -1473,6 +1473,11 @@ int originYear = 0;
     if (([self.richResults count]<=SECTIONS_START_AT || ![self.detailItem enableSection]) && !channelGuideView){
         newWidthLabel = viewWidth - 8 - labelPosition;
         Menuitem.originYearDuration = viewWidth - 72;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
+            dataListSeparatorInset.right = 0;
+            [dataList setSeparatorInset:dataListSeparatorInset];
+        }
     }
     else{
         if (iOS7offset > 0 && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
@@ -1648,7 +1653,7 @@ int originYear = 0;
             [cell addSubview:progressView];
         }
         else if ([channelid intValue] > 0) {
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(4, 44, 36, 36) color:[UIColor lightGrayColor]];
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(7, 46, 36, 36) color:[UIColor lightGrayColor]];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell addSubview:progressView];
