@@ -2667,11 +2667,11 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.thumbWidth = 53;
     item8.subItem.subItem.defaultThumb = @"nocover_filemode";
     item8.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
-                                          [NSArray arrayWithObjects:NSLocalizedString(@"To be continued...", nil), nil],
+                                          [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Record Channel", nil), NSLocalizedString(@"Program Details", nil), nil],
                                           nil];
     item8.subItem.subItem.widthLabel = 252;
     item8.subItem.subItem.showInfo = [NSArray arrayWithObjects:
-                                      [NSNumber numberWithBool:YES],
+                                      [NSNumber numberWithBool:NO],
                                       nil];
 
 #pragma mark - Pictures
