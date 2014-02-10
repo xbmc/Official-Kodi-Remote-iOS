@@ -124,6 +124,8 @@
 		0F40F5A8164D5FA000AF9DE9 /* RightMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F40F5A6164D5FA000AF9DE9 /* RightMenuViewController.xib */; };
 		0F4156451646D810009E6DD4 /* JBKenBurnsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4156441646D810009E6DD4 /* JBKenBurnsView.m */; };
 		0F4205D217099AE500EA533C /* RecentlyAddedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4205D117099AE500EA533C /* RecentlyAddedCell.m */; };
+		0F42366818A95B3A00D0CD31 /* button_timer.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F42366718A95B3A00D0CD31 /* button_timer.png */; };
+		0F42366A18A95B4200D0CD31 /* button_timer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F42366918A95B4200D0CD31 /* button_timer@2x.png */; };
 		0F4401661674EDB900A28D7B /* icon_exit.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4401651674EDB900A28D7B /* icon_exit.png */; };
 		0F4401691674EDC100A28D7B /* icon_exit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4401681674EDC100A28D7B /* icon_exit@2x.png */; };
 		0F44E2A91526EC6700D5958F /* button_now_playing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2A81526EC6700D5958F /* button_now_playing@2x.png */; };
@@ -853,6 +855,8 @@
 		0F4156441646D810009E6DD4 /* JBKenBurnsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBKenBurnsView.m; sourceTree = "<group>"; };
 		0F4205D017099AE500EA533C /* RecentlyAddedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentlyAddedCell.h; sourceTree = "<group>"; };
 		0F4205D117099AE500EA533C /* RecentlyAddedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentlyAddedCell.m; sourceTree = "<group>"; };
+		0F42366718A95B3A00D0CD31 /* button_timer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_timer.png; sourceTree = "<group>"; };
+		0F42366918A95B4200D0CD31 /* button_timer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_timer@2x.png"; sourceTree = "<group>"; };
 		0F4401651674EDB900A28D7B /* icon_exit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_exit.png; sourceTree = "<group>"; };
 		0F4401681674EDC100A28D7B /* icon_exit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_exit@2x.png"; sourceTree = "<group>"; };
 		0F44E2A81526EC6700D5958F /* button_now_playing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_now_playing@2x.png"; sourceTree = "<group>"; };
@@ -1811,6 +1815,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F42366918A95B4200D0CD31 /* button_timer@2x.png */,
 				0F73533818A52B6700B7EC73 /* nocover_channels@2x.png */,
 				0FFF726318226CFF007A6E25 /* icon_home_livetv_alt@2x.png */,
 				0FFF725F18226AC3007A6E25 /* st_livetv_off@2x.png */,
@@ -2100,6 +2105,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F42366718A95B3A00D0CD31 /* button_timer.png */,
 				0F73533618A52B5C00B7EC73 /* nocover_channels.png */,
 				0FFF726518226D09007A6E25 /* icon_home_livetv_alt.png */,
 				0FFF725B18226AB9007A6E25 /* st_livetv_off.png */,
@@ -2761,6 +2767,7 @@
 				0F554C00151D13CA007E633F /* st_movie_on.png in Resources */,
 				0F554C02151D13CA007E633F /* st_playlist_off.png in Resources */,
 				0F554C03151D13CA007E633F /* st_playlist_on.png in Resources */,
+				0F42366818A95B3A00D0CD31 /* button_timer.png in Resources */,
 				0F554C05151D13CA007E633F /* st_slider.png in Resources */,
 				0F554C06151D13CA007E633F /* st_song_off.png in Resources */,
 				0F554C07151D13CA007E633F /* st_song_on.png in Resources */,
@@ -3196,6 +3203,7 @@
 				0FBE9A4D1656906300AD3AD4 /* slider@2x.png in Resources */,
 				0FBE9A4F1656966200AD3AD4 /* slider_on.png in Resources */,
 				0FBE9A511656966900AD3AD4 /* slider_on@2x.png in Resources */,
+				0F42366A18A95B4200D0CD31 /* button_timer@2x.png in Resources */,
 				0FA70F321656CD0900CAAF01 /* now_playing_empty_up.png in Resources */,
 				0FA70F331656CD0900CAAF01 /* now_playing_empty_down.png in Resources */,
 				0FD3176F1658123B002E4FBA /* bottom_logo_up_iphone@2x.png in Resources */,

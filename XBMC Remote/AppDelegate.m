@@ -2628,7 +2628,7 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.mainParameters = [NSMutableArray arrayWithObjects:
                                             [NSMutableArray arrayWithObjects:
                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                              [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"progresspercentage", @"isactive", nil], @"properties",
+                                              [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"progresspercentage", @"isactive", @"hastimer", nil], @"properties",
                                               nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
                                              [NSDictionary dictionaryWithObjectsAndKeys:
                                               [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2659,6 +2659,7 @@ NSMutableArray *hostRightMenuItems;
                                          @"progresspercentage", @"row12",
                                          @"isactive", @"row13",
                                          @"title", @"row14",
+                                         @"hastimer", @"row15",
                                          nil],
                                         nil];
     item8.subItem.subItem.enableSection = NO;
@@ -2669,10 +2670,10 @@ NSMutableArray *hostRightMenuItems;
                                           [NSArray arrayWithObjects:NSLocalizedString(@"To be continued...", nil), nil],
                                           nil];
     item8.subItem.subItem.widthLabel = 252;
-    
-    
+    item8.subItem.subItem.showInfo = [NSArray arrayWithObjects:
+                                      [NSNumber numberWithBool:YES],
+                                      nil];
 
-    
 #pragma mark - Pictures
     item4.mainLabel = NSLocalizedString(@"Pictures", nil);
     item4.upperLabel = NSLocalizedString(@"Browse your", nil);

@@ -1660,6 +1660,13 @@ int originYear = 0;
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell addSubview:progressView];
+            
+            UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake((int)((2 + (epgChannelTimeLabelWidth - 8) - 6) / 2), programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 14, 12, 12)];
+            [hasTimer setImage:[UIImage imageNamed:@"button_timer"]];
+            hasTimer.tag = 104;
+            hasTimer.hidden = YES;
+            [hasTimer setBackgroundColor:[UIColor clearColor]];
+            [cell addSubview:hasTimer];
         }
         else if ([channelid intValue] > 0) {
 //            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(14, 54, 28, 28) color:[UIColor lightGrayColor]];
@@ -1866,9 +1873,7 @@ int originYear = 0;
                                                          options:0];
             NSInteger minutes = [components minute];
             progressView.pieLabel.text = [NSString stringWithFormat:@" %ld'", (long)minutes];
-            
             progressView.hidden = NO;
-
         }
         else{
             progressView.hidden = YES;
@@ -1879,6 +1884,13 @@ int originYear = 0;
             [title setHighlightedTextColor:[UIColor blackColor]];
             [genre setHighlightedTextColor:[UIColor blackColor]];
             [programStartTime setHighlightedTextColor:[UIColor blackColor]];
+        }
+        UIImageView *hasTimer = (UIImageView*) [cell viewWithTag:104];
+        if ([[item objectForKey:@"hastimer"] boolValue]){
+            hasTimer.hidden = FALSE;
+        }
+        else{
+            hasTimer.hidden = TRUE;
         }
     }
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
