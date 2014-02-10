@@ -3968,7 +3968,7 @@ NSIndexPath *selected;
         localDate.timeZone = [NSTimeZone systemTimeZone];
         NSDate *nowDate = [NSDate date];
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSInteger components = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);//| NSHourCalendarUnit | NSMinuteCalendarUnit
+        NSInteger components = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit);
         NSDateComponents *nowDateComponents = [calendar components:components fromDate: nowDate];
         nowDate = [calendar dateFromComponents:nowDateComponents];
         NSUInteger countRow = 0;
@@ -3977,9 +3977,11 @@ NSIndexPath *selected;
         for (NSDictionary *item in self.richResults){
             NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
             NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
-            NSDateComponents *itemDateComponents = [calendar components:components fromDate: starttime];
+            NSDateComponents *itemDateComponents = [calendar components:components fromDate: endtime];
+            NSDate *itemEndDate = [calendar dateFromComponents:itemDateComponents];
+            itemDateComponents = [calendar components:components fromDate: starttime];
             NSDate *itemStartDate = [calendar dateFromComponents:itemDateComponents];
-            NSComparisonResult datesCompare = [itemStartDate compare:nowDate];
+            NSComparisonResult datesCompare = [itemEndDate compare:nowDate];
             if (datesCompare == NSOrderedDescending || datesCompare == NSOrderedSame){
                 NSString *c = [localDate stringFromDate:itemStartDate];
                 found = NO;
