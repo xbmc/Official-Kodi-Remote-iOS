@@ -149,6 +149,12 @@
     return epgArray;
 }
 
+-(void)backgroundSaveEPGToDisk:(NSDictionary *)parameters{
+    NSNumber *channelid = [parameters objectForKey:@"channelid"];
+    NSMutableArray *epgData = [parameters objectForKey:@"epgArray"];
+    [self saveEPGToDisk:channelid epgData:epgData];
+}
+
 -(void)saveEPGToDisk:(NSNumber *)channelid epgData:(NSMutableArray *)epgArray{
     if (epgArray != nil && channelid != nil && [epgArray count] > 0){
         NSString *diskCachePath = [AppDelegate instance].epgCachePath;
@@ -278,16 +284,16 @@
     current.text = [channelEPG objectForKey:@"current"];
     next.text = [channelEPG objectForKey:@"next"];
     [item setObject:[channelEPG objectForKey:@"current_details"] forKey:@"genre"];
-    ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
-    if (![current.text isEqualToString:NSLocalizedString(@"Not Available",nil)]){
-        int min = 0;
-        int max = 100;
-        [progressView updateProgressPercentage:(arc4random() % (max-min+1)) + min];
-        progressView.hidden = NO;
-    }
-    else {
-        progressView.hidden = YES;
-    }
+//    ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
+//    if (![current.text isEqualToString:NSLocalizedString(@"Not Available",nil)]){
+//        int min = 0;
+//        int max = 100;
+//        [progressView updateProgressPercentage:(arc4random() % (max-min+1)) + min];
+//        progressView.hidden = NO;
+//    }
+//    else {
+//        progressView.hidden = YES;
+//    }
 }
 
 -(void)parseBroadcasts:(NSDictionary *)parameters{
@@ -1656,10 +1662,10 @@ int originYear = 0;
             [cell addSubview:progressView];
         }
         else if ([channelid intValue] > 0) {
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(7, 46, 36, 36) color:[UIColor lightGrayColor]];
-            progressView.tag = 103;
-            progressView.hidden = YES;
-            [cell addSubview:progressView];
+//            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(14, 54, 28, 28) color:[UIColor lightGrayColor]];
+//            progressView.tag = 103;
+//            progressView.hidden = YES;
+//            [cell addSubview:progressView];
         }
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
@@ -1759,13 +1765,12 @@ int originYear = 0;
             runtime.frame = frame;
             frame = cell.urlImageView.frame;
             frame.size.width = thumbWidth * 0.9f;
-            frame.origin.x = 4;
+            frame.origin.x = 6;
             frame.origin.y = 10;
             frame.size.height = thumbWidth * 0.7f;
             cell.urlImageView.frame = frame;
-            ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
-            progressView.hidden = YES;
-//            cell.urlImageView.backgroundColor = [UIColor greenColor];
+//            ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
+//            progressView.hidden = YES;
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     channelid, @"channelid",
                                     tableView, @"tableView",
@@ -3967,13 +3972,16 @@ NSIndexPath *selected;
         NSDateComponents *nowDateComponents = [calendar components:components fromDate: nowDate];
         nowDate = [calendar dateFromComponents:nowDateComponents];
         NSUInteger countRow = 0;
+        NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
+
         for (NSDictionary *item in self.richResults){
-            NSDate *itemDate = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
-            NSDateComponents *itemDateComponents = [calendar components:components fromDate: itemDate];
-            itemDate = [calendar dateFromComponents:itemDateComponents];
-            NSComparisonResult datesCompare = [itemDate compare:nowDate];
+            NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
+            NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
+            NSDateComponents *itemDateComponents = [calendar components:components fromDate: starttime];
+            NSDate *itemStartDate = [calendar dateFromComponents:itemDateComponents];
+            NSComparisonResult datesCompare = [itemStartDate compare:nowDate];
             if (datesCompare == NSOrderedDescending || datesCompare == NSOrderedSame){
-                NSString *c = [localDate stringFromDate:itemDate];
+                NSString *c = [localDate stringFromDate:itemStartDate];
                 found = NO;
                 if ([[self.sections allKeys] containsObject:c]){
                     found = YES;
@@ -3986,9 +3994,21 @@ NSIndexPath *selected;
                 if ([[item objectForKey:@"isactive"] boolValue] == TRUE){
                     autoScrollTable = [NSIndexPath indexPathForRow:countRow inSection:[self.sections count] - 1];
                 }
+                [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                         starttime, @"starttime",
+                                         endtime, @"endtime",
+                                         [item objectForKey:@"title"], @"title",
+                                         [item objectForKey:@"label"], @"label",
+                                         [item objectForKey:@"genre"], @"plot",
+                                         nil]];
                 countRow ++;
             }
         }
+        NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [[[[self.detailItem mainParameters] objectAtIndex:0] objectAtIndex:0] objectForKey:@"channelid"], @"channelid",
+                                   retrievedEPG, @"epgArray",
+                                   nil];
+        [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
     }
     else{
         [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];

@@ -2658,8 +2658,7 @@ NSMutableArray *hostRightMenuItems;
                                          @"endtime", @"row11",
                                          @"progresspercentage", @"row12",
                                          @"isactive", @"row13",
-                                         @"plot", @"row14",
-                                         @"title", @"row15",
+                                         @"title", @"row14",
                                          nil],
                                         nil];
     item8.subItem.subItem.enableSection = NO;
