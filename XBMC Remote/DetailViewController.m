@@ -4006,6 +4006,9 @@ NSIndexPath *selected;
                 countRow ++;
             }
         }
+        if ([self.sections count] == 1){
+            [self.richResults removeAllObjects];
+        }
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
                                    [[[[self.detailItem mainParameters] objectAtIndex:0] objectAtIndex:0] objectForKey:@"channelid"], @"channelid",
                                    retrievedEPG, @"epgArray",
