@@ -1881,9 +1881,16 @@ int originYear = 0;
             [title setTextColor:[UIColor blackColor]];
             [genre setTextColor:[UIColor blackColor]];
             [programStartTime setTextColor:[UIColor blackColor]];
-            [title setHighlightedTextColor:[UIColor blackColor]];
-            [genre setHighlightedTextColor:[UIColor blackColor]];
-            [programStartTime setHighlightedTextColor:[UIColor blackColor]];
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                [title setHighlightedTextColor:[UIColor blackColor]];
+                [genre setHighlightedTextColor:[UIColor blackColor]];
+                [programStartTime setHighlightedTextColor:[UIColor blackColor]];
+            }
+            else{
+                [title setHighlightedTextColor:[UIColor whiteColor]];
+                [genre setHighlightedTextColor:[UIColor whiteColor]];
+                [programStartTime setHighlightedTextColor:[UIColor whiteColor]];
+            }
         }
         UIImageView *hasTimer = (UIImageView*) [cell viewWithTag:104];
         if ([[item objectForKey:@"hastimer"] boolValue]){
