@@ -899,6 +899,11 @@
                                     [item objectForKey:[mainFields objectForKey:@"row15"]], key,
                                     nil];
         }
+        NSMutableDictionary *pvrExtraInfo = [NSMutableDictionary dictionary];
+        if ([[item objectForKey:@"family"] isEqualToString:@"channelid"]){
+            [pvrExtraInfo setObject:[item objectForKey:@"label"] forKey:@"channel_name"];
+            [pvrExtraInfo setObject:[item objectForKey:@"thumbnail"] forKey:@"channel_icon"];
+        }
         NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         obj, objKey,
@@ -916,6 +921,7 @@
                                         [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"forceActionSheet"] boolValue]], @"forceActionSheet",
                                        [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
                                        [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
+                                       pvrExtraInfo, @"pvrExtraInfo",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        newSectionParameters, @"extra_section_parameters",
                                        nil];
@@ -3992,8 +3998,8 @@ NSIndexPath *selected;
         nowDate = [calendar dateFromComponents:nowDateComponents];
         NSUInteger countRow = 0;
         NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
-
-        for (NSDictionary *item in self.richResults){
+        NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+        for (NSMutableDictionary *item in self.richResults){
             NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
             NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
             NSDateComponents *itemDateComponents = [calendar components:components fromDate: endtime];
@@ -4011,6 +4017,7 @@ NSIndexPath *selected;
                     [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
                     countRow = 0;
                 }
+                [item setObject:[parameters objectForKey:@"pvrExtraInfo"] forKey:@"pvrExtraInfo"];
                 [[self.sections objectForKey:c] addObject:item];
                 if ([[item objectForKey:@"isactive"] boolValue] == TRUE){
                     autoScrollTable = [NSIndexPath indexPathForRow:countRow inSection:[self.sections count] - 1];
