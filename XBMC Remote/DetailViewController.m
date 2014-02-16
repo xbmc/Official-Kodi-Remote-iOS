@@ -903,6 +903,7 @@
         if ([[item objectForKey:@"family"] isEqualToString:@"channelid"]){
             [pvrExtraInfo setObject:[item objectForKey:@"label"] forKey:@"channel_name"];
             [pvrExtraInfo setObject:[item objectForKey:@"thumbnail"] forKey:@"channel_icon"];
+            [pvrExtraInfo setObject:[item objectForKey:@"channelid"] forKey:@"channelid"];
         }
         NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:

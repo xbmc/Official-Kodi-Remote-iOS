@@ -2597,6 +2597,11 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "joethefox inc.";
+				TargetAttributes = {
+					0F5548F5151D1187007E633F = {
+						DevelopmentTeam = KWZL4ZWD6C;
+					};
+				};
 			};
 			buildConfigurationList = 0F5548F0151D1187007E633F /* Build configuration list for PBXProject "XBMC Remote" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -3587,8 +3592,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "A8EE2A85-2D3D-48CB-92D2-3ED81DF07F0E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A8EE2A85-2D3D-48CB-92D2-3ED81DF07F0E";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -3617,8 +3622,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "A8EE2A85-2D3D-48CB-92D2-3ED81DF07F0E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A8EE2A85-2D3D-48CB-92D2-3ED81DF07F0E";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
