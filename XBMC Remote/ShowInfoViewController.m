@@ -112,7 +112,7 @@ int count=0;
             }
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
-            sheetActions = [[NSMutableArray alloc] initWithObjects:NSLocalizedString(@"Play", nil), nil];
+            sheetActions = [[NSMutableArray alloc] initWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Record", nil), nil];
         }
         else{
             titleWidth = 400;
@@ -1009,6 +1009,9 @@ int h=0;
     else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
         label1.text = NSLocalizedString(@"TIME", nil);
         label5.text = NSLocalizedString(@"DESCRIPTION", nil);
+        [jewelView setAutoresizingMask:UIViewAutoresizingNone];
+        [voteLabel setAutoresizingMask:UIViewAutoresizingNone];
+        [numVotesLabel setAutoresizingMask:UIViewAutoresizingNone];
         coverView.hidden = YES;
         starsView.hidden = YES;
         label2.hidden = YES;
@@ -1020,9 +1023,9 @@ int h=0;
         arrow_continue_down.hidden = YES;
         clearLogoHeight = 0;
         label6.frame = label5.frame;
-        label5.frame = label2.frame;
-        summaryLabel.frame= genreLabel.frame;
-         [self moveLabel:[NSArray arrayWithObjects: label1, label5, label6, directorLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:jewelView.frame.size.height - (jewelView.frame.size.height/8 - starsView.frame.size.height)];
+        label5.frame = label3.frame;
+        summaryLabel.frame= runtimeLabel.frame;
+         [self moveLabel:[NSArray arrayWithObjects: label1, label2, label5, label6, directorLabel, genreLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:(int)(jewelView.frame.size.height - (jewelView.frame.size.height/8))];
         CGRect frame = jewelView.frame;
         frame.origin.x = label1.frame.origin.x;
         frame.size.width = frame.size.width / 4;
@@ -1031,17 +1034,18 @@ int h=0;
         frame = voteLabel.frame;
         frame.origin.y = jewelView.frame.origin.y;
         frame.origin.x = jewelView.frame.origin.x + jewelView.frame.size.width + 8;
-        frame.size.width = self.view.frame.size.width - frame.origin.x - 20;
+        frame.size.width = pageSize - frame.origin.x;
         frame.size.height = jewelView.frame.size.height / 2.0f;
         voteLabel.frame = frame;
         voteLabel.numberOfLines = 2;
-        [voteLabel setFont:[UIFont fontWithName:directorLabel.font.fontName size:directorLabel.font.pointSize]];
+        [voteLabel setFont:[UIFont fontWithName:label1.font.fontName size:castFontSize]];
         [voteLabel setTextColor:directorLabel.textColor];
         frame = numVotesLabel.frame;
         frame.size.width = voteLabel.frame.size.width;
-        frame.origin.y = voteLabel.frame.origin.y + voteLabel.frame.size.height + 8;
+        frame.origin.y = (int)(voteLabel.frame.origin.y + voteLabel.frame.size.height + 8);
         frame.origin.x = voteLabel.frame.origin.x;
         numVotesLabel.frame = frame;
+        [numVotesLabel setFont:[UIFont fontWithName:label1.font.fontName size:label1.font.pointSize]];
         numVotesLabel.text = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
         [item setValue:[item objectForKey:@"label"] forKey:@"rating"];
         [item setValue:[item objectForKey:@"genre"] forKey:@"plot"];
@@ -1061,6 +1065,22 @@ int h=0;
         NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
         NSInteger minutes = [components minute];
         directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
+        UIImage *buttonImage = [UIImage imageNamed:@"button_record"];
+        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
+        recordButton.frame = CGRectMake(0, 0, 200.0f, 29.0f);
+        [recordButton setImage:buttonImage forState:UIControlStateNormal];
+        frame = recordButton.frame;
+        frame.origin.x = label2.frame.origin.x;
+        frame.origin.y = label2.frame.origin.y + 4;
+        recordButton.frame = frame;
+        [recordButton setTitle:NSLocalizedString(@"Record", nil) forState:UIControlStateNormal];
+        [recordButton.titleLabel setFont:[UIFont fontWithName:directorLabel.font.fontName size:directorLabel.font.pointSize]];
+        [recordButton setTitleColor:label1.textColor forState:UIControlStateHighlighted];
+        recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [recordButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        [recordButton setContentMode:UIViewContentModeScaleAspectFill];
+        recordButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 4.0f, 0.0, 0.0);
+        [scrollView addSubview:recordButton];
     }
     else {
         placeHolderImage = @"coverbox_back_movies.png";
