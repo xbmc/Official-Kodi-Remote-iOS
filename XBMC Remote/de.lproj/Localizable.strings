@@ -123,7 +123,7 @@
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "Keine gespeicherten Server gefunden";
 
-"Are you sure you want to clear the %@playlist?" = "Bist du sicher, dass Du %@playlist löschen möchtest?";
+"Are you sure you want to clear the %@playlist?" = "Bist du sicher, dass Du die %@ Playliste löschen möchtest?";
 "Are you sure you want to power off your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt ausschalten möchtest?";
 "Are you sure you want to hibernate your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt in den Ruhezustand gehen soll?";
 "Are you sure you want to suspend your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt in den Stanyby gehen soll?";
