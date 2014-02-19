@@ -92,6 +92,18 @@
 - (IBAction) dismissView:(id)sender{
     
     [self textFieldDoneEditing:nil];
+    
+    if (descriptionUI.text == nil) descriptionUI.text = @"";
+    if (usernameUI.text == nil) usernameUI.text = @"";
+    if (passwordUI.text == nil) passwordUI.text = @"";
+    if (ipUI.text == nil) ipUI.text = @"";
+    if (portUI.text == nil) portUI.text = @"";
+    if (tcpPortUI.text == nil) tcpPortUI.text = @"";
+    if (mac_0_UI.text == nil) mac_0_UI.text = @"";
+    if (mac_1_UI.text == nil) mac_1_UI.text = @"";
+    if (mac_2_UI.text == nil) mac_2_UI.text = @"";
+    if (mac_3_UI.text == nil) mac_3_UI.text = @"";
+
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
     if (self.detailItem==nil){
         [[AppDelegate instance].arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:

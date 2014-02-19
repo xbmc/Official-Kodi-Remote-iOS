@@ -739,13 +739,15 @@ NSInteger buttonAction;
 }
 
 -(void)playerStep:(NSString *)step musicPlayerGo:(NSString *)musicAction{
-    if ([AppDelegate instance].serverVersion>11){
+    if ([AppDelegate instance].serverVersion > 11){
         if (jsonRPC == nil){
             GlobalData *obj=[GlobalData getInstance];
             NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
             NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
             jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
         }
+        
+        ;
         [jsonRPC
          callMethod:@"GUI.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -753,17 +755,39 @@ NSInteger buttonAction;
                          nil]
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
-                 if (((NSNull *)[methodResult objectForKey:@"currentwindow"] != [NSNull null])){
-                     int winID = [[[methodResult objectForKey:@"currentwindow"] objectForKey:@"id"] intValue];
-                     if ([[methodResult objectForKey:@"fullscreen"] boolValue] == YES && (winID == 12005 || winID == 12006)){
-                         if (winID == 12005){
-                             [self playbackAction:@"Player.Seek" params:[NSArray arrayWithObjects:step, @"value", nil]];
-                         }
-                         else if (winID == 12006 && musicAction != nil){
-                             [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
-                         }
-                     }
+                 int winID = 0;
+                 NSNumber *fullscreen = 0;
+                 if (((NSNull *)[methodResult objectForKey:@"fullscreen"] != [NSNull null])){
+                     fullscreen = [methodResult objectForKey:@"fullscreen"];
                  }
+                 if (((NSNull *)[methodResult objectForKey:@"currentwindow"] != [NSNull null])){
+                    winID = [[[methodResult objectForKey:@"currentwindow"] objectForKey:@"id"] intValue];
+                 }
+                 [jsonRPC
+                  callMethod:@"XBMC.GetInfoBooleans"
+                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                  [[NSArray alloc] initWithObjects:@"VideoPlayer.HasMenu", @"Pvr.IsPlayingTv", nil], @"booleans",
+                                  nil]
+                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                      if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
+                          NSNumber *VideoPlayerHasMenu = 0;
+                          NSNumber *PvrIsPlayingTv = 0;
+                          if (((NSNull *)[methodResult objectForKey:@"VideoPlayer.HasMenu"] != [NSNull null])){
+                              VideoPlayerHasMenu = [methodResult objectForKey:@"VideoPlayer.HasMenu"];
+                          }
+                          if (((NSNull *)[methodResult objectForKey:@"Pvr.IsPlayingTv"] != [NSNull null])){
+                              PvrIsPlayingTv = [methodResult objectForKey:@"Pvr.IsPlayingTv"];
+                          }
+                          if ([fullscreen boolValue] == YES && (winID == 12005 || winID == 12006)){
+                              if (winID == 12005  && [PvrIsPlayingTv boolValue] == NO && [VideoPlayerHasMenu boolValue] == NO){
+                                  [self playbackAction:@"Player.Seek" params:[NSArray arrayWithObjects:step, @"value", nil]];
+                              }
+                              else if (winID == 12006 && musicAction != nil){
+                                  [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
+                              }
+                          }
+                      }
+                  }];
              }
          }];
     }
@@ -1009,11 +1033,36 @@ NSInteger buttonAction;
             case 19:// SUBTITLES BUTTON
                 [self GUIAction:@"Addons.ExecuteAddon"
                          params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                               @"script.xbmc.subtitles", @"addonid",
-                                                               nil]
+                                 @"script.xbmc.subtitles", @"addonid",
+                                 nil]
                 httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
                 break;
-            
+                
+            case 22:
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"pvr", @"window",
+                                 [[NSArray alloc] initWithObjects:@"31", @"0", @"10", @"0", nil], @"parameters",
+                                 nil]
+                httpAPIcallback:nil];
+                break;
+                
+            case 23:
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"pvrosdguide", @"window",
+                                 nil]
+                httpAPIcallback:nil];
+                break;
+                
+            case 24:
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"pvrosdchannels", @"window",
+                                 nil]
+                httpAPIcallback:nil];
+                break;
+
             default:
                 break;
         }

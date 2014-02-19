@@ -11,6 +11,7 @@
 "Browse your" = "Sfoglia le tue";
 "See what's" = "Vedi cosa c'è";
 "Use as" = "Usa come";
+"Watch" = "Guarda";
 
 "Music" = "Musica";
 "Movies" = "Film";
@@ -79,7 +80,7 @@
 
 "Queue after current" = "Accoda dopo il corrente";
 "Queue" = "Accoda";
-"Play" = "Esegui";
+"Play" = "Riproduci";
 "Stream to iPhone" = "Stream to iPhone";
 "Search Wikipedia" = "Ricerca Wikipedia";
 "Search last.fm charts" = "Ricerca classifiche last.fm";
@@ -191,5 +192,10 @@
 "View: Fanart" = "Vedi: Fanart";
 
 "Show Content" = "Mostra Contenuto";
-"Play in party mode" = "Esegui in modalità party";
-"Play in shuffle mode" = "Esegui in modalità casuale";
+"Play in party mode" = "Riproduci in modalità party";
+"Play in shuffle mode" = "Riproduci in modalità casuale";
+
+"Channel Guide" = "Guida Canale";
+"Record" = "Registra";
+"Broadcast Details" = "Dettagli Trasmissione";
+"TIME" = "DATA";

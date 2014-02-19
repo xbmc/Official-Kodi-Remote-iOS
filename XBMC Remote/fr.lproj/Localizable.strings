@@ -11,6 +11,7 @@
 "Browse your" = "Explorez vos";
 "See what's" = "Regardez la";
 "Use as" = "Utiliser comme";
+"Watch" = "Regardez";
 
 "Music" = "Musique";
 "Movies" = "Films";
@@ -193,3 +194,8 @@
 "Show Content" = "Show Content";
 "Play in party mode" = "Play in party mode";
 "Play in shuffle mode" = "Play in shuffle mode";
+
+"Channel Guide" = "Channel Guide";
+"Record" = "Record";
+"Broadcast Details" = "Broadcast Details";
+"TIME" = "TIME";

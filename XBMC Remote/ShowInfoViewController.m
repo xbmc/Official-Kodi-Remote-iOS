@@ -51,7 +51,7 @@ int count=0;
 
 - (void)configureView{
     if (self.detailItem) {
-        NSDictionary *item=self.detailItem;
+        NSMutableDictionary *item=self.detailItem;
         CGRect frame = CGRectMake(0, 0, 140, 40);
         UILabel *viewTitle = [[UILabel alloc] initWithFrame:frame] ;
         viewTitle.numberOfLines=0;
@@ -110,6 +110,9 @@ int count=0;
             else{
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
             }
+        }
+        else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
+            sheetActions = [[NSMutableArray alloc] initWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Record", nil), nil];
         }
         else{
             titleWidth = 400;
@@ -428,7 +431,11 @@ int count=0;
     int numActions=[sheetActions count];
     if (numActions){
         NSDictionary *item=self.detailItem;
-        actionSheetView = [[UIActionSheet alloc] initWithTitle:[item objectForKey:@"label"]
+        NSString *sheetTitle = [item objectForKey:@"label"];
+        if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
+            sheetTitle = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
+        }
+        actionSheetView = [[UIActionSheet alloc] initWithTitle:sheetTitle
                                                             delegate:self
                                                    cancelButtonTitle:nil
                                               destructiveButtonTitle:nil
@@ -999,6 +1006,82 @@ int h=0;
             [self moveLabel:[NSArray arrayWithObjects: label5, label6, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
         }
     }
+    else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
+        label1.text = NSLocalizedString(@"TIME", nil);
+        label5.text = NSLocalizedString(@"DESCRIPTION", nil);
+        [jewelView setAutoresizingMask:UIViewAutoresizingNone];
+        [voteLabel setAutoresizingMask:UIViewAutoresizingNone];
+        [numVotesLabel setAutoresizingMask:UIViewAutoresizingNone];
+        coverView.hidden = YES;
+        starsView.hidden = YES;
+        label2.hidden = YES;
+        label3.hidden = YES;
+        label4.hidden = YES;
+        genreLabel.hidden = YES;
+        runtimeLabel.hidden = YES;
+        studioLabel.hidden = YES;
+        arrow_continue_down.hidden = YES;
+        clearLogoHeight = 0;
+        label6.frame = label5.frame;
+        label5.frame = label3.frame;
+        summaryLabel.frame= runtimeLabel.frame;
+         [self moveLabel:[NSArray arrayWithObjects: label1, label2, label5, label6, directorLabel, genreLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:(int)(jewelView.frame.size.height - (jewelView.frame.size.height/8))];
+        CGRect frame = jewelView.frame;
+        frame.origin.x = label1.frame.origin.x;
+        frame.size.width = frame.size.width / 4;
+        frame.size.height = frame.size.height /8;
+        jewelView.frame = frame;
+        frame = voteLabel.frame;
+        frame.origin.y = jewelView.frame.origin.y;
+        frame.origin.x = jewelView.frame.origin.x + jewelView.frame.size.width + 8;
+        frame.size.width = pageSize - frame.origin.x;
+        frame.size.height = jewelView.frame.size.height / 2.0f;
+        voteLabel.frame = frame;
+        voteLabel.numberOfLines = 2;
+        [voteLabel setFont:[UIFont fontWithName:label1.font.fontName size:castFontSize]];
+        [voteLabel setTextColor:directorLabel.textColor];
+        frame = numVotesLabel.frame;
+        frame.size.width = voteLabel.frame.size.width;
+        frame.origin.y = (int)(voteLabel.frame.origin.y + voteLabel.frame.size.height + 8);
+        frame.origin.x = voteLabel.frame.origin.x;
+        numVotesLabel.frame = frame;
+        [numVotesLabel setFont:[UIFont fontWithName:label1.font.fontName size:label1.font.pointSize]];
+        numVotesLabel.text = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
+        [item setValue:[item objectForKey:@"label"] forKey:@"rating"];
+        [item setValue:[item objectForKey:@"genre"] forKey:@"plot"];
+        [item setValue:[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_icon"] forKey:@"thumbnail"];
+        placeHolderImage = @"nocover_channels";
+        NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
+        [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+        NSDateFormatter *localFormatter = [[NSDateFormatter alloc] init];
+        [localFormatter setDateFormat:@"ccc dd MMM, HH:mm"];
+        localFormatter.timeZone = [NSTimeZone systemTimeZone];
+        NSDate *startTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
+        NSDate *endTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
+        directorLabel.text = [localFormatter stringFromDate:startTime];        
+        [localFormatter setDateFormat:@"HH:mm"];
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSUInteger unitFlags = NSMinuteCalendarUnit;
+        NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
+        NSInteger minutes = [components minute];
+        directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
+        UIImage *buttonImage = [UIImage imageNamed:@"button_record"];
+        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
+        recordButton.frame = CGRectMake(0, 0, 200.0f, 29.0f);
+        [recordButton setImage:buttonImage forState:UIControlStateNormal];
+        frame = recordButton.frame;
+        frame.origin.x = label2.frame.origin.x;
+        frame.origin.y = label2.frame.origin.y + 4;
+        recordButton.frame = frame;
+        [recordButton setTitle:NSLocalizedString(@"Record", nil) forState:UIControlStateNormal];
+        [recordButton.titleLabel setFont:[UIFont fontWithName:directorLabel.font.fontName size:directorLabel.font.pointSize]];
+        [recordButton setTitleColor:label1.textColor forState:UIControlStateHighlighted];
+        recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [recordButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        [recordButton setContentMode:UIViewContentModeScaleAspectFill];
+        recordButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 4.0f, 0.0, 0.0);
+        [scrollView addSubview:recordButton];
+    }
     else {
         placeHolderImage = @"coverbox_back_movies.png";
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -1060,7 +1143,13 @@ int h=0;
         if (image!=nil){
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
                 Utilities *utils = [[Utilities alloc] init];
-                foundTintColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                UIColor *averageColor = [utils averageColor:image inverse:NO];
+                foundTintColor = TINT_COLOR;
+                float red; float green; float blue; float alpha;
+                [averageColor getRed:&red green:&green blue:&blue alpha:&alpha];
+                if (alpha > 0){
+                    foundTintColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                }
                 self.navigationController.navigationBar.tintColor = foundTintColor;
                 toolbar.tintColor = foundTintColor;
             }
@@ -1138,6 +1227,7 @@ int h=0;
     [fanartView setClipsToBounds:YES];
     
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
+    [voteLabel sizeToFit];
     starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];
     
     NSString *numVotes=[[item objectForKey:@"votes"] length]==0 ? @"" : [item objectForKey:@"votes"];
@@ -1328,27 +1418,29 @@ int h=0;
             startY-=20;
         }
     }
-    clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
-    [clearlogoButton.titleLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
-    [clearlogoButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
-    [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+    if (![[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
+        clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
+        [clearlogoButton.titleLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+        [clearlogoButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
+        [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+        }
+        if ([[item objectForKey:@"clearlogo"] length] != 0){
+            clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
+            [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
+            [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
+            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+            [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
+            [clearlogoButton addSubview:clearLogoImageView];
+        }
+        else{
+            [clearlogoButton setTitle:[[item objectForKey:@"showtitle"] length] == 0 ? [item objectForKey:@"label"] :[item objectForKey:@"showtitle"] forState:UIControlStateNormal];
+            [clearlogoButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+        }
+        [scrollView addSubview:clearlogoButton];
     }
-    if ([[item objectForKey:@"clearlogo"] length] != 0){
-        clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
-        [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
-        [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
-        NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-        [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
-        [clearlogoButton addSubview:clearLogoImageView];
-    }
-    else{
-        [clearlogoButton setTitle:[[item objectForKey:@"showtitle"] length] == 0 ? [item objectForKey:@"label"] :[item objectForKey:@"showtitle"] forState:UIControlStateNormal];
-        [clearlogoButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-    }
-    [scrollView addSubview:clearlogoButton];
     startY = startY + clearLogoHeight + 20;
     scrollView.contentSize=CGSizeMake(320, startY);
 }

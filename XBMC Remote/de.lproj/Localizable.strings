@@ -1,9 +1,9 @@
-/* 
-  Localisable.strings
-  XBMC Remote
-
-  Created by Gerd Flender on 13/01/27
-  Copyright (c) 2012 joethefox inc. All rights reserved.
+/*
+ Localisable.strings
+ XBMC Remote
+ 
+ Created by Gerd Flender on 13/01/27
+ Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
 "Listen to" = "Höre deine";
@@ -11,6 +11,7 @@
 "Browse your" = "Durchsuche deine";
 "See what's" = "Schaue was";
 "Use as" = "Benutze die";
+"Watch" = "Schaue";
 
 "Music" = "Musik";
 "Movies" = "Filme";
@@ -123,7 +124,7 @@
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "Keine gespeicherten Server gefunden";
 
-"Are you sure you want to clear the %@playlist?" = "Bist du sicher, dass Du die %@ Playliste löschen möchtest?";
+"Are you sure you want to clear the %@playlist?" = "Bist du sicher, dass Du die Playliste %@ löschen möchtest?";
 "Are you sure you want to power off your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt ausschalten möchtest?";
 "Are you sure you want to hibernate your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt in den Ruhezustand gehen soll?";
 "Are you sure you want to suspend your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt in den Stanyby gehen soll?";
@@ -193,3 +194,8 @@
 "Show Content" = "Zeige Inhalt";
 "Play in party mode" = "Spiele im Partymodus";
 "Play in shuffle mode" = "Spiele im Shuffle-Modus";
+
+"Channel Guide" = "Channel Guide";
+"Record" = "Record";
+"Broadcast Details" = "Broadcast Details";
+"TIME" = "TIME";

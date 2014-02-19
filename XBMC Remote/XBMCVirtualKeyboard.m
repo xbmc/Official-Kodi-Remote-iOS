@@ -119,6 +119,7 @@
         params = [[note userInfo] objectForKey:@"params"];
     }
     keyboardTitle.text = @"";
+    xbmcVirtualKeyboard.keyboardType = UIKeyboardTypeDefault;
     if (params != nil){
         if (((NSNull *)[params objectForKey:@"data"] != [NSNull null])){
             if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"title"] != [NSNull null])){
@@ -127,6 +128,11 @@
             if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"value"] != [NSNull null])){
                 if (![[[params objectForKey:@"data"] objectForKey:@"value"] isEqualToString:@""]){
                     xbmcVirtualKeyboard.text = [[params objectForKey:@"data"] objectForKey:@"value"];
+                }
+            }
+            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"type"] != [NSNull null])){
+                if ([[[params objectForKey:@"data"] objectForKey:@"type"] isEqualToString:@"number"]){
+                    xbmcVirtualKeyboard.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
                 }
             }
         }
