@@ -2466,6 +2466,9 @@ int currentItemID;
 }
 
 -(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
+    if (sender != nil){
+        forceClose = FALSE;
+    }
     if ([playlistData count]==0 && !playlistTableView.editing) {
         return;
     }
