@@ -190,7 +190,7 @@ static inline BOOL IsEmpty(id obj) {
             [self selectServerAtIndexPath:indexPath];
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (standardUserDefaults) {
-                [standardUserDefaults setObject:[NSNumber numberWithInt:indexPath.row] forKey:@"lastServer"];
+                [standardUserDefaults setObject:[NSNumber numberWithInt:(int)indexPath.row] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
             }
         }
@@ -224,7 +224,7 @@ static inline BOOL IsEmpty(id obj) {
             if (indexPath.row<storeServerSelection.row){
                 storeServerSelection=[NSIndexPath  indexPathForRow:storeServerSelection.row-1 inSection:storeServerSelection.section];
                 if (standardUserDefaults) {
-                    [standardUserDefaults setObject:[NSNumber numberWithInt:storeServerSelection.row] forKey:@"lastServer"];
+                    [standardUserDefaults setObject:[NSNumber numberWithInt:(int)storeServerSelection.row] forKey:@"lastServer"];
                     [standardUserDefaults synchronize];
                 }
             }

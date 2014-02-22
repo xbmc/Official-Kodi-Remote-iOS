@@ -456,7 +456,7 @@
 
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -498,7 +498,7 @@
                                  NSArray *subtitles = [methodResult objectForKey:@"subtitles"];
                                  if ([subtitles count]){
                                      int currentSubIdx = [[currentSubtitle objectForKey:@"index"] intValue];
-                                     int totalSubs = [subtitles count];
+                                     NSInteger totalSubs = [subtitles count];
                                      if (subtitleEnabled){
                                          if ( (currentSubIdx + 1) >= totalSubs ){
                                              // disable subs
@@ -506,7 +506,7 @@
                                              [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
                                          }
                                          else{
-                                             NSString *message = [NSString stringWithFormat:@"%@ %d/%d %@", @"Subtitles: ", ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), totalSubs, [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
+                                             NSString *message = [NSString stringWithFormat:@"%@ %d/%ld %@", @"Subtitles: ", ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), (long)totalSubs, [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
                                              [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                          }
                                          // next subs
@@ -514,7 +514,7 @@
                                      }
                                      else{
                                          // enable subs
-                                         NSString *message = [NSString stringWithFormat:@"%@ %d/%d %@", @"Subtitles: ", currentSubIdx + 1, totalSubs, [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
+                                         NSString *message = [NSString stringWithFormat:@"%@ %d/%ld %@", @"Subtitles: ", currentSubIdx + 1, (long)totalSubs, [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
                                          [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                          [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
                                      }
@@ -568,14 +568,14 @@
                                  NSArray *audiostreams = [methodResult objectForKey:@"audiostreams"];
                                  if ([audiostreams count]){
                                      int currentAudioIdx = [[currentAudiostream objectForKey:@"index"] intValue];
-                                     int totalAudio = [audiostreams count];
+                                     NSInteger totalAudio = [audiostreams count];
                                      if ( (currentAudioIdx + 1) >= totalAudio ){
                                          currentAudioIdx = 0;
                                      }
                                      else{
                                          currentAudioIdx ++;
                                      }
-                                     NSString *message = [NSString stringWithFormat:@"%d/%d %@", currentAudioIdx + 1, totalAudio, [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"]];
+                                     NSString *message = [NSString stringWithFormat:@"%d/%ld %@", currentAudioIdx + 1, (long)totalAudio, [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"]];
                                      [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                      [self playbackAction:action params:parameters];
                                 }

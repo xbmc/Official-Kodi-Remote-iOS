@@ -308,7 +308,7 @@
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:remoteController invokeByController:self isStackStartView:TRUE];
             [[AppDelegate instance].windowController.stackScrollViewController disablePanGestureRecognizer:remoteController.panFallbackImageView];
         }
-        lastSelected=indexPath.row;
+        lastSelected = (int)indexPath.row;
     }
 }
 

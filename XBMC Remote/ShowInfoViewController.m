@@ -256,7 +256,7 @@ int count=0;
 
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement = [array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -265,7 +265,7 @@ int count=0;
 
 - (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -428,7 +428,7 @@ int count=0;
         [actionSheetView dismissWithClickedButtonIndex:actionSheetView.cancelButtonIndex animated:YES];
         return;
     }
-    int numActions=[sheetActions count];
+    NSInteger numActions = [sheetActions count];
     if (numActions){
         NSDictionary *item=self.detailItem;
         NSString *sheetTitle = [item objectForKey:@"label"];
@@ -496,7 +496,7 @@ int count=0;
 }
 
 -(void)moveLabel:(NSArray *)objects posY:(int)y{
-    int count=[objects count];
+    NSInteger count = [objects count];
     CGRect frame;
     for (int i = 0; i < count; i++){
         if ([[objects objectAtIndex:i] isKindOfClass:[UIImageView class]]){
@@ -537,7 +537,7 @@ int h=0;
 
 -(void)setTvShowsToolbar{
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-        int count = [toolbar.items count];
+        NSInteger count = [toolbar.items count];
         NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
         [newToolbarItems removeObjectAtIndex:(count - 1)];
         [newToolbarItems removeObjectAtIndex:(count - 2)];
@@ -1145,7 +1145,7 @@ int h=0;
                 Utilities *utils = [[Utilities alloc] init];
                 UIColor *averageColor = [utils averageColor:image inverse:NO];
                 foundTintColor = TINT_COLOR;
-                float red; float green; float blue; float alpha;
+                CGFloat red, green, blue, alpha;
                 [averageColor getRed:&red green:&green blue:&blue alpha:&alpha];
                 if (alpha > 0){
                     foundTintColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
@@ -1412,7 +1412,7 @@ int h=0;
         [actorsTable setDelegate:self];
         [actorsTable setDataSource:self];
         [scrollView addSubview:actorsTable];
-        startY = startY + [cast count]*(castHeight + 10);
+        startY = startY + (int)[cast count]*(castHeight + 10);
         if ([cast count]==0){
             label6.hidden = YES;
             startY-=20;
@@ -1451,7 +1451,7 @@ int h=0;
 
 - (void)showBackground:(id)sender{
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    int foundTag = 0;
+    NSInteger foundTag = 0;
     if ([sender isKindOfClass:[UITapGestureRecognizer class]]){
         foundTag = [sender view].tag;
     }
