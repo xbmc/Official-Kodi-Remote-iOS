@@ -112,11 +112,11 @@
     NSArray *methodObjs = nil;
     if (methodParams) {
         methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"params", @"id", nil];
-        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, methodParams, [NSNumber numberWithInt:aId], nil];
+        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, methodParams, [NSNumber numberWithInt:(int)aId], nil];
     }
     else {
         methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"id", nil];
-        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, [NSNumber numberWithInt:aId], nil];
+        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, [NSNumber numberWithInt:(int)aId], nil];
     }
     // Create call payload
     NSDictionary *methodCall = [NSDictionary dictionaryWithObjects:methodObjs forKeys:methodKeys];
@@ -150,7 +150,7 @@
     }
     
     // Finish creating request, we set content-length after user headers to prevent user error
-    [serviceRequest setValue:[NSString stringWithFormat:@"%i", postData.length] forHTTPHeaderField:@"Content-Length"];
+    [serviceRequest setValue:[NSString stringWithFormat:@"%i", (int)postData.length] forHTTPHeaderField:@"Content-Length"];
     [serviceRequest setHTTPMethod:@"POST"];
     [serviceRequest setHTTPBody:postData];
     [serviceRequest setTimeoutInterval:240];
@@ -158,7 +158,7 @@
     // Create dictionary to store information about the request so we can recall it later
     NSMutableDictionary *connectionInfo = [NSMutableDictionary dictionaryWithCapacity:3];
     [connectionInfo setObject:methodName forKey:@"method"];
-    [connectionInfo setObject:[NSNumber numberWithInt:aId] forKey:@"id"];
+    [connectionInfo setObject:[NSNumber numberWithInt:(int)aId] forKey:@"id"];
     if (completionHandler != nil) {
         DSJSONRPCCompletionHandler completionHandlerCopy = [completionHandler copy];
         [connectionInfo setObject:completionHandlerCopy forKey:@"completionHandler"];

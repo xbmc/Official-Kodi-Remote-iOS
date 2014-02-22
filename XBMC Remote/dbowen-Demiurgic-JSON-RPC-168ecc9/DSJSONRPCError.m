@@ -71,7 +71,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"DSJSONRPC Error: %@ (Code: %i) - Data: %@", self.message, self.code, self.data];
+    return [NSString stringWithFormat:@"DSJSONRPC Error: %@ (Code: %li) - Data: %@", self.message, (long)self.code, self.data];
 }
 
 @end
