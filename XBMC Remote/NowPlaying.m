@@ -2456,24 +2456,17 @@ int currentItemID;
     return UITableViewCellEditingStyleNone;
 }
 
--(void)addGestures{ // TEMP WORKAROUND
-    self.navigationController.view.gestureRecognizers = nil; // TEMP WORKAROUND
-    self.navigationController.navigationBar.gestureRecognizers = nil; // TEMP WORKAROUND
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
-        if (self.navigationController.view.gestureRecognizers == nil)
-            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-    }
-    else{
-        if (self.navigationController.navigationBar.gestureRecognizers == nil)
-            [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    if (playlistTableView.editing) {
+        return NO;
+        
+    } else {
+        return YES;
     }
 }
 
 -(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
     if ([playlistData count]==0 && !playlistTableView.editing) {
-        [self addGestures]; 
         return;
     }
     if (playlistTableView.editing || forceClose==YES){
@@ -2481,14 +2474,11 @@ int currentItemID;
         [editTableButton setSelected:NO];
         lastSelected=-1;
         storeSelection=nil;
-        [self addGestures]; 
     }
     else{
         storeSelection = [playlistTableView indexPathForSelectedRow];
         [playlistTableView setEditing:YES animated:YES];
         [editTableButton setSelected:YES];
-        self.navigationController.view.gestureRecognizers = nil; 
-        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
     }
 }
 
@@ -2666,7 +2656,7 @@ int currentItemID;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults synchronize];
-        if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO && !playlistTableView.editing){
+        if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO){
             [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
         }
         else{
@@ -2820,6 +2810,7 @@ int currentItemID;
 -(void)viewDidDisappear:(BOOL)animated{
     [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     songDetailsView.alpha = 0;
+    [playlistTableView setEditing:NO animated:YES];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
