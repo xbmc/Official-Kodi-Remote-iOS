@@ -3179,19 +3179,12 @@ NSIndexPath *selected;
             }
         }];
     }
-    else if ([[mainFields objectForKey:@"row8"] isEqualToString:@"channelid"]){
-        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] index:indexPath];
-//        [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//            [queuing stopAnimating];
-//            if (error==nil && methodError==nil){
-//                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-//                [self showNowPlaying];
-//            }
-////            else {
-//                //                            NSLog(@"terzo errore %@",methodError);
-////            }
-//        }];
-        
+    else if ([[mainFields objectForKey:@"row8"] isEqualToString:@"channelid"] || [[mainFields objectForKey:@"row8"] isEqualToString:@"broadcastid"]) {
+        NSNumber *channelid = [item objectForKey:[mainFields objectForKey:@"row8"]];
+        if ([[mainFields objectForKey:@"row8"] isEqualToString:@"broadcastid"]){
+            channelid = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"];
+        }
+        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: channelid, @"channelid", nil], @"item", nil] index:indexPath];
     }
     else if ([[mainFields objectForKey:@"row7"] isEqualToString:@"plugin"]){ // TEST
         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
@@ -3677,10 +3670,10 @@ NSIndexPath *selected;
     GlobalData *obj=[GlobalData getInstance];
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];    
 //    NSLog(@"START");
+    debugText.text = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
-    debugText.text = [NSString stringWithFormat:@"**METHOD**\n%@\n\n**PARAMETERS**\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, mutableParameters);
     [jsonRPC
      callMethod:methodToCall
@@ -3904,13 +3897,13 @@ NSIndexPath *selected;
              
              // DISPLAY DEBUG
              if (methodError != nil){
-                 debugText.text = [NSString stringWithFormat:@"**METHOD ERROR**\n%@\n\n%@\n", methodError, debugText.text];
+                 debugText.text = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, debugText.text];
              }
              if (error != nil){
-                 debugText.text = [NSString stringWithFormat:@"**ERROR**\n%@\n\n%@\n", error, debugText.text];
+                 debugText.text = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, debugText.text];
                  
              }
-             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"DEBUG INFO"
+             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
                                                                  message:debugText.text
                                                                 delegate:self
                                                        cancelButtonTitle:nil
