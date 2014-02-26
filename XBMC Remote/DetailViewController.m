@@ -3592,6 +3592,10 @@ NSIndexPath *selected;
                  if (row11 == nil){
                      row11 = [NSNumber numberWithInt:0];
                  }
+                 NSString *row11key = [mainFields objectForKey:@"row11"];
+                 if (row11key == nil){
+                     row11key = @"";
+                 }
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
                   [NSNumber numberWithBool:disableNowPlaying], @"disableNowPlaying",
