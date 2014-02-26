@@ -2603,6 +2603,7 @@ NSMutableArray *hostRightMenuItems;
                        [NSNumber numberWithInt:1], @"playlistid",
                        @"recordingid",@"row8",
                        @"recordingid", @"row9",
+                       @"recordingdetails",@"itemid_extra_info",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -2616,6 +2617,7 @@ NSMutableArray *hostRightMenuItems;
                        [NSNumber numberWithInt:1], @"playlistid",
                        @"timerid",@"row8",
                        @"timerid", @"row9",
+                       @"timerdetails",@"itemid_extra_info",
                        nil],
                       
                       nil];
@@ -2624,7 +2626,7 @@ NSMutableArray *hostRightMenuItems;
     item8.defaultThumb=@"nocover_movies";
     item8.sheetActions=[NSArray arrayWithObjects:
                         [NSArray arrayWithObjects: nil],
-                        [NSArray arrayWithObjects: nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), nil],
                         [NSArray arrayWithObjects: nil],
 
                         nil];
