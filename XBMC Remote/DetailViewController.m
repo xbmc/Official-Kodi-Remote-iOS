@@ -3179,12 +3179,17 @@ NSIndexPath *selected;
             }
         }];
     }
-    else if ([[mainFields objectForKey:@"row8"] isEqualToString:@"channelid"] || [[mainFields objectForKey:@"row8"] isEqualToString:@"broadcastid"]) {
+    else if ([[mainFields objectForKey:@"row8"] isEqualToString:@"channelid"] || [[mainFields objectForKey:@"row8"] isEqualToString:@"broadcastid"] || [[mainFields objectForKey:@"row8"] isEqualToString:@"recordingid"]) {
         NSNumber *channelid = [item objectForKey:[mainFields objectForKey:@"row8"]];
+        NSString *param = @"channelid";
         if ([[mainFields objectForKey:@"row8"] isEqualToString:@"broadcastid"]){
             channelid = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"];
         }
-        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: channelid, @"channelid", nil], @"item", nil] index:indexPath];
+        if ([[mainFields objectForKey:@"row8"] isEqualToString:@"recordingid"]){
+            param = @"file";
+            channelid = [item objectForKey:@"file"];
+        }
+        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: channelid, param, nil], @"item", nil] index:indexPath];
     }
     else if ([[mainFields objectForKey:@"row7"] isEqualToString:@"plugin"]){ // TEST
         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
@@ -3607,7 +3612,7 @@ NSIndexPath *selected;
                   [mainFields objectForKey:@"row8"], @"family",
                   [NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row9"]]]intValue]], [mainFields objectForKey:@"row9"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
-                  row11, [mainFields objectForKey:@"row11"],
+                  row11, row11key,
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row13"]], [mainFields objectForKey:@"row13"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row14"]], [mainFields objectForKey:@"row14"],
