@@ -1031,11 +1031,20 @@ NSInteger buttonAction;
                 break;
                 
             case 19:// SUBTITLES BUTTON
-                [self GUIAction:@"Addons.ExecuteAddon"
-                         params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 @"script.xbmc.subtitles", @"addonid",
-                                 nil]
-                httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
+                if ([AppDelegate instance].serverVersion > 12){
+                    [self GUIAction:@"GUI.ActivateWindow"
+                             params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"subtitlesearch", @"window",
+                                     nil]
+                    httpAPIcallback:nil];
+                }
+                else{
+                    [self GUIAction:@"Addons.ExecuteAddon"
+                             params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"script.xbmc.subtitles", @"addonid",
+                                     nil]
+                    httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
+                }
                 break;
                 
             case 22:
