@@ -2603,6 +2603,7 @@ NSMutableArray *hostRightMenuItems;
                        [NSNumber numberWithInt:1], @"playlistid",
                        @"recordingid",@"row8",
                        @"recordingid", @"row9",
+                       @"file", @"row10",
                        @"recordingdetails",@"itemid_extra_info",
                        nil],
                       
