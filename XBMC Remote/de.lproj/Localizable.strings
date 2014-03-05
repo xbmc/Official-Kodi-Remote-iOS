@@ -26,7 +26,7 @@
 
 "Files" = "Dateien";
 "Video Addons" = "Video Addons";
-"Live TV" = "Live TV";
+"Live TV" = "Fernsehen";
 "Movie Genres" = "Filmgenre";
 "Music Videos" = "Musikvideos";
 "Added Movies" = "Hinzugefügte Filme";
@@ -195,7 +195,7 @@
 "Play in party mode" = "Spiele im Partymodus";
 "Play in shuffle mode" = "Spiele im Shuffle-Modus";
 
-"Channel Guide" = "Channel Guide";
-"Record" = "Record";
-"Broadcast Details" = "Broadcast Details";
+"Channel Guide" = "Senderübersicht";
+"Record" = "Aufnahme";
+"Broadcast Details" = "Senderdetails";
 "TIME" = "TIME";
