@@ -93,7 +93,7 @@
     self.isLandscape      = inLandscape;
     self.animationInCurse = NO;
     
-    int bufferSize = (imageBufer < urls.count) ? imageBufer : urls.count;
+    NSInteger bufferSize = (imageBufer < urls.count) ? imageBufer : urls.count;
     
     // Fill the buffer.
     for (uint i=0; i<bufferSize; i++) {
@@ -135,7 +135,7 @@
     BOOL wrapping = NO;
     int bufferIndex = 0;
     
-    for (int urlIndex=self.imagesArray.count; urlIndex < [urls count]; urlIndex++) {
+    for (NSInteger urlIndex=self.imagesArray.count; urlIndex < [urls count]; urlIndex++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
                                withObject:[NSNumber numberWithInt:0]

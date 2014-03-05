@@ -107,7 +107,7 @@
 
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -116,7 +116,7 @@
 
 - (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -480,7 +480,7 @@
 #pragma mark - Utility
 
 -(void)toggleOpen:(UITapGestureRecognizer *)sender {
-    int section = [sender.view tag];
+    NSInteger section = [sender.view tag];
     [self.sectionArrayOpen replaceObjectAtIndex:section withObject:[NSNumber numberWithBool:![[self.sectionArrayOpen objectAtIndex:section] boolValue]]];
     NSInteger countEpisodes = [[self.sections valueForKey:[self.sectionArray objectAtIndex:section]] count];
     NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
@@ -583,9 +583,9 @@
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     int i;
-    int count = [[self.detailItem mainParameters] count];
+    NSInteger count = [[self.detailItem mainParameters] count];
     NSMutableArray *mainMenu = [[NSMutableArray alloc] init];
-    int numIcons = [[self.detailItem mainButtons] count];
+    NSInteger numIcons = [[self.detailItem mainButtons] count];
     for (i = MAX_NORMAL_BUTTONS; i < count; i++){
         NSString *icon = @"";
         if (i < numIcons){
@@ -635,7 +635,7 @@
     if (![buttons count]) return;
     NSIndexPath *choice=notification.object;
     choosedTab = 0;
-    int selectedIdx = MAX_NORMAL_BUTTONS + choice.row;
+    NSInteger selectedIdx = MAX_NORMAL_BUTTONS + choice.row;
     selectedMoreTab.tag=selectedIdx;
     [self changeTab:selectedMoreTab];
 }
@@ -651,7 +651,7 @@
     [self.sections removeAllObjects];
     [activeLayoutView reloadData];
     self.richResults = [storeRichResults mutableCopy];
-    int total = [self.richResults count];
+    NSInteger total = [self.richResults count];
     NSMutableIndexSet *mutableIndexSet = [[NSMutableIndexSet alloc] init];
     switch (newWatchMode) {
         case 0:
@@ -744,7 +744,7 @@
     [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
     if ([sender tag]==choosedTab) {
         NSArray *watchedCycle = [self.detailItem watchModes];
-        int num_modes = [[[watchedCycle objectAtIndex:choosedTab] objectForKey:@"modes"] count];
+        NSInteger num_modes = [[[watchedCycle objectAtIndex:choosedTab] objectForKey:@"modes"] count];
         if (num_modes){
             if (watchMode < num_modes - 1){
                 watchMode ++;
@@ -774,8 +774,8 @@
         longTimeout = nil;
     }
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-    numTabs=[[self.detailItem mainMethod] count];
-    int newChoosedTab=[sender tag];
+    numTabs = (int)[[self.detailItem mainMethod] count];
+    int newChoosedTab = (int)[sender tag];
     if (newChoosedTab>=numTabs){
         newChoosedTab=0;
     }
@@ -787,7 +787,7 @@
     else {
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setSelected:NO];
     }
-    choosedTab=newChoosedTab;
+    choosedTab = newChoosedTab;
     if (choosedTab<[buttonsIB count]){
         [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     }
@@ -984,7 +984,7 @@
                     [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
                 }
                 else {
-                    [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
+                    [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
                 }
                 return;
             }
@@ -1044,7 +1044,7 @@
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
             else {
-                [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
+                [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
             }
         }
     }
@@ -1537,7 +1537,7 @@ int originYear = 0;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if (tableView == self.searchDisplayController.searchResultsTableView){
-        int numResult=[self.filteredListContent count];
+        int numResult = (int)[self.filteredListContent count];
         if (numResult){
             if (numResult!=1)
                 return [NSString stringWithFormat:NSLocalizedString(@"%d results", nil), [self.filteredListContent count]];
@@ -2092,7 +2092,7 @@ int originYear = 0;
         [trackCountLabel setShadowColor:albumFontShadowColor];
         [trackCountLabel setShadowOffset:CGSizeMake(0, 1)];
         [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
-        trackCountLabel.text = [NSString stringWithFormat:@"%d %@, %@ %@", [self.richResults count], [self.richResults count] > 1 ? NSLocalizedString(@"Songs", nil)  : NSLocalizedString(@"Song", nil), numberString, totalTime/60 > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
+        trackCountLabel.text = [NSString stringWithFormat:@"%lu %@, %@ %@", (unsigned long)[self.richResults count], [self.richResults count] > 1 ? NSLocalizedString(@"Songs", nil)  : NSLocalizedString(@"Song", nil), numberString, totalTime/60 > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
         [albumDetailView addSubview:trackCountLabel];
         int year = [[item objectForKey:@"year"] intValue];
         [releasedLabel setBackgroundColor:[UIColor clearColor]];
@@ -2181,7 +2181,7 @@ int originYear = 0;
         else{
             item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:section]] objectAtIndex:0];
         }
-        int seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:self.extraSectionRichResults];
+        NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:self.extraSectionRichResults];
         float seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
         if (seasonIdx != NSNotFound){
             
@@ -2465,7 +2465,7 @@ int originYear = 0;
         }
 //		}
 	}
-    numFilteredResults=[self.filteredListContent count];
+    numFilteredResults = (int)[self.filteredListContent count];
 }
 
 
@@ -2555,7 +2555,7 @@ NSIndexPath *selected;
 
 -(void)showActionSheet:(NSIndexPath *)indexPath sheetActions:(NSArray *)sheetActions item:(NSDictionary *)item rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
 //    if (tmpFromAlbumView) choosedTab = 1; else if (albumView) choosedTab = 0;
-    int numActions=[sheetActions count];
+    NSInteger numActions=[sheetActions count];
     if (numActions){
         NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
         UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
@@ -2577,7 +2577,7 @@ NSIndexPath *selected;
         }    
     }
     else if (indexPath!=nil){ // No actions found, revert back to standard play action
-        [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
+        [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
     }
 }
 
@@ -2608,7 +2608,7 @@ NSIndexPath *selected;
                 [[[self.detailItem sheetActions] objectAtIndex:choosedTab] removeObject:NSLocalizedString(@"Play Trailer", nil)];
             }
             NSMutableArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
-            int numActions=[sheetActions count];
+            NSInteger numActions = [sheetActions count];
             if (numActions){
                 NSDictionary *item = nil;
                 if ([self.searchDisplayController isActive]){
@@ -2673,7 +2673,7 @@ NSIndexPath *selected;
         if ([option isEqualToString:NSLocalizedString(@"Play", nil)]){
             NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
             if ([songid intValue]){
-                [self addPlayback:item indexPath:selected position:selected.row shuffle:NO];
+                [self addPlayback:item indexPath:selected position:(int)selected.row shuffle:NO];
             }
             else {
                 [self addPlayback:item indexPath:selected position:0 shuffle:NO];
@@ -3179,19 +3179,17 @@ NSIndexPath *selected;
             }
         }];
     }
-    else if ([[mainFields objectForKey:@"row8"] isEqualToString:@"channelid"]){
-        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] index:indexPath];
-//        [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"], nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//            [queuing stopAnimating];
-//            if (error==nil && methodError==nil){
-//                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-//                [self showNowPlaying];
-//            }
-////            else {
-//                //                            NSLog(@"terzo errore %@",methodError);
-////            }
-//        }];
-        
+    else if ([[mainFields objectForKey:@"row8"] isEqualToString:@"channelid"] || [[mainFields objectForKey:@"row8"] isEqualToString:@"broadcastid"] || [[mainFields objectForKey:@"row8"] isEqualToString:@"recordingid"]) {
+        NSNumber *channelid = [item objectForKey:[mainFields objectForKey:@"row8"]];
+        NSString *param = @"channelid";
+        if ([[mainFields objectForKey:@"row8"] isEqualToString:@"broadcastid"]){
+            channelid = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"];
+        }
+        if ([[mainFields objectForKey:@"row8"] isEqualToString:@"recordingid"]){
+            param = @"file";
+            channelid = [item objectForKey:@"file"];
+        }
+        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: channelid, param, nil], @"item", nil] index:indexPath];
     }
     else if ([[mainFields objectForKey:@"row7"] isEqualToString:@"plugin"]){ // TEST
         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
@@ -3594,6 +3592,10 @@ NSIndexPath *selected;
                  if (row11 == nil){
                      row11 = [NSNumber numberWithInt:0];
                  }
+                 NSString *row11key = [mainFields objectForKey:@"row11"];
+                 if (row11key == nil){
+                     row11key = @"";
+                 }
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
                   [NSNumber numberWithBool:disableNowPlaying], @"disableNowPlaying",
@@ -3614,7 +3616,7 @@ NSIndexPath *selected;
                   [mainFields objectForKey:@"row8"], @"family",
                   [NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row9"]]]intValue]], [mainFields objectForKey:@"row9"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
-                  row11, [mainFields objectForKey:@"row11"],
+                  row11, row11key,
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row13"]], [mainFields objectForKey:@"row13"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row14"]], [mainFields objectForKey:@"row14"],
@@ -3677,10 +3679,10 @@ NSIndexPath *selected;
     GlobalData *obj=[GlobalData getInstance];
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];    
 //    NSLog(@"START");
+    debugText.text = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
-    debugText.text = [NSString stringWithFormat:@"**METHOD**\n%@\n\n**PARAMETERS**\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, mutableParameters);
     [jsonRPC
      callMethod:methodToCall
@@ -3722,7 +3724,7 @@ NSIndexPath *selected;
                  }
                  NSArray *videoLibraryMovies = [methodResult objectForKey:itemid];
                  if (((NSNull *)videoLibraryMovies != [NSNull null])){
-                     total=[videoLibraryMovies count];
+                     total = (int)[videoLibraryMovies count];
                  }
                  NSString *serverURL= @"";
                  serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
@@ -3904,13 +3906,13 @@ NSIndexPath *selected;
              
              // DISPLAY DEBUG
              if (methodError != nil){
-                 debugText.text = [NSString stringWithFormat:@"**METHOD ERROR**\n%@\n\n%@\n", methodError, debugText.text];
+                 debugText.text = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, debugText.text];
              }
              if (error != nil){
-                 debugText.text = [NSString stringWithFormat:@"**ERROR**\n%@\n\n%@\n", error, debugText.text];
+                 debugText.text = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, debugText.text];
                  
              }
-             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"DEBUG INFO"
+             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
                                                                  message:debugText.text
                                                                 delegate:self
                                                        cancelButtonTitle:nil
@@ -4072,7 +4074,7 @@ NSIndexPath *selected;
 -(void)displayData{
     [self configureLibraryView];
     [self choseParams];
-    numResults=[self.richResults count];
+    numResults = (int)[self.richResults count];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([self.detailItem enableSection]){
         // CONDIZIONE DEBOLE!!!
@@ -4222,7 +4224,7 @@ NSIndexPath *selected;
     NSArray *buttons=[self.detailItem mainButtons];
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     int i=0;
-    int count=[buttons count];
+    NSInteger count = [buttons count];
     if (count > MAX_NORMAL_BUTTONS)
         count = MAX_NORMAL_BUTTONS;
     if (choosedTab > MAX_NORMAL_BUTTONS)
@@ -4420,7 +4422,7 @@ NSIndexPath *selected;
     self.view.userInteractionEnabled = YES;
     choosedTab = 0;
     [self buildButtons]; // TEMP ?
-    numTabs=[[self.detailItem mainMethod] count];
+    numTabs = (int)[[self.detailItem mainMethod] count];
     if ([self.detailItem chooseTab])
         choosedTab=[self.detailItem chooseTab];
     if (choosedTab>=numTabs){

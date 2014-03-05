@@ -120,7 +120,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     stackScrollIsFullscreen = YES;
     [stackViewsFrames removeAllObjects];
     int i = 0;
-    int numViews = [[slideViews subviews] count];
+    NSInteger numViews = [[slideViews subviews] count];
     for (UIView* subview in [slideViews subviews]) {
         if ([subview isEqual:[sender object]]){
             originalFrame = subview.frame;
@@ -154,7 +154,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 -(void)handleStackScrollFullScreenDisabled:(NSNotification *)sender{
     stackScrollIsFullscreen = NO;
     int i = 0;
-    int numViews = [[slideViews subviews] count];
+    NSInteger numViews = [[slideViews subviews] count];
     for (UIView* subview in [slideViews subviews]) {
         if ([subview isEqual:[sender object]]){
             subview.frame = originalFrame;
@@ -164,7 +164,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     }
     if (i + 1 < numViews){
         int k = 0;
-        int numStoredFrames = [stackViewsFrames count];
+        NSInteger numStoredFrames = [stackViewsFrames count];
         for (int j = i + 1; j < numViews && k < numStoredFrames; j++) {
             [[[slideViews subviews] objectAtIndex:j] setFrame:[[stackViewsFrames objectAtIndex:k] CGRectValue]];
             k ++;
@@ -874,7 +874,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 - (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView{
     float animX=0;
 	if (isStackStartView) {
-        int numViews=[[slideViews subviews]count];
+        NSInteger numViews=[[slideViews subviews]count];
         if (numViews==0){
             int orientation= [[UIApplication sharedApplication] statusBarOrientation];
             animX = (orientation==1 || orientation==2) ? 468 : 724;
@@ -907,7 +907,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		}
 		
 		NSInteger viewControllerCount = [viewControllersStack count];
-		for (int i = indexOfViewController; i < viewControllerCount; i++) {
+		for (NSInteger i = indexOfViewController; i < viewControllerCount; i++) {
             [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
 //FIXME: 
             if (!TARGET_IPHONE_SIMULATOR){

@@ -69,7 +69,7 @@
         
         NSString *macAddress = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverMacAddress"];
         NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
-        int num_octects = [mac_octect count];
+        NSInteger num_octects = [mac_octect count];
         if (num_octects>0) mac_0_UI.text = [mac_octect objectAtIndex:0];
         if (num_octects>1) mac_1_UI.text = [mac_octect objectAtIndex:1];
         if (num_octects>2) mac_2_UI.text = [mac_octect objectAtIndex:2];
@@ -233,7 +233,7 @@
 
 - (void)updateUI{
     if(!searching){
-        int j = [services  count];
+        NSInteger j = [services  count];
         if (j==1){
             [self resolveIPAddress:[services objectAtIndex:0]];
         }

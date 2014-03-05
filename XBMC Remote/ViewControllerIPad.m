@@ -118,7 +118,7 @@
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_on"]];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        int n = [menuViewController.tableView numberOfRowsInSection:0];
+        NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
@@ -142,7 +142,7 @@
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_off"]];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        int n = [menuViewController.tableView numberOfRowsInSection:0];
+        NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
@@ -264,7 +264,7 @@
                       NSLocalizedString(@"Update Video Library", nil),
                       NSLocalizedString(@"Clean Video Library", nil),  nil];
     }
-    int numActions=[sheetActions count];
+    NSInteger numActions=[sheetActions count];
     if (numActions){
         actionSheetPower = [[UIActionSheet alloc] initWithTitle:title
                                                             delegate:self
@@ -404,7 +404,7 @@
 
     int cellHeight = PAD_MENU_HEIGHT;
     int infoHeight = PAD_MENU_INFO_HEIGHT;
-    int tableHeight = ([(NSMutableArray *)mainMenu count] - 1) * cellHeight + infoHeight;
+    NSInteger tableHeight = ([(NSMutableArray *)mainMenu count] - 1) * cellHeight + infoHeight;
     int tableWidth = 300;
     int headerHeight=0;
    
@@ -435,7 +435,7 @@
 
     nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     CGRect frame=nowPlayingController.view.frame;
-    YPOS=-(tableHeight + separator + headerHeight);
+    YPOS= (int)-(tableHeight + separator + headerHeight);
     frame.origin.y=tableHeight + separator + headerHeight;
     frame.size.width=tableWidth;
     frame.size.height=self.view.frame.size.height - tableHeight - separator - headerHeight - deltaY;

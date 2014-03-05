@@ -176,7 +176,7 @@ float cellBarWidth=45;
 
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement = [array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -1320,7 +1320,7 @@ int currentItemID;
                          [NSNumber numberWithInt:playlistID], @"playlistid",
                          nil] 
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-               int total=0;
+               NSInteger total=0;
                if (error==nil && methodError==nil){
                    [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
                    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
@@ -1417,7 +1417,7 @@ int currentItemID;
 }
 
 -(void)showPlaylistTable{    
-    numResults=[playlistData count];
+    numResults = (int)[playlistData count];
     if (numResults==0)
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     else {
@@ -2008,7 +2008,7 @@ int currentItemID;
                     [sheetActions addObjectsFromArray:[NSArray arrayWithObjects: NSLocalizedString(@"TV Show Details", nil), NSLocalizedString(@"Episode Details", nil), nil]];
                 }
             }
-            int numActions=[sheetActions count];
+            NSInteger numActions=[sheetActions count];
             if (numActions){
                  NSString *title= [item objectForKey:@"label"];
                 if ([[item objectForKey:@"type"] isEqualToString:@"song"]){
@@ -2082,7 +2082,7 @@ int currentItemID;
         NSUInteger h = selectedTime / 3600;
         NSUInteger m = (selectedTime / 60) % 60;
         NSUInteger s = selectedTime % 60;
-        NSString *displaySelectedTime=[NSString stringWithFormat:@"%@%02i:%02i", (globalSeconds < 3600) ? @"":[NSString stringWithFormat:@"%02i:", h], m, s];
+        NSString *displaySelectedTime=[NSString stringWithFormat:@"%@%02lu:%02lu", (globalSeconds < 3600) ? @"":[NSString stringWithFormat:@"%02lu:", (unsigned long)h], (unsigned long)m, (unsigned long)s];
         currentTime.text = displaySelectedTime;
         scrabbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@",[NSNumber numberWithFloat:ProgressSlider.scrubbingSpeed]]), nil);
     }
@@ -2092,7 +2092,7 @@ int currentItemID;
 
 - (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -2102,7 +2102,7 @@ int currentItemID;
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex!=actionSheet.cancelButtonIndex){
         NSDictionary *item = nil;
-        int numPlaylistEntries = [playlistData count];
+        NSInteger numPlaylistEntries = [playlistData count];
         if (selected.row < numPlaylistEntries) {
             item = [playlistData objectAtIndex:selected.row];
         }
@@ -2319,7 +2319,7 @@ int currentItemID;
      callMethod:@"Player.Open" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                      [NSDictionary dictionaryWithObjectsAndKeys:
-                      [NSNumber numberWithInt:indexPath.row], @"position", [NSNumber numberWithInt:playerID], @"playlistid", nil], @"item", nil]
+                      [NSNumber numberWithInt:(int)indexPath.row], @"position", [NSNumber numberWithInt:playerID], @"playlistid", nil], @"item", nil]
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error==nil && methodError==nil){
              storedItemID=-1;
@@ -2381,13 +2381,13 @@ int currentItemID;
     NSString *action1=@"Playlist.Remove";
     NSDictionary *params1=[NSDictionary dictionaryWithObjectsAndKeys:
                           [NSNumber numberWithInt:playerID], @"playlistid",
-                          [NSNumber numberWithInt:sourceIndexPath.row],@"position", 
+                          [NSNumber numberWithInt:(int)sourceIndexPath.row],@"position",
                           nil] ;
     NSString *action2=@"Playlist.Insert";
     NSDictionary *params2=[NSDictionary dictionaryWithObjectsAndKeys:
                           [NSNumber numberWithInt:playerID], @"playlistid",
                           itemToMove, @"item",
-                          [NSNumber numberWithInt:destinationIndexPath.row],@"position",
+                          [NSNumber numberWithInt:(int)destinationIndexPath.row],@"position",
                           nil];
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance]; 
@@ -2397,7 +2397,7 @@ int currentItemID;
     [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             [jsonRPC callMethod:action2 withParameters:params2];
-            int numObj = [playlistData count];
+            NSInteger numObj = [playlistData count];
             if ([sourceIndexPath row] < numObj){
                 [playlistData removeObjectAtIndex:[sourceIndexPath row]];
             }
@@ -2428,11 +2428,11 @@ int currentItemID;
         NSString *action1=@"Playlist.Remove";
         NSDictionary *params1=[NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInt:playerID], @"playlistid",
-                               [NSNumber numberWithInt:indexPath.row],@"position", 
+                               [NSNumber numberWithInt:(int)indexPath.row],@"position",
                                nil] ;
         [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
-                int numObj = [playlistData count];
+                NSInteger numObj = [playlistData count];
                 if ([indexPath row] < numObj){
                     [playlistData removeObjectAtIndex:indexPath.row];
                 }
@@ -2456,24 +2456,20 @@ int currentItemID;
     return UITableViewCellEditingStyleNone;
 }
 
--(void)addGestures{ // TEMP WORKAROUND
-    self.navigationController.view.gestureRecognizers = nil; // TEMP WORKAROUND
-    self.navigationController.navigationBar.gestureRecognizers = nil; // TEMP WORKAROUND
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
-        if (self.navigationController.view.gestureRecognizers == nil)
-            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-    }
-    else{
-        if (self.navigationController.navigationBar.gestureRecognizers == nil)
-            [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    if (playlistTableView.editing) {
+        return NO;
+        
+    } else {
+        return YES;
     }
 }
 
 -(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
+    if (sender != nil){
+        forceClose = FALSE;
+    }
     if ([playlistData count]==0 && !playlistTableView.editing) {
-        [self addGestures]; 
         return;
     }
     if (playlistTableView.editing || forceClose==YES){
@@ -2481,14 +2477,11 @@ int currentItemID;
         [editTableButton setSelected:NO];
         lastSelected=-1;
         storeSelection=nil;
-        [self addGestures]; 
     }
     else{
         storeSelection = [playlistTableView indexPathForSelectedRow];
         [playlistTableView setEditing:YES animated:YES];
         [editTableButton setSelected:YES];
-        self.navigationController.view.gestureRecognizers = nil; 
-        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
     }
 }
 
@@ -2666,7 +2659,7 @@ int currentItemID;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults synchronize];
-        if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO && !playlistTableView.editing){
+        if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO){
             [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
         }
         else{
@@ -2820,6 +2813,7 @@ int currentItemID;
 -(void)viewDidDisappear:(BOOL)animated{
     [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     songDetailsView.alpha = 0;
+    [playlistTableView setEditing:NO animated:YES];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 

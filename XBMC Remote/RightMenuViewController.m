@@ -433,7 +433,7 @@
     }
     [UIView animateWithDuration:0.2
                      animations:^{
-                         int n = [menuTableView numberOfRowsInSection:0];
+                         NSInteger n = [menuTableView numberOfRowsInSection:0];
                          for (int i=1;i<n;i++){
                              UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
                              if (cell!=nil){
@@ -445,7 +445,7 @@
                          [menuTableView reloadData];
                          [UIView animateWithDuration:0.2
                                           animations:^{
-                                              int n = [menuTableView numberOfRowsInSection:0];
+                                              NSInteger n = [menuTableView numberOfRowsInSection:0];
                                               for (int i=1;i<n;i++){
                                                   UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
                                                   if (cell!=nil){

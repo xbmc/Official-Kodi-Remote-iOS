@@ -125,7 +125,7 @@
 
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -134,7 +134,7 @@
 
 - (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
