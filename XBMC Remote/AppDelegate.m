@@ -2507,7 +2507,7 @@ NSMutableArray *hostRightMenuItems;
     item8.family = 1;
     item8.enableSection=YES;
     item8.noConvertTime = YES;
-    item8.mainButtons=[NSArray arrayWithObjects:@"st_livetv", @"st_livetv", @"st_livetv", nil];
+    item8.mainButtons=[NSArray arrayWithObjects:@"st_livetv", @"st_recordings", @"st_timers", nil];
     item8.mainMethod=[NSMutableArray arrayWithObjects:
                       [NSArray arrayWithObjects:@"PVR.GetChannelGroups", @"method", nil],
                       [NSArray arrayWithObjects:
@@ -2524,7 +2524,7 @@ NSMutableArray *hostRightMenuItems;
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"tv", @"channeltype",
-                            nil], @"parameters", @"Live TV", @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Live TV", nil), @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"16", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2544,7 +2544,7 @@ NSMutableArray *hostRightMenuItems;
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", @"genre", @"playcount",@"resume", @"channel",  @"runtime",@"lifetime", @"icon", @"art", @"streamurl", @"file", @"directory", nil], @"properties",
                             nil], @"extra_info_parameters",
-                           @"Live TV", @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", livetvRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
+                           NSLocalizedString(@"Recordings", nil), @"label", NSLocalizedString(@"Recordings", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", livetvRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
                            @"16", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2564,7 +2564,7 @@ NSMutableArray *hostRightMenuItems;
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSArray alloc] initWithObjects:@"title", @"summary", @"channelid", @"isradio", @"repeating", @"starttime", @"endtime", @"runtime", @"lifetime", @"firstday",@"weekdays", @"priority", @"startmargin", @"endmargin", @"state", @"file", @"directory", nil], @"properties",
                             nil], @"extra_info_parameters",
-                           @"Live TV", @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", livetvRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
+                           NSLocalizedString(@"Timers", nil), @"label", NSLocalizedString(@"Timers", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", livetvRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
                            @"16", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
