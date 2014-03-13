@@ -2767,7 +2767,10 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.thumbWidth = 53;
     item8.subItem.subItem.defaultThumb = @"nocover_filemode";
     item8.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
-                                          [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Record", nil), NSLocalizedString(@"Broadcast Details", nil), nil],
+                                          [NSArray arrayWithObjects:
+                                           NSLocalizedString(@"Play", nil),
+//                                           NSLocalizedString(@"Record", nil),
+                                           NSLocalizedString(@"Broadcast Details", nil), nil],
                                           nil];
     item8.subItem.subItem.widthLabel = 252;
     item8.subItem.subItem.showInfo = [NSArray arrayWithObjects:
