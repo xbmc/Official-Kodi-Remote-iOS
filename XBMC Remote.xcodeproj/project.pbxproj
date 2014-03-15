@@ -686,6 +686,10 @@
 		0FF4DC0715A36F12002F6D0C /* st_movie_recently_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF4DC0515A36F12002F6D0C /* st_movie_recently_on.png */; };
 		0FF4DC0B15A36F27002F6D0C /* st_movie_recently_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF4DC0915A36F27002F6D0C /* st_movie_recently_off@2x.png */; };
 		0FF4DC0C15A36F27002F6D0C /* st_movie_recently_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF4DC0A15A36F27002F6D0C /* st_movie_recently_on@2x.png */; };
+		0FF7099E18D1D9010093EC89 /* st_recordings_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF7099C18D1D9010093EC89 /* st_recordings_off@2x.png */; };
+		0FF7099F18D1D9010093EC89 /* st_recordings_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF7099D18D1D9010093EC89 /* st_recordings_on@2x.png */; };
+		0FF709A618D1DF9A0093EC89 /* st_timers_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF709A418D1DF9A0093EC89 /* st_timers_off@2x.png */; };
+		0FF709A718D1DF9A0093EC89 /* st_timers_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF709A518D1DF9A0093EC89 /* st_timers_on@2x.png */; };
 		0FFBCF0C152BAC1600066B30 /* nocover_tvshows_episode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFBCF0B152BAC1600066B30 /* nocover_tvshows_episode@2x.png */; };
 		0FFBCF0F152BAC2D00066B30 /* nocover_tvshows_episode.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */; };
 		0FFF725D18226AB9007A6E25 /* st_livetv_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFF725B18226AB9007A6E25 /* st_livetv_off.png */; };
@@ -1472,6 +1476,10 @@
 		0FF4DC0515A36F12002F6D0C /* st_movie_recently_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_movie_recently_on.png; sourceTree = "<group>"; };
 		0FF4DC0915A36F27002F6D0C /* st_movie_recently_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_movie_recently_off@2x.png"; sourceTree = "<group>"; };
 		0FF4DC0A15A36F27002F6D0C /* st_movie_recently_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_movie_recently_on@2x.png"; sourceTree = "<group>"; };
+		0FF7099C18D1D9010093EC89 /* st_recordings_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_recordings_off@2x.png"; sourceTree = "<group>"; };
+		0FF7099D18D1D9010093EC89 /* st_recordings_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_recordings_on@2x.png"; sourceTree = "<group>"; };
+		0FF709A418D1DF9A0093EC89 /* st_timers_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_timers_off@2x.png"; sourceTree = "<group>"; };
+		0FF709A518D1DF9A0093EC89 /* st_timers_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_timers_on@2x.png"; sourceTree = "<group>"; };
 		0FFBCF0B152BAC1600066B30 /* nocover_tvshows_episode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_tvshows_episode@2x.png"; sourceTree = "<group>"; };
 		0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_tvshows_episode.png; sourceTree = "<group>"; };
 		0FFF725B18226AB9007A6E25 /* st_livetv_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_livetv_off.png; sourceTree = "<group>"; };
@@ -1819,6 +1827,10 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FF709A418D1DF9A0093EC89 /* st_timers_off@2x.png */,
+				0FF709A518D1DF9A0093EC89 /* st_timers_on@2x.png */,
+				0FF7099C18D1D9010093EC89 /* st_recordings_off@2x.png */,
+				0FF7099D18D1D9010093EC89 /* st_recordings_on@2x.png */,
 				0F37A6E318B0E11D00A90FAA /* button_record@2x.png */,
 				0F42366918A95B4200D0CD31 /* button_timer@2x.png */,
 				0F73533818A52B6700B7EC73 /* nocover_channels@2x.png */,
@@ -2794,6 +2806,7 @@
 				0F554C13151D13CA007E633F /* stars_3.png in Resources */,
 				0F554C14151D13CA007E633F /* stars_4.png in Resources */,
 				0F554C15151D13CA007E633F /* stars_5.png in Resources */,
+				0FF709A718D1DF9A0093EC89 /* st_timers_on@2x.png in Resources */,
 				0F554C16151D13CA007E633F /* stars_6.png in Resources */,
 				0F554C17151D13CA007E633F /* stars_7.png in Resources */,
 				0F554C18151D13CA007E633F /* stars_8.png in Resources */,
@@ -2813,6 +2826,7 @@
 				0F4DCF261520F98100FEFD40 /* volume@2x.png in Resources */,
 				0F4DCF2A1520FED400FEFD40 /* shiny_black_volume.png in Resources */,
 				0F4DCF2C1521284B00FEFD40 /* shiny_black_volume@2x.png in Resources */,
+				0FF7099F18D1D9010093EC89 /* st_recordings_on@2x.png in Resources */,
 				0F4883D41521CD1C00883243 /* VolumeSliderView.xib in Resources */,
 				8ED18ECD16B6D17D00CA03F4 /* ShowInfoViewController.xib in Resources */,
 				0F85A0341525D0BA007B7112 /* line_blu.png in Resources */,
@@ -3010,6 +3024,7 @@
 				0FA3530E15852F480055177A /* monkeys_29.png in Resources */,
 				0FA3530F15852F480055177A /* monkeys_3.png in Resources */,
 				0FA3531015852F480055177A /* monkeys_30.png in Resources */,
+				0FF7099E18D1D9010093EC89 /* st_recordings_off@2x.png in Resources */,
 				0FA3531115852F480055177A /* monkeys_31.png in Resources */,
 				0FA3531215852F480055177A /* monkeys_32.png in Resources */,
 				0FA3531315852F480055177A /* monkeys_33.png in Resources */,
@@ -3046,6 +3061,7 @@
 				0FA3535915852F570055177A /* monkeys_27@2x.png in Resources */,
 				0FA3535A15852F570055177A /* monkeys_28@2x.png in Resources */,
 				0FA3535B15852F570055177A /* monkeys_29@2x.png in Resources */,
+				0FF709A618D1DF9A0093EC89 /* st_timers_off@2x.png in Resources */,
 				0FA3535C15852F570055177A /* monkeys_2@2x.png in Resources */,
 				0FA3535D15852F570055177A /* monkeys_30@2x.png in Resources */,
 				0FA3535E15852F570055177A /* monkeys_31@2x.png in Resources */,

@@ -112,7 +112,10 @@ int count=0;
             }
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
-            sheetActions = [[NSMutableArray alloc] initWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Record", nil), nil];
+            sheetActions = [[NSMutableArray alloc] initWithObjects:
+                            NSLocalizedString(@"Play", nil),
+//                            NSLocalizedString(@"Record", nil),
+                            nil];
         }
         else{
             titleWidth = 400;
@@ -1023,10 +1026,14 @@ int h=0;
         arrow_continue_down.hidden = YES;
         clearLogoHeight = 0;
         label6.frame = label5.frame;
-        label5.frame = label3.frame;
-        summaryLabel.frame= runtimeLabel.frame;
+//        label5.frame = label3.frame;
+//        summaryLabel.frame= runtimeLabel.frame;
+        label5.frame = label2.frame;
+        CGRect frame = genreLabel.frame;
+        frame.origin.y ++;
+        summaryLabel.frame= frame;
          [self moveLabel:[NSArray arrayWithObjects: label1, label2, label5, label6, directorLabel, genreLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:(int)(jewelView.frame.size.height - (jewelView.frame.size.height/8))];
-        CGRect frame = jewelView.frame;
+        frame = jewelView.frame;
         frame.origin.x = label1.frame.origin.x;
         frame.size.width = frame.size.width / 4;
         frame.size.height = frame.size.height /8;
@@ -1065,22 +1072,22 @@ int h=0;
         NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
         NSInteger minutes = [components minute];
         directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
-        UIImage *buttonImage = [UIImage imageNamed:@"button_record"];
-        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
-        recordButton.frame = CGRectMake(0, 0, 200.0f, 29.0f);
-        [recordButton setImage:buttonImage forState:UIControlStateNormal];
-        frame = recordButton.frame;
-        frame.origin.x = label2.frame.origin.x;
-        frame.origin.y = label2.frame.origin.y + 4;
-        recordButton.frame = frame;
-        [recordButton setTitle:NSLocalizedString(@"Record", nil) forState:UIControlStateNormal];
-        [recordButton.titleLabel setFont:[UIFont fontWithName:directorLabel.font.fontName size:directorLabel.font.pointSize]];
-        [recordButton setTitleColor:label1.textColor forState:UIControlStateHighlighted];
-        recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-        [recordButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-        [recordButton setContentMode:UIViewContentModeScaleAspectFill];
-        recordButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 4.0f, 0.0, 0.0);
-        [scrollView addSubview:recordButton];
+//        UIImage *buttonImage = [UIImage imageNamed:@"button_record"];
+//        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
+//        recordButton.frame = CGRectMake(0, 0, 200.0f, 29.0f);
+//        [recordButton setImage:buttonImage forState:UIControlStateNormal];
+//        frame = recordButton.frame;
+//        frame.origin.x = label2.frame.origin.x;
+//        frame.origin.y = label2.frame.origin.y + 4;
+//        recordButton.frame = frame;
+//        [recordButton setTitle:NSLocalizedString(@"Record", nil) forState:UIControlStateNormal];
+//        [recordButton.titleLabel setFont:[UIFont fontWithName:directorLabel.font.fontName size:directorLabel.font.pointSize]];
+//        [recordButton setTitleColor:label1.textColor forState:UIControlStateHighlighted];
+//        recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+//        [recordButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+//        [recordButton setContentMode:UIViewContentModeScaleAspectFill];
+//        recordButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 4.0f, 0.0, 0.0);
+//        [scrollView addSubview:recordButton];
     }
     else {
         placeHolderImage = @"coverbox_back_movies.png";

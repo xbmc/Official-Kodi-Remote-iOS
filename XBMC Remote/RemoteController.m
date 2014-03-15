@@ -498,6 +498,7 @@
                                  NSArray *subtitles = [methodResult objectForKey:@"subtitles"];
                                  if ([subtitles count]){
                                      int currentSubIdx = [[currentSubtitle objectForKey:@"index"] intValue];
+                                     NSString *language = @"?";
                                      NSInteger totalSubs = [subtitles count];
                                      if (subtitleEnabled){
                                          if ( (currentSubIdx + 1) >= totalSubs ){
@@ -506,7 +507,10 @@
                                              [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
                                          }
                                          else{
-                                             NSString *message = [NSString stringWithFormat:@"%@ %d/%ld %@", @"Subtitles: ", ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), (long)totalSubs, [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
+                                             if (((NSNull *)[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"language"] != [NSNull null])){
+                                                 language = [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"language"];
+                                             }
+                                             NSString *message = [NSString stringWithFormat:@"%@ %d/%ld %@%@%@", @"Subtitles: ", ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), (long)totalSubs, language, [[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
                                              [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                          }
                                          // next subs
@@ -514,7 +518,10 @@
                                      }
                                      else{
                                          // enable subs
-                                         NSString *message = [NSString stringWithFormat:@"%@ %d/%ld %@", @"Subtitles: ", currentSubIdx + 1, (long)totalSubs, [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
+                                         if (((NSNull *)[[subtitles objectAtIndex:currentSubIdx] objectForKey:@"language"] != [NSNull null])){
+                                             language = [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"language"];
+                                         }
+                                         NSString *message = [NSString stringWithFormat:@"%@ %d/%ld %@%@%@", @"Subtitles: ", currentSubIdx + 1, (long)totalSubs, language, [[[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
                                          [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                          [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
                                      }
@@ -575,7 +582,11 @@
                                      else{
                                          currentAudioIdx ++;
                                      }
-                                     NSString *message = [NSString stringWithFormat:@"%d/%ld %@", currentAudioIdx + 1, (long)totalAudio, [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"]];
+                                     NSString *language = @"?";
+                                     if (((NSNull *)[[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"language"] != [NSNull null])){
+                                         language = [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"language"];
+                                     }
+                                     NSString *message = [NSString stringWithFormat:@"%d/%ld %@%@%@", currentAudioIdx + 1, (long)totalAudio, language, [[[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"] isEqualToString:@""] ? @"" : @" - ",  [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"]];
                                      [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                      [self playbackAction:action params:parameters];
                                 }
