@@ -110,7 +110,7 @@
     BOOL isViewDidLoad;
     BOOL hideSearchBarActive;
     BOOL enableIpadWA;
-    BOOL tmpFromAlbumView;
+    BOOL forceMusicAlbumMode;
     NSMutableDictionary *epgDict;
     NSMutableArray *epgDownloadQueue;
     NSDateFormatter *xbmcDateFormatter;

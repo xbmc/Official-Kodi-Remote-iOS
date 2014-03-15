@@ -2554,7 +2554,6 @@ int originYear = 0;
 NSIndexPath *selected;
 
 -(void)showActionSheet:(NSIndexPath *)indexPath sheetActions:(NSArray *)sheetActions item:(NSDictionary *)item rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
-//    if (tmpFromAlbumView) choosedTab = 1; else if (albumView) choosedTab = 0;
     NSInteger numActions=[sheetActions count];
     if (numActions){
         NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
@@ -2715,6 +2714,7 @@ NSIndexPath *selected;
         }
     }
     else{
+        forceMusicAlbumMode = NO;
         if ([self.searchDisplayController isActive]){
             [self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selected animated:NO];
         }
@@ -2728,14 +2728,17 @@ NSIndexPath *selected;
             }
         }
     }
-//    if (tmpFromAlbumView) choosedTab = 0;
-    tmpFromAlbumView = NO;
 }
 
 -(void)searchWeb:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
     self.webViewController = nil;
     self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
-    NSString *query = [[item objectForKey:@"label"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *searchString = [item objectForKey:@"label"];
+    if (forceMusicAlbumMode){
+        searchString = self.navigationItem.title;
+        forceMusicAlbumMode = NO;
+    }
+    NSString *query = [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSString *url = [NSString stringWithFormat:serviceURL, query]; 
 	NSURL *_url = [NSURL URLWithString:url];    
     self.webViewController.urlRequest = [NSURLRequest requestWithURL:_url];
@@ -3057,6 +3060,10 @@ NSIndexPath *selected;
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
+    if (forceMusicAlbumMode){
+        mainFields=[[[AppDelegate instance].playlistArtistAlbums mainFields] objectAtIndex:0];
+        forceMusicAlbumMode = NO;
+    }
     NSString *key=[mainFields objectForKey:@"row9"];
     if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]){
         key=@"directory";
@@ -3142,6 +3149,10 @@ NSIndexPath *selected;
 
 -(void)addPlayback:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath position:(int)pos shuffle:(BOOL)shuffled{
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
+    if (forceMusicAlbumMode){
+        mainFields=[[[AppDelegate instance].playlistArtistAlbums mainFields] objectAtIndex:0];
+        forceMusicAlbumMode = NO;
+    }
     if ([mainFields count]==0){
         return;
     }
@@ -3349,7 +3360,7 @@ NSIndexPath *selected;
     selected = [NSIndexPath indexPathForItem:0 inSection:0];
     NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:[[self.sections valueForKey:[self.sectionArray objectAtIndex:0]] objectAtIndex:0]];
     [item setObject:self.navigationItem.title forKey:@"label"];
-    tmpFromAlbumView = YES;
+    forceMusicAlbumMode = YES;
     int rectOrigin = (int)((albumViewHeight - (albumViewPadding * 2))/2);
     [self showActionSheet:nil sheetActions:sheetActions item:item rectOriginX:rectOrigin + albumViewPadding rectOriginY:rectOrigin];
 }
