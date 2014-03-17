@@ -503,14 +503,14 @@
                                      if (subtitleEnabled){
                                          if ( (currentSubIdx + 1) >= totalSubs ){
                                              // disable subs
-                                             [self showSubInfo:@"Subtitles disabled" timeout:2.0 color:[UIColor redColor]];
+                                             [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[UIColor redColor]];
                                              [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
                                          }
                                          else{
                                              if (((NSNull *)[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"language"] != [NSNull null])){
                                                  language = [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"language"];
                                              }
-                                             NSString *message = [NSString stringWithFormat:@"%@ %d/%ld %@%@%@", @"Subtitles: ", ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), (long)totalSubs, language, [[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
+                                             NSString *message = [NSString stringWithFormat:@"%@: %d/%ld %@%@%@", NSLocalizedString(@"Subtitle", nil), ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), (long)totalSubs, language, [[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
                                              [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                          }
                                          // next subs
@@ -521,7 +521,7 @@
                                          if (((NSNull *)[[subtitles objectAtIndex:currentSubIdx] objectForKey:@"language"] != [NSNull null])){
                                              language = [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"language"];
                                          }
-                                         NSString *message = [NSString stringWithFormat:@"%@ %d/%ld %@%@%@", @"Subtitles: ", currentSubIdx + 1, (long)totalSubs, language, [[[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
+                                         NSString *message = [NSString stringWithFormat:@"%@: %d/%ld %@%@%@", NSLocalizedString(@"Subtitle", nil), currentSubIdx + 1, (long)totalSubs, language, [[[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
                                          [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                          [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
                                      }
