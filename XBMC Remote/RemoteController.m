@@ -772,24 +772,26 @@ NSInteger buttonAction;
                      fullscreen = [methodResult objectForKey:@"fullscreen"];
                  }
                  if (((NSNull *)[methodResult objectForKey:@"currentwindow"] != [NSNull null])){
-                    winID = [[[methodResult objectForKey:@"currentwindow"] objectForKey:@"id"] intValue];
+                     winID = [[[methodResult objectForKey:@"currentwindow"] objectForKey:@"id"] intValue];
                  }
-                 [jsonRPC
-                  callMethod:@"XBMC.GetInfoBooleans"
-                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                  [[NSArray alloc] initWithObjects:@"VideoPlayer.HasMenu", @"Pvr.IsPlayingTv", nil], @"booleans",
-                                  nil]
-                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                      if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
-                          NSNumber *VideoPlayerHasMenu = 0;
-                          NSNumber *PvrIsPlayingTv = 0;
-                          if (((NSNull *)[methodResult objectForKey:@"VideoPlayer.HasMenu"] != [NSNull null])){
-                              VideoPlayerHasMenu = [methodResult objectForKey:@"VideoPlayer.HasMenu"];
-                          }
-                          if (((NSNull *)[methodResult objectForKey:@"Pvr.IsPlayingTv"] != [NSNull null])){
-                              PvrIsPlayingTv = [methodResult objectForKey:@"Pvr.IsPlayingTv"];
-                          }
-                          if ([fullscreen boolValue] == YES && (winID == 12005 || winID == 12006)){
+                 // 12005: WINDOW_FULLSCREEN_VIDEO
+                 // 12006: WINDOW_VISUALISATION
+                 if ([fullscreen boolValue] == YES && (winID == 12005 || winID == 12006)){
+                     [jsonRPC
+                      callMethod:@"XBMC.GetInfoBooleans"
+                      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                      [[NSArray alloc] initWithObjects:@"VideoPlayer.HasMenu", @"Pvr.IsPlayingTv", nil], @"booleans",
+                                      nil]
+                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                          if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
+                              NSNumber *VideoPlayerHasMenu = 0;
+                              NSNumber *PvrIsPlayingTv = 0;
+                              if (((NSNull *)[methodResult objectForKey:@"VideoPlayer.HasMenu"] != [NSNull null])){
+                                  VideoPlayerHasMenu = [methodResult objectForKey:@"VideoPlayer.HasMenu"];
+                              }
+                              if (((NSNull *)[methodResult objectForKey:@"Pvr.IsPlayingTv"] != [NSNull null])){
+                                  PvrIsPlayingTv = [methodResult objectForKey:@"Pvr.IsPlayingTv"];
+                              }
                               if (winID == 12005  && [PvrIsPlayingTv boolValue] == NO && [VideoPlayerHasMenu boolValue] == NO){
                                   [self playbackAction:@"Player.Seek" params:[NSArray arrayWithObjects:step, @"value", nil]];
                               }
@@ -797,8 +799,8 @@ NSInteger buttonAction;
                                   [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
                               }
                           }
-                      }
-                  }];
+                      }];
+                 }
              }
          }];
     }
