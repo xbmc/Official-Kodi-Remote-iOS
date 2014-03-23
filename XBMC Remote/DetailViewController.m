@@ -846,6 +846,9 @@
         dataList.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
         self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
     }
+    if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length] && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
+    }
     if ([methods objectForKey:@"method"]!=nil){
         [self retrieveData:[methods objectForKey:@"method"] parameters:mutableParameters sectionMethod:[methods objectForKey:@"extra_section_method"] sectionParameters:[parameters objectForKey:@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:NO];
     }
@@ -1720,12 +1723,7 @@ int originYear = 0;
     frame.size.width=frame.size.width - (labelPosition - frame.origin.x);
     frame.origin.x=labelPosition; 
     genre.frame=frame;
-//    if([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
-//        [genre setText:[item objectForKey:@"runtime"]];
-//    }
-//    else{
-        [genre setText:[item objectForKey:@"genre"]];
-//    }
+    [genre setText:[item objectForKey:@"genre"]];
     
     frame=runtimeyear.frame;
     frame.origin.x=Menuitem.originYearDuration;
@@ -1766,6 +1764,7 @@ int originYear = 0;
     rating.frame=frame;
     [rating setText:[item objectForKey:@"rating"]];
     [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFill];
+    
     if (!albumView && !episodesView && !channelGuideView){
         if ([channelid intValue] > 0){
             CGRect frame = genre.frame;
@@ -1806,6 +1805,26 @@ int originYear = 0;
             genre.hidden = YES;
             runtimeyear.hidden = YES;
             [title setFrame:CGRectMake(title.frame.origin.x, (int)((cellHeight/2) - (title.frame.size.height/2)), title.frame.size.width, title.frame.size.height)];
+        }
+        else if ([[item objectForKey:@"family"] isEqualToString:@"recordingid"]){
+            [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
+            runtimeyear.hidden = YES;
+            runtime.hidden = YES;
+            rating.hidden = YES;
+            genre.hidden = NO;
+            [genre setText:[NSString stringWithFormat:@"%@ - %@", [item objectForKey:@"channel"], [item objectForKey:@"year"]]];
+            genre.autoresizingMask = title.autoresizingMask;
+            CGRect frame = genre.frame;
+            frame.size.width = title.frame.size.width;
+            frame.size.height = frame.size.height + (cellHeight - (frame.origin.y  + frame.size.height))  - 4;
+            genre.frame = frame;
+            frame = title.frame;
+            frame.origin.y = 0;
+            [title setFrame:frame];
+            [genre setNumberOfLines:3];
+            genre.font =  [genre.font fontWithSize:11];
+            [genre setMinimumFontSize:11];
+            [genre sizeToFit];
         }
         else{
             genre.hidden = NO;

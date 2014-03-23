@@ -2546,8 +2546,7 @@ NSMutableArray *hostRightMenuItems;
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", @"genre", @"playcount",@"resume", @"channel",  @"runtime",@"lifetime", @"icon", @"art", @"streamurl", @"file", @"directory", nil], @"properties",
                             nil], @"extra_info_parameters",
-                           NSLocalizedString(@"Recordings", nil), @"label", NSLocalizedString(@"Recordings", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", livetvRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
-                           @"16", @"collectionViewUniqueKey",
+                           NSLocalizedString(@"Recordings", nil), @"label", NSLocalizedString(@"Recordings", nil), @"morelabel", @"nocover_channels", @"defaultThumb", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2556,6 +2555,7 @@ NSMutableArray *hostRightMenuItems;
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
                              [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
+                            @"72", @"separatorInset",
                             nil], @"itemSizes",
                            nil],
                           
@@ -2599,13 +2599,18 @@ NSMutableArray *hostRightMenuItems;
                        @"label", @"row1",
                        @"title", @"row2",
                        @"plot", @"row3",
-                       @"plotoutline", @"row4",
+                       @"runtime", @"row4",
                        @"starttime",@"row5",
                        @"recordingid",@"row6",
                        [NSNumber numberWithInt:1], @"playlistid",
                        @"recordingid",@"row8",
                        @"recordingid", @"row9",
                        @"file", @"row10",
+                       @"channel", @"row11",
+                       @"starttime", @"row12",
+                       @"endtime", @"row13",
+                       @"playcount", @"row14",
+                       @"plot", @"row15",
                        @"recordingdetails",@"itemid_extra_info",
                        nil],
                       

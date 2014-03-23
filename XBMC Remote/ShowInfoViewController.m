@@ -1019,7 +1019,7 @@ int h=0;
             [self moveLabel:[NSArray arrayWithObjects: label5, label6, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
         }
     }
-    else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
+    else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"] || [[item objectForKey:@"family"] isEqualToString:@"recordingid"]){
         label1.text = NSLocalizedString(@"TIME", nil);
         label5.text = NSLocalizedString(@"DESCRIPTION", nil);
         [jewelView setAutoresizingMask:UIViewAutoresizingNone];
@@ -1063,9 +1063,14 @@ int h=0;
         frame.origin.x = voteLabel.frame.origin.x;
         numVotesLabel.frame = frame;
         [numVotesLabel setFont:[UIFont fontWithName:label1.font.fontName size:label1.font.pointSize]];
-        numVotesLabel.text = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
+        if ([[item objectForKey:@"family"] isEqualToString:@"recordingid"]){
+            numVotesLabel.text = [item objectForKey:@"channel"];
+        }
+        else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]) {
+            [item setValue:[item objectForKey:@"genre"] forKey:@"plot"];
+            numVotesLabel.text = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
+        }
         [item setValue:[item objectForKey:@"label"] forKey:@"rating"];
-        [item setValue:[item objectForKey:@"genre"] forKey:@"plot"];
         [item setValue:[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_icon"] forKey:@"thumbnail"];
         placeHolderImage = @"nocover_channels";
         NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
@@ -1152,7 +1157,7 @@ int h=0;
     BOOL inEnableKenBurns = enableKenBurns;
     __weak ShowInfoViewController *sf = self;
     NSString *thumbnailPath = [item objectForKey:@"thumbnail"];
-    if (![[item objectForKey:@"thumbnail"] isEqualToString:@""]){
+    if (![[item objectForKey:@"thumbnail"] isEqualToString:@""] && [item objectForKey:@"thumbnail"] != nil){
         jewelView.alpha = 0;
         [activityIndicatorView startAnimating];
     }
@@ -1435,7 +1440,7 @@ int h=0;
             startY-=20;
         }
     }
-    if (![[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
+    if (!([[item objectForKey:@"family"] isEqualToString:@"broadcastid"] || [[item objectForKey:@"family"] isEqualToString:@"recordingid"])){
         clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
         [clearlogoButton.titleLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
