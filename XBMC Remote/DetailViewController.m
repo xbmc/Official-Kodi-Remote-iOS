@@ -2649,7 +2649,7 @@ NSIndexPath *selected;
                         [[[self.detailItem sheetActions] objectAtIndex:choosedTab] addObject:NSLocalizedString(@"Play Trailer", nil)];
                     }
                 }
-                if ([[item objectForKey:@"family"] isEqualToString:@"movieid"] || [[item objectForKey:@"family"] isEqualToString:@"episodeid"]|| [[item objectForKey:@"family"] isEqualToString:@"musicvideoid"]){
+                if ([[item objectForKey:@"family"] isEqualToString:@"movieid"] || [[item objectForKey:@"family"] isEqualToString:@"episodeid"]|| [[item objectForKey:@"family"] isEqualToString:@"musicvideoid"] || [[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
                     if ([[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
                         NSString *actionString = @"";
                         if ([[item objectForKey:@"playcount"] intValue] == 0){
@@ -2698,12 +2698,18 @@ NSIndexPath *selected;
     NSString *methodToCall = @"";
     if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
         methodToCall = @"VideoLibrary.SetEpisodeDetails";
-        
+    }
+    else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
+        methodToCall = @"VideoLibrary.SetTVShowDetails";
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"movieid"]){
         methodToCall = @"VideoLibrary.SetMovieDetails";
     }
+    else if ([[item objectForKey:@"family"] isEqualToString:@"musicvideoid"]){
+        methodToCall = @"VideoLibrary.SetMusicVideoDetails";
+    }
     else{
+        [queuing stopAnimating];
         return;
     }
     [jsonRPC

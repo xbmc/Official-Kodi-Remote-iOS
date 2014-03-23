@@ -1595,7 +1595,7 @@ NSMutableArray *hostRightMenuItems;
                         [NSArray arrayWithObjects: nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil],
-                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Music Video Details", nil), nil],
+                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Music Video Details", nil), nil],
                         [NSArray arrayWithObjects: nil],
                         [NSArray arrayWithObjects: nil],
 //                        [NSArray arrayWithObjects: nil],
@@ -2202,7 +2202,7 @@ NSMutableArray *hostRightMenuItems;
     item3.defaultThumb = @"nocover_tvshows.png";
     item3.originLabel = 60;
     item3.sheetActions = [NSArray arrayWithObjects:
-                          [NSArray arrayWithObjects:NSLocalizedString(@"TV Show Details", nil), nil],
+                          [NSMutableArray arrayWithObjects:NSLocalizedString(@"TV Show Details", nil), nil],
 //                          [NSArray arrayWithObjects: nil],
                           [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), nil],
                           [NSArray arrayWithObjects:nil],
