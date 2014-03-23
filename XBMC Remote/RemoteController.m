@@ -400,7 +400,9 @@
     NSString *imageName=@"";
     BOOL showGesture = (gestureZoneView.alpha == 0);
     if ([sender isKindOfClass:[NSNotification class]]){
-        showGesture = [[[sender userInfo] objectForKey:@"forceGestureZone"] boolValue];
+        if ([[sender userInfo] isKindOfClass:[NSDictionary class]]){
+            showGesture = [[[sender userInfo] objectForKey:@"forceGestureZone"] boolValue];
+        }
     }
     if (showGesture == YES && gestureZoneView.alpha == 1) return;
     if (showGesture == YES){

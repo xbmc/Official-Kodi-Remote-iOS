@@ -681,6 +681,8 @@
 		0FE5191515716AE800AE5D95 /* remote_button_up_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE518FF15716AE800AE5D95 /* remote_button_up_up@2x.png */; };
 		0FE5191615716AE800AE5D95 /* remote_button_xbmc_select_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE5190015716AE800AE5D95 /* remote_button_xbmc_select_up@2x.png */; };
 		0FE6087F164B3094009CA3A9 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6087E164B3094009CA3A9 /* Roboto-Regular.ttf */; };
+		0FE6287C18DF44F50068F376 /* buttons-gestures.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6287B18DF44F50068F376 /* buttons-gestures.png */; };
+		0FE6287E18DF44FD0068F376 /* buttons-gestures@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6287D18DF44FD0068F376 /* buttons-gestures@2x.png */; };
 		0FEA79FC165FBBED00BB281F /* XBMCVirtualKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA79FB165FBBEC00BB281F /* XBMCVirtualKeyboard.m */; };
 		0FEAE76816EA632800387DED /* ActorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEAE76716EA632800387DED /* ActorCell.m */; };
 		0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */; };
@@ -1472,6 +1474,8 @@
 		0FE518FF15716AE800AE5D95 /* remote_button_up_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_up_up@2x.png"; sourceTree = "<group>"; };
 		0FE5190015716AE800AE5D95 /* remote_button_xbmc_select_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_xbmc_select_up@2x.png"; sourceTree = "<group>"; };
 		0FE6087E164B3094009CA3A9 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		0FE6287B18DF44F50068F376 /* buttons-gestures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttons-gestures.png"; sourceTree = "<group>"; };
+		0FE6287D18DF44FD0068F376 /* buttons-gestures@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttons-gestures@2x.png"; sourceTree = "<group>"; };
 		0FEA79FA165FBBEC00BB281F /* XBMCVirtualKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBMCVirtualKeyboard.h; sourceTree = "<group>"; };
 		0FEA79FB165FBBEC00BB281F /* XBMCVirtualKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBMCVirtualKeyboard.m; sourceTree = "<group>"; };
 		0FEAE76616EA632800387DED /* ActorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActorCell.h; sourceTree = "<group>"; };
@@ -1835,6 +1839,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FE6287D18DF44FD0068F376 /* buttons-gestures@2x.png */,
 				0F47316D18DEEF5800C1CCA1 /* icon_analog_out@2x.png */,
 				0F47316718DEED8F00C1CCA1 /* icon_tv_out@2x.png */,
 				0FF709A418D1DF9A0093EC89 /* st_timers_off@2x.png */,
@@ -2132,6 +2137,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FE6287B18DF44F50068F376 /* buttons-gestures.png */,
 				0F47316B18DEEF4F00C1CCA1 /* icon_analog_out.png */,
 				0F47316918DEED9A00C1CCA1 /* icon_tv_out.png */,
 				0F37A6E118B0E11600A90FAA /* button_record.png */,
@@ -2974,6 +2980,7 @@
 				0F77D8D01574A43000FE904E /* remote_button_tv_down@2x.png in Resources */,
 				0F77D8D21574A4A200FE904E /* remote_button_pictures_down@2x.png in Resources */,
 				0F2563D8157503B90024F0F9 /* remote_button_menu_down@2x.png in Resources */,
+				0FE6287E18DF44FD0068F376 /* buttons-gestures@2x.png in Resources */,
 				0F2563DA157503B90024F0F9 /* remote_button_back_down@2x.png in Resources */,
 				0F73533918A52B6700B7EC73 /* nocover_channels@2x.png in Resources */,
 				0F2563DC157503B90024F0F9 /* remote_button_info_down@2x.png in Resources */,
@@ -3084,6 +3091,7 @@
 				0FFF726218226AC3007A6E25 /* st_livetv_on@2x.png in Resources */,
 				0FA3536015852F570055177A /* monkeys_33@2x.png in Resources */,
 				0FA3536115852F570055177A /* monkeys_34@2x.png in Resources */,
+				0FE6287C18DF44F50068F376 /* buttons-gestures.png in Resources */,
 				0FA3536215852F570055177A /* monkeys_35@2x.png in Resources */,
 				0FA3536315852F570055177A /* monkeys_36@2x.png in Resources */,
 				0FA3536415852F570055177A /* monkeys_37@2x.png in Resources */,

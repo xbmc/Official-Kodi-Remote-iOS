@@ -3160,26 +3160,6 @@ NSMutableArray *hostRightMenuItems;
                                  nil], @"action",
                                 nil],
 
-// PERSONAL STUFF ;)
-//                               [NSDictionary dictionaryWithObjectsAndKeys:
-//                                NSLocalizedString(@"Audio TV Out", nil), @"label",
-//                                @"icon_tv_out", @"icon",
-//                                [NSDictionary dictionaryWithObjectsAndKeys:
-//                                 @"Settings.SetSettingValue",@"command",
-//                                 [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:hdmi:CARD=NVidia,DEV=0", @"value", nil], @"params",
-//                                 nil], @"action",
-//                                nil],
-//
-//                               [NSDictionary dictionaryWithObjectsAndKeys:
-//                                NSLocalizedString(@"Audio Analog Out", nil), @"label",
-//                                @"icon_analog_out", @"icon",
-//                                [NSDictionary dictionaryWithObjectsAndKeys:
-//                                 @"Settings.SetSettingValue",@"command",
-//                                 [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:@", @"value", nil], @"params",
-//                                 nil], @"action",
-//                                nil],
-// END PERSONAL
-
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 NSLocalizedString(@"LED Torch", nil), @"label",
                                 @"torch", @"icon",
@@ -3298,13 +3278,17 @@ NSMutableArray *hostRightMenuItems;
                                      @"keyboard_icon", @"icon",
                                      [NSNumber numberWithBool:YES], @"revealViewTop",
                                      nil],
+//                                    [NSDictionary dictionaryWithObjectsAndKeys:
+//                                     NSLocalizedString(@"Gesture Zone", nil), @"label",
+//                                     @"finger", @"icon",
+//                                     nil],
+//                                    [NSDictionary dictionaryWithObjectsAndKeys:
+//                                     NSLocalizedString(@"Button Pad", nil), @"label",
+//                                     @"circle", @"icon",
+//                                     nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     NSLocalizedString(@"Gesture Zone", nil), @"label",
-                                     @"finger", @"icon",
-                                     nil],
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
-                                     NSLocalizedString(@"Button Pad", nil), @"label",
-                                     @"circle", @"icon",
+                                     NSLocalizedString(@"Button Pad/Gesture Zone", nil), @"label",
+                                     @"buttons-gestures", @"icon",
                                      nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      NSLocalizedString(@"Help Screen", nil), @"label",
@@ -3314,6 +3298,26 @@ NSMutableArray *hostRightMenuItems;
                                      NSLocalizedString(@"LED Torch", nil), @"label",
                                      @"torch", @"icon",
                                      nil],
+                                    // PERSONAL STUFF ;)
+//                                    [NSDictionary dictionaryWithObjectsAndKeys:
+//                                     NSLocalizedString(@"Audio TV Out", nil), @"label",
+//                                     @"icon_tv_out", @"icon",
+//                                     [NSDictionary dictionaryWithObjectsAndKeys:
+//                                      @"Settings.SetSettingValue",@"command",
+//                                      [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:hdmi:CARD=NVidia,DEV=0", @"value", nil], @"params",
+//                                      nil], @"action",
+//                                     nil],
+//                                    
+//                                    [NSDictionary dictionaryWithObjectsAndKeys:
+//                                     NSLocalizedString(@"Audio Analog Out", nil), @"label",
+//                                     @"icon_analog_out", @"icon",
+//                                     [NSDictionary dictionaryWithObjectsAndKeys:
+//                                      @"Settings.SetSettingValue",@"command",
+//                                      [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:@", @"value", nil], @"params",
+//                                      nil], @"action",
+//                                     nil],
+                                    // END PERSONAL
+
                                     nil],@"online",
                                    
                                    nil],

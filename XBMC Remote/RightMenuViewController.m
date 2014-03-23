@@ -252,6 +252,10 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
+    else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Button Pad/Gesture Zone", nil)]){
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:nil];
+        [self.slidingViewController resetTopView];
+    }
     else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
         UIImageView *torchIcon = (UIImageView *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
