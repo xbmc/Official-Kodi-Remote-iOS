@@ -2165,6 +2165,7 @@ NSMutableArray *hostRightMenuItems;
                          @"cast",@"row16",
                          @"firstaired",@"row17",
                          @"season",@"row18",
+                         @"playcount",@"row20",
                          @"fanart",@"row7",
                          @"episodedetails",@"itemid_extra_info",
                          nil],
@@ -2203,7 +2204,7 @@ NSMutableArray *hostRightMenuItems;
     item3.sheetActions = [NSArray arrayWithObjects:
                           [NSArray arrayWithObjects:NSLocalizedString(@"TV Show Details", nil), nil],
 //                          [NSArray arrayWithObjects: nil],
-                          [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), nil],
+                          [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), nil],
                           [NSArray arrayWithObjects:nil],
                           [NSArray arrayWithObjects:nil],
                           nil];
@@ -2265,7 +2266,7 @@ NSMutableArray *hostRightMenuItems;
                                       [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"showtitle", @"playcount", @"season", @"tvshowid", @"runtime", nil], @"properties",
                                       nil], @"parameters", @"Episodes", @"label", @"YES", @"disableFilterParameter",
                                      [NSDictionary dictionaryWithObjectsAndKeys:
-                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"fanart", @"resume", nil], @"properties",nil], @"extra_info_parameters",
+                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"fanart", @"resume", @"playcount", nil], @"properties",nil], @"extra_info_parameters",
                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       [NSDictionary dictionaryWithObjectsAndKeys:
                                        @"ascending",@"order",
@@ -2351,6 +2352,7 @@ NSMutableArray *hostRightMenuItems;
                                  @"director",@"row17",
                                  @"resume",@"row18",
                                  @"episode",@"row19",
+                                 @"playcount",@"row20",
                                  @"episodedetails",@"itemid_extra_info",
                                  @"seasons",@"itemid_extra_section",
                                  nil],
@@ -2416,7 +2418,7 @@ NSMutableArray *hostRightMenuItems;
     item3.subItem.thumbWidth = 95;
     item3.subItem.defaultThumb = @"nocover_tvshows_episode.png";
     item3.subItem.sheetActions = [NSArray arrayWithObjects:
-                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), nil],
+                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), nil],
 //                                  [NSArray arrayWithObjects:@"TV Show Details", nil],
                                   [NSArray arrayWithObjects:nil],
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
@@ -3161,7 +3163,7 @@ NSMutableArray *hostRightMenuItems;
 // PERSONAL STUFF ;)
 //                               [NSDictionary dictionaryWithObjectsAndKeys:
 //                                NSLocalizedString(@"Audio TV Out", nil), @"label",
-//                                @"icon_update_video", @"icon",
+//                                @"icon_tv_out", @"icon",
 //                                [NSDictionary dictionaryWithObjectsAndKeys:
 //                                 @"Settings.SetSettingValue",@"command",
 //                                 [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:hdmi:CARD=NVidia,DEV=0", @"value", nil], @"params",
@@ -3170,7 +3172,7 @@ NSMutableArray *hostRightMenuItems;
 //
 //                               [NSDictionary dictionaryWithObjectsAndKeys:
 //                                NSLocalizedString(@"Audio Analog Out", nil), @"label",
-//                                @"icon_update_video", @"icon",
+//                                @"icon_analog_out", @"icon",
 //                                [NSDictionary dictionaryWithObjectsAndKeys:
 //                                 @"Settings.SetSettingValue",@"command",
 //                                 [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:@", @"value", nil], @"params",

@@ -79,6 +79,16 @@ int count=0;
                 [sheetActions addObject:NSLocalizedString(@"Play Trailer", nil)];
             }
         }
+//        if ([[item objectForKey:@"family"] isEqualToString:@"movieid"] || [[item objectForKey:@"family"] isEqualToString:@"episodeid"]|| [[item objectForKey:@"family"] isEqualToString:@"musicvideoid"]){
+//            NSString *actionString = @"";
+//            if ([[item objectForKey:@"playcount"] intValue] == 0){
+//                actionString = NSLocalizedString(@"Mark as watched", nil);
+//            }
+//            else{
+//                actionString = NSLocalizedString(@"Mark as unwatched", nil);
+//            }
+//            [sheetActions addObject:actionString];
+//        }
         BOOL fromAlbumView = NO;
         if (((NSNull *)[item objectForKey:@"fromAlbumView"] != [NSNull null])){
             fromAlbumView = [[item objectForKey:@"fromAlbumView"] boolValue];

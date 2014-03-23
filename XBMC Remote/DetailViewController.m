@@ -2605,6 +2605,8 @@ NSIndexPath *selected;
             
             if ([[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
                 [[[self.detailItem sheetActions] objectAtIndex:choosedTab] removeObject:NSLocalizedString(@"Play Trailer", nil)];
+                [[[self.detailItem sheetActions] objectAtIndex:choosedTab] removeObject:NSLocalizedString(@"Mark as watched", nil)];
+                [[[self.detailItem sheetActions] objectAtIndex:choosedTab] removeObject:NSLocalizedString(@"Mark as unwatched", nil)];
             }
             NSMutableArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
             NSInteger numActions = [sheetActions count];
@@ -2647,6 +2649,19 @@ NSIndexPath *selected;
                         [[[self.detailItem sheetActions] objectAtIndex:choosedTab] addObject:NSLocalizedString(@"Play Trailer", nil)];
                     }
                 }
+                if ([[item objectForKey:@"family"] isEqualToString:@"movieid"] || [[item objectForKey:@"family"] isEqualToString:@"episodeid"]|| [[item objectForKey:@"family"] isEqualToString:@"musicvideoid"]){
+                    if ([[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
+                        NSString *actionString = @"";
+                        if ([[item objectForKey:@"playcount"] intValue] == 0){
+                            actionString = NSLocalizedString(@"Mark as watched", nil);
+                        }
+                        else{
+                           actionString = NSLocalizedString(@"Mark as unwatched", nil);
+                        }
+                        [action addButtonWithTitle:actionString];
+                        [[[self.detailItem sheetActions] objectAtIndex:choosedTab] addObject:actionString];
+                    }
+                }
                 action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                     [action showInView:self.view];
@@ -2657,6 +2672,87 @@ NSIndexPath *selected;
             }
         }
     }
+}
+
+-(void)markVideo:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath watched:(int)watched{
+    id cell;
+    UITableView *tableView;
+    BOOL isTableView = FALSE;
+    if ([self.searchDisplayController isActive]){
+        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+        isTableView = TRUE;
+        tableView = self.searchDisplayController.searchResultsTableView;
+    }
+    else if (enableCollectionView){
+        cell = [collectionView cellForItemAtIndexPath:indexPath];
+        isTableView = FALSE;
+    }
+    else{
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+        isTableView = TRUE;
+        tableView = dataList;
+    }
+    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+    [queuing startAnimating];
+
+    NSString *methodToCall = @"";
+    if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
+        methodToCall = @"VideoLibrary.SetEpisodeDetails";
+        
+    }
+    else if ([[item objectForKey:@"family"] isEqualToString:@"movieid"]){
+        methodToCall = @"VideoLibrary.SetMovieDetails";
+    }
+    else{
+        return;
+    }
+    [jsonRPC
+     callMethod:methodToCall
+     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                     [item objectForKey:[item objectForKey:@"family"]], [item objectForKey:@"family"],
+                     [NSNumber numberWithInt:watched], @"playcount",
+                     nil]
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if ( error == nil && methodError == nil ) {
+             if ( isTableView == TRUE ) {
+                 UIImageView *flagView = (UIImageView*) [cell viewWithTag:9];
+                 if ( watched > 0 ){
+                     [flagView setHidden:NO];
+                 }
+                 else{
+                     [flagView setHidden:YES];
+                 }
+                 [tableView deselectRowAtIndexPath:indexPath animated:YES];
+             }
+             else{
+                 if ( watched > 0 ) {
+                     [cell setOverlayWatched:YES];
+                 }
+                 else{
+                     [cell setOverlayWatched:NO];
+                 }
+                 [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+             }
+             [item setObject:[NSNumber numberWithInt:watched] forKey:@"playcount"];
+             
+             NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+             NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"parameters"] mutableCopy];
+             NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
+             if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
+                 [mutableProperties addObject:@"art"];
+                 [mutableParameters setObject:mutableProperties forKey:@"properties"];
+             }
+             if ([mutableParameters objectForKey: @"file_properties"]!=nil){
+                 [mutableParameters setObject: [mutableParameters objectForKey: @"file_properties"] forKey: @"properties"];
+                 [mutableParameters removeObjectForKey: @"file_properties"];
+             }
+             [self saveData:mutableParameters];
+             [queuing stopAnimating];
+         }
+         else{
+             [queuing stopAnimating];
+         }
+     }];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
@@ -2693,7 +2789,12 @@ NSIndexPath *selected;
         else if ([option isEqualToString:NSLocalizedString(@"Channel Guide", nil)]){
             [self viewChild:selected item:item displayPoint:CGPointMake(0, 0)];
         }
-
+        else if ([option isEqualToString:NSLocalizedString(@"Mark as watched", nil)]){
+            [self markVideo:(NSMutableDictionary *)item indexPath:selected watched:1];
+        }
+        else if ([option isEqualToString:NSLocalizedString(@"Mark as unwatched", nil)]){
+            [self markVideo:(NSMutableDictionary *)item indexPath:selected watched:0];
+        }
         else if ([option isEqualToString:NSLocalizedString(@"Play in party mode", nil)]){
             [self partyModeItem:item indexPath:selected];
         }
@@ -3635,6 +3736,7 @@ NSIndexPath *selected;
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row16"]], [mainFields objectForKey:@"row16"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row17"]], [mainFields objectForKey:@"row17"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row20"]], [mainFields objectForKey:@"row20"],
                   nil];
                  [self displayInfoView:newItem];
              }
