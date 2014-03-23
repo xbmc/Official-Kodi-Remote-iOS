@@ -2546,7 +2546,7 @@ NSMutableArray *hostRightMenuItems;
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", @"genre", @"playcount",@"resume", @"channel",  @"runtime",@"lifetime", @"icon", @"art", @"streamurl", @"file", @"directory", nil], @"properties",
                             nil], @"extra_info_parameters",
-                           NSLocalizedString(@"Recordings", nil), @"label", NSLocalizedString(@"Recordings", nil), @"morelabel", @"nocover_channels", @"defaultThumb", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
+                           NSLocalizedString(@"Recordings", nil), @"label", NSLocalizedString(@"Recordings", nil), @"morelabel", @"nocover_channels", @"defaultThumb", channelEPGRowHeight, @"rowHeight", @"53", @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2555,7 +2555,7 @@ NSMutableArray *hostRightMenuItems;
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
                              [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
-                            @"72", @"separatorInset",
+                            @"60", @"separatorInset",
                             nil], @"itemSizes",
                            nil],
                           
