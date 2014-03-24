@@ -3499,7 +3499,7 @@ NSIndexPath *selected;
 
 -(void)showAlbumActions:(UITapGestureRecognizer *)tap {
     NSArray *sheetActions = [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil];
-    selected = [NSIndexPath indexPathForItem:0 inSection:0];
+    selected = [NSIndexPath indexPathForRow:0 inSection:0];
     NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:[[self.sections valueForKey:[self.sectionArray objectAtIndex:0]] objectAtIndex:0]];
     [item setObject:self.navigationItem.title forKey:@"label"];
     forceMusicAlbumMode = YES;
