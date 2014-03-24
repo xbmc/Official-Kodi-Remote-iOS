@@ -2138,23 +2138,11 @@ int originYear = 0;
         releasedLabel.text = [NSString stringWithFormat:@"%@", (year > 0) ? [NSString stringWithFormat:NSLocalizedString(@"Released %d", nil), year] : @"" ];
         [albumDetailView addSubview:releasedLabel];
         
-        BOOL fromShowInfo = NO;
-        if ([[self.detailItem mainParameters] count]>0){
-            NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:0]];
-            if (((NSNull *)[parameters objectForKey:@"fromShowInfo"] != [NSNull null])){
-                fromShowInfo = [[parameters objectForKey:@"fromShowInfo"] boolValue];
-            }
-        }
         UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ];
         albumInfoButton.alpha = .5f;
         [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 3, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
-        if (fromShowInfo){
-            [albumInfoButton addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
-        }
-        else{
-            albumInfoButton.tag = 0;
-            [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
-        }
+        albumInfoButton.tag = 0;
+        [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
         [albumDetailView addSubview:albumInfoButton];
         
 //        UIButton *albumPlaybackButton =  [UIButton buttonWithType:UIButtonTypeCustom];
@@ -2301,25 +2289,12 @@ int originYear = 0;
             }
             [albumDetailView addSubview:releasedLabel];
 
-            BOOL fromShowInfo = NO;
-            if ([[self.detailItem mainParameters] count]>0){
-                NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:0]];
-                if (((NSNull *)[parameters objectForKey:@"fromShowInfo"] != [NSNull null])){
-                    fromShowInfo = [[parameters objectForKey:@"fromShowInfo"] boolValue];
-                }
-            }
             UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
             albumInfoButton.alpha = .6f;
             [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 3, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
-            if (fromShowInfo){
-                [albumInfoButton addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
-            }
-            else{
-                albumInfoButton.tag = 1;
-                [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
-            }
+            albumInfoButton.tag = 1;
+            [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
             [albumDetailView addSubview:albumInfoButton];
-
         }
         return albumDetailView;
     }
@@ -2612,6 +2587,7 @@ NSIndexPath *selected;
     }
     else if (indexPath!=nil){ // No actions found, revert back to standard play action
         [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
+        forceMusicAlbumMode = NO;
     }
 }
 
@@ -2840,7 +2816,12 @@ NSIndexPath *selected;
             [self partyModeItem:item indexPath:selected];
         }
         else if ([option rangeOfString:NSLocalizedString(@"Details", nil)].location!= NSNotFound){
-            [self showInfo:selected menuItem:self.detailItem item:item tabToShow:choosedTab];
+            if (forceMusicAlbumMode){
+                [self prepareShowAlbumInfo:nil];
+            }
+            else {
+                [self showInfo:selected menuItem:self.detailItem item:item tabToShow:choosedTab];
+            }
         }
         else if ([option isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
             [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"trailer"], @"file", nil], @"item", nil] index:selected];
@@ -3440,25 +3421,16 @@ NSIndexPath *selected;
 
 }
 
--(void)preparePlaybackAlbum:(id)sender{
-    mainMenu *MenuItem = nil;
-    if ([sender tag] == 0){
-        MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
-    }
-    else if ([sender tag] == 1){
-        MenuItem = [[AppDelegate instance].playlistTvShows copy];
-    }
-    //    choosedTab = 0;
-    MenuItem.subItem.mainLabel=self.navigationItem.title;
-    [MenuItem.subItem setMainMethod:nil];
-    if ([self.richResults count]>0){
-        [self.searchDisplayController.searchBar resignFirstResponder];
-        [self showInfo:nil menuItem:MenuItem item:[self.richResults objectAtIndex:0] tabToShow:0];
-    }
-}
-
-
 -(void)prepareShowAlbumInfo:(id)sender{
+    if ([[self.detailItem mainParameters] count] > 0) {
+        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:0]];
+        if (((NSNull *)[parameters objectForKey:@"fromShowInfo"] != [NSNull null])) {
+            if ([[parameters objectForKey:@"fromShowInfo"] boolValue] == YES) {
+                [self goBack:nil];
+                return;
+            }
+        }
+    }
     mainMenu *MenuItem = nil;
     if ([sender tag] == 0){
         MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
@@ -3466,7 +3438,6 @@ NSIndexPath *selected;
     else if ([sender tag] == 1){
         MenuItem = [[AppDelegate instance].playlistTvShows copy];
     }
-//    choosedTab = 0;
     MenuItem.subItem.mainLabel=self.navigationItem.title;
     [MenuItem.subItem setMainMethod:nil];
     if ([self.richResults count]>0){
