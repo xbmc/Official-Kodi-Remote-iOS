@@ -1806,13 +1806,30 @@ int originYear = 0;
             runtimeyear.hidden = YES;
             [title setFrame:CGRectMake(title.frame.origin.x, (int)((cellHeight/2) - (title.frame.size.height/2)), title.frame.size.width, title.frame.size.height)];
         }
-        else if ([[item objectForKey:@"family"] isEqualToString:@"recordingid"]){
+        else if ([[item objectForKey:@"family"] isEqualToString:@"recordingid"] || [[item objectForKey:@"family"] isEqualToString:@"timerid"]){
             [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
             runtimeyear.hidden = YES;
             runtime.hidden = YES;
             rating.hidden = YES;
             genre.hidden = NO;
-            [genre setText:[NSString stringWithFormat:@"%@ - %@", [item objectForKey:@"channel"], [item objectForKey:@"year"]]];
+            if ([[item objectForKey:@"family"] isEqualToString:@"timerid"]){
+                NSDateFormatter *localFormatter = [[NSDateFormatter alloc] init];
+                [localFormatter setDateFormat:@"ccc dd MMM, HH:mm"];
+                localFormatter.timeZone = [NSTimeZone systemTimeZone];
+                NSDate *timerStartTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
+                NSDate *endTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
+                genre.text = [localFormatter stringFromDate:timerStartTime];
+                [localFormatter setDateFormat:@"HH:mm"];
+                NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                NSUInteger unitFlags = NSMinuteCalendarUnit;
+                NSDateComponents *components = [gregorian components:unitFlags fromDate:timerStartTime toDate:endTime options:0];
+                NSInteger minutes = [components minute];
+                genre.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", genre.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
+            }
+            else{
+                [genre setText:[NSString stringWithFormat:@"%@ - %@", [item objectForKey:@"channel"], [item objectForKey:@"year"]]];
+                [genre setNumberOfLines:3];
+            }
             genre.autoresizingMask = title.autoresizingMask;
             CGRect frame = genre.frame;
             frame.size.width = title.frame.size.width;
@@ -1821,7 +1838,6 @@ int originYear = 0;
             frame = title.frame;
             frame.origin.y = 0;
             [title setFrame:frame];
-            [genre setNumberOfLines:3];
             genre.font =  [genre.font fontWithSize:11];
             [genre setMinimumFontSize:11];
             [genre sizeToFit];

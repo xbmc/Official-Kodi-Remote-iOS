@@ -2564,9 +2564,9 @@ NSMutableArray *hostRightMenuItems;
                             [[NSArray alloc] initWithObjects:@"title", @"summary", @"channelid", @"isradio", @"repeating", @"starttime", @"endtime", @"runtime", @"lifetime", @"firstday",@"weekdays", @"priority", @"startmargin", @"endmargin", @"state", @"file", @"directory", nil], @"properties",
                             nil], @"parameters",
                            [NSDictionary dictionaryWithObjectsAndKeys:
-                            [[NSArray alloc] initWithObjects:@"title", @"summary", @"channelid", @"isradio", @"repeating", @"starttime", @"endtime", @"runtime", @"lifetime", @"firstday",@"weekdays", @"priority", @"startmargin", @"endmargin", @"state", @"file", @"directory", nil], @"properties",
+                            [[NSArray alloc] initWithObjects:@"title", @"summary", @"starttime", @"endtime", @"runtime", @"lifetime", @"firstday", @"weekdays", @"priority", @"startmargin", @"endmargin", @"state", @"file", @"directory", nil], @"properties",
                             nil], @"extra_info_parameters",
-                           NSLocalizedString(@"Timers", nil), @"label", NSLocalizedString(@"Timers", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", livetvRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
+                           NSLocalizedString(@"Timers", nil), @"label", NSLocalizedString(@"Timers", nil), @"morelabel", @"nocover_timers", @"defaultThumb", @"53", @"rowHeight", @"53", @"thumbWidth",
                            @"16", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2576,6 +2576,7 @@ NSMutableArray *hostRightMenuItems;
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
                              [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
+                            @"60", @"separatorInset",
                             nil], @"itemSizes",
                            nil],
                         nil];
@@ -2625,6 +2626,8 @@ NSMutableArray *hostRightMenuItems;
                        [NSNumber numberWithInt:1], @"playlistid",
                        @"timerid",@"row8",
                        @"timerid", @"row9",
+                       @"starttime", @"row10",
+                       @"endtime", @"row11",
                        @"timerdetails",@"itemid_extra_info",
                        nil],
                       
@@ -2642,7 +2645,7 @@ NSMutableArray *hostRightMenuItems;
     item8.showInfo = [NSArray arrayWithObjects:
                       [NSNumber numberWithBool:YES],
                       [NSNumber numberWithBool:YES],
-                      [NSNumber numberWithBool:YES],
+                      [NSNumber numberWithBool:NO],
                       nil];
     item8.watchModes = [NSArray arrayWithObjects:
                         [NSDictionary dictionaryWithObjectsAndKeys:
