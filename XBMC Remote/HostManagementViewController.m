@@ -275,8 +275,11 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 -(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
-    if ([[AppDelegate instance].arrayServerList count]==0 && !serverListTableView.editing) return;
-    if (serverListTableView.editing || forceClose==YES){
+    if (sender != nil){
+        forceClose = FALSE;
+    }
+    if ([[AppDelegate instance].arrayServerList count] == 0 && !serverListTableView.editing) return;
+    if (serverListTableView.editing == YES || forceClose == YES){
         [serverListTableView setEditing:NO animated:YES];
         [editTableButton setSelected:NO];
         if ([[AppDelegate instance].arrayServerList count] == 0)
