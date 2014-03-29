@@ -80,6 +80,12 @@
         [labelImageView addSubview:_posterYear];
         [self.contentView addSubview:labelImageView];
 
+        _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _busyView.hidesWhenStopped = YES;
+        _busyView.center = CGPointMake(frame.size.width / 2 + _posterThumbnail.frame.size.width / 2 + borderWidth / 2, (frame.size.height / 2) - borderWidth);
+        _busyView.tag = 8;
+        [self.contentView addSubview:_busyView];
+        
         UIView *bgView = [[UIView alloc] initWithFrame:frame];
         [bgView setBackgroundColor:[UIColor colorWithRed:0.0f green:132.0f/255.0f blue:1.0f alpha:1]];
         self.selectedBackgroundView = bgView;

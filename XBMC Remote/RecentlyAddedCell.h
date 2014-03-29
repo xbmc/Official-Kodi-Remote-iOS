@@ -20,5 +20,6 @@
 @property (nonatomic, readonly) PosterLabel *posterLabel;
 @property (nonatomic, readonly) PosterLabel *posterGenre;
 @property (nonatomic, readonly) PosterLabel *posterYear;
+@property (nonatomic, readonly) UIActivityIndicatorView *busyView;
 
 @end
