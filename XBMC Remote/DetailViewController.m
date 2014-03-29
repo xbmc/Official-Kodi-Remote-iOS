@@ -2830,10 +2830,10 @@ NSIndexPath *selected;
             [self addStream:item indexPath:selected];
         }
         else if ([option isEqualToString:NSLocalizedString(@"Search Wikipedia", nil)]){
-            [self searchWeb:item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", NSLocalizedString(@"WIKI_LANG", nil)]];
+            [self searchWeb:(NSMutableDictionary *)item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", NSLocalizedString(@"WIKI_LANG", nil)]];
         }
         else if ([option isEqualToString:NSLocalizedString(@"Search last.fm charts", nil)]){
-            [self searchWeb:item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
+            [self searchWeb:(NSMutableDictionary *)item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
         }
     }
     else{
@@ -2853,7 +2853,7 @@ NSIndexPath *selected;
     }
 }
 
--(void)searchWeb:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
+-(void)searchWeb:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
     self.webViewController = nil;
     self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
     NSString *searchString = [item objectForKey:@"label"];
@@ -2865,6 +2865,7 @@ NSIndexPath *selected;
 	NSString *url = [NSString stringWithFormat:serviceURL, query]; 
 	NSURL *_url = [NSURL URLWithString:url];    
     self.webViewController.urlRequest = [NSURLRequest requestWithURL:_url];
+    [item setObject:[NSNumber numberWithBool:albumView] forKey:@"fromAlbumView"];
     self.webViewController.detailItem = item;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [self.navigationController pushViewController:self.webViewController animated:YES];
