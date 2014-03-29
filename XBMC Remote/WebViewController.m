@@ -176,6 +176,7 @@
                                         [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
                                         [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                         nil], @"parameters", [parameters objectForKey:@"label"], @"label",
+                                       [NSNumber numberWithBool:YES], @"fromWikipedia",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        nil];
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];

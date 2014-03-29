@@ -2854,6 +2854,15 @@ NSIndexPath *selected;
 }
 
 -(void)searchWeb:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
+    if ([[self.detailItem mainParameters] count] > 0) {
+        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:0]];
+        if (((NSNull *)[parameters objectForKey:@"fromWikipedia"] != [NSNull null])) {
+            if ([[parameters objectForKey:@"fromWikipedia"] boolValue] == YES) {
+                [self goBack:nil];
+                return;
+            }
+        }
+    }
     self.webViewController = nil;
     self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
     NSString *searchString = [item objectForKey:@"label"];
