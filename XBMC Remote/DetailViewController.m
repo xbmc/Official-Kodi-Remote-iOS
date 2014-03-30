@@ -4292,15 +4292,17 @@ NSIndexPath *selected;
 -(void)viewWillAppear:(BOOL)animated{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
-        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    if (self.slidingViewController != nil){
+        if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO ){
+            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+        }
+        else{
+            [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+        }
+        self.slidingViewController.underRightViewController = nil;
+        self.slidingViewController.anchorLeftPeekAmount     = 0;
+        self.slidingViewController.anchorLeftRevealAmount   = 0;
     }
-    else{
-        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
-    }
-    self.slidingViewController.underRightViewController = nil;
-    self.slidingViewController.anchorLeftPeekAmount     = 0;
-    self.slidingViewController.anchorLeftRevealAmount   = 0;
     alreadyPush = NO;
     self.webViewController = nil;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
