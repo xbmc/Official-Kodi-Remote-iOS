@@ -1059,7 +1059,7 @@ int h=0;
         [voteLabel setTextColor:directorLabel.textColor];
         frame = numVotesLabel.frame;
         frame.size.width = voteLabel.frame.size.width;
-        frame.origin.y = (int)(voteLabel.frame.origin.y + voteLabel.frame.size.height + 8);
+        frame.origin.y = (int)(voteLabel.frame.origin.y + voteLabel.frame.size.height + 10);
         frame.origin.x = voteLabel.frame.origin.x;
         numVotesLabel.frame = frame;
         [numVotesLabel setFont:[UIFont fontWithName:label1.font.fontName size:label1.font.pointSize]];
