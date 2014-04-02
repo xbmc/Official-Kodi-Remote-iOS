@@ -8,6 +8,7 @@
 #import "RightMenuViewController.h"
 #import "mainMenu.h"
 #import "AppDelegate.h"
+#import "DetailViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
 @interface RightMenuViewController ()
@@ -126,6 +127,7 @@
             volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
+        [volumeSliderView startTimer];
         [cell.contentView addSubview:volumeSliderView];
     }
     else if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"RemoteControl"]){
@@ -221,6 +223,24 @@
                 else{
                     UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No sever mac address definied", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                     [alertView show];
+                }
+            }
+            else if ([command isEqualToString:@"AddButton"]){
+                if ([AppDelegate instance].serverVersion < 13){
+                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                    [alertView show];
+                }
+                else{
+                    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+                    UINavigationBar *newBar = navController.navigationBar;
+                    [newBar setTintColor:IOS6_BAR_TINT_COLOR];
+                    [newBar setBarStyle:UIBarStyleBlack];
+                    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                        [newBar setTintColor:TINT_COLOR];
+                    }
+                    detailViewController.detailItem = [AppDelegate instance].xbmcSettings;
+                    [self presentViewController:navController animated:YES completion:NULL];
                 }
             }
             else if (command != nil){
@@ -375,10 +395,10 @@
                                              selector: @selector(connectionFailed:)
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(startTimer:)
-                                                 name: @"ECSlidingViewUnderRightWillAppear"
-                                               object: nil];
+//    [[NSNotificationCenter defaultCenter] addObserver: self
+//                                             selector: @selector(startTimer:)
+//                                                 name: @"ECSlidingViewUnderRightWillAppear"
+//                                               object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(stopTimer:)
                                                  name: @"ECSlidingViewUnderRightWillDisappear"

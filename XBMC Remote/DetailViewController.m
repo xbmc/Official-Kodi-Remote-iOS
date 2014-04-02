@@ -31,6 +31,7 @@
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UISearchBar+LeftButton.h"
 #import "ProgressPieView.h"
+#import "SettingsValuesViewController.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -995,9 +996,21 @@
                 return;
         }
         else{ // WE ENTERING FILEMODE
+            NSString *fileModeKey = @"directory";
+            id objValue = [item objectForKey:[mainFields objectForKey:@"row6"]];
+            if ([[item objectForKey:@"family"] isEqualToString:@"sectionid"]){
+                fileModeKey = @"section";
+            }
+            else if ([[item objectForKey:@"family"] isEqualToString:@"categoryid"]){
+                fileModeKey = @"filter";
+                objValue = [NSDictionary dictionaryWithObjectsAndKeys:
+                            [item objectForKey:[mainFields objectForKey:@"row6"]],@"category",
+                            [[[[MenuItem mainParameters] objectAtIndex:choosedTab] objectAtIndex:0] objectForKey:@"section"], @"section",
+                            nil];
+            }
             NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            [item objectForKey:[mainFields objectForKey:@"row6"]],@"directory",
+                                            objValue, fileModeKey,
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
@@ -1006,6 +1019,9 @@
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
                                            nil];
+            if ([[item objectForKey:@"family"] isEqualToString:@"sectionid"] || [[item objectForKey:@"family"] isEqualToString:@"categoryid"]){
+                [[newParameters objectAtIndex:0] setObject:@"expert" forKey:@"level"];
+            }
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab=choosedTab;
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -1030,8 +1046,19 @@
     NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
     int rectOriginX = point.x;
     int rectOriginY = point.y;
-    
-    if ([methods objectForKey:@"method"]!=nil && ![[parameters objectForKey:@"forceActionSheet"] boolValue]){ // THERE IS A CHILD
+    if ([[item objectForKey:@"family"] isEqualToString:@"id"]){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+            settingsViewController.detailItem = item;
+            [self.navigationController pushViewController:settingsViewController animated:YES];
+        }
+        else{
+//            SettingsValuesViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+            SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] init];
+            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:FALSE];
+        }
+    }
+    else if ([methods objectForKey:@"method"]!=nil && ![[parameters objectForKey:@"forceActionSheet"] boolValue]){ // THERE IS A CHILD
         [self viewChild:indexPath item:item displayPoint:point];
     }
     else {
@@ -1408,6 +1435,7 @@
 	CGRect frame;
 	frame = [tV frame];
 	frame.origin.x = X;
+    frame.origin.y = 0;
 	tV.frame = frame;
     [UIView commitAnimations];
 }
@@ -1838,6 +1866,28 @@ int originYear = 0;
             frame = title.frame;
             frame.origin.y = 0;
             [title setFrame:frame];
+            genre.font =  [genre.font fontWithSize:11];
+            [genre setMinimumFontSize:11];
+            [genre sizeToFit];
+        }
+        else if ([[item objectForKey:@"family"] isEqualToString:@"sectionid"] || [[item objectForKey:@"family"] isEqualToString:@"categoryid"]|| [[item objectForKey:@"family"] isEqualToString:@"id"] || [[item objectForKey:@"family"] isEqualToString:@"addonid"]){
+            CGRect frame;
+            if ([[item objectForKey:@"family"] isEqualToString:@"id"]){
+                frame = title.frame;
+                frame.size.width = frame.size.width - 22;
+                title.frame = frame;
+                cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+            }
+            [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
+            runtimeyear.hidden = YES;
+            runtime.hidden = YES;
+            rating.hidden = YES;
+            genre.autoresizingMask = title.autoresizingMask;
+            frame = genre.frame;
+            frame.size.width = title.frame.size.width;
+            frame.size.height = frame.size.height + (cellHeight - (frame.origin.y  + frame.size.height))  - 4;
+            genre.frame = frame;
+            [genre setNumberOfLines:2];
             genre.font =  [genre.font fontWithSize:11];
             [genre setMinimumFontSize:11];
             [genre sizeToFit];
@@ -2968,13 +3018,18 @@ NSIndexPath *selected;
             leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
             [self.view addGestureRecognizer:leftSwipe];
         }
-        
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
         rightSwipe.cancelsTouchesInView=NO;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
    }
+}
+
+
+- (void)dismissAddAction:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:^ {
+    }];
 }
 
 #pragma mark - WebView for playback
@@ -3957,9 +4012,15 @@ NSIndexPath *selected;
                      }
                      NSString *seasonNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row10"]]];
                      
-                      NSString *family = [NSString stringWithFormat:@"%@", [mainFields objectForKey:@"row8"]];
+                     NSString *family = [NSString stringWithFormat:@"%@", [mainFields objectForKey:@"row8"]];
                      
-                      NSString *episodeNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]]];
+                     NSString *episodeNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]]];
+                     
+                     id row13obj = [[mainFields objectForKey:@"row13"] isEqualToString:@"options"] ? [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]] == nil ? @"" : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]] : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]];
+                     
+                     id row14obj = [[mainFields objectForKey:@"row14"] isEqualToString:@"allowempty"] ? [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]] == nil ? @"" : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]] : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]];
+                     
+                     id row15obj = [[mainFields objectForKey:@"row15"] isEqualToString:@"addontype"] ? [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]] == nil ? @"" : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]] : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]];
                      
                      [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                   label, @"label",
@@ -3980,9 +4041,9 @@ NSIndexPath *selected;
                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row11"]], [mainFields objectForKey:@"row11"],
                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]], [mainFields objectForKey:@"row13"],
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]], [mainFields objectForKey:@"row14"],
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]], [mainFields objectForKey:@"row15"],
+                                                  row13obj, [mainFields objectForKey:@"row13"],
+                                                  row14obj, [mainFields objectForKey:@"row14"],
+                                                  row15obj, [mainFields objectForKey:@"row15"],
                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row16"]], [mainFields objectForKey:@"row16"],
                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row17"]], [mainFields objectForKey:@"row17"],
                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
@@ -4321,6 +4382,10 @@ NSIndexPath *selected;
 
     [self choseParams];
 
+    if ([self presentingViewController] != nil) {
+        UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
+        self.navigationItem.rightBarButtonItem = doneButton;
+    }
 // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
 //    UIViewController *c = [[UIViewController alloc]init];
 //    [self presentViewController:c animated:NO completion:nil];
@@ -4332,13 +4397,17 @@ NSIndexPath *selected;
                                              selector: @selector(handleSwipeFromLeft:)
                                                  name: @"ECSLidingSwipeLeft"
                                                object: nil];
-    [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
+    if (self.slidingViewController.view != nil){
+        [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
+    }
+    else {
+        [self disableScrollsToTopPropertyOnAllSubviewsOf:self.view];
+    }
     [activeLayoutView setScrollsToTop:YES];
     if (albumColor!=nil){
         [self.navigationController.navigationBar setTintColor:albumColor];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [self.navigationController.navigationBar setTintColor:[utils slightLighterColorForColor:albumColor]];
-//            self.searchDisplayController.searchBar.barTintColor = albumColor;
         }
     }
     if (isViewDidLoad){
@@ -4628,11 +4697,17 @@ NSIndexPath *selected;
     }
     
     CGRect frame=dataList.frame;
-    frame.origin.x = viewWidth;
-    dataList.frame=frame;
-    
+    if ([parameters objectForKey:@"animationStartX"] != nil){
+        frame.origin.x = [[parameters objectForKey:@"animationStartX"] intValue];
+    }
+    else{
+        frame.origin.x = viewWidth;
+    }
+    if ([[parameters objectForKey:@"animationStartBottomScreen"] boolValue] == YES){
+        frame.origin.y = [[UIScreen mainScreen ] bounds].size.height - 44;
+    }
     bar.storeWidth = viewWidth;
-    
+    dataList.frame=frame;
     activeLayoutView = dataList;
     currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
     if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){

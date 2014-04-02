@@ -37,6 +37,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize nowPlayingMenuItems;
 @synthesize serverVolume;
 @synthesize remoteControlMenuItems;
+@synthesize xbmcSettings;
 
 + (AppDelegate *) instance {
 	return (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -2974,18 +2975,197 @@ NSMutableArray *hostRightMenuItems;
     item7.icon = @"";
     item7.family = 4;
     
+#pragma mark - Playlist Artist Albums
     playlistArtistAlbums = [item1 copy];
     playlistArtistAlbums.subItem.disableNowPlaying = TRUE;
     playlistArtistAlbums.subItem.subItem.disableNowPlaying = TRUE;
     
+#pragma mark - Plalist Movies
     playlistMovies = [item2 copy];
     playlistMovies.subItem.disableNowPlaying = TRUE;
     playlistMovies.subItem.subItem.disableNowPlaying = TRUE;
     
+#pragma mark - Playlist TV Shows
     playlistTvShows = [item3 copy];
     playlistTvShows.subItem.disableNowPlaying = TRUE;
     playlistTvShows.subItem.subItem.disableNowPlaying = TRUE;
 
+#pragma mark - XBMC Settings 
+    xbmcSettings = [[mainMenu alloc] init];
+    xbmcSettings.subItem = [[mainMenu alloc] init];
+    xbmcSettings.subItem.subItem = [[mainMenu alloc] init];
+    
+    xbmcSettings.mainLabel = NSLocalizedString(@"XBMC Settings", nil);
+    xbmcSettings.icon = @"icon_home_picture_alt";
+    xbmcSettings.family = 1;
+    xbmcSettings.enableSection = YES;
+    xbmcSettings.rowHeight = 65;
+    xbmcSettings.thumbWidth = 44;
+    xbmcSettings.disableNowPlaying = YES;
+    xbmcSettings.mainButtons = [NSArray arrayWithObjects:@"st_filemode", @"st_addons", nil];
+    
+    xbmcSettings.mainMethod = [NSMutableArray arrayWithObjects:
+                               
+                               [NSArray arrayWithObjects:@"Settings.GetSections", @"method", nil],
+                               
+                               [NSArray arrayWithObjects:@"Addons.GetAddons", @"method", nil],
+
+                               nil];
+    
+    xbmcSettings.mainParameters = [NSMutableArray arrayWithObjects:
+                                   
+                                   [NSMutableArray arrayWithObjects:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     @"expert", @"level",
+                                     nil], @"parameters", NSLocalizedString(@"XBMC Settings", nil), @"label", @"nocover_settings", @"defaultThumb",
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"53", @"separatorInset",
+                                     nil], @"itemSizes",
+                                    [NSNumber numberWithInt:0], @"animationStartX",
+                                    [NSNumber numberWithBool:YES], @"animationStartBottomScreen",
+                                    nil],
+                                   
+                                   [NSMutableArray arrayWithObjects:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     @"xbmc.addon.executable", @"type",
+                                     [[NSArray alloc] initWithObjects: @"name", @"version", @"summary", @"thumbnail", nil], @"properties",
+                                     nil], @"parameters", NSLocalizedString(@"Executable Add-ons", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                                      [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                                      [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
+                                     @"65", @"separatorInset",
+                                     nil], @"itemSizes",
+                                    @"YES", @"enableCollectionView",
+                                    nil],
+                                   
+                                   nil];
+    
+    xbmcSettings.mainFields = [NSArray arrayWithObjects:
+                               [NSDictionary  dictionaryWithObjectsAndKeys:
+                                @"sections",@"itemid",
+                                @"label", @"row1",
+                                @"help", @"row2",
+                                @"id", @"row3",
+                                @"id", @"row4",
+                                @"id",@"row5",
+                                @"id",@"row6",
+                                [NSNumber numberWithInt:2], @"playlistid",
+                                @"sectionid",@"row8",
+                                @"id", @"row9",
+                                nil],
+                               
+                               [NSDictionary  dictionaryWithObjectsAndKeys:
+                                @"addons",@"itemid",
+                                @"name", @"row1",
+                                @"summary", @"row2",
+                                @"blank", @"row3",
+                                @"blank", @"row4",
+                                @"addonid",@"row5",
+                                @"addonid",@"row6",
+                                [NSNumber numberWithInt:2], @"playlistid",
+                                @"addonid",@"row8",
+                                @"addonid", @"row9",
+                                nil],
+                               
+                               nil];
+    
+    xbmcSettings.sheetActions = [NSArray arrayWithObjects:
+                                 [NSArray arrayWithObjects: nil],
+                                 [NSArray arrayWithObjects:NSLocalizedString(@"To be continue...", nil), nil],
+                                 nil];
+    
+    
+    xbmcSettings.subItem.disableNowPlaying = YES;
+    xbmcSettings.subItem.mainMethod = [NSMutableArray arrayWithObjects:
+                                       
+                                       [NSArray arrayWithObjects:@"Settings.GetCategories", @"method", nil],
+                                       
+                                       [NSArray arrayWithObjects: nil],
+                                       nil];
+    
+    xbmcSettings.subItem.mainParameters = [NSMutableArray arrayWithObjects:
+                                           [NSMutableArray arrayWithObjects:
+                                            NSLocalizedString(@"Settings", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"32", @"thumbWidth",
+                                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                             @"40", @"separatorInset",
+                                             nil], @"itemSizes",
+                                            nil],
+                                           
+                                           [NSArray arrayWithObjects: nil],
+                                           
+                                           nil];
+    xbmcSettings.subItem.mainFields = [NSArray arrayWithObjects:
+                                       [NSDictionary  dictionaryWithObjectsAndKeys:
+                                        @"categories",@"itemid",
+                                        @"label", @"row1",
+                                        @"help", @"row2",
+                                        @"id", @"row3",
+                                        @"id", @"row4",
+                                        @"id",@"row5",
+                                        @"id",@"row6",
+                                        [NSNumber numberWithInt:2], @"playlistid",
+                                        @"categoryid",@"row8",
+                                        @"id", @"row9",
+                                        nil],
+                                       
+                                       [NSArray arrayWithObjects: nil],
+                                       
+                                       nil];
+    
+    xbmcSettings.subItem.rowHeight = 65;
+    xbmcSettings.subItem.thumbWidth = 44;
+    
+    xbmcSettings.subItem.subItem.disableNowPlaying = YES;
+    xbmcSettings.subItem.subItem.mainMethod = [NSMutableArray arrayWithObjects:
+                                               
+                                               [NSArray arrayWithObjects:@"Settings.GetSettings", @"method", nil],
+                                               
+                                               nil];
+    
+    xbmcSettings.subItem.subItem.mainParameters = [NSMutableArray arrayWithObjects:
+                                                   [NSMutableArray arrayWithObjects:
+                                                    NSLocalizedString(@"Settings", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"0", @"thumbWidth",
+                                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     @"0", @"separatorInset",
+                                                     nil], @"itemSizes",
+                                                    nil],
+                                                   
+                                                   nil];
+    xbmcSettings.subItem.subItem.mainFields = [NSArray arrayWithObjects:
+                                               [NSDictionary  dictionaryWithObjectsAndKeys:
+                                                @"settings",@"itemid",
+                                                @"label", @"row1",
+                                                @"help", @"row2",
+                                                @"type", @"row3",
+                                                @"default", @"row4",
+                                                @"enabled",@"row5",
+                                                @"id",@"row6",
+                                                [NSNumber numberWithInt:2], @"playlistid",
+                                                @"id",@"row8",
+                                                @"id", @"row9",
+                                                @"parent", @"row10",
+                                                @"control", @"row11",
+                                                @"value", @"row12",
+                                                @"options", @"row13",
+                                                @"allowempty", @"row14",
+                                                @"addontype", @"row15",
+                                                @"maximum", @"row16",
+                                                @"minimum", @"row17",
+                                                @"step", @"row18",
+                                                nil],
+                                               
+                                               nil];
+    xbmcSettings.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
+                                                 [NSArray arrayWithObjects:NSLocalizedString(@"To be continue...", nil), nil],
+                                                 nil];
+    
+    xbmcSettings.subItem.subItem.rowHeight = 65;
+    xbmcSettings.subItem.subItem.thumbWidth = 44;
+    
 #pragma mark - Host Right Menu
     rightMenuItems = [NSMutableArray arrayWithCapacity:1];
     mainMenu *rightItem1 = [[mainMenu alloc] init];
@@ -3239,6 +3419,8 @@ NSMutableArray *hostRightMenuItems;
     mainMenu *remoteControlItem1 = [[mainMenu alloc] init];
     remoteControlItem1.mainLabel = @"RemoteControl";
     remoteControlItem1.family = 3;
+    remoteControlItem1.enableSection = YES;
+
     remoteControlItem1.mainMethod = [NSArray arrayWithObjects:
                                   [NSDictionary dictionaryWithObjectsAndKeys:
                                    [NSArray arrayWithObjects:
@@ -3325,7 +3507,14 @@ NSMutableArray *hostRightMenuItems;
 //                                      nil], @"action",
 //                                     nil],
                                     // END PERSONAL
-
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     NSLocalizedString(@"Add button", nil), @"label",
+                                     @"", @"icon",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      @"AddButton",@"command",
+                                      [NSDictionary dictionaryWithObjectsAndKeys:nil], @"params",
+                                      nil], @"action",
+                                     nil],
                                     nil],@"online",
                                    
                                    nil],

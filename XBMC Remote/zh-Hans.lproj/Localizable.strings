@@ -195,7 +195,7 @@
 "Play in party mode" = "以舞会模式播放";
 "Play in shuffle mode" = "以乱序模式播放";
 
-"Channel Guide" = "Guida Canale";
+"Channel Guide" = "Channel Guide";
 "Record" = "Record";
 "Broadcast Details" = "Broadcast Details";
 "TIME" = "TIME";
@@ -205,3 +205,6 @@
 "Subtitle" = "Subtitle";
 "Mark as watched" = "Mark as watched";
 "Mark as unwatched" = "Mark as unwatched";
+
+"Button Pad/Gesture Zone" = "Button Pad/Gesture Zone";
+
