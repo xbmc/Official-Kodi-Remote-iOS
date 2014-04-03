@@ -58,7 +58,6 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSArray *settingOptions = [self.detailItem objectForKey:@"options"];
     NSInteger numRows = 1;
     if ([settingOptions isKindOfClass:[NSArray class]]){
         numRows = [settingOptions count] == 0 ? 1 : [settingOptions count];
@@ -101,7 +100,7 @@
         slider.tag = 101;
         [cell addSubview:slider];
         
-        int uiSliderLabelWidth = 100;
+        int uiSliderLabelWidth = cell.frame.size.width - 14 * 2;
         UILabel *uiSliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - uiSliderLabelWidth / 2, slider.frame.origin.y - 28, uiSliderLabelWidth, 20)];
         uiSliderLabel.tag = 102;
         [uiSliderLabel setTextAlignment:NSTextAlignmentCenter];
@@ -118,25 +117,41 @@
         // Set the desired frame location of onoff here
         [onoff setFrame:CGRectMake(self.view.bounds.size.width - onoff.frame.size.width - 12, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
         [cell addSubview: onoff];
-
+        
+        UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 30)];
+        textInputField.borderStyle = UITextBorderStyleRoundedRect;
+        textInputField.textAlignment = NSTextAlignmentCenter;
+        textInputField.font = [UIFont systemFontOfSize:15];
+        textInputField.placeholder = NSLocalizedString(@"enter value", nil);;
+        textInputField.autocorrectionType = UITextAutocorrectionTypeNo;
+        textInputField.keyboardType = UIKeyboardTypeDefault;
+        textInputField.returnKeyType = UIReturnKeyDone;
+        textInputField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textInputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        textInputField.delegate = self;
+        textInputField.tag = 301;
+        [cell addSubview:textInputField];
 	}
     UILabel *cellLabel =  (UILabel*) [cell viewWithTag:1];
     UILabel *descriptionLabel =  (UILabel*) [cell viewWithTag:2];
     UISlider *slider = (UISlider*) [cell viewWithTag:101];
     UILabel *sliderLabel =  (UILabel*) [cell viewWithTag:102];
     UISwitch *onoff = (UISwitch*) [cell viewWithTag:201];
+    UITextField *textInputField = (UITextField*) [cell viewWithTag:301];
     
     descriptionLabel.hidden = YES;
     slider.hidden = YES;
     sliderLabel.hidden = YES;
     onoff.hidden = YES;
+    textInputField.hidden = YES;
+    
 
     cell.accessoryType =  UITableViewCellAccessoryNone;
-    NSArray *settingOptions = [self.detailItem objectForKey:@"options"];
-    NSDictionary *itemControls = [self.detailItem objectForKey:@"control"];
+//    NSArray *settingOptions = [self.detailItem objectForKey:@"options"];
+//    NSDictionary *itemControls = [self.detailItem objectForKey:@"control"];
     
     NSString *cellText = @"";
-//    NSLog(@"AAAA %@", self.detailItem);
+    NSLog(@"AAAA %@", self.detailItem);
     if ([[itemControls objectForKey:@"format"] isEqualToString:@"boolean"]){
         tableView.scrollEnabled = NO;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -157,8 +172,11 @@
             }
         }
     }
-    else if ([self.detailItem objectForKey:@"maximum"] != nil && [self.detailItem objectForKey:@"minimum"] != nil && [self.detailItem objectForKey:@"step"] != nil){
+    else if ([[itemControls objectForKey:@"type"] isEqualToString:@"spinner"] && settingOptions == nil){
         tableView.scrollEnabled = NO;
+        slider.hidden = NO;
+        sliderLabel.hidden = NO;
+        descriptionLabel.hidden = NO;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46)];
         [cellLabel setNumberOfLines:2];
@@ -168,22 +186,32 @@
         [descriptionLabel setFrame:CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 52)];
         [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
         [descriptionLabel setNumberOfLines:3];
-
-//        [cellLabel setBackgroundColor:[UIColor redColor]];
-//        [descriptionLabel setBackgroundColor:[UIColor greenColor]];
-
         [descriptionLabel setText: [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
         slider.minimumValue = [[self.detailItem objectForKey:@"minimum"] intValue];
         slider.maximumValue = [[self.detailItem objectForKey:@"maximum"] intValue];
         slider.value = [[self.detailItem objectForKey:@"value"] intValue];
-        slider.hidden = NO;
-        sliderLabel.hidden = NO;
-        descriptionLabel.hidden = NO;
         NSString *stringFormat = @"%i";
         if ([itemControls objectForKey:@"formatlabel"] != nil){
             stringFormat = [NSString stringWithFormat:@"%@", [itemControls objectForKey:@"formatlabel"]];
         }
         [sliderLabel setText:[NSString stringWithFormat:stringFormat, [[self.detailItem objectForKey:@"value"] intValue]]];
+    }
+    else if ([[itemControls objectForKey:@"type"] isEqualToString:@"edit"]){
+        tableView.scrollEnabled = NO;
+        descriptionLabel.hidden = NO;
+        textInputField.hidden = NO;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46)];
+        [cellLabel setNumberOfLines:2];
+        [cellLabel setTextAlignment:NSTextAlignmentCenter];
+        cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"label"]];
+        
+        [descriptionLabel setFrame:CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 52)];
+        [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
+        [descriptionLabel setNumberOfLines:3];
+        [descriptionLabel setText: [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
+        
+        [textInputField setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"value"]]];
     }
     else if ([self.detailItem objectForKey:@"value"] != nil){
         cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"value"]];
@@ -203,7 +231,6 @@
     slider.value = newStep * [[self.detailItem objectForKey:@"step"] intValue];
     if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]){
         UILabel *sliderLabel = (UILabel *)[[slider superview] viewWithTag:102];
-        NSDictionary *itemControls = [self.detailItem objectForKey:@"control"];
         NSString *stringFormat = @"%i";
         if ([itemControls objectForKey:@"formatlabel"] != nil){
             stringFormat = [NSString stringWithFormat:@"%@", [itemControls objectForKey:@"formatlabel"]];
@@ -267,13 +294,21 @@
         [_tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
     }
     cellHeight = 44.0f;
-    NSDictionary *itemControls = [self.detailItem objectForKey:@"control"];
+    
+    settingOptions = [self.detailItem objectForKey:@"options"];
+    if (![settingOptions isKindOfClass:[NSArray class]]){
+        settingOptions = nil;
+    }
+    itemControls = [self.detailItem objectForKey:@"control"];
 
     if ([[itemControls objectForKey:@"format"] isEqualToString:@"boolean"]) {
         cellHeight = 152.0f;
     }
-    else if ([self.detailItem objectForKey:@"maximum"] != nil && [self.detailItem objectForKey:@"minimum"] != nil && [self.detailItem objectForKey:@"step"] != nil){
+    else if ([[itemControls objectForKey:@"type"] isEqualToString:@"spinner"] && settingOptions == nil){
         cellHeight = 174.0f;
+    }
+    else if ([[itemControls objectForKey:@"type"] isEqualToString:@"edit"]){
+        cellHeight = 154.0f;
     }
     else {
         self.navigationItem.title = [self.detailItem objectForKey:@"label"];

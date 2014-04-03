@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
     int cellLabelOffset;
     CGFloat cellHeight;
+    NSArray *settingOptions;
+    NSDictionary *itemControls;
 }
 
 - (id)initWithFrame:(CGRect)frame;
