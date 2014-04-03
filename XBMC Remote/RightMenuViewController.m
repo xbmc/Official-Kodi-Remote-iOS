@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "CustomNavigationController.h"
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -232,7 +233,7 @@
                 }
                 else{
                     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+                    CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:detailViewController];
                     UINavigationBar *newBar = navController.navigationBar;
                     [newBar setTintColor:IOS6_BAR_TINT_COLOR];
                     [newBar setBarStyle:UIBarStyleBlack];
