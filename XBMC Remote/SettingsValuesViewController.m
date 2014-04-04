@@ -33,7 +33,10 @@
          withParameters: params
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                if (error == nil && methodError == nil) {
-                   NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"name"  ascending:YES];
+                   NSSortDescriptor *descriptor = [[NSSortDescriptor alloc]
+                                                initWithKey:@"name"
+                                                ascending:YES
+                                                selector:@selector(localizedCaseInsensitiveCompare:)];
                    NSArray *retrievedItems = [[methodResult objectForKey:itemkey] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
                    for (NSDictionary *item in retrievedItems) {
                        [settingOptions addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -74,8 +77,6 @@
         else if ([[itemControls objectForKey:@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
             cellHeight = 44.0f;
-//            NSLog(@"AAA %@", self.detailItem);
-            
             [self retrieveXBMCData: @"Addons.GetAddons"
                         parameters: [NSDictionary dictionaryWithObjectsAndKeys:
                                      [self.detailItem objectForKey:@"addontype"], @"type",
