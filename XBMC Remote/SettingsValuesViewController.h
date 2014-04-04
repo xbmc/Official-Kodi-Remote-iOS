@@ -19,7 +19,7 @@ typedef enum {
 @interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
     int cellLabelOffset;
     CGFloat cellHeight;
-    NSArray *settingOptions;
+    NSMutableArray *settingOptions;
     NSDictionary *itemControls;
     SettingType xbmcSetting;
 }

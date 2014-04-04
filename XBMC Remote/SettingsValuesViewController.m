@@ -7,6 +7,7 @@
 //
 
 #import "SettingsValuesViewController.h"
+#import "DSJSONRPC.h"
 #import "AppDelegate.h"
 
 @interface SettingsValuesViewController ()
@@ -21,6 +22,33 @@
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
     }
+}
+
+-(void)retrieveXBMCData:(NSString *)method parameters:(NSDictionary *)params itemKey:(NSString *)itemkey{
+    NSString *userPassword=[[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
+    DSJSONRPC *jsonRPC = nil;
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC callMethod: method
+         withParameters: params
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+               if (error == nil && methodError == nil) {
+                   NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"name"  ascending:YES];
+                   NSArray *retrievedItems = [[methodResult objectForKey:itemkey] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+                   for (NSDictionary *item in retrievedItems) {
+                       [settingOptions addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [item objectForKey:@"name"], @"label",
+                                                  [item objectForKey:@"addonid"], @"value",
+                                                  nil]
+                        ];
+                   }
+                   [_tableView reloadData];
+               }
+               else {
+                   NSLog(@"%@ %@", methodError, error);
+               }
+           }];
+    return;
 }
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item {
@@ -46,11 +74,16 @@
         else if ([[itemControls objectForKey:@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
             cellHeight = 44.0f;
-            settingOptions = [[NSArray alloc] initWithObjects:
-                              [NSDictionary dictionaryWithObjectsAndKeys:@"Aeon NOX",@"label",@"skin.aeonox",@"value", nil],
-                              [NSDictionary dictionaryWithObjectsAndKeys:@"Confluence",@"label",@"skin.confluence",@"value", nil],
-                              nil];
+//            NSLog(@"AAA %@", self.detailItem);
             
+            [self retrieveXBMCData: @"Addons.GetAddons"
+                        parameters: [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [self.detailItem objectForKey:@"addontype"], @"type",
+                                     [NSArray arrayWithObjects:@"name", nil], @"properties",
+                                     nil]
+                           itemKey: @"addons"];
+            
+            settingOptions = [[NSMutableArray alloc] init];
         }
         else if ([[itemControls objectForKey:@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
             xbmcSetting = cSlider;
@@ -100,7 +133,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger numRows = 1;
     if ([settingOptions isKindOfClass:[NSArray class]]) {
-        numRows = [settingOptions count] == 0 ? 1 : [settingOptions count];
+//        numRows = [settingOptions count] == 0 ? 1 : [settingOptions count];
+        numRows = [settingOptions count];
     }
     return numRows;
 }

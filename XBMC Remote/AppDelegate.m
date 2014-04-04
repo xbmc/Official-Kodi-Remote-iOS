@@ -3508,7 +3508,7 @@ NSMutableArray *hostRightMenuItems;
 //                                     nil],
                                     // END PERSONAL
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     NSLocalizedString(@"Add button", nil), @"label",
+                                     NSLocalizedString(@"...more", nil), @"label",
                                      @"", @"icon",
                                      [NSDictionary dictionaryWithObjectsAndKeys:
                                       @"AddButton",@"command",
