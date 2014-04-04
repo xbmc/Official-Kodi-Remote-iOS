@@ -78,6 +78,7 @@
             xbmcSetting = cList;
             cellHeight = 44.0f;
             self.navigationItem.title = [self.detailItem objectForKey:@"label"];
+            settingOptions = [[NSMutableArray alloc] init];
             [self retrieveXBMCData: @"Addons.GetAddons"
                         parameters: [NSDictionary dictionaryWithObjectsAndKeys:
                                      [self.detailItem objectForKey:@"addontype"], @"type",
@@ -85,8 +86,6 @@
                                      [NSArray arrayWithObjects:@"name", nil], @"properties",
                                      nil]
                            itemKey: @"addons"];
-            
-            settingOptions = [[NSMutableArray alloc] init];
         }
         else if ([[itemControls objectForKey:@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
             xbmcSetting = cSlider;
@@ -392,6 +391,7 @@
         footerHeight = descriptionSize.height + cellLabelOffset * 2;
         
         UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
+        [helpView setBackgroundColor:[UIColor clearColor]];
         
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             UIToolbar *toolbar = [[UIToolbar alloc] init];
