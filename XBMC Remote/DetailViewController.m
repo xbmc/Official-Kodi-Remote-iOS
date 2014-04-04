@@ -1048,8 +1048,7 @@
     int rectOriginY = point.y;
     if ([[item objectForKey:@"family"] isEqualToString:@"id"]){
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-            settingsViewController.detailItem = item;
+            SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:item];
             [self.navigationController pushViewController:settingsViewController animated:YES];
         }
         else{
