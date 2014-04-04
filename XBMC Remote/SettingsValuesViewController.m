@@ -79,6 +79,7 @@
             [self retrieveXBMCData: @"Addons.GetAddons"
                         parameters: [NSDictionary dictionaryWithObjectsAndKeys:
                                      [self.detailItem objectForKey:@"addontype"], @"type",
+                                     [NSNumber numberWithBool:YES], @"enabled",
                                      [NSArray arrayWithObjects:@"name", nil], @"properties",
                                      nil]
                            itemKey: @"addons"];
