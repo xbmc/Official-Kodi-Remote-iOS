@@ -22,6 +22,7 @@ typedef enum {
     NSMutableArray *settingOptions;
     NSDictionary *itemControls;
     SettingType xbmcSetting;
+    CGFloat footerHeight;
 }
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item;

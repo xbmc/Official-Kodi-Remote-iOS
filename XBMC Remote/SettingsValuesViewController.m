@@ -77,6 +77,7 @@
         else if ([[itemControls objectForKey:@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
             cellHeight = 44.0f;
+            self.navigationItem.title = [self.detailItem objectForKey:@"label"];
             [self retrieveXBMCData: @"Addons.GetAddons"
                         parameters: [NSDictionary dictionaryWithObjectsAndKeys:
                                      [self.detailItem objectForKey:@"addontype"], @"type",
@@ -372,8 +373,58 @@
     return sectionView;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 1;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (xbmcSetting == cList) {
+        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
+        [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
+        [descriptionLabel setNumberOfLines:8];
+        [descriptionLabel setTextColor:[UIColor whiteColor]];
+        [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
+        [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
+        [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
+        CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
+                                            constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax) lineBreakMode:descriptionLabel.lineBreakMode];
+        [descriptionLabel setFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, descriptionSize.height)];
+        footerHeight = descriptionSize.height + cellLabelOffset * 2;
+        
+        UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
+        
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            UIToolbar *toolbar = [[UIToolbar alloc] init];
+            [toolbar setBarStyle:UIBarStyleBlackTranslucent];
+            [toolbar setFrame:helpView.frame];
+            [helpView insertSubview:toolbar atIndex:0];
+        }
+        else {
+            [helpView setBackgroundColor:[UIColor colorWithRed:85.0f/255.0f green:85.0f/255.0f blue:85.0f/255.0f alpha:0.9f]];
+        }
+        [helpView addSubview:descriptionLabel];
+        return helpView;
+    }
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (xbmcSetting == cList) {
+        if (footerHeight < 0) {
+            UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
+            [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
+            [descriptionLabel setNumberOfLines:8];
+            [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
+            [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
+            CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
+                                                       constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax) lineBreakMode:descriptionLabel.lineBreakMode];
+            footerHeight = descriptionSize.height + cellLabelOffset * 2;
+        }
+        return footerHeight;
+    }
+    else {
+        return 0;
+    }
 }
 
 #pragma mark - LifeCycle
@@ -400,6 +451,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    footerHeight = -1;
 }
 
 - (void)didReceiveMemoryWarning {
