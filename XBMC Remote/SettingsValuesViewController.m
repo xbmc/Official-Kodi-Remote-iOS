@@ -381,7 +381,7 @@
     if (xbmcSetting == cList) {
         UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
         [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
-        [descriptionLabel setNumberOfLines:8];
+        [descriptionLabel setNumberOfLines:20];
         [descriptionLabel setTextColor:[UIColor whiteColor]];
         [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
         [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
@@ -413,7 +413,7 @@
         if (footerHeight < 0) {
             UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
             [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
-            [descriptionLabel setNumberOfLines:8];
+            [descriptionLabel setNumberOfLines:20];
             [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
             [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
             CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
