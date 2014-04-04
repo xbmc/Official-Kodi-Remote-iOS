@@ -172,7 +172,7 @@
         [slider setBackgroundColor:[UIColor clearColor]];
         slider.continuous = YES;
         slider.tag = 101;
-        [cell addSubview:slider];
+        [cell.contentView addSubview:slider];
         
         int uiSliderLabelWidth = cell.frame.size.width - 14 * 2;
         UILabel *uiSliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - uiSliderLabelWidth / 2, slider.frame.origin.y - 28, uiSliderLabelWidth, 20)];
@@ -189,7 +189,7 @@
         onoff.tag = 201;
         [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
         [onoff setFrame:CGRectMake(self.view.bounds.size.width - onoff.frame.size.width - 12, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
-        [cell addSubview: onoff];
+        [cell.contentView addSubview: onoff];
         
         UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 30)];
         textInputField.borderStyle = UITextBorderStyleRoundedRect;
@@ -203,7 +203,7 @@
         textInputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textInputField.delegate = self;
         textInputField.tag = 301;
-        [cell addSubview:textInputField];
+        [cell.contentView addSubview:textInputField];
 	}
     cell.accessoryType =  UITableViewCellAccessoryNone;
 
