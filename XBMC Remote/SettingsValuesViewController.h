@@ -8,17 +8,25 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    cDefault,
+    cSlider,
+    cSwitch,
+    cInput,
+    cList,
+} SettingType;
+
 @interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
     int cellLabelOffset;
     CGFloat cellHeight;
     NSArray *settingOptions;
     NSDictionary *itemControls;
+    SettingType xbmcSetting;
 }
 
-- (id)initWithFrame:(CGRect)frame;
+- (id)initWithFrame:(CGRect)frame withItem:(id)item;
 
 @property(nonatomic, retain) UITableView* tableView;
-
 @property (strong, nonatomic) id detailItem;
 
 @end
