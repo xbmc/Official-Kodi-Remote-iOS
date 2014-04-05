@@ -169,7 +169,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger numRows = 1;
     if ([settingOptions isKindOfClass:[NSArray class]]) {
-//        numRows = [settingOptions count] == 0 ? 1 : [settingOptions count];
         numRows = [settingOptions count];
     }
     return numRows;
@@ -177,6 +176,25 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 	cell.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)adjustFontSize:(UILabel *)label {
+    CGSize descriptionSize;
+    BOOL done = FALSE;
+    CGFloat startSize = label.font.pointSize - 1;
+    CGFloat endSize = startSize - 2;
+    while (done == FALSE && startSize >= endSize){
+        descriptionSize = [label.text sizeWithFont: label.font
+                                 constrainedToSize: CGSizeMake(label.bounds.size.width, NSIntegerMax)
+                                     lineBreakMode: label.lineBreakMode];
+        if (descriptionSize.height > label.bounds.size.height) {
+            [label setFont:[UIFont systemFontOfSize:startSize]];
+        }
+        else{
+            done = TRUE;
+        }
+        startSize --;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -193,7 +211,13 @@
         [cellLabel setHighlightedTextColor:[UIColor blackColor]];
         [cell.contentView addSubview:cellLabel];
         
-        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 54, self.view.bounds.size.width - cellLabelOffset - 68, 120)];
+        UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
+        onoff.tag = 201;
+        [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
+        [onoff setFrame:CGRectMake(self.view.bounds.size.width - onoff.frame.size.width - 12, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
+        [cell.contentView addSubview: onoff];
+
+        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 54, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, 120)];
         descriptionLabel.tag = 2;
         [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
         [descriptionLabel setAdjustsFontSizeToFitWidth:YES];
@@ -221,12 +245,6 @@
         [uiSliderLabel setHighlightedTextColor:[UIColor blackColor]];
         [cell.contentView addSubview:uiSliderLabel];
         
-        UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
-        onoff.tag = 201;
-        [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-        [onoff setFrame:CGRectMake(self.view.bounds.size.width - onoff.frame.size.width - 12, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
-        [cell.contentView addSubview: onoff];
-        
         UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 30)];
         textInputField.borderStyle = UITextBorderStyleRoundedRect;
         textInputField.textAlignment = NSTextAlignmentCenter;
@@ -249,7 +267,7 @@
     UILabel *sliderLabel =  (UILabel*) [cell viewWithTag:102];
     UISwitch *onoff = (UISwitch*) [cell viewWithTag:201];
     UITextField *textInputField = (UITextField*) [cell viewWithTag:301];
-    
+
     descriptionLabel.hidden = YES;
     slider.hidden = YES;
     sliderLabel.hidden = YES;
@@ -259,7 +277,6 @@
     NSString *cellText = @"";
     NSString *stringFormat = @"%i";
     NSString *descriptionString = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]];
-    CGSize descriptionSize;
     
     switch (xbmcSetting) {
             
@@ -269,19 +286,12 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             descriptionLabel.hidden = NO;
             cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"label"]];
-            [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - onoff.frame.size.width - 26, 44)];
+            [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, 44)];
             [cellLabel setNumberOfLines:2];
             [descriptionLabel setText:descriptionString];
-            descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
-                                                constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax)
-                                                    lineBreakMode:descriptionLabel.lineBreakMode];
-            if (descriptionSize.height > descriptionLabel.bounds.size.height) {
-                [descriptionLabel setFont:[UIFont systemFontOfSize:11]];
-            }
-            
+            [self adjustFontSize:descriptionLabel];
             onoff.hidden = NO;
             onoff.on = [[self.detailItem objectForKey:@"value"] boolValue];
-            
             break;
             
         case cList:
@@ -334,12 +344,7 @@
             descriptionString  = [descriptionString stringByReplacingOccurrencesOfString:@"[B]" withString:@""];
             descriptionString  = [descriptionString stringByReplacingOccurrencesOfString:@"[/B]" withString:@""];
             [descriptionLabel setText: descriptionString];
-            descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
-                                                       constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax) lineBreakMode:descriptionLabel.lineBreakMode];
-            if (descriptionSize.height > descriptionLabel.bounds.size.height) {
-                [descriptionLabel setFont:[UIFont systemFontOfSize:11]];
-            }
-            
+            [self adjustFontSize:descriptionLabel];
             [textInputField setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"value"]]];
             break;
             
@@ -366,6 +371,9 @@
 
     return cell;
 }
+
+#pragma mark - UISlider
+
 -(void)sliderAction:(id)sender {
     UISlider *slider = (UISlider*) sender;
     float newStep = roundf((slider.value) / [[self.detailItem objectForKey:@"step"] intValue]);
@@ -380,7 +388,10 @@
     }
 }
 
+#pragma mark UISwitch
+
 - (void)toggleSwitch:(id)sender {
+    
 }
 
 #pragma mark Table view delegate
