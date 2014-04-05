@@ -3075,7 +3075,7 @@ NSMutableArray *hostRightMenuItems;
     
     xbmcSettings.sheetActions = [NSArray arrayWithObjects:
                                  [NSArray arrayWithObjects: nil],
-                                 [NSArray arrayWithObjects:NSLocalizedString(@"To be continue...", nil), nil],
+                                 [NSArray arrayWithObjects: nil],
                                  nil];
     
     
@@ -3160,7 +3160,7 @@ NSMutableArray *hostRightMenuItems;
                                                
                                                nil];
     xbmcSettings.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
-                                                 [NSArray arrayWithObjects:NSLocalizedString(@"To be continue...", nil), nil],
+                                                 [NSArray arrayWithObjects: nil],
                                                  nil];
     
     xbmcSettings.subItem.subItem.rowHeight = 65;
