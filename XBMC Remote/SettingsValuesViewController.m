@@ -24,50 +24,6 @@
     }
 }
 
-- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	tV.alpha = alphavalue;
-	CGRect frame;
-	frame = [tV frame];
-	frame.origin.x = X;
-    frame.origin.y = 0;
-	tV.frame = frame;
-    [UIView commitAnimations];
-}
-
--(void)retrieveXBMCData:(NSString *)method parameters:(NSDictionary *)params itemKey:(NSString *)itemkey{
-    
-    [activityIndicator startAnimating];
-    NSString *userPassword=[[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
-    DSJSONRPC *jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    [jsonRPC callMethod: method
-         withParameters: params
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-               [activityIndicator stopAnimating];
-               if (error == nil && methodError == nil) {
-                   NSSortDescriptor *descriptor = [[NSSortDescriptor alloc]
-                                                initWithKey:@"name"
-                                                ascending:YES
-                                                selector:@selector(localizedCaseInsensitiveCompare:)];
-                   NSArray *retrievedItems = [[methodResult objectForKey:itemkey] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
-                   for (NSDictionary *item in retrievedItems) {
-                       [settingOptions addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                  [item objectForKey:@"name"], @"label",
-                                                  [item objectForKey:@"addonid"], @"value",
-                                                  nil]
-                        ];
-                   }
-                   [_tableView reloadData];
-                   [self AnimTable:_tableView AnimDuration:0.3 Alpha:1.0 XPos:0];
-                   [self scrollTableRow:settingOptions];
-               }
-           }];
-    return;
-}
-
 - (id)initWithFrame:(CGRect)frame withItem:(id)item {
     if (self = [super init]) {
 		
@@ -140,6 +96,63 @@
         }
 	}
     return self;
+}
+
+#pragma mark - JSON
+
+-(void)xbmcAction:(NSString *)action params:(NSDictionary *)params{
+    [_tableView setUserInteractionEnabled:NO];
+    [activityIndicator startAnimating];
+    DSJSONRPC *jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance];
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [activityIndicator stopAnimating];
+        if (methodError==nil && error == nil){
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alertView show];
+        }
+        else{
+            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alertView show];
+        }
+        [_tableView setUserInteractionEnabled:YES];
+    }];
+}
+
+
+-(void)retrieveXBMCData:(NSString *)method parameters:(NSDictionary *)params itemKey:(NSString *)itemkey{
+    
+    [activityIndicator startAnimating];
+    NSString *userPassword=[[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
+    DSJSONRPC *jsonRPC = nil;
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC callMethod: method
+         withParameters: params
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+               [activityIndicator stopAnimating];
+               if (error == nil && methodError == nil) {
+                   NSSortDescriptor *descriptor = [[NSSortDescriptor alloc]
+                                                   initWithKey:@"name"
+                                                   ascending:YES
+                                                   selector:@selector(localizedCaseInsensitiveCompare:)];
+                   NSArray *retrievedItems = [[methodResult objectForKey:itemkey] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+                   for (NSDictionary *item in retrievedItems) {
+                       [settingOptions addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [item objectForKey:@"name"], @"label",
+                                                  [item objectForKey:@"addonid"], @"value",
+                                                  nil]
+                        ];
+                   }
+                   [_tableView reloadData];
+                   [self AnimTable:_tableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                   [self scrollTableRow:settingOptions];
+               }
+           }];
+    return;
 }
 
 #pragma mark -
@@ -372,8 +385,42 @@
 
 #pragma mark Table view delegate
 
+- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDuration:seconds];
+	tV.alpha = alphavalue;
+	CGRect frame;
+	frame = [tV frame];
+	frame.origin.x = X;
+    frame.origin.y = 0;
+	tV.frame = frame;
+    [UIView commitAnimations];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UITableViewCell *cell = nil;
+    NSString *command = nil;
+    NSDictionary *params = nil;
+    switch (xbmcSetting) {
+        case cList:
+            if (selectedSetting == nil){
+                selectedSetting = [self getCurrentSelectedOption:settingOptions];
+            }
+            if (selectedSetting != nil){
+                cell = [tableView cellForRowAtIndexPath:selectedSetting];
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+            }
+            cell = [tableView cellForRowAtIndexPath:indexPath];
+            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+            selectedSetting = indexPath;
+            command = @"Settings.SetSettingValue";
+            params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [[settingOptions objectAtIndex:selectedSetting.row] objectForKey:@"value"], @"value", nil];
+            [self xbmcAction:command params:params];
+            break;
+        default:
+            break;
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -446,6 +493,26 @@
         return 0;
     }
 }
+- (NSIndexPath *)getCurrentSelectedOption:(NSArray *)optionList {
+    NSIndexPath *foundIndex = nil;
+    NSUInteger index = [optionList indexOfObjectPassingTest:
+                        ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
+                            return [[dict objectForKey:@"value"] isEqual:[self.detailItem objectForKey:@"value"]];
+                        }];
+    if (index != NSNotFound) {
+        foundIndex = [NSIndexPath indexPathForRow:index inSection:0];
+        selectedSetting = foundIndex;
+    }
+    return foundIndex;
+}
+
+- (void)scrollTableRow:(NSArray *)list {
+    NSIndexPath *optionIndex = [self getCurrentSelectedOption:list];
+    if (optionIndex != nil){
+        [_tableView scrollToRowAtIndexPath:optionIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        
+    }
+}
 
 #pragma mark - LifeCycle
 
@@ -469,16 +536,6 @@
     }
 }
 
-- (void)scrollTableRow:(NSArray *)list {
-    NSUInteger index = [list indexOfObjectPassingTest:
-                        ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
-                            return [[dict objectForKey:@"value"] isEqual:[self.detailItem objectForKey:@"value"]];
-                        }];
-    if (index != NSNotFound) {
-        [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    }
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     if (xbmcSetting == cList){
         [self scrollTableRow:settingOptions];
@@ -488,6 +545,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     footerHeight = -1;
+    selectedSetting = nil;
 }
 
 - (void)didReceiveMemoryWarning {

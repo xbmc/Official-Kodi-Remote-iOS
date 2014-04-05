@@ -24,6 +24,7 @@ typedef enum {
     SettingType xbmcSetting;
     CGFloat footerHeight;
     UIActivityIndicatorView *activityIndicator;
+    NSIndexPath *selectedSetting;
 }
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item;
