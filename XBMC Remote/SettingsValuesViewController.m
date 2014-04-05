@@ -46,9 +46,7 @@
                         ];
                    }
                    [_tableView reloadData];
-               }
-               else {
-                   NSLog(@"%@ %@", methodError, error);
+                   [self scrollTableRow:settingOptions];
                }
            }];
     return;
@@ -226,8 +224,6 @@
     NSString *stringFormat = @"%i";
     NSString *descriptionString = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]];
     CGSize descriptionSize;
-
-//    NSLog(@"AAAA %@", self.detailItem);
     
     switch (xbmcSetting) {
             
@@ -380,6 +376,7 @@
     if (xbmcSetting == cList) {
         UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
         [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
+        [descriptionLabel setBackgroundColor:[UIColor clearColor]];
         [descriptionLabel setNumberOfLines:20];
         [descriptionLabel setTextColor:[UIColor whiteColor]];
         [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
@@ -400,7 +397,7 @@
             [helpView insertSubview:toolbar atIndex:0];
         }
         else {
-            [helpView setBackgroundColor:[UIColor colorWithRed:85.0f/255.0f green:85.0f/255.0f blue:85.0f/255.0f alpha:0.9f]];
+            [helpView setBackgroundColor:[UIColor colorWithRed:85.0f/255.0f green:85.0f/255.0f blue:85.0f/255.0f alpha:0.95f]];
         }
         [helpView addSubview:descriptionLabel];
         return helpView;
@@ -446,6 +443,22 @@
         _tableView.contentInset = tableViewInsets;
         _tableView.scrollIndicatorInsets = tableViewInsets;
         [_tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
+    }
+}
+
+- (void)scrollTableRow:(NSArray *)list {
+    NSUInteger index = [list indexOfObjectPassingTest:
+                        ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
+                            return [[dict objectForKey:@"value"] isEqual:[self.detailItem objectForKey:@"value"]];
+                        }];
+    if (index != NSNotFound) {
+        [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (xbmcSetting == cList){
+        [self scrollTableRow:settingOptions];
     }
 }
 
