@@ -111,8 +111,8 @@
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicator stopAnimating];
         if (methodError==nil && error == nil){
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
+//            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+//            [alertView show];
         }
         else{
             UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
@@ -391,7 +391,10 @@
 #pragma mark UISwitch
 
 - (void)toggleSwitch:(id)sender {
-    
+    UISwitch *onoff = (UISwitch *)sender;
+    NSString *command = @"Settings.SetSettingValue";
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
+    [self xbmcAction:command params:params];
 }
 
 #pragma mark Table view delegate
