@@ -23,6 +23,7 @@ typedef enum {
     NSDictionary *itemControls;
     SettingType xbmcSetting;
     CGFloat footerHeight;
+    UIActivityIndicatorView *activityIndicator;
 }
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item;

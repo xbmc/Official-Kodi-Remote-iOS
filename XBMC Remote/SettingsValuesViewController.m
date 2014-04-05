@@ -24,7 +24,21 @@
     }
 }
 
+- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDuration:seconds];
+	tV.alpha = alphavalue;
+	CGRect frame;
+	frame = [tV frame];
+	frame.origin.x = X;
+    frame.origin.y = 0;
+	tV.frame = frame;
+    [UIView commitAnimations];
+}
+
 -(void)retrieveXBMCData:(NSString *)method parameters:(NSDictionary *)params itemKey:(NSString *)itemkey{
+    
+    [activityIndicator startAnimating];
     NSString *userPassword=[[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
     DSJSONRPC *jsonRPC = nil;
@@ -32,6 +46,7 @@
     [jsonRPC callMethod: method
          withParameters: params
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+               [activityIndicator stopAnimating];
                if (error == nil && methodError == nil) {
                    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc]
                                                 initWithKey:@"name"
@@ -46,6 +61,7 @@
                         ];
                    }
                    [_tableView reloadData];
+                   [self AnimTable:_tableView AnimDuration:0.3 Alpha:1.0 XPos:0];
                    [self scrollTableRow:settingOptions];
                }
            }];
@@ -57,8 +73,27 @@
 		
         [self.view setFrame:frame];
         
-        self.detailItem = item;
+        UIImageView *imageBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shiny_black_back"]];
+        [imageBackground setAutoresizingMask: UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+        [imageBackground setFrame:frame];
+        [self.view addSubview:imageBackground];
+		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
+        cellLabelOffset = 8;
+		[_tableView setDelegate:self];
+		[_tableView setDataSource:self];
+        [_tableView setBackgroundColor:[UIColor clearColor]];
+        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+		[_tableView setTableFooterView:footerView];
+        [self.view setBackgroundColor:[UIColor clearColor]];
+        [self.view addSubview:_tableView];
         
+        activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [activityIndicator setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2)];
+        [activityIndicator setHidesWhenStopped:YES];
+        [self.view addSubview:activityIndicator];
+        
+        self.detailItem = item;
+
         cellHeight = 44.0f;
         
         settingOptions = [self.detailItem objectForKey:@"options"];
@@ -66,6 +101,7 @@
             settingOptions = nil;
         }
         itemControls = [self.detailItem objectForKey:@"control"];
+        
         xbmcSetting = cDefault;
         
         if ([[itemControls objectForKey:@"format"] isEqualToString:@"boolean"]) {
@@ -75,6 +111,7 @@
         else if ([[itemControls objectForKey:@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
             cellHeight = 44.0f;
+            [_tableView setFrame:CGRectMake(self.view.frame.size.width, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height)];
             self.navigationItem.title = [self.detailItem objectForKey:@"label"];
             settingOptions = [[NSMutableArray alloc] init];
             [self retrieveXBMCData: @"Addons.GetAddons"
@@ -94,27 +131,13 @@
             cellHeight = 172.0f;
         }
         else {
+            self.navigationItem.title = [self.detailItem objectForKey:@"label"];
             if ([settingOptions isKindOfClass:[NSArray class]]){
                 if ([settingOptions count] > 0){
                     xbmcSetting = cList;
                 }
             }
-            self.navigationItem.title = [self.detailItem objectForKey:@"label"];
         }
-
-        UIImageView *imageBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shiny_black_back"]];
-        [imageBackground setAutoresizingMask: UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-        [imageBackground setFrame:frame];
-        [self.view addSubview:imageBackground];
-		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
-        cellLabelOffset = 8;
-		[_tableView setDelegate:self];
-		[_tableView setDataSource:self];
-        [_tableView setBackgroundColor:[UIColor clearColor]];
-        UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-		_tableView.tableFooterView = footerView;
-        [self.view setBackgroundColor:[UIColor clearColor]];
-        [self.view addSubview:_tableView];
 	}
     return self;
 }
