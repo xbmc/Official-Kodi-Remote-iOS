@@ -435,6 +435,9 @@
 
 -(void)stopUpdateSlider:(id)sender{
     [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
+    NSString *command = @"Settings.SetSettingValue";
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithInt: (int)storeSliderValue], @"value", nil];
+    [self xbmcAction:command params:params uiControl:sender];
 }
 
 -(void)sliderAction:(id)sender {
@@ -443,9 +446,6 @@
     float newValue = newStep * [[self.detailItem objectForKey:@"step"] intValue];
     if (newValue != storeSliderValue){
         storeSliderValue = newValue;
-        NSString *command = @"Settings.SetSettingValue";
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithInt: (int)storeSliderValue], @"value", nil];
-        [self xbmcAction:command params:params uiControl:sender];
         if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]){
             UILabel *sliderLabel = (UILabel *)[[slider superview] viewWithTag:102];
             NSString *stringFormat = @"%i";
