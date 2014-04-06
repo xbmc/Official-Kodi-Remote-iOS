@@ -16,7 +16,7 @@ typedef enum {
     cList,
 } SettingType;
 
-@interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate> {
+@interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate> {
     int cellLabelOffset;
     CGFloat cellHeight;
     NSMutableArray *settingOptions;

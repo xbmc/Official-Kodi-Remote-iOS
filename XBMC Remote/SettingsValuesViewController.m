@@ -46,6 +46,7 @@
         
         UILongPressGestureRecognizer *longPressGesture = [UILongPressGestureRecognizer new];
         [longPressGesture addTarget:self action:@selector(handleLongPress:)];
+        [longPressGesture setDelegate:self];
         [_tableView addGestureRecognizer:longPressGesture];
         
         activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -142,7 +143,14 @@
     return self;
 }
 
-#pragma mark - Long Press Gesture
+#pragma mark - Gesture Recognizer
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([touch.view isKindOfClass:[OBSlider class]] || [touch.view isKindOfClass:[UISwitch class]] || [touch.view isKindOfClass:NSClassFromString(@"_UISwitchInternalView")]) {
+        return NO;
+    }
+    return YES;
+}
 
 -(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
@@ -522,75 +530,6 @@
     return cell;
 }
 
-#pragma mark - UISlider
-
--(void)changeAlphaView:(UIView *)view alpha:(float)value time:(float)sec{
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:sec];
-	view.alpha = value;
-    [UIView commitAnimations];
-}
-
--(void)startUpdateSlider:(id)sender{
-    [self changeAlphaView:scrubbingView alpha:1.0 time:0.3];
-}
-
--(void)stopUpdateSlider:(id)sender{
-    [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
-    NSString *command = @"Settings.SetSettingValue";
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithInt: (int)storeSliderValue], @"value", nil];
-    [self xbmcAction:command params:params uiControl:sender];
-}
-
--(void)sliderAction:(id)sender {
-    OBSlider *slider = (OBSlider*) sender;
-    float newStep = roundf((slider.value) / [[self.detailItem objectForKey:@"step"] intValue]);
-    float newValue = newStep * [[self.detailItem objectForKey:@"step"] intValue];
-    if (newValue != storeSliderValue){
-        storeSliderValue = newValue;
-        if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]){
-            UILabel *sliderLabel = (UILabel *)[[slider superview] viewWithTag:102];
-            NSString *stringFormat = @"%i";
-            if ([itemControls objectForKey:@"formatlabel"] != nil){
-                stringFormat = [NSString stringWithFormat:@"%@", [itemControls objectForKey:@"formatlabel"]];
-            }
-            [sliderLabel setText:[NSString stringWithFormat:stringFormat, (int)storeSliderValue]];
-        }
-    }
-    scrubbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@",[NSNumber numberWithFloat:slider.scrubbingSpeed]]), nil);
-}
-
-#pragma mark UISwitch
-
-- (void)toggleSwitch:(id)sender {
-    UISwitch *onoff = (UISwitch *)sender;
-    NSString *command = @"Settings.SetSettingValue";
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
-    [self xbmcAction:command params:params uiControl:sender];
-}
-
-#pragma mark - UITextFieldDelegate Methods
-
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    return YES;
-}
-
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-    return YES;
-}
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    NSString *command = @"Settings.SetSettingValue";
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSString stringWithFormat:@"%@", textField.text], @"value", nil];
-    [self xbmcAction:command params:params uiControl:textField];
-    return YES;
-}
-
-- (void)handleTap:(id)sender {
-    [self.view endEditing:YES];
-}
-
 #pragma mark Table view delegate
 
 - (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
@@ -721,6 +660,75 @@
         [_tableView scrollToRowAtIndexPath:optionIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
         
     }
+}
+
+#pragma mark - UISlider
+
+-(void)changeAlphaView:(UIView *)view alpha:(float)value time:(float)sec{
+    [UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDuration:sec];
+	view.alpha = value;
+    [UIView commitAnimations];
+}
+
+-(void)startUpdateSlider:(id)sender{
+    [self changeAlphaView:scrubbingView alpha:1.0 time:0.3];
+}
+
+-(void)stopUpdateSlider:(id)sender{
+    [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
+    NSString *command = @"Settings.SetSettingValue";
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithInt: (int)storeSliderValue], @"value", nil];
+    [self xbmcAction:command params:params uiControl:sender];
+}
+
+-(void)sliderAction:(id)sender {
+    OBSlider *slider = (OBSlider*) sender;
+    float newStep = roundf((slider.value) / [[self.detailItem objectForKey:@"step"] intValue]);
+    float newValue = newStep * [[self.detailItem objectForKey:@"step"] intValue];
+    if (newValue != storeSliderValue){
+        storeSliderValue = newValue;
+        if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]){
+            UILabel *sliderLabel = (UILabel *)[[slider superview] viewWithTag:102];
+            NSString *stringFormat = @"%i";
+            if ([itemControls objectForKey:@"formatlabel"] != nil){
+                stringFormat = [NSString stringWithFormat:@"%@", [itemControls objectForKey:@"formatlabel"]];
+            }
+            [sliderLabel setText:[NSString stringWithFormat:stringFormat, (int)storeSliderValue]];
+        }
+    }
+    scrubbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@",[NSNumber numberWithFloat:slider.scrubbingSpeed]]), nil);
+}
+
+#pragma mark UISwitch
+
+- (void)toggleSwitch:(id)sender {
+    UISwitch *onoff = (UISwitch *)sender;
+    NSString *command = @"Settings.SetSettingValue";
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
+    [self xbmcAction:command params:params uiControl:sender];
+}
+
+#pragma mark - UITextFieldDelegate Methods
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    return YES;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    return YES;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    NSString *command = @"Settings.SetSettingValue";
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSString stringWithFormat:@"%@", textField.text], @"value", nil];
+    [self xbmcAction:command params:params uiControl:textField];
+    return YES;
+}
+
+- (void)handleTap:(id)sender {
+    [self.view endEditing:YES];
 }
 
 #pragma mark - LifeCycle
