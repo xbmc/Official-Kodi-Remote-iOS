@@ -100,8 +100,10 @@
 
 #pragma mark - JSON
 
--(void)xbmcAction:(NSString *)action params:(NSDictionary *)params{
-    [_tableView setUserInteractionEnabled:NO];
+-(void)xbmcAction:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender {
+    if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
+        [sender setUserInteractionEnabled:NO];
+    }
     [activityIndicator startAnimating];
     DSJSONRPC *jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance];
@@ -118,10 +120,11 @@
             UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
             [alertView show];
         }
-        [_tableView setUserInteractionEnabled:YES];
+        if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
+            [sender setUserInteractionEnabled:YES];
+        }
     }];
 }
-
 
 -(void)retrieveXBMCData:(NSString *)method parameters:(NSDictionary *)params itemKey:(NSString *)itemkey{
     
@@ -394,7 +397,7 @@
     UISwitch *onoff = (UISwitch *)sender;
     NSString *command = @"Settings.SetSettingValue";
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
-    [self xbmcAction:command params:params];
+    [self xbmcAction:command params:params uiControl:sender];
 }
 
 #pragma mark Table view delegate
@@ -430,7 +433,7 @@
             selectedSetting = indexPath;
             command = @"Settings.SetSettingValue";
             params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [[settingOptions objectAtIndex:selectedSetting.row] objectForKey:@"value"], @"value", nil];
-            [self xbmcAction:command params:params];
+            [self xbmcAction:command params:params uiControl:_tableView];
             break;
         default:
             break;
