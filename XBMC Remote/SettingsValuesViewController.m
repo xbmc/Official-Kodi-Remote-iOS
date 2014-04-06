@@ -9,6 +9,7 @@
 #import "SettingsValuesViewController.h"
 #import "DSJSONRPC.h"
 #import "AppDelegate.h"
+#import "OBSlider.h"
 
 @interface SettingsValuesViewController ()
 
@@ -47,6 +48,45 @@
         [activityIndicator setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2)];
         [activityIndicator setHidesWhenStopped:YES];
         [self.view addSubview:activityIndicator];
+        
+        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+        [scrubbingView setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2 + 50)];
+        [scrubbingView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
+        scrubbingView.alpha = 0.0f;
+        CGRect toolbarShadowFrame = CGRectMake(0.0f, 44, self.view.frame.size.width, 4);
+        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        toolbarShadow.contentMode = UIViewContentModeScaleToFill;
+        toolbarShadow.opaque = YES;
+        [scrubbingView addSubview:toolbarShadow];
+        toolbarShadowFrame.origin.y = -4;
+        UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
+        toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
+        toolbarUpShadow.opaque = YES;
+        [scrubbingView addSubview:toolbarUpShadow];
+        
+        scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(5, 3, 310, 18)];
+        [scrubbingMessage setBackgroundColor:[UIColor clearColor]];
+        [scrubbingMessage setFont:[UIFont boldSystemFontOfSize:13]];
+        [scrubbingMessage setAdjustsFontSizeToFitWidth:YES];
+        [scrubbingMessage setMinimumFontSize:10];
+        [scrubbingMessage setTextColor:[UIColor whiteColor]];
+        [scrubbingMessage setText:NSLocalizedString(@"Slide your finger up or down to adjust the scrubbing rate.", nil)];
+        [scrubbingMessage setTextAlignment:NSTextAlignmentCenter];
+        [scrubbingView addSubview:scrubbingMessage];
+        
+        scrubbingRate = [[UILabel alloc] initWithFrame:CGRectMake(5, 21, 310, 18)];
+        [scrubbingRate setBackgroundColor:[UIColor clearColor]];
+        [scrubbingRate setFont:[UIFont boldSystemFontOfSize:13]];
+        [scrubbingRate setTextColor:[UIColor grayColor]];
+        [scrubbingRate setTextAlignment:NSTextAlignmentCenter];
+        [scrubbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
+        [scrubbingView addSubview:scrubbingRate];
+        
+        [self.view insertSubview:scrubbingView aboveSubview:_tableView];
         
         self.detailItem = item;
 
@@ -230,11 +270,16 @@
         [descriptionLabel setHighlightedTextColor:[UIColor blackColor]];
         [cell.contentView addSubview:descriptionLabel];
         
-        UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 20)];
+        OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 20)];
         [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
         [slider setBackgroundColor:[UIColor clearColor]];
         slider.continuous = YES;
         slider.tag = 101;
+        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventEditingDidEnd];
+        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchCancel];
+        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchUpInside];
+        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchUpOutside];
+        [slider addTarget:self action:@selector(startUpdateSlider:) forControlEvents:UIControlEventTouchDown];
         [cell.contentView addSubview:slider];
         
         int uiSliderLabelWidth = cell.frame.size.width - 14 * 2;
@@ -377,12 +422,27 @@
 
 #pragma mark - UISlider
 
+-(void)changeAlphaView:(UIView *)view alpha:(float)value time:(float)sec{
+    [UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDuration:sec];
+	view.alpha = value;
+    [UIView commitAnimations];
+}
+
+-(void)startUpdateSlider:(id)sender{
+    [self changeAlphaView:scrubbingView alpha:1.0 time:0.3];
+}
+
+-(void)stopUpdateSlider:(id)sender{
+    [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
+}
+
 -(void)sliderAction:(id)sender {
-    UISlider *slider = (UISlider*) sender;
+    OBSlider *slider = (OBSlider*) sender;
     float newStep = roundf((slider.value) / [[self.detailItem objectForKey:@"step"] intValue]);
-    slider.value = newStep * [[self.detailItem objectForKey:@"step"] intValue];
-    if (slider.value != storeSliderValue){
-        storeSliderValue = slider.value;
+    float newValue = newStep * [[self.detailItem objectForKey:@"step"] intValue];
+    if (newValue != storeSliderValue){
+        storeSliderValue = newValue;
         NSString *command = @"Settings.SetSettingValue";
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithInt: (int)storeSliderValue], @"value", nil];
         [self xbmcAction:command params:params uiControl:sender];
@@ -392,9 +452,10 @@
             if ([itemControls objectForKey:@"formatlabel"] != nil){
                 stringFormat = [NSString stringWithFormat:@"%@", [itemControls objectForKey:@"formatlabel"]];
             }
-            [sliderLabel setText:[NSString stringWithFormat:stringFormat, (int)slider.value]];
+            [sliderLabel setText:[NSString stringWithFormat:stringFormat, (int)storeSliderValue]];
         }
     }
+    scrubbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@",[NSNumber numberWithFloat:slider.scrubbingSpeed]]), nil);
 }
 
 #pragma mark UISwitch

@@ -26,6 +26,9 @@ typedef enum {
     UIActivityIndicatorView *activityIndicator;
     NSIndexPath *selectedSetting;
     CGFloat storeSliderValue;
+    UIView *scrubbingView;
+    UILabel *scrubbingMessage;
+    UILabel *scrubbingRate;
 }
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item;
