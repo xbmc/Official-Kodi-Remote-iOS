@@ -255,7 +255,7 @@
         textInputField.placeholder = NSLocalizedString(@"enter value", nil);;
         textInputField.autocorrectionType = UITextAutocorrectionTypeNo;
         textInputField.keyboardType = UIKeyboardTypeDefault;
-        textInputField.returnKeyType = UIReturnKeyDone;
+        textInputField.returnKeyType = UIReturnKeyDefault;
         textInputField.clearButtonMode = UITextFieldViewModeWhileEditing;
         textInputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textInputField.delegate = self;
@@ -398,6 +398,28 @@
     NSString *command = @"Settings.SetSettingValue";
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
+}
+
+#pragma mark - UITextFieldDelegate Methods
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    return YES;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    return YES;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    NSString *command = @"Settings.SetSettingValue";
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSString stringWithFormat:@"%@", textField.text], @"value", nil];
+    [self xbmcAction:command params:params uiControl:textField];
+    return YES;
+}
+
+- (void)handleTap:(id)sender {
+    [self.view endEditing:YES];
 }
 
 #pragma mark Table view delegate
@@ -563,6 +585,8 @@
     [super viewDidLoad];
     footerHeight = -1;
     selectedSetting = nil;
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)didReceiveMemoryWarning {
