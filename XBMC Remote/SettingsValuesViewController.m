@@ -592,6 +592,7 @@
     footerHeight = -1;
     selectedSetting = nil;
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    [tap setCancelsTouchesInView:NO];
     [self.view addGestureRecognizer:tap];
 }
 
