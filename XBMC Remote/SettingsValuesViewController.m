@@ -184,9 +184,48 @@
 #pragma mark - Action Sheet 
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
     if (buttonIndex!=actionSheet.cancelButtonIndex){
-        NSLog(@"otion %@ %@ %@", option, longPressRow, self.detailItem);
+        NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
+        if ([option isEqualToString:NSLocalizedString(@"Make button", nil)]){
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Set a label", nil)
+                                                                  message:NSLocalizedString(@"Enter the label for the button", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Add button", nil), nil];
+            [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+            NSString *subTitle = @"";
+            switch (xbmcSetting) {
+                case cList:
+                    subTitle = [NSString stringWithFormat:@": %@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"label"]];
+                    break;
+                default:
+                    break;
+            }
+            NSString *title=[NSString stringWithFormat:@"%@%@", [self.detailItem objectForKey:@"label"], subTitle];
+            [[alertView textFieldAtIndex:0] setText:title];
+            [alertView show];
+        }
+    }
+}
+
+#pragma mark - Alert View
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex!=alertView.cancelButtonIndex){
+        NSString *option = [alertView buttonTitleAtIndex:buttonIndex];
+        if ([option isEqualToString:NSLocalizedString(@"Add button", nil)]){
+            NSString *command = @"Settings.SetSettingValue";
+            NSString *value = @"";
+            switch (xbmcSetting) {
+                case cList:
+                    value = [NSString stringWithFormat:@"%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"]];
+                    break;
+                default:
+                    value = @"to be defined";
+                    break;
+            }
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", value, @"value", nil];
+            NSLog(@"AAA %@ %@ %@ %@", self.detailItem, command, params, [[alertView textFieldAtIndex:0]text]);
+
+        }
     }
 }
 
