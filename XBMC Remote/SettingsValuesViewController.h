@@ -16,7 +16,7 @@ typedef enum {
     cList,
 } SettingType;
 
-@interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
+@interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate> {
     int cellLabelOffset;
     CGFloat cellHeight;
     NSMutableArray *settingOptions;
@@ -25,6 +25,7 @@ typedef enum {
     CGFloat footerHeight;
     UIActivityIndicatorView *activityIndicator;
     NSIndexPath *selectedSetting;
+    NSIndexPath *longPressRow;
     CGFloat storeSliderValue;
     UIView *scrubbingView;
     UILabel *scrubbingMessage;

@@ -44,6 +44,10 @@
         [self.view setBackgroundColor:[UIColor clearColor]];
         [self.view addSubview:_tableView];
         
+        UILongPressGestureRecognizer *longPressGesture = [UILongPressGestureRecognizer new];
+        [longPressGesture addTarget:self action:@selector(handleLongPress:)];
+        [_tableView addGestureRecognizer:longPressGesture];
+        
         activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [activityIndicator setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2)];
         [activityIndicator setHidesWhenStopped:YES];
@@ -136,6 +140,54 @@
         }
 	}
     return self;
+}
+
+#pragma mark - Long Press Gesture
+
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        CGPoint p;
+        CGPoint selectedPoint;
+        NSIndexPath *indexPath = nil;
+        p = [gestureRecognizer locationInView:_tableView];
+        selectedPoint=[gestureRecognizer locationInView:self.view];
+        indexPath = [_tableView indexPathForRowAtPoint:p];
+        if (indexPath != nil){
+            longPressRow = indexPath;
+            NSString *subTitle = @"";
+            switch (xbmcSetting) {
+                case cList:
+                    subTitle = [NSString stringWithFormat:@"\n\n%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"label"]];
+                    break;
+                default:
+                    break;
+            }
+            NSString *title=[NSString stringWithFormat:@"%@%@", [self.detailItem objectForKey:@"label"], subTitle];
+            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
+                                                                delegate:self
+                                                       cancelButtonTitle:nil
+                                                  destructiveButtonTitle:nil
+                                                       otherButtonTitles:nil];
+            action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+            [action addButtonWithTitle:NSLocalizedString(@"Make button", nil)];
+            action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                [action showInView:self.view];
+            }
+            else{
+                [action showFromRect:CGRectMake(selectedPoint.x, selectedPoint.y, 1, 1) inView:self.view animated:YES];
+            }
+        }
+    }
+}
+
+#pragma mark - Action Sheet 
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if (buttonIndex!=actionSheet.cancelButtonIndex){
+        NSLog(@"otion %@ %@ %@", option, longPressRow, self.detailItem);
+    }
 }
 
 #pragma mark - JSON
@@ -267,7 +319,7 @@
         [descriptionLabel setNumberOfLines:8];
         [descriptionLabel setMinimumFontSize:12];
         [descriptionLabel setTextColor:[UIColor grayColor]];
-        [descriptionLabel setHighlightedTextColor:[UIColor blackColor]];
+        [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
         [cell.contentView addSubview:descriptionLabel];
         
         OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 20)];
@@ -290,7 +342,7 @@
         [uiSliderLabel setAdjustsFontSizeToFitWidth:YES];
         [uiSliderLabel setMinimumFontSize:12];
         [uiSliderLabel setTextColor:[UIColor grayColor]];
-        [uiSliderLabel setHighlightedTextColor:[UIColor blackColor]];
+        [uiSliderLabel setHighlightedTextColor:[UIColor grayColor]];
         [cell.contentView addSubview:uiSliderLabel];
         
         UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 30)];
@@ -331,7 +383,6 @@
         case cSwitch:
     
             tableView.scrollEnabled = NO;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             descriptionLabel.hidden = NO;
             cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"label"]];
             [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, 44)];
@@ -356,7 +407,6 @@
             slider.hidden = NO;
             sliderLabel.hidden = NO;
             descriptionLabel.hidden = NO;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46)];
             [cellLabel setNumberOfLines:2];
             [cellLabel setTextAlignment:NSTextAlignmentCenter];
@@ -380,7 +430,6 @@
             tableView.scrollEnabled = NO;
             descriptionLabel.hidden = NO;
             textInputField.hidden = NO;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46)];
             [cellLabel setNumberOfLines:2];
             [cellLabel setTextAlignment:NSTextAlignmentCenter];
@@ -525,6 +574,7 @@
             [self xbmcAction:command params:params uiControl:_tableView];
             break;
         default:
+            selectedSetting = indexPath;
             break;
     }
 }
