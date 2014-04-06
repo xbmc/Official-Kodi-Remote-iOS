@@ -381,13 +381,19 @@
     UISlider *slider = (UISlider*) sender;
     float newStep = roundf((slider.value) / [[self.detailItem objectForKey:@"step"] intValue]);
     slider.value = newStep * [[self.detailItem objectForKey:@"step"] intValue];
-    if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]){
-        UILabel *sliderLabel = (UILabel *)[[slider superview] viewWithTag:102];
-        NSString *stringFormat = @"%i";
-        if ([itemControls objectForKey:@"formatlabel"] != nil){
-            stringFormat = [NSString stringWithFormat:@"%@", [itemControls objectForKey:@"formatlabel"]];
+    if (slider.value != storeSliderValue){
+        storeSliderValue = slider.value;
+        NSString *command = @"Settings.SetSettingValue";
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithInt: (int)storeSliderValue], @"value", nil];
+        [self xbmcAction:command params:params uiControl:sender];
+        if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]){
+            UILabel *sliderLabel = (UILabel *)[[slider superview] viewWithTag:102];
+            NSString *stringFormat = @"%i";
+            if ([itemControls objectForKey:@"formatlabel"] != nil){
+                stringFormat = [NSString stringWithFormat:@"%@", [itemControls objectForKey:@"formatlabel"]];
+            }
+            [sliderLabel setText:[NSString stringWithFormat:stringFormat, (int)slider.value]];
         }
-        [sliderLabel setText:[NSString stringWithFormat:stringFormat, (int)slider.value]];
     }
 }
 

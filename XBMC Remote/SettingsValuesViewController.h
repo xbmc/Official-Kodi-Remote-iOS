@@ -25,6 +25,7 @@ typedef enum {
     CGFloat footerHeight;
     UIActivityIndicatorView *activityIndicator;
     NSIndexPath *selectedSetting;
+    CGFloat storeSliderValue;
 }
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item;
