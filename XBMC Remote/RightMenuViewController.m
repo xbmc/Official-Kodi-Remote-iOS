@@ -152,6 +152,11 @@
         icon.alpha = .6f;
         iconName = [iconsList objectAtIndex:indexPath.row];
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
+        [title setNumberOfLines:2];
+        CGRect frame = title.frame;
+        frame.origin.y = 6;
+        frame.size.height = frame.size.height - 12;
+        [title setFrame:frame];
         [title setText:[labelsList objectAtIndex:indexPath.row]];
     }
     if ([[hideLineSeparator objectAtIndex:indexPath.row] boolValue] == YES){
