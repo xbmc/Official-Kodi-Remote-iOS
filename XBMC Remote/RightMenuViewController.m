@@ -456,6 +456,46 @@
         if (showTop == nil) showTop = [NSNumber numberWithBool:NO];
         [revealTopView addObject:showTop];
     }
+    if ([key isEqualToString:@"online"] && menuItems.family == 3){
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSFileManager *fileManager1 = [NSFileManager defaultManager];
+
+        NSString *customButtonPath = [documentsDirectory stringByAppendingPathComponent:@"customButtons_saved.dat"];
+        fileManager1 = [NSFileManager defaultManager];
+        if([fileManager1 fileExistsAtPath:customButtonPath]) {
+            NSMutableArray *tempArray;
+            tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile: customButtonPath];
+            [self setArrayCustomButton:tempArray];
+        }
+        else {
+            self.arrayCustomButton = [[NSMutableArray alloc] init];
+        }
+
+        for (NSDictionary *item in self.arrayCustomButton) {
+            NSString *label = [item objectForKey:@"label"];
+            if (label == nil) label = @"";
+            [labelsList addObject:label];
+            [colorsList addObject:[[NSMutableDictionary alloc] initWithCapacity:0]];
+            [hideLineSeparator addObject:[NSNumber numberWithBool:NO]];
+            [fontColorList addObject:[[NSMutableDictionary alloc] initWithCapacity:0]];
+            [iconsList addObject:@""];
+            [actionsList addObject:[item objectForKey:@"action"]];
+            [revealTopView addObject:[NSNumber numberWithBool:NO]];
+        }
+        [labelsList addObject:NSLocalizedString(@"...more", nil)];
+        [colorsList addObject:[[NSMutableDictionary alloc] initWithCapacity:0]];
+        [hideLineSeparator addObject:[NSNumber numberWithBool:NO]];
+        [fontColorList addObject:[[NSMutableDictionary alloc] initWithCapacity:0]];
+        [iconsList addObject:@""];
+        [actionsList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                @"AddButton",@"command",
+                                [NSDictionary dictionaryWithObjectsAndKeys:nil], @"params",
+                                nil]];
+        [revealTopView addObject:[NSNumber numberWithBool:NO]];
+    }
+
     [UIView animateWithDuration:0.2
                      animations:^{
                          NSInteger n = [menuTableView numberOfRowsInSection:0];

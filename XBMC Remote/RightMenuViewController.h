@@ -33,5 +33,6 @@
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;
+@property (nonatomic, retain) NSMutableArray *arrayCustomButton;
 
 @end

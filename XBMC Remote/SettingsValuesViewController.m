@@ -18,6 +18,7 @@
 @implementation SettingsValuesViewController
 
 @synthesize detailItem = _detailItem;
+@synthesize arrayCustomButton;
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
@@ -163,8 +164,11 @@
         if (indexPath != nil){
             longPressRow = indexPath;
             
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Add a new button", nil)
-                                                                message:NSLocalizedString(@"Enter the label:", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Add button", nil), nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Add a new button", nil)
+                                                                message: NSLocalizedString(@"Enter the label:", nil)
+                                                               delegate: self
+                                                      cancelButtonTitle: NSLocalizedString(@"Cancel", nil)
+                                                      otherButtonTitles: NSLocalizedString(@"Add button", nil), nil];
             [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
             NSString *subTitle = @"";
             switch (xbmcSetting) {
@@ -242,12 +246,45 @@
                     value = [NSString stringWithFormat:@"%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"]];
                     break;
                 default:
-                    value = @"to be defined";
+                    value = @"";
                     break;
             }
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", value, @"value", nil];
-            NSLog(@"AAA %@ %@ %@ %@", self.detailItem, command, params, [[alertView textFieldAtIndex:0]text]);
+            NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
+                                         [[alertView textFieldAtIndex:0]text], @"label",
+                                         @"", @"icon",
+                                         [NSNumber numberWithInt:xbmcSetting], @"xbmcSetting",
+                                         [self.detailItem objectForKey:@"genre"], @"helpText",
+                                         [NSDictionary dictionaryWithObjectsAndKeys:
+                                          command, @"command",
+                                          params, @"params",
+                                          nil], @"action",
+                                         nil];
+            [self saveCustomButton:newButton];
         }
+    }
+}
+
+#pragma mark - custom button
+
+-(void)saveCustomButton:(NSDictionary *)button {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSFileManager *fileManager1 = [NSFileManager defaultManager];
+    
+    NSString *customButtonPath = [documentsDirectory stringByAppendingPathComponent:@"customButtons_saved.dat"];
+    fileManager1 = [NSFileManager defaultManager];
+    if([fileManager1 fileExistsAtPath:customButtonPath]) {
+        NSMutableArray *tempArray;
+        tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile: customButtonPath];
+        [self setArrayCustomButton:tempArray];
+    }
+    else {
+        self.arrayCustomButton = [[NSMutableArray alloc] init];
+    }
+    [self.arrayCustomButton addObject:button];
+    if ([paths count] > 0) {
+        [NSKeyedArchiver archiveRootObject:self.arrayCustomButton toFile:customButtonPath];
     }
 }
 
