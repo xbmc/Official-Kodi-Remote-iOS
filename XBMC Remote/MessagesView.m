@@ -16,8 +16,9 @@
 - (id)initWithFrame:(CGRect)frame deltaY:(float)deltaY deltaX:(float)deltaX {
     self = [super initWithFrame:frame];
     if (self) {
-        self.alpha = 0.0f;
         [self setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
+        slideHeight = frame.size.height;
+        [self setFrame:CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height)];
         
         CGRect toolbarShadowFrame = CGRectMake(0.0f, frame.size.height, frame.size.width, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
@@ -43,32 +44,33 @@
 # pragma mark - view Effects
 
 - (void)showMessage:(NSString *)message timeout:(float)timeout color:(UIColor *)color{
-    // first fadeout
+    // first slide out
+    CGRect frame = self.frame;
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.1];
-    self.alpha = 0;
+    [self setFrame:CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height)];
     [UIView commitAnimations];
     [viewMessage setText:message];
     [self setBackgroundColor:color];
-    // then fade in
+    // then slide in
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	[UIView setAnimationDuration:0.3];
-    self.hidden = NO;
-    self.alpha = 1.0;
+	[UIView setAnimationDuration:0.2];
+    [self setFrame:CGRectMake(frame.origin.x, 0, frame.size.width, frame.size.height)];
     [UIView commitAnimations];
-    //then fade out again after timeout seconds
+    //then slide out again after timeout seconds
     if ([fadeoutTimer isValid])
         [fadeoutTimer invalidate];
     fadeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutMessage:) userInfo:nil repeats:NO];
 }
 
 - (void)fadeoutMessage:(NSTimer *)timer{
+    CGRect frame = self.frame;
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.6];
-    self.alpha = 0;
+    [UIView setAnimationDuration:0.4];
+    [self setFrame:CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height)];
     [UIView commitAnimations];
     [fadeoutTimer invalidate];
     fadeoutTimer = nil;

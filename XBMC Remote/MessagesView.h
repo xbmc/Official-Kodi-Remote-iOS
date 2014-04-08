@@ -10,6 +10,7 @@
 
 @interface MessagesView : UIView {
     NSTimer *fadeoutTimer;
+    CGFloat slideHeight;
 }
 
 - (id)initWithFrame:(CGRect)frame deltaY:(float)deltaY deltaX:(float)deltaX;
