@@ -93,7 +93,7 @@
             volumeSlider.transform = trans;
             volumeLabel.transform = trans;
             frame_tmp = self.frame;
-            frame_tmp.origin.x = 30;
+            frame_tmp.origin.x = -10;
             frame_tmp.origin.y = 12;
             frame_tmp.size.height = 44;
             frame_tmp.size.width = 320;

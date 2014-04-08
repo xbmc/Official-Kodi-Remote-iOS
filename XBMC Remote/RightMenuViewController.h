@@ -24,6 +24,7 @@
     NSMutableArray *iconsList;
     NSMutableArray *actionsList;
     NSMutableArray *revealTopView;
+    NSMutableArray *isSetting;
     UILabel *infoLabel;
     DSJSONRPC *jsonRPC;
     UIAlertView *actionAlertView;

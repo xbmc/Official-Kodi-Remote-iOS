@@ -90,7 +90,7 @@
         if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfo"]){
             [backgroundView setBackgroundColor:[UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1]];
             cell.selectedBackgroundView = backgroundView;
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(165, (int)((44/2) - (36/2)) - 2, 145, 36)];
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(125, (int)((44/2) - (36/2)) - 2, 145, 36)];
             xbmc_logo. alpha = .25f;
             [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
             [cell insertSubview:xbmc_logo atIndex:0];
@@ -102,7 +102,7 @@
     NSString *iconName = @"";
     if ([[labelsList objectAtIndex:indexPath.row] isEqualToString:@"ServerInfo"]){
         if (putXBMClogo == YES){
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(165, (int)((44/2) - (36/2)) - 2, 145, 36)];
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(125, (int)((44/2) - (36/2)) - 2, 145, 36)];
             xbmc_logo. alpha = .25f;
             [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
             [cell insertSubview:xbmc_logo atIndex:0];
@@ -115,8 +115,8 @@
         }
         int cellHeight = 44;
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
-        [icon setFrame:CGRectMake(self.peekLeftAmount +10, (int)((cellHeight/2) - (18/2)), 18, 18)];
-        [title setFrame:CGRectMake(self.peekLeftAmount + icon.frame.size.width + 16, (int)((cellHeight/2) - (title.frame.size.height/2)), self.view.frame.size.width - (self.peekLeftAmount + icon.frame.size.width + 16), title.frame.size.height)];
+        [icon setFrame:CGRectMake(10, (int)((cellHeight/2) - (18/2)), 18, 18)];
+        [title setFrame:CGRectMake(icon.frame.size.width + 16, (int)((cellHeight/2) - (title.frame.size.height/2)), self.view.frame.size.width - (icon.frame.size.width + 16), title.frame.size.height)];
         [title setTextAlignment:NSTextAlignmentLeft];
         [title setText:[AppDelegate instance].serverName];
         [title setNumberOfLines:2];
@@ -183,17 +183,12 @@
         }
     }
     [icon setImage:[UIImage imageNamed:iconName]];
-    
     return cell;
-}
-
--(void)funct {
-    
 }
 
 -(UIView *)createTableFooterView {
     CGFloat footerHeight = 44.0f;
-    UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
+    UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, self.view.bounds.size.width, footerHeight)];
     [newView setBackgroundColor:[UIColor clearColor]];
     
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:newView.frame];
@@ -221,7 +216,7 @@
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"Edit", nil)
                                                                    style: UIBarButtonItemStyleBordered
                                                                   target: self
-                                                                  action: @selector(funct)];
+                                                                  action: @selector(editTable:)];
     [toolbar setItems:[NSArray arrayWithObjects:fixedSpace, addButton, flexibleSpace, editButton, fixedSpace2, nil]];
     
     [newView insertSubview:toolbar atIndex:0];
@@ -280,6 +275,41 @@
 
 #pragma mark -
 #pragma mark Table view delegate
+
+
+-(void)editTable:(id)sender {
+    UIBarButtonItem *editTableButton = (UIBarButtonItem *)sender;
+    if (menuTableView.editing == YES){
+        [menuTableView setEditing:NO animated:YES];
+        [editTableButton setTitle:NSLocalizedString(@"Edit", nil)];
+        [editTableButton setStyle:UIBarButtonItemStyleBordered];
+    }
+    else{
+        [menuTableView setEditing:YES animated:YES];
+        [editTableButton setTitle:NSLocalizedString(@"Done", nil)];
+        [editTableButton setStyle:UIBarButtonItemStyleDone];
+    }
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (aTableView.editing) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return UITableViewCellEditingStyleNone;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return ([[isSetting objectAtIndex:indexPath.row] boolValue]);
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+	if (editingStyle == UITableViewCellEditingStyleDelete){
+
+	}
+}
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -421,7 +451,7 @@
     [self.slidingViewController setAnchorLeftPeekAmount:self.peekLeftAmount];
     self.slidingViewController.underRightWidthLayout = ECFullWidth;
     int infoLabelHeight = 100;
-    infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.peekLeftAmount +10, self.view.frame.size.height/2 - infoLabelHeight/2, self.view.frame.size.width - (self.peekLeftAmount + 20), infoLabelHeight)];
+    infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.view.frame.size.height/2 - infoLabelHeight/2, self.view.frame.size.width - (20), infoLabelHeight)];
     infoLabel.numberOfLines = 2;
     [infoLabel setText:NSLocalizedString(@"Select an XBMC Server from the list", nil)];
     [infoLabel setBackgroundColor:[UIColor clearColor]];
@@ -430,7 +460,7 @@
     [infoLabel setTextColor:[UIColor colorWithRed:.49f green:.49f blue:.49f alpha:1]];
     infoLabel.alpha = 0;
     [self.view addSubview:infoLabel];
-    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY) style:UITableViewStylePlain];
+    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, self.view.frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY) style:UITableViewStylePlain];
     [menuTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     [menuTableView setSeparatorColor:[UIColor colorWithRed:0.114f green:0.114f blue:0.114f alpha:1]];
     [menuTableView setDelegate:self];
@@ -438,6 +468,9 @@
     [menuTableView setBackgroundColor:[UIColor clearColor]];
     [menuTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [menuTableView setScrollEnabled:[[self.rightMenuItems objectAtIndex:0] enableSection]];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [menuTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
     [self.view addSubview:menuTableView];
     
     if ([[AppDelegate instance].obj.serverIP length]!=0){
@@ -495,6 +528,7 @@
     iconsList = [[NSMutableArray alloc] initWithCapacity:0];
     actionsList = [[NSMutableArray alloc] initWithCapacity:0];
     revealTopView = [[NSMutableArray alloc] initWithCapacity:0];
+    isSetting = [[NSMutableArray alloc] initWithCapacity:0];
 
     for (NSDictionary *item in [[[menuItems mainMethod] objectAtIndex:0] objectForKey:key]){
         NSString *label = [item objectForKey:@"label"];
@@ -526,6 +560,8 @@
         NSNumber *showTop = [item objectForKey:@"revealViewTop"];
         if (showTop == nil) showTop = [NSNumber numberWithBool:NO];
         [revealTopView addObject:showTop];
+        
+        [isSetting addObject:[NSNumber numberWithBool:NO]];
     }
     if ([key isEqualToString:@"online"] && menuItems.family == 3){
         customButton *arrayButtons = [[customButton alloc] init];
@@ -539,6 +575,7 @@
             [iconsList addObject:@""];
             [actionsList addObject:[item objectForKey:@"action"]];
             [revealTopView addObject:[NSNumber numberWithBool:NO]];
+            [isSetting addObject:[NSNumber numberWithBool:YES]];
         }
     }
 

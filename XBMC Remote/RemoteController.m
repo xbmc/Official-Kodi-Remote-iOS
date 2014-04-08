@@ -81,7 +81,7 @@
                     hide: YES];
     }
     int newWidth = 296;
-    int startX = 34;
+    int startX = -6;
     int startY = 6;
     [TransitionalView setFrame:CGRectMake(frame.origin.x, 46, frame.size.width, frame.size.height)];
     int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
