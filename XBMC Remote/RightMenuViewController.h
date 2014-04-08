@@ -30,9 +30,9 @@
     RemoteController *remoteControllerView;
     BOOL torchIsOn;
     BOOL putXBMClogo;
+    UIView *footerView;
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;
-@property (nonatomic, retain) NSMutableArray *arrayCustomButton;
 
 @end

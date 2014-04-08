@@ -11,6 +11,7 @@
 #import "DetailViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "CustomNavigationController.h"
+#import "customButton.h"
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -186,15 +187,95 @@
     return cell;
 }
 
-- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-	imageView.frame = CGRectMake(0,0,320,8);
-	return imageView;
+-(void)funct {
+    
 }
 
+-(UIView *)createTableFooterView {
+    CGFloat footerHeight = 44.0f;
+    UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
+    [newView setBackgroundColor:[UIColor clearColor]];
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:newView.frame];
+    [toolbar setBarStyle:UIBarStyleBlackTranslucent];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [toolbar setTintColor:[UIColor lightGrayColor]];
+    }
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
+                                                                                   target: nil
+                                                                                   action: nil];
+    [fixedSpace setWidth:50.0f];
+    
+    UIBarButtonItem *fixedSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
+                                                                                target: nil
+                                                                                action: nil];
+    [fixedSpace2 setWidth:2.0f];
+
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
+                                                                                   target: nil
+                                                                                   action: nil];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"...more", nil)
+                                                                   style: UIBarButtonItemStyleBordered
+                                                                  target: self
+                                                                  action: @selector(addButtonToList)];
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"Edit", nil)
+                                                                   style: UIBarButtonItemStyleBordered
+                                                                  target: self
+                                                                  action: @selector(funct)];
+    [toolbar setItems:[NSArray arrayWithObjects:fixedSpace, addButton, flexibleSpace, editButton, fixedSpace2, nil]];
+    
+    [newView insertSubview:toolbar atIndex:0];
+    
+    return newView;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
+    if (menuItems.family == 3 && [AppDelegate instance].serverOnLine == YES) {
+        if (footerView == nil){
+            footerView = [self createTableFooterView];
+        }
+        return footerView;
+    }
+    else {
+        UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+        imageView.frame = CGRectMake(0,0,320,8);
+        return imageView;
+    }
+}
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-	return 1;
+    mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
+    if (menuItems.family == 3) {
+        return 44.0f;
+    }
+    else {
+        return 1.0f;
+
+    }
+}
+
+#pragma mark - Table actions
+
+-(void)addButtonToList{
+    if ([AppDelegate instance].serverVersion < 13){
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alertView show];
+    }
+    else{
+        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+        CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:detailViewController];
+        UINavigationBar *newBar = navController.navigationBar;
+        [newBar setTintColor:IOS6_BAR_TINT_COLOR];
+        [newBar setBarStyle:UIBarStyleBlack];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [newBar setTintColor:TINT_COLOR];
+        }
+        detailViewController.detailItem = [AppDelegate instance].xbmcSettings;
+        [self presentViewController:navController animated:YES completion:NULL];
+    }
 }
 
 #pragma mark -
@@ -232,22 +313,7 @@
                 }
             }
             else if ([command isEqualToString:@"AddButton"]){
-                if ([AppDelegate instance].serverVersion < 13){
-                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                    [alertView show];
-                }
-                else{
-                    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                    CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:detailViewController];
-                    UINavigationBar *newBar = navController.navigationBar;
-                    [newBar setTintColor:IOS6_BAR_TINT_COLOR];
-                    [newBar setBarStyle:UIBarStyleBlack];
-                    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                        [newBar setTintColor:TINT_COLOR];
-                    }
-                    detailViewController.detailItem = [AppDelegate instance].xbmcSettings;
-                    [self presentViewController:navController animated:YES completion:NULL];
-                }
+                [self addButtonToList];
             }
             else if (command != nil){
                 NSDictionary *parameters = [[actionsList objectAtIndex:indexPath.row] objectForKey:@"params"];
@@ -462,23 +528,8 @@
         [revealTopView addObject:showTop];
     }
     if ([key isEqualToString:@"online"] && menuItems.family == 3){
-        
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSFileManager *fileManager1 = [NSFileManager defaultManager];
-
-        NSString *customButtonPath = [documentsDirectory stringByAppendingPathComponent:@"customButtons_saved.dat"];
-        fileManager1 = [NSFileManager defaultManager];
-        if([fileManager1 fileExistsAtPath:customButtonPath]) {
-            NSMutableArray *tempArray;
-            tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile: customButtonPath];
-            [self setArrayCustomButton:tempArray];
-        }
-        else {
-            self.arrayCustomButton = [[NSMutableArray alloc] init];
-        }
-
-        for (NSDictionary *item in self.arrayCustomButton) {
+        customButton *arrayButtons = [[customButton alloc] init];
+        for (NSDictionary *item in arrayButtons.buttons) {
             NSString *label = [item objectForKey:@"label"];
             if (label == nil) label = @"";
             [labelsList addObject:label];
@@ -489,16 +540,6 @@
             [actionsList addObject:[item objectForKey:@"action"]];
             [revealTopView addObject:[NSNumber numberWithBool:NO]];
         }
-        [labelsList addObject:NSLocalizedString(@"...more", nil)];
-        [colorsList addObject:[[NSMutableDictionary alloc] initWithCapacity:0]];
-        [hideLineSeparator addObject:[NSNumber numberWithBool:NO]];
-        [fontColorList addObject:[[NSMutableDictionary alloc] initWithCapacity:0]];
-        [iconsList addObject:@""];
-        [actionsList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                @"AddButton",@"command",
-                                [NSDictionary dictionaryWithObjectsAndKeys:nil], @"params",
-                                nil]];
-        [revealTopView addObject:[NSNumber numberWithBool:NO]];
     }
 
     [UIView animateWithDuration:0.2

@@ -10,6 +10,7 @@
 #import "DSJSONRPC.h"
 #import "AppDelegate.h"
 #import "OBSlider.h"
+#import "customButton.h"
 
 @interface SettingsValuesViewController ()
 
@@ -18,7 +19,6 @@
 @implementation SettingsValuesViewController
 
 @synthesize detailItem = _detailItem;
-@synthesize arrayCustomButton;
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
@@ -268,24 +268,9 @@
 #pragma mark - custom button
 
 -(void)saveCustomButton:(NSDictionary *)button {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSFileManager *fileManager1 = [NSFileManager defaultManager];
-    
-    NSString *customButtonPath = [documentsDirectory stringByAppendingPathComponent:@"customButtons_saved.dat"];
-    fileManager1 = [NSFileManager defaultManager];
-    if([fileManager1 fileExistsAtPath:customButtonPath]) {
-        NSMutableArray *tempArray;
-        tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile: customButtonPath];
-        [self setArrayCustomButton:tempArray];
-    }
-    else {
-        self.arrayCustomButton = [[NSMutableArray alloc] init];
-    }
-    [self.arrayCustomButton addObject:button];
-    if ([paths count] > 0) {
-        [NSKeyedArchiver archiveRootObject:self.arrayCustomButton toFile:customButtonPath];
-    }
+    customButton *arrayButtons = [[customButton alloc] init];
+    [arrayButtons.buttons addObject:button];
+    [arrayButtons saveData];
 }
 
 #pragma mark - JSON

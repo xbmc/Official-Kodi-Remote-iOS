@@ -36,6 +36,5 @@ typedef enum {
 
 @property(nonatomic, retain) UITableView* tableView;
 @property (strong, nonatomic) id detailItem;
-@property (nonatomic, retain) NSMutableArray *arrayCustomButton;
 
 @end
