@@ -16,19 +16,17 @@
 - (id)initWithFrame:(CGRect)frame deltaY:(float)deltaY deltaX:(float)deltaX {
     self = [super initWithFrame:frame];
     if (self) {
+        CALayer *bottomBorder = [CALayer layer];
+        CGFloat borderSize = 1.0f;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            borderSize = 0.5f;
+        }
+        bottomBorder.frame = CGRectMake(0.0f, frame.size.height - borderSize, frame.size.width, borderSize);
+        bottomBorder.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.35f].CGColor;
+        [self.layer addSublayer:bottomBorder];
         [self setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
         slideHeight = frame.size.height;
         [self setFrame:CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height)];
-        
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, frame.size.height, frame.size.width, 4);
-        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
-        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarShadow.contentMode = UIViewContentModeScaleToFill;
-        toolbarShadow.opaque = YES;
-        toolbarShadow.alpha = 0.5f;
-        [self addSubview:toolbarShadow];
-        
         viewMessage = [[UILabel alloc] initWithFrame:CGRectMake(deltaX, deltaY, frame.size.width - deltaX, frame.size.height - deltaY)];
         [viewMessage setBackgroundColor:[UIColor clearColor]];
         [viewMessage setFont:[UIFont boldSystemFontOfSize:16]];
