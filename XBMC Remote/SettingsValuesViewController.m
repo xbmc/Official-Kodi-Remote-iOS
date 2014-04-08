@@ -472,6 +472,7 @@
             
         case cSwitch:
     
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             descriptionLabel.hidden = NO;
             cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"label"]];
             [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, 44)];
@@ -492,6 +493,7 @@
             
         case cSlider:
             
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             slider.hidden = NO;
             sliderLabel.hidden = NO;
             descriptionLabel.hidden = NO;
