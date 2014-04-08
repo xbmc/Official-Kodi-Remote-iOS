@@ -51,6 +51,7 @@
         [_tableView addGestureRecognizer:longPressGesture];
         
         activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [activityIndicator setColor:[UIColor grayColor]];
         [activityIndicator setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2)];
         [activityIndicator setHidesWhenStopped:YES];
         [self.view addSubview:activityIndicator];
