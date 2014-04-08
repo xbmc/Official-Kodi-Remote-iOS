@@ -629,16 +629,7 @@
         
         UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
         [helpView setBackgroundColor:[UIColor clearColor]];
-        
-//        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-//            UIToolbar *toolbar = [[UIToolbar alloc] init];
-//            [toolbar setBarStyle:UIBarStyleBlackTranslucent];
-//            [toolbar setFrame:helpView.frame];
-//            [helpView addSubview:toolbar];
-//        }
-//        else {
-        [helpView setBackgroundColor:[UIColor colorWithRed:65.0f/255.0f green:65.0f/255.0f blue:65.0f/255.0f alpha:0.95f]];
-//        }
+        [helpView setBackgroundColor:[UIColor colorWithRed:65.0f/255.0f green:65.0f/255.0f blue:65.0f/255.0f alpha:0.8f]];
         [helpView addSubview:descriptionLabel];
         return helpView;
     }
