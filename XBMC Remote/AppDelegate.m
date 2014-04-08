@@ -3075,7 +3075,7 @@ NSMutableArray *hostRightMenuItems;
     
     xbmcSettings.sheetActions = [NSArray arrayWithObjects:
                                  [NSArray arrayWithObjects: nil],
-                                 [NSArray arrayWithObjects: nil],
+                                 [NSArray arrayWithObjects: NSLocalizedString(@"Make button", nil), nil],
                                  nil];
     
     
@@ -3202,6 +3202,7 @@ NSMutableArray *hostRightMenuItems;
                                  [NSNumber numberWithFloat:1], @"green",
                                  [NSNumber numberWithFloat:1], @"blue",
                                  nil], @"fontColor",
+                                [NSNumber numberWithBool:YES], @"hideLineSeparator",
                                 @"icon_power", @"icon",
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"System.WOL", @"command",
@@ -3468,14 +3469,6 @@ NSMutableArray *hostRightMenuItems;
                                      @"keyboard_icon", @"icon",
                                      [NSNumber numberWithBool:YES], @"revealViewTop",
                                      nil],
-//                                    [NSDictionary dictionaryWithObjectsAndKeys:
-//                                     NSLocalizedString(@"Gesture Zone", nil), @"label",
-//                                     @"finger", @"icon",
-//                                     nil],
-//                                    [NSDictionary dictionaryWithObjectsAndKeys:
-//                                     NSLocalizedString(@"Button Pad", nil), @"label",
-//                                     @"circle", @"icon",
-//                                     nil],
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      NSLocalizedString(@"Button Pad/Gesture Zone", nil), @"label",
                                      @"buttons-gestures", @"icon",
@@ -3487,33 +3480,6 @@ NSMutableArray *hostRightMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      NSLocalizedString(@"LED Torch", nil), @"label",
                                      @"torch", @"icon",
-                                     nil],
-                                    // PERSONAL STUFF ;)
-//                                    [NSDictionary dictionaryWithObjectsAndKeys:
-//                                     NSLocalizedString(@"Audio TV Out", nil), @"label",
-//                                     @"icon_tv_out", @"icon",
-//                                     [NSDictionary dictionaryWithObjectsAndKeys:
-//                                      @"Settings.SetSettingValue",@"command",
-//                                      [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:hdmi:CARD=NVidia,DEV=0", @"value", nil], @"params",
-//                                      nil], @"action",
-//                                     nil],
-//                                    
-//                                    [NSDictionary dictionaryWithObjectsAndKeys:
-//                                     NSLocalizedString(@"Audio Analog Out", nil), @"label",
-//                                     @"icon_analog_out", @"icon",
-//                                     [NSDictionary dictionaryWithObjectsAndKeys:
-//                                      @"Settings.SetSettingValue",@"command",
-//                                      [NSDictionary dictionaryWithObjectsAndKeys: @"audiooutput.audiodevice",@"setting", @"ALSA:@", @"value", nil], @"params",
-//                                      nil], @"action",
-//                                     nil],
-                                    // END PERSONAL
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
-                                     NSLocalizedString(@"...more", nil), @"label",
-                                     @"", @"icon",
-                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                      @"AddButton",@"command",
-                                      [NSDictionary dictionaryWithObjectsAndKeys:nil], @"params",
-                                      nil], @"action",
                                      nil],
                                     nil],@"online",
                                    
