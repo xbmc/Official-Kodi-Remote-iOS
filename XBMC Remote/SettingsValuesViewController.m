@@ -95,8 +95,12 @@
         
         [self.view insertSubview:scrubbingView aboveSubview:_tableView];
         
+        CGFloat deltaY = 0;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            deltaY = 64.0f;
+        }
         CGRect frame = [[UIScreen mainScreen ] bounds];
-        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 64.0f + 42.0f) deltaY:64.0f deltaX:0];
+        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + 42.0f) deltaY:deltaY deltaX:0];
         [self.view addSubview:messagesView];
 
         self.detailItem = item;
