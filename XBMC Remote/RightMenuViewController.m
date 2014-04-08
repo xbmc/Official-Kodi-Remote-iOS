@@ -304,8 +304,7 @@
                 NSString *serverMAC = [AppDelegate instance].obj.serverHWAddr;
                 if (serverMAC != nil && ![serverMAC isEqualToString:@":::::"]){
                     [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                    [alertView show];
+                    [self showMessage:messagesView label:viewMessage string:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
                 }
                 else{
                     UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No sever mac address definied", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
@@ -355,6 +354,43 @@
     }
 }
 
+# pragma mark - view Effects
+
+-(void)showMessage:(UIView *)messageView label:(UILabel *)label string:(NSString *)message timeout:(float)timeout color:(UIColor *)color{
+    // first fadeout
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+	[UIView setAnimationDuration:0.1];
+    messageView. alpha = 0;
+    [UIView commitAnimations];
+    [label setText:message];
+    [messageView setBackgroundColor:color];
+    // then fade in
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+	[UIView setAnimationDuration:0.1];
+    messageView.hidden = NO;
+    messageView. alpha = 1.0;
+    [UIView commitAnimations];
+    //then fade out again after timeout seconds
+    if ([fadeoutTimer isValid])
+        [fadeoutTimer invalidate];
+    fadeoutTimer=[NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutMessage:) userInfo:[NSDictionary dictionaryWithObjectsAndKeys:messageView, @"view", nil] repeats:NO];
+}
+
+-(void)fadeoutMessage:(NSTimer *)timer{
+    if ([[[timer userInfo] objectForKey:@"view"] isKindOfClass:[UIView class]]){
+        UIView *view = [[timer userInfo] objectForKey:@"view"];
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.2];
+        view. alpha = 0;
+        [UIView commitAnimations];
+    }
+    [fadeoutTimer invalidate];
+    fadeoutTimer = nil;
+}
+
 #pragma mark - JSON
 
 -(void)xbmcAction:(NSString *)action params:(NSDictionary *)params{
@@ -365,12 +401,10 @@
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
+            [self showMessage:messagesView label:viewMessage string:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
         }
         else{
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
+            [self showMessage:messagesView label:viewMessage string:NSLocalizedString(@"Cannot do that", nil) timeout:2.0f color:[UIColor colorWithRed:189.0f/255.0f green:36.0f/255.0f blue:36.0f/255.0f alpha:0.95f]];
         }
     }];
 }
@@ -459,6 +493,38 @@
         [self setRightMenuOption:@"utility"];
 
     }
+    
+    CGRect frame = self.view.frame;
+    messagesView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
+    [messagesView setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2)];
+    [messagesView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
+    messagesView.alpha = 0.0f;
+    CGRect toolbarShadowFrame = CGRectMake(0.0f, 44, self.view.frame.size.width, 4);
+    UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+    toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    toolbarShadow.contentMode = UIViewContentModeScaleToFill;
+    toolbarShadow.opaque = YES;
+    [messagesView addSubview:toolbarShadow];
+    toolbarShadowFrame.origin.y = -4;
+    UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+    [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
+    toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
+    toolbarUpShadow.opaque = YES;
+    [messagesView addSubview:toolbarUpShadow];
+    
+    viewMessage = [[UILabel alloc] initWithFrame:CGRectMake(40, 6, messagesView.frame.size.width - 40, 32)];
+    [viewMessage setBackgroundColor:[UIColor clearColor]];
+    [viewMessage setFont:[UIFont boldSystemFontOfSize:16]];
+    [viewMessage setAdjustsFontSizeToFitWidth:YES];
+    [viewMessage setMinimumFontSize:10];
+    [viewMessage setTextColor:[UIColor whiteColor]];
+    [viewMessage setTextAlignment:NSTextAlignmentCenter];
+    [messagesView addSubview:viewMessage];
+
+    [self.view addSubview:messagesView];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionSuccess:)
                                                  name: @"XBMCServerConnectionSuccess"

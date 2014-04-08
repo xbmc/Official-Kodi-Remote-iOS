@@ -31,6 +31,9 @@
     BOOL torchIsOn;
     BOOL putXBMClogo;
     UIView *footerView;
+    UIView *messagesView;
+    UILabel *viewMessage;
+    NSTimer *fadeoutTimer;
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;
