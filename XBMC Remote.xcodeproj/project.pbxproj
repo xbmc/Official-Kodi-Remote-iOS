@@ -108,6 +108,8 @@
 		0F3EB33B15B1F4A5002F3E95 /* st_tv_recently_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3EB33915B1F4A5002F3E95 /* st_tv_recently_on.png */; };
 		0F3EB33E15B1F4AF002F3E95 /* st_tv_recently_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3EB33C15B1F4AF002F3E95 /* st_tv_recently_off@2x.png */; };
 		0F3EB33F15B1F4AF002F3E95 /* st_tv_recently_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3EB33D15B1F4AF002F3E95 /* st_tv_recently_on@2x.png */; };
+		0F4019B018F3ECEB0064E4DC /* customButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4019AF18F3ECEB0064E4DC /* customButton.m */; };
+		0F4019B318F415A50064E4DC /* MessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4019B218F415A50064E4DC /* MessagesView.m */; };
 		0F4063351578C6CD00596B61 /* MoreItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4063341578C6CD00596B61 /* MoreItemsViewController.m */; };
 		0F4063391578DB3F00596B61 /* st_more_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4063371578DB3F00596B61 /* st_more_off@2x.png */; };
 		0F40633A1578DB3F00596B61 /* st_more_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4063381578DB3F00596B61 /* st_more_on@2x.png */; };
@@ -853,6 +855,10 @@
 		0F3EB33915B1F4A5002F3E95 /* st_tv_recently_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_tv_recently_on.png; sourceTree = "<group>"; };
 		0F3EB33C15B1F4AF002F3E95 /* st_tv_recently_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_tv_recently_off@2x.png"; sourceTree = "<group>"; };
 		0F3EB33D15B1F4AF002F3E95 /* st_tv_recently_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_tv_recently_on@2x.png"; sourceTree = "<group>"; };
+		0F4019AE18F3ECEB0064E4DC /* customButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customButton.h; sourceTree = "<group>"; };
+		0F4019AF18F3ECEB0064E4DC /* customButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customButton.m; sourceTree = "<group>"; };
+		0F4019B118F415A50064E4DC /* MessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesView.h; sourceTree = "<group>"; };
+		0F4019B218F415A50064E4DC /* MessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesView.m; sourceTree = "<group>"; };
 		0F4063331578C6CD00596B61 /* MoreItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreItemsViewController.h; sourceTree = "<group>"; };
 		0F4063341578C6CD00596B61 /* MoreItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreItemsViewController.m; sourceTree = "<group>"; };
 		0F4063371578DB3F00596B61 /* st_more_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_more_off@2x.png"; sourceTree = "<group>"; };
@@ -1814,6 +1820,10 @@
 				0FEA79FB165FBBEC00BB281F /* XBMCVirtualKeyboard.m */,
 				0F90904316E53C580021EFA9 /* Utilities.h */,
 				0F90904416E53C580021EFA9 /* Utilities.m */,
+				0F4019AE18F3ECEB0064E4DC /* customButton.h */,
+				0F4019AF18F3ECEB0064E4DC /* customButton.m */,
+				0F4019B118F415A50064E4DC /* MessagesView.h */,
+				0F4019B218F415A50064E4DC /* MessagesView.m */,
 				0F747736151DD98600EF78AD /* classes */,
 				0F554901151D1187007E633F /* Supporting Files */,
 				0F554C21151D197F007E633F /* nib */,
@@ -3395,6 +3405,7 @@
 				0F32092916FE181300636BA2 /* SDWebImageDownloader.m in Sources */,
 				0F32092A16FE181300636BA2 /* SDWebImageDownloaderOperation.m in Sources */,
 				0F32092B16FE181300636BA2 /* SDWebImageManager.m in Sources */,
+				0F4019B318F415A50064E4DC /* MessagesView.m in Sources */,
 				0F32092C16FE181300636BA2 /* SDWebImagePrefetcher.m in Sources */,
 				0F32092D16FE181300636BA2 /* UIButton+WebCache.m in Sources */,
 				0F32092E16FE181300636BA2 /* UIImageView+WebCache.m in Sources */,
@@ -3403,6 +3414,7 @@
 				0F7B951A1708975500880F33 /* UIImage+Resize.m in Sources */,
 				0F4205D217099AE500EA533C /* RecentlyAddedCell.m in Sources */,
 				0F05FB69170D79D400BBA833 /* NSString+MD5.m in Sources */,
+				0F4019B018F3ECEB0064E4DC /* customButton.m in Sources */,
 				0FDC891A170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m in Sources */,
 				0F680CB917103DB60092298A /* ClearCacheView.m in Sources */,
 				0F221977171181C300B111F2 /* UISearchBar+LeftButton.m in Sources */,
