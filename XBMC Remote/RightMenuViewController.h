@@ -11,6 +11,7 @@
 #import "DSJSONRPC.h"
 #import "RemoteController.h"
 #import "VolumeSliderView.h"
+#import "MessagesView.h"
 
 @interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>{
     UITableView *menuTableView;
@@ -31,9 +32,7 @@
     BOOL torchIsOn;
     BOOL putXBMClogo;
     UIView *footerView;
-    UIView *messagesView;
-    UILabel *viewMessage;
-    NSTimer *fadeoutTimer;
+    MessagesView *messagesView;
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;

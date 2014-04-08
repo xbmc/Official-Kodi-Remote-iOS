@@ -95,6 +95,10 @@
         
         [self.view insertSubview:scrubbingView aboveSubview:_tableView];
         
+        CGRect frame = [[UIScreen mainScreen ] bounds];
+        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 64.0f + 42.0f) deltaY:64.0f deltaX:0];
+        [self.view addSubview:messagesView];
+
         self.detailItem = item;
 
         cellHeight = 44.0f;
@@ -289,12 +293,10 @@
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicator stopAnimating];
         if (methodError==nil && error == nil){
-//            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-//            [alertView show];
+            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
         }
         else{
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
+            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0f color:[UIColor colorWithRed:189.0f/255.0f green:36.0f/255.0f blue:36.0f/255.0f alpha:0.95f]];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
             [sender setUserInteractionEnabled:YES];
@@ -466,7 +468,6 @@
             
         case cSwitch:
     
-            tableView.scrollEnabled = NO;
             descriptionLabel.hidden = NO;
             cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"label"]];
             [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, 44)];
@@ -487,7 +488,6 @@
             
         case cSlider:
             
-            tableView.scrollEnabled = NO;
             slider.hidden = NO;
             sliderLabel.hidden = NO;
             descriptionLabel.hidden = NO;
@@ -511,7 +511,6 @@
             
         case cInput:
             
-            tableView.scrollEnabled = NO;
             descriptionLabel.hidden = NO;
             textInputField.hidden = NO;
             [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46)];
@@ -631,15 +630,15 @@
         UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
         [helpView setBackgroundColor:[UIColor clearColor]];
         
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            UIToolbar *toolbar = [[UIToolbar alloc] init];
-            [toolbar setBarStyle:UIBarStyleBlackTranslucent];
-            [toolbar setFrame:helpView.frame];
-            [helpView insertSubview:toolbar atIndex:0];
-        }
-        else {
-            [helpView setBackgroundColor:[UIColor colorWithRed:85.0f/255.0f green:85.0f/255.0f blue:85.0f/255.0f alpha:0.95f]];
-        }
+//        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+//            UIToolbar *toolbar = [[UIToolbar alloc] init];
+//            [toolbar setBarStyle:UIBarStyleBlackTranslucent];
+//            [toolbar setFrame:helpView.frame];
+//            [helpView addSubview:toolbar];
+//        }
+//        else {
+        [helpView setBackgroundColor:[UIColor colorWithRed:65.0f/255.0f green:65.0f/255.0f blue:65.0f/255.0f alpha:0.95f]];
+//        }
         [helpView addSubview:descriptionLabel];
         return helpView;
     }
