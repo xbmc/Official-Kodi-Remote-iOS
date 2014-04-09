@@ -308,6 +308,15 @@
     return YES;
 }
 
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+    if (proposedDestinationIndexPath.row < editableRowStartAt){
+        return [NSIndexPath indexPathForRow:editableRowStartAt inSection:0];
+    }
+    else {
+        return proposedDestinationIndexPath;
+    }
+}
+
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
     
 }
