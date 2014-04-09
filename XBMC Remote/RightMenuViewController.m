@@ -321,7 +321,7 @@
 	if (editingStyle == UITableViewCellEditingStyleDelete){
         [tableData removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-        [self deleteCustomButton:(unsigned long)(editableRowStartAt - indexPath.row)];
+        [self deleteCustomButton:(indexPath.row - editableRowStartAt)];
 	}
 }
 
