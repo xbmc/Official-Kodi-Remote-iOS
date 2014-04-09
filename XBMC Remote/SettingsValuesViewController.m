@@ -250,6 +250,10 @@
         if ([option isEqualToString:NSLocalizedString(@"Add button", nil)]){
             NSString *command = @"Settings.SetSettingValue";
             NSString *value = @"";
+            NSString *type = @"string";
+            if ([self.detailItem objectForKey:@"year"] != nil){
+                type = [self.detailItem objectForKey:@"year"];
+            }
             switch (xbmcSetting) {
                 case cList:
                     value = [NSString stringWithFormat:@"%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"]];
@@ -260,15 +264,16 @@
             }
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", value, @"value", nil];
             NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
-                                         [[alertView textFieldAtIndex:0]text], @"label",
-                                         @"", @"icon",
-                                         [NSNumber numberWithInt:xbmcSetting], @"xbmcSetting",
-                                         [self.detailItem objectForKey:@"genre"], @"helpText",
-                                         [NSDictionary dictionaryWithObjectsAndKeys:
-                                          command, @"command",
-                                          params, @"params",
-                                          nil], @"action",
-                                         nil];
+                                       [[alertView textFieldAtIndex:0]text], @"label",
+                                       type, @"type",
+                                       @"", @"icon",
+                                       [NSNumber numberWithInt:xbmcSetting], @"xbmcSetting",
+                                       [self.detailItem objectForKey:@"genre"], @"helpText",
+                                       [NSDictionary dictionaryWithObjectsAndKeys:
+                                        command, @"command",
+                                        params, @"params",
+                                        nil], @"action",
+                                       nil];
             [self saveCustomButton:newButton];
         }
     }
