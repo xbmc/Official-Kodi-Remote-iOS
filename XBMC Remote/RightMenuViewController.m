@@ -213,11 +213,11 @@
                                                                    style: UIBarButtonItemStyleBordered
                                                                   target: self
                                                                   action: @selector(addButtonToList)];
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"Edit", nil)
+    editTableButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"Edit", nil)
                                                                    style: UIBarButtonItemStyleBordered
                                                                   target: self
                                                                   action: @selector(editTable:)];
-    [toolbar setItems:[NSArray arrayWithObjects:fixedSpace, addButton, flexibleSpace, editButton, fixedSpace2, nil]];
+    [toolbar setItems:[NSArray arrayWithObjects:fixedSpace, addButton, flexibleSpace, editTableButton, fixedSpace2, nil]];
     
     [newView insertSubview:toolbar atIndex:0];
     
@@ -273,29 +273,35 @@
     }
 }
 
+-(void)deleteCustomButton:(NSUInteger)idx {
+    customButton *arrayButtons = [[customButton alloc] init];
+    [arrayButtons.buttons removeObjectAtIndex:idx];
+    [arrayButtons saveData];
+    if ([arrayButtons.buttons count] == 0){
+        [editTableButton setEnabled:NO];
+    }
+}
+
 #pragma mark -
 #pragma mark Table view delegate
 
 
 -(void)editTable:(id)sender {
-    UIBarButtonItem *editTableButton = (UIBarButtonItem *)sender;
+    UIBarButtonItem *editButton = (UIBarButtonItem *)sender;
     if (menuTableView.editing == YES){
         [menuTableView setEditing:NO animated:YES];
-        [editTableButton setTitle:NSLocalizedString(@"Edit", nil)];
-        [editTableButton setStyle:UIBarButtonItemStyleBordered];
+        [editButton setTitle:NSLocalizedString(@"Edit", nil)];
+        [editButton setStyle:UIBarButtonItemStyleBordered];
     }
     else{
         [menuTableView setEditing:YES animated:YES];
-        [editTableButton setTitle:NSLocalizedString(@"Done", nil)];
-        [editTableButton setStyle:UIBarButtonItemStyleDone];
+        [editButton setTitle:NSLocalizedString(@"Done", nil)];
+        [editButton setStyle:UIBarButtonItemStyleDone];
     }
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (aTableView.editing) {
-        return UITableViewCellEditingStyleDelete;
-    }
-    return UITableViewCellEditingStyleNone;
+    return UITableViewCellEditingStyleDelete;
 }
 
 - (BOOL)tableView:(UITableView *)tableview canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -313,7 +319,9 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
 	if (editingStyle == UITableViewCellEditingStyleDelete){
-
+        [tableData removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        [self deleteCustomButton:(unsigned long)(editableRowStartAt - indexPath.row)];
 	}
 }
 
@@ -477,7 +485,8 @@
         [menuTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     }
     [self.view addSubview:menuTableView];
-    
+    footerView = [self createTableFooterView];
+
     if ([[AppDelegate instance].obj.serverIP length]!=0){
         if (![AppDelegate instance].serverOnLine){
             [self setRightMenuOption:@"offline"];
@@ -565,8 +574,12 @@
                               [NSNumber numberWithBool:NO], @"isSetting",
                             nil]];
     }
+    editableRowStartAt = [tableData count];
     if ([key isEqualToString:@"online"] && menuItems.family == 3){
         customButton *arrayButtons = [[customButton alloc] init];
+        if ([arrayButtons.buttons count] == 0){
+            [editTableButton setEnabled:NO];
+        }
         for (NSDictionary *item in arrayButtons.buttons) {
             NSString *label = [item objectForKey:@"label"];
             if (label == nil) label = @"";

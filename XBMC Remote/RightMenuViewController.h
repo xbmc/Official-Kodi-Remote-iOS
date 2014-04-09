@@ -27,6 +27,8 @@
     BOOL putXBMClogo;
     UIView *footerView;
     MessagesView *messagesView;
+    NSUInteger editableRowStartAt;
+    UIBarButtonItem *editTableButton;
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;
