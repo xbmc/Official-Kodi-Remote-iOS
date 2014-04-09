@@ -249,14 +249,19 @@
         NSString *option = [alertView buttonTitleAtIndex:buttonIndex];
         if ([option isEqualToString:NSLocalizedString(@"Add button", nil)]){
             NSString *command = @"Settings.SetSettingValue";
-            NSString *value = @"";
+            id value = @"";
             NSString *type = @"string";
             if ([self.detailItem objectForKey:@"year"] != nil){
                 type = [self.detailItem objectForKey:@"year"];
             }
             switch (xbmcSetting) {
                 case cList:
-                    value = [NSString stringWithFormat:@"%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"]];
+                    if ([type isEqualToString:@"integer"]){
+                        value = [NSNumber numberWithInt:[[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"] intValue]];
+                    }
+                    else {
+                        value = [NSString stringWithFormat:@"%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"]];
+                    }
                     break;
                 default:
                     value = @"";
@@ -285,6 +290,7 @@
     customButton *arrayButtons = [[customButton alloc] init];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
+    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
 }
 
 #pragma mark - JSON
