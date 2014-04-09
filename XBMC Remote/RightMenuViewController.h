@@ -17,14 +17,7 @@
     UITableView *menuTableView;
     NSMutableArray* _rightMenuItems;
     IBOutlet UITableViewCell *rightMenuCell;
-    NSMutableArray *labelsList;
-    NSMutableArray *colorsList;
-    NSMutableArray *hideLineSeparator;
-    NSMutableArray *fontColorList;
-    NSMutableArray *iconsList;
-    NSMutableArray *actionsList;
-    NSMutableArray *revealTopView;
-    NSMutableArray *isSetting;
+    NSMutableArray *tableData;
     UILabel *infoLabel;
     DSJSONRPC *jsonRPC;
     UIAlertView *actionAlertView;
