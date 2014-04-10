@@ -3009,6 +3009,7 @@ NSMutableArray *hostRightMenuItems;
                                    [NSMutableArray arrayWithObjects:
                                     [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"xbmc.addon.executable", @"type",
+                                     [NSNumber numberWithBool:YES], @"enabled",
                                      [[NSArray alloc] initWithObjects: @"name", @"version", @"summary", @"thumbnail", nil], @"properties",
                                      nil], @"parameters", NSLocalizedString(@"Executable Add-ons", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
