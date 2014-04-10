@@ -2902,7 +2902,7 @@ NSIndexPath *selected;
                                     nil];
             NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
                                        [item objectForKey:@"label"], @"label",
-                                       @"addon", @"type",
+                                       @"xbmc-exec-addon", @"type",
                                        [item objectForKey:@"thumbnail"], @"icon",
                                        [NSNumber numberWithInt:0], @"xbmcSetting",
                                        [item objectForKey:@"genre"], @"helpText",
