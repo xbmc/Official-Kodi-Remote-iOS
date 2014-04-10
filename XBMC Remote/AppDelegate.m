@@ -242,7 +242,6 @@ NSMutableArray *hostRightMenuItems;
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
                              nil], @"properties",
                             nil], @"extra_info_parameters",
-                           @"6", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -266,7 +265,6 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist", @"defaultThumb", @"Artist", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",nil], @"properties",
                             nil], @"extra_info_parameters",
-                           @"7", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -314,7 +312,6 @@ NSMutableArray *hostRightMenuItems;
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
                              nil], @"properties",
                             nil], @"extra_info_parameters",
-                           @"10", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
 
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -358,7 +355,6 @@ NSMutableArray *hostRightMenuItems;
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
                              nil], @"properties",
                             nil], @"extra_info_parameters",
-                           @"11", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
 
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -394,7 +390,6 @@ NSMutableArray *hostRightMenuItems;
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",//@"genre", @"description", @"albumlabel", @"fanart",
                             nil], @"parameters", NSLocalizedString(@"Played albums", nil), @"label", @"Album", @"wikitype", NSLocalizedString(@"Recently played albums", nil), @"morelabel",
-                           @"12", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
 
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -443,7 +438,6 @@ NSMutableArray *hostRightMenuItems;
                             @"addons://sources/audio", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"properties",
                             nil], @"parameters", NSLocalizedString(@"Music Addons", nil), @"label", NSLocalizedString(@"Music Addons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
-                           @"13", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
 
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -778,7 +772,6 @@ NSMutableArray *hostRightMenuItems;
                                      nil], @"properties",
                                     nil], @"extra_info_parameters",
                                    @"YES", @"enableCollectionView",
-                                   @"8", @"collectionViewUniqueKey",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -803,7 +796,6 @@ NSMutableArray *hostRightMenuItems;
                                      nil], @"properties",
                                     nil], @"extra_info_parameters",
                                    @"YES", @"enableCollectionView",
-                                   @"9", @"collectionViewUniqueKey",
                                    @"YES", @"enableLibraryCache",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1300,7 +1292,6 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"extra_info_parameters",
                            @"YES", @"FrodoExtraArt",
                            @"YES", @"enableCollectionView",
-                           @"1", @"collectionViewUniqueKey",
                            @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1343,7 +1334,6 @@ NSMutableArray *hostRightMenuItems;
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"thumbnail", @"playcount", nil], @"properties",
                             nil], @"parameters",
-                           @"2", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1369,7 +1359,6 @@ NSMutableArray *hostRightMenuItems;
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                             nil], @"extra_info_parameters",
                            @"YES", @"FrodoExtraArt",
-                           @"3", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            @"YES", @"collectionViewRecentlyAdded",
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1391,7 +1380,6 @@ NSMutableArray *hostRightMenuItems;
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"playcount", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"file", @"fanart", @"resume", nil], @"properties",
                             nil], @"parameters", NSLocalizedString(@"Music Videos", nil), @"label", NSLocalizedString(@"Music Videos", nil), @"morelabel", @"Movie", @"wikitype",
-                           @"14", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1420,7 +1408,6 @@ NSMutableArray *hostRightMenuItems;
                             @"addons://sources/video", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
                             nil], @"parameters", @"Video Addons", @"label", NSLocalizedString(@"Video Addons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
-                           @"15", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
 
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1437,7 +1424,6 @@ NSMutableArray *hostRightMenuItems;
 //                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
 //                            @"tv", @"channeltype",
 //                            nil], @"parameters", @"Live TV", @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
-//                           @"16", @"collectionViewUniqueKey",
 //                           @"YES", @"enableCollectionView",
 //                           [NSDictionary dictionaryWithObjectsAndKeys:
 //                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1685,7 +1671,6 @@ NSMutableArray *hostRightMenuItems;
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                                     nil], @"extra_info_parameters",
                                    @"YES", @"FrodoExtraArt",
-                                   @"4", @"collectionViewUniqueKey",
                                    @"YES", @"enableCollectionView",
                                    @"YES", @"enableLibraryCache",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1711,7 +1696,6 @@ NSMutableArray *hostRightMenuItems;
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                                     nil], @"extra_info_parameters",
                                    @"YES", @"FrodoExtraArt",
-                                   @"5", @"collectionViewUniqueKey",
                                    @"YES", @"enableCollectionView",
 
                                    [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2064,7 +2048,6 @@ NSMutableArray *hostRightMenuItems;
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", @"resume", nil], @"properties",
                               nil], @"extra_info_parameters",
                              @"YES", @"FrodoExtraArt",
-//                             @"17", @"collectionViewUniqueKey",
 //                             @"YES", @"enableCollectionView",
 //                             @"YES", @"collectionViewRecentlyAdded",
 //                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2528,7 +2511,6 @@ NSMutableArray *hostRightMenuItems;
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"tv", @"channeltype",
                             nil], @"parameters", NSLocalizedString(@"Live TV", nil), @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
-                           @"16", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2568,7 +2550,6 @@ NSMutableArray *hostRightMenuItems;
                             [[NSArray alloc] initWithObjects:@"title", @"summary", @"starttime", @"endtime", @"runtime", @"lifetime", @"firstday", @"weekdays", @"priority", @"startmargin", @"endmargin", @"state", @"file", @"directory", nil], @"properties",
                             nil], @"extra_info_parameters",
                            NSLocalizedString(@"Timers", nil), @"label", NSLocalizedString(@"Timers", nil), @"morelabel", @"nocover_timers", @"defaultThumb", @"53", @"rowHeight", @"53", @"thumbWidth",
-                           @"16", @"collectionViewUniqueKey",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
