@@ -82,32 +82,28 @@
     UITableViewCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"rightMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:NULL];
-    if (cell==nil || [[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
+    if ( cell == nil ) {
         cell = rightMenuCell;
-        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
-        [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
-        cell.selectedBackgroundView = backgroundView;
-        if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]){
-            [backgroundView setBackgroundColor:[UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1]];
-            cell.selectedBackgroundView = backgroundView;
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(125, (int)((44/2) - (36/2)) - 2, 145, 36)];
-            xbmc_logo. alpha = .25f;
-            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
-            [cell insertSubview:xbmc_logo atIndex:0];
-        }
+        UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
+        [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
+        cell.selectedBackgroundView = backView;
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(125, (int)((44/2) - (36/2)) - 2, 145, 36)];
+        xbmc_logo. alpha = .25f;
+        [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+        xbmc_logo.tag = 101;
+        [cell insertSubview:xbmc_logo atIndex:0];
     }
     UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
     UILabel *title = (UILabel*) [cell viewWithTag:3];
     UIImageView *line = (UIImageView*) [cell viewWithTag:4];
+    UIImageView *xbmc_logo = (UIImageView*) [cell viewWithTag:101];
+    
+    xbmc_logo.hidden = YES;
+    
     NSString *iconName = @"";
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]){
-        if (putXBMClogo == YES){
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(125, (int)((44/2) - (36/2)) - 2, 145, 36)];
-            xbmc_logo. alpha = .25f;
-            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
-            [cell insertSubview:xbmc_logo atIndex:0];
-            putXBMClogo = NO;
-        }
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        xbmc_logo.hidden = NO;
         iconName = @"connection_off";
         icon.alpha = 1;
         if ([AppDelegate instance].serverOnLine){
@@ -115,6 +111,7 @@
         }
         int cellHeight = 44;
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
+        [title setAutoresizingMask:UIViewAutoresizingNone];
         [icon setFrame:CGRectMake(10, (int)((cellHeight/2) - (18/2)), 18, 18)];
         [title setFrame:CGRectMake(icon.frame.size.width + 16, (int)((cellHeight/2) - (title.frame.size.height/2)), self.view.frame.size.width - (icon.frame.size.width + 16), title.frame.size.height)];
         [title setTextAlignment:NSTextAlignmentLeft];
@@ -124,6 +121,8 @@
         [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
     }
     else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"VolumeControl"]){
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+
         [title setText:@""];
         if (volumeSliderView == nil){
             volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
@@ -133,6 +132,7 @@
         [cell.contentView addSubview:volumeSliderView];
     }
     else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"RemoteControl"]){
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [title setText:@""];
         if (remoteControllerView == nil){
             remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
@@ -144,9 +144,15 @@
 
     else{
         cell = rightMenuCell;
-        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
-        [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
-        cell.selectedBackgroundView = backgroundView;
+        UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
+        [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
+        cell.selectedBackgroundView = backView;
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(125, (int)((44/2) - (36/2)) - 2, 145, 36)];
+        xbmc_logo. alpha = .25f;
+        [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+        xbmc_logo.tag = 101;
+        xbmc_logo.hidden = YES;
+        [cell insertSubview:xbmc_logo atIndex:0];
         icon = (UIImageView*) [cell viewWithTag:1];
         title = (UILabel*) [cell viewWithTag:3];
         line = (UIImageView*) [cell viewWithTag:4];
@@ -186,12 +192,12 @@
     return cell;
 }
 
--(UIView *)createTableFooterView {
-    CGFloat footerHeight = 44.0f;
-    UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, self.view.bounds.size.width, footerHeight)];
+-(UIView *)createTableFooterView:(CGFloat)footerHeight {
+    UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - footerHeight, self.view.bounds.size.width, footerHeight)];
+    [newView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin];
     [newView setBackgroundColor:[UIColor clearColor]];
     
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:newView.frame];
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
     [toolbar setBarStyle:UIBarStyleBlackTranslucent];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [toolbar setTintColor:[UIColor lightGrayColor]];
@@ -222,34 +228,6 @@
     [newView insertSubview:toolbar atIndex:0];
     
     return newView;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
-    if (menuItems.family == 3 && [AppDelegate instance].serverOnLine == YES) {
-        if (footerView == nil){
-            footerView = [self createTableFooterView];
-        }
-        return footerView;
-    }
-    else {
-        UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-        imageView.frame = CGRectMake(0,0,320,8);
-        return imageView;
-    }
-}
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
-    if (menuItems.family == 3) {
-        return 44.0f;
-    }
-    else {
-        return 1.0f;
-
-    }
 }
 
 #pragma mark - Table actions
@@ -473,7 +451,7 @@
     [self.slidingViewController setAnchorLeftPeekAmount:self.peekLeftAmount];
     self.slidingViewController.underRightWidthLayout = ECFullWidth;
     int infoLabelHeight = 100;
-    infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.view.frame.size.height/2 - infoLabelHeight/2, self.view.frame.size.width - (20), infoLabelHeight)];
+    infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2 - infoLabelHeight/2, self.view.frame.size.width - (60), infoLabelHeight)];
     infoLabel.numberOfLines = 2;
     [infoLabel setText:NSLocalizedString(@"Select an XBMC Server from the list", nil)];
     [infoLabel setBackgroundColor:[UIColor clearColor]];
@@ -482,7 +460,14 @@
     [infoLabel setTextColor:[UIColor colorWithRed:.49f green:.49f blue:.49f alpha:1]];
     infoLabel.alpha = 0;
     [self.view addSubview:infoLabel];
-    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, self.view.frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY) style:UITableViewStylePlain];
+    
+    mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
+    CGFloat footerHeight = 0.0f;
+    if (menuItems.family == 3 && [AppDelegate instance].serverOnLine == YES) {
+        footerHeight = 44.0f;
+        [self.view addSubview:[self createTableFooterView: footerHeight]];
+    }
+    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, self.view.frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight - 1) style:UITableViewStylePlain];
     [menuTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     [menuTableView setSeparatorColor:[UIColor colorWithRed:0.114f green:0.114f blue:0.114f alpha:1]];
     [menuTableView setDelegate:self];
@@ -493,8 +478,8 @@
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [menuTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     }
+    menuTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:menuTableView];
-    footerView = [self createTableFooterView];
 
     if ([[AppDelegate instance].obj.serverIP length]!=0){
         if (![AppDelegate instance].serverOnLine){

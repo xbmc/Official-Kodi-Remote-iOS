@@ -25,7 +25,6 @@
     RemoteController *remoteControllerView;
     BOOL torchIsOn;
     BOOL putXBMClogo;
-    UIView *footerView;
     MessagesView *messagesView;
     NSUInteger editableRowStartAt;
     UIBarButtonItem *editTableButton;
