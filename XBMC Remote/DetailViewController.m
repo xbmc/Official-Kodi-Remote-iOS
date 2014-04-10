@@ -32,6 +32,7 @@
 #import "UISearchBar+LeftButton.h"
 #import "ProgressPieView.h"
 #import "SettingsValuesViewController.h"
+#import "customButton.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -2886,6 +2887,32 @@ NSIndexPath *selected;
         else if ([option isEqualToString:NSLocalizedString(@"Search last.fm charts", nil)]){
             [self searchWeb:(NSMutableDictionary *)item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
         }
+        else if ([option isEqualToString:NSLocalizedString(@"Execute add-on", nil)]){
+            [self SimpleAction:@"Addons.ExecuteAddon"
+                        params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                [item objectForKey:@"addonid"], @"addonid",
+                                nil]
+                       success: NSLocalizedString(@"Add-on Executed successfully", nil)
+                       failure:NSLocalizedString(@"Unable to  execute the add-on", nil)
+             ];
+        }
+        else if ([option isEqualToString:NSLocalizedString(@"Add button", nil)]){
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [item objectForKey:@"addonid"], @"addonid",
+                                    nil];
+            NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       [item objectForKey:@"label"], @"label",
+                                       @"addon", @"type",
+                                       [item objectForKey:@"thumbnail"], @"icon",
+                                       [NSNumber numberWithInt:0], @"xbmcSetting",
+                                       [item objectForKey:@"genre"], @"helpText",
+                                       [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"Addons.ExecuteAddon", @"command",
+                                        params, @"params",
+                                        nil], @"action",
+                                       nil];
+            [self saveCustomButton:newButton];
+        }
     }
     else{
         forceMusicAlbumMode = NO;
@@ -2902,6 +2929,13 @@ NSIndexPath *selected;
             }
         }
     }
+}
+
+-(void)saveCustomButton:(NSDictionary *)button {
+    customButton *arrayButtons = [[customButton alloc] init];
+    [arrayButtons.buttons addObject:button];
+    [arrayButtons saveData];
+    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
 }
 
 -(void)searchWeb:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
@@ -3468,8 +3502,14 @@ NSIndexPath *selected;
     }];
 }
 
--(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
+-(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters success:(NSString *)successMessage failure:(NSString *)failureMessage{
     [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if ( error == nil && methodError == nil ){
+            [messagesView showMessage:successMessage timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
+        }
+        else {
+            [messagesView showMessage:failureMessage timeout:2.0f color:[UIColor colorWithRed:189.0f/255.0f green:36.0f/255.0f blue:36.0f/255.0f alpha:0.95f]];
+        }
     }];
 }
 
@@ -4612,6 +4652,14 @@ NSIndexPath *selected;
         buttonsViewBgToolbar.hidden = NO;
 
     }
+    CGFloat deltaY = 0;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        deltaY = 64.0f;
+    }
+    CGRect frame = [[UIScreen mainScreen ] bounds];
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + 42.0f) deltaY:deltaY deltaX:0];
+    [self.view addSubview:messagesView];
+    
     __weak DetailViewController *weakSelf = self;
     [dataList addPullToRefreshWithActionHandler:^{
         [weakSelf startRetrieveDataWithRefresh:YES];
@@ -4697,7 +4745,7 @@ NSIndexPath *selected;
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
     }
     
-    CGRect frame=dataList.frame;
+    frame = dataList.frame;
     if ([parameters objectForKey:@"animationStartX"] != nil){
         frame.origin.x = [[parameters objectForKey:@"animationStartX"] intValue];
     }

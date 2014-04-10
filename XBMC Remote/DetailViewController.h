@@ -18,6 +18,7 @@
 #import "Utilities.h"
 #import "BDKCollectionIndexView.h"
 #import "FloatingHeaderFlowLayout.h"
+#import "MessagesView.h"
 
 @class NowPlaying;
 @class PlayFileViewController;
@@ -116,6 +117,7 @@
     NSDateFormatter *xbmcDateFormatter;
     NSDateFormatter *localHourMinuteFormatter;
     NSIndexPath *autoScrollTable;
+    MessagesView *messagesView;
 }
 
 - (id)initWithFrame:(CGRect)frame;

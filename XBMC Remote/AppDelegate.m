@@ -3056,7 +3056,7 @@ NSMutableArray *hostRightMenuItems;
     
     xbmcSettings.sheetActions = [NSArray arrayWithObjects:
                                  [NSArray arrayWithObjects: nil],
-                                 [NSArray arrayWithObjects: NSLocalizedString(@"Make button", nil), nil],
+                                 [NSArray arrayWithObjects: NSLocalizedString(@"Execute add-on", nil), NSLocalizedString(@"Add button", nil), nil],
                                  nil];
     
     
