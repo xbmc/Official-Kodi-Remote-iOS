@@ -126,9 +126,8 @@
         [title setText:@""];
         if (volumeSliderView == nil){
             volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            [volumeSliderView startTimer];
         }
-        [volumeSliderView startTimer];
         [cell.contentView addSubview:volumeSliderView];
     }
     else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"RemoteControl"]){
@@ -466,6 +465,10 @@
     if (menuItems.family == 3 && [AppDelegate instance].serverOnLine == YES) {
         footerHeight = 44.0f;
         [self.view addSubview:[self createTableFooterView: footerHeight]];
+    }
+    if ((menuItems.family == 2 || menuItems.family == 3) && [AppDelegate instance].serverOnLine == YES) {
+        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
+        [volumeSliderView startTimer];
     }
     menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, self.view.frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight - 1) style:UITableViewStylePlain];
     [menuTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
