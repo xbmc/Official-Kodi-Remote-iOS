@@ -187,7 +187,13 @@
             iconName = @"torch_on";
         }
     }
-    [icon setImage:[UIImage imageNamed:iconName]];
+    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"xbmc-exec-addon"]){
+        [icon setImageWithURL:[NSURL URLWithString:[[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@""] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
+        icon.alpha = 1.0f;
+    }
+    else{
+        [icon setImage:[UIImage imageNamed:iconName]];
+    }
     return cell;
 }
 
@@ -569,6 +575,7 @@
                               action, @"action",
                               showTop, @"revealViewTop",
                               [NSNumber numberWithBool:NO], @"isSetting",
+                              @"embedded", @"type",
                             nil]];
     }
     editableRowStartAt = [tableData count];
@@ -580,15 +587,20 @@
         for (NSDictionary *item in arrayButtons.buttons) {
             NSString *label = [item objectForKey:@"label"];
             if (label == nil) label = @"";
+            NSString *icon = [item objectForKey:@"icon"];
+            if (icon == nil) icon = @"";
+            NSString *type = [item objectForKey:@"type"];
+            if (type == nil) type = @"";
             [tableData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                   label, @"label",
                                   [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
                                   [NSNumber numberWithBool:NO], @"hideLineSeparator",
                                   [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
-                                  @"", @"icon",
+                                  icon, @"icon",
                                   [item objectForKey:@"action"], @"action",
                                   [NSNumber numberWithBool:NO], @"revealViewTop",
                                   [NSNumber numberWithBool:YES], @"isSetting",
+                                  type, @"type",
                                   nil]];
         }
     }
