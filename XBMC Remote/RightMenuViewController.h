@@ -28,6 +28,7 @@
     MessagesView *messagesView;
     NSUInteger editableRowStartAt;
     UIBarButtonItem *editTableButton;
+    UIBarButtonItem *addButton;
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;

@@ -220,10 +220,12 @@
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
                                                                                    target: nil
                                                                                    action: nil];
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"...more", nil)
+    addButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"...more", nil)
                                                                    style: UIBarButtonItemStyleBordered
                                                                   target: self
-                                                                  action: @selector(addButtonToList)];
+                                                                 action: @selector(addButtonToList:)];
+    
+    addButton.enabled = NO;
     editTableButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"Edit", nil)
                                                                    style: UIBarButtonItemStyleBordered
                                                                   target: self
@@ -237,7 +239,7 @@
 
 #pragma mark - Table actions
 
--(void)addButtonToList{
+-(void)addButtonToList:(id)sender {
     if ([AppDelegate instance].serverVersion < 13){
         UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
         [alertView show];
@@ -351,7 +353,7 @@
                 }
             }
             else if ([command isEqualToString:@"AddButton"]){
-                [self addButtonToList];
+                [self addButtonToList:nil];
             }
             else if (command != nil){
                 NSDictionary *parameters = [[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"];
@@ -468,11 +470,11 @@
     
     mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
     CGFloat footerHeight = 0.0f;
-    if (menuItems.family == 3 && [AppDelegate instance].serverOnLine == YES) {
+    if (menuItems.family == 3) {
         footerHeight = 44.0f;
         [self.view addSubview:[self createTableFooterView: footerHeight]];
     }
-    if ((menuItems.family == 2 || menuItems.family == 3) && [AppDelegate instance].serverOnLine == YES) {
+    if (menuItems.family == 2 || menuItems.family == 3) {
         volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
         [volumeSliderView startTimer];
     }
@@ -493,9 +495,11 @@
     if ([[AppDelegate instance].obj.serverIP length]!=0){
         if (![AppDelegate instance].serverOnLine){
             [self setRightMenuOption:@"offline"];
+            addButton.enabled = NO;
         }
         else{
             [self setRightMenuOption:@"online"];
+            addButton.enabled = YES;
         }
     }
     else {
@@ -657,6 +661,7 @@
         }
         [self setRightMenuOption:@"online"];
         infoLabel.alpha = 0;
+        addButton.enabled = YES;
     }
 }
 
@@ -675,6 +680,7 @@
         if ([[AppDelegate instance].obj.serverIP length]!=0) {
             infoLabel.alpha = 0;
             [self setRightMenuOption:@"offline"];
+            addButton.enabled = NO;
         }
         else {
             [tableData removeAllObjects];
