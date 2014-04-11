@@ -2340,17 +2340,6 @@ int currentItemID;
     
 }
 
-- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-    imageView.frame = CGRectMake(0,0,320,1);
-    return imageView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 1;
-}
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     if (storeSelection && storeSelection.row==indexPath.row)
         return NO;
@@ -2894,6 +2883,7 @@ int currentItemID;
         [ProgressSlider setMinimumTrackImage: sliderLeftTrackImage forState: UIControlStateNormal];
         [ProgressSlider setMaximumTrackImage: sliderRightTrackImage forState: UIControlStateNormal];
     }
+    playlistTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
