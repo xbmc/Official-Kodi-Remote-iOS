@@ -147,7 +147,6 @@
         icon = (UIImageView*) [cell viewWithTag:1];
         title = (UILabel*) [cell viewWithTag:3];
         line = (UIImageView*) [cell viewWithTag:4];
-        
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backView;
@@ -559,19 +558,18 @@
 
     if ([[AppDelegate instance].obj.serverIP length]!=0){
         if (![AppDelegate instance].serverOnLine){
-            [self setRightMenuOption:@"offline"];
+            [self setRightMenuOption:@"offline" reloadTableData:NO];
             addButton.enabled = NO;
         }
         else{
-            [self setRightMenuOption:@"online"];
+            [self setRightMenuOption:@"online" reloadTableData:NO];
             addButton.enabled = YES;
         }
     }
     else {
         infoLabel.alpha = 1;
         putXBMClogo = YES;
-        [self setRightMenuOption:@"utility"];
-
+        [self setRightMenuOption:@"utility" reloadTableData:NO];
     }
     
     CGRect frame = [[UIScreen mainScreen ] bounds];
@@ -605,7 +603,7 @@
     [volumeSliderView stopTimer];
 }
 
-- (void)setRightMenuOption:(NSString *)key{
+- (void)setRightMenuOption:(NSString *)key reloadTableData:(BOOL)reload {
     mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
     tableData = [[NSMutableArray alloc] initWithCapacity:0];
 
@@ -685,7 +683,9 @@
                          }
                      }
                      completion:^(BOOL finished){
-                         [menuTableView reloadData];
+                         if (reload){
+                             [menuTableView reloadData];
+                         }
                          [UIView animateWithDuration:0.2
                                           animations:^{
                                               NSInteger n = [menuTableView numberOfRowsInSection:0];
@@ -724,7 +724,7 @@
             UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
             [icon setImage:[UIImage imageNamed:@"connection_on"]];
         }
-        [self setRightMenuOption:@"online"];
+        [self setRightMenuOption:@"online" reloadTableData:YES];
         infoLabel.alpha = 0;
         addButton.enabled = YES;
     }
@@ -744,7 +744,7 @@
         }
         if ([[AppDelegate instance].obj.serverIP length]!=0) {
             infoLabel.alpha = 0;
-            [self setRightMenuOption:@"offline"];
+            [self setRightMenuOption:@"offline" reloadTableData:YES];
             addButton.enabled = NO;
         }
         else {
@@ -752,7 +752,7 @@
             [menuTableView reloadData];
             infoLabel.alpha = 1;
             putXBMClogo = YES;
-            [self setRightMenuOption:@"utility"];
+            [self setRightMenuOption:@"utility" reloadTableData:YES];
         }
     }
 }
