@@ -339,7 +339,20 @@
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    UISwitch *onoffSource = (UISwitch*) [[tableView cellForRowAtIndexPath:sourceIndexPath] viewWithTag:1000 + sourceIndexPath.row];
+    UISwitch *onoffDestination = (UISwitch*) [[tableView cellForRowAtIndexPath:destinationIndexPath] viewWithTag:1000 + destinationIndexPath.row];
+    onoffSource.tag = 1000 + destinationIndexPath.row;
+    onoffDestination.tag = 1000 + sourceIndexPath.row;
+
+    id objectMove = [tableData objectAtIndex:sourceIndexPath.row];
+    [tableData removeObjectAtIndex:sourceIndexPath.row];
+    [tableData insertObject:objectMove atIndex:destinationIndexPath.row];
     
+    customButton *arrayButtons = [[customButton alloc] init];
+    objectMove = [arrayButtons.buttons objectAtIndex:(sourceIndexPath.row - editableRowStartAt)];
+    [arrayButtons.buttons removeObjectAtIndex:(sourceIndexPath.row - editableRowStartAt)];
+    [arrayButtons.buttons insertObject:objectMove atIndex:(destinationIndexPath.row - editableRowStartAt)];
+    [arrayButtons saveData];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
