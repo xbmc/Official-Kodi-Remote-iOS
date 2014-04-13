@@ -3111,7 +3111,7 @@ NSMutableArray *hostRightMenuItems;
                                                    [NSMutableArray arrayWithObjects:
                                                     NSLocalizedString(@"Settings", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"0", @"thumbWidth",
                                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     @"0", @"separatorInset",
+                                                     @"8", @"separatorInset",
                                                      nil], @"itemSizes",
                                                     nil],
                                                    

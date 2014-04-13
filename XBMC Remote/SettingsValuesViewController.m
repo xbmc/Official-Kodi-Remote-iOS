@@ -774,7 +774,7 @@
         self.navigationItem.rightBarButtonItem = doneButton;
     }
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [_tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [_tableView setSeparatorInset:UIEdgeInsetsMake(0, cellLabelOffset, 0, 0)];
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
         _tableView.contentInset = tableViewInsets;
