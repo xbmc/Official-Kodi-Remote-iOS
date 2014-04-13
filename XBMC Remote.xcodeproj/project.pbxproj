@@ -99,6 +99,8 @@
 		0F3434DE18FA7F3C00840E27 /* st_timers_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3434DC18FA7F3C00840E27 /* st_timers_on.png */; };
 		0F3434E818FA846800840E27 /* nocover_channels_wall.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3434E718FA846800840E27 /* nocover_channels_wall.png */; };
 		0F3434EA18FA846F00840E27 /* nocover_channels_wall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3434E918FA846F00840E27 /* nocover_channels_wall@2x.png */; };
+		0F3434EC18FAA54600840E27 /* nocover_timers_wall.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3434EB18FAA54600840E27 /* nocover_timers_wall.png */; };
+		0F3434EE18FAA54C00840E27 /* nocover_timers_wall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3434ED18FAA54C00840E27 /* nocover_timers_wall@2x.png */; };
 		0F370054151F6A9E00A3D42C /* jsonDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F370053151F6A9E00A3D42C /* jsonDataCell.m */; };
 		0F37A6E218B0E11600A90FAA /* button_record.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F37A6E118B0E11600A90FAA /* button_record.png */; };
 		0F37A6E418B0E11D00A90FAA /* button_record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F37A6E318B0E11D00A90FAA /* button_record@2x.png */; };
@@ -851,6 +853,8 @@
 		0F3434DC18FA7F3C00840E27 /* st_timers_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_timers_on.png; sourceTree = "<group>"; };
 		0F3434E718FA846800840E27 /* nocover_channels_wall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_channels_wall.png; sourceTree = "<group>"; };
 		0F3434E918FA846F00840E27 /* nocover_channels_wall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_channels_wall@2x.png"; sourceTree = "<group>"; };
+		0F3434EB18FAA54600840E27 /* nocover_timers_wall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_timers_wall.png; sourceTree = "<group>"; };
+		0F3434ED18FAA54C00840E27 /* nocover_timers_wall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_timers_wall@2x.png"; sourceTree = "<group>"; };
 		0F370052151F6A9E00A3D42C /* jsonDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsonDataCell.h; sourceTree = "<group>"; };
 		0F370053151F6A9E00A3D42C /* jsonDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jsonDataCell.m; sourceTree = "<group>"; };
 		0F37A6E118B0E11600A90FAA /* button_record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_record.png; sourceTree = "<group>"; };
@@ -1874,6 +1878,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F3434ED18FAA54C00840E27 /* nocover_timers_wall@2x.png */,
 				0F3434E918FA846F00840E27 /* nocover_channels_wall@2x.png */,
 				0F93615818EAD11800B18FFF /* nocover_settings@2x.png */,
 				0FD8AD1C18DF7F8300E3B5A7 /* nocover_timers@2x.png */,
@@ -2175,6 +2180,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F3434EB18FAA54600840E27 /* nocover_timers_wall.png */,
 				0F3434E718FA846800840E27 /* nocover_channels_wall.png */,
 				0F3434DB18FA7F3C00840E27 /* st_timers_off.png */,
 				0F3434DC18FA7F3C00840E27 /* st_timers_on.png */,
@@ -3063,6 +3069,7 @@
 				0F40635715795EA000596B61 /* st_songs_recently_black@2x.png in Resources */,
 				0F73AD2B157A44E900285682 /* xbmc_overlay.png in Resources */,
 				0F73AD2E157A44F500285682 /* xbmc_overlay@2x.png in Resources */,
+				0F3434EE18FAA54C00840E27 /* nocover_timers_wall@2x.png in Resources */,
 				0F5F3B0E157B8C4C001E1C0D /* now_playing_empty_down@2x.png in Resources */,
 				0F5F3B0F157B8C4C001E1C0D /* now_playing_empty_up@2x.png in Resources */,
 				0F5F3B11157B9201001E1C0D /* now_playing_playlist@2x.png in Resources */,
@@ -3346,6 +3353,7 @@
 				0FCCFF5B16D0EE93008EBABE /* icon_watched@2x.png in Resources */,
 				0FCCFF5C16D0EE93008EBABE /* icon_not_watched@2x.png in Resources */,
 				0FCCFF5F16D0EEF8008EBABE /* icon_not_watched.png in Resources */,
+				0F3434EC18FAA54600840E27 /* nocover_timers_wall.png in Resources */,
 				0FCCFF6016D0EEF8008EBABE /* icon_watched.png in Resources */,
 				0F94B20316E239C300485E8E /* coverbox_back_tvshows@2x.png in Resources */,
 				0F94B20516E239CC00485E8E /* coverbox_back_tvshows.png in Resources */,
