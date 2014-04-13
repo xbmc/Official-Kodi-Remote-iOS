@@ -2635,8 +2635,8 @@ NSMutableArray *hostRightMenuItems;
                          [NSArray arrayWithObjects:nil], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSArray arrayWithObjects:nil], @"modes",
-                         [NSArray arrayWithObjects:nil], @"icons",
+                         [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes",
+                         [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
                          [NSArray arrayWithObjects:nil], @"modes",
