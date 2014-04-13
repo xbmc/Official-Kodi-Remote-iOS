@@ -2521,7 +2521,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
-                          //                          "plot" and "runtime" and "plotoutline"
+
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", @"genre", @"playcount",@"resume", @"channel",  @"runtime",@"lifetime", @"icon", @"art", @"streamurl", @"file", @"directory", nil], @"properties",
@@ -2600,7 +2600,7 @@ NSMutableArray *hostRightMenuItems;
                       [NSDictionary  dictionaryWithObjectsAndKeys:
                        @"timers",@"itemid",
                        @"label", @"row1",
-                       @"title", @"row2",
+                       @"summary", @"row2",
                        @"plot", @"row3",
                        @"plotoutline", @"row4",
                        @"starttime",@"row5",
@@ -2620,8 +2620,7 @@ NSMutableArray *hostRightMenuItems;
     item8.sheetActions=[NSArray arrayWithObjects:
                         [NSArray arrayWithObjects: nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
-                        [NSArray arrayWithObjects: nil],
-
+                        [NSArray arrayWithObjects: NSLocalizedString(@"Ok", nil), nil],
                         nil];
     //    item8.showInfo = YES;
     item8.showInfo = [NSArray arrayWithObjects:
