@@ -142,7 +142,12 @@
     }
 
     else{
+        int cellHeight = 50.0f;
         cell = rightMenuCell;
+        icon = (UIImageView*) [cell viewWithTag:1];
+        title = (UILabel*) [cell viewWithTag:3];
+        line = (UIImageView*) [cell viewWithTag:4];
+        
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backView;
@@ -152,18 +157,38 @@
         xbmc_logo.tag = 101;
         xbmc_logo.hidden = YES;
         [cell insertSubview:xbmc_logo atIndex:0];
-        icon = (UIImageView*) [cell viewWithTag:1];
-        title = (UILabel*) [cell viewWithTag:3];
-        line = (UIImageView*) [cell viewWithTag:4];
-        icon.alpha = .6f;
-        iconName = [[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"];
-        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
-        [title setNumberOfLines:2];
+        
+        UIViewAutoresizing storeMask = title.autoresizingMask;
+        UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
+        [onoff setAutoresizingMask:icon.autoresizingMask];
+        onoff.tag = 201;
+        [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
+        [onoff setFrame:CGRectMake(tableView.frame.size.width - onoff.frame.size.width - 16, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
+        [cell.contentView addSubview: onoff];
+        onoff.hidden = YES;
+        [title setAutoresizingMask:UIViewAutoresizingNone];
         CGRect frame = title.frame;
         frame.origin.y = 6;
         frame.size.height = frame.size.height - 12;
+        if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
+            onoff.hidden = NO;
+            onoff.tag = 1000 + indexPath.row;
+            frame.size.width = 202.0f - (onoff.frame.size.width - icon.frame.size.width);
+            NSString *command = @"Settings.GetSettingValue";
+            NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", nil];
+            [self getXBMCValue:command params:parameters uiControl:onoff];
+        }
+        else {
+            frame.size.width = 202.0f;
+        }
         [title setFrame:frame];
+        [title setAutoresizingMask:storeMask];
+        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
+        [title setNumberOfLines:2];
+        
         [title setText:[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"]];
+        icon.alpha = .6f;
+        iconName = [[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"];
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"hideLineSeparator"] boolValue] == YES){
         line.hidden = YES;
@@ -267,6 +292,18 @@
     }
 }
 
+#pragma mark UISwitch
+
+- (void)toggleSwitch:(id)sender {
+    UISwitch *onoff = (UISwitch *)sender;
+    NSInteger tableIdx = onoff.tag - 1000;
+    if (tableIdx < [tableData count]){
+        NSString *command = [[[tableData objectAtIndex:tableIdx] objectForKey:@"action"] objectForKey:@"command"];
+        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[[tableData objectAtIndex:tableIdx] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
+        [self xbmcAction:command params:parameters uiControl:onoff];
+    }
+}
+
 #pragma mark -
 #pragma mark Table view delegate
 
@@ -360,7 +397,7 @@
                 if (parameters == nil) {
                     parameters = [NSDictionary dictionaryWithObjectsAndKeys:nil];
                 }
-                [self xbmcAction:command params:parameters];
+                [self xbmcAction:command params:parameters uiControl:nil];
             }
         }
     }
@@ -397,7 +434,10 @@
 
 #pragma mark - JSON
 
--(void)xbmcAction:(NSString *)action params:(NSDictionary *)params{
+-(void)xbmcAction:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender {
+    if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
+        [sender setUserInteractionEnabled:NO];
+    }
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
@@ -409,6 +449,31 @@
         }
         else{
             [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0f color:[UIColor colorWithRed:189.0f/255.0f green:36.0f/255.0f blue:36.0f/255.0f alpha:0.95f]];
+        }
+        if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
+            [sender setUserInteractionEnabled:YES];
+        }
+    }];
+}
+
+-(void)getXBMCValue:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender {
+    if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
+        [sender setUserInteractionEnabled:NO];
+    }
+    jsonRPC = nil;
+    GlobalData *obj=[GlobalData getInstance];
+    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (methodError==nil && error == nil){
+            NSLog(@"AAA %@", methodResult);
+        }
+        else{
+            NSLog(@"%@", methodError);
+        }
+        if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
+            [sender setUserInteractionEnabled:YES];
         }
     }];
 }
@@ -425,7 +490,7 @@
         NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:userChoice inArray:[tableData valueForKey:@"action"]];
         NSString *command = [[[tableData valueForKey:@"action"] objectAtIndex:commandIdx.row] objectForKey:@"command"];
         if (command != nil){
-            [self xbmcAction:command params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self xbmcAction:command params:[NSDictionary dictionaryWithObjectsAndKeys:nil] uiControl:nil];
         }
     }
 }
