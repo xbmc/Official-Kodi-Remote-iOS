@@ -466,10 +466,9 @@
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
-            NSLog(@"AAA %@", methodResult);
-        }
-        else{
-            NSLog(@"%@", methodError);
+            if ([sender respondsToSelector:@selector(setOn:)]){
+                [sender setOn:[[methodResult objectForKey:@"value"] boolValue]];
+            }
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
             [sender setUserInteractionEnabled:YES];
