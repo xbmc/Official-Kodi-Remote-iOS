@@ -2619,7 +2619,7 @@ NSMutableArray *hostRightMenuItems;
     item8.defaultThumb=@"nocover_movies";
     item8.sheetActions=[NSArray arrayWithObjects:
                         [NSArray arrayWithObjects: nil],
-                        [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), nil],
+                        [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSArray arrayWithObjects: nil],
 
                         nil];
