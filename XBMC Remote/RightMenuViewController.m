@@ -97,11 +97,11 @@
     UILabel *title = (UILabel*) [cell viewWithTag:3];
     UIImageView *line = (UIImageView*) [cell viewWithTag:4];
     UIImageView *xbmc_logo = (UIImageView*) [cell viewWithTag:101];
-    
+    icon.hidden = NO;
     xbmc_logo.hidden = YES;
-    
+    [cell setAccessoryView:nil];
     NSString *iconName = @"";
-    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]){
+    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         xbmc_logo.hidden = NO;
         iconName = @"connection_off";
@@ -112,6 +112,7 @@
         int cellHeight = 44;
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
         [title setAutoresizingMask:UIViewAutoresizingNone];
+        [icon setAutoresizingMask:UIViewAutoresizingNone];
         [icon setFrame:CGRectMake(10, (int)((cellHeight/2) - (18/2)), 18, 18)];
         [title setFrame:CGRectMake(icon.frame.size.width + 16, (int)((cellHeight/2) - (title.frame.size.height/2)), self.view.frame.size.width - (icon.frame.size.width + 16), title.frame.size.height)];
         [title setTextAlignment:NSTextAlignmentLeft];
@@ -120,7 +121,7 @@
         UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
         [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"VolumeControl"]){
+    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"VolumeControl"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
         [title setText:@""];
@@ -130,7 +131,7 @@
         }
         [cell.contentView addSubview:volumeSliderView];
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"RemoteControl"]){
+    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"RemoteControl"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [title setText:@""];
         if (remoteControllerView == nil){
@@ -140,8 +141,7 @@
             [remoteControllerView setEmbeddedView];
         }
     }
-
-    else{
+    else {
         int cellHeight = 50.0f;
         cell = rightMenuCell;
         icon = (UIImageView*) [cell viewWithTag:1];
@@ -158,21 +158,21 @@
         [cell insertSubview:xbmc_logo atIndex:0];
         
         UIViewAutoresizing storeMask = title.autoresizingMask;
-        UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
-        [onoff setAutoresizingMask:icon.autoresizingMask];
-        onoff.tag = 201;
-        [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-        [onoff setFrame:CGRectMake(tableView.frame.size.width - onoff.frame.size.width - 16, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
-        [cell.contentView addSubview: onoff];
-        onoff.hidden = YES;
         [title setAutoresizingMask:UIViewAutoresizingNone];
         CGRect frame = title.frame;
         frame.origin.y = 6;
         frame.size.height = frame.size.height - 12;
         if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
+            [title setFrame:CGRectMake(title.frame.origin.y, title.frame.origin.x, 300, title.frame.size.height)];
+            UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
+            [onoff setAutoresizingMask:icon.autoresizingMask];
+            [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
+            [onoff setFrame:CGRectMake(tableView.frame.size.width - onoff.frame.size.width - 16, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
+            [cell setAccessoryView:onoff];
             onoff.hidden = NO;
             onoff.tag = 1000 + indexPath.row;
-            frame.size.width = 202.0f - (onoff.frame.size.width - icon.frame.size.width);
+            frame.size.width = cell.frame.size.width - frame.origin.x - 16.0f;
+            icon.hidden = YES;
             NSString *command = @"Settings.GetSettingValue";
             NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", nil];
             [self getXBMCValue:command params:parameters uiControl:onoff];
@@ -184,7 +184,6 @@
         [title setAutoresizingMask:storeMask];
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
         [title setNumberOfLines:2];
-        
         [title setText:[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"]];
         icon.alpha = .6f;
         iconName = [[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"];
@@ -339,8 +338,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    UISwitch *onoffSource = (UISwitch*) [[tableView cellForRowAtIndexPath:sourceIndexPath] viewWithTag:1000 + sourceIndexPath.row];
-    UISwitch *onoffDestination = (UISwitch*) [[tableView cellForRowAtIndexPath:destinationIndexPath] viewWithTag:1000 + destinationIndexPath.row];
+    UISwitch *onoffSource = (UISwitch*) [[tableView cellForRowAtIndexPath:sourceIndexPath]accessoryView];
+    UISwitch *onoffDestination = (UISwitch*) [[tableView cellForRowAtIndexPath:destinationIndexPath]accessoryView];
     onoffSource.tag = 1000 + destinationIndexPath.row;
     onoffDestination.tag = 1000 + sourceIndexPath.row;
 
