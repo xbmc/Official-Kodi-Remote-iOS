@@ -163,6 +163,7 @@
         frame.origin.y = 6;
         frame.size.height = frame.size.height - 12;
         if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [title setFrame:CGRectMake(title.frame.origin.y, title.frame.origin.x, 300, title.frame.size.height)];
             UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
             [onoff setAutoresizingMask:icon.autoresizingMask];
@@ -372,6 +373,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
+        return;
+    }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] count]){
         NSString *message=[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"message"];
         if (message != nil){
