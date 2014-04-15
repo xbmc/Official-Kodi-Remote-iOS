@@ -108,6 +108,13 @@
         cellHeight = 44.0f;
         
         settingOptions = [self.detailItem objectForKey:@"options"];
+        
+//        if (![settingOptions isKindOfClass:[NSArray class]]) {
+//            if ([[self.detailItem objectForKey:@"definition"] isKindOfClass:NSClassFromString(@"JKDictionary")]){
+//                settingOptions = [[self.detailItem objectForKey:@"definition"] objectForKey:@"options"];
+//            }
+//        }
+        
         if (![settingOptions isKindOfClass:[NSArray class]]) {
             settingOptions = nil;
         }
@@ -547,7 +554,16 @@
             
         case cDefault:
             if ([self.detailItem objectForKey:@"value"] != nil){
-                cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"value"]];
+                if ([[self.detailItem objectForKey:@"value"] isKindOfClass:[NSArray class]]){
+                    NSString *delimiter = [self.detailItem objectForKey:@"delimiter"];
+                    if (delimiter == nil){
+                        delimiter = @", ";
+                    }
+                    cellText = [[self.detailItem objectForKey:@"value"] componentsJoinedByString:delimiter];
+                }
+                else{
+                    cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"value"]];
+                }
                 cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
             }
             break;

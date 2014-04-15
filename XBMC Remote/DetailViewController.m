@@ -4063,7 +4063,17 @@ NSIndexPath *selected;
                      
                      NSString *family = [NSString stringWithFormat:@"%@", [mainFields objectForKey:@"row8"]];
                      
-                     NSString *episodeNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]]];
+                     NSString *row19key = [mainFields objectForKey:@"row19"];
+                     if (row19key == nil){
+                         row19key = @"episode";
+                     }
+                     NSString *episodeNumber = @"";
+                     if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] isKindOfClass:NSClassFromString(@"JKDictionary")]){
+                         episodeNumber = [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]];
+                     }
+                     else{
+                         episodeNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]]];
+                     }
                      
                      id row13obj = [[mainFields objectForKey:@"row13"] isEqualToString:@"options"] ? [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]] == nil ? @"" : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]] : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]];
                      
@@ -4078,7 +4088,7 @@ NSIndexPath *selected;
                                                   fanartURL, @"fanart",
                                                   runtime, @"runtime",
                                                   seasonNumber, @"season",
-                                                  episodeNumber, @"episode",
+                                                  episodeNumber, row19key,
                                                   family, @"family",
                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
                                                   [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"],

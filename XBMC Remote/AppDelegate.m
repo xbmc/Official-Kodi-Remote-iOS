@@ -3126,6 +3126,7 @@ NSMutableArray *hostRightMenuItems;
                                                 @"enabled",@"row5",
                                                 @"id",@"row6",
                                                 [NSNumber numberWithInt:2], @"playlistid",
+                                                @"delimiter",@"row7",
                                                 @"id",@"row8",
                                                 @"id", @"row9",
                                                 @"parent", @"row10",
@@ -3137,6 +3138,7 @@ NSMutableArray *hostRightMenuItems;
                                                 @"maximum", @"row16",
                                                 @"minimum", @"row17",
                                                 @"step", @"row18",
+                                                @"definition", @"row19",
                                                 nil],
                                                
                                                nil];
