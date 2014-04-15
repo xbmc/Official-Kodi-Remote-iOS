@@ -207,3 +207,21 @@
 "Mark as unwatched" = "Segna come non visto";
 
 "Button Pad/Gesture Zone" = "Tasti Direzionali/Zona Gesti";
+"Slide your finger up or down to adjust the scrubbing rate." = "Scorri il dito verso l'alto o il basso per regolare la velocità di scrubbing.";
+
+"Add a new button" = "Aggiungi un nuovo bottone";
+"Enter the label:" = "Inserisci l'etichetta:";
+"Add button" = "Aggiungi bottone";
+"Button added" = "Bottone aggiunto";
+"enter value" = "inserisci il valore";
+
+"-- WARNING --.\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- ATTENZIONE --.\nLe attuali API di XBMC Gotham non consentono la modifica dei timer. Utilizzare l'interfaccia di XBMC per l'aggiunta, la modifica e la cancellazione dei timer. Grazie.";
+
+"Execute add-on" = "Esegui add-on";
+"Add-on Executed successfully" = "Add-on eseguito con successo";
+"Unable to  execute the add-on" = "Impossibile eseguire l'add-on";
+
+"...more" = "...altro";
+"Edit" = "Modifica";
+"Done" = "Fatto";
+"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "XBMC \"Gotham\" versione 13 o superiore è necessario per accedere alle impostazioni XBMC";
