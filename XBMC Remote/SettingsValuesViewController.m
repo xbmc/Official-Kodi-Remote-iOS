@@ -35,20 +35,6 @@
         [imageBackground setAutoresizingMask: UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
         [imageBackground setFrame:frame];
         [self.view addSubview:imageBackground];
-		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
-        cellLabelOffset = 8;
-		[_tableView setDelegate:self];
-		[_tableView setDataSource:self];
-        [_tableView setBackgroundColor:[UIColor clearColor]];
-        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-		[_tableView setTableFooterView:footerView];
-        [self.view setBackgroundColor:[UIColor clearColor]];
-        [self.view addSubview:_tableView];
-        
-        UILongPressGestureRecognizer *longPressGesture = [UILongPressGestureRecognizer new];
-        [longPressGesture addTarget:self action:@selector(handleLongPress:)];
-        [longPressGesture setDelegate:self];
-        [_tableView addGestureRecognizer:longPressGesture];
         
         activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [activityIndicator setColor:[UIColor grayColor]];
@@ -156,6 +142,21 @@
                 }
             }
         }
+        
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
+        cellLabelOffset = 8;
+		[_tableView setDelegate:self];
+		[_tableView setDataSource:self];
+        [_tableView setBackgroundColor:[UIColor clearColor]];
+        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+		[_tableView setTableFooterView:footerView];
+        [self.view setBackgroundColor:[UIColor clearColor]];
+        [self.view addSubview:_tableView];
+        
+        UILongPressGestureRecognizer *longPressGesture = [UILongPressGestureRecognizer new];
+        [longPressGesture addTarget:self action:@selector(handleLongPress:)];
+        [longPressGesture setDelegate:self];
+        [_tableView addGestureRecognizer:longPressGesture];
 	}
     return self;
 }
@@ -646,7 +647,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (xbmcSetting == cList) {
+    if (xbmcSetting == cList || xbmcSetting == cDefault) {
         UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
         [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
         [descriptionLabel setBackgroundColor:[UIColor clearColor]];
@@ -666,11 +667,13 @@
         [helpView addSubview:descriptionLabel];
         return helpView;
     }
-    return nil;
+    else {
+        return nil;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (xbmcSetting == cList) {
+    if (xbmcSetting == cList || xbmcSetting == cDefault) {
         if (footerHeight < 0) {
             UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
             [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
