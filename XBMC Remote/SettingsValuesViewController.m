@@ -41,53 +41,6 @@
         [activityIndicator setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2)];
         [activityIndicator setHidesWhenStopped:YES];
         [self.view addSubview:activityIndicator];
-        
-        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        [scrubbingView setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2 + 50)];
-        [scrubbingView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
-        scrubbingView.alpha = 0.0f;
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, 44, self.view.frame.size.width, 4);
-        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
-        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarShadow.contentMode = UIViewContentModeScaleToFill;
-        toolbarShadow.opaque = YES;
-        [scrubbingView addSubview:toolbarShadow];
-        toolbarShadowFrame.origin.y = -4;
-        UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
-        toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
-        toolbarUpShadow.opaque = YES;
-        [scrubbingView addSubview:toolbarUpShadow];
-        
-        scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(5, 3, 310, 18)];
-        [scrubbingMessage setBackgroundColor:[UIColor clearColor]];
-        [scrubbingMessage setFont:[UIFont boldSystemFontOfSize:13]];
-        [scrubbingMessage setAdjustsFontSizeToFitWidth:YES];
-        [scrubbingMessage setMinimumFontSize:10];
-        [scrubbingMessage setTextColor:[UIColor whiteColor]];
-        [scrubbingMessage setText:NSLocalizedString(@"Slide your finger up or down to adjust the scrubbing rate.", nil)];
-        [scrubbingMessage setTextAlignment:NSTextAlignmentCenter];
-        [scrubbingView addSubview:scrubbingMessage];
-        
-        scrubbingRate = [[UILabel alloc] initWithFrame:CGRectMake(5, 21, 310, 18)];
-        [scrubbingRate setBackgroundColor:[UIColor clearColor]];
-        [scrubbingRate setFont:[UIFont boldSystemFontOfSize:13]];
-        [scrubbingRate setTextColor:[UIColor grayColor]];
-        [scrubbingRate setTextAlignment:NSTextAlignmentCenter];
-        [scrubbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
-        [scrubbingView addSubview:scrubbingRate];
-        
-        [self.view insertSubview:scrubbingView aboveSubview:_tableView];
-        
-        CGFloat deltaY = 0;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            deltaY = 64.0f;
-        }
-        CGRect frame = [[UIScreen mainScreen ] bounds];
-        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + 42.0f) deltaY:deltaY deltaX:0];
-        [self.view addSubview:messagesView];
 
         self.detailItem = item;
 
@@ -157,6 +110,53 @@
         [longPressGesture addTarget:self action:@selector(handleLongPress:)];
         [longPressGesture setDelegate:self];
         [_tableView addGestureRecognizer:longPressGesture];
+        
+        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+        [scrubbingView setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2 + 50)];
+        [scrubbingView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
+        scrubbingView.alpha = 0.0f;
+        CGRect toolbarShadowFrame = CGRectMake(0.0f, 44, self.view.frame.size.width, 4);
+        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        toolbarShadow.contentMode = UIViewContentModeScaleToFill;
+        toolbarShadow.opaque = YES;
+        [scrubbingView addSubview:toolbarShadow];
+        toolbarShadowFrame.origin.y = -4;
+        UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
+        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
+        toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
+        toolbarUpShadow.opaque = YES;
+        [scrubbingView addSubview:toolbarUpShadow];
+        
+        scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(5, 3, 310, 18)];
+        [scrubbingMessage setBackgroundColor:[UIColor clearColor]];
+        [scrubbingMessage setFont:[UIFont boldSystemFontOfSize:13]];
+        [scrubbingMessage setAdjustsFontSizeToFitWidth:YES];
+        [scrubbingMessage setMinimumFontSize:10];
+        [scrubbingMessage setTextColor:[UIColor whiteColor]];
+        [scrubbingMessage setText:NSLocalizedString(@"Slide your finger up or down to adjust the scrubbing rate.", nil)];
+        [scrubbingMessage setTextAlignment:NSTextAlignmentCenter];
+        [scrubbingView addSubview:scrubbingMessage];
+        
+        scrubbingRate = [[UILabel alloc] initWithFrame:CGRectMake(5, 21, 310, 18)];
+        [scrubbingRate setBackgroundColor:[UIColor clearColor]];
+        [scrubbingRate setFont:[UIFont boldSystemFontOfSize:13]];
+        [scrubbingRate setTextColor:[UIColor grayColor]];
+        [scrubbingRate setTextAlignment:NSTextAlignmentCenter];
+        [scrubbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
+        [scrubbingView addSubview:scrubbingRate];
+        
+        [self.view insertSubview:scrubbingView aboveSubview:_tableView];
+        
+        CGFloat deltaY = 0;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            deltaY = 64.0f;
+        }
+        CGRect frame = [[UIScreen mainScreen ] bounds];
+        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + 42.0f) deltaY:deltaY deltaX:0];
+        [self.view addSubview:messagesView];
 	}
     return self;
 }
