@@ -91,7 +91,7 @@
         xbmc_logo. alpha = .25f;
         [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
         xbmc_logo.tag = 101;
-        [cell insertSubview:xbmc_logo atIndex:0];
+        [cell.contentView insertSubview:xbmc_logo atIndex:0];
     }
     UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
     UILabel *title = (UILabel*) [cell viewWithTag:3];
@@ -155,7 +155,7 @@
         [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
         xbmc_logo.tag = 101;
         xbmc_logo.hidden = YES;
-        [cell insertSubview:xbmc_logo atIndex:0];
+        [cell.contentView insertSubview:xbmc_logo atIndex:0];
         
         UIViewAutoresizing storeMask = title.autoresizingMask;
         [title setAutoresizingMask:UIViewAutoresizingNone];
