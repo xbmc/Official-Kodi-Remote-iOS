@@ -174,9 +174,14 @@
             onoff.tag = 1000 + indexPath.row;
             frame.size.width = cell.frame.size.width - frame.origin.x - 16.0f;
             icon.hidden = YES;
-            NSString *command = @"Settings.GetSettingValue";
-            NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", nil];
-            [self getXBMCValue:command params:parameters uiControl:onoff];
+            if ([[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"value"] isKindOfClass:[NSNumber class]]){
+                [onoff setOn:[[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"value"] boolValue]];
+            }
+            else{
+                NSString *command = @"Settings.GetSettingValue";
+                NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", nil];
+                [self getXBMCValue:command params:parameters uiControl:onoff storeSetting:[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"]];
+            }
         }
         else {
             frame.size.width = 202.0f;
@@ -299,13 +304,15 @@
     if (tableIdx < [tableData count]){
         NSString *command = [[[tableData objectAtIndex:tableIdx] objectForKey:@"action"] objectForKey:@"command"];
         NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[[tableData objectAtIndex:tableIdx] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
+        if ([[[[tableData objectAtIndex:tableIdx] objectForKey:@"action"] objectForKey:@"params"] respondsToSelector:@selector(setObject:forKey:)]){
+            [[[[tableData objectAtIndex:tableIdx] objectForKey:@"action"] objectForKey:@"params"] setObject:[NSNumber numberWithBool:onoff.on] forKey:@"value"];
+        }
         [self xbmcAction:command params:parameters uiControl:onoff];
     }
 }
 
 #pragma mark -
 #pragma mark Table view delegate
-
 
 -(void)editTable:(id)sender {
     UIBarButtonItem *editButton = (UIBarButtonItem *)sender;
@@ -471,7 +478,7 @@
     }];
 }
 
--(void)getXBMCValue:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender {
+-(void)getXBMCValue:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender storeSetting:(NSMutableDictionary *)setting {
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
         [sender setUserInteractionEnabled:NO];
     }
@@ -484,6 +491,9 @@
         if (methodError==nil && error == nil){
             if ([sender respondsToSelector:@selector(setOn:)]){
                 [sender setOn:[[methodResult objectForKey:@"value"] boolValue]];
+                if ([setting respondsToSelector:@selector(setObject:forKey:)]){
+                    [setting setObject:[NSNumber numberWithBool:[[methodResult objectForKey:@"value"] boolValue]] forKey:@"value"];
+                }
             }
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
