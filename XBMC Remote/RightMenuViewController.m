@@ -164,24 +164,36 @@
         frame.size.height = frame.size.height - 12;
         if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            [title setFrame:CGRectMake(title.frame.origin.y, title.frame.origin.x, 300, title.frame.size.height)];
+            [title setFrame:CGRectMake(title.frame.origin.x, title.frame.origin.y, 300, title.frame.size.height)];
+            
             UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
             [onoff setAutoresizingMask:icon.autoresizingMask];
             [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-            [onoff setFrame:CGRectMake(tableView.frame.size.width - onoff.frame.size.width - 16, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
-            [cell setAccessoryView:onoff];
+            [onoff setFrame:CGRectMake(0, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
             onoff.hidden = NO;
             onoff.tag = 1000 + indexPath.row;
+
+            UIView *onoffview = [[UIView alloc] initWithFrame: CGRectMake(0, 0, onoff.frame.size.width, 50)];
+            [onoffview addSubview:onoff];
+
+            UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            [indicator setHidesWhenStopped:YES];
+            [indicator setCenter:onoff.center];
+            [onoffview addSubview:indicator];
+
             frame.size.width = cell.frame.size.width - frame.origin.x - 16.0f;
             icon.hidden = YES;
             if ([[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"value"] isKindOfClass:[NSNumber class]]){
                 [onoff setOn:[[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"value"] boolValue]];
             }
             else{
+                onoff.hidden = YES;
+                [indicator startAnimating];
                 NSString *command = @"Settings.GetSettingValue";
                 NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", nil];
-                [self getXBMCValue:command params:parameters uiControl:onoff storeSetting:[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"]];
+                [self getXBMCValue:command params:parameters uiControl:onoff storeSetting:[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] indicator:indicator];
             }
+            [cell setAccessoryView:onoffview];
         }
         else {
             frame.size.width = 202.0f;
@@ -478,7 +490,7 @@
     }];
 }
 
--(void)getXBMCValue:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender storeSetting:(NSMutableDictionary *)setting {
+-(void)getXBMCValue:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender storeSetting:(NSMutableDictionary *)setting indicator:(UIActivityIndicatorView *)busyView {
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
         [sender setUserInteractionEnabled:NO];
     }
@@ -489,6 +501,10 @@
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
+            [busyView stopAnimating];
+            if ([sender respondsToSelector:@selector(setHidden:)]){
+                [sender setHidden:NO];
+            }
             if ([sender respondsToSelector:@selector(setOn:)]){
                 [sender setOn:[[methodResult objectForKey:@"value"] boolValue]];
                 if ([setting respondsToSelector:@selector(setObject:forKey:)]){
