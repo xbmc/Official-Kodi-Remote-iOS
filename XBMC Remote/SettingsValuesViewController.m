@@ -275,7 +275,7 @@
                     value = @"";
                     break;
             }
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", value, @"value", nil];
+            NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", value, @"value", nil];
             NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
                                        [[alertView textFieldAtIndex:0]text], @"label",
                                        type, @"type",
