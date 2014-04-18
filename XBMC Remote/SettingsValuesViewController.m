@@ -214,57 +214,9 @@
             NSString *title=[NSString stringWithFormat:@"%@%@", [self.detailItem objectForKey:@"label"], subTitle];
             [[alertView textFieldAtIndex:0] setText:title];
             [alertView show];
-//            NSString *subTitle = @"";
-//            switch (xbmcSetting) {
-//                case cList:
-//                    subTitle = [NSString stringWithFormat:@"\n\n%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"label"]];
-//                    break;
-//                default:
-//                    break;
-//            }
-//            NSString *title=[NSString stringWithFormat:@"%@%@", [self.detailItem objectForKey:@"label"], subTitle];
-//            UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
-//                                                                delegate:self
-//                                                       cancelButtonTitle:nil
-//                                                  destructiveButtonTitle:nil
-//                                                       otherButtonTitles:nil];
-//            action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-//            [action addButtonWithTitle:NSLocalizedString(@"Make button", nil)];
-//            action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-//            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-//                [action showInView:self.view];
-//            }
-//            else{
-//                [action showFromRect:CGRectMake(selectedPoint.x, selectedPoint.y, 1, 1) inView:self.view animated:YES];
-//            }
         }
     }
 }
-
-#pragma mark - Action Sheet 
-
-//- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-//    if (buttonIndex!=actionSheet.cancelButtonIndex){
-//        NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
-//        if ([option isEqualToString:NSLocalizedString(@"Make button", nil)]){
-//            
-//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Set a label", nil)
-//                                                                  message:NSLocalizedString(@"Enter the label for the new button", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Add button", nil), nil];
-//            [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-//            NSString *subTitle = @"";
-//            switch (xbmcSetting) {
-//                case cList:
-//                    subTitle = [NSString stringWithFormat:@": %@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"label"]];
-//                    break;
-//                default:
-//                    break;
-//            }
-//            NSString *title=[NSString stringWithFormat:@"%@%@", [self.detailItem objectForKey:@"label"], subTitle];
-//            [[alertView textFieldAtIndex:0] setText:title];
-//            [alertView show];
-//        }
-//    }
-//}
 
 #pragma mark - Alert View
 
