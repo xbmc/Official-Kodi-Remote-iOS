@@ -581,7 +581,7 @@
         case cUnsupported:
             
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset, cellHeight - 8)];
+            [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, cellHeight - 8)];
             [cellLabel setNumberOfLines:10];
             cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]];
             break;
