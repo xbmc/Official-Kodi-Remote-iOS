@@ -635,7 +635,8 @@
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
             selectedSetting = indexPath;
             command = @"Settings.SetSettingValue";
-            params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [[settingOptions objectAtIndex:selectedSetting.row] objectForKey:@"value"], @"value", nil];
+            [self.detailItem setObject:[[settingOptions objectAtIndex:selectedSetting.row] objectForKey:@"value"] forKey:@"value"];
+            params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];
             [self xbmcAction:command params:params uiControl:_tableView];
             break;
         default:
