@@ -225,3 +225,4 @@
 "Edit" = "Modifica";
 "Done" = "Fatto";
 "XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "XBMC \"Gotham\" versione 13 o superiore è necessario per accedere alle impostazioni XBMC";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- ATTENZIONE --\nQuesto tipo di impostazione non può essere configurata da remoto. Utilizzare l'interfaccia di XBMC per modificare questa impostazione.\nGrazie.";

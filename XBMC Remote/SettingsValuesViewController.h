@@ -15,6 +15,7 @@ typedef enum {
     cSwitch,
     cInput,
     cList,
+    cUnsupported,
 } SettingType;
 
 @interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate> {
