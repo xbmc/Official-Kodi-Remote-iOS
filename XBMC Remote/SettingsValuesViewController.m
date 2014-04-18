@@ -79,6 +79,11 @@
                                      nil]
                            itemKey: @"addons"];
         }
+        else if ([[itemControls objectForKey:@"format"] isEqualToString:@"action"] || [[itemControls objectForKey:@"format"] isEqualToString:@"path"]) {
+            self.navigationItem.title = [self.detailItem objectForKey:@"label"];
+            xbmcSetting = cUnsupported;
+            cellHeight = 142.0f;
+        }
         else if ([[itemControls objectForKey:@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
             xbmcSetting = cSlider;
             cellHeight = 184.0f;
@@ -191,6 +196,9 @@
             switch (xbmcSetting) {
                 case cList:
                     subTitle = [NSString stringWithFormat:@": %@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"label"]];
+                    break;
+                case cUnsupported:
+                    return;
                     break;
                 default:
                     break;
@@ -554,6 +562,7 @@
             break;
             
         case cDefault:
+            
             if ([self.detailItem objectForKey:@"value"] != nil){
                 if ([[self.detailItem objectForKey:@"value"] isKindOfClass:[NSArray class]]){
                     NSString *delimiter = [self.detailItem objectForKey:@"delimiter"];
@@ -568,7 +577,15 @@
                 cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
             }
             break;
-
+            
+        case cUnsupported:
+            
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset, cellHeight - 8)];
+            [cellLabel setNumberOfLines:10];
+            cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]];
+            break;
+            
         default:
             if ([self.detailItem objectForKey:@"value"] != nil){
                 cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"value"]];
@@ -647,7 +664,8 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (xbmcSetting == cList || xbmcSetting == cDefault) {
+    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported) {
+        UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
         UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
         [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
         [descriptionLabel setBackgroundColor:[UIColor clearColor]];
@@ -655,15 +673,18 @@
         [descriptionLabel setTextColor:[UIColor whiteColor]];
         [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
         [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
-        [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
+        if (xbmcSetting == cUnsupported){
+            [descriptionLabel setText:NSLocalizedString(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.", nil)];
+            [helpView setBackgroundColor:[UIColor colorWithRed:.741f green:.141f blue:.141f alpha:1.0f]];
+        }
+        else{
+            [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
+            [helpView setBackgroundColor:[UIColor colorWithRed:45.0f/255.0f green:45.0f/255.0f blue:45.0f/255.0f alpha:0.95f]];
+        }
         CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
                                             constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax) lineBreakMode:descriptionLabel.lineBreakMode];
         [descriptionLabel setFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, descriptionSize.height)];
         footerHeight = descriptionSize.height + cellLabelOffset * 2;
-        
-        UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
-        [helpView setBackgroundColor:[UIColor clearColor]];
-        [helpView setBackgroundColor:[UIColor colorWithRed:45.0f/255.0f green:45.0f/255.0f blue:45.0f/255.0f alpha:0.95f]];
         [helpView addSubview:descriptionLabel];
         return helpView;
     }
@@ -673,13 +694,18 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (xbmcSetting == cList || xbmcSetting == cDefault) {
+    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported) {
         if (footerHeight < 0) {
             UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
             [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
             [descriptionLabel setNumberOfLines:20];
             [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
-            [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
+            if (xbmcSetting == cUnsupported){
+                [descriptionLabel setText:NSLocalizedString(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.", nil)];
+            }
+            else{
+                [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
+            }
             CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
                                                        constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax) lineBreakMode:descriptionLabel.lineBreakMode];
             footerHeight = descriptionSize.height + cellLabelOffset * 2;
