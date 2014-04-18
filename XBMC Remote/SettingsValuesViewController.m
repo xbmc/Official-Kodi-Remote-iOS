@@ -86,6 +86,7 @@
         }
         else if ([[itemControls objectForKey:@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
             xbmcSetting = cSlider;
+            storeSliderValue = [[self.detailItem objectForKey:@"value"] intValue];
             cellHeight = 184.0f;
         }
         else if ([[itemControls objectForKey:@"type"] isEqualToString:@"edit"]) {
@@ -193,9 +194,16 @@
                                                       otherButtonTitles: NSLocalizedString(@"Add button", nil), nil];
             [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
             NSString *subTitle = @"";
+            NSString *stringFormat = @": %i";
             switch (xbmcSetting) {
                 case cList:
                     subTitle = [NSString stringWithFormat:@": %@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"label"]];
+                    break;
+                case cSlider:
+                    if ([itemControls objectForKey:@"formatlabel"] != nil){
+                        stringFormat = [NSString stringWithFormat:@": %@", [itemControls objectForKey:@"formatlabel"]];
+                    }
+                    subTitle = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
                     break;
                 case cUnsupported:
                     return;
@@ -278,6 +286,9 @@
                     else {
                         value = [NSString stringWithFormat:@"%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"]];
                     }
+                    break;
+                case cSlider:
+                    value = [NSNumber numberWithInt: (int)storeSliderValue];
                     break;
                 default:
                     value = @"";
