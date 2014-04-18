@@ -215,7 +215,7 @@
 "Button added" = "Button added";
 "enter value" = "enter value";
 
-"-- WARNING --.\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- WARNING --.\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you.";
+"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you.";
 
 "Execute add-on" = "Execute add-on";
 "Add-on Executed successfully" = "Add-on Executed successfully";
