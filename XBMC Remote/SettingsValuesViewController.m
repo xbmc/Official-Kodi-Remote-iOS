@@ -717,7 +717,8 @@
 -(void)stopUpdateSlider:(id)sender{
     [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
     NSString *command = @"Settings.SetSettingValue";
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithInt: (int)storeSliderValue], @"value", nil];
+    [self.detailItem setObject:[NSNumber numberWithInt: (int)storeSliderValue] forKey:@"value"];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
 }
 
@@ -744,7 +745,8 @@
 - (void)toggleSwitch:(id)sender {
     UISwitch *onoff = (UISwitch *)sender;
     NSString *command = @"Settings.SetSettingValue";
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
+    [self.detailItem setObject:[NSNumber numberWithBool:onoff.on] forKey:@"value"];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
 }
 
@@ -761,7 +763,8 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     NSString *command = @"Settings.SetSettingValue";
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [NSString stringWithFormat:@"%@", textField.text], @"value", nil];
+    [self.detailItem setObject:[NSString stringWithFormat:@"%@", textField.text] forKey:@"value"];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:textField];
     return YES;
 }
