@@ -203,7 +203,6 @@
         }
         self.nowPlaying.detailItem = item;
         object = self.nowPlaying;
-        [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     }
     else if (item.family == 3){
         if (self.remoteController == nil){
@@ -322,15 +321,6 @@
 
 #pragma mark - LifeCycle
 
-- (void) disableScrollsToTopPropertyOnAllSubviewsOf:(UIView *)view {
-    for (UIView *subview in view.subviews) {
-        if ([subview isKindOfClass:[UIScrollView class]]) {
-            ((UIScrollView *)subview).scrollsToTop = NO;
-        }
-        [self disableScrollsToTopPropertyOnAllSubviewsOf:subview];
-    }
-}
-
 -(void)viewWillDisappear:(BOOL)animated{
     jsonRPC=nil;
 }
@@ -360,7 +350,7 @@
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
     [AppDelegate instance].obj=[GlobalData getInstance];
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
-    
+    menuList.scrollsToTop = NO;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleWillResignActive:)
                                                  name: @"UIApplicationWillResignActiveNotification"
