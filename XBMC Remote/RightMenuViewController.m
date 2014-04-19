@@ -164,8 +164,6 @@
         frame.size.height = frame.size.height - 12;
         if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            [title setFrame:CGRectMake(title.frame.origin.x, title.frame.origin.y, 300, title.frame.size.height)];
-            
             UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
             [onoff setAutoresizingMask:icon.autoresizingMask];
             [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
