@@ -211,6 +211,10 @@
 
 "Programs" = "Programmi";
 "XBMC Settings" = "Impostazioni XBMC";
+
+"Custom button" = "Bottone personalizzato";
+"Modify label:" = "Modifica etichetta:";
+"Update label" = "Aggiorna etichetta";
 "Add a new button" = "Aggiungi un nuovo bottone";
 "Enter the label:" = "Inserisci l'etichetta:";
 "Add button" = "Aggiungi bottone";

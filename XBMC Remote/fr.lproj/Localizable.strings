@@ -211,6 +211,10 @@
 
 "Programs" = "Programs";
 "XBMC Settings" = "XBMC Settings";
+
+"Custom button" = "Custom button";
+"Modify label:" = "Modify label:";
+"Update label" = "Update label";
 "Add a new button" = "Add a new button";
 "Enter the label:" = "Enter the label:";
 "Add button" = "Add button";
