@@ -65,6 +65,9 @@
             xbmcSetting = cSwitch;
             cellHeight = 180.0f;
         }
+        else if ([[itemControls objectForKey:@"multiselect"] boolValue] == YES && ![settingOptions isKindOfClass:[NSArray class]]){
+            xbmcSetting = cMultiselect;
+        }
         else if ([[itemControls objectForKey:@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
             cellHeight = 44.0f;
@@ -524,13 +527,16 @@
             [textInputField setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"value"]]];
             break;
             
-        case cDefault:
+        case cDefault | cMultiselect:
             
             if ([self.detailItem objectForKey:@"value"] != nil){
                 if ([[self.detailItem objectForKey:@"value"] isKindOfClass:[NSArray class]]){
                     NSString *delimiter = [self.detailItem objectForKey:@"delimiter"];
                     if (delimiter == nil){
                         delimiter = @", ";
+                    }
+                    else {
+                        delimiter = [NSString stringWithFormat:@"%@ ", delimiter];
                     }
                     cellText = [[self.detailItem objectForKey:@"value"] componentsJoinedByString:delimiter];
                 }
@@ -602,6 +608,19 @@
             params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];
             [self xbmcAction:command params:params uiControl:_tableView];
             break;
+        case cMultiselect:
+            if ([[self.detailItem objectForKey:@"definition"] isKindOfClass:[NSDictionary class]]){
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                    SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:[[self.detailItem objectForKey:@"definition"] mutableCopy]];
+                    [self.navigationController pushViewController:settingsViewController animated:YES];
+                }
+                else{
+                    //            SettingsValuesViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+//                    SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] init];
+//                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:FALSE];
+                }
+            }
+            break;
         default:
             selectedSetting = indexPath;
             break;
@@ -628,7 +647,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported) {
+    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
         UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
         UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
         [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
@@ -642,7 +661,7 @@
             [helpView setBackgroundColor:[UIColor colorWithRed:.741f green:.141f blue:.141f alpha:1.0f]];
         }
         else{
-            [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
+            [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"] == nil ? [self.detailItem objectForKey:@"label"] : [self.detailItem objectForKey:@"genre"]]];
             [helpView setBackgroundColor:[UIColor colorWithRed:45.0f/255.0f green:45.0f/255.0f blue:45.0f/255.0f alpha:0.95f]];
         }
         CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
@@ -658,7 +677,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported) {
+    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
         if (footerHeight < 0) {
             UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
             [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
@@ -668,7 +687,7 @@
                 [descriptionLabel setText:NSLocalizedString(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.", nil)];
             }
             else{
-                [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
+                [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"] == nil ? [self.detailItem objectForKey:@"label"] : [self.detailItem objectForKey:@"genre"]]];
             }
             CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
                                                        constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax) lineBreakMode:descriptionLabel.lineBreakMode];

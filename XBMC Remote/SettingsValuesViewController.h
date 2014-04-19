@@ -15,6 +15,7 @@ typedef enum {
     cSwitch,
     cInput,
     cList,
+    cMultiselect,
     cUnsupported,
 } SettingType;
 
