@@ -220,7 +220,7 @@
 
 "-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- ATTENZIONE --\nLe attuali API di XBMC Gotham non consentono la modifica dei timer. Utilizzare l'interfaccia di XBMC per l'aggiunta, la modifica e la cancellazione dei timer. Grazie.";
 
-"Execute add-on" = "Esegui add-on";
+"Execute program" = "Esegui programma";
 "Add-on Executed successfully" = "Add-on eseguito con successo";
 "Unable to  execute the add-on" = "Impossibile eseguire l'add-on";
 

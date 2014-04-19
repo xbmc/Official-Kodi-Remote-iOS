@@ -2890,7 +2890,7 @@ NSIndexPath *selected;
         else if ([option isEqualToString:NSLocalizedString(@"Search last.fm charts", nil)]){
             [self searchWeb:(NSMutableDictionary *)item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
         }
-        else if ([option isEqualToString:NSLocalizedString(@"Execute add-on", nil)]){
+        else if ([option isEqualToString:NSLocalizedString(@"Execute program", nil)]){
             [self SimpleAction:@"Addons.ExecuteAddon"
                         params:[NSDictionary dictionaryWithObjectsAndKeys:
                                 [item objectForKey:@"addonid"], @"addonid",
