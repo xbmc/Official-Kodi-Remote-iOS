@@ -104,6 +104,15 @@
                 }
             }
         }
+        if (xbmcSetting == cUnsupported){
+            footerMessage = NSLocalizedString(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.", nil);
+        }
+        else if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cMultiselect) {
+            footerMessage = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"] == nil ? [self.detailItem objectForKey:@"label"] : [self.detailItem objectForKey:@"genre"]];
+        }
+        if (xbmcSetting != cUnsupported){
+            footerMessage = [NSString stringWithFormat:@"%@\xE2\x84\xB9 %@", footerMessage == nil ? @"" : [NSString stringWithFormat:@"%@\n\n", footerMessage], NSLocalizedString(@"Tap and hold a setting to create a new button.", nil)];
+        }
         
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
         cellLabelOffset = 8;
@@ -647,7 +656,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
+//    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
         UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
         UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
         [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
@@ -656,12 +665,11 @@
         [descriptionLabel setTextColor:[UIColor whiteColor]];
         [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
         [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
+        [descriptionLabel setText:footerMessage];
         if (xbmcSetting == cUnsupported){
-            [descriptionLabel setText:NSLocalizedString(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.", nil)];
             [helpView setBackgroundColor:[UIColor colorWithRed:.741f green:.141f blue:.141f alpha:1.0f]];
         }
         else{
-            [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"] == nil ? [self.detailItem objectForKey:@"label"] : [self.detailItem objectForKey:@"genre"]]];
             [helpView setBackgroundColor:[UIColor colorWithRed:45.0f/255.0f green:45.0f/255.0f blue:45.0f/255.0f alpha:0.95f]];
         }
         CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
@@ -670,34 +678,29 @@
         footerHeight = descriptionSize.height + cellLabelOffset * 2;
         [helpView addSubview:descriptionLabel];
         return helpView;
-    }
-    else {
-        return nil;
-    }
+//    }
+//    else {
+//        return nil;
+//    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
+//    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
         if (footerHeight < 0) {
             UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
             [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
             [descriptionLabel setNumberOfLines:20];
             [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
-            if (xbmcSetting == cUnsupported){
-                [descriptionLabel setText:NSLocalizedString(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.", nil)];
-            }
-            else{
-                [descriptionLabel setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"] == nil ? [self.detailItem objectForKey:@"label"] : [self.detailItem objectForKey:@"genre"]]];
-            }
+            [descriptionLabel setText:footerMessage];
             CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
                                                        constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax) lineBreakMode:descriptionLabel.lineBreakMode];
             footerHeight = descriptionSize.height + cellLabelOffset * 2;
         }
         return footerHeight;
-    }
-    else {
-        return 0;
-    }
+//    }
+//    else {
+//        return 0;
+//    }
 }
 - (NSIndexPath *)getCurrentSelectedOption:(NSArray *)optionList {
     NSIndexPath *foundIndex = nil;

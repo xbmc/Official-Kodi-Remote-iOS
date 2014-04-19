@@ -34,6 +34,7 @@ typedef enum {
     UILabel *scrubbingMessage;
     UILabel *scrubbingRate;
     MessagesView *messagesView;
+    NSString *footerMessage;
 }
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item;
