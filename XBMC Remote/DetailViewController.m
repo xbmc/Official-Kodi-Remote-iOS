@@ -2903,7 +2903,7 @@ NSIndexPath *selected;
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [item objectForKey:@"addonid"], @"addonid",
                                     nil];
-            NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
+            NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        [item objectForKey:@"label"], @"label",
                                        @"xbmc-exec-addon", @"type",
                                        [item objectForKey:@"thumbnail"], @"icon",

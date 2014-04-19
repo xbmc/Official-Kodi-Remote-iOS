@@ -144,6 +144,11 @@
     else {
         int cellHeight = 50.0f;
         cell = rightMenuCell;
+        [cell setAccessoryView:nil];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [cell setTintColor:[UIColor lightGrayColor]];
+        }
+        [cell setEditingAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
         icon = (UIImageView*) [cell viewWithTag:1];
         title = (UILabel*) [cell viewWithTag:3];
         line = (UIImageView*) [cell viewWithTag:4];
@@ -386,6 +391,16 @@
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Custom button", nil)
+                                                        message: NSLocalizedString(@"Modify label:", nil)
+                                                       delegate: self
+                                              cancelButtonTitle: NSLocalizedString(@"Cancel", nil)
+                                              otherButtonTitles: NSLocalizedString(@"Update label", nil), nil];
+    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    NSString *title=[NSString stringWithFormat:@"%@", [[tableData objectAtIndex:indexPath.row] objectForKey:@"label"]];
+    alertView.tag = indexPath.row;
+    [[alertView textFieldAtIndex:0] setText:title];
+    [alertView show];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -523,12 +538,29 @@
 # pragma mark - UIAlertView
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1){
-        NSString *userChoice = [alertView buttonTitleAtIndex:buttonIndex];
-        NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:userChoice inArray:[tableData valueForKey:@"action"]];
-        NSString *command = [[[tableData valueForKey:@"action"] objectAtIndex:commandIdx.row] objectForKey:@"command"];
-        if (command != nil){
-            [self xbmcAction:command params:[NSDictionary dictionaryWithObjectsAndKeys:nil] uiControl:nil];
+    if (buttonIndex!=alertView.cancelButtonIndex){
+        NSString *option = [alertView buttonTitleAtIndex:buttonIndex];
+        if ([option isEqualToString:NSLocalizedString(@"Update label", nil)]){
+            
+            [[tableData objectAtIndex:alertView.tag] setObject:[[alertView textFieldAtIndex:0]text] forKey:@"label"];
+            
+            UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:alertView.tag inSection:0]];
+            UILabel *title = (UILabel*) [cell viewWithTag:3];
+            [title setText:[[alertView textFieldAtIndex:0]text]];
+            
+            customButton *arrayButtons = [[customButton alloc] init];
+            if ([[arrayButtons.buttons objectAtIndex:alertView.tag -  editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]){
+                [[arrayButtons.buttons objectAtIndex:alertView.tag -  editableRowStartAt] setObject:[[alertView textFieldAtIndex:0]text] forKey:@"label"];
+                [arrayButtons saveData];
+            }
+        }
+        else {
+            NSString *userChoice = [alertView buttonTitleAtIndex:buttonIndex];
+            NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:userChoice inArray:[tableData valueForKey:@"action"]];
+            NSString *command = [[[tableData valueForKey:@"action"] objectAtIndex:commandIdx.row] objectForKey:@"command"];
+            if (command != nil){
+                [self xbmcAction:command params:[NSDictionary dictionaryWithObjectsAndKeys:nil] uiControl:nil];
+            }
         }
     }
 }
