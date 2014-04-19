@@ -1055,8 +1055,7 @@
             [self.navigationController pushViewController:settingsViewController animated:YES];
         }
         else{
-//            SettingsValuesViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-            SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] init];
+            SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.bounds.size.height) withItem:item];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:FALSE];
         }
     }
