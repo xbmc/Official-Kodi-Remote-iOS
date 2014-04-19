@@ -250,7 +250,7 @@
             NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        [[alertView textFieldAtIndex:0]text], @"label",
                                        type, @"type",
-                                       @"", @"icon",
+                                       @"default-right-menu-icon", @"icon",
                                        [NSNumber numberWithInt:xbmcSetting], @"xbmcSetting",
                                        [self.detailItem objectForKey:@"genre"], @"helpText",
                                        [NSDictionary dictionaryWithObjectsAndKeys:

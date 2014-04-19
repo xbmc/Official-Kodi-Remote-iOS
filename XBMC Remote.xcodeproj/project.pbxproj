@@ -199,6 +199,8 @@
 		0F4DCF261520F98100FEFD40 /* volume@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4DCF251520F98100FEFD40 /* volume@2x.png */; };
 		0F4DCF2A1520FED400FEFD40 /* shiny_black_volume.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4DCF291520FED400FEFD40 /* shiny_black_volume.png */; };
 		0F4DCF2C1521284B00FEFD40 /* shiny_black_volume@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4DCF2B1521284B00FEFD40 /* shiny_black_volume@2x.png */; };
+		0F5034E6190299CE00248791 /* default-right-menu-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5034E5190299CE00248791 /* default-right-menu-icon.png */; };
+		0F5034E8190299D500248791 /* default-right-menu-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5034E7190299D500248791 /* default-right-menu-icon@2x.png */; };
 		0F540662160C82E900853B02 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F540661160C82E900853B02 /* CustomNavigationController.m */; };
 		0F545D0A1575563100B6320D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F545D051575563100B6320D /* LICENSE.txt */; };
 		0F545D0B1575563100B6320D /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D071575563100B6320D /* OBShapedButton.m */; };
@@ -965,6 +967,8 @@
 		0F4DCF251520F98100FEFD40 /* volume@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "volume@2x.png"; sourceTree = "<group>"; };
 		0F4DCF291520FED400FEFD40 /* shiny_black_volume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shiny_black_volume.png; sourceTree = "<group>"; };
 		0F4DCF2B1521284B00FEFD40 /* shiny_black_volume@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shiny_black_volume@2x.png"; sourceTree = "<group>"; };
+		0F5034E5190299CE00248791 /* default-right-menu-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-right-menu-icon.png"; sourceTree = "<group>"; };
+		0F5034E7190299D500248791 /* default-right-menu-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-right-menu-icon@2x.png"; sourceTree = "<group>"; };
 		0F540660160C82E900853B02 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
 		0F540661160C82E900853B02 /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		0F545D051575563100B6320D /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -1878,6 +1882,7 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F5034E7190299D500248791 /* default-right-menu-icon@2x.png */,
 				0F3434ED18FAA54C00840E27 /* nocover_timers_wall@2x.png */,
 				0F3434E918FA846F00840E27 /* nocover_channels_wall@2x.png */,
 				0F93615818EAD11800B18FFF /* nocover_settings@2x.png */,
@@ -2180,6 +2185,7 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F5034E5190299CE00248791 /* default-right-menu-icon.png */,
 				0F3434EB18FAA54600840E27 /* nocover_timers_wall.png */,
 				0F3434E718FA846800840E27 /* nocover_channels_wall.png */,
 				0F3434DB18FA7F3C00840E27 /* st_timers_off.png */,
@@ -3061,6 +3067,7 @@
 				0F4063451579509900596B61 /* st_album_recently_on.png in Resources */,
 				0F406348157950AD00596B61 /* st_album_recently_on@2x.png in Resources */,
 				0F40634B157957F100596B61 /* st_album_recently_off@2x.png in Resources */,
+				0F5034E8190299D500248791 /* default-right-menu-icon@2x.png in Resources */,
 				0F40634D1579587500596B61 /* st_album_recently_black.png in Resources */,
 				0F40634F1579588400596B61 /* st_album_recently_black@2x.png in Resources */,
 				0F40635115795D6400596B61 /* st_song_black.png in Resources */,
@@ -3186,6 +3193,7 @@
 				0F9007A915A8A6110013BB8B /* button_repeat_all@2x.png in Resources */,
 				0F9007AB15A8ACF90013BB8B /* button_repeat_one@2x.png in Resources */,
 				0F9007AD15A8AD010013BB8B /* button_repeat_one.png in Resources */,
+				0F5034E6190299CE00248791 /* default-right-menu-icon.png in Resources */,
 				0F3EB33A15B1F4A5002F3E95 /* st_tv_recently_off.png in Resources */,
 				0F3EB33B15B1F4A5002F3E95 /* st_tv_recently_on.png in Resources */,
 				0F3EB33E15B1F4AF002F3E95 /* st_tv_recently_off@2x.png in Resources */,
