@@ -112,6 +112,8 @@ NSMutableArray *hostRightMenuItems;
         filemodeVideoType = @"files";
         filemodeMusicType = @"files";
     }
+    NSNumber *animationStartBottomScreen = [NSNumber numberWithBool:YES];
+    NSNumber *animationStartX = [NSNumber numberWithInt:0];
     
     obj=[GlobalData getInstance];
     
@@ -124,6 +126,8 @@ NSMutableArray *hostRightMenuItems;
         [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     }
     else {
+        animationStartBottomScreen = [NSNumber numberWithBool:NO];
+        animationStartX = [NSNumber numberWithInt: STACKSCROLL_WIDTH];
         thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
         tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
     }
@@ -3001,8 +3005,8 @@ NSMutableArray *hostRightMenuItems;
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"53", @"separatorInset",
                                      nil], @"itemSizes",
-                                    [NSNumber numberWithInt:0], @"animationStartX",
-                                    [NSNumber numberWithBool:YES], @"animationStartBottomScreen",
+                                    animationStartX, @"animationStartX",
+                                    animationStartBottomScreen, @"animationStartBottomScreen",
                                     nil],
                                    
                                    [NSMutableArray arrayWithObjects:
