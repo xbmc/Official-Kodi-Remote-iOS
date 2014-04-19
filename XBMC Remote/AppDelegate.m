@@ -3010,7 +3010,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"xbmc.addon.executable", @"type",
                                      [NSNumber numberWithBool:YES], @"enabled",
                                      [[NSArray alloc] initWithObjects: @"name", @"version", @"summary", @"thumbnail", nil], @"properties",
-                                     nil], @"parameters", NSLocalizedString(@"Executable Add-ons", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
+                                     nil], @"parameters", NSLocalizedString(@"Programs", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",

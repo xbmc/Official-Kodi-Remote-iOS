@@ -111,7 +111,7 @@
             footerMessage = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"] == nil ? [self.detailItem objectForKey:@"label"] : [self.detailItem objectForKey:@"genre"]];
         }
         if (xbmcSetting != cUnsupported){
-            footerMessage = [NSString stringWithFormat:@"%@\xE2\x84\xB9 %@", footerMessage == nil ? @"" : [NSString stringWithFormat:@"%@\n\n", footerMessage], NSLocalizedString(@"Tap and hold a setting to create a new button.", nil)];
+            footerMessage = [NSString stringWithFormat:@"%@\xE2\x84\xB9 %@", footerMessage == nil ? @"" : [NSString stringWithFormat:@"%@\n\n", footerMessage], NSLocalizedString(@"Tap and hold a setting to add a new button.", nil)];
         }
         
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];

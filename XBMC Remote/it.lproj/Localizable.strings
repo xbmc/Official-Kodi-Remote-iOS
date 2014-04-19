@@ -209,11 +209,14 @@
 "Button Pad/Gesture Zone" = "Tasti Direzionali/Zona Gesti";
 "Slide your finger up or down to adjust the scrubbing rate." = "Scorri il dito verso l'alto o il basso per regolare la velocità di scrubbing.";
 
+"Programs" = "Programmi";
+"XBMC Settings" = "Impostazioni XBMC";
 "Add a new button" = "Aggiungi un nuovo bottone";
 "Enter the label:" = "Inserisci l'etichetta:";
 "Add button" = "Aggiungi bottone";
 "Button added" = "Bottone aggiunto";
 "enter value" = "inserisci il valore";
+"Tap and hold a setting to add a new button." = "Tocca e tieni premuto un'impostazione per aggiunge un nuovo bottone.";
 
 "-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- ATTENZIONE --\nLe attuali API di XBMC Gotham non consentono la modifica dei timer. Utilizzare l'interfaccia di XBMC per l'aggiunta, la modifica e la cancellazione dei timer. Grazie.";
 
