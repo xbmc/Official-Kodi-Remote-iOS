@@ -83,7 +83,9 @@
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
             [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
+            [cell setTintColor:[UIColor lightGrayColor]];
         }
+        cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     if ([[AppDelegate instance].arrayServerList count] == 0){
         [(UIImageView*) [cell viewWithTag:1] setHidden:TRUE];
@@ -125,7 +127,6 @@
         else {
             cell.accessoryType=UITableViewCellAccessoryNone;
         }
-        cell.editingAccessoryType=UITableViewCellAccessoryDetailDisclosureButton;
     }
     return cell;
 }
