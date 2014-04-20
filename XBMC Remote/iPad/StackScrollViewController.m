@@ -39,6 +39,7 @@
 #import "StackScrollViewController.h"
 #import "AppDelegate.h"
 #import "RemoteControllerGestureZoneView.h"
+#import "OBSlider.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define VIEW_TAG 1000
@@ -174,7 +175,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    if ([touch.view isKindOfClass:[UIButton class]] || [touch.view isKindOfClass:[RemoteControllerGestureZoneView class]]){
+    if ([touch.view isKindOfClass:[UIButton class]] || [touch.view isKindOfClass:[RemoteControllerGestureZoneView class]] || [touch.view isKindOfClass:[OBSlider class]] || [touch.view isKindOfClass:[UISlider class]]){
         return NO;
     }
     return YES;
