@@ -26,6 +26,9 @@
         [self.layer addSublayer:bottomBorder];
         [self setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
         slideHeight = frame.size.height;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            slideHeight += 22.0f;
+        }
         [self setFrame:CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height)];
         viewMessage = [[UILabel alloc] initWithFrame:CGRectMake(deltaX, deltaY, frame.size.width - deltaX, frame.size.height - deltaY)];
         [viewMessage setBackgroundColor:[UIColor clearColor]];

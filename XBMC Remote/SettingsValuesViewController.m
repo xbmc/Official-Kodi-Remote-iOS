@@ -173,6 +173,10 @@
             deltaY = 64.0f;
         }
         CGRect frame = [[UIScreen mainScreen ] bounds];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            frame.size.width = STACKSCROLL_WIDTH;
+            deltaY = 0;
+        }
         messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + 42.0f) deltaY:deltaY deltaX:0];
         [self.view addSubview:messagesView];
 	}

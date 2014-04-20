@@ -4669,14 +4669,7 @@ NSIndexPath *selected;
         buttonsViewBgToolbar.hidden = NO;
 
     }
-    CGFloat deltaY = 0;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        deltaY = 64.0f;
-    }
-    CGRect frame = [[UIScreen mainScreen ] bounds];
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + 42.0f) deltaY:deltaY deltaX:0];
-    [self.view addSubview:messagesView];
-    
+
     __weak DetailViewController *weakSelf = self;
     [dataList addPullToRefreshWithActionHandler:^{
         [weakSelf startRetrieveDataWithRefresh:YES];
@@ -4710,10 +4703,12 @@ NSIndexPath *selected;
     }
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
-
+    
+    CGFloat deltaY = 0;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         searchBarColor = [UIColor colorWithRed:.572f green:.572f blue:.572f alpha:1];
         collectionViewSearchBarColor = [UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:.95];
+        deltaY = 64.0f;
     }
 
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
@@ -4756,13 +4751,17 @@ NSIndexPath *selected;
     }
     else {
         [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
+        deltaY = 0;
     }
     
     if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length] && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
     }
     
-    frame = dataList.frame;
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, deltaY + 42.0f) deltaY:deltaY deltaX:0];
+    [self.view addSubview:messagesView];
+    
+    CGRect frame = dataList.frame;
     if ([parameters objectForKey:@"animationStartX"] != nil){
         frame.origin.x = [[parameters objectForKey:@"animationStartX"] intValue];
     }
