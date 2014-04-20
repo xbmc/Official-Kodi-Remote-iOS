@@ -399,7 +399,7 @@
         [cellLabel setAdjustsFontSizeToFitWidth:YES];
         [cellLabel setMinimumFontSize:12];
         [cellLabel setTextColor:[UIColor blackColor]];
-        [cellLabel setHighlightedTextColor:[UIColor blackColor]];
+        [cellLabel setHighlightedTextColor:[UIColor whiteColor]];
         [cell.contentView addSubview:cellLabel];
         
         UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
@@ -415,7 +415,7 @@
         [descriptionLabel setNumberOfLines:8];
         [descriptionLabel setMinimumFontSize:12];
         [descriptionLabel setTextColor:[UIColor grayColor]];
-        [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
+        [descriptionLabel setHighlightedTextColor:[UIColor lightGrayColor]];
         [cell.contentView addSubview:descriptionLabel];
         
         OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 20)];
@@ -438,7 +438,7 @@
         [uiSliderLabel setAdjustsFontSizeToFitWidth:YES];
         [uiSliderLabel setMinimumFontSize:12];
         [uiSliderLabel setTextColor:[UIColor grayColor]];
-        [uiSliderLabel setHighlightedTextColor:[UIColor grayColor]];
+        [uiSliderLabel setHighlightedTextColor:[UIColor lightGrayColor]];
         [cell.contentView addSubview:uiSliderLabel];
         
         UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 30)];
@@ -454,6 +454,11 @@
         textInputField.delegate = self;
         textInputField.tag = 301;
         [cell.contentView addSubview:textInputField];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [cellLabel setHighlightedTextColor:[UIColor blackColor]];
+            [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
+            [uiSliderLabel setHighlightedTextColor:[UIColor grayColor]];
+        }
 	}
     cell.accessoryType =  UITableViewCellAccessoryNone;
 
