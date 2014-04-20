@@ -17,6 +17,7 @@
 #import "StackScrollViewController.h"
 #import "RightMenuViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "DetailViewController.h"
 
 #define ROTATION_TRIGGER 0.015f 
 
@@ -1264,14 +1265,14 @@ NSInteger buttonAction;
         }
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-//        UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        torchButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
-//        [torchButton setContentMode:UIViewContentModeRight];
-//        [torchButton setShowsTouchWhenHighlighted:YES];
-//        [torchButton setImage:[UIImage imageNamed:torchIcon] forState:UIControlStateNormal];
-//        torchButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-//        [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
-//        [self.view addSubview:torchButton];
+        UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        settingButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
+        [settingButton setContentMode:UIViewContentModeRight];
+        [settingButton setShowsTouchWhenHighlighted:YES];
+        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
+        settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+        [settingButton addTarget:self action:@selector(addButtonToList:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:settingButton];
         
         UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
         gestureButton.frame = CGRectMake(self.view.bounds.size.width - 188, self.view.bounds.size.height - 43, 56.0, 36.0);
@@ -1306,6 +1307,17 @@ NSInteger buttonAction;
     }
     storeBrightness = -1;
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
+}
+
+-(void)addButtonToList:(id)sender {
+    if ([AppDelegate instance].serverVersion < 13){
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alertView show];
+    }
+    else{
+        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:[AppDelegate instance].xbmcSettings withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+    }
 }
 
 - (void)viewDidUnload{
