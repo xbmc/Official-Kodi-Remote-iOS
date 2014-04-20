@@ -38,7 +38,7 @@
 
 #import "StackScrollViewController.h"
 #import "AppDelegate.h"
-//#import "UIViewWithShadow.h"
+#import "RemoteControllerGestureZoneView.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define VIEW_TAG 1000
@@ -94,6 +94,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		viewAtRightAtTouchBegan = nil;
 		
 		UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+        [panRecognizer setDelegate:self];
 		[panRecognizer setMaximumNumberOfTouches:1];
 		[panRecognizer setDelaysTouchesBegan:TRUE];
 		[panRecognizer setDelaysTouchesEnded:TRUE];
@@ -172,7 +173,15 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     }
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([touch.view isKindOfClass:[UIButton class]] || [touch.view isKindOfClass:[RemoteControllerGestureZoneView class]]){
+        return NO;
+    }
+    return YES;
+}
+
 -(void)disablePanGestureRecognizer:(UIImageView *)fallbackView{
+    return;
     if ([self.view.gestureRecognizers count]){
         [self.view removeGestureRecognizer:[self.view.gestureRecognizers objectAtIndex:0]];
     }
@@ -187,6 +196,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 }
 
 -(void)enablePanGestureRecognizer{
+    return;
     if (![self.view.gestureRecognizers count]){
         UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
 		[panRecognizer setMaximumNumberOfTouches:1];

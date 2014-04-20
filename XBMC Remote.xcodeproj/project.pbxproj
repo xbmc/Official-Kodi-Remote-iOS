@@ -187,6 +187,7 @@
 		0F49886E1528F37E0041DA92 /* segment_right_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F49886A1528F37E0041DA92 /* segment_right_up@2x.png */; };
 		0F4988701528F7E30041DA92 /* button_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F49886F1528F7E30041DA92 /* button_edit@2x.png */; };
 		0F4988721528FBE60041DA92 /* button_edit_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4988711528FBE60041DA92 /* button_edit_down@2x.png */; };
+		0F4AB81A1903DDCE005DEC5C /* RemoteControllerGestureZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4AB8191903DDCE005DEC5C /* RemoteControllerGestureZoneView.m */; };
 		0F4B8520152B476400450384 /* arrow_continue_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4B851F152B476400450384 /* arrow_continue_down@2x.png */; };
 		0F4B8523152B497100450384 /* arrow_continue_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4B8522152B497100450384 /* arrow_continue_down.png */; };
 		0F4D09D0166155D100DC3331 /* nocover_movie_genre.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4D09CF166155D100DC3331 /* nocover_movie_genre.png */; };
@@ -955,6 +956,8 @@
 		0F49886A1528F37E0041DA92 /* segment_right_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "segment_right_up@2x.png"; sourceTree = "<group>"; };
 		0F49886F1528F7E30041DA92 /* button_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_edit@2x.png"; sourceTree = "<group>"; };
 		0F4988711528FBE60041DA92 /* button_edit_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_edit_down@2x.png"; sourceTree = "<group>"; };
+		0F4AB8181903DDCE005DEC5C /* RemoteControllerGestureZoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteControllerGestureZoneView.h; sourceTree = "<group>"; };
+		0F4AB8191903DDCE005DEC5C /* RemoteControllerGestureZoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControllerGestureZoneView.m; sourceTree = "<group>"; };
 		0F4B851F152B476400450384 /* arrow_continue_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_continue_down@2x.png"; sourceTree = "<group>"; };
 		0F4B8522152B497100450384 /* arrow_continue_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_continue_down.png; sourceTree = "<group>"; };
 		0F4D09CF166155D100DC3331 /* nocover_movie_genre.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_movie_genre.png; sourceTree = "<group>"; };
@@ -1844,6 +1847,8 @@
 				0F4019AF18F3ECEB0064E4DC /* customButton.m */,
 				0F4019B118F415A50064E4DC /* MessagesView.h */,
 				0F4019B218F415A50064E4DC /* MessagesView.m */,
+				0F4AB8181903DDCE005DEC5C /* RemoteControllerGestureZoneView.h */,
+				0F4AB8191903DDCE005DEC5C /* RemoteControllerGestureZoneView.m */,
 				0F747736151DD98600EF78AD /* classes */,
 				0F554901151D1187007E633F /* Supporting Files */,
 				0F554C21151D197F007E633F /* nib */,
@@ -3403,6 +3408,7 @@
 				0F554911151D1187007E633F /* DetailViewController.m in Sources */,
 				0F554C20151D14DA007E633F /* mainMenu.m in Sources */,
 				0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */,
+				0F4AB81A1903DDCE005DEC5C /* RemoteControllerGestureZoneView.m in Sources */,
 				0F747734151DD91D00EF78AD /* RemoteController.m in Sources */,
 				0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */,
 				0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */,
