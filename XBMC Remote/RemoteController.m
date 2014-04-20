@@ -1228,9 +1228,14 @@ NSInteger buttonAction;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    float infoButtonOriginY = -16;
+    float infoButtonalpha = 0.9f;
+
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         self.edgesForExtendedLayout = 0;
         self.view.tintColor = TINT_COLOR;
+        infoButtonOriginY = -14;
+        infoButtonalpha = 1.0f;
     }
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
@@ -1300,9 +1305,9 @@ NSInteger buttonAction;
         [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
         CGRect buttonRect = helpButton.frame;
         buttonRect.origin.x = self.view.bounds.size.width - buttonRect.size.width - 16;
-        buttonRect.origin.y = self.view.bounds.size.height - buttonRect.size.height - 16; 
+        buttonRect.origin.y = self.view.bounds.size.height - buttonRect.size.height + infoButtonOriginY;
         [helpButton setFrame:buttonRect];
-        helpButton.alpha = .9f;
+        helpButton.alpha = infoButtonalpha;
         [self.view addSubview:helpButton];
     }
     storeBrightness = -1;
