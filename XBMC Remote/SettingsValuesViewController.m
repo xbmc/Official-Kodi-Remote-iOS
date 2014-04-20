@@ -129,8 +129,18 @@
         [longPressGesture setDelegate:self];
         [_tableView addGestureRecognizer:longPressGesture];
         
-        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        [scrubbingView setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2 + 50)];
+        CGFloat deltaY = 0;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            deltaY = 64.0f;
+        }
+        CGRect frame = [[UIScreen mainScreen ] bounds];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            frame.size.width = STACKSCROLL_WIDTH;
+            deltaY = 0;
+        }
+        
+        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
+        [scrubbingView setCenter:CGPointMake((int)(frame.size.width / 2), (int)(frame.size.height / 2) + 50)];
         [scrubbingView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
         scrubbingView.alpha = 0.0f;
         CGRect toolbarShadowFrame = CGRectMake(0.0f, 44, self.view.frame.size.width, 4);
@@ -148,7 +158,7 @@
         toolbarUpShadow.opaque = YES;
         [scrubbingView addSubview:toolbarUpShadow];
         
-        scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(5, 3, 310, 18)];
+        scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(5, 3, frame.size.width - 10, 18)];
         [scrubbingMessage setBackgroundColor:[UIColor clearColor]];
         [scrubbingMessage setFont:[UIFont boldSystemFontOfSize:13]];
         [scrubbingMessage setAdjustsFontSizeToFitWidth:YES];
@@ -158,7 +168,7 @@
         [scrubbingMessage setTextAlignment:NSTextAlignmentCenter];
         [scrubbingView addSubview:scrubbingMessage];
         
-        scrubbingRate = [[UILabel alloc] initWithFrame:CGRectMake(5, 21, 310, 18)];
+        scrubbingRate = [[UILabel alloc] initWithFrame:CGRectMake(5, 21, frame.size.width - 10, 18)];
         [scrubbingRate setBackgroundColor:[UIColor clearColor]];
         [scrubbingRate setFont:[UIFont boldSystemFontOfSize:13]];
         [scrubbingRate setTextColor:[UIColor grayColor]];
@@ -167,16 +177,7 @@
         [scrubbingView addSubview:scrubbingRate];
         
         [self.view insertSubview:scrubbingView aboveSubview:_tableView];
-        
-        CGFloat deltaY = 0;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            deltaY = 64.0f;
-        }
-        CGRect frame = [[UIScreen mainScreen ] bounds];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-            frame.size.width = STACKSCROLL_WIDTH;
-            deltaY = 0;
-        }
+
         messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + 42.0f) deltaY:deltaY deltaX:0];
         [self.view addSubview:messagesView];
 	}
@@ -419,6 +420,7 @@
         [cell.contentView addSubview:descriptionLabel];
         
         OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 20)];
+        [slider setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
         [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
         [slider setBackgroundColor:[UIColor clearColor]];
         slider.continuous = YES;
@@ -442,6 +444,7 @@
         [cell.contentView addSubview:uiSliderLabel];
         
         UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 30)];
+        [textInputField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
         textInputField.borderStyle = UITextBorderStyleRoundedRect;
         textInputField.textAlignment = NSTextAlignmentCenter;
         textInputField.font = [UIFont systemFontOfSize:15];
