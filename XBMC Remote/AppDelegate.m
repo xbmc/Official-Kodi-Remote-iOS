@@ -2809,9 +2809,19 @@ NSMutableArray *hostRightMenuItems;
                             @"pictures", @"media",
                             @"addons://sources/image", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Pictures Addons", nil), @"label", NSLocalizedString(@"Pictures Addons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
-                          
+                            nil], @"parameters", NSLocalizedString(@"Pictures Addons", nil), @"label", NSLocalizedString(@"Pictures Addons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                           @"YES", @"enableCollectionView",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"height", nil], @"iphone",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
+                            nil], @"itemSizes",
+                           nil],
                           nil];
+    
     item4.mainFields=[NSArray arrayWithObjects:
                       [NSDictionary  dictionaryWithObjectsAndKeys:
                        @"sources",@"itemid",
