@@ -78,6 +78,9 @@
                                                 blue:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"bgColor"] objectForKey:@"blue"] floatValue]
                                                alpha:1];
     }
+    else { // xcode xib bug with ipad?
+        cell.backgroundColor = [UIColor colorWithRed:0.141176f green:0.141176f blue:0.141176f alpha:1.0f];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -244,20 +247,25 @@
 }
 
 -(UIView *)createTableFooterView:(CGFloat)footerHeight {
-    UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - footerHeight, self.view.bounds.size.width, footerHeight)];
+    CGRect frame = self.view.bounds;
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
+                                                                                target: nil
+                                                                                action: nil];
+    [fixedSpace setWidth:50.0f];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        frame.size.width = STACKSCROLL_WIDTH;
+        [fixedSpace setWidth:0.0f];
+    }
+    UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];
     [newView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin];
     [newView setBackgroundColor:[UIColor clearColor]];
     
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, footerHeight)];
     [toolbar setBarStyle:UIBarStyleBlackTranslucent];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [toolbar setTintColor:[UIColor lightGrayColor]];
     }
-    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
-                                                                                   target: nil
-                                                                                   action: nil];
-    [fixedSpace setWidth:50.0f];
-    
+
     UIBarButtonItem *fixedSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
                                                                                 target: nil
                                                                                 action: nil];
@@ -588,9 +596,18 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    int deltaY = 0;
+    int deltaY = 0.0f;
+    self.peekLeftAmount = 40.0f;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        deltaY = 22;
+        deltaY = 22.0f;
+    }
+    CGRect frame = [[UIScreen mainScreen ] bounds];
+    CGFloat deltaX = 40.0f;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        frame.size.width = STACKSCROLL_WIDTH;
+        deltaX = 0.0f;
+        deltaY = 0.0f;
+        self.peekLeftAmount = 0.0f;
     }
     torchIsOn = NO;
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
@@ -600,7 +617,6 @@
             torchIsOn = [device torchLevel];
         }
     }
-    self.peekLeftAmount = 40.0f;
     [self.slidingViewController setAnchorLeftPeekAmount:self.peekLeftAmount];
     self.slidingViewController.underRightWidthLayout = ECFullWidth;
     int infoLabelHeight = 100;
@@ -624,7 +640,7 @@
         volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
         [volumeSliderView startTimer];
     }
-    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, self.view.frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight - 1) style:UITableViewStylePlain];
+    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight - 1) style:UITableViewStylePlain];
     [menuTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     [menuTableView setSeparatorColor:[UIColor colorWithRed:0.114f green:0.114f blue:0.114f alpha:1]];
     [menuTableView setDelegate:self];
@@ -653,9 +669,7 @@
         putXBMClogo = YES;
         [self setRightMenuOption:@"utility" reloadTableData:NO];
     }
-    
-    CGRect frame = [[UIScreen mainScreen ] bounds];
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44.0f + deltaY) deltaY:deltaY deltaX:40.0f];
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44.0f + deltaY) deltaY:deltaY deltaX:deltaX];
     [self.view addSubview:messagesView];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
