@@ -12,6 +12,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import "CustomNavigationController.h"
 #import "customButton.h"
+#import "ViewControllerIPad.h"
+#import "StackScrollViewController.h"
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -290,15 +292,21 @@
     }
     else{
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-        CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:detailViewController];
-        UINavigationBar *newBar = navController.navigationBar;
-        [newBar setTintColor:IOS6_BAR_TINT_COLOR];
-        [newBar setBarStyle:UIBarStyleBlack];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [newBar setTintColor:TINT_COLOR];
-        }
         detailViewController.detailItem = [AppDelegate instance].xbmcSettings;
-        [self presentViewController:navController animated:YES completion:NULL];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:detailViewController];
+            UINavigationBar *newBar = navController.navigationBar;
+            [newBar setTintColor:IOS6_BAR_TINT_COLOR];
+            [newBar setBarStyle:UIBarStyleBlack];
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                [newBar setTintColor:TINT_COLOR];
+            }
+            [self presentViewController:navController animated:YES completion:NULL];
+        }
+        else {
+            [detailViewController.view setFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height)];
+            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:FALSE];
+        }
     }
 }
 

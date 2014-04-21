@@ -1276,7 +1276,7 @@ NSInteger buttonAction;
         [settingButton setShowsTouchWhenHighlighted:YES];
         [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
         settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [settingButton addTarget:self action:@selector(addButtonToList:) forControlEvents:UIControlEventTouchUpInside];
+        [settingButton addTarget:self action:@selector(addButtonToListIPad:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:settingButton];
         
         UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1314,14 +1314,20 @@ NSInteger buttonAction;
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
 }
 
--(void)addButtonToList:(id)sender {
+-(void)addButtonToListIPad:(id)sender {
     if ([AppDelegate instance].serverVersion < 13){
         UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
         [alertView show];
     }
     else{
-        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:[AppDelegate instance].xbmcSettings withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
+        rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
+        if ([rightMenuViewController.rightMenuItems count]){
+            mainMenu *menuItem = [rightMenuViewController.rightMenuItems  objectAtIndex:0];
+            menuItem.mainMethod = nil;
+        }
+        [rightMenuViewController.view setFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height)];
+        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:rightMenuViewController invokeByController:self isStackStartView:FALSE];
     }
 }
 
