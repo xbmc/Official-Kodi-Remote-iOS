@@ -2889,12 +2889,14 @@ NSIndexPath *selected;
         else if ([option isEqualToString:NSLocalizedString(@"Search last.fm charts", nil)]){
             [self searchWeb:(NSMutableDictionary *)item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
         }
-        else if ([option isEqualToString:NSLocalizedString(@"Execute program", nil)]){
+        else if ([option isEqualToString:NSLocalizedString(@"Execute program", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Execute video add-on", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Execute audio add-on", nil)]){
             [self SimpleAction:@"Addons.ExecuteAddon"
                         params:[NSDictionary dictionaryWithObjectsAndKeys:
                                 [item objectForKey:@"addonid"], @"addonid",
                                 nil]
-                       success: NSLocalizedString(@"Add-on Executed successfully", nil)
+                       success: NSLocalizedString(@"Add-on executed successfully", nil)
                        failure:NSLocalizedString(@"Unable to  execute the add-on", nil)
              ];
         }

@@ -676,6 +676,14 @@
 		0FDFC67D15377CE9000BE837 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDFC67C15377CE9000BE837 /* Settings.bundle */; };
 		0FE025E9157BDB2A00027C09 /* xbmc_overlay_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE025E8157BDB2A00027C09 /* xbmc_overlay_small.png */; };
 		0FE025EB157BDC2200027C09 /* xbmc_overlay_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE025EA157BDC2200027C09 /* xbmc_overlay_small@2x.png */; };
+		0FE0EA6C1905707800EA9118 /* st_video_addon_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE0EA6A1905707800EA9118 /* st_video_addon_off.png */; };
+		0FE0EA6D1905707800EA9118 /* st_video_addon_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE0EA6B1905707800EA9118 /* st_video_addon_on.png */; };
+		0FE0EA701905708100EA9118 /* st_video_addon_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE0EA6E1905708100EA9118 /* st_video_addon_off@2x.png */; };
+		0FE0EA711905708100EA9118 /* st_video_addon_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE0EA6F1905708100EA9118 /* st_video_addon_on@2x.png */; };
+		0FE0EA761905735D00EA9118 /* st_audio_addon_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE0EA731905735D00EA9118 /* st_audio_addon_off.png */; };
+		0FE0EA771905735D00EA9118 /* st_audio_addon_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE0EA741905735D00EA9118 /* st_audio_addon_on.png */; };
+		0FE0EA7A1905738600EA9118 /* st_audio_addon_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE0EA781905738600EA9118 /* st_audio_addon_off@2x.png */; };
+		0FE0EA7B1905738600EA9118 /* st_audio_addon_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE0EA791905738600EA9118 /* st_audio_addon_on@2x.png */; };
 		0FE3455B1538A404006A17C1 /* button_playlist@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3455A1538A404006A17C1 /* button_playlist@2x.png */; };
 		0FE3455E1538A412006A17C1 /* button_playlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3455D1538A412006A17C1 /* button_playlist.png */; };
 		0FE5190115716AE800AE5D95 /* remote_button_back_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE518EB15716AE800AE5D95 /* remote_button_back_up@2x.png */; };
@@ -1491,6 +1499,14 @@
 		0FDFC67C15377CE9000BE837 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0FE025E8157BDB2A00027C09 /* xbmc_overlay_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xbmc_overlay_small.png; sourceTree = "<group>"; };
 		0FE025EA157BDC2200027C09 /* xbmc_overlay_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xbmc_overlay_small@2x.png"; sourceTree = "<group>"; };
+		0FE0EA6A1905707800EA9118 /* st_video_addon_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_video_addon_off.png; sourceTree = "<group>"; };
+		0FE0EA6B1905707800EA9118 /* st_video_addon_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_video_addon_on.png; sourceTree = "<group>"; };
+		0FE0EA6E1905708100EA9118 /* st_video_addon_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_video_addon_off@2x.png"; sourceTree = "<group>"; };
+		0FE0EA6F1905708100EA9118 /* st_video_addon_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_video_addon_on@2x.png"; sourceTree = "<group>"; };
+		0FE0EA731905735D00EA9118 /* st_audio_addon_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_audio_addon_off.png; sourceTree = "<group>"; };
+		0FE0EA741905735D00EA9118 /* st_audio_addon_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_audio_addon_on.png; sourceTree = "<group>"; };
+		0FE0EA781905738600EA9118 /* st_audio_addon_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_audio_addon_off@2x.png"; sourceTree = "<group>"; };
+		0FE0EA791905738600EA9118 /* st_audio_addon_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_audio_addon_on@2x.png"; sourceTree = "<group>"; };
 		0FE3455A1538A404006A17C1 /* button_playlist@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_playlist@2x.png"; sourceTree = "<group>"; };
 		0FE3455D1538A412006A17C1 /* button_playlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_playlist.png; sourceTree = "<group>"; };
 		0FE518EB15716AE800AE5D95 /* remote_button_back_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_back_up@2x.png"; sourceTree = "<group>"; };
@@ -1887,6 +1903,10 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FE0EA781905738600EA9118 /* st_audio_addon_off@2x.png */,
+				0FE0EA791905738600EA9118 /* st_audio_addon_on@2x.png */,
+				0FE0EA6E1905708100EA9118 /* st_video_addon_off@2x.png */,
+				0FE0EA6F1905708100EA9118 /* st_video_addon_on@2x.png */,
 				0F5034E7190299D500248791 /* default-right-menu-icon@2x.png */,
 				0F3434ED18FAA54C00840E27 /* nocover_timers_wall@2x.png */,
 				0F3434E918FA846F00840E27 /* nocover_channels_wall@2x.png */,
@@ -2190,6 +2210,10 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FE0EA731905735D00EA9118 /* st_audio_addon_off.png */,
+				0FE0EA741905735D00EA9118 /* st_audio_addon_on.png */,
+				0FE0EA6A1905707800EA9118 /* st_video_addon_off.png */,
+				0FE0EA6B1905707800EA9118 /* st_video_addon_on.png */,
 				0F5034E5190299CE00248791 /* default-right-menu-icon.png */,
 				0F3434EB18FAA54600840E27 /* nocover_timers_wall.png */,
 				0F3434E718FA846800840E27 /* nocover_channels_wall.png */,
@@ -2898,6 +2922,7 @@
 				0F554C1B151D13CA007E633F /* tableUp.png in Resources */,
 				0F554C1D151D13CA007E633F /* waiting.png in Resources */,
 				1A30F0571687314300FFC67D /* NowPlaying.xib in Resources */,
+				0FE0EA711905708100EA9118 /* st_video_addon_on@2x.png in Resources */,
 				0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */,
 				0F747738151DE5CF00EF78AD /* pgbar_inact_fake.png in Resources */,
 				0F74773C151E15BA00EF78AD /* bottom_logo_down_blu@2x.png in Resources */,
@@ -2919,6 +2944,7 @@
 				0F44E2B3152727AC00D5958F /* nocover_tvshows@2x.png in Resources */,
 				0F44E2B51527287400D5958F /* nocover_movies@2x.png in Resources */,
 				0F44E2B71527288100D5958F /* nocover_movies.png in Resources */,
+				0FE0EA771905735D00EA9118 /* st_audio_addon_on.png in Resources */,
 				0F44E2B915272BA200D5958F /* nocover_music@2x.png in Resources */,
 				0F44E2BB15272BE500D5958F /* nocover_music.png in Resources */,
 				1A6742EF1684848800E8D5AF /* button_now_playing_empty.png in Resources */,
@@ -3056,6 +3082,7 @@
 				0F2563E8157506A20024F0F9 /* remote_button_display_up@2x.png in Resources */,
 				0F2563E9157506A20024F0F9 /* remote_button_audio_down@2x.png in Resources */,
 				0F2563EA157506A20024F0F9 /* remote_button_audio_up@2x.png in Resources */,
+				0FE0EA6D1905707800EA9118 /* st_video_addon_on.png in Resources */,
 				0F2563EB157506A20024F0F9 /* remote_button_sub_down@2x.png in Resources */,
 				0F2563EC157506A20024F0F9 /* remote_button_stop_down@2x.png in Resources */,
 				0F2563F215750C340024F0F9 /* remote_button_skip_forward_down@2x.png in Resources */,
@@ -3147,6 +3174,7 @@
 				0FA3535315852F570055177A /* monkeys_21@2x.png in Resources */,
 				0FA3535415852F570055177A /* monkeys_22@2x.png in Resources */,
 				0FA3535515852F570055177A /* monkeys_23@2x.png in Resources */,
+				0FE0EA7B1905738600EA9118 /* st_audio_addon_on@2x.png in Resources */,
 				0FA3535615852F570055177A /* monkeys_24@2x.png in Resources */,
 				0FA3535715852F570055177A /* monkeys_25@2x.png in Resources */,
 				0FA3535815852F570055177A /* monkeys_26@2x.png in Resources */,
@@ -3188,6 +3216,7 @@
 				0F39C4EF15A37252007AA9CE /* st_concert_recently_off.png in Resources */,
 				0F39C4F315A37261007AA9CE /* st_concert_recently_off@2x.png in Resources */,
 				0F39C4F415A37261007AA9CE /* st_concert_recently_on@2x.png in Resources */,
+				0FE0EA701905708100EA9118 /* st_video_addon_off@2x.png in Resources */,
 				0F90079B15A8A23D0013BB8B /* button_shuffle@2x.png in Resources */,
 				0F90079C15A8A23D0013BB8B /* button_repeat@2x.png in Resources */,
 				0F9007A015A8A2560013BB8B /* button_shuffle.png in Resources */,
@@ -3376,12 +3405,15 @@
 				0FB20DAB16F2154600592012 /* st_concert_black@2x.png in Resources */,
 				0FB20DAE16F2286F00592012 /* st_movie_set_on.png in Resources */,
 				0FB20DAF16F2286F00592012 /* st_movie_set_off.png in Resources */,
+				0FE0EA7A1905738600EA9118 /* st_audio_addon_off@2x.png in Resources */,
+				0FE0EA761905735D00EA9118 /* st_audio_addon_off.png in Resources */,
 				0FB20DB216F2287C00592012 /* st_movie_set_on@2x.png in Resources */,
 				0FB20DB316F2287C00592012 /* st_movie_set_off@2x.png in Resources */,
 				0F22197A1711AF3F00B111F2 /* button_view.png in Resources */,
 				0F22197C1711AF4A00B111F2 /* button_view@2x.png in Resources */,
 				0F22197E1711D56800B111F2 /* button_view_list.png in Resources */,
 				0F2219801711D57000B111F2 /* button_view_list@2x.png in Resources */,
+				0FE0EA6C1905707800EA9118 /* st_video_addon_off.png in Resources */,
 				0F2219821712209500B111F2 /* nocover_movies_wall.png in Resources */,
 				0F2219841712209F00B111F2 /* nocover_movies_wall@2x.png in Resources */,
 				0F221986171221D600B111F2 /* nocover_music_wall.png in Resources */,

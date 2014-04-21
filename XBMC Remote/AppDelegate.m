@@ -2986,11 +2986,15 @@ NSMutableArray *hostRightMenuItems;
     xbmcSettings.rowHeight = 65;
     xbmcSettings.thumbWidth = 44;
     xbmcSettings.disableNowPlaying = YES;
-    xbmcSettings.mainButtons = [NSArray arrayWithObjects:@"st_filemode", @"st_addons", nil];
+    xbmcSettings.mainButtons = [NSArray arrayWithObjects:@"st_filemode", @"st_addons", @"st_video_addon", @"st_audio_addon", nil];
     
     xbmcSettings.mainMethod = [NSMutableArray arrayWithObjects:
                                
                                [NSArray arrayWithObjects:@"Settings.GetSections", @"method", nil],
+                               
+                               [NSArray arrayWithObjects:@"Addons.GetAddons", @"method", nil],
+                               
+                               [NSArray arrayWithObjects:@"Addons.GetAddons", @"method", nil],
                                
                                [NSArray arrayWithObjects:@"Addons.GetAddons", @"method", nil],
 
@@ -3015,6 +3019,42 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:YES], @"enabled",
                                      [[NSArray alloc] initWithObjects: @"name", @"version", @"summary", @"thumbnail", nil], @"properties",
                                      nil], @"parameters", NSLocalizedString(@"Programs", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                                      [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                                      [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
+                                     @"65", @"separatorInset",
+                                     nil], @"itemSizes",
+                                    @"YES", @"enableCollectionView",
+                                    nil],
+                                   
+                                   [NSMutableArray arrayWithObjects:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     @"xbmc.addon.video", @"type",
+                                     [NSNumber numberWithBool:YES], @"enabled",
+                                     [[NSArray alloc] initWithObjects: @"name", @"version", @"summary", @"thumbnail", nil], @"properties",
+                                     nil], @"parameters", NSLocalizedString(@"Video Add-ons", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
+                                      [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
+                                      [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
+                                     @"65", @"separatorInset",
+                                     nil], @"itemSizes",
+                                    @"YES", @"enableCollectionView",
+                                    nil],
+                                   
+                                   [NSMutableArray arrayWithObjects:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     @"xbmc.addon.audio", @"type",
+                                     [NSNumber numberWithBool:YES], @"enabled",
+                                     [[NSArray alloc] initWithObjects: @"name", @"version", @"summary", @"thumbnail", nil], @"properties",
+                                     nil], @"parameters", NSLocalizedString(@"Music Add-ons", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -3056,11 +3096,39 @@ NSMutableArray *hostRightMenuItems;
                                 @"addonid", @"row9",
                                 nil],
                                
+                               [NSDictionary  dictionaryWithObjectsAndKeys:
+                                @"addons",@"itemid",
+                                @"name", @"row1",
+                                @"summary", @"row2",
+                                @"blank", @"row3",
+                                @"blank", @"row4",
+                                @"addonid",@"row5",
+                                @"addonid",@"row6",
+                                [NSNumber numberWithInt:2], @"playlistid",
+                                @"addonid",@"row8",
+                                @"addonid", @"row9",
+                                nil],
+                               
+                               [NSDictionary  dictionaryWithObjectsAndKeys:
+                                @"addons",@"itemid",
+                                @"name", @"row1",
+                                @"summary", @"row2",
+                                @"blank", @"row3",
+                                @"blank", @"row4",
+                                @"addonid",@"row5",
+                                @"addonid",@"row6",
+                                [NSNumber numberWithInt:2], @"playlistid",
+                                @"addonid",@"row8",
+                                @"addonid", @"row9",
+                                nil],
+                               
                                nil];
     
     xbmcSettings.sheetActions = [NSArray arrayWithObjects:
                                  [NSArray arrayWithObjects: nil],
                                  [NSArray arrayWithObjects: NSLocalizedString(@"Execute program", nil), NSLocalizedString(@"Add button", nil), nil],
+                                 [NSArray arrayWithObjects: NSLocalizedString(@"Execute video add-on", nil), NSLocalizedString(@"Add button", nil), nil],
+                                 [NSArray arrayWithObjects: NSLocalizedString(@"Execute audio add-on", nil), NSLocalizedString(@"Add button", nil), nil],
                                  nil];
     
     
@@ -3070,6 +3138,11 @@ NSMutableArray *hostRightMenuItems;
                                        [NSArray arrayWithObjects:@"Settings.GetCategories", @"method", nil],
                                        
                                        [NSArray arrayWithObjects: nil],
+                                       
+                                       [NSArray arrayWithObjects: nil],
+                                       
+                                       [NSArray arrayWithObjects: nil],
+
                                        nil];
     
     xbmcSettings.subItem.mainParameters = [NSMutableArray arrayWithObjects:
@@ -3079,6 +3152,10 @@ NSMutableArray *hostRightMenuItems;
                                              @"40", @"separatorInset",
                                              nil], @"itemSizes",
                                             nil],
+                                           
+                                           [NSArray arrayWithObjects: nil],
+                                           
+                                           [NSArray arrayWithObjects: nil],
                                            
                                            [NSArray arrayWithObjects: nil],
                                            
@@ -3096,6 +3173,10 @@ NSMutableArray *hostRightMenuItems;
                                         @"categoryid",@"row8",
                                         @"id", @"row9",
                                         nil],
+                                       
+                                       [NSArray arrayWithObjects: nil],
+                                       
+                                       [NSArray arrayWithObjects: nil],
                                        
                                        [NSArray arrayWithObjects: nil],
                                        

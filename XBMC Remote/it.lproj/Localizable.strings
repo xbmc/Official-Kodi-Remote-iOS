@@ -210,6 +210,8 @@
 "Slide your finger up or down to adjust the scrubbing rate." = "Scorri il dito verso l'alto o il basso per regolare la velocità di scrubbing.";
 
 "Programs" = "Programmi";
+"Video Add-ons" = "Add-on Video";
+"Music Add-ons" = "Add-on Musica";
 "XBMC Settings" = "Impostazioni XBMC";
 
 "Custom button" = "Bottone personalizzato";
@@ -226,7 +228,9 @@
 "-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- ATTENZIONE --\nLe attuali API di XBMC Gotham non consentono la modifica dei timer. Utilizzare l'interfaccia di XBMC per l'aggiunta, la modifica e la cancellazione dei timer. Grazie.";
 
 "Execute program" = "Esegui programma";
-"Add-on Executed successfully" = "Add-on eseguito con successo";
+"Execute video add-on" = "Esegui add-on video";
+"Execute audio add-on" = "Esegui add-on audio";
+"Add-on executed successfully" = "Add-on eseguito con successo";
 "Unable to  execute the add-on" = "Impossibile eseguire l'add-on";
 
 "...more" = "...altro";
