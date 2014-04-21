@@ -328,6 +328,8 @@
         [editTableButton setTitle:NSLocalizedString(@"Edit", nil)];
         [editTableButton setStyle:UIBarButtonItemStyleBordered];
         [editTableButton setEnabled:NO];
+        [arrayButtons.buttons addObject:infoCustomButton];
+        [self setRightMenuOption:@"online" reloadTableData:YES];
     }
 }
 
@@ -631,6 +633,18 @@
     infoLabel.alpha = 0;
     [self.view addSubview:infoLabel];
     
+    infoCustomButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                        NSLocalizedString(@"No custom button defined.\r\nPress \"...more\" below to add new ones.", nil), @"label",
+                        [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
+                        [NSNumber numberWithBool:NO], @"hideLineSeparator",
+                        [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
+                        @"default-right-menu-icon", @"icon",
+                        [[NSMutableDictionary alloc] initWithCapacity:0], @"action",
+                        [NSNumber numberWithBool:NO], @"revealViewTop",
+                        [NSNumber numberWithBool:NO], @"isSetting",
+                        @"", @"type",
+                        nil];
+    
     mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
     CGFloat footerHeight = 0.0f;
     if (menuItems.family == 3) {
@@ -755,6 +769,7 @@
         customButton *arrayButtons = [[customButton alloc] init];
         if ([arrayButtons.buttons count] == 0){
             [editTableButton setEnabled:NO];
+            [arrayButtons.buttons addObject:infoCustomButton];
         }
         else{
             [editTableButton setEnabled:YES];
@@ -766,6 +781,8 @@
             if (icon == nil) icon = @"";
             NSString *type = [item objectForKey:@"type"];
             if (type == nil) type = @"";
+            NSNumber *isSetting = [item objectForKey:@"isSetting"];
+            if (isSetting == nil) isSetting = [NSNumber numberWithBool:YES];
             [tableData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                   label, @"label",
                                   [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
@@ -774,7 +791,7 @@
                                   icon, @"icon",
                                   [item objectForKey:@"action"], @"action",
                                   [NSNumber numberWithBool:NO], @"revealViewTop",
-                                  [NSNumber numberWithBool:YES], @"isSetting",
+                                  isSetting, @"isSetting",
                                   type, @"type",
                                   nil]];
         }
@@ -792,7 +809,7 @@
                      }
                      completion:^(BOOL finished){
                          if (reload){
-                             [menuTableView reloadData];
+                             [menuTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
                          }
                          [UIView animateWithDuration:0.2
                                           animations:^{
@@ -832,10 +849,10 @@
             UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
             [icon setImage:[UIImage imageNamed:@"connection_on"]];
         }
-        [self setRightMenuOption:@"online" reloadTableData:YES];
-        infoLabel.alpha = 0;
-        addButton.enabled = YES;
     }
+    [self setRightMenuOption:@"online" reloadTableData:YES];
+    infoLabel.alpha = 0;
+    addButton.enabled = YES;
 }
 
 - (void)connectionFailed:(NSNotification *)note {
@@ -850,18 +867,18 @@
             UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
             [icon setImage:[UIImage imageNamed:@"connection_off"]];
         }
-        if ([[AppDelegate instance].obj.serverIP length]!=0) {
-            infoLabel.alpha = 0;
-            [self setRightMenuOption:@"offline" reloadTableData:YES];
-            addButton.enabled = NO;
-        }
-        else {
-            [tableData removeAllObjects];
-            [menuTableView reloadData];
-            infoLabel.alpha = 1;
-            putXBMClogo = YES;
-            [self setRightMenuOption:@"utility" reloadTableData:YES];
-        }
+    }
+    if ([[AppDelegate instance].obj.serverIP length]!=0) {
+        infoLabel.alpha = 0;
+        [self setRightMenuOption:@"offline" reloadTableData:YES];
+        addButton.enabled = NO;
+    }
+    else {
+        [tableData removeAllObjects];
+        [menuTableView reloadData];
+        infoLabel.alpha = 1;
+        putXBMClogo = YES;
+        [self setRightMenuOption:@"utility" reloadTableData:YES];
     }
 }
 

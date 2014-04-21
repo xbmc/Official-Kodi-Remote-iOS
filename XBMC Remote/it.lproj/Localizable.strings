@@ -221,6 +221,7 @@
 "Button added" = "Bottone aggiunto";
 "enter value" = "inserisci il valore";
 "Tap and hold a setting to add a new button." = "Tocca e tieni premuto un'impostazione per aggiungere un nuovo bottone.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Nessun bottone personalizzato definito.\r\nPremere \"...altro\" in basso per aggiungerne di nuovi.";
 
 "-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- ATTENZIONE --\nLe attuali API di XBMC Gotham non consentono la modifica dei timer. Utilizzare l'interfaccia di XBMC per l'aggiunta, la modifica e la cancellazione dei timer. Grazie.";
 
