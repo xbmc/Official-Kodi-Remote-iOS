@@ -981,7 +981,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadowUp setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [shadowUp setImage:[UIImage imageNamed:@"stackScrollUpShadow"]];
-    [controller.view insertSubview:shadowUp atIndex:0];
+    [controller.view insertSubview:shadowUp atIndex:1];
     
 	[slideViews addSubview:[controller view]];
     if ([[slideViews subviews] count] > 0) {
