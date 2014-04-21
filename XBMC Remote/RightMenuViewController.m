@@ -150,6 +150,7 @@
         int cellHeight = 50.0f;
         cell = rightMenuCell;
         [cell setAccessoryView:nil];
+        cell.backgroundColor = [UIColor colorWithRed:0.141176f green:0.141176f blue:0.141176f alpha:1.0f];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [cell setTintColor:[UIColor lightGrayColor]];
         }
@@ -688,7 +689,15 @@
                                              selector: @selector(stopTimer:)
                                                  name: @"ECSlidingViewUnderRightWillDisappear"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(reloadCustomButtonTable:)
+                                                 name: @"UIInterfaceCustomButtonAdded"
+                                               object: nil];
 
+}
+
+-(void)reloadCustomButtonTable:(NSNotification *)note {
+    [self setRightMenuOption:@"online" reloadTableData:YES];
 }
 
 -(void)startTimer:(id)sender{

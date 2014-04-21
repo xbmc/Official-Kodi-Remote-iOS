@@ -2938,6 +2938,9 @@ NSIndexPath *selected;
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
     [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
+    }
 }
 
 -(void)searchWeb:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath serviceURL:(NSString *)serviceURL{
