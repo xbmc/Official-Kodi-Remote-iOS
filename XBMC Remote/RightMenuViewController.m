@@ -315,6 +315,9 @@
     [arrayButtons.buttons removeObjectAtIndex:idx];
     [arrayButtons saveData];
     if ([arrayButtons.buttons count] == 0){
+        [menuTableView setEditing:NO animated:YES];
+        [editTableButton setTitle:NSLocalizedString(@"Edit", nil)];
+        [editTableButton setStyle:UIBarButtonItemStyleBordered];
         [editTableButton setEnabled:NO];
     }
 }
