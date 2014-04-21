@@ -756,6 +756,9 @@
         if ([arrayButtons.buttons count] == 0){
             [editTableButton setEnabled:NO];
         }
+        else{
+            [editTableButton setEnabled:YES];
+        }
         for (NSDictionary *item in arrayButtons.buttons) {
             NSString *label = [item objectForKey:@"label"];
             if (label == nil) label = @"";
