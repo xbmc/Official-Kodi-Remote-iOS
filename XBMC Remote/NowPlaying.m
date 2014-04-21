@@ -2584,6 +2584,10 @@ int currentItemID;
     frame.origin.y = playlistToolbar.frame.origin.y - playlistToolbar.frame.size.height;
     playlistActionView.frame = frame;
     playlistActionView.alpha = 1.0f;
+    
+    frame = scrabbingView.frame;
+    frame.origin.y =frame.origin.y - 24.0f;
+    [scrabbingView setFrame:frame];
 }
 
 -(bool)enableJewelCases{
