@@ -383,8 +383,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    UISwitch *onoffSource = (UISwitch*) [[tableView cellForRowAtIndexPath:sourceIndexPath]accessoryView];
-    UISwitch *onoffDestination = (UISwitch*) [[tableView cellForRowAtIndexPath:destinationIndexPath]accessoryView];
+    UISwitch *onoffSource = (UISwitch*)[[[tableView cellForRowAtIndexPath:sourceIndexPath]accessoryView] viewWithTag:1000 + sourceIndexPath.row];
+    UISwitch *onoffDestination = (UISwitch*)[[[tableView cellForRowAtIndexPath:destinationIndexPath]accessoryView] viewWithTag:1000 + destinationIndexPath.row];
     onoffSource.tag = 1000 + destinationIndexPath.row;
     onoffDestination.tag = 1000 + sourceIndexPath.row;
 
