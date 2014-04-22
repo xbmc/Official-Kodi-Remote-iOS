@@ -809,7 +809,7 @@
                      }
                      completion:^(BOOL finished){
                          if (reload){
-                             [menuTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+                             [menuTableView reloadData];
                          }
                          [UIView animateWithDuration:0.2
                                           animations:^{
