@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>5.1.1</string>
 	<key>CFBundleDisplayName</key>
 	<string>xbmcRemote</string>
 	<key>CFBundleExecutable</key>
