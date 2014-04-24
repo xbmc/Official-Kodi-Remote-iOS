@@ -163,8 +163,10 @@
         NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
         NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
         NSString  *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
-        [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
-        [epgDict setObject:epgArray forKey:channelid];
+        @synchronized(epgArray){
+            [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
+            [epgDict setObject:epgArray forKey:channelid];
+        }
         @synchronized(epgDownloadQueue){
             [epgDownloadQueue removeObject:channelid];
         }
@@ -305,9 +307,12 @@
     UITableView *tableView = [parameters objectForKey:@"tableView"];
     NSMutableDictionary *item = [parameters objectForKey:@"item"];
     NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+
     for (id EPGobject in broadcasts) {
-        NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [EPGobject objectForKey:@"starttime"]]];// all times in XBMC PVR are UTC
-        NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [EPGobject objectForKey:@"endtime"]]];// all times in XBMC PVR are UTC
+        NSDate *starttime = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [EPGobject objectForKey:@"starttime"]]];// all times in XBMC PVR are UTC
+        NSDate *endtime = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [EPGobject objectForKey:@"endtime"]]];// all times in XBMC PVR are UTC
         [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                  starttime, @"starttime",
                                  endtime, @"endtime",
