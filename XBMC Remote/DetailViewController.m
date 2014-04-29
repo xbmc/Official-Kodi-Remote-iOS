@@ -4783,7 +4783,6 @@ NSIndexPath *selected;
     }
     bar.storeWidth = viewWidth;
     dataList.frame=frame;
-    activeLayoutView = dataList;
     currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
     if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){
         recentlyAddedView = TRUE;
@@ -4796,6 +4795,7 @@ NSIndexPath *selected;
     if ([self collectionViewCanBeEnabled]) { // TEMP FIX
         [self initCollectionView];
     }
+    activeLayoutView = dataList;
 //    [((UITableView *)activeLayoutView).pullToRefreshView
 //     setSubtitle:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Last sync", nil),NSLocalizedString(@"never", nil)]
 //     forState:SVPullToRefreshStateStopped];
