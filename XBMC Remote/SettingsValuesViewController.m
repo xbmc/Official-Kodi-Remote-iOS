@@ -11,6 +11,8 @@
 #import "AppDelegate.h"
 #import "OBSlider.h"
 #import "customButton.h"
+#import "ViewControllerIPad.h"
+#import "StackScrollViewController.h"
 
 @interface SettingsValuesViewController ()
 
@@ -67,6 +69,7 @@
         }
         else if ([[itemControls objectForKey:@"multiselect"] boolValue] == YES && ![settingOptions isKindOfClass:[NSArray class]]){
             xbmcSetting = cMultiselect;
+            [self.detailItem setObject:[[self.detailItem objectForKey:@"value"] mutableCopy] forKey:@"value"];
         }
         else if ([[itemControls objectForKey:@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
@@ -503,7 +506,12 @@
         case cList:
             
             cellText = [NSString stringWithFormat:@"%@", [[settingOptions objectAtIndex:indexPath.row] objectForKey:@"label"]];
-            if ([[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"] isEqual:[self.detailItem objectForKey:@"value"]]){
+            if ([[self.detailItem objectForKey:@"value"] isKindOfClass:[NSArray class]]){
+                if ([[self.detailItem objectForKey:@"value"] containsObject:[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"]]){
+                    cell.accessoryType =  UITableViewCellAccessoryCheckmark;
+                }
+            }
+            else if ([[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"] isEqual:[self.detailItem objectForKey:@"value"]]){
                 cell.accessoryType =  UITableViewCellAccessoryCheckmark;
             }
             break;
@@ -617,31 +625,45 @@
     NSDictionary *params = nil;
     switch (xbmcSetting) {
         case cList:
-            if (selectedSetting == nil){
-                selectedSetting = [self getCurrentSelectedOption:settingOptions];
+            if ([[self.detailItem objectForKey:@"value"] isKindOfClass:[NSArray class]]){
+                cell = [tableView cellForRowAtIndexPath:indexPath];
+                if (cell.accessoryType == UITableViewCellAccessoryNone){
+                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    [[self.detailItem objectForKey:@"value"] addObject:[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"]];
+                }
+                else{
+                    [cell setAccessoryType:UITableViewCellAccessoryNone];
+                    [[self.detailItem objectForKey:@"value"] removeObject:[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"]];
+                }
             }
-            if (selectedSetting != nil){
-                cell = [tableView cellForRowAtIndexPath:selectedSetting];
-                [cell setAccessoryType:UITableViewCellAccessoryNone];
+            else{
+                if (selectedSetting == nil){
+                    selectedSetting = [self getCurrentSelectedOption:settingOptions];
+                }
+                if (selectedSetting != nil){
+                    cell = [tableView cellForRowAtIndexPath:selectedSetting];
+                    [cell setAccessoryType:UITableViewCellAccessoryNone];
+                }
+                cell = [tableView cellForRowAtIndexPath:indexPath];
+                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                selectedSetting = indexPath;
+                [self.detailItem setObject:[[settingOptions objectAtIndex:selectedSetting.row] objectForKey:@"value"] forKey:@"value"];
             }
-            cell = [tableView cellForRowAtIndexPath:indexPath];
-            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-            selectedSetting = indexPath;
             command = @"Settings.SetSettingValue";
-            [self.detailItem setObject:[[settingOptions objectAtIndex:selectedSetting.row] objectForKey:@"value"] forKey:@"value"];
             params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];
             [self xbmcAction:command params:params uiControl:_tableView];
+
             break;
         case cMultiselect:
             if ([[self.detailItem objectForKey:@"definition"] isKindOfClass:[NSDictionary class]]){
+                [[self.detailItem objectForKey:@"definition"] setObject:[self.detailItem objectForKey:@"value"] forKey:@"value"];
+                [[self.detailItem objectForKey:@"definition"] setObject:[self.detailItem objectForKey:@"id"] forKey:@"id"];
+                SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:[self.detailItem objectForKey:@"definition"]];
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                    SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:[[self.detailItem objectForKey:@"definition"] mutableCopy]];
                     [self.navigationController pushViewController:settingsViewController animated:YES];
                 }
                 else{
-                    //            SettingsValuesViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-//                    SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] init];
-//                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:FALSE];
+                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:settingsViewController invokeByController:self isStackStartView:FALSE];
                 }
             }
             break;
@@ -829,6 +851,9 @@
         _tableView.contentInset = tableViewInsets;
         _tableView.scrollIndicatorInsets = tableViewInsets;
         [_tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
+    }
+    if (xbmcSetting == cMultiselect) {
+        [_tableView reloadData];
     }
 }
 
