@@ -1,0 +1,242 @@
+/* 
+  Localisable.strings
+  XBMC Remote
+
+  Created by Pierrick Rouxel on 21/12/12.
+  Copyright (c) 2012 joethefox inc. All rights reserved.
+ */
+
+"Listen to" = "Listen to";
+"Watch your" = "Watch your";
+"Browse your" = "Browse your";
+"See what's" = "See what's";
+"Use as" = "Use as";
+"Watch" = "Watch";
+
+"Music" = "Music";
+"Movies" = "Movies";
+"TV Shows" = "TV Shows";
+"Pictures" = "Pictures";
+"Now Playing" = "Now playing";
+"Remote Control" = "Remote Control";
+"XBMC Server" = "XBMC Server";
+"New XBMC Server" = "New XBMC Server";
+"Modify XBMC Server" = "Modify XBMC Server";
+"Select an XBMC Server from the list" = "Select an XBMC Server from the list";
+
+"Files" = "Files";
+"Video Addons" = "Video Addons";
+"Live TV" = "Live TV";
+"Movie Genres" = "Movie Genres";
+"Music Videos" = "Music Videos";
+"Added Movies" = "Added Movies";
+"More (%d)" = "More (%d)";
+"Movie Sets" = "Movie Sets";
+
+"Albums" = "Albums";
+"Artists" = "Artists";
+"Genres" = "Genres";
+"Added Albums" = "Added Albums";
+"Recently added albums" = "Recently added albums";
+"Added Songs" = "Added Songs";
+"Recently added songs" = "Recently added songs";
+"Top 100 Albums" = "Top 100 Albums";
+"Top 100 Songs" = "Top 100 Songs";
+"Played albums" = "Played albums";
+"Recently played albums" = "Recently played albums";
+"Played songs" = "Played songs";
+"Recently played songs" = "Recently played songs";
+"All songs" = "All songs";
+"Music Addons" = "Music Addons";
+"Music Playlists" = "Music Playlists";
+
+"Added Episodes" = "Added Episodes";
+
+"Pictures Addons" = "Pictures Addons";
+
+"Power off System" = "Power off System";
+"Power off" = "Power off";
+"Hibernate" = "Hibernate";
+"Suspend" = "Suspend";
+"Reboot" = "Reboot";
+"Quit XBMC application" = "Quit XBMC application";
+"Update Audio Library" = "Update Audio Library";
+"Update Audio" = "Update Audio";
+"Clean Audio Library" = "Clean Audio Library";
+"Clean Audio" = "Clean Audio";
+"Update Video Library" = "Update Video Library";
+"Update Video" = "Update Video";
+"Clean Video Library" = "Clean Video Library";
+"Clean Video" = "Clean Video";
+"Quit" = "Quit";
+
+"Keyboard" = "Keyboard";
+"Gesture Zone" = "Gesture Zone";
+"Button Pad" = "Button Pad";
+"Help Screen" = "Help Screen";
+"LED Torch" = "LED Torch";
+
+"No connection" = "No connection";
+
+"Queue after current" = "Queue after current";
+"Queue" = "Queue";
+"Play" = "Play";
+"Stream to iPhone" = "Stream to iPhone";
+"Search Wikipedia" = "Search Wikipedia";
+"Search last.fm charts" = "Search last.fm charts";
+"Album Tracks" = "Album Tracks";
+"Artist Albums" = "Artist Albums";
+"Artist Details" = "Artist Details";
+"Album Details" = "Album Details";
+"Movie Details" = "Movie Details";
+"Episode Details" = "Episode Details";
+"TV Show Details" = "TV Show Details";
+"Music Video Details" = "Music Video Details";
+"Details" = "Details";
+"Play Trailer" = "Play Trailer";
+
+"Playlist" = "Playlist";
+"Nothing is playing" = "Nothing is playing";
+"Details not found" = "Details not found";
+"Open in Safari" = "Open in Safari";
+"Error loading page" = "Error loading page";
+"OK" = "OK";
+"Cancel" = "Cancel";
+"Resume from %@" = "Resume from %@";
+"Resume from" = "Resume from";
+"First aired on %@" = "First aired on %@";
+"Episodes: %@" = "Episodes: %@";
+"1 result" = "1 result";
+"%d results" = "%d results";
+"Music " = "Music ";
+"Video " = "Video ";
+"Songs" = "Songs";
+"Song" = "Song";
+"Mins." = "Mins.";
+"Min" = "Min";
+"Released %d" = "Released %d";
+
+"Clear Playlist" = "Clear Playlist";
+"No server MAC address defined" = "No server MAC address defined";
+"Command executed" = "Command executed";
+"Warning" = "Warning";
+"Cannot do that" = "Cannot do that";
+"Wake On Lan" = "Wake On Lan";
+"No saved hosts found" = "No saved hosts found";
+
+"Are you sure you want to clear the %@playlist?" = "Are you sure you want to clear the %@playlist?";
+"Are you sure you want to power off your XBMC system now?" = "Are you sure you want to power off your XBMC system now?";
+"Are you sure you want to hibernate your XBMC system now?" = "Are you sure you want to hibernate your XBMC system now?";
+"Are you sure you want to suspend your XBMC system now?" = "Are you sure you want to suspend your XBMC system now?";
+"Are you sure you want to reboot your XBMC system now?" = "Are you sure you want to reboot your XBMC system now?";
+"Are you sure you want to quit XBMC application now?" = "Are you sure you want to quit XBMC application now?";
+"Are you sure you want to update your audio library now?" = "Are you sure you want to update your audio library now?";
+"Are you sure you want to clean your audio library now?" = "Are you sure you want to clean your audio library now?";
+"Are you sure you want to update your video library now?" = "Are you sure you want to update your video library now?";
+"Are you sure you want to clean your video library now?" = "Are you sure you want to clean your video library now?";
+
+"EPISODES" = "EPISODES";
+"GENRE" = "GENRE";
+"STUDIO" = "STUDIO";
+"TV SHOW" = "TV SHOW";
+"DIRECTOR" = "DIRECTOR";
+"WRITER" = "WRITER";
+"FIRST AIRED" = "FIRST AIRED";
+"SUMMARY" = "SUMMARY";
+"ARTIST" = "ARTIST";
+"YEAR" = "YEAR";
+"ALBUM LABEL" = "ALBUM LABEL";
+"DESCRIPTION" = "DESCRIPTION";
+"STYLE" = "STYLE";
+"BORN / FORMED" = "BORN / FORMED";
+
+"codec" = "codec";
+"bit rate" = "bit rate";
+"sample rate" = "sample rate";
+"resolution" = "resolution";
+"aspect ratio" = "aspect ratio";
+"Subtitles not available" = "Subtitles not available";
+"Audiostream not available" = "Audiostream not available";
+"Audiostreams not available" = "Audiostreams not available";
+
+"LongDateTimeFormat" = "MMMM d, yyyy";
+"ShortDateTimeFormat" = "yyyy-MM-dd";
+"LocaleIdentifier" = "en_US";
+
+"No sever mac address definied" = "No sever mac address definied";
+"Yes" = "Yes";
+"No" = "No";
+"Authentication Failed" = "Authentication Failed";
+"Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
+
+"WIKI_LANG" = "en";
+
+"vote" = "vote";
+"votes" = "votes";
+
+"Slide your finger up to adjust the scrubbing rate." = "Slide your finger up to adjust the scrubbing rate.";
+"Scrubbing 1" = "Hi-Speed Scrubbing";
+"Scrubbing 0.5" = "Half-Speed Scrubbing";
+"Scrubbing 0.25" = "Quarter-Speed Scrubbing";
+"Scrubbing 0.1" = "Fine Scrubbing";
+"Scrubbing 0.05" = "Very-Fine Scrubbing";
+"Scrubbing 0.025" = "Ultra-Fine Scrubbing";
+
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Clearing app disk cache...\n\nPlease wait, since this may take a while";
+"Pull to sync with XBMC..." = "Pull to sync with XBMC...";
+"Release to sync with XBMC..." = "Release to sync with XBMC...";
+"Syncing..." = "Syncing...";
+"Last sync" = "Last sync";
+"View: Wall" = "View: Wall";
+"View: List" = "View: List";
+"View: Fanart" = "View: Fanart";
+
+"Show Content" = "Show Content";
+"Play in party mode" = "Play in party mode";
+"Play in shuffle mode" = "Play in shuffle mode";
+
+"Channel Guide" = "Channel Guide";
+"Record" = "Record";
+"Recordings" = "Recordings";
+"Timers" = "Timers";
+"Broadcast Details" = "Broadcast Details";
+"TIME" = "TIME";
+
+"ERROR" = "ERROR";
+"Subtitles disabled" = "Subtitles disabled";
+"Subtitle" = "Subtitle";
+"Mark as watched" = "Mark as watched";
+"Mark as unwatched" = "Mark as unwatched";
+
+"Button Pad/Gesture Zone" = "Button Pad/Gesture Zone";
+"Slide your finger up or down to adjust the scrubbing rate." = "Slide your finger up or down to adjust the scrubbing rate.";
+
+"Programs" = "Programs";
+"Video Add-ons" = "Video Add-ons";
+"Music Add-ons" = "Music Add-ons";
+"XBMC Settings" = "XBMC Settings";
+
+"Custom button" = "Custom button";
+"Modify label:" = "Modify label:";
+"Update label" = "Update label";
+"Add a new button" = "Add a new button";
+"Enter the label:" = "Enter the label:";
+"Add button" = "Add button";
+"Button added" = "Button added";
+"enter value" = "enter value";
+"Tap and hold a setting to add a new button." = "Tap and hold a setting to add a new button.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "No custom button defined.\r\nPress \"...more\" below to add new ones.";
+
+"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you.";
+
+"Execute program" = "Execute program";
+"Execute video add-on" = "Execute video add-on";
+"Execute audio add-on" = "Execute audio add-on";
+"Add-on executed successfully" = "Add-on executed successfully";
+"Unable to  execute the add-on" = "Unable to  execute the add-on";
+
+"...more" = "...more";
+"Edit" = "Edit";
+"Done" = "Done";
+"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "XBMC \"Gotham\" version 13  or superior is required to access XBMC settings";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.";

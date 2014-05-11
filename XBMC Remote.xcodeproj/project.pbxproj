@@ -803,6 +803,25 @@
 		0F284A5116F63C9A00AFC1EF /* PosterLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PosterLabel.m; sourceTree = "<group>"; };
 		0F284A5316F6419700AFC1EF /* PosterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosterCell.h; sourceTree = "<group>"; };
 		0F284A5416F6419700AFC1EF /* PosterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PosterCell.m; sourceTree = "<group>"; };
+		0F29D641191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0F29D642191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0F29D643191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/cellViewIPad.xib; sourceTree = "<group>"; };
+		0F29D644191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/cellView.xib; sourceTree = "<group>"; };
+		0F29D645191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/rightCellView.xib; sourceTree = "<group>"; };
+		0F29D646191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/DetailViewController.xib; sourceTree = "<group>"; };
+		0F29D647191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/NowPlaying.xib; sourceTree = "<group>"; };
+		0F29D648191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/ShowInfoViewController.xib; sourceTree = "<group>"; };
+		0F29D649191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/HostManagementViewController.xib; sourceTree = "<group>"; };
+		0F29D64A191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/HostViewController.xib; sourceTree = "<group>"; };
+		0F29D64B191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/AppInfoViewController.xib; sourceTree = "<group>"; };
+		0F29D64C191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = "pl.lproj/remote quick help@2x.png"; sourceTree = "<group>"; };
+		0F29D64D191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = "pl.lproj/remote quick help_ipad@2x.png"; sourceTree = "<group>"; };
+		0F29D64E191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = "pl.lproj/gesture_zone@2x.png"; sourceTree = "<group>"; };
+		0F29D64F191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = "pl.lproj/button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
+		0F29D650191F7E1B00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = "pl.lproj/remote quick help_ipad.png"; sourceTree = "<group>"; };
+		0F29D651191F7E1B00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = "pl.lproj/remote quick help.png"; sourceTree = "<group>"; };
+		0F29D652191F7E1B00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = pl.lproj/button_now_playing_empty.png; sourceTree = "<group>"; };
+		0F29D653191F7E1B00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = pl.lproj/button_now_playing.png; sourceTree = "<group>"; };
 		0F2A462A1532FC8B005D15E2 /* st_concert_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_concert_off.png; sourceTree = "<group>"; };
 		0F2A462B1532FC8B005D15E2 /* st_concert_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_concert_on.png; sourceTree = "<group>"; };
 		0F2A462F1532FC99005D15E2 /* st_concert_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_concert_off@2x.png"; sourceTree = "<group>"; };
@@ -2735,6 +2754,7 @@
 				de,
 				it,
 				"zh-Hans",
+				pl,
 			);
 			mainGroup = 0F5548EB151D1187007E633F;
 			productRefGroup = 0F5548F7151D1187007E633F /* Products */;
@@ -3510,6 +3530,7 @@
 				8ED18E7A16B572D700CA03F4 /* de */,
 				0FCCFF6116D0F1EF008EBABE /* it */,
 				B1FF37DE1709D1EB005473FF /* zh-Hans */,
+				0F29D641191F7E1A00FFE2AA /* pl */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3522,6 +3543,7 @@
 				8ED18E7C16B572D800CA03F4 /* de */,
 				0FCCFF6616D0F1EF008EBABE /* it */,
 				B1FF37E31709D1F9005473FF /* zh-Hans */,
+				0F29D646191F7E1A00FFE2AA /* pl */,
 			);
 			name = DetailViewController.xib;
 			sourceTree = "<group>";
@@ -3533,6 +3555,7 @@
 				0F68A83616D933430023F178 /* it */,
 				8E1B3B0A16EAADB70089A043 /* de */,
 				B1FF37EA1709D20B005473FF /* zh-Hans */,
+				0F29D64E191F7E1A00FFE2AA /* pl */,
 			);
 			name = "gesture_zone@2x.png";
 			sourceTree = "<group>";
@@ -3545,6 +3568,7 @@
 				8ED18E7D16B572D800CA03F4 /* de */,
 				0FCCFF6716D0F1F0008EBABE /* it */,
 				B1FF37E41709D1FA005473FF /* zh-Hans */,
+				0F29D647191F7E1A00FFE2AA /* pl */,
 			);
 			name = NowPlaying.xib;
 			sourceTree = "<group>";
@@ -3557,6 +3581,7 @@
 				8ED18E8016B572D800CA03F4 /* de */,
 				0FCCFF6C16D0F1F0008EBABE /* it */,
 				B1FF37EB1709D20D005473FF /* zh-Hans */,
+				0F29D64F191F7E1A00FFE2AA /* pl */,
 			);
 			name = "button_now_playing_empty@2x.png";
 			sourceTree = "<group>";
@@ -3569,6 +3594,7 @@
 				8ED18E8116B572D800CA03F4 /* de */,
 				0FCCFF6D16D0F1F0008EBABE /* it */,
 				B1FF37EC1709D211005473FF /* zh-Hans */,
+				0F29D652191F7E1B00FFE2AA /* pl */,
 			);
 			name = button_now_playing_empty.png;
 			sourceTree = "<group>";
@@ -3581,6 +3607,7 @@
 				8ED18E8216B572D900CA03F4 /* de */,
 				0FCCFF6E16D0F1F0008EBABE /* it */,
 				B1FF37ED1709D211005473FF /* zh-Hans */,
+				0F29D653191F7E1B00FFE2AA /* pl */,
 			);
 			name = button_now_playing.png;
 			sourceTree = "<group>";
@@ -3593,6 +3620,7 @@
 				8ED18E7E16B572D800CA03F4 /* de */,
 				0FCCFF6916D0F1F0008EBABE /* it */,
 				B1FF37E61709D201005473FF /* zh-Hans */,
+				0F29D649191F7E1A00FFE2AA /* pl */,
 			);
 			name = HostManagementViewController.xib;
 			sourceTree = "<group>";
@@ -3605,6 +3633,7 @@
 				8ED18E7F16B572D800CA03F4 /* de */,
 				0FCCFF6A16D0F1F0008EBABE /* it */,
 				B1FF37E71709D203005473FF /* zh-Hans */,
+				0F29D64A191F7E1A00FFE2AA /* pl */,
 			);
 			name = HostViewController.xib;
 			sourceTree = "<group>";
@@ -3617,6 +3646,7 @@
 				8ED18E7B16B572D700CA03F4 /* de */,
 				0FCCFF6216D0F1EF008EBABE /* it */,
 				B1FF37DF1709D1ED005473FF /* zh-Hans */,
+				0F29D642191F7E1A00FFE2AA /* pl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3628,6 +3658,7 @@
 				1AF2B83416CFD97300147334 /* fr */,
 				0FCCFF6316D0F1EF008EBABE /* it */,
 				B1FF37E01709D1F1005473FF /* zh-Hans */,
+				0F29D643191F7E1A00FFE2AA /* pl */,
 			);
 			name = cellViewIPad.xib;
 			sourceTree = "<group>";
@@ -3639,6 +3670,7 @@
 				1AFC88EC16CFC58600E2FB2B /* fr */,
 				0FCCFF6516D0F1EF008EBABE /* it */,
 				B1FF37E21709D1F6005473FF /* zh-Hans */,
+				0F29D645191F7E1A00FFE2AA /* pl */,
 			);
 			name = rightCellView.xib;
 			sourceTree = "<group>";
@@ -3650,6 +3682,7 @@
 				1AFC88F016CFC5C900E2FB2B /* fr */,
 				0FCCFF6416D0F1EF008EBABE /* it */,
 				B1FF37E11709D1F4005473FF /* zh-Hans */,
+				0F29D644191F7E1A00FFE2AA /* pl */,
 			);
 			name = cellView.xib;
 			sourceTree = "<group>";
@@ -3660,6 +3693,7 @@
 				8E1B3AF616EAABA00089A043 /* en */,
 				8E1B3B0316EAABC80089A043 /* de */,
 				B1FF37E91709D209005473FF /* zh-Hans */,
+				0F29D64C191F7E1A00FFE2AA /* pl */,
 			);
 			name = "remote quick help@2x.png";
 			sourceTree = "<group>";
@@ -3670,6 +3704,7 @@
 				8E1B3AFA16EAABA80089A043 /* en */,
 				8E1B3B0216EAABC00089A043 /* de */,
 				B1FD2267170B337B00FB1669 /* zh-Hans */,
+				0F29D64D191F7E1A00FFE2AA /* pl */,
 			);
 			name = "remote quick help_ipad@2x.png";
 			sourceTree = "<group>";
@@ -3680,6 +3715,7 @@
 				8E1B3AFD16EAABAD0089A043 /* en */,
 				8E1B3B0416EAABCC0089A043 /* de */,
 				B1FD2268170B33C300FB1669 /* zh-Hans */,
+				0F29D650191F7E1B00FFE2AA /* pl */,
 			);
 			name = "remote quick help_ipad.png";
 			sourceTree = "<group>";
@@ -3690,6 +3726,7 @@
 				8E1B3B0016EAABB50089A043 /* en */,
 				8E1B3B0516EAABD20089A043 /* de */,
 				B1FD2269170B33DE00FB1669 /* zh-Hans */,
+				0F29D651191F7E1B00FFE2AA /* pl */,
 			);
 			name = "remote quick help.png";
 			sourceTree = "<group>";
@@ -3702,6 +3739,7 @@
 				8ED18E8716B6C09F00CA03F4 /* de */,
 				0FCCFF6B16D0F1F0008EBABE /* it */,
 				B1FF37E81709D206005473FF /* zh-Hans */,
+				0F29D64B191F7E1A00FFE2AA /* pl */,
 			);
 			name = AppInfoViewController.xib;
 			sourceTree = "<group>";
@@ -3714,6 +3752,7 @@
 				8ED18ED216B6D18400CA03F4 /* de */,
 				0FCCFF6816D0F1F0008EBABE /* it */,
 				B1FF37E51709D1FE005473FF /* zh-Hans */,
+				0F29D648191F7E1A00FFE2AA /* pl */,
 			);
 			name = ShowInfoViewController.xib;
 			sourceTree = "<group>";
