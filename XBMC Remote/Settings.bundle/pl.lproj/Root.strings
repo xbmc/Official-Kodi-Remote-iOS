@@ -1,20 +1,20 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
-"General" = “Ogólne";
-"Language" = “Język”;
+"General" = "Ogólne";
+"Language" = "Język";
 "Automatic" = "Automatycznie";
-"Language changes needs app restart" = “Zmiana języka wymiana restartu aplikacji";
-"Direct Play mode" = “Tryb Direct Play";
-"Ken Burns effect" = “Efekt Ken Burns";
-"Shake to clear playlist" = “Potrząśnij by wyczyścić listę odtwarzania";
-"Show jewel cases" = “Pokazuj pudełka CD";
-"Remote Control" = “Zdalna Kontrola";
-"Gesture remote control" = “Domyślnie: pilot z kontrolą gestami";
-"Vibrate remote control" = “Włącz wibrację przycisków”;
-"App Settings" = “Ustawienia aplikacji";
-"Clear cache on next start" = “Wyczyść cache na starcie";
-"Enable contents cache" = “Włącz cache zawartości";
+"Language changes needs app restart" = "Zmiana języka wymiana restartu aplikacji";
+"Direct Play mode" = "Tryb Direct Play";
+"Ken Burns effect" = "Efekt Ken Burns";
+"Shake to clear playlist" = "Potrząśnij by wyczyścić listę odtwarzania";
+"Show jewel cases" = "Pokazuj pudełka CD";
+"Remote Control" = "Zdalna Kontrola";
+"Gesture remote control" = "Domyślnie: pilot z kontrolą gestami";
+"Vibrate remote control" = "Włącz wibrację przycisków";
+"App Settings" = "Ustawienia aplikacji";
+"Clear cache on next start" = "Wyczyść cache na starcie";
+"Enable contents cache" = "Włącz cache zawartości";
 "Menu reveal toolbar" = "Pokaż menu przesuwając na całym ekranie";
 "Override Lockscreen" = "Omiń blokadę ekranu";
 "Show all files in filemode" = "Pokazuj wszystkie pliki w trybie plików";
-"Filemode changes needs app restart" = “Zmiana trybu plików wymaga restartu";
+"Filemode changes needs app restart" = "Zmiana trybu plików wymaga restartu";
