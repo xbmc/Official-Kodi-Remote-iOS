@@ -10,3 +10,4 @@ build/
 *.perspective
 *.perspectivev3
 *.psd
+.DS_Store
