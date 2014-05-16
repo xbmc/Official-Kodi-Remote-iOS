@@ -240,3 +240,7 @@
 "Done" = "Fatto";
 "XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "XBMC \"Gotham\" versione 13 o superiore è necessario per accedere alle impostazioni XBMC";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- ATTENZIONE --\nQuesto tipo di impostazione non può essere configurata da remoto. Utilizzare l'interfaccia di XBMC per modificare questa impostazione.\nGrazie.";
+
+"Official XBMC Remote\nfor iOS" = "Official XBMC Remote\nper iOS";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Official XBMC Remote app utilizza immagini provenienti da http://fanart.tv, scaricare ed eseguire l'add-on XBMC \"artwork downloader\" per sbloccare la bellezza di illustrazioni in più!\n\nXBMC logo, Zappy mascotte e le icone sono proprietà di XBMC\nhttp://www.xbmc.org/contribute";
+"enjoy!" = "enjoy!";

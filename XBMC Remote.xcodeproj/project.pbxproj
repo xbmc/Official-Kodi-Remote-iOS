@@ -435,6 +435,7 @@
 		0F77D8CE1574A3BE00FE904E /* remote_button_movies_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77D8CD1574A3BE00FE904E /* remote_button_movies_down@2x.png */; };
 		0F77D8D01574A43000FE904E /* remote_button_tv_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77D8CF1574A43000FE904E /* remote_button_tv_down@2x.png */; };
 		0F77D8D21574A4A200FE904E /* remote_button_pictures_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77D8D11574A4A200FE904E /* remote_button_pictures_down@2x.png */; };
+		0F7A8A921926776900313C17 /* AppInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F7A8A911926776900313C17 /* AppInfoViewController.xib */; };
 		0F7B951A1708975500880F33 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B95141708975500880F33 /* UIImage+Resize.m */; };
 		0F7D9A51163D40F10069BC16 /* coverbox_back_section.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7D9A50163D40F10069BC16 /* coverbox_back_section.png */; };
 		0F7D9A54163D40FA0069BC16 /* coverbox_back_section@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7D9A53163D40FA0069BC16 /* coverbox_back_section@2x.png */; };
@@ -747,7 +748,6 @@
 		8E1B3AF916EAABA80089A043 /* remote quick help_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E1B3AFB16EAABA80089A043 /* remote quick help_ipad@2x.png */; };
 		8E1B3AFC16EAABAD0089A043 /* remote quick help_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E1B3AFE16EAABAD0089A043 /* remote quick help_ipad.png */; };
 		8E1B3AFF16EAABB50089A043 /* remote quick help.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E1B3B0116EAABB50089A043 /* remote quick help.png */; };
-		8ED18E8316B6C08F00CA03F4 /* AppInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8ED18E8516B6C08F00CA03F4 /* AppInfoViewController.xib */; };
 		8ED18ECD16B6D17D00CA03F4 /* ShowInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8ED18ECF16B6D17D00CA03F4 /* ShowInfoViewController.xib */; };
 /* End PBXBuildFile section */
 
@@ -813,7 +813,6 @@
 		0F29D648191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/ShowInfoViewController.xib; sourceTree = "<group>"; };
 		0F29D649191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/HostManagementViewController.xib; sourceTree = "<group>"; };
 		0F29D64A191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/HostViewController.xib; sourceTree = "<group>"; };
-		0F29D64B191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/AppInfoViewController.xib; sourceTree = "<group>"; };
 		0F29D64C191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = "pl.lproj/remote quick help@2x.png"; sourceTree = "<group>"; };
 		0F29D64D191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = "pl.lproj/remote quick help_ipad@2x.png"; sourceTree = "<group>"; };
 		0F29D64E191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pl; path = "pl.lproj/gesture_zone@2x.png"; sourceTree = "<group>"; };
@@ -1252,6 +1251,7 @@
 		0F77D8CD1574A3BE00FE904E /* remote_button_movies_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_movies_down@2x.png"; sourceTree = "<group>"; };
 		0F77D8CF1574A43000FE904E /* remote_button_tv_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_tv_down@2x.png"; sourceTree = "<group>"; };
 		0F77D8D11574A4A200FE904E /* remote_button_pictures_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_pictures_down@2x.png"; sourceTree = "<group>"; };
+		0F7A8A911926776900313C17 /* AppInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppInfoViewController.xib; sourceTree = "<group>"; };
 		0F7B95131708975500880F33 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		0F7B95141708975500880F33 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		0F7D9A50163D40F10069BC16 /* coverbox_back_section.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coverbox_back_section.png; sourceTree = "<group>"; };
@@ -1494,7 +1494,6 @@
 		0FCCFF6816D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/ShowInfoViewController.xib; sourceTree = "<group>"; };
 		0FCCFF6916D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/HostManagementViewController.xib; sourceTree = "<group>"; };
 		0FCCFF6A16D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/HostViewController.xib; sourceTree = "<group>"; };
-		0FCCFF6B16D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/AppInfoViewController.xib; sourceTree = "<group>"; };
 		0FCCFF6C16D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = it; path = "it.lproj/button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
 		0FCCFF6D16D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = it; path = it.lproj/button_now_playing_empty.png; sourceTree = "<group>"; };
 		0FCCFF6E16D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = it; path = it.lproj/button_now_playing.png; sourceTree = "<group>"; };
@@ -1618,9 +1617,6 @@
 		8ED18E8016B572D800CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = de; path = "de.lproj/button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
 		8ED18E8116B572D800CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = de; path = de.lproj/button_now_playing_empty.png; sourceTree = "<group>"; };
 		8ED18E8216B572D900CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = de; path = de.lproj/button_now_playing.png; sourceTree = "<group>"; };
-		8ED18E8416B6C08F00CA03F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AppInfoViewController.xib; sourceTree = "<group>"; };
-		8ED18E8616B6C09E00CA03F4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/AppInfoViewController.xib; sourceTree = "<group>"; };
-		8ED18E8716B6C09F00CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/AppInfoViewController.xib; sourceTree = "<group>"; };
 		8ED18ECE16B6D17D00CA03F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ShowInfoViewController.xib; sourceTree = "<group>"; };
 		8ED18ED116B6D18300CA03F4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/ShowInfoViewController.xib; sourceTree = "<group>"; };
 		8ED18ED216B6D18400CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/ShowInfoViewController.xib; sourceTree = "<group>"; };
@@ -1637,7 +1633,6 @@
 		B1FF37E51709D1FE005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ShowInfoViewController.xib"; sourceTree = "<group>"; };
 		B1FF37E61709D201005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/HostManagementViewController.xib"; sourceTree = "<group>"; };
 		B1FF37E71709D203005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/HostViewController.xib"; sourceTree = "<group>"; };
-		B1FF37E81709D206005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/AppInfoViewController.xib"; sourceTree = "<group>"; };
 		B1FF37E91709D209005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/remote quick help@2x.png"; sourceTree = "<group>"; };
 		B1FF37EA1709D20B005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/gesture_zone@2x.png"; sourceTree = "<group>"; };
 		B1FF37EB1709D20D005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
@@ -1755,7 +1750,7 @@
 				0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */,
 				1A9786B41683CF8100B4F3F8 /* HostManagementViewController.xib */,
 				1A9786B81683D21C00B4F3F8 /* HostViewController.xib */,
-				8ED18E8516B6C08F00CA03F4 /* AppInfoViewController.xib */,
+				0F7A8A911926776900313C17 /* AppInfoViewController.xib */,
 				0F2EB20C1547EA37005CAD4A /* WebViewController.xib */,
 				0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */,
 				0F40F5A6164D5FA000AF9DE9 /* RightMenuViewController.xib */,
@@ -3017,7 +3012,6 @@
 				0F487B62153A0A83004530C1 /* button_party_on.png in Resources */,
 				0F487B65153A0A91004530C1 /* button_party_off@2x.png in Resources */,
 				0F487B66153A0A91004530C1 /* button_party_on@2x.png in Resources */,
-				8ED18E8316B6C08F00CA03F4 /* AppInfoViewController.xib in Resources */,
 				0F61E19D153C85E500A89BB1 /* info@2x.png in Resources */,
 				0F61E19F153C85F300A89BB1 /* info.png in Resources */,
 				0FAAADFC1541CEAD00854BEB /* io.png in Resources */,
@@ -3373,6 +3367,7 @@
 				0FB5855D1653EBC100180576 /* button_info@2x.png in Resources */,
 				0FA39CC41654447F00A61E4A /* torch.png in Resources */,
 				0FAF8A5317E4ECD700AB6C73 /* stackScrollUpShadow.png in Resources */,
+				0F7A8A921926776900313C17 /* AppInfoViewController.xib in Resources */,
 				0FA39CC71654448600A61E4A /* torch@2x.png in Resources */,
 				0FD8389D1655788300611180 /* torch_on.png in Resources */,
 				0FD838A01655788E00611180 /* torch_on@2x.png in Resources */,
@@ -3729,19 +3724,6 @@
 				0F29D651191F7E1B00FFE2AA /* pl */,
 			);
 			name = "remote quick help.png";
-			sourceTree = "<group>";
-		};
-		8ED18E8516B6C08F00CA03F4 /* AppInfoViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8ED18E8416B6C08F00CA03F4 /* en */,
-				8ED18E8616B6C09E00CA03F4 /* fr */,
-				8ED18E8716B6C09F00CA03F4 /* de */,
-				0FCCFF6B16D0F1F0008EBABE /* it */,
-				B1FF37E81709D206005473FF /* zh-Hans */,
-				0F29D64B191F7E1A00FFE2AA /* pl */,
-			);
-			name = AppInfoViewController.xib;
 			sourceTree = "<group>";
 		};
 		8ED18ECF16B6D17D00CA03F4 /* ShowInfoViewController.xib */ = {
