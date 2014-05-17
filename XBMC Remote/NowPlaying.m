@@ -2834,6 +2834,17 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [seg_music setTitle:NSLocalizedString(@"Music",nil) forState:UIControlStateNormal];
+    [seg_video setTitle:NSLocalizedString(@"Video",nil) forState:UIControlStateNormal];
+    [PartyModeButton setTitle:NSLocalizedString(@"Party",nil) forState:UIControlStateNormal];
+    [PartyModeButton setTitle:NSLocalizedString(@"Party",nil) forState:UIControlStateHighlighted];
+    [PartyModeButton setTitle:NSLocalizedString(@"Party",nil) forState:UIControlStateSelected];
+    [editTableButton setTitle:NSLocalizedString(@"Edit",nil) forState:UIControlStateNormal];
+    [editTableButton setTitle:NSLocalizedString(@"Done",nil) forState:UIControlStateSelected];
+    [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
+    labelSongCodec.text=NSLocalizedString(@"codec",nil);
+    labelSongBitRate.text=NSLocalizedString(@"bit rate",nil);
+    labelSongSampleRate.text=NSLocalizedString(@"sample rate",nil);
     float toolbarAlpha = 0.8f;
     pg_thumb_name = @"pgbar_thumb";
     cellBackgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];

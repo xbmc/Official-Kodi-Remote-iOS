@@ -110,6 +110,7 @@
     NSString *pg_thumb_name;
     UISegmentedControl *playlistSegmentedControl;
     UIColor *cellBackgroundColor;
+    __weak IBOutlet UILabel *noItemsLabel;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;

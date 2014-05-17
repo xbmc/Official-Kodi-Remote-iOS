@@ -198,6 +198,7 @@
 "Channel Guide" = "Channel Guide";
 "Record" = "Record";
 "Recordings" = "Recordings";
+"Timers" = "Timers";
 "Broadcast Details" = "Broadcast Details";
 "TIME" = "TIME";
 
@@ -235,8 +236,8 @@
 "Unable to  execute the add-on" = "Unable to  execute the add-on";
 
 "...more" = "...more";
-"Edit" = "Edit";
-"Done" = "Done";
+"Edit" = "Editer";
+"Done" = "Terminé";
 "XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "XBMC \"Gotham\" version 13  or superior is required to access XBMC settings";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.";
 
@@ -245,3 +246,5 @@
 "Enjoy!" = "Enjoy!";
 
 "No items found." = "Aucun élément";
+"Video" = "Vidéo";
+"Party" = "Party";
