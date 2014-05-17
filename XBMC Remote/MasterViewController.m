@@ -136,6 +136,7 @@
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
+        [(UILabel*) [cell viewWithTag:3] setText:NSLocalizedString(@"No connection", nil)];
         if (indexPath.row == 0){
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(127, (int)((44/2) - (36/2)) - 2, 145, 36)];
             xbmc_logo. alpha = .25f;

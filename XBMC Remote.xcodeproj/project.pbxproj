@@ -391,6 +391,7 @@
 		0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F61E198153C828300A89BB1 /* AppInfoViewController.m */; };
 		0F61E19D153C85E500A89BB1 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F61E19C153C85E500A89BB1 /* info@2x.png */; };
 		0F61E19F153C85F300A89BB1 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F61E19E153C85F300A89BB1 /* info.png */; };
+		0F6234E8192808120024FEFA /* cellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* cellView.xib */; };
 		0F643313154F2C6700901763 /* leather.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F643312154F2C6700901763 /* leather.png */; };
 		0F643316154F2C7200901763 /* leather@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F643315154F2C7200901763 /* leather@2x.png */; };
 		0F64C6401719B1E20061BFBA /* cell_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F64C63E1719B1E20061BFBA /* cell_bg.png */; };
@@ -743,7 +744,6 @@
 		1A9786C01683D87800B4F3F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9786C21683D87800B4F3F8 /* Localizable.strings */; };
 		1AF2B83116CFD96E00147334 /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AF2B83316CFD96E00147334 /* cellViewIPad.xib */; };
 		1AFC88E916CFC57A00E2FB2B /* rightCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFC88EB16CFC57A00E2FB2B /* rightCellView.xib */; };
-		1AFC88ED16CFC5C500E2FB2B /* cellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFC88EF16CFC5C500E2FB2B /* cellView.xib */; };
 		8E1B3AF516EAABA00089A043 /* remote quick help@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E1B3AF716EAABA00089A043 /* remote quick help@2x.png */; };
 		8E1B3AF916EAABA80089A043 /* remote quick help_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E1B3AFB16EAABA80089A043 /* remote quick help_ipad@2x.png */; };
 		8E1B3AFC16EAABAD0089A043 /* remote quick help_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E1B3AFE16EAABAD0089A043 /* remote quick help_ipad.png */; };
@@ -806,7 +806,6 @@
 		0F29D641191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F29D642191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0F29D643191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/cellViewIPad.xib; sourceTree = "<group>"; };
-		0F29D644191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/cellView.xib; sourceTree = "<group>"; };
 		0F29D645191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/rightCellView.xib; sourceTree = "<group>"; };
 		0F29D646191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/DetailViewController.xib; sourceTree = "<group>"; };
 		0F29D647191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/NowPlaying.xib; sourceTree = "<group>"; };
@@ -1199,6 +1198,7 @@
 		0F61E198153C828300A89BB1 /* AppInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppInfoViewController.m; sourceTree = "<group>"; };
 		0F61E19C153C85E500A89BB1 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		0F61E19E153C85F300A89BB1 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		0F6234E7192808120024FEFA /* cellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellView.xib; sourceTree = "<group>"; };
 		0F643312154F2C6700901763 /* leather.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leather.png; sourceTree = "<group>"; };
 		0F643315154F2C7200901763 /* leather@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leather@2x.png"; sourceTree = "<group>"; };
 		0F64C63E1719B1E20061BFBA /* cell_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cell_bg.png; sourceTree = "<group>"; };
@@ -1487,7 +1487,6 @@
 		0FCCFF6116D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0FCCFF6216D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0FCCFF6316D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/cellViewIPad.xib; sourceTree = "<group>"; };
-		0FCCFF6416D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/cellView.xib; sourceTree = "<group>"; };
 		0FCCFF6516D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/rightCellView.xib; sourceTree = "<group>"; };
 		0FCCFF6616D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/DetailViewController.xib; sourceTree = "<group>"; };
 		0FCCFF6716D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/NowPlaying.xib; sourceTree = "<group>"; };
@@ -1597,8 +1596,6 @@
 		1AF2B83416CFD97300147334 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/cellViewIPad.xib; sourceTree = "<group>"; };
 		1AFC88EA16CFC57A00E2FB2B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/rightCellView.xib; sourceTree = "<group>"; };
 		1AFC88EC16CFC58600E2FB2B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/rightCellView.xib; sourceTree = "<group>"; };
-		1AFC88EE16CFC5C500E2FB2B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/cellView.xib; sourceTree = "<group>"; };
-		1AFC88F016CFC5C900E2FB2B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/cellView.xib; sourceTree = "<group>"; };
 		8E1B3AF616EAABA00089A043 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/remote quick help@2x.png"; sourceTree = "<group>"; };
 		8E1B3AFA16EAABA80089A043 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/remote quick help_ipad@2x.png"; sourceTree = "<group>"; };
 		8E1B3AFD16EAABAD0089A043 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/remote quick help_ipad.png"; sourceTree = "<group>"; };
@@ -1626,7 +1623,6 @@
 		B1FF37DE1709D1EB005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B1FF37E01709D1F1005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/cellViewIPad.xib"; sourceTree = "<group>"; };
-		B1FF37E11709D1F4005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/cellView.xib"; sourceTree = "<group>"; };
 		B1FF37E21709D1F6005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/rightCellView.xib"; sourceTree = "<group>"; };
 		B1FF37E31709D1F9005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/DetailViewController.xib"; sourceTree = "<group>"; };
 		B1FF37E41709D1FA005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/NowPlaying.xib"; sourceTree = "<group>"; };
@@ -1736,7 +1732,7 @@
 		0F175F14154D45C200C1C61F /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
-				1AFC88EF16CFC5C500E2FB2B /* cellView.xib */,
+				0F6234E7192808120024FEFA /* cellView.xib */,
 				1AFC88EB16CFC57A00E2FB2B /* rightCellView.xib */,
 				0FB16163151F156A001BA2D4 /* jsonDataCell.xib */,
 				0F44E2D41527A9DF00D5958F /* playlistCellView.xib */,
@@ -2768,7 +2764,6 @@
 			files = (
 				0F554905151D1187007E633F /* InfoPlist.strings in Resources */,
 				0F554917151D1187007E633F /* DetailViewController.xib in Resources */,
-				1AFC88ED16CFC5C500E2FB2B /* cellView.xib in Resources */,
 				0F554AA2151D13CA007E633F /* bottom_logo_up@2x.png in Resources */,
 				0F554AA4151D13CA007E633F /* bottom_text_up.9@2x.png in Resources */,
 				0F554AA5151D13CA007E633F /* bottombar_bg@2x.png in Resources */,
@@ -3073,6 +3068,7 @@
 				0FE5191015716AE800AE5D95 /* remote_button_skip_backward_up@2x.png in Resources */,
 				0FE5191115716AE800AE5D95 /* remote_button_skip_forward_up@2x.png in Resources */,
 				0FE5191215716AE800AE5D95 /* remote_button_stop_up@2x.png in Resources */,
+				0F6234E8192808120024FEFA /* cellView.xib in Resources */,
 				0FE5191315716AE800AE5D95 /* remote_button_sub_up@2x.png in Resources */,
 				0FE5191415716AE800AE5D95 /* remote_button_tv_up@2x.png in Resources */,
 				0FE5191515716AE800AE5D95 /* remote_button_up_up@2x.png in Resources */,
@@ -3668,18 +3664,6 @@
 				0F29D645191F7E1A00FFE2AA /* pl */,
 			);
 			name = rightCellView.xib;
-			sourceTree = "<group>";
-		};
-		1AFC88EF16CFC5C500E2FB2B /* cellView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1AFC88EE16CFC5C500E2FB2B /* en */,
-				1AFC88F016CFC5C900E2FB2B /* fr */,
-				0FCCFF6416D0F1EF008EBABE /* it */,
-				B1FF37E11709D1F4005473FF /* zh-Hans */,
-				0F29D644191F7E1A00FFE2AA /* pl */,
-			);
-			name = cellView.xib;
 			sourceTree = "<group>";
 		};
 		8E1B3AF716EAABA00089A043 /* remote quick help@2x.png */ = {
