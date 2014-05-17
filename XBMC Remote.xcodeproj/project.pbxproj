@@ -392,6 +392,7 @@
 		0F61E19D153C85E500A89BB1 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F61E19C153C85E500A89BB1 /* info@2x.png */; };
 		0F61E19F153C85F300A89BB1 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F61E19E153C85F300A89BB1 /* info.png */; };
 		0F6234E8192808120024FEFA /* cellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* cellView.xib */; };
+		0F6234EA192809B70024FEFA /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E9192809B70024FEFA /* cellViewIPad.xib */; };
 		0F643313154F2C6700901763 /* leather.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F643312154F2C6700901763 /* leather.png */; };
 		0F643316154F2C7200901763 /* leather@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F643315154F2C7200901763 /* leather@2x.png */; };
 		0F64C6401719B1E20061BFBA /* cell_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F64C63E1719B1E20061BFBA /* cell_bg.png */; };
@@ -742,7 +743,6 @@
 		1A9786B21683CF8100B4F3F8 /* HostManagementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A9786B41683CF8100B4F3F8 /* HostManagementViewController.xib */; };
 		1A9786B61683D21C00B4F3F8 /* HostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A9786B81683D21C00B4F3F8 /* HostViewController.xib */; };
 		1A9786C01683D87800B4F3F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9786C21683D87800B4F3F8 /* Localizable.strings */; };
-		1AF2B83116CFD96E00147334 /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AF2B83316CFD96E00147334 /* cellViewIPad.xib */; };
 		1AFC88E916CFC57A00E2FB2B /* rightCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFC88EB16CFC57A00E2FB2B /* rightCellView.xib */; };
 		8E1B3AF516EAABA00089A043 /* remote quick help@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E1B3AF716EAABA00089A043 /* remote quick help@2x.png */; };
 		8E1B3AF916EAABA80089A043 /* remote quick help_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E1B3AFB16EAABA80089A043 /* remote quick help_ipad@2x.png */; };
@@ -805,7 +805,6 @@
 		0F284A5416F6419700AFC1EF /* PosterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PosterCell.m; sourceTree = "<group>"; };
 		0F29D641191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F29D642191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		0F29D643191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/cellViewIPad.xib; sourceTree = "<group>"; };
 		0F29D645191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/rightCellView.xib; sourceTree = "<group>"; };
 		0F29D646191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/DetailViewController.xib; sourceTree = "<group>"; };
 		0F29D647191F7E1A00FFE2AA /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = pl.lproj/NowPlaying.xib; sourceTree = "<group>"; };
@@ -1199,6 +1198,7 @@
 		0F61E19C153C85E500A89BB1 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		0F61E19E153C85F300A89BB1 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		0F6234E7192808120024FEFA /* cellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellView.xib; sourceTree = "<group>"; };
+		0F6234E9192809B70024FEFA /* cellViewIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellViewIPad.xib; sourceTree = "<group>"; };
 		0F643312154F2C6700901763 /* leather.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leather.png; sourceTree = "<group>"; };
 		0F643315154F2C7200901763 /* leather@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leather@2x.png"; sourceTree = "<group>"; };
 		0F64C63E1719B1E20061BFBA /* cell_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cell_bg.png; sourceTree = "<group>"; };
@@ -1486,7 +1486,6 @@
 		0FCCFF5E16D0EEF8008EBABE /* icon_watched.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_watched.png; sourceTree = "<group>"; };
 		0FCCFF6116D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0FCCFF6216D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
-		0FCCFF6316D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/cellViewIPad.xib; sourceTree = "<group>"; };
 		0FCCFF6516D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/rightCellView.xib; sourceTree = "<group>"; };
 		0FCCFF6616D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/DetailViewController.xib; sourceTree = "<group>"; };
 		0FCCFF6716D0F1F0008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/NowPlaying.xib; sourceTree = "<group>"; };
@@ -1592,8 +1591,6 @@
 		1A9786B91683D22300B4F3F8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/HostViewController.xib; sourceTree = "<group>"; };
 		1A9786C11683D87800B4F3F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1A9786C31683D8E900B4F3F8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1AF2B83216CFD96E00147334 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/cellViewIPad.xib; sourceTree = "<group>"; };
-		1AF2B83416CFD97300147334 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/cellViewIPad.xib; sourceTree = "<group>"; };
 		1AFC88EA16CFC57A00E2FB2B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/rightCellView.xib; sourceTree = "<group>"; };
 		1AFC88EC16CFC58600E2FB2B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/rightCellView.xib; sourceTree = "<group>"; };
 		8E1B3AF616EAABA00089A043 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/remote quick help@2x.png"; sourceTree = "<group>"; };
@@ -1622,7 +1619,6 @@
 		B1FD2269170B33DE00FB1669 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/remote quick help.png"; sourceTree = "<group>"; };
 		B1FF37DE1709D1EB005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		B1FF37E01709D1F1005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/cellViewIPad.xib"; sourceTree = "<group>"; };
 		B1FF37E21709D1F6005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/rightCellView.xib"; sourceTree = "<group>"; };
 		B1FF37E31709D1F9005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/DetailViewController.xib"; sourceTree = "<group>"; };
 		B1FF37E41709D1FA005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/NowPlaying.xib"; sourceTree = "<group>"; };
@@ -1757,7 +1753,7 @@
 		0F175F1D154D5B9B00C1C61F /* iPad */ = {
 			isa = PBXGroup;
 			children = (
-				1AF2B83316CFD96E00147334 /* cellViewIPad.xib */,
+				0F6234E9192809B70024FEFA /* cellViewIPad.xib */,
 				0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */,
 			);
 			name = iPad;
@@ -2851,6 +2847,7 @@
 				0F554B63151D13CA007E633F /* default_album.png in Resources */,
 				0F554B64151D13CA007E633F /* default_jewel.png in Resources */,
 				0F554B65151D13CA007E633F /* default_poster.png in Resources */,
+				0F6234EA192809B70024FEFA /* cellViewIPad.xib in Resources */,
 				0F554B66151D13CA007E633F /* default_season.png in Resources */,
 				0F554B67151D13CA007E633F /* default_tvshow.png in Resources */,
 				0F554B6B151D13CA007E633F /* icon_album.png in Resources */,
@@ -3018,7 +3015,6 @@
 				0F2EB21F1547EF91005CAD4A /* arrow_left.png in Resources */,
 				0F2EB2201547EF91005CAD4A /* arrow_right.png in Resources */,
 				0F175F25154D5C3600C1C61F /* ViewControllerIPad.xib in Resources */,
-				1AF2B83116CFD96E00147334 /* cellViewIPad.xib in Resources */,
 				0F268FD3154DC1DF00ED64D8 /* tableLeft.png in Resources */,
 				0F089932154F0F9C006EA34A /* tableRight.png in Resources */,
 				0F643313154F2C6700901763 /* leather.png in Resources */,
@@ -3640,18 +3636,6 @@
 				0F29D642191F7E1A00FFE2AA /* pl */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		1AF2B83316CFD96E00147334 /* cellViewIPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1AF2B83216CFD96E00147334 /* en */,
-				1AF2B83416CFD97300147334 /* fr */,
-				0FCCFF6316D0F1EF008EBABE /* it */,
-				B1FF37E01709D1F1005473FF /* zh-Hans */,
-				0F29D643191F7E1A00FFE2AA /* pl */,
-			);
-			name = cellViewIPad.xib;
 			sourceTree = "<group>";
 		};
 		1AFC88EB16CFC57A00E2FB2B /* rightCellView.xib */ = {
