@@ -4641,6 +4641,7 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
     isViewDidLoad = YES;
     iOSYDelta = 44;
     sectionHeight = 16;

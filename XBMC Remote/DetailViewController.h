@@ -118,6 +118,7 @@
     NSDateFormatter *localHourMinuteFormatter;
     NSIndexPath *autoScrollTable;
     MessagesView *messagesView;
+    __weak IBOutlet UILabel *noItemsLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame;

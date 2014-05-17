@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4488.1" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1280" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3715.3"/>
+        <deployment defaultVersion="1296" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController">
@@ -14,13 +14,14 @@
                 <outlet property="button4" destination="122" id="127"/>
                 <outlet property="button5" destination="123" id="128"/>
                 <outlet property="buttonsView" destination="116" id="134"/>
-                <outlet property="buttonsViewBgImage" destination="115" id="UnP-F8-8Om"/>
-                <outlet property="buttonsViewBgToolbar" destination="9h6-bd-jHG" id="8Fm-FN-Rmn"/>
+                <outlet property="buttonsViewBgImage" destination="115" id="TEb-eA-6e2"/>
+                <outlet property="buttonsViewBgToolbar" destination="sPd-OR-uGy" id="DhA-1U-cyk"/>
                 <outlet property="dataList" destination="37" id="93"/>
                 <outlet property="debugText" destination="160" id="162"/>
                 <outlet property="detailView" destination="1" id="158"/>
                 <outlet property="lpgr" destination="97" id="100"/>
                 <outlet property="noFoundView" destination="135" id="140"/>
+                <outlet property="noItemsLabel" destination="136" id="4WA-ed-7Pa"/>
                 <outlet property="searchDisplayController" destination="143" id="145"/>
                 <outlet property="view" destination="156" id="157"/>
                 <outlet property="webPlayView" destination="105" id="109"/>
@@ -57,8 +58,8 @@
                             <rect key="frame" x="39" y="105" width="250" height="41"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Aucun élément" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="136">
-                                    <rect key="frame" x="69" y="10" width="119" height="22"/>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No items found." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="136">
+                                    <rect key="frame" x="69" y="9" width="126" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="0.84919593979999997" alpha="1" colorSpace="calibratedWhite"/>
@@ -71,13 +72,13 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" style="plain" rowHeight="76" sectionHeaderHeight="22" sectionFooterHeight="22" id="37">
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" style="plain" separatorStyle="default" rowHeight="76" sectionHeaderHeight="22" sectionFooterHeight="22" id="37">
                             <rect key="frame" x="320" y="0.0" width="320" height="372"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <gestureRecognizers/>
                             <color key="separatorColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            <searchBar key="tableHeaderView" opaque="NO" contentMode="redraw" barStyle="blackTranslucent" placeholder="Recherche" id="142" customClass="UISearchBarLeftButton">
+                            <searchBar key="tableHeaderView" opaque="NO" contentMode="redraw" barStyle="blackTranslucent" placeholder="Search" id="142" customClass="UISearchBarLeftButton">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -103,7 +104,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 </imageView>
-                                <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="9h6-bd-jHG">
+                                <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="sPd-OR-uGy">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <items/>
