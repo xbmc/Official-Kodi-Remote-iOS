@@ -135,6 +135,10 @@
 "Are you sure you want to update your video library now?" = "Are you sure you want to update your video library now?";
 "Are you sure you want to clean your video library now?" = "Are you sure you want to clean your video library now?";
 
+"DIRECTED BY" = "DIRECTED BY";
+"RUNTIME" = "RUNTIME";
+"PARENTAL RATING" = "PARENTAL RATING";
+"CAST" = "CAST";
 "EPISODES" = "EPISODES";
 "GENRE" = "GENRE";
 "STUDIO" = "STUDIO";
@@ -149,6 +153,7 @@
 "DESCRIPTION" = "DESCRIPTION";
 "STYLE" = "STYLE";
 "BORN / FORMED" = "BORN / FORMED";
+"TRAILER" = "TRAILER";
 
 "codec" = "codec";
 "bit rate" = "bit rate";

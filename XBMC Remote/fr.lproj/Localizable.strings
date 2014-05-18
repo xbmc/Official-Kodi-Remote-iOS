@@ -135,6 +135,10 @@
 "Are you sure you want to update your video library now?" = "Etes-vous sur de vouloir mettre à jour votre bibliothèque vidéo maintenant ?";
 "Are you sure you want to clean your video library now?" = "Etes-vous sur de vouloir nettoyer votre bibliothèque vidéo maintenant ?";
 
+"DIRECTED BY" = "REALISE PAR";
+"RUNTIME" = "DUREE";
+"PARENTAL RATING" = "NOTE PARENTALE";
+"CAST" = "AVEC";
 "EPISODES" = "EPISODES";
 "GENRE" = "GENRE";
 "STUDIO" = "STUDIO";
@@ -149,6 +153,7 @@
 "DESCRIPTION" = "DESCRIPTION";
 "STYLE" = "STYLE";
 "BORN / FORMED" = "NAISSANCE / FORMATION";
+"TRAILER" = "TRAILER";
 
 "codec" = "codec";
 "bit rate" = "bit rate";

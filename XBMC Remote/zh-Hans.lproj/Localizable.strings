@@ -135,6 +135,10 @@
 "Are you sure you want to update your video library now?" = "确定现在要更新你的视频资料库？";
 "Are you sure you want to clean your video library now?" = "确定现在要清理你的视频资料库？";
 
+"DIRECTED BY" = "导演";
+"RUNTIME" = "时长";
+"PARENTAL RATING" = "分级";
+"CAST" = "演员";
 "EPISODES" = "集";
 "GENRE" = "类型";
 "STUDIO" = "制片";
@@ -149,6 +153,7 @@
 "DESCRIPTION" = "介绍";
 "STYLE" = "风格";
 "BORN / FORMED" = "诞生 / 组建";
+"TRAILER" = "TRAILER";
 
 "codec" = "编码";
 "bit rate" = "比特率";

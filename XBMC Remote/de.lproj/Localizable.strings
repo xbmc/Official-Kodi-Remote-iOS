@@ -135,6 +135,10 @@
 "Are you sure you want to update your video library now?" = "Bist du sicher, dass Du deine Videobibliothek jetzt aktualisieren möchtest??";
 "Are you sure you want to clean your video library now?" = "Bist du sicher, dass Du deine Videoobibliothek jetzt bereinigen möchtest?";
 
+"DIRECTED BY" = "REGIE";
+"RUNTIME" = "LAUFZEIT";
+"PARENTAL RATING" = "ALTERSBESCHRÄNKUNG";
+"CAST" = "BESETZUNG";
 "EPISODES" = "EPISODEN";
 "GENRE" = "GENRE";
 "STUDIO" = "STUDIO";
@@ -149,6 +153,7 @@
 "DESCRIPTION" = "BESCHREIBUNG";
 "STYLE" = "STIL";
 "BORN / FORMED" = "GEGRÜNDET";
+"TRAILER" = "TRAILER";
 
 "codec" = "Codec";
 "bit rate" = "Bitrate";

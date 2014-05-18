@@ -1915,6 +1915,13 @@ int h=0;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [label1 setText:NSLocalizedString(@"DIRECTED BY", nil)];
+    [label2 setText:NSLocalizedString(@"GENRE", nil)];
+    [label3 setText:NSLocalizedString(@"RUNTIME", nil)];
+    [label4 setText:NSLocalizedString(@"STUDIO", nil)];
+    [label5 setText:NSLocalizedString(@"SUMMARY", nil)];
+    [label6 setText:NSLocalizedString(@"CAST", nil)];
+    [parentalRatingLabelUp setText:NSLocalizedString(@"PARENTAL RATING", nil)];
     fanartView.tag = 1;
     fanartView.userInteractionEnabled = YES;
     UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
