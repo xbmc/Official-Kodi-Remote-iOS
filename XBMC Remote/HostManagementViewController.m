@@ -397,8 +397,14 @@ static inline BOOL IsEmpty(id obj) {
 - (void)viewDidLoad{
     [super viewDidLoad];
     [addHostButton setTitle:NSLocalizedString(@"Add Host", nil) forState:UIControlStateNormal];
+    addHostButton.titleLabel.numberOfLines = 1;
+    addHostButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    addHostButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
     [editTableButton setTitle:NSLocalizedString(@"Edit",nil) forState:UIControlStateNormal];
     [editTableButton setTitle:NSLocalizedString(@"Done",nil) forState:UIControlStateSelected];
+    editTableButton.titleLabel.numberOfLines = 1;
+    editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    editTableButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
     [supportedVersionLabel setText:NSLocalizedString(@"Supported XBMC version is Eden (11) or higher", nil)];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
