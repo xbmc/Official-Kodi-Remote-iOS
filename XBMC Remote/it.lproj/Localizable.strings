@@ -248,3 +248,6 @@
 "No items found." = "Nessun elemento trovato";
 "Video" = "Video";
 "Party" = "Party";
+
+"Supported XBMC version is Eden (11) or higher" = "Versione XBMC supportata Eden (11) o superiore";
+"Add Host" = "Aggiungi";

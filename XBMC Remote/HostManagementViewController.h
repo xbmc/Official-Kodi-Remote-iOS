@@ -27,6 +27,7 @@
     __weak IBOutlet UIButton *addHostButton;
     UIView *iOS7navBarEffect;
     __weak IBOutlet UIView *supportedVersionView;
+    __weak IBOutlet UILabel *supportedVersionLabel;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;

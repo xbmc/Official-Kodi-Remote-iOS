@@ -396,6 +396,10 @@ static inline BOOL IsEmpty(id obj) {
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [addHostButton setTitle:NSLocalizedString(@"Add Host", nil) forState:UIControlStateNormal];
+    [editTableButton setTitle:NSLocalizedString(@"Edit",nil) forState:UIControlStateNormal];
+    [editTableButton setTitle:NSLocalizedString(@"Done",nil) forState:UIControlStateSelected];
+    [supportedVersionLabel setText:NSLocalizedString(@"Supported XBMC version is Eden (11) or higher", nil)];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
 
