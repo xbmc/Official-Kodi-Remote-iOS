@@ -251,3 +251,20 @@
 
 "Supported XBMC version is Eden (11) or higher" = "Supported XBMC version is Eden (11) or higher";
 "Add Host" = "Add Host";
+
+"Description" = "Description";
+"Host : port /\nTCP port" = "Host : port /\nTCP port";
+"MAC Address" = "MAC Address";
+"Username and Password" = "Username and Password";
+"Prefer posters for TV shows" = "Prefer posters for TV shows";
+"Find XBMC" = "Find XBMC";
+"Save" = "Save";
+"No XBMC instances were found :(" = "No XBMC instances were found :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled";
+"How-to actvate the remote app in XBMC" = "How-to actvate the remote app in XBMC";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nSettings -> Network -> Allow control of XBMC via HTTP";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP";
+"e.g. My XBMC" = "e.g. My XBMC";
+"e.g. 192.168.0.8" = "e.g. 192.168.0.8";
+"User" = "User";
+"Password" = "Password";

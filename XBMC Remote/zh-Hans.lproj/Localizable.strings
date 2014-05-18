@@ -251,3 +251,20 @@
 
 "Supported XBMC version is Eden (11) or higher" = "支持Eden (11)或更高版本的XBMC";
 "Add Host" = "添加站点";
+
+"Description" = "描述";
+"Host : port /\nTCP port" = "站点 : 端口 /\nTCP 端口";
+"MAC Address" = "MAC 地址";
+"Username and Password" = "用户名和密码";
+"Prefer posters for TV shows" = "剧集倾向使用海报";
+"Find XBMC" = "查找XBMC";
+"Save" = "保存";
+"No XBMC instances were found :(" = "未找到 XBMC 实例 :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "“查找XBMC” 功能需要XBMC服务器启用选项\n“通过Zeroconf协议发布这些服务”";
+"How-to actvate the remote app in XBMC" = "如何在XBMC中激活远程控制";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\n系统设置 -> 网络 -> 允许通过HTTP控制XBMC";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\n系统设置 -> 服务 -> Web服务器 -> 允许通过HTTP控制XBMC";
+"e.g. My XBMC" = "如：我的XBMC";
+"e.g. 192.168.0.8" = "如：192.168.0.8";
+"Username" = "用户名";
+"Password" = "密码";

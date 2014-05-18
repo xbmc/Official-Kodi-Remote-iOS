@@ -251,3 +251,20 @@
 
 "Supported XBMC version is Eden (11) or higher" = "Supporte XBMC Eden (11) ou supérieur";
 "Add Host" = "Ajouter";
+
+"Description" = "Description";
+"Host : port /\nTCP port" = "Host : port /\nTCP port";
+"MAC Address" = "Adresse MAC";
+"Username and Password" = "Utilisateur et Mot de passe";
+"Prefer posters for TV shows" = "Posters pour les séries TV";
+"Find XBMC" = "Recherche XBMC";
+"Save" = "Enregistrer";
+"No XBMC instances were found :(" = "Aucune instance XBMC n'a été trouvée :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Recherche XBMC\" requière d'activer l'option XMBC\n\"Zéroconf\"";
+"How-to actvate the remote app in XBMC" = "Pour activer la télécommande dans XBMC";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nSettings -> Network -> Allow control of XBMC via HTTP";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP";
+"e.g. My XBMC" = "ex. Mon XBMC";
+"e.g. 192.168.0.8" = "ex. 192.168.0.8";
+"Username" = "Utilisateur";
+"Password" = "Mot de passe";
