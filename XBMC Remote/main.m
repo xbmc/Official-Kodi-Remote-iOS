@@ -12,6 +12,15 @@
 
 int main(int argc, char *argv[]){
     @autoreleasepool {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults synchronize];
+        if ([[userDefaults objectForKey:@"lang_preference"] length]){
+            [userDefaults setObject:[NSArray arrayWithObjects:[userDefaults objectForKey:@"lang_preference"], nil] forKey:@"AppleLanguages"];
+        }
+        else{
+            [userDefaults removeObjectForKey:@"AppleLanguages"];
+        }
+        [userDefaults synchronize];
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 }

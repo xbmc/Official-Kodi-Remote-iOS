@@ -80,13 +80,6 @@ NSMutableArray *hostRightMenuItems;
     [application setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    if ([[userDefaults objectForKey:@"lang_preference"] length]){
-        [userDefaults setObject:[NSArray arrayWithObjects:[userDefaults objectForKey:@"lang_preference"], nil] forKey:@"AppleLanguages"];
-        [userDefaults synchronize];
-    }
-    else{
-         [userDefaults removeObjectForKey:@"AppleLanguages"];
-    }
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]==YES){
         xbmcRemote.idleTimerDisabled = YES;
