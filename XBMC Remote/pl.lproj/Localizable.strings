@@ -265,7 +265,7 @@
 "Find XBMC" = "Znajdź XBMC";
 "Save" = "Zachowaj";
 "No XBMC instances were found :(" = "Nie znaleziono serwerów XBMC :(";
-"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\Funkcja "Znajdź XBMC\" wymaga włączenia opcji serwera XBMC\n\"Rozgłaszanie usług do innych systemów za pośrednictwem Zeroconf\"";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "Funkcja \"Znajdź XBMC\" wymaga włączenia opcji serwera XBMC\n\"Rozgłaszanie usług do innych systemów za pośrednictwem Zeroconf\"";
 "How-to actvate the remote app in XBMC" = "Jak uruchomić aplikację pilota w XBMC";
 "Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nUstawienia -> Sieć -> Pozwalaj na sterowanie XBMC przez HTTP";
 "Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nUstawienia -> Usługi -> Serwer Internetowy -> Zezwolenie na sterowanie za pośrednictwem HTTP";
