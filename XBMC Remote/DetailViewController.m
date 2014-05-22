@@ -4711,6 +4711,7 @@ NSIndexPath *selected;
     if ([self collectionViewCanBeEnabled] == YES){
         bar.leftPadding = SEARCH_BAR_LEFT_PADDING;
     }
+    [bar setPlaceholder:NSLocalizedString(@"Search", nil)];
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     
