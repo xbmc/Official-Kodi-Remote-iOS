@@ -2841,6 +2841,8 @@ int currentItemID;
     [PartyModeButton setTitle:NSLocalizedString(@"Party",nil) forState:UIControlStateSelected];
     [editTableButton setTitle:NSLocalizedString(@"Edit",nil) forState:UIControlStateNormal];
     [editTableButton setTitle:NSLocalizedString(@"Done",nil) forState:UIControlStateSelected];
+    editTableButton.titleLabel.numberOfLines = 1;
+    editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
     labelSongCodec.text=NSLocalizedString(@"codec",nil);
     labelSongBitRate.text=NSLocalizedString(@"bit rate",nil);
