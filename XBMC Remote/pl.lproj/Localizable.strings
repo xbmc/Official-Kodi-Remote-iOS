@@ -247,15 +247,15 @@
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- UWAGA --\nTo ustawienie nie może być zmienione zdalnie. Użyj XBMC GUI do zmiany tego ustawienia.\nDzięki.";
 
 "Official XBMC Remote\nfor iOS" = "Oficjalny pilot do XBMC\ndla iOS";
-"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Oficjalna aplikacja pilota do XBMC wykorzystuje media z http://fanart.tv, ściągnij i użyj dodatku XBMC \"artwork downloader\" by uwolnić piękno dodatkowych grafik!\n\nlogo XBMC, maskotka Zappy oraz ikony Oficjalnego pilota XBMC są własnością XBMC\nhttp://www.xbmc.org/contribute";
-"enjoy!" = "miłego korzystania!";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Oficjalna aplikacja pilota do XBMC wykorzystuje media z http://fanart.tv. Ściągnij i używaj dodatek XBMC \"artwork downloader\" by cieszyć się piękną dodatkową oprawą graficzną!\n\nLogo XBMC, maskotka Zappy oraz ikony Oficjalnego pilota XBMC są własnością XBMC\nhttp://www.xbmc.org/contribute";
+"enjoy!" = "miłego!";
 
 "No items found." = "Nic nie znaleziono.";
 "Video" = "Wideo";
 "Party" = "Impreza";
 "Search" = "Szukaj";
 
-"Supported XBMC version is Eden (11) or higher" = "Wspierane są wersje XBMC od Eden (11) w górę";
+"Supported XBMC version is Eden (11) or higher" = "Wspierane są wersje XBMC od Eden (11) i wyżej";
 "Add Host" = "Dodaj Hosta";
 
 "Description" = "Opis";
