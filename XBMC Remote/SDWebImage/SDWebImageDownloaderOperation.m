@@ -17,8 +17,8 @@
 @property (copy, nonatomic) SDWebImageDownloaderCompletedBlock completedBlock;
 @property (copy, nonatomic) void (^cancelBlock)();
 
-@property (assign, nonatomic, getter = isExecuting) BOOL executing;
-@property (assign, nonatomic, getter = isFinished) BOOL finished;
+@property (assign, nonatomic, getter = isExecuting) BOOL _executing;
+@property (assign, nonatomic, getter = isFinished) BOOL _finished;
 @property (assign, nonatomic) long long expectedSize;
 @property (strong, nonatomic) NSMutableData *imageData;
 @property (strong, nonatomic) NSURLConnection *connection;
@@ -45,8 +45,8 @@
         _progressBlock = [progressBlock copy];
         _completedBlock = [completedBlock copy];
         _cancelBlock = [cancelBlock copy];
-        _executing = NO;
-        _finished = NO;
+        __executing = NO;
+        __finished = NO;
         _expectedSize = 0;
         responseFromCached = YES; // Initially wrong until `connection:willCacheResponse:` is called or not called
     }
@@ -135,14 +135,14 @@
 - (void)setFinished:(BOOL)finished
 {
     [self willChangeValueForKey:@"isFinished"];
-    _finished = finished;
+    __finished = finished;
     [self didChangeValueForKey:@"isFinished"];
 }
 
 - (void)setExecuting:(BOOL)executing
 {
     [self willChangeValueForKey:@"isExecuting"];
-    _executing = executing;
+    __executing = executing;
     [self didChangeValueForKey:@"isExecuting"];
 }
 
