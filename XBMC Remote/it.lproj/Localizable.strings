@@ -60,13 +60,13 @@
 "Suspend" = "Sospendi";
 "Reboot" = "Riavvia";
 "Quit XBMC application" = "Esci dall'applicazione XBMC";
-"Update Audio Library" = "Aggiorna la Libreria Audio";
+"Update Audio Library" = "Audio: Aggiorna la libreria";
 "Update Audio" = "Aggiorna Audio";
-"Clean Audio Library" = "Pulisci la Libreria Audio";
+"Clean Audio Library" = "Audio: Pulisci la libreria";
 "Clean Audio" = "Pulisci Audio";
-"Update Video Library" = "Aggiorna la Libreria Video";
+"Update Video Library" = "Video: Aggiorna la libreria";
 "Update Video" = "Aggiorna Video";
-"Clean Video Library" = "Pulisci la Libreria Video";
+"Clean Video Library" = "Video: Pulisci la libreria";
 "Clean Video" = "Pulisci Video";
 "Quit" = "Esci";
 
