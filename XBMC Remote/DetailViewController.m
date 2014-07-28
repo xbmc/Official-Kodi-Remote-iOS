@@ -652,8 +652,34 @@
 -(void)changeViewMode:(int)newWatchMode forceRefresh:(BOOL)refresh{
     [activityIndicatorView startAnimating];
     if (!refresh){
-        [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")){
+            [UIView transitionWithView: activeLayoutView
+                              duration: 0.2
+                               options: UIViewAnimationOptionBeginFromCurrentState
+                            animations: ^ {
+                                [(UITableView *)activeLayoutView setAlpha:1.0];
+                                CGRect frame;
+                                frame = [activeLayoutView frame];
+                                frame.origin.x = viewWidth;
+                                frame.origin.y = 0;
+                                [(UITableView *)activeLayoutView setFrame:frame];
+                            }
+                            completion:^(BOOL finished){
+                                [self changeViewMode:newWatchMode];
+                            }];
+        }
+        else{
+            [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+            [self changeViewMode:newWatchMode];
+        }
     }
+    else{
+        [self changeViewMode:newWatchMode];
+    }
+    return;
+}
+
+-(void)changeViewMode:(int)newWatchMode {
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:[[[[self.detailItem watchModes] objectAtIndex:choosedTab] objectForKey:@"icons"] objectAtIndex:newWatchMode]] forState:UIControlStateSelected];
     [self.richResults removeAllObjects];
@@ -683,12 +709,12 @@
             }
             [self.richResults removeObjectsAtIndexes:mutableIndexSet];
             break;
-
+            
         default:
             break;
     }
     [self indexAndDisplayData];
-    return;
+    
 }
 
 -(void)configureLibraryView{
@@ -1435,15 +1461,32 @@
 }
 
 - (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	tV.alpha = alphavalue;
-	CGRect frame;
-	frame = [tV frame];
-	frame.origin.x = X;
-    frame.origin.y = 0;
-	tV.frame = frame;
-    [UIView commitAnimations];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")){
+        [UIView transitionWithView:tV
+                          duration:seconds
+                           options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionBeginFromCurrentState
+                        animations:^{
+                            tV.alpha = alphavalue;
+                            CGRect frame;
+                            frame = [tV frame];
+                            frame.origin.x = X;
+                            frame.origin.y = 0;
+                            tV.frame = frame;;
+                        }
+                        completion:^(BOOL finished){
+                        }];
+    }
+    else{
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:seconds];
+        tV.alpha = alphavalue;
+        CGRect frame;
+        frame = [tV frame];
+        frame.origin.x = X;
+        frame.origin.y = 0;
+        tV.frame = frame;
+        [UIView commitAnimations];
+    }
 }
 
 - (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
