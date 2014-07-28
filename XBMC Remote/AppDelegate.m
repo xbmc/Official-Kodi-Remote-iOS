@@ -2019,18 +2019,11 @@ NSMutableArray *hostRightMenuItems;
                              @"YES", @"blackTableSeparator",
                              @"YES", @"FrodoExtraArt",
                              @"YES", @"enableLibraryCache",
-                             nil],
-                            
-//                            [NSMutableArray arrayWithObjects:
-//                             [NSDictionary dictionaryWithObjectsAndKeys:
-//                              [NSDictionary dictionaryWithObjectsAndKeys:
-//                               @"ascending",@"order",
-//                               [NSNumber numberWithBool:FALSE],@"ignorearticle",
-//                               @"label", @"method",
-//                               nil],@"sort",
-//                              @"tvshow", @"type",
-//                              [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-//                              nil], @"parameters", @"TV Show Genres", @"label", @"nocover_movie_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"0", @"separatorInset",
+                              nil], @"itemSizes",
+
+                            nil],
                             
                             [NSMutableArray arrayWithObjects:
                              [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2045,16 +2038,9 @@ NSMutableArray *hostRightMenuItems;
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", @"resume", nil], @"properties",
                               nil], @"extra_info_parameters",
                              @"YES", @"FrodoExtraArt",
-//                             @"YES", @"enableCollectionView",
-//                             @"YES", @"collectionViewRecentlyAdded",
-//                             [NSDictionary dictionaryWithObjectsAndKeys:
-//                              [NSDictionary dictionaryWithObjectsAndKeys:
-//                               @"fullWidth", @"width",
-//                               [NSNumber numberWithFloat:itemMovieHeightRecentlyIphone], @"height", nil], @"iphone",
-//                              [NSDictionary dictionaryWithObjectsAndKeys:
-//                               @"fullWidth", @"width",
-//                               [NSNumber numberWithFloat:itemMovieHeightRecentlyIpad], @"height", nil], @"ipad",
-//                              nil], @"itemSizes",
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"95", @"separatorInset",
+                              nil], @"itemSizes",
                              nil],
                             
                             [NSMutableArray arrayWithObjects:
@@ -2065,7 +2051,11 @@ NSMutableArray *hostRightMenuItems;
                                @"label", @"method",
                                nil],@"sort",
                               @"video", @"media",
-                              nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                              nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"53", @"separatorInset",
+                              nil], @"itemSizes",
+                             nil],
                             
                             [NSMutableArray arrayWithObjects:
                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -2086,10 +2076,12 @@ NSMutableArray *hostRightMenuItems;
                               [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
                                [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
+                              filemodeThumbWidth, @"separatorInset",
                               nil], @"itemSizes",
                              nil],
                             
                             nil];
+
     item3.mainFields = [NSArray arrayWithObjects:
                         [NSDictionary dictionaryWithObjectsAndKeys:
                          @"tvshows",@"itemid",
