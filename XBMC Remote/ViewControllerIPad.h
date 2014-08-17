@@ -41,6 +41,8 @@
     UIActionSheet *actionSheetPower;
     BOOL showActionPower;
     BOOL stackScrollIsFullscreen;
+    BOOL serverPicker;
+    BOOL appInfo;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;

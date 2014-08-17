@@ -680,15 +680,26 @@
     // e.g. self.myOutlet = nil;
 }
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	[menuViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-	[stackScrollViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     if ([self.serverPickerPopover isPopoverVisible]) {
         [self.serverPickerPopover dismissPopoverAnimated:NO];
-        [self toggleSetup];
+        serverPicker = TRUE;
     }
     if ([self.appInfoPopover isPopoverVisible]) {
         [self.appInfoPopover dismissPopoverAnimated:NO];
+        appInfo = TRUE;
+    }
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	[menuViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+	[stackScrollViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    if (serverPicker == TRUE){
+        serverPicker = FALSE;
+        [self toggleSetup];
+    }
+    if (appInfo == TRUE){
+        appInfo = FALSE;
         [self toggleInfoView];
     }
     if (showActionPower){
