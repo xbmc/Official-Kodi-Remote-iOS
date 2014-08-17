@@ -680,17 +680,6 @@
     // e.g. self.myOutlet = nil;
 }
 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    if ([self.serverPickerPopover isPopoverVisible]) {
-        [self.serverPickerPopover dismissPopoverAnimated:NO];
-        serverPicker = TRUE;
-    }
-    if ([self.appInfoPopover isPopoverVisible]) {
-        [self.appInfoPopover dismissPopoverAnimated:NO];
-        appInfo = TRUE;
-    }
-}
-
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	[menuViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 	[stackScrollViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
@@ -727,6 +716,14 @@
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
 	[menuViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	[stackScrollViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if ([self.serverPickerPopover isPopoverVisible]) {
+        [self.serverPickerPopover dismissPopoverAnimated:NO];
+        serverPicker = TRUE;
+    }
+    if ([self.appInfoPopover isPopoverVisible]) {
+        [self.appInfoPopover dismissPopoverAnimated:NO];
+        appInfo = TRUE;
+    }
     showActionPower = NO;
     if (actionSheetPower.window != nil){
         showActionPower = YES;
