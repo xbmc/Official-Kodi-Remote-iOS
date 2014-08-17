@@ -725,7 +725,7 @@
         appInfo = TRUE;
     }
     showActionPower = NO;
-    if (actionSheetPower.window != nil){
+    if ([actionSheetPower isVisible]){
         showActionPower = YES;
         [actionSheetPower dismissWithClickedButtonIndex:actionSheetPower.cancelButtonIndex animated:YES];
     }
