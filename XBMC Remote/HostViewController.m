@@ -277,7 +277,7 @@
                 [ipUI setTextColor:[UIColor blueColor]];
                 [portUI setTextColor:[UIColor blueColor]];
 
-                [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:320];
+                [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
 
             }
         }
@@ -295,8 +295,8 @@
     [activityIndicatorView startAnimating];
     [services removeAllObjects];
     startDiscover.enabled = NO;
-    [self AnimLabel:noInstances AnimDuration:0.3 Alpha:0.0 XPos:320];
-    [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:320];
+    [self AnimLabel:noInstances AnimDuration:0.3 Alpha:0.0 XPos:self.view.frame.size.width];
+    [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
 
     searching = NO;
     [netServiceBrowser setDelegate:self];
@@ -365,11 +365,25 @@
     [howtoLabel setText:NSLocalizedString(@"How-to actvate the remote app in XBMC", nil)];
     [howtoEdenLabel setText:NSLocalizedString(@"Eden\nSettings -> Network -> Allow control of XBMC via HTTP", nil)];
     [howtoLaterLabel setText:NSLocalizedString(@"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP", nil)];
+    
     [startDiscover setTitle:NSLocalizedString(@"Find XBMC", nil) forState:UIControlStateNormal];
     startDiscover.titleLabel.numberOfLines = 1;
     startDiscover.titleLabel.adjustsFontSizeToFitWidth = YES;
     startDiscover.titleLabel.lineBreakMode = NSLineBreakByClipping;
+    UIImage *buttonEdit = [UIImage imageNamed:@"button_edit"];
+    UIEdgeInsets insets = UIEdgeInsetsMake(0.0f, 16.0f, 0.0f, 16.0f);
+    buttonEdit = [buttonEdit resizableImageWithCapInsets:insets];
+    [startDiscover setBackgroundImage:buttonEdit forState:UIControlStateNormal];
+    UIImage *buttonEditSelected = [UIImage imageNamed:@"button_edit_highlight"];
+    buttonEditSelected = [buttonEditSelected resizableImageWithCapInsets:insets];
+    [startDiscover setBackgroundImage:buttonEditSelected forState:UIControlStateSelected];
+    [startDiscover setBackgroundImage:buttonEditSelected forState:UIControlStateHighlighted];
+    
+    UIImage *buttonSave = [UIImage imageNamed:@"button_edit_down.png"];
+    buttonSave = [buttonSave resizableImageWithCapInsets:insets];
+    [saveButton setBackgroundImage:buttonSave forState:UIControlStateNormal];
     [saveButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
+    
     [descriptionUI setPlaceholder:NSLocalizedString(@"e.g. My XBMC", nil)];
     [ipUI setPlaceholder:NSLocalizedString(@"e.g. 192.168.0.8", nil)];
     [usernameUI setPlaceholder:NSLocalizedString(@"Username", nil)];
