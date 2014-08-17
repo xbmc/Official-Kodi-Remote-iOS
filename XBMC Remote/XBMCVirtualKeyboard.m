@@ -31,7 +31,7 @@
         }
 
         xbmcVirtualKeyboard = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
-        xbmcVirtualKeyboard.hidden = NO;
+        xbmcVirtualKeyboard.hidden = YES;
         xbmcVirtualKeyboard.delegate = self;
         xbmcVirtualKeyboard.autocorrectionType = UITextAutocorrectionTypeNo;
         xbmcVirtualKeyboard.autocapitalizationType = UITextAutocapitalizationTypeNone;
