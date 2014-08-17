@@ -74,6 +74,10 @@
     return [[AppDelegate instance].arrayServerList count];
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor clearColor];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"serverListCell"];
