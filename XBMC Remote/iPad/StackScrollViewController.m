@@ -183,29 +183,29 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 
 -(void)disablePanGestureRecognizer:(UIImageView *)fallbackView{
     return;
-    if ([self.view.gestureRecognizers count]){
-        [self.view removeGestureRecognizer:[self.view.gestureRecognizers objectAtIndex:0]];
-    }
-    if (![fallbackView.gestureRecognizers count]){
-        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
-        [panRecognizer setMaximumNumberOfTouches:1];
-        [panRecognizer setDelaysTouchesBegan:TRUE];
-        [panRecognizer setDelaysTouchesEnded:TRUE];
-        [panRecognizer setCancelsTouchesInView:TRUE];
-        [fallbackView addGestureRecognizer:panRecognizer];
-    }
+//    if ([self.view.gestureRecognizers count]){
+//        [self.view removeGestureRecognizer:[self.view.gestureRecognizers objectAtIndex:0]];
+//    }
+//    if (![fallbackView.gestureRecognizers count]){
+//        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+//        [panRecognizer setMaximumNumberOfTouches:1];
+//        [panRecognizer setDelaysTouchesBegan:TRUE];
+//        [panRecognizer setDelaysTouchesEnded:TRUE];
+//        [panRecognizer setCancelsTouchesInView:TRUE];
+//        [fallbackView addGestureRecognizer:panRecognizer];
+//    }
 }
 
 -(void)enablePanGestureRecognizer{
     return;
-    if (![self.view.gestureRecognizers count]){
-        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
-		[panRecognizer setMaximumNumberOfTouches:1];
-		[panRecognizer setDelaysTouchesBegan:TRUE];
-		[panRecognizer setDelaysTouchesEnded:TRUE];
-		[panRecognizer setCancelsTouchesInView:TRUE];
-		[self.view addGestureRecognizer:panRecognizer];
-    }
+//    if (![self.view.gestureRecognizers count]){
+//        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+//		[panRecognizer setMaximumNumberOfTouches:1];
+//		[panRecognizer setDelaysTouchesBegan:TRUE];
+//		[panRecognizer setDelaysTouchesEnded:TRUE];
+//		[panRecognizer setCancelsTouchesInView:TRUE];
+//		[self.view addGestureRecognizer:panRecognizer];
+//    }
 }
 
 -(void)arrangeVerticalBar {
