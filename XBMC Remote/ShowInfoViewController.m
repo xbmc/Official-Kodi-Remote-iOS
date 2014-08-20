@@ -1471,59 +1471,62 @@ int h=0;
     
 }
 
-- (void)showBackground:(id)sender{
+- (void)showBackground:(id)sender {
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     NSInteger foundTag = 0;
-    if ([sender isKindOfClass:[UITapGestureRecognizer class]]){
+    if ([sender isKindOfClass:[UITapGestureRecognizer class]]) {
         foundTag = [sender view].tag;
     }
-    else{
+    else {
         foundTag = [sender tag];
     }
-    if (foundTag== 1){
-        self.view.clipsToBounds = NO;
+    if (foundTag== 1) {
         [self alphaView:closeButton AnimDuration:1.5 Alpha:0];
         [self alphaView:scrollView AnimDuration:1.5 Alpha:1];
-        if (!enableKenBurns){
+        if (!enableKenBurns) {
             [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.2f];// cool
         }
-        else{
+        else {
             [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
         }
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
             [self.navigationController setNavigationBarHidden:NO animated:YES];
         }
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-            [[self.view viewWithTag:2002] setHidden:NO];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
             [UIView animateWithDuration:1.5f
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
-                             animations:^{
-                [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object: self.view];
-                [toolbar setAlpha:1.0];
-            }
+                             animations:^ {
+                                 [toolbar setAlpha:1.0];
+                             }
                              completion:^(BOOL finished) {}
              ];
         }
     }
-    else{
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+    else {
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
             [self.navigationController setNavigationBarHidden:YES animated:YES];
-            self.view.clipsToBounds = YES;
         }
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-            [[self.view viewWithTag:2002] setHidden:YES];
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:1.5];
-            [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-            self.kenView.alpha = 0;
-            [toolbar setAlpha:0.0];
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object: self.view];
-            [UIView commitAnimations];
-            if (self.kenView != nil){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithBool:YES], @"hideToolbar",
+                                    [NSNumber numberWithBool:YES], @"clipsToBounds",
+                                    nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
+            [UIView animateWithDuration:1.5f
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^ {
+                                 self.kenView.alpha = 0;
+                                 [toolbar setAlpha:0.0];
+                             }
+                             completion:^(BOOL finished) {}
+             ];
+            if (self.kenView != nil) {
                 float alphaValue = 1;
                 [UIView animateWithDuration:0.2
-                                 animations:^{
+                                 animations:^ {
                                      self.kenView.alpha = 0;
                                  }
                                  completion:^(BOOL finished){
@@ -1534,13 +1537,13 @@ int h=0;
             }
         }
         [self alphaView:scrollView AnimDuration:1.5 Alpha:0];
-        if (!enableKenBurns){
+        if (!enableKenBurns) {
             [self alphaImage:fanartView AnimDuration:1.5 Alpha:1];// cool
         }
-        else{
+        else {
             [self alphaView:self.kenView AnimDuration:1.5 Alpha:1];// cool
         }
-        if (closeButton == nil){
+        if (closeButton == nil) {
             int cbWidth = clearLogoWidth / 2;
             int cbHeight = clearLogoHeight / 2;
             closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - cbWidth/2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
@@ -1552,11 +1555,11 @@ int h=0;
              UIViewAutoresizingFlexibleLeftMargin   |
              UIViewAutoresizingFlexibleWidth
              ];
-            if (clearLogoImageView.frame.size.width == 0){
+            if (clearLogoImageView.frame.size.width == 0) {
                 [closeButton setTitle:clearlogoButton.titleLabel.text forState:UIControlStateNormal];
                 [closeButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
             }
-            else{
+            else {
                 [[closeButton.imageView layer] setMinificationFilter:kCAFilterTrilinear];
                 [closeButton setImage:clearLogoImageView.image forState:UIControlStateNormal];
                 [closeButton setImage:clearLogoImageView.image forState:UIControlStateHighlighted];

@@ -119,59 +119,98 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 }
 
 -(void)handleStackScrollFullScreenEnabled:(NSNotification *)sender{
+    UIView *senderView = nil;
+    if ([[sender object] isKindOfClass:[UIView class]]){
+        senderView = [sender object];
+    }
+    BOOL hideToolbar = [[[sender userInfo] valueForKey:@"hideToolbar"] boolValue];
+    BOOL clipsToBounds = [[[sender userInfo] valueForKey:@"clipsToBounds"] boolValue];
+    float duration = [[[sender userInfo] valueForKey:@"duration"] floatValue];
+    if (!duration){
+        duration = 1.5f;
+    }
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && clipsToBounds) {
+        senderView.clipsToBounds = YES;
+    }
+//    [[senderView viewWithTag:2002] setHidden:YES];
     stackScrollIsFullscreen = YES;
     [stackViewsFrames removeAllObjects];
-    int i = 0;
-    NSInteger numViews = [[slideViews subviews] count];
-    for (UIView* subview in [slideViews subviews]) {
-        if ([subview isEqual:[sender object]]){
-            originalFrame = subview.frame;
-            CGRect frame = subview.frame;
-            frame.origin.x = 0 - 300;
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                frame.origin.y = frame.origin.y - 22;
-                frame.size.height = frame.size.height + 22;
-            }
-            frame.size.width = self.view.frame.size.width + 300;
-            subview.frame = frame;
-            break;
-        }
-        i++;
-    }
-    if (i + 1 < numViews){
-        CGRect frame = CGRectZero;
-        for (int j = i + 1; j < numViews; j++) {
-            frame = [[[slideViews subviews] objectAtIndex:j] frame];
-            [stackViewsFrames addObject:[NSValue valueWithCGRect:frame]];
-            frame.origin.x = self.view.frame.size.width;
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                frame.origin.y = frame.origin.y - 20;
-                frame.size.height = frame.size.height + 20;
-            }
-            [[[slideViews subviews] objectAtIndex:j] setFrame:frame];
-        }
-    }
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         int i = 0;
+                         NSInteger numViews = [[slideViews subviews] count];
+                         for (UIView* subview in [slideViews subviews]) {
+                             if ([subview isEqual:[sender object]]){
+                                 originalFrame = subview.frame;
+                                 CGRect frame = subview.frame;
+                                 frame.origin.x = 0 - 300;
+                                 if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && hideToolbar == YES){
+                                     frame.origin.y = frame.origin.y - 22;
+                                     frame.size.height = frame.size.height + 22;
+                                 }
+                                 frame.size.width = self.view.frame.size.width + 300;
+                                 subview.frame = frame;
+                                 break;
+                             }
+                             i++;
+                         }
+                         if (i + 1 < numViews){
+                             CGRect frame = CGRectZero;
+                             for (int j = i + 1; j < numViews; j++) {
+                                 frame = [[[slideViews subviews] objectAtIndex:j] frame];
+                                 [stackViewsFrames addObject:[NSValue valueWithCGRect:frame]];
+                                 frame.origin.x = self.view.frame.size.width;
+                                 if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && hideToolbar == YES){
+                                     frame.origin.y = frame.origin.y - 20;
+                                     frame.size.height = frame.size.height + 20;
+                                 }
+                                 [[[slideViews subviews] objectAtIndex:j] setFrame:frame];
+                             }
+                         }
+                         
+                     }
+                     completion:^(BOOL finished) {}
+     ];
 }
 
 -(void)handleStackScrollFullScreenDisabled:(NSNotification *)sender{
+    UIView *senderView = nil;
+    if ([[sender object] isKindOfClass:[UIView class]]){
+        senderView = [sender object];
+    }
+    float duration = [[[sender userInfo] valueForKey:@"duration"] floatValue];
+    if (!duration){
+        duration = 1.5f;
+    }
+    senderView.clipsToBounds = NO;
+//    [[senderView viewWithTag:2002] setHidden:NO];
     stackScrollIsFullscreen = NO;
-    int i = 0;
-    NSInteger numViews = [[slideViews subviews] count];
-    for (UIView* subview in [slideViews subviews]) {
-        if ([subview isEqual:[sender object]]){
-            subview.frame = originalFrame;
-            break;
-        }
-        i++;
-    }
-    if (i + 1 < numViews){
-        int k = 0;
-        NSInteger numStoredFrames = [stackViewsFrames count];
-        for (int j = i + 1; j < numViews && k < numStoredFrames; j++) {
-            [[[slideViews subviews] objectAtIndex:j] setFrame:[[stackViewsFrames objectAtIndex:k] CGRectValue]];
-            k ++;
-        }
-    }
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         int i = 0;
+                         NSInteger numViews = [[slideViews subviews] count];
+                         for (UIView* subview in [slideViews subviews]) {
+                             if ([subview isEqual:[sender object]]){
+                                 subview.frame = originalFrame;
+                                 break;
+                             }
+                             i++;
+                         }
+                         if (i + 1 < numViews){
+                             int k = 0;
+                             NSInteger numStoredFrames = [stackViewsFrames count];
+                             for (int j = i + 1; j < numViews && k < numStoredFrames; j++) {
+                                 [[[slideViews subviews] objectAtIndex:j] setFrame:[[stackViewsFrames objectAtIndex:k] CGRectValue]];
+                                 k ++;
+                             }
+                         }
+                     }
+                     completion:^(BOOL finished) {}
+     ];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
