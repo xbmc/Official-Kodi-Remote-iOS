@@ -42,6 +42,8 @@
 
         int frameHeight = labelHeight + genreHeight + yearHeight - borderWidth*2;
         UIImageView *labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(startX, frame.size.height - genreHeight - yearHeight - labelHeight + borderWidth*2, fanartWidth - borderWidth * 3, labelHeight + genreHeight + yearHeight - borderWidth*3)];
+        [labelImageView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
+
         [labelImageView setImage:[UIImage imageNamed:@"cell_bg"]];
         [labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
         
