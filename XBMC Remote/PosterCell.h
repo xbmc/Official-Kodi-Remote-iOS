@@ -16,7 +16,9 @@
 -(void)setOverlayWatched:(BOOL)enable;
 
 @property (nonatomic, readonly) UIImageView *posterThumbnail;
+@property (nonatomic, readonly) UIImageView *labelImageView;
 @property (nonatomic, readonly) PosterLabel *posterLabel;
+@property (nonatomic, readonly) PosterLabel *posterLabelFullscreen;
 @property (nonatomic, readonly) UIActivityIndicatorView *busyView;
 
 @end

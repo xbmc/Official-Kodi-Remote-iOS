@@ -11,7 +11,9 @@
 @implementation PosterCell
 
 @synthesize posterThumbnail = _posterThumbnail;
+@synthesize labelImageView = _labelImageView;
 @synthesize posterLabel = _posterLabel;
+@synthesize posterLabelFullscreen = _posterLabelFullscreen;
 @synthesize busyView = _busyView;
 
 - (id)initWithFrame:(CGRect)frame{
@@ -26,10 +28,10 @@
         [_posterThumbnail setContentMode:UIViewContentModeScaleAspectFill];
         [self.contentView addSubview:_posterThumbnail];
         
-        UIImageView *labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
-        [labelImageView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
-        [labelImageView setImage:[UIImage imageNamed:@"cell_bg"]];
-        [labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
+        _labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
+        [_labelImageView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
+        [_labelImageView setImage:[UIImage imageNamed:@"cell_bg"]];
+        [_labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
 
         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
         [_posterLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
@@ -42,9 +44,22 @@
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
         [_posterLabel setMinimumScaleFactor:1.0f];
 
-        [labelImageView addSubview:_posterLabel];
-        [self.contentView addSubview:labelImageView];
+        [_labelImageView addSubview:_posterLabel];
+        [self.contentView addSubview:_labelImageView];
         
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width - borderWidth * 2, labelHeight/2)];
+            [_posterLabelFullscreen setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
+            [_posterLabelFullscreen setBackgroundColor:[UIColor clearColor]];
+            [_posterLabelFullscreen setTextColor:[UIColor grayColor]];
+            [_posterLabelFullscreen setTextAlignment:NSTextAlignmentCenter];
+            [_posterLabelFullscreen setNumberOfLines:1];
+            [_posterLabelFullscreen setMinimumFontSize:8.0f];
+            [_posterLabelFullscreen setAdjustsFontSizeToFitWidth:NO];
+            [_posterLabelFullscreen setMinimumScaleFactor:1.0f];
+            [self.contentView addSubview:_posterLabelFullscreen];
+        }
+
         _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _busyView.hidesWhenStopped = YES;
         _busyView.center = CGPointMake(frame.size.width / 2, (frame.size.height / 2) - borderWidth);
