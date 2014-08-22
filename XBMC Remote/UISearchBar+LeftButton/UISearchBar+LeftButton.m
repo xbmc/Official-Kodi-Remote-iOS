@@ -12,8 +12,6 @@
 
 @implementation UISearchBarLeftButton
 
-static CGRect initialTextFieldFrame;
-
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
@@ -57,10 +55,6 @@ static CGRect initialTextFieldFrame;
 - (void) layoutSubviews {
     [super layoutSubviews];
     if (!self.isVisible) return;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        initialTextFieldFrame = self.textField.frame;
-    });
     self.leftButton.alpha = 0;
     self.viewLabel.alpha = 0;
     if (self.showsCancelButton == YES){
@@ -84,7 +78,7 @@ static CGRect initialTextFieldFrame;
 
 -(void)updateTextFieldFrame:(float)rightMargin leftPadding:(float)leftMargin {
     int originX = self.textField.frame.origin.x + leftMargin;
-    int width = initialTextFieldFrame.size.width - leftMargin - rightMargin;
+    int width = self.frame.size.width - 16 - leftMargin - rightMargin;
     CGRect newFrame = CGRectMake (originX,
                                   self.textField.frame.origin.y,
                                   width,
