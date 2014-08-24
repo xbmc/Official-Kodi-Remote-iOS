@@ -633,6 +633,7 @@
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.1];
         topNavigationLabel.alpha = 1;
+        [self checkFullscreenButton];
         [UIView commitAnimations];
     }
     [activityIndicatorView stopAnimating];
@@ -828,7 +829,7 @@
     }
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-    
+
     BOOL newEnableCollectionView = [self collectionViewIsEnabled];
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     bar.leftPadding = 0;
@@ -862,6 +863,7 @@
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.1];
         topNavigationLabel.alpha = 1;
+        [self checkFullscreenButton];
         [UIView commitAnimations];
     }
     NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"parameters"] mutableCopy];
@@ -897,6 +899,7 @@
 
 -(void)viewChild:(NSIndexPath *)indexPath item:(NSDictionary *)item displayPoint:(CGPoint) point{
     self.detailViewController=nil;
+    selected = indexPath;
     mainMenu *MenuItem=self.detailItem;
     NSMutableArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
     NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
@@ -973,8 +976,18 @@
             [self.navigationController pushViewController:self.detailViewController animated:YES];
         }
         else{
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+            if (stackscrollFullscreen == YES){
+                [self toggleFullscreen:nil];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+
+                });
+            }
+            else {
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+            }
         }
     }
     else { // CHILD IS FILEMODE
@@ -1010,15 +1023,24 @@
                     [self.navigationController pushViewController:self.detailViewController animated:YES];
                 }
                 else{
-                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                    if (stackscrollFullscreen == YES){
+                        [self toggleFullscreen:nil];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                            
+                        });
+                    }
+                    else {
+                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                    }
                 }
             }
             else if ([[item objectForKey:@"genre"] isEqualToString:@"file"] || [[item objectForKey:@"filetype"] isEqualToString:@"file"]){
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                 [userDefaults synchronize];
                 if ([[userDefaults objectForKey:@"song_preference"] boolValue]==NO ){
-                    selected=indexPath;
                     [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
                 }
                 else {
@@ -1065,8 +1087,17 @@
                 [self.navigationController pushViewController:self.detailViewController animated:YES];
             }
             else{
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                if (stackscrollFullscreen == YES){
+                    [self toggleFullscreen:nil];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                    });
+                }
+                else {
+                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                }
             }
         }
     }
@@ -1086,8 +1117,17 @@
             [self.navigationController pushViewController:settingsViewController animated:YES];
         }
         else{
-            SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.bounds.size.height) withItem:item];
-            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:FALSE];
+            if (stackscrollFullscreen == YES){
+                [self toggleFullscreen:nil];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.bounds.size.height) withItem:item];
+                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:FALSE];
+                });
+            }
+            else {
+                SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.bounds.size.height) withItem:item];
+                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:FALSE];
+            }
         }
     }
     else if ([methods objectForKey:@"method"]!=nil && ![[parameters objectForKey:@"forceActionSheet"] boolValue]){ // THERE IS A CHILD
@@ -1141,11 +1181,23 @@
 }
 
 -(void)setFlowLayoutParams{
-    [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
-    if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0;
-    [flowLayout setMinimumLineSpacing:cellMinimumLineSpacing];
-    [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
-
+    if (stackscrollFullscreen == YES){
+        [flowLayout setItemSize:CGSizeMake(fullscreenCellGridWidth, fullscreenCellGridHeight)];
+        if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0.0f;
+        if  (!recentlyAddedView) {
+            [flowLayout setMinimumLineSpacing:38.0f];
+        }
+        else {
+            [flowLayout setMinimumLineSpacing:4.0f];
+        }
+        [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
+    }
+    else{
+        [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
+        if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0.0f;
+        [flowLayout setMinimumLineSpacing:cellMinimumLineSpacing];
+        [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
+    }
 }
 
 #pragma mark - UICollectionView methods
@@ -1187,10 +1239,15 @@
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    if (section == 0) {
-        return UIEdgeInsetsMake(CGRectGetHeight(self.searchDisplayController.searchBar.frame), 0, 0, 0);
+    float margin = 0.0f;
+    if (stackscrollFullscreen == YES) {
+        margin = 8.0f;
     }
-    return UIEdgeInsetsMake(0, 0, 0, 0);
+    if (section == 0) {
+        return UIEdgeInsetsMake(CGRectGetHeight(self.searchDisplayController.searchBar.frame), margin, 0, margin);
+    }
+    
+    return UIEdgeInsetsMake(0, margin, 0, margin);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)cView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
@@ -1215,12 +1272,31 @@
     NSString *fanartURL = [item objectForKey:@"fanart"];
     NSString *displayThumb=[NSString stringWithFormat:@"%@_wall", defaultThumb];
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
-
+    
+    float cellthumbWidth = cellGridWidth;
+    float cellthumbHeight = cellGridHeight;
+    if (stackscrollFullscreen == YES) {
+        cellthumbWidth = fullscreenCellGridWidth;
+        cellthumbHeight = fullscreenCellGridHeight;
+    }
     if (recentlyAddedView == FALSE){
         static NSString *identifier = @"posterCell";
         PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+        [cell.posterLabel setText:@""];
+        [cell.posterLabelFullscreen setText:@""];
         [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
+        [cell.posterLabelFullscreen setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
         [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFill];
+        if (stackscrollFullscreen == YES) {
+            [cell.posterLabelFullscreen setText:[item objectForKey:@"label"]];
+            cell.labelImageView.hidden = YES;
+            cell.posterLabelFullscreen.hidden = NO;
+        }
+        else {
+            [cell.posterLabel setText:[item objectForKey:@"label"]];
+            [cell.labelImageView setHidden:hiddenLabel];
+            cell.posterLabelFullscreen.hidden = YES;
+        }
         if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"] || [[item objectForKey:@"family"] isEqualToString:@"genreid"]){
             if (![stringURL isEqualToString:@""]){
                 displayThumb=stringURL;
@@ -1230,12 +1306,11 @@
             if ([[item objectForKey:@"family"] isEqualToString:@"channelid"]){
                 [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
             }
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellGridWidth, cellGridHeight)];
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellthumbWidth, cellthumbHeight)];
         }
         else {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
         }
-        [cell.posterLabel setText:[item objectForKey:@"label"]];
         if ([playcount intValue]){
             [cell setOverlayWatched:YES];
         }
@@ -1247,18 +1322,18 @@
     else{
         static NSString *identifier = @"recentlyAddedCell";
         RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-        float posterWidth = cellGridHeight * 0.66f;
-        float fanartWidth = cellGridWidth - posterWidth;
+        float posterWidth = cellthumbHeight * 0.66f;
+        float fanartWidth = cellthumbWidth - posterWidth;
 
         if (![stringURL isEqualToString:@""]){
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(posterWidth, cellGridHeight)];
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(posterWidth, cellthumbHeight)];
         }
         else {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
         }
 
         if (![fanartURL isEqualToString:@""]){
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@""]andResize:CGSizeMake(fanartWidth, cellGridHeight)];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@""]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
         }
         else {
             [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@""]];
@@ -2615,7 +2690,7 @@ int originYear = 0;
         [self.searchDisplayController.searchResultsTableView removeGestureRecognizer:longPressGesture];
     }
     if (enableCollectionView){
-        if ([[self.indexView indexTitles] count] > 1){
+        if ([[self.indexView indexTitles] count] > 1  && !stackscrollFullscreen){
             self.indexView.hidden = NO;
         }
         [collectionView addGestureRecognizer:longPressGesture];
@@ -3023,7 +3098,15 @@ NSIndexPath *selected;
         CGRect frame=self.webViewController.view.frame;
         frame.size.width=STACKSCROLL_WIDTH;
         self.webViewController.view.frame=frame;
-        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:self.webViewController invokeByController:self isStackStartView:FALSE];
+        if (stackscrollFullscreen == YES){
+            [self toggleFullscreen:nil];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:self.webViewController invokeByController:self isStackStartView:FALSE];
+            });
+        }
+        else {
+            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:self.webViewController invokeByController:self isStackStartView:FALSE];
+        }
     }
 }
 
@@ -3058,7 +3141,6 @@ NSIndexPath *selected;
         self.navigationItem.title = [parameters objectForKey:@"label"];
         UIColor *shadowColor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:0.0 alpha:0.5] ;
         topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
-        topNavigationLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;;
         topNavigationLabel.backgroundColor = [UIColor clearColor];
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
         topNavigationLabel.minimumFontSize=8.0;
@@ -3072,16 +3154,6 @@ NSIndexPath *selected;
         topNavigationLabel.opaque=YES;
         topNavigationLabel.text=[self.detailItem mainLabel];
         self.navigationItem.title = [self.detailItem mainLabel];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]){
-            UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
-            titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            topNavigationLabel.textAlignment = UITextAlignmentRight;
-            topNavigationLabel.font = [UIFont boldSystemFontOfSize:14];
-            [titleView addSubview:topNavigationLabel];
-            titleView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-            [titleView setFrame:CGRectMake(320, 373, -16, 40)];
-            [self.view addSubview:titleView];
-        }
         if (![self.detailItem disableNowPlaying]){
             UIBarButtonItem *nowPlayingButtonItem = nil;
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
@@ -3116,6 +3188,155 @@ NSIndexPath *selected;
    }
 }
 
+-(CGRect)currentScreenBoundsDependOnOrientation {
+    NSString *reqSysVer = @"8.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending) {
+        return [UIScreen mainScreen].bounds;
+    }
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    CGFloat width = CGRectGetWidth(screenBounds);
+    CGFloat height = CGRectGetHeight(screenBounds);
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(width, height);
+    }
+    else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(height, width);
+    }
+    return screenBounds ;
+}
+
+- (void)toggleFullscreen:(id)sender {
+    [activityIndicatorView startAnimating];
+    float animDuration = 0.5f;
+    if (stackscrollFullscreen == YES) {
+        stackscrollFullscreen = NO;
+        [UIView animateWithDuration:0.1f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             collectionView.alpha = 0;
+                             dataList.alpha = 0;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 1.0f;
+                            
+                         }
+                         completion:^(BOOL finished) {
+                             viewWidth = STACKSCROLL_WIDTH;
+                             UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+                             bar.storeWidth = viewWidth;
+                             if ([self collectionViewCanBeEnabled] == YES){
+                                 bar.leftPadding = SEARCH_BAR_LEFT_PADDING;
+                             }
+                             if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT) {
+                                 bar.rightPadding = 26;
+                             }
+                             [self choseParams];
+                             self.indexView.hidden = NO;
+                             sectionArray = [storeSectionArray copy];
+                             sections = [storeSections mutableCopy];
+                             if (forceCollection){
+                                 forceCollection = NO;
+                                 [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 enableCollectionView = NO;
+                                 [self configureLibraryView];
+                                 [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                             }
+                             [self setFlowLayoutParams];
+                             [collectionView.collectionViewLayout invalidateLayout];
+                             [collectionView reloadData];
+                             [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     [NSNumber numberWithFloat:animDuration], @"duration",
+                                                     nil];
+                             [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:params];
+                             [UIView animateWithDuration:0.2f
+                                                   delay:0.0f
+                                                 options:UIViewAnimationOptionCurveEaseInOut
+                                              animations:^{
+                                                  collectionView.alpha = 1;
+                                                  dataList.alpha = 1;
+                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
+                                                  fullscreenButton.backgroundColor = [UIColor clearColor];
+                                              }
+                                              completion:^(BOOL finished) {
+                                                  [activityIndicatorView stopAnimating];
+                                              }
+                              ];
+                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, animDuration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                 moreItemsViewController.view.hidden = NO;
+                             });
+                         }
+         ];
+    }
+    else {
+        stackscrollFullscreen = YES;
+        [UIView animateWithDuration:0.1f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             collectionView.alpha = 0;
+                             dataList.alpha = 0;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 0.0f;
+                         }
+                         completion:^(BOOL finished) {
+                             UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+                             viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
+                             bar.storeWidth = viewWidth;
+                             bar.leftPadding = 0;
+                             bar.rightPadding = 0;
+                             [self choseParams];
+                             moreItemsViewController.view.hidden = YES;
+                             storeSectionArray = [sectionArray copy];
+                             storeSections = [sections mutableCopy];
+                             self.sectionArray = nil;
+                             self.sections = [[NSMutableDictionary alloc] init];
+                             [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
+                             for (NSDictionary *item in self.richResults){
+                                 [[self.sections objectForKey:@""] addObject:item];
+                             }
+                             self.sectionArray = [[NSArray alloc] initWithArray:
+                                                  [[self.sections allKeys] sortedArrayUsingComparator:^(id firstObject, id secondObject) {
+                                 return [self alphaNumericCompare:firstObject secondObject:secondObject];
+                             }]];
+                             
+                             if (!enableCollectionView){
+                                 forceCollection = YES;
+                                 [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 enableCollectionView = YES;
+                                 [self configureLibraryView];
+                                 [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                             }
+                             else {
+                                 forceCollection = NO;
+                             }
+                             [self setFlowLayoutParams];
+                             [collectionView.collectionViewLayout invalidateLayout];
+                             [collectionView reloadData];
+                             [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+                             self.indexView.hidden = YES;
+                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     [NSNumber numberWithBool:NO], @"hideToolbar",
+                                                     [NSNumber numberWithFloat:animDuration], @"duration",
+                                                     nil];
+                             [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
+                             [UIView animateWithDuration:0.2f
+                                                   delay:0.0f
+                                                 options:UIViewAnimationOptionCurveEaseInOut
+                                              animations:^{
+                                                  collectionView.alpha = 1;
+                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen"] forState:UIControlStateNormal];
+                                                  fullscreenButton.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+                                              }
+                                              completion:^(BOOL finished) {
+                                                  [activityIndicatorView stopAnimating];
+                                              }
+                              ];
+                         }
+         ];
+    }
+}
 
 - (void)dismissAddAction:(id)sender{
     [self dismissViewControllerAnimated:YES completion:^ {
@@ -3241,8 +3462,17 @@ NSIndexPath *selected;
         [self.navigationController pushViewController:self.detailViewController animated:YES];
     }
     else{
-        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+        if (stackscrollFullscreen == YES){
+            [self toggleFullscreen:nil];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+            });
+        }
+        else {
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+        }
     }
 }
 
@@ -3573,18 +3803,24 @@ NSIndexPath *selected;
     }];
 }
 
--(void)displayInfoView:(NSDictionary *)item{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+-(void)displayInfoView:(NSDictionary *)item {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.showInfoViewController=nil;
         self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
         self.showInfoViewController.detailItem = item;
         [self.navigationController pushViewController:self.showInfoViewController animated:YES];
     }
-    else{
+    else {
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:FALSE];
+        if (stackscrollFullscreen == YES) {
+            [iPadShowViewController setModalPresentationStyle:UIModalPresentationFormSheet];
+            UIViewController *vc = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+            [vc presentViewController:iPadShowViewController animated:YES completion:nil];
+        }
+        else {
+            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:FALSE];
+        }
     }
-
 }
 
 -(void)prepareShowAlbumInfo:(id)sender{
@@ -4253,7 +4489,7 @@ NSIndexPath *selected;
     }
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     bar.rightPadding = 0;
-    if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT){
+    if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT && stackscrollFullscreen == NO){
         bar.rightPadding = 26;
         [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
         BOOL found;
@@ -4386,15 +4622,20 @@ NSIndexPath *selected;
         // CONDIZIONE DEBOLE!!!
         self.navigationItem.title =[NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.3];
-            topNavigationLabel.alpha = 0;
-            [UIView commitAnimations];
-            topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.1];
-            topNavigationLabel.alpha = 1;
-            [UIView commitAnimations];
+            if (!stackscrollFullscreen){
+                [UIView beginAnimations:nil context:nil];
+                [UIView setAnimationDuration:0.3];
+                topNavigationLabel.alpha = 0;
+                [UIView commitAnimations];
+                topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
+                [UIView beginAnimations:nil context:nil];
+                [UIView setAnimationDuration:0.1];
+                topNavigationLabel.alpha = 1;
+                [UIView commitAnimations];
+            }
+            else{
+                topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", [parameters objectForKey:@"label"], numResults];
+            }
         }
         // FINE CONDIZIONE
     }
@@ -4523,6 +4764,7 @@ NSIndexPath *selected;
     if (isViewDidLoad){
         [activeLayoutView addSubview:self.searchDisplayController.searchBar];
         isViewDidLoad = FALSE;
+        [self initIpadCornerInfo];
     }
 }
 
@@ -4592,10 +4834,14 @@ NSIndexPath *selected;
         }
         cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
     }
+    if ([itemSizes objectForKey:@"fullscreenWidth"] && [itemSizes objectForKey:@"fullscreenHeight"]){
+        fullscreenCellGridWidth = [[itemSizes objectForKey:@"fullscreenWidth"] floatValue];
+        fullscreenCellGridHeight =  [[itemSizes objectForKey:@"fullscreenHeight"] floatValue];
+    }
 }
 
--(void)setIphoneInterface:(NSDictionary *)itemSizes{
-    viewWidth=320;
+-(void)setIphoneInterface:(NSDictionary *)itemSizes {
+    viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
     albumViewHeight = 116;
     albumViewPadding = 8;
     if (episodesView){
@@ -4625,6 +4871,8 @@ NSIndexPath *selected;
     labelPadding = 8;
     cellGridWidth =117.0f;
     cellGridHeight =  168.0f;
+    fullscreenCellGridWidth = 164.0f;
+    fullscreenCellGridHeight = 246.0f;
     posterFontSize = 11;
     fanartFontSize = 13;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
@@ -4684,6 +4932,7 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    hiddenLabel = NO;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
     isViewDidLoad = YES;
     iOSYDelta = 44;
@@ -4855,7 +5104,6 @@ NSIndexPath *selected;
     self.extraSectionRichResults = [[NSMutableArray alloc] init ];
     
     [activityIndicatorView startAnimating];
-        
     [self startRetrieveDataWithRefresh:NO];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -4888,6 +5136,50 @@ NSIndexPath *selected;
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
+}
+
+-(void)initIpadCornerInfo {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]){
+        titleView = [[UIView alloc] initWithFrame:CGRectMake(320, 0, STACKSCROLL_WIDTH - 320, 44)];
+        [titleView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+        topNavigationLabel.textAlignment = UITextAlignmentRight;
+        topNavigationLabel.font = [UIFont boldSystemFontOfSize:14];
+        [topNavigationLabel setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin];
+        [titleView addSubview:topNavigationLabel];
+        [buttonsView addSubview:titleView];
+        [self checkFullscreenButton];
+    }
+}
+
+-(void)checkFullscreenButton {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]){
+        NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+        if ([self collectionViewCanBeEnabled] && ([[parameters objectForKey:@"enableLibraryFullScreen"] boolValue] == YES)){
+            int buttonPadding = 1;
+            if (fullscreenButton == nil){
+                fullscreenButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                [fullscreenButton setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin];
+                [fullscreenButton setShowsTouchWhenHighlighted:YES];
+                [fullscreenButton setFrame:CGRectMake(0, 0, 26, 26)];
+                [fullscreenButton setContentMode:UIViewContentModeCenter];
+                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
+                fullscreenButton.layer.cornerRadius = 2.0f;
+                [fullscreenButton setTintColor:[UIColor whiteColor]];
+                [fullscreenButton addTarget:self action:@selector(toggleFullscreen:) forControlEvents:UIControlEventTouchUpInside];
+                [fullscreenButton setFrame:CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width - buttonPadding,
+                                                      titleView.frame.size.height/2 - fullscreenButton.frame.size.height/2,
+                                                      fullscreenButton.frame.size.width,
+                                                      fullscreenButton.frame.size.height)];
+                [titleView addSubview:fullscreenButton];
+            }
+            [topNavigationLabel setFrame:CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - (buttonPadding * 2), 44)];
+            fullscreenButton.hidden = NO;
+        }
+        else {
+            [topNavigationLabel setFrame:CGRectMake(0, 0, titleView.frame.size.width - 4, 44)];
+            fullscreenButton.hidden = YES;
+        }
+    }
 }
 
 -(void)checkDiskCache{

@@ -134,6 +134,9 @@ NSMutableArray *hostRightMenuItems;
     float itemMusicWidthLargeIpad = 158.0f;
     float itemMusicHeightLargeIpad = 158.0f;
     
+    float fullscreenItemMusicWidthIpad = 164.0f;
+    float fullscreenItemMusicHeightIpad = 164.0f;
+    
     float itemMovieWidthIphone = 106.0f;
     float itemMovieHeightIphone = 151.0f;
     
@@ -142,6 +145,9 @@ NSMutableArray *hostRightMenuItems;
     
     float itemMovieWidthLargeIpad =158.0f;
     float itemMovieHeightLargeIpad =  230.0f;
+    
+    float fullscreenItemMovieWidthIpad = 164.0f;
+    float fullscreenItemMovieHeightIpad = 246.0f;
     
     float itemMovieHeightRecentlyIphone =  132.0f;
     float itemMovieHeightRecentlyIpad =  196.0f;
@@ -241,13 +247,16 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"extra_info_parameters",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
+                           @"YES", @"enableLibraryFullScreen",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
                              [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
-                             [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMusicHeightIpad], @"height",
+                             [NSNumber numberWithFloat:fullscreenItemMusicWidthIpad], @"fullscreenWidth",
+                             [NSNumber numberWithFloat:fullscreenItemMusicHeightIpad], @"fullscreenHeight", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -270,7 +279,9 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIpad], @"width",
-                             [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMusicHeightIpad], @"height",
+                             [NSNumber numberWithFloat:fullscreenItemMusicWidthIpad], @"fullscreenWidth",
+                             [NSNumber numberWithFloat:fullscreenItemMusicHeightIpad], @"fullscreenHeight", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -1290,13 +1301,16 @@ NSMutableArray *hostRightMenuItems;
                            @"YES", @"FrodoExtraArt",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
+                           @"YES", @"enableLibraryFullScreen",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
                              [NSNumber numberWithFloat:itemMovieHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
-                             [NSNumber numberWithFloat:itemMovieHeightIpad], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMovieHeightIpad], @"height",
+                             [NSNumber numberWithFloat:fullscreenItemMovieWidthIpad], @"fullscreenWidth",
+                             [NSNumber numberWithFloat:fullscreenItemMovieHeightIpad], @"fullscreenHeight", nil], @"ipad",
                             nil], @"itemSizes",
 //                           @"YES", @"collectionViewRecentlyAdded",
 //                           [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1358,13 +1372,16 @@ NSMutableArray *hostRightMenuItems;
                            @"YES", @"FrodoExtraArt",
                            @"YES", @"enableCollectionView",
                            @"YES", @"collectionViewRecentlyAdded",
+                           @"YES", @"enableLibraryFullScreen",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              @"fullWidth", @"width",
                              [NSNumber numberWithFloat:itemMovieHeightRecentlyIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              @"fullWidth", @"width",
-                             [NSNumber numberWithFloat:itemMovieHeightRecentlyIpad], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMovieHeightRecentlyIpad], @"height",
+                             [NSNumber numberWithFloat:502], @"fullscreenWidth",
+                             [NSNumber numberWithFloat:206.0f], @"fullscreenHeight", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -1379,13 +1396,16 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"parameters", NSLocalizedString(@"Music Videos", nil), @"label", NSLocalizedString(@"Music Videos", nil), @"morelabel", @"Movie", @"wikitype",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
+                           @"YES", @"enableLibraryFullScreen",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
                              [NSNumber numberWithFloat:itemMovieHeightIphone], @"height", nil], @"iphone",
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
-                             [NSNumber numberWithFloat:itemMovieHeightIpad], @"height", nil], @"ipad",
+                             [NSNumber numberWithFloat:itemMovieHeightIpad], @"height",
+                             [NSNumber numberWithFloat:fullscreenItemMovieWidthIpad], @"fullscreenWidth",
+                             [NSNumber numberWithFloat:fullscreenItemMovieHeightIpad], @"fullscreenHeight", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
 

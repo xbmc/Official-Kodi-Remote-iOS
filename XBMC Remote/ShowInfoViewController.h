@@ -77,6 +77,9 @@
     UIActivityIndicatorView *embedVideoActivityIndicator;
     NSString *embedVideo;
     UIColor *foundTintColor;
+    UILabel *viewTitle;
+    __weak IBOutlet UIImageView *bottomShadow;
+    CGRect originalSelfFrame;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

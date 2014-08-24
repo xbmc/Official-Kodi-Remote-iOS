@@ -38,7 +38,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil{
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.detailItem = item;
-        [self.view setFrame:frame]; 
+        [self.view setFrame:frame];
     }
     return self;
 }
@@ -53,7 +53,7 @@ int count=0;
     if (self.detailItem) {
         NSMutableDictionary *item=self.detailItem;
         CGRect frame = CGRectMake(0, 0, 140, 40);
-        UILabel *viewTitle = [[UILabel alloc] initWithFrame:frame] ;
+        viewTitle = [[UILabel alloc] initWithFrame:frame];
         viewTitle.numberOfLines=0;
         viewTitle.font = [UIFont boldSystemFontOfSize:11];
         viewTitle.minimumFontSize=6;
@@ -222,6 +222,23 @@ int count=0;
 }
 
 #pragma mark - Utility 
+
+-(void)dismissModal:(id)sender {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+-(BOOL)isModal {
+    BOOL isModal = ((self.parentViewController && self.parentViewController.modalViewController == self) ||
+                    ( self.navigationController && self.navigationController.parentViewController && self.navigationController.parentViewController.modalViewController == self.navigationController) ||
+                    [[[self tabBarController] parentViewController] isKindOfClass:[UITabBarController class]]);
+    if (!isModal && [self respondsToSelector:@selector(presentingViewController)]) {
+        
+        isModal = ((self.presentingViewController && self.presentingViewController.modalViewController == self) ||
+                   (self.navigationController && self.navigationController.presentingViewController && self.navigationController.presentingViewController.modalViewController == self.navigationController) ||
+                   [[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]]);
+    }
+    return isModal;
+}
 
 -(void)goBack:(id)sender{
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -404,10 +421,12 @@ int count=0;
             [self.navigationController pushViewController:self.detailViewController animated:YES];
         }
         else{
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
-            [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
-            [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
+            if (![self isModal]){
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
+                [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
+            }
         }
     }
 }
@@ -1471,6 +1490,27 @@ int h=0;
     
 }
 
+-(CGRect)currentScreenBoundsDependOnOrientation {
+    NSString *reqSysVer = @"8.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending) {
+        return [UIScreen mainScreen].bounds;
+    }
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    CGFloat width = CGRectGetWidth(screenBounds);
+    CGFloat height = CGRectGetHeight(screenBounds);
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(width, height);
+    }
+    else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(height, width);
+    }
+    
+    return screenBounds ;
+}
+
 - (void)showBackground:(id)sender {
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     NSInteger foundTag = 0;
@@ -1493,12 +1533,22 @@ int h=0;
             [self.navigationController setNavigationBarHidden:NO animated:YES];
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
+            if (![self isModal]){
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
+            }
             [UIView animateWithDuration:1.5f
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^ {
                                  [toolbar setAlpha:1.0];
+                                 if ([self isModal]){
+//                                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+//                                         self.view.superview.bounds = originalSelfFrame;
+//                                     }
+//                                     else {
+                                         self.view.superview.bounds = originalSelfFrame;
+//                                     }
+                                 }
                              }
                              completion:^(BOOL finished) {}
              ];
@@ -1509,17 +1559,31 @@ int h=0;
             [self.navigationController setNavigationBarHidden:YES animated:YES];
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithBool:YES], @"hideToolbar",
-                                    [NSNumber numberWithBool:YES], @"clipsToBounds",
-                                    nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
+            if (![self isModal]){
+                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithBool:YES], @"hideToolbar",
+                                        [NSNumber numberWithBool:YES], @"clipsToBounds",
+                                        nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
+            }
             [UIView animateWithDuration:1.5f
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^ {
                                  self.kenView.alpha = 0;
                                  [toolbar setAlpha:0.0];
+                                 if ([self isModal]){
+                                     originalSelfFrame = self.view.frame;
+                                     CGRect fullscreenRect = [self currentScreenBoundsDependOnOrientation];
+                                     fullscreenRect.origin.y += 10;
+//                                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+//                                         self.view.superview.bounds = fullscreenRect;
+//
+//                                     }
+//                                     else {
+                                         self.view.superview.bounds = fullscreenRect;
+//                                     }
+                                 }
                              }
                              completion:^(BOOL finished) {}
              ];
@@ -1646,14 +1710,17 @@ int h=0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([AppDelegate instance].serverVersion>11){
+    if ([AppDelegate instance].serverVersion > 11  && ![self isModal]) {
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
         cell.accessoryView.alpha = 0.5f;
+    }
+    else {
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([AppDelegate instance].serverVersion>11){
+    if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
         [self showContent:[[cast objectAtIndex:indexPath.row] objectForKey:@"name"]];
     }
 }
@@ -1851,7 +1918,15 @@ int h=0;
 //        [self presentViewController:c animated:NO completion:nil];
 //        [self dismissViewControllerAnimated:NO completion:nil];
 //    }
-        [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
+    [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
+    if ([self isModal]){
+        NSMutableArray *items = [[toolbar items] mutableCopy];
+        UIBarButtonItem *close = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
+        [items insertObject:close atIndex:0];
+        [toolbar setItems:items];
+        viewTitle.textAlignment = UITextAlignmentCenter;
+        bottomShadow.hidden = YES;
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -1880,7 +1955,11 @@ int h=0;
         }
         [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
-
+    if ([self isModal]){
+        [clearlogoButton setFrame:CGRectMake((int)(self.view.frame.size.width/2) - (int)(clearlogoButton.frame.size.width/2), clearlogoButton.frame.origin.y, clearlogoButton.frame.size.width, clearlogoButton.frame.size.height)];
+        [trailerView setFrame:CGRectMake((int)(self.view.frame.size.width/2) - (int)(trailerView.frame.size.width/2), trailerView.frame.origin.y, trailerView.frame.size.width, trailerView.frame.size.height)];
+        self.view.superview.backgroundColor = [UIColor clearColor];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

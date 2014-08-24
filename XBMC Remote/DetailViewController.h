@@ -89,6 +89,8 @@
     BOOL enableCollectionView;
     int cellGridWidth;
     int cellGridHeight;
+    int fullscreenCellGridWidth;
+    int fullscreenCellGridHeight;
     int cellMinimumLineSpacing;
     id activeLayoutView;
     UILongPressGestureRecognizer *longPressGesture;
@@ -119,6 +121,13 @@
     NSIndexPath *autoScrollTable;
     MessagesView *messagesView;
     __weak IBOutlet UILabel *noItemsLabel;
+    BOOL stackscrollFullscreen;
+    BOOL forceCollection;
+    NSMutableDictionary *storeSections;
+    NSArray *storeSectionArray;
+    UIButton *fullscreenButton;
+    UIView *titleView;
+    BOOL hiddenLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame;
