@@ -633,7 +633,7 @@
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.1];
         topNavigationLabel.alpha = 1;
-        [self checkFullscreenButton];
+        [self checkFullscreenButton:YES];
         [UIView commitAnimations];
     }
     [activityIndicatorView stopAnimating];
@@ -863,7 +863,7 @@
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.1];
         topNavigationLabel.alpha = 1;
-        [self checkFullscreenButton];
+        [self checkFullscreenButton:NO];
         [UIView commitAnimations];
     }
     NSMutableDictionary *mutableParameters = [[parameters objectForKey:@"parameters"] mutableCopy];
@@ -5147,14 +5147,14 @@ NSIndexPath *selected;
         [topNavigationLabel setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin];
         [titleView addSubview:topNavigationLabel];
         [buttonsView addSubview:titleView];
-        [self checkFullscreenButton];
+        [self checkFullscreenButton:NO];
     }
 }
 
--(void)checkFullscreenButton {
+-(void)checkFullscreenButton:(BOOL)forceHide {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]){
         NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-        if ([self collectionViewCanBeEnabled] && ([[parameters objectForKey:@"enableLibraryFullScreen"] boolValue] == YES)){
+        if ([self collectionViewCanBeEnabled] && (([[parameters objectForKey:@"enableLibraryFullScreen"] boolValue] == YES) && forceHide == NO)) {
             int buttonPadding = 1;
             if (fullscreenButton == nil){
                 fullscreenButton = [UIButton buttonWithType:UIButtonTypeCustom];
