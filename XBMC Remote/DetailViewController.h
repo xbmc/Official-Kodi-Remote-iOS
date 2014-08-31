@@ -128,6 +128,7 @@
     UIButton *fullscreenButton;
     UIView *titleView;
     BOOL hiddenLabel;
+    UIPinchGestureRecognizer *twoFingerPinch;
 }
 
 - (id)initWithFrame:(CGRect)frame;

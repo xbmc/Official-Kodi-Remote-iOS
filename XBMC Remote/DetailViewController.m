@@ -5172,14 +5172,32 @@ NSIndexPath *selected;
                                                       fullscreenButton.frame.size.height)];
                 [titleView addSubview:fullscreenButton];
             }
+            if (twoFingerPinch == nil){
+                twoFingerPinch =[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPinch:)];
+                [[self view] addGestureRecognizer:twoFingerPinch];
+            }
             [topNavigationLabel setFrame:CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - (buttonPadding * 2), 44)];
             fullscreenButton.hidden = NO;
+            twoFingerPinch.enabled = YES;
         }
         else {
             [topNavigationLabel setFrame:CGRectMake(0, 0, titleView.frame.size.width - 4, 44)];
             fullscreenButton.hidden = YES;
+            twoFingerPinch.enabled = NO;
         }
     }
+}
+
+- (void)twoFingerPinch:(UIPinchGestureRecognizer *)recognizer {
+    if ([recognizer state] == UIGestureRecognizerStateEnded) {
+        if (recognizer.scale > 1 && stackscrollFullscreen == NO) {
+            [self toggleFullscreen:nil];
+        }
+        else if(recognizer.scale <= 1 && stackscrollFullscreen == YES) {
+            [self toggleFullscreen:nil];
+        }
+    }
+    return;
 }
 
 -(void)checkDiskCache{
