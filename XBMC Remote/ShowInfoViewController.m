@@ -1162,6 +1162,7 @@ int h=0;
         else{
             directorLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
         }
+        directorLabel.text = [[item objectForKey:@"year"] length] == 0 ? directorLabel.text : [NSString stringWithFormat:@"%@ (%@)", directorLabel.text, [item objectForKey:@"year"]];
         if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
             [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
             genreLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
