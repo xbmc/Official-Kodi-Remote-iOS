@@ -682,6 +682,13 @@ int h=0;
                     starsView.frame.size.height + size*2
                     )];
         [voteLabel setFont:[UIFont systemFontOfSize:26]];
+        [voteLabel setFrame:
+         CGRectMake(
+                    voteLabel.frame.origin.x,
+                    voteLabel.frame.origin.y - size,
+                    voteLabel.frame.size.width,
+                    voteLabel.frame.size.height
+                    )];
         [numVotesLabel setFont:[UIFont systemFontOfSize:18]];
 
         NSArray *arrayLabels=[NSArray arrayWithObjects:
