@@ -1439,34 +1439,25 @@
 #pragma mark - BDKCollectionIndexView init
 
 -(void)initSectionNameOverlayView{
-    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width / 4, self.view.frame.size.width / 4)];
+    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width / 6, self.view.frame.size.width / 6)];
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
     [sectionNameOverlayView setBackgroundColor:[UIColor clearColor]];
-    sectionNameOverlayView.center = self.view.center;
-    float cornerRadius = 6.0f;
+    sectionNameOverlayView.center = [[[[UIApplication sharedApplication] delegate] window] rootViewController].view.center;
+    float cornerRadius = 12.0f;
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
-    sectionNameOverlayView.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1.0f].CGColor;
-    sectionNameOverlayView.layer.shadowOpacity = 1.0f;
-    sectionNameOverlayView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-    sectionNameOverlayView.layer.shadowRadius = 1.0f;
-    sectionNameOverlayView.layer.masksToBounds = NO;
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:sectionNameOverlayView.bounds
-                                               byRoundingCorners:UIRectCornerAllCorners
-                                                     cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
-    sectionNameOverlayView.layer.shadowPath = path.CGPath;
-    
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = sectionNameOverlayView.bounds;
-    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:.95] CGColor], (id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:.95] CGColor], nil];
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.8] CGColor], (id)[[UIColor colorWithRed:.0 green:.0 blue:.0 alpha:.8] CGColor], nil];
     gradient.cornerRadius = cornerRadius;
     [sectionNameOverlayView.layer insertSublayer:gradient atIndex:0];
     
-    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height/2 - 10, sectionNameOverlayView.frame.size.width, 20)];
-    [sectionNameLabel setFont:[UIFont boldSystemFontOfSize:20]];
+    int fontSize = 40;
+    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height/2 - (fontSize + 8)/2, sectionNameOverlayView.frame.size.width, (fontSize + 8))];
+    [sectionNameLabel setFont:[UIFont boldSystemFontOfSize:fontSize]];
     [sectionNameLabel setTextColor:[UIColor whiteColor]];
     [sectionNameLabel setBackgroundColor:[UIColor clearColor]];
     [sectionNameLabel setTextAlignment:NSTextAlignmentCenter];
-    [sectionNameLabel setShadowColor:[UIColor darkGrayColor]];
+    [sectionNameLabel setShadowColor:[UIColor blackColor]];
     [sectionNameLabel setShadowOffset:CGSizeMake(0, 1)];
     [sectionNameOverlayView addSubview:sectionNameLabel];
     [self.view addSubview:sectionNameOverlayView];
@@ -1491,30 +1482,50 @@
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView *)sender {
-//    [SDWebImageManager.sharedManager.imageCache clearMemory];
     if (sender.currentIndex == 0){
         [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
+        if (sectionNameOverlayView == nil && stackscrollFullscreen == YES){
+            [self initSectionNameOverlayView];
+        }
+        sectionNameLabel.text = [NSString stringWithFormat:@"%C%C", 0xD83D, 0xDD0D];
+        return;
+    }
+    else if (stackscrollFullscreen == YES){
+        if (sectionNameOverlayView == nil && stackscrollFullscreen == YES){
+            [self initSectionNameOverlayView];
+        }
+        sectionNameLabel.text = [storeSectionArray objectAtIndex:sender.currentIndex];
+        NSString *value = [storeSectionArray objectAtIndex:sender.currentIndex];
+        NSPredicate *predExists = [NSPredicate predicateWithFormat: @"SELF.label BEGINSWITH[c] %@", value];
+        if ([value isEqual:@"#"]) {
+            predExists = [NSPredicate predicateWithFormat: @"SELF.label MATCHES[c] %@", @"^[0-9].*"];
+        }
+        NSUInteger index = [[sections objectForKey:@""] indexOfObjectPassingTest:
+                            ^(id obj, NSUInteger idx, BOOL *stop) {
+                                return [predExists evaluateWithObject:obj];
+                            }];
+        if (index != NSNotFound){
+            NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
+            [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+            collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT);
+        }
         return;
     }
     else{
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
         [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
         collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT);
-        if (sectionNameOverlayView == nil && COLLECTION_HEADER_HEIGHT <= 10){
-            [self initSectionNameOverlayView];
-        }
-        sectionNameLabel.text = [self.sectionArray objectAtIndex:sender.currentIndex];
     }
 }
 
 -(void)handleCollectionIndexStateBegin{
-    if (COLLECTION_HEADER_HEIGHT <= 10){
+    if (stackscrollFullscreen == YES){
         [self alphaView:sectionNameOverlayView AnimDuration:0.1f Alpha:1];
     }
 }
 
 -(void)handleCollectionIndexStateEnded{
-    if (COLLECTION_HEADER_HEIGHT <= 10){
+    if (stackscrollFullscreen == YES){
         [self alphaView:sectionNameOverlayView AnimDuration:0.3f Alpha:0];
     }
 }
@@ -2690,7 +2701,7 @@ int originYear = 0;
         [self.searchDisplayController.searchResultsTableView removeGestureRecognizer:longPressGesture];
     }
     if (enableCollectionView){
-        if ([[self.indexView indexTitles] count] > 1  && !stackscrollFullscreen){
+        if ([[self.indexView indexTitles] count] > 1){
             self.indexView.hidden = NO;
         }
         [collectionView addGestureRecognizer:longPressGesture];
@@ -3233,7 +3244,6 @@ NSIndexPath *selected;
                                  bar.rightPadding = 26;
                              }
                              [self choseParams];
-                             self.indexView.hidden = NO;
                              sectionArray = [storeSectionArray copy];
                              sections = [storeSections mutableCopy];
                              if (forceCollection){
@@ -3315,7 +3325,6 @@ NSIndexPath *selected;
                              [collectionView.collectionViewLayout invalidateLayout];
                              [collectionView reloadData];
                              [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-                             self.indexView.hidden = YES;
                              NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      [NSNumber numberWithBool:NO], @"hideToolbar",
                                                      [NSNumber numberWithFloat:animDuration], @"duration",
