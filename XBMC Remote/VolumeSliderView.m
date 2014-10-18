@@ -75,7 +75,7 @@
 
             volumeView.hidden = YES;
             frame_tmp = volumeLabel.frame;
-            frame_tmp.origin.y = (int)((320 - 12) / 2) - (int)(frame_tmp.size.height/2);
+            frame_tmp.origin.y = (int)(([self currentScreenBoundsDependOnOrientation].size.width - 12) / 2) - (int)(frame_tmp.size.height/2);
             frame_tmp.origin.x = 22;
             volumeLabel.frame = frame_tmp;
             [volumeLabel setFont:[UIFont boldSystemFontOfSize:15]];
@@ -96,13 +96,26 @@
             frame_tmp.origin.x = -10;
             frame_tmp.origin.y = 12;
             frame_tmp.size.height = 44;
-            frame_tmp.size.width = 320;
+            frame_tmp.size.width = [self currentScreenBoundsDependOnOrientation].size.width;
             self.frame = frame_tmp;
             plusButton.frame = minusButton.frame;
+            float transform = 1.0f;
+            if (IS_IPHONE_6) {
+                transform = 1.30f;
+                frame_tmp = plusButton.frame;
+                frame_tmp.origin.y = frame_tmp.origin.y + 54.0f;
+                plusButton.frame = frame_tmp;
+            }
+            else if (IS_IPHONE_6_PLUS){
+                transform = 1.53f;
+                frame_tmp = plusButton.frame;
+                frame_tmp.origin.y = frame_tmp.origin.y + 94.0f;
+                plusButton.frame = frame_tmp;
+            }
             frame_tmp = minusButton.frame;
             [minusButton setFrame:CGRectMake(frame_tmp.origin.x, 26, frame_tmp.size.width, frame_tmp.size.height)];
             frame_tmp = volumeSlider.frame;
-            [volumeSlider setFrame:CGRectMake(frame_tmp.origin.x, 33 + minusButton.frame.size.width, frame_tmp.size.width, frame_tmp.size.height)];
+            [volumeSlider setFrame:CGRectMake(frame_tmp.origin.x, 33 + minusButton.frame.size.width, frame_tmp.size.width, frame_tmp.size.height * transform)];
         }
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleApplicationOnVolumeChanged:)
@@ -120,6 +133,26 @@
                                                    object: nil];
     }
     return self;
+}
+
+-(CGRect)currentScreenBoundsDependOnOrientation {
+    NSString *reqSysVer = @"8.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending) {
+        return [UIScreen mainScreen].bounds;
+    }
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    CGFloat width = CGRectGetWidth(screenBounds);
+    CGFloat height = CGRectGetHeight(screenBounds);
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(width, height);
+    }
+    else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(height, width);
+    }
+    return screenBounds ;
 }
 
 -(void)handleApplicationOnVolumeChanged:(NSNotification *)sender{
