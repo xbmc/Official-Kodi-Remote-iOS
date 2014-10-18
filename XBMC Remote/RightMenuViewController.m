@@ -58,7 +58,7 @@
         return 44;
     }
     else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"RemoteControl"]){
-        return 532;
+        return 570;
     }
     return 50;
 }
