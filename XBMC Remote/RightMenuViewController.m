@@ -253,15 +253,17 @@
                                                                                 target: nil
                                                                                 action: nil];
     [fixedSpace setWidth:50.0f];
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, footerHeight)];
+    [toolbar setAutoresizingMask: UIViewAutoresizingFlexibleWidth];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         frame.size.width = STACKSCROLL_WIDTH;
         [fixedSpace setWidth:0.0f];
+        [toolbar setFrame:CGRectMake(0, 0, frame.size.width, footerHeight)];
+        [toolbar setAutoresizingMask: UIViewAutoresizingNone];
     }
     UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];
-    [newView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin];
+    [newView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth];
     [newView setBackgroundColor:[UIColor clearColor]];
-    
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, footerHeight)];
     [toolbar setBarStyle:UIBarStyleBlackTranslucent];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [toolbar setTintColor:[UIColor lightGrayColor]];
