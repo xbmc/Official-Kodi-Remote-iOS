@@ -2604,6 +2604,26 @@ int currentItemID;
 
 #pragma mark - UISegmentControl
 
+-(CGRect)currentScreenBoundsDependOnOrientation {
+    NSString *reqSysVer = @"8.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending) {
+        return [UIScreen mainScreen].bounds;
+    }
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    CGFloat width = CGRectGetWidth(screenBounds);
+    CGFloat height = CGRectGetHeight(screenBounds);
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(width, height);
+    }
+    else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(height, width);
+    }
+    return screenBounds ;
+}
+
 -(void)addSegmentControl{
     seg_music.hidden = YES;
     seg_video.hidden = YES;
@@ -2613,7 +2633,8 @@ int currentItemID;
                                                                           ]
                                 ];
     playlistSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    playlistSegmentedControl.frame = CGRectMake(99, 7, 122, 29);
+    float seg_width = 122.0f;
+    playlistSegmentedControl.frame = CGRectMake((int)(([self currentScreenBoundsDependOnOrientation].size.width/2) - (seg_width/2)), 7, seg_width, 29);
     playlistSegmentedControl.tintColor = [UIColor whiteColor];
     [playlistSegmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents: UIControlEventValueChanged];
     [playlistActionView addSubview:playlistSegmentedControl];
