@@ -53,6 +53,18 @@
 
 - (void)setEmbeddedView{
     CGRect frame = TransitionalView.frame;
+    float transform = 1.0f;
+    int startX = -6;
+    int startY = 6;
+    if (IS_IPHONE_6) {
+        transform = 1.16f;
+        startX = 3;
+    }
+    else if (IS_IPHONE_6_PLUS){
+        transform = 1.29f;
+        startX = 6;
+    }
+    int newWidth = (int) (296.0f * transform);
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton *) self.view viewWithTag:2],
                        [(UIButton *) self.view viewWithTag:3],
@@ -81,9 +93,6 @@
                            nil]
                     hide: YES];
     }
-    int newWidth = 296;
-    int startX = -6;
-    int startY = 6;
     [TransitionalView setFrame:CGRectMake(frame.origin.x, 46, frame.size.width, frame.size.height)];
     int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
     [remoteControlView setFrame:CGRectMake(startX, startY, newWidth, newHeight)];
