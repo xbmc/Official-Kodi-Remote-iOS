@@ -4840,8 +4840,20 @@ NSIndexPath *selected;
         else{
             cellMinimumLineSpacing = 0;
             cellGridWidth = [[itemSizes objectForKey:@"width"] floatValue];
+            if (IS_IPHONE_6) {
+                cellGridWidth = (int)(cellGridWidth * 1.18f);
+            }
+            else if (IS_IPHONE_6_PLUS){
+                cellGridWidth = (int)(cellGridWidth * 1.31f);
+            }
         }
         cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
+        if (IS_IPHONE_6) {
+            cellGridHeight = (int)(cellGridHeight * 1.18f);
+        }
+        else if (IS_IPHONE_6_PLUS){
+            cellGridHeight = (int)(cellGridHeight * 1.31f);
+        }
     }
     if ([itemSizes objectForKey:@"fullscreenWidth"] && [itemSizes objectForKey:@"fullscreenHeight"]){
         fullscreenCellGridWidth = [[itemSizes objectForKey:@"fullscreenWidth"] floatValue];
