@@ -157,7 +157,16 @@
         [remoteControlView addGestureRecognizer:leftSwipe];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         if([[UIScreen mainScreen ] bounds].size.height >= 568){
+            float transform = 1.0f;
+            if (IS_IPHONE_6) {
+                transform = 1.16f;
+            }
+            else if (IS_IPHONE_6_PLUS){
+                transform = 1.29f;
+            }
             CGRect frame = remoteControlView.frame;
+            frame.size.height = frame.size.height *transform;
+            frame.size.width = frame.size.width*transform;
             [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y + 12, frame.size.width * 1.075, frame.size.height * 1.075)];
         }
     }
