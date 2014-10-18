@@ -111,8 +111,15 @@ NSMutableArray *hostRightMenuItems;
     obj=[GlobalData getInstance];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        thumbWidth = PHONE_TV_SHOWS_BANNER_WIDTH;
-        tvshowHeight = PHONE_TV_SHOWS_BANNER_HEIGHT;
+        float transform = 1.0f;
+        if (IS_IPHONE_6) {
+            transform = 1.18f;
+        }
+        else if (IS_IPHONE_6_PLUS){
+            transform = 1.294f;
+        }
+        thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
+        tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                    [UIColor colorWithRed:1 green:1 blue:1 alpha:1],UITextAttributeTextColor,
                                                    [UIFont boldSystemFontOfSize:18], UITextAttributeFont, nil];

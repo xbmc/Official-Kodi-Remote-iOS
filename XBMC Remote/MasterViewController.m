@@ -401,8 +401,15 @@
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    int thumbWidth = PHONE_TV_SHOWS_BANNER_WIDTH;
-    int tvshowHeight = PHONE_TV_SHOWS_BANNER_HEIGHT;
+    float transform = 1.0f;
+    if (IS_IPHONE_6) {
+        transform = 1.18f;
+    }
+    else if (IS_IPHONE_6_PLUS){
+        transform = 1.294f;
+    }
+    int thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
+    int tvshowHeight =  (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
     if ([AppDelegate instance].obj.preferTVPosters==YES){
         thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
         tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
