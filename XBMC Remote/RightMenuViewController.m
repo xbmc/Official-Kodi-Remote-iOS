@@ -119,7 +119,7 @@
         [title setAutoresizingMask:UIViewAutoresizingNone];
         [icon setAutoresizingMask:UIViewAutoresizingNone];
         [icon setFrame:CGRectMake(10, (int)((cellHeight/2) - (18/2)), 18, 18)];
-        [title setFrame:CGRectMake(icon.frame.size.width + 16, (int)((cellHeight/2) - (title.frame.size.height/2)), self.view.frame.size.width - (icon.frame.size.width + 16), title.frame.size.height)];
+        [title setFrame:CGRectMake(icon.frame.size.width + 16, (int)((cellHeight/2) - (title.frame.size.height/2)), tableView.frame.size.width - (icon.frame.size.width + 32), title.frame.size.height)];
         [title setTextAlignment:NSTextAlignmentLeft];
         [title setText:[AppDelegate instance].serverName];
         [title setNumberOfLines:2];
