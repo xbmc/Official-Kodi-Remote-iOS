@@ -138,7 +138,7 @@
         cell.selectedBackgroundView = backgroundView;
         [(UILabel*) [cell viewWithTag:3] setText:NSLocalizedString(@"No connection", nil)];
         if (indexPath.row == 0){
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(127, (int)((44/2) - (36/2)) - 2, 145, 36)];
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 193.0f, (int)((44/2) - (36/2)) - 2, 145, 36)];
             xbmc_logo. alpha = .25f;
             [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
             [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo_selected.png"]];
