@@ -98,12 +98,6 @@
         cellLabel.textAlignment=UITextAlignmentCenter;
         [cellLabel setText:NSLocalizedString(@"No saved hosts found", nil)];
         [cellIP setText:@""];
-        CGRect frame=cellLabel.frame;
-        frame.origin.x=10;
-        frame.origin.y=2;
-        frame.size.width=300;
-        frame.size.height=40;
-        cellLabel.frame=frame;
         cell.accessoryType=UITableViewCellAccessoryNone;
         return cell;
     }
@@ -111,12 +105,6 @@
         [(UIImageView*) [cell viewWithTag:1] setHidden:FALSE];
         UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
         UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
-        CGRect frame=cellLabel.frame;
-        frame.origin.x=36;
-        frame.origin.y=2;
-        frame.size.width=166;
-        frame.size.height=40;
-        cellLabel.frame=frame;
         cellLabel.textAlignment=UITextAlignmentLeft;
         NSDictionary *item=[[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
         [cellLabel setText:[item objectForKey:@"serverDescription"]];
