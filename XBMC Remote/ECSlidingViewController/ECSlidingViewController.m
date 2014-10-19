@@ -467,8 +467,7 @@ BOOL moved;
 - (void)addTopViewSnapshot
 {
     if (!self.topViewSnapshot.superview && !self.shouldAllowUserInteractionsWhenAnchored) {
-        topViewSnapshot.layer.contents = (id)[UIImage imageWithUIView:self.topView].CGImage;
-        
+        [topViewSnapshot setFrame:self.view.frame];
         if (self.shouldAddPanGestureRecognizerToTopViewSnapshot && (_resetStrategy & ECPanning)) {
             if (!_topViewSnapshotPanGesture) {
                 _topViewSnapshotPanGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(updateTopViewHorizontalCenterWithRecognizer:)];
