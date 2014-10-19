@@ -322,6 +322,12 @@
 
 #pragma mark - LifeCycle
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.slidingViewController setAnchorRightRevealAmount:self.view.bounds.size.width - 40.0f];
+    self.slidingViewController.underLeftWidthLayout = ECFullWidth;
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     jsonRPC=nil;
 }
@@ -347,8 +353,6 @@
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
-    [self.slidingViewController setAnchorRightRevealAmount:280.0f];
-    self.slidingViewController.underLeftWidthLayout = ECFullWidth;
     [AppDelegate instance].obj=[GlobalData getInstance];
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
     menuList.scrollsToTop = NO;
