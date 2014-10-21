@@ -326,7 +326,7 @@ static inline BOOL IsEmpty(id obj) {
     if (appInfoView==nil)
         appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil] ;
     appInfoView.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-	appInfoView.modalPresentationStyle = UIModalPresentationFullScreen;
+//	appInfoView.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentModalViewController:appInfoView animated:YES];
 }
 
