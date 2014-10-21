@@ -2634,7 +2634,11 @@ int currentItemID;
                                 ];
     playlistSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     float seg_width = 122.0f;
-    playlistSegmentedControl.frame = CGRectMake((int)(([self currentScreenBoundsDependOnOrientation].size.width/2) - (seg_width/2)), 7, seg_width, 29);
+    float left_margin = 99.0f;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        left_margin = (int)(([self currentScreenBoundsDependOnOrientation].size.width/2) - (seg_width/2));
+    }
+    playlistSegmentedControl.frame = CGRectMake(left_margin, 7, seg_width, 29);
     playlistSegmentedControl.tintColor = [UIColor whiteColor];
     [playlistSegmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents: UIControlEventValueChanged];
     [playlistActionView addSubview:playlistSegmentedControl];
