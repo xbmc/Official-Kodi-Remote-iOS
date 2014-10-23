@@ -1254,6 +1254,13 @@
 		0F77D8CD1574A3BE00FE904E /* remote_button_movies_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_movies_down@2x.png"; sourceTree = "<group>"; };
 		0F77D8CF1574A43000FE904E /* remote_button_tv_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_tv_down@2x.png"; sourceTree = "<group>"; };
 		0F77D8D11574A4A200FE904E /* remote_button_pictures_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_pictures_down@2x.png"; sourceTree = "<group>"; };
+		0F78409219F952AF0005E98E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0F78409319F952AF0005E98E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0F78409419F952AF0005E98E /* he */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = he; path = "he.lproj/remote quick help@2x.png"; sourceTree = "<group>"; };
+		0F78409519F952AF0005E98E /* he */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = he; path = "he.lproj/remote quick help_ipad@2x.png"; sourceTree = "<group>"; };
+		0F78409619F952AF0005E98E /* he */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = he; path = "he.lproj/gesture_zone@2x.png"; sourceTree = "<group>"; };
+		0F78409719F952AF0005E98E /* he */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = he; path = "he.lproj/remote quick help_ipad.png"; sourceTree = "<group>"; };
+		0F78409819F952AF0005E98E /* he */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = he; path = "he.lproj/remote quick help.png"; sourceTree = "<group>"; };
 		0F7A8A911926776900313C17 /* AppInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppInfoViewController.xib; sourceTree = "<group>"; };
 		0F7B95131708975500880F33 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		0F7B95141708975500880F33 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
@@ -2731,6 +2738,7 @@
 				it,
 				"zh-Hans",
 				pl,
+				he,
 			);
 			mainGroup = 0F5548EB151D1187007E633F;
 			productRefGroup = 0F5548F7151D1187007E633F /* Products */;
@@ -3513,6 +3521,7 @@
 				0FCCFF6116D0F1EF008EBABE /* it */,
 				B1FF37DE1709D1EB005473FF /* zh-Hans */,
 				0F29D641191F7E1A00FFE2AA /* pl */,
+				0F78409219F952AF0005E98E /* he */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3525,6 +3534,7 @@
 				8E1B3B0A16EAADB70089A043 /* de */,
 				B1FF37EA1709D20B005473FF /* zh-Hans */,
 				0F29D64E191F7E1A00FFE2AA /* pl */,
+				0F78409619F952AF0005E98E /* he */,
 			);
 			name = "gesture_zone@2x.png";
 			sourceTree = "<group>";
@@ -3577,6 +3587,7 @@
 				0FCCFF6216D0F1EF008EBABE /* it */,
 				B1FF37DF1709D1ED005473FF /* zh-Hans */,
 				0F29D642191F7E1A00FFE2AA /* pl */,
+				0F78409319F952AF0005E98E /* he */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3588,6 +3599,7 @@
 				8E1B3B0316EAABC80089A043 /* de */,
 				B1FF37E91709D209005473FF /* zh-Hans */,
 				0F29D64C191F7E1A00FFE2AA /* pl */,
+				0F78409419F952AF0005E98E /* he */,
 			);
 			name = "remote quick help@2x.png";
 			sourceTree = "<group>";
@@ -3599,6 +3611,7 @@
 				8E1B3B0216EAABC00089A043 /* de */,
 				B1FD2267170B337B00FB1669 /* zh-Hans */,
 				0F29D64D191F7E1A00FFE2AA /* pl */,
+				0F78409519F952AF0005E98E /* he */,
 			);
 			name = "remote quick help_ipad@2x.png";
 			sourceTree = "<group>";
@@ -3610,6 +3623,7 @@
 				8E1B3B0416EAABCC0089A043 /* de */,
 				B1FD2268170B33C300FB1669 /* zh-Hans */,
 				0F29D650191F7E1B00FFE2AA /* pl */,
+				0F78409719F952AF0005E98E /* he */,
 			);
 			name = "remote quick help_ipad.png";
 			sourceTree = "<group>";
@@ -3621,6 +3635,7 @@
 				8E1B3B0516EAABD20089A043 /* de */,
 				B1FD2269170B33DE00FB1669 /* zh-Hans */,
 				0F29D651191F7E1B00FFE2AA /* pl */,
+				0F78409819F952AF0005E98E /* he */,
 			);
 			name = "remote quick help.png";
 			sourceTree = "<group>";
