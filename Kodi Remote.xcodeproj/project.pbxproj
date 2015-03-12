@@ -218,7 +218,6 @@
 		0F55490E151D1187007E633F /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55490D151D1187007E633F /* MasterViewController.m */; };
 		0F554911151D1187007E633F /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554910151D1187007E633F /* DetailViewController.m */; };
 		0F554AA2151D13CA007E633F /* bottom_logo_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554923151D13C9007E633F /* bottom_logo_up@2x.png */; };
-		0F554AA4151D13CA007E633F /* bottom_text_up.9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554925151D13C9007E633F /* bottom_text_up.9@2x.png */; };
 		0F554AA5151D13CA007E633F /* bottombar_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F554926151D13C9007E633F /* bottombar_bg@2x.png */; };
 		0F554AA9151D13CA007E633F /* coverbox_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F55492A151D13C9007E633F /* coverbox_back@2x.png */; };
 		0F554AAA151D13CA007E633F /* default_album@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F55492B151D13C9007E633F /* default_album@2x.png */; };
@@ -293,7 +292,6 @@
 		0F554B56151D13CA007E633F /* timeborder.9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5549D7151D13C9007E633F /* timeborder.9@2x.png */; };
 		0F554B58151D13CA007E633F /* bottom_controls_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5549DA151D13C9007E633F /* bottom_controls_background.png */; };
 		0F554B5A151D13CA007E633F /* bottom_logo_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5549DC151D13C9007E633F /* bottom_logo_up.png */; };
-		0F554B5C151D13CA007E633F /* bottom_text_up.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5549DE151D13C9007E633F /* bottom_text_up.9.png */; };
 		0F554B5D151D13CA007E633F /* bottombar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5549DF151D13C9007E633F /* bottombar_bg.png */; };
 		0F554B61151D13CA007E633F /* check_mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5549E3151D13C9007E633F /* check_mark.png */; };
 		0F554B62151D13CA007E633F /* coverbox_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5549E4151D13C9007E633F /* coverbox_back.png */; };
@@ -419,8 +417,6 @@
 		0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F747733151DD91D00EF78AD /* RemoteController.xib */; };
 		0F747738151DE5CF00EF78AD /* pgbar_inact_fake.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F747737151DE5CF00EF78AD /* pgbar_inact_fake.png */; };
 		0F74773A151E094C00EF78AD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F747739151E094C00EF78AD /* AudioToolbox.framework */; };
-		0F74773C151E15BA00EF78AD /* bottom_logo_down_blu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F74773B151E15BA00EF78AD /* bottom_logo_down_blu@2x.png */; };
-		0F74773E151E15C600EF78AD /* bottom_logo_down_blu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F74773D151E15C600EF78AD /* bottom_logo_down_blu.png */; };
 		0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776A151E5E8600EF78AD /* DSJSONRPC.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776C151E5E8600EF78AD /* DSJSONRPCError.m */; };
 		0F747771151E5E8600EF78AD /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776E151E5E8600EF78AD /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1006,14 +1002,14 @@
 		0F545D091575563100B6320D /* UIImage+ColorAtPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColorAtPixel.m"; sourceTree = "<group>"; };
 		0F548BF715827203005C6DE7 /* OverlayWatched.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OverlayWatched.png; sourceTree = "<group>"; };
 		0F548BFA15827211005C6DE7 /* OverlayWatched@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OverlayWatched@2x.png"; sourceTree = "<group>"; };
-		0F5548F6151D1187007E633F /* XBMC Remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "XBMC Remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F5548F6151D1187007E633F /* Kodi Remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kodi Remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F5548FA151D1187007E633F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0F5548FC151D1187007E633F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0F5548FE151D1187007E633F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		0F554902151D1187007E633F /* XBMC Remote-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "XBMC Remote-Info.plist"; sourceTree = "<group>"; };
+		0F554902151D1187007E633F /* Kodi Remote-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Kodi Remote-Info.plist"; sourceTree = "<group>"; };
 		0F554904151D1187007E633F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F554906151D1187007E633F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0F554908151D1187007E633F /* XBMC Remote-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XBMC Remote-Prefix.pch"; sourceTree = "<group>"; };
+		0F554908151D1187007E633F /* Kodi Remote-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Kodi Remote-Prefix.pch"; sourceTree = "<group>"; };
 		0F554909151D1187007E633F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0F55490A151D1187007E633F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0F55490C151D1187007E633F /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
@@ -1021,7 +1017,6 @@
 		0F55490F151D1187007E633F /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		0F554910151D1187007E633F /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		0F554923151D13C9007E633F /* bottom_logo_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom_logo_up@2x.png"; sourceTree = "<group>"; };
-		0F554925151D13C9007E633F /* bottom_text_up.9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom_text_up.9@2x.png"; sourceTree = "<group>"; };
 		0F554926151D13C9007E633F /* bottombar_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottombar_bg@2x.png"; sourceTree = "<group>"; };
 		0F55492A151D13C9007E633F /* coverbox_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coverbox_back@2x.png"; sourceTree = "<group>"; };
 		0F55492B151D13C9007E633F /* default_album@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_album@2x.png"; sourceTree = "<group>"; };
@@ -1096,7 +1091,6 @@
 		0F5549D7151D13C9007E633F /* timeborder.9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeborder.9@2x.png"; sourceTree = "<group>"; };
 		0F5549DA151D13C9007E633F /* bottom_controls_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_controls_background.png; sourceTree = "<group>"; };
 		0F5549DC151D13C9007E633F /* bottom_logo_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_logo_up.png; sourceTree = "<group>"; };
-		0F5549DE151D13C9007E633F /* bottom_text_up.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_text_up.9.png; sourceTree = "<group>"; };
 		0F5549DF151D13C9007E633F /* bottombar_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottombar_bg.png; sourceTree = "<group>"; };
 		0F5549E3151D13C9007E633F /* check_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check_mark.png; sourceTree = "<group>"; };
 		0F5549E4151D13C9007E633F /* coverbox_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coverbox_back.png; sourceTree = "<group>"; };
@@ -1229,8 +1223,6 @@
 		0F747733151DD91D00EF78AD /* RemoteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RemoteController.xib; sourceTree = "<group>"; };
 		0F747737151DE5CF00EF78AD /* pgbar_inact_fake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pgbar_inact_fake.png; sourceTree = "<group>"; };
 		0F747739151E094C00EF78AD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		0F74773B151E15BA00EF78AD /* bottom_logo_down_blu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom_logo_down_blu@2x.png"; sourceTree = "<group>"; };
-		0F74773D151E15C600EF78AD /* bottom_logo_down_blu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_logo_down_blu.png; sourceTree = "<group>"; };
 		0F747768151E5E8600EF78AD /* DSARCHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSARCHelpers.h; sourceTree = "<group>"; };
 		0F747769151E5E8600EF78AD /* DSJSONRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSJSONRPC.h; sourceTree = "<group>"; };
 		0F74776A151E5E8600EF78AD /* DSJSONRPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSJSONRPC.m; sourceTree = "<group>"; };
@@ -1811,7 +1803,7 @@
 		0F5548F7151D1187007E633F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0F5548F6151D1187007E633F /* XBMC Remote.app */,
+				0F5548F6151D1187007E633F /* Kodi Remote.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1866,10 +1858,10 @@
 		0F554901151D1187007E633F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0F554902151D1187007E633F /* XBMC Remote-Info.plist */,
+				0F554902151D1187007E633F /* Kodi Remote-Info.plist */,
 				0F554903151D1187007E633F /* InfoPlist.strings */,
 				0F554906151D1187007E633F /* main.m */,
-				0F554908151D1187007E633F /* XBMC Remote-Prefix.pch */,
+				0F554908151D1187007E633F /* Kodi Remote-Prefix.pch */,
 				1A9786C21683D87800B4F3F8 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
@@ -2121,9 +2113,7 @@
 				0F4DCF2B1521284B00FEFD40 /* shiny_black_volume@2x.png */,
 				0F4DCF251520F98100FEFD40 /* volume@2x.png */,
 				0F4DCF1A15206FAD00FEFD40 /* jewel_dvd.table@2x.png */,
-				0F74773B151E15BA00EF78AD /* bottom_logo_down_blu@2x.png */,
 				0F554923151D13C9007E633F /* bottom_logo_up@2x.png */,
-				0F554925151D13C9007E633F /* bottom_text_up.9@2x.png */,
 				0F554926151D13C9007E633F /* bottombar_bg@2x.png */,
 				0F55492A151D13C9007E633F /* coverbox_back@2x.png */,
 				0F55492B151D13C9007E633F /* default_album@2x.png */,
@@ -2382,11 +2372,9 @@
 				0F4DCF291520FED400FEFD40 /* shiny_black_volume.png */,
 				0F4DCF231520F95300FEFD40 /* volume.png */,
 				0F4DCF1D15206FC200FEFD40 /* jewel_dvd.table.png */,
-				0F74773D151E15C600EF78AD /* bottom_logo_down_blu.png */,
 				0F747737151DE5CF00EF78AD /* pgbar_inact_fake.png */,
 				0F5549DA151D13C9007E633F /* bottom_controls_background.png */,
 				0F5549DC151D13C9007E633F /* bottom_logo_up.png */,
-				0F5549DE151D13C9007E633F /* bottom_text_up.9.png */,
 				0F5549DF151D13C9007E633F /* bottombar_bg.png */,
 				0F5549E3151D13C9007E633F /* check_mark.png */,
 				0F5549E4151D13C9007E633F /* coverbox_back.png */,
@@ -2689,9 +2677,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0F5548F5151D1187007E633F /* XBMC Remote */ = {
+		0F5548F5151D1187007E633F /* Kodi Remote */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0F55491A151D1187007E633F /* Build configuration list for PBXNativeTarget "XBMC Remote" */;
+			buildConfigurationList = 0F55491A151D1187007E633F /* Build configuration list for PBXNativeTarget "Kodi Remote" */;
 			buildPhases = (
 				0F5548F2151D1187007E633F /* Sources */,
 				0F5548F3151D1187007E633F /* Frameworks */,
@@ -2701,9 +2689,9 @@
 			);
 			dependencies = (
 			);
-			name = "XBMC Remote";
+			name = "Kodi Remote";
 			productName = "XBMC Remote";
-			productReference = 0F5548F6151D1187007E633F /* XBMC Remote.app */;
+			productReference = 0F5548F6151D1187007E633F /* Kodi Remote.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2720,7 +2708,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0F5548F0151D1187007E633F /* Build configuration list for PBXProject "XBMC Remote" */;
+			buildConfigurationList = 0F5548F0151D1187007E633F /* Build configuration list for PBXProject "Kodi Remote" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -2737,7 +2725,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0F5548F5151D1187007E633F /* XBMC Remote */,
+				0F5548F5151D1187007E633F /* Kodi Remote */,
 			);
 		};
 /* End PBXProject section */
@@ -2750,7 +2738,6 @@
 				0F554905151D1187007E633F /* InfoPlist.strings in Resources */,
 				0F554AA2151D13CA007E633F /* bottom_logo_up@2x.png in Resources */,
 				0FB4044F1928D0D300346300 /* HostViewController.xib in Resources */,
-				0F554AA4151D13CA007E633F /* bottom_text_up.9@2x.png in Resources */,
 				0F554AA5151D13CA007E633F /* bottombar_bg@2x.png in Resources */,
 				0F554AA9151D13CA007E633F /* coverbox_back@2x.png in Resources */,
 				0FAF8A5517E4F0AB00AB6C73 /* stackScrollUpShadow@2x.png in Resources */,
@@ -2833,7 +2820,6 @@
 				0F554B56151D13CA007E633F /* timeborder.9@2x.png in Resources */,
 				0F554B58151D13CA007E633F /* bottom_controls_background.png in Resources */,
 				0F554B5A151D13CA007E633F /* bottom_logo_up.png in Resources */,
-				0F554B5C151D13CA007E633F /* bottom_text_up.9.png in Resources */,
 				0F554B5D151D13CA007E633F /* bottombar_bg.png in Resources */,
 				0F554B61151D13CA007E633F /* check_mark.png in Resources */,
 				0FFF726118226AC3007A6E25 /* st_livetv_off@2x.png in Resources */,
@@ -2926,8 +2912,6 @@
 				0FE0EA711905708100EA9118 /* st_video_addon_on@2x.png in Resources */,
 				0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */,
 				0F747738151DE5CF00EF78AD /* pgbar_inact_fake.png in Resources */,
-				0F74773C151E15BA00EF78AD /* bottom_logo_down_blu@2x.png in Resources */,
-				0F74773E151E15C600EF78AD /* bottom_logo_down_blu.png in Resources */,
 				0FB16164151F156A001BA2D4 /* jsonDataCell.xib in Resources */,
 				0F4DCF1B15206FAD00FEFD40 /* jewel_dvd.table@2x.png in Resources */,
 				0F4DCF1E15206FC200FEFD40 /* jewel_dvd.table.png in Resources */,
@@ -3709,12 +3693,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "XBMC Remote/XBMC Remote-Prefix.pch";
-				INFOPLIST_FILE = "XBMC Remote/XBMC Remote-Info.plist";
+				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
+				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Kodi Remote";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3731,12 +3715,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "XBMC Remote/XBMC Remote-Prefix.pch";
-				INFOPLIST_FILE = "XBMC Remote/XBMC Remote-Info.plist";
+				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
+				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Kodi Remote";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3748,7 +3732,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0F5548F0151D1187007E633F /* Build configuration list for PBXProject "XBMC Remote" */ = {
+		0F5548F0151D1187007E633F /* Build configuration list for PBXProject "Kodi Remote" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0F554918151D1187007E633F /* Debug */,
@@ -3757,7 +3741,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0F55491A151D1187007E633F /* Build configuration list for PBXNativeTarget "XBMC Remote" */ = {
+		0F55491A151D1187007E633F /* Build configuration list for PBXNativeTarget "Kodi Remote" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0F55491B151D1187007E633F /* Debug */,

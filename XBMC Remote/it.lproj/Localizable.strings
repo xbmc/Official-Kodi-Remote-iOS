@@ -19,10 +19,10 @@
 "Pictures" = "Immagini";
 "Now Playing" = "In riproduzione";
 "Remote Control" = "Telecomando";
-"XBMC Server" = "Server XBMC";
-"New XBMC Server" = "Nuovo Server XBMC";
-"Modify XBMC Server" = "Modifica Server XBMC";
-"Select an XBMC Server from the list" = "Selezionare un server XBMC dalla lista";
+"XBMC Server" = "Server Kodi";
+"New XBMC Server" = "Nuovo Server Kodi";
+"Modify XBMC Server" = "Modifica Server Kodi";
+"Select an XBMC Server from the list" = "Selezionare un server Kodi dalla lista";
 
 "Files" = "File";
 "Video Addons" = "Addon Video";
@@ -59,7 +59,7 @@
 "Hibernate" = "Ibernazione";
 "Suspend" = "Sospendi";
 "Reboot" = "Riavvia";
-"Quit XBMC application" = "Esci dall'applicazione XBMC";
+"Quit XBMC application" = "Esci dall'applicazione Kodi";
 "Update Audio Library" = "Audio: Aggiorna la libreria";
 "Update Audio" = "Aggiorna Audio";
 "Clean Audio Library" = "Audio: Pulisci la libreria";
@@ -125,11 +125,11 @@
 "No saved hosts found" = "Nessun server trovato";
 
 "Are you sure you want to clear the %@playlist?" = "Sei sicuro di voler cancellare la playlist%@?";
-"Are you sure you want to power off your XBMC system now?" = "Sei sicuro di voler spegnere il tuo sistema XBMC adesso?";
-"Are you sure you want to hibernate your XBMC system now?" = "Sei sicuro di voler ibernare il tuo sistema XBMC adesso?";
-"Are you sure you want to suspend your XBMC system now?" = "Sei sicuro di voler sospendere il tuo sistema XBMC adesso?";
-"Are you sure you want to reboot your XBMC system now?" = "Sei sicuro di voler riavviare il tuo sistema XBMC adesso?";
-"Are you sure you want to quit XBMC application now?" = "Sei sicuro di voler uscire dall'applicazione XBMC adesso?";
+"Are you sure you want to power off your XBMC system now?" = "Sei sicuro di voler spegnere il tuo sistema Kodi adesso?";
+"Are you sure you want to hibernate your XBMC system now?" = "Sei sicuro di voler ibernare il tuo sistema Kodi adesso?";
+"Are you sure you want to suspend your XBMC system now?" = "Sei sicuro di voler sospendere il tuo sistema Kodi adesso?";
+"Are you sure you want to reboot your XBMC system now?" = "Sei sicuro di voler riavviare il tuo sistema Kodi adesso?";
+"Are you sure you want to quit XBMC application now?" = "Sei sicuro di voler uscire dall'applicazione Kodi adesso?";
 "Are you sure you want to update your audio library now?" = "Sei sicuro di voler aggiornare la libreria audio adesso?";
 "Are you sure you want to clean your audio library now?" = "Sei sicuro di voler pulire la libreria audio adesso?";
 "Are you sure you want to update your video library now?" = "Sei sicuro di voler aggiornare la libreria video adesso?";
@@ -188,8 +188,8 @@
 "Scrubbing 0.025" = "Scrubbing di precisione";
 
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Rimozione cache dal disco...\n\nPer favore attendere, l'operazione potrebbe richiedere qualche minuto";
-"Pull to sync with XBMC..." = "Trascina per sincronizzare con XBMC...";
-"Release to sync with XBMC..." = "Rilascia per sincronizzare con XBMC...";
+"Pull to sync with XBMC..." = "Trascina per sincronizzare con Kodi...";
+"Release to sync with XBMC..." = "Rilascia per sincronizzare con Kodi...";
 "Syncing..." = "Sincronizzazione...";
 "Last sync" = "Ultima sincronizzazione";
 "View: Wall" = "Vedi: Muro";
@@ -219,7 +219,7 @@
 "Programs" = "Programmi";
 "Video Add-ons" = "Add-on Video";
 "Music Add-ons" = "Add-on Musica";
-"XBMC Settings" = "Impostazioni XBMC";
+"XBMC Settings" = "Impostazioni Kodi";
 
 "Custom button" = "Bottone personalizzato";
 "Modify label:" = "Modifica etichetta:";
@@ -232,7 +232,7 @@
 "Tap and hold a setting to add a new button." = "Tocca e tieni premuto un'impostazione per aggiungere un nuovo bottone.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "Nessun bottone personalizzato definito.\r\nPremere \"...altro\" in basso per aggiungerne di nuovi.";
 
-"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- ATTENZIONE --\nLe attuali API di XBMC Gotham non consentono la modifica dei timer. Utilizzare l'interfaccia di XBMC per l'aggiunta, la modifica e la cancellazione dei timer. Grazie.";
+"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- ATTENZIONE --\nLe attuali API di Kodi non consentono la modifica dei timer. Utilizzare l'interfaccia di Kodi per l'aggiunta, la modifica e la cancellazione dei timer. Grazie.";
 
 "Execute program" = "Esegui programma";
 "Execute video add-on" = "Esegui add-on video";
@@ -243,11 +243,11 @@
 "...more" = "...altro";
 "Edit" = "Modifica";
 "Done" = "Fatto";
-"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "XBMC \"Gotham\" versione 13 o superiore è necessario per accedere alle impostazioni XBMC";
-"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- ATTENZIONE --\nQuesto tipo di impostazione non può essere configurata da remoto. Utilizzare l'interfaccia di XBMC per modificare questa impostazione.\nGrazie.";
+"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "Kodi versione 13 o superiore è necessario per accedere alle impostazioni Kodi";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- ATTENZIONE --\nQuesto tipo di impostazione non può essere configurata da remoto. Utilizzare l'interfaccia di Kodi per modificare questa impostazione.\nGrazie.";
 
-"Official XBMC Remote\nfor iOS" = "Official XBMC Remote\nper iOS";
-"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Official XBMC Remote app utilizza immagini provenienti da http://fanart.tv, scaricare ed eseguire l'add-on XBMC \"artwork downloader\" per sbloccare la bellezza di illustrazioni in più!\n\nXBMC logo, Zappy mascotte e le icone sono proprietà di XBMC\nhttp://www.xbmc.org/contribute";
+"Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nper iOS";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Official Kodi Remote app utilizza immagini provenienti da http://fanart.tv, scaricare ed eseguire l'add-on Kodi \"artwork downloader\" per sbloccare la bellezza di illustrazioni in più!\n\nKodi logo, Zappy mascotte e le icone sono proprietà di Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "enjoy!";
 
 "No items found." = "Nessun elemento trovato";
@@ -255,7 +255,7 @@
 "Party" = "Party";
 "Search" = "Ricerca";
 
-"Supported XBMC version is Eden (11) or higher" = "Versione XBMC supportata Eden (11) o superiore";
+"Supported XBMC version is Eden (11) or higher" = "Versione Kodi supportata Eden (11) o superiore";
 "Add Host" = "Aggiungi";
 
 "Description" = "Descrizione";
@@ -263,14 +263,14 @@
 "MAC Address" = "Indirizzo MAC";
 "Username and Password" = "Username e Password";
 "Prefer posters for TV shows" = "Preferisci i poster per le serie TV";
-"Find XBMC" = "Trova XBMC";
+"Find XBMC" = "Trova Kodi";
 "Save" = "Salva";
-"No XBMC instances were found :(" = "Nessun server XBMC è stato trovato :(";
-"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Trova XBMC\" richiede l'opzione\n\"Annuncia questi servizi ad altri sistemi via Zeroconf\" abilitata in XBMC";
-"How-to actvate the remote app in XBMC" = "Come attivare l'app remota in XBMC";
-"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nImpostazioni ->Rete ->Permetti il controllo di XBMC via HTTP";
-"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nImpostazioni ->Servizi ->Webserver ->Permetti il controllo di XBMC via HTTP";
-"e.g. My XBMC" = "es. Mio XBMC";
+"No XBMC instances were found :(" = "Nessun server Kodi è stato trovato :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Trova Kodi\" richiede l'opzione\n\"Annuncia questi servizi ad altri sistemi via Zeroconf\" abilitata in Kodi";
+"How-to actvate the remote app in XBMC" = "Come attivare l'app remota in Kodi";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nImpostazioni ->Rete ->Permetti il controllo di Kodi via HTTP";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nImpostazioni ->Servizi ->Webserver ->Permetti il controllo di Kodi via HTTP";
+"e.g. My XBMC" = "es. Mio Kodi";
 "e.g. 192.168.0.8" = "es. 192.168.0.8";
 "Username" = "Username";
 "Password" = "Password";

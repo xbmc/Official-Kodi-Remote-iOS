@@ -19,10 +19,10 @@
 "Pictures" = "图片";
 "Now Playing" = "当前播放";
 "Remote Control" = "遥控器";
-"XBMC Server" = "XBMC服务器";
-"New XBMC Server" = "新XBMC服务器";
-"Modify XBMC Server" = "修改XBMC服务器";
-"Select an XBMC Server from the list" = "从列表中选择一个XBMC服务器";
+"XBMC Server" = "Kodi服务器";
+"New XBMC Server" = "新Kodi服务器";
+"Modify XBMC Server" = "修改Kodi服务器";
+"Select an XBMC Server from the list" = "从列表中选择一个Kodi服务器";
 
 "Files" = "文件";
 "Video Addons" = "视频插件";
@@ -59,7 +59,7 @@
 "Hibernate" = "休眠";
 "Suspend" = "待机";
 "Reboot" = "重启";
-"Quit XBMC application" = "退出XBMC程序";
+"Quit XBMC application" = "退出Kodi程序";
 "Update Audio Library" = "更新音频资料库";
 "Update Audio" = "更新音频";
 "Clean Audio Library" = "清理音频资料库";
@@ -125,11 +125,11 @@
 "No saved hosts found" = "未找到保存的主机";
 
 "Are you sure you want to clear the %@playlist?" = "确定要清除%@playlist?";
-"Are you sure you want to power off your XBMC system now?" = "确定现在要让XBMC系统关机？";
-"Are you sure you want to hibernate your XBMC system now?" = "确定现在要让XBMC系统休眠？";
-"Are you sure you want to suspend your XBMC system now?" = "确定现在要让XBMC系统待机？";
-"Are you sure you want to reboot your XBMC system now?" = "确定现在要重启XBMC系统？";
-"Are you sure you want to quit XBMC application now?" = "确定现在要退出XBMC程序？";
+"Are you sure you want to power off your XBMC system now?" = "确定现在要让Kodi系统关机？";
+"Are you sure you want to hibernate your XBMC system now?" = "确定现在要让Kodi系统休眠？";
+"Are you sure you want to suspend your XBMC system now?" = "确定现在要让Kodi系统待机？";
+"Are you sure you want to reboot your XBMC system now?" = "确定现在要重启Kodi系统？";
+"Are you sure you want to quit XBMC application now?" = "确定现在要退出Kodi程序？";
 "Are you sure you want to update your audio library now?" = "确定现在要更新你的音频资料库？";
 "Are you sure you want to clean your audio library now?" = "确定现在要清理你的音频资料库？";
 "Are you sure you want to update your video library now?" = "确定现在要更新你的视频资料库？";
@@ -188,8 +188,8 @@
 "Scrubbing 0.025" = "拖动速率 0.025";
 
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "正清除应用磁盘缓存...\n\n还需要一点时间，请稍候";
-"Pull to sync with XBMC..." = "下拉与XBMC同步...";
-"Release to sync with XBMC..." = "松开与XBMC同步...";
+"Pull to sync with XBMC..." = "下拉与Kodi同步...";
+"Release to sync with XBMC..." = "松开与Kodi同步...";
 "Syncing..." = "同步中...";
 "Last sync" = "最后同步";
 "View: Wall" = "视图：墙";
@@ -219,7 +219,7 @@
 "Programs" = "程序";
 "Video Add-ons" = "视频插件";
 "Music Add-ons" = "音乐插件";
-"XBMC Settings" = "XBMC设置";
+"XBMC Settings" = "Kodi设置";
 
 "Custom button" = "自定义按钮";
 "Modify label:" = "修改标签：";
@@ -232,7 +232,7 @@
 "Tap and hold a setting to add a new button." = "点按设置来增加新按钮。";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "无自定义按钮。\r\n按 \"...更多\" 来增加。";
 
-"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- 注意 --\n目前XBMC Gotham API不支持定时器编辑。请使用XBMC图形用户界面增加、编辑和删除定时器。谢谢。";
+"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- 注意 --\n目前Kodi API不支持定时器编辑。请使用Kodi图形用户界面增加、编辑和删除定时器。谢谢。";
 
 "Execute program" = "运行程序";
 "Execute video add-on" = "运行视频插件";
@@ -243,11 +243,11 @@
 "...more" = "...更多";
 "Edit" = "编辑";
 "Done" = "完成";
-"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "访问XBMC设置需要XBMC \"Gotham\" 13或更高版本";
-"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- 注意 --\n此类设置无法远程设置。请使用XBMC图形用户界面来改变此设置。\n谢谢。";
+"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "访问Kodi设置需要Kodi 13或更高版本";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- 注意 --\n此类设置无法远程设置。请使用Kodi图形用户界面来改变此设置。\n谢谢。";
 
-"Official XBMC Remote\nfor iOS" = "官方XBMC遥控器\niOS版";
-"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "官方XBMC遥控器应用使用的艺术图片来源于http://fanart.tv，下载安装XBMC扩展功能插件“artwork downloader”可获得附加的艺术图片！\n\nXBMC标志，Zappy吉祥物和官方XBMC遥控器图标归于XBMC\nhttp://www.xbmc.org/contribute";
+"Official XBMC Remote\nfor iOS" = "官方Kodi遥控器\niOS版";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "官方Kodi遥控器应用使用的艺术图片来源于http://fanart.tv，下载安装Kodi扩展功能插件“artwork downloader”可获得附加的艺术图片！\n\nKodi标志，Zappy吉祥物和官方Kodi遥控器图标归于Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "使用愉快！";
 
 "No items found." = "未找到项目。";
@@ -255,7 +255,7 @@
 "Party" = "舞会";
 "Search" = "搜索";
 
-"Supported XBMC version is Eden (11) or higher" = "支持Eden (11)或更高版本的XBMC";
+"Supported XBMC version is Eden (11) or higher" = "支持Eden (11)或更高版本的Kodi";
 "Add Host" = "添加站点";
 
 "Description" = "描述";
@@ -263,14 +263,14 @@
 "MAC Address" = "MAC 地址";
 "Username and Password" = "用户名和密码";
 "Prefer posters for TV shows" = "剧集倾向使用海报";
-"Find XBMC" = "查找XBMC";
+"Find XBMC" = "查找Kodi";
 "Save" = "保存";
-"No XBMC instances were found :(" = "未找到 XBMC 实例 :(";
-"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "“查找XBMC” 功能需要XBMC服务器启用选项\n“通过Zeroconf协议发布这些服务”";
-"How-to actvate the remote app in XBMC" = "如何在XBMC中激活远程控制";
-"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\n系统设置 -> 网络 -> 允许通过HTTP控制XBMC";
-"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\n系统设置 -> 服务 -> Web服务器 -> 允许通过HTTP控制XBMC";
-"e.g. My XBMC" = "如：我的XBMC";
+"No XBMC instances were found :(" = "未找到 Kodi 实例 :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "“查找Kodi” 功能需要Kodi服务器启用选项\n“通过Zeroconf协议发布这些服务”";
+"How-to actvate the remote app in XBMC" = "如何在Kodi中激活远程控制";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\n系统设置 -> 网络 -> 允许通过HTTP控制Kodi";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\n系统设置 -> 服务 -> Web服务器 -> 允许通过HTTP控制Kodi";
+"e.g. My XBMC" = "如：我的Kodi";
 "e.g. 192.168.0.8" = "如：192.168.0.8";
 "Username" = "用户名";
 "Password" = "密码";
