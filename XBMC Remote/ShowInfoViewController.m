@@ -1363,7 +1363,7 @@ int h=0;
                             param = [param substringToIndex:end.location];
                         }
                     }
-                    embedVideoURL = [NSString stringWithFormat:@"http://www.youtube.com/embed/%@?&hd=1&showinfo=0&autohide=1&rel=0", param];
+                    embedVideoURL = [NSString stringWithFormat:@"//www.youtube.com/embed/%@?&hd=1&showinfo=0&autohide=1&rel=0", param];
                     isYoutubeVideoLink = YES;
                 }
             }
@@ -1384,6 +1384,9 @@ int h=0;
                 int videoHeight = (int)((clearLogoWidth * 9) / 16);
                 if (trailerView == nil){
                     trailerView = [[UIWebView alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, videoHeight)];
+                    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+                        [trailerView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+                    }
                     trailerView.delegate = self;
                 }
                 if (((NSNull *)[[trailerView subviews] objectAtIndex:0] != [NSNull null])){
@@ -1415,7 +1418,7 @@ int h=0;
                                           </body>\
                                           </html>", videoHeight/2, videoHeight, embedVideoURL];
                 if (isYoutubeVideoLink){
-                    [trailerView loadHTMLString:embedVideo baseURL:nil];
+                    [trailerView loadHTMLString:embedVideo baseURL:[NSURL URLWithString:@"http:"]];
                 }
                 else{
                     NSString *blackPage = @"\
