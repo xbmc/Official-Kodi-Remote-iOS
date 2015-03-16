@@ -1441,7 +1441,8 @@ int h=0;
                 }
                 embedVideoActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
                 embedVideoActivityIndicator.hidesWhenStopped = YES;
-                embedVideoActivityIndicator.center = CGPointMake(clearLogoWidth / 2, videoHeight / 2);
+                embedVideoActivityIndicator.center = CGPointMake(trailerView.frame.size.width / 2, videoHeight / 2);
+                [embedVideoActivityIndicator setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
                 [trailerView addSubview:embedVideoActivityIndicator];
                 [scrollView addSubview:trailerView];
                 startY = startY + videoHeight - 10;
