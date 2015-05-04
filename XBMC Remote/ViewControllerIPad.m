@@ -412,6 +412,12 @@
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
 	[rootView setBackgroundColor:[UIColor clearColor]];
 	
+    fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    fanartBackgroundImage.autoresizingMask = rootView.autoresizingMask;
+    fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
+    fanartBackgroundImage.alpha = 0.05f;
+    [self.view addSubview:fanartBackgroundImage];
+    
 	leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableWidth, self.view.frame.size.height)];
 	leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;	
     
@@ -592,10 +598,25 @@
                                                  name: @"UIViewChangeBackgroundGradientColor"
                                                object: nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleChangeBackgroundImage:)
+                                                 name: @"UIViewChangeBackgroundImage"
+                                               object: nil];
+    
     [self initHostManagemetPopOver];
     
     [(gradientUIView *)self.view setColoursWithCGColors:[UIColor colorWithRed:0.141f green:0.141f blue:0.141f alpha:1.0f].CGColor
                                                endColor:[UIColor colorWithRed:0.086f green:0.086f blue:0.086f alpha:1.0f].CGColor];
+}
+
+-(void)handleChangeBackgroundImage:(NSNotification *)sender {
+    [UIView transitionWithView: fanartBackgroundImage
+                      duration: 1.0f
+                       options: UIViewAnimationOptionTransitionCrossDissolve
+                    animations: ^{
+                        [fanartBackgroundImage setImage:[[sender userInfo] valueForKey:@"image"]];
+                    }
+                    completion: NULL];
 }
 
 -(void)handleChangeBackgroundGradientColor:(NSNotification *)sender{

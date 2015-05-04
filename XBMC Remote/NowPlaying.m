@@ -709,8 +709,10 @@ int currentItemID;
                                      NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                                              [UIColor colorWithRed:0.141f green:0.141f blue:0.141f alpha:1.0f], @"startColor",
                                                              [UIColor colorWithRed:0.086f green:0.086f blue:0.086f alpha:1.0f], @"endColor",
+                                                              nil, @"image",
                                                              nil];
                                      [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundGradientColor" object:nil userInfo:params];
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                  }
                              }
                              else{
@@ -787,7 +789,7 @@ int currentItemID;
                  callMethod:@"Player.GetItem" 
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                                  response, @"playerid",
-                                 [[NSArray alloc] initWithObjects:@"album", @"artist",@"title", @"thumbnail", @"track", @"studio", @"showtitle", @"episode", @"season", nil], @"properties",
+                                 [[NSArray alloc] initWithObjects:@"album", @"artist",@"title", @"thumbnail", @"track", @"studio", @"showtitle", @"episode", @"season", @"fanart", nil], @"properties",
                                  nil] 
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
@@ -841,6 +843,28 @@ int currentItemID;
                                  NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
                                  NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                                  if (![lastThumbnail isEqualToString:stringURL]){
+                                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+                                         NSString *fanart = (NSNull *)[nowPlayingInfo  objectForKey:@"fanart"] == [NSNull null] ? @"" : [nowPlayingInfo  objectForKey:@"fanart"];
+                                         if (![fanart isEqualToString:@""]){
+                                             NSString *fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanart stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                                             [tempFanartImageView setImageWithURL:[NSURL URLWithString:fanartURL]
+                                                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                                            if (error == nil && image != nil){
+                                                                                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: image, @"image", nil];
+                                                                                [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
+                                                                            }
+                                                                            else {
+                                                                                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: nil, @"image", nil];
+                                                                                [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
+                                                                            }
+                                                                            
+                                                                        }];
+                                         }
+                                         else {
+                                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: nil, @"image", nil];
+                                             [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
+                                         }
+                                     }
                                      if ([thumbnailPath isEqualToString:@""]){
                                          UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                          [self setButtonImageAndStartDemo:buttonImage];
@@ -2859,6 +2883,9 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    tempFanartImageView = [[UIImageView alloc] init];
+    tempFanartImageView.hidden = YES;
+    [self.view addSubview:tempFanartImageView];
     [seg_music setTitle:NSLocalizedString(@"Music",nil) forState:UIControlStateNormal];
     [seg_video setTitle:NSLocalizedString(@"Video",nil) forState:UIControlStateNormal];
     [PartyModeButton setTitle:NSLocalizedString(@"Party",nil) forState:UIControlStateNormal];
