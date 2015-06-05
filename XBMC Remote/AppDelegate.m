@@ -2508,7 +2508,7 @@ NSMutableArray *hostRightMenuItems;
     item8.family = 1;
     item8.enableSection=YES;
     item8.noConvertTime = YES;
-    item8.mainButtons=[NSArray arrayWithObjects:@"st_livetv", @"st_recordings", @"st_timers", nil];
+    item8.mainButtons=[NSArray arrayWithObjects:@"st_livetv", @"st_recordings", @"st_timers", @"st_livetv", nil];
     item8.mainMethod=[NSMutableArray arrayWithObjects:
                       [NSArray arrayWithObjects:@"PVR.GetChannelGroups", @"method", nil],
                       [NSArray arrayWithObjects:
@@ -2519,6 +2519,7 @@ NSMutableArray *hostRightMenuItems;
                        @"PVR.GetTimers", @"method",
                        @"PVR.GetTimerDetails", @"extra_info_method",
                        nil],
+                      [NSArray arrayWithObjects:@"PVR.GetChannelGroups", @"method", nil],
                       nil];
     
     item8.mainParameters=[NSMutableArray arrayWithObjects:
@@ -2576,6 +2577,21 @@ NSMutableArray *hostRightMenuItems;
                             @"60", @"separatorInset",
                             nil], @"itemSizes",
                            nil],
+                          
+                          [NSMutableArray arrayWithObjects:
+                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                            @"radio", @"channeltype",
+                            nil], @"parameters", NSLocalizedString(@"SAT Radio", nil), @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                           @"YES", @"enableCollectionView",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                             [NSNumber numberWithFloat:itemMovieWidthIphone], @"height", nil], @"iphone",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                             [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
+                            nil], @"itemSizes",
+                           nil],
                         nil];
     
     item8.mainFields=[NSArray arrayWithObjects:
@@ -2628,6 +2644,19 @@ NSMutableArray *hostRightMenuItems;
                        @"timerdetails",@"itemid_extra_info",
                        nil],
                       
+                      [NSDictionary  dictionaryWithObjectsAndKeys:
+                       @"channelgroups",@"itemid",
+                       @"label", @"row1",
+                       @"year", @"row2",
+                       @"year", @"row3",
+                       @"runtime", @"row4",
+                       @"rating",@"row5",
+                       @"channelgroupid",@"row6",
+                       [NSNumber numberWithInt:1], @"playlistid",
+                       @"channelgroupid",@"row8",
+                       @"channelgroupid", @"row9",
+                       nil],
+                      
                       nil];
     item8.rowHeight=76;
     item8.thumbWidth=53;
@@ -2636,12 +2665,14 @@ NSMutableArray *hostRightMenuItems;
                         [NSArray arrayWithObjects: nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSArray arrayWithObjects: NSLocalizedString(@"Ok", nil), nil],
+                        [NSArray arrayWithObjects: nil],
                         nil];
     //    item8.showInfo = YES;
     item8.showInfo = [NSArray arrayWithObjects:
                       [NSNumber numberWithBool:YES],
                       [NSNumber numberWithBool:YES],
                       [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:YES],
                       nil];
     item8.watchModes = [NSArray arrayWithObjects:
                         [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2656,12 +2687,17 @@ NSMutableArray *hostRightMenuItems;
                          [NSArray arrayWithObjects:nil], @"modes",
                          [NSArray arrayWithObjects:nil], @"icons",
                          nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray arrayWithObjects:nil], @"modes",
+                         [NSArray arrayWithObjects:nil], @"icons",
+                         nil],
                         nil];
     
     item8.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", nil],
                               [NSArray arrayWithObjects: nil],
                               [NSArray arrayWithObjects: nil],
+                              [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", nil],
                               nil];
     item8.subItem.noConvertTime = YES;
     
@@ -2683,6 +2719,21 @@ NSMutableArray *hostRightMenuItems;
                                    nil],
                                   [NSArray arrayWithObjects: nil],
                                   [NSArray arrayWithObjects: nil],
+                                  [NSMutableArray arrayWithObjects:
+                                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    [NSArray arrayWithObjects:@"thumbnail", @"channel", nil], @"properties",
+                                    nil], @"parameters", @"Live TV", @"label", @"nocover_channels", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", @"48", @"thumbWidth",
+                                   @"YES", @"enableCollectionView",
+                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                                     [NSNumber numberWithFloat:itemMovieWidthIphone], @"height", nil], @"iphone",
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                                     [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
+                                    @"56", @"separatorInset",
+                                    nil], @"itemSizes",
+                                   nil],
                                   nil];
     item8.subItem.mainFields=[NSArray arrayWithObjects:
                               [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -2701,6 +2752,20 @@ NSMutableArray *hostRightMenuItems;
                                nil],
                               [NSDictionary dictionaryWithObjectsAndKeys: nil],
                               [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                              [NSDictionary  dictionaryWithObjectsAndKeys:
+                               @"channels",@"itemid",
+                               @"channel", @"row1",
+                               @"starttime", @"row2",
+                               @"endtime", @"row3",
+                               @"filetype", @"row4",
+                               @"filetype",@"row5",
+                               @"channelid",@"row6",
+                               [NSNumber numberWithInt:1], @"playlistid",
+                               @"channelid",@"row8",
+                               @"channelid", @"row9",
+                               @"filetype", @"row10",
+                               @"type", @"row11",
+                               nil],
                               nil];
     
     item8.subItem.enableSection = NO;
@@ -2711,8 +2776,10 @@ NSMutableArray *hostRightMenuItems;
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Channel Guide", nil), nil],
                                   [NSArray arrayWithObjects: nil],
                                   [NSArray arrayWithObjects: nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Channel Guide", nil), nil],
                                   nil];
     item8.subItem.showInfo = [NSArray arrayWithObjects:
+                              [NSNumber numberWithBool:NO],
                               [NSNumber numberWithBool:NO],
                               [NSNumber numberWithBool:NO],
                               [NSNumber numberWithBool:NO],
@@ -2724,14 +2791,38 @@ NSMutableArray *hostRightMenuItems;
                                  nil],
                                 [NSDictionary dictionaryWithObjectsAndKeys: nil],
                                 [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSArray arrayWithObjects:nil], @"modes",
+                                 [NSArray arrayWithObjects:nil], @"icons",
+                                 nil],
                                 nil];
     
     item8.subItem.widthLabel = 252;
     item8.subItem.subItem.noConvertTime = YES;
     item8.subItem.subItem.mainMethod = [NSMutableArray arrayWithObjects:
                                         [NSArray arrayWithObjects:@"PVR.GetBroadcasts", @"method", @"YES", @"channelGuideView", nil],
+                                        [NSArray arrayWithObjects: nil],
+                                        [NSArray arrayWithObjects: nil],
+                                        [NSArray arrayWithObjects:@"PVR.GetBroadcasts", @"method", @"YES", @"channelGuideView", nil],
                                         nil];
     item8.subItem.subItem.mainParameters = [NSMutableArray arrayWithObjects:
+                                            [NSMutableArray arrayWithObjects:
+                                             [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                              [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"progresspercentage", @"isactive", @"hastimer", nil], @"properties",
+                                              nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
+                                             [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                                               [NSNumber numberWithFloat:itemMovieWidthIphone], @"height", nil], @"iphone",
+                                              [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                                               [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
+                                              @"48", @"separatorInset",
+                                              nil], @"itemSizes",
+                                             [NSNumber numberWithBool:YES], @"forceActionSheet",
+                                             nil],
+                                            [NSArray arrayWithObjects: nil],
+                                            [NSArray arrayWithObjects: nil],
                                             [NSMutableArray arrayWithObjects:
                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                               [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"progresspercentage", @"isactive", @"hastimer", nil], @"properties",
@@ -2767,6 +2858,26 @@ NSMutableArray *hostRightMenuItems;
                                          @"title", @"row14",
                                          @"hastimer", @"row15",
                                          nil],
+                                        [NSArray arrayWithObjects: nil],
+                                        [NSArray arrayWithObjects: nil],
+                                        [NSDictionary  dictionaryWithObjectsAndKeys:
+                                         @"broadcasts",@"itemid",
+                                         @"title", @"row1",
+                                         @"plot", @"row2",
+                                         @"broadcastid", @"row3",
+                                         @"broadcastid", @"row4",
+                                         @"starttime",@"row5",
+                                         @"broadcastid",@"row6",
+                                         [NSNumber numberWithInt:1], @"playlistid",
+                                         @"broadcastid",@"row8",
+                                         @"broadcastid", @"row9",
+                                         @"starttime", @"row10",
+                                         @"endtime", @"row11",
+                                         @"progresspercentage", @"row12",
+                                         @"isactive", @"row13",
+                                         @"title", @"row14",
+                                         @"hastimer", @"row15",
+                                         nil],
                                         nil];
     item8.subItem.subItem.enableSection = NO;
     item8.subItem.subItem.rowHeight = 76;
@@ -2777,9 +2888,18 @@ NSMutableArray *hostRightMenuItems;
                                            NSLocalizedString(@"Play", nil),
 //                                           NSLocalizedString(@"Record", nil),
                                            NSLocalizedString(@"Broadcast Details", nil), nil],
+                                          [NSArray arrayWithObjects: nil],
+                                          [NSArray arrayWithObjects: nil],
+                                          [NSArray arrayWithObjects:
+                                           NSLocalizedString(@"Play", nil),
+                                           //                                           NSLocalizedString(@"Record", nil),
+                                           NSLocalizedString(@"Broadcast Details", nil), nil],
                                           nil];
     item8.subItem.subItem.widthLabel = 252;
     item8.subItem.subItem.showInfo = [NSArray arrayWithObjects:
+                                      [NSNumber numberWithBool:YES],
+                                      [NSNumber numberWithBool:YES],
+                                      [NSNumber numberWithBool:YES],
                                       [NSNumber numberWithBool:YES],
                                       nil];
 
