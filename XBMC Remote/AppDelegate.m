@@ -2508,7 +2508,7 @@ NSMutableArray *hostRightMenuItems;
     item8.family = 1;
     item8.enableSection=YES;
     item8.noConvertTime = YES;
-    item8.mainButtons=[NSArray arrayWithObjects:@"st_livetv", @"st_recordings", @"st_timers", @"st_livetv", nil];
+    item8.mainButtons=[NSArray arrayWithObjects:@"st_livetv", @"st_recordings", @"st_timers", @"st_radio", nil];
     item8.mainMethod=[NSMutableArray arrayWithObjects:
                       [NSArray arrayWithObjects:@"PVR.GetChannelGroups", @"method", nil],
                       [NSArray arrayWithObjects:
@@ -2581,7 +2581,7 @@ NSMutableArray *hostRightMenuItems;
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"radio", @"channeltype",
-                            nil], @"parameters", NSLocalizedString(@"SAT Radio", nil), @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Radio", nil), @"label", NSLocalizedString(@"Radio", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:

@@ -660,6 +660,10 @@
 		0FC3ABAF16628FAB005F98CC /* st_movie_genre_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC3ABAD16628FAB005F98CC /* st_movie_genre_off.png */; };
 		0FC3ABB316628FB7005F98CC /* st_movie_genre_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC3ABB116628FB7005F98CC /* st_movie_genre_on@2x.png */; };
 		0FC3ABB416628FB7005F98CC /* st_movie_genre_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC3ABB216628FB7005F98CC /* st_movie_genre_off@2x.png */; };
+		0FC7C3471B24476D00C04845 /* st_radio_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC7C3451B24476D00C04845 /* st_radio_off@2x.png */; };
+		0FC7C3481B24476D00C04845 /* st_radio_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC7C3461B24476D00C04845 /* st_radio_on@2x.png */; };
+		0FC7C34B1B24477D00C04845 /* st_radio_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC7C3491B24477D00C04845 /* st_radio_off.png */; };
+		0FC7C34C1B24477D00C04845 /* st_radio_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC7C34A1B24477D00C04845 /* st_radio_on.png */; };
 		0FC9525C164FBABF00A8CACC /* icon_hibernate.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC9525B164FBABF00A8CACC /* icon_hibernate.png */; };
 		0FC9525F164FBACB00A8CACC /* icon_hibernate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FC9525E164FBACB00A8CACC /* icon_hibernate@2x.png */; };
 		0FCCA21817B25F07000FF09C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FCCA21717B25F07000FF09C /* Images.xcassets */; };
@@ -1480,6 +1484,10 @@
 		0FC3ABAD16628FAB005F98CC /* st_movie_genre_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_movie_genre_off.png; sourceTree = "<group>"; };
 		0FC3ABB116628FB7005F98CC /* st_movie_genre_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_movie_genre_on@2x.png"; sourceTree = "<group>"; };
 		0FC3ABB216628FB7005F98CC /* st_movie_genre_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_movie_genre_off@2x.png"; sourceTree = "<group>"; };
+		0FC7C3451B24476D00C04845 /* st_radio_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_radio_off@2x.png"; sourceTree = "<group>"; };
+		0FC7C3461B24476D00C04845 /* st_radio_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_radio_on@2x.png"; sourceTree = "<group>"; };
+		0FC7C3491B24477D00C04845 /* st_radio_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_radio_off.png; sourceTree = "<group>"; };
+		0FC7C34A1B24477D00C04845 /* st_radio_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_radio_on.png; sourceTree = "<group>"; };
 		0FC9525B164FBABF00A8CACC /* icon_hibernate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_hibernate.png; sourceTree = "<group>"; };
 		0FC9525E164FBACB00A8CACC /* icon_hibernate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_hibernate@2x.png"; sourceTree = "<group>"; };
 		0FCCA21717B25F07000FF09C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -1884,6 +1892,8 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FC7C3451B24476D00C04845 /* st_radio_off@2x.png */,
+				0FC7C3461B24476D00C04845 /* st_radio_on@2x.png */,
 				0F3BB2A119F649CB00CF8388 /* appInfo@3x.png */,
 				0F9D0ACB19F27A0C00B95CD5 /* bottom_logo_up_iphone@3x.png */,
 				0FAC975019A4A89100945624 /* button_exit_fullscreen@2x.png */,
@@ -2193,6 +2203,8 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FC7C3491B24477D00C04845 /* st_radio_off.png */,
+				0FC7C34A1B24477D00C04845 /* st_radio_on.png */,
 				0FAC974E19A4A88900945624 /* button_exit_fullscreen.png */,
 				0FAC974A19A3698800945624 /* button_fullscreen.png */,
 				0FE0EA731905735D00EA9118 /* st_audio_addon_off.png */,
@@ -2766,6 +2778,7 @@
 				0F554AC7151D13CA007E633F /* icon_shoutcast@2x.png in Resources */,
 				0F554AC8151D13CA007E633F /* icon_song@2x.png in Resources */,
 				0F554AC9151D13CA007E633F /* icon_song_dark@2x.png in Resources */,
+				0FC7C3471B24476D00C04845 /* st_radio_off@2x.png in Resources */,
 				0F554ACA151D13CA007E633F /* icon_song_light@2x.png in Resources */,
 				0F554ACB151D13CA007E633F /* icon_va_dark@2x.png in Resources */,
 				0F554ACC151D13CA007E633F /* icon_video@2x.png in Resources */,
@@ -2779,6 +2792,7 @@
 				0F554B27151D13CA007E633F /* shiny_black_back@2x.png in Resources */,
 				0FB40451192922E100346300 /* ShowInfoViewController.xib in Resources */,
 				0F554B28151D13CA007E633F /* st_actor_off@2x.png in Resources */,
+				0FC7C3481B24476D00C04845 /* st_radio_on@2x.png in Resources */,
 				0F554B29151D13CA007E633F /* st_actor_on@2x.png in Resources */,
 				0F554B2B151D13CA007E633F /* st_album_off@2x.png in Resources */,
 				0F554B2C151D13CA007E633F /* st_album_on@2x.png in Resources */,
@@ -2844,6 +2858,7 @@
 				0FFF725E18226AB9007A6E25 /* st_livetv_on.png in Resources */,
 				0F554B75151D13CA007E633F /* icon_genre_dark.png in Resources */,
 				0F554B7F151D13CA007E633F /* icon_lastfm.png in Resources */,
+				0FC7C34C1B24477D00C04845 /* st_radio_on.png in Resources */,
 				0F554B80151D13CA007E633F /* icon_movie_dark.png in Resources */,
 				0F554B81151D13CA007E633F /* icon_picture.png in Resources */,
 				0F554B82151D13CA007E633F /* icon_play.png in Resources */,
@@ -3379,6 +3394,7 @@
 				8E1B3AFF16EAABB50089A043 /* remote quick help.png in Resources */,
 				0FCCFF5B16D0EE93008EBABE /* icon_watched@2x.png in Resources */,
 				0FCCFF5C16D0EE93008EBABE /* icon_not_watched@2x.png in Resources */,
+				0FC7C34B1B24477D00C04845 /* st_radio_off.png in Resources */,
 				0FCCFF5F16D0EEF8008EBABE /* icon_not_watched.png in Resources */,
 				0F3434EC18FAA54600840E27 /* nocover_timers_wall.png in Resources */,
 				0FCCFF6016D0EEF8008EBABE /* icon_watched.png in Resources */,
