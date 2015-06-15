@@ -1064,7 +1064,7 @@ NSMutableArray *hostRightMenuItems;
     item1.subItem.thumbWidth=53;
     item1.subItem.defaultThumb=@"nocover_music";
     item1.subItem.sheetActions=[NSArray arrayWithObjects:
-                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil),  NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil], //@"Stream to iPhone",
+                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil),  NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), nil],
@@ -1299,7 +1299,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
                              nil],@"sort",
-                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", nil], @"properties", //, @"fanart"
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer",  @"file", nil], @"properties", //, @"fanart"
                             nil], @"parameters", NSLocalizedString(@"Movies", nil), @"label", @"Movie", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
@@ -1370,7 +1370,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"none", @"method",
                              nil],@"sort",
-                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", @"fanart", nil], @"properties",
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", @"fanart", @"file", nil], @"properties",
                             nil], @"parameters", NSLocalizedString(@"Added Movies", nil), @"label", @"Movie", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
@@ -1479,7 +1479,7 @@ NSMutableArray *hostRightMenuItems;
                        @"votes",@"row14",
                        @"studio",@"row15",
                        @"cast",@"row16",
-//                       @"fanart",@"row7",
+                       @"file",@"row7",
                        @"director",@"row17",
                        @"resume", @"row18",
                        @"moviedetails",@"itemid_extra_info",
@@ -1529,7 +1529,7 @@ NSMutableArray *hostRightMenuItems;
                        @"votes",@"row14",
                        @"studio",@"row15",
                        @"cast",@"row16",
-//                       @"fanart",@"row7",
+                       @"file",@"row7",
                        @"director",@"row17",
                        @"resume", @"row18",
                        @"moviedetails",@"itemid_extra_info",
@@ -1553,8 +1553,7 @@ NSMutableArray *hostRightMenuItems;
                        @"resume",@"row14",
                        @"votes",@"row15",
                        @"cast",@"row16",
-                       @"file",@"row17",
-                       @"fanart",@"row7",
+                       @"file",@"row7",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -1601,11 +1600,11 @@ NSMutableArray *hostRightMenuItems;
     item2.thumbWidth=53;
     item2.defaultThumb=@"nocover_movies";
     item2.sheetActions=[NSArray arrayWithObjects:
-                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil],
+                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
                         [NSArray arrayWithObjects: nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
-                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil],
-                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Music Video Details", nil), nil],
+                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
+                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Music Video Details", nil), nil],
                         [NSArray arrayWithObjects: nil],
                         [NSArray arrayWithObjects: nil],
 //                        [NSArray arrayWithObjects: nil],
@@ -1688,7 +1687,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", nil], @"properties",
+                                    [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", @"file", nil], @"properties",
                                     nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies", @"defaultThumb",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
@@ -1713,7 +1712,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"year", @"method",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", nil], @"properties", //, @"fanart"
+                                    [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", @"file", nil], @"properties", //, @"fanart"
                                     nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies", @"defaultThumb",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
@@ -1812,7 +1811,7 @@ NSMutableArray *hostRightMenuItems;
                                @"votes",@"row14",
                                @"studio",@"row15",
                                @"cast",@"row16",
-                               @"fanart",@"row7",
+                               @"file",@"row7",
                                @"director",@"row17",
                                @"resume", @"row18",
                                @"moviedetails",@"itemid_extra_info",
@@ -1836,7 +1835,7 @@ NSMutableArray *hostRightMenuItems;
                                @"votes",@"row14",
                                @"studio",@"row15",
                                @"cast",@"row16",
-//                               @"fanart",@"row7",
+                               @"file",@"row7",
                                @"director",@"row17",
                                @"resume", @"row18",
                                @"moviedetails",@"itemid_extra_info",
@@ -1900,11 +1899,11 @@ NSMutableArray *hostRightMenuItems;
     item2.subItem.defaultThumb = @"nocover_movies";
     item2.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSArray arrayWithObjects: nil],
-                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil],
-                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil],
+                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
+                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
                                   [NSArray arrayWithObjects: nil],
                                   [NSArray arrayWithObjects: nil],
-                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), nil],
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
 //                                  [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), nil],
                                   
@@ -2058,7 +2057,7 @@ NSMutableArray *hostRightMenuItems;
                                [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                @"none", @"method",
                                nil],@"sort",
-                              [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"playcount", @"showtitle", nil], @"properties",
+                              [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"playcount", @"showtitle", @"file", nil], @"properties",
                               nil], @"parameters", NSLocalizedString(@"Added Episodes", nil), @"label", @"53", @"rowHeight", @"95", @"thumbWidth", @"nocover_tvshows_episode", @"defaultThumb",
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", @"resume", nil], @"properties",
@@ -2125,7 +2124,7 @@ NSMutableArray *hostRightMenuItems;
                          @"cast",@"row12",
                          @"premiered",@"row13",
                          @"episode",@"row14",
-                         @"fanart",@"row7",
+//                         @"fanart",@"row7",
                          @"plot",@"row15",
                          @"studio",@"row16",
                          @"tvshowdetails",@"itemid_extra_info",
@@ -2155,17 +2154,17 @@ NSMutableArray *hostRightMenuItems;
                          @"episodeid",@"row8",
                          [NSNumber numberWithInt:1], @"playlistid",
                          @"episodeid", @"row9",
-                         @"plot", @"row10",
+                         @"file", @"row10",
                          @"director", @"row11",
                          @"writer", @"row12",
                          @"resume", @"row13",
                          @"showtitle", @"row14",
-                         @"season",@"row15",
+                         @"plot",@"row15",
                          @"cast",@"row16",
                          @"firstaired",@"row17",
                          @"season",@"row18",
-                         @"playcount",@"row20",
-                         @"fanart",@"row7",
+//                         @"file",@"row20",
+//                         @"file",@"row7",
                          @"episodedetails",@"itemid_extra_info",
                          nil],
                         
@@ -2203,7 +2202,7 @@ NSMutableArray *hostRightMenuItems;
     item3.sheetActions = [NSArray arrayWithObjects:
                           [NSMutableArray arrayWithObjects:NSLocalizedString(@"TV Show Details", nil), nil],
 //                          [NSArray arrayWithObjects: nil],
-                          [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), nil],
+                          [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Episode Details", nil), nil],
                           [NSArray arrayWithObjects:nil],
                           [NSArray arrayWithObjects:nil],
                           nil];
@@ -2262,10 +2261,10 @@ NSMutableArray *hostRightMenuItems;
                                        @"ascending",@"order",
                                        @"episode", @"method",
                                        nil],@"sort",
-                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"showtitle", @"playcount", @"season", @"tvshowid", @"runtime", nil], @"properties",
+                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"showtitle", @"playcount", @"season", @"tvshowid", @"runtime", @"file", nil], @"properties",
                                       nil], @"parameters", @"Episodes", @"label", @"YES", @"disableFilterParameter",
                                      [NSDictionary dictionaryWithObjectsAndKeys:
-                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"fanart", @"resume", @"playcount", nil], @"properties",nil], @"extra_info_parameters",
+                                      [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"fanart", @"resume", @"playcount", @"file", nil], @"properties",nil], @"extra_info_parameters",
                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       [NSDictionary dictionaryWithObjectsAndKeys:
                                        @"ascending",@"order",
@@ -2343,15 +2342,15 @@ NSMutableArray *hostRightMenuItems;
                                  @"episodeid", @"row9",
                                  @"season", @"row10",
                                  @"tvshowid", @"row11",
-                                 @"writer", @"row12",
-                                 @"firstaired", @"row13",
-                                 @"showtitle", @"row14",
-                                 @"plot",@"row15",
+                                 @"file", @"row12",
+                                 @"writer", @"row13",
+                                 @"firstaired", @"row14",
+                                 @"showtitle",@"row15",
                                  @"cast",@"row16",
                                  @"director",@"row17",
                                  @"resume",@"row18",
                                  @"episode",@"row19",
-                                 @"playcount",@"row20",
+                                 @"plot",@"row20",
                                  @"episodedetails",@"itemid_extra_info",
                                  @"seasons",@"itemid_extra_section",
                                  nil],
@@ -2417,10 +2416,10 @@ NSMutableArray *hostRightMenuItems;
     item3.subItem.thumbWidth = 95;
     item3.subItem.defaultThumb = @"nocover_tvshows_episode.png";
     item3.subItem.sheetActions = [NSArray arrayWithObjects:
-                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), nil],
+                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), NSLocalizedString(@"Open with VLC", nil),  nil],
 //                                  [NSArray arrayWithObjects:@"TV Show Details", nil],
                                   [NSArray arrayWithObjects:nil],
-                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), nil],
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                   nil];//, @"Stream to iPhone"
     item3.subItem.originYearDuration=248;

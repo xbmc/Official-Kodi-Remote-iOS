@@ -74,11 +74,6 @@ int count=0;
                 }
             }
         }
-        if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
-            if ([[item objectForKey:@"trailer"] length] > 0){
-                [sheetActions addObject:NSLocalizedString(@"Play Trailer", nil)];
-            }
-        }
 //        if ([[item objectForKey:@"family"] isEqualToString:@"movieid"] || [[item objectForKey:@"family"] isEqualToString:@"episodeid"]|| [[item objectForKey:@"family"] isEqualToString:@"musicvideoid"]){
 //            NSString *actionString = @"";
 //            if ([[item objectForKey:@"playcount"] intValue] == 0){
@@ -107,10 +102,12 @@ int count=0;
             else{
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
             }
+            titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
             extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+            titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon"];
@@ -120,17 +117,27 @@ int count=0;
             else{
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
             }
+            titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
             sheetActions = [[NSMutableArray alloc] initWithObjects:
                             NSLocalizedString(@"Play", nil),
 //                            NSLocalizedString(@"Record", nil),
                             nil];
+            titleWidth = 350;
+        }
+        else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"movieid"] || [[item objectForKey:@"family"] isEqualToString:@"musicvideoid"]){
+            [sheetActions addObject:NSLocalizedString(@"Open with VLC", nil)];
+            titleWidth = 400;
         }
         else{
             titleWidth = 400;
         }
-
+        if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
+            if ([[item objectForKey:@"trailer"] length] > 0){
+                [sheetActions addObject:NSLocalizedString(@"Play Trailer", nil)];
+            }
+        }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             toolbar = [UIToolbar new];
             toolbar.alpha = .8f;
@@ -498,6 +505,9 @@ int count=0;
         else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play", nil)]){
             [self addPlayback:0.0];
         }
+        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Open with VLC", nil)]){
+            [self openWithVLC:self.detailItem];
+        }
         else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:NSLocalizedString(@"Resume from", nil)].location!= NSNotFound){
             [self addPlayback:resumePointPercentage];
             return;
@@ -800,6 +810,7 @@ int h=0;
             else{
                 studioLabel.text=[[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
             }
+            numVotesLabel.hidden = YES;
             [self setTvShowsToolbar];
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
@@ -1746,6 +1757,36 @@ int h=0;
 }
 
 # pragma  mark - JSON Data
+
+-(void)openWithVLC:(NSDictionary *)item {
+    self.navigationItem.rightBarButtonItem.enabled=NO;
+    [activityIndicatorView startAnimating];
+    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]){
+        [activityIndicatorView stopAnimating];
+        self.navigationItem.rightBarButtonItem.enabled=YES;
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"VLC non installed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+        [alertView show];
+    }
+    else {
+        [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+            if (error==nil && methodError==nil){
+                if( [methodResult count] > 0){
+                    GlobalData *obj=[GlobalData getInstance];
+                    NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
+                    NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+                    NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stringURL]];
+                    [activityIndicatorView stopAnimating];
+                    self.navigationItem.rightBarButtonItem.enabled=YES;
+                }
+            }
+            else {
+                [activityIndicatorView stopAnimating];
+                self.navigationItem.rightBarButtonItem.enabled=YES;
+            }
+        }];
+    }
+}
 
 -(void)addQueueAfterCurrent:(BOOL)afterCurrent{
     self.navigationItem.rightBarButtonItem.enabled=NO;

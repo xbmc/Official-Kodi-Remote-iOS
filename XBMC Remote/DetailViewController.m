@@ -3014,8 +3014,8 @@ NSIndexPath *selected;
         else if ([option isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
             [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"trailer"], @"file", nil], @"item", nil] index:selected];
         }
-        else if ([option isEqualToString:NSLocalizedString(@"Stream to iPhone", nil)]){
-            [self addStream:item indexPath:selected];
+        else if ([option isEqualToString:NSLocalizedString(@"Open with VLC", nil)]){
+            [self openWithVLC:item indexPath:selected];
         }
         else if ([option isEqualToString:NSLocalizedString(@"Search Wikipedia", nil)]){
             [self searchWeb:(NSMutableDictionary *)item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", NSLocalizedString(@"WIKI_LANG", nil)]];
@@ -3485,9 +3485,12 @@ NSIndexPath *selected;
     }
 }
 
--(void)addStream:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath{
+-(void)openWithVLC:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath{
     id cell;
-    if (enableCollectionView){
+    if ([self.searchDisplayController isActive]){
+        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    }
+    else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
     }
     else{
@@ -3495,67 +3498,28 @@ NSIndexPath *selected;
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
-//    NSDictionary *item = nil;
-//    if ([self.searchDisplayController isActive]){
-//        item = [self.filteredListContent objectAtIndex:indexPath.row];
-//    }
-//    else{
-//        item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-//    }
-    [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (error==nil && methodError==nil){
-            if( [methodResult count] > 0){
-                GlobalData *obj=[GlobalData getInstance];
-                //NSDictionary *itemid = [methodResult objectForKey:@"details"]; 
-               // ;
-                NSString *serverURL=[NSString stringWithFormat:@"%@:%@", obj.serverIP, obj.serverPort];
-                NSString *stringURL = [NSString stringWithFormat:@"%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];                
-               // NSLog(@"RESULT %@", stringURL);
-                NSURLRequest *request = [[NSURLRequest alloc] initWithURL: [NSURL URLWithString: stringURL] cachePolicy: NSURLRequestReloadIgnoringCacheData timeoutInterval: 10];  
-                CGRect frame=webPlayView.frame;
-                CGRect targetFrame;
-                if (enableCollectionView){
-                    UICollectionViewCell *tmp_cell = (UICollectionViewCell *)cell;
-                    targetFrame = tmp_cell.frame;
+    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]){
+        [queuing stopAnimating];
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+        [alertView show];
+    }
+    else {
+        [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+            if (error==nil && methodError==nil){
+                if( [methodResult count] > 0){
+                    GlobalData *obj=[GlobalData getInstance];
+                    NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
+                    NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+                    NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stringURL]];
+                    [queuing stopAnimating];
                 }
-                else{
-                    UITableViewCell *tmp_cell = (UITableViewCell *)cell;
-                    targetFrame = tmp_cell.frame;
-                }
-                frame.origin.y=targetFrame.origin.y;
-                webPlayView.frame=frame;   
-                //NSLog(@"%d", webPlayView.loading);
-                [webPlayView loadRequest:request];  
-                
-//                playerViewController =[[MPMoviePlayerController alloc] initWithContentURL: [NSURL URLWithString: stringURL]];
-//                [playerViewController prepareToPlay];
-//                [playerViewController.view setFrame: self.view.bounds];  // player's frame must match parent's
-//                [self.view addSubview: playerViewController.view];
-//                [playerViewController play];
-                
-                //MPMoviePlayerController *playerViewController;
-//                NSURL *movieURL = [NSURL URLWithString:stringURL];
-//                playerViewController = [[MPMoviePlayerController alloc] initWithContentURL:movieURL];
-////                playerViewController.controlStyle = MPMovieControlStyleFullscreen;
-//                playerViewController.shouldAutoplay = YES;
-                
-//                [[playerViewController view] setFrame: self.view.bounds]; // 2X the native resolution
-//                [self.view addSubview: [playerViewController view]];
-//                [playerViewController play];
-                
-//                NSString *medialink = @"http://someWebAddress.mp3";
-//                self.player = [[[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:medialink]] autorelease];
-//                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayerDidFinish:) name:@"MPMoviePlayerPlaybackDidFinishNotification" object:self.player];
-//                [self.player play];
-                
+            }
+            else {
                 [queuing stopAnimating];
             }
-        }
-        else {
-//            NSLog(@"ci deve essere un primo problema %@", methodError);
-            [queuing stopAnimating];
-        }
-    }];
+        }];
+    }
 }
 
 -(void)addQueue:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath{
@@ -4131,6 +4095,17 @@ NSIndexPath *selected;
                  if (row11key == nil){
                      row11key = @"";
                  }
+                 
+                 NSObject *row7 = [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row7"]];
+                 if (row7 == nil){
+                     row7 = [NSNumber numberWithInt:0];
+                 }
+                 NSString *row7key = [mainFields objectForKey:@"row7"];
+                 if (row7key == nil){
+                     row7key = @"";
+                 }
+
+                 
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
                   [NSNumber numberWithBool:disableNowPlaying], @"disableNowPlaying",
@@ -4143,6 +4118,7 @@ NSIndexPath *selected;
                   stringURL, @"thumbnail",
                   fanartURL, @"fanart",
                   runtime, @"runtime",
+                  row7, row7key,
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"],
                   year, @"year",
