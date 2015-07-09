@@ -184,7 +184,7 @@
         else{ // CHARACTER
             int x = (unichar) [string characterAtIndex: 0];
             if (x==10) {
-                [self GUIAction:@"Input.Select" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+                [self GUIAction:@"Input.Select" params:[NSDictionary dictionary] httpAPIcallback:nil];
                 [xbmcVirtualKeyboard resignFirstResponder];
             }
             else if (x<1000){

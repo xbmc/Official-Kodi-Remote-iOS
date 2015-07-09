@@ -312,31 +312,31 @@
             }
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Power off System", nil)]){
-            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Quit XBMC application", nil)]){
-            [self powerAction:@"Application.Quit" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"Application.Quit" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Hibernate", nil)]){
-            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Suspend", nil)]){
-            [self powerAction:@"System.Suspend" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"System.Suspend" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Reboot", nil)]){
-            [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"System.Reboot" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Update Audio Library", nil)]){
-            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Clean Audio Library", nil)]){
-            [self powerAction:@"AudioLibrary.Clean" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"AudioLibrary.Clean" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Update Video Library", nil)]){
-            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Clean Video Library", nil)]){
-            [self powerAction:@"VideoLibrary.Clean" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"VideoLibrary.Clean" params:[NSDictionary dictionary]];
         }
     }
 }

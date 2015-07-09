@@ -704,7 +704,7 @@ NSMutableArray *hostRightMenuItems;
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Artist Details", nil), NSLocalizedString(@"Search Wikipedia", nil), NSLocalizedString(@"Search last.fm charts", nil), nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), nil],
-                        [NSArray arrayWithObjects:nil],
+                        [NSArray array],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
@@ -712,7 +712,7 @@ NSMutableArray *hostRightMenuItems;
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
-                        [NSArray arrayWithObjects: nil],
+                        [NSArray array],
                         [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Show Content", nil), nil],
                         nil];
     
@@ -737,27 +737,27 @@ NSMutableArray *hostRightMenuItems;
                                @"YES", @"albumView",
                                nil],
                               
-                              [NSArray arrayWithObjects:nil],
+                              [NSArray array],
                               
                               [NSArray arrayWithObjects:
                                @"AudioLibrary.GetSongs", @"method",
                                @"YES", @"albumView",
                                nil],
                               
-                              [NSArray arrayWithObjects:nil],
+                              [NSArray array],
                               
                               [NSArray arrayWithObjects:
                                @"AudioLibrary.GetSongs", @"method",
                                @"YES", @"albumView",
                                nil],
                               
-                              [NSArray arrayWithObjects:nil],
+                              [NSArray array],
                               
-                              [NSArray arrayWithObjects:nil],
+                              [NSArray array],
                               
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               
-                              [NSArray arrayWithObjects:nil],
+                              [NSArray array],
 //                              [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               
                               nil];
@@ -841,7 +841,7 @@ NSMutableArray *hostRightMenuItems;
                                     [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
                                     nil], @"parameters", @"Songs", @"label", nil],
                                   
-                                  [NSArray arrayWithObjects:nil],
+                                  [NSArray array],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -853,7 +853,7 @@ NSMutableArray *hostRightMenuItems;
                                     [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
                                     nil], @"parameters", @"Songs", @"label", nil],
                                   
-                                  [NSArray arrayWithObjects:nil],
+                                  [NSArray array],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -865,9 +865,9 @@ NSMutableArray *hostRightMenuItems;
                                     [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
                                     nil], @"parameters", @"Songs", @"label", nil],
                                   
-                                  [NSArray arrayWithObjects:nil],
+                                  [NSArray array],
                                   
-                                  [NSArray arrayWithObjects:nil],
+                                  [NSArray array],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -890,7 +890,7 @@ NSMutableArray *hostRightMenuItems;
                                     nil], @"itemSizes",
                                    nil],
                                   
-//                                  [NSArray arrayWithObjects:nil],
+//                                  [NSArray array],
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
@@ -987,7 +987,7 @@ NSMutableArray *hostRightMenuItems;
                                @"artist", @"row11",
                                nil],
                               
-                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                              [NSDictionary dictionary],
                               
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"songs",@"itemid",
@@ -1005,7 +1005,7 @@ NSMutableArray *hostRightMenuItems;
                                @"artist", @"row11",
                                nil],
                               
-                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                              [NSDictionary dictionary],
                               
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"songs",@"itemid",
@@ -1023,9 +1023,9 @@ NSMutableArray *hostRightMenuItems;
                                @"artist", @"row11",
                                nil],
                               
-                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                              [NSDictionary dictionary],
                               
-                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                              [NSDictionary dictionary],
                               
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"files",@"itemid",
@@ -1042,7 +1042,7 @@ NSMutableArray *hostRightMenuItems;
                                @"type", @"row11",
                                nil],
                               
-//                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
+//                              [NSDictionary dictionary],
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"files",@"itemid",
                                @"label", @"row1",
@@ -1076,7 +1076,7 @@ NSMutableArray *hostRightMenuItems;
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
-//                                [NSArray arrayWithObjects:nil],
+//                                [NSArray array],
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                 nil];//, @"Stream to iPhone"
     item1.subItem.originYearDuration=248;
@@ -1099,7 +1099,7 @@ NSMutableArray *hostRightMenuItems;
     
     item1.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
                                       [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", @"YES", @"albumView", nil],
                                       
@@ -1107,23 +1107,23 @@ NSMutableArray *hostRightMenuItems;
                                       
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
-                                      [NSArray arrayWithObjects:nil],
-                                      [NSArray arrayWithObjects:nil],
-                                      [NSArray arrayWithObjects:nil],
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
+                                      [NSArray array],
+                                      [NSArray array],
+                                      [NSArray array],
+                                      [NSArray array],
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
-//                                      [NSArray arrayWithObjects:nil],
+//                                      [NSArray array],
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                                       nil];
     
     item1.subItem.subItem.mainParameters=[NSMutableArray arrayWithObjects:
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
                                           [NSMutableArray arrayWithObjects:
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1145,31 +1145,31 @@ NSMutableArray *hostRightMenuItems;
                                             [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
                                             nil], @"parameters", @"Songs", @"label", nil],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
                                           [NSMutableArray arrayWithObjects:filemodeRowHeight, @"rowHeight", @"53", @"thumbWidth", nil],
                                           
-//                                          [NSArray arrayWithObjects:nil],
+//                                          [NSArray array],
                                           [NSMutableArray arrayWithObjects:filemodeRowHeight, @"rowHeight", @"53", @"thumbWidth", nil],
                                           
                                           nil];
     item1.subItem.subItem.mainFields=[NSArray arrayWithObjects:
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
                                       [NSDictionary  dictionaryWithObjectsAndKeys:
                                        @"songs",@"itemid",
@@ -1203,25 +1203,25 @@ NSMutableArray *hostRightMenuItems;
                                        @"artist", @"row11",
                                        nil],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
                                       nil];
     item1.subItem.subItem.rowHeight=53;
@@ -1231,16 +1231,16 @@ NSMutableArray *hostRightMenuItems;
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],//@"Stream to iPhone",
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
-                                        [NSArray arrayWithObjects:nil],
+                                        [NSArray array],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
-                                        [NSArray arrayWithObjects:nil],
-                                        [NSArray arrayWithObjects:nil],
-                                        [NSArray arrayWithObjects:nil],
-                                        [NSArray arrayWithObjects:nil],
+                                        [NSArray array],
+                                        [NSArray array],
+                                        [NSArray array],
+                                        [NSArray array],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
-//                                        [NSArray arrayWithObjects:nil],
+//                                        [NSArray array],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         nil];
     item1.subItem.subItem.showRuntime=[NSArray arrayWithObjects:
@@ -1601,13 +1601,13 @@ NSMutableArray *hostRightMenuItems;
     item2.defaultThumb=@"nocover_movies";
     item2.sheetActions=[NSArray arrayWithObjects:
                         [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
-                        [NSArray arrayWithObjects: nil],
+                        [NSArray array],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
                         [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Music Video Details", nil), nil],
-                        [NSArray arrayWithObjects: nil],
-                        [NSArray arrayWithObjects: nil],
-//                        [NSArray arrayWithObjects: nil],
+                        [NSArray array],
+                        [NSArray array],
+//                        [NSArray array],
                         nil];
     //    item2.showInfo = YES;
     item2.showInfo = [NSArray arrayWithObjects:
@@ -1626,8 +1626,8 @@ NSMutableArray *hostRightMenuItems;
                          [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSArray arrayWithObjects:nil], @"modes",
-                         [NSArray arrayWithObjects:nil], @"icons",
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
                          [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes",
@@ -1642,21 +1642,21 @@ NSMutableArray *hostRightMenuItems;
                          [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSArray arrayWithObjects:nil], @"modes",
-                         [NSArray arrayWithObjects:nil], @"icons",
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSArray arrayWithObjects:nil], @"modes",
-                         [NSArray arrayWithObjects:nil], @"icons",
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
                          nil],
 //                        [NSDictionary dictionaryWithObjectsAndKeys:
-//                         [NSArray arrayWithObjects:nil], @"modes",
-//                         [NSArray arrayWithObjects:nil], @"icons",
+//                         [NSArray array], @"modes",
+//                         [NSArray array], @"icons",
 //                         nil],
                         nil];
     
     item2.subItem.mainMethod=[NSMutableArray arrayWithObjects:
-                              [NSArray arrayWithObjects: nil],
+                              [NSArray array],
                               
                               [NSArray arrayWithObjects:
                                @"VideoLibrary.GetMovies", @"method",
@@ -1668,8 +1668,8 @@ NSMutableArray *hostRightMenuItems;
                                @"VideoLibrary.GetMovieDetails", @"extra_info_method",
                                nil],
                               
-                              [NSArray arrayWithObjects: nil],
-                              [NSArray arrayWithObjects: nil],
+                              [NSArray array],
+                              [NSArray array],
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
 //                              [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", nil],
@@ -1678,7 +1678,7 @@ NSMutableArray *hostRightMenuItems;
 
     item2.subItem.mainParameters=[NSMutableArray arrayWithObjects:
                                   
-                                  [NSArray arrayWithObjects: nil],
+                                  [NSArray array],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1739,9 +1739,9 @@ NSMutableArray *hostRightMenuItems;
 //                                    nil], @"itemSizes",
                                    nil],
                                   
-                                  [NSArray arrayWithObjects: nil],
+                                  [NSArray array],
                                   
-                                  [NSArray arrayWithObjects: nil],
+                                  [NSArray array],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1791,7 +1791,7 @@ NSMutableArray *hostRightMenuItems;
                                   nil];
     item2.subItem.mainFields=[NSArray arrayWithObjects:
                               
-                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                              [NSDictionary dictionary],
                               
                               [NSDictionary dictionaryWithObjectsAndKeys:
                                @"movies",@"itemid",
@@ -1841,9 +1841,9 @@ NSMutableArray *hostRightMenuItems;
                                @"moviedetails",@"itemid_extra_info",
                                nil],
                               
-                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                              [NSDictionary dictionary],
                               
-                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                              [NSDictionary dictionary],
                               
                               [NSDictionary  dictionaryWithObjectsAndKeys:
                                @"files",@"itemid",
@@ -1898,11 +1898,11 @@ NSMutableArray *hostRightMenuItems;
     item2.subItem.thumbWidth = 53;
     item2.subItem.defaultThumb = @"nocover_movies";
     item2.subItem.sheetActions = [NSArray arrayWithObjects:
-                                  [NSArray arrayWithObjects: nil],
+                                  [NSArray array],
                                   [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
                                   [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
-                                  [NSArray arrayWithObjects: nil],
-                                  [NSArray arrayWithObjects: nil],
+                                  [NSArray array],
+                                  [NSArray array],
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), nil],
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
 //                                  [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), nil],
@@ -1920,8 +1920,8 @@ NSMutableArray *hostRightMenuItems;
                               nil];
     item2.subItem.watchModes = [NSArray arrayWithObjects:
                                 [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSArray arrayWithObjects:nil], @"modes",
-                                 [NSArray arrayWithObjects:nil], @"icons",
+                                 [NSArray array], @"modes",
+                                 [NSArray array], @"icons",
                                  nil],
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                  [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes",
@@ -1932,24 +1932,24 @@ NSMutableArray *hostRightMenuItems;
                                  [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons",
                                  nil],
                                 [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSArray arrayWithObjects:nil], @"modes",
-                                 [NSArray arrayWithObjects:nil], @"icons",
+                                 [NSArray array], @"modes",
+                                 [NSArray array], @"icons",
                                  nil],
                                 [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSArray arrayWithObjects:nil], @"modes",
-                                 [NSArray arrayWithObjects:nil], @"icons",
+                                 [NSArray array], @"modes",
+                                 [NSArray array], @"icons",
                                  nil],
                                 [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSArray arrayWithObjects:nil], @"modes",
-                                 [NSArray arrayWithObjects:nil], @"icons",
+                                 [NSArray array], @"modes",
+                                 [NSArray array], @"icons",
                                  nil],
                                 [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSArray arrayWithObjects:nil], @"modes",
-                                 [NSArray arrayWithObjects:nil], @"icons",
+                                 [NSArray array], @"modes",
+                                 [NSArray array], @"icons",
                                  nil],
 //                                [NSDictionary dictionaryWithObjectsAndKeys:
-//                                 [NSArray arrayWithObjects:nil], @"modes",
-//                                 [NSArray arrayWithObjects:nil], @"icons",
+//                                 [NSArray array], @"modes",
+//                                 [NSArray array], @"icons",
 //                                 nil],
                                 nil];
 
@@ -1957,34 +1957,34 @@ NSMutableArray *hostRightMenuItems;
     
     item2.subItem.subItem.noConvertTime = YES;
     item2.subItem.subItem.mainMethod = [NSMutableArray arrayWithObjects:
-                                        [NSArray arrayWithObjects: nil],
-                                        [NSArray arrayWithObjects: nil],
-                                        [NSArray arrayWithObjects: nil],
-                                        [NSArray arrayWithObjects: nil],
-                                        [NSArray arrayWithObjects: nil],
+                                        [NSArray array],
+                                        [NSArray array],
+                                        [NSArray array],
+                                        [NSArray array],
+                                        [NSArray array],
                                         [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                                         [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
-//                                        [NSArray arrayWithObjects: nil],
+//                                        [NSArray array],
                                         nil];
     item2.subItem.subItem.mainParameters = [NSMutableArray arrayWithObjects:
-                                            [NSArray arrayWithObjects: nil],
-                                            [NSArray arrayWithObjects: nil],
-                                            [NSArray arrayWithObjects: nil],
-                                            [NSArray arrayWithObjects: nil],
-                                            [NSArray arrayWithObjects: nil],
-                                            [NSArray arrayWithObjects: nil],
+                                            [NSArray array],
+                                            [NSArray array],
+                                            [NSArray array],
+                                            [NSArray array],
+                                            [NSArray array],
+                                            [NSArray array],
                                             [NSMutableArray arrayWithObjects:filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
-//                                            [NSArray arrayWithObjects: nil],
+//                                            [NSArray array],
                                             nil];
     item2.subItem.subItem.mainFields = [NSArray arrayWithObjects:
-                                        [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                                        [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                                        [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                                        [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                                        [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                                        [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                                        [NSDictionary dictionaryWithObjectsAndKeys: nil],
-//                                        [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                                        [NSDictionary dictionary],
+                                        [NSDictionary dictionary],
+                                        [NSDictionary dictionary],
+                                        [NSDictionary dictionary],
+                                        [NSDictionary dictionary],
+                                        [NSDictionary dictionary],
+                                        [NSDictionary dictionary],
+//                                        [NSDictionary dictionary],
                                         
                                         nil];
     item2.subItem.subItem.enableSection = NO;
@@ -1992,11 +1992,11 @@ NSMutableArray *hostRightMenuItems;
     item2.subItem.subItem.thumbWidth = 53;
     item2.subItem.subItem.defaultThumb = @"nocover_filemode";
     item2.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
-                                          [NSArray arrayWithObjects: nil],
-                                          [NSArray arrayWithObjects: nil],
-                                          [NSArray arrayWithObjects: nil],
-                                          [NSArray arrayWithObjects: nil],
-                                          [NSArray arrayWithObjects: nil],
+                                          [NSArray array],
+                                          [NSArray array],
+                                          [NSArray array],
+                                          [NSArray array],
+                                          [NSArray array],
                                           [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
 //                                          [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                           nil];
@@ -2201,10 +2201,10 @@ NSMutableArray *hostRightMenuItems;
     item3.originLabel = 60;
     item3.sheetActions = [NSArray arrayWithObjects:
                           [NSMutableArray arrayWithObjects:NSLocalizedString(@"TV Show Details", nil), nil],
-//                          [NSArray arrayWithObjects: nil],
+//                          [NSArray array],
                           [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Episode Details", nil), nil],
-                          [NSArray arrayWithObjects:nil],
-                          [NSArray arrayWithObjects:nil],
+                          [NSArray array],
+                          [NSArray array],
                           nil];
     
     item3.showInfo = [NSArray arrayWithObjects:
@@ -2221,20 +2221,20 @@ NSMutableArray *hostRightMenuItems;
                          [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons",
                          nil],
 //                        [NSDictionary dictionaryWithObjectsAndKeys:
-//                         [NSArray arrayWithObjects:nil], @"modes",
-//                         [NSArray arrayWithObjects:nil], @"icons",
+//                         [NSArray array], @"modes",
+//                         [NSArray array], @"icons",
 //                         nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
                          [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes",
                          [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSArray arrayWithObjects:nil], @"modes",
-                         [NSArray arrayWithObjects:nil], @"icons",
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSArray arrayWithObjects:nil], @"modes",
-                         [NSArray arrayWithObjects:nil], @"icons",
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
                          nil],
                         nil];
     
@@ -2249,7 +2249,7 @@ NSMutableArray *hostRightMenuItems;
 //                               @"VideoLibrary.GetTVShows", @"method",
 //                               @"VideoLibrary.GetTVShowDetails", @"extra_info_method",
 //                               nil],
-                              [NSArray arrayWithObjects:nil],
+                              [NSArray array],
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                               nil];
@@ -2293,7 +2293,7 @@ NSMutableArray *hostRightMenuItems;
 //                                     @"YES", @"FrodoExtraArt",
 //                                     nil],
                                     
-                                    [NSArray arrayWithObjects:nil],
+                                    [NSArray array],
                                     
                                     [NSMutableArray arrayWithObjects:
                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -2377,7 +2377,7 @@ NSMutableArray *hostRightMenuItems;
 //                                 @"tvshowdetails",@"itemid_extra_info",
 //                                 nil],
                                 
-                                [NSArray arrayWithObjects:nil],
+                                [NSArray array],
                                 
                                 [NSDictionary  dictionaryWithObjectsAndKeys:
                                  @"files",@"itemid",
@@ -2418,7 +2418,7 @@ NSMutableArray *hostRightMenuItems;
     item3.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), NSLocalizedString(@"Open with VLC", nil),  nil],
 //                                  [NSArray arrayWithObjects:@"TV Show Details", nil],
-                                  [NSArray arrayWithObjects:nil],
+                                  [NSArray array],
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), nil],
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                   nil];//, @"Stream to iPhone"
@@ -2441,34 +2441,34 @@ NSMutableArray *hostRightMenuItems;
                               nil];
     
     item3.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
-                                      [NSArray arrayWithObjects:nil],
-//                                      [NSArray arrayWithObjects:nil],
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
+//                                      [NSArray array],
+                                      [NSArray array],
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                                       nil];
     item3.subItem.subItem.mainParameters=[NSMutableArray arrayWithObjects:
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
-//                                          [NSArray arrayWithObjects:nil],
+//                                          [NSArray array],
 
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
                                           [NSMutableArray arrayWithObjects:filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                           
                                           nil];
     item3.subItem.subItem.mainFields=[NSArray arrayWithObjects:
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-//                                      [NSArray arrayWithObjects:nil],
+//                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
                                       nil];
     item3.subItem.subItem.enableSection=NO;
@@ -2476,9 +2476,9 @@ NSMutableArray *hostRightMenuItems;
     item3.subItem.subItem.thumbWidth=95;
     item3.subItem.subItem.defaultThumb=@"nocover_tvshows_episode.png";
     item3.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
-                                        [NSArray arrayWithObjects:nil],
-//                                        [NSArray arrayWithObjects:nil],
-                                        [NSArray arrayWithObjects:nil],
+                                        [NSArray array],
+//                                        [NSArray array],
+                                        [NSArray array],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         nil];
@@ -2663,8 +2663,8 @@ NSMutableArray *hostRightMenuItems;
     item8.thumbWidth=53;
     item8.defaultThumb=@"nocover_movies";
     item8.sheetActions=[NSArray arrayWithObjects:
-                        [NSArray arrayWithObjects: nil],
-                        [NSArray arrayWithObjects: nil],
+                        [NSArray array],
+                        [NSArray array],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                         [NSArray arrayWithObjects: NSLocalizedString(@"Ok", nil), nil],
                         nil];
@@ -2677,20 +2677,20 @@ NSMutableArray *hostRightMenuItems;
                       nil];
     item8.watchModes = [NSArray arrayWithObjects:
                         [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSArray arrayWithObjects:nil], @"modes",
-                         [NSArray arrayWithObjects:nil], @"icons",
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSArray arrayWithObjects:nil], @"modes",
-                         [NSArray arrayWithObjects:nil], @"icons",
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
                          [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes",
                          [NSArray arrayWithObjects:@"", @"icon_not_watched", @"icon_watched", nil], @"icons",
                          nil],
                         [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSArray arrayWithObjects:nil], @"modes",
-                         [NSArray arrayWithObjects:nil], @"icons",
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
                          nil],
                         
                         nil];
@@ -2698,8 +2698,8 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", nil],
                               [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", nil],
-                              [NSArray arrayWithObjects: nil],
-                              [NSArray arrayWithObjects: nil],
+                              [NSArray array],
+                              [NSArray array],
                               nil];
     item8.subItem.noConvertTime = YES;
     
@@ -2734,8 +2734,8 @@ NSMutableArray *hostRightMenuItems;
                                     @"56", @"separatorInset",
                                     nil], @"itemSizes",
                                    nil],
-                                  [NSArray arrayWithObjects: nil],
-                                  [NSArray arrayWithObjects: nil],
+                                  [NSArray array],
+                                  [NSArray array],
                                 nil];
     item8.subItem.mainFields=[NSArray arrayWithObjects:
                               [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -2766,8 +2766,8 @@ NSMutableArray *hostRightMenuItems;
                                @"filetype", @"row10",
                                @"type", @"row11",
                                nil],
-                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                              [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                              [NSDictionary dictionary],
+                              [NSDictionary dictionary],
                               nil];
     
     item8.subItem.enableSection = NO;
@@ -2777,8 +2777,8 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Channel Guide", nil), nil],
                                    [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Channel Guide", nil), nil],
-                                  [NSArray arrayWithObjects: nil],
-                                  [NSArray arrayWithObjects: nil],
+                                  [NSArray array],
+                                  [NSArray array],
                                   nil];
     item8.subItem.showInfo = [NSArray arrayWithObjects:
                               [NSNumber numberWithBool:NO],
@@ -2788,15 +2788,15 @@ NSMutableArray *hostRightMenuItems;
                               nil];
     item8.subItem.watchModes = [NSArray arrayWithObjects:
                                 [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSArray arrayWithObjects:nil], @"modes",
-                                 [NSArray arrayWithObjects:nil], @"icons",
+                                 [NSArray array], @"modes",
+                                 [NSArray array], @"icons",
                                  nil],
                                 [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSArray arrayWithObjects:nil], @"modes",
-                                 [NSArray arrayWithObjects:nil], @"icons",
+                                 [NSArray array], @"modes",
+                                 [NSArray array], @"icons",
                                  nil],
-                                [NSDictionary dictionaryWithObjectsAndKeys: nil],
-                                [NSDictionary dictionaryWithObjectsAndKeys: nil],
+                                [NSDictionary dictionary],
+                                [NSDictionary dictionary],
                                 nil];
     
     item8.subItem.widthLabel = 252;
@@ -2804,8 +2804,8 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.mainMethod = [NSMutableArray arrayWithObjects:
                                         [NSArray arrayWithObjects:@"PVR.GetBroadcasts", @"method", @"YES", @"channelGuideView", nil],
                                         [NSArray arrayWithObjects:@"PVR.GetBroadcasts", @"method", @"YES", @"channelGuideView", nil],
-                                        [NSArray arrayWithObjects: nil],
-                                        [NSArray arrayWithObjects: nil],
+                                        [NSArray array],
+                                        [NSArray array],
                                         nil];
     item8.subItem.subItem.mainParameters = [NSMutableArray arrayWithObjects:
                                             [NSMutableArray arrayWithObjects:
@@ -2838,8 +2838,8 @@ NSMutableArray *hostRightMenuItems;
                                               nil], @"itemSizes",
                                              [NSNumber numberWithBool:YES], @"forceActionSheet",
                                              nil],
-                                            [NSArray arrayWithObjects: nil],
-                                            [NSArray arrayWithObjects: nil],
+                                            [NSArray array],
+                                            [NSArray array],
                                             nil];
     item8.subItem.subItem.mainFields = [NSArray arrayWithObjects:
                                         [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -2878,8 +2878,8 @@ NSMutableArray *hostRightMenuItems;
                                          @"title", @"row14",
                                          @"hastimer", @"row15",
                                          nil],
-                                        [NSArray arrayWithObjects: nil],
-                                        [NSArray arrayWithObjects: nil],
+                                        [NSArray array],
+                                        [NSArray array],
                                         nil];
     item8.subItem.subItem.enableSection = NO;
     item8.subItem.subItem.rowHeight = 76;
@@ -2894,8 +2894,8 @@ NSMutableArray *hostRightMenuItems;
                                            NSLocalizedString(@"Play", nil),
 //                                           NSLocalizedString(@"Record", nil),
                                            NSLocalizedString(@"Broadcast Details", nil), nil],
-                                          [NSArray arrayWithObjects: nil],
-                                          [NSArray arrayWithObjects: nil],
+                                          [NSArray array],
+                                          [NSArray array],
                                         nil];
     item8.subItem.subItem.widthLabel = 252;
     item8.subItem.subItem.showInfo = [NSArray arrayWithObjects:
@@ -3070,17 +3070,17 @@ NSMutableArray *hostRightMenuItems;
     
     item4.subItem.subItem.mainParameters=[NSMutableArray arrayWithObjects:
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
-                                          [NSArray arrayWithObjects:nil],
+                                          [NSArray array],
                                           
                                           nil];
     
     item4.subItem.subItem.mainFields=[NSArray arrayWithObjects:
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
-                                      [NSArray arrayWithObjects:nil],
+                                      [NSArray array],
                                       
                                       nil];
     
@@ -3268,7 +3268,7 @@ NSMutableArray *hostRightMenuItems;
                                nil];
     
     xbmcSettings.sheetActions = [NSArray arrayWithObjects:
-                                 [NSArray arrayWithObjects: nil],
+                                 [NSArray array],
                                  [NSArray arrayWithObjects: NSLocalizedString(@"Execute program", nil), NSLocalizedString(@"Add button", nil), nil],
                                  [NSArray arrayWithObjects: NSLocalizedString(@"Execute video add-on", nil), NSLocalizedString(@"Add button", nil), nil],
                                  [NSArray arrayWithObjects: NSLocalizedString(@"Execute audio add-on", nil), NSLocalizedString(@"Add button", nil), nil],
@@ -3280,11 +3280,11 @@ NSMutableArray *hostRightMenuItems;
                                        
                                        [NSArray arrayWithObjects:@"Settings.GetCategories", @"method", nil],
                                        
-                                       [NSArray arrayWithObjects: nil],
+                                       [NSArray array],
                                        
-                                       [NSArray arrayWithObjects: nil],
+                                       [NSArray array],
                                        
-                                       [NSArray arrayWithObjects: nil],
+                                       [NSArray array],
 
                                        nil];
     
@@ -3296,11 +3296,11 @@ NSMutableArray *hostRightMenuItems;
                                              nil], @"itemSizes",
                                             nil],
                                            
-                                           [NSArray arrayWithObjects: nil],
+                                           [NSArray array],
                                            
-                                           [NSArray arrayWithObjects: nil],
+                                           [NSArray array],
                                            
-                                           [NSArray arrayWithObjects: nil],
+                                           [NSArray array],
                                            
                                            nil];
     xbmcSettings.subItem.mainFields = [NSArray arrayWithObjects:
@@ -3317,11 +3317,11 @@ NSMutableArray *hostRightMenuItems;
                                         @"id", @"row9",
                                         nil],
                                        
-                                       [NSArray arrayWithObjects: nil],
+                                       [NSArray array],
                                        
-                                       [NSArray arrayWithObjects: nil],
+                                       [NSArray array],
                                        
-                                       [NSArray arrayWithObjects: nil],
+                                       [NSArray array],
                                        
                                        nil];
     
@@ -3371,7 +3371,7 @@ NSMutableArray *hostRightMenuItems;
                                                
                                                nil];
     xbmcSettings.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
-                                                 [NSArray arrayWithObjects: nil],
+                                                 [NSArray array],
                                                  nil];
     
     xbmcSettings.subItem.subItem.rowHeight = 65;

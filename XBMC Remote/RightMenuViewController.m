@@ -466,7 +466,7 @@
             else if (command != nil){
                 NSDictionary *parameters = [[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"];
                 if (parameters == nil) {
-                    parameters = [NSDictionary dictionaryWithObjectsAndKeys:nil];
+                    parameters = [NSDictionary dictionary];
                 }
                 [self xbmcAction:command params:parameters uiControl:nil];
             }
@@ -583,7 +583,7 @@
             NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:userChoice inArray:[tableData valueForKey:@"action"]];
             NSString *command = [[[tableData valueForKey:@"action"] objectAtIndex:commandIdx.row] objectForKey:@"command"];
             if (command != nil){
-                [self xbmcAction:command params:[NSDictionary dictionaryWithObjectsAndKeys:nil] uiControl:nil];
+                [self xbmcAction:command params:[NSDictionary dictionary] uiControl:nil];
             }
         }
     }
