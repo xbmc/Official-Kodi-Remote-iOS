@@ -3655,7 +3655,7 @@ NSIndexPath *selected;
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-        [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             int currentPlayerID=0;
             if ([methodResult count]){
                 currentPlayerID=[[[methodResult objectAtIndex:0] objectForKey:@"playerid"] intValue];
@@ -4911,12 +4911,12 @@ NSIndexPath *selected;
             }
             
             if (arr_properties == nil){
-                arr_properties = [NSArray arrayWithArray:nil];
+                arr_properties = [NSArray array];
             }
             
             NSArray *arr_sort = [[parameters objectForKey:@"parameters"] objectForKey:@"sort"];
             if (arr_sort == nil){
-                arr_sort = [NSArray arrayWithArray:nil];
+                arr_sort = [NSArray array];
             }
             [tempDict setObject:arr_properties forKey:@"properties"];
             [tempDict setObject:arr_sort forKey:@"sort"];
