@@ -1600,11 +1600,11 @@ NSMutableArray *hostRightMenuItems;
     item2.thumbWidth=53;
     item2.defaultThumb=@"nocover_movies";
     item2.sheetActions=[NSArray arrayWithObjects:
-                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
+                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
                         [NSArray array],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
-                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
-                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Music Video Details", nil), nil],
+                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil], //, NSLocalizedString(@"Open with VLC", nil),
+                        [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Music Video Details", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
                         [NSArray array],
                         [NSArray array],
 //                        [NSArray array],
@@ -1899,11 +1899,11 @@ NSMutableArray *hostRightMenuItems;
     item2.subItem.defaultThumb = @"nocover_movies";
     item2.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSArray array],
-                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
-                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Movie Details", nil), nil],
+                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
+                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
                                   [NSArray array],
                                   [NSArray array],
-                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
 //                                  [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), nil],
                                   
@@ -2202,7 +2202,7 @@ NSMutableArray *hostRightMenuItems;
     item3.sheetActions = [NSArray arrayWithObjects:
                           [NSMutableArray arrayWithObjects:NSLocalizedString(@"TV Show Details", nil), nil],
 //                          [NSArray array],
-                          [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), NSLocalizedString(@"Episode Details", nil), nil],
+                          [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
                           [NSArray array],
                           [NSArray array],
                           nil];
@@ -2416,10 +2416,10 @@ NSMutableArray *hostRightMenuItems;
     item3.subItem.thumbWidth = 95;
     item3.subItem.defaultThumb = @"nocover_tvshows_episode.png";
     item3.subItem.sheetActions = [NSArray arrayWithObjects:
-                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil), NSLocalizedString(@"Open with VLC", nil),  nil],
+                                  [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil),  nil], //, NSLocalizedString(@"Open with VLC", nil)
 //                                  [NSArray arrayWithObjects:@"TV Show Details", nil],
                                   [NSArray array],
-                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Open with VLC", nil), nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
                                   [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                   nil];//, @"Stream to iPhone"
     item3.subItem.originYearDuration=248;
