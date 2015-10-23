@@ -5187,10 +5187,7 @@ NSIndexPath *selected;
 
 - (void)twoFingerPinch:(UIPinchGestureRecognizer *)recognizer {
     if ([recognizer state] == UIGestureRecognizerStateEnded) {
-        if (recognizer.scale > 1 && stackscrollFullscreen == NO) {
-            [self toggleFullscreen:nil];
-        }
-        else if(recognizer.scale <= 1 && stackscrollFullscreen == YES) {
+        if ((recognizer.scale > 1 && stackscrollFullscreen == NO) || (recognizer.scale <= 1 && stackscrollFullscreen == YES)){
             [self toggleFullscreen:nil];
         }
     }
