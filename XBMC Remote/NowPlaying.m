@@ -854,14 +854,14 @@ int currentItemID;
                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                                                             }
                                                                             else {
-                                                                                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @"", @"image", nil];
+                                                                                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [UIImage imageNamed:@""], @"image", nil];
                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                                                             }
                                                                             
                                                                         }];
                                          }
                                          else {
-                                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @"", @"image", nil];
+                                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [UIImage imageNamed:@""], @"image", nil];
                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                          }
                                      }
