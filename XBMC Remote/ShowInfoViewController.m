@@ -126,10 +126,10 @@ int count=0;
                             nil];
             titleWidth = 350;
         }
-        else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"movieid"] || [[item objectForKey:@"family"] isEqualToString:@"musicvideoid"]){
-            [sheetActions addObject:NSLocalizedString(@"Open with VLC", nil)];
-            titleWidth = 400;
-        }
+//        else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"movieid"] || [[item objectForKey:@"family"] isEqualToString:@"musicvideoid"]){
+//            [sheetActions addObject:NSLocalizedString(@"Open with VLC", nil)];
+//            titleWidth = 400;
+//        }
         else{
             titleWidth = 400;
         }
