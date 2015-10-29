@@ -68,13 +68,16 @@
     BOOL albumView;
     BOOL episodesView;
     BOOL tvshowsView;
+    BOOL channelGuideView;
     int albumViewHeight;
     int albumViewPadding;
     int artistFontSize;
     int albumFontSize;
     int trackCountFontSize;
     int trackCountLabelWidth;
+    int epgChannelTimeLabelWidth;
     int labelPadding;
+    int sectionHeight;
     UIColor *albumColor;
     UIColor *searchBarColor;
     UIColor *tableViewSearchBarColor;
@@ -101,6 +104,18 @@
     BOOL enableDiskCache;
     BOOL blackTableSeparator;
     NSString *currentCollectionViewName;
+    CGFloat iOSYDelta;
+    __weak IBOutlet UIImageView *buttonsViewBgImage;
+    __weak IBOutlet UIToolbar *buttonsViewBgToolbar;
+    BOOL isViewDidLoad;
+    BOOL hideSearchBarActive;
+    BOOL enableIpadWA;
+    BOOL tmpFromAlbumView;
+    NSMutableDictionary *epgDict;
+    NSMutableArray *epgDownloadQueue;
+    NSDateFormatter *xbmcDateFormatter;
+    NSDateFormatter *localHourMinuteFormatter;
+    NSIndexPath *autoScrollTable;
 }
 
 - (id)initWithFrame:(CGRect)frame;

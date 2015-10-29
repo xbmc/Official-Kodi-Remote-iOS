@@ -40,6 +40,7 @@
     HostManagementViewController *_hostPickerViewController;
     UIActionSheet *actionSheetPower;
     BOOL showActionPower;
+    BOOL stackScrollIsFullscreen;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;

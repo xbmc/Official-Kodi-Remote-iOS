@@ -11,6 +11,7 @@
 "Browse your" = "浏览";
 "See what's" = "查看";
 "Use as" = "使用";
+"Watch" = "看";
 
 "Music" = "音乐";
 "Movies" = "电影";
@@ -193,3 +194,10 @@
 "Show Content" = "显示内容";
 "Play in party mode" = "以舞会模式播放";
 "Play in shuffle mode" = "以乱序模式播放";
+
+"Channel Guide" = "Guida Canale";
+"Record" = "Record";
+"Broadcast Details" = "Broadcast Details";
+"TIME" = "TIME";
+
+"ERROR" = "ERROR";

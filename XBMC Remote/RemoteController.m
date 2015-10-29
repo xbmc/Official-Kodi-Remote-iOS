@@ -51,7 +51,6 @@
 }
 
 - (void)setEmbeddedView{
-    remoteControlView.alpha = .85;
     CGRect frame = TransitionalView.frame;
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton *) self.view viewWithTag:2],
@@ -136,16 +135,16 @@
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+        rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
         rightSwipe.cancelsTouchesInView=YES;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-        [self.view addGestureRecognizer:rightSwipe];
-        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
+        [remoteControlView addGestureRecognizer:rightSwipe];
+        leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
         leftSwipe.numberOfTouchesRequired = 1;
         leftSwipe.cancelsTouchesInView=YES;
         leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.view addGestureRecognizer:leftSwipe];
+        [remoteControlView addGestureRecognizer:leftSwipe];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         if([[UIScreen mainScreen ] bounds].size.height >= 568){
             CGRect frame = remoteControlView.frame;
@@ -153,7 +152,7 @@
         }
     }
     else{
-        int newWidth = 477;
+        int newWidth = STACKSCROLL_WIDTH;
         [quickHelpView setFrame:CGRectMake(quickHelpView.frame.origin.x, quickHelpView.frame.origin.y, quickHelpView.frame.size.width, quickHelpView.frame.size.height - 20)];
         [quickHelpView
          setAutoresizingMask:
@@ -170,17 +169,17 @@
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
                  
     }
-    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    rightSwipe.numberOfTouchesRequired = 1;
-    rightSwipe.cancelsTouchesInView=NO;
-    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-    [gestureZoneView addGestureRecognizer:rightSwipe];
+    UISwipeGestureRecognizer *gestureRightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    gestureRightSwipe.numberOfTouchesRequired = 1;
+    gestureRightSwipe.cancelsTouchesInView=NO;
+    gestureRightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [gestureZoneView addGestureRecognizer:gestureRightSwipe];
     
-    UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    leftSwipe.numberOfTouchesRequired = 1;
-    leftSwipe.cancelsTouchesInView=NO;
-    leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-    [gestureZoneView addGestureRecognizer:leftSwipe];
+    UISwipeGestureRecognizer *gestureLeftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    gestureLeftSwipe.numberOfTouchesRequired = 1;
+    gestureLeftSwipe.cancelsTouchesInView=NO;
+    gestureLeftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    [gestureZoneView addGestureRecognizer:gestureLeftSwipe];
     
     UISwipeGestureRecognizer *upSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     upSwipe.numberOfTouchesRequired = 1;
@@ -420,6 +419,8 @@
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
+        leftSwipe.enabled = NO;
+        rightSwipe.enabled = NO;
         [UIView commitAnimations];
         imageName=@"circle.png";
     }
@@ -436,6 +437,8 @@
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 0;
         buttonZoneView.alpha = 1;
+        leftSwipe.enabled = YES;
+        rightSwipe.enabled = YES;
         [UIView commitAnimations];
         imageName=@"finger.png";
     }
@@ -453,7 +456,7 @@
 
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -495,7 +498,8 @@
                                  NSArray *subtitles = [methodResult objectForKey:@"subtitles"];
                                  if ([subtitles count]){
                                      int currentSubIdx = [[currentSubtitle objectForKey:@"index"] intValue];
-                                     int totalSubs = [subtitles count];
+                                     NSString *language = @"?";
+                                     NSInteger totalSubs = [subtitles count];
                                      if (subtitleEnabled){
                                          if ( (currentSubIdx + 1) >= totalSubs ){
                                              // disable subs
@@ -503,7 +507,10 @@
                                              [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
                                          }
                                          else{
-                                             NSString *message = [NSString stringWithFormat:@"%@ %d/%d %@", @"Subtitles: ", ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), totalSubs, [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
+                                             if (((NSNull *)[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"language"] != [NSNull null])){
+                                                 language = [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"language"];
+                                             }
+                                             NSString *message = [NSString stringWithFormat:@"%@ %d/%ld %@%@%@", @"Subtitles: ", ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), (long)totalSubs, language, [[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
                                              [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                          }
                                          // next subs
@@ -511,7 +518,10 @@
                                      }
                                      else{
                                          // enable subs
-                                         NSString *message = [NSString stringWithFormat:@"%@ %d/%d %@", @"Subtitles: ", currentSubIdx + 1, totalSubs, [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
+                                         if (((NSNull *)[[subtitles objectAtIndex:currentSubIdx] objectForKey:@"language"] != [NSNull null])){
+                                             language = [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"language"];
+                                         }
+                                         NSString *message = [NSString stringWithFormat:@"%@ %d/%ld %@%@%@", @"Subtitles: ", currentSubIdx + 1, (long)totalSubs, language, [[[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
                                          [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                          [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
                                      }
@@ -565,14 +575,18 @@
                                  NSArray *audiostreams = [methodResult objectForKey:@"audiostreams"];
                                  if ([audiostreams count]){
                                      int currentAudioIdx = [[currentAudiostream objectForKey:@"index"] intValue];
-                                     int totalAudio = [audiostreams count];
+                                     NSInteger totalAudio = [audiostreams count];
                                      if ( (currentAudioIdx + 1) >= totalAudio ){
                                          currentAudioIdx = 0;
                                      }
                                      else{
                                          currentAudioIdx ++;
                                      }
-                                     NSString *message = [NSString stringWithFormat:@"%d/%d %@", currentAudioIdx + 1, totalAudio, [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"]];
+                                     NSString *language = @"?";
+                                     if (((NSNull *)[[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"language"] != [NSNull null])){
+                                         language = [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"language"];
+                                     }
+                                     NSString *message = [NSString stringWithFormat:@"%d/%ld %@%@%@", currentAudioIdx + 1, (long)totalAudio, language, [[[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"] isEqualToString:@""] ? @"" : @" - ",  [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"]];
                                      [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
                                      [self playbackAction:action params:parameters];
                                 }
@@ -736,13 +750,15 @@ NSInteger buttonAction;
 }
 
 -(void)playerStep:(NSString *)step musicPlayerGo:(NSString *)musicAction{
-    if ([AppDelegate instance].serverVersion>11){
+    if ([AppDelegate instance].serverVersion > 11){
         if (jsonRPC == nil){
             GlobalData *obj=[GlobalData getInstance];
             NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
             NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
             jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
         }
+        
+        ;
         [jsonRPC
          callMethod:@"GUI.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -750,17 +766,39 @@ NSInteger buttonAction;
                          nil]
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
-                 if (((NSNull *)[methodResult objectForKey:@"currentwindow"] != [NSNull null])){
-                     int winID = [[[methodResult objectForKey:@"currentwindow"] objectForKey:@"id"] intValue];
-                     if ([[methodResult objectForKey:@"fullscreen"] boolValue] == YES && (winID == 12005 || winID == 12006)){
-                         if (winID == 12005){
-                             [self playbackAction:@"Player.Seek" params:[NSArray arrayWithObjects:step, @"value", nil]];
-                         }
-                         else if (winID == 12006 && musicAction != nil){
-                             [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
-                         }
-                     }
+                 int winID = 0;
+                 NSNumber *fullscreen = 0;
+                 if (((NSNull *)[methodResult objectForKey:@"fullscreen"] != [NSNull null])){
+                     fullscreen = [methodResult objectForKey:@"fullscreen"];
                  }
+                 if (((NSNull *)[methodResult objectForKey:@"currentwindow"] != [NSNull null])){
+                    winID = [[[methodResult objectForKey:@"currentwindow"] objectForKey:@"id"] intValue];
+                 }
+                 [jsonRPC
+                  callMethod:@"XBMC.GetInfoBooleans"
+                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                  [[NSArray alloc] initWithObjects:@"VideoPlayer.HasMenu", @"Pvr.IsPlayingTv", nil], @"booleans",
+                                  nil]
+                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                      if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
+                          NSNumber *VideoPlayerHasMenu = 0;
+                          NSNumber *PvrIsPlayingTv = 0;
+                          if (((NSNull *)[methodResult objectForKey:@"VideoPlayer.HasMenu"] != [NSNull null])){
+                              VideoPlayerHasMenu = [methodResult objectForKey:@"VideoPlayer.HasMenu"];
+                          }
+                          if (((NSNull *)[methodResult objectForKey:@"Pvr.IsPlayingTv"] != [NSNull null])){
+                              PvrIsPlayingTv = [methodResult objectForKey:@"Pvr.IsPlayingTv"];
+                          }
+                          if ([fullscreen boolValue] == YES && (winID == 12005 || winID == 12006)){
+                              if (winID == 12005  && [PvrIsPlayingTv boolValue] == NO && [VideoPlayerHasMenu boolValue] == NO){
+                                  [self playbackAction:@"Player.Seek" params:[NSArray arrayWithObjects:step, @"value", nil]];
+                              }
+                              else if (winID == 12006 && musicAction != nil){
+                                  [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
+                              }
+                          }
+                      }
+                  }];
              }
          }];
     }
@@ -1004,13 +1042,47 @@ NSInteger buttonAction;
                 break;
                 
             case 19:// SUBTITLES BUTTON
-                [self GUIAction:@"Addons.ExecuteAddon"
-                         params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                               @"script.xbmc.subtitles", @"addonid",
-                                                               nil]
-                httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
+                if ([AppDelegate instance].serverVersion > 12){
+                    [self GUIAction:@"GUI.ActivateWindow"
+                             params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"subtitlesearch", @"window",
+                                     nil]
+                    httpAPIcallback:nil];
+                }
+                else{
+                    [self GUIAction:@"Addons.ExecuteAddon"
+                             params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"script.xbmc.subtitles", @"addonid",
+                                     nil]
+                    httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
+                }
                 break;
-            
+                
+            case 22:
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"pvr", @"window",
+                                 [[NSArray alloc] initWithObjects:@"31", @"0", @"10", @"0", nil], @"parameters",
+                                 nil]
+                httpAPIcallback:nil];
+                break;
+                
+            case 23:
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"pvrosdguide", @"window",
+                                 nil]
+                httpAPIcallback:nil];
+                break;
+                
+            case 24:
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"pvrosdchannels", @"window",
+                                 nil]
+                httpAPIcallback:nil];
+                break;
+
             default:
                 break;
         }
@@ -1064,6 +1136,9 @@ NSInteger buttonAction;
         self.slidingViewController.underRightViewController = rightMenuViewController;
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:self action:@selector(revealUnderRight:)];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];            
+        }
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
@@ -1150,6 +1225,10 @@ NSInteger buttonAction;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        self.edgesForExtendedLayout = 0;
+        self.view.tintColor = TINT_COLOR;
+    }
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
@@ -1167,6 +1246,8 @@ NSInteger buttonAction;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
+        leftSwipe.enabled = NO;
+        rightSwipe.enabled = NO;
     }
     torchIsOn = NO;
     NSString *torchIcon = @"torch";

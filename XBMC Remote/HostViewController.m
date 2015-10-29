@@ -69,7 +69,7 @@
         
         NSString *macAddress = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverMacAddress"];
         NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
-        int num_octects = [mac_octect count];
+        NSInteger num_octects = [mac_octect count];
         if (num_octects>0) mac_0_UI.text = [mac_octect objectAtIndex:0];
         if (num_octects>1) mac_1_UI.text = [mac_octect objectAtIndex:1];
         if (num_octects>2) mac_2_UI.text = [mac_octect objectAtIndex:2];
@@ -92,6 +92,18 @@
 - (IBAction) dismissView:(id)sender{
     
     [self textFieldDoneEditing:nil];
+    
+    if (descriptionUI.text == nil) descriptionUI.text = @"";
+    if (usernameUI.text == nil) usernameUI.text = @"";
+    if (passwordUI.text == nil) passwordUI.text = @"";
+    if (ipUI.text == nil) ipUI.text = @"";
+    if (portUI.text == nil) portUI.text = @"";
+    if (tcpPortUI.text == nil) tcpPortUI.text = @"";
+    if (mac_0_UI.text == nil) mac_0_UI.text = @"";
+    if (mac_1_UI.text == nil) mac_1_UI.text = @"";
+    if (mac_2_UI.text == nil) mac_2_UI.text = @"";
+    if (mac_3_UI.text == nil) mac_3_UI.text = @"";
+
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
     if (self.detailItem==nil){
         [[AppDelegate instance].arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -221,7 +233,7 @@
 
 - (void)updateUI{
     if(!searching){
-        int j = [services  count];
+        NSInteger j = [services  count];
         if (j==1){
             [self resolveIPAddress:[services objectAtIndex:0]];
         }
@@ -344,6 +356,9 @@
 - (void)viewDidLoad{
     
     [super viewDidLoad];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        self.edgesForExtendedLayout = 0;
+    }
     services = [[NSMutableArray alloc] init];
     netServiceBrowser = [[NSNetServiceBrowser alloc] init];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];

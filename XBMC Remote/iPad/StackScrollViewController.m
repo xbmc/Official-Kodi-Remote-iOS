@@ -37,13 +37,14 @@
 //
 
 #import "StackScrollViewController.h"
+#import "AppDelegate.h"
 //#import "UIViewWithShadow.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define VIEW_TAG 1000
 
 
-const NSInteger SLIDE_VIEWS_MINUS_X_POSITION = -230;
+const NSInteger SLIDE_VIEWS_MINUS_X_POSITION = -228;
 const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 
 @implementation StackScrollViewController
@@ -54,7 +55,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	
 	if(self= [super init]) {
 		
-		viewControllersStack = [[NSMutableArray alloc] init]; 
+		viewControllersStack = [[NSMutableArray alloc] init];
+        stackViewsFrames = [[NSMutableArray alloc] init];
 		borderViews = [[UIView alloc] initWithFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION - 2, -2, 2, self.view.frame.size.height + 2)];
 		[borderViews setBackgroundColor:[UIColor clearColor]];
         borderViews.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -98,9 +100,76 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		[panRecognizer setCancelsTouchesInView:TRUE];
 		[self.view addGestureRecognizer:panRecognizer];
 		[self.view addSubview:slideViews];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleStackScrollFullScreenEnabled:)
+                                                     name: @"StackScrollFullScreenEnabled"
+                                                   object: nil];
+
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleStackScrollFullScreenDisabled:)
+                                                     name: @"StackScrollFullScreenDisabled"
+                                                   object: nil];
+
 	}
 	
 	return self;
+}
+
+-(void)handleStackScrollFullScreenEnabled:(NSNotification *)sender{
+    stackScrollIsFullscreen = YES;
+    [stackViewsFrames removeAllObjects];
+    int i = 0;
+    NSInteger numViews = [[slideViews subviews] count];
+    for (UIView* subview in [slideViews subviews]) {
+        if ([subview isEqual:[sender object]]){
+            originalFrame = subview.frame;
+            CGRect frame = subview.frame;
+            frame.origin.x = 0 - 300;
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                frame.origin.y = frame.origin.y - 22;
+                frame.size.height = frame.size.height + 22;
+            }
+            frame.size.width = self.view.frame.size.width + 300;
+            subview.frame = frame;
+            break;
+        }
+        i++;
+    }
+    if (i + 1 < numViews){
+        CGRect frame = CGRectZero;
+        for (int j = i + 1; j < numViews; j++) {
+            frame = [[[slideViews subviews] objectAtIndex:j] frame];
+            [stackViewsFrames addObject:[NSValue valueWithCGRect:frame]];
+            frame.origin.x = self.view.frame.size.width;
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                frame.origin.y = frame.origin.y - 20;
+                frame.size.height = frame.size.height + 20;
+            }
+            [[[slideViews subviews] objectAtIndex:j] setFrame:frame];
+        }
+    }
+}
+
+-(void)handleStackScrollFullScreenDisabled:(NSNotification *)sender{
+    stackScrollIsFullscreen = NO;
+    int i = 0;
+    NSInteger numViews = [[slideViews subviews] count];
+    for (UIView* subview in [slideViews subviews]) {
+        if ([subview isEqual:[sender object]]){
+            subview.frame = originalFrame;
+            break;
+        }
+        i++;
+    }
+    if (i + 1 < numViews){
+        int k = 0;
+        NSInteger numStoredFrames = [stackViewsFrames count];
+        for (int j = i + 1; j < numViews && k < numStoredFrames; j++) {
+            [[[slideViews subviews] objectAtIndex:j] setFrame:[[stackViewsFrames objectAtIndex:k] CGRectValue]];
+            k ++;
+        }
+    }
 }
 
 -(void)disablePanGestureRecognizer:(UIImageView *)fallbackView{
@@ -218,7 +287,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 }
 
 - (void)handlePanFrom:(UIPanGestureRecognizer *)recognizer {
-	
+	if (stackScrollIsFullscreen) return;
 	CGPoint translatedPoint = [recognizer translationInView:self.view];
 	
 	if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -805,7 +874,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 - (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView{
     float animX=0;
 	if (isStackStartView) {
-        int numViews=[[slideViews subviews]count];
+        NSInteger numViews=[[slideViews subviews]count];
         if (numViews==0){
             int orientation= [[UIApplication sharedApplication] statusBarOrientation];
             animX = (orientation==1 || orientation==2) ? 468 : 724;
@@ -838,7 +907,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		}
 		
 		NSInteger viewControllerCount = [viewControllersStack count];
-		for (int i = indexOfViewController; i < viewControllerCount; i++) {
+		for (NSInteger i = indexOfViewController; i < viewControllerCount; i++) {
             [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
 //FIXME: 
             if (!TARGET_IPHONE_SIMULATOR){
@@ -886,14 +955,24 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [shadow setImage:[UIImage imageNamed:@"tableLeft.png"]];
     shadow.opaque = YES;
+    shadow.tag = 2001;
     [controller.view addSubview:shadow];
     
-    shadowRect = CGRectMake(477, 0.0f, 16.0f, self.view.frame.size.height);
+    shadowRect = CGRectMake(STACKSCROLL_WIDTH, 0.0f, 16.0f, self.view.frame.size.height);
     UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
-    [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+    [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin];
     [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
     shadowRight.opaque = YES;
+    shadowRight.tag = 2002;
+
     [controller.view addSubview:shadowRight];
+    
+    shadowRect = CGRectMake(-15.0f, -15.0f, 506.0f, 15);
+    UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
+    [shadowUp setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    [shadowUp setImage:[UIImage imageNamed:@"stackScrollUpShadow"]];
+    [controller.view addSubview:shadowUp];
+    
 	[slideViews addSubview:[controller view]];
     if ([[slideViews subviews] count] > 0) {
 		if ([[slideViews subviews] count]==1) {
@@ -1046,6 +1125,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 //	[slideViews release];
 //	[viewControllersStack release];
 //    [super dealloc];

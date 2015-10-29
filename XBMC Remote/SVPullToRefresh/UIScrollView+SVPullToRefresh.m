@@ -211,10 +211,10 @@ static char UIScrollViewPullToRefreshView;
         }
         
         CGFloat leftViewWidth = MAX(self.arrow.bounds.size.width,self.activityIndicatorView.bounds.size.width);
-        
+        CGFloat rightViewWidth = 40;
         CGFloat margin = 10;
         CGFloat marginY = 2;
-        CGFloat labelMaxWidth = self.bounds.size.width - margin - leftViewWidth;
+        CGFloat labelMaxWidth = self.bounds.size.width - margin - leftViewWidth - rightViewWidth;
         
         self.titleLabel.text = [self.titles objectAtIndex:self.state];
         
@@ -336,7 +336,7 @@ static char UIScrollViewPullToRefreshView;
     if(!_titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
         _titleLabel.text = NSLocalizedString(@"Pull to refresh...",);
-        _titleLabel.font = [UIFont boldSystemFontOfSize:14];
+        _titleLabel.font = [UIFont boldSystemFontOfSize:13];
         _titleLabel.numberOfLines = 1;
         _titleLabel.minimumFontSize = 12;
         _titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -350,9 +350,9 @@ static char UIScrollViewPullToRefreshView;
 - (UILabel *)subtitleLabel {
     if(!_subtitleLabel) {
         _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
-        _subtitleLabel.font = [UIFont systemFontOfSize:12];
+        _subtitleLabel.font = [UIFont systemFontOfSize:11];
         _subtitleLabel.numberOfLines = 1;
-        _subtitleLabel.minimumFontSize = 10;
+        _subtitleLabel.minimumFontSize = 9;
         _subtitleLabel.adjustsFontSizeToFitWidth = YES;
         _subtitleLabel.backgroundColor = [UIColor clearColor];
         _subtitleLabel.textColor = [UIColor lightGrayColor];

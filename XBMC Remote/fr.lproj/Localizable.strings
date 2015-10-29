@@ -11,6 +11,7 @@
 "Browse your" = "Explorez vos";
 "See what's" = "Regardez la";
 "Use as" = "Utiliser comme";
+"Watch" = "Regardez";
 
 "Music" = "Musique";
 "Movies" = "Films";
@@ -60,13 +61,13 @@
 "Reboot" = "Redémarrer";
 "Quit XBMC application" = "Quitter l'application XBMC";
 "Update Audio Library" = "Mettre à jour la bibliothèque audio";
-"Update Audio" = "Mettre à jour";
+"Update Audio" = "Audio mettre à jour";
 "Clean Audio Library" = "Nettoyer la bibliothèque audio";
-"Clean Audio" = "Nettoyer";
+"Clean Audio" = "Audio nettoyer";
 "Update Video Library" = "Mettre à jour la bibliothèque vidéo";
-"Update Video" = "Mettre à jour";
+"Update Video" = "Video mettre à jour";
 "Clean Video Library" = "Nettoyer la bibliothèque vidéo";
-"Clean Video" = "Nettoyer";
+"Clean Video" = "Video nettoyer";
 "Quit" = "Quitter";
 
 "Keyboard" = "Clavier";
@@ -193,3 +194,10 @@
 "Show Content" = "Show Content";
 "Play in party mode" = "Play in party mode";
 "Play in shuffle mode" = "Play in shuffle mode";
+
+"Channel Guide" = "Channel Guide";
+"Record" = "Record";
+"Broadcast Details" = "Broadcast Details";
+"TIME" = "TIME";
+
+"ERROR" = "ERROR";

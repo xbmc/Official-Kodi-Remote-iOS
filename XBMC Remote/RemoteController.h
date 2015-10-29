@@ -33,6 +33,8 @@
     UILabel *verboseOutput;
     UILabel *keyboardTitle;
     UITextField *backgroundTextField;
+    UISwipeGestureRecognizer *rightSwipe;
+    UISwipeGestureRecognizer *leftSwipe;
 //    int accessoryHeight;
 //    int padding;
 //    int verboseHeight;

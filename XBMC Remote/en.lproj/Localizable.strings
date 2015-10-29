@@ -11,12 +11,13 @@
 "Browse your" = "Browse your";
 "See what's" = "See what's";
 "Use as" = "Use as";
+"Watch" = "Watch";
 
 "Music" = "Music";
 "Movies" = "Movies";
 "TV Shows" = "TV Shows";
 "Pictures" = "Pictures";
-"Now Playing" = "Now Playing";
+"Now Playing" = "Now playing";
 "Remote Control" = "Remote Control";
 "XBMC Server" = "XBMC Server";
 "New XBMC Server" = "New XBMC Server";
@@ -193,3 +194,10 @@
 "Show Content" = "Show Content";
 "Play in party mode" = "Play in party mode";
 "Play in shuffle mode" = "Play in shuffle mode";
+
+"Channel Guide" = "Channel Guide";
+"Record" = "Record";
+"Broadcast Details" = "Broadcast Details";
+"TIME" = "TIME";
+
+"ERROR" = "ERROR";

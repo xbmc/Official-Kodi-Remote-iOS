@@ -139,6 +139,13 @@
     }
 
     else{
+        cell = rightMenuCell;
+        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+        [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
+        cell.selectedBackgroundView = backgroundView;
+        icon = (UIImageView*) [cell viewWithTag:1];
+        title = (UILabel*) [cell viewWithTag:3];
+        line = (UIImageView*) [cell viewWithTag:4];
         icon.alpha = .6f;
         iconName = [iconsList objectAtIndex:indexPath.row];
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
@@ -217,7 +224,11 @@
                 }
             }
             else if (command != nil){
-                [self powerAction:command params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+                NSDictionary *parameters = [[actionsList objectAtIndex:indexPath.row] objectForKey:@"params"];
+                if (parameters == nil) {
+                    parameters = [NSDictionary dictionaryWithObjectsAndKeys:nil];
+                }
+                [self xbmcAction:command params:parameters];
             }
         }
     }
@@ -250,7 +261,7 @@
 
 #pragma mark - JSON
 
--(void)powerAction:(NSString *)action params:(NSDictionary *)params{
+-(void)xbmcAction:(NSString *)action params:(NSDictionary *)params{
     jsonRPC = nil;
     GlobalData *obj=[GlobalData getInstance];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
@@ -284,7 +295,7 @@
             }
         }
         if (![command isEqualToString:@""]){
-            [self powerAction:command params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self xbmcAction:command params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
         }
     }
 }
@@ -301,6 +312,10 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    int deltaY = 0;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        deltaY = 22;
+    }
     torchIsOn = NO;
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
     if (captureDeviceClass != nil) {
@@ -322,7 +337,7 @@
     [infoLabel setTextColor:[UIColor colorWithRed:.49f green:.49f blue:.49f alpha:1]];
     infoLabel.alpha = 0;
     [self.view addSubview:infoLabel];
-    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
+    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY) style:UITableViewStylePlain];
     [menuTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     [menuTableView setSeparatorColor:[UIColor colorWithRed:0.114f green:0.114f blue:0.114f alpha:1]];
     [menuTableView setDelegate:self];
@@ -330,9 +345,9 @@
     [menuTableView setBackgroundColor:[UIColor clearColor]];
     [menuTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [menuTableView setScrollEnabled:[[self.rightMenuItems objectAtIndex:0] enableSection]];
-    if([[UIScreen mainScreen ] bounds].size.height >= 568){
-        [menuTableView setScrollEnabled:NO];
-    }
+//    if([[UIScreen mainScreen ] bounds].size.height >= 568){
+//        [menuTableView setScrollEnabled:NO];
+//    }
     [self.view addSubview:menuTableView];
     if ([[AppDelegate instance].obj.serverIP length]!=0){
         if (![AppDelegate instance].serverOnLine){
@@ -418,7 +433,7 @@
     }
     [UIView animateWithDuration:0.2
                      animations:^{
-                         int n = [menuTableView numberOfRowsInSection:0];
+                         NSInteger n = [menuTableView numberOfRowsInSection:0];
                          for (int i=1;i<n;i++){
                              UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
                              if (cell!=nil){
@@ -430,7 +445,7 @@
                          [menuTableView reloadData];
                          [UIView animateWithDuration:0.2
                                           animations:^{
-                                              int n = [menuTableView numberOfRowsInSection:0];
+                                              NSInteger n = [menuTableView numberOfRowsInSection:0];
                                               for (int i=1;i<n;i++){
                                                   UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
                                                   if (cell!=nil){

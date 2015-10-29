@@ -36,7 +36,7 @@
         _posterFanart = [[UIImageView alloc] initWithFrame:CGRectMake(startX, borderWidth, fanartWidth - borderWidth * 3, frame.size.height - borderWidth * 2)];
         [_posterFanart setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterFanart setClipsToBounds:YES];
-        [_posterFanart setContentMode:UIViewContentModeScaleAspectFit];
+        [_posterFanart setContentMode:UIViewContentModeScaleAspectFill];
         _posterFanart.alpha = 0.9f;
         [self.contentView addSubview:_posterFanart];
 

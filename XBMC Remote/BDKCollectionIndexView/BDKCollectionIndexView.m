@@ -89,8 +89,9 @@
             break;
     }
 
-    self.touchStatusView.frame = CGRectInset(self.bounds, 2, 2);
-    self.touchStatusView.layer.cornerRadius = floorf(self.theDimension / 2.75);
+    self.touchStatusView.frame = CGRectInset(self.bounds, 2, -2);
+//    self.touchStatusView.layer.cornerRadius = floorf(self.theDimension / 2.75);
+    self.touchStatusView.layer.cornerRadius = 0;
 
     CGFloat cumulativeLength = self.endPadding;
     CGSize labelSize = CGSizeMake(self.theDimension, self.theDimension);
@@ -117,8 +118,8 @@
 - (UIView *)touchStatusView {
     if (_touchStatusView) return _touchStatusView;
     _touchStatusView = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, 2, 2)];
-    _touchStatusView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
-    _touchStatusView.layer.cornerRadius = self.theDimension / 2;
+    _touchStatusView.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0];
+    _touchStatusView.layer.cornerRadius = 0;
     _touchStatusView.layer.masksToBounds = YES;
     return _touchStatusView;
 }

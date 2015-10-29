@@ -1,9 +1,9 @@
-/* 
-  Localisable.strings
-  XBMC Remote
-
-  Created by Gerd Flender on 13/01/27
-  Copyright (c) 2012 joethefox inc. All rights reserved.
+/*
+ Localisable.strings
+ XBMC Remote
+ 
+ Created by Gerd Flender on 13/01/27
+ Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
 "Listen to" = "Höre deine";
@@ -11,6 +11,7 @@
 "Browse your" = "Durchsuche deine";
 "See what's" = "Schaue was";
 "Use as" = "Benutze die";
+"Watch" = "Schaue";
 
 "Music" = "Musik";
 "Movies" = "Filme";
@@ -25,12 +26,12 @@
 
 "Files" = "Dateien";
 "Video Addons" = "Video Addons";
-"Live TV" = "Live TV";
+"Live TV" = "Fernsehen";
 "Movie Genres" = "Filmgenre";
 "Music Videos" = "Musikvideos";
 "Added Movies" = "Hinzugefügte Filme";
 "More (%d)" = "Mehr (%d)";
-"Movie Sets" = "Movie Sets";
+"Movie Sets" = "Filmreihen";
 
 "Albums" = "Alben";
 "Artists" = "Künstler";
@@ -60,13 +61,13 @@
 "Reboot" = "Neu starten";
 "Quit XBMC application" = "XBMC beenden";
 "Update Audio Library" = "Audiobibliothek aktualisieren";
-"Update Audio" = "Aktualisieren";
+"Update Audio" = "Audio aktualisieren";
 "Clean Audio Library" = "Audiobibliothek bereinigen";
-"Clean Audio" = "Bereinigen";
+"Clean Audio" = "Audio bereinigen";
 "Update Video Library" = "Videobibliothek aktualisieren";
-"Update Video" = "Aktualisieren";
+"Update Video" = "Video aktualisieren";
 "Clean Video Library" = "Videobibliothek bereinigen";
-"Clean Video" = "Bereinigen";
+"Clean Video" = "Video bereinigen";
 "Quit" = "Beenden";
 
 "Keyboard" = "Tastatur";
@@ -88,11 +89,11 @@
 "Artist Details" = "Künstlerdetails";
 "Album Details" = "Albumdetails";
 "Movie Details" = "Filmdetails";
-"Episode Details" = "Episondenetails";
+"Episode Details" = "Episodendetails";
 "TV Show Details" = "Seriendetails";
 "Music Video Details" = "Musikvideo details";
-"Details" = "details";
-"Play Trailer" = "Play Trailer";
+"Details" = "Details";
+"Play Trailer" = "Trailer abspielen";
 
 "Playlist" = "Abspielliste";
 "Nothing is playing" = "Nichts wird gespielt";
@@ -123,7 +124,7 @@
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "Keine gespeicherten Server gefunden";
 
-"Are you sure you want to clear the %@playlist?" = "Bist du sicher, dass Du %@playlist löschen möchtest?";
+"Are you sure you want to clear the %@playlist?" = "Bist du sicher, dass Du die Playliste %@ löschen möchtest?";
 "Are you sure you want to power off your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt ausschalten möchtest?";
 "Are you sure you want to hibernate your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt in den Ruhezustand gehen soll?";
 "Are you sure you want to suspend your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt in den Stanyby gehen soll?";
@@ -181,15 +182,21 @@
 "Scrubbing 0.05" = "Scrubbing.Geschwindigkeit: Sehr fein";
 "Scrubbing 0.025" = "Scrubbing.Geschwindigkeit: Super fein";
 
-"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Clearing app disk cache...\n\nPlease wait, since this may take a while";
-"Pull to sync with XBMC..." = "Pull to sync with XBMC...";
-"Release to sync with XBMC..." = "Release to sync with XBMC...";
-"Syncing..." = "Syncing...";
-"Last sync" = "Last sync";
-"View: Wall" = "View: Wall";
-"View: List" = "View: List";
-"View: Fanart" = "View: Fanart";
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Lösche App-Cache...\n\nBitte warten. Dies kann einen Moment dauern...";
+"Pull to sync with XBMC..." = "Herunterziehen zum Sync mit XBMC...";
+"Release to sync with XBMC..." = "Loslassen zum Sync mit XBMC...";
+"Syncing..." = "Synchronisierung...";
+"Last sync" = "Letzte Synchronisierung";
+"View: Wall" = "Galerie";
+"View: List" = "Liste";
+"View: Fanart" = "Fanart";
 
-"Show Content" = "Show Content";
-"Play in party mode" = "Play in party mode";
-"Play in shuffle mode" = "Play in shuffle mode";
+"Show Content" = "Zeige Inhalt";
+"Play in party mode" = "Spiele im Partymodus";
+"Play in shuffle mode" = "Spiele im Shuffle-Modus";
+
+"Channel Guide" = "Senderübersicht";
+"Record" = "Aufnahme";
+"Broadcast Details" = "Senderdetails";
+"TIME" = "ZEIT";
+"ERROR" = "FEHLER";

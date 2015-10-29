@@ -62,9 +62,11 @@
 	
 	CGPoint positionOfViewAtRightAtTouchBegan;
 	CGPoint positionOfViewAtLeftAtTouchBegan;
-	
-	
-
+    
+    CGRect originalFrame;
+    BOOL stackScrollIsFullscreen;
+    
+    NSMutableArray *stackViewsFrames;
 }
 
 - (void)offView;
