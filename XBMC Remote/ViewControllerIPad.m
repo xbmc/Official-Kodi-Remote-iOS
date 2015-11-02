@@ -235,7 +235,9 @@
                                     initWithContentViewController:_appInfoView];
         self.appInfoPopover.delegate = self;
         [self.appInfoPopover setPopoverContentSize:CGSizeMake(320, 460)];
-
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            self.appInfoPopover.backgroundColor = [UIColor colorWithRed:187.0f/255.0f green:187.0f/255.0f blue:187.0f/255.0f alpha:1.0f];
+        }
     }
     [self.appInfoPopover presentPopoverFromRect:xbmcLogo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
