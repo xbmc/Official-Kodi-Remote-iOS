@@ -4748,8 +4748,9 @@ NSIndexPath *selected;
     }
     if (isViewDidLoad){
         [activeLayoutView addSubview:self.searchDisplayController.searchBar];
-        isViewDidLoad = FALSE;
         [self initIpadCornerInfo];
+        [self startRetrieveDataWithRefresh:NO];
+        isViewDidLoad = FALSE;
     }
 }
 
@@ -5101,7 +5102,6 @@ NSIndexPath *selected;
     self.extraSectionRichResults = [[NSMutableArray alloc] init ];
     
     [activityIndicatorView startAnimating];
-    [self startRetrieveDataWithRefresh:NO];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTabHasChanged:)
