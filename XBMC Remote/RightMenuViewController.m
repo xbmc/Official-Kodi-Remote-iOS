@@ -791,10 +791,10 @@
                                   [NSNumber numberWithBool:NO], @"hideLineSeparator",
                                   [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
                                   icon, @"icon",
-                                  [item objectForKey:@"action"], @"action",
-                                  [NSNumber numberWithBool:NO], @"revealViewTop",
                                   isSetting, @"isSetting",
+                                  [NSNumber numberWithBool:NO], @"revealViewTop",
                                   type, @"type",
+                                  [item objectForKey:@"action"], @"action",
                                   nil]];
         }
     }
