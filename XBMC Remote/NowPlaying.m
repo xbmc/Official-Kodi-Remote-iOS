@@ -2549,7 +2549,7 @@ int currentItemID;
 }
 
 -(void)setIphoneInterface{
-    slideFrom=320;
+    slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
     xbmcOverlayImage.hidden = YES;
 }
 
