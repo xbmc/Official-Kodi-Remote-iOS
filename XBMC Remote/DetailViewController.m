@@ -1326,7 +1326,15 @@
         float fanartWidth = cellthumbWidth - posterWidth;
 
         if (![stringURL isEqualToString:@""]){
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(posterWidth, cellthumbHeight)];
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(posterWidth, cellthumbHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                UIColor *averageColor = [utils averageColor:image inverse:NO];
+                CGFloat hue, saturation, brightness, alpha;
+                BOOL ok = [averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+                if (ok) {
+                    UIColor *bgColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2f alpha:alpha];
+                    [cell setBackgroundColor:bgColor];
+                }
+            }];
         }
         else {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];

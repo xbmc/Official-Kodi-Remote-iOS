@@ -15,16 +15,14 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.restorationIdentifier = @"recentlyAddedCell";
-        self.backgroundColor = [UIColor lightGrayColor];
+        self.backgroundColor = [UIColor grayColor];
         float labelHeight = (int)(frame.size.height * 0.19f);
         float genreHeight = (int)(frame.size.height * 0.12f);
         float yearHeight = (int)(frame.size.height * 0.12f);
         int borderWidth = 2;
         int posterWidth = (int)(frame.size.height * 0.66f) + 1;
         int fanartWidth = frame.size.width - posterWidth;
-//        int posterStartX = borderWidth * 2 + fanartWidth;
         int posterStartX = borderWidth;
-//        int startX = borderWidth;
         int startX = borderWidth * 2 + posterWidth;
 
         _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(posterStartX, borderWidth, posterWidth, frame.size.height - borderWidth * 2)];
@@ -47,8 +45,11 @@
         [labelImageView setImage:[UIImage imageNamed:@"cell_bg"]];
         [labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
         
-//        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
-         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0, 0, fanartWidth - borderWidth * 3, labelHeight - borderWidth)];
+        int posterYOffset = 4;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            posterYOffset = 0;
+        }
+         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0, posterYOffset, fanartWidth - borderWidth * 3, labelHeight - borderWidth)];
         [_posterLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterLabel setBackgroundColor:[UIColor clearColor]];
         [_posterLabel setTextColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
