@@ -450,7 +450,7 @@
     nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
     nowPlayingController.view.frame=frame;
     
-    [nowPlayingController setToolbarWidth:768 height:610 YPOS:YPOS playBarWidth:426 portrait:TRUE];
+    [nowPlayingController setToolbarWidth:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height - 414 YPOS:YPOS playBarWidth:1426 portrait:TRUE];
     
     [leftMenuView addSubview:nowPlayingController.view];
 
@@ -720,19 +720,45 @@
     }
 }
 
+-(CGSize)screenSizeOrientationIndependent {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    return CGSizeMake(MIN(screenSize.width, screenSize.height), MAX(screenSize.width, screenSize.height));
+}
+
+-(CGRect)currentScreenBoundsDependOnOrientation {
+    NSString *reqSysVer = @"8.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending) {
+        return [UIScreen mainScreen].bounds;
+    }
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    CGFloat width = CGRectGetWidth(screenBounds);
+    CGFloat height = CGRectGetHeight(screenBounds);
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(width, height);
+    }
+    else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(height, width);
+    }
+    
+    return screenBounds ;
+}
+
 - (void)viewWillLayoutSubviews{
     UIInterfaceOrientation toInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
         CGRect frame = self.nowPlayingController.ProgressSlider.frame;
-        frame.origin.y = 444;
-        self.nowPlayingController.ProgressSlider.frame=frame;
-        [nowPlayingController setToolbarWidth:768 height:610 YPOS:YPOS playBarWidth:426 portrait:TRUE];
+        frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 580;
+        self.nowPlayingController.ProgressSlider.frame=frame;        
+        [nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height - 414 YPOS:YPOS playBarWidth:426 portrait:TRUE];
 	}
 	else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight){
         CGRect frame = self.nowPlayingController.ProgressSlider.frame;
-        frame.origin.y = 600;
+        frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 168;
         self.nowPlayingController.ProgressSlider.frame=frame;
-        [nowPlayingController setToolbarWidth:1024 height:768 YPOS:YPOS playBarWidth:680 portrait:FALSE];
+        [nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS playBarWidth:680 portrait:FALSE];
 	}
 }
 
