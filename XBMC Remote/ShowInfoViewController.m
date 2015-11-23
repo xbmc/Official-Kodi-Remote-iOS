@@ -683,8 +683,8 @@ int h=0;
         size = 6;
         castWidth = 75;
         castHeight = 105;
-        pageSize = 447;
-        [starsView setFrame: 
+        pageSize = STACKSCROLL_WIDTH - 20;
+        [starsView setFrame:
          CGRectMake(
                     starsView.frame.origin.x, 
                     starsView.frame.origin.y - size, 
