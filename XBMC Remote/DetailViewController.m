@@ -4740,6 +4740,7 @@ NSIndexPath *selected;
         self.searchDisplayController.searchBar.tintColor = searchBarColor;
     }
     [channelListUpdateTimer invalidate];
+    channelListUpdateTimer = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -4809,6 +4810,8 @@ NSIndexPath *selected;
         isViewDidLoad = FALSE;
     }
     if (channelListView == YES){
+        [channelListUpdateTimer invalidate];
+        channelListUpdateTimer = nil;
         NSDate * now = [NSDate date];
         NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
         [outputFormatter setDateFormat:@"ss"];
