@@ -45,8 +45,8 @@
     [self.viewLabel setFont:[UIFont boldSystemFontOfSize:12]];
     [self.viewLabel setTextColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.65f]];
     [self.viewLabel setShadowColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.3f]];
-    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
-    float shadowOffset = isRetina ? 0.5f : 1.0f;
+    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
+    float shadowOffset = isRetina ? 1.0f/[[UIScreen mainScreen] scale] : 1.0f;
     [self.viewLabel setShadowOffset:CGSizeMake(-shadowOffset, shadowOffset)];
     self.viewLabel.alpha = 0;
     [self addSubview:self.viewLabel];

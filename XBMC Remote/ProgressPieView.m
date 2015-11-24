@@ -30,8 +30,8 @@
 
 -(void)pieCustomization:(UIColor *)color{
     padding = 8;
-    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
-    lineWidth = isRetina ? 0.5f : 1.0f;
+    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
+    lineWidth = isRetina ? 1.0f/[[UIScreen mainScreen] scale] : 1.0f;
     int pieLabelFontSize = isRetina ? 7 : 9;
     [self setBackgroundColor:[UIColor clearColor]];
     pieColor = color;

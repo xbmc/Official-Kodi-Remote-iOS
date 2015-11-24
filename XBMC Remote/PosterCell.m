@@ -75,8 +75,8 @@
 }
 
 - (float)halfSizeIfRetina:(float)size{
-    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
-    size = isRetina ? size / 2 : size;
+    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
+    size = isRetina ? size / [[UIScreen mainScreen] scale] : size;
     return size;
 }
 
