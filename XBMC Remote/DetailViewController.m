@@ -4701,15 +4701,9 @@ NSIndexPath *selected;
     if (channelGuideView && autoScrollTable != nil){
         [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition: UITableViewScrollPositionTop animated: NO];
     }
-    if (channelListView == YES){
-        NSDate * now = [NSDate date];
-        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
-        [outputFormatter setDateFormat:@"ss"];
-        [self performSelector:@selector(startChannelListUpdateTimer) withObject:nil afterDelay:60.0f - [[outputFormatter stringFromDate:now] floatValue]];
-    }
 }
 
--(void)startChannelListUpdateTimer{
+-(void)startChannelListUpdateTimer {
     [self updateChannelListTableCell];
     if (channelListUpdateTimer != nil){
         [channelListUpdateTimer invalidate];
@@ -4813,6 +4807,12 @@ NSIndexPath *selected;
         [self initIpadCornerInfo];
         [self startRetrieveDataWithRefresh:NO];
         isViewDidLoad = FALSE;
+    }
+    if (channelListView == YES){
+        NSDate * now = [NSDate date];
+        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+        [outputFormatter setDateFormat:@"ss"];
+        [self performSelector:@selector(startChannelListUpdateTimer) withObject:nil afterDelay:60.0f - [[outputFormatter stringFromDate:now] floatValue]];
     }
 }
 
