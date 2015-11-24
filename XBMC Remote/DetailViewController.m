@@ -224,6 +224,8 @@
     [channelEPG setObject: NSLocalizedString(@"Not Available",nil) forKey:@"next"];
     [channelEPG setObject: @"" forKey:@"current_details"];
     [channelEPG setObject: [NSNumber numberWithBool:YES] forKey:@"refresh_data"];
+    [channelEPG setObject: @"" forKey:@"starttime"];
+    [channelEPG setObject: @"" forKey:@"endtime"];
     if (epgData != nil) {
         NSDictionary *objectToSearch;
         NSDate *nowDate = [NSDate date];
@@ -231,6 +233,8 @@
         NSArray *filteredArray = [epgData filteredArrayUsingPredicate:predicate];
         if ([filteredArray count] > 0) {
             objectToSearch = [filteredArray objectAtIndex:0];
+            [channelEPG setObject: [objectToSearch objectForKey:@"starttime"] forKey:@"starttime"];
+            [channelEPG setObject: [objectToSearch objectForKey:@"endtime"] forKey:@"endtime"];
             [channelEPG setObject: [NSString stringWithFormat:@"%@ %@",
                                     [localHourMinuteFormatter stringFromDate:[objectToSearch objectForKey:@"starttime"]],
                                     [objectToSearch objectForKey:@"title"]
@@ -288,16 +292,24 @@
     current.text = [channelEPG objectForKey:@"current"];
     next.text = [channelEPG objectForKey:@"next"];
     [item setObject:[channelEPG objectForKey:@"current_details"] forKey:@"genre"];
-//    ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
-//    if (![current.text isEqualToString:NSLocalizedString(@"Not Available",nil)]){
-//        int min = 0;
-//        int max = 100;
-//        [progressView updateProgressPercentage:(arc4random() % (max-min+1)) + min];
-//        progressView.hidden = NO;
-//    }
-//    else {
-//        progressView.hidden = YES;
-//    }
+    ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
+    if (![current.text isEqualToString:NSLocalizedString(@"Not Available",nil)] && [[channelEPG objectForKey:@"starttime"] isKindOfClass:[NSDate class]] && [[channelEPG objectForKey:@"endtime"] isKindOfClass:[NSDate class]]) {
+        float total_seconds = [[channelEPG objectForKey:@"endtime"] timeIntervalSince1970] - [[channelEPG objectForKey:@"starttime"] timeIntervalSince1970];
+        float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [[channelEPG objectForKey:@"starttime"] timeIntervalSince1970];
+        float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
+        [progressView updateProgressPercentage:percent_elapsed];
+        progressView.hidden = NO;
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSUInteger unitFlags = NSMinuteCalendarUnit;
+        NSDateComponents *components = [gregorian components:unitFlags
+                                                    fromDate:[channelEPG objectForKey:@"starttime"]
+                                                      toDate:[channelEPG objectForKey:@"endtime"] options:0];
+        NSInteger minutes = [components minute];
+        progressView.pieLabel.text = [NSString stringWithFormat:@" %ld'", (long)minutes];
+    }
+    else {
+        progressView.hidden = YES;
+    }
 }
 
 -(void)parseBroadcasts:(NSDictionary *)parameters{
@@ -1850,10 +1862,11 @@ int originYear = 0;
             [cell addSubview:hasTimer];
         }
         else if ([channelid intValue] > 0) {
-//            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(14, 54, 28, 28) color:[UIColor lightGrayColor]];
-//            progressView.tag = 103;
-//            progressView.hidden = YES;
-//            [cell addSubview:progressView];
+            float pieSize = 28.0f;
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2.0f, 10.0f, pieSize, pieSize) color:[UIColor blackColor]];
+            progressView.tag = 103;
+            progressView.hidden = YES;
+            [cell addSubview:progressView];
         }
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
@@ -1953,8 +1966,8 @@ int originYear = 0;
             frame.origin.y = 10;
             frame.size.height = thumbWidth * 0.7f;
             cell.urlImageView.frame = frame;
-//            ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
-//            progressView.hidden = YES;
+            ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
+            progressView.hidden = YES;
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     channelid, @"channelid",
                                     tableView, @"tableView",
@@ -4688,6 +4701,27 @@ NSIndexPath *selected;
     if (channelGuideView && autoScrollTable != nil){
         [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition: UITableViewScrollPositionTop animated: NO];
     }
+    if (channelListView == YES){
+        NSDate * now = [NSDate date];
+        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+        [outputFormatter setDateFormat:@"ss"];
+        [self performSelector:@selector(startChannelListUpdateTimer) withObject:nil afterDelay:60.0f - [[outputFormatter stringFromDate:now] floatValue]];
+    }
+}
+
+-(void)startChannelListUpdateTimer{
+    [self updateChannelListTableCell];
+    if (channelListUpdateTimer != nil){
+        [channelListUpdateTimer invalidate];
+        channelListUpdateTimer = nil;
+    }
+    channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0f target:self selector:@selector(updateChannelListTableCell) userInfo:nil repeats:YES];
+}
+
+-(void)updateChannelListTableCell {
+    [dataList beginUpdates];
+    [dataList reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+    [dataList endUpdates];
 }
 
 -(NSComparisonResult)alphaNumericCompare:(id)firstObject secondObject:(id)secondObject{
@@ -4711,6 +4745,7 @@ NSIndexPath *selected;
     else{
         self.searchDisplayController.searchBar.tintColor = searchBarColor;
     }
+    [channelListUpdateTimer invalidate];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -5057,6 +5092,9 @@ NSIndexPath *selected;
         channelGuideView = YES;
         sectionHeight = 24;
     }
+    else if ([[methods objectForKey:@"channelListView"] boolValue] == YES){
+        channelListView = YES;
+    }
     
     tableViewSearchBarColor = searchBarColor;
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
@@ -5303,6 +5341,8 @@ NSIndexPath *selected;
     epgDownloadQueue = nil;
     epgDict = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
+    [channelListUpdateTimer invalidate];
+    channelListUpdateTimer = nil;
 }
 
 //- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation duration:(NSTimeInterval)duration {

@@ -2696,8 +2696,8 @@ NSMutableArray *hostRightMenuItems;
                         nil];
     
     item8.subItem.mainMethod=[NSMutableArray arrayWithObjects:
-                              [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", nil],
-                              [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", nil],
+                              [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", @"YES", @"channelListView", nil],
+                              [NSArray arrayWithObjects:@"PVR.GetChannels", @"method", @"YES", @"channelListView", nil],
                               [NSArray array],
                               [NSArray array],
                               nil];

@@ -70,6 +70,7 @@
     BOOL episodesView;
     BOOL tvshowsView;
     BOOL channelGuideView;
+    BOOL channelListView;
     int albumViewHeight;
     int albumViewPadding;
     int artistFontSize;
@@ -129,6 +130,7 @@
     UIView *titleView;
     BOOL hiddenLabel;
     UIPinchGestureRecognizer *twoFingerPinch;
+    NSTimer* channelListUpdateTimer;
 }
 
 - (id)initWithFrame:(CGRect)frame;
