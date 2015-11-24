@@ -2227,8 +2227,8 @@ int originYear = 0;
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
-                                      float thumbBorder = isRetina ? 0.5f : 1.0f;
+                                      BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
+                                      float thumbBorder = isRetina ? 1.0f/[[UIScreen mainScreen] scale] : 1.0f;
                                       [thumbImageContainer setBackgroundColor:[UIColor clearColor]];
                                       thumbImageContainer.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1].CGColor;
                                       thumbImageContainer.layer.shadowOpacity = 1.0f;
@@ -2269,12 +2269,21 @@ int originYear = 0;
                                           [trackCountLabel setShadowColor:albumFontShadowColor];
                                           [releasedLabel setTextColor:albumDetailsColor];
                                           [releasedLabel setShadowColor:albumFontShadowColor];
-                                          
                                       }
                                   }];
         }
         else {
             [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+        }
+        stringURL = [item objectForKey:@"fanart"];
+        if (![stringURL isEqualToString:@""]){
+            UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, - self.searchDisplayController.searchBar.frame.size.height, viewWidth, albumViewHeight + 2 + self.searchDisplayController.searchBar.frame.size.height)];
+            fanartBackgroundImage.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
+            fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
+            fanartBackgroundImage.alpha = 0.1f;
+            [fanartBackgroundImage setClipsToBounds:YES];
+            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
+            [albumDetailView addSubview:fanartBackgroundImage];
         }
         [thumbImageContainer addSubview:thumbImageView];
         [albumDetailView addSubview:thumbImageContainer];
@@ -2549,8 +2558,8 @@ int originYear = 0;
     
     int labelFontSize = sectionHeight > 16 ? sectionHeight - 10 : sectionHeight - 5;
     int labelOriginY = sectionHeight > 16 ? 2 : 1;
-    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
-    float shadowOffset = isRetina ? 0.5f : 1.0f;
+    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
+    float shadowOffset = isRetina ? 1.0f/[[UIScreen mainScreen] scale] : 1.0f;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, labelOriginY, viewWidth - 20, sectionHeight)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];

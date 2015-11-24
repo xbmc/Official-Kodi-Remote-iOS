@@ -769,7 +769,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"track", @"method",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
+                                    [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", @"fanart", nil], @"properties",
                                     nil], @"parameters", @"Songs", @"label", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
@@ -838,7 +838,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"track", @"method",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
+                                    [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", @"fanart", nil], @"properties",
                                     nil], @"parameters", @"Songs", @"label", nil],
                                   
                                   [NSArray array],
@@ -850,7 +850,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"track", @"method",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
+                                    [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", @"fanart", nil], @"properties",
                                     nil], @"parameters", @"Songs", @"label", nil],
                                   
                                   [NSArray array],
@@ -862,7 +862,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"track", @"method",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
+                                    [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", @"fanart", nil], @"properties",
                                     nil], @"parameters", @"Songs", @"label", nil],
                                   
                                   [NSArray array],
@@ -1132,7 +1132,7 @@ NSMutableArray *hostRightMenuItems;
                                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                              @"track", @"method",
                                              nil],@"sort",
-                                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
+                                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", @"fanart", nil], @"properties",
                                             nil], @"parameters", @"Songs", @"label", nil],
                                           
                                           [NSMutableArray arrayWithObjects:
@@ -1142,7 +1142,7 @@ NSMutableArray *hostRightMenuItems;
                                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                              @"track", @"method",
                                              nil],@"sort",
-                                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
+                                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", @"fanart", nil], @"properties",
                                             nil], @"parameters", @"Songs", @"label", nil],
                                           
                                           [NSArray array],
