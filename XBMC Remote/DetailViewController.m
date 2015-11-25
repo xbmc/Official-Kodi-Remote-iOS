@@ -3001,11 +3001,13 @@ NSIndexPath *selected;
     NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
     if (buttonIndex!=actionSheet.cancelButtonIndex){
         NSDictionary *item = nil;
-        if ([self.searchDisplayController isActive]){
-            item = [self.filteredListContent objectAtIndex:selected.row];
-        }
-        else{
-            item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:selected.section]] objectAtIndex:selected.row];
+        if (selected != nil){
+            if ([self.searchDisplayController isActive]){
+                item = [self.filteredListContent objectAtIndex:selected.row];
+            }
+            else{
+                item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:selected.section]] objectAtIndex:selected.row];
+            }
         }
         if ([option isEqualToString:NSLocalizedString(@"Play", nil)]){
             NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
@@ -3100,7 +3102,6 @@ NSIndexPath *selected;
             }
             else{
                 [dataList deselectRowAtIndexPath:selected animated:NO];
-  
             }
         }
     }
@@ -5322,6 +5323,17 @@ NSIndexPath *selected;
                              [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                          }];
     }
+}
+
+- (void)handleChangeSortLibrary {
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    NSDictionary *sortDictionary = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"];
+    NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
+                          NSLocalizedString(@"Sort by", nil), @"label",
+                          NSLocalizedString(@"select a sorting method", nil), @"genre",
+                          nil];
+    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+    [self showActionSheet:nil sheetActions:[sortDictionary allKeys] item:item rectOriginX:bar.sortButton.center.x rectOriginY:bar.sortButton.center.y];
 }
 
 - (void)viewDidUnload{

@@ -1299,11 +1299,11 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              @"Label", @"label",
-                              @"Rating", @"rating",
-                              @"Recently added",  @"dateadded",
-                              @"Sort title", @"sorttitle",
-                              @"Year", @"year",
+                              @"label", @"Title",
+                              @"rating", @"Rating",
+                              @"dateadded",  @"Recently added",
+                              @"sorttitle", @"Sort title",
+                              @"year", @"Year",
                               nil], @"available_methods",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer",  @"file", nil], @"properties", //, @"fanart"

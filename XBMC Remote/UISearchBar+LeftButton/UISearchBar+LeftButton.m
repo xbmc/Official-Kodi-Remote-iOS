@@ -117,6 +117,10 @@
     if ([self.delegate respondsToSelector:selector]){
         [self.leftButton addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
     }
+    selector = NSSelectorFromString(@"handleChangeSortLibrary");
+    if ([self.delegate respondsToSelector:selector]){
+        [self.sortButton addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 -(void)showLeftButton:(BOOL)show {
