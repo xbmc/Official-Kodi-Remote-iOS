@@ -7,18 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#define SEARCH_BAR_LEFT_PADDING 120.0f
 
 @interface UISearchBarLeftButton : UISearchBar {
     float cancelButtonWidth;
+    int searchbarLeftPadding;
 }
+
+- (void)setLeftPadding;
 
 @property (readonly) UITextField *textField;
 @property (nonatomic) int leftPadding;
 @property (nonatomic) int rightPadding;
 @property (nonatomic) float storeWidth;
-@property (nonatomic, retain) UILabel *viewLabel;
 @property (nonatomic, retain) UIButton *leftButton;
+@property (nonatomic, retain) UIButton *sortButton;
 @property (nonatomic) BOOL isVisible;
 
 @end

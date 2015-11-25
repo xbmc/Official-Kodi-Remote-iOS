@@ -28,7 +28,7 @@
     return self;
 }
 
--(void)configureView{
+-(void)configureView {
     self.isVisible = YES;
     self.leftPadding = 0;
     self.rightPadding = 0;
@@ -40,23 +40,20 @@
     self.leftButton.alpha = 0;
     [self addSubview:self.leftButton];
     
-    self.viewLabel = [[UILabel alloc] initWithFrame:CGRectMake(buttonWidth, 0, SEARCH_BAR_LEFT_PADDING - buttonWidth, buttonHeight)];
-    [self.viewLabel setBackgroundColor:[UIColor clearColor]];
-    [self.viewLabel setFont:[UIFont boldSystemFontOfSize:12]];
-    [self.viewLabel setTextColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.65f]];
-    [self.viewLabel setShadowColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.3f]];
-    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
-    float shadowOffset = isRetina ? 1.0f/[[UIScreen mainScreen] scale] : 1.0f;
-    [self.viewLabel setShadowOffset:CGSizeMake(-shadowOffset, shadowOffset)];
-    self.viewLabel.alpha = 0;
-    [self addSubview:self.viewLabel];
+    self.sortButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, self.frame.size.height/2 - buttonHeight/2, buttonWidth, buttonHeight)];
+    [self.sortButton setImage:[UIImage imageNamed:@"button_sort"] forState:UIControlStateNormal];
+    [self.sortButton setShowsTouchWhenHighlighted:YES];
+    self.sortButton.alpha = 0;
+    [self addSubview:self.sortButton];
+
+    searchbarLeftPadding = buttonWidth * 2;
 }
 
 - (void) layoutSubviews {
     [super layoutSubviews];
     if (!self.isVisible) return;
     self.leftButton.alpha = 0;
-    self.viewLabel.alpha = 0;
+    self.sortButton.alpha = 0;
     if (self.showsCancelButton == YES){
         cancelButtonWidth = CANCEL_BUTTON_DEFAULT_WIDTH;
         for (UIView *view in self.subviews) {
@@ -69,7 +66,7 @@
     else{
         if (self.leftPadding){
             self.leftButton.alpha = 1;
-            self.viewLabel.alpha = 1;
+            self.sortButton.alpha = 1;
 
         }
         [self updateTextFieldFrame:self.rightPadding leftPadding:self.leftPadding];
@@ -110,6 +107,10 @@
     if ([self.delegate respondsToSelector:selector]){
         [self.leftButton addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
     }
+}
+
+- (void)setLeftPadding {
+    self.leftPadding = searchbarLeftPadding;
 }
 
 @end

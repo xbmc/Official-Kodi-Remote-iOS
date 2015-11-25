@@ -1298,6 +1298,13 @@ NSMutableArray *hostRightMenuItems;
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"Label", @"label",
+                              @"Rating", @"rating",
+                              @"Recently added",  @"dateadded",
+                              @"Sort title", @"sorttitle",
+                              @"Year", @"year",
+                              nil], @"available_methods",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer",  @"file", nil], @"properties", //, @"fanart"
                             nil], @"parameters", NSLocalizedString(@"Movies", nil), @"label", @"Movie", @"wikitype",
