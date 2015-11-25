@@ -754,11 +754,8 @@
         [self.searchDisplayController.searchBar setBackgroundColor:collectionViewSearchBarColor];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
-            [bar.viewLabel setTextColor:[UIColor colorWithRed:0.4f green:0.4f blue:0.4f alpha:0.65f]];
-            [bar.viewLabel setShadowColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:0.3f]];
         }
         searchBarColor = collectionViewSearchBarColor;
-        [bar.viewLabel setText:currentCollectionViewName];
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
     }
     else{
@@ -774,11 +771,8 @@
         [self.searchDisplayController.searchBar setBackgroundColor:tableViewSearchBarColor];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
-            [bar.viewLabel setTextColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.65f]];
-            [bar.viewLabel setShadowColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.3f]];
         }
         searchBarColor = tableViewSearchBarColor;
-        [bar.viewLabel setText:NSLocalizedString(@"View: List", nil)];
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
     }
     if (!isViewDidLoad){
@@ -846,7 +840,7 @@
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     bar.leftPadding = 0;
     if ([self collectionViewCanBeEnabled] == YES){
-        bar.leftPadding = SEARCH_BAR_LEFT_PADDING;
+        [bar setLeftPadding];
     }
 //    [bar layoutSubviews];
     [self checkDiskCache];
@@ -3278,7 +3272,7 @@ NSIndexPath *selected;
                              UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
                              bar.storeWidth = viewWidth;
                              if ([self collectionViewCanBeEnabled] == YES){
-                                 bar.leftPadding = SEARCH_BAR_LEFT_PADDING;
+                                 [bar setLeftPadding];
                              }
                              if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT) {
                                  bar.rightPadding = 26;
@@ -5064,7 +5058,7 @@ NSIndexPath *selected;
     [self checkDiskCache];
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     if ([self collectionViewCanBeEnabled] == YES){
-        bar.leftPadding = SEARCH_BAR_LEFT_PADDING;
+        [bar setLeftPadding];
     }
     [bar setPlaceholder:NSLocalizedString(@"Search", nil)];
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
