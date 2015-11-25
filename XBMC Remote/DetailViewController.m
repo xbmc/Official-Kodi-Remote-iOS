@@ -838,9 +838,9 @@
 
     BOOL newEnableCollectionView = [self collectionViewIsEnabled];
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
-    bar.leftPadding = 0;
+    [bar showLeftButton:NO];
     if ([self collectionViewCanBeEnabled] == YES){
-        [bar setLeftPadding];
+        [bar showLeftButton:YES];
     }
 //    [bar layoutSubviews];
     [self checkDiskCache];
@@ -3272,7 +3272,7 @@ NSIndexPath *selected;
                              UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
                              bar.storeWidth = viewWidth;
                              if ([self collectionViewCanBeEnabled] == YES){
-                                 [bar setLeftPadding];
+                                 [bar showLeftButton:YES];
                              }
                              if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT) {
                                  bar.rightPadding = 26;
@@ -3328,7 +3328,7 @@ NSIndexPath *selected;
                              UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
                              viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
                              bar.storeWidth = viewWidth;
-                             bar.leftPadding = 0;
+                             [bar showLeftButton:NO];
                              bar.rightPadding = 0;
                              [self choseParams];
                              moreItemsViewController.view.hidden = YES;
@@ -5058,8 +5058,11 @@ NSIndexPath *selected;
     [self checkDiskCache];
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     if ([self collectionViewCanBeEnabled] == YES){
-        [bar setLeftPadding];
+        [bar showLeftButton:YES];
     }
+    
+    [bar showSortButton:YES];
+    
     [bar setPlaceholder:NSLocalizedString(@"Search", nil)];
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];

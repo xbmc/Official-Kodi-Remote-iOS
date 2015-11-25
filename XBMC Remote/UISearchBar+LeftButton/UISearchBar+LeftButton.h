@@ -10,13 +10,16 @@
 
 @interface UISearchBarLeftButton : UISearchBar {
     float cancelButtonWidth;
-    int searchbarLeftPadding;
+    float buttonWidth;
+    int leftPadding;
+    BOOL showLeftButton;
+    BOOL showSortButton;
 }
 
-- (void)setLeftPadding;
+-(void)showLeftButton:(BOOL)show;
+-(void)showSortButton:(BOOL)show;
 
 @property (readonly) UITextField *textField;
-@property (nonatomic) int leftPadding;
 @property (nonatomic) int rightPadding;
 @property (nonatomic) float storeWidth;
 @property (nonatomic, retain) UIButton *leftButton;

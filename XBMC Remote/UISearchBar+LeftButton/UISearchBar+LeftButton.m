@@ -30,10 +30,13 @@
 
 -(void)configureView {
     self.isVisible = YES;
-    self.leftPadding = 0;
+    leftPadding = 0;
     self.rightPadding = 0;
-    float buttonWidth = 44;
-    float buttonHeight = 44;
+    buttonWidth = 44.0f;
+    showLeftButton = NO;
+    showSortButton = NO;
+    float buttonHeight = 44.0f;
+    
     self.leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, self.frame.size.height/2 - buttonHeight/2, buttonWidth, buttonHeight)];
     [self.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
     [self.leftButton setShowsTouchWhenHighlighted:YES];
@@ -45,8 +48,6 @@
     [self.sortButton setShowsTouchWhenHighlighted:YES];
     self.sortButton.alpha = 0;
     [self addSubview:self.sortButton];
-
-    searchbarLeftPadding = buttonWidth * 2;
 }
 
 - (void) layoutSubviews {
@@ -64,12 +65,21 @@
         [self updateTextFieldFrame:cancelButtonWidth + CANCEL_BUTTON_PADDING leftPadding:0];
     }
     else{
-        if (self.leftPadding){
+        leftPadding = 0;
+        float buttonSortOriginX = 0;
+        if (showLeftButton == YES) {
             self.leftButton.alpha = 1;
-            self.sortButton.alpha = 1;
-
+            leftPadding += buttonWidth;
+            buttonSortOriginX = 44.0f;
         }
-        [self updateTextFieldFrame:self.rightPadding leftPadding:self.leftPadding];
+        if (showSortButton == YES) {
+            self.sortButton.alpha = 1;
+            leftPadding += buttonWidth;
+            CGRect frame = self.sortButton.frame;
+            frame.origin.x = buttonSortOriginX;
+            self.sortButton.frame = frame;
+        }
+        [self updateTextFieldFrame:self.rightPadding leftPadding:leftPadding];
     }
 }
 
@@ -109,8 +119,12 @@
     }
 }
 
-- (void)setLeftPadding {
-    self.leftPadding = searchbarLeftPadding;
+-(void)showLeftButton:(BOOL)show {
+    showLeftButton = show;
+}
+
+-(void)showSortButton:(BOOL)show {
+    showSortButton = show;
 }
 
 @end
