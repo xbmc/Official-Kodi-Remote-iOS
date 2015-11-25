@@ -5326,6 +5326,7 @@ NSIndexPath *selected;
 }
 
 - (void)handleChangeSortLibrary {
+    selected = nil;
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     NSDictionary *sortDictionary = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"];
     NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
