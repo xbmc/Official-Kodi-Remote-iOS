@@ -839,10 +839,13 @@
     BOOL newEnableCollectionView = [self collectionViewIsEnabled];
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     [bar showLeftButton:NO];
+    [bar showSortButton:NO];
     if ([self collectionViewCanBeEnabled] == YES){
         [bar showLeftButton:YES];
     }
-//    [bar layoutSubviews];
+    if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
+        [bar showSortButton:YES];
+    }
     [self checkDiskCache];
     float animDuration = 0.3f;
     if (newEnableCollectionView != enableCollectionView){
@@ -3274,9 +3277,6 @@ NSIndexPath *selected;
                              if ([self collectionViewCanBeEnabled] == YES){
                                  [bar showLeftButton:YES];
                              }
-                             if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT) {
-                                 bar.rightPadding = 26;
-                             }
                              [self choseParams];
                              sectionArray = [storeSectionArray copy];
                              sections = [storeSections mutableCopy];
@@ -3329,7 +3329,6 @@ NSIndexPath *selected;
                              viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
                              bar.storeWidth = viewWidth;
                              [bar showLeftButton:NO];
-                             bar.rightPadding = 0;
                              [self choseParams];
                              moreItemsViewController.view.hidden = YES;
                              storeSectionArray = [sectionArray copy];
@@ -5060,9 +5059,9 @@ NSIndexPath *selected;
     if ([self collectionViewCanBeEnabled] == YES){
         [bar showLeftButton:YES];
     }
-    
-    [bar showSortButton:YES];
-    
+    if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
+        [bar showSortButton:YES];
+    }
     [bar setPlaceholder:NSLocalizedString(@"Search", nil)];
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
