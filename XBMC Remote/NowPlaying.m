@@ -353,20 +353,21 @@ float cellBarWidth=45;
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source{
-    CGSize size = [source size];
-    UIGraphicsBeginImageContext(size);
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-    CGFloat borderWidth = 2.0;
-	CGContextSetLineWidth(context, borderWidth);
-    CGContextStrokeRect(context, rect);
-    
-    UIImage *Img =  UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return [self imageWithShadow:Img];
+    return [self imageWithShadow:source];
+//    CGSize size = [source size];
+//    UIGraphicsBeginImageContext(size);
+//    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+//    [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
+//    
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
+//    CGFloat borderWidth = 2.0;
+//	CGContextSetLineWidth(context, borderWidth);
+//    CGContextStrokeRect(context, rect);
+//    
+//    UIImage *Img =  UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return [self imageWithShadow:Img];
 }
 
 #pragma  mark - JSON management
