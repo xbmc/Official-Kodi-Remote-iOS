@@ -60,10 +60,10 @@
             _headerLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width - 10, self.frame.size.height - 1)];
             [_headerLabel setBackgroundColor:[UIColor clearColor]];
             [_headerLabel setFont:[UIFont boldSystemFontOfSize:(self.frame.size.height > 20 ? 17 : self.frame.size.height - 5)]];
-            [_headerLabel setShadowColor:[UIColor darkGrayColor]];
-            [_headerLabel setShadowOffset:CGSizeMake(0, 1)];
+            [_headerLabel setShadowColor:[UIColor colorWithRed:10.0f/255.0f green:10.0f/255.0f blue:10.0f/255.0f alpha:1]];
+            [_headerLabel setShadowOffset:CGSizeMake(0, 0)];
             
-            [_headerLabel setTextColor:[UIColor whiteColor]];
+            [_headerLabel setTextColor:[UIColor colorWithRed:120.0f/255.0f green:120.0f/255.0f blue:120.0f/255.0f alpha:1]];
             [_headerLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
             
             [self addSubview:_headerLabel];
