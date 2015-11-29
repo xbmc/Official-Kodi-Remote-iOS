@@ -59,6 +59,7 @@
 
         _currentIndex = -1;
         _endPadding = 2;
+        _labelPadding = 4;
 
         _tapper = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         [_tapper setMinimumPressDuration:0];
@@ -84,7 +85,7 @@
             maxLength = CGRectGetWidth(self.frame) - (self.endPadding * 2);
             break;
         case BDKCollectionIndexViewDirectionVertical:
-            _theDimension = CGRectGetWidth(self.frame);
+            _theDimension = CGRectGetWidth(self.frame) - (self.labelPadding * 2);
             maxLength = CGRectGetHeight(self.frame);
             break;
     }
@@ -106,7 +107,7 @@
                 break;
             case BDKCollectionIndexViewDirectionVertical:
                 labelSize.height = otherDimension;
-                label.frame = (CGRect){ { 0, cumulativeLength + 4 }, labelSize };
+                label.frame = (CGRect){ { self.labelPadding, cumulativeLength + 4 }, labelSize };
                 cumulativeLength += CGRectGetHeight(label.frame);
                 break;
         }
@@ -152,6 +153,8 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.text = indexTitle;
         label.font = [UIFont boldSystemFontOfSize:11];
+        label.minimumFontSize = 5;
+        label.adjustsFontSizeToFitWidth = YES;
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0];
         label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1.0];
