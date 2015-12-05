@@ -718,10 +718,21 @@ int h=0;
                               nil];
         [self setAndMoveLabels:arrayLabels size:size];
     }
-    else if (!enableJewel) {
-        CGRect frame = jewelView.frame;
-        frame.origin.x = frame.origin.x + 4;
-        jewelView.frame = frame;
+    else {
+        float transform = 1.0f;
+        if (IS_IPHONE_6) {
+            transform = 1.18f;
+        }
+        else if (IS_IPHONE_6_PLUS){
+            transform = 1.294f;
+        }
+        thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
+        tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
+        if (!enableJewel) {
+            CGRect frame = jewelView.frame;
+            frame.origin.x = frame.origin.x + 4;
+            jewelView.frame = frame;
+        }
     }
     if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
         int deltaY=0;
