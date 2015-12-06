@@ -404,6 +404,8 @@
 		0F64C6411719B1E20061BFBA /* cell_bg_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F64C63F1719B1E20061BFBA /* cell_bg_selected.png */; };
 		0F680CB917103DB60092298A /* ClearCacheView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F680CB817103DB60092298A /* ClearCacheView.m */; };
 		0F68A83316D9333D0023F178 /* gesture_zone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F68A83516D9333D0023F178 /* gesture_zone@2x.png */; };
+		0F68E99D1C12D6270081BA03 /* icon_not_listened.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F68E99C1C12D6270081BA03 /* icon_not_listened.png */; };
+		0F68E99F1C12D6AA0081BA03 /* icon_listened.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F68E99E1C12D6AA0081BA03 /* icon_listened.png */; };
 		0F6C086715F401A70094286D /* st_tv_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F6C086615F401A70094286D /* st_tv_icon.png */; };
 		0F6C086A15F401AF0094286D /* st_tv_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F6C086915F401AF0094286D /* st_tv_icon@2x.png */; };
 		0F7123AA160F051900B8921F /* now_playing_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7123A9160F051900B8921F /* now_playing_next@2x.png */; };
@@ -740,6 +742,8 @@
 		0FF7099F18D1D9010093EC89 /* st_recordings_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF7099D18D1D9010093EC89 /* st_recordings_on@2x.png */; };
 		0FF709A618D1DF9A0093EC89 /* st_timers_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF709A418D1DF9A0093EC89 /* st_timers_off@2x.png */; };
 		0FF709A718D1DF9A0093EC89 /* st_timers_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF709A518D1DF9A0093EC89 /* st_timers_on@2x.png */; };
+		0FF84E321C118B6D00AF1B93 /* icon_listened@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF84E301C118B6D00AF1B93 /* icon_listened@2x.png */; };
+		0FF84E331C118B6D00AF1B93 /* icon_not_listened@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF84E311C118B6D00AF1B93 /* icon_not_listened@2x.png */; };
 		0FFBCF0C152BAC1600066B30 /* nocover_tvshows_episode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFBCF0B152BAC1600066B30 /* nocover_tvshows_episode@2x.png */; };
 		0FFBCF0F152BAC2D00066B30 /* nocover_tvshows_episode.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */; };
 		0FFF725D18226AB9007A6E25 /* st_livetv_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFF725B18226AB9007A6E25 /* st_livetv_off.png */; };
@@ -1216,6 +1220,8 @@
 		0F680CB817103DB60092298A /* ClearCacheView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClearCacheView.m; sourceTree = "<group>"; };
 		0F68A83416D9333D0023F178 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/gesture_zone@2x.png"; sourceTree = "<group>"; };
 		0F68A83616D933430023F178 /* it */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = it; path = "it.lproj/gesture_zone@2x.png"; sourceTree = "<group>"; };
+		0F68E99C1C12D6270081BA03 /* icon_not_listened.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_not_listened.png; sourceTree = "<group>"; };
+		0F68E99E1C12D6AA0081BA03 /* icon_listened.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_listened.png; sourceTree = "<group>"; };
 		0F6C086615F401A70094286D /* st_tv_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_tv_icon.png; sourceTree = "<group>"; };
 		0F6C086915F401AF0094286D /* st_tv_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_tv_icon@2x.png"; sourceTree = "<group>"; };
 		0F7123A9160F051900B8921F /* now_playing_next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "now_playing_next@2x.png"; sourceTree = "<group>"; };
@@ -1577,6 +1583,8 @@
 		0FF7099D18D1D9010093EC89 /* st_recordings_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_recordings_on@2x.png"; sourceTree = "<group>"; };
 		0FF709A418D1DF9A0093EC89 /* st_timers_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_timers_off@2x.png"; sourceTree = "<group>"; };
 		0FF709A518D1DF9A0093EC89 /* st_timers_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_timers_on@2x.png"; sourceTree = "<group>"; };
+		0FF84E301C118B6D00AF1B93 /* icon_listened@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_listened@2x.png"; sourceTree = "<group>"; };
+		0FF84E311C118B6D00AF1B93 /* icon_not_listened@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_not_listened@2x.png"; sourceTree = "<group>"; };
 		0FFBCF0B152BAC1600066B30 /* nocover_tvshows_episode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_tvshows_episode@2x.png"; sourceTree = "<group>"; };
 		0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_tvshows_episode.png; sourceTree = "<group>"; };
 		0FFF725B18226AB9007A6E25 /* st_livetv_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_livetv_off.png; sourceTree = "<group>"; };
@@ -1901,6 +1909,8 @@
 		0F554920151D13C9007E633F /* HighRes */ = {
 			isa = PBXGroup;
 			children = (
+				0FF84E301C118B6D00AF1B93 /* icon_listened@2x.png */,
+				0FF84E311C118B6D00AF1B93 /* icon_not_listened@2x.png */,
 				0F3FE2681C05BE0F00B6E898 /* button_sort@3x.png */,
 				0F3FE2661C05B61100B6E898 /* button_sort@2x.png */,
 				0FC7C3451B24476D00C04845 /* st_radio_off@2x.png */,
@@ -2214,6 +2224,8 @@
 		0F5549D8151D13C9007E633F /* LowRes */ = {
 			isa = PBXGroup;
 			children = (
+				0F68E99E1C12D6AA0081BA03 /* icon_listened.png */,
+				0F68E99C1C12D6270081BA03 /* icon_not_listened.png */,
 				0F3FE26A1C05BEF000B6E898 /* button_sort.png */,
 				0FC7C3491B24477D00C04845 /* st_radio_off.png */,
 				0FC7C34A1B24477D00C04845 /* st_radio_on.png */,
@@ -2960,6 +2972,7 @@
 				0F44E2B915272BA200D5958F /* nocover_music@2x.png in Resources */,
 				0F44E2BB15272BE500D5958F /* nocover_music.png in Resources */,
 				1A6742EF1684848800E8D5AF /* button_now_playing_empty.png in Resources */,
+				0FF84E321C118B6D00AF1B93 /* icon_listened@2x.png in Resources */,
 				0F3FE2691C05BE0F00B6E898 /* button_sort@3x.png in Resources */,
 				1A6742EB16847C0F00E8D5AF /* button_now_playing_empty@2x.png in Resources */,
 				0F44E2C515275BF000D5958F /* footer.png in Resources */,
@@ -2981,6 +2994,7 @@
 				0FFBCF0C152BAC1600066B30 /* nocover_tvshows_episode@2x.png in Resources */,
 				0FFBCF0F152BAC2D00066B30 /* nocover_tvshows_episode.png in Resources */,
 				0F82A5A5152C608100FC8B7A /* PlayFileViewController.xib in Resources */,
+				0FF84E331C118B6D00AF1B93 /* icon_not_listened@2x.png in Resources */,
 				0F30E176152DD8BC00282769 /* person.png in Resources */,
 				0F30E178152DD8CB00282769 /* person@2x.png in Resources */,
 				0FA1365817B2B01E00BEF47D /* pgbar_thumb_iOS7@2x.png in Resources */,
@@ -3187,6 +3201,7 @@
 				0F47316E18DEEF5800C1CCA1 /* icon_analog_out@2x.png in Resources */,
 				0FA3535315852F570055177A /* monkeys_21@2x.png in Resources */,
 				0FA3535415852F570055177A /* monkeys_22@2x.png in Resources */,
+				0F68E99D1C12D6270081BA03 /* icon_not_listened.png in Resources */,
 				0FA3535515852F570055177A /* monkeys_23@2x.png in Resources */,
 				0FE0EA7B1905738600EA9118 /* st_audio_addon_on@2x.png in Resources */,
 				0FA3535615852F570055177A /* monkeys_24@2x.png in Resources */,
@@ -3375,6 +3390,7 @@
 				0FBE9A4D1656906300AD3AD4 /* slider@2x.png in Resources */,
 				0FBE9A4F1656966200AD3AD4 /* slider_on.png in Resources */,
 				0FBE9A511656966900AD3AD4 /* slider_on@2x.png in Resources */,
+				0F68E99F1C12D6AA0081BA03 /* icon_listened.png in Resources */,
 				0F42366A18A95B4200D0CD31 /* button_timer@2x.png in Resources */,
 				0FA70F321656CD0900CAAF01 /* now_playing_empty_up.png in Resources */,
 				0FA70F331656CD0900CAAF01 /* now_playing_empty_down.png in Resources */,

@@ -245,8 +245,12 @@ NSMutableArray *hostRightMenuItems;
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"Playcount", nil), nil], @"label",
+                              [NSArray arrayWithObjects:@"label", @"genre", @"year", @"playcount", nil], @"method",
+                              nil], @"available_methods",
                              nil],@"sort",
-                            [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
+                            [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"playcount",  nil], @"properties",
                             nil],  @"parameters", NSLocalizedString(@"Albums", nil), @"label", @"Album", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
@@ -358,6 +362,10 @@ NSMutableArray *hostRightMenuItems;
                              @"descending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"playcount", @"method",
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Playcount", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), nil], @"label",
+                              [NSArray arrayWithObjects:@"playcount", @"label", @"genre", @"year", nil], @"method",
+                              nil], @"available_methods",
                              nil],@"sort",
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithInt:0], @"start",
@@ -387,13 +395,19 @@ NSMutableArray *hostRightMenuItems;
                              @"descending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"playcount", @"method",
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Playcount", nil), NSLocalizedString(@"Track", nil),NSLocalizedString(@"Title", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Year", nil), nil], @"label",
+                              [NSArray arrayWithObjects:@"playcount", @"track", @"label", @"album", @"genre", @"rating", @"year", nil], @"method",
+                              nil], @"available_methods",
                              nil],@"sort",
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithInt:0], @"start",
                              [NSNumber numberWithInt:100], @"end",
                              nil], @"limits",
-                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Top 100 Songs", nil), @"label", NSLocalizedString(@"Top 100 Songs", nil), @"morelabel", nil],
+                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", @"album", nil], @"properties",
+                            nil], @"parameters", NSLocalizedString(@"Top 100 Songs", nil), @"label", NSLocalizedString(@"Top 100 Songs", nil), @"morelabel",
+                           [NSNumber numberWithInt:5], @"numberOfStars",
+                           nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -491,6 +505,7 @@ NSMutableArray *hostRightMenuItems;
                        @"fanart", @"row4",
                        @"rating",@"row5",
                        @"albumid",@"row6",
+                       @"playcount", @"row7",
                        [NSNumber numberWithInt:0], @"playlistid",
                        @"albumid",@"row8",
                        @"albumid", @"row9",
@@ -618,6 +633,9 @@ NSMutableArray *hostRightMenuItems;
                        @"songid", @"row9",
                        @"file", @"row10",
                        @"artist", @"row11",
+                       @"album", @"row12",
+                       @"duration", @"row13",
+                       @"rating", @"row14",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -699,6 +717,65 @@ NSMutableArray *hostRightMenuItems;
     item1.rowHeight=53;
     item1.thumbWidth=53;
     item1.defaultThumb=@"nocover_music";
+    item1.watchModes = [NSArray arrayWithObjects:
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes",
+                         [NSArray arrayWithObjects:@"", @"icon_not_listened", @"icon_listened", nil], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSArray array], @"modes",
+                         [NSArray array], @"icons",
+                         nil],
+                        nil];
+
     
     item1.sheetActions=[NSArray arrayWithObjects:
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
@@ -1299,14 +1376,11 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              @"label", @"Title",
-                              @"rating", @"Rating",
-                              @"dateadded",  @"Recently added",
-                              @"sorttitle", @"Sort title",
-                              @"year", @"Year",
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Title", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Duration", nil), NSLocalizedString(@"Date added", nil), NSLocalizedString(@"Play count", nil), nil], @"label",
+                              [NSArray arrayWithObjects:@"label", @"year", @"rating", @"runtime", @"dateadded", @"playcount", nil], @"method",
                               nil], @"available_methods",
                              nil],@"sort",
-                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer",  @"file", nil], @"properties", //, @"fanart"
+                            [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer",  @"file", @"dateadded", nil], @"properties", //, @"fanart"
                             nil], @"parameters", NSLocalizedString(@"Movies", nil), @"label", @"Movie", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
@@ -1355,6 +1429,10 @@ NSMutableArray *hostRightMenuItems;
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Name", nil), NSLocalizedString(@"Play count", nil), nil], @"label",
+                              [NSArray arrayWithObjects:@"label", @"playcount", nil], @"method",
+                              nil], @"available_methods",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"thumbnail", @"playcount", nil], @"properties",
                             nil], @"parameters",
@@ -1404,6 +1482,10 @@ NSMutableArray *hostRightMenuItems;
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Name", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"Play count", nil), nil], @"label",
+                              [NSArray arrayWithObjects:@"label", @"year", @"playcount", nil], @"method",
+                              nil], @"available_methods",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"year", @"playcount", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"file", @"fanart", @"resume", nil], @"properties",
                             nil], @"parameters", NSLocalizedString(@"Music Videos", nil), @"label", NSLocalizedString(@"Music Videos", nil), @"morelabel", @"Movie", @"wikitype",
@@ -1489,6 +1571,7 @@ NSMutableArray *hostRightMenuItems;
                        @"file",@"row7",
                        @"director",@"row17",
                        @"resume", @"row18",
+                       @"dateadded", @"row19",
                        @"moviedetails",@"itemid_extra_info",
                        nil],
                       
@@ -1693,8 +1776,12 @@ NSMutableArray *hostRightMenuItems;
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSMutableArray arrayWithObjects:NSLocalizedString(@"Title", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Duration", nil), NSLocalizedString(@"Date added", nil), NSLocalizedString(@"Play count", nil), nil], @"label",
+                                      [NSArray arrayWithObjects:@"label", @"year", @"rating", @"runtime", @"dateadded", @"playcount", nil], @"method",
+                                      nil], @"available_methods",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", @"file", nil], @"properties",
+                                    [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", @"file", @"dateadded", nil], @"properties",
                                     nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies", @"defaultThumb",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
@@ -1718,8 +1805,12 @@ NSMutableArray *hostRightMenuItems;
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"year", @"method",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSMutableArray arrayWithObjects:NSLocalizedString(@"Title", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Duration", nil), NSLocalizedString(@"Date added", nil), NSLocalizedString(@"Play count", nil), nil], @"label",
+                                      [NSArray arrayWithObjects:@"label", @"year", @"rating", @"runtime", @"dateadded", @"playcount", nil], @"method",
+                                      nil], @"available_methods",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", @"file", nil], @"properties", //, @"fanart"
+                                    [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", @"file", @"dateadded", nil], @"properties", //, @"fanart"
                                     nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies", @"defaultThumb",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
@@ -1821,6 +1912,7 @@ NSMutableArray *hostRightMenuItems;
                                @"file",@"row7",
                                @"director",@"row17",
                                @"resume", @"row18",
+                               @"dateadded", @"row19",
                                @"moviedetails",@"itemid_extra_info",
                                nil],
                               
@@ -1845,6 +1937,7 @@ NSMutableArray *hostRightMenuItems;
                                @"file",@"row7",
                                @"director",@"row17",
                                @"resume", @"row18",
+                               @"dateadded", @"row19",
                                @"moviedetails",@"itemid_extra_info",
                                nil],
                               
@@ -2042,6 +2135,11 @@ NSMutableArray *hostRightMenuItems;
                                @"ascending",@"order",
                                [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                @"label", @"method",
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSMutableArray arrayWithObjects:NSLocalizedString(@"Title", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"User rating", nil), nil], @"label",
+                                [NSArray arrayWithObjects:@"label", @"year", @"rating", nil], @"method",
+                                nil], @"available_methods",
+
                                nil],@"sort",
                               [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"studio", nil], @"properties",
                               nil], @"parameters", NSLocalizedString(@"TV Shows", nil), @"label", @"TV Show", @"wikitype",
@@ -2070,9 +2168,19 @@ NSMutableArray *hostRightMenuItems;
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", @"resume", nil], @"properties",
                               nil], @"extra_info_parameters",
                              @"YES", @"FrodoExtraArt",
+                             @"YES", @"enableCollectionView",
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              @"95", @"separatorInset",
+                              [NSDictionary dictionaryWithObjectsAndKeys:
+                               [NSNumber numberWithFloat:itemMusicWidthIphone * 1.4999999f], @"width",
+                               [NSNumber numberWithFloat:(itemMusicWidthIphone * 1.4999999f) * 0.5625f], @"height", nil], @"iphone",
+                              [NSDictionary dictionaryWithObjectsAndKeys:
+                               [NSNumber numberWithFloat:itemMusicWidthIpad * 1.4999999f], @"width",
+                               [NSNumber numberWithFloat:(itemMusicWidthIpad * 1.4999999f) * 0.5625f], @"height",
+                               [NSNumber numberWithFloat:fullscreenItemMusicWidthIpad * 1.4999999f], @"fullscreenWidth",
+                               [NSNumber numberWithFloat:(fullscreenItemMusicWidthIpad * 1.4999999f) * 0.5625f], @"fullscreenHeight", nil], @"ipad",
+                                @"95", @"separatorInset",
                               nil], @"itemSizes",
+                             
                              nil],
                             
                             [NSMutableArray arrayWithObjects:
@@ -2119,7 +2227,7 @@ NSMutableArray *hostRightMenuItems;
                          @"tvshows",@"itemid",
                          @"label", @"row1",
                          @"genre", @"row2",
-                         @"blank", @"row3",
+                         @"year", @"row3",
                          @"studio", @"row4",
                          @"rating",@"row5",
                          @"tvshowid",@"row6",

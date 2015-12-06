@@ -131,6 +131,9 @@
     BOOL hiddenLabel;
     UIPinchGestureRecognizer *twoFingerPinch;
     NSTimer* channelListUpdateTimer;
+    NSUInteger sortMethodIndex;
+    NSString *sortMethodName;
+    int numberOfStars;
 }
 
 - (id)initWithFrame:(CGRect)frame;
