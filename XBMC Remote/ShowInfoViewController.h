@@ -80,6 +80,7 @@
     UILabel *viewTitle;
     __weak IBOutlet UIImageView *bottomShadow;
     CGRect originalSelfFrame;
+    BOOL isViewDidLoad;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

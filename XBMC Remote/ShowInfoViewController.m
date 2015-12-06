@@ -683,7 +683,10 @@ int h=0;
         size = 6;
         castWidth = 75;
         castHeight = 105;
-        pageSize = STACKSCROLL_WIDTH - 20;
+        pageSize = STACKSCROLL_WIDTH - 40;
+        if ([self isModal]){
+            pageSize = 540 - 40;
+        }
         [starsView setFrame:
          CGRectMake(
                     starsView.frame.origin.x, 
@@ -783,7 +786,7 @@ int h=0;
                 int coverWidth = STACKSCROLL_WIDTH;
                 CGRect frame;
                 frame = jewelView.frame;
-                frame.origin.x = -79;
+                frame.origin.x = 0;
                 frame.size.height = coverHeight;
                 frame.size.width = coverWidth;
                 jewelView.frame = frame;
@@ -952,7 +955,9 @@ int h=0;
             frame.origin.y = 22;
             frame.size.width = 256;
             frame.size.height = 256;
-
+        }
+        else {
+            frame.origin.x = 80;
         }
         coverView.frame = frame;
         if ([[item objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")] ||
@@ -1161,7 +1166,7 @@ int h=0;
             int coverWidth = STACKSCROLL_WIDTH;
             CGRect frame;
             frame = jewelView.frame;
-            frame.origin.x = -79;
+            frame.origin.x = 0;
             frame.size.height = coverHeight;
             frame.size.width = coverWidth;
             jewelView.frame = frame;
@@ -1478,7 +1483,11 @@ int h=0;
     if (![[item objectForKey:@"family"] isEqualToString:@"albumid"] && ![[item objectForKey:@"family"] isEqualToString:@"artistid"]){// TRANSFORM IN SHOW_CAST BOOLEAN
         cast = [item objectForKey:@"cast"];
         if (actorsTable == nil){
-            actorsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, startY, 320, [cast count]*(castHeight + 10)) style:UITableViewStylePlain];
+            int actorsTableWidth = 320;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+                actorsTableWidth = pageSize + 40;
+            }
+            actorsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, startY, actorsTableWidth, [cast count]*(castHeight + 10)) style:UITableViewStylePlain];
         }
         [actorsTable setScrollsToTop:NO];
         [actorsTable setBackgroundColor:[UIColor clearColor]];
@@ -1990,6 +1999,10 @@ int h=0;
         viewTitle.textAlignment = UITextAlignmentCenter;
         bottomShadow.hidden = YES;
     }
+    if (isViewDidLoad){
+        [self createInfo];
+        isViewDidLoad = false;
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -2060,6 +2073,7 @@ int h=0;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    isViewDidLoad = TRUE;
     [label1 setText:NSLocalizedString(@"DIRECTED BY", nil)];
     [label2 setText:NSLocalizedString(@"GENRE", nil)];
     [label3 setText:NSLocalizedString(@"RUNTIME", nil)];
@@ -2093,7 +2107,6 @@ int h=0;
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    [self createInfo];
 }
 
 - (void)viewDidUnload{
