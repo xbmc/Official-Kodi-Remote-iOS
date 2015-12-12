@@ -295,7 +295,7 @@
                 {
                     CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
                     UIImage *elab = [UIImage imageWithData:self.imageData];
-                    NSData *elabData = UIImageJPEGRepresentation([elab resizedImage:elab.CGImage size:size interpolationQuality:kCGInterpolationHigh],(CGFloat)0.8);
+                    NSData *elabData = UIImagePNGRepresentation([elab resizedImage:elab.CGImage size:size interpolationQuality:kCGInterpolationHigh]);
                     self.imageData = [NSMutableData dataWithData:elabData];
                 }
                 UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, self.imageData) size:CGSizeZero interpolationQuality:kCGInterpolationHigh];
