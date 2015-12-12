@@ -134,6 +134,7 @@
     NSUInteger sortMethodIndex;
     NSString *sortMethodName;
     int numberOfStars;
+    NSDictionary *watchedListenedStrings;
 }
 
 - (id)initWithFrame:(CGRect)frame;

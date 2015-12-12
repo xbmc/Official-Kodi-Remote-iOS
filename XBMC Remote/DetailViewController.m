@@ -1792,15 +1792,29 @@ int originYear = 0;
     }
     else if ([sortMethodName isEqualToString:@"playcount"]) {
         if ([sectionName intValue] == 0) {
-            sectionName = NSLocalizedString(@"Not watched", nil);
+            if ([watchedListenedStrings objectForKey:@"notWatched"] != nil){
+                sectionName = [watchedListenedStrings objectForKey:@"notWatched"];
+            }
+            else {
+                sectionName = NSLocalizedString(@"Not watched", nil);
+            }
         }
         else if ([sectionName intValue] == 1) {
-            sectionName = NSLocalizedString(@"Watched one time", nil);
+            if ([watchedListenedStrings objectForKey:@"watchedOneTime"] != nil){
+                sectionName = [watchedListenedStrings objectForKey:@"watchedOneTime"];
+            }
+            else {
+                sectionName = NSLocalizedString(@"Watched one time", nil);
+            }
         }
         else {
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
             [formatter setNumberStyle: NSNumberFormatterSpellOutStyle];
-            sectionName = [NSString stringWithFormat:NSLocalizedString(@"Watched %@ times", nil), [formatter stringFromNumber:[NSNumber numberWithInt: [sectionName intValue]]]];
+            NSString *formatString = NSLocalizedString(@"Watched %@ times", nil);
+            if ([watchedListenedStrings objectForKey:@"watchedTimes"] != nil){
+                formatString = [watchedListenedStrings objectForKey:@"watchedTimes"];
+            }
+            sectionName = [NSString stringWithFormat:formatString, [formatter stringFromNumber:[NSNumber numberWithInt: [sectionName intValue]]]];
         }
     }
     else if ([sortMethodName isEqualToString:@"rating"]) {
@@ -5313,6 +5327,7 @@ NSIndexPath *selected;
     watchMode = [self.detailItem currentWatchMode];
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    watchedListenedStrings = [parameters objectForKey:@"watchedListenedStrings"];
     [self checkDiskCache];
     numberOfStars = 10;
     if ([[parameters objectForKey:@"numberOfStars"] intValue] > 0){

@@ -259,6 +259,11 @@ NSMutableArray *hostRightMenuItems;
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            NSLocalizedString(@"Not listened", nil), @"notWatched",
+                            NSLocalizedString(@"Listened one time", nil), @"watchedOneTime",
+                            NSLocalizedString(@"Listened %@ times", nil), @"watchedTimes",
+                            nil], @"watchedListenedStrings",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
                              [NSNumber numberWithFloat:itemMusicHeightIphone], @"height", nil], @"iphone",
