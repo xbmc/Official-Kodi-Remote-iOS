@@ -51,8 +51,6 @@
 		<string>DejaVuSans-Bold-Caps.ttf</string>
 		<string>Roboto-Regular.ttf</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>Storyboard</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
