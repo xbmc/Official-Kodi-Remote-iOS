@@ -1883,6 +1883,9 @@ int originYear = 0;
         else if ([sectionName isEqualToString:@"255"]){
             sectionName = NSLocalizedString(@"About four hours", nil);
         }
+        else {
+            sectionName = NSLocalizedString(@"More than four hours", nil);
+        }
     }
     else if ([sortMethodName isEqualToString:@"track"]){
         sectionName = [NSString stringWithFormat:NSLocalizedString(@"Track n.%@", nil), sectionName];
