@@ -246,7 +246,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"Playcount", nil), nil], @"label",
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"Play count", nil), nil], @"label",
                               [NSArray arrayWithObjects:@"label", @"genre", @"year", @"playcount", nil], @"method",
                               nil], @"available_methods",
                              nil],@"sort",
@@ -368,7 +368,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"playcount", @"method",
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Playcount", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), nil], @"label",
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Play count", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), nil], @"label",
                               [NSArray arrayWithObjects:@"playcount", @"label", @"genre", @"year", nil], @"method",
                               nil], @"available_methods",
                              nil],@"sort",
@@ -401,7 +401,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"playcount", @"method",
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Playcount", nil), NSLocalizedString(@"Track", nil),NSLocalizedString(@"Title", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Year", nil), nil], @"label",
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Play count", nil), NSLocalizedString(@"Track", nil),NSLocalizedString(@"Title", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Year", nil), nil], @"label",
                               [NSArray arrayWithObjects:@"playcount", @"track", @"label", @"album", @"genre", @"rating", @"year", nil], @"method",
                               nil], @"available_methods",
                              nil],@"sort",
