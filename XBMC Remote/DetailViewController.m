@@ -4709,13 +4709,14 @@ NSIndexPath *selected;
 
 -(void)indexAndDisplayData {
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    NSArray *copyRichResults = [self.richResults copy];
     self.sectionArray = nil;
     autoScrollTable = nil;
     if ([self.richResults count] == 0){
         albumView = FALSE;
         episodesView = FALSE;
     }
-    if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT && stackscrollFullscreen == NO && (sortMethodIndex == -1 || [sortMethodName isEqualToString:@"label"])){
+    if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT && (sortMethodIndex == -1 || [sortMethodName isEqualToString:@"label"])){
         [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
         BOOL found;
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
@@ -4812,38 +4813,29 @@ NSIndexPath *selected;
     }
     else {
         NSString *defaultSortMethod = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"method"];
-        NSArray *copyRichResults = [self.richResults copy];
         if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
             NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortMethodName ascending:YES];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
-            if (stackscrollFullscreen == false){
-                BOOL found;
-                [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
-                for (NSDictionary *item in copyRichResults){
-                    found = NO;
-                    NSString *searchKey = @"";
-                    if ([[item objectForKey:sortMethodName] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortMethodName] isKindOfClass:NSClassFromString(@"JKArray")]){
-                        searchKey = [[item objectForKey:sortMethodName] componentsJoinedByString:@""];
-                    }
-                    else {
-                        searchKey = [item objectForKey:sortMethodName];
-                    }
-                    NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
-                    if ([[self.sections allKeys] containsObject:key] == YES){
-                        found = YES;
-                    }
-                    if (!found){
-                        [self.sections setValue:[[NSMutableArray alloc] init] forKey:key];
-                    }
-                    [[self.sections objectForKey:key] addObject:item];
+            BOOL found;
+            [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
+            for (NSDictionary *item in copyRichResults){
+                found = NO;
+                NSString *searchKey = @"";
+                if ([[item objectForKey:sortMethodName] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortMethodName] isKindOfClass:NSClassFromString(@"JKArray")]){
+                    searchKey = [[item objectForKey:sortMethodName] componentsJoinedByString:@""];
                 }
-            }
-            else {
-                [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
-                for (NSDictionary *item in copyRichResults){
-                    [[self.sections objectForKey:@""] addObject:item];
+                else {
+                    searchKey = [item objectForKey:sortMethodName];
                 }
+                NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
+                if ([[self.sections allKeys] containsObject:key] == YES){
+                    found = YES;
+                }
+                if (!found){
+                    [self.sections setValue:[[NSMutableArray alloc] init] forKey:key];
+                }
+                [[self.sections objectForKey:key] addObject:item];
             }
         }
         else {
@@ -4851,6 +4843,13 @@ NSIndexPath *selected;
             for (NSDictionary *item in copyRichResults){
                 [[self.sections objectForKey:@""] addObject:item];
             }
+        }
+    }
+    if (stackscrollFullscreen == YES){
+        [self.sections removeObjectForKey:UITableViewIndexSearch];
+        [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
+        for (NSDictionary *item in copyRichResults){
+            [[self.sections objectForKey:@""] addObject:item];
         }
     }
     self.sectionArray = [[NSArray alloc] initWithArray:
