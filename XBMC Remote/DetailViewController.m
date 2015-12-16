@@ -1514,7 +1514,11 @@
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView *)sender {
     if (sender.currentIndex == 0){
-        [collectionView setContentOffset:CGPointMake(0, 0) animated:NO];
+        float deltaY = 0;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            deltaY = - 44 + iOSYDelta;
+        }
+        [collectionView setContentOffset:CGPointMake(0, deltaY) animated:NO];
         if (sectionNameOverlayView == nil && stackscrollFullscreen == YES){
             [self initSectionNameOverlayView];
         }
@@ -1554,7 +1558,12 @@
     }
     else{
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
-        [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+        if (path.section == 1 && ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)){
+            [collectionView setContentOffset:CGPointMake(0, -4) animated:NO];
+        }
+        else {
+            [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+        }
         collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT);
     }
 }
