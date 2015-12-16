@@ -1470,7 +1470,7 @@
 #pragma mark - BDKCollectionIndexView init
 
 -(void)initSectionNameOverlayView{
-    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width / 6, self.view.frame.size.width / 6)];
+    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width / 2, self.view.frame.size.width / 6)];
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
     [sectionNameOverlayView setBackgroundColor:[UIColor clearColor]];
     sectionNameOverlayView.center = [[[[UIApplication sharedApplication] delegate] window] rootViewController].view.center;
@@ -1482,7 +1482,7 @@
     gradient.cornerRadius = cornerRadius;
     [sectionNameOverlayView.layer insertSublayer:gradient atIndex:0];
     
-    int fontSize = 40;
+    int fontSize = 32;
     sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height/2 - (fontSize + 8)/2, sectionNameOverlayView.frame.size.width, (fontSize + 8))];
     [sectionNameLabel setFont:[UIFont boldSystemFontOfSize:fontSize]];
     [sectionNameLabel setTextColor:[UIColor whiteColor]];
@@ -1525,11 +1525,21 @@
         if (sectionNameOverlayView == nil && stackscrollFullscreen == YES){
             [self initSectionNameOverlayView];
         }
-        sectionNameLabel.text = [storeSectionArray objectAtIndex:sender.currentIndex];
+        sectionNameLabel.text = [self buildSortInfo:[storeSectionArray objectAtIndex:sender.currentIndex]];
         NSString *value = [storeSectionArray objectAtIndex:sender.currentIndex];
-        NSPredicate *predExists = [NSPredicate predicateWithFormat: @"SELF.label BEGINSWITH[c] %@", value];
+        NSPredicate *predExists = [NSPredicate predicateWithFormat: @"SELF.%@ BEGINSWITH[c] %@", sortMethodName, value];
         if ([value isEqual:@"#"]) {
-            predExists = [NSPredicate predicateWithFormat: @"SELF.label MATCHES[c] %@", @"^[0-9].*"];
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@ MATCHES[c] %@", sortMethodName, @"^[0-9].*"];
+        }
+        else if ([sortMethodName isEqualToString:@"rating"] && [value isEqualToString:@"0"]){
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.length == 0", sortMethodName];
+        }
+        else if ([sortMethodName isEqualToString:@"runtime"]){
+             [NSPredicate predicateWithFormat: @"attributeName BETWEEN %@", @[@1, @10]];
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue BETWEEN %@", sortMethodName, [NSArray arrayWithObjects:[NSNumber numberWithInt:[value intValue] - 15],[NSNumber numberWithInt:[value intValue]], nil]];
+        }
+        else if ([sortMethodName isEqualToString:@"playcount"]){
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue == %d", sortMethodName, [value intValue]];
         }
         NSUInteger index = [[sections objectForKey:@""] indexOfObjectPassingTest:
                             ^(id obj, NSUInteger idx, BOOL *stop) {
@@ -3471,9 +3481,13 @@ NSIndexPath *selected;
                              if ([self collectionViewCanBeEnabled] == YES){
                                  [bar showLeftButton:YES];
                              }
-                             [self choseParams];
+                             if ([[[[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
+                                 [bar showSortButton:YES];
+                             }
+                             [bar layoutSubviews];
                              sectionArray = [storeSectionArray copy];
                              sections = [storeSections mutableCopy];
+                             [self choseParams];
                              if (forceCollection){
                                  forceCollection = NO;
                                  [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
@@ -3523,21 +3537,22 @@ NSIndexPath *selected;
                              viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
                              bar.storeWidth = viewWidth;
                              [bar showLeftButton:NO];
-                             [self choseParams];
+                             [bar showSortButton:NO];
+                             [bar layoutSubviews];
                              moreItemsViewController.view.hidden = YES;
                              storeSectionArray = [sectionArray copy];
                              storeSections = [sections mutableCopy];
-                             self.sectionArray = nil;
-                             self.sections = [[NSMutableDictionary alloc] init];
-                             [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
-                             for (NSDictionary *item in self.richResults){
-                                 [[self.sections objectForKey:@""] addObject:item];
+                             [self choseParams];
+                             NSMutableDictionary *sectionsTemp = [[NSMutableDictionary alloc] init];
+                             [sectionsTemp setValue:[[NSMutableArray alloc] init] forKey:@""];
+                             for (id key in self.sectionArray){
+                                 NSDictionary *tmp = [self.sections objectForKey:key];
+                                 for (NSDictionary *item in tmp) {
+                                     [[sectionsTemp objectForKey:@""] addObject:item];
+                                 }
                              }
-                             self.sectionArray = [[NSArray alloc] initWithArray:
-                                                  [[self.sections allKeys] sortedArrayUsingComparator:^(id firstObject, id secondObject) {
-                                 return [self alphaNumericCompare:firstObject secondObject:secondObject];
-                             }]];
-                             
+                             self.sectionArray = [[NSArray alloc] initWithObjects:@"", nil];
+                             self.sections = [sectionsTemp mutableCopy];
                              if (!enableCollectionView){
                                  forceCollection = YES;
                                  [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
@@ -4802,25 +4817,33 @@ NSIndexPath *selected;
             NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortMethodName ascending:YES];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
-            BOOL found;
-            [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
-            for (NSDictionary *item in copyRichResults){
-                found = NO;
-                NSString *searchKey = @"";
-                if ([[item objectForKey:sortMethodName] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortMethodName] isKindOfClass:NSClassFromString(@"JKArray")]){
-                    searchKey = [[item objectForKey:sortMethodName] componentsJoinedByString:@""];
+            if (stackscrollFullscreen == false){
+                BOOL found;
+                [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
+                for (NSDictionary *item in copyRichResults){
+                    found = NO;
+                    NSString *searchKey = @"";
+                    if ([[item objectForKey:sortMethodName] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortMethodName] isKindOfClass:NSClassFromString(@"JKArray")]){
+                        searchKey = [[item objectForKey:sortMethodName] componentsJoinedByString:@""];
+                    }
+                    else {
+                        searchKey = [item objectForKey:sortMethodName];
+                    }
+                    NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
+                    if ([[self.sections allKeys] containsObject:key] == YES){
+                        found = YES;
+                    }
+                    if (!found){
+                        [self.sections setValue:[[NSMutableArray alloc] init] forKey:key];
+                    }
+                    [[self.sections objectForKey:key] addObject:item];
                 }
-                else {
-                    searchKey = [item objectForKey:sortMethodName];
+            }
+            else {
+                [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
+                for (NSDictionary *item in copyRichResults){
+                    [[self.sections objectForKey:@""] addObject:item];
                 }
-                NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
-                if ([[self.sections allKeys] containsObject:key] == YES){
-                    found = YES;
-                }
-                if (!found){
-                    [self.sections setValue:[[NSMutableArray alloc] init] forKey:key];
-                }
-                [[self.sections objectForKey:key] addObject:item];
             }
         }
         else {
