@@ -46,10 +46,11 @@
         [labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
         
         int posterYOffset = 4;
+        int labelPadding = 4;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             posterYOffset = 0;
         }
-         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0, posterYOffset, fanartWidth - borderWidth * 3, labelHeight - borderWidth)];
+         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, posterYOffset, fanartWidth - labelPadding -borderWidth * 4, labelHeight - borderWidth)];
         [_posterLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterLabel setBackgroundColor:[UIColor clearColor]];
         [_posterLabel setTextColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
@@ -60,7 +61,7 @@
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
         [labelImageView addSubview:_posterLabel];
         
-        _posterGenre = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frameHeight - genreHeight - yearHeight + borderWidth, fanartWidth - borderWidth * 3, genreHeight - borderWidth)];
+        _posterGenre = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, frameHeight - genreHeight - yearHeight + borderWidth, fanartWidth - labelPadding - borderWidth * 4, genreHeight - borderWidth)];
         [_posterGenre setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterGenre setBackgroundColor:[UIColor clearColor]];
         [_posterGenre setTextColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
@@ -71,7 +72,7 @@
         [_posterGenre setAdjustsFontSizeToFitWidth:YES];
         [labelImageView addSubview:_posterGenre];
         
-        _posterYear = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frameHeight - yearHeight, fanartWidth - borderWidth * 3, yearHeight - borderWidth)];
+        _posterYear = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, frameHeight - yearHeight, fanartWidth - labelPadding - borderWidth * 4, yearHeight - borderWidth)];
         [_posterYear setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterYear setBackgroundColor:[UIColor clearColor]];
         [_posterYear setTextColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
