@@ -3481,9 +3481,6 @@ NSIndexPath *selected;
                              if ([self collectionViewCanBeEnabled] == YES){
                                  [bar showLeftButton:YES];
                              }
-                             if ([[[[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
-                                 [bar showSortButton:YES];
-                             }
                              [bar layoutSubviews];
                              sectionArray = [storeSectionArray copy];
                              sections = [storeSections mutableCopy];
@@ -3537,7 +3534,6 @@ NSIndexPath *selected;
                              viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
                              bar.storeWidth = viewWidth;
                              [bar showLeftButton:NO];
-                             [bar showSortButton:NO];
                              [bar layoutSubviews];
                              moreItemsViewController.view.hidden = YES;
                              storeSectionArray = [sectionArray copy];
@@ -4845,13 +4841,6 @@ NSIndexPath *selected;
             }
         }
     }
-    if (stackscrollFullscreen == YES){
-        [self.sections removeObjectForKey:UITableViewIndexSearch];
-        [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
-        for (NSDictionary *item in copyRichResults){
-            [[self.sections objectForKey:@""] addObject:item];
-        }
-    }
     self.sectionArray = [[NSArray alloc] initWithArray:
                          [[self.sections allKeys] sortedArrayUsingComparator:^(id firstObject, id secondObject) {
         return [self alphaNumericCompare:firstObject secondObject:secondObject];
@@ -4956,13 +4945,6 @@ NSIndexPath *selected;
     else {
         [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
     }
-    [self setFlowLayoutParams];
-    [activityIndicatorView stopAnimating];
-    [activeLayoutView reloadData];
-    [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
-    [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-    [collectionView layoutSubviews];
-    [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     if (collectionView != nil){
         if (enableCollectionView){
             self.indexView.hidden = NO;
@@ -4976,6 +4958,27 @@ NSIndexPath *selected;
         }
         self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
     }
+    if (stackscrollFullscreen == YES){
+        storeSectionArray = [sectionArray copy];
+        storeSections = [sections mutableCopy];
+        NSMutableDictionary *sectionsTemp = [[NSMutableDictionary alloc] init];
+        [sectionsTemp setValue:[[NSMutableArray alloc] init] forKey:@""];
+        for (id key in self.sectionArray){
+            NSDictionary *tmp = [self.sections objectForKey:key];
+            for (NSDictionary *item in tmp) {
+                [[sectionsTemp objectForKey:@""] addObject:item];
+            }
+        }
+        self.sectionArray = [[NSArray alloc] initWithObjects:@"", nil];
+        self.sections = [sectionsTemp mutableCopy];
+    }
+    [self setFlowLayoutParams];
+    [activityIndicatorView stopAnimating];
+    [activeLayoutView reloadData];
+    [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+    [collectionView layoutSubviews];
+    [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     if (channelGuideView && autoScrollTable != nil){
         [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition: UITableViewScrollPositionTop animated: NO];
     }
@@ -5217,6 +5220,9 @@ NSIndexPath *selected;
     posterFontSize = 11;
     fanartFontSize = 13;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
+    if (stackscrollFullscreen == YES) {
+        viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
+    }
 }
 
 - (void) disableScrollsToTopPropertyOnAllSubviewsOf:(UIView *)view {
