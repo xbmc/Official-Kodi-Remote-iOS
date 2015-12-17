@@ -358,7 +358,7 @@ NSMutableArray *hostRightMenuItems;
                             //                             [NSNumber numberWithInt:0], @"start",
                             //                             [NSNumber numberWithInt:99], @"end",
                             //                             nil], @"limits",
-                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
+                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"album", @"file", nil], @"properties",
                             nil], @"parameters", NSLocalizedString(@"Added Songs", nil), @"label", NSLocalizedString(@"Recently added songs", nil), @"morelabel", nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -445,7 +445,7 @@ NSMutableArray *hostRightMenuItems;
                             //                             [NSNumber numberWithInt:0], @"start",
                             //                             [NSNumber numberWithInt:99], @"end",
                             //                             nil], @"limits",
-                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
+                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"album", @"file", nil], @"properties",
                             nil], @"parameters", NSLocalizedString(@"Played songs", nil), @"label", NSLocalizedString(@"Recently played songs", nil), @"morelabel", nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -454,10 +454,15 @@ NSMutableArray *hostRightMenuItems;
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"none", @"method",
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Name", nil),NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"Play count", nil), NSLocalizedString(@"Track", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), nil], @"label",
+                              [NSArray arrayWithObjects:@"label", @"rating", @"year", @"playcount", @"track", @"album", @"genre", nil], @"method",
+                              nil], @"available_methods",
                              nil],@"sort",
-                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", nil], @"properties",
+                            [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"album", @"file", nil], @"properties",
                             nil], @"parameters", NSLocalizedString(@"All songs", nil), @"label", NSLocalizedString(@"All songs", nil), @"morelabel",
                            @"YES", @"enableLibraryCache",
+                           [NSNumber numberWithInt:5], @"numberOfStars",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -472,7 +477,6 @@ NSMutableArray *hostRightMenuItems;
                             [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"properties",
                             nil], @"parameters", NSLocalizedString(@"Music Addons", nil), @"label", NSLocalizedString(@"Music Addons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
-
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -603,6 +607,7 @@ NSMutableArray *hostRightMenuItems;
                        @"songid", @"row9",
                        @"file", @"row10",
                        @"artist", @"row11",
+                       @"album", @"row12",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -671,6 +676,7 @@ NSMutableArray *hostRightMenuItems;
                        @"songid", @"row9",
                        @"file", @"row10",
                        @"artist", @"row11",
+                       @"album", @"row12",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -687,6 +693,8 @@ NSMutableArray *hostRightMenuItems;
                        @"songid", @"row9",
                        @"file", @"row10",
                        @"artist", @"row11",
+                       @"album", @"row12",
+                       @"playcount", @"row13",
                        nil],
                       
                       [NSDictionary  dictionaryWithObjectsAndKeys:
