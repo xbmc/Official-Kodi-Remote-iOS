@@ -2211,31 +2211,7 @@ int originYear = 0;
             if ([[item objectForKey:@"family"] isEqualToString:@"channelid"]){
                 [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
             }
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                if (blackTableSeparator == YES && [AppDelegate instance].obj.preferTVPosters == NO && [indexPath isEqual:[NSIndexPath indexPathForRow:0 inSection:0]]){
-                    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                        UIColor *barColor = [utils averageColor:image inverse:NO];
-                        [self.searchDisplayController.searchBar setBackgroundColor:barColor];
-                        [self.searchDisplayController.searchBar setTintColor:[utils slightLighterColorForColor:barColor]];
-                        if (((NSNull *)[self.searchDisplayController.searchBar valueForKey:@"_searchField"] != [NSNull null])){
-                            UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"_searchField"];
-                            if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
-                                UIImageView *iconView = (id)searchTextField.leftView;
-                                iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                iconView.tintColor = [utils slightLighterColorForColor:barColor];
-                                searchTextField.textColor = [utils slightLighterColorForColor:barColor];
-                                searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchDisplayController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: [utils slightLighterColorForColor:barColor]}];
-                            }
-                        }
-                    }
-                    else{
-                        UIColor *barColor = [utils darkerColorForColor:[utils averageColor:image inverse:NO]];
-                        self.searchDisplayController.searchBar.tintColor = barColor;
-                    }
-
-                    
-                }
-            }];
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight)];
         }
         else {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
