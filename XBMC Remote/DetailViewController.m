@@ -2958,7 +2958,7 @@ NSIndexPath *selected;
 -(void)showActionSheet:(NSIndexPath *)indexPath sheetActions:(NSArray *)sheetActions item:(NSDictionary *)item rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
     NSInteger numActions=[sheetActions count];
     if (numActions){
-        NSString *title=[NSString stringWithFormat:@"%@%@", [item objectForKey:@"label"], [[item objectForKey:@"genre"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"\n%@", [item objectForKey:@"genre"]]];
+        NSString *title=[NSString stringWithFormat:@"%@%@%@", [item objectForKey:@"label"], [[item objectForKey:@"genre"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"\n%@", [item objectForKey:@"genre"]], [[item objectForKey:@"family"] isEqualToString:@"songid"] ? [NSString stringWithFormat:@"\n%@", [item objectForKey:@"album"]] : @""];
         if ( [[item objectForKey:@"family"] isEqualToString:@"timerid"] ) {
             title = [NSString stringWithFormat:@"%@\n\n%@", title, NSLocalizedString(@"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you.", nil)];
         }
