@@ -2233,7 +2233,6 @@ int originYear = 0;
         [genre setNumberOfLines:3];
         genre.font =  [genre.font fontWithSize:11];
         [genre setMinimumFontSize:11];
-        [genre sizeToFit];
         UILabel *programStartTime = (UILabel *)[cell viewWithTag:102];
         NSDateFormatter *test= [[NSDateFormatter alloc] init];
         [test setDateFormat:@"yyyy-MM-dd HH:mm"];
