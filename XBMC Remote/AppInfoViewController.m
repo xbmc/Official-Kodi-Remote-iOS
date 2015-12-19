@@ -53,8 +53,10 @@
 }
 
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
-    NSError *err;
-    [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&err];
+    if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(setActive:withOptions:error:)]){
+        NSError *err;
+        [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&err];
+    }
     creditsMask.hidden = YES;
 }
 
@@ -65,9 +67,10 @@
 -(IBAction)CloseView{
     [audioPlayer stop];
     audioPlayer = nil;
-    NSError *err;
-    [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&err];
-
+    if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(setActive:withOptions:error:)]){
+        NSError *err;
+        [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&err];
+    }
     [self dismissModalViewControllerAnimated:YES];
 }
 
