@@ -36,6 +36,7 @@
     showLeftButton = NO;
     showSortButton = NO;
     float buttonHeight = 44.0f;
+    gestureRecognizer = nil;
     
     self.leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, self.frame.size.height/2 - buttonHeight/2, buttonWidth, buttonHeight)];
     [self.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
@@ -112,6 +113,15 @@
     return nil;
 }
 
+-(void)setSortButtonImage:(NSString *)sortOrder {
+    if ([sortOrder isEqualToString:@"descending"]) {
+        [self.sortButton setImage:[UIImage imageNamed:@"button_sort_descending"] forState:UIControlStateNormal];
+    }
+    else {
+        [self.sortButton setImage:[UIImage imageNamed:@"button_sort"] forState:UIControlStateNormal];
+    }
+}
+
 - (void)drawRect:(CGRect)rect{
     SEL selector = NSSelectorFromString(@"handleChangeLibraryView");
     if ([self.delegate respondsToSelector:selector]){
@@ -120,6 +130,11 @@
     selector = NSSelectorFromString(@"handleChangeSortLibrary");
     if ([self.delegate respondsToSelector:selector]){
         [self.sortButton addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
+    }
+    selector = NSSelectorFromString(@"handleLongPressSortButton:");
+    if ([self.delegate respondsToSelector:selector] && gestureRecognizer == nil){
+        gestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self.delegate action:selector];
+        [self.sortButton addGestureRecognizer:gestureRecognizer];
     }
 }
 

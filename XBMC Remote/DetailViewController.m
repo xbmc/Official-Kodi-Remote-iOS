@@ -788,6 +788,7 @@
     if (foundIndex != NSNotFound){
         sortMethodIndex = foundIndex;
     }
+    sortAscDesc = [self getCurrentSortAscDesc:methods withParameters:parameters];
 }
 
 -(IBAction)changeTab:(id)sender{
@@ -858,6 +859,7 @@
     }
     sortMethodIndex = -1;
     sortMethodName = nil;
+    sortAscDesc = nil;
     if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
         [self setUpSort:bar methods:methods parameters:parameters];
     }
@@ -3150,6 +3152,14 @@ NSIndexPath *selected;
     [userDefaults setObject:sortMethod forKey:sortKey];
 }
 
+-(void)saveSortAscDesc:(NSString *)sortAscDescSave parameters:(NSDictionary *)parameters {
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
+    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:[methods objectForKey:@"method"] parameters:[parameters mutableCopy]]];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    [userDefaults setObject:sortAscDescSave forKey:sortKey];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
     if (buttonIndex!=actionSheet.cancelButtonIndex){
@@ -3274,6 +3284,29 @@ NSIndexPath *selected;
                                             [self indexAndDisplayData];
                                         }];
                     }
+                }
+                else if ([option hasPrefix:@"\u2713"]) {
+                    [activityIndicatorView startAnimating];
+                    [UIView transitionWithView: activeLayoutView
+                                      duration: 0.2
+                                       options: UIViewAnimationOptionBeginFromCurrentState
+                                    animations: ^ {
+                                        [(UITableView *)activeLayoutView setAlpha:1.0];
+                                        CGRect frame;
+                                        frame = [activeLayoutView frame];
+                                        frame.origin.x = viewWidth;
+                                        frame.origin.y = 0;
+                                        [(UITableView *)activeLayoutView setFrame:frame];
+                                    }
+                                    completion:^(BOOL finished){
+                                        sortAscDesc = !([sortAscDesc isEqualToString:@"ascending"] || sortAscDesc == nil)  ? @"ascending" : @"descending";
+                                        [self saveSortAscDesc:sortAscDesc parameters:[parameters mutableCopy]];
+                                        storeSectionArray = [sectionArray copy];
+                                        storeSections = [sections mutableCopy];
+                                        self.sectionArray = nil;
+                                        self.sections = [[NSMutableDictionary alloc] init];
+                                        [self indexAndDisplayData];
+                                    }];
                 }
             }
         }
@@ -4692,16 +4725,22 @@ NSIndexPath *selected;
     NSArray *copyRichResults = [self.richResults copy];
     self.sectionArray = nil;
     autoScrollTable = nil;
-    if ([self.richResults count] == 0){
+    if ([copyRichResults count] == 0){
         albumView = FALSE;
         episodesView = FALSE;
     }
-    if ([self.detailItem enableSection] && [self.richResults count]>SECTIONS_START_AT && (sortMethodIndex == -1 || [sortMethodName isEqualToString:@"label"])){
+    BOOL sortAscending = [sortAscDesc isEqualToString:@"descending"] ? NO : YES;
+    if ([self.detailItem enableSection] && [copyRichResults count]>SECTIONS_START_AT && (sortMethodIndex == -1 || [sortMethodName isEqualToString:@"label"])){
+        if ([sortAscDesc isEqualToString:@"descending"]) {
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"label" ascending:sortAscending];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
+        }
         [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
         BOOL found;
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
-        for (NSDictionary *item in self.richResults){
+        for (NSDictionary *item in copyRichResults){
             NSString *c = @"/";
             if ([[item objectForKey:@"label"] length]>0){
                 c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
@@ -4794,7 +4833,7 @@ NSIndexPath *selected;
     else {
         NSString *defaultSortMethod = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"method"];
         if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortMethodName ascending:YES];
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortMethodName ascending:sortAscending];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
             BOOL found;
@@ -4819,6 +4858,12 @@ NSIndexPath *selected;
             }
         }
         else {
+            if ([sortAscDesc isEqualToString:@"descending"]) {
+                NSString *methodSort = (sortMethodName == nil) ?  @"label" : sortMethodName;
+                NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:methodSort ascending:sortAscending];
+                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+                copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
+            }
             [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
             for (NSDictionary *item in copyRichResults){
                 [[self.sections objectForKey:@""] addObject:item];
@@ -4839,6 +4884,7 @@ NSIndexPath *selected;
     else {
         bar.rightPadding = 26;
     }
+    [bar setSortButtonImage:sortAscDesc];
     [bar layoutSubviews];
     for (int i=0; i<[self.sectionArray count]; i++) {
         [self.sectionArrayOpen addObject:[NSNumber numberWithBool:defaultValue]];
@@ -4984,10 +5030,17 @@ NSIndexPath *selected;
 }
 
 -(NSComparisonResult)alphaNumericCompare:(id)firstObject secondObject:(id)secondObject{
-    if (episodesView || (([sortMethodName isEqualToString:@"runtime"] || [sortMethodName isEqualToString:@"track"] || [sortMethodName isEqualToString:@"duration"] || [sortMethodName isEqualToString:@"rating"]) && !([((NSString *)firstObject) isEqualToString:UITableViewIndexSearch] || [((NSString *)secondObject) isEqualToString:UITableViewIndexSearch]) )){
-        return [((NSString *)firstObject) compare:((NSString *)secondObject) options:NSNumericSearch];
+    if ([((NSString *)firstObject) isEqualToString:UITableViewIndexSearch]){
+        return NSOrderedAscending;
     }
-    return [((NSString *)firstObject) localizedCaseInsensitiveCompare:((NSString *)secondObject)];
+    else if ([((NSString *)secondObject) isEqualToString:UITableViewIndexSearch]){
+        return NSOrderedDescending;
+    }
+    int comparisionSign = [sortAscDesc isEqualToString:@"descending"] ? -1 : 1;
+    if (episodesView || [sortMethodName isEqualToString:@"runtime"] || [sortMethodName isEqualToString:@"track"] || [sortMethodName isEqualToString:@"duration"] || [sortMethodName isEqualToString:@"rating"]){
+        return comparisionSign * [((NSString *)firstObject) compare:((NSString *)secondObject) options:NSNumericSearch];
+    }
+    return comparisionSign * [((NSString *)firstObject) localizedCaseInsensitiveCompare:((NSString *)secondObject)];
 }
 
 # pragma mark - Life-Cycle
@@ -5274,6 +5327,19 @@ NSIndexPath *selected;
     return sortMethod;
 }
 
+-(NSString *)getCurrentSortAscDesc:(NSDictionary *)methods withParameters:(NSDictionary *)parameters {
+    NSString *sortAscDescSaved = nil;
+    if (methods != nil){
+        NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:[methods objectForKey:@"method"] parameters:[parameters mutableCopy]]];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults synchronize];
+        if ([userDefaults objectForKey:sortKey] != nil){
+            sortAscDescSaved = [userDefaults objectForKey:sortKey];
+        }
+    }
+    return sortAscDescSaved;
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     hiddenLabel = NO;
@@ -5355,6 +5421,7 @@ NSIndexPath *selected;
     }
     sortMethodIndex = -1;
     sortMethodName = nil;
+    sortAscDesc = nil;
     if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
         [self setUpSort:bar methods:methods parameters:parameters];
     }
@@ -5626,7 +5693,7 @@ NSIndexPath *selected;
     NSDictionary *sortDictionary = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"];
     NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
                           NSLocalizedString(@"Sort by", nil), @"label",
-                          @"", @"genre",
+                          [NSString stringWithFormat:@"\n%@", NSLocalizedString(@"tap the selection\nto reverse the sort order", nil)], @"genre",
                           nil];
     NSMutableArray *sortOptions = [[sortDictionary objectForKey:@"label"] mutableCopy];
     if (sortMethodIndex != -1){
@@ -5634,6 +5701,37 @@ NSIndexPath *selected;
     }
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:bar.sortButton.center.x rectOriginY:bar.sortButton.center.y];
+}
+
+-(void)handleLongPressSortButton:(UILongPressGestureRecognizer *)gestureRecognizer {
+    switch (gestureRecognizer.state) {
+        case UIGestureRecognizerStateBegan: {
+            NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+            [activityIndicatorView startAnimating];
+            [UIView transitionWithView: activeLayoutView
+                              duration: 0.2
+                               options: UIViewAnimationOptionBeginFromCurrentState
+                            animations: ^ {
+                                [(UITableView *)activeLayoutView setAlpha:1.0];
+                                CGRect frame;
+                                frame = [activeLayoutView frame];
+                                frame.origin.x = viewWidth;
+                                frame.origin.y = 0;
+                                [(UITableView *)activeLayoutView setFrame:frame];
+                            }
+                            completion:^(BOOL finished){
+                                sortAscDesc = !([sortAscDesc isEqualToString:@"ascending"] || sortAscDesc == nil)  ? @"ascending" : @"descending";
+                                [self saveSortAscDesc:sortAscDesc parameters:[parameters mutableCopy]];
+                                storeSectionArray = [sectionArray copy];
+                                storeSections = [sections mutableCopy];
+                                self.sectionArray = nil;
+                                self.sections = [[NSMutableDictionary alloc] init];
+                                [self indexAndDisplayData];
+                            }];
+        }            break;
+        default:
+            break;
+    }
 }
 
 - (void)viewDidUnload{

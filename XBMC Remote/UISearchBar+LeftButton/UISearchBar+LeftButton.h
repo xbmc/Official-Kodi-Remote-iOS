@@ -14,10 +14,12 @@
     int leftPadding;
     BOOL showLeftButton;
     BOOL showSortButton;
+    UILongPressGestureRecognizer *gestureRecognizer;
 }
 
 -(void)showLeftButton:(BOOL)show;
 -(void)showSortButton:(BOOL)show;
+-(void)setSortButtonImage:(NSString *)sortOrder;
 
 @property (readonly) UITextField *textField;
 @property (nonatomic) int rightPadding;

@@ -133,6 +133,7 @@
     NSTimer* channelListUpdateTimer;
     NSUInteger sortMethodIndex;
     NSString *sortMethodName;
+    NSString *sortAscDesc;
     int numberOfStars;
     NSDictionary *watchedListenedStrings;
 }

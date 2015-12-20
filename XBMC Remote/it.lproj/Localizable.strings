@@ -276,6 +276,7 @@
 "Password" = "Password";
 
 "Sort by" = "Ordina per";
+"tap the selection\nto reverse the sort order" = "tocca la selezione\nper invertire l'ordinamento";
 "Not listened" = "Non ascoltato";
 "Listened one time" = "Ascoltato una volta";
 "Listened %@ times" = "Ascoltato %@ volte";
