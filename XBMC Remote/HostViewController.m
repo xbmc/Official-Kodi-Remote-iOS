@@ -9,6 +9,22 @@
 #import "HostViewController.h"
 #import "AppDelegate.h"
 #include <arpa/inet.h>
+#if (TARGET_IPHONE_SIMULATOR)
+#import <net/if_types.h>
+#import <net/route.h>
+#import <netinet/if_ether.h>
+#else
+#import "if_types.h"
+#import "route.h"
+#import "if_ether.h"
+#endif
+
+#import <sys/socket.h>
+#import <sys/sysctl.h>
+#import <ifaddrs.h>
+#import <net/if_dl.h>
+#import <net/if.h>
+#import <netinet/in.h>
 
 #define serviceType @"_xbmc-jsonrpc-h._tcp"
 #define domainName @"local"
@@ -103,6 +119,8 @@
     if (mac_1_UI.text == nil) mac_1_UI.text = @"";
     if (mac_2_UI.text == nil) mac_2_UI.text = @"";
     if (mac_3_UI.text == nil) mac_3_UI.text = @"";
+    if (mac_4_UI.text == nil) mac_4_UI.text = @"";
+    if (mac_5_UI.text == nil) mac_5_UI.text = @"";
 
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
     if (self.detailItem==nil){
@@ -249,6 +267,63 @@
     }
 }
 
+#pragma mark - resolveMacAddress Methods
+
+- (NSString*)resolveMacFromIP:(NSString*)ipAddress {
+    NSString* res = nil;
+    
+    in_addr_t addr = inet_addr([ipAddress UTF8String]);
+    
+    size_t needed;
+    char *buf, *next;
+    
+    struct rt_msghdr *rtm;
+    struct sockaddr_inarp *sin;
+    struct sockaddr_dl *sdl;
+    
+    int mib[] = {CTL_NET, PF_ROUTE, 0, AF_INET, NET_RT_FLAGS, RTF_LLINFO};
+    
+    if (sysctl(mib, sizeof(mib) / sizeof(mib[0]), NULL, &needed, NULL, 0) < 0)
+    {
+        NSLog(@"error in route-sysctl-estimate");
+        return nil;
+    }
+    
+    if ((buf = (char*)malloc(needed)) == NULL)
+    {
+        NSLog(@"error in malloc");
+        return nil;
+    }
+    
+    if (sysctl(mib, sizeof(mib) / sizeof(mib[0]), buf, &needed, NULL, 0) < 0)
+    {
+        NSLog(@"retrieval of routing table");
+        return nil;
+    }
+    
+    for (next = buf; next < buf + needed; next += rtm->rtm_msglen)
+    {
+        rtm = (struct rt_msghdr *)next;
+        sin = (struct sockaddr_inarp *)(rtm + 1);
+        sdl = (struct sockaddr_dl *)(sin + 1);
+        
+        if (addr != sin->sin_addr.s_addr || sdl->sdl_alen < 6)
+            continue;
+        
+        u_char *cp = (u_char*)LLADDR(sdl);
+        
+        res = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+               cp[0], cp[1], cp[2], cp[3], cp[4], cp[5]];
+        
+        break;
+    }
+    
+    free(buf);
+    
+    return res;
+}
+
+
 # pragma mark - resolveIPAddress Methods
 
 
@@ -276,9 +351,24 @@
                 [descriptionUI setTextColor:[UIColor blueColor]];
                 [ipUI setTextColor:[UIColor blueColor]];
                 [portUI setTextColor:[UIColor blueColor]];
-
+                
+                NSString *macAddress = [self resolveMacFromIP:ipUI.text];
+                NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
+                if ([macPart count] == 6){
+                    [mac_0_UI setText:[macPart objectAtIndex:0]];
+                    [mac_0_UI setTextColor:[UIColor blueColor]];
+                    [mac_1_UI setText:[macPart objectAtIndex:1]];
+                    [mac_1_UI setTextColor:[UIColor blueColor]];
+                    [mac_2_UI setText:[macPart objectAtIndex:2]];
+                    [mac_2_UI setTextColor:[UIColor blueColor]];
+                    [mac_3_UI setText:[macPart objectAtIndex:3]];
+                    [mac_3_UI setTextColor:[UIColor blueColor]];
+                    [mac_4_UI setText:[macPart objectAtIndex:4]];
+                    [mac_4_UI setTextColor:[UIColor blueColor]];
+                    [mac_5_UI setText:[macPart objectAtIndex:5]];
+                    [mac_5_UI setTextColor:[UIColor blueColor]];
+                }
                 [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
-
             }
         }
     }

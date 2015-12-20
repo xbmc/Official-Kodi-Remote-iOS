@@ -1267,6 +1267,10 @@
 		0F77D8CD1574A3BE00FE904E /* remote_button_movies_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_movies_down@2x.png"; sourceTree = "<group>"; };
 		0F77D8CF1574A43000FE904E /* remote_button_tv_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_tv_down@2x.png"; sourceTree = "<group>"; };
 		0F77D8D11574A4A200FE904E /* remote_button_pictures_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_pictures_down@2x.png"; sourceTree = "<group>"; };
+		0F79838A1C26ABDB002863D0 /* if_arp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = if_arp.h; path = Network/if_arp.h; sourceTree = "<group>"; };
+		0F79838B1C26ABDB002863D0 /* if_ether.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = if_ether.h; path = Network/if_ether.h; sourceTree = "<group>"; };
+		0F79838C1C26ABDB002863D0 /* if_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = if_types.h; path = Network/if_types.h; sourceTree = "<group>"; };
+		0F79838D1C26ABDB002863D0 /* route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = route.h; path = Network/route.h; sourceTree = "<group>"; };
 		0F7A8A911926776900313C17 /* AppInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppInfoViewController.xib; sourceTree = "<group>"; };
 		0F7B95131708975500880F33 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		0F7B95141708975500880F33 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
@@ -2531,6 +2535,7 @@
 				0F7F0DC71703490A0098FF75 /* BDKCollectionIndexView */,
 				0F05FB66170D79B000BBA833 /* NSString+MD5 */,
 				0FDC8917170DCAEA00419F58 /* SVPullToRefresh */,
+				0F7983891C26ABBD002863D0 /* Network */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -2548,6 +2553,17 @@
 			);
 			name = "Demiurgic-JSON-RPC";
 			path = "dbowen-Demiurgic-JSON-RPC-168ecc9";
+			sourceTree = "<group>";
+		};
+		0F7983891C26ABBD002863D0 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0F79838A1C26ABDB002863D0 /* if_arp.h */,
+				0F79838B1C26ABDB002863D0 /* if_ether.h */,
+				0F79838C1C26ABDB002863D0 /* if_types.h */,
+				0F79838D1C26ABDB002863D0 /* route.h */,
+			);
+			name = Network;
 			sourceTree = "<group>";
 		};
 		0F7B95101708975500880F33 /* UIImage+Resize */ = {
