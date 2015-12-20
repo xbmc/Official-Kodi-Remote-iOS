@@ -773,7 +773,7 @@ NSInteger buttonAction;
     }
 }
 
--(void)playerStep:(NSString *)step musicPlayerGo:(NSString *)musicAction{
+-(void)playerStep:(NSString *)step musicPlayerGo:(NSString *)musicAction musicPlayerAction:(NSString *)musicMethod {
     if ([AppDelegate instance].serverVersion > 11){
         if (jsonRPC == nil){
             GlobalData *obj=[GlobalData getInstance];
@@ -822,6 +822,9 @@ NSInteger buttonAction;
                               else if (winID == 12006 && musicAction != nil){
                                   [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
                               }
+                              else if (winID == 12006 && musicMethod != nil){
+                                  [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:musicMethod, @"action", nil] httpAPIcallback:nil];
+                              }
                           }
                       }];
                  }
@@ -851,13 +854,13 @@ NSInteger buttonAction;
         case 10:
             action=@"Input.Up";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
-            [self playerStep:@"bigforward" musicPlayerGo:nil];
+            [self playerStep:@"bigforward" musicPlayerGo:nil musicPlayerAction:@"increaserating"];
             break;
             
         case 12:
             action=@"Input.Left";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
-            [self playerStep:@"smallbackward" musicPlayerGo:@"previous"];
+            [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
             break;
             
         case 13:
@@ -869,13 +872,13 @@ NSInteger buttonAction;
         case 14:
             action=@"Input.Right";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
-            [self playerStep:@"smallforward" musicPlayerGo:@"next"];
+            [self playerStep:@"smallforward" musicPlayerGo:@"next" musicPlayerAction:nil];
             break;
             
         case 16:
             action=@"Input.Down";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
-            [self playerStep:@"bigbackward" musicPlayerGo:nil];
+            [self playerStep:@"bigbackward" musicPlayerGo:nil musicPlayerAction:@"decreaserating"];
             break;
             
         case 18:
