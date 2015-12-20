@@ -3257,7 +3257,7 @@ NSMutableArray *hostRightMenuItems;
     xbmcSettings.rowHeight = 65;
     xbmcSettings.thumbWidth = 44;
     xbmcSettings.disableNowPlaying = YES;
-    xbmcSettings.mainButtons = [NSArray arrayWithObjects:@"st_filemode", @"st_addons", @"st_video_addon", @"st_audio_addon", nil];
+    xbmcSettings.mainButtons = [NSArray arrayWithObjects:@"st_filemode", @"st_addons", @"st_video_addon", @"st_audio_addon", @"st_kodi_action", nil];
     
     xbmcSettings.mainMethod = [NSMutableArray arrayWithObjects:
                                
@@ -3269,6 +3269,8 @@ NSMutableArray *hostRightMenuItems;
                                
                                [NSArray arrayWithObjects:@"Addons.GetAddons", @"method", nil],
 
+                               [NSArray arrayWithObjects:@"JSONRPC.Introspect", @"method", nil],
+                               
                                nil];
     
     xbmcSettings.mainParameters = [NSMutableArray arrayWithObjects:
@@ -3338,6 +3340,18 @@ NSMutableArray *hostRightMenuItems;
                                     @"YES", @"enableCollectionView",
                                     nil],
                                    
+                                   [NSMutableArray arrayWithObjects:
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      @"Input.ExecuteAction", @"id",
+                                      @"method", @"type", nil], @"filter",
+                                     nil], @"parameters",
+                                    NSLocalizedString(@"Kodi actions", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", @"0", @"thumbWidth", NSLocalizedString(@"Execute a specific action", nil), @"morelabel",
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"0", @"separatorInset",
+                                     nil], @"itemSizes",
+                                    nil],
+                                   
                                    nil];
     
     xbmcSettings.mainFields = [NSArray arrayWithObjects:
@@ -3393,6 +3407,21 @@ NSMutableArray *hostRightMenuItems;
                                 @"addonid", @"row9",
                                 nil],
                                
+                               [NSDictionary  dictionaryWithObjectsAndKeys:
+                                @"types",@"itemid",
+                                @"Input.Action", @"typename",
+                                @"enums", @"fieldname",
+                                @"name", @"row1",
+                                @"summary", @"row2",
+                                @"blank", @"row3",
+                                @"blank", @"row4",
+                                @"addonid",@"row5",
+                                @"addonid",@"row6",
+                                [NSNumber numberWithInt:2], @"playlistid",
+                                @"addonid",@"row8",
+                                @"addonid", @"row9",
+                                nil],
+                               
                                nil];
     
     xbmcSettings.sheetActions = [NSArray arrayWithObjects:
@@ -3400,6 +3429,7 @@ NSMutableArray *hostRightMenuItems;
                                  [NSArray arrayWithObjects: NSLocalizedString(@"Execute program", nil), NSLocalizedString(@"Add button", nil), nil],
                                  [NSArray arrayWithObjects: NSLocalizedString(@"Execute video add-on", nil), NSLocalizedString(@"Add button", nil), nil],
                                  [NSArray arrayWithObjects: NSLocalizedString(@"Execute audio add-on", nil), NSLocalizedString(@"Add button", nil), nil],
+                                 [NSArray arrayWithObjects: NSLocalizedString(@"Execute action", nil), NSLocalizedString(@"Add action button", nil), nil],
                                  nil];
     
     
@@ -3407,6 +3437,8 @@ NSMutableArray *hostRightMenuItems;
     xbmcSettings.subItem.mainMethod = [NSMutableArray arrayWithObjects:
                                        
                                        [NSArray arrayWithObjects:@"Settings.GetCategories", @"method", nil],
+                                       
+                                       [NSArray array],
                                        
                                        [NSArray array],
                                        
@@ -3430,6 +3462,8 @@ NSMutableArray *hostRightMenuItems;
                                            
                                            [NSArray array],
                                            
+                                           [NSArray array],
+                                           
                                            nil];
     xbmcSettings.subItem.mainFields = [NSArray arrayWithObjects:
                                        [NSDictionary  dictionaryWithObjectsAndKeys:
@@ -3444,6 +3478,8 @@ NSMutableArray *hostRightMenuItems;
                                         @"categoryid",@"row8",
                                         @"id", @"row9",
                                         nil],
+                                       
+                                       [NSArray array],
                                        
                                        [NSArray array],
                                        

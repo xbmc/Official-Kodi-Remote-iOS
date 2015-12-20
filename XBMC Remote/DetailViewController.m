@@ -2105,7 +2105,8 @@ int originYear = 0;
     rating.frame=frame;
     [rating setText:[NSString stringWithFormat:@"%@", [item objectForKey:@"rating"]]];
     [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFill];
-
+    genre.hidden = NO;
+    runtimeyear.hidden = NO;
     if (!albumView && !episodesView && !channelGuideView){
         if ([channelid intValue] > 0){
             CGRect frame = genre.frame;
@@ -3236,6 +3237,15 @@ NSIndexPath *selected;
                        failure:NSLocalizedString(@"Unable to  execute the add-on", nil)
              ];
         }
+        else if ([option isEqualToString:NSLocalizedString(@"Execute action", nil)]){
+            [self SimpleAction:@"Input.ExecuteAction"
+                        params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                [item objectForKey:@"label"], @"action",
+                                nil]
+                       success: NSLocalizedString(@"Action executed successfully", nil)
+                       failure:NSLocalizedString(@"Unable to  execute the action", nil)
+             ];
+        }
         else if ([option isEqualToString:NSLocalizedString(@"Add button", nil)]){
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [item objectForKey:@"addonid"], @"addonid",
@@ -3253,6 +3263,24 @@ NSIndexPath *selected;
                                        nil];
             [self saveCustomButton:newButton];
         }
+        else if ([option isEqualToString:NSLocalizedString(@"Add action button", nil)]){
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [item objectForKey:@"label"], @"action",
+                                    nil];
+            NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       [item objectForKey:@"label"], @"label",
+                                       @"string", @"type",
+                                       [item objectForKey:@"thumbnail"], @"icon",
+                                       [NSNumber numberWithInt:0], @"xbmcSetting",
+                                       [item objectForKey:@"genre"], @"helpText",
+                                       [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"Input.ExecuteAction", @"command",
+                                        params, @"params",
+                                        nil], @"action",
+                                       nil];
+            [self saveCustomButton:newButton];
+        }
+
         else {
             NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
             NSDictionary *sortDictionary = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"];
@@ -4490,9 +4518,6 @@ NSIndexPath *selected;
                      }
                  }
                  NSArray *videoLibraryMovies = [methodResult objectForKey:itemid];
-                 if (((NSNull *)videoLibraryMovies != [NSNull null])){
-                     total = (int)[videoLibraryMovies count];
-                 }
                  NSString *serverURL= @"";
                  serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
                  int secondsToMinute = 1;
@@ -4500,140 +4525,165 @@ NSIndexPath *selected;
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                      if ([self.detailItem noConvertTime]) secondsToMinute = 60;
                  }
-                 
-                 for (int i=0; i<total; i++) {
-                     NSString *label=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row1"]]];
-                     
-                     NSString *genre=@"";
-                     if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:NSClassFromString(@"JKArray")]){
-                         genre=[NSString stringWithFormat:@"%@",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] componentsJoinedByString:@" / "]];
+                 if ([videoLibraryMovies isKindOfClass:NSClassFromString(@"JKArray")]) {
+                     if (((NSNull *)videoLibraryMovies != [NSNull null])) {
+                         total = (int)[videoLibraryMovies count];
                      }
-                     else{
-                         genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]]];
-                     }
-                     if ([genre isEqualToString:@"(null)"]) genre=@"";
-                     
-                     NSString *year=@"";
-                     if([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]] isKindOfClass:[NSNumber class]]){
-                         year=[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]] stringValue];
-                     }
-                     else{
-                         if ([[mainFields objectForKey:@"row3"] isEqualToString:@"blank"])
-                             year=@"";
-                         else
-                             year=[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]];
-                     } 
-                     year = [NSString stringWithFormat:@"%@", year];
-                     if ([year isEqualToString:@"(null)"]) year=@"";
-                     
-                     NSString *runtime=@"";
-                     if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:NSClassFromString(@"JKArray")]){
-                         runtime=[NSString stringWithFormat:@"%@",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] componentsJoinedByString:@" / "]];
-                     }
-                     else if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
-                         runtime=[NSString stringWithFormat:@"%d min",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]/secondsToMinute];
-                     }
-                     else{
-                         runtime=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]]];
-                     }
-                     if ([runtime isEqualToString:@"(null)"]) runtime=@"";
-                     
-                     NSString *rating=[NSString stringWithFormat:@"%.1f",[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row5"]] floatValue]];
-                     if ([rating isEqualToString:@"0.0"])
-                         rating=@"";
-                     
-                     NSString *thumbnailPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"thumbnail"];
-                     NSDictionary *art = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"art"];
-                     if ([art count] && [[art objectForKey:@"banner"] length]!=0 && tvshowsView){
-                         thumbnailPath = [art objectForKey:@"banner"];
-                     }
-                     NSString *fanartPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"];
-                     NSString *fanartURL=@"";
-                     NSString *stringURL = @"";
-                     
-                     if (![thumbnailPath isEqualToString:@""] && thumbnailPath != nil){
-                         stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-                     }
-                     if (![fanartPath isEqualToString:@""]){
-                         fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-                     }
-                     NSString *filetype=@"";
-                     NSString *type=@"";
-                     
-                     if ([[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"]!=nil){
-                         filetype=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"];
-                         type=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"type"];;
-                         if ([thumbnailPath length] == 0){
-                             if ([filetype isEqualToString:@"directory"]){
-                                 stringURL=@"nocover_filemode.png";
-                             }
-                             else if ([filetype isEqualToString:@"file"]){
-                                 if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
-                                     stringURL=@"icon_song.png";
-                                     
+                     for (int i=0; i<total; i++) {
+                         NSString *label=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row1"]]];
+                         
+                         NSString *genre=@"";
+                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                             genre=[NSString stringWithFormat:@"%@",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] componentsJoinedByString:@" / "]];
+                         }
+                         else{
+                             genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]]];
+                         }
+                         if ([genre isEqualToString:@"(null)"]) genre=@"";
+                         
+                         NSString *year=@"";
+                         if([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]] isKindOfClass:[NSNumber class]]){
+                             year=[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]] stringValue];
+                         }
+                         else{
+                             if ([[mainFields objectForKey:@"row3"] isEqualToString:@"blank"])
+                                 year=@"";
+                             else
+                                 year=[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row3"]];
+                         }
+                         year = [NSString stringWithFormat:@"%@", year];
+                         if ([year isEqualToString:@"(null)"]) year=@"";
+                         
+                         NSString *runtime=@"";
+                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                             runtime=[NSString stringWithFormat:@"%@",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] componentsJoinedByString:@" / "]];
+                         }
+                         else if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
+                             runtime=[NSString stringWithFormat:@"%d min",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]/secondsToMinute];
+                         }
+                         else{
+                             runtime=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]]];
+                         }
+                         if ([runtime isEqualToString:@"(null)"]) runtime=@"";
+                         
+                         NSString *rating=[NSString stringWithFormat:@"%.1f",[(NSNumber *)[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row5"]] floatValue]];
+                         if ([rating isEqualToString:@"0.0"])
+                             rating=@"";
+                         
+                         NSString *thumbnailPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"thumbnail"];
+                         NSDictionary *art = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"art"];
+                         if ([art count] && [[art objectForKey:@"banner"] length]!=0 && tvshowsView){
+                             thumbnailPath = [art objectForKey:@"banner"];
+                         }
+                         NSString *fanartPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"];
+                         NSString *fanartURL=@"";
+                         NSString *stringURL = @"";
+                         
+                         if (![thumbnailPath isEqualToString:@""] && thumbnailPath != nil){
+                             stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                         }
+                         if (![fanartPath isEqualToString:@""]){
+                             fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                         }
+                         NSString *filetype=@"";
+                         NSString *type=@"";
+                         
+                         if ([[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"]!=nil){
+                             filetype=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"];
+                             type=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"type"];;
+                             if ([thumbnailPath length] == 0){
+                                 if ([filetype isEqualToString:@"directory"]){
+                                     stringURL=@"nocover_filemode.png";
                                  }
-                                 else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
-                                     stringURL=@"icon_video.png";
-                                 }
-                                 else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-                                     stringURL=@"icon_picture.png";
+                                 else if ([filetype isEqualToString:@"file"]){
+                                     if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
+                                         stringURL=@"icon_song.png";
+                                         
+                                     }
+                                     else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
+                                         stringURL=@"icon_video.png";
+                                     }
+                                     else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
+                                         stringURL=@"icon_picture.png";
+                                     }
                                  }
                              }
                          }
+                         NSString *key = @"none";
+                         NSString *value = @"";
+                         if (([mainFields objectForKey:@"row7"] != nil)){
+                             key = [mainFields objectForKey:@"row7"];
+                             value = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row7"]]];
+                         }
+                         NSString *seasonNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row10"]]];
+                         
+                         NSString *family = [NSString stringWithFormat:@"%@", [mainFields objectForKey:@"row8"]];
+                         
+                         NSString *row19key = [mainFields objectForKey:@"row19"];
+                         if (row19key == nil){
+                             row19key = @"episode";
+                         }
+                         id episodeNumber = @"";
+                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] isKindOfClass:NSClassFromString(@"JKDictionary")]){
+                             episodeNumber = [[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] mutableCopy];
+                         }
+                         else{
+                             episodeNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]]];
+                         }
+                         id row13obj = [[mainFields objectForKey:@"row13"] isEqualToString:@"options"] ? [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]] == nil ? @"" : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]] : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]];
+                         
+                         id row14obj = [[mainFields objectForKey:@"row14"] isEqualToString:@"allowempty"] ? [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]] == nil ? @"" : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]] : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]];
+                         
+                         id row15obj = [[mainFields objectForKey:@"row15"] isEqualToString:@"addontype"] ? [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]] == nil ? @"" : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]] : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]];
+                         
+                         [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                      label, @"label",
+                                                      genre, @"genre",
+                                                      stringURL, @"thumbnail",
+                                                      fanartURL, @"fanart",
+                                                      runtime, @"runtime",
+                                                      seasonNumber, @"season",
+                                                      episodeNumber, row19key,
+                                                      family, @"family",
+                                                      [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
+                                                      [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"],
+                                                      year, @"year",
+                                                      [NSString stringWithFormat:@"%@", rating], @"rating",
+                                                      [mainFields objectForKey:@"playlistid"], @"playlistid",
+                                                      value, key,
+                                                      [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row9"]], [mainFields objectForKey:@"row9"],
+                                                      [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
+                                                      [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row11"]], [mainFields objectForKey:@"row11"],
+                                                      [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
+                                                      row13obj, [mainFields objectForKey:@"row13"],
+                                                      row14obj, [mainFields objectForKey:@"row14"],
+                                                      row15obj, [mainFields objectForKey:@"row15"],
+                                                      [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row16"]], [mainFields objectForKey:@"row16"],
+                                                      [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row17"]], [mainFields objectForKey:@"row17"],
+                                                      [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
+                                                      nil]];
                      }
-                     NSString *key = @"none";
-                     NSString *value = @"";
-                     if (([mainFields objectForKey:@"row7"] != nil)){
-                         key = [mainFields objectForKey:@"row7"];
-                         value = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row7"]]];
+                 }
+                 else if ([videoLibraryMovies isKindOfClass:NSClassFromString(@"JKDictionary")]) {
+                     NSDictionary *dictVideoLibraryMovies = [methodResult objectForKey:itemid];
+                     if ([[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] isKindOfClass:NSClassFromString(@"JKDictionary")]){
+                         if ([[[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] objectForKey:[mainFields objectForKey:@"fieldname"]] isKindOfClass:NSClassFromString(@"JKArray")]) {
+                             videoLibraryMovies = [[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] objectForKey:[mainFields objectForKey:@"fieldname"]];
+                             if (((NSNull *)videoLibraryMovies != [NSNull null])) {
+                                 total = (int)[videoLibraryMovies count];
+                             }
+                             for (int i=0; i < total; i++) {
+                                 [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                              [videoLibraryMovies objectAtIndex:i], @"label",
+                                                              @"Execute a specific action", @"genre",
+                                                              @"default-right-action-icon", @"thumbnail",
+                                                              @"", @"fanart",
+                                                              @"", @"runtime",
+                                                              @"file", @"family",
+                                                              nil]];
+                             }
+                         }
                      }
-                     NSString *seasonNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row10"]]];
-                     
-                     NSString *family = [NSString stringWithFormat:@"%@", [mainFields objectForKey:@"row8"]];
-                     
-                     NSString *row19key = [mainFields objectForKey:@"row19"];
-                     if (row19key == nil){
-                         row19key = @"episode";
-                     }
-                     id episodeNumber = @"";
-                     if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] isKindOfClass:NSClassFromString(@"JKDictionary")]){
-                         episodeNumber = [[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] mutableCopy];
-                     }
-                     else{
-                         episodeNumber = [NSString stringWithFormat:@"%@", [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]]];
-                     }
-                     id row13obj = [[mainFields objectForKey:@"row13"] isEqualToString:@"options"] ? [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]] == nil ? @"" : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]] : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row13"]];
-                     
-                     id row14obj = [[mainFields objectForKey:@"row14"] isEqualToString:@"allowempty"] ? [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]] == nil ? @"" : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]] : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row14"]];
-                     
-                     id row15obj = [[mainFields objectForKey:@"row15"] isEqualToString:@"addontype"] ? [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]] == nil ? @"" : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]] : [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row15"]];
-                     
-                     [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                  label, @"label",
-                                                  genre, @"genre",
-                                                  stringURL, @"thumbnail",
-                                                  fanartURL, @"fanart",
-                                                  runtime, @"runtime",
-                                                  seasonNumber, @"season",
-                                                  episodeNumber, row19key,
-                                                  family, @"family",
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row8"]], [mainFields objectForKey:@"row8"],
-                                                  year, @"year",
-                                                  [NSString stringWithFormat:@"%@", rating], @"rating",
-                                                  [mainFields objectForKey:@"playlistid"], @"playlistid",
-                                                  value, key,
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row9"]], [mainFields objectForKey:@"row9"],
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row10"]], [mainFields objectForKey:@"row10"],
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row11"]], [mainFields objectForKey:@"row11"],
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row12"]], [mainFields objectForKey:@"row12"],
-                                                  row13obj, [mainFields objectForKey:@"row13"],
-                                                  row14obj, [mainFields objectForKey:@"row14"],
-                                                  row15obj, [mainFields objectForKey:@"row15"],
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row16"]], [mainFields objectForKey:@"row16"],
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row17"]], [mainFields objectForKey:@"row17"],
-                                                  [[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
-                                                  nil]];
                  }
 //                 NSLog(@"END STORE");
 //                 NSLog(@"RICH RESULTS %@", resultStoreArray);
@@ -4649,7 +4699,7 @@ NSIndexPath *selected;
                          [activeLayoutView setUserInteractionEnabled:YES];
                          [self saveData:mutableParameters];
                      }
-                    [self changeViewMode:watchMode forceRefresh:forceRefresh];
+                     [self changeViewMode:watchMode forceRefresh:forceRefresh];
                  }
                  else{
                      if (forceRefresh == YES){
