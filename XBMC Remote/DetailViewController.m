@@ -3246,6 +3246,16 @@ NSIndexPath *selected;
                        failure:NSLocalizedString(@"Unable to  execute the action", nil)
              ];
         }
+        else if ([option isEqualToString:NSLocalizedString(@"Activate window", nil)]){
+            [self SimpleAction:@"GUI.ActivateWindow"
+                        params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                [item objectForKey:@"label"], @"window",
+                                nil]
+                       success: NSLocalizedString(@"Window activated successfully", nil)
+                       failure:NSLocalizedString(@"Unable to  activate the window", nil)
+             ];
+        }
+        
         else if ([option isEqualToString:NSLocalizedString(@"Add button", nil)]){
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [item objectForKey:@"addonid"], @"addonid",
@@ -3280,7 +3290,23 @@ NSIndexPath *selected;
                                        nil];
             [self saveCustomButton:newButton];
         }
-
+        else if ([option isEqualToString:NSLocalizedString(@"Add window activation button", nil)]){
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [item objectForKey:@"label"], @"window",
+                                    nil];
+            NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       [item objectForKey:@"label"], @"label",
+                                       @"string", @"type",
+                                       [item objectForKey:@"thumbnail"], @"icon",
+                                       [NSNumber numberWithInt:0], @"xbmcSetting",
+                                       [item objectForKey:@"genre"], @"helpText",
+                                       [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"GUI.ActivateWindow", @"command",
+                                        params, @"params",
+                                        nil], @"action",
+                                       nil];
+            [self saveCustomButton:newButton];
+        }
         else {
             NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
             NSDictionary *sortDictionary = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"];
@@ -4676,10 +4702,10 @@ NSIndexPath *selected;
                                  [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                               [videoLibraryMovies objectAtIndex:i], @"label",
                                                               @"Execute a specific action", @"genre",
-                                                              @"default-right-action-icon", @"thumbnail",
+                                                              @"file", @"family",
+                                                              [mainFields objectForKey:@"thumbnail"], @"thumbnail",
                                                               @"", @"fanart",
                                                               @"", @"runtime",
-                                                              @"file", @"family",
                                                               nil]];
                              }
                          }
