@@ -323,9 +323,26 @@
     return res;
 }
 
+-(void)fillMacAddressInfo {
+    NSString *macAddress = [self resolveMacFromIP:ipUI.text];
+    NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
+    if ([macPart count] == 6){
+        [mac_0_UI setText:[macPart objectAtIndex:0]];
+        [mac_0_UI setTextColor:[UIColor blueColor]];
+        [mac_1_UI setText:[macPart objectAtIndex:1]];
+        [mac_1_UI setTextColor:[UIColor blueColor]];
+        [mac_2_UI setText:[macPart objectAtIndex:2]];
+        [mac_2_UI setTextColor:[UIColor blueColor]];
+        [mac_3_UI setText:[macPart objectAtIndex:3]];
+        [mac_3_UI setTextColor:[UIColor blueColor]];
+        [mac_4_UI setText:[macPart objectAtIndex:4]];
+        [mac_4_UI setTextColor:[UIColor blueColor]];
+        [mac_5_UI setText:[macPart objectAtIndex:5]];
+        [mac_5_UI setTextColor:[UIColor blueColor]];
+    }
+}
 
 # pragma mark - resolveIPAddress Methods
-
 
 -(void) resolveIPAddress:(NSNetService *)service {    
     NSNetService *remoteService = service;
@@ -347,27 +364,14 @@
                 descriptionUI.text = [service name];
                 ipUI.text = [NSString stringWithFormat:@"%s", addressStr];
                 portUI.text = [NSString stringWithFormat:@"%d", port];
-                
                 [descriptionUI setTextColor:[UIColor blueColor]];
                 [ipUI setTextColor:[UIColor blueColor]];
                 [portUI setTextColor:[UIColor blueColor]];
-                
-                NSString *macAddress = [self resolveMacFromIP:ipUI.text];
-                NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
-                if ([macPart count] == 6){
-                    [mac_0_UI setText:[macPart objectAtIndex:0]];
-                    [mac_0_UI setTextColor:[UIColor blueColor]];
-                    [mac_1_UI setText:[macPart objectAtIndex:1]];
-                    [mac_1_UI setTextColor:[UIColor blueColor]];
-                    [mac_2_UI setText:[macPart objectAtIndex:2]];
-                    [mac_2_UI setTextColor:[UIColor blueColor]];
-                    [mac_3_UI setText:[macPart objectAtIndex:3]];
-                    [mac_3_UI setTextColor:[UIColor blueColor]];
-                    [mac_4_UI setText:[macPart objectAtIndex:4]];
-                    [mac_4_UI setTextColor:[UIColor blueColor]];
-                    [mac_5_UI setText:[macPart objectAtIndex:5]];
-                    [mac_5_UI setTextColor:[UIColor blueColor]];
-                }
+                NSString *serverJSON=[NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
+                NSURL *url = [[NSURL alloc] initWithString:serverJSON];
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
+                [connection start];
                 [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
             }
         }
@@ -426,6 +430,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self resolveIPAddress:[services objectAtIndex:indexPath.row]];
+}
+
+#pragma mark - NSURLConnection Delegate Methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+    [self fillMacAddressInfo];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [self fillMacAddressInfo];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    [self fillMacAddressInfo];
 }
 
 #pragma mark - LifeCycle
