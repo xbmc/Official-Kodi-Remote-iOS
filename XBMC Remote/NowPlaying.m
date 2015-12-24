@@ -411,7 +411,7 @@ int currentItemID;
             }
         }
         thumbnailView.frame = frame;
-        songDetailsView.frame = frame;
+//        songDetailsView.frame = frame;
     }
     else if ([type isEqualToString:@"movie"]){
         jewelImg=@"jewel_dvd.9.png";
@@ -444,7 +444,7 @@ int currentItemID;
             }
         }
         thumbnailView.frame = frame;
-        songDetailsView.frame = frame;
+//        songDetailsView.frame = frame;
     }
     else if ([type isEqualToString:@"episode"]){
         jewelImg = @"jewel_tv.9.png";
@@ -474,7 +474,7 @@ int currentItemID;
             }
         }
         thumbnailView.frame = frame;
-        songDetailsView.frame = frame;
+//        songDetailsView.frame = frame;
     }
     else{
         jewelImg = @"jewel_cd.9.png";
@@ -501,7 +501,7 @@ int currentItemID;
             }
         }
         thumbnailView.frame = frame;
-        songDetailsView.frame = frame;
+//        songDetailsView.frame = frame;
     }
     if ([self enableJewelCases]){
         jewelView.image = [UIImage imageNamed:jewelImg];
@@ -522,6 +522,7 @@ int currentItemID;
             frame.origin.x = 14;
             jewelView.frame = frame;
         }
+        songDetailsView.frame = jewelView.frame;
         songDetailsView.center = jewelView.center;
     }
     [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
@@ -552,9 +553,18 @@ int currentItemID;
     artistName.text = @"";
     lastSelected = -1;
     storeSelection = nil;
-    songCodec.text = @"-";
-    songBitRate.text = @"-";
-    songSampleRate.text = @"-";
+    songCodec.text = @"";
+    songBitRate.text = @"";
+    songSampleRate.text = @"";
+    songNumChannels.text = @"";
+    songCodecImage.image = nil;
+    songBitRateImage.image = nil;
+    songSampleRateImage.image = nil;
+    songNumChanImage.image = nil;
+    songCodec.hidden = NO;
+    songBitRate.hidden = NO;
+    songSampleRate.hidden = NO;
+    songNumChannels.hidden = NO;
     ProgressSlider.value = 0;
     storedItemID=-1;
     [PartyModeButton setSelected:NO];
@@ -1144,57 +1154,94 @@ int currentItemID;
     }];
 }
 
--(void)loadCodecView{
+-(void)loadCodecView {
     [jsonRPC 
      callMethod:@"XBMC.GetInfoLabels" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                     [[NSArray alloc] initWithObjects:@"MusicPlayer.Codec",@"MusicPlayer.SampleRate",@"MusicPlayer.BitRate",@"VideoPlayer.VideoResolution",@"VideoPlayer.VideoAspect", nil], @"labels",
+                     [[NSArray alloc] initWithObjects:@"MusicPlayer.Codec",@"MusicPlayer.SampleRate",@"MusicPlayer.BitRate", @"MusicPlayer.Channels", @"VideoPlayer.VideoResolution", @"VideoPlayer.VideoAspect", @"VideoPlayer.AudioCodec", @"VideoPlayer.VideoCodec", nil], @"labels",
                      nil] 
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
-             NSString *codec=@"";
-             NSString *bitrate=@"";
-             NSString *samplerate=@"";
-             if (playerID==0 && currentPlayerID==playerID){
-//                 albumDetailsButton.hidden = NO;
-//                 albumTracksButton.hidden = NO;
-//                 artistDetailsButton.hidden = NO;
-//                 artistAlbumsButton.hidden = NO;
-                 labelSongCodec.text=NSLocalizedString(@"codec",nil);
-                 labelSongBitRate.text=NSLocalizedString(@"bit rate",nil);
-                 labelSongSampleRate.text=NSLocalizedString(@"sample rate",nil);
-                 codec=[[methodResult objectForKey:@"MusicPlayer.Codec"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"MusicPlayer.Codec"]] ;
-                 songCodec.text=codec;
+             NSString *codec = @"";
+             NSString *bitrate = @"";
+             NSString *samplerate = @"";
+             NSString *numchan = @"";
+             if (playerID==0 && currentPlayerID==playerID) {
+                 codec = [[methodResult objectForKey:@"MusicPlayer.Codec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"MusicPlayer.Codec"]] ;
+                 songCodec.text = codec;
+                 songCodec.hidden = NO;
+                 songCodecImage.image = nil;
+                 songSampleRateImage.image = nil;
+                 songNumChanImage.image = nil;
                  
-                 bitrate=[[methodResult objectForKey:@"MusicPlayer.BitRate"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@ kbit/s", [methodResult objectForKey:@"MusicPlayer.BitRate"]] ;
-                 songBitRate.text=bitrate;
+                 UIImage *songImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", codec]];
+                 [songCodecImage setImage:songImage];
+                 if (songImage != nil){
+                     songCodec.hidden = YES;
+                 }
+                 
+                 numchan = [[methodResult objectForKey:@"MusicPlayer.Channels"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"MusicPlayer.Channels"]];
+                 songBitRate.text = numchan;
+                 songBitRate.hidden = NO;
+                 songBitRateImage.image = nil;
+                 UIImage *numChanImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", numchan]];
+                 [songBitRateImage setImage:numChanImage];
+                 if (numChanImage != nil){
+                     songBitRate.hidden = YES;
+                 }
         
-                 samplerate=[[methodResult objectForKey:@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@ kHz", [methodResult objectForKey:@"MusicPlayer.SampleRate"]];
-                 songSampleRate.text=samplerate;
+                 samplerate = [[methodResult objectForKey:@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkHz", [methodResult objectForKey:@"MusicPlayer.SampleRate"]];
+                 songNumChannels.text = samplerate;
+                 
+                 bitrate = [[methodResult objectForKey:@"MusicPlayer.BitRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkbit/s", [methodResult objectForKey:@"MusicPlayer.BitRate"]] ;
+                 songSampleRate.text = bitrate;
              }
-             else if (currentPlayerID==playerID){
-//                 albumDetailsButton.hidden = YES;
-//                 albumTracksButton.hidden = YES;
-//                 artistDetailsButton.hidden = YES;
-//                 artistAlbumsButton.hidden = YES;
-                 labelSongCodec.text=NSLocalizedString(@"resolution",nil);
-                 labelSongBitRate.text=NSLocalizedString(@"aspect ratio",nil);
-                 labelSongSampleRate.text=@"";
+             else if (currentPlayerID==playerID) {
+                 codec = [[methodResult objectForKey:@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoResolution"]] ;
+                 songCodec.text = codec;
+                 songCodec.hidden = NO;
+                 songCodecImage.image = nil;
+                 UIImage *resolutionImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", codec]];
+                 [songCodecImage setImage:resolutionImage];
+                 if (resolutionImage != nil){
+                     songCodec.hidden = YES;
+                 }
                  
-                 codec=[[methodResult objectForKey:@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoResolution"]] ;
-                 songCodec.text=codec;
+                 bitrate = [[methodResult objectForKey:@"VideoPlayer.VideoAspect"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoAspect"]] ;
+                 songBitRate.text = bitrate;
+                 songBitRate.hidden = NO;
+                 songBitRateImage.image = nil;
+                 UIImage *aspectImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", bitrate]];
+                 [songBitRateImage setImage:aspectImage];
+                 if (aspectImage != nil){
+                     songBitRate.hidden = YES;
+                 }
                  
-                 bitrate=[[methodResult objectForKey:@"VideoPlayer.VideoAspect"] isEqualToString:@""] ? @"-" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoAspect"]] ;
-                 songBitRate.text=bitrate;
+                samplerate = [[methodResult objectForKey:@"VideoPlayer.VideoCodec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoCodec"]];
+                 songSampleRate.text = samplerate;
+                 songSampleRate.hidden = NO;
+                 songSampleRateImage.image = nil;
+                 UIImage *videoCodecImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", samplerate]];
+                 [songSampleRateImage setImage:videoCodecImage];
+                 if (videoCodecImage != nil){
+                     songSampleRate.hidden = YES;
+                 }
                  
-                 songSampleRate.text=@"";
+                 numchan = [[methodResult objectForKey:@"VideoPlayer.AudioCodec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.AudioCodec"]];
+                 songNumChannels.text = numchan;
+                 songNumChannels.hidden = NO;
+                 songNumChanImage.image = nil;
+                 UIImage *audioCodecImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", numchan]];
+                 [songNumChanImage setImage:audioCodecImage];
+                 if (audioCodecImage != nil){
+                     songNumChannels.hidden = YES;
+                 }
              }
          }
     }];
 }
 
 -(void)playbackInfo{
-    
     if (![AppDelegate instance].serverOnLine) {
         playerID = -1;
         selectedPlayerID = -1;
@@ -1902,13 +1949,14 @@ int currentItemID;
 
 - (void)toggleSongDetails{
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    [UIView setAnimationDuration:0.1];
-    if (songDetailsView.alpha==0){
-        songDetailsView.alpha=1.0;
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.2];
+    if (songDetailsView.alpha == 0) {
+        songDetailsView.alpha = 1.0;
+        [self loadCodecView];
     }
     else {
-        songDetailsView.alpha=0.0;
+        songDetailsView.alpha = 0.0;
     }
     [UIView commitAnimations];
 }
@@ -2884,6 +2932,10 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [songCodecImage.layer setMinificationFilter:kCAFilterTrilinear];
+    [songBitRateImage.layer setMinificationFilter:kCAFilterTrilinear];
+    [songSampleRateImage.layer setMinificationFilter:kCAFilterTrilinear];
+    [songNumChanImage.layer setMinificationFilter:kCAFilterTrilinear];
     tempFanartImageView = [[UIImageView alloc] init];
     tempFanartImageView.hidden = YES;
     [self.view addSubview:tempFanartImageView];
@@ -2897,9 +2949,6 @@ int currentItemID;
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
-    labelSongCodec.text=NSLocalizedString(@"codec",nil);
-    labelSongBitRate.text=NSLocalizedString(@"bit rate",nil);
-    labelSongSampleRate.text=NSLocalizedString(@"sample rate",nil);
     float toolbarAlpha = 0.8f;
     pg_thumb_name = @"pgbar_thumb";
     cellBackgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];

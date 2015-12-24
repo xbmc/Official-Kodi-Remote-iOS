@@ -41,12 +41,13 @@
     VolumeSliderView *volumeSliderView;
     NSMutableArray *playlistData;
     IBOutlet UILabel *songCodec;
+    __weak IBOutlet UIImageView *songCodecImage;
     IBOutlet UILabel *songBitRate;
+    __weak IBOutlet UIImageView *songBitRateImage;
     IBOutlet UILabel *songSampleRate;
-    
-    IBOutlet UILabel *labelSongCodec;
-    IBOutlet UILabel *labelSongBitRate;
-    IBOutlet UILabel *labelSongSampleRate;
+    __weak IBOutlet UIImageView *songSampleRateImage;
+    __weak IBOutlet UILabel *songNumChannels;
+    __weak IBOutlet UIImageView *songNumChanImage;
     int playerID;
     int selectedPlayerID;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
