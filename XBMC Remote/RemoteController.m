@@ -1071,7 +1071,7 @@ NSInteger buttonAction;
                 break;
                 
             case 19:// SUBTITLES BUTTON
-                if ([AppDelegate instance].serverVersion > 12){
+                if ([AppDelegate instance].serverVersion > 12 || [[AppDelegate instance].serverName  caseInsensitiveCompare: @"MrMC"]){
                     [self GUIAction:@"GUI.ActivateWindow"
                              params:[NSDictionary dictionaryWithObjectsAndKeys:
                                      @"subtitlesearch", @"window",
