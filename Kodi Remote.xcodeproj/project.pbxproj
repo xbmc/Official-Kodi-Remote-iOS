@@ -514,6 +514,8 @@
 		0F747DA8165308E200856B89 /* remote_button_blank_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F747DA6165308E200856B89 /* remote_button_blank_down@2x.png */; };
 		0F7651E215605AF5001A4104 /* denim_seam_vertical@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7651E115605AF5001A4104 /* denim_seam_vertical@2x.png */; };
 		0F77C1121C2C1FE1002B5F56 /* mpeg4video.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77C1111C2C1FE1002B5F56 /* mpeg4video.png */; };
+		0F77C1151C2C21BA002B5F56 /* mp1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77C1131C2C21BA002B5F56 /* mp1.png */; };
+		0F77C1161C2C21BA002B5F56 /* mp2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77C1141C2C21BA002B5F56 /* mp2.png */; };
 		0F77D8C11574981B00FE904E /* remote_button_up_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77D8C01574981B00FE904E /* remote_button_up_down@2x.png */; };
 		0F77D8C715749FEA00FE904E /* remote_button_down_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77D8C315749FEA00FE904E /* remote_button_down_down@2x.png */; };
 		0F77D8C815749FEA00FE904E /* remote_button_left_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F77D8C415749FEA00FE904E /* remote_button_left_down@2x.png */; };
@@ -1432,6 +1434,8 @@
 		0F747DA6165308E200856B89 /* remote_button_blank_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_blank_down@2x.png"; sourceTree = "<group>"; };
 		0F7651E115605AF5001A4104 /* denim_seam_vertical@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "denim_seam_vertical@2x.png"; sourceTree = "<group>"; };
 		0F77C1111C2C1FE1002B5F56 /* mpeg4video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mpeg4video.png; path = icons/source/mpeg4video.png; sourceTree = "<group>"; };
+		0F77C1131C2C21BA002B5F56 /* mp1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mp1.png; path = icons/audio/mp1.png; sourceTree = "<group>"; };
+		0F77C1141C2C21BA002B5F56 /* mp2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mp2.png; path = icons/audio/mp2.png; sourceTree = "<group>"; };
 		0F77D8C01574981B00FE904E /* remote_button_up_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_up_down@2x.png"; sourceTree = "<group>"; };
 		0F77D8C315749FEA00FE904E /* remote_button_down_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_down_down@2x.png"; sourceTree = "<group>"; };
 		0F77D8C415749FEA00FE904E /* remote_button_left_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remote_button_left_down@2x.png"; sourceTree = "<group>"; };
@@ -1878,6 +1882,8 @@
 				0F0498931C28A821008A3013 /* dtsma.png */,
 				0F0498941C28A821008A3013 /* eac3.png */,
 				0F0498951C28A821008A3013 /* flac.png */,
+				0F77C1131C2C21BA002B5F56 /* mp1.png */,
+				0F77C1141C2C21BA002B5F56 /* mp2.png */,
 				0F0498961C28A821008A3013 /* mp3.png */,
 				0F0498971C28A821008A3013 /* truehd.png */,
 				0F0498981C28A821008A3013 /* vorbis.png */,
@@ -3684,6 +3690,7 @@
 				0FB33BD915E9004600C31650 /* coverbox_back_artists@2x.png in Resources */,
 				0F0498AB1C28A821008A3013 /* truehd.png in Resources */,
 				0FB33BDC15E9005400C31650 /* coverbox_back_artists.png in Resources */,
+				0F77C1161C2C21BA002B5F56 /* mp2.png in Resources */,
 				0FB33BDE15E9017500C31650 /* coverbox_back_movies.png in Resources */,
 				0FB33BE015E9017E00C31650 /* coverbox_back_movies@2x.png in Resources */,
 				0F4640681C29A8C900263C34 /* svq3.png in Resources */,
@@ -3787,6 +3794,7 @@
 				0F46402D1C29A57C00263C34 /* 7.png in Resources */,
 				0FD8AD1B18DF7F7A00E3B5A7 /* nocover_timers.png in Resources */,
 				0F91FFAF164E908000D33FC6 /* icon_reboot@2x.png in Resources */,
+				0F77C1151C2C21BA002B5F56 /* mp1.png in Resources */,
 				0F91FFB2164E982B00D33FC6 /* icon_update_audio.png in Resources */,
 				0F91FFB3164E982B00D33FC6 /* icon_clean_audio.png in Resources */,
 				0F91FFB6164E983600D33FC6 /* icon_clean_audio@2x.png in Resources */,
