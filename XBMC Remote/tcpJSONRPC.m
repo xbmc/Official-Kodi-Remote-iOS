@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 
 #define SERVER_TIMEOUT 2.0f
+#define MRMC_TIMEWARP 14.0f
 
 NSInputStream	*inStream;
 NSOutputStream	*outStream;
@@ -170,7 +171,7 @@ NSOutputStream	*outStream;
     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
     NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    NSDictionary *checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
+    NSDictionary *checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", @"name", nil], @"properties", nil];
     [jsonRPC
      callMethod:@"Application.GetProperties"
      withParameters:checkServerParams
@@ -184,6 +185,10 @@ NSOutputStream	*outStream;
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                      [AppDelegate instance].serverVersion = [[serverInfo objectForKey:@"major"] intValue];
                      [AppDelegate instance].serverMinorVersion = [[serverInfo objectForKey:@"minor"] intValue];
+                     NSString *realServerName = [methodResult objectForKey:@"name"];
+                     if ([realServerName isEqualToString:@"MrMC"]){
+                         [AppDelegate instance].serverVersion += MRMC_TIMEWARP;
+                     }
                      NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@",
                                           [AppDelegate instance].obj.serverDescription,
                                           [serverInfo objectForKey:@"major"],
