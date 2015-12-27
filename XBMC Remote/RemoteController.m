@@ -130,6 +130,11 @@
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
     [remoteControlView addSubview:gestureButton];
     
+    frame = subsInfoLabel.frame;
+    frame.origin.x = -1 * startX;
+    frame.size.width = newWidth + (startX * 2);
+    subsInfoLabel.frame = frame;
+    
 //    UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //    keyboardButton.frame = CGRectMake(stopButton.frame.origin.x, stopButton.frame.origin.y, stopButton.frame.size.width, stopButton.frame.size.height);
 //    UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
@@ -172,6 +177,10 @@
             frame.size.width = frame.size.width*transform;
             [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y + 12, frame.size.width * 1.075, frame.size.height * 1.075)];
         }
+        CGRect frame = subsInfoLabel.frame;
+        frame.size.width = [[UIScreen mainScreen ] bounds].size.width;
+        frame.origin.x = ((remoteControlView.frame.size.width - [[UIScreen mainScreen ] bounds].size.width) / 2);
+        subsInfoLabel.frame = frame;
     }
     else{
         int newWidth = STACKSCROLL_WIDTH;
@@ -189,7 +198,11 @@
         int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;        
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
-                 
+        CGRect frame = subsInfoLabel.frame;
+        frame.size.width = newWidth;
+        frame.origin.x = 0;
+        subsInfoLabel.frame = frame;
+        
     }
     UISwipeGestureRecognizer *gestureRightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     gestureRightSwipe.numberOfTouchesRequired = 1;
