@@ -161,8 +161,8 @@
 "resolution" = "resolution";
 "aspect ratio" = "aspect ratio";
 "Subtitles not available" = "Subtitles not available";
-"Audiostream not available" = "Audiostream not available";
-"Audiostreams not available" = "Audiostreams not available";
+"Audiostream not available" = "Audio stream not available";
+"Audiostreams not available" = "Audio streams not available";
 
 "LongDateTimeFormat" = "MMMM d, yyyy";
 "ShortDateTimeFormat" = "yyyy-MM-dd";
@@ -319,3 +319,6 @@
 "Nearly four hours" = "Nearly four hours";
 "About four hours" = "About four hours";
 "More than four hours" = "More than four hours";
+
+"Unknown" = "Unknown";
+"Audio stream" = "Audio stream";

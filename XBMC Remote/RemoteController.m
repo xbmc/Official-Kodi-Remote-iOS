@@ -487,70 +487,72 @@
     return (NSDictionary *)mutableDictionary;
 }
 
+/* method to show an action sheet for subs. */
 
-/* method to cycle through subs. 
- If ths subs are disabled then are enabled. 
- If sub are enabled then go to the next sub. 
- If the last sub is reached then the subs are disabled.
-*/
--(void)subtitlesAction{
+-(void)subtitlesActionSheet {
     jsonRPC = nil;
-    GlobalData *obj=[GlobalData getInstance]; 
+    GlobalData *obj=[GlobalData getInstance];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    
     [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (error==nil && methodError==nil){
-            if( [methodResult count] > 0){
+        if (error==nil && methodError==nil) {
+            if( [methodResult count] > 0) {
                 NSNumber *response;
-                if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])){
+                if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])) {
                     response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
                 }
-                [jsonRPC 
-                 callMethod:@"Player.GetProperties" 
-                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
+                [jsonRPC
+                 callMethod:@"Player.GetProperties"
+                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                  response, @"playerid",
                                  [[NSArray alloc] initWithObjects:@"subtitleenabled", @"currentsubtitle", @"subtitles", nil], @"properties",
-                                 nil] 
+                                 nil]
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                     if (error==nil && methodError==nil){
-                         if( [NSJSONSerialization isValidJSONObject:methodResult]){
+                     if (error==nil && methodError==nil) {
+                         if( [NSJSONSerialization isValidJSONObject:methodResult]) {
                              if ([methodResult count]){
                                  NSDictionary *currentSubtitle = [methodResult objectForKey:@"currentsubtitle"];
                                  BOOL subtitleEnabled =  [[methodResult objectForKey:@"subtitleenabled"] boolValue];
                                  NSArray *subtitles = [methodResult objectForKey:@"subtitles"];
-                                 if ([subtitles count]){
-                                     int currentSubIdx = [[currentSubtitle objectForKey:@"index"] intValue];
-                                     NSString *language = @"?";
-                                     NSInteger totalSubs = [subtitles count];
-                                     if (subtitleEnabled){
-                                         if ( (currentSubIdx + 1) >= totalSubs ){
-                                             // disable subs
-                                             [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[UIColor redColor]];
-                                             [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
-                                         }
-                                         else{
-                                             if (((NSNull *)[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"language"] != [NSNull null])){
-                                                 language = [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"language"];
+                                 if ([subtitles count]) {
+                                     subsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                                       currentSubtitle, @"currentsubtitle",
+                                                       [NSNumber numberWithBool:subtitleEnabled], @"subtitleenabled",
+                                                       subtitles, @"subtitles",
+                                                       nil];
+                                     NSInteger numSubs=[subtitles count];
+                                     NSMutableArray *actionSheetTitles =[NSMutableArray array];
+                                     NSString *disableSubs = nil;
+                                     if (subtitleEnabled == YES) {
+                                         disableSubs = NSLocalizedString(@"Disable subtitles", nil);
+                                     }
+                                     for (int i = 0; i < numSubs; i++) {
+                                         NSString *language = @"?";
+                                         if (((NSNull *)[[subtitles objectAtIndex:i] objectForKey:@"language"] != [NSNull null])) {
+                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:[[subtitles objectAtIndex:i] objectForKey:@"language"]];
+                                             NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
+                                             if ([displayNameString length] > 0){
+                                                 language = displayNameString;
                                              }
-                                             NSString *message = [NSString stringWithFormat:@"%@: %d/%ld %@%@%@", NSLocalizedString(@"Subtitle", nil), ([[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"index"] intValue] + 1), (long)totalSubs, language, [[[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:currentSubIdx + 1 ] objectForKey:@"name"]];
-                                             [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
+                                             else {
+                                                 language = [[subtitles objectAtIndex:i] objectForKey:@"language"];
+                                             }
+                                             if ([language length] == 0) {
+                                                 language = NSLocalizedString(@"Unknown", nil);
+                                             }
                                          }
-                                         // next subs
-                                         [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"next", @"subtitle", nil]];
-                                     }
-                                     else{
-                                         // enable subs
-                                         if (((NSNull *)[[subtitles objectAtIndex:currentSubIdx] objectForKey:@"language"] != [NSNull null])){
-                                             language = [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"language"];
+                                         NSString *tickMark = @"";
+                                         if (subtitleEnabled == YES && [currentSubtitle isEqual:[subtitles objectAtIndex:i]]) {
+                                             tickMark = @"\u2713 ";
                                          }
-                                         NSString *message = [NSString stringWithFormat:@"%@: %d/%ld %@%@%@", NSLocalizedString(@"Subtitle", nil), currentSubIdx + 1, (long)totalSubs, language, [[[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:currentSubIdx] objectForKey:@"name"]];
-                                         [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
-                                         [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
+                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[[subtitles objectAtIndex:i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:i] objectForKey:@"name"], i + 1, (long)numSubs];
+                                         [actionSheetTitles addObject:title];
                                      }
-                                 }
-                                 else{
+                                     [self showActionSheet:NSLocalizedString(@"Subtitle", nil) sheetActions:actionSheetTitles destructiveButtonTitle:disableSubs actionTag:0 rectOriginX:0 rectOriginY:0];
+                                }
+                                 else {
                                      [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[UIColor redColor]];
                                  }
                              }
@@ -562,18 +564,12 @@
                 [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[UIColor redColor]];
             }
         }
-//        else {
-//            NSLog(@"ci deve essere un primo problema %@", methodError);
-//        }
     }];
 }
 
-/* 
- method to cycle through audio streams. 
-  */
--(void)audiostreamAction:(NSString *)action params:(NSArray *)parameters{
+-(void)audioStreamActionSheet {
     jsonRPC = nil;
-    GlobalData *obj=[GlobalData getInstance]; 
+    GlobalData *obj=[GlobalData getInstance];
     NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
@@ -585,40 +581,55 @@
                 if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])){
                     response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
                 }
-                [jsonRPC 
-                 callMethod:@"Player.GetProperties" 
-                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
+                [jsonRPC
+                 callMethod:@"Player.GetProperties"
+                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                  response, @"playerid",
                                  [[NSArray alloc] initWithObjects: @"currentaudiostream", @"audiostreams", nil], @"properties",
-                                 nil] 
+                                 nil]
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
                              if ([methodResult count]){
                                  NSDictionary *currentAudiostream = [methodResult objectForKey:@"currentaudiostream"];
                                  NSArray *audiostreams = [methodResult objectForKey:@"audiostreams"];
-                                 if ([audiostreams count]){
-                                     int currentAudioIdx = [[currentAudiostream objectForKey:@"index"] intValue];
-                                     NSInteger totalAudio = [audiostreams count];
-                                     if ( (currentAudioIdx + 1) >= totalAudio ){
-                                         currentAudioIdx = 0;
+                                 if ([audiostreams count]) {
+                                     audiostreamsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                                       currentAudiostream, @"currentaudiostream",
+                                                       audiostreams, @"audiostreams",
+                                                       nil];
+                                     NSInteger numAudio=[audiostreams count];
+                                     NSMutableArray *actionSheetTitles =[NSMutableArray array];
+                                     for (int i = 0; i < numAudio; i++) {
+                                         NSString *language = @"?";
+                                         if (((NSNull *)[[audiostreams objectAtIndex:i] objectForKey:@"language"] != [NSNull null])) {
+                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:[[audiostreams objectAtIndex:i] objectForKey:@"language"]];
+                                             NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
+                                             if ([displayNameString length] > 0){
+                                                 language = displayNameString;
+                                             }
+                                             else {
+                                                 language = [[audiostreams objectAtIndex:i] objectForKey:@"language"];
+                                             }
+                                             if ([language length] == 0) {
+                                                 language = NSLocalizedString(@"Unknown", nil);
+                                             }
+                                         }
+                                         NSString *tickMark = @"";
+                                         if ([currentAudiostream isEqual:[audiostreams objectAtIndex:i]]) {
+                                             tickMark = @"\u2713 ";
+                                         }
+                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[[audiostreams objectAtIndex:i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[audiostreams objectAtIndex:i] objectForKey:@"name"], i + 1, (long)numAudio];
+                                         [actionSheetTitles addObject:title];
                                      }
-                                     else{
-                                         currentAudioIdx ++;
-                                     }
-                                     NSString *language = @"?";
-                                     if (((NSNull *)[[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"language"] != [NSNull null])){
-                                         language = [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"language"];
-                                     }
-                                     NSString *message = [NSString stringWithFormat:@"%d/%ld %@%@%@", currentAudioIdx + 1, (long)totalAudio, language, [[[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"] isEqualToString:@""] ? @"" : @" - ",  [[audiostreams objectAtIndex:currentAudioIdx] objectForKey:@"name"]];
-                                     [self showSubInfo:message timeout:2.0 color:[UIColor whiteColor]];
-                                     [self playbackAction:action params:parameters];
-                                }
-                                 else{
+                                     [self showActionSheet:NSLocalizedString(@"Audio stream", nil) sheetActions:actionSheetTitles destructiveButtonTitle:nil actionTag:1 rectOriginX:0 rectOriginY:0];
+                                 }
+                                 else {
                                      [self showSubInfo:NSLocalizedString(@"Audiostreams not available",nil) timeout:2.0 color:[UIColor redColor]];
                                  }
                              }
-                         }
+                        }
                      }
                  }];
             }
@@ -626,12 +637,8 @@
                 [self showSubInfo:NSLocalizedString(@"Audiostream not available",nil) timeout:2.0 color:[UIColor redColor]];
             }
         }
-        //        else {
-        //            NSLog(@"ci deve essere un primo problema %@", methodError);
-        //        }
     }];
 }
-
 
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
     jsonRPC = nil;
@@ -731,8 +738,67 @@
     }
 }
 
+#pragma mark - Action Sheet Method
 
-#pragma mark - Buttons 
+-(void)showActionSheet:(NSString *)title sheetActions:(NSMutableArray *)sheetActions destructiveButtonTitle:(NSString *)destructiveButtonTitle actionTag:(int)actionTag rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
+    NSInteger numActions=[sheetActions count];
+    if (numActions){
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle: title
+                                                            delegate: self
+                                                   cancelButtonTitle: nil
+                                              destructiveButtonTitle: destructiveButtonTitle
+                                                   otherButtonTitles: nil];
+        action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+        action.tag = actionTag;
+        for (int i = 0; i < numActions; i++) {
+            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+        }
+        action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            [action showInView:self.view];
+        }
+        else{
+            [action showFromRect:CGRectMake(rectOriginX, rectOriginY, 1, 1) inView:self.view animated:YES];
+        }
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if (buttonIndex == actionSheet.destructiveButtonIndex && actionSheet.tag == 0) {
+        [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[UIColor redColor]];
+        [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
+    }
+    else if (buttonIndex != actionSheet.cancelButtonIndex) {
+        switch (actionSheet.tag) {
+            case  0: {
+                NSInteger selectedSub = buttonIndex;
+                if ([[subsDictionary objectForKey:@"subtitleenabled"] boolValue] == YES) {
+                    selectedSub--;
+                }
+                if (![[[subsDictionary objectForKey:@"subtitles"] objectAtIndex:selectedSub] isEqual:[subsDictionary objectForKey:@"currentsubtitle"]] || [[subsDictionary objectForKey:@"subtitleenabled"] boolValue] == NO){
+                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:[[[subsDictionary objectForKey:@"subtitles"] objectAtIndex:selectedSub] objectForKey:@"index"], @"subtitle", nil]];
+                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
+                    [self showSubInfo:option timeout:2.0 color:[UIColor whiteColor]];
+                }
+                break;
+            }
+            case 1: {
+                NSInteger selectedAudioStream = buttonIndex;
+                if (![[[audiostreamsDictionary objectForKey:@"audiostreams"] objectAtIndex:selectedAudioStream] isEqual:[audiostreamsDictionary objectForKey:@"currentaudiostream"]]){
+                    [self playbackAction:@"Player.SetAudioStream" params:[NSArray arrayWithObjects:[[[audiostreamsDictionary objectForKey:@"audiostreams"] objectAtIndex:selectedAudioStream] objectForKey:@"index"], @"stream", nil]];
+                    [self showSubInfo:option timeout:2.0 color:[UIColor whiteColor]];
+                }
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+}
+
+#pragma mark - Buttons
 
 NSInteger buttonAction;
 
@@ -974,13 +1040,11 @@ NSInteger buttonAction;
             break;
         
         case 19:
-            [self subtitlesAction];
+            [self subtitlesActionSheet];
             break;
             
         case 20:
-            action=@"Player.SetAudioStream";
-            params=[NSArray arrayWithObjects:@"next", @"stream", nil];
-            [self audiostreamAction:action params:params];
+            [self audioStreamActionSheet];
             break;
             
         case 21:
