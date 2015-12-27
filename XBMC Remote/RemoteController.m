@@ -564,7 +564,7 @@
                                          [actionSheetTitles addObject:title];
                                      }
                                      UIButton *subsButton = (UIButton *)[self.view viewWithTag:19];
-                                     [self showActionSheet:NSLocalizedString(@"Subtitle", nil) sheetActions:actionSheetTitles destructiveButtonTitle:disableSubs actionTag:0 rectOriginX:subsButton.center.x rectOriginY:subsButton.center.y];
+                                     [self showActionSheet:NSLocalizedString(@"Subtitles", nil) sheetActions:actionSheetTitles destructiveButtonTitle:disableSubs actionTag:0 rectOriginX:subsButton.center.x rectOriginY:subsButton.center.y];
                                 }
                                  else {
                                      [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[UIColor redColor]];
