@@ -563,7 +563,8 @@
                                          NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[[subtitles objectAtIndex:i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:i] objectForKey:@"name"], i + 1, (long)numSubs];
                                          [actionSheetTitles addObject:title];
                                      }
-                                     [self showActionSheet:NSLocalizedString(@"Subtitle", nil) sheetActions:actionSheetTitles destructiveButtonTitle:disableSubs actionTag:0 rectOriginX:0 rectOriginY:0];
+                                     UIButton *subsButton = (UIButton *)[self.view viewWithTag:19];
+                                     [self showActionSheet:NSLocalizedString(@"Subtitle", nil) sheetActions:actionSheetTitles destructiveButtonTitle:disableSubs actionTag:0 rectOriginX:subsButton.center.x rectOriginY:subsButton.center.y];
                                 }
                                  else {
                                      [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[UIColor redColor]];
@@ -636,7 +637,8 @@
                                          NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[[audiostreams objectAtIndex:i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[audiostreams objectAtIndex:i] objectForKey:@"name"], i + 1, (long)numAudio];
                                          [actionSheetTitles addObject:title];
                                      }
-                                     [self showActionSheet:NSLocalizedString(@"Audio stream", nil) sheetActions:actionSheetTitles destructiveButtonTitle:nil actionTag:1 rectOriginX:0 rectOriginY:0];
+                                     UIButton *audioStreamsButton = (UIButton *)[self.view viewWithTag:20];
+                                     [self showActionSheet:NSLocalizedString(@"Audio stream", nil) sheetActions:actionSheetTitles destructiveButtonTitle:nil actionTag:1 rectOriginX:audioStreamsButton.center.x rectOriginY:audioStreamsButton.center.y];
                                  }
                                  else {
                                      [self showSubInfo:NSLocalizedString(@"Audiostreams not available",nil) timeout:2.0 color:[UIColor redColor]];
