@@ -2149,7 +2149,7 @@ NSMutableArray *hostRightMenuItems;
                                [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                @"label", @"method",
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                [NSMutableArray arrayWithObjects:NSLocalizedString(@"Title", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"User rating", nil), nil], @"label",
+                                [NSMutableArray arrayWithObjects:NSLocalizedString(@"Title", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"Rating", nil), nil], @"label",
                                 [NSArray arrayWithObjects:@"label", @"year", @"rating", nil], @"method",
                                 nil], @"available_methods",
 
