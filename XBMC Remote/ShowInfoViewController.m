@@ -660,7 +660,7 @@ int h=0;
     size = 0;
     castWidth = 50;
     castHeight = 70;
-    int pageSize = [self currentScreenBoundsDependOnOrientation].size.width - 40;
+    int pageSize = [self currentScreenBoundsDependOnOrientation].size.width - 23;
     int labelSpace = 20;
     bool enableJewel = [self enableJewelCases];
     if (!enableJewel) {
