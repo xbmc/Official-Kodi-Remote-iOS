@@ -5769,7 +5769,7 @@ NSIndexPath *selected;
     NSDictionary *sortDictionary = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"];
     NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
                           NSLocalizedString(@"Sort by", nil), @"label",
-                          [NSString stringWithFormat:@"\n%@", NSLocalizedString(@"tap the selection\nto reverse the sort order", nil)], @"genre",
+                          [NSString stringWithFormat:@"\n(%@)", NSLocalizedString(@"tap the selection\nto reverse the sort order", nil)], @"genre",
                           nil];
     NSMutableArray *sortOptions = [[sortDictionary objectForKey:@"label"] mutableCopy];
     if (sortMethodIndex != -1){
