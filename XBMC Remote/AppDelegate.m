@@ -2181,7 +2181,7 @@ NSMutableArray *hostRightMenuItems;
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", @"resume", nil], @"properties",
                               nil], @"extra_info_parameters",
                              @"YES", @"FrodoExtraArt",
-                             @"YES", @"enableCollectionView",
+//                             @"YES", @"enableCollectionView",
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithFloat:itemMusicWidthIphone * 1.4999999f], @"width",
