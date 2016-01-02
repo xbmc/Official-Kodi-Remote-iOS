@@ -41,12 +41,13 @@
     VolumeSliderView *volumeSliderView;
     NSMutableArray *playlistData;
     IBOutlet UILabel *songCodec;
+    __weak IBOutlet UIImageView *songCodecImage;
     IBOutlet UILabel *songBitRate;
+    __weak IBOutlet UIImageView *songBitRateImage;
     IBOutlet UILabel *songSampleRate;
-    
-    IBOutlet UILabel *labelSongCodec;
-    IBOutlet UILabel *labelSongBitRate;
-    IBOutlet UILabel *labelSongSampleRate;
+    __weak IBOutlet UIImageView *songSampleRateImage;
+    __weak IBOutlet UILabel *songNumChannels;
+    __weak IBOutlet UIImageView *songNumChanImage;
     int playerID;
     int selectedPlayerID;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
@@ -104,7 +105,14 @@
     __weak IBOutlet UIView *scrabbingView;
     __weak IBOutlet UILabel *scrabbingMessage;
     __weak IBOutlet UILabel *scrabbingRate;
-//    SDImageCache *imageCache;
+    UIView *iOS7bgEffect;
+    UIView *iOS7navBarEffect;
+    UIColor *foundEffectColor;
+    NSString *pg_thumb_name;
+    UISegmentedControl *playlistSegmentedControl;
+    UIColor *cellBackgroundColor;
+    __weak IBOutlet UILabel *noItemsLabel;
+    UIImageView *tempFanartImageView;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;

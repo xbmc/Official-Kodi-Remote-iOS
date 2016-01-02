@@ -56,7 +56,7 @@
         [title setText:infoText];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_on"]];
-        int n = [menuList numberOfRowsInSection:0];
+        NSInteger n = [menuList numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
@@ -92,7 +92,7 @@
         [title setText:infoText];
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_off"]];
-        int n = [menuList numberOfRowsInSection:0];
+        NSInteger n = [menuList numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
@@ -136,8 +136,9 @@
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
+        [(UILabel*) [cell viewWithTag:3] setText:NSLocalizedString(@"No connection", nil)];
         if (indexPath.row == 0){
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(127, (int)((44/2) - (36/2)) - 2, 145, 36)];
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 193.0f, (int)((44/2) - (36/2)) - 2, 145, 36)];
             xbmc_logo. alpha = .25f;
             [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
             [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo_selected.png"]];
@@ -196,6 +197,7 @@
     }
     itemIsActive = YES;
     UIViewController *object;
+    BOOL setBarTintColor = NO;
     if (item.family == 2){
         if (self.nowPlaying == nil){
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
@@ -218,6 +220,8 @@
             self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
         }
         object = self.hostController;
+        setBarTintColor = YES;
+        
     }
     else if (item.family == 1){
         self.detailViewController=nil;
@@ -227,13 +231,20 @@
     }
     navController = nil;
     navController = [[UINavigationController alloc] initWithRootViewController:object];
-    
     UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
     
     UINavigationBar *newBar = navController.navigationBar;
-    [newBar setTintColor:[UIColor colorWithRed:.14 green:.14 blue:.14 alpha:1]];
-    [newBar setBarStyle:UIBarStyleBlackOpaque];
+    [newBar setTintColor:IOS6_BAR_TINT_COLOR];
+    [newBar setBarStyle:UIBarStyleBlack];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [newBar setTintColor:TINT_COLOR];
+        if (setBarTintColor){
+            [newBar setBarTintColor:BAR_TINT_COLOR];
+        }
+//        navController.navigationBar.translucent = FALSE;
+//        navController.toolbar.translucent = FALSE;
+    }
     
     CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height + 22);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
@@ -248,7 +259,7 @@
     [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
     shadowRight.opaque = YES;
     [navController.view addSubview:shadowRight];
-    
+
     [self.slidingViewController anchorTopViewOffScreenTo:ECRight animations:nil onComplete:^{
         CGRect frame = self.slidingViewController.topViewController.view.frame;
         self.slidingViewController.topViewController = navController;
@@ -256,6 +267,9 @@
         [self.slidingViewController resetTopView];
         itemIsActive = NO;
     }];
+}
+
+-(void)revealMenu:(id)sender{
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -308,12 +322,25 @@
 
 #pragma mark - LifeCycle
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.slidingViewController setAnchorRightPeekAmount: 40.0f];
+    self.slidingViewController.underLeftWidthLayout = ECFullWidth;
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     jsonRPC=nil;
 }
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        CGRect frame = menuList.frame;
+        frame.origin.y = 22;
+        frame.size.height = frame.size.height - 22;
+        [menuList setFrame:frame];
+        [menuList setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
@@ -326,11 +353,9 @@
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
-    [self.slidingViewController setAnchorRightRevealAmount:280.0f];
-    self.slidingViewController.underLeftWidthLayout = ECFullWidth;
     [AppDelegate instance].obj=[GlobalData getInstance];
     checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
-    
+    menuList.scrollsToTop = NO;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleWillResignActive:)
                                                  name: @"UIApplicationWillResignActiveNotification"
@@ -380,11 +405,18 @@
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    int thumbWidth = 320;
-    int tvshowHeight = 61;
+    float transform = 1.0f;
+    if (IS_IPHONE_6) {
+        transform = 1.18f;
+    }
+    else if (IS_IPHONE_6_PLUS){
+        transform = 1.294f;
+    }
+    int thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
+    int tvshowHeight =  (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
     if ([AppDelegate instance].obj.preferTVPosters==YES){
-        thumbWidth = 53;
-        tvshowHeight = 76;
+        thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
+        tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
     }
     mainMenu *menuItem=[self.mainMenu objectAtIndex:3];
     menuItem.thumbWidth=thumbWidth;
@@ -421,7 +453,12 @@
     return YES;
 }
 
--(NSUInteger)supportedInterfaceOrientations{
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+- (NSUInteger)supportedInterfaceOrientations
+#else
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+#endif
+{
     return UIInterfaceOrientationMaskPortrait;
 }
 

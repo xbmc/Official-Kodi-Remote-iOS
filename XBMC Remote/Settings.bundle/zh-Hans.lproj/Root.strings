@@ -1,0 +1,20 @@
+/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
+
+"General" = "常规";
+"Language" = "语言";
+"Automatic" = "自动";
+"Language changes needs app restart" = "变更语言需要重启应用";
+"Direct Play mode" = "直接播放模式";
+"Ken Burns effect" = "Ken Burns特效";
+"Shake to clear playlist" = "晃动清除播放列表";
+"Show jewel cases" = "显示碟片盒";
+"Remote Control" = "遥控器";
+"Gesture remote control" = "手势遥控器";
+"Vibrate remote control" = "震动遥控器";
+"App Settings" = "应用设置";
+"Clear cache on next start" = "下次启动时清除缓存";
+"Enable contents cache" = "启用内容缓存";
+"Menu reveal toolbar" = "菜单显示工具栏";
+"Override Lockscreen" = "禁止锁屏";
+"Show all files in filemode" = "文件模式显示所有文件";
+"Filemode changes needs app restart" = "变更文件模式需要重启应用";

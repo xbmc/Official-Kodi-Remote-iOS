@@ -54,14 +54,14 @@
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu{
     if (self = [super init]) {
 		[self.view setFrame:frame]; 
-        int tableHeight = ([menu count] -1) * 56 + 22;
+        int tableHeight = ([menu count] -1) * PAD_MENU_HEIGHT + PAD_MENU_INFO_HEIGHT;
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, tableHeight) style:UITableViewStylePlain];
         [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 		[_tableView setDelegate:self];
 		[_tableView setDataSource:self];
         [_tableView setBackgroundColor:[UIColor clearColor]];
         [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
-        [_tableView setSeparatorColor:[UIColor colorWithWhite:.11 alpha:1]];
+        [_tableView setSeparatorColor:[UIColor colorWithWhite:0.0f alpha:0.1]];
         mainMenuItems=menu;
         UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
 		_tableView.tableFooterView = footerView;        
@@ -96,14 +96,14 @@
 //		[self.view addSubview:verticalLineView1];
 //        [self.view bringSubviewToFront:verticalLineView1];
         
-		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, -5, 1, self.view.frame.size.height-39)];
+		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, 1, self.view.frame.size.height-39)];
 		[verticalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
 		[verticalLineView1 setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:.3]];
 		[self.view addSubview:verticalLineView1];
         [self.view bringSubviewToFront:verticalLineView1];
 
         
-        UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, -5, 1, self.view.frame.size.height-39)];
+        UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, 0, 1, self.view.frame.size.height-39)];
 		[verticalLineView2 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
 		[verticalLineView2 setBackgroundColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:0.2f]];
 		[self.view addSubview:verticalLineView2];
@@ -188,9 +188,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0){
-        return 22;
+        return PAD_MENU_INFO_HEIGHT;
     }
-    return 56;
+    return PAD_MENU_HEIGHT;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -207,11 +207,11 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0){
-        cell.backgroundColor = [UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1];
+        cell.backgroundColor = [UIColor colorWithRed:.508f green:.508f blue:.508f alpha:0.1f];
     }
     else{
-        cell.backgroundColor = [UIColor colorWithRed:.141f green:.141f blue:.141f alpha:1];
-
+//        cell.backgroundColor = [UIColor colorWithRed:.141f green:.141f blue:.141f alpha:1];
+        cell.backgroundColor = [UIColor clearColor];
     }
 }
 
@@ -223,15 +223,18 @@
     if (cell==nil){
         cell = resultMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
-        [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
+        [backgroundView setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.4f]];
         cell.selectedBackgroundView = backgroundView;
         if (indexPath.row == 0){
-            [backgroundView setBackgroundColor:[UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1]];
+            [backgroundView setBackgroundColor:[UIColor colorWithRed:.508f green:.508f blue:.508f alpha:0.1f]];
             cell.selectedBackgroundView = backgroundView;
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(224, (int)((22/2) - (18/2)) - 1, 73, 18)];
+            int cellHeight = PAD_MENU_INFO_HEIGHT;
+            int cellHeightPad = cellHeight - 4;
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(232, (int)((cellHeight/2) - (cellHeightPad/2)) - 1, 73, cellHeightPad)];
             xbmc_logo. alpha = .25f;
             [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo"]];
             [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo"]];
+            [xbmc_logo setContentMode:UIViewContentModeScaleAspectFit];
             [cell insertSubview:xbmc_logo atIndex:0];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
@@ -250,12 +253,13 @@
             iconName = @"connection_on";
         }
         line.hidden = YES;
-        int cellHeight = 22;
+        int cellHeight = PAD_MENU_INFO_HEIGHT;
+        int cellHeightPad = cellHeight - 4;
         [title setText:@""];
-        [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight/2) - (18/2)) - 1, 18, 18)];
+        [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight / 2) - (cellHeightPad / 2)), cellHeightPad, cellHeightPad)];
     }
     else{
-        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:22]];
+        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
         [title setText:[item.mainLabel uppercaseString]];
     }
     [icon setImage:[UIImage imageNamed:iconName]];
@@ -294,17 +298,17 @@
         }
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil]; 
         if (item.family == 1){
-            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:TRUE];
             [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
         }   
         else if (item.family == 3){
             RemoteController *remoteController=[[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil]; 
-            [remoteController.view setFrame:CGRectMake(0, 0, 477, self.view.frame.size.height)];
+            [remoteController.view setFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height)];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:remoteController invokeByController:self isStackStartView:TRUE];
             [[AppDelegate instance].windowController.stackScrollViewController disablePanGestureRecognizer:remoteController.panFallbackImageView];
         }
-        lastSelected=indexPath.row;
+        lastSelected = (int)indexPath.row;
     }
 }
 

@@ -59,6 +59,7 @@
 
         _currentIndex = -1;
         _endPadding = 2;
+        _labelPadding = 4;
 
         _tapper = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         [_tapper setMinimumPressDuration:0];
@@ -84,13 +85,14 @@
             maxLength = CGRectGetWidth(self.frame) - (self.endPadding * 2);
             break;
         case BDKCollectionIndexViewDirectionVertical:
-            _theDimension = CGRectGetWidth(self.frame);
+            _theDimension = CGRectGetWidth(self.frame) - (self.labelPadding * 2);
             maxLength = CGRectGetHeight(self.frame);
             break;
     }
 
-    self.touchStatusView.frame = CGRectInset(self.bounds, 2, 2);
-    self.touchStatusView.layer.cornerRadius = floorf(self.theDimension / 2.75);
+    self.touchStatusView.frame = CGRectInset(self.bounds, 2, -2);
+//    self.touchStatusView.layer.cornerRadius = floorf(self.theDimension / 2.75);
+    self.touchStatusView.layer.cornerRadius = 0;
 
     CGFloat cumulativeLength = self.endPadding;
     CGSize labelSize = CGSizeMake(self.theDimension, self.theDimension);
@@ -105,7 +107,7 @@
                 break;
             case BDKCollectionIndexViewDirectionVertical:
                 labelSize.height = otherDimension;
-                label.frame = (CGRect){ { 0, cumulativeLength + 4 }, labelSize };
+                label.frame = (CGRect){ { self.labelPadding, cumulativeLength + 4 }, labelSize };
                 cumulativeLength += CGRectGetHeight(label.frame);
                 break;
         }
@@ -117,8 +119,8 @@
 - (UIView *)touchStatusView {
     if (_touchStatusView) return _touchStatusView;
     _touchStatusView = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, 2, 2)];
-    _touchStatusView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
-    _touchStatusView.layer.cornerRadius = self.theDimension / 2;
+    _touchStatusView.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0];
+    _touchStatusView.layer.cornerRadius = 0;
     _touchStatusView.layer.masksToBounds = YES;
     return _touchStatusView;
 }
@@ -151,6 +153,8 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.text = indexTitle;
         label.font = [UIFont boldSystemFontOfSize:11];
+        label.minimumFontSize = 5;
+        label.adjustsFontSizeToFitWidth = YES;
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0];
         label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1.0];

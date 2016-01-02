@@ -37,13 +37,15 @@
 //
 
 #import "StackScrollViewController.h"
-//#import "UIViewWithShadow.h"
+#import "AppDelegate.h"
+#import "RemoteControllerGestureZoneView.h"
+#import "OBSlider.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define VIEW_TAG 1000
 
 
-const NSInteger SLIDE_VIEWS_MINUS_X_POSITION = -230;
+const NSInteger SLIDE_VIEWS_MINUS_X_POSITION = -228;
 const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 
 @implementation StackScrollViewController
@@ -54,7 +56,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	
 	if(self= [super init]) {
 		
-		viewControllersStack = [[NSMutableArray alloc] init]; 
+		viewControllersStack = [[NSMutableArray alloc] init];
+        stackViewsFrames = [[NSMutableArray alloc] init];
 		borderViews = [[UIView alloc] initWithFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION - 2, -2, 2, self.view.frame.size.height + 2)];
 		[borderViews setBackgroundColor:[UIColor clearColor]];
         borderViews.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -92,40 +95,156 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		viewAtRightAtTouchBegan = nil;
 		
 		UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+        [panRecognizer setDelegate:self];
 		[panRecognizer setMaximumNumberOfTouches:1];
 		[panRecognizer setDelaysTouchesBegan:TRUE];
 		[panRecognizer setDelaysTouchesEnded:TRUE];
 		[panRecognizer setCancelsTouchesInView:TRUE];
 		[self.view addGestureRecognizer:panRecognizer];
 		[self.view addSubview:slideViews];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleStackScrollFullScreenEnabled:)
+                                                     name: @"StackScrollFullScreenEnabled"
+                                                   object: nil];
+
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleStackScrollFullScreenDisabled:)
+                                                     name: @"StackScrollFullScreenDisabled"
+                                                   object: nil];
+
 	}
 	
 	return self;
 }
 
+-(void)handleStackScrollFullScreenEnabled:(NSNotification *)sender{
+    UIView *senderView = nil;
+    if ([[sender object] isKindOfClass:[UIView class]]){
+        senderView = [sender object];
+    }
+    BOOL hideToolbar = [[[sender userInfo] valueForKey:@"hideToolbar"] boolValue];
+    BOOL clipsToBounds = [[[sender userInfo] valueForKey:@"clipsToBounds"] boolValue];
+    float duration = [[[sender userInfo] valueForKey:@"duration"] floatValue];
+    if (!duration){
+        duration = 1.5f;
+    }
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && clipsToBounds) {
+        senderView.clipsToBounds = YES;
+    }
+//    [[senderView viewWithTag:2002] setHidden:YES];
+    stackScrollIsFullscreen = YES;
+    [stackViewsFrames removeAllObjects];
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         int i = 0;
+                         NSInteger numViews = [[slideViews subviews] count];
+                         for (UIView* subview in [slideViews subviews]) {
+                             if ([subview isEqual:[sender object]]){
+                                 originalFrame = subview.frame;
+                                 CGRect frame = subview.frame;
+                                 frame.origin.x = 0 - 300;
+                                 if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && hideToolbar == YES){
+                                     frame.origin.y = frame.origin.y - 22;
+                                     frame.size.height = frame.size.height + 22;
+                                 }
+                                 frame.size.width = self.view.frame.size.width + 300;
+                                 subview.frame = frame;
+                                 break;
+                             }
+                             i++;
+                         }
+                         if (i + 1 < numViews){
+                             CGRect frame = CGRectZero;
+                             for (int j = i + 1; j < numViews; j++) {
+                                 frame = [[[slideViews subviews] objectAtIndex:j] frame];
+                                 [stackViewsFrames addObject:[NSValue valueWithCGRect:frame]];
+                                 frame.origin.x = self.view.frame.size.width;
+                                 if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && hideToolbar == YES){
+                                     frame.origin.y = frame.origin.y - 20;
+                                     frame.size.height = frame.size.height + 20;
+                                 }
+                                 [[[slideViews subviews] objectAtIndex:j] setFrame:frame];
+                             }
+                         }
+                         
+                     }
+                     completion:^(BOOL finished) {}
+     ];
+}
+
+-(void)handleStackScrollFullScreenDisabled:(NSNotification *)sender{
+    UIView *senderView = nil;
+    if ([[sender object] isKindOfClass:[UIView class]]){
+        senderView = [sender object];
+    }
+    float duration = [[[sender userInfo] valueForKey:@"duration"] floatValue];
+    if (!duration){
+        duration = 1.5f;
+    }
+    senderView.clipsToBounds = NO;
+//    [[senderView viewWithTag:2002] setHidden:NO];
+    stackScrollIsFullscreen = NO;
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         int i = 0;
+                         NSInteger numViews = [[slideViews subviews] count];
+                         for (UIView* subview in [slideViews subviews]) {
+                             if ([subview isEqual:[sender object]]){
+                                 subview.frame = originalFrame;
+                                 break;
+                             }
+                             i++;
+                         }
+                         if (i + 1 < numViews){
+                             int k = 0;
+                             NSInteger numStoredFrames = [stackViewsFrames count];
+                             for (int j = i + 1; j < numViews && k < numStoredFrames; j++) {
+                                 [[[slideViews subviews] objectAtIndex:j] setFrame:[[stackViewsFrames objectAtIndex:k] CGRectValue]];
+                                 k ++;
+                             }
+                         }
+                     }
+                     completion:^(BOOL finished) {}
+     ];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([touch.view isKindOfClass:[UIButton class]] || [touch.view isKindOfClass:[RemoteControllerGestureZoneView class]] || [touch.view isKindOfClass:[OBSlider class]] || [touch.view isKindOfClass:[UISlider class]] || [touch.view isKindOfClass:NSClassFromString(@"UITableViewCellReorderControl")]){
+        return NO;
+    }
+    return YES;
+}
+
 -(void)disablePanGestureRecognizer:(UIImageView *)fallbackView{
-    if ([self.view.gestureRecognizers count]){
-        [self.view removeGestureRecognizer:[self.view.gestureRecognizers objectAtIndex:0]];
-    }
-    if (![fallbackView.gestureRecognizers count]){
-        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
-        [panRecognizer setMaximumNumberOfTouches:1];
-        [panRecognizer setDelaysTouchesBegan:TRUE];
-        [panRecognizer setDelaysTouchesEnded:TRUE];
-        [panRecognizer setCancelsTouchesInView:TRUE];
-        [fallbackView addGestureRecognizer:panRecognizer];
-    }
+    return;
+//    if ([self.view.gestureRecognizers count]){
+//        [self.view removeGestureRecognizer:[self.view.gestureRecognizers objectAtIndex:0]];
+//    }
+//    if (![fallbackView.gestureRecognizers count]){
+//        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+//        [panRecognizer setMaximumNumberOfTouches:1];
+//        [panRecognizer setDelaysTouchesBegan:TRUE];
+//        [panRecognizer setDelaysTouchesEnded:TRUE];
+//        [panRecognizer setCancelsTouchesInView:TRUE];
+//        [fallbackView addGestureRecognizer:panRecognizer];
+//    }
 }
 
 -(void)enablePanGestureRecognizer{
-    if (![self.view.gestureRecognizers count]){
-        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
-		[panRecognizer setMaximumNumberOfTouches:1];
-		[panRecognizer setDelaysTouchesBegan:TRUE];
-		[panRecognizer setDelaysTouchesEnded:TRUE];
-		[panRecognizer setCancelsTouchesInView:TRUE];
-		[self.view addGestureRecognizer:panRecognizer];
-    }
+    return;
+//    if (![self.view.gestureRecognizers count]){
+//        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+//		[panRecognizer setMaximumNumberOfTouches:1];
+//		[panRecognizer setDelaysTouchesBegan:TRUE];
+//		[panRecognizer setDelaysTouchesEnded:TRUE];
+//		[panRecognizer setCancelsTouchesInView:TRUE];
+//		[self.view addGestureRecognizer:panRecognizer];
+//    }
 }
 
 -(void)arrangeVerticalBar {
@@ -160,7 +279,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     [UIView animateWithDuration:0.2
                      animations:^{ 
                          [UIView setAnimationBeginsFromCurrentState:YES];
-                         [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+                         [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
                          for (UIView* subview in [slideViews subviews]) {
                              [subview setFrame:CGRectMake(posX, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
                          }
@@ -187,7 +306,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.2];			
     [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
     NSInteger viewControllerCount = [viewControllersStack count];
     if (viewControllerCount > 1) {
         for (int i = 1; i < viewControllerCount; i++) {
@@ -218,7 +337,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 }
 
 - (void)handlePanFrom:(UIPanGestureRecognizer *)recognizer {
-	
+	if (stackScrollIsFullscreen) return;
 	CGPoint translatedPoint = [recognizer translationInView:self.view];
 	
 	if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -408,7 +527,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 				if ([[slideViews subviews] indexOfObject:viewAtLeft] == 0 && !(viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS)) {
 					[UIView beginAnimations:nil context:NULL];
 					[UIView setAnimationDuration:0.2];
-					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
 					[UIView setAnimationBeginsFromCurrentState:YES];
 					if (viewAtLeft.frame.origin.x < SLIDE_VIEWS_START_X_POS && viewAtRight != nil) {
 						[viewAtLeft setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
@@ -476,7 +595,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 				else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && viewAtRight.frame.origin.x + viewAtRight.frame.size.width > self.view.frame.size.width) {
 					[UIView beginAnimations:nil context:NULL];
 					[UIView setAnimationDuration:0.2];
-					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
 					[UIView setAnimationBeginsFromCurrentState:YES];
 					[viewAtRight setFrame:CGRectMake(self.view.frame.size.width - viewAtRight.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width,viewAtRight.frame.size.height)];						
 					[UIView commitAnimations];						
@@ -484,7 +603,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 				else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && viewAtRight.frame.origin.x + viewAtRight.frame.size.width < self.view.frame.size.width) {
 					[UIView beginAnimations:@"RIGHT-WITH-RIGHT" context:NULL];
 					[UIView setAnimationDuration:0.2];
-					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
 					[UIView setAnimationBeginsFromCurrentState:YES];
 					[viewAtRight setFrame:CGRectMake(self.view.frame.size.width - viewAtRight.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width,viewAtRight.frame.size.height)];
 					[UIView setAnimationDelegate:self];
@@ -493,7 +612,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 				}
 				else if (viewAtLeft.frame.origin.x > SLIDE_VIEWS_MINUS_X_POSITION) {
 					[UIView setAnimationDuration:0.2];
-					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
 					[UIView setAnimationBeginsFromCurrentState:YES];
 					if ((viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width > self.view.frame.size.width) && viewAtLeft.frame.origin.x < (self.view.frame.size.width - (viewAtLeft.frame.size.width)/2)) {
 						[UIView beginAnimations:@"LEFT-WITH-LEFT" context:nil];
@@ -525,7 +644,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 				[UIView beginAnimations:nil context:NULL];
 				[UIView setAnimationDuration:0.2];
 				[UIView setAnimationBeginsFromCurrentState:YES];
-				[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+				[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
 				[viewAtLeft setFrame:CGRectMake(SLIDE_VIEWS_START_X_POS, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
 				[UIView commitAnimations];
 			}
@@ -538,7 +657,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 					[UIView beginAnimations:nil context:NULL];
 					[UIView setAnimationDuration:0.2];			
 					[UIView setAnimationBeginsFromCurrentState:YES];
-					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
 					if (viewAtLeft.frame.origin.x > SLIDE_VIEWS_MINUS_X_POSITION || viewAtRight == nil) {
 						
 						//Drop Card View Animation
@@ -625,7 +744,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
         [UIView beginAnimations:@"RIGHT-WITH-RIGHT" context:NULL];
         [UIView setAnimationDuration:0.2];
         [UIView setAnimationBeginsFromCurrentState:YES];
-        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
         [viewAtRight setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + viewAtLeft.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width,viewAtRight.frame.size.height)];
         [UIView setAnimationDelegate:self];
         [UIView setAnimationDidStopSelector:@selector(bounceBack:finished:context:)];
@@ -636,7 +755,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
         [UIView beginAnimations:@"RIGHT-WITH-LEFT" context:NULL];
         [UIView setAnimationDuration:0.2];
         [UIView setAnimationBeginsFromCurrentState:YES];
-        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:nil cache:YES];
+        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
         if([[slideViews subviews] indexOfObject:viewAtLeft] > 0){
             if (positionOfViewAtRightAtTouchBegan.x  + viewAtRight.frame.size.width <= self.view.frame.size.width) {
                 [viewAtLeft setFrame:CGRectMake(self.view.frame.size.width - viewAtLeft.frame.size.width, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
@@ -805,7 +924,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 - (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView{
     float animX=0;
 	if (isStackStartView) {
-        int numViews=[[slideViews subviews]count];
+        NSInteger numViews=[[slideViews subviews]count];
         if (numViews==0){
             int orientation= [[UIApplication sharedApplication] statusBarOrientation];
             animX = (orientation==1 || orientation==2) ? 468 : 724;
@@ -838,7 +957,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		}
 		
 		NSInteger viewControllerCount = [viewControllersStack count];
-		for (int i = indexOfViewController; i < viewControllerCount; i++) {
+		for (NSInteger i = indexOfViewController; i < viewControllerCount; i++) {
             [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
 //FIXME: 
             if (!TARGET_IPHONE_SIMULATOR){
@@ -886,14 +1005,23 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [shadow setImage:[UIImage imageNamed:@"tableLeft.png"]];
     shadow.opaque = YES;
+    shadow.tag = 2001;
     [controller.view addSubview:shadow];
     
-    shadowRect = CGRectMake(477, 0.0f, 16.0f, self.view.frame.size.height);
+    shadowRect = CGRectMake(STACKSCROLL_WIDTH, 0.0f, 16.0f, self.view.frame.size.height);
     UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
-    [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+    [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin];
     [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
     shadowRight.opaque = YES;
+    shadowRight.tag = 2002;
     [controller.view addSubview:shadowRight];
+    
+    shadowRect = CGRectMake(-15.0f, -15.0f, STACKSCROLL_WIDTH + 30.0f, 15);
+    UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
+    [shadowUp setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    [shadowUp setImage:[UIImage imageNamed:@"stackScrollUpShadow"]];
+    [controller.view insertSubview:shadowUp atIndex:1];
+    
 	[slideViews addSubview:[controller view]];
     if ([[slideViews subviews] count] > 0) {
 		if ([[slideViews subviews] count]==1) {
@@ -1046,6 +1174,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 //	[slideViews release];
 //	[viewControllersStack release];
 //    [super dealloc];

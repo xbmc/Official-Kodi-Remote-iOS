@@ -1,0 +1,324 @@
+/*
+  Localisable.strings
+  XBMC Remote
+
+  Created by nivepl on 11/05/14.
+  Copyright (c) 2012 joethefox inc. All rights reserved.
+ */
+
+"Listen to" = "Słuchaj";
+"Watch your" = "Oglądaj";
+"Browse your" = "Przeglądaj";
+"See what's" = "Zobacz co";
+"Use as" = "Użyj jako";
+"Watch" = "Oglądaj";
+
+"Music" = "Muzyka";
+"Movies" = "Filmy";
+"TV Shows" = "Programy TV";
+"Pictures" = "Zdjęcia";
+"Now Playing" = "Teraz odtwarzane";
+"Remote Control" = "Kontrola Zdalna";
+"XBMC Server" = "Serwer Kodi";
+"New XBMC Server" = "Nowy Serwer Kodi";
+"Modify XBMC Server" = "Zmodyfikuj Serwer Kodi";
+"Select an XBMC Server from the list" = "Wybierz Serwer Kodi Server z listy";
+
+"Files" = "Pliki";
+"Video Addons" = "Dodatki Wideo";
+"Live TV" = "TV na żywo";
+"Movie Genres" = "Gatunki Filmów";
+"Music Videos" = "Teledyski Wideo";
+"Added Movies" = "Dodane Filmy";
+"More (%d)" = "Więcej (%d)";
+"Movie Sets" = "Zbiory Filmów";
+
+"Albums" = "Albumy";
+"Artists" = "Wykonawcy";
+"Genres" = "Gatunki";
+"Added Albums" = "Dodane Albumy";
+"Recently added albums" = "Ostatnio dodane albumy";
+"Added Songs" = "Dodane Piosenki";
+"Recently added songs" = "Ostatnio dodane piosenki";
+"Top 100 Albums" = "Top 100 Albumów";
+"Top 100 Songs" = "Top 100 Piosenek";
+"Played albums" = "Odtwarzane albumy";
+"Recently played albums" = "Ostatnio odtwarzane albumy";
+"Played songs" = "Odtwarzane piosenki";
+"Recently played songs" = "Ostatnio odtwarzane piosenki";
+"All songs" = "Wszystkie piosenki";
+"Music Addons" = "Dodatki Muzyki";
+"Music Playlists" = "Listy odtwarzania Muzyki";
+
+"Added Episodes" = "Dodane Odcinki";
+
+"Pictures Addons" = "Dodatki Zdjęć";
+
+"Power off System" = "Wyłącz System";
+"Power off" = "Wyłącz";
+"Hibernate" = "Hibernuj";
+"Suspend" = "Wstrzymaj";
+"Reboot" = "Restartuj";
+"Quit XBMC application" = "Opuść aplikację Kodi";
+"Update Audio Library" = "Zaktualizuj Bibliotekę Audio";
+"Update Audio" = "Zaktualizuj Audio";
+"Clean Audio Library" = "Wyczyść Bibliotekę Audio";
+"Clean Audio" = "Wyczyść Audio";
+"Update Video Library" = "Zaktualizuj Bibliotekę Wideo";
+"Update Video" = "Zaktualizuj Wideo";
+"Clean Video Library" = "Wyczyść Bibliotekę Wideo";
+"Clean Video" = "Wyczyść Wideo";
+"Quit" = "Wyjdź";
+
+"Keyboard" = "Klawiatura";
+"Gesture Zone" = "Gesty";
+"Button Pad" = "Przyciski";
+"Help Screen" = "Pomoc";
+"LED Torch" = "Latarka LED";
+
+"No connection" = "Brak połączenia";
+
+"Queue after current" = "Kolejkuj po bieżącym";
+"Queue" = "Kolejkuj";
+"Play" = "Odtwarzaj";
+"Stream to iPhone" = "Streamuj do iPhone'a";
+"Search Wikipedia" = "Wyszukaj w Wikipedii";
+"Search last.fm charts" = "Przeszukaj notowania last.fm";
+"Album Tracks" = "Utwory Albumu";
+"Artist Albums" = "Albumy Wykonawcy";
+"Artist Details" = "Szczegóły Wykonawcy";
+"Album Details" = "Szczegóły Albumu";
+"Movie Details" = "Szczegóły Filmu";
+"Episode Details" = "Szczegóły Odcinka";
+"TV Show Details" = "Szczegóły Programu TV";
+"Music Video Details" = "Szczegóły Teledysku";
+"Details" = "Szczegóły";
+"Play Trailer" = "Odtwórz Zwiastun";
+
+"Playlist" = "Lista odtwarzania";
+"Nothing is playing" = "Nic nie jest odtwarzane";
+"Details not found" = "Nie odnaleziono szczegółów";
+"Open in Safari" = "Otwórz w Safari";
+"Error loading page" = "Błąd ładowania strony";
+"OK" = "OK";
+"Cancel" = "Anuluj";
+"Resume from %@" = "Wznów od %@";
+"Resume from" = "Wznów od";
+"First aired on %@" = "Pierwszy raz na antenie %@";
+"Episodes: %@" = "Odcinki: %@";
+"1 result" = "1 wynik";
+"%d results" = "%d wyników";
+"Music " = "Muzyka ";
+"Video " = "Wideo ";
+"Songs" = "Piosenki";
+"Song" = "Piosenka";
+"Mins." = "Minut";
+"Min" = "Min";
+"Released %d" = "Wydany %d";
+
+"Clear Playlist" = "Wyczyść Listę Odtwarzania";
+"No server MAC address defined" = "Nie ustalono adresu MAC";
+"Command executed" = "Wykonano polecenie";
+"Warning" = "Ostrzeżenie";
+"Cannot do that" = "Nie można wykonać";
+"Wake On Lan" = "Wake On Lan";
+"No saved hosts found" = "Nie znaleziono zapisanych host'ów";
+
+"Are you sure you want to clear the %@playlist?" = "Na pewno chcesz wyczyścić %@listę odtwarzania?";
+"Are you sure you want to power off your XBMC system now?" = "Na pewno chcesz wyłączyć system Kodi teraz?";
+"Are you sure you want to hibernate your XBMC system now?" = "Na pewno chcesz zahibernować system Kodi teraz?";
+"Are you sure you want to suspend your XBMC system now?" = "Na pewno chcesz wstrzymać system Kodi teraz?";
+"Are you sure you want to reboot your XBMC system now?" = "Na pewno chcesz zrestartować system Kodi teraz?";
+"Are you sure you want to quit XBMC application now?" = "Na pewno chcesz wyjść z aplikacji Kodi?";
+"Are you sure you want to update your audio library now?" = "Na pewno chcesz teraz zaktualizować bibliotekę audio?";
+"Are you sure you want to clean your audio library now?" = "Na pewno chcesz teraz wyczyścić bibliotekę audio?";
+"Are you sure you want to update your video library now?" = "Na pewno chcesz teraz zaktualizować bibliotekę wideo?";
+"Are you sure you want to clean your video library now?" = "Na pewno chcesz teraz wyczyścić bibliotekę wideo?";
+
+"DIRECTED BY" = "REŻYSERIA";
+"RUNTIME" = "CZAS PROJEKCJI";
+"PARENTAL RATING" = "KLASYFIKACJA RODZICIELSKA";
+"CAST" = "OBSADA";
+"EPISODES" = "ODCINKI";
+"GENRE" = "GATUNEK";
+"STUDIO" = "STUDIO";
+"TV SHOW" = "PROGRAM TV";
+"DIRECTOR" = "REŻYSER";
+"WRITER" = "SCENARZYSTA";
+"FIRST AIRED" = "PIERWSZA EMISJA";
+"SUMMARY" = "PODSUMOWANIE";
+"ARTIST" = "WYKONAWCA";
+"YEAR" = "ROK";
+"ALBUM LABEL" = "ETYKIETA ALBUMU";
+"DESCRIPTION" = "OPIS";
+"STYLE" = "STYL";
+"BORN / FORMED" = "URODZONY / UTWORZONY";
+"TRAILER" = "TRAILER";
+
+"codec" = "kodek";
+"bit rate" = "jakość (bits)";
+"sample rate" = "częstotliwość próbkowania";
+"resolution" = "rozdzielczość";
+"aspect ratio" = "proporcje obrazu";
+"Subtitles not available" = "Napisy niedostępne";
+"Audiostream not available" = "Strumień audio niedostępna";
+"Audiostreams not available" = "Strumienie audio niedostępne";
+
+"LongDateTimeFormat" = "MMMM d, yyyy";
+"ShortDateTimeFormat" = "yyyy-MM-dd";
+"LocaleIdentifier" = "pl_PL";
+
+"No sever mac address definied" = "Nie zdefiniowano adresu MAC serwera";
+"Yes" = "Tak";
+"No" = "Nie";
+"Authentication Failed" = "Identyfikacja nie powiodła się";
+"Incorrect Username or Password.\nCheck your settings." = "Nieprawidłowa Nazwa Użytkownika lub Hasło.\nSprawdź ustawienia.";
+
+"WIKI_LANG" = "pl";
+
+"vote" = "głos";
+"votes" = "głosy";
+
+"Slide your finger up to adjust the scrubbing rate." = "Przesuń palcem by ustawić szybkość przewijania.";
+"Scrubbing 1" = "Szybkie przewijanie(100%)";
+"Scrubbing 0.5" = "Przewijanie (50%)";
+"Scrubbing 0.25" = "Przewijanie (25%)";
+"Scrubbing 0.1" = "Wolne przewijanie (10%)";
+"Scrubbing 0.05" = "Wolne przewijanie (5%)";
+"Scrubbing 0.025" = "Bardzo wolne przewijanie (2.5%)";
+
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Czyszczenie cache aplikacji...\n\nPoczekaj, to może zająć sporo czasu";
+"Pull to sync with XBMC..." = "Pociągnij by zsynchronizować z Kodi...";
+"Release to sync with XBMC..." = "Zwolnij by zsynchronizować z Kodi...";
+"Syncing..." = "Synchronizuję...";
+"Last sync" = "Ostatnie synchronizowanie";
+"View: Wall" = "Widok: Ściana";
+"View: List" = "Widok: Lista";
+"View: Fanart" = "Widok: Fanart";
+
+"Show Content" = "Pokaż zawartość";
+"Play in party mode" = "Odtwarzaj w trybie imprezy";
+"Play in shuffle mode" = "Odtwarzaj losowo";
+
+"Channel Guide" = "Przewodnik po kanałach";
+"Record" = "Nagrywaj";
+"Recordings" = "Nagrania";
+"Timers" = "Programatory";
+"Broadcast Details" = "Szczegóły audycji";
+"TIME" = "CZAS";
+
+"ERROR" = "BŁĄD";
+"Subtitles disabled" = "Napisy wyłączone";
+"Subtitle" = "Napisy";
+"Mark as watched" = "Oznacz jako oglądane";
+"Mark as unwatched" = "Oznacz jako nieoglądane";
+
+"Button Pad/Gesture Zone" = "Przyciski/Gesty";
+"Slide your finger up or down to adjust the scrubbing rate." = "Przesuń palcem by ustawić szybkość przewijania.";
+
+"Programs" = "Programy";
+"Video Add-ons" = "Dodatki Wideo";
+"Music Add-ons" = "Dodatki Muzyki";
+"XBMC Settings" = "Ustawienia Kodi";
+
+"Custom button" = "Przycisk definiowany";
+"Modify label:" = "Zmodyfikuj etykietę:";
+"Update label" = "Uaktualnij etykietę";
+"Add a new button" = "Dodaj nowy przycisk";
+"Enter the label:" = "Wpisz etykietę:";
+"Add button" = "Dodaj przycisk";
+"Button added" = "Przycisk dodany";
+"enter value" = "wprowadź wartość";
+"Tap and hold a setting to add a new button." = "Naciśnij i przytrzymaj by dodać nowy przycisk.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Nie zdefiniowano przycisku.\r\nNaciśnij \"...więcej\" poniżej by dodać nowe.";
+
+"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- UWAGA --\nObecne API Kodi nie pozwala na usuwanie zaprogramowanych czasów. Użyj Kodi GUI by dodać, edytować i usuwać czasy. Dzięki.";
+
+"Execute program" = "Uruchom program";
+"Execute video add-on" = "Uruchom dodatek wideo";
+"Execute audio add-on" = "Uruchom dodatek audio";
+"Add-on executed successfully" = "Dodatek pomyślnie uruchomiony";
+"Unable to execute the add-on" = "Nieudane uruchomienie dodatku";
+
+"...more" = "...więcej";
+"Edit" = "Edytuj";
+"Done" = "Wykonano";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi wersja 13 lub wyższa wymagana by uzyskać dostęp do ustawień Kodi";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- UWAGA --\nTo ustawienie nie może być zmienione zdalnie. Użyj Kodi GUI do zmiany tego ustawienia.\nDzięki.";
+
+"Official XBMC Remote\nfor iOS" = "Oficjalny pilot do Kodi\ndla iOS";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Oficjalna aplikacja pilota do Kodi wykorzystuje media z http://fanart.tv. Ściągnij i używaj dodatek Kodi \"artwork downloader\" by cieszyć się piękną dodatkową oprawą graficzną!\n\nLogo Kodi, maskotka Zappy oraz ikony Oficjalnego pilota Kodi są własnością Kodi\nhttp://www.kodi.tv/contribute";
+"enjoy!" = "miłego!";
+
+"No items found." = "Nic nie znaleziono.";
+"Video" = "Wideo";
+"Party" = "Impreza";
+"Search" = "Szukaj";
+
+"Supported XBMC version is Eden (11) or higher" = "Wspierane są wersje Kodi od Eden (11) i wyżej";
+"Add Host" = "Dodaj Hosta";
+
+"Description" = "Opis";
+"Host : port /\nTCP port" = "Host : port /\nport TCP";
+"MAC Address" = "Adres MAC";
+"Username and Password" = "Użytkownik i Hasło";
+"Prefer posters for TV shows" = "Preferuj plakaty z Programów TV";
+"Find XBMC" = "Znajdź Kodi";
+"Save" = "Zachowaj";
+"No XBMC instances were found :(" = "Nie znaleziono serwerów Kodi :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "Funkcja \"Znajdź Kodi\" wymaga włączenia opcji serwera Kodi\n\"Rozgłaszanie usług do innych systemów za pośrednictwem Zeroconf\"";
+"How-to actvate the remote app in XBMC" = "Jak uruchomić aplikację pilota w Kodi";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nUstawienia -> Sieć -> Pozwalaj na sterowanie Kodi przez HTTP";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nUstawienia -> Usługi -> Serwer Internetowy -> Zezwolenie na sterowanie za pośrednictwem HTTP";
+"e.g. My XBMC" = "np. Moje Kodi";
+"e.g. 192.168.0.8" = "np. 192.168.0.8";
+"Username" = "Użytkownik";
+"Password" = "Hasło";
+
+"Sort by" = "Sort by";
+"tap the selection\nto reverse the sort order" = "tap the selection\nto reverse the sort order";
+"Not listened" = "Not listened";
+"Listened one time" = "Listened one time";
+"Listened %@ times" = "Listened %@ times";
+"Not watched" = "Not watched";
+"Watched one time" = "Watched one time";
+"Watched %@ times" = "Watched %@ times";
+"Artist" = "Artist";
+"Year" = "Year";
+"Play count" = "Play count";
+"Track" = "Track";
+"Title" = "Title";
+"Rating" = "Rating";
+"Duration" = "Duration";
+"Date added" = "Date added";
+"Name" = "Name";
+"User rating" = "User rating";
+"The %@s decade" = "The %@s decade";
+"Year not available" = "Year not available";
+"Year %@" = "Year %@";
+"Rated %@" = "Rated %@";
+"Track n.%@" = "Track n.%@";
+
+"Less than 15 minutes" = "Less than 15 minutes";
+"Less than half an hour" = "Less than half an hour";
+"About half an hour" = "About half an hour";
+"Less than one hour" = "Less than one hour";
+"About one hour" = "About one hour";
+"About an hour and a half" = "About an hour and a half";
+"Nearly two hours" = "Nearly two hours";
+"About two hours" = "About two hours";
+"Two hours" = "Two hours";
+"About two and a half hours" = "About two and a half hours";
+"More than two and a half hours" = "More than two and a half hours";
+"Nearly three hours" = "Nearly three hours";
+"About three hours" = "About three hours";
+"Nearly three and half hours" = "Nearly three and half hours";
+"About three and half hours" = "About three and half hours";
+"Nearly four hours" = "Nearly four hours";
+"About four hours" = "About four hours";
+"More than four hours" = "More than four hours";
+
+"Unknown" = "Unknown";
+"Audio stream" = "Audio stream";
+"Disable subtitles" = "Disable subtitles";
+"Subtitles" = "Subtitles";

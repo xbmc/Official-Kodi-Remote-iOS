@@ -8,7 +8,11 @@
 
 #import "ECSlidingViewController.h"
 
-@interface InitialSlidingViewController : ECSlidingViewController
+@interface InitialSlidingViewController : ECSlidingViewController {
+    
+    UINavigationController *navController;
+    
+}
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 

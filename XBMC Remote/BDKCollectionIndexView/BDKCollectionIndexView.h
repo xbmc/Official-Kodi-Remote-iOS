@@ -25,6 +25,10 @@ typedef enum {
  */
 @property (nonatomic) CGFloat endPadding;
 
+/** The number of points used for padding the label when in vertical mode.
+ */
+@property (nonatomic) CGFloat labelPadding;
+
 /** The direction in which the control is oriented; this is automatically set based on the frame given.
  */
 @property (readonly) BDKCollectionIndexViewDirection direction;

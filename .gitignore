@@ -4,6 +4,9 @@ XBMC\ Remote.xcodeproj/xcuserdata/*
 XBMC\ Remote.xcodeproj/project.xcworkspace/xcuserdata/*
 XBMC\ Remote/RemoteController_old.xib
 *.swp
+Kodi\ Remote.xcodeproj/xcuserdata/*
+Kodi\ Remote.xcodeproj/project.xcworkspace/xcuserdata/*
+Kodi\ Remote/RemoteController_old.xib
 *~.nib
 build/
 *.pbxuser

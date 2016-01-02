@@ -71,7 +71,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"DSJSONRPC Error: %@ (Code: %i) - Data: %@", self.message, self.code, self.data];
+    return [NSString stringWithFormat:@"XBMC JSON-RPC Error: %@\n(Code: %li)\nData: %@", self.message, (long)self.code, self.data];
 }
 
 @end

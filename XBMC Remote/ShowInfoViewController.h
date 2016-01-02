@@ -75,8 +75,12 @@
     UIWebView *trailerView;
     NSString *embedVideoURL;
     UIActivityIndicatorView *embedVideoActivityIndicator;
-//    SDImageCache *imageCache;
     NSString *embedVideo;
+    UIColor *foundTintColor;
+    UILabel *viewTitle;
+    __weak IBOutlet UIImageView *bottomShadow;
+    CGRect originalSelfFrame;
+    BOOL isViewDidLoad;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
@@ -85,6 +89,5 @@
 @property (strong, nonatomic) NowPlaying *nowPlaying;
 @property (strong, nonatomic) DetailViewController *detailViewController;
 @property (nonatomic, retain) KenBurnsView *kenView;
-
 
 @end

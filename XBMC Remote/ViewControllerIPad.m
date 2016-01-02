@@ -17,6 +17,7 @@
 #import "AppInfoViewController.h"
 #import "XBMCVirtualKeyboard.h"
 #import "ClearCacheView.h"
+#import "gradientUIView.h"
 
 #define CONNECTION_TIMEOUT 240.0f
 #define SERVER_TIMEOUT 2.0f
@@ -117,7 +118,7 @@
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_on"]];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        int n = [menuViewController.tableView numberOfRowsInSection:0];
+        NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
@@ -141,7 +142,7 @@
         UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
         [icon setImage:[UIImage imageNamed:@"connection_off"]];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        int n = [menuViewController.tableView numberOfRowsInSection:0];
+        NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell!=nil){
@@ -195,15 +196,21 @@
     [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:volumeSliderView.frame.origin.y - volumeSliderView.frame.size.height - 42 forceHide:FALSE];
 }
 
+-(void)initHostManagemetPopOver{
+    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
+    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
+    self.serverPickerPopover = [[UIPopoverController alloc]
+                                initWithContentViewController:[AppDelegate instance].navigationController];
+    self.serverPickerPopover.delegate = self;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [self.serverPickerPopover setBackgroundColor:[UIColor clearColor]];
+    }
+    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
+}
+
 - (void)toggleSetup {
     if (_hostPickerViewController == nil) {
-        
-        self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-        [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
-        self.serverPickerPopover = [[UIPopoverController alloc] 
-                                    initWithContentViewController:[AppDelegate instance].navigationController];
-        self.serverPickerPopover.delegate = self;
-        [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
+        [self initHostManagemetPopOver];
     }
     [self.serverPickerPopover presentPopoverFromRect:xbmcInfo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
@@ -228,7 +235,9 @@
                                     initWithContentViewController:_appInfoView];
         self.appInfoPopover.delegate = self;
         [self.appInfoPopover setPopoverContentSize:CGSizeMake(320, 460)];
-
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            self.appInfoPopover.backgroundColor = [UIColor colorWithRed:187.0f/255.0f green:187.0f/255.0f blue:187.0f/255.0f alpha:1.0f];
+        }
     }
     [self.appInfoPopover presentPopoverFromRect:xbmcLogo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
@@ -247,9 +256,17 @@
     }
     else{
         destructive = NSLocalizedString(@"Power off System", nil);
-        sheetActions=[NSArray arrayWithObjects: NSLocalizedString(@"Hibernate", nil), NSLocalizedString(@"Suspend", nil), NSLocalizedString(@"Reboot", nil), NSLocalizedString(@"Quit XBMC application", nil), NSLocalizedString(@"Update Audio Library", nil), NSLocalizedString(@"Update Video Library", nil), nil];
+        sheetActions=[NSArray arrayWithObjects:
+                      NSLocalizedString(@"Hibernate", nil),
+                      NSLocalizedString(@"Suspend", nil),
+                      NSLocalizedString(@"Reboot", nil),
+                      NSLocalizedString(@"Quit XBMC application", nil),
+                      NSLocalizedString(@"Update Audio Library", nil),
+                      NSLocalizedString(@"Clean Audio Library", nil),
+                      NSLocalizedString(@"Update Video Library", nil),
+                      NSLocalizedString(@"Clean Video Library", nil),  nil];
     }
-    int numActions=[sheetActions count];
+    NSInteger numActions=[sheetActions count];
     if (numActions){
         actionSheetPower = [[UIActionSheet alloc] initWithTitle:title
                                                             delegate:self
@@ -297,25 +314,31 @@
             }
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Power off System", nil)]){
-            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Quit XBMC application", nil)]){
-            [self powerAction:@"Application.Quit" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"Application.Quit" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Hibernate", nil)]){
-            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Suspend", nil)]){
-            [self powerAction:@"System.Suspend" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"System.Suspend" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Reboot", nil)]){
-            [self powerAction:@"System.Reboot" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"System.Reboot" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Update Audio Library", nil)]){
-            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionary]];
+        }
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Clean Audio Library", nil)]){
+            [self powerAction:@"AudioLibrary.Clean" params:[NSDictionary dictionary]];
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Update Video Library", nil)]){
-            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionary]];
+        }
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Clean Video Library", nil)]){
+            [self powerAction:@"VideoLibrary.Clean" params:[NSDictionary dictionary]];
         }
     }
 }
@@ -363,24 +386,40 @@
 
 #pragma mark - Lifecycle
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
+    int deltaY = 0;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [self setNeedsStatusBarAppearanceUpdate];
+        deltaY = 22;
+        self.view.tintColor = APP_TINT_COLOR;
+    }
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     firstRun=YES;
     [AppDelegate instance].obj=[GlobalData getInstance]; 
 
-    int cellHeight = 56;
-    int infoHeight = 22;
-    int tableHeight = ([(NSMutableArray *)mainMenu count] - 1) * cellHeight + infoHeight;
+    int cellHeight = PAD_MENU_HEIGHT;
+    int infoHeight = PAD_MENU_INFO_HEIGHT;
+    NSInteger tableHeight = ([(NSMutableArray *)mainMenu count] - 1) * cellHeight + infoHeight;
     int tableWidth = 300;
     int headerHeight=0;
    
-    rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY - 1)];
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
 	[rootView setBackgroundColor:[UIColor clearColor]];
 	
+    fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    fanartBackgroundImage.autoresizingMask = rootView.autoresizingMask;
+    fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
+    fanartBackgroundImage.alpha = 0.05f;
+    [self.view addSubview:fanartBackgroundImage];
+    
 	leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableWidth, self.view.frame.size.height)];
 	leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;	
     
@@ -404,14 +443,14 @@
 
     nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     CGRect frame=nowPlayingController.view.frame;
-    YPOS=-(tableHeight + separator + headerHeight);
+    YPOS= (int)-(tableHeight + separator + headerHeight);
     frame.origin.y=tableHeight + separator + headerHeight;
     frame.size.width=tableWidth;
-    frame.size.height=self.view.frame.size.height - tableHeight - separator - headerHeight;
+    frame.size.height=self.view.frame.size.height - tableHeight - separator - headerHeight - deltaY;
     nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
     nowPlayingController.view.frame=frame;
     
-    [nowPlayingController setToolbarWidth:768 height:610 YPOS:YPOS playBarWidth:426 portrait:TRUE];
+    [nowPlayingController setToolbarWidth:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height - 414 YPOS:YPOS playBarWidth:1426 portrait:TRUE];
     
     [leftMenuView addSubview:nowPlayingController.view];
 
@@ -464,23 +503,35 @@
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(428, 966, 190, 33)]; //225
     [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
-    xbmcInfo.titleLabel.minimumFontSize=6.0f;
-    xbmcInfo.titleLabel.numberOfLines=2;
+    xbmcInfo.titleLabel.minimumFontSize = 6.0f;
+    xbmcInfo.titleLabel.numberOfLines = 2;
     xbmcInfo.titleLabel.textAlignment=UITextAlignmentCenter;
-    xbmcInfo.titleEdgeInsets=UIEdgeInsetsMake(0, 3, 0, 3);
+    xbmcInfo.titleEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
-    xbmcInfo.titleLabel.shadowOffset    = CGSizeMake (1.0, 1.0);
-    [xbmcInfo setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+    xbmcInfo.titleLabel.shadowOffset = CGSizeMake (1.0, 1.0);
     xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:xbmcInfo];
     
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(620, 966, 42, 33)]; //225
-    [powerButton setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
+        xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
+        xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
+        [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+        [menuViewController.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+
+    }
+    else{
+        [xbmcInfo setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+        [powerButton setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
+    }
     [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateNormal];
     [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:xbmcInfo];
     [self.view addSubview:powerButton];
     
     [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
@@ -534,13 +585,55 @@
                                                  name: @"TcpJSONRPCChangeServerStatus"
                                                object: nil];
     
-    self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
-    self.serverPickerPopover = [[UIPopoverController alloc]
-                                initWithContentViewController:[AppDelegate instance].navigationController];
-    self.serverPickerPopover.delegate = self;
-    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleStackScrollFullScreenEnabled:)
+                                                 name: @"StackScrollFullScreenEnabled"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleStackScrollFullScreenDisabled:)
+                                                 name: @"StackScrollFullScreenDisabled"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleChangeBackgroundGradientColor:)
+                                                 name: @"UIViewChangeBackgroundGradientColor"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleChangeBackgroundImage:)
+                                                 name: @"UIViewChangeBackgroundImage"
+                                               object: nil];
+    
+    [self initHostManagemetPopOver];
+    
+    [(gradientUIView *)self.view setColoursWithCGColors:[UIColor colorWithRed:0.141f green:0.141f blue:0.141f alpha:1.0f].CGColor
+                                               endColor:[UIColor colorWithRed:0.086f green:0.086f blue:0.086f alpha:1.0f].CGColor];
+}
 
+-(void)handleChangeBackgroundImage:(NSNotification *)sender {
+    [UIView transitionWithView: fanartBackgroundImage
+                      duration: 1.0f
+                       options: UIViewAnimationOptionTransitionCrossDissolve
+                    animations: ^{
+                        [fanartBackgroundImage setImage:[[sender userInfo] valueForKey:@"image"]];
+                    }
+                    completion: NULL];
+}
+
+-(void)handleChangeBackgroundGradientColor:(NSNotification *)sender{
+    UIColor *startColor = (UIColor *)[[sender userInfo] valueForKey:@"startColor"];
+    UIColor *endColor = (UIColor *)[[sender userInfo] valueForKey:@"endColor"];
+    [(gradientUIView *)self.view setColoursWithCGColors:startColor.CGColor endColor:endColor.CGColor];
+    [(gradientUIView *)self.view setNeedsDisplay];
+}
+
+-(void)handleStackScrollFullScreenEnabled:(NSNotification *)sender{
+    stackScrollIsFullscreen = YES;
+}
+
+-(void)handleStackScrollFullScreenDisabled:(NSNotification *)sender{
+    stackScrollIsFullscreen = NO;
 }
 
 -(void)handleTcpJSONRPCShowSetup:(NSNotification *)sender{
@@ -561,15 +654,16 @@
 }
 
 - (void)handleStackScrollOffScreen: (NSNotification*) sender{
+    stackScrollIsFullscreen = NO;
     [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    int thumbWidth = 477;
-    int tvshowHeight = 91;
+    int thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
+    int tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
     if ([AppDelegate instance].obj.preferTVPosters==YES){
-        thumbWidth = 53;
-        tvshowHeight = 76;
+        thumbWidth = PAD_TV_SHOWS_POSTER_WIDTH;
+        tvshowHeight = PAD_TV_SHOWS_POSTER_HEIGHT;
     }
     mainMenu *menuItem=[self.mainMenu objectAtIndex:3];
     menuItem.thumbWidth=thumbWidth;
@@ -612,12 +706,12 @@
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	[menuViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 	[stackScrollViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    if ([self.serverPickerPopover isPopoverVisible]) {
-        [self.serverPickerPopover dismissPopoverAnimated:NO];
+    if (serverPicker == TRUE){
+        serverPicker = FALSE;
         [self toggleSetup];
     }
-    if ([self.appInfoPopover isPopoverVisible]) {
-        [self.appInfoPopover dismissPopoverAnimated:NO];
+    if (appInfo == TRUE){
+        appInfo = FALSE;
         [self toggleInfoView];
     }
     if (showActionPower){
@@ -626,27 +720,61 @@
     }
 }
 
+-(CGSize)screenSizeOrientationIndependent {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    return CGSizeMake(MIN(screenSize.width, screenSize.height), MAX(screenSize.width, screenSize.height));
+}
+
+-(CGRect)currentScreenBoundsDependOnOrientation {
+    NSString *reqSysVer = @"8.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending) {
+        return [UIScreen mainScreen].bounds;
+    }
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    CGFloat width = CGRectGetWidth(screenBounds);
+    CGFloat height = CGRectGetHeight(screenBounds);
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(width, height);
+    }
+    else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        screenBounds.size = CGSizeMake(height, width);
+    }
+    
+    return screenBounds ;
+}
+
 - (void)viewWillLayoutSubviews{
     UIInterfaceOrientation toInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
         CGRect frame = self.nowPlayingController.ProgressSlider.frame;
-        frame.origin.y = 444;
-        self.nowPlayingController.ProgressSlider.frame=frame;
-        [nowPlayingController setToolbarWidth:768 height:610 YPOS:YPOS playBarWidth:426 portrait:TRUE];
+        frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 580;
+        self.nowPlayingController.ProgressSlider.frame=frame;        
+        [nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height - 414 YPOS:YPOS playBarWidth:426 portrait:TRUE];
 	}
 	else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight){
         CGRect frame = self.nowPlayingController.ProgressSlider.frame;
-        frame.origin.y = 600;
+        frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 168;
         self.nowPlayingController.ProgressSlider.frame=frame;
-        [nowPlayingController setToolbarWidth:1024 height:768 YPOS:YPOS playBarWidth:680 portrait:FALSE];
+        [nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS playBarWidth:680 portrait:FALSE];
 	}
 }
 
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
 	[menuViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	[stackScrollViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if ([self.serverPickerPopover isPopoverVisible]) {
+        [self.serverPickerPopover dismissPopoverAnimated:NO];
+        serverPicker = TRUE;
+    }
+    if ([self.appInfoPopover isPopoverVisible]) {
+        [self.appInfoPopover dismissPopoverAnimated:NO];
+        appInfo = TRUE;
+    }
     showActionPower = NO;
-    if (actionSheetPower.window != nil){
+    if ([actionSheetPower isVisible]){
         showActionPower = YES;
         [actionSheetPower dismissWithClickedButtonIndex:actionSheetPower.cancelButtonIndex animated:YES];
     }
@@ -655,5 +783,10 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
 	return YES;
 }
+
+-(BOOL)shouldAutorotate{
+    return !stackScrollIsFullscreen;
+}
+
 
 @end

@@ -11,6 +11,7 @@
 "Browse your" = "Durchsuche deine";
 "See what's" = "Schaue was";
 "Use as" = "Benutze die";
+"Watch" = "Schaue";
 
 "Music" = "Musik";
 "Movies" = "Filme";
@@ -18,10 +19,10 @@
 "Pictures" = "Bilder";
 "Now Playing" = "Gerade spielt";
 "Remote Control" = "Fernbedienung";
-"XBMC Server" = "XBMC Server";
-"New XBMC Server" = "Neuer XBMC Server";
-"Modify XBMC Server" = "XBMC Server bearbeiten";
-"Select an XBMC Server from the list" = "Wähle einen XBMC-Server aus der Liste";
+"XBMC Server" = "Kodi Server";
+"New XBMC Server" = "Neuer Kodi Server";
+"Modify XBMC Server" = "Kodi Server bearbeiten";
+"Select an XBMC Server from the list" = "Wähle einen Kodi-Server aus der Liste";
 
 "Files" = "Dateien";
 "Video Addons" = "Video Addons";
@@ -58,15 +59,15 @@
 "Hibernate" = "Ruhezustand";
 "Suspend" = "Standby";
 "Reboot" = "Neu starten";
-"Quit XBMC application" = "XBMC beenden";
+"Quit XBMC application" = "Kodi beenden";
 "Update Audio Library" = "Audiobibliothek aktualisieren";
-"Update Audio" = "Aktualisieren";
+"Update Audio" = "Audio aktualisieren";
 "Clean Audio Library" = "Audiobibliothek bereinigen";
-"Clean Audio" = "Bereinigen";
+"Clean Audio" = "Audio bereinigen";
 "Update Video Library" = "Videobibliothek aktualisieren";
-"Update Video" = "Aktualisieren";
+"Update Video" = "Video aktualisieren";
 "Clean Video Library" = "Videobibliothek bereinigen";
-"Clean Video" = "Bereinigen";
+"Clean Video" = "Video bereinigen";
 "Quit" = "Beenden";
 
 "Keyboard" = "Tastatur";
@@ -124,16 +125,20 @@
 "No saved hosts found" = "Keine gespeicherten Server gefunden";
 
 "Are you sure you want to clear the %@playlist?" = "Bist du sicher, dass Du %@playlist löschen möchtest?";
-"Are you sure you want to power off your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt ausschalten möchtest?";
-"Are you sure you want to hibernate your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt in den Ruhezustand gehen soll?";
-"Are you sure you want to suspend your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt in den Stanyby gehen soll?";
-"Are you sure you want to reboot your XBMC system now?" = "Bist du sicher, dass Du dein XBMC-System jetzt neu starten möchtest?";
-"Are you sure you want to quit XBMC application now?" = "Bist du sicher, dass Du die XBMC jetzt beenden möchtest?";
+"Are you sure you want to power off your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt ausschalten möchtest?";
+"Are you sure you want to hibernate your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt in den Ruhezustand gehen soll?";
+"Are you sure you want to suspend your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt in den Stanyby gehen soll?";
+"Are you sure you want to reboot your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt neu starten möchtest?";
+"Are you sure you want to quit XBMC application now?" = "Bist du sicher, dass Du die Kodi jetzt beenden möchtest?";
 "Are you sure you want to update your audio library now?" = "Bist du sicher, dass Du deine Audiobibliothek jetzt aktualisieren möchtest?";
 "Are you sure you want to clean your audio library now?" = "Bist du sicher, dass Du deine Audiobibliothek jetzt bereinigen möchtest?";
 "Are you sure you want to update your video library now?" = "Bist du sicher, dass Du deine Videobibliothek jetzt aktualisieren möchtest??";
 "Are you sure you want to clean your video library now?" = "Bist du sicher, dass Du deine Videoobibliothek jetzt bereinigen möchtest?";
 
+"DIRECTED BY" = "REGIE";
+"RUNTIME" = "LAUFZEIT";
+"PARENTAL RATING" = "ALTERSBESCHRÄNKUNG";
+"CAST" = "BESETZUNG";
 "EPISODES" = "EPISODEN";
 "GENRE" = "GENRE";
 "STUDIO" = "STUDIO";
@@ -148,6 +153,7 @@
 "DESCRIPTION" = "BESCHREIBUNG";
 "STYLE" = "STIL";
 "BORN / FORMED" = "GEGRÜNDET";
+"TRAILER" = "TRAILER";
 
 "codec" = "Codec";
 "bit rate" = "Bitrate";
@@ -182,8 +188,8 @@
 "Scrubbing 0.025" = "Scrubbing.Geschwindigkeit: Super fein";
 
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Clearing app disk cache...\n\nPlease wait, since this may take a while";
-"Pull to sync with XBMC..." = "Pull to sync with XBMC...";
-"Release to sync with XBMC..." = "Release to sync with XBMC...";
+"Pull to sync with XBMC..." = "Pull to sync with Kodi...";
+"Release to sync with XBMC..." = "Release to sync with Kodi...";
 "Syncing..." = "Syncing...";
 "Last sync" = "Last sync";
 "View: Wall" = "View: Wall";
@@ -193,3 +199,126 @@
 "Show Content" = "Show Content";
 "Play in party mode" = "Play in party mode";
 "Play in shuffle mode" = "Play in shuffle mode";
+
+"Channel Guide" = "Channel Guide";
+"Record" = "Record";
+"Recordings" = "Recordings";
+"Timers" = "Timers";
+"Broadcast Details" = "Broadcast Details";
+"TIME" = "TIME";
+
+"ERROR" = "ERROR";
+"Subtitles disabled" = "Subtitles disabled";
+"Subtitle" = "Subtitle";
+"Mark as watched" = "Mark as watched";
+"Mark as unwatched" = "Mark as unwatched";
+
+"Button Pad/Gesture Zone" = "Button Pad/Gesture Zone";
+"Slide your finger up or down to adjust the scrubbing rate." = "Slide your finger up or down to adjust the scrubbing rate.";
+
+"Programs" = "Programs";
+"Video Add-ons" = "Video Add-ons";
+"Music Add-ons" = "Music Add-ons";
+"XBMC Settings" = "Kodi Settings";
+
+"Custom button" = "Custom button";
+"Modify label:" = "Modify label:";
+"Update label" = "Update label";
+"Add a new button" = "Add a new button";
+"Enter the label:" = "Enter the label:";
+"Add button" = "Add button";
+"Button added" = "Button added";
+"enter value" = "enter value";
+"Tap and hold a setting to add a new button." = "Tap and hold a setting to add a new button.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "No custom button defined.\r\nPress \"...more\" below to add new ones.";
+
+"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- WARNING --\nCurrent Kodi API doesn't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.";
+
+"Execute program" = "Execute program";
+"Execute video add-on" = "Execute video add-on";
+"Execute audio add-on" = "Execute audio add-on";
+"Add-on executed successfully" = "Add-on executed successfully";
+"Unable to  execute the add-on" = "Unable to  execute the add-on";
+
+"...more" = "...more";
+"Edit" = "Bearbeiten";
+"Done" = "Fertig";
+"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "Kodi version 13  or superior is required to access Kodi settings";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the Kodi GUI for changing this setting.\nThank you.";
+
+"Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nfür iOS";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Die \"Official Kodi Remote app\" benutzt Bilder die von  http://fanart.tv kommen. Installiere das \"artwork downloader\" Kodi Add-on um dies auch in Kodi zu nutzen!\n\nDas Kodi-Logo, das Zappy Maskottchen und die \"Official Kodi Remote\"-Icons sind Eigentum von Kodi\nhttp://www.kodi.tv/contribute";
+"enjoy!" = "enjoy!";
+
+"No items found." = "Keine Einträge gefunden";
+"Video" = "Video";
+"Party" = "Party";
+"Search" = "Suche";
+
+"Supported XBMC version is Eden (11) or higher" = "Unterstütze Kodi-Versionen Eden (11) oder höher";
+"Add Host" = "Hinzufügen";
+
+"Description" = "Beschreibung";
+"Host : port /\nTCP port" = "Host : port /\nTCP port";
+"MAC Address" = "MAC Adresse";
+"Username and Password" = "Username und Passwort";
+"Prefer posters for TV shows" = "Bevorzuge Poster für TV-Serien";
+"Find XBMC" = "Finde Kodi";
+"Save" = "Speichern";
+"No XBMC instances were found :(" = "Es wurden keine Kodi-Installationen gefunden :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Finde Kodi\" benötigt die Kodi-Option\n\"Zeroconf-Veröffentlichung\" unter Einstellungen/Dienste/ZeroConf aktiviert";
+"How-to actvate the remote app in XBMC" = "So aktivieren Sie die Remote-App in Kodi";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nSettings -> Network -> Allow control of Kodi via HTTP";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of Kodi via HTTP";
+"e.g. My XBMC" = "z.B. Mein Kodi";
+"e.g. 192.168.0.8" = "e.g. 192.168.0.8";
+"Username" = "Username";
+"Password" = "Passwort";
+
+"Sort by" = "Sortieren nach";
+"tap the selection\nto reverse the sort order" = "Sortierreihenfolge umdrehen\nmit Klick auf die Auswahl";
+"Not listened" = "Nicht gehört";
+"Listened one time" = "Ein mal gehört";
+"Listened %@ times" = "%@ mal gehört";
+"Not watched" = "Nicht gesehen";
+"Watched one time" = "Ein mal gesehen";
+"Watched %@ times" = "%@ mal gesehen";
+"Artist" = "Künstler";
+"Year" = "Jahr";
+"Play count" = "Abspielzähler";
+"Track" = "Track";
+"Title" = "Titel";
+"Rating" = "Bewertung";
+"Duration" = "Dauer";
+"Date added" = "Hinzugefügt Datum";
+"Name" = "Name";
+"User rating" = "Benutzerbewertung";
+"The %@s decade" = "Die %@er Jahre";
+"Year not available" = "Jahr nicht verfügbar";
+"Year %@" = "Jahr %@";
+"Rated %@" = "Bewertet %@";
+"Track n.%@" = "Track n.%@";
+
+"Less than 15 minutes" = "Weniger als 15 Minuten";
+"Less than half an hour" = "Weniger als eine halbe Stunde";
+"About half an hour" = "Ungefähr eine halbe Stunde";
+"Less than one hour" = "Weniger als eine Stunde";
+"About one hour" = "Ungefähr eine Stunde";
+"About an hour and a half" = "Ungefähr eineinhalb Stunden";
+"Nearly two hours" = "Fast zwei Stunden";
+"About two hours" = "Ungefähr zwei Stunden";
+"Two hours" = "Zwei Stunden";
+"About two and a half hours" = "Ungefähr zweieinhalb Stunden";
+"More than two and a half hours" = "Mehr als zweieinhalb Stunden";
+"Nearly three hours" = "Fast drei Stunden";
+"About three hours" = "Ungefähr drei Stunden";
+"Nearly three and half hours" = "Fast dreieinhalb Stunden";
+"About three and half hours" = "Ungefähr dreieinhalb Stunden";
+"Nearly four hours" = "Fast vier Stunden";
+"About four hours" = "Ungefähr vier Stunden";
+"More than four hours" = "Mehr als vier Stunden";
+
+"Unknown" = "Unbekannt";
+"Audio stream" = "Audio stream";
+"Disable subtitles" = "Unterstitel ausblenden";
+"Subtitles" = "Untertitel";

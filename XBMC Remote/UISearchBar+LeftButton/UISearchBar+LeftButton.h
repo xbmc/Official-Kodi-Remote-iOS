@@ -7,17 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
-#define SEARCH_BAR_LEFT_PADDING 120.0f
 
 @interface UISearchBarLeftButton : UISearchBar {
     float cancelButtonWidth;
-//    UIButton *leftButton;
+    float buttonWidth;
+    int leftPadding;
+    BOOL showLeftButton;
+    BOOL showSortButton;
+    UILongPressGestureRecognizer *gestureRecognizer;
 }
 
+-(void)showLeftButton:(BOOL)show;
+-(void)showSortButton:(BOOL)show;
+-(void)setSortButtonImage:(NSString *)sortOrder;
+
 @property (readonly) UITextField *textField;
-@property (nonatomic) int leftPadding;
 @property (nonatomic) int rightPadding;
-@property (nonatomic, retain) UILabel *viewLabel;
+@property (nonatomic) float storeWidth;
 @property (nonatomic, retain) UIButton *leftButton;
+@property (nonatomic, retain) UIButton *sortButton;
+@property (nonatomic) BOOL isVisible;
 
 @end

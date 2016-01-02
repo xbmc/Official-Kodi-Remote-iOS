@@ -11,7 +11,7 @@
 //#import "VolumeSliderView.h"
 //#import "RightMenuViewController.h"
 
-@interface RemoteController : UIViewController <UITextFieldDelegate>{
+@interface RemoteController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate>{
     DSJSONRPC *jsonRPC;
 //    VolumeSliderView *volumeSliderView;
     IBOutlet UIView *remoteControlView;
@@ -33,6 +33,10 @@
     UILabel *verboseOutput;
     UILabel *keyboardTitle;
     UITextField *backgroundTextField;
+    UISwipeGestureRecognizer *rightSwipe;
+    UISwipeGestureRecognizer *leftSwipe;
+    NSDictionary *subsDictionary;
+    NSDictionary *audiostreamsDictionary;
 //    int accessoryHeight;
 //    int padding;
 //    int verboseHeight;

@@ -16,7 +16,8 @@ static char operationKey;
 - (CGSize)doubleSizeIfRetina:(CGSize)size
 {
     BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
-    size = isRetina ? CGSizeMake(size.width *2, size.height *2) : size;
+    BOOL isRetinaHD = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 3);
+    size = isRetinaHD ? CGSizeMake(size.width * 3, size.height * 3) : isRetina ? CGSizeMake(size.width * 2, size.height * 2) : size;
     return size;
 }
 

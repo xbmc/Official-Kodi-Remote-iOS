@@ -40,6 +40,10 @@
     HostManagementViewController *_hostPickerViewController;
     UIActionSheet *actionSheetPower;
     BOOL showActionPower;
+    BOOL stackScrollIsFullscreen;
+    BOOL serverPicker;
+    BOOL appInfo;
+    UIImageView *fanartBackgroundImage;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;

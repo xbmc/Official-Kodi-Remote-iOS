@@ -14,6 +14,10 @@
     IBOutlet UIScrollView *creditsScrollView;
     __weak IBOutlet UIImageView *creditsMask;
     __weak IBOutlet UIImageView *creditsSign;
+    __weak IBOutlet UILabel *appName;
+    __weak IBOutlet UILabel *appVersion;
+    __weak IBOutlet UITextView *appDescription;
+    __weak IBOutlet UILabel *appGreeting;
 }
 
 @end

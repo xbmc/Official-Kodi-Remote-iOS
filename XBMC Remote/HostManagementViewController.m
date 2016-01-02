@@ -74,12 +74,22 @@
     return [[AppDelegate instance].arrayServerList count];
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor clearColor];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"serverListCell"];
     [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:NULL];
     if (cell==nil){
         cell = serverListCell;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
+            [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
+            [cell setTintColor:[UIColor lightGrayColor]];
+        }
+        cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     if ([[AppDelegate instance].arrayServerList count] == 0){
         [(UIImageView*) [cell viewWithTag:1] setHidden:TRUE];
@@ -88,12 +98,6 @@
         cellLabel.textAlignment=UITextAlignmentCenter;
         [cellLabel setText:NSLocalizedString(@"No saved hosts found", nil)];
         [cellIP setText:@""];
-        CGRect frame=cellLabel.frame;
-        frame.origin.x=10;
-        frame.origin.y=0;
-        frame.size.width=300;
-        frame.size.height=44;
-        cellLabel.frame=frame;
         cell.accessoryType=UITableViewCellAccessoryNone;
         return cell;
     }
@@ -101,12 +105,6 @@
         [(UIImageView*) [cell viewWithTag:1] setHidden:FALSE];
         UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
         UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
-        CGRect frame=cellLabel.frame;
-        frame.origin.x=36;
-        frame.origin.y=0;
-        frame.size.width=166;
-        frame.size.height=44;
-        cellLabel.frame=frame;
         cellLabel.textAlignment=UITextAlignmentLeft;
         NSDictionary *item=[[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
         [cellLabel setText:[item objectForKey:@"serverDescription"]];
@@ -121,19 +119,26 @@
         else {
             cell.accessoryType=UITableViewCellAccessoryNone;
         }
-        cell.editingAccessoryType=UITableViewCellAccessoryDetailDisclosureButton;
     }
     return cell;
 }
 
+static inline BOOL IsEmpty(id obj) {
+    return obj == nil
+    || ([obj respondsToSelector:@selector(length)]
+        && [(NSData *)obj length] == 0)
+    || ([obj respondsToSelector:@selector(count)]
+        && [(NSArray *)obj count] == 0);
+}
+
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *item = [[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
-    [AppDelegate instance].obj.serverDescription = [item objectForKey:@"serverDescription"];
-    [AppDelegate instance].obj.serverUser = [item objectForKey:@"serverUser"];
-    [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
-    [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
-    [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
-    [AppDelegate instance].obj.serverHWAddr = [item objectForKey:@"serverMacAddress"];
+    [AppDelegate instance].obj.serverDescription = IsEmpty([item objectForKey:@"serverDescription"]) ? @"" : [item objectForKey:@"serverDescription"];
+    [AppDelegate instance].obj.serverUser = IsEmpty([item objectForKey:@"serverUser"]) ? @"" : [item objectForKey:@"serverUser"];
+    [AppDelegate instance].obj.serverPass = IsEmpty([item objectForKey:@"serverPass"]) ? @"" : [item objectForKey:@"serverPass"];
+    [AppDelegate instance].obj.serverIP = IsEmpty([item objectForKey:@"serverIP"]) ? @"" : [item objectForKey:@"serverIP"];
+    [AppDelegate instance].obj.serverPort = IsEmpty([item objectForKey:@"serverPort"]) ? @"" : [item objectForKey:@"serverPort"];
+    [AppDelegate instance].obj.serverHWAddr = IsEmpty([item objectForKey:@"serverMacAddress"]) ? @"" : [item objectForKey:@"serverMacAddress"];
     [AppDelegate instance].obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
     [AppDelegate instance].obj.tcpPort = [[item objectForKey:@"tcpPort"] intValue];
 }
@@ -178,7 +183,7 @@
             [self selectServerAtIndexPath:indexPath];
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (standardUserDefaults) {
-                [standardUserDefaults setObject:[NSNumber numberWithInt:indexPath.row] forKey:@"lastServer"];
+                [standardUserDefaults setObject:[NSNumber numberWithInt:(int)indexPath.row] forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
             }
         }
@@ -212,7 +217,7 @@
             if (indexPath.row<storeServerSelection.row){
                 storeServerSelection=[NSIndexPath  indexPathForRow:storeServerSelection.row-1 inSection:storeServerSelection.section];
                 if (standardUserDefaults) {
-                    [standardUserDefaults setObject:[NSNumber numberWithInt:storeServerSelection.row] forKey:@"lastServer"];
+                    [standardUserDefaults setObject:[NSNumber numberWithInt:(int)storeServerSelection.row] forKey:@"lastServer"];
                     [standardUserDefaults synchronize];
                 }
             }
@@ -235,25 +240,27 @@
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-	imageView.frame = CGRectMake(0,0,320,8);
-	return imageView;
+    return nil;
+//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+//	imageView.frame = CGRectMake(0,0,320,8);
+//	return imageView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 4;
+    return 0;
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-	imageView.frame = CGRectMake(0,0,320,8);
-	return imageView;
+    return nil;
+//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
+//	imageView.frame = CGRectMake(0,0,320,8);
+//	return imageView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 4;
+    return 0;
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
@@ -261,8 +268,11 @@
 }
 
 -(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
-    if ([[AppDelegate instance].arrayServerList count]==0 && !serverListTableView.editing) return;
-    if (serverListTableView.editing || forceClose==YES){
+    if (sender != nil){
+        forceClose = FALSE;
+    }
+    if ([[AppDelegate instance].arrayServerList count] == 0 && !serverListTableView.editing) return;
+    if (serverListTableView.editing == YES || forceClose == YES){
         [serverListTableView setEditing:NO animated:YES];
         [editTableButton setSelected:NO];
         if ([[AppDelegate instance].arrayServerList count] == 0)
@@ -316,7 +326,7 @@
     if (appInfoView==nil)
         appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil] ;
     appInfoView.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-	appInfoView.modalPresentationStyle = UIModalPresentationFullScreen;
+//	appInfoView.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentModalViewController:appInfoView animated:YES];
 }
 
@@ -364,17 +374,85 @@
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+//    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+//        int barEffectHeight = 1;
+//        if (iOS7navBarEffect == nil && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+//            iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, barEffectHeight)];
+//            iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+//            [iOS7navBarEffect setBackgroundColor:[UIColor redColor]];
+//            [self.view insertSubview:iOS7navBarEffect atIndex:1];
+//        }
+//    }
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [addHostButton setTitle:NSLocalizedString(@"Add Host", nil) forState:UIControlStateNormal];
+    addHostButton.titleLabel.numberOfLines = 1;
+    addHostButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    addHostButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
+    [editTableButton setTitle:NSLocalizedString(@"Edit",nil) forState:UIControlStateNormal];
+    [editTableButton setTitle:NSLocalizedString(@"Done",nil) forState:UIControlStateSelected];
+    editTableButton.titleLabel.numberOfLines = 1;
+    editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    editTableButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
+    [supportedVersionLabel setText:NSLocalizedString(@"Supported XBMC version is Eden (11) or higher", nil)];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
+
+        [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+        [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+        [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
+        [editTableButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+        [editTableButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [editTableButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [editTableButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+        
+        [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+        [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+        [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
+        [addHostButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+        [addHostButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [addHostButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [addHostButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            self.edgesForExtendedLayout = 0;
+            self.view.tintColor = APP_TINT_COLOR;
+        }
+        else{
+            int barHeight = 44;
+            int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+            
+            CGRect frame = supportedVersionView.frame;
+            frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+            supportedVersionView.frame = frame;
+            
+            frame = serverListTableView.frame;
+            frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+            frame.size.height = frame.size.height - (barHeight + statusBarHeight);
+            serverListTableView.frame = frame;
+            
+            frame = connectingActivityIndicator.frame;
+            frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+            connectingActivityIndicator.frame = frame;
+
+        }
+    }
     doRevealMenu = YES;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         CGRect frame = backgroundImageView.frame;
         frame.size.height = frame.size.height + 8;
         backgroundImageView.frame = frame;
+        [self.view setBackgroundColor:[UIColor blackColor]];
+        [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
     }
     else if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
         MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
         masterViewController.mainMenu = self.mainMenu;
+        masterViewController.hostController = self;
         self.slidingViewController.underLeftViewController = masterViewController;
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -431,6 +509,8 @@
 }
 
 - (void)connectionSuccess:(NSNotification *)note {
+//    [iOS7navBarEffect setBackgroundColor:[UIColor greenColor]];
+//    [self.view setNeedsDisplay];
     if (storeServerSelection!=nil){
         UITableViewCell *cell  = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
         [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
@@ -440,6 +520,8 @@
 }
 
 - (void)connectionFailed:(NSNotification *)note {
+//    [iOS7navBarEffect setBackgroundColor:[UIColor redColor]];
+//    [self.view setNeedsDisplay];
     if (storeServerSelection!=nil){
         UITableViewCell *cell  = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
         [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
@@ -460,7 +542,12 @@
     return YES;
 }
 
--(NSUInteger)supportedInterfaceOrientations{
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+- (NSUInteger)supportedInterfaceOrientations
+#else
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+#endif
+{
     return UIInterfaceOrientationMaskPortrait;
 }
 

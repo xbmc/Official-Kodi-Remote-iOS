@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 
 #define SERVER_TIMEOUT 2.0f
+#define MRMC_TIMEWARP 14.0f
 
 NSInputStream	*inStream;
 NSOutputStream	*outStream;
@@ -24,12 +25,31 @@ NSOutputStream	*outStream;
                                                  selector: @selector(handleSystemOnSleep:)
                                                      name: @"System.OnSleep"
                                                    object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleEnterForeground:)
+                                                     name: @"UIApplicationWillEnterForegroundNotification"
+                                                   object: nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleDidEnterBackground:)
+                                                     name: @"UIApplicationDidEnterBackgroundNotification"
+                                                   object: nil];
+
     }
     return self;
 }
 
 -(void)handleSystemOnSleep:(NSNotification *)sender{
     [AppDelegate instance].serverTCPConnectionOpen = NO;
+}
+
+- (void) handleDidEnterBackground: (NSNotification*) sender{
+    [heartbeatTimer invalidate];
+    heartbeatTimer = nil;
+}
+
+- (void) handleEnterForeground: (NSNotification*) sender{
+    heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
 }
 
 - (void)startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port{
@@ -77,7 +97,7 @@ NSOutputStream	*outStream;
 				uint8_t buffer[1024];
 				int len;
 				while ([inStream hasBytesAvailable]) {
-					len = [inStream read:buffer maxLength:sizeof(buffer)];
+					len = (int)[inStream read:buffer maxLength:sizeof(buffer)];
 					if (len > 0) {
 						NSData *output = [[NSData alloc] initWithBytes:buffer length:len];
 						if (nil != output) {
@@ -151,7 +171,7 @@ NSOutputStream	*outStream;
     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
     NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
-    NSString *checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
+    NSDictionary *checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", @"name", nil], @"properties", nil];
     [jsonRPC
      callMethod:@"Application.GetProperties"
      withParameters:checkServerParams
@@ -165,6 +185,10 @@ NSOutputStream	*outStream;
                      NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
                      [AppDelegate instance].serverVersion = [[serverInfo objectForKey:@"major"] intValue];
                      [AppDelegate instance].serverMinorVersion = [[serverInfo objectForKey:@"minor"] intValue];
+                     NSString *realServerName = [methodResult objectForKey:@"name"];
+                     if ([realServerName isEqualToString:@"MrMC"]){
+                         [AppDelegate instance].serverVersion += MRMC_TIMEWARP;
+                     }
                      NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@",
                                           [AppDelegate instance].obj.serverDescription,
                                           [serverInfo objectForKey:@"major"],

@@ -12,8 +12,6 @@
 
 @implementation UISearchBarLeftButton
 
-static CGRect initialTextFieldFrame;
-
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
@@ -30,37 +28,34 @@ static CGRect initialTextFieldFrame;
     return self;
 }
 
--(void)configureView{
-    self.leftPadding = 0;
+-(void)configureView {
+    self.isVisible = YES;
+    leftPadding = 0;
     self.rightPadding = 0;
-    float buttonWidth = 44;
-    float buttonHeight = 44;
+    buttonWidth = 44.0f;
+    showLeftButton = NO;
+    showSortButton = NO;
+    float buttonHeight = 44.0f;
+    gestureRecognizer = nil;
+    
     self.leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, self.frame.size.height/2 - buttonHeight/2, buttonWidth, buttonHeight)];
     [self.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
     [self.leftButton setShowsTouchWhenHighlighted:YES];
     self.leftButton.alpha = 0;
     [self addSubview:self.leftButton];
     
-    self.viewLabel = [[UILabel alloc] initWithFrame:CGRectMake(buttonWidth, 0, SEARCH_BAR_LEFT_PADDING - buttonWidth, buttonHeight)];
-    [self.viewLabel setBackgroundColor:[UIColor clearColor]];
-    [self.viewLabel setFont:[UIFont boldSystemFontOfSize:12]];
-    [self.viewLabel setTextColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.65f]];
-    [self.viewLabel setShadowColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.3f]];
-    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2);
-    float shadowOffset = isRetina ? 0.5f : 1.0f;
-    [self.viewLabel setShadowOffset:CGSizeMake(-shadowOffset, shadowOffset)];
-    self.viewLabel.alpha = 0;
-    [self addSubview:self.viewLabel];
+    self.sortButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, self.frame.size.height/2 - buttonHeight/2, buttonWidth, buttonHeight)];
+    [self.sortButton setImage:[UIImage imageNamed:@"button_sort"] forState:UIControlStateNormal];
+    [self.sortButton setShowsTouchWhenHighlighted:YES];
+    self.sortButton.alpha = 0;
+    [self addSubview:self.sortButton];
 }
 
 - (void) layoutSubviews {
     [super layoutSubviews];
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        initialTextFieldFrame = self.textField.frame;
-    });
+    if (!self.isVisible) return;
     self.leftButton.alpha = 0;
-    self.viewLabel.alpha = 0;
+    self.sortButton.alpha = 0;
     if (self.showsCancelButton == YES){
         cancelButtonWidth = CANCEL_BUTTON_DEFAULT_WIDTH;
         for (UIView *view in self.subviews) {
@@ -71,23 +66,35 @@ static CGRect initialTextFieldFrame;
         [self updateTextFieldFrame:cancelButtonWidth + CANCEL_BUTTON_PADDING leftPadding:0];
     }
     else{
-        if (self.leftPadding){
+        leftPadding = 0;
+        float buttonSortOriginX = 0;
+        if (showLeftButton == YES) {
             self.leftButton.alpha = 1;
-            self.viewLabel.alpha = 1;
-
+            leftPadding += buttonWidth;
+            buttonSortOriginX = 44.0f;
         }
-        [self updateTextFieldFrame:self.rightPadding leftPadding:self.leftPadding];
+        if (showSortButton == YES) {
+            self.sortButton.alpha = 1;
+            leftPadding += buttonWidth;
+            CGRect frame = self.sortButton.frame;
+            frame.origin.x = buttonSortOriginX;
+            self.sortButton.frame = frame;
+        }
+        [self updateTextFieldFrame:self.rightPadding leftPadding:leftPadding];
     }
 }
 
--(void)updateTextFieldFrame:(float)rightMargin leftPadding:(float)leftMargin{
+-(void)updateTextFieldFrame:(float)rightMargin leftPadding:(float)leftMargin {
     int originX = self.textField.frame.origin.x + leftMargin;
-    int width = initialTextFieldFrame.size.width - leftMargin - rightMargin;
+    int width = self.frame.size.width - 16 - leftMargin - rightMargin;
     CGRect newFrame = CGRectMake (originX,
                                   self.textField.frame.origin.y,
                                   width,
                                   self.textField.frame.size.height);
     self.textField.frame = newFrame;
+    newFrame = self.frame;
+    newFrame.size.width = self.storeWidth;
+    self.frame = newFrame;
 }
 
 -(UITextField *)textField{
@@ -95,14 +102,48 @@ static CGRect initialTextFieldFrame;
         if ([view isKindOfClass: [UITextField class]]){
             return (UITextField *)view;
         }
+        else if ([view isKindOfClass:[UIView class]]){
+            for (UIView *view2 in view.subviews) {
+                if ([view2 isKindOfClass: [UITextField class]]){
+                    return (UITextField *)view2;
+                }
+            }
+        }
     }
     return nil;
 }
 
-- (void)drawRect:(CGRect)rect{
-    if ([self.delegate respondsToSelector:@selector(handleChangeLibraryView)]){
-        [self.leftButton addTarget:self.delegate action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
+-(void)setSortButtonImage:(NSString *)sortOrder {
+    if ([sortOrder isEqualToString:@"descending"]) {
+        [self.sortButton setImage:[UIImage imageNamed:@"button_sort_descending"] forState:UIControlStateNormal];
     }
+    else {
+        [self.sortButton setImage:[UIImage imageNamed:@"button_sort"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)drawRect:(CGRect)rect{
+    SEL selector = NSSelectorFromString(@"handleChangeLibraryView");
+    if ([self.delegate respondsToSelector:selector]){
+        [self.leftButton addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
+    }
+    selector = NSSelectorFromString(@"handleChangeSortLibrary");
+    if ([self.delegate respondsToSelector:selector]){
+        [self.sortButton addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
+    }
+    selector = NSSelectorFromString(@"handleLongPressSortButton:");
+    if ([self.delegate respondsToSelector:selector] && gestureRecognizer == nil){
+        gestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self.delegate action:selector];
+        [self.sortButton addGestureRecognizer:gestureRecognizer];
+    }
+}
+
+-(void)showLeftButton:(BOOL)show {
+    showLeftButton = show;
+}
+
+-(void)showSortButton:(BOOL)show {
+    showSortButton = show;
 }
 
 @end

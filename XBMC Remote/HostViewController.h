@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 //#import "GlobalData.h"
 
-@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate,  NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate>{
+@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate,  NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate, NSURLConnectionDataDelegate>{
 //    GlobalData *obj;
     IBOutlet UITextField *descriptionUI;
     IBOutlet UITextField *ipUI;
@@ -33,6 +33,17 @@
     IBOutlet UIButton *startDiscover;
     IBOutlet UITableView *discoveredInstancesTableView;
     IBOutlet UIView *discoveredInstancesView;
+    __weak IBOutlet UILabel *descriptionLabel;
+    __weak IBOutlet UILabel *hostLabel;
+    __weak IBOutlet UILabel *macLabel;
+    __weak IBOutlet UILabel *userLabel;
+    __weak IBOutlet UILabel *preferLabel;
+    __weak IBOutlet UILabel *noInstancesLabel;
+    __weak IBOutlet UILabel *findLabel;
+    __weak IBOutlet UILabel *howtoLabel;
+    __weak IBOutlet UILabel *howtoEdenLabel;
+    __weak IBOutlet UILabel *howtoLaterLabel;
+    __weak IBOutlet UIButton *saveButton;
 }
 
 @property (strong, nonatomic) id detailItem;

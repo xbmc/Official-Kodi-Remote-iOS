@@ -76,6 +76,12 @@
     tweetURL.text=[[Twitterweb.request URL] absoluteString];
     topNavigationLabel.text=[Twitterweb stringByEvaluatingJavaScriptFromString:@"document.title"];
     [self fade:topNavigationLabel AnimDuration:0.2 startAlpha:0 endAlpha:1];
+    UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+    tableViewInsets = Twitterweb.scrollView.contentInset;
+    tableViewInsets.bottom = 44;
+    Twitterweb.scrollView.contentInset = tableViewInsets;
+    Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
+
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -119,7 +125,7 @@
 
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -128,7 +134,7 @@
 
 - (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    int numelement=[array count];
+    NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
         [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
     }
@@ -170,6 +176,7 @@
                                         [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
                                         [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                         nil], @"parameters", [parameters objectForKey:@"label"], @"label",
+                                       [NSNumber numberWithBool:YES], @"fromWikipedia",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        nil];
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
@@ -183,28 +190,56 @@
             [self.navigationController pushViewController:self.detailViewController animated:YES];
         }
         else{
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, 477, self.view.frame.size.height) bundle:nil];
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
             [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
             [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
         }
     }
 }
+#pragma mark - Utility
+
+-(void)goBack:(id)sender{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object: nil];
+    }
+}
 
 #pragma mark - View lifecycle
 
--(void)viewWillAppear:(BOOL)animated{
-    [bottomToolbar setBackgroundImage:[UIImage imageNamed:@"st_background"] forToolbarPosition:0 barMetrics:0];
-}
-
 - (void)viewDidLoad{
     [super viewDidLoad];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [bottomToolbar setTintColor:TINT_COLOR];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+            float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
+            tableViewInsets.top = 44 + fabs(iOSYDelta);
+            Twitterweb.scrollView.contentInset = tableViewInsets;
+            Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
+        }
+    }
+    else{
+        [bottomToolbar setBackgroundImage:[UIImage imageNamed:@"st_background"] forToolbarPosition:0 barMetrics:0];
+    }
     NSDictionary *item = self.detailItem;
     UIBarButtonItem *extraButton = nil;
     int titleWidth = 310;
     if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
         UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
-        extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+        BOOL fromAlbumView = NO;
+        if (((NSNull *)[item objectForKey:@"fromAlbumView"] != [NSNull null])){
+            fromAlbumView = [[item objectForKey:@"fromAlbumView"] boolValue];
+        }
+        if (fromAlbumView){
+            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(goBack:)];
+        }
+        else{
+            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+        }        
         titleWidth = 254;
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
@@ -235,6 +270,9 @@
     [titleView addSubview:topNavigationLabel];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         UIToolbar *toolbar = [UIToolbar new];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            [toolbar setTintColor:TINT_COLOR];
+        }
         toolbar.barStyle = UIBarStyleBlackTranslucent;
         toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         toolbar.contentMode = UIViewContentModeScaleAspectFill;            
@@ -290,7 +328,12 @@
     return YES;
 }
 
--(NSUInteger)supportedInterfaceOrientations{
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+- (NSUInteger)supportedInterfaceOrientations
+#else
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+#endif
+{
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 

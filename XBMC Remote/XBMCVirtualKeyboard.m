@@ -31,7 +31,7 @@
         }
 
         xbmcVirtualKeyboard = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
-        xbmcVirtualKeyboard.hidden = NO;
+        xbmcVirtualKeyboard.hidden = YES;
         xbmcVirtualKeyboard.delegate = self;
         xbmcVirtualKeyboard.autocorrectionType = UITextAutocorrectionTypeNo;
         xbmcVirtualKeyboard.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -50,13 +50,33 @@
         [verboseOutput setBackgroundColor:[UIColor clearColor]];
         [verboseOutput setTextAlignment:NSTextAlignmentCenter];
         
+        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
+        [keyboardTitle setContentMode:UIViewContentModeScaleToFill];
+        [keyboardTitle setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+        [keyboardTitle setTextAlignment:NSTextAlignmentCenter];
+        [keyboardTitle setBackgroundColor:[UIColor clearColor]];
+        [keyboardTitle setFont:[UIFont boldSystemFontOfSize:textSize]];
+        
         inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
-        [inputAccView setBackgroundColor:accessoryColor];
-        UIImageView *keyboardLineImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 2)];
-        [keyboardLineImageView setImage:[UIImage imageNamed:@"keyboard_line"]];
-        [keyboardLineImageView setContentMode:UIViewContentModeScaleToFill];
-        [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-        [inputAccView addSubview:keyboardLineImageView];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            UIToolbar *buttonsToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
+            [buttonsToolbar setBarStyle:UIBarStyleDefault];
+            [buttonsToolbar setTranslucent:YES];
+            [buttonsToolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+            [inputAccView insertSubview: buttonsToolbar atIndex:0];
+            [keyboardTitle setTextColor:BAR_TINT_COLOR];
+        }
+        else{
+            [inputAccView setBackgroundColor:accessoryColor];
+            UIImageView *keyboardLineImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 2)];
+            [keyboardLineImageView setImage:[UIImage imageNamed:@"keyboard_line"]];
+            [keyboardLineImageView setContentMode:UIViewContentModeScaleToFill];
+            [keyboardLineImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+            [inputAccView addSubview:keyboardLineImageView];
+            [keyboardTitle setTextColor:[UIColor whiteColor]];
+            [keyboardTitle setShadowColor:[UIColor blackColor]];
+            [keyboardTitle setShadowOffset:CGSizeMake(0, 1)];
+        }
         
         backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
         [backgroundTextField setUserInteractionEnabled:NO];
@@ -64,17 +84,7 @@
         [backgroundTextField setBackgroundColor:[UIColor whiteColor]];
         [backgroundTextField setFont:[UIFont boldSystemFontOfSize:textSize]];
         [backgroundTextField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-        
-        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
-        [keyboardTitle setContentMode:UIViewContentModeScaleToFill];
-        [keyboardTitle setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-        [keyboardTitle setTextAlignment:NSTextAlignmentCenter];
-        [keyboardTitle setBackgroundColor:[UIColor clearColor]];
-        [keyboardTitle setFont:[UIFont boldSystemFontOfSize:textSize]];
-        [keyboardTitle setTextColor:[UIColor whiteColor]];
-        [keyboardTitle setShadowColor:[UIColor blackColor]];
-        [keyboardTitle setShadowOffset:CGSizeMake(0, 1)];
-        
+
         [inputAccView addSubview:keyboardTitle];
         [inputAccView addSubview:backgroundTextField];
         [inputAccView addSubview:verboseOutput];
@@ -109,6 +119,7 @@
         params = [[note userInfo] objectForKey:@"params"];
     }
     keyboardTitle.text = @"";
+    xbmcVirtualKeyboard.keyboardType = UIKeyboardTypeDefault;
     if (params != nil){
         if (((NSNull *)[params objectForKey:@"data"] != [NSNull null])){
             if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"title"] != [NSNull null])){
@@ -117,6 +128,11 @@
             if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"value"] != [NSNull null])){
                 if (![[[params objectForKey:@"data"] objectForKey:@"value"] isEqualToString:@""]){
                     xbmcVirtualKeyboard.text = [[params objectForKey:@"data"] objectForKey:@"value"];
+                }
+            }
+            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"type"] != [NSNull null])){
+                if ([[[params objectForKey:@"data"] objectForKey:@"type"] isEqualToString:@"number"]){
+                    xbmcVirtualKeyboard.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
                 }
             }
         }
@@ -168,7 +184,7 @@
         else{ // CHARACTER
             int x = (unichar) [string characterAtIndex: 0];
             if (x==10) {
-                [self GUIAction:@"Input.Select" params:[NSDictionary dictionaryWithObjectsAndKeys:nil] httpAPIcallback:nil];
+                [self GUIAction:@"Input.Select" params:[NSDictionary dictionary] httpAPIcallback:nil];
                 [xbmcVirtualKeyboard resignFirstResponder];
             }
             else if (x<1000){
@@ -187,7 +203,7 @@
         if ([string length] != 0){
             int x = (unichar) [string characterAtIndex: 0];
             if (x==10) {
-                [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", [NSNumber numberWithBool:TRUE], @"done", nil] httpAPIcallback:nil];
+                [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:[stringToSend substringToIndex:[stringToSend length] - 1], @"text", [NSNumber numberWithBool:TRUE], @"done", nil] httpAPIcallback:nil];
                 [xbmcVirtualKeyboard resignFirstResponder];
                 theTextField.text = @"";
                 return YES;

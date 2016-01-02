@@ -1,1970 +1,565 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
-	<data>
-		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">2083</string>
-		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>IBProxyObject</string>
-			<string>IBUIButton</string>
-			<string>IBUIImageView</string>
-			<string>IBUILabel</string>
-			<string>IBUILongPressGestureRecognizer</string>
-			<string>IBUIView</string>
-		</array>
-		<array key="IBDocument.PluginDependencies">
-			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-		</array>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
-			<integer value="1" key="NS.object.0"/>
-		</object>
-		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
-			<object class="IBProxyObject" id="372490531">
-				<string key="IBProxiedObjectIdentifier">IBFilesOwner</string>
-				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-			</object>
-			<object class="IBProxyObject" id="975951072">
-				<string key="IBProxiedObjectIdentifier">IBFirstResponder</string>
-				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-			</object>
-			<object class="IBUIView" id="635793099">
-				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">274</int>
-				<array class="NSMutableArray" key="NSSubviews">
-					<object class="IBUIImageView" id="732936497">
-						<reference key="NSNextResponder" ref="635793099"/>
-						<int key="NSvFlags">274</int>
-						<string key="NSFrameSize">{320, 416}</string>
-						<reference key="NSSuperview" ref="635793099"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="191373211"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<bool key="IBUIMultipleTouchEnabled">YES</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">remote_temp.png</string>
-						</object>
-					</object>
-					<object class="IBUIView" id="191373211">
-						<reference key="NSNextResponder" ref="635793099"/>
-						<int key="NSvFlags">293</int>
-						<array class="NSMutableArray" key="NSSubviews">
-							<object class="IBUIButton" id="566087471">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{15, 370}, {73, 34}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="494620036"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">21</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<object class="NSColor" key="IBUIHighlightedTitleColor" id="849150566">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MQA</bytes>
-								</object>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<object class="NSColor" key="IBUINormalTitleShadowColor" id="878099516">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC41AA</bytes>
-								</object>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_music_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_music_up@2x.png</string>
-								</object>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="118908105">
-									<int key="type">2</int>
-									<double key="pointSize">15</double>
-								</object>
-								<object class="NSFont" key="IBUIFont" id="639419253">
-									<string key="NSName">Helvetica-Bold</string>
-									<double key="NSSize">15</double>
-									<int key="NSfFlags">16</int>
-								</object>
-							</object>
-							<object class="IBUIButton" id="494620036">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{88, 370}, {73, 34}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="656026180"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">22</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_movies_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_movies_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIButton" id="656026180">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{160, 370}, {73, 34}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="345057402"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">23</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_tv_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_tv_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIButton" id="345057402">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{232, 370}, {73, 34}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">24</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_pictures_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_pictures_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIView" id="470625486">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<array class="NSMutableArray" key="NSSubviews">
-									<object class="IBUIView" id="890413169">
-										<reference key="NSNextResponder" ref="470625486"/>
-										<int key="NSvFlags">319</int>
-										<array class="NSMutableArray" key="NSSubviews">
-											<object class="IBUIImageView" id="452889805">
-												<reference key="NSNextResponder" ref="890413169"/>
-												<int key="NSvFlags">319</int>
-												<string key="NSFrame">{{17, 0}, {286, 286}}</string>
-												<reference key="NSSuperview" ref="890413169"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="256082640"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<bool key="IBUIUserInteractionEnabled">NO</bool>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<object class="NSCustomResource" key="IBUIImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">gesture_zone@2x.png</string>
-												</object>
-											</object>
-										</array>
-										<string key="NSFrame">{{-320, 0}, {320, 286}}</string>
-										<reference key="NSSuperview" ref="470625486"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="452889805"/>
-										<string key="NSReuseIdentifierKey">_NS:9</string>
-										<object class="NSColor" key="IBUIBackgroundColor" id="260746426">
-											<int key="NSColorSpace">3</int>
-											<bytes key="NSWhite">MCAwAA</bytes>
-										</object>
-										<float key="IBUIAlpha">0.0</float>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-									</object>
-									<object class="IBUIView" id="256082640">
-										<reference key="NSNextResponder" ref="470625486"/>
-										<int key="NSvFlags">319</int>
-										<array class="NSMutableArray" key="NSSubviews">
-											<object class="IBUIButton" id="713881023">
-												<reference key="NSNextResponder" ref="256082640"/>
-												<int key="NSvFlags">319</int>
-												<string key="NSFrame">{{60, -1}, {202, 99}}</string>
-												<reference key="NSSuperview" ref="256082640"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="201307131"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<int key="IBUITag">10</int>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<int key="IBUIContentHorizontalAlignment">0</int>
-												<int key="IBUIContentVerticalAlignment">0</int>
-												<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-												<object class="NSColor" key="IBUINormalTitleColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-												</object>
-												<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-												<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_up_down@2x.png</string>
-												</object>
-												<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_up_up@2x.png</string>
-												</object>
-												<reference key="IBUIFontDescription" ref="118908105"/>
-												<reference key="IBUIFont" ref="639419253"/>
-											</object>
-											<object class="IBUIButton" id="83613531">
-												<reference key="NSNextResponder" ref="256082640"/>
-												<int key="NSvFlags">319</int>
-												<string key="NSFrame">{{20, 41}, {99, 201}}</string>
-												<reference key="NSSuperview" ref="256082640"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="713881023"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<int key="IBUITag">12</int>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<int key="IBUIContentHorizontalAlignment">0</int>
-												<int key="IBUIContentVerticalAlignment">0</int>
-												<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-												<object class="NSColor" key="IBUINormalTitleColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-												</object>
-												<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-												<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_left_down@2x.png</string>
-												</object>
-												<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_left_up@2x.png</string>
-												</object>
-												<reference key="IBUIFontDescription" ref="118908105"/>
-												<reference key="IBUIFont" ref="639419253"/>
-											</object>
-											<object class="IBUIButton" id="244915628">
-												<reference key="NSNextResponder" ref="256082640"/>
-												<int key="NSvFlags">319</int>
-												<string key="NSFrame">{{203, 41}, {98, 201}}</string>
-												<reference key="NSSuperview" ref="256082640"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="524759132"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<int key="IBUITag">14</int>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<int key="IBUIContentHorizontalAlignment">0</int>
-												<int key="IBUIContentVerticalAlignment">0</int>
-												<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-												<object class="NSColor" key="IBUINormalTitleColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-												</object>
-												<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-												<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_right_down@2x.png</string>
-												</object>
-												<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_right_up@2x.png</string>
-												</object>
-												<reference key="IBUIFontDescription" ref="118908105"/>
-												<reference key="IBUIFont" ref="639419253"/>
-											</object>
-											<object class="IBUIButton" id="403819705">
-												<reference key="NSNextResponder" ref="256082640"/>
-												<int key="NSvFlags">319</int>
-												<string key="NSFrame">{{61, 184}, {200, 97}}</string>
-												<reference key="NSSuperview" ref="256082640"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="232450753"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<int key="IBUITag">16</int>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<int key="IBUIContentHorizontalAlignment">0</int>
-												<int key="IBUIContentVerticalAlignment">0</int>
-												<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-												<object class="NSColor" key="IBUINormalTitleColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-												</object>
-												<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-												<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_down_down@2x.png</string>
-												</object>
-												<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_down_up@2x.png</string>
-												</object>
-												<reference key="IBUIFontDescription" ref="118908105"/>
-												<reference key="IBUIFont" ref="639419253"/>
-											</object>
-											<object class="IBUIButton" id="611241769">
-												<reference key="NSNextResponder" ref="256082640"/>
-												<int key="NSvFlags">319</int>
-												<string key="NSFrame">{{19, 0}, {85, 85}}</string>
-												<reference key="NSSuperview" ref="256082640"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="83613531"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<int key="IBUITag">9</int>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<int key="IBUIContentHorizontalAlignment">0</int>
-												<int key="IBUIContentVerticalAlignment">0</int>
-												<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-												<object class="NSColor" key="IBUINormalTitleColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-												</object>
-												<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-												<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_home_down@2x.png</string>
-												</object>
-												<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_home_up@2x.png</string>
-												</object>
-												<reference key="IBUIFontDescription" ref="118908105"/>
-												<reference key="IBUIFont" ref="639419253"/>
-											</object>
-											<object class="IBUIButton" id="201307131">
-												<reference key="NSNextResponder" ref="256082640"/>
-												<int key="NSvFlags">319</int>
-												<string key="NSFrame">{{215, 0}, {85, 85}}</string>
-												<reference key="NSSuperview" ref="256082640"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="411871351"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<int key="IBUITag">11</int>
-												<array key="IBUIGestureRecognizers" id="0"/>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<int key="IBUIContentHorizontalAlignment">0</int>
-												<int key="IBUIContentVerticalAlignment">0</int>
-												<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-												<object class="NSColor" key="IBUINormalTitleColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC4xOTYwNzg0MzE0IDAuMzA5ODAzOTIxNiAwLjUyMTU2ODYyNzUAA</bytes>
-												</object>
-												<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-												<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_info_down@2x.png</string>
-												</object>
-												<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_info_up@2x.png</string>
-												</object>
-												<object class="IBUIFontDescription" key="IBUIFontDescription">
-													<int key="type">2</int>
-													<int key="size">2</int>
-												</object>
-												<object class="NSFont" key="IBUIFont">
-													<string key="NSName">Helvetica-Bold</string>
-													<double key="NSSize">18</double>
-													<int key="NSfFlags">16</int>
-												</object>
-											</object>
-											<object class="IBUIButton" id="411871351">
-												<reference key="NSNextResponder" ref="256082640"/>
-												<int key="NSvFlags">319</int>
-												<string key="NSFrame">{{19, 196}, {85, 85}}</string>
-												<reference key="NSSuperview" ref="256082640"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="403819705"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<int key="IBUITag">18</int>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<int key="IBUIContentHorizontalAlignment">0</int>
-												<int key="IBUIContentVerticalAlignment">0</int>
-												<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-												<object class="NSColor" key="IBUINormalTitleColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-												</object>
-												<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-												<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_back_down@2x.png</string>
-												</object>
-												<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_back_up@2x.png</string>
-												</object>
-												<reference key="IBUIFontDescription" ref="118908105"/>
-												<reference key="IBUIFont" ref="639419253"/>
-											</object>
-											<object class="IBUIButton" id="524759132">
-												<reference key="NSNextResponder" ref="256082640"/>
-												<int key="NSvFlags">319</int>
-												<string key="NSFrame">{{216, 196}, {85, 85}}</string>
-												<reference key="NSSuperview" ref="256082640"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="889199527"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<int key="IBUITag">15</int>
-												<reference key="IBUIGestureRecognizers" ref="0"/>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<int key="IBUIContentHorizontalAlignment">0</int>
-												<int key="IBUIContentVerticalAlignment">0</int>
-												<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-												<object class="NSColor" key="IBUINormalTitleColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-												</object>
-												<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-												<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_menu_down@2x.png</string>
-												</object>
-												<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_menu_up@2x.png</string>
-												</object>
-												<reference key="IBUIFontDescription" ref="118908105"/>
-												<reference key="IBUIFont" ref="639419253"/>
-											</object>
-											<object class="IBUIButton" id="232450753">
-												<reference key="NSNextResponder" ref="256082640"/>
-												<int key="NSvFlags">319</int>
-												<string key="NSFrame">{{98, 78}, {125, 125}}</string>
-												<reference key="NSSuperview" ref="256082640"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="244915628"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<int key="IBUITag">13</int>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<int key="IBUIContentHorizontalAlignment">0</int>
-												<int key="IBUIContentVerticalAlignment">0</int>
-												<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-												<object class="NSColor" key="IBUINormalTitleColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-												</object>
-												<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-												<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_xbmc_select_down@2x.png</string>
-												</object>
-												<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">remote_button_xbmc_select_up@2x.png</string>
-												</object>
-												<reference key="IBUIFontDescription" ref="118908105"/>
-												<reference key="IBUIFont" ref="639419253"/>
-											</object>
-										</array>
-										<string key="NSFrame">{{0, 4}, {320, 281}}</string>
-										<reference key="NSSuperview" ref="470625486"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="611241769"/>
-										<string key="NSReuseIdentifierKey">_NS:9</string>
-										<reference key="IBUIBackgroundColor" ref="260746426"/>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-									</object>
-								</array>
-								<string key="NSFrame">{{0, 78}, {320, 286}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="890413169"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<reference key="IBUIBackgroundColor" ref="260746426"/>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							</object>
-							<object class="IBUIButton" id="967985679">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{15, 5}, {73, 34}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="478187634"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">6</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_stop_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_stop_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIButton" id="478187634">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{88, 5}, {73, 34}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="714210518"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">19</int>
-								<reference key="IBUIGestureRecognizers" ref="0"/>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_sub_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_sub_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIButton" id="714210518">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{160, 5}, {73, 34}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="422638537"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">20</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_audio_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_audio_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIButton" id="422638537">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{232, 5}, {73, 34}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="601478559"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">1</int>
-								<reference key="IBUIGestureRecognizers" ref="0"/>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_display_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_display_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIButton" id="601478559">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{14, 44}, {59, 33}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="519068149"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">5</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_skip_backward_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_skip_backward_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIButton" id="519068149">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{72, 44}, {58, 33}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="578706254"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">2</int>
-								<reference key="IBUIGestureRecognizers" ref="0"/>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_rewind_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_rewind_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIButton" id="578706254">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{130, 44}, {58, 33}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="291437960"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">3</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_play_pause_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_play_pause_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIButton" id="291437960">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{188, 44}, {58, 33}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="157781273"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">4</int>
-								<reference key="IBUIGestureRecognizers" ref="0"/>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_forward_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_forward_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUIButton" id="157781273">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">319</int>
-								<string key="NSFrame">{{246, 44}, {59, 33}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="470625486"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUITag">8</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_skip_forward_down@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">remote_button_skip_forward_up@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-							</object>
-							<object class="IBUILabel" id="889199527">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">-2147483329</int>
-								<string key="NSFrame">{{0, 269}, {320, 49}}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="566087471"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<object class="NSColor" key="IBUIBackgroundColor" id="143455125">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MAA</bytes>
-								</object>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">7</int>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">subtitles info</string>
-								<object class="NSColor" key="IBUITextColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MSAxIDEAA</bytes>
-								</object>
-								<nil key="IBUIHighlightedColor"/>
-								<reference key="IBUIShadowColor" ref="143455125"/>
-								<string key="IBUIShadowOffset">{1, 1}</string>
-								<int key="IBUIBaselineAdjustment">0</int>
-								<float key="IBUIMinimumFontSize">8</float>
-								<int key="IBUINumberOfLines">2</int>
-								<int key="IBUITextAlignment">1</int>
-								<reference key="IBUIFontDescription" ref="118908105"/>
-								<reference key="IBUIFont" ref="639419253"/>
-								<double key="preferredMaxLayoutWidth">320</double>
-							</object>
-							<object class="IBUIView" id="322054878">
-								<reference key="NSNextResponder" ref="191373211"/>
-								<int key="NSvFlags">277</int>
-								<array class="NSMutableArray" key="NSSubviews">
-									<object class="IBUIImageView" id="781111533">
-										<reference key="NSNextResponder" ref="322054878"/>
-										<int key="NSvFlags">274</int>
-										<string key="NSFrameSize">{320, 460}</string>
-										<reference key="NSSuperview" ref="322054878"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="667546025"/>
-										<bool key="IBUIOpaque">NO</bool>
-										<bool key="IBUIClipsSubviews">YES</bool>
-										<int key="IBUIContentMode">1</int>
-										<bool key="IBUIMultipleTouchEnabled">YES</bool>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-									</object>
-									<object class="IBUIButton" id="667546025">
-										<reference key="NSNextResponder" ref="322054878"/>
-										<int key="NSvFlags">274</int>
-										<string key="NSFrame">{{252, 4}, {64, 30}}</string>
-										<reference key="NSSuperview" ref="322054878"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="967985679"/>
-										<string key="NSReuseIdentifierKey">_NS:9</string>
-										<reference key="IBUIBackgroundColor" ref="260746426"/>
-										<bool key="IBUIOpaque">NO</bool>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<int key="IBUIContentHorizontalAlignment">0</int>
-										<int key="IBUIContentVerticalAlignment">0</int>
-										<reference key="IBUIHighlightedTitleColor" ref="849150566"/>
-										<object class="NSColor" key="IBUINormalTitleColor">
-											<int key="NSColorSpace">1</int>
-											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-										</object>
-										<reference key="IBUINormalTitleShadowColor" ref="878099516"/>
-										<reference key="IBUIFontDescription" ref="118908105"/>
-										<reference key="IBUIFont" ref="639419253"/>
-									</object>
-								</array>
-								<string key="NSFrameSize">{320, 460}</string>
-								<reference key="NSSuperview" ref="191373211"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="781111533"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<object class="NSColor" key="IBUIBackgroundColor">
-									<int key="NSColorSpace">5</int>
-									<bytes key="NSCMYK">MSAwLjcwNTg4MjM3MDUgMC42NDMxMzcyNzYyIDAuODcwNTg4MjQzIDAuOAA</bytes>
-									<object class="NSColorSpace" key="NSCustomColorSpace">
-										<int key="NSID">3</int>
-									</object>
-									<characters key="NSComponents">1 0.7058823705 0.6431372762 0.870588243 0.8</characters>
-								</object>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							</object>
-						</array>
-						<string key="NSFrameSize">{320, 416}</string>
-						<reference key="NSSuperview" ref="635793099"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="322054878"/>
-						<reference key="IBUIBackgroundColor" ref="260746426"/>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-					</object>
-				</array>
-				<string key="NSFrameSize">{320, 416}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="732936497"/>
-				<string key="NSReuseIdentifierKey">_NS:9</string>
-				<reference key="IBUIBackgroundColor" ref="143455125"/>
-				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-			</object>
-			<object class="IBUILongPressGestureRecognizer" id="882878816"/>
-			<object class="IBUILongPressGestureRecognizer" id="1007541679"/>
-			<object class="IBUILongPressGestureRecognizer" id="549245233"/>
-			<object class="IBUILongPressGestureRecognizer" id="47498672"/>
-			<object class="IBUILongPressGestureRecognizer" id="129859538"/>
-			<object class="IBUILongPressGestureRecognizer" id="114173479"/>
-		</array>
-		<object class="IBObjectContainer" key="IBDocument.Objects">
-			<array class="NSMutableArray" key="connectionRecords">
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">view</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="635793099"/>
-					</object>
-					<int key="connectionID">134</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">subsInfoLabel</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="889199527"/>
-					</object>
-					<int key="connectionID">137</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">quickHelpView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="322054878"/>
-					</object>
-					<int key="connectionID">171</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">gestureZoneView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="890413169"/>
-					</object>
-					<int key="connectionID">176</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">buttonZoneView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="256082640"/>
-					</object>
-					<int key="connectionID">177</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">quickHelpImageView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="781111533"/>
-					</object>
-					<int key="connectionID">172</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">remoteControlView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="191373211"/>
-					</object>
-					<int key="connectionID">135</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">panFallbackImageView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="732936497"/>
-					</object>
-					<int key="connectionID">181</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">TransitionalView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="470625486"/>
-					</object>
-					<int key="connectionID">190</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">gestureZoneImageView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="452889805"/>
-					</object>
-					<int key="connectionID">191</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="422638537"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">61</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
-						<string key="label">gestureRecognizers</string>
-						<reference key="source" ref="422638537"/>
-						<reference key="destination" ref="129859538"/>
-						<string key="cachedDesigntimeCollectionClassName">NSArray</string>
-						<bool key="addsContentToExistingCollection">YES</bool>
-					</object>
-					<int key="connectionID">195</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="519068149"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">63</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
-						<string key="label">gestureRecognizers</string>
-						<reference key="source" ref="519068149"/>
-						<reference key="destination" ref="47498672"/>
-						<string key="cachedDesigntimeCollectionClassName">NSArray</string>
-						<bool key="addsContentToExistingCollection">YES</bool>
-					</object>
-					<int key="connectionID">165</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="578706254"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">62</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="291437960"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">64</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
-						<string key="label">gestureRecognizers</string>
-						<reference key="source" ref="291437960"/>
-						<reference key="destination" ref="549245233"/>
-						<string key="cachedDesigntimeCollectionClassName">NSArray</string>
-						<bool key="addsContentToExistingCollection">YES</bool>
-					</object>
-					<int key="connectionID">162</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="601478559"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">65</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="967985679"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">66</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="157781273"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">68</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="611241769"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">69</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="713881023"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">100</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="713881023"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">8</int>
-					</object>
-					<int key="connectionID">101</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">holdKey:</string>
-						<reference key="source" ref="713881023"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">1</int>
-					</object>
-					<int key="connectionID">99</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="713881023"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">9</int>
-					</object>
-					<int key="connectionID">183</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="201307131"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">71</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
-						<string key="label">gestureRecognizers</string>
-						<reference key="source" ref="201307131"/>
-						<reference key="destination" ref="882878816"/>
-						<string key="cachedDesigntimeCollectionClassName">NSArray</string>
-						<bool key="addsContentToExistingCollection">YES</bool>
-					</object>
-					<int key="connectionID">140</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="83613531"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">8</int>
-					</object>
-					<int key="connectionID">104</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">holdKey:</string>
-						<reference key="source" ref="83613531"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">1</int>
-					</object>
-					<int key="connectionID">102</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="83613531"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">103</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="83613531"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">9</int>
-					</object>
-					<int key="connectionID">184</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="232450753"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">8</int>
-					</object>
-					<int key="connectionID">116</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="232450753"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">115</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">holdKey:</string>
-						<reference key="source" ref="232450753"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">1</int>
-					</object>
-					<int key="connectionID">114</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="232450753"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">9</int>
-					</object>
-					<int key="connectionID">182</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">holdKey:</string>
-						<reference key="source" ref="244915628"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">1</int>
-					</object>
-					<int key="connectionID">108</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="244915628"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">109</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="244915628"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">8</int>
-					</object>
-					<int key="connectionID">110</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="244915628"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">9</int>
-					</object>
-					<int key="connectionID">185</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="524759132"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">75</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
-						<string key="label">gestureRecognizers</string>
-						<reference key="source" ref="524759132"/>
-						<reference key="destination" ref="1007541679"/>
-						<string key="cachedDesigntimeCollectionClassName">NSArray</string>
-						<bool key="addsContentToExistingCollection">YES</bool>
-					</object>
-					<int key="connectionID">156</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="403819705"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">8</int>
-					</object>
-					<int key="connectionID">107</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">holdKey:</string>
-						<reference key="source" ref="403819705"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">1</int>
-					</object>
-					<int key="connectionID">105</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="403819705"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">106</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="403819705"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">9</int>
-					</object>
-					<int key="connectionID">186</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="411871351"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">112</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">holdKey:</string>
-						<reference key="source" ref="411871351"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">1</int>
-					</object>
-					<int key="connectionID">111</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="411871351"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">8</int>
-					</object>
-					<int key="connectionID">113</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">stopHoldKey:</string>
-						<reference key="source" ref="411871351"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">9</int>
-					</object>
-					<int key="connectionID">187</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="478187634"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">119</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
-						<string key="label">gestureRecognizers</string>
-						<reference key="source" ref="478187634"/>
-						<reference key="destination" ref="114173479"/>
-						<string key="cachedDesigntimeCollectionClassName">NSArray</string>
-						<bool key="addsContentToExistingCollection">YES</bool>
-					</object>
-					<int key="connectionID">198</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="714210518"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">121</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="566087471"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">126</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="494620036"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">128</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="656026180"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">130</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startVibrate:</string>
-						<reference key="source" ref="345057402"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">132</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">handleButtonLongPress:</string>
-						<reference key="source" ref="882878816"/>
-						<reference key="destination" ref="372490531"/>
-					</object>
-					<int key="connectionID">159</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">handleButtonLongPress:</string>
-						<reference key="source" ref="1007541679"/>
-						<reference key="destination" ref="372490531"/>
-					</object>
-					<int key="connectionID">160</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">handleButtonLongPress:</string>
-						<reference key="source" ref="549245233"/>
-						<reference key="destination" ref="372490531"/>
-					</object>
-					<int key="connectionID">163</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">handleButtonLongPress:</string>
-						<reference key="source" ref="47498672"/>
-						<reference key="destination" ref="372490531"/>
-					</object>
-					<int key="connectionID">166</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">toggleQuickHelp:</string>
-						<reference key="source" ref="667546025"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">170</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">handleButtonLongPress:</string>
-						<reference key="source" ref="129859538"/>
-						<reference key="destination" ref="372490531"/>
-					</object>
-					<int key="connectionID">196</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">handleButtonLongPress:</string>
-						<reference key="source" ref="114173479"/>
-						<reference key="destination" ref="372490531"/>
-					</object>
-					<int key="connectionID">199</int>
-				</object>
-			</array>
-			<object class="IBMutableOrderedSet" key="objectRecords">
-				<array key="orderedObjects">
-					<object class="IBObjectRecord">
-						<int key="objectID">0</int>
-						<reference key="object" ref="0"/>
-						<reference key="children" ref="1000"/>
-						<nil key="parent"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-1</int>
-						<reference key="object" ref="372490531"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">File's Owner</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-2</int>
-						<reference key="object" ref="975951072"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">133</int>
-						<reference key="object" ref="635793099"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="191373211"/>
-							<reference ref="732936497"/>
-						</array>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1</int>
-						<reference key="object" ref="191373211"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="345057402"/>
-							<reference ref="422638537"/>
-							<reference ref="656026180"/>
-							<reference ref="494620036"/>
-							<reference ref="566087471"/>
-							<reference ref="714210518"/>
-							<reference ref="478187634"/>
-							<reference ref="967985679"/>
-							<reference ref="157781273"/>
-							<reference ref="601478559"/>
-							<reference ref="291437960"/>
-							<reference ref="519068149"/>
-							<reference ref="578706254"/>
-							<reference ref="889199527"/>
-							<reference ref="322054878"/>
-							<reference ref="470625486"/>
-						</array>
-						<reference key="parent" ref="635793099"/>
-						<string key="objectName">Remote Control View</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">131</int>
-						<reference key="object" ref="345057402"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - Pictures</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">25</int>
-						<reference key="object" ref="422638537"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - playback fullscreen</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">129</int>
-						<reference key="object" ref="656026180"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - Music</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">127</int>
-						<reference key="object" ref="494620036"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - Movies</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">125</int>
-						<reference key="object" ref="566087471"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - Tv</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">120</int>
-						<reference key="object" ref="714210518"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - dvd</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">118</int>
-						<reference key="object" ref="478187634"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - subtitles</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">31</int>
-						<reference key="object" ref="967985679"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - stop</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">33</int>
-						<reference key="object" ref="157781273"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - skip forward</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">30</int>
-						<reference key="object" ref="601478559"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - skip backward</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">29</int>
-						<reference key="object" ref="291437960"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - forward</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">27</int>
-						<reference key="object" ref="519068149"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - rewind</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">28</int>
-						<reference key="object" ref="578706254"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Button - play</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">117</int>
-						<reference key="object" ref="732936497"/>
-						<reference key="parent" ref="635793099"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">136</int>
-						<reference key="object" ref="889199527"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Label - subs info</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">139</int>
-						<reference key="object" ref="882878816"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Long Press Gesture Recognizer - info</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">155</int>
-						<reference key="object" ref="1007541679"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Long Press Gesture Recognizer - context menu</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">161</int>
-						<reference key="object" ref="549245233"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Long Press Gesture Recognizer - forward</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">164</int>
-						<reference key="object" ref="47498672"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Long Press Gesture Recognizer - rewind</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">167</int>
-						<reference key="object" ref="322054878"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="781111533"/>
-							<reference ref="667546025"/>
-						</array>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Quick Help - View</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">169</int>
-						<reference key="object" ref="667546025"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="322054878"/>
-						<string key="objectName">Button Dismiss</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">178</int>
-						<reference key="object" ref="470625486"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="890413169"/>
-							<reference ref="256082640"/>
-						</array>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Transitional View</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">174</int>
-						<reference key="object" ref="890413169"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="452889805"/>
-						</array>
-						<reference key="parent" ref="470625486"/>
-						<string key="objectName">Gesture Zone</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">175</int>
-						<reference key="object" ref="452889805"/>
-						<reference key="parent" ref="890413169"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">173</int>
-						<reference key="object" ref="256082640"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="232450753"/>
-							<reference ref="524759132"/>
-							<reference ref="411871351"/>
-							<reference ref="201307131"/>
-							<reference ref="611241769"/>
-							<reference ref="403819705"/>
-							<reference ref="244915628"/>
-							<reference ref="83613531"/>
-							<reference ref="713881023"/>
-						</array>
-						<reference key="parent" ref="470625486"/>
-						<string key="objectName">Circle and four buttons</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">38</int>
-						<reference key="object" ref="232450753"/>
-						<reference key="parent" ref="256082640"/>
-						<string key="objectName">Button - select</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">40</int>
-						<reference key="object" ref="524759132"/>
-						<reference key="parent" ref="256082640"/>
-						<string key="objectName">Button - menu</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">42</int>
-						<reference key="object" ref="411871351"/>
-						<reference key="parent" ref="256082640"/>
-						<string key="objectName">Button - back</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">36</int>
-						<reference key="object" ref="201307131"/>
-						<reference key="parent" ref="256082640"/>
-						<string key="objectName">Button - info</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">34</int>
-						<reference key="object" ref="611241769"/>
-						<reference key="parent" ref="256082640"/>
-						<string key="objectName">Button - home</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">41</int>
-						<reference key="object" ref="403819705"/>
-						<reference key="parent" ref="256082640"/>
-						<string key="objectName">Button - down</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">39</int>
-						<reference key="object" ref="244915628"/>
-						<reference key="parent" ref="256082640"/>
-						<string key="objectName">Button - right</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">37</int>
-						<reference key="object" ref="83613531"/>
-						<reference key="parent" ref="256082640"/>
-						<string key="objectName">Button - left</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">35</int>
-						<reference key="object" ref="713881023"/>
-						<reference key="parent" ref="256082640"/>
-						<string key="objectName">Button - up</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">168</int>
-						<reference key="object" ref="781111533"/>
-						<reference key="parent" ref="322054878"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">194</int>
-						<reference key="object" ref="129859538"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Long Press Gesture Recognizer - fullscreen</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">197</int>
-						<reference key="object" ref="114173479"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Long Press Gesture Recognizer - subtitles add-on</string>
-					</object>
-				</array>
-			</object>
-			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="-1.CustomClassName">RemoteController</string>
-				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="-2.CustomClassName">UIResponder</string>
-				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="117.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="118.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="118.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="120.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="120.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="125.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="125.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="127.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="127.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="129.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="129.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="131.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="131.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="133.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="136.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="139.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="155.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="161.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="164.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="167.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="168.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="169.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="173.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="174.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="175.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="178.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="194.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="197.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="25.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="27.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="28.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="29.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="30.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="0.0" key="31.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="33.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="33.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="34.CustomClassName">OBShapedButton</string>
-				<string key="34.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="34.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="35.CustomClassName">OBShapedButton</string>
-				<string key="35.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="35.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="36.CustomClassName">OBShapedButton</string>
-				<string key="36.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="36.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="37.CustomClassName">OBShapedButton</string>
-				<string key="37.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="37.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="38.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="38.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="39.CustomClassName">OBShapedButton</string>
-				<string key="39.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="39.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="40.CustomClassName">OBShapedButton</string>
-				<string key="40.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="40.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="41.CustomClassName">OBShapedButton</string>
-				<string key="41.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="41.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="42.CustomClassName">OBShapedButton</string>
-				<string key="42.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="42.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-			</dictionary>
-			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
-			<nil key="activeLocalization"/>
-			<dictionary class="NSMutableDictionary" key="localizations"/>
-			<nil key="sourceID"/>
-			<int key="maxID">199</int>
-		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">OBShapedButton</string>
-					<string key="superclassName">UIButton</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OBShapedButton.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">RemoteController</string>
-					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">startVibrate:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">startVibrate:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">startVibrate:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="TransitionalView">UIView</string>
-						<string key="buttonZoneView">UIView</string>
-						<string key="gestureZoneImageView">UIImageView</string>
-						<string key="gestureZoneView">UIView</string>
-						<string key="panFallbackImageView">UIImageView</string>
-						<string key="quickHelpImageView">UIImageView</string>
-						<string key="quickHelpView">UIView</string>
-						<string key="remoteControlView">UIView</string>
-						<string key="subsInfoLabel">UILabel</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="TransitionalView">
-							<string key="name">TransitionalView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="buttonZoneView">
-							<string key="name">buttonZoneView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="gestureZoneImageView">
-							<string key="name">gestureZoneImageView</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="gestureZoneView">
-							<string key="name">gestureZoneView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="panFallbackImageView">
-							<string key="name">panFallbackImageView</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="quickHelpImageView">
-							<string key="name">quickHelpImageView</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="quickHelpView">
-							<string key="name">quickHelpView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="remoteControlView">
-							<string key="name">remoteControlView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="subsInfoLabel">
-							<string key="name">subsInfoLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/RemoteController.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
-		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
-		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="gesture_zone@2x.png">{572, 572}</string>
-			<string key="remote_button_audio_down@2x.png">{146, 66}</string>
-			<string key="remote_button_audio_up@2x.png">{146, 66}</string>
-			<string key="remote_button_back_down@2x.png">{172, 172}</string>
-			<string key="remote_button_back_up@2x.png">{172, 172}</string>
-			<string key="remote_button_display_down@2x.png">{146, 66}</string>
-			<string key="remote_button_display_up@2x.png">{146, 66}</string>
-			<string key="remote_button_down_down@2x.png">{400, 194}</string>
-			<string key="remote_button_down_up@2x.png">{400, 194}</string>
-			<string key="remote_button_forward_down@2x.png">{116, 66}</string>
-			<string key="remote_button_forward_up@2x.png">{116, 66}</string>
-			<string key="remote_button_home_down@2x.png">{172, 172}</string>
-			<string key="remote_button_home_up@2x.png">{172, 172}</string>
-			<string key="remote_button_info_down@2x.png">{172, 172}</string>
-			<string key="remote_button_info_up@2x.png">{172, 172}</string>
-			<string key="remote_button_left_down@2x.png">{198, 402}</string>
-			<string key="remote_button_left_up@2x.png">{198, 402}</string>
-			<string key="remote_button_menu_down@2x.png">{172, 172}</string>
-			<string key="remote_button_menu_up@2x.png">{172, 172}</string>
-			<string key="remote_button_movies_down@2x.png">{146, 68}</string>
-			<string key="remote_button_movies_up@2x.png">{146, 68}</string>
-			<string key="remote_button_music_down@2x.png">{146, 68}</string>
-			<string key="remote_button_music_up@2x.png">{146, 68}</string>
-			<string key="remote_button_pictures_down@2x.png">{146, 68}</string>
-			<string key="remote_button_pictures_up@2x.png">{146, 68}</string>
-			<string key="remote_button_play_pause_down@2x.png">{116, 66}</string>
-			<string key="remote_button_play_pause_up@2x.png">{116, 66}</string>
-			<string key="remote_button_rewind_down@2x.png">{116, 66}</string>
-			<string key="remote_button_rewind_up@2x.png">{116, 66}</string>
-			<string key="remote_button_right_down@2x.png">{196, 402}</string>
-			<string key="remote_button_right_up@2x.png">{196, 402}</string>
-			<string key="remote_button_skip_backward_down@2x.png">{118, 66}</string>
-			<string key="remote_button_skip_backward_up@2x.png">{118, 66}</string>
-			<string key="remote_button_skip_forward_down@2x.png">{118, 66}</string>
-			<string key="remote_button_skip_forward_up@2x.png">{118, 66}</string>
-			<string key="remote_button_stop_down@2x.png">{146, 66}</string>
-			<string key="remote_button_stop_up@2x.png">{146, 66}</string>
-			<string key="remote_button_sub_down@2x.png">{146, 66}</string>
-			<string key="remote_button_sub_up@2x.png">{146, 66}</string>
-			<string key="remote_button_tv_down@2x.png">{146, 68}</string>
-			<string key="remote_button_tv_up@2x.png">{146, 68}</string>
-			<string key="remote_button_up_down@2x.png">{404, 196}</string>
-			<string key="remote_button_up_up@2x.png">{404, 196}</string>
-			<string key="remote_button_xbmc_select_down@2x.png">{250, 250}</string>
-			<string key="remote_button_xbmc_select_up@2x.png">{250, 250}</string>
-			<string key="remote_temp.png">{640, 832}</string>
-		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">2083</string>
-	</data>
-</archive>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RemoteController">
+            <connections>
+                <outlet property="TransitionalView" destination="178" id="190"/>
+                <outlet property="buttonZoneView" destination="173" id="177"/>
+                <outlet property="gestureZoneImageView" destination="175" id="191"/>
+                <outlet property="gestureZoneView" destination="174" id="176"/>
+                <outlet property="panFallbackImageView" destination="117" id="181"/>
+                <outlet property="quickHelpImageView" destination="168" id="172"/>
+                <outlet property="quickHelpView" destination="167" id="171"/>
+                <outlet property="remoteControlView" destination="1" id="135"/>
+                <outlet property="subsInfoLabel" destination="136" id="137"/>
+                <outlet property="view" destination="133" id="134"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="133">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="remote_temp.png" id="117">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="1" userLabel="Remote Control View">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button tag="21" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="125" userLabel="Button - Music">
+                            <rect key="frame" x="15" y="370" width="73" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_music_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_music_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="126"/>
+                            </connections>
+                        </button>
+                        <button tag="22" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="127" userLabel="Button - Movies">
+                            <rect key="frame" x="88" y="370" width="73" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <gestureRecognizers/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_movies_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_movies_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="128"/>
+                                <outletCollection property="gestureRecognizers" destination="Rvl-N6-jCn" appends="YES" id="Fm9-lc-ctc"/>
+                            </connections>
+                        </button>
+                        <button tag="23" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="129" userLabel="Button - TV">
+                            <rect key="frame" x="160" y="370" width="73" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <gestureRecognizers/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_tv_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_tv_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="130"/>
+                                <outletCollection property="gestureRecognizers" destination="VSi-tY-kRU" appends="YES" id="OFj-TA-hR2"/>
+                            </connections>
+                        </button>
+                        <button tag="24" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="131" userLabel="Button - Pictures">
+                            <rect key="frame" x="232" y="370" width="73" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <gestureRecognizers/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_pictures_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_pictures_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="132"/>
+                                <outletCollection property="gestureRecognizers" destination="iRX-uU-ZqJ" appends="YES" id="jxQ-Fy-zjc"/>
+                            </connections>
+                        </button>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" id="178" userLabel="Transitional View">
+                            <rect key="frame" x="0.0" y="78" width="320" height="286"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view alpha="0.0" contentMode="scaleToFill" id="174" userLabel="Gesture Zone" customClass="RemoteControllerGestureZoneView">
+                                    <rect key="frame" x="-320" y="0.0" width="320" height="286"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="gesture_zone.png" id="175">
+                                            <rect key="frame" x="17" y="0.0" width="286" height="286"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <view contentMode="scaleToFill" id="173" userLabel="Circle and four buttons">
+                                    <rect key="frame" x="0.0" y="4" width="320" height="281"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <button tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="35" userLabel="Button - up" customClass="OBShapedButton">
+                                            <rect key="frame" x="60" y="-1" width="202" height="99"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal" backgroundImage="remote_button_up_up.png">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" backgroundImage="remote_button_up_down.png">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="holdKey:" destination="-1" eventType="touchDown" id="99"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpInside" id="100"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpOutside" id="101"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="183"/>
+                                            </connections>
+                                        </button>
+                                        <button tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="37" userLabel="Button - left" customClass="OBShapedButton">
+                                            <rect key="frame" x="20" y="41" width="99" height="201"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal" backgroundImage="remote_button_left_up.png">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" backgroundImage="remote_button_left_down.png">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="holdKey:" destination="-1" eventType="touchDown" id="102"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpInside" id="103"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpOutside" id="104"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="184"/>
+                                            </connections>
+                                        </button>
+                                        <button tag="14" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="39" userLabel="Button - right" customClass="OBShapedButton">
+                                            <rect key="frame" x="203" y="41" width="98" height="201"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal" backgroundImage="remote_button_right_up.png">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" backgroundImage="remote_button_right_down.png">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="holdKey:" destination="-1" eventType="touchDown" id="108"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpInside" id="109"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpOutside" id="110"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="185"/>
+                                            </connections>
+                                        </button>
+                                        <button tag="16" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="41" userLabel="Button - down" customClass="OBShapedButton">
+                                            <rect key="frame" x="61" y="184" width="200" height="97"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal" backgroundImage="remote_button_down_up.png">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" backgroundImage="remote_button_down_down.png">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="holdKey:" destination="-1" eventType="touchDown" id="105"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpInside" id="106"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpOutside" id="107"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="186"/>
+                                            </connections>
+                                        </button>
+                                        <button tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="34" userLabel="Button - home" customClass="OBShapedButton">
+                                            <rect key="frame" x="19" y="0.0" width="85" height="85"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal" backgroundImage="remote_button_home_up.png">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" backgroundImage="remote_button_home_down.png">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="69"/>
+                                            </connections>
+                                        </button>
+                                        <button tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="36" userLabel="Button - info" customClass="OBShapedButton">
+                                            <rect key="frame" x="215" y="0.0" width="85" height="85"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <gestureRecognizers/>
+                                            <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                            <state key="normal" backgroundImage="remote_button_info_up.png">
+                                                <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" backgroundImage="remote_button_info_down.png">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="71"/>
+                                                <outletCollection property="gestureRecognizers" destination="139" appends="YES" id="140"/>
+                                            </connections>
+                                        </button>
+                                        <button tag="18" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="42" userLabel="Button - back" customClass="OBShapedButton">
+                                            <rect key="frame" x="19" y="196" width="85" height="85"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal" backgroundImage="remote_button_back_up.png">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" backgroundImage="remote_button_back_down.png">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="holdKey:" destination="-1" eventType="touchDown" id="111"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpInside" id="112"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpOutside" id="113"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="187"/>
+                                            </connections>
+                                        </button>
+                                        <button tag="15" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="40" userLabel="Button - menu" customClass="OBShapedButton">
+                                            <rect key="frame" x="216" y="196" width="85" height="85"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <gestureRecognizers/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal" backgroundImage="remote_button_menu_up.png">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" backgroundImage="remote_button_menu_down.png">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="75"/>
+                                                <outletCollection property="gestureRecognizers" destination="155" appends="YES" id="156"/>
+                                            </connections>
+                                        </button>
+                                        <button tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="38" userLabel="Button - select">
+                                            <rect key="frame" x="98" y="78" width="125" height="125"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal" backgroundImage="remote_button_xbmc_select_up.png">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" backgroundImage="remote_button_xbmc_select_down.png">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="holdKey:" destination="-1" eventType="touchDown" id="114"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpInside" id="115"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpOutside" id="116"/>
+                                                <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="182"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <button tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="31" userLabel="Button - stop">
+                            <rect key="frame" x="15" y="5" width="73" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_stop_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_stop_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="66"/>
+                            </connections>
+                        </button>
+                        <button tag="19" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="118" userLabel="Button - subtitles">
+                            <rect key="frame" x="88" y="5" width="73" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <gestureRecognizers/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_sub_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_sub_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="119"/>
+                                <outletCollection property="gestureRecognizers" destination="197" appends="YES" id="198"/>
+                            </connections>
+                        </button>
+                        <button tag="20" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="120" userLabel="Button - dvd">
+                            <rect key="frame" x="160" y="5" width="73" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_audio_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_audio_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="121"/>
+                            </connections>
+                        </button>
+                        <button tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="25" userLabel="Button - playback fullscreen">
+                            <rect key="frame" x="232" y="5" width="73" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <gestureRecognizers/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_display_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_display_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="61"/>
+                                <outletCollection property="gestureRecognizers" destination="194" appends="YES" id="195"/>
+                            </connections>
+                        </button>
+                        <button tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="30" userLabel="Button - skip backward">
+                            <rect key="frame" x="14" y="44" width="59" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_skip_backward_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_skip_backward_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="65"/>
+                            </connections>
+                        </button>
+                        <button tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="27" userLabel="Button - rewind">
+                            <rect key="frame" x="72" y="44" width="58" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <gestureRecognizers/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_rewind_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_rewind_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="63"/>
+                                <outletCollection property="gestureRecognizers" destination="164" appends="YES" id="165"/>
+                            </connections>
+                        </button>
+                        <button tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="28" userLabel="Button - play">
+                            <rect key="frame" x="130" y="44" width="58" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_play_pause_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_play_pause_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="62"/>
+                            </connections>
+                        </button>
+                        <button tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="29" userLabel="Button - forward">
+                            <rect key="frame" x="188" y="44" width="58" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <gestureRecognizers/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_forward_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_forward_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="64"/>
+                                <outletCollection property="gestureRecognizers" destination="161" appends="YES" id="162"/>
+                            </connections>
+                        </button>
+                        <button tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="33" userLabel="Button - skip forward">
+                            <rect key="frame" x="246" y="44" width="59" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="remote_button_skip_forward_up.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="remote_button_skip_forward_down.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="68"/>
+                            </connections>
+                        </button>
+                        <label hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="subtitles info" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" id="136" userLabel="Label - subs info">
+                            <rect key="frame" x="0.0" y="269" width="320" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="167" userLabel="Quick Help - View">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="168">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="169" userLabel="Button Dismiss">
+                                    <rect key="frame" x="252" y="4" width="64" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="toggleQuickHelp:" destination="-1" eventType="touchUpInside" id="170"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" cyan="1" magenta="0.70588237050000002" yellow="0.64313727620000005" black="0.87058824300000004" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="139" userLabel="Long Press Gesture Recognizer - info">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="159"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="155" userLabel="Long Press Gesture Recognizer - context menu">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="160"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="161" userLabel="Long Press Gesture Recognizer - forward">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="163"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="164" userLabel="Long Press Gesture Recognizer - rewind">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="166"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="194" userLabel="Long Press Gesture Recognizer - fullscreen">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="196"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="197" userLabel="Long Press Gesture Recognizer - subtitles add-on">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="199"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="iRX-uU-ZqJ" userLabel="Long Press Gesture Recognizer - pictures">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="iKc-kS-70J"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="VSi-tY-kRU" userLabel="Long Press Gesture Recognizer - tv">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="bRC-Zl-rH6"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="Rvl-N6-jCn" userLabel="Long Press Gesture Recognizer - movies">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="VXf-Ba-fs8"/>
+            </connections>
+        </pongPressGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="gesture_zone.png" width="286" height="286"/>
+        <image name="remote_button_audio_down.png" width="73" height="33"/>
+        <image name="remote_button_audio_up.png" width="73" height="33"/>
+        <image name="remote_button_back_down.png" width="86" height="86"/>
+        <image name="remote_button_back_up.png" width="86" height="86"/>
+        <image name="remote_button_display_down.png" width="73" height="33"/>
+        <image name="remote_button_display_up.png" width="73" height="33"/>
+        <image name="remote_button_down_down.png" width="200" height="97"/>
+        <image name="remote_button_down_up.png" width="200" height="97"/>
+        <image name="remote_button_forward_down.png" width="58" height="33"/>
+        <image name="remote_button_forward_up.png" width="58" height="33"/>
+        <image name="remote_button_home_down.png" width="86" height="86"/>
+        <image name="remote_button_home_up.png" width="86" height="86"/>
+        <image name="remote_button_info_down.png" width="86" height="86"/>
+        <image name="remote_button_info_up.png" width="86" height="86"/>
+        <image name="remote_button_left_down.png" width="99" height="201"/>
+        <image name="remote_button_left_up.png" width="99" height="201"/>
+        <image name="remote_button_menu_down.png" width="86" height="86"/>
+        <image name="remote_button_menu_up.png" width="86" height="86"/>
+        <image name="remote_button_movies_down.png" width="73" height="34"/>
+        <image name="remote_button_movies_up.png" width="73" height="34"/>
+        <image name="remote_button_music_down.png" width="73" height="34"/>
+        <image name="remote_button_music_up.png" width="73" height="34"/>
+        <image name="remote_button_pictures_down.png" width="73" height="34"/>
+        <image name="remote_button_pictures_up.png" width="73" height="34"/>
+        <image name="remote_button_play_pause_down.png" width="58" height="33"/>
+        <image name="remote_button_play_pause_up.png" width="58" height="33"/>
+        <image name="remote_button_rewind_down.png" width="58" height="33"/>
+        <image name="remote_button_rewind_up.png" width="58" height="33"/>
+        <image name="remote_button_right_down.png" width="98" height="201"/>
+        <image name="remote_button_right_up.png" width="98" height="201"/>
+        <image name="remote_button_skip_backward_down.png" width="59" height="33"/>
+        <image name="remote_button_skip_backward_up.png" width="59" height="33"/>
+        <image name="remote_button_skip_forward_down.png" width="59" height="33"/>
+        <image name="remote_button_skip_forward_up.png" width="59" height="33"/>
+        <image name="remote_button_stop_down.png" width="73" height="33"/>
+        <image name="remote_button_stop_up.png" width="73" height="33"/>
+        <image name="remote_button_sub_down.png" width="73" height="33"/>
+        <image name="remote_button_sub_up.png" width="73" height="33"/>
+        <image name="remote_button_tv_down.png" width="73" height="34"/>
+        <image name="remote_button_tv_up.png" width="73" height="34"/>
+        <image name="remote_button_up_down.png" width="202" height="98"/>
+        <image name="remote_button_up_up.png" width="202" height="98"/>
+        <image name="remote_button_xbmc_select_down.png" width="125" height="125"/>
+        <image name="remote_button_xbmc_select_up.png" width="125" height="125"/>
+        <image name="remote_temp.png" width="640" height="832"/>
+    </resources>
+</document>
