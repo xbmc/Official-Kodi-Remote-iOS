@@ -2,7 +2,7 @@
  Localisable.strings
  XBMC Remote
  
- Created by Pøeložil: S474N on 01.01.2016 /  Version / Verze: 0.1a 01.01.2016
+ Created by Pøeložil: S474N on 01.01.2016 /  Version / Verze: 0.1b 02.01.2016
  Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
@@ -11,13 +11,13 @@
 "Browse your" = "Procházet";
 "See what's" = "Podívat se, co";
 "Use as" = "Použít jako";
-"Watch" = "Watch";
+"Watch" = "Sledovat";
 
 "Music" = "Hudba";
 "Movies" = "Filmy";
 "TV Shows" = "Seriály";
 "Pictures" = "Obrázky";
-"Now Playing" = "Právì hraje";
+"Now Playing" = "Právě hraje";
 "Remote Control" = "Dálkové ovládání";
 "XBMC Server" = "Kodi server";
 "New XBMC Server" = "Nový Kodi server";
@@ -25,58 +25,58 @@
 "Select an XBMC Server from the list" = "Zvolit Kodi server z výpisu";
 
 "Files" = "Soubory";
-"Video Addons" = "Video doplòky";
+"Video Addons" = "Video doplňky";
 "Live TV" = "Televize";
 "Movie Genres" = "Filmové žánry";
 "Music Videos" = "Videoklipy";
-"Added Movies" = "Pøidané filmy";
+"Added Movies" = "Přidané filmy";
 "More (%d)" = "Více (%d)";
-"Movie Sets" = "Sady filmù";
+"Movie Sets" = "Sady filmů";
 
 "Albums" = "Alba";
-"Artists" = "Umìlci";
+"Artists" = "Umělci";
 "Genres" = "Žánry";
-"Added Albums" = "Pøidaná alba";
-"Recently added albums" = "Nedávno pøidaná alba";
-"Added Songs" = "Pøidané skladby";
-"Recently added songs" = "Nedávno pøidané skladby";
-"Top 100 Albums" = "Top 100 albumù";
+"Added Albums" = "Přidaná alba";
+"Recently added albums" = "Nedávno přidaná alba";
+"Added Songs" = "Přidané skladby";
+"Recently added songs" = "Nedávno přidané skladby";
+"Top 100 Albums" = "Top 100 albumů";
 "Top 100 Songs" = "Top 100 skladeb";
-"Played albums" = "Pøehrané alba";
-"Recently played albums" = "Nedávno pøehrané alba";
-"Played songs" = "Pøehrané skladby";
-"Recently played songs" = "Nedávno pøehrané skladby";
+"Played albums" = "Přehrané alba";
+"Recently played albums" = "Nedávno přehrané alba";
+"Played songs" = "Přehrané skladby";
+"Recently played songs" = "Nedávno přehrané skladby";
 "All songs" = "Všechny skladby";
-"Music Addons" = "Hudební doplòky";
+"Music Addons" = "Hudební doplňky";
 "Music Playlists" = "Seznamy hudby";
 
-"Added Episodes" = "Pøidané epizovdy";
+"Added Episodes" = "Přidané epizovdy";
 
-"Pictures Addons" = "Doplòky obrázkù";
+"Pictures Addons" = "Doplňky obrázků";
 
 "Power off System" = "Vypnout systém";
 "Power off" = "Vypnout";
 "Hibernate" = "Hibernovat";
 "Suspend" = "Uspat";
 "Reboot" = "Restartovat";
-"Quit XBMC application" = "Ukonèit aplikaci Kodi";
+"Quit XBMC application" = "Ukončit aplikaci Kodi";
 "Update Audio Library" = "Aktualizovat knihovnu hudby";
 "Update Audio" = "Aktualizovat audio";
-"Clean Audio Library" = "Vyèistit knihovnu hudby";
-"Clean Audio" = "Vyèistit audio";
+"Clean Audio Library" = "Vyčistit knihovnu hudby";
+"Clean Audio" = "Vyčistit audio";
 "Update Video Library" = "Aktualizovat knihovnu videí";
 "Update Video" = "Aktualizovat video";
-"Clean Video Library" = "Vyèistit knihovnu videí";
-"Clean Video" = "Vyèistit video";
+"Clean Video Library" = "Vyčistit knihovnu videí";
+"Clean Video" = "Vyčistit video";
 "Quit" = "Konec";
 
 "Keyboard" = "Klávesnice";
 "Gesture Zone" = "Zóna gest";
-"Button Pad" = "Tlaèítka";
-"Help Screen" = "Nápovìda";
+"Button Pad" = "Tlačítka";
+"Help Screen" = "Nápověda";
 "LED Torch" = "LED svítilna";
 
-"No connection" = "Bez pøipojení";
+"No connection" = "Bez připojení";
 
 "Queue after current" = "Fronta po stávající";
 "Queue" = "Fronta";
@@ -85,29 +85,29 @@
 "Search Wikipedia" = "Hledat na Wikipedia";
 "Search last.fm charts" = "Hledat last.fm charts";
 "Album Tracks" = "Skladby alba";
-"Artist Albums" = "Alba umìlce";
-"Artist Details" = "Detaily umìlce";
+"Artist Albums" = "Alba umělce";
+"Artist Details" = "Detaily umělce";
 "Album Details" = "Detaily alba";
 "Movie Details" = "Detaily filmu";
 "Episode Details" = "Detaily epizody";
 "TV Show Details" = "Detaily televize";
 "Music Video Details" = "Detaily videoklipu";
 "Details" = "Detaily";
-"Play Trailer" = "Pøehrát trailer";
+"Play Trailer" = "Přehrát trailer";
 
 "Playlist" = "Playlist";
-"Nothing is playing" = "Nic pro pøehrání";
+"Nothing is playing" = "Nic pro přehrání";
 "Details not found" = "Detaily nenalezeny";
-"Open in Safari" = "Otevøít v Safari";
-"Error loading page" = "Chyba pøi naèítání stránky";
+"Open in Safari" = "Otevřít v Safari";
+"Error loading page" = "Chyba při načítání stránky";
 "OK" = "OK";
 "Cancel" = "Storno";
-"Resume from %@" = "Pokraèovat od %@";
-"Resume from" = "Pokraèovat";
+"Resume from %@" = "Pokračovat od %@";
+"Resume from" = "Pokračovat";
 "First aired on %@" = "Poprvé vysíláno na %@";
 "Episodes: %@" = "Epizod: %@";
 "1 result" = "1 výsledek";
-"%d results" = "%d výsledkù";
+"%d results" = "%d výsledků";
 "Music " = "Hudba ";
 "Video " = "Video ";
 "Songs" = "Skladeb";
@@ -116,11 +116,11 @@
 "Min" = "Min";
 "Released %d" = "Vydáno %d";
 
-"Clear Playlist" = "Vyèistit playlist";
+"Clear Playlist" = "Vyčistit playlist";
 "No server MAC address defined" = "No server MAC address defined";
-"Command executed" = "Pøíkaz proveden";
+"Command executed" = "Příkaz proveden";
 "Warning" = "Varování";
-"Cannot do that" = "Nelze udìlat";
+"Cannot do that" = "Nelze udělat";
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "Nebyly nalezeni žádní uložení hostitelé";
 
@@ -129,15 +129,15 @@
 "Are you sure you want to hibernate your XBMC system now?" = "Opravdu chcete nyní hibernovat systém Kodi?";
 "Are you sure you want to suspend your XBMC system now?" = "Opravdu chcete nyní uspat systém Kodi?";
 "Are you sure you want to reboot your XBMC system now?" = "Opravdu chcete nyní restartovat systém Kodi?";
-"Are you sure you want to quit XBMC application now?" = "Opravdu chcete nyní ukonèit aplikaci Kodi?";
+"Are you sure you want to quit XBMC application now?" = "Opravdu chcete nyní ukončit aplikaci Kodi?";
 "Are you sure you want to update your audio library now?" = "Opravdu chcete nyní aktualizovat hudební knihovnu?";
-"Are you sure you want to clean your audio library now?" = "Opravdu chcete nyní vyèistit hudební knihovnu?";
+"Are you sure you want to clean your audio library now?" = "Opravdu chcete nyní vyčistit hudební knihovnu?";
 "Are you sure you want to update your video library now?" = "Opravdu chcete nyní aktualizovat knihovnu videí?";
-"Are you sure you want to clean your video library now?" = "Opravdu chcete nyní vyèistit knihovnu videí?";
+"Are you sure you want to clean your video library now?" = "Opravdu chcete nyní vyčistit knihovnu videí?";
 
 "DIRECTED BY" = "REŽIE";
 "RUNTIME" = "DÉLKA";
-"PARENTAL RATING" = "RODIÈOVSKÉ HODNOCENÍ";
+"PARENTAL RATING" = "RODIČOVSKÉ HODNOCENÍ";
 "CAST" = "OBSAZENÍ";
 "EPISODES" = "EPIZODY";
 "GENRE" = "ŽÁNR";
@@ -147,19 +147,19 @@
 "WRITER" = "SPISOVATEL";
 "FIRST AIRED" = "POPRVÉ VYSÍLÁNO";
 "SUMMARY" = "SHRNUTÍ";
-"ARTIST" = "UMÌLEC";
+"ARTIST" = "UMĚLEC";
 "YEAR" = "ROK";
 "ALBUM LABEL" = "NÁZEV ALBA";
 "DESCRIPTION" = "POPIS";
 "STYLE" = "STYL";
-"BORN / FORMED" = "NAROZEN / VYTVOØENI";
+"BORN / FORMED" = "NAROZEN / VYTVOŘENI";
 "TRAILER" = "TRAILER";
 
 "codec" = "kodek";
 "bit rate" = "bit rate";
 "sample rate" = "vzorkovací frekvence";
 "resolution" = "rozlišení";
-"aspect ratio" = "pomìr stran";
+"aspect ratio" = "poměr stran";
 "Subtitles not available" = "Titulky nejsou dostupné";
 "Audiostream not available" = "Audio stream není dostupný";
 "Audiostreams not available" = "Audio streams není dostupný";
@@ -171,83 +171,83 @@
 "No sever mac address definied" = "Není definována MAC adresa serveru";
 "Yes" = "Ano";
 "No" = "Ne";
-"Authentication Failed" = "Ovìøení se nezdaøilo";
-"Incorrect Username or Password.\nCheck your settings." = "Chybné uživatelské jméno nebo heslo.\nOvìøte nastavení.";
+"Authentication Failed" = "Ověření se nezdařilo";
+"Incorrect Username or Password.\nCheck your settings." = "Chybné uživatelské jméno nebo heslo.\nOvěřte nastavení.";
 
 "WIKI_LANG" = "cs";
 
 "vote" = "hlas";
 "votes" = "hlasy";
 
-"Slide your finger up to adjust the scrubbing rate." = "Pohybem prstu nahoru mùžete upravit rychlost pøevíjení.";
-"Scrubbing 1" = "Vysokorychlostní pøevíjení";
-"Scrubbing 0.5" = "Pøevíjení polovièní rychlostí";
-"Scrubbing 0.25" = "Pøevíjení ètvrtinovou rychlostí";
-"Scrubbing 0.1" = "Jemné pøevíjení";
-"Scrubbing 0.05" = "Velmi jemné pøevíjení";
-"Scrubbing 0.025" = "Ultra jemné pøevíjení";
+"Slide your finger up to adjust the scrubbing rate." = "Pohybem prstu nahoru můžete upravit rychlost převíjení.";
+"Scrubbing 1" = "Vysokorychlostní převíjení";
+"Scrubbing 0.5" = "Převíjení poloviční rychlostí";
+"Scrubbing 0.25" = "Převíjení čtvrtinovou rychlostí";
+"Scrubbing 0.1" = "Jemné převíjení";
+"Scrubbing 0.05" = "Velmi jemné převíjení";
+"Scrubbing 0.025" = "Ultra jemné převíjení";
 
-"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Provádím výmaz diskové mezipamìti...\n\nÈekejte prosím, toto mùže chvíli trvat";
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Provádím výmaz diskové mezipaměti...\n\nČekejte prosím, toto může chvíli trvat";
 "Pull to sync with XBMC..." = "Táhnout pro synchronizaci s Kodi...";
 "Release to sync with XBMC..." = "Uvolnit pro synchronizaci s Kodi...";
 "Syncing..." = "Synchronizuji...";
 "Last sync" = "Poslední synchronizace";
-"View: Wall" = "Zobrazení: Stìna";
+"View: Wall" = "Zobrazení: Stěna";
 "View: List" = "Zobrazení: Seznam";
 "View: Fanart" = "Zobrazení: Fanart";
 
 "Show Content" = "Zobrazit obsah";
-"Play in party mode" = "Pøehrávat v párty módu";
-"Play in shuffle mode" = "Náhodnì pøehrávat";
+"Play in party mode" = "Přehrávat v párty módu";
+"Play in shuffle mode" = "Náhodně přehrávat";
 
-"Channel Guide" = "Prùvodce kanálù";
+"Channel Guide" = "Průvodce kanálů";
 "Record" = "Záznam";
 "Recordings" = "Nahrávky";
-"Timers" = "Èasovaèe";
-"Broadcast Details" = "Detaily pøenosu";
-"TIME" = "ÈAS";
+"Timers" = "Časovače";
+"Broadcast Details" = "Detaily přenosu";
+"TIME" = "ČAS";
 
 "ERROR" = "CHYBA";
 "Subtitles disabled" = "Titulky zakázány";
 "Subtitle" = "Titulky";
-"Mark as watched" = "Oznaèit jako shlédnuté";
-"Mark as unwatched" = "Oznaèit jako neshlédnuté";
+"Mark as watched" = "Označit jako shlédnuté";
+"Mark as unwatched" = "Označit jako neshlédnuté";
 
-"Button Pad/Gesture Zone" = "Tlaèítka/Zóna gest";
-"Slide your finger up or down to adjust the scrubbing rate." = "Pohybem prstu nahoru mùžete upravit rychlost pøevíjení.";
+"Button Pad/Gesture Zone" = "Tlačítka/Zóna gest";
+"Slide your finger up or down to adjust the scrubbing rate." = "Pohybem prstu nahoru můžete upravit rychlost převíjení.";
 
 "Programs" = "Programy";
-"Video Add-ons" = "Video doplòky";
-"Music Add-ons" = "Hudební doplòky";
+"Video Add-ons" = "Video doplňky";
+"Music Add-ons" = "Hudební doplňky";
 "XBMC Settings" = "Nastavení Kodi";
 
-"Custom button" = "Uživatelské tlaèítko";
+"Custom button" = "Uživatelské tlačítko";
 "Modify label:" = "Upravit název:";
 "Update label" = "Aktualizovat název";
-"Add a new button" = "Pøidat nové tlaèítko";
+"Add a new button" = "Přidat nové tlačítko";
 "Enter the label:" = "Vložte název:";
-"Add button" = "Pøidat tlaèítko";
-"Button added" = "Tlaèítko pøidáno";
+"Add button" = "Přidat tlačítko";
+"Button added" = "Tlačítko přidáno";
 "enter value" = "vložte hodnotu";
-"Tap and hold a setting to add a new button." = "Pro pøidání nového tlaèítka klepnìte a podržte nastavení.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Není definováno žádné vlastní tlaèítko.\r\nStisknìte \"...více\" níže pro pøidání nového.";
+"Tap and hold a setting to add a new button." = "Pro přidání nového tlačítka klepněte a podržte nastavení.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Není definováno žádné vlastní tlačítko.\r\nStiskněte \"...více\" níže pro přidání nového.";
 
-"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- VAROVÁNÍ --\nSouèasné API Kodi API neumožòuje editaci èasovaèù. Použijte grafické prostøedí Kodi pro pøidání, úpravu nebo odstranìní èasovaèù. Dìkujeme.";
+"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- VAROVÁNÍ --\nSoučasné API Kodi API neumožňuje editaci časovačů. Použijte grafické prostředí Kodi pro přidání, úpravu nebo odstranění časovačů. Děkujeme.";
 
 "Execute program" = "Spustit program";
-"Execute video add-on" = "Spustit video doplnìk";
-"Execute audio add-on" = "Spustit hudební doplnìk";
-"Add-on executed successfully" = "Doplnìk úspìšnì spuštìn";
-"Unable to  execute the add-on" = "Nelze spustit doplnìk";
+"Execute video add-on" = "Spustit video doplněk";
+"Execute audio add-on" = "Spustit hudební doplněk";
+"Add-on executed successfully" = "Doplněk úspěšně spuštěn";
+"Unable to  execute the add-on" = "Nelze spustit doplněk";
 
 "...more" = "...více";
 "Edit" = "Upravit";
 "Done" = "Hotovo";
-"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "Pro pøístup k nastavení Kodi je zapotøebí verze Kodi 13 nebo vyšší";
-"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- VAROVÁNÍ --\nTento druh nastavení nelze nastavit na dálku. Pro zmìnu tohoto nastavení použijte grafické rozhraní Kodi.\nDìkujeme.";
+"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "Pro přístup k nastavení Kodi je zapotřebí verze Kodi 13 nebo vyšší";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- VAROVÁNÍ --\nTento druh nastavení nelze nastavit na dálku. Pro změnu tohoto nastavení použijte grafické rozhraní Kodi.\nDěkujeme.";
 
-"Official XBMC Remote\nfor iOS" = "Oficiální dálkový ovladaè Kodi \npro iOS";
-"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Oficiální dálkový ovladaè Kodi používá náhledy z http://fanart.tv, pokud chcete další artworky, stáhnìte a spuste doplnìk Kodi s názvem \"artwork downloader\"!\n\nLogo Kodi, maskot Zappy a ikona aplikace jsou majetkem Kodi\nhttp://www.kodi.tv/contribute";
+"Official XBMC Remote\nfor iOS" = "Oficiální dálkový ovladač Kodi \npro iOS";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Oficiální dálkový ovladač Kodi používá náhledy z http://fanart.tv, pokud chcete další artworky, stáhněte a spusťte doplněk Kodi s názvem \"artwork downloader\"!\n\nLogo Kodi, maskot Zappy a ikona aplikace jsou majetkem Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "užívejte!";
 
 "No items found." = "Položky nenalezeny.";
@@ -256,7 +256,7 @@
 "Search" = "Hledat";
 
 "Supported XBMC version is Eden (11) or higher" = "Podporovaná verze Kodi je Eden (11) nebo vyšší";
-"Add Host" = "Pøidat hostitele";
+"Add Host" = "Přidat hostitele";
 
 "Description" = "Popis";
 "Host : port /\nTCP port" = "Hostitel : port /\nTCP port";
@@ -265,60 +265,58 @@
 "Prefer posters for TV shows" = "Preferuji postery pro seriály";
 "Find XBMC" = "Najít Kodi";
 "Save" = "Uložit";
-"No XBMC instances were found :(" = "Žádné zaøízení Kodi nebylo nalezeno :(";
-"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Najít Kodi\" vyžaduje, aby server Kodi mìl povolenou možnost \n\"Hlásit tyto služby do jiných systémù pomocí ZeroConf\" ";
+"No XBMC instances were found :(" = "Žádné zařízení Kodi nebylo nalezeno :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Najít Kodi\" vyžaduje, aby server Kodi měl povolenou možnost \n\"Hlásit tyto služby do jiných systémů pomocí ZeroConf\" ";
 "How-to actvate the remote app in XBMC" = "Jak aktivovat dálkové ovládání v XBMC";
-"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nNastavení -> Sí -> Povolit ovládání Kodi pøes HTTP";
-"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nNastavení -> Služby -> Web Server -> Povolit ovládání Kodi pøes HTTP";
-"e.g. My XBMC" = "napø. Moje Kodi";
-"e.g. 192.168.0.8" = "napø. 192.168.0.8";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nNastavení -> Síť -> Povolit ovládání Kodi přes HTTP";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nNastavení -> Služby -> Web Server -> Povolit ovládání Kodi přes HTTP";
+"e.g. My XBMC" = "např. Moje Kodi";
+"e.g. 192.168.0.8" = "např. 192.168.0.8";
 "User" = "Uživatel";
 "Password" = "Heslo";
 
-"Sort by" = "Tøídit";
-"tap" = "klepnout";
-"the selection" = "výbìr";
-"tap the selection\nto reverse the sort order" = "klepnìte na výbìr \npro obrácení poøadí øazení";
-"Not listened" = "Ještì neposlouchané";
+"Sort by" = "Třídit";
+"tap the selection\nto reverse the sort order" = "klepněte na výběr\npro obrácení pořadí řazení";
+"Not listened" = "Ještě neposlouchané";
 "Listened one time" = "Jednou poslouchané";
 "Listened %@ times" = "Poslouchané %@ krát";
-"Not watched" = "Ještì neshlédnuté";
+"Not watched" = "Ještě neshlédnuté";
 "Watched one time" = "Jednou shlédnuté";
 "Watched %@ times" = "Shlédnuté %@ krát";
-"Artist" = "Umìlec";
+"Artist" = "Umělec";
 "Year" = "Rok";
-"Play count" = "Poèet pøehrání";
+"Play count" = "Počet přehrání";
 "Track" = "Stopa";
 "Title" = "Název";
 "Rating" = "Hodnocení";
 "Duration" = "Délka trvání";
-"Date added" = "Datum pøidání";
+"Date added" = "Datum přidání";
 "Name" = "Jméno";
 "User rating" = "Uživatelské hodnocení";
 "The %@s decade" = "Dekáta %@s";
 "Year not available" = "Rok není k dispozici";
 "Year %@" = "Rok %@";
 "Rated %@" = "Hodnocení %@";
-"Track n.%@" = "Stopa è.%@";
+"Track n.%@" = "Stopa č.%@";
 
-"Less than 15 minutes" = "Ménì než 15 minut";
-"Less than half an hour" = "Ménì než pùl hodiny";
-"About half an hour" = "Asi pùl hodiny";
-"Less than one hour" = "Ménì než hodinu";
+"Less than 15 minutes" = "Méně než 15 minut";
+"Less than half an hour" = "Méně než půl hodiny";
+"About half an hour" = "Asi půl hodiny";
+"Less than one hour" = "Méně než hodinu";
 "About one hour" = "Okolo hodiny";
-"About an hour and a half" = "Okolo hodiny a pùl";
-"Nearly two hours" = "Témìø dvì hodiny";
-"About two hours" = "Asi dvì hodiny";
-"Two hours" = "Dvì hodiny";
-"About two and a half hours" = "Asi dvì a pùl hodiny";
-"More than two and a half hours" = "Více než dvì a pùl hodiny";
-"Nearly three hours" = "Skoro tøi hodiny";
-"About three hours" = "Asi tøi hodiny";
-"Nearly three and half hours" = "Skoro tøi a pùl hodinys";
-"About three and half hours" = "Asi tøi a pùl hodiny";
-"Nearly four hours" = "Asi ètyøi hodiny";
-"About four hours" = "Asi ètyøi hodiny";
-"More than four hours" = "Více než ètyøi hodiny";
+"About an hour and a half" = "Okolo hodiny a půl";
+"Nearly two hours" = "Téměř dvě hodiny";
+"About two hours" = "Asi dvě hodiny";
+"Two hours" = "Dvě hodiny";
+"About two and a half hours" = "Asi dvě a půl hodiny";
+"More than two and a half hours" = "Více než dvě a půl hodiny";
+"Nearly three hours" = "Skoro tři hodiny";
+"About three hours" = "Asi tři hodiny";
+"Nearly three and half hours" = "Skoro tři a půl hodinys";
+"About three and half hours" = "Asi tři a půl hodiny";
+"Nearly four hours" = "Asi čtyři hodiny";
+"About four hours" = "Asi čtyři hodiny";
+"More than four hours" = "Více než čtyři hodiny";
 
 "Unknown" = "Neznámý";
 "Audio stream" = "Audio stream";
