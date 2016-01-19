@@ -41,7 +41,6 @@
 		0F089AA518EC4E3300F32430 /* SettingsValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */; };
 		0F09E9C01567D77A006D1EA3 /* eden.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F09E9BF1567D77A006D1EA3 /* eden.png */; };
 		0F09E9C21567D785006D1EA3 /* eden@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F09E9C11567D785006D1EA3 /* eden@2x.png */; };
-		0F0DE9821BF0A97C00E0F2C4 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F0DE9811BF0A97C00E0F2C4 /* Storyboard.storyboard */; };
 		0F175F24154D5C3600C1C61F /* ViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */; };
 		0F175F25154D5C3600C1C61F /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
 		0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F27154D696B00C1C61F /* StackScrollViewController.m */; };
@@ -901,7 +900,6 @@
 		0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsValuesViewController.m; sourceTree = "<group>"; };
 		0F09E9BF1567D77A006D1EA3 /* eden.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eden.png; sourceTree = "<group>"; };
 		0F09E9C11567D785006D1EA3 /* eden@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eden@2x.png"; sourceTree = "<group>"; };
-		0F0DE9811BF0A97C00E0F2C4 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard.storyboard; path = iPad/Storyboard.storyboard; sourceTree = "<group>"; };
 		0F175F21154D5C3600C1C61F /* ViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerIPad.h; sourceTree = "<group>"; };
 		0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerIPad.m; sourceTree = "<group>"; };
 		0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerIPad.xib; sourceTree = "<group>"; };
@@ -2011,7 +2009,6 @@
 			isa = PBXGroup;
 			children = (
 				0F6234E9192809B70024FEFA /* cellViewIPad.xib */,
-				0F0DE9811BF0A97C00E0F2C4 /* Storyboard.storyboard */,
 				0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */,
 			);
 			name = iPad;
@@ -3903,7 +3900,6 @@
 				0F22197E1711D56800B111F2 /* button_view_list.png in Resources */,
 				0F2219801711D57000B111F2 /* button_view_list@2x.png in Resources */,
 				0FE0EA6C1905707800EA9118 /* st_video_addon_off.png in Resources */,
-				0F0DE9821BF0A97C00E0F2C4 /* Storyboard.storyboard in Resources */,
 				0F2219821712209500B111F2 /* nocover_movies_wall.png in Resources */,
 				0F2219841712209F00B111F2 /* nocover_movies_wall@2x.png in Resources */,
 				0F221986171221D600B111F2 /* nocover_music_wall.png in Resources */,
