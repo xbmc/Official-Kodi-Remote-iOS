@@ -4207,13 +4207,17 @@
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-w",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "it.joethefox.XBMC-Remote";
 				PRODUCT_NAME = "Kodi Remote";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
+				"VALID_ARCHS[sdk=*]" = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
