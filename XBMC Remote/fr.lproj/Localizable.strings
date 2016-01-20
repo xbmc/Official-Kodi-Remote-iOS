@@ -276,7 +276,7 @@
 "Password" = "Mot de passe";
 
 "Sort by" = "Trier par";
-"tap the selection\nto reverse the sort order" = "tapez sur la sélection\npour inverser l'ordre de tri"
+"tap the selection\nto reverse the sort order" = "tapez sur la sélection\npour inverser l'ordre de tri";
 "Not listened" = "Pas encore écouté";
 "Listened one time" = "Écouté une fois";
 "Listened %@ times" = "Écouté %@ fois";
@@ -322,3 +322,4 @@
 "Audio stream" = "Flux audio";
 "Disable subtitles" = "Désactiver les sous-titres";
 "Subtitles" = "Sous-titres";
+
