@@ -935,6 +935,10 @@ NSMutableArray *hostRightMenuItems;
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSMutableArray arrayWithObjects:NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), NSLocalizedString(@"Play count", nil), nil], @"label",
+                                      [NSArray arrayWithObjects:@"label", @"genre", @"year", @"playcount", nil], @"method",
+                                      nil], @"available_methods",
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
                                     nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
@@ -944,6 +948,11 @@ NSMutableArray *hostRightMenuItems;
                                     nil], @"extra_info_parameters",
                                    @"YES", @"enableCollectionView",
                                    @"YES", @"enableLibraryCache",
+                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                    NSLocalizedString(@"Not listened", nil), @"notWatched",
+                                    NSLocalizedString(@"Listened one time", nil), @"watchedOneTime",
+                                    NSLocalizedString(@"Listened %@ times", nil), @"watchedTimes",
+                                    nil], @"watchedListenedStrings",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
