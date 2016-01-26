@@ -3234,7 +3234,7 @@ NSIndexPath *selected;
                                 [item objectForKey:@"addonid"], @"addonid",
                                 nil]
                        success: NSLocalizedString(@"Add-on executed successfully", nil)
-                       failure:NSLocalizedString(@"Unable to  execute the add-on", nil)
+                       failure:NSLocalizedString(@"Unable to execute the add-on", nil)
              ];
         }
         else if ([option isEqualToString:NSLocalizedString(@"Execute action", nil)]){

@@ -117,7 +117,7 @@
 "Released %d" = "Wydany %d";
 
 "Clear Playlist" = "Wyczyść Listę Odtwarzania";
-"No server MAC address defined" = "Nie ustalono adresu MAC";
+"No server MAC address defined" = "Nie zdefiniowano adresu MAC serwera";
 "Command executed" = "Wykonano polecenie";
 "Warning" = "Ostrzeżenie";
 "Cannot do that" = "Nie można wykonać";
@@ -168,7 +168,6 @@
 "ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "pl_PL";
 
-"No sever mac address definied" = "Nie zdefiniowano adresu MAC serwera";
 "Yes" = "Tak";
 "No" = "Nie";
 "Authentication Failed" = "Identyfikacja nie powiodła się";

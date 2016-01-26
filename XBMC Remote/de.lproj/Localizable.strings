@@ -97,7 +97,7 @@
 
 "Playlist" = "Abspielliste";
 "Nothing is playing" = "Nichts wird gespielt";
-"Details not found" = "Details  nicht gefunden";
+"Details not found" = "Details nicht gefunden";
 "Open in Safari" = "In Safari öffnen";
 "Error loading page" = "Fehler beim Laden der Seite";
 "OK" = "OK";
@@ -168,7 +168,6 @@
 "ShortDateTimeFormat" = "dd.MM.YYYY";
 "LocaleIdentifier" = "de_DE";
 
-"No sever mac address definied" = "Keine Server-MAC-Adresse definiert";
 "Yes" = "Ja";
 "No" = "Nein";
 "Authentication Failed" = "Authentifizierung fehlgeschlagen";
@@ -238,16 +237,16 @@
 "Execute video add-on" = "Execute video add-on";
 "Execute audio add-on" = "Execute audio add-on";
 "Add-on executed successfully" = "Add-on executed successfully";
-"Unable to  execute the add-on" = "Unable to  execute the add-on";
+"Unable to execute the add-on" = "Unable to execute the add-on";
 
 "...more" = "...more";
 "Edit" = "Bearbeiten";
 "Done" = "Fertig";
-"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "Kodi version 13  or superior is required to access Kodi settings";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi version 13 or superior is required to access Kodi settings";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the Kodi GUI for changing this setting.\nThank you.";
 
 "Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nfür iOS";
-"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Die \"Official Kodi Remote app\" benutzt Bilder die von  http://fanart.tv kommen. Installiere das \"artwork downloader\" Kodi Add-on um dies auch in Kodi zu nutzen!\n\nDas Kodi-Logo, das Zappy Maskottchen und die \"Official Kodi Remote\"-Icons sind Eigentum von Kodi\nhttp://www.kodi.tv/contribute";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Die \"Official Kodi Remote app\" benutzt Bilder die von http://fanart.tv kommen. Installiere das \"artwork downloader\" Kodi Add-on um dies auch in Kodi zu nutzen!\n\nDas Kodi-Logo, das Zappy Maskottchen und die \"Official Kodi Remote\"-Icons sind Eigentum von Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "enjoy!";
 
 "No items found." = "Keine Einträge gefunden";

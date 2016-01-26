@@ -117,7 +117,7 @@
 "Released %d" = "Vydáno %d";
 
 "Clear Playlist" = "Vyčistit playlist";
-"No server MAC address defined" = "No server MAC address defined";
+"No server MAC address defined" = "Není definována MAC adresa serveru";
 "Command executed" = "Příkaz proveden";
 "Warning" = "Varování";
 "Cannot do that" = "Nelze udělat";
@@ -168,7 +168,6 @@
 "ShortDateTimeFormat" = "d.MM.yyyy";
 "LocaleIdentifier" = "cs_CS";
 
-"No sever mac address definied" = "Není definována MAC adresa serveru";
 "Yes" = "Ano";
 "No" = "Ne";
 "Authentication Failed" = "Ověření se nezdařilo";
@@ -238,12 +237,12 @@
 "Execute video add-on" = "Spustit video doplněk";
 "Execute audio add-on" = "Spustit hudební doplněk";
 "Add-on executed successfully" = "Doplněk úspěšně spuštěn";
-"Unable to  execute the add-on" = "Nelze spustit doplněk";
+"Unable to execute the add-on" = "Nelze spustit doplněk";
 
 "...more" = "...více";
 "Edit" = "Upravit";
 "Done" = "Hotovo";
-"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "Pro přístup k nastavení Kodi je zapotřebí verze Kodi 13 nebo vyšší";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Pro přístup k nastavení Kodi je zapotřebí verze Kodi 13 nebo vyšší";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- VAROVÁNÍ --\nTento druh nastavení nelze nastavit na dálku. Pro změnu tohoto nastavení použijte grafické rozhraní Kodi.\nDěkujeme.";
 
 "Official XBMC Remote\nfor iOS" = "Oficiální dálkový ovladač Kodi \npro iOS";
