@@ -456,7 +456,7 @@
                     [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
                 }
                 else{
-                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server mac address defined", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                     [alertView show];
                 }
             }
