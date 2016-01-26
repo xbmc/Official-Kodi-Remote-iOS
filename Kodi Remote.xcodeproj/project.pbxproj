@@ -981,6 +981,13 @@
 		0F30351115566E560046EB82 /* button_metal_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_metal_down.png; sourceTree = "<group>"; };
 		0F30E175152DD8BC00282769 /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
 		0F30E177152DD8CB00282769 /* person@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person@2x.png"; sourceTree = "<group>"; };
+		0F31DAE51C577426009CD268 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		0F31DAE61C577426009CD268 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		0F31DAE71C577426009CD268 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pt-PT"; path = "pt-PT.lproj/remote quick help@2x.png"; sourceTree = "<group>"; };
+		0F31DAE81C577426009CD268 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pt-PT"; path = "pt-PT.lproj/remote quick help_ipad@2x.png"; sourceTree = "<group>"; };
+		0F31DAE91C577426009CD268 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pt-PT"; path = "pt-PT.lproj/gesture_zone@2x.png"; sourceTree = "<group>"; };
+		0F31DAEA1C577426009CD268 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pt-PT"; path = "pt-PT.lproj/remote quick help_ipad.png"; sourceTree = "<group>"; };
+		0F31DAEB1C577426009CD268 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pt-PT"; path = "pt-PT.lproj/remote quick help.png"; sourceTree = "<group>"; };
 		0F32091216FE181300636BA2 /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDImageCache.h; path = SDWebImage/SDImageCache.h; sourceTree = "<group>"; };
 		0F32091316FE181300636BA2 /* SDImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDImageCache.m; path = SDWebImage/SDImageCache.m; sourceTree = "<group>"; };
 		0F32091416FE181300636BA2 /* SDWebImageCompat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDWebImageCompat.h; path = SDWebImage/SDWebImageCompat.h; sourceTree = "<group>"; };
@@ -3113,6 +3120,7 @@
 				"zh-Hans",
 				pl,
 				cs,
+				"pt-PT",
 			);
 			mainGroup = 0F5548EB151D1187007E633F;
 			productRefGroup = 0F5548F7151D1187007E633F /* Products */;
@@ -4001,6 +4009,7 @@
 				B1FF37DE1709D1EB005473FF /* zh-Hans */,
 				0F29D641191F7E1A00FFE2AA /* pl */,
 				0FE9D72C1C371D0700C47B46 /* cs */,
+				0F31DAE51C577426009CD268 /* pt-PT */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -4013,6 +4022,7 @@
 				8E1B3B0A16EAADB70089A043 /* de */,
 				B1FF37EA1709D20B005473FF /* zh-Hans */,
 				0F29D64E191F7E1A00FFE2AA /* pl */,
+				0F31DAE91C577426009CD268 /* pt-PT */,
 			);
 			name = "gesture_zone@2x.png";
 			sourceTree = "<group>";
@@ -4066,6 +4076,7 @@
 				B1FF37DF1709D1ED005473FF /* zh-Hans */,
 				0F29D642191F7E1A00FFE2AA /* pl */,
 				0FE9D72D1C371D0700C47B46 /* cs */,
+				0F31DAE61C577426009CD268 /* pt-PT */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4077,6 +4088,7 @@
 				8E1B3B0316EAABC80089A043 /* de */,
 				B1FF37E91709D209005473FF /* zh-Hans */,
 				0F29D64C191F7E1A00FFE2AA /* pl */,
+				0F31DAE71C577426009CD268 /* pt-PT */,
 			);
 			name = "remote quick help@2x.png";
 			sourceTree = "<group>";
@@ -4088,6 +4100,7 @@
 				8E1B3B0216EAABC00089A043 /* de */,
 				B1FD2267170B337B00FB1669 /* zh-Hans */,
 				0F29D64D191F7E1A00FFE2AA /* pl */,
+				0F31DAE81C577426009CD268 /* pt-PT */,
 			);
 			name = "remote quick help_ipad@2x.png";
 			sourceTree = "<group>";
@@ -4099,6 +4112,7 @@
 				8E1B3B0416EAABCC0089A043 /* de */,
 				B1FD2268170B33C300FB1669 /* zh-Hans */,
 				0F29D650191F7E1B00FFE2AA /* pl */,
+				0F31DAEA1C577426009CD268 /* pt-PT */,
 			);
 			name = "remote quick help_ipad.png";
 			sourceTree = "<group>";
@@ -4110,6 +4124,7 @@
 				8E1B3B0516EAABD20089A043 /* de */,
 				B1FD2269170B33DE00FB1669 /* zh-Hans */,
 				0F29D651191F7E1B00FFE2AA /* pl */,
+				0F31DAEB1C577426009CD268 /* pt-PT */,
 			);
 			name = "remote quick help.png";
 			sourceTree = "<group>";
