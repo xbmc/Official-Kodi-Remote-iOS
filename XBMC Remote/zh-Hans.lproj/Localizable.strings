@@ -168,7 +168,6 @@
 "ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "zh_CN";
 
-"No sever mac address definied" = "未定义服务器mac地址";
 "Yes" = "是";
 "No" = "否";
 "Authentication Failed" = "验证失败";
@@ -238,12 +237,12 @@
 "Execute video add-on" = "运行视频插件";
 "Execute audio add-on" = "运行音频插件";
 "Add-on executed successfully" = "插件运行成功";
-"Unable to  execute the add-on" = "无法运行插件";
+"Unable to execute the add-on" = "无法运行插件";
 
 "...more" = "...更多";
 "Edit" = "编辑";
 "Done" = "完成";
-"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "访问Kodi设置需要Kodi 13或更高版本";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "访问Kodi设置需要Kodi 13或更高版本";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- 注意 --\n此类设置无法远程设置。请使用Kodi图形用户界面来改变此设置。\n谢谢。";
 
 "Official XBMC Remote\nfor iOS" = "官方Kodi遥控器\niOS版";

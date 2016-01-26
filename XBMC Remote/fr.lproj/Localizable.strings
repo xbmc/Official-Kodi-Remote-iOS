@@ -168,7 +168,6 @@
 "ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "fr_FR";
 
-"No sever mac address definied" = "Aucune adresse MAC définie";
 "Yes" = "Oui";
 "No" = "Non";
 "Authentication Failed" = "Authentication Failed";
@@ -238,12 +237,12 @@
 "Execute video add-on" = "Execute video add-on";
 "Execute audio add-on" = "Execute audio add-on";
 "Add-on executed successfully" = "Add-on executed successfully";
-"Unable to  execute the add-on" = "Unable to  execute the add-on";
+"Unable to execute the add-on" = "Unable to execute the add-on";
 
 "...more" = "...more";
 "Edit" = "Editer";
 "Done" = "Terminé";
-"XBMC \"Gotham\" version 13  or superior is required to access XBMC settings" = "Kodi version 13 or superior is required to access Kodi settings";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi version 13 or superior is required to access Kodi settings";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the Kodi GUI for changing this setting.\nThank you.";
 
 "Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nfor iOS";
