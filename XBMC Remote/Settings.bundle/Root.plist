@@ -30,6 +30,7 @@
 				<string>Deutsch</string>
 				<string>简体中文</string>
 				<string>Polski</string>
+				<string>Português</string>
 			</array>
 			<key>Values</key>
 			<array>
@@ -40,6 +41,7 @@
 				<string>de</string>
 				<string>zh-Hans</string>
 				<string>pl</string>
+				<string>pt-PT</string>
 			</array>
 		</dict>
 		<dict>
