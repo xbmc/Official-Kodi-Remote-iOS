@@ -25,7 +25,7 @@
 "Select an XBMC Server from the list" = "从列表中选择一个Kodi服务器";
 
 "Files" = "文件";
-"Video Addons" = "视频插件";
+"Video Add-ons" = "视频插件";
 "Live TV" = "直播电视";
 "Movie Genres" = "电影类型";
 "Music Videos" = "音乐电视";
@@ -47,12 +47,12 @@
 "Played songs" = "已播放歌曲";
 "Recently played songs" = "最近播放的歌曲";
 "All songs" = "全部歌曲";
-"Music Addons" = "音乐插件";
+"Music Add-ons" = "音乐插件";
 "Music Playlists" = "音乐播放列表";
 
 "Added Episodes" = "已加入剧集";
 
-"Pictures Addons" = "图片插件";
+"Pictures Add-ons" = "图片插件";
 
 "Power off System" = "关闭系统";
 "Power off" = "关机";

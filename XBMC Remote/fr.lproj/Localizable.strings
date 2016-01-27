@@ -25,7 +25,7 @@
 "Select an XBMC Server from the list" = "Sélectionner un serveur Kodi dans la liste";
 
 "Files" = "Fichiers";
-"Video Addons" = "Addons Film";
+"Video Add-ons" = "Add-ons Film";
 "Live TV" = "Live TV";
 "Movie Genres" = "Genres Film";
 "Music Videos" = "Clips Vidéo";
@@ -47,12 +47,12 @@
 "Played songs" = "Musiques lues";
 "Recently played songs" = "Musiques lues récemment";
 "All songs" = "Toutes les musiques";
-"Music Addons" = "Addons Musique";
+"Music Add-ons" = "Add-ons Musique";
 "Music Playlists" = "Playlists Musique";
 
 "Added Episodes" = "Episodes ajoutés";
 
-"Picture Addons" = "Addons Images";
+"Picture Add-ons" = "Add-ons Images";
 
 "Power off System" = "Eteindre";
 "Power off" = "Eteindre";
