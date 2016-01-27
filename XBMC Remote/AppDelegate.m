@@ -477,7 +477,7 @@ NSMutableArray *hostRightMenuItems;
                             @"music", @"media",
                             @"addons://sources/audio", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Music Addons", nil), @"label", NSLocalizedString(@"Music Addons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Music Add-ons", nil), @"label", NSLocalizedString(@"Music Add-ons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1686,7 +1686,7 @@ NSMutableArray *hostRightMenuItems;
                             @"video", @"media",
                             @"addons://sources/video", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                            nil], @"parameters", @"Video Addons", @"label", NSLocalizedString(@"Video Addons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", @"Video Add-ons", @"label", NSLocalizedString(@"Video Add-ons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
 
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2027,7 +2027,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     @"video", @"media",
                                     [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                    nil], @"parameters", @"Video Addons", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                    nil], @"parameters", @"Video Add-ons", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                    @"YES", @"enableCollectionView",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2374,7 +2374,7 @@ NSMutableArray *hostRightMenuItems;
                               @"video", @"media",
                               @"addons://sources/video", @"directory",
                               [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                              nil], @"parameters", NSLocalizedString(@"Video Addons", nil), @"label", NSLocalizedString(@"Video Addons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                              nil], @"parameters", NSLocalizedString(@"Video Add-ons", nil), @"label", NSLocalizedString(@"Video Add-ons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                              @"YES", @"enableCollectionView",
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2596,7 +2596,7 @@ NSMutableArray *hostRightMenuItems;
                                        nil],@"sort",
                                       @"video", @"media",
                                       [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                      nil], @"parameters", @"Video Addons", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                      nil], @"parameters", @"Video Add-ons", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                      @"YES", @"enableCollectionView",
                                      [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3224,7 +3224,7 @@ NSMutableArray *hostRightMenuItems;
                             @"pictures", @"media",
                             @"addons://sources/image", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Pictures Addons", nil), @"label", NSLocalizedString(@"Pictures Addons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Pictures Add-ons", nil), @"label", NSLocalizedString(@"Pictures Add-ons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3299,7 +3299,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     @"pictures", @"media",
                                     [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                    nil], @"parameters", NSLocalizedString(@"Video Addons", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", NSLocalizedString(@"Video Add-ons", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   nil];
     item4.subItem.mainFields=[NSArray arrayWithObjects:

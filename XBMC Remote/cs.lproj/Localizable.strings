@@ -25,7 +25,7 @@
 "Select an XBMC Server from the list" = "Zvolit Kodi server z výpisu";
 
 "Files" = "Soubory";
-"Video Addons" = "Video doplňky";
+"Video Add-ons" = "Video doplňky";
 "Live TV" = "Televize";
 "Movie Genres" = "Filmové žánry";
 "Music Videos" = "Videoklipy";
@@ -47,12 +47,12 @@
 "Played songs" = "Přehrané skladby";
 "Recently played songs" = "Nedávno přehrané skladby";
 "All songs" = "Všechny skladby";
-"Music Addons" = "Hudební doplňky";
+"Music Add-ons" = "Hudební doplňky";
 "Music Playlists" = "Seznamy hudby";
 
 "Added Episodes" = "Přidané epizovdy";
 
-"Pictures Addons" = "Doplňky obrázků";
+"Pictures Add-ons" = "Doplňky obrázků";
 
 "Power off System" = "Vypnout systém";
 "Power off" = "Vypnout";
