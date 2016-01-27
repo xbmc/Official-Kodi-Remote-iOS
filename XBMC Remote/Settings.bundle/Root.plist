@@ -32,6 +32,7 @@
 				<string>Polski</string>
 				<string>Português</string>
 				<string>Spanish</string>
+				<string>Catalan</string>
 			</array>
 			<key>Values</key>
 			<array>
@@ -44,6 +45,7 @@
 				<string>pl</string>
 				<string>pt-PT</string>
 				<string>es</string>
+				<string>ca</string>
 			</array>
 		</dict>
 		<dict>
