@@ -266,7 +266,7 @@
 "Save" = "保存";
 "No XBMC instances were found :(" = "未找到 Kodi 实例 :(";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "“查找Kodi” 功能需要Kodi服务器启用选项\n“通过Zeroconf协议发布这些服务”";
-"How-to actvate the remote app in XBMC" = "如何在Kodi中激活远程控制";
+"How-to activate the remote app in XBMC" = "如何在Kodi中激活远程控制";
 "Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\n系统设置 -> 网络 -> 允许通过HTTP控制Kodi";
 "Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\n系统设置 -> 服务 -> Web服务器 -> 允许通过HTTP控制Kodi";
 "e.g. My XBMC" = "如：我的Kodi";

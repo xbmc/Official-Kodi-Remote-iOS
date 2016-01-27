@@ -470,7 +470,7 @@
     [preferLabel setText:NSLocalizedString(@"Prefer posters for TV shows", nil)];
     [noInstancesLabel setText:NSLocalizedString(@"No XBMC instances were found :(", nil)];
     [findLabel setText:NSLocalizedString(@"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled", nil)];
-    [howtoLabel setText:NSLocalizedString(@"How-to actvate the remote app in XBMC", nil)];
+    [howtoLabel setText:NSLocalizedString(@"How-to activate the remote app in XBMC", nil)];
     [howtoEdenLabel setText:NSLocalizedString(@"Eden\nSettings -> Network -> Allow control of XBMC via HTTP", nil)];
     [howtoLaterLabel setText:NSLocalizedString(@"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP", nil)];
     
