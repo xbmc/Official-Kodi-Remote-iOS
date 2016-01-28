@@ -164,7 +164,7 @@
 "Audiostream not available" = "Pista de áudio não disponível";
 "Audiostreams not available" = "Pistas de áudio não disponíveis";
 
-"LongDateTimeFormat" = "d de MMMM de yyyy";
+"LongDateTimeFormat" = "d' de 'MMMM' de 'yyyy";
 "ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "pt_PT";
 
@@ -212,7 +212,7 @@
 "Mark as watched" = "Marcar como visto";
 "Mark as unwatched" = "Marcar como não visto";
 
-"Button Pad/Gesture Zone" = "Botões / Gestos";/*------ To verify ------*/
+"Button Pad/Gesture Zone" = "Botões / Gestos";
 "Slide your finger up or down to adjust the scrubbing rate." = "Deslize para cima ou para baixo para ajustar a velocidade do cursor de reprodução.";/*------ To verify ------*/
 
 "Programs" = "Programas";
