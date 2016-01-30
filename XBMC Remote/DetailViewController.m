@@ -995,6 +995,7 @@
                                        pvrExtraInfo, @"pvrExtraInfo",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        newSectionParameters, @"extra_section_parameters",
+                                       [NSString stringWithFormat:@"%@", [parameters objectForKey:@"defaultThumb"]], @"defaultThumb",
                                        [parameters objectForKey:@"combinedFilter"], @"combinedFilter",
                                        nil];
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
@@ -1650,7 +1651,7 @@ int originYear = 0;
     flagY = 54;
     mainMenu *Menuitem = self.detailItem;
     NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-    if ([[parameters objectForKey:@"defaultThumb"] length]!=0){
+    if ([[parameters objectForKey:@"defaultThumb"] length] != 0 && ![[parameters objectForKey:@"defaultThumb"] isEqualToString:@"(null)"]){
         defaultThumb = [parameters objectForKey:@"defaultThumb"];
     }
     else {
