@@ -173,7 +173,8 @@ NSMutableArray *hostRightMenuItems;
 
     item1.subItem = [[mainMenu alloc] init];
     item1.subItem.subItem = [[mainMenu alloc] init];
-    
+    item1.subItem.subItem.subItem = [[mainMenu alloc] init];
+
     item2.subItem = [[mainMenu alloc] init];
     item2.subItem.subItem = [[mainMenu alloc] init];
     
@@ -235,7 +236,7 @@ NSMutableArray *hostRightMenuItems;
                       
                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                       
-                      [NSArray arrayWithObjects:@"AudioLibrary.GetContributorRoles", @"method", nil],
+                      [NSArray arrayWithObjects:@"AudioLibrary.GetRoles", @"method", nil],
                       
                       nil];
     
@@ -1056,7 +1057,6 @@ NSMutableArray *hostRightMenuItems;
                                    [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",nil], @"properties",
                                     nil], @"extra_info_parameters",
                                    @"YES", @"enableCollectionView",
-                                   @"YES", @"enableLibraryCache",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -1502,6 +1502,121 @@ NSMutableArray *hostRightMenuItems;
                                        [NSNumber numberWithBool:YES],
                                        [NSNumber numberWithBool:NO],
                                        nil];
+    
+    item1.subItem.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
+                                              
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", @"YES", @"albumView", nil],
+                                              nil];
+    
+    item1.subItem.subItem.subItem.mainParameters=[NSMutableArray arrayWithObjects:
+                                                  
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSArray array],
+                                                  [NSMutableArray arrayWithObjects:
+                                                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     @"ascending",@"order",
+                                                     [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                                                     @"track", @"method",
+                                                     nil],@"sort",
+                                                    [NSArray arrayWithObjects:@"genre", @"year", @"duration", @"track", @"thumbnail", @"rating", @"playcount", @"artist", @"albumid", @"file", @"fanart", nil], @"properties",
+                                                    nil], @"parameters", @"Songs", @"label", nil],
+                                                  nil];
+    
+    item1.subItem.subItem.subItem.mainFields=[NSArray arrayWithObjects:
+                                              
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSArray array],
+                                              [NSDictionary  dictionaryWithObjectsAndKeys:
+                                               @"songs",@"itemid",
+                                               @"label", @"row1",
+                                               @"artist", @"row2",
+                                               @"year", @"row3",
+                                               @"duration", @"row4",
+                                               @"rating",@"row5",
+                                               @"songid",@"row6",
+                                               @"track",@"row7",
+                                               @"albumid",@"row8",
+                                               [NSNumber numberWithInt:0], @"playlistid",
+                                               @"songid", @"row9",
+                                               @"file", @"row10",
+                                               @"artist", @"row11",
+                                               nil],
+                                              
+                                              nil];
+    item1.subItem.subItem.subItem.rowHeight=53;
+    item1.subItem.subItem.subItem.thumbWidth=53;
+    item1.subItem.subItem.subItem.defaultThumb=@"nocover_music";
+    item1.subItem.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray array],
+                                                [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil),  NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
+                                                nil];
+    item1.subItem.subItem.subItem.originYearDuration=248;
+    item1.subItem.subItem.subItem.widthLabel=252;
+    item1.subItem.subItem.subItem.showRuntime=[NSArray arrayWithObjects:
+                                               [NSNumber numberWithBool:YES],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               [NSNumber numberWithBool:NO],
+                                               nil];
+
 #pragma mark - Movies
     item2.mainLabel = NSLocalizedString(@"Movies", nil);
     item2.upperLabel = NSLocalizedString(@"Watch your", nil);
