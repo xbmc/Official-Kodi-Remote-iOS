@@ -1380,6 +1380,7 @@ NSMutableArray *hostRightMenuItems;
                                              nil], @"properties",
                                             nil], @"extra_info_parameters",
                                            @"YES", @"enableCollectionView",
+                                           @"roleid", @"combinedFilter",
                                            [NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSDictionary dictionaryWithObjectsAndKeys:
                                              [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",

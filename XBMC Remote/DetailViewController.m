@@ -950,14 +950,17 @@
         }
         id obj = [item objectForKey:[mainFields objectForKey:@"row6"]];
         id objKey = [mainFields objectForKey:@"row6"];
-        //            NSLog(@"ECCOCI %d %d", [MenuItem.subItem disableFilterParameter], [[parameters objectForKey:@"disableFilterParameter"] boolValue]);
         if ([AppDelegate instance].serverVersion>11 && [[parameters objectForKey:@"disableFilterParameter"] boolValue] == FALSE){
-            obj = [NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:[mainFields objectForKey:@"row6"]],[mainFields objectForKey:@"row6"], nil];
+            NSDictionary *currentParams = [self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+            obj = [NSDictionary dictionaryWithObjectsAndKeys:
+                   [item objectForKey:[mainFields objectForKey:@"row6"]],[mainFields objectForKey:@"row6"],
+                   [[[currentParams objectForKey:@"parameters"] objectForKey:@"filter"] objectForKey:[parameters objectForKey:@"combinedFilter"]], [parameters objectForKey:@"combinedFilter"],
+                   nil];
             objKey = @"filter";
         }
         if ([parameters objectForKey:@"disableFilterParameter"]==nil)
             [parameters setObject:@"false" forKey:@"disableFilterParameter"];
-        NSMutableDictionary *newSectionParameters = nil;
+        NSMutableDictionary *newSectionParameters = [NSMutableDictionary dictionary];
         if ([parameters objectForKey:@"extra_section_parameters"] != nil){
             newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     obj, objKey,
@@ -992,6 +995,7 @@
                                        pvrExtraInfo, @"pvrExtraInfo",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        newSectionParameters, @"extra_section_parameters",
+                                       [parameters objectForKey:@"combinedFilter"], @"combinedFilter",
                                        nil];
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab=choosedTab;
