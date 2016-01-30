@@ -2144,7 +2144,8 @@ int originYear = 0;
         if ([[item objectForKey:@"filetype"] length]!=0 ||
             [[item objectForKey:@"family"] isEqualToString:@"file"] ||
             [[item objectForKey:@"family"] isEqualToString:@"genreid"] ||
-            [[item objectForKey:@"family"] isEqualToString:@"channelgroupid"]
+            [[item objectForKey:@"family"] isEqualToString:@"channelgroupid"] ||
+            [[item objectForKey:@"family"] isEqualToString:@"roleid"]
             ){
             if (![stringURL isEqualToString:@""]){
                 displayThumb=stringURL;
