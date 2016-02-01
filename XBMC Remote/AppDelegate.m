@@ -513,7 +513,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"title", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Music Roles", nil), @"label", NSLocalizedString(@"Music Roles", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Music Roles", nil), @"label", NSLocalizedString(@"Music Roles", nil), @"morelabel", @"nocover_genre", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -523,8 +523,6 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithFloat:itemMusicHeightIpad], @"height", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
-                          
-                          
                           nil];
     
     item1.mainFields=[NSArray arrayWithObjects:
