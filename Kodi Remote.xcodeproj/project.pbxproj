@@ -1647,6 +1647,13 @@
 		0FB40450192922E100346300 /* ShowInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowInfoViewController.xib; sourceTree = "<group>"; };
 		0FB585591653EBB900180576 /* button_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_info.png; sourceTree = "<group>"; };
 		0FB5855C1653EBC100180576 /* button_info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_info@2x.png"; sourceTree = "<group>"; };
+		0FB8348D1C5F67F200ED3B48 /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = "es.lproj/gesture_zone@2x.png"; sourceTree = "<group>"; };
+		0FB834921C5F6A8400ED3B48 /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = "es.lproj/remote quick help_ipad@2x.png"; sourceTree = "<group>"; };
+		0FB834931C5F6C7900ED3B48 /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = "es.lproj/remote quick help@2x.png"; sourceTree = "<group>"; };
+		0FB834941C5F6CC900ED3B48 /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = "es.lproj/button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
+		0FB834951C5F6D0800ED3B48 /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = "es.lproj/remote quick help.png"; sourceTree = "<group>"; };
+		0FB834961C5F6D9300ED3B48 /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = "es.lproj/remote quick help_ipad.png"; sourceTree = "<group>"; };
+		0FB834971C5F6E3B00ED3B48 /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = es.lproj/button_now_playing_empty.png; sourceTree = "<group>"; };
 		0FB84651164BC15700D8F681 /* xbmc_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xbmc_logo.png; sourceTree = "<group>"; };
 		0FB84654164BC16500D8F681 /* xbmc_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xbmc_logo@2x.png"; sourceTree = "<group>"; };
 		0FB84656164BCFAF00D8F681 /* table_arrow_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = table_arrow_right.png; sourceTree = "<group>"; };
@@ -4031,6 +4038,7 @@
 				B1FF37EA1709D20B005473FF /* zh-Hans */,
 				0F29D64E191F7E1A00FFE2AA /* pl */,
 				0F31DAE91C577426009CD268 /* pt-PT */,
+				0FB8348D1C5F67F200ED3B48 /* es */,
 			);
 			name = "gesture_zone@2x.png";
 			sourceTree = "<group>";
@@ -4044,6 +4052,7 @@
 				0FCCFF6C16D0F1F0008EBABE /* it */,
 				B1FF37EB1709D20D005473FF /* zh-Hans */,
 				0F29D64F191F7E1A00FFE2AA /* pl */,
+				0FB834941C5F6CC900ED3B48 /* es */,
 			);
 			name = "button_now_playing_empty@2x.png";
 			sourceTree = "<group>";
@@ -4057,6 +4066,7 @@
 				0FCCFF6D16D0F1F0008EBABE /* it */,
 				B1FF37EC1709D211005473FF /* zh-Hans */,
 				0F29D652191F7E1B00FFE2AA /* pl */,
+				0FB834971C5F6E3B00ED3B48 /* es */,
 			);
 			name = button_now_playing_empty.png;
 			sourceTree = "<group>";
@@ -4099,6 +4109,7 @@
 				B1FF37E91709D209005473FF /* zh-Hans */,
 				0F29D64C191F7E1A00FFE2AA /* pl */,
 				0F31DAE71C577426009CD268 /* pt-PT */,
+				0FB834931C5F6C7900ED3B48 /* es */,
 			);
 			name = "remote quick help@2x.png";
 			sourceTree = "<group>";
@@ -4111,6 +4122,7 @@
 				B1FD2267170B337B00FB1669 /* zh-Hans */,
 				0F29D64D191F7E1A00FFE2AA /* pl */,
 				0F31DAE81C577426009CD268 /* pt-PT */,
+				0FB834921C5F6A8400ED3B48 /* es */,
 			);
 			name = "remote quick help_ipad@2x.png";
 			sourceTree = "<group>";
@@ -4123,6 +4135,7 @@
 				B1FD2268170B33C300FB1669 /* zh-Hans */,
 				0F29D650191F7E1B00FFE2AA /* pl */,
 				0F31DAEA1C577426009CD268 /* pt-PT */,
+				0FB834961C5F6D9300ED3B48 /* es */,
 			);
 			name = "remote quick help_ipad.png";
 			sourceTree = "<group>";
@@ -4135,6 +4148,7 @@
 				B1FD2269170B33DE00FB1669 /* zh-Hans */,
 				0F29D651191F7E1B00FFE2AA /* pl */,
 				0F31DAEB1C577426009CD268 /* pt-PT */,
+				0FB834951C5F6D0800ED3B48 /* es */,
 			);
 			name = "remote quick help.png";
 			sourceTree = "<group>";
