@@ -3758,15 +3758,25 @@ NSMutableArray *hostRightMenuItems;
                                              nil], @"itemSizes",
                                             nil],
                                            
-                                           [NSArray array],
+                                           [NSMutableArray arrayWithObjects:
+                                            [NSNumber numberWithBool:YES], @"forceActionSheet",
+                                            nil],
                                            
-                                           [NSArray array],
+                                           [NSMutableArray arrayWithObjects:
+                                            [NSNumber numberWithBool:YES], @"forceActionSheet",
+                                            nil],
                                            
-                                           [NSArray array],
+                                           [NSMutableArray arrayWithObjects:
+                                            [NSNumber numberWithBool:YES], @"forceActionSheet",
+                                            nil],
                                            
-                                           [NSArray array],
+                                           [NSMutableArray arrayWithObjects:
+                                            [NSNumber numberWithBool:YES], @"forceActionSheet",
+                                            nil],
                                            
-                                           [NSArray array],
+                                           [NSMutableArray arrayWithObjects:
+                                            [NSNumber numberWithBool:YES], @"forceActionSheet",
+                                            nil],
                                            
                                            nil];
     xbmcSettings.subItem.mainFields = [NSArray arrayWithObjects:
