@@ -2745,13 +2745,16 @@ int currentItemID;
 
 -(void)viewWillAppear:(BOOL)animated{
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults synchronize];
-        if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO){
-            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-        }
-        else{
-            [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+        if (self.slidingViewController.panGesture != nil) {
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults synchronize];
+            if ([[userDefaults objectForKey:@"reveal_preference"] boolValue] == NO){
+                [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+            }
+            else{
+                [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+            }
+            
         }
         if ([self.navigationController.viewControllers indexOfObject:self] == 0){
             UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
