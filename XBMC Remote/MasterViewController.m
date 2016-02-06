@@ -122,31 +122,43 @@
     UITableViewCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:NULL];
+    mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
+    NSString *iconName = item.icon;
     if (cell == nil){
         cell = resultMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
         [(UILabel*) [cell viewWithTag:3] setText:NSLocalizedString(@"No connection", nil)];
+        UILabel *title = (UILabel*) [cell viewWithTag:3];
         if (indexPath.row == 0){
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 193.0f, (int)((44/2) - (36/2)) - 2, 145, 36)];
             xbmc_logo. alpha = .25f;
             [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
             [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo_selected.png"]];
-
             [cell insertSubview:xbmc_logo atIndex:0];
+            UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+            UIImageView *line = (UIImageView*) [cell viewWithTag:4];
+            UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
+            line.hidden = YES;
+            int cellHeight = 44;
+            [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
+            [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight/2) - (18/2)), 18, 18)];
+            [title setFrame:CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight)];
+            [title setNumberOfLines:2];
+            [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
+        }
+        else{
+            [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
+            [title setText:[item.mainLabel uppercaseString]];
         }
     }
-    mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
     UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
     UILabel *upperTitle = (UILabel*) [cell viewWithTag:2];
     UILabel *title = (UILabel*) [cell viewWithTag:3];
-    UIImageView *line = (UIImageView*) [cell viewWithTag:4];
-    NSString *iconName = item.icon;
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:11]];
     [upperTitle setText:item.upperLabel];
-    if (indexPath.row == 0){
-        UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
+    if (indexPath.row == 0) {
         iconName = @"connection_off";
         if ([AppDelegate instance].serverOnLine == YES) {
             if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
@@ -156,17 +168,6 @@
                 iconName = @"connection_on_notcp";
             }
         }
-        line.hidden = YES;
-        int cellHeight = 44;
-                [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
-        [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight/2) - (18/2)), 18, 18)];
-        [title setFrame:CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight)];
-        [title setNumberOfLines:2];
-        [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
-    }
-    else{
-        [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
-        [title setText:[item.mainLabel uppercaseString]];
     }
     if ([AppDelegate instance].serverOnLine || indexPath.row == 0){
         [icon setAlpha:1];
