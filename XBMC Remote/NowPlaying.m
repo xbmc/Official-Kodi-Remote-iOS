@@ -2958,6 +2958,7 @@ int currentItemID;
     
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [self addSegmentControl];
+        playlistToolbar.clipsToBounds = YES;
         pg_thumb_name = @"pgbar_thumb_iOS7";
         cellBackgroundColor = [UIColor whiteColor];
         toolbarAlpha = 1.0f;
