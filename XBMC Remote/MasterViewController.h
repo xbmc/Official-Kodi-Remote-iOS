@@ -33,7 +33,7 @@
     UINavigationController *navController;
 }
 
--(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText;
+-(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText icon:(NSString *)iconName;
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 @property (strong, nonatomic) DetailViewController *detailViewController;

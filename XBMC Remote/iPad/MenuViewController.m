@@ -130,6 +130,15 @@
                                              selector: @selector(handleEnableTvShowSection)
                                                  name: @"UIApplicationEnableTvShowSection"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionStatus:)
+                                                 name: @"XBMCServerConnectionSuccess"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionStatus:)
+                                                 name: @"XBMCServerConnectionFailed"
+                                               object: nil];
 
 }
 
@@ -163,6 +172,13 @@
     }
 }
 
+- (void)connectionStatus:(NSNotification *)note {
+    NSDictionary *theData = [note userInfo];
+    NSString *icon_connection = [theData objectForKey:@"icon_connection"];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+    [icon setImage:[UIImage imageNamed:icon_connection]];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -249,8 +265,13 @@
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0){
         iconName = @"connection_off";
-        if ([AppDelegate instance].serverOnLine){
-            iconName = @"connection_on";
+        if ([AppDelegate instance].serverOnLine == YES) {
+            if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+                iconName = @"connection_on";
+            }
+            else {
+                iconName = @"connection_on_notcp";
+            }
         }
         line.hidden = YES;
         int cellHeight = PAD_MENU_INFO_HEIGHT;

@@ -87,9 +87,14 @@ NSOutputStream	*outStream;
 
 	switch (streamEvent) {
     
-		case NSStreamEventOpenCompleted:
+        case NSStreamEventOpenCompleted:{
             [AppDelegate instance].serverTCPConnectionOpen = YES;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionOpened" object:nil userInfo:nil];
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    infoTitle, @"message",
+                                    @"connection_on", @"icon_connection",
+                                    nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionSuccess" object:nil userInfo:params];
+        }
 			break;
             
 		case NSStreamEventHasBytesAvailable:
@@ -149,6 +154,7 @@ NSOutputStream	*outStream;
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSNumber numberWithBool:NO], @"status",
                             infoText, @"message",
+                            @"connection_off", @"icon_connection",
                             nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCChangeServerStatus" object:nil userInfo:params];
 }
@@ -189,7 +195,7 @@ NSOutputStream	*outStream;
                      if ([realServerName isEqualToString:@"MrMC"]){
                          [AppDelegate instance].serverVersion += MRMC_TIMEWARP;
                      }
-                     NSString *infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@",
+                     infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@",
                                           [AppDelegate instance].obj.serverDescription,
                                           [serverInfo objectForKey:@"major"],
                                           [serverInfo objectForKey:@"minor"],
@@ -197,6 +203,7 @@ NSOutputStream	*outStream;
                      NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                              [NSNumber numberWithBool:YES], @"status",
                                              infoTitle, @"message",
+                                             @"connection_on_notcp", @"icon_connection",
                                              nil];
                      [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCChangeServerStatus" object:nil userInfo:params];
                      params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"showSetup", nil];

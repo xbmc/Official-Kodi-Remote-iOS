@@ -13,6 +13,7 @@
     BOOL inCheck;
     DSJSONRPC *jsonRPC;
     NSTimer* heartbeatTimer;
+    NSString *infoTitle;
 }
 
 - (void)startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port;

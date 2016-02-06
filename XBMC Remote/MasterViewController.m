@@ -42,20 +42,17 @@
     return self;
 }
 	
--(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText{
-    NSDictionary *dataDict = [NSDictionary dictionaryWithObject:infoText forKey:@"infoText"];
-    if (status==YES){
+-(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText icon:(NSString *)iconName{
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   infoText, @"message",
+                                   iconName, @"icon_connection",
+                                   nil];
+    if (status == YES) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:dataDict];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
         [AppDelegate instance].serverOnLine = YES;
         [AppDelegate instance].serverName = infoText;
-        
         itemIsActive = NO;
-        UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        UILabel *title = (UILabel*) [cell viewWithTag:3];
-        [title setText:infoText];
-        UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
-        [icon setImage:[UIImage imageNamed:@"connection_on"]];
         NSInteger n = [menuList numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -80,18 +77,12 @@
 //             NSLog(@"%@", methodResult);
 //         }];
     }
-    else{
+    else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:dataDict];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:params];
         [AppDelegate instance].serverOnLine = NO;
         [AppDelegate instance].serverName = infoText;
-        
         itemIsActive = NO;
-        UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        UILabel *title = (UILabel*) [cell viewWithTag:3];
-        [title setText:infoText];
-        UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
-        [icon setImage:[UIImage imageNamed:@"connection_off"]];
         NSInteger n = [menuList numberOfRowsInSection:0];
         for (int i=1;i<n;i++){
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -157,8 +148,13 @@
     if (indexPath.row == 0){
         UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
         iconName = @"connection_off";
-        if ([AppDelegate instance].serverOnLine){
-            iconName = @"connection_on";
+        if ([AppDelegate instance].serverOnLine == YES) {
+            if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+                iconName = @"connection_on";
+            }
+            else {
+                iconName = @"connection_on_notcp";
+            }
         }
         line.hidden = YES;
         int cellHeight = 44;
@@ -377,14 +373,36 @@
                                                  name: @"TcpJSONRPCChangeServerStatus"
                                                object: nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionStatus:)
+                                                 name: @"XBMCServerConnectionSuccess"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionStatus:)
+                                                 name: @"XBMCServerConnectionFailed"
+                                               object: nil];
+    
     [self.view setBackgroundColor:[UIColor colorWithRed:.141f green:.141f blue:.141f alpha:1]];
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+}
+
+- (void)connectionStatus:(NSNotification *)note {
+    NSDictionary *theData = [note userInfo];
+    NSString *icon_connection = [theData objectForKey:@"icon_connection"];
+    NSString *infoText = [theData objectForKey:@"message"];
+    UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+    [icon setImage:[UIImage imageNamed:icon_connection]];
+    UILabel *title = (UILabel*) [cell viewWithTag:3];
+    [title setText:infoText];
 }
 
 -(void)handleTcpJSONRPCChangeServerStatus:(NSNotification*) sender{
     BOOL statusValue = [[[sender userInfo] valueForKey:@"status"] boolValue];
     NSString *message = [[sender userInfo] valueForKey:@"message"];
-    [self changeServerStatus:statusValue infoText:message];
+    NSString *icon_connection = [[sender userInfo] valueForKey:@"icon_connection"];
+    [self changeServerStatus:statusValue infoText:message icon:icon_connection];
 }
 
 - (void) handleWillResignActive: (NSNotification*) sender{
@@ -421,7 +439,7 @@
     mainMenu *menuItem=[self.mainMenu objectAtIndex:3];
     menuItem.thumbWidth=thumbWidth;
     menuItem.rowHeight=tvshowHeight;
-    [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil)];
+    [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil) icon:@"connection_off"];
 }
 
 -(void)dealloc{

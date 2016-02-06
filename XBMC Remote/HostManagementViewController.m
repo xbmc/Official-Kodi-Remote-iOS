@@ -112,8 +112,13 @@
         NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
         if (selection && indexPath.row == selection.row){
             cell.accessoryType=UITableViewCellAccessoryCheckmark;
-            if ([AppDelegate instance].serverOnLine == YES){
-                [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
+            if ([AppDelegate instance].serverOnLine == YES) {
+                if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
+                }
+                else {
+                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on_notcp"]];
+                }
             }
         }
         else {
@@ -496,6 +501,7 @@ static inline BOOL IsEmpty(id obj) {
                                              selector: @selector(authFailed:)
                                                  name: @"XBMCServerAuthenticationFailed"
                                                object: nil];
+    
 }
 
 -(void)authFailed:(NSNotification *)note {
@@ -509,22 +515,20 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 - (void)connectionSuccess:(NSNotification *)note {
-//    [iOS7navBarEffect setBackgroundColor:[UIColor greenColor]];
-//    [self.view setNeedsDisplay];
-    if (storeServerSelection!=nil){
+    NSDictionary *theData = [note userInfo];
+    if (storeServerSelection != nil) {
         UITableViewCell *cell  = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
+        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:[theData objectForKey:@"icon_connection"]]];
     }
     [connectingActivityIndicator stopAnimating];
     if (doRevealMenu) [self revealMenu:nil];
 }
 
 - (void)connectionFailed:(NSNotification *)note {
-//    [iOS7navBarEffect setBackgroundColor:[UIColor redColor]];
-//    [self.view setNeedsDisplay];
-    if (storeServerSelection!=nil){
+    NSDictionary *theData = [note userInfo];
+    if (storeServerSelection != nil){
         UITableViewCell *cell  = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
+        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:[theData objectForKey:@"icon_connection"]]];
     }
 }
 

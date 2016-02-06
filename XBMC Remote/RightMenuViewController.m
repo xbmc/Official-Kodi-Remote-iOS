@@ -111,8 +111,13 @@
         xbmc_logo.hidden = NO;
         iconName = @"connection_off";
         icon.alpha = 1;
-        if ([AppDelegate instance].serverOnLine){
-            iconName = @"connection_on";
+        if ([AppDelegate instance].serverOnLine == YES) {
+            if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+                iconName = @"connection_on";
+            }
+            else {
+                iconName = @"connection_on_notcp";
+            }
         }
         int cellHeight = 44;
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
@@ -865,14 +870,19 @@
 - (void)connectionSuccess:(NSNotification *)note {
     NSDictionary *theData = [note userInfo];
     if (theData != nil) {
-        NSString *serverTxt = [theData objectForKey:@"infoText"];
+        NSString *serverTxt = [theData objectForKey:@"message"];
+        NSString *icon_connection = [theData objectForKey:@"icon_connection"];
         NSIndexPath *serverRow = [self getIndexPathForKey:@"label" withValue:@"ServerInfo" inArray:tableData];
         if (serverRow != nil) {
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:serverRow];
-            UILabel *title = (UILabel*) [cell viewWithTag:3];
-            [title setText:serverTxt];
-            UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
-            [icon setImage:[UIImage imageNamed:@"connection_on"]];
+            if (serverTxt != nil && ![serverTxt isEqualToString:@""]) {
+                UILabel *title = (UILabel*) [cell viewWithTag:3];
+                [title setText:serverTxt];
+            }
+            if (icon_connection != nil && ![icon_connection isEqualToString:@""]){
+                UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+                [icon setImage:[UIImage imageNamed:icon_connection]];
+            }
         }
     }
     [self setRightMenuOption:@"online" reloadTableData:YES];
@@ -883,14 +893,19 @@
 - (void)connectionFailed:(NSNotification *)note {
     NSDictionary *theData = [note userInfo];
     if (theData != nil) {
-        NSString *serverTxt = [theData objectForKey:@"infoText"];
+        NSString *serverTxt = [theData objectForKey:@"message"];
+        NSString *icon_connection = [theData objectForKey:@"icon_connection"];
         NSIndexPath *serverRow = [self getIndexPathForKey:@"label" withValue:@"ServerInfo" inArray:tableData];
         if (serverRow != nil) {
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:serverRow];
-            UILabel *title = (UILabel*) [cell viewWithTag:3];
-            [title setText:serverTxt];
-            UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
-            [icon setImage:[UIImage imageNamed:@"connection_off"]];
+            if (serverTxt != nil && ![serverTxt isEqualToString:@""]) {
+                UILabel *title = (UILabel*) [cell viewWithTag:3];
+                [title setText:serverTxt];
+            }
+            if (icon_connection != nil && ![icon_connection isEqualToString:@""]){
+                UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+                [icon setImage:[UIImage imageNamed:icon_connection]];
+            }
         }
     }
     if ([[AppDelegate instance].obj.serverIP length]!=0) {
