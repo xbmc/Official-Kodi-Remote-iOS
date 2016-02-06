@@ -54,9 +54,24 @@
         [self setNeedsStatusBarAppearanceUpdate];
         [newBar setTintColor:TINT_COLOR];
         self.view.tintColor = APP_TINT_COLOR;
+        UIImageView *navBarHairlineImageView = [self findHairlineImageViewUnder:newBar];
+        navBarHairlineImageView.hidden = YES;
     }
     hostManagementViewController.mainMenu = self.mainMenu;
     self.topViewController = navController;
+}
+
+- (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
+    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
+        return (UIImageView *)view;
+    }
+    for (UIView *subview in view.subviews) {
+        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
+        if (imageView) {
+            return imageView;
+        }
+    }
+    return nil;
 }
 
 - (void)revealMenu:(id)sender{
