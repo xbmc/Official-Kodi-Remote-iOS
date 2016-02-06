@@ -233,15 +233,14 @@
     UINavigationBar *newBar = navController.navigationBar;
     [newBar setTintColor:IOS6_BAR_TINT_COLOR];
     [newBar setBarStyle:UIBarStyleBlack];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         [newBar setTintColor:TINT_COLOR];
-        if (setBarTintColor){
+        if (setBarTintColor) {
             [newBar setBarTintColor:BAR_TINT_COLOR];
+            UIImageView *navBarHairlineImageView = [self findHairlineImageViewUnder:newBar];
+            navBarHairlineImageView.hidden = YES;
         }
-//        navController.navigationBar.translucent = FALSE;
-//        navController.toolbar.translucent = FALSE;
     }
-    
     CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height + 22);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
@@ -263,6 +262,19 @@
         [self.slidingViewController resetTopView];
         itemIsActive = NO;
     }];
+}
+
+- (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
+    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
+        return (UIImageView *)view;
+    }
+    for (UIView *subview in view.subviews) {
+        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
+        if (imageView) {
+            return imageView;
+        }
+    }
+    return nil;
 }
 
 -(void)revealMenu:(id)sender{
