@@ -103,7 +103,7 @@
                     <color key="backgroundColor" red="0.16470588235294117" green="0.16470588235294117" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="tableDown.png" id="7">
-                    <rect key="frame" x="0.0" y="199" width="320" height="4"/>
+                    <rect key="frame" x="0.0" y="201" width="320" height="2"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </imageView>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="26">
