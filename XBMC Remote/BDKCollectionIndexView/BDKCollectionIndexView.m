@@ -58,7 +58,7 @@
         else _direction = BDKCollectionIndexViewDirectionVertical;
 
         _currentIndex = -1;
-        _endPadding = 20;
+        _endPadding = 16;
         _labelPadding = 4;
 
         _tapper = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
