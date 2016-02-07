@@ -1571,7 +1571,6 @@
         else {
             [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
         }
-        collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT);
     }
 }
 
@@ -5514,7 +5513,7 @@ NSIndexPath *selected;
     CGFloat deltaY = 0;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         searchBarColor = [UIColor colorWithRed:.572f green:.572f blue:.572f alpha:1];
-        collectionViewSearchBarColor = [UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:.95];
+        collectionViewSearchBarColor = [UIColor colorWithRed:22.0f/255.0f green:22.0f/255.0f blue:22.0f/255.0f alpha:1];
         deltaY = 64.0f;
     }
 
