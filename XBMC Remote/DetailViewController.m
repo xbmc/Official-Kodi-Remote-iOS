@@ -1508,9 +1508,9 @@
         indexWidth = 32;
     }
     CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth + 2,
-                              CGRectGetMinY(dataList.frame) + dataList.contentInset.top + 2,
+                              CGRectGetMinY(dataList.frame) + dataList.contentInset.top + COLLECTION_HEADER_HEIGHT + 2,
                               indexWidth,
-                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4);
+                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4 -COLLECTION_HEADER_HEIGHT);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
     _indexView.hidden = YES;
