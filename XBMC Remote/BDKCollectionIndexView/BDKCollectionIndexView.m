@@ -58,7 +58,7 @@
         else _direction = BDKCollectionIndexViewDirectionVertical;
 
         _currentIndex = -1;
-        _endPadding = 2;
+        _endPadding = 20;
         _labelPadding = 4;
 
         _tapper = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -86,7 +86,7 @@
             break;
         case BDKCollectionIndexViewDirectionVertical:
             _theDimension = CGRectGetWidth(self.frame) - (self.labelPadding * 2);
-            maxLength = CGRectGetHeight(self.frame);
+            maxLength = CGRectGetHeight(self.frame) - self.endPadding;
             break;
     }
 
