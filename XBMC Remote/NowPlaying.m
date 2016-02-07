@@ -1807,7 +1807,9 @@ int currentItemID;
     UIColor *barColor;
     __block CGRect playlistToolBarOriginY = playlistActionView.frame;
     float iOS7effectDuration = 1.0f;
-    if (!nowPlayingView.hidden){
+    BOOL hideLine = NO;
+    if (!nowPlayingView.hidden) {
+        hideLine = YES;
         iOS7effectDuration = 0.0f;
         nowPlayingView.hidden = YES;
         transitionView=nowPlayingView;
@@ -1861,8 +1863,8 @@ int currentItemID;
                                               self.navigationItem.titleView.hidden=NO;
                                               playlistActionView.frame = playlistToolBarOriginY;
                                               playlistActionView.alpha = (int)nowPlayingHidden;
+                                              playlistToolbar.clipsToBounds = hideLine;
                                               [UIView setAnimationTransition:anim2 forView:transitionedView cache:YES];
-                                              
                                           }
                                           completion:^(BOOL finished){
                                               if (iOS7effectDuration){
@@ -2955,10 +2957,8 @@ int currentItemID;
     float toolbarAlpha = 0.8f;
     pg_thumb_name = @"pgbar_thumb";
     cellBackgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];
-    
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
         [self addSegmentControl];
-        playlistToolbar.clipsToBounds = YES;
         pg_thumb_name = @"pgbar_thumb_iOS7";
         cellBackgroundColor = [UIColor whiteColor];
         toolbarAlpha = 1.0f;
