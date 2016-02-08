@@ -31,13 +31,13 @@
         if (self.frame.size.height > 1){
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
                 //TYPE 1
-//                UIToolbar *buttonsToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-//                [buttonsToolbar setBarStyle:UIBarStyleBlack];
-//                [buttonsToolbar setTranslucent:YES];
-//                [self insertSubview: buttonsToolbar atIndex:0];
+                UIToolbar *buttonsToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+                [buttonsToolbar setBarStyle:UIBarStyleBlack];
+                [buttonsToolbar setTranslucent:YES];
+                [self insertSubview: buttonsToolbar atIndex:0];
                 
                 // TYPE 2
-                [self setBackgroundColor:[UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:.95]];
+//                [self setBackgroundColor:[UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:.95]];
                 
                 // TYPE 3
 //                CAGradientLayer *gradient = [CAGradientLayer layer];
