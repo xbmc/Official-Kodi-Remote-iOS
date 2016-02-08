@@ -1604,32 +1604,15 @@
 }
 
 - (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")){
-        [UIView transitionWithView:tV
-                          duration:seconds
-                           options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionBeginFromCurrentState
-                        animations:^{
-                            tV.alpha = alphavalue;
-                            CGRect frame;
-                            frame = [tV frame];
-                            frame.origin.x = X;
-                            frame.origin.y = 0;
-                            tV.frame = frame;;
-                        }
-                        completion:^(BOOL finished){
-                        }];
-    }
-    else{
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:seconds];
-        tV.alpha = alphavalue;
-        CGRect frame;
-        frame = [tV frame];
-        frame.origin.x = X;
-        frame.origin.y = 0;
-        tV.frame = frame;
-        [UIView commitAnimations];
-    }
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:seconds];
+    tV.alpha = alphavalue;
+    CGRect frame;
+    frame = [tV frame];
+    frame.origin.x = X;
+    frame.origin.y = 0;
+    tV.frame = frame;
+    [UIView commitAnimations];
 }
 
 - (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
