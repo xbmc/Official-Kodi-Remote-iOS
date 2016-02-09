@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CustomNavigationController : UINavigationController
+@interface CustomNavigationController : UINavigationController {
+    UIImageView *navBarHairlineImageView;
+}
+
+-(void)hideNavBarBottomLine:(BOOL)hideBottomLine;
 
 @end

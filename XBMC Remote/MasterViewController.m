@@ -195,6 +195,7 @@
     itemIsActive = YES;
     UIViewController *object;
     BOOL setBarTintColor = NO;
+    BOOL hideBottonLine = NO;
     if (item.family == 2){
         if (self.nowPlaying == nil){
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
@@ -218,16 +219,17 @@
         }
         object = self.hostController;
         setBarTintColor = YES;
-        
+        hideBottonLine = YES;
     }
     else if (item.family == 1){
         self.detailViewController=nil;
         self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil] ;
         self.detailViewController.detailItem = item;
         object = self.detailViewController;
+        hideBottonLine = YES;
     }
     navController = nil;
-    navController = [[UINavigationController alloc] initWithRootViewController:object];
+    navController = [[CustomNavigationController alloc] initWithRootViewController:object];
     UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
     
@@ -238,8 +240,9 @@
         [newBar setTintColor:TINT_COLOR];
         if (setBarTintColor) {
             [newBar setBarTintColor:BAR_TINT_COLOR];
-            UIImageView *navBarHairlineImageView = [self findHairlineImageViewUnder:newBar];
-            navBarHairlineImageView.hidden = YES;
+        }
+        if (hideBottonLine) {
+            [navController hideNavBarBottomLine:YES];
         }
     }
     CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height + 22);
@@ -263,19 +266,6 @@
         [self.slidingViewController resetTopView];
         itemIsActive = NO;
     }];
-}
-
-- (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
-    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
-        return (UIImageView *)view;
-    }
-    for (UIView *subview in view.subviews) {
-        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
-        if (imageView) {
-            return imageView;
-        }
-    }
-    return nil;
 }
 
 -(void)revealMenu:(id)sender{

@@ -10,6 +10,7 @@
 #import "GlobalData.h"
 #import "mainMenu.h"
 #import "ECSlidingViewController.h"
+#import "CustomNavigationController.h"
 
 @class ViewControllerIPad;
 
@@ -66,7 +67,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) UINavigationController *navigationController;
+@property (strong, nonatomic) CustomNavigationController *navigationController;
 
 @property (nonatomic, retain) ViewControllerIPad *windowController;
 

@@ -18,6 +18,7 @@
 #import "XBMCVirtualKeyboard.h"
 #import "ClearCacheView.h"
 #import "gradientUIView.h"
+#import "CustomNavigationController.h"
 
 #define CONNECTION_TIMEOUT 240.0f
 #define SERVER_TIMEOUT 2.0f
@@ -194,7 +195,8 @@
 
 -(void)initHostManagemetPopOver{
     self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-    [AppDelegate instance].navigationController = [[UINavigationController alloc] initWithRootViewController:_hostPickerViewController];
+    [AppDelegate instance].navigationController = [[CustomNavigationController alloc] initWithRootViewController:_hostPickerViewController];
+    [[AppDelegate instance].navigationController hideNavBarBottomLine:YES];
     self.serverPickerPopover = [[UIPopoverController alloc]
                                 initWithContentViewController:[AppDelegate instance].navigationController];
     self.serverPickerPopover.delegate = self;

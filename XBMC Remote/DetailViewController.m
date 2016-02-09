@@ -2886,7 +2886,23 @@ int originYear = 0;
             [self.searchDisplayController.searchResultsTableView setContentOffset:CGPointMake(0, 0)];
         }
         [self.searchDisplayController.searchBar layoutSubviews];
+        UINavigationBar *newBar = self.navigationController.navigationBar;
+        UIImageView *navBarHairlineImageView = [self findHairlineImageViewUnder:newBar];
+        navBarHairlineImageView.hidden = YES;
     }
+}
+
+- (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
+    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
+        return (UIImageView *)view;
+    }
+    for (UIView *subview in view.subviews) {
+        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
+        if (imageView) {
+            return imageView;
+        }
+    }
+    return nil;
 }
 
 - (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller{
@@ -3683,6 +3699,7 @@ NSIndexPath *selected;
         }
         self.nowPlaying.detailItem = self.detailItem;
 //        self.nowPlaying.presentedFromNavigation = YES;
+        
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
         alreadyPush=YES;
     }

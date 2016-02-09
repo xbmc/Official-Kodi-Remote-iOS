@@ -10,6 +10,7 @@
 #import "DSJSONRPC.h"
 #import "ECSlidingViewController.h"
 #import "tcpJSONRPC.h"
+#import "CustomNavigationController.h"
 
 @class DetailViewController;
 @class NowPlaying;
@@ -30,7 +31,7 @@
     AppInfoViewController *appInfoView;
     HostManagementViewController *hostManagementViewController;
     BOOL itemIsActive;
-    UINavigationController *navController;
+    CustomNavigationController *navController;
 }
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText icon:(NSString *)iconName;

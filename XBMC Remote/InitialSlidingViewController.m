@@ -46,7 +46,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     HostManagementViewController *hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-    navController = [[UINavigationController alloc] initWithRootViewController:hostManagementViewController];
+    navController = [[CustomNavigationController alloc] initWithRootViewController:hostManagementViewController];
     UINavigationBar *newBar = navController.navigationBar;
     [newBar setTintColor:IOS6_BAR_TINT_COLOR];
     [newBar setBarStyle:UIBarStyleBlackTranslucent];
@@ -54,24 +54,10 @@
         [self setNeedsStatusBarAppearanceUpdate];
         [newBar setTintColor:TINT_COLOR];
         self.view.tintColor = APP_TINT_COLOR;
-        UIImageView *navBarHairlineImageView = [self findHairlineImageViewUnder:newBar];
-        navBarHairlineImageView.hidden = YES;
+        [navController hideNavBarBottomLine:YES];
     }
     hostManagementViewController.mainMenu = self.mainMenu;
     self.topViewController = navController;
-}
-
-- (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
-    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
-        return (UIImageView *)view;
-    }
-    for (UIView *subview in view.subviews) {
-        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
-        if (imageView) {
-            return imageView;
-        }
-    }
-    return nil;
 }
 
 - (void)revealMenu:(id)sender{
