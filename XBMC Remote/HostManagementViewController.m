@@ -501,7 +501,17 @@ static inline BOOL IsEmpty(id obj) {
                                              selector: @selector(authFailed:)
                                                  name: @"XBMCServerAuthenticationFailed"
                                                object: nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionError:)
+                                                 name: @"XBMCServerConnectionError"
+                                               object: nil];
+}
+
+-(void)connectionError:(NSNotification *)note {
+    NSDictionary *theData = [note userInfo];
+    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil) message:[theData objectForKey:@"error_message"]  delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+    [alertView show];
+    [self modifyHost:storeServerSelection];
 }
 
 -(void)authFailed:(NSNotification *)note {

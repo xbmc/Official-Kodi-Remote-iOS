@@ -260,6 +260,7 @@
         else if ([delegate respondsToSelector:@selector(jsonRPC:didFailMethod:forId:withError:)]) {
             [delegate jsonRPC:self didFailMethod:[connectionInfo objectForKey:@"method"] forId:[[connectionInfo objectForKey:@"id"] intValue] withError:aError];
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], @"error_message", nil]];
     }
     
     [self._activeConnections removeObjectForKey:connectionKey];
