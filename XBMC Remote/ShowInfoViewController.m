@@ -140,12 +140,8 @@ int count=0;
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             toolbar = [UIToolbar new];
-            toolbar.alpha = .8f;
-            toolbar.barStyle = UIBarStyleBlackTranslucent;
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                toolbar.tintColor = TINT_COLOR;
-                toolbar.alpha = 1.0f;
-            }
+            toolbar.barStyle = UIBarStyleBlack;
+            toolbar.translucent = YES;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
@@ -181,21 +177,8 @@ int count=0;
                                          CGRectGetMinY(mainViewBounds),
                                          CGRectGetWidth(mainViewBounds),
                                          toolbarHeight)];
-            
-            if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
-                UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-                [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
-                toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-                toolbarShadow.opaque = YES;
-                toolbarShadow.alpha = 0.5;
-                [toolbar addSubview:toolbarShadow];
-            }
-            
             [self.view addSubview:toolbar];
-            scrollView.autoresizingMask = UIViewAutoresizingNone;
-            [scrollView setFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y + 44, scrollView.frame.size.width, scrollView.frame.size.height-44)];
-            scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            scrollView.contentInset = UIEdgeInsetsMake(toolbarHeight, 0, 0, 0);
         }
         else{
 //            self.navigationItem.titleView = viewTitle;
