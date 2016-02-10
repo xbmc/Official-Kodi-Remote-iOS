@@ -508,10 +508,12 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 -(void)connectionError:(NSNotification *)note {
-    NSDictionary *theData = [note userInfo];
-    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil) message:[theData objectForKey:@"error_message"]  delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-    [alertView show];
-    [self modifyHost:storeServerSelection];
+    if (self.isViewLoaded && self.view.window) {
+        NSDictionary *theData = [note userInfo];
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil) message:[theData objectForKey:@"error_message"]  delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+        [alertView show];
+        [self modifyHost:storeServerSelection];
+    }
 }
 
 -(void)authFailed:(NSNotification *)note {
