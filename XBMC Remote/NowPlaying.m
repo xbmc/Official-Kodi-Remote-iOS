@@ -2923,7 +2923,7 @@ int currentItemID;
         if (iOS7navBarEffect == nil && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, 64 - barEffectHeight, self.view.frame.size.width, barEffectHeight)];
             iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-            [self.view insertSubview:iOS7navBarEffect belowSubview:playlistView];
+            [self.view insertSubview:iOS7navBarEffect atIndex:0];
         }
     }
 
