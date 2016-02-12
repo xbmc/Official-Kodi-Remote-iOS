@@ -2418,8 +2418,10 @@ int originYear = 0;
                                               UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"_searchField"];
                                               if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
                                                   UIImageView *iconView = (id)searchTextField.leftView;
-                                                  iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                                  iconView.tintColor = slightLightAlbumColor;
+                                                  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+                                                      iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                                                      iconView.tintColor = slightLightAlbumColor;
+                                                  }
                                                   searchTextField.textColor = slightLightAlbumColor;
                                                   searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchDisplayController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: slightLightAlbumColor}];
                                               }
