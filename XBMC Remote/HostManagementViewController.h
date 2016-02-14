@@ -10,6 +10,7 @@
 #import "ECSlidingViewController.h"
 #import "MasterViewController.h"
 #import "RightMenuViewController.h"
+#import "MessagesView.h"
 
 @class HostViewController;
 @class AppInfoViewController;
@@ -28,6 +29,7 @@
     UIView *iOS7navBarEffect;
     __weak IBOutlet UIView *supportedVersionView;
     __weak IBOutlet UILabel *supportedVersionLabel;
+    MessagesView *messagesView;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;

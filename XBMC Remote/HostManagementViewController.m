@@ -393,6 +393,14 @@ static inline BOOL IsEmpty(id obj) {
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    int deltaY = 62;
+    int deltaX = 0;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        deltaY = 0;
+    }
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 36 + deltaY) deltaY:deltaY deltaX:deltaX];
+    [messagesView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+    [self.view addSubview:messagesView];
     [addHostButton setTitle:NSLocalizedString(@"Add Host", nil) forState:UIControlStateNormal];
     addHostButton.titleLabel.numberOfLines = 1;
     addHostButton.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -508,12 +516,8 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 -(void)connectionError:(NSNotification *)note {
-//    if (self.isViewLoaded && self.view.window) {
-//        NSDictionary *theData = [note userInfo];
-//        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil) message:[theData objectForKey:@"error_message"]  delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-//        [alertView show];
-//        [self modifyHost:storeServerSelection];
-//    }
+    NSDictionary *theData = [note userInfo];
+    [messagesView showMessage:[theData objectForKey:@"error_message"] timeout:2.0f color:[UIColor colorWithRed:189.0f/255.0f green:36.0f/255.0f blue:36.0f/255.0f alpha:0.95f]];
 }
 
 -(void)authFailed:(NSNotification *)note {

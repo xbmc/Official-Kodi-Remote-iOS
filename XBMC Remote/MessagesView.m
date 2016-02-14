@@ -37,6 +37,7 @@
         [viewMessage setMinimumFontSize:10];
         [viewMessage setTextColor:[UIColor whiteColor]];
         [viewMessage setTextAlignment:NSTextAlignmentCenter];
+        [viewMessage setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
         [self addSubview:viewMessage];
     }
     return self;

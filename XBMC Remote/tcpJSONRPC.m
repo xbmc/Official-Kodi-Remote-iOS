@@ -9,7 +9,7 @@
 #import "tcpJSONRPC.h"
 #import "AppDelegate.h"
 
-#define SERVER_TIMEOUT 2.0f
+#define SERVER_TIMEOUT 3.0f
 #define MRMC_TIMEWARP 14.0f
 
 NSInputStream	*inStream;
@@ -219,6 +219,9 @@ NSOutputStream	*outStream;
              }
          }
          else {
+             if (error != nil){
+                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], @"error_message", nil]];
+             }
              [AppDelegate instance].serverVolume = -1;
              if ([AppDelegate instance].serverOnLine){
                  [self noConnectionNotifications];
