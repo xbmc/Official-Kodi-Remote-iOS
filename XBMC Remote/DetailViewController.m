@@ -4284,8 +4284,19 @@ NSIndexPath *selected;
         queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
         [queuing startAnimating];
     }
+    NSMutableArray *newProperties =[[parameters objectForKey:@"properties"] mutableCopy];
+    if ([parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"] != nil) {
+        for(id key in [parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"]) {
+            if ([AppDelegate instance].serverVersion >= [key integerValue]){
+                id arrayProperties = [[parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"] objectForKey:key];
+                for (id value in arrayProperties) {
+                    [newProperties addObject:value];
+                }
+            }
+        }
+    }
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     [parameters objectForKey:@"properties"], @"properties",
+                                     newProperties, @"properties",
                                      [item objectForKey:itemid], itemid,
                                      nil];
     GlobalData *obj=[GlobalData getInstance];
