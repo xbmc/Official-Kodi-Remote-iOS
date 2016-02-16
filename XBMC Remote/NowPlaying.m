@@ -1616,8 +1616,19 @@ int currentItemID;
         object = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[artistFrodoWorkaround intValue]], @"songid", nil];
         itemid = @"filter";
     }
+    NSMutableArray *newProperties =[[parameters objectForKey:@"properties"] mutableCopy];
+    if ([parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"] != nil) {
+        for(id key in [parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"]) {
+            if ([AppDelegate instance].serverVersion >= [key integerValue]){
+                id arrayProperties = [[parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"] objectForKey:key];
+                for (id value in arrayProperties) {
+                    [newProperties addObject:value];
+                }
+            }
+        }
+    }
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     [parameters objectForKey:@"properties"], @"properties",
+                                     newProperties, @"properties",
                                      object, itemid,
                                      nil];
     GlobalData *obj=[GlobalData getInstance];
@@ -1776,6 +1787,7 @@ int currentItemID;
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row16"]], [mainFields objectForKey:@"row16"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row17"]], [mainFields objectForKey:@"row17"],
                   [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row18"]], [mainFields objectForKey:@"row18"],
+                  [videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row20"]], [mainFields objectForKey:@"row20"],
                   nil];
                  [self displayInfoView:newItem];
              }
