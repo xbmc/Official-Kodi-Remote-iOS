@@ -967,6 +967,7 @@ int h=0;
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
         contributorString = @"roles";
+        castHeight -= 26;
         placeHolderImage = @"coverbox_back_artists.png";
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             placeHolderImage = @"coverbox_back_artists@2x.png";
@@ -981,7 +982,7 @@ int h=0;
         label3.text = @"";
         label4.text = NSLocalizedString(@"BORN / FORMED", nil);
         label5.text = NSLocalizedString(@"DESCRIPTION", nil);
-        label6.text = NSLocalizedString(@"MUSIC ROLES", nil);;
+        label6.text = NSLocalizedString(@"MUSIC ROLES", nil);
         parentalRatingLabelUp.hidden = YES;
         parentalRatingLabel.hidden = YES;
         runtimeLabel.hidden = YES;
