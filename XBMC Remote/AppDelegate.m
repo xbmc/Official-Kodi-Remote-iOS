@@ -1057,6 +1057,9 @@ NSMutableArray *hostRightMenuItems;
                                     [NSArray arrayWithObjects: @"thumbnail", @"genre", nil], @"properties",
                                     nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist", @"defaultThumb", @"Artist", @"wikitype",
                                    [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",nil], @"properties",
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSArray arrayWithObjects: @"roles", nil], @"17",
+                                     nil], @"kodiExtrasPropertiesMinimumVersion",
                                     nil], @"extra_info_parameters",
                                    @"YES", @"enableCollectionView",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1247,6 +1250,7 @@ NSMutableArray *hostRightMenuItems;
                                @"born", @"row16",
                                @"formed", @"row17",
                                @"died", @"row18",
+                               @"roles", @"row20",
                                @"artistdetails",@"itemid_extra_info",
                                //@"", @"", @"", @"", @"", , @"", @"", , @"", @"", @"",
                                nil],

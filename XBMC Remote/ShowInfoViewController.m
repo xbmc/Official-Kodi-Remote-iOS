@@ -654,6 +654,7 @@ int h=0;
     thumbWidth = PHONE_TV_SHOWS_BANNER_WIDTH;
     tvshowHeight = PHONE_TV_SHOWS_BANNER_HEIGHT;
     int shiftParentalRating = -20;
+    NSString *contributorString = @"cast";
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         clearLogoWidth = 457;
         clearLogoHeight = 177;
@@ -965,6 +966,7 @@ int h=0;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        contributorString = @"roles";
         placeHolderImage = @"coverbox_back_artists.png";
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             placeHolderImage = @"coverbox_back_artists@2x.png";
@@ -979,14 +981,14 @@ int h=0;
         label3.text = @"";
         label4.text = NSLocalizedString(@"BORN / FORMED", nil);
         label5.text = NSLocalizedString(@"DESCRIPTION", nil);
-        label6.text = @"";
+        label6.text = NSLocalizedString(@"MUSIC ROLES", nil);;
         parentalRatingLabelUp.hidden = YES;
         parentalRatingLabel.hidden = YES;
         runtimeLabel.hidden = YES;
         label3.hidden = YES;
-        CGRect frame = label6.frame;
-        frame.origin.y = frame.origin.y-40;
-        label6.frame = frame;
+//        CGRect frame = label6.frame;
+//        frame.origin.y = frame.origin.y-40;
+//        label6.frame = frame;
         starsView.hidden = YES;
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
@@ -1463,8 +1465,8 @@ int h=0;
     frame.origin.y = startY + 20;
     label6.frame = frame;
     startY = startY + 16 + size + label6.frame.size.height;
-    if (![[item objectForKey:@"family"] isEqualToString:@"albumid"] && ![[item objectForKey:@"family"] isEqualToString:@"artistid"]){// TRANSFORM IN SHOW_CAST BOOLEAN
-        cast = [item objectForKey:@"cast"];
+    if (![[item objectForKey:@"family"] isEqualToString:@"albumid"]) {// TRANSFORM IN SHOW_CAST BOOLEAN
+        cast = [item objectForKey:contributorString];
         if (actorsTable == nil){
             int actorsTableWidth = 320;
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -1726,7 +1728,7 @@ int h=0;
     }
     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
     [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"] andResize:CGSizeMake(castWidth, castHeight)];
-    cell.actorName.text = [[cast objectAtIndex:indexPath.row] objectForKey:@"name"];
+    cell.actorName.text = [[cast objectAtIndex:indexPath.row] objectForKey:@"name"] == nil ? [self.detailItem objectForKey:@"label"] : [[cast objectAtIndex:indexPath.row] objectForKey:@"name"];
     if ([[[cast objectAtIndex:indexPath.row] objectForKey:@"role"] length] != 0){
         cell.actorRole.text = [NSString stringWithFormat:@"%@", [[cast objectAtIndex:indexPath.row] objectForKey:@"role"]];
         [cell.actorRole sizeToFit];
