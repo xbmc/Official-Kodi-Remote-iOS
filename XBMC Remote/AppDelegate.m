@@ -289,7 +289,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist", @"defaultThumb", @"Artist", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart", nil], @"properties",
                             [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSArray arrayWithObjects: @"roles", nil], @"17",
+                             [NSArray arrayWithObjects: @"roles", nil], @"18",
                              nil], @"kodiExtrasPropertiesMinimumVersion",
                             nil], @"extra_info_parameters",
                            @"YES", @"enableCollectionView",
@@ -1058,7 +1058,7 @@ NSMutableArray *hostRightMenuItems;
                                     nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist", @"defaultThumb", @"Artist", @"wikitype",
                                    [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",nil], @"properties",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSArray arrayWithObjects: @"roles", nil], @"17",
+                                     [NSArray arrayWithObjects: @"roles", nil], @"18",
                                      nil], @"kodiExtrasPropertiesMinimumVersion",
                                     nil], @"extra_info_parameters",
                                    @"YES", @"enableCollectionView",
