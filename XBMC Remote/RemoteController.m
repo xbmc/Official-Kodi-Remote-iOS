@@ -944,6 +944,12 @@ NSInteger buttonAction;
             [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
             break;
 
+        case 13:
+            action=@"Input.Select";
+            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
+            break;
+
         case 14:
             action=@"Input.Right";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
