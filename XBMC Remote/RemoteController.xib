@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RemoteController">
@@ -268,10 +268,8 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="holdKey:" destination="-1" eventType="touchDown" id="114"/>
-                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpInside" id="115"/>
-                                                <action selector="stopHoldKey:" destination="-1" eventType="touchUpOutside" id="116"/>
-                                                <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="182"/>
+                                                <action selector="startVibrate:" destination="-2" eventType="touchUpInside" id="Cmy-gd-iqg"/>
+                                                <outletCollection property="gestureRecognizers" destination="Cas-ni-19z" appends="YES" id="SBi-3y-6Ge"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -468,6 +466,11 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="Cas-ni-19z" userLabel="Long Press Gesture Recognizer - select">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="Qh5-NC-guH"/>
+            </connections>
+        </pongPressGestureRecognizer>
         <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="139" userLabel="Long Press Gesture Recognizer - info">
             <connections>
                 <action selector="handleButtonLongPress:" destination="-1" id="159"/>

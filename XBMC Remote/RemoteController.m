@@ -943,13 +943,7 @@ NSInteger buttonAction;
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
             break;
-            
-        case 13:
-            action=@"Input.Select";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
-            break;
-            
+
         case 14:
             action=@"Input.Right";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
@@ -1049,6 +1043,12 @@ NSInteger buttonAction;
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF049)"];
             break;
             
+        case 13:
+            action=@"Input.Select";
+            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
+            break;
+            
         case 15: // MENU OSD
             action = @"Input.ShowOSD";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04D)"];
@@ -1144,11 +1144,12 @@ NSInteger buttonAction;
             case 11:// CODEC INFO
                 [self GUIAction:@"Input.ShowCodec" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04F)"];
                 break;
-            
-            case 15:// CONTEXT MENU 
+
+            case 13:// CONTEXT MENU
+            case 15:
                 [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF043)"];
                 break;
-                
+
             case 19:// SUBTITLES BUTTON
                 if ([AppDelegate instance].serverVersion > 12){
                     [self GUIAction:@"GUI.ActivateWindow"
