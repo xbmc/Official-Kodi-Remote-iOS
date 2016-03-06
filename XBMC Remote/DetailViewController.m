@@ -1324,7 +1324,6 @@
         }
         else {
             [cell.posterLabel setText:[item objectForKey:@"label"]];
-            [cell.labelImageView setHidden:hiddenLabel];
             cell.posterLabelFullscreen.hidden = YES;
         }
         if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"] || [[item objectForKey:@"family"] isEqualToString:@"genreid"]){
@@ -1337,9 +1336,15 @@
                 [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
             }
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellthumbWidth, cellthumbHeight)];
+            if (hiddenLabel) {
+                [cell.posterLabel setHidden:YES];
+                [cell.labelImageView setHidden:YES];
+            }
         }
         else {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+            [cell.posterLabel setHidden:NO];
+            [cell.labelImageView setHidden:NO];
         }
         if ([playcount intValue]){
             [cell setOverlayWatched:YES];
