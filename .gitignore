@@ -13,3 +13,4 @@ build/
 *.perspective
 *.perspectivev3
 *.psd
+DerivedData/*
