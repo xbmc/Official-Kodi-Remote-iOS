@@ -1805,6 +1805,8 @@
 		0FF709A518D1DF9A0093EC89 /* st_timers_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_timers_on@2x.png"; sourceTree = "<group>"; };
 		0FF84E301C118B6D00AF1B93 /* icon_listened@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_listened@2x.png"; sourceTree = "<group>"; };
 		0FF84E311C118B6D00AF1B93 /* icon_not_listened@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_not_listened@2x.png"; sourceTree = "<group>"; };
+		0FFB2CF11CF5931D000AECF6 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0FFB2CF21CF5931D000AECF6 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0FFBCF0B152BAC1600066B30 /* nocover_tvshows_episode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nocover_tvshows_episode@2x.png"; sourceTree = "<group>"; };
 		0FFBCF0E152BAC2D00066B30 /* nocover_tvshows_episode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover_tvshows_episode.png; sourceTree = "<group>"; };
 		0FFF725B18226AB9007A6E25 /* st_livetv_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_livetv_off.png; sourceTree = "<group>"; };
@@ -3137,6 +3139,7 @@
 				cs,
 				"pt-PT",
 				es,
+				nl,
 			);
 			mainGroup = 0F5548EB151D1187007E633F;
 			productRefGroup = 0F5548F7151D1187007E633F /* Products */;
@@ -4029,6 +4032,7 @@
 				0FE9D72C1C371D0700C47B46 /* cs */,
 				0F31DAE51C577426009CD268 /* pt-PT */,
 				0F0320841C59531700C7E25D /* es */,
+				0FFB2CF11CF5931D000AECF6 /* nl */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -4100,6 +4104,7 @@
 				0FE9D72D1C371D0700C47B46 /* cs */,
 				0F31DAE61C577426009CD268 /* pt-PT */,
 				0F0320851C59531700C7E25D /* es */,
+				0FFB2CF21CF5931D000AECF6 /* nl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

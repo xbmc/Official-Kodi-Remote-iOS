@@ -1,0 +1,325 @@
+/*
+ Localisable.strings
+ XBMC Remote
+ 
+ Created by Rick (Ludacrash) on 26/02/2016
+ Copyright (c) 2012 joethefox inc. All rights reserved.
+ */
+
+"Listen to" = "Luisteren naar";
+"Watch your" = "Bekijk uw";
+"Browse your" = "Zoeken in";
+"See what's" = "Zien wat";
+"Use as" = "Gebruiken als";
+"Watch" = "Bekijk";
+
+"Music" = "Muziek";
+"Movies" = "Films";
+"TV Shows" = "TV Series";
+"Pictures" = "Afbeeldingen";
+"Now Playing" = "Wordt nu afgespeeld";
+"Remote Control" = "Afstandsbediening";
+"XBMC Server" = "Kodi Server";
+"New XBMC Server" = "Nieuwe Kodi Server";
+"Modify XBMC Server" = "Kodi Server bewerken";
+"Select an XBMC Server from the list" = "Een Kodi Server uit de lijst selecteren";
+
+"Files" = "Bestanden";
+"Video Add-ons" = "Video Add-ons";
+"Live TV" = "Live TV";
+"Movie Genres" = "Film genre";
+"Music Videos" = "Muziek video's";
+"Added Movies" = "Toegevoegde films";
+"More (%d)" = "Meer (%d)";
+"Movie Sets" = "Film Verzamelingen";
+
+"Albums" = "Albums";
+"Artists" = "Artiesten";
+"Genres" = "Genres";
+"Added Albums" = "Toegevoegde Albums";
+"Recently added albums" = "Onlangs toegevoegde Albums";
+"Added Songs" = "Toegevoegde Nummers";
+"Recently added songs" = "Onlangs toegevoegde Nummers";
+"Top 100 Albums" = "Top 100 Albums";
+"Top 100 Songs" = "Top 100 Nummers";
+"Played albums" = "Afgespeelde Albums";
+"Recently played albums" = "Onlangs afgespeelde Albums";
+"Played songs" = "Afgespeelde Nummers";
+"Recently played songs" = "Onlangs afgespeelde Nummers";
+"All songs" = "Alle Nummers";
+"Music Add-ons" = "Muziek Add-ons";
+"Music Playlists" = "Muziek Afspeellijsten";
+
+"Added Episodes" = "Toegevoegde Afleveringen";
+
+"Pictures Add-ons" = "Afbeelding Add-ons";
+
+"Power off System" = "Systeem uitschakelen";
+"Power off" = "Uitschakelen";
+"Hibernate" = "Slaapstand";
+"Suspend" = "Standby";
+"Reboot" = "Opnieuw opstarten";
+"Quit XBMC application" = "Kodi beëindigen";
+"Update Audio Library" = "Audiobibliotheek bijwerken";
+"Update Audio" = "Audio bijwerken";
+"Clean Audio Library" = "Audiobibliotheek opschonen";
+"Clean Audio" = "Audio opschonen";
+"Update Video Library" = "Videobibliotheek bijwerken";
+"Update Video" = "Video bijwerken";
+"Clean Video Library" = "Videobibliotheek opschonen";
+"Clean Video" = "Video opschonen";
+"Quit" = "Stoppen";
+
+"Keyboard" = "Toetsenbord";
+"Gesture Zone" = "Gebaren besturing";
+"Button Pad" = "Knoppen besturing";
+"Help Screen" = "Help pagina";
+"LED Torch" = "LED Licht";
+
+"No connection" = "Geen Verbinding";
+
+"Queue after current" = "Na huidige toevoegen";
+"Queue" = "Toevoegen";
+"Play" = "Afspelen";
+"Stream to iPhone" = "Naar iPhone streamen";
+"Search Wikipedia" = "Op Wikipedia zoeken";
+"Search last.fm charts" = "Op last.fm-Charts zoeken";
+"Album Tracks" = "Album Nummers";
+"Artist Albums" = "Artiets Albums";
+"Artist Details" = "Artiest Details";
+"Album Details" = "Album Details";
+"Movie Details" = "Film Details";
+"Episode Details" = "Aflevering Details";
+"TV Show Details" = "Serie Details";
+"Music Video Details" = "Muziekvideo Details";
+"Details" = "Details";
+"Play Trailer" = "Trailer Afspelen";
+
+"Playlist" = "Afspeellijst";
+"Nothing is playing" = "Er wordt niks afgespeelt";
+"Details not found" = "Details niet gevonden";
+"Open in Safari" = "Openen in Safari";
+"Error loading page" = "Fout bij pagina laden";
+"OK" = "OK";
+"Cancel" = "Annuleren";
+"Resume from %@" = "Voortzetten vanaf %@";
+"Resume from" = "Voortzetten vanaf";
+"First aired on %@" = "Voor het eerst vertoont op %@";
+"Episodes: %@" = "Aflevering: %@";
+"1 result" = "1 resultaat";
+"%d results" = "%d resultaten";
+"Music " = "Muziek ";
+"Video " = "Video ";
+"Songs" = "Nummers";
+"Song" = "Nummer";
+"Mins." = "Mins.";
+"Min" = "Min";
+"Released %d" = "Uitgebracht op %d";
+
+"Clear Playlist" = "Afspeellijst leegmaken";
+"No server MAC address defined" = "Geen Server-MAC-Adres gedefinieerd";
+"Command executed" = "Command uitgevoerd";
+"Warning" = "Waarschuwing";
+"Cannot do that" = "Dat is niet mogelijk";
+"Wake On Lan" = "Wake On Lan";
+"No saved hosts found" = "Geen opgeslagen hosts gevonden";
+
+"Are you sure you want to clear the %@playlist?" = "Weet u zeker dat u %@playlist wilt leegmaken?";
+"Are you sure you want to power off your XBMC system now?" = "Weet u zeker dat u uw Kodi Systeem nu in wilt uitschakelen?";
+"Are you sure you want to hibernate your XBMC system now?" = "Weet u zeker dat u uw Kodi Systeem nu in de slaapstand wilt zetten?";
+"Are you sure you want to suspend your XBMC system now?" = "Weet u zeker dat u uw Kodi Systeem nu in standby wilt zetten?";
+"Are you sure you want to reboot your XBMC system now?" = "Weet u zeker dat u uw Kodi Systeem nu wilt herstarten?";
+"Are you sure you want to quit XBMC application now?" = "Weet u zeker dat u de Kodi applicatie nu wilt afsluiten?";
+"Are you sure you want to update your audio library now?" = "Weet u zeker dat u uw muziekbibliotheek wilt bijwerken";
+"Are you sure you want to clean your audio library now?" = "Weet u zeker dat u uw muziekbibliotheek wilt opschonen?";
+"Are you sure you want to update your video library now?" = "Weet u zeker dat u uw videobibliotheek wilt bijwerken?";
+"Are you sure you want to clean your video library now?" = "Weet u zeker dat u uw videobibliotheek wilt opschonen?";
+
+"DIRECTED BY" = "Geregiseerd door";
+"RUNTIME" = "Speelduur";
+"PARENTAL RATING" = "Kijkwijzer";
+"CAST" = "Cast";
+"EPISODES" = "Afleveringen";
+"GENRE" = "Genre";
+"STUDIO" = "Studio";
+"TV SHOW" = "TV Serie";
+"DIRECTOR" = "Regiseur";
+"WRITER" = "Auteur";
+"FIRST AIRED" = "Eerste uitzending";
+"SUMMARY" = "Plot";
+"ARTIST" = "Artiest";
+"YEAR" = "Jaar";
+"ALBUM LABEL" = "Album Titel";
+"DESCRIPTION" = "Beschrijving";
+"STYLE" = "Stijl";
+"BORN / FORMED" = "Gemaakt";
+"TRAILER" = "Trailer";
+
+"codec" = "Codec";
+"bit rate" = "Bitrate";
+"sample rate" = "Sample rate";
+"resolution" = "Resolutie";
+"aspect ratio" = "Beeldverhouding";
+"Subtitles not available" = "Ondertitels niet beschikbaar";
+"Audiostream not available" = "Audiospoor niet beschikbaar";
+"Audiostreams not available" = "Geen audiosporen beschikbaar";
+
+"LongDateTimeFormat" = "d. MMMM YYYY";
+"ShortDateTimeFormat" = "dd.MM.YYYY";
+"LocaleIdentifier" = "nl_NL";
+
+"Yes" = "Ja";
+"No" = "Nee";
+"Authentication Failed" = "Authenticatie mislukt";
+"Incorrect Username or Password.\nCheck your settings." = "Verkeerde Gebruikersnaam of Wachtwoord.\nControleer uw instellingen.";
+
+"WIKI_LANG" = "nl";
+
+"vote" = "Stem";
+"votes" = "Stemmen";
+
+"Slide your finger up to adjust the scrubbing rate." = "Vinger omhoog schuiven om scroll snelheid aan te passen.";
+"Scrubbing 1" = "Scroll-snelheid: 100%";
+"Scrubbing 0.5" = "Scroll-snelheid: 50%";
+"Scrubbing 0.25" = "Scroll-snelheid: 25%";
+"Scrubbing 0.1" = "Scroll-snelheid: Precies";
+"Scrubbing 0.05" = "Scroll-snelheid: Zeer precies";
+"Scrubbing 0.025" = "Scroll-snelheid: Super precies";
+
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "App disk cache legen...\n\nAUB wachten, dit kan even duren";
+"Pull to sync with XBMC..." = "Trekken om te synchroniseren met Kodi...";
+"Release to sync with XBMC..." = "Loslaten om te synchroniseren met Kodi..."";
+"Syncing..." = "Synchroniseren...";
+"Last sync" = "Laatste synchronisatie";
+"View: Wall" = "Vertoning: Wall";
+"View: List" = "Vertoning: Lijst";
+"View: Fanart" = "Vertoning: Fanart";
+
+"Show Content" = "Laat inhoud zien";
+"Play in party mode" = "Afspelen in feest mode";
+"Play in shuffle mode" = "Afspelen in shuffle mode";
+
+"Channel Guide" = "Gids";
+"Record" = "Opnemen";
+"Recordings" = "Opnamen";
+"Timers" = "Timers";
+"Broadcast Details" = "Uitzending Details";
+"TIME" = "TIJD";
+
+"ERROR" = "ERROR";
+"Subtitles disabled" = "Ondertitels uitgeschakeld";
+"Subtitle" = "Ondertitel";
+"Mark as watched" = "Markeren als gezien";
+"Mark as unwatched" = "Markeren als niet gezien";
+
+"Button Pad/Gesture Zone" = "Knoppen /Gebaren zone";
+"Slide your finger up or down to adjust the scrubbing rate." = "Vinger omhoog of omlaag schuiven om scroll snelheid aan te passen.";
+
+"Programs" = "Programma's";
+"Video Add-ons" = "Video Add-ons";
+"Music Add-ons" = "Muziek Add-ons";
+"XBMC Settings" = "Kodi Instellingen";
+
+"Custom button" = "Custom knop";
+"Modify label:" = "Label aanpassen:";
+"Update label" = "Label bijwerken";
+"Add a new button" = "Nieuwe knop toevoegen";
+"Enter the label:" = "Label invoeren:";
+"Add button" = "Knop toevoegen";
+"Button added" = "Knop toegevoegd";
+"enter value" = "Waarde ingeven";
+"Tap and hold a setting to add a new button." = "Instelling ingedrukt houden om nieuwe knop toe te voegen.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Geen aangepaste knop gedefinieerd.\r\nDruk op \"...meer\" om nieuwe knoppen toe te voegen.";
+
+"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- WAARSCHUWING --\nHuidige Kodi API staat het niet toe dat er timer settings worden aangepast. Gebruik de Kodi interface voor het toevoegen, wijzigen en verwijderen van timers. Dank u.";
+
+"Execute program" = "Programma uitvoeren";
+"Execute video add-on" = "Video add-on uitvoeren";
+"Execute audio add-on" = "Audio add-on uitoveren";
+"Add-on executed successfully" = "Add-on succesvol uitgevoerd";
+"Unable to execute the add-on" = "Niet mogelijk om add-on uit te voeren";
+
+"...more" = "...meer";
+"Edit" = "Wijzigen";
+"Done" = "Klaar";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi versie 13 of nieuwer vereist om toegang tot instellingen te verkrijgen";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WAARSCHUWING --\nDit soort instellingen kunnen niet op afstand aangepast worden. Gebruik hiervoor de Kodi interfce.\nDank u.";
+
+"Official XBMC Remote\nfor iOS" = "Officiele Kodi Afstandsbediening\nvoor iOS";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "De \"Officiele Kodi Afstandsbediening app\" gebruikt afbeeldingen van http://fanart.tv. Installeer de \"artwork downloader\" Kodi Add-on om deze ook in Kodi te zien!\n\nHet Kodi-Logo, Zappy mascot en de Officiele Kodi Afstandsbediening iconen zijn eigendom van Kodi\nhttp://www.kodi.tv/contribute";
+"enjoy!" = "Veel plezier!";
+
+"No items found." = "Geen onderdelen gevonden";
+"Video" = "Video";
+"Party" = "Feest";
+"Search" = "Zoeken";
+
+"Supported XBMC version is Eden (11) or higher" = "Ondersteunde XBMC/Kodi versie is Eden (11) of nieuwer";
+"Add Host" = "Host toevoegen";
+
+"Description" = "Beschrijving";
+"Host : port /\nTCP port" = "Host : port /\nTCP port";
+"MAC Address" = "MAC Adres";
+"Username and Password" = "Gebruikersnaam en Wachtwoord";
+"Prefer posters for TV shows" = "Posters voor TV Series de voorkeur geven";
+"Find XBMC" = "Vind Kodi";
+"Save" = "Opslaan";
+"No XBMC instances were found :(" = "Er is geen Kodi systeem gevonden :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Vind Kodi\" Vereist de Kodi-Optie\n\"Aankondigen services naar andere systemen via Zeroconf\";
+"How-to activate the remote app in XBMC" = "Zo activeert u de Remote-App in Kodi";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nInstellingen -> Netwerk -> Toestaan besturing op afstand via HTTP";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nSysteem/Instellingen -> Diensten -> Webserver -> Toestaan besturing op afstand via HTTP";
+"e.g. My XBMC" = "Bijv. Menj Kodi";
+"e.g. 192.168.0.8" = "Bijv. 192.168.0.8";
+"Username" = "Gebruikersnaam";
+"Password" = "Wachtwoord";
+
+"Sort by" = "Sorteren op";
+"tap" = "tik";
+"the selection" = "de selectie";
+"tap the selection\nto reverse the sort order" = "Selectie indrukken\nom selectievolgorde om te draaien";
+"Not listened" = "Niet geluisterd";
+"Listened one time" = "Één keer geluisterd";
+"Listened %@ times" = "%@ keer geluisterd";
+"Not watched" = "Niet gezien";
+"Watched one time" = "Één keer gezien";
+"Watched %@ times" = "%@ keer gezien";
+"Artist" = "Artiest";
+"Year" = "Jaar";
+"Play count" = "Afspeelteller";
+"Track" = "Track";
+"Title" = "Titel";
+"Rating" = "Waardering";
+"Duration" = "Duur";
+"Date added" = "Datum toegevoegd";
+"Name" = "Naam";
+"User rating" = "Gebruikerswaardering";
+"The %@s decade" = "De %@er Jaren";
+"Year not available" = "Jaar niet beschikbaar";
+"Year %@" = "Jaar %@";
+"Rated %@" = "%@ gewaardeerd";
+"Track n.%@" = "Track n.%@";
+
+"Less than 15 minutes" = "Minder dan 15 minuten";
+"Less than half an hour" = "Minder dan een half uur";
+"About half an hour" = "Ongeveer een half uur";
+"Less than one hour" = "Minder dan één uur";
+"About one hour" = "Ongeveer één uur";
+"About an hour and a half" = "Ongeveer anderhalf uur";
+"Nearly two hours" = "Bijna twee uur";
+"About two hours" = "Ongeveer twee uur";
+"Two hours" = "Twee uur";
+"About two and a half hours" = "Ongeveer twee en een half uur";
+"More than two and a half hours" = "Meer dan twee en een half uur";
+"Nearly three hours" = "Bijna drie uur";
+"About three hours" = "Ongeveer drie uur";
+"Nearly three and half hours" = "Bijna drie en een half uur";
+"About three and half hours" = "Ongeveer drie en een half uur";
+"Nearly four hours" = "Bijna vier uur";
+"About four hours" = "Ongeveer vier uur";
+"More than four hours" = "Meer dan vier uur";
+
+"Unknown" = "Onbekend";
+"Audio stream" = "Audio stream";
+"Disable subtitles" = "Ondertels uitschakelen";
+"Subtitles" = "Ondertitels";
