@@ -188,7 +188,7 @@
 
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "App disk cache legen...\n\nAUB wachten, dit kan even duren";
 "Pull to sync with XBMC..." = "Trekken om te synchroniseren met Kodi...";
-"Release to sync with XBMC..." = "Loslaten om te synchroniseren met Kodi..."";
+"Release to sync with XBMC..." = "Loslaten om te synchroniseren met Kodi...";
 "Syncing..." = "Synchroniseren...";
 "Last sync" = "Laatste synchronisatie";
 "View: Wall" = "Vertoning: Wall";
@@ -265,7 +265,7 @@
 "Find XBMC" = "Vind Kodi";
 "Save" = "Opslaan";
 "No XBMC instances were found :(" = "Er is geen Kodi systeem gevonden :(";
-"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Vind Kodi\" Vereist de Kodi-Optie\n\"Aankondigen services naar andere systemen via Zeroconf\";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Vind Kodi\" Vereist de Kodi-Optie\n\"Aankondigen services naar andere systemen via Zeroconf\"";
 "How-to activate the remote app in XBMC" = "Zo activeert u de Remote-App in Kodi";
 "Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nInstellingen -> Netwerk -> Toestaan besturing op afstand via HTTP";
 "Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nSysteem/Instellingen -> Diensten -> Webserver -> Toestaan besturing op afstand via HTTP";
