@@ -1224,8 +1224,13 @@
         [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
     }
     else{
-        [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
+        float scaleFactor = 1.0f;
         if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0.0f;
+        if (hiddenLabel == YES && recentlyAddedView == NO) {
+            scaleFactor = 0.975f;
+            cellMinimumLineSpacing = 4;
+        }
+        [flowLayout setItemSize:CGSizeMake(cellGridWidth * scaleFactor, cellGridHeight * scaleFactor)];
         [flowLayout setMinimumLineSpacing:cellMinimumLineSpacing];
         [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
     }
@@ -5442,7 +5447,10 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    hiddenLabel = NO;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    NSString *hidden_label_preferenceString = [userDefaults objectForKey:@"hidden_label_preference"];
+    hiddenLabel = [hidden_label_preferenceString boolValue];
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
     isViewDidLoad = YES;
     iOSYDelta = 44;
