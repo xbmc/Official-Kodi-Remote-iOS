@@ -99,6 +99,11 @@
             xbmcSetting = cInput;
             cellHeight = 172.0f;
         }
+        else if ([[itemControls objectForKey:@"type"] isEqualToString:@"list"] && settingOptions == nil) {
+            xbmcSetting = cSlider;
+            storeSliderValue = [[self.detailItem objectForKey:@"value"] intValue];
+            cellHeight = 184.0f;
+        }
         else {
             self.navigationItem.title = [self.detailItem objectForKey:@"label"];
             if ([settingOptions isKindOfClass:[NSArray class]]){
