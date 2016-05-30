@@ -1224,13 +1224,8 @@
         [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
     }
     else{
-        float scaleFactor = 1.0f;
         if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0.0f;
-        if (hiddenLabel == YES && recentlyAddedView == NO) {
-            scaleFactor = 0.975f;
-            cellMinimumLineSpacing = 4;
-        }
-        [flowLayout setItemSize:CGSizeMake(cellGridWidth * scaleFactor, cellGridHeight * scaleFactor)];
+        [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
         [flowLayout setMinimumLineSpacing:cellMinimumLineSpacing];
         [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
     }
