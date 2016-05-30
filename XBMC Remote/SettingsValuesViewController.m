@@ -707,7 +707,7 @@
         [descriptionLabel setTextColor:[UIColor whiteColor]];
         [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
         [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
-        [descriptionLabel setText:footerMessage];
+        [descriptionLabel setText:[footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
         if (xbmcSetting == cUnsupported){
             [helpView setBackgroundColor:[UIColor colorWithRed:.741f green:.141f blue:.141f alpha:1.0f]];
         }
@@ -733,7 +733,7 @@
             [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
             [descriptionLabel setNumberOfLines:20];
             [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
-            [descriptionLabel setText:footerMessage];
+            [descriptionLabel setText:[footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
             CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
                                                        constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax) lineBreakMode:descriptionLabel.lineBreakMode];
             footerHeight = descriptionSize.height + cellLabelOffset * 2;
