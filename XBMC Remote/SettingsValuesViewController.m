@@ -65,7 +65,7 @@
         
         if ([[itemControls objectForKey:@"format"] isEqualToString:@"boolean"]) {
             xbmcSetting = cSwitch;
-            cellHeight = 180.0f;
+            cellHeight = 210.0f;
         }
         else if ([[itemControls objectForKey:@"multiselect"] boolValue] == YES && ![settingOptions isKindOfClass:[NSArray class]]){
             xbmcSetting = cMultiselect;
@@ -417,14 +417,14 @@
         UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
         onoff.tag = 201;
         [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-        [onoff setFrame:CGRectMake(self.view.bounds.size.width - onoff.frame.size.width - 12, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
+        [onoff setFrame:CGRectMake(self.view.bounds.size.width - onoff.frame.size.width - 12, cellHeight/2 - onoff.frame.size.height/2+ 20, onoff.frame.size.width, onoff.frame.size.height)];
         [cell.contentView addSubview: onoff];
 
-        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 54, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, 120)];
+        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 54, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, cellHeight - 54 - 10)];
         descriptionLabel.tag = 2;
         [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
         [descriptionLabel setAdjustsFontSizeToFitWidth:YES];
-        [descriptionLabel setNumberOfLines:8];
+        [descriptionLabel setNumberOfLines:0];
         [descriptionLabel setMinimumFontSize:12];
         [descriptionLabel setTextColor:[UIColor grayColor]];
         [descriptionLabel setHighlightedTextColor:[UIColor lightGrayColor]];
@@ -492,7 +492,7 @@
     NSString *cellText = @"";
     NSString *stringFormat = @"%i";
     NSString *descriptionString = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]];
-    
+    descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     switch (xbmcSetting) {
             
         case cSwitch:
