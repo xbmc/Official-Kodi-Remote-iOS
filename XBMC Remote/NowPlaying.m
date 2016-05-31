@@ -34,6 +34,7 @@
 @synthesize detailViewController;
 @synthesize shuffleButton;
 @synthesize repeatButton;
+@synthesize itemLogoImage;
 @synthesize songDetailsView;
 @synthesize ProgressSlider;
 @synthesize showInfoViewController;
@@ -992,22 +993,23 @@ int currentItemID;
                                  lastThumbnail = stringURL;
                                  itemLogoImage.image = nil;
                                  NSDictionary *art = [nowPlayingInfo objectForKey:@"art"];
-                                 NSString *clearlogo = @"";
-                                 NSString *clearart = @"";
+                                 storeClearlogo = @"";
+                                 storeClearart = @"";
                                  for (NSString *key in art) {
                                      if ([key rangeOfString:@"clearlogo"].location != NSNotFound){
-                                         clearlogo = [art objectForKey:key];
+                                         storeClearlogo = [art objectForKey:key];
                                      }
                                      if ([key rangeOfString:@"clearart"].location != NSNotFound){
-                                         clearart = [art objectForKey:key];
+                                         storeClearart = [art objectForKey:key];
                                      }
                                  }
-                                 if ([clearlogo isEqualToString:@""]) {
-                                     clearlogo = clearart;
+                                 if ([storeClearlogo isEqualToString:@""]) {
+                                     storeClearlogo = storeClearart;
                                  }
-                                 if (![clearlogo isEqualToString:@""]){
-                                     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [clearlogo stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                                 if (![storeClearlogo isEqualToString:@""]){
+                                     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [storeClearlogo stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                                      [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL]];
+                                     storeCurrentLogo = storeClearlogo;
                                  }
                              }
                          }
@@ -2112,15 +2114,37 @@ int currentItemID;
     CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
     CGPoint viewPoint = [shuffleButton convertPoint:locationPoint fromView:self.view];
     CGPoint viewPoint2 = [repeatButton convertPoint:locationPoint fromView:self.view];
+    CGPoint viewPoint3 = [itemLogoImage convertPoint:locationPoint fromView:self.view];
     if ([shuffleButton pointInside:viewPoint withEvent:event] && songDetailsView.alpha > 0 && !shuffleButton.hidden) {
         [self changeShuffle:nil];
     }
     else if ([repeatButton pointInside:viewPoint2 withEvent:event] && songDetailsView.alpha > 0 && !repeatButton.hidden) {
         [self changeRepeat:nil];
     }
+    else if ([itemLogoImage pointInside:viewPoint3 withEvent:event] && songDetailsView.alpha > 0 && itemLogoImage.image != nil) {
+        [self updateCurrentLogo];
+    }
     else if([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]){
         [self toggleSongDetails];
         [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+    }
+}
+
+-(void)updateCurrentLogo {
+    GlobalData *obj=[GlobalData getInstance];
+    NSString *serverURL=[NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+    if ([AppDelegate instance].serverVersion > 11){
+        serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
+    }
+    if ([storeCurrentLogo isEqualToString:storeClearart]) {
+        storeCurrentLogo = storeClearlogo;
+    }
+    else {
+        storeCurrentLogo = storeClearart;
+    }
+    if (![storeCurrentLogo isEqualToString:@""]){
+        NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [storeCurrentLogo stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+        [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:itemLogoImage.image];
     }
 }
 
@@ -3014,6 +3038,7 @@ int currentItemID;
 - (void)viewDidLoad{
     [super viewDidLoad];
     [itemDescription setSelectable:FALSE];
+    [itemLogoImage.layer setMinificationFilter:kCAFilterTrilinear];
     [songCodecImage.layer setMinificationFilter:kCAFilterTrilinear];
     [songBitRateImage.layer setMinificationFilter:kCAFilterTrilinear];
     [songSampleRateImage.layer setMinificationFilter:kCAFilterTrilinear];

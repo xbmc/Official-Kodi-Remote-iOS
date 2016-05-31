@@ -115,13 +115,16 @@
     UIImageView *tempFanartImageView;
     __weak IBOutlet UITextView *itemDescription;
     NSString *storeLiveTVTitle;
-    __weak IBOutlet UIImageView *itemLogoImage;
+    NSString *storeClearlogo;
+    NSString *storeClearart;
+    NSString *storeCurrentLogo;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
 - (void)toggleSongDetails;
+- (void)updateCurrentLogo;
 - (IBAction)changeShuffle:(id)sender;
 - (IBAction)changeRepeat:(id)sender;
 
@@ -131,6 +134,7 @@
 @property (strong, nonatomic) DetailViewController *detailViewController;
 @property (strong, nonatomic) ShowInfoViewController *showInfoViewController;
 @property (strong, nonatomic) UIImageView *jewelView;
+@property (strong, nonatomic) IBOutlet UIImageView *itemLogoImage;
 @property (strong, nonatomic) UIButton *shuffleButton;
 @property (strong, nonatomic) UIButton *repeatButton;
 @property (strong, nonatomic) UIView *songDetailsView;
