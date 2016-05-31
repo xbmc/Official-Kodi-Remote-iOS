@@ -596,10 +596,12 @@ int currentItemID;
     songBitRate.text = @"";
     songSampleRate.text = @"";
     songNumChannels.text = @"";
+    itemDescription.text = @"";
     songCodecImage.image = nil;
     songBitRateImage.image = nil;
     songSampleRateImage.image = nil;
     songNumChanImage.image = nil;
+    itemLogoImage.image = nil;
     songCodec.hidden = NO;
     songBitRate.hidden = NO;
     songSampleRate.hidden = NO;
@@ -835,11 +837,15 @@ int currentItemID;
                         [self createPlaylist:NO animTableView:YES];
                     }
                 }
+                NSMutableArray *properties = [[NSMutableArray alloc] initWithObjects:@"album", @"artist",@"title", @"thumbnail", @"track", @"studio", @"showtitle", @"episode", @"season", @"fanart", @"description", @"plot", nil];
+                if ([AppDelegate instance].serverVersion > 11){
+                    [properties addObject:@"art"];
+                }
                 [jsonRPC 
                  callMethod:@"Player.GetItem" 
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                                  response, @"playerid",
-                                 [[NSArray alloc] initWithObjects:@"album", @"artist",@"title", @"thumbnail", @"track", @"studio", @"showtitle", @"episode", @"season", @"fanart", nil], @"properties",
+                                 properties, @"properties",
                                  nil] 
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
@@ -851,11 +857,14 @@ int currentItemID;
                                  currentItemID = -2;
                              else
                                  currentItemID = [[nowPlayingInfo  objectForKey:@"id"] intValue];
-                             if (([nowPlayingInfo count] && currentItemID!=storedItemID) || [nowPlayingInfo  objectForKey:@"id"] == nil){
+                             if (([nowPlayingInfo count] && currentItemID!=storedItemID) || [nowPlayingInfo  objectForKey:@"id"] == nil || ([[nowPlayingInfo  objectForKey:@"type"] isEqualToString:@"channel"] && ![[nowPlayingInfo  objectForKey:@"title"] isEqualToString:storeLiveTVTitle])){
                                  storedItemID = currentItemID;
                                  [self performSelector:@selector(loadCodecView) withObject:nil afterDelay:.5];
+                                 itemDescription.text = [[nowPlayingInfo  objectForKey:@"description"] length] !=0 ? [NSString stringWithFormat:@"%@", [nowPlayingInfo  objectForKey:@"description"]] : [[nowPlayingInfo  objectForKey:@"plot"] length] !=0 ? [NSString stringWithFormat:@"%@", [nowPlayingInfo  objectForKey:@"plot"]] : @"";
+                                 [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
                                  NSString *album = [[nowPlayingInfo  objectForKey:@"album"] length] !=0 ?[NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"album"]] : @"" ;
                                  NSString *title = [[nowPlayingInfo  objectForKey:@"title"] length] !=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"title"]] : @"";
+                                 storeLiveTVTitle = title;
                                  NSString *artist=@"";
                                  if ([[nowPlayingInfo objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")]){
                                      artist = [[nowPlayingInfo objectForKey:@"artist"] componentsJoinedByString:@" / "];
@@ -981,6 +990,25 @@ int currentItemID;
                                      }
                                  }
                                  lastThumbnail = stringURL;
+                                 itemLogoImage.image = nil;
+                                 NSDictionary *art = [nowPlayingInfo objectForKey:@"art"];
+                                 NSString *clearlogo = @"";
+                                 NSString *clearart = @"";
+                                 for (NSString *key in art) {
+                                     if ([key rangeOfString:@"clearlogo"].location != NSNotFound){
+                                         clearlogo = [art objectForKey:key];
+                                     }
+                                     if ([key rangeOfString:@"clearart"].location != NSNotFound){
+                                         clearart = [art objectForKey:key];
+                                     }
+                                 }
+                                 if ([clearlogo isEqualToString:@""]) {
+                                     clearlogo = clearart;
+                                 }
+                                 if (![clearlogo isEqualToString:@""]){
+                                     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [clearlogo stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                                     [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL]];
+                                 }
                              }
                          }
                          else {
@@ -2096,6 +2124,10 @@ int currentItemID;
     }
 }
 
+- (IBAction)buttonToggleItemInfo:(id)sender {
+    [self toggleSongDetails];
+}
+
 -(void)showClearPlaylistAlert{
     if (playlistView.hidden == NO && self.view.superview != nil){
         NSString *playlistName=@"";
@@ -2711,6 +2743,7 @@ int currentItemID;
     frame = scrabbingView.frame;
     frame.origin.y =frame.origin.y - 24.0f;
     [scrabbingView setFrame:frame];
+    [itemDescription setFont:[UIFont systemFontOfSize:15]];
 }
 
 -(bool)enableJewelCases{
@@ -2980,6 +3013,7 @@ int currentItemID;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [itemDescription setSelectable:FALSE];
     [songCodecImage.layer setMinificationFilter:kCAFilterTrilinear];
     [songBitRateImage.layer setMinificationFilter:kCAFilterTrilinear];
     [songSampleRateImage.layer setMinificationFilter:kCAFilterTrilinear];

@@ -113,6 +113,9 @@
     UIColor *cellBackgroundColor;
     __weak IBOutlet UILabel *noItemsLabel;
     UIImageView *tempFanartImageView;
+    __weak IBOutlet UITextView *itemDescription;
+    NSString *storeLiveTVTitle;
+    __weak IBOutlet UIImageView *itemLogoImage;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
