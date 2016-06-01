@@ -864,6 +864,9 @@ int currentItemID;
                                  itemDescription.text = [[nowPlayingInfo  objectForKey:@"description"] length] !=0 ? [NSString stringWithFormat:@"%@", [nowPlayingInfo  objectForKey:@"description"]] : [[nowPlayingInfo  objectForKey:@"plot"] length] !=0 ? [NSString stringWithFormat:@"%@", [nowPlayingInfo  objectForKey:@"plot"]] : @"";
                                  [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
                                  NSString *album = [[nowPlayingInfo  objectForKey:@"album"] length] !=0 ?[NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"album"]] : @"" ;
+                                 if ([[nowPlayingInfo  objectForKey:@"type"] isEqualToString:@"channel"]){
+                                     album = [nowPlayingInfo  objectForKey:@"label"];
+                                 }
                                  NSString *title = [[nowPlayingInfo  objectForKey:@"title"] length] !=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"title"]] : @"";
                                  storeLiveTVTitle = title;
                                  NSString *artist=@"";
