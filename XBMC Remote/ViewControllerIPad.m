@@ -443,18 +443,18 @@
     [horizontalLineView1 setBackgroundColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:.2]];
     [leftMenuView addSubview:horizontalLineView1];
 
-    nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-    CGRect frame=nowPlayingController.view.frame;
-    YPOS= (int)-(tableHeight + separator + headerHeight);
-    frame.origin.y=tableHeight + separator + headerHeight;
-    frame.size.width=tableWidth;
+    self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+    CGRect frame = self.nowPlayingController.view.frame;
+    YPOS = (int)-(tableHeight + separator + headerHeight);
+    frame.origin.y = tableHeight + separator + headerHeight;
+    frame.size.width = tableWidth;
     frame.size.height=self.view.frame.size.height - tableHeight - separator - headerHeight - deltaY;
-    nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
-    nowPlayingController.view.frame=frame;
+    self.nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
+    self.nowPlayingController.view.frame=frame;
     
-    [nowPlayingController setToolbarWidth:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height - 414 YPOS:YPOS playBarWidth:1426 portrait:TRUE];
+    [self.nowPlayingController setToolbarWidth:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height - 414 YPOS:YPOS playBarWidth:1426 portrait:TRUE];
     
-    [leftMenuView addSubview:nowPlayingController.view];
+    [leftMenuView addSubview:self.nowPlayingController.view];
 
 	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, 0, rootView.frame.size.width - leftMenuView.frame.size.width, rootView.frame.size.height-44)];
 	rightSlideView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
@@ -755,13 +755,13 @@
         CGRect frame = self.nowPlayingController.ProgressSlider.frame;
         frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 580;
         self.nowPlayingController.ProgressSlider.frame=frame;        
-        [nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height - 414 YPOS:YPOS playBarWidth:426 portrait:TRUE];
+        [self.nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height - 414 YPOS:YPOS playBarWidth:426 portrait:TRUE];
 	}
 	else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight){
         CGRect frame = self.nowPlayingController.ProgressSlider.frame;
         frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 168;
         self.nowPlayingController.ProgressSlider.frame=frame;
-        [nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS playBarWidth:680 portrait:FALSE];
+        [self.nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS playBarWidth:680 portrait:FALSE];
 	}
 }
 
