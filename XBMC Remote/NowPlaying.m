@@ -1264,9 +1264,11 @@ int currentItemID;
         
                  samplerate = [[methodResult objectForKey:@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkHz", [methodResult objectForKey:@"MusicPlayer.SampleRate"]];
                  songNumChannels.text = samplerate;
+                 songNumChannels.hidden = NO;
                  
                  bitrate = [[methodResult objectForKey:@"MusicPlayer.BitRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkbit/s", [methodResult objectForKey:@"MusicPlayer.BitRate"]] ;
                  songSampleRate.text = bitrate;
+                 songSampleRate.hidden = NO;
              }
              else if (currentPlayerID==playerID) {
                  codec = [[methodResult objectForKey:@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoResolution"]] ;
