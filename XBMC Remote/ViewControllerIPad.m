@@ -346,7 +346,12 @@
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
     CGPoint viewPoint = [self.nowPlayingController.jewelView convertPoint:locationPoint fromView:self.view];
-    if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event] && ![[AppDelegate instance].windowController.stackScrollViewController.viewControllersStack count]) {
+    CGPoint viewPoint4 = [self.nowPlayingController.itemLogoImage convertPoint:locationPoint fromView:self.view];
+
+    if ([self.nowPlayingController.itemLogoImage pointInside:viewPoint4 withEvent:event]  && self.nowPlayingController.songDetailsView.alpha > 0 && self.nowPlayingController.itemLogoImage.image != nil) {
+        [self.nowPlayingController updateCurrentLogo];
+    }
+    else if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event] && ![[AppDelegate instance].windowController.stackScrollViewController.viewControllersStack count]) {
         [self.nowPlayingController toggleSongDetails];
     }
 }
