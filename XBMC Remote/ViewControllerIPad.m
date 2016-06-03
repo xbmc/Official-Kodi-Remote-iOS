@@ -536,6 +536,7 @@
     self.nowPlayingController.ProgressSlider.frame=frame;
     
     frame = self.nowPlayingController.scrabbingView.frame;
+    frame.size.width += 2;
     frame.origin.x = self.nowPlayingController.scrabbingView.frame.origin.x + PAD_MENU_TABLE_WIDTH;
     self.nowPlayingController.scrabbingView.frame=frame;
     
