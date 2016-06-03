@@ -38,6 +38,7 @@
 @synthesize songDetailsView;
 @synthesize ProgressSlider;
 @synthesize showInfoViewController;
+@synthesize scrabbingView;
 //@synthesize presentedFromNavigation;
 
 float startx=14;

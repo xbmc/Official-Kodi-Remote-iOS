@@ -102,7 +102,6 @@
     int choosedTab;
     NSString *notificationName;
     __weak IBOutlet UIImageView *playlistLeftShadow;
-    __weak IBOutlet UIView *scrabbingView;
     __weak IBOutlet UILabel *scrabbingMessage;
     __weak IBOutlet UILabel *scrabbingRate;
     UIView *iOS7bgEffect;
@@ -139,8 +138,6 @@
 @property (strong, nonatomic) UIButton *repeatButton;
 @property (strong, nonatomic) UIView *songDetailsView;
 @property (strong, nonatomic) OBSlider *ProgressSlider;
-//@property BOOL presentedFromNavigation;
-
-
+@property (strong, nonatomic) IBOutlet UIView *scrabbingView;
 
 @end

@@ -528,11 +528,16 @@
     [self.view addSubview:xbmcInfo];
     [self.view addSubview:powerButton];
     
+    [self.view insertSubview:self.nowPlayingController.scrabbingView aboveSubview:rootView];
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
     [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
     frame = self.nowPlayingController.ProgressSlider.frame;
     frame.origin.x = self.nowPlayingController.ProgressSlider.frame.origin.x + PAD_MENU_TABLE_WIDTH;
     self.nowPlayingController.ProgressSlider.frame=frame;
+    
+    frame = self.nowPlayingController.scrabbingView.frame;
+    frame.origin.x = self.nowPlayingController.scrabbingView.frame.origin.x + PAD_MENU_TABLE_WIDTH;
+    self.nowPlayingController.scrabbingView.frame=frame;
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
@@ -756,13 +761,20 @@
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
         CGRect frame = self.nowPlayingController.ProgressSlider.frame;
         frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 580;
-        self.nowPlayingController.ProgressSlider.frame=frame;        
+        self.nowPlayingController.ProgressSlider.frame=frame;
+        frame = self.nowPlayingController.scrabbingView.frame;
+        frame.origin.y = self.nowPlayingController.ProgressSlider.frame.origin.y - self.nowPlayingController.scrabbingView.frame.size.height - 2.0f;
+        self.nowPlayingController.scrabbingView.frame=frame;
+
         [self.nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height - 414 YPOS:YPOS playBarWidth:426 portrait:TRUE];
 	}
 	else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight){
         CGRect frame = self.nowPlayingController.ProgressSlider.frame;
         frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 168;
         self.nowPlayingController.ProgressSlider.frame=frame;
+        frame = self.nowPlayingController.scrabbingView.frame;
+        frame.origin.y = self.nowPlayingController.ProgressSlider.frame.origin.y - self.nowPlayingController.scrabbingView.frame.size.height - 2.0f;
+        self.nowPlayingController.scrabbingView.frame=frame;
         [self.nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS playBarWidth:680 portrait:FALSE];
 	}
 }
