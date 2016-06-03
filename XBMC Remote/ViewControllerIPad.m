@@ -346,20 +346,7 @@
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
     CGPoint viewPoint = [self.nowPlayingController.jewelView convertPoint:locationPoint fromView:self.view];
-    CGPoint viewPoint2 = [self.nowPlayingController.shuffleButton convertPoint:locationPoint fromView:self.view];
-    CGPoint viewPoint3 = [self.nowPlayingController.repeatButton convertPoint:locationPoint fromView:self.view];
-    CGPoint viewPoint4 = [self.nowPlayingController.itemLogoImage convertPoint:locationPoint fromView:self.view];
-    
-    if ([self.nowPlayingController.shuffleButton pointInside:viewPoint2 withEvent:event] && self.nowPlayingController.songDetailsView.alpha > 0 && !self.nowPlayingController.shuffleButton.hidden) {
-        [self.nowPlayingController changeShuffle:nil];
-    }
-    else if ([self.nowPlayingController.repeatButton pointInside:viewPoint3 withEvent:event]  && self.nowPlayingController.songDetailsView.alpha > 0 && !self.nowPlayingController.repeatButton.hidden) {
-        [self.nowPlayingController changeRepeat:nil];
-    }
-    else if ([self.nowPlayingController.itemLogoImage pointInside:viewPoint4 withEvent:event]  && self.nowPlayingController.songDetailsView.alpha > 0 && self.nowPlayingController.itemLogoImage.image != nil) {
-        [self.nowPlayingController updateCurrentLogo];
-    }
-    else if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event]) {
+    if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event] && ![[AppDelegate instance].windowController.stackScrollViewController.viewControllersStack count]) {
         [self.nowPlayingController toggleSongDetails];
     }
 }
@@ -409,7 +396,7 @@
     int cellHeight = PAD_MENU_HEIGHT;
     int infoHeight = PAD_MENU_INFO_HEIGHT;
     NSInteger tableHeight = ([(NSMutableArray *)mainMenu count] - 1) * cellHeight + infoHeight;
-    int tableWidth = 300;
+    int tableWidth = PAD_MENU_TABLE_WIDTH;
     int headerHeight=0;
    
     rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY - 1)];
@@ -536,9 +523,10 @@
     [self.view addSubview:xbmcInfo];
     [self.view addSubview:powerButton];
     
+    [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
     [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
     frame = self.nowPlayingController.ProgressSlider.frame;
-    frame.origin.x = self.nowPlayingController.ProgressSlider.frame.origin.x + 300;
+    frame.origin.x = self.nowPlayingController.ProgressSlider.frame.origin.x + PAD_MENU_TABLE_WIDTH;
     self.nowPlayingController.ProgressSlider.frame=frame;
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -652,8 +640,17 @@
     [self changeServerStatus:statusValue infoText:message icon:icon_connection];
 }
 
+- (void)hideSongInfoView {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.2];
+    self.nowPlayingController.songDetailsView.alpha = 0.0;
+    [UIView commitAnimations];
+}
+
 - (void)handleStackScrollOnScreen: (NSNotification*) sender{
-    [self.view insertSubview:self.nowPlayingController.ProgressSlider belowSubview:rootView];    
+    [self.view insertSubview:self.nowPlayingController.ProgressSlider belowSubview:rootView];
+    [self hideSongInfoView];
 }
 
 - (void)handleStackScrollOffScreen: (NSNotification*) sender{

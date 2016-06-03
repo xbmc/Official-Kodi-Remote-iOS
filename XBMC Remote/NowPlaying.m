@@ -419,7 +419,6 @@ int currentItemID;
             }
         }
         thumbnailView.frame = frame;
-//        songDetailsView.frame = frame;
     }
     else if ([type isEqualToString:@"movie"]){
         jewelImg=@"jewel_dvd.9.png";
@@ -467,7 +466,6 @@ int currentItemID;
             }
         }
         thumbnailView.frame = frame;
-//        songDetailsView.frame = frame;
     }
     else if ([type isEqualToString:@"episode"]){
         jewelImg = @"jewel_tv.9.png";
@@ -505,7 +503,6 @@ int currentItemID;
             }
         }
         thumbnailView.frame = frame;
-//        songDetailsView.frame = frame;
     }
     else{
         jewelImg = @"jewel_cd.9.png";
@@ -541,7 +538,6 @@ int currentItemID;
             }
         }
         thumbnailView.frame = frame;
-//        songDetailsView.frame = frame;
     }
     if ([self enableJewelCases]){
         jewelView.image = [UIImage imageNamed:jewelImg];
@@ -551,8 +547,15 @@ int currentItemID;
             CGRect frame = jewelView.frame;
             frame.origin.x = 10;
             jewelView.frame = frame;
+            frame = thumbnailView.frame;
+            frame.origin.x += PAD_MENU_TABLE_WIDTH;
+            frame.origin.y += 22;
+            songDetailsView.frame = frame;
         }
-        songDetailsView.frame = thumbnailView.frame;
+        else {
+            songDetailsView.frame = thumbnailView.frame;
+
+        }
     }
     else {
         [nowPlayingView sendSubviewToBack:jewelView];
@@ -561,9 +564,14 @@ int currentItemID;
             CGRect frame = jewelView.frame;
             frame.origin.x = 14;
             jewelView.frame = frame;
+            frame.origin.x += PAD_MENU_TABLE_WIDTH;
+            frame.origin.y += 22;
+            songDetailsView.frame = frame;
         }
-        songDetailsView.frame = jewelView.frame;
-        songDetailsView.center = jewelView.center;
+        else {
+            songDetailsView.frame = jewelView.frame;
+            songDetailsView.center = jewelView.center;
+        }
     }
     [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
 }
