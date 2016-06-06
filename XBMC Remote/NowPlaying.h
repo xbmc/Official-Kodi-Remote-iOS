@@ -112,7 +112,6 @@
     UIColor *cellBackgroundColor;
     __weak IBOutlet UILabel *noItemsLabel;
     UIImageView *tempFanartImageView;
-    __weak IBOutlet UITextView *itemDescription;
     NSString *storeLiveTVTitle;
     NSString *storeClearlogo;
     NSString *storeClearart;
@@ -139,5 +138,6 @@
 @property (strong, nonatomic) UIView *songDetailsView;
 @property (strong, nonatomic) OBSlider *ProgressSlider;
 @property (strong, nonatomic) IBOutlet UIView *scrabbingView;
+@property (strong, nonatomic) IBOutlet UITextView *itemDescription;
 
 @end

@@ -39,6 +39,7 @@
 @synthesize ProgressSlider;
 @synthesize showInfoViewController;
 @synthesize scrabbingView;
+@synthesize itemDescription;
 //@synthesize presentedFromNavigation;
 
 float startx=14;
@@ -2051,9 +2052,11 @@ int currentItemID;
     if (songDetailsView.alpha == 0) {
         songDetailsView.alpha = 1.0;
         [self loadCodecView];
+        [itemDescription setScrollsToTop:YES];
     }
     else {
         songDetailsView.alpha = 0.0;
+        [itemDescription setScrollsToTop:NO];
     }
     [UIView commitAnimations];
 }

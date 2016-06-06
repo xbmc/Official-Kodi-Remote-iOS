@@ -656,6 +656,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.2];
     self.nowPlayingController.songDetailsView.alpha = 0.0;
+    [self.nowPlayingController.itemDescription setScrollsToTop:FALSE];
     [UIView commitAnimations];
 }
 
