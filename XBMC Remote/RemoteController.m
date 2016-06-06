@@ -134,18 +134,6 @@
     frame.origin.x = -1 * startX;
     frame.size.width = newWidth + (startX * 2);
     subsInfoLabel.frame = frame;
-    
-//    UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    keyboardButton.frame = CGRectMake(stopButton.frame.origin.x, stopButton.frame.origin.y, stopButton.frame.size.width, stopButton.frame.size.height);
-//    UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
-//    [keyboardButton setContentMode:UIViewContentModeRight];
-//    [keyboardButton setShowsTouchWhenHighlighted:NO];
-//    [keyboardButton setImage:keyboardImg forState:UIControlStateNormal];
-//    [keyboardButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up@2x"] forState:UIControlStateNormal];
-//    [keyboardButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down@2x"] forState:UIControlStateHighlighted];
-//    keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-//    [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard) forControlEvents:UIControlEventTouchUpInside];
-//    [remoteControlView addSubview:keyboardButton];
 }
 
 - (void)configureView{
