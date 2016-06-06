@@ -13,14 +13,11 @@
 
 @interface RemoteController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate>{
     DSJSONRPC *jsonRPC;
-//    VolumeSliderView *volumeSliderView;
     IBOutlet UIView *remoteControlView;
     IBOutlet UILabel *subsInfoLabel;
     NSTimer *fadeoutTimer;
     IBOutlet UIView *quickHelpView;
     IBOutlet UIImageView *quickHelpImageView;
-//    UITextField *xbmcVirtualKeyboard;
-//    UIView *inputAccView;
     IBOutlet UIView *gestureZoneView;
     IBOutlet UIView *buttonZoneView;
     IBOutlet UIImageView *panFallbackImageView;
@@ -37,13 +34,6 @@
     UISwipeGestureRecognizer *leftSwipe;
     NSDictionary *subsDictionary;
     NSDictionary *audiostreamsDictionary;
-//    int accessoryHeight;
-//    int padding;
-//    int verboseHeight;
-//    int textSize;
-//    int background_padding;
-//    int alignBottom;
-//    CGFloat screenWidth;
 }
 
 - (IBAction)startVibrate:(id)sender;
