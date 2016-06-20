@@ -561,7 +561,7 @@
 }
 
 -(void)wakeUp:(NSString *)macAddress{
-    [[AppDelegate instance] wake:macAddress];
+    [[AppDelegate instance] sendWOL:macAddress withPort:9];
 }
 
 # pragma mark - UIAlertView

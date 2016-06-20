@@ -4246,6 +4246,72 @@ NSMutableArray *hostRightMenuItems;
     Wake_on_LAN("255.255.255.255", [macAddress UTF8String]);
 }
 
+-(void)sendWOL:(NSString *)MAC withPort:(NSInteger)WOLport {
+    CFSocketRef     WOLsocket;
+    NSLog(@"MAC = %@", MAC);
+    WOLsocket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_DGRAM, IPPROTO_UDP, 0, NULL, NULL);
+    if (!WOLsocket) {
+        NSLog(@"CFSocketCreate failed!!!");
+    } else {
+        NSLog(@"Socket created.");
+        
+        int desc = -1;
+        desc = CFSocketGetNative(WOLsocket);
+        int yes = -1;
+        
+        if (setsockopt (desc, SOL_SOCKET, SO_BROADCAST, (char *)&yes, sizeof (yes)) < 0) {
+            NSLog(@"Set Socket options failed");
+        }
+        
+        unsigned char ether_addr[6];
+        
+        int idx;
+        
+        for (idx = 0; idx + 2 <= [MAC length]; idx += 3)
+        {
+            NSRange     range = NSMakeRange(idx,2);
+            NSString    *hexStr = [MAC substringWithRange:range];
+            
+            NSScanner   *scanner = [NSScanner scannerWithString:hexStr];
+            unsigned int intValue;
+            [scanner scanHexInt:&intValue];
+            
+            ether_addr[idx/3] = intValue;
+        }
+        
+        /* Build the message to send - 6 x 0xff then 16 x MAC address */
+        
+        unsigned char message [102];
+        unsigned char *message_ptr = message;
+        
+        memset(message_ptr, 0xFF, 6);
+        message_ptr += 6;
+        for (int i = 0; i < 16; ++i) {
+            memcpy(message_ptr, ether_addr, 6);
+            message_ptr += 6;
+        }
+        
+        struct sockaddr_in addr;
+        
+        memset(&addr, 0, sizeof(addr));
+        addr.sin_len = sizeof(addr);
+        addr.sin_family = AF_INET;
+        addr.sin_addr.s_addr = 0xffffffff;
+        addr.sin_port = htons(WOLport);
+        
+        CFDataRef message_data = CFDataCreate(NULL, (unsigned char*)&message, sizeof(message));
+        CFDataRef destinationAddressData = CFDataCreate(NULL, (const UInt8 *)&addr, sizeof(addr));
+        
+        CFSocketError CFSocketSendData_error = CFSocketSendData(WOLsocket, destinationAddressData, message_data, 30);
+        
+        if (CFSocketSendData_error) {
+            NSLog(@"CFSocketSendData error: %li", CFSocketSendData_error);
+        } else {
+            NSLog(@"Message sent");
+        }
+    }
+}
+
 int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
 	int i,sockfd,an=1;
 	char *x;

@@ -65,6 +65,7 @@
 -(void)saveServerList;
 -(void)clearAppDiskCache;
 -(void)wake:(NSString *)macAddress;
+-(void)sendWOL:(NSString *)MAC withPort:(NSInteger)WOLport;
 
 @property (strong, nonatomic) UIWindow *window;
 

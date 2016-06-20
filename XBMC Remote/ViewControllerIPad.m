@@ -104,7 +104,7 @@
 }
 
 -(void)wakeUp:(NSString *)macAddress{
-    [[AppDelegate instance] wake:macAddress];
+    [[AppDelegate instance] sendWOL:macAddress withPort:9];
 }
 
 -(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText icon:(NSString *)iconName {
