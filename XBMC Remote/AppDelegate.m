@@ -4221,6 +4221,14 @@ NSMutableArray *hostRightMenuItems;
     return YES;
 }
 
+-(NSURL *)getServerJSONEndPoint {
+    NSString *userPassword = [obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
+    return [NSURL URLWithString:serverJSON];
+}
+
+#pragma mark -
+
 -(void)handleProximityChangeNotification:(id)sender{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];

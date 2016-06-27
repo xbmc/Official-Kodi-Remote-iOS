@@ -7,6 +7,7 @@
 //
 
 #import "PlayFileViewController.h"
+#import "AppDelegate.h"
 #import "GlobalData.h"
 
 @interface PlayFileViewController ()
@@ -55,12 +56,7 @@
 #pragma mark - Life Cycle
 
 - (void)viewDidLoad{
-    
-    
-    GlobalData *obj=[GlobalData getInstance];     
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint];
     [self createPlayback];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.

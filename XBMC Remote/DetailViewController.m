@@ -350,10 +350,7 @@
     NSMutableDictionary *item = [parameters objectForKey:@"item"];
     if (jsonRPC == nil){
         jsonRPC = nil;
-        GlobalData *obj=[GlobalData getInstance];
-        NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-        NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint];
     }
     [jsonRPC callMethod:@"PVR.GetBroadcasts"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -5610,13 +5607,7 @@ NSIndexPath *selected;
         [self initCollectionView];
     }
     activeLayoutView = dataList;
-//    [((UITableView *)activeLayoutView).pullToRefreshView
-//     setSubtitle:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Last sync", nil),NSLocalizedString(@"never", nil)]
-//     forState:SVPullToRefreshStateStopped];
-    GlobalData *obj=[GlobalData getInstance];
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    NSString *serverJSON=[NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[NSURL URLWithString:serverJSON]];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint];
     
     self.sections = [[NSMutableDictionary alloc] init];
     self.richResults= [[NSMutableArray alloc] init ];
