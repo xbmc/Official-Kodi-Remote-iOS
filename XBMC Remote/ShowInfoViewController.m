@@ -1917,7 +1917,7 @@ int h=0;
 
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
     jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     [jsonRPC callMethod:action withParameters:parameters];
 }
 
@@ -2056,6 +2056,11 @@ int h=0;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
+    NSDictionary *httpHeaders = [AppDelegate instance].getServerHTTPHeaders;
+    if ([httpHeaders objectForKey:@"Authorization"] != nil){
+        [manager setValue:[httpHeaders objectForKey:@"Authorization"] forHTTPHeaderField:@"Authorization"];
+    }
     isViewDidLoad = TRUE;
     [label1 setText:NSLocalizedString(@"DIRECTED BY", nil)];
     [label2 setText:NSLocalizedString(@"GENRE", nil)];
@@ -2086,7 +2091,7 @@ int h=0;
     enableKenBurns = kenBurns;
     self.kenView = nil;
     [self configureView];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
 }
 
 - (void)viewDidUnload{

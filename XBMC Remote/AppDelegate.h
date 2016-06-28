@@ -67,6 +67,7 @@
 -(void)wake:(NSString *)macAddress;
 -(void)sendWOL:(NSString *)MAC withPort:(NSInteger)WOLport;
 -(NSURL *)getServerJSONEndPoint;
+-(NSDictionary *)getServerHTTPHeaders;
 
 @property (strong, nonatomic) UIWindow *window;
 

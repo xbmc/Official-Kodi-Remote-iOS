@@ -32,7 +32,6 @@
     NSMutableArray *storeRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;  
-    SDWebImageManager *manager;
     IBOutlet UILongPressGestureRecognizer *lpgr;
     BOOL alreadyPush;
     IBOutlet UIWebView *webPlayView;

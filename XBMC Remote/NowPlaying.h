@@ -64,7 +64,6 @@
     NSIndexPath *storeSelection;
     int slideFrom;
     int numResults;
-    SDWebImageManager *manager;
     IBOutlet UIToolbar *playlistToolbar;
     
     int iPadOrigX;

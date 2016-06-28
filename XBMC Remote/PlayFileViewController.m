@@ -56,7 +56,7 @@
 #pragma mark - Life Cycle
 
 - (void)viewDidLoad{
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint];
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     [self createPlayback];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.

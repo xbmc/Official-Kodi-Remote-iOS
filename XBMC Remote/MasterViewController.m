@@ -66,7 +66,7 @@
             }
         }
 //        jsonRPC=nil;
-//        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint];
+//        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
 //
 //        [jsonRPC
 //         callMethod:@"JSONRPC.Introspect"
