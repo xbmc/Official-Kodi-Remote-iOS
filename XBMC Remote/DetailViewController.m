@@ -4719,10 +4719,14 @@ NSIndexPath *selected;
                              if (((NSNull *)videoLibraryMovies != [NSNull null])) {
                                  total = (int)[videoLibraryMovies count];
                              }
+                             NSString *sublabel = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"morelabel"];
+                             if (sublabel == nil) {
+                                 sublabel = @"";
+                             }
                              for (int i=0; i < total; i++) {
                                  [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                               [videoLibraryMovies objectAtIndex:i], @"label",
-                                                              @"Execute a specific action", @"genre",
+                                                              sublabel, @"genre",
                                                               @"file", @"family",
                                                               [mainFields objectForKey:@"thumbnail"], @"thumbnail",
                                                               @"", @"fanart",
