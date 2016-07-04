@@ -323,3 +323,10 @@
 "Audio stream" = "Audio stream";
 "Disable subtitles" = "Ondertels uitschakelen";
 "Subtitles" = "Ondertitels";
+
+"Execute a specific action" = "Execute a specific action";
+"Activate a specific window" = "Activate a specific window";
+"Execute action" = "Execute action";
+"Activate window" = "Activate window";
+"Add action button" = "Add action button";
+"Add window activation button" = "Add window activation button";

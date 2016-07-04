@@ -275,6 +275,8 @@
 "Password" = "Mot de passe";
 
 "Sort by" = "Trier par";
+"tap" = "tapez sur";
+"the selection" = "la sélection";
 "tap the selection\nto reverse the sort order" = "tapez sur la sélection\npour inverser l'ordre de tri";
 "Not listened" = "Pas encore écouté";
 "Listened one time" = "Écouté une fois";
@@ -322,3 +324,9 @@
 "Disable subtitles" = "Désactiver les sous-titres";
 "Subtitles" = "Sous-titres";
 
+"Execute a specific action" = "Execute a specific action";
+"Activate a specific window" = "Activate a specific window";
+"Execute action" = "Execute action";
+"Activate window" = "Activate window";
+"Add action button" = "Add action button";
+"Add window activation button" = "Add window activation button";

@@ -275,6 +275,8 @@
 "Password" = "Heslo";
 
 "Sort by" = "Třídit";
+"tap" = "tap";
+"the selection" = "the selection";
 "tap the selection\nto reverse the sort order" = "klepněte na výběr\npro obrácení pořadí řazení";
 "Not listened" = "Ještě neposlouchané";
 "Listened one time" = "Jednou poslouchané";
@@ -321,3 +323,10 @@
 "Audio stream" = "Audio stream";
 "Disable subtitles" = "Zakázat titulky";
 "Subtitles" = "Titulky";
+
+"Execute a specific action" = "Execute a specific action";
+"Activate a specific window" = "Activate a specific window";
+"Execute action" = "Execute action";
+"Activate window" = "Activate window";
+"Add action button" = "Add action button";
+"Add window activation button" = "Add window activation button";

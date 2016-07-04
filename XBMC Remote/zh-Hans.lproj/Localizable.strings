@@ -275,6 +275,8 @@
 "Password" = "密码";
 
 "Sort by" = "Sort by";
+"tap" = "tap";
+"the selection" = "the selection";
 "tap the selection\nto reverse the sort order" = "tap the selection\nto reverse the sort order";
 "Not listened" = "Not listened";
 "Listened one time" = "Listened one time";
@@ -321,3 +323,10 @@
 "Audio stream" = "Audio stream";
 "Disable subtitles" = "Disable subtitles";
 "Subtitles" = "Subtitles";
+
+"Execute a specific action" = "Execute a specific action";
+"Activate a specific window" = "Activate a specific window";
+"Execute action" = "Execute action";
+"Activate window" = "Activate window";
+"Add action button" = "Add action button";
+"Add window activation button" = "Add window activation button";

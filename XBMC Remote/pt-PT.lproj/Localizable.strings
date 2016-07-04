@@ -323,3 +323,10 @@
 "Audio stream" = "Emissão áudio";
 "Disable subtitles" = "Desactivar legendas";
 "Subtitles" = "Legendas";
+
+"Execute a specific action" = "Execute a specific action";
+"Activate a specific window" = "Activate a specific window";
+"Execute action" = "Execute action";
+"Activate window" = "Activate window";
+"Add action button" = "Add action button";
+"Add window activation button" = "Add window activation button";

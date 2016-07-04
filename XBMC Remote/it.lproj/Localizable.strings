@@ -275,6 +275,8 @@
 "Password" = "Password";
 
 "Sort by" = "Ordina per";
+"tap" = "tocca";
+"the selection" = "la selezione";
 "tap the selection\nto reverse the sort order" = "tocca la selezione\nper invertire l'ordinamento";
 "Not listened" = "Non ascoltato";
 "Listened one time" = "Ascoltato una volta";
@@ -321,3 +323,10 @@
 "Audio stream" = "Traccia audio";
 "Disable subtitles" = "Disabilita i sottotitoli";
 "Subtitles" = "Sottotitoli";
+
+"Execute a specific action" = "Eseguire un'azione specifica";
+"Activate a specific window" = "Attivare una finestra specifica";
+"Execute action" = "Esegui azione";
+"Activate window" = "Attiva finestra";
+"Add action button" = "Aggiungi pulsante di azione";
+"Add window activation button" = "Aggiungi pulsante di attivazione finestra";
