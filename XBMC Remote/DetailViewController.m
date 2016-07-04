@@ -4720,7 +4720,7 @@ NSIndexPath *selected;
                                  total = (int)[videoLibraryMovies count];
                              }
                              NSString *sublabel = [[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]] objectForKey:@"morelabel"];
-                             if (sublabel == nil) {
+                             if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
                                  sublabel = @"";
                              }
                              for (int i=0; i < total; i++) {
