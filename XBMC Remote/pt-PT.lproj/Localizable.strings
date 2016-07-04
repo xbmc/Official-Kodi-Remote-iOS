@@ -324,9 +324,9 @@
 "Disable subtitles" = "Desactivar legendas";
 "Subtitles" = "Legendas";
 
-"Execute a specific action" = "Execute a specific action";
-"Activate a specific window" = "Activate a specific window";
-"Execute action" = "Execute action";
-"Activate window" = "Activate window";
-"Add action button" = "Add action button";
-"Add window activation button" = "Add window activation button";
+"Execute a specific action" = "Executar uma acção específica";
+"Activate a specific window" = "Activar uma janela específica";
+"Execute action" = "Executar acção";
+"Activate window" = "Activar janela";
+"Add action button" = "Adicionar botão de acção";
+"Add window activation button" = "Adicionar botão de activação de janela";
