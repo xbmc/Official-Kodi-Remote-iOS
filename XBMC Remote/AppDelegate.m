@@ -2978,7 +2978,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [[NSArray alloc] initWithObjects:@"title", @"summary", @"channelid", @"isradio", @"repeating", @"starttime", @"endtime", @"runtime", @"lifetime", @"firstday",@"weekdays", @"priority", @"startmargin", @"endmargin", @"state", @"file", @"directory", nil], @"properties",
+                            [[NSArray alloc] initWithObjects:@"title", @"summary", @"channelid", @"isradio", @"starttime", @"endtime", @"runtime", @"lifetime", @"firstday",@"weekdays", @"priority", @"startmargin", @"endmargin", @"state", @"file", @"directory", nil], @"properties",
                             nil], @"parameters",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSArray alloc] initWithObjects:@"title", @"summary", @"starttime", @"endtime", @"runtime", @"lifetime", @"firstday", @"weekdays", @"priority", @"startmargin", @"endmargin", @"state", @"file", @"directory", nil], @"properties",
