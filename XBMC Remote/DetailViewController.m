@@ -893,6 +893,18 @@
     NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
     if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
         [mutableProperties addObject:@"art"];
+    }
+    if ([parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"] != nil) {
+        for(id key in [parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"]) {
+            if ([AppDelegate instance].serverVersion >= [key integerValue]){
+                id arrayProperties = [[parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"] objectForKey:key];
+                for (id value in arrayProperties) {
+                    [mutableProperties addObject:value];
+                }
+            }
+        }
+    }
+    if (mutableProperties != nil) {
         [mutableParameters setObject:mutableProperties forKey:@"properties"];
     }
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
@@ -972,6 +984,11 @@
             [pvrExtraInfo setObject:[item objectForKey:@"thumbnail"] forKey:@"channel_icon"];
             [pvrExtraInfo setObject:[item objectForKey:@"channelid"] forKey:@"channelid"];
         }
+        
+        NSMutableDictionary *kodiExtrasPropertiesMinimumVersion = [NSMutableDictionary dictionary];
+        if ([parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"]){
+            kodiExtrasPropertiesMinimumVersion = [parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"];
+        }
         NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         obj, objKey,
@@ -990,6 +1007,7 @@
                                        [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
                                        [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
                                        pvrExtraInfo, @"pvrExtraInfo",
+                                       kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        newSectionParameters, @"extra_section_parameters",
                                        [NSString stringWithFormat:@"%@", [parameters objectForKey:@"defaultThumb"]], @"defaultThumb",
@@ -4492,6 +4510,18 @@ NSIndexPath *selected;
     NSMutableArray *mutableProperties = [[[parameters objectForKey:@"parameters"] objectForKey:@"properties"] mutableCopy];
     if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11){
         [mutableProperties addObject:@"art"];
+    }
+    if ([parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"] != nil) {
+        for(id key in [parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"]) {
+            if ([AppDelegate instance].serverVersion >= [key integerValue]){
+                id arrayProperties = [[parameters objectForKey:@"kodiExtrasPropertiesMinimumVersion"] objectForKey:key];
+                for (id value in arrayProperties) {
+                    [mutableProperties addObject:value];
+                }
+            }
+        }
+    }
+    if (mutableProperties != nil) {
         [mutableParameters setObject:mutableProperties forKey:@"properties"];
     }
     NSString *methodToCall = [methods objectForKey:@"method"];

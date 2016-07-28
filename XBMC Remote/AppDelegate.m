@@ -3114,20 +3114,8 @@ NSMutableArray *hostRightMenuItems;
                                     nil], @"parameters", @"Live TV", @"label", @"nocover_channels", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", @"48", @"thumbWidth",
                                    @"YES", @"enableCollectionView",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
-                                     [NSNumber numberWithFloat:itemMovieWidthIphone], @"height", nil], @"iphone",
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
-                                     [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
-                                    @"56", @"separatorInset",
-                                    nil], @"itemSizes",
-                                   nil],
-                                  [NSMutableArray arrayWithObjects:
-                                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSArray arrayWithObjects:@"thumbnail", @"channel", nil], @"properties",
-                                    nil], @"parameters", @"Live TV", @"label", @"nocover_channels", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", @"48", @"thumbWidth",
-                                   @"YES", @"enableCollectionView",
+                                    [NSArray arrayWithObjects: @"isrecording", nil], @"17",
+                                    nil], @"kodiExtrasPropertiesMinimumVersion",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
@@ -3138,7 +3126,28 @@ NSMutableArray *hostRightMenuItems;
                                     @"56", @"separatorInset",
                                     nil], @"itemSizes",
                                    nil],
+                                  
+                                  [NSMutableArray arrayWithObjects:
+                                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    [NSArray arrayWithObjects:@"thumbnail", @"channel", nil], @"properties",
+                                    nil], @"parameters", @"Live TV", @"label", @"nocover_channels", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", @"48", @"thumbWidth",
+                                   @"YES", @"enableCollectionView",
+                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSArray arrayWithObjects: @"isrecording", nil], @"17",
+                                    nil], @"kodiExtrasPropertiesMinimumVersion",
+                                   [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
+                                     [NSNumber numberWithFloat:itemMovieWidthIphone], @"height", nil], @"iphone",
+                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithFloat:itemMovieWidthIpad], @"width",
+                                     [NSNumber numberWithFloat:itemMovieWidthIpad], @"height", nil], @"ipad",
+                                    @"56", @"separatorInset",
+                                    nil], @"itemSizes",
+                                   nil],
+                                  
                                   [NSArray array],
+                                  
                                   [NSArray array],
                                 nil];
     item8.subItem.mainFields=[NSArray arrayWithObjects:
