@@ -81,4 +81,16 @@
     return slice;
 }
 
+-(CGFloat)getPieRadius {
+    return radius;
+}
+
+-(CGFloat)getPiePadding {
+    return padding;
+}
+
+- (CGFloat)getLineWidth {
+    return lineWidth;
+}
+
 @end

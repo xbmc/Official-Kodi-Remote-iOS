@@ -3161,7 +3161,7 @@ NSMutableArray *hostRightMenuItems;
                                @"channelid",@"row6",
                                [NSNumber numberWithInt:1], @"playlistid",
                                @"channelid",@"row8",
-                               @"channelid", @"row9",
+                               @"isrecording", @"row9",
                                @"filetype", @"row10",
                                @"type", @"row11",
                                nil],
@@ -3188,8 +3188,8 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.thumbWidth = [livetvThumbWidth intValue];
     item8.subItem.defaultThumb = @"nocover_channels";
     item8.subItem.sheetActions = [NSArray arrayWithObjects:
-                                  [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Channel Guide", nil), nil],
-                                   [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Channel Guide", nil), nil],
+                                  [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Record", nil),NSLocalizedString(@"Channel Guide", nil), nil],
+                                   [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Record", nil),NSLocalizedString(@"Channel Guide", nil), nil],
                                   [NSArray array],
                                   [NSArray array],
                                   nil];
@@ -3223,7 +3223,7 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.mainParameters = [NSMutableArray arrayWithObjects:
                                             [NSMutableArray arrayWithObjects:
                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                              [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"progresspercentage", @"isactive", @"hastimer", nil], @"properties",
+                                              [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", @"progresspercentage", @"isactive", @"hastimer", nil], @"properties",
                                               nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
                                              [NSDictionary dictionaryWithObjectsAndKeys:
                                               [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3238,7 +3238,7 @@ NSMutableArray *hostRightMenuItems;
                                              nil],
                                             [NSMutableArray arrayWithObjects:
                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                              [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"progresspercentage", @"isactive", @"hastimer", nil], @"properties",
+                                              [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", @"progresspercentage", @"isactive", @"hastimer", nil], @"properties",
                                               nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
                                              [NSDictionary dictionaryWithObjectsAndKeys:
                                               [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3265,7 +3265,7 @@ NSMutableArray *hostRightMenuItems;
                                          @"broadcastid",@"row6",
                                          [NSNumber numberWithInt:1], @"playlistid",
                                          @"broadcastid",@"row8",
-                                         @"broadcastid", @"row9",
+                                         @"plotoutline", @"row9",
                                          @"starttime", @"row10",
                                          @"endtime", @"row11",
                                          @"progresspercentage", @"row12",
@@ -3283,7 +3283,7 @@ NSMutableArray *hostRightMenuItems;
                                          @"broadcastid",@"row6",
                                          [NSNumber numberWithInt:1], @"playlistid",
                                          @"broadcastid",@"row8",
-                                         @"broadcastid", @"row9",
+                                         @"plotoutline", @"row9",
                                          @"starttime", @"row10",
                                          @"endtime", @"row11",
                                          @"progresspercentage", @"row12",
@@ -3301,11 +3301,11 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
                                           [NSArray arrayWithObjects:
                                            NSLocalizedString(@"Play", nil),
-//                                           NSLocalizedString(@"Record", nil),
+                                           NSLocalizedString(@"Record", nil),
                                            NSLocalizedString(@"Broadcast Details", nil), nil],
                                           [NSArray arrayWithObjects:
                                            NSLocalizedString(@"Play", nil),
-//                                           NSLocalizedString(@"Record", nil),
+                                           NSLocalizedString(@"Record", nil),
                                            NSLocalizedString(@"Broadcast Details", nil), nil],
                                           [NSArray array],
                                           [NSArray array],

@@ -147,6 +147,7 @@
 "WRITER" = "WRITER";
 "FIRST AIRED" = "FIRST AIRED";
 "SUMMARY" = "SUMMARY";
+"PLOT OUTLINE" = "PLOT OUTLINE";
 "ARTIST" = "ARTIST";
 "YEAR" = "YEAR";
 "ALBUM LABEL" = "ALBUM LABEL";
@@ -201,6 +202,7 @@
 
 "Channel Guide" = "Channel Guide";
 "Record" = "Record";
+"Stop Recording" = "Stop Recording";
 "Recordings" = "Recordings";
 "Timers" = "Timers";
 "Broadcast Details" = "Broadcast Details";

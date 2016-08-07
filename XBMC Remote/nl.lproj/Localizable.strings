@@ -147,6 +147,7 @@
 "WRITER" = "Auteur";
 "FIRST AIRED" = "Eerste uitzending";
 "SUMMARY" = "Plot";
+"PLOT OUTLINE" = "PLOT OUTLINE";
 "ARTIST" = "Artiest";
 "YEAR" = "Jaar";
 "ALBUM LABEL" = "Album Titel";
@@ -201,6 +202,7 @@
 
 "Channel Guide" = "Gids";
 "Record" = "Opnemen";
+"Stop Recording" = "Stop Recording";
 "Recordings" = "Opnamen";
 "Timers" = "Timers";
 "Broadcast Details" = "Uitzending Details";

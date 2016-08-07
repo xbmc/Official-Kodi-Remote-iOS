@@ -147,6 +147,7 @@
 "WRITER" = "SPISOVATEL";
 "FIRST AIRED" = "POPRVÉ VYSÍLÁNO";
 "SUMMARY" = "SHRNUTÍ";
+"PLOT OUTLINE" = "PLOT OUTLINE";
 "ARTIST" = "UMĚLEC";
 "YEAR" = "ROK";
 "ALBUM LABEL" = "NÁZEV ALBA";
@@ -201,6 +202,7 @@
 
 "Channel Guide" = "Průvodce kanálů";
 "Record" = "Záznam";
+"Stop Recording" = "Stop Recording";
 "Recordings" = "Nahrávky";
 "Timers" = "Časovače";
 "Broadcast Details" = "Detaily přenosu";

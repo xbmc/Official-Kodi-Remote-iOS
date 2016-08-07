@@ -246,9 +246,13 @@
                                                         fromDate:[objectToSearch objectForKey:@"starttime"]
                                                           toDate:[objectToSearch objectForKey:@"endtime"] options:0];
             NSInteger minutes = [components minute];
-            
-            [channelEPG setObject: [NSString stringWithFormat:@"\n%@\n\n%@\n\n%@ - %@ (%ld %@)",
+            NSString *plotoutline = [objectToSearch objectForKey:@"plotoutline"];
+            if (!plotoutline || [plotoutline isKindOfClass:[NSNull class]] || [[objectToSearch objectForKey:@"plot"] isEqualToString:plotoutline]) {
+                plotoutline = @"";
+            }
+            [channelEPG setObject: [NSString stringWithFormat:@"\n%@\n%@\n%@\n\n%@ - %@ (%ld %@)",
                                     [objectToSearch objectForKey:@"title"],
+                                    [plotoutline length] > 0 ? [NSString stringWithFormat:@"%@\n",plotoutline] : @"",
                                     [objectToSearch objectForKey:@"plot"],
                                     [localHourMinuteFormatter stringFromDate:[objectToSearch objectForKey:@"starttime"]],
                                     [localHourMinuteFormatter stringFromDate:[objectToSearch objectForKey:@"endtime"]],
@@ -331,6 +335,7 @@
                                  [EPGobject objectForKey:@"title"], @"title",
                                  [EPGobject objectForKey:@"label"], @"label",
                                  [EPGobject objectForKey:@"plot"], @"plot",
+                                 [EPGobject objectForKey:@"plotoutline"], @"plotoutline",
                                  nil]];
     }
     [self saveEPGToDisk:channelid epgData:retrievedEPG];
@@ -355,7 +360,7 @@
     [jsonRPC callMethod:@"PVR.GetBroadcasts"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                          channelid, @"channelid",
-                         [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", nil], @"properties",
+                         [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", nil], @"properties",
                          nil]
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
@@ -2032,6 +2037,15 @@ int originYear = 0;
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell addSubview:progressView];
+            
+            float dotSize = 6.0f;
+            UIImageView *isRecording = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2.0f - dotSize/2.0f, progressView.frame.origin.y + [progressView getPieRadius]/2.0f + [progressView getLineWidth] + 0.5f, dotSize, dotSize)];
+            [isRecording setImage:[UIImage imageNamed:@"button_timer"]];
+            [isRecording setContentMode:UIViewContentModeScaleToFill];
+            isRecording.tag = 104;
+            isRecording.hidden = YES;
+            [isRecording setBackgroundColor:[UIColor clearColor]];
+            [cell addSubview:isRecording];
         }
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
@@ -2041,7 +2055,6 @@ int originYear = 0;
             [(UILabel*) [cell viewWithTag:5] setHighlightedTextColor:[UIColor darkGrayColor]];
             [(UILabel*) [cell viewWithTag:101] setHighlightedTextColor:[UIColor blackColor]];
             [(UILabel*) [cell viewWithTag:102] setHighlightedTextColor:[UIColor blackColor]];
-
         }
     }
     mainMenu *Menuitem = self.detailItem;
@@ -2134,6 +2147,8 @@ int originYear = 0;
             cell.urlImageView.frame = frame;
             ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
             progressView.hidden = YES;
+            UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
+            isRecording.hidden = ![[item objectForKey:@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     channelid, @"channelid",
                                     tableView, @"tableView",
@@ -2956,6 +2971,20 @@ int originYear = 0;
     return YES;
 }
 
+- (id)getCell:(NSIndexPath *)indexPath {
+    id cell;
+    if ([self.searchDisplayController isActive]){
+        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    }
+    else if (enableCollectionView){
+        cell = [collectionView cellForItemAtIndexPath:indexPath];
+    }
+    else{
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+    }
+    return cell;
+}
+
 #pragma mark - Long Press & Action sheet
 
 NSIndexPath *selected;
@@ -2974,8 +3003,16 @@ NSIndexPath *selected;
                                                    otherButtonTitles:nil
                                  ];
         action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+        
+        id cell = [self getCell:indexPath];
+        UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
+        
         for (int i = 0; i < numActions; i++) {
-            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+            NSString *title = [sheetActions objectAtIndex:i];
+            if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && !isRecording.hidden) {
+                title = NSLocalizedString(@"Stop Recording", nil);
+            }
+            [action addButtonWithTitle:title];
         }
         action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -3042,7 +3079,7 @@ NSIndexPath *selected;
                 numActions=[sheetActions count];
 //                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
 //                    return;
-//                }                
+//                }
                 NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
                 UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
                                                                     delegate:self
@@ -3051,8 +3088,14 @@ NSIndexPath *selected;
                                                            otherButtonTitles:nil
                                          ];
                 action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+                id cell = [self getCell:selected];
+                UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
                 for (int i = 0; i < numActions; i++) {
-                    [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+                    NSString *title = [sheetActions objectAtIndex:i];
+                    if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && !isRecording.hidden) {
+                        title = NSLocalizedString(@"Stop Recording", nil);
+                    }
+                    [action addButtonWithTitle:title];
                 }
                 if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
                     if ([[item objectForKey:@"trailer"] length]!=0 && [[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
@@ -3208,6 +3251,9 @@ NSIndexPath *selected;
             else {
                 [self addPlayback:item indexPath:selected position:0 shuffle:NO];
             }
+        }
+        else if ([option isEqualToString:NSLocalizedString(@"Record", nil)] || [option isEqualToString:NSLocalizedString(@"Stop Recording", nil)]){
+            [self recordChannel:item indexPath:selected];
         }
         else if ([option isEqualToString:NSLocalizedString(@"Play in shuffle mode", nil)]){
             [self addPlayback:item indexPath:selected position:0 shuffle:YES];
@@ -3857,6 +3903,68 @@ NSIndexPath *selected;
             }
         }];
     }
+}
+
+-(void)recordChannel:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath {
+    NSNumber *channelid = [NSNumber numberWithInt:[[item objectForKey:@"channelid"] intValue]];
+    if ([channelid isEqualToValue:[NSNumber numberWithInt:0]]) {
+        channelid = [NSNumber numberWithInt:[[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"] intValue]];
+        if ([channelid isEqualToValue:[NSNumber numberWithInt:0]]) {
+            return;
+        }
+    }
+    id cell;
+    if ([self.searchDisplayController isActive]){
+        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    }
+    else if (enableCollectionView){
+        cell = [collectionView cellForItemAtIndexPath:indexPath];
+    }
+    else{
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+    }
+    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+    [queuing startAnimating];
+    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                channelid, @"channel",
+                                nil];
+    [jsonRPC callMethod:@"PVR.Record"
+         withParameters:parameters
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+               [queuing stopAnimating];
+               if ([self.searchDisplayController isActive]){
+                   [self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:indexPath animated:NO];
+               }
+               else{
+                   if (enableCollectionView){
+                       [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+                   }
+                   else{
+                       [dataList deselectRowAtIndexPath:indexPath animated:NO];
+                   }
+               }
+               if (error==nil && methodError==nil){
+                   UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
+                   isRecording.hidden = !isRecording.hidden;
+               }
+               else {
+                   NSString *message = @"";
+                    message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", @"PVR.Record", [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   if (methodError != nil){
+                       message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
+                   }
+                   if (error != nil){
+                       message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
+                       
+                   }
+                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
+                                                                       message:message
+                                                                      delegate:self
+                                                             cancelButtonTitle:nil
+                                                             otherButtonTitles:@"Copy to clipboard", nil];
+                   [alertView show];
+               }
+           }];
 }
 
 -(void)addQueue:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath{
@@ -4948,6 +5056,7 @@ NSIndexPath *selected;
                                          [item objectForKey:@"title"], @"title",
                                          [item objectForKey:@"label"], @"label",
                                          [item objectForKey:@"genre"], @"plot",
+                                         [item objectForKey:@"plotoutline"], @"plotoutline",
                                          nil]];
                 countRow ++;
             }

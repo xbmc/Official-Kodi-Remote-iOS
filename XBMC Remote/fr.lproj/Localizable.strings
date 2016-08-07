@@ -147,6 +147,7 @@
 "WRITER" = "SCENARISTE";
 "FIRST AIRED" = "PREMIERE DIFFUSION";
 "SUMMARY" = "SOMMAIRE";
+"PLOT OUTLINE" = "PLOT OUTLINE";
 "ARTIST" = "ARTISTE";
 "YEAR" = "ANNEE";
 "ALBUM LABEL" = "LABEL ALBUM";
@@ -201,6 +202,7 @@
 
 "Channel Guide" = "Channel Guide";
 "Record" = "Record";
+"Stop Recording" = "Stop Recording";
 "Recordings" = "Recordings";
 "Timers" = "Timers";
 "Broadcast Details" = "Broadcast Details";

@@ -147,6 +147,7 @@
 "WRITER" = "SCRITTORE";
 "FIRST AIRED" = "PRIMA VOLTA IN ONDA";
 "SUMMARY" = "TRAMA";
+"PLOT OUTLINE" = "TRAMA IN BREVE";
 "ARTIST" = "ARTISTA";
 "YEAR" = "ANNO";
 "ALBUM LABEL" = "ETICHETTA ALBUM";
@@ -201,6 +202,7 @@
 
 "Channel Guide" = "Guida Canale";
 "Record" = "Registra";
+"Stop Recording" = "Ferma la Registrazione";
 "Recordings" = "Registrazioni";
 "Timers" = "Timer";
 "Broadcast Details" = "Dettagli Trasmissione";

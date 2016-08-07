@@ -147,6 +147,7 @@
 "WRITER" = "SCENARZYSTA";
 "FIRST AIRED" = "PIERWSZA EMISJA";
 "SUMMARY" = "PODSUMOWANIE";
+"PLOT OUTLINE" = "PLOT OUTLINE";
 "ARTIST" = "WYKONAWCA";
 "YEAR" = "ROK";
 "ALBUM LABEL" = "ETYKIETA ALBUMU";
@@ -201,6 +202,7 @@
 
 "Channel Guide" = "Przewodnik po kanałach";
 "Record" = "Nagrywaj";
+"Stop Recording" = "Stop Recording";
 "Recordings" = "Nagrania";
 "Timers" = "Programatory";
 "Broadcast Details" = "Szczegóły audycji";

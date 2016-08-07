@@ -148,6 +148,7 @@
 "FIRST AIRED" = "PRIMERA EMISIÓN";
 "SUMMARY" = "RESUMEN";
 "ARTIST" = "ARTISTA";
+"PLOT OUTLINE" = "PLOT OUTLINE";
 "YEAR" = "AÑO";
 "ALBUM LABEL" = "ETIQUETA DE ÁLBUM";
 "DESCRIPTION" = "DESCRIPCIÓN";
@@ -201,6 +202,7 @@
 
 "Channel Guide" = "Guía de Canal";
 "Record" = "Grabar";
+"Stop Recording" = "Stop Recording";
 "Recordings" = "Grabaciones";
 "Timers" = "Temporizadores";
 "Broadcast Details" = "Detalles de Difusión";

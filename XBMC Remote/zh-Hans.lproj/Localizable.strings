@@ -147,6 +147,7 @@
 "WRITER" = "编剧";
 "FIRST AIRED" = "首播";
 "SUMMARY" = "摘要";
+"PLOT OUTLINE" = "PLOT OUTLINE";
 "ARTIST" = "艺人";
 "YEAR" = "年份";
 "ALBUM LABEL" = "专辑标签";
@@ -201,6 +202,7 @@
 
 "Channel Guide" = "频道指南";
 "Record" = "录像";
+"Stop Recording" = "停止录制";
 "Recordings" = "录像";
 "Timers" = "定时器";
 "Broadcast Details" = "播出信息";
