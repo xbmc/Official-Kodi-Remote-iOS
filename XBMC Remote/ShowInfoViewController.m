@@ -1079,6 +1079,14 @@ int h=0;
 //        summaryLabel.frame= runtimeLabel.frame;
         label5.frame = label2.frame;
         CGRect frame = genreLabel.frame;
+        if ([[self.detailItem objectForKey:@"plotoutline"] length] > 0){
+            label2.text = NSLocalizedString(@"PLOT OUTLINE", nil);
+            label2.hidden = NO;
+            genreLabel.hidden = NO;
+            [genreLabel setText:[self.detailItem objectForKey:@"plotoutline"]];
+            label5.frame = label3.frame;
+            frame = runtimeLabel.frame;
+        }
         frame.origin.y ++;
         summaryLabel.frame= frame;
          [self moveLabel:[NSArray arrayWithObjects: label1, label2, label5, label6, directorLabel, genreLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:(int)(jewelView.frame.size.height - (jewelView.frame.size.height/8))];
