@@ -3382,7 +3382,7 @@ NSIndexPath *selected;
         }
         else {
             NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-            NSDictionary *sortDictionary = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"];
+            NSMutableDictionary *sortDictionary = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"];
             if ([sortDictionary objectForKey:@"label"] != nil){
                 NSUInteger sort_method_index = [[sortDictionary objectForKey:@"label"] indexOfObject:option];
                 if(sort_method_index != NSNotFound) {
@@ -4663,6 +4663,9 @@ NSIndexPath *selected;
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
+    if ([[mutableParameters objectForKey:@"sort"] respondsToSelector:@selector(removeObjectForKey:)]){
+        [[mutableParameters objectForKey:@"sort"] removeObjectForKey:@"available_methods"];
+    }
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, mutableParameters);
     [jsonRPC
      callMethod:methodToCall

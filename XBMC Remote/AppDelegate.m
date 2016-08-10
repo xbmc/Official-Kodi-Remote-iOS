@@ -244,7 +244,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -280,7 +280,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -308,7 +308,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -320,7 +320,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -330,7 +330,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"none", @"method",
@@ -355,7 +355,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"none", @"method",
@@ -369,7 +369,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"descending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"playcount", @"method",
@@ -402,7 +402,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"descending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"playcount", @"method",
@@ -422,7 +422,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"none", @"method",
@@ -442,7 +442,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"none", @"method",
@@ -456,7 +456,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"none", @"method",
@@ -473,7 +473,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -495,7 +495,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -510,7 +510,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -900,7 +900,7 @@ NSMutableArray *hostRightMenuItems;
     item1.subItem.mainParameters=[NSMutableArray arrayWithObjects:
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"track", @"method",
@@ -910,7 +910,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"year", @"method",
@@ -934,7 +934,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
@@ -968,7 +968,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
@@ -978,7 +978,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"track", @"method",
@@ -990,7 +990,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"track", @"method",
@@ -1002,7 +1002,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"track", @"method",
@@ -1016,7 +1016,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"none", @"method",
@@ -1038,7 +1038,7 @@ NSMutableArray *hostRightMenuItems;
 //                                  [NSArray array],
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"none", @"method",
@@ -1049,7 +1049,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
@@ -1333,7 +1333,7 @@ NSMutableArray *hostRightMenuItems;
                                           
                                           [NSMutableArray arrayWithObjects:
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                              @"ascending",@"order",
                                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                              @"track", @"method",
@@ -1343,7 +1343,7 @@ NSMutableArray *hostRightMenuItems;
                                           
                                           [NSMutableArray arrayWithObjects:
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                              @"ascending",@"order",
                                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                              @"track", @"method",
@@ -1374,7 +1374,7 @@ NSMutableArray *hostRightMenuItems;
                                           
                                           [NSMutableArray arrayWithObjects:
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                              @"ascending",@"order",
                                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                              @"year", @"method",
@@ -1545,7 +1545,7 @@ NSMutableArray *hostRightMenuItems;
                                                   [NSArray array],
                                                   [NSMutableArray arrayWithObjects:
                                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                      @"ascending",@"order",
                                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                                      @"track", @"method",
@@ -1660,7 +1660,7 @@ NSMutableArray *hostRightMenuItems;
     item2.mainParameters=[NSMutableArray arrayWithObjects:
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -1701,7 +1701,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -1714,7 +1714,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -1739,7 +1739,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"none", @"method",
@@ -1767,7 +1767,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -1800,7 +1800,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -2061,7 +2061,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
@@ -2090,7 +2090,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"year", @"method",
@@ -2132,7 +2132,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
@@ -2142,7 +2142,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"none", @"method",
@@ -2420,7 +2420,7 @@ NSMutableArray *hostRightMenuItems;
     item3.mainParameters = [NSMutableArray arrayWithObjects:
                             [NSMutableArray arrayWithObjects:
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                @"ascending",@"order",
                                [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                @"label", @"method",
@@ -2446,7 +2446,7 @@ NSMutableArray *hostRightMenuItems;
                             
                             [NSMutableArray arrayWithObjects:
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                @"ascending",@"order",
                                [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                @"none", @"method",
@@ -2474,7 +2474,7 @@ NSMutableArray *hostRightMenuItems;
                             
                             [NSMutableArray arrayWithObjects:
                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                              [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                @"ascending",@"order",
                                [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                @"label", @"method",
@@ -2488,7 +2488,7 @@ NSMutableArray *hostRightMenuItems;
                             
                             [NSMutableArray arrayWithObjects:
                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                              [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                @"ascending",@"order",
                                [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                @"label", @"method",
@@ -2661,7 +2661,7 @@ NSMutableArray *hostRightMenuItems;
     item3.subItem.mainParameters = [NSMutableArray arrayWithObjects:
                                     [NSMutableArray arrayWithObjects:
                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                      [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        @"ascending",@"order",
                                        @"episode", @"method",
                                        nil],@"sort",
@@ -2670,7 +2670,7 @@ NSMutableArray *hostRightMenuItems;
                                      [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"fanart", @"resume", @"playcount", @"file", nil], @"properties",nil], @"extra_info_parameters",
                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                      [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        @"ascending",@"order",
                                        [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                        @"label", @"method",
@@ -2701,7 +2701,7 @@ NSMutableArray *hostRightMenuItems;
                                     
                                     [NSMutableArray arrayWithObjects:
                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                      [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        @"ascending",@"order",
                                        [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                        @"label", @"method",
@@ -2711,7 +2711,7 @@ NSMutableArray *hostRightMenuItems;
                                     
                                     [NSMutableArray arrayWithObjects:
                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                      [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        @"ascending",@"order",
                                        [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                        @"none", @"method",
@@ -3337,7 +3337,7 @@ NSMutableArray *hostRightMenuItems;
     item4.mainParameters=[NSMutableArray arrayWithObjects:
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -3347,7 +3347,7 @@ NSMutableArray *hostRightMenuItems;
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"label", @"method",
@@ -3412,7 +3412,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"label", @"method",
@@ -3423,7 +3423,7 @@ NSMutableArray *hostRightMenuItems;
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"ascending",@"order",
                                      [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                      @"none", @"method",
