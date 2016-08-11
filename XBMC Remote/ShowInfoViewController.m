@@ -1127,13 +1127,18 @@ int h=0;
         localFormatter.timeZone = [NSTimeZone systemTimeZone];
         NSDate *startTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
         NSDate *endTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
-        directorLabel.text = [localFormatter stringFromDate:startTime];        
-        [localFormatter setDateFormat:@"HH:mm"];
-        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-        NSUInteger unitFlags = NSMinuteCalendarUnit;
-        NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
-        NSInteger minutes = [components minute];
-        directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
+        if (startTime != nil && endTime != nil) {
+            directorLabel.text = [localFormatter stringFromDate:startTime];
+            [localFormatter setDateFormat:@"HH:mm"];
+            NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+            NSUInteger unitFlags = NSMinuteCalendarUnit;
+            NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
+            NSInteger minutes = [components minute];
+            directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
+        }
+        else {
+            directorLabel.text = @"-";
+        }
 //        UIImage *buttonImage = [UIImage imageNamed:@"button_record"];
 //        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
 //        recordButton.frame = CGRectMake(0, 0, 200.0f, 29.0f);

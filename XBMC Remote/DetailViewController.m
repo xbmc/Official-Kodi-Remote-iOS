@@ -1805,8 +1805,12 @@ int originYear = 0;
             [format setDateFormat:@"yyyy-MM-dd"];
             date = [format dateFromString:sectionName];
             [format setDateFormat:@"cccc"];
-
-            sectionName = [NSString stringWithFormat:@"%@ - %@", [format stringFromDate:date], dateString];
+            if (date != nil) {
+                sectionName = [NSString stringWithFormat:@"%@ - %@", [format stringFromDate:date], dateString];
+            }
+            else {
+                sectionName = @"";
+            }
         }
         return [self buildSortInfo:sectionName];
     }
@@ -5033,13 +5037,20 @@ NSIndexPath *selected;
         for (NSMutableDictionary *item in self.richResults){
             NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
             NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
-            NSDateComponents *itemDateComponents = [calendar components:components fromDate: endtime];
-            NSDate *itemEndDate = [calendar dateFromComponents:itemDateComponents];
-            itemDateComponents = [calendar components:components fromDate: starttime];
-            NSDate *itemStartDate = [calendar dateFromComponents:itemDateComponents];
+            NSDate *itemEndDate;
+            NSDate *itemStartDate;
+            if (starttime!=nil && endtime!=nil) {
+                NSDateComponents *itemDateComponents = [calendar components:components fromDate: endtime];
+                itemEndDate = [calendar dateFromComponents:itemDateComponents];
+                itemDateComponents = [calendar components:components fromDate: starttime];
+                itemStartDate = [calendar dateFromComponents:itemDateComponents];
+            }
             NSComparisonResult datesCompare = [itemEndDate compare:nowDate];
             if (datesCompare == NSOrderedDescending || datesCompare == NSOrderedSame){
                 NSString *c = [localDate stringFromDate:itemStartDate];
+                if (!c || [c isKindOfClass:[NSNull class]]) {
+                    c = @"";
+                }
                 found = NO;
                 if ([[self.sections allKeys] containsObject:c]){
                     found = YES;
