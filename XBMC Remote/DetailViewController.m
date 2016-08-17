@@ -3012,7 +3012,7 @@ NSIndexPath *selected;
         UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
         
         for (int i = 0; i < numActions; i++) {
-            NSString *title = [sheetActions objectAtIndex:i];
+            title = [sheetActions objectAtIndex:i];
             if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && !isRecording.hidden) {
                 title = NSLocalizedString(@"Stop Recording", nil);
             }
