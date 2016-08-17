@@ -81,6 +81,9 @@
     __weak IBOutlet UIImageView *bottomShadow;
     CGRect originalSelfFrame;
     BOOL isViewDidLoad;
+    UIImageView *isRecording;
+    float dotSize;
+    float dotSizePadding;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

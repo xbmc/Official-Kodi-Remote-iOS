@@ -120,9 +120,10 @@ int count=0;
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
+            NSString *pvrAction = [[item objectForKey:@"hastimer"] boolValue] == YES ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
             sheetActions = [[NSMutableArray alloc] initWithObjects:
                             NSLocalizedString(@"Play", nil),
-//                            NSLocalizedString(@"Record", nil),
+                            pvrAction,
                             nil];
             titleWidth = 350;
         }
@@ -463,8 +464,13 @@ int count=0;
                                               destructiveButtonTitle:nil
                                                    otherButtonTitles:nil];
         actionSheetView.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+        NSString *title;
         for (int i = 0; i < numActions; i++) {
-            [actionSheetView addButtonWithTitle:[sheetActions objectAtIndex:i]];
+             title = [sheetActions objectAtIndex:i];
+            if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && isRecording.alpha == 1.0f) {
+                title = NSLocalizedString(@"Stop Recording", nil);
+            }
+            [actionSheetView addButtonWithTitle:title];
         }
         actionSheetView.cancelButtonIndex = [actionSheetView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -488,6 +494,9 @@ int count=0;
         else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play", nil)]){
             [self addPlayback:0.0];
         }
+        else if (([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Record", nil)] || [[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Stop Recording", nil)])) {
+            [self recordChannel];
+        }
         else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Open with VLC", nil)]){
             [self openWithVLC:self.detailItem];
         }
@@ -499,6 +508,69 @@ int count=0;
             [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"trailer"], @"file", nil], @"item", nil]];
         }
     }
+}
+
+-(void)animateRecordAction {
+    [UIView animateWithDuration: 0.2f
+                          delay: 0.0f
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations: ^{
+                         CGRect frame;
+                         frame = voteLabel.frame;
+                         if (isRecording.alpha == 0.0f) {
+                             isRecording.alpha = 1.0f;
+                             frame.origin.x += dotSize + dotSizePadding;
+                             frame.size.width -= dotSize + dotSizePadding;
+                             [voteLabel setFrame:frame];
+                         }
+                         else {
+                             isRecording.alpha = 0.0f;
+                             frame.origin.x -= dotSize + dotSizePadding;
+                             frame.size.width += dotSize + dotSizePadding;
+                             [voteLabel setFrame:frame];
+                         }
+                     }
+                     completion: ^(BOOL finished) {
+                     }];
+}
+
+-(void)recordChannel {
+    NSNumber *channelid = [NSNumber numberWithInt:[[[self.detailItem objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"] intValue]];
+    if ([channelid isEqualToValue:[NSNumber numberWithInt:0]]) {
+        return;
+    }
+    self.navigationItem.rightBarButtonItem.enabled=NO;
+    [activityIndicatorView startAnimating];
+    
+    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                channelid, @"channel",
+                                nil];
+    [jsonRPC callMethod:@"PVR.Record"
+         withParameters:parameters
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+               [activityIndicatorView stopAnimating];
+               self.navigationItem.rightBarButtonItem.enabled=YES;
+                if (error==nil && methodError==nil){
+                    [self animateRecordAction];
+               }
+               else {
+                   NSString *message = @"";
+                   message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", @"PVR.Record", [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   if (methodError != nil){
+                       message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
+                   }
+                   if (error != nil){
+                       message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
+                       
+                   }
+                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
+                                                                       message:message
+                                                                      delegate:self
+                                                             cancelButtonTitle:nil
+                                                             otherButtonTitles:@"Copy to clipboard", nil];
+                   [alertView show];
+               }
+           }];
 }
 
 -(IBAction)scrollDown:(id)sender{
@@ -1116,6 +1188,21 @@ int h=0;
         else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]) {
             [item setValue:[item objectForKey:@"genre"] forKey:@"plot"];
             numVotesLabel.text = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
+            frame = voteLabel.frame;
+            dotSize = 10.0f;
+            dotSizePadding = 4.0f;
+            isRecording = [[UIImageView alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y + (frame.size.height/2.0f - dotSize/2.0f), dotSize, dotSize)];
+            [isRecording setImage:[UIImage imageNamed:@"button_timer"]];
+            [isRecording setContentMode:UIViewContentModeScaleAspectFill];
+            isRecording.alpha = 0.0f;
+            [isRecording setBackgroundColor:[UIColor clearColor]];
+            [scrollView addSubview:isRecording];
+            if ([[item objectForKey:@"hastimer"] boolValue] == YES) {
+                isRecording.alpha = 1.0f;
+                frame.origin.x += dotSize + dotSizePadding;
+                frame.size.width -= dotSize + dotSizePadding;
+                [voteLabel setFrame:frame];
+            }
         }
         [item setValue:[item objectForKey:@"label"] forKey:@"rating"];
         [item setValue:[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_icon"] forKey:@"thumbnail"];
@@ -1302,7 +1389,6 @@ int h=0;
     [fanartView setClipsToBounds:YES];
     
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
-    [voteLabel sizeToFit];
     starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];
     
     NSString *numVotes=[[item objectForKey:@"votes"] length]==0 ? @"" : [item objectForKey:@"votes"];
