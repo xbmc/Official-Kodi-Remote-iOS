@@ -2152,6 +2152,7 @@ int originYear = 0;
             ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
             progressView.hidden = YES;
             UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
+            //TODO: store the recording state instead of checking the isrecording state or update the isrecording state when live changed
             isRecording.hidden = ![[item objectForKey:@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     channelid, @"channelid",
