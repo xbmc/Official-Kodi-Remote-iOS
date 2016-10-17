@@ -147,7 +147,7 @@
 "WRITER" = "ARGUMENTISTA";
 "FIRST AIRED" = "ESTREIA";
 "SUMMARY" = "RESUMO";
-"PLOT OUTLINE" = "PLOT OUTLINE";
+"PLOT OUTLINE" = "SINOPSE";
 "ARTIST" = "ARTISTA";
 "YEAR" = "ANO";
 "ALBUM LABEL" = "EDITORA";
@@ -202,7 +202,7 @@
 
 "Channel Guide" = "Guia de canais";
 "Record" = "Gravar";
-"Stop Recording" = "Stop Recording";
+"Stop Recording" = "Parar gravação";
 "Recordings" = "Gravações";
 "Timers" = "Temporizadores";
 "Broadcast Details" = "Detalhes da emissão";
