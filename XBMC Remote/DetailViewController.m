@@ -386,6 +386,9 @@
 
 -(NSString *)getCacheKey:(NSString *)fieldA parameters:(NSMutableDictionary *)fieldB{
     GlobalData *obj=[GlobalData getInstance];
+    if ([[fieldB objectForKey:@"sort"] respondsToSelector:@selector(removeObjectForKey:)]){
+        [[fieldB objectForKey:@"sort"] removeObjectForKey:@"available_methods"];
+    }
     return [[NSString stringWithFormat:@"%@%@%@%d%d%@%@", obj.serverIP, obj.serverPort, obj.serverDescription, [AppDelegate instance].serverVersion, [AppDelegate instance].serverMinorVersion, fieldA, fieldB] MD5String];
 }
 
