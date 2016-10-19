@@ -386,9 +386,9 @@
 
 -(NSString *)getCacheKey:(NSString *)fieldA parameters:(NSMutableDictionary *)fieldB{
     GlobalData *obj=[GlobalData getInstance];
-    if ([[fieldB objectForKey:@"sort"] respondsToSelector:@selector(removeObjectForKey:)]){
-        [[fieldB objectForKey:@"sort"] removeObjectForKey:@"available_methods"];
-    }
+//    if ([[fieldB objectForKey:@"sort"] respondsToSelector:@selector(removeObjectForKey:)]){
+//        [[fieldB objectForKey:@"sort"] removeObjectForKey:@"available_methods"];
+//    }
     return [[NSString stringWithFormat:@"%@%@%@%d%d%@%@", obj.serverIP, obj.serverPort, obj.serverDescription, [AppDelegate instance].serverVersion, [AppDelegate instance].serverMinorVersion, fieldA, fieldB] MD5String];
 }
 
@@ -4671,9 +4671,9 @@ NSIndexPath *selected;
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
-    if ([[mutableParameters objectForKey:@"sort"] respondsToSelector:@selector(removeObjectForKey:)]){
-        [[mutableParameters objectForKey:@"sort"] removeObjectForKey:@"available_methods"];
-    }
+//    if ([[mutableParameters objectForKey:@"sort"] respondsToSelector:@selector(removeObjectForKey:)]){
+//        [[mutableParameters objectForKey:@"sort"] removeObjectForKey:@"available_methods"];
+//    }
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, mutableParameters);
     [jsonRPC
      callMethod:methodToCall
