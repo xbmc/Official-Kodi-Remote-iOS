@@ -41,7 +41,7 @@
         [_posterLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6]];
         [_posterLabel setShadowOffset:CGSizeMake(0,1)];
         [_posterLabel setNumberOfLines:2];
-        [_posterLabel setMinimumFontSize:8.0f];
+        [_posterLabel setMinimumScaleFactor:0.8f];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
         [_posterLabel setMinimumScaleFactor:1.0f];
 
@@ -55,7 +55,7 @@
             [_posterLabelFullscreen setTextColor:[UIColor grayColor]];
             [_posterLabelFullscreen setTextAlignment:NSTextAlignmentCenter];
             [_posterLabelFullscreen setNumberOfLines:1];
-            [_posterLabelFullscreen setMinimumFontSize:8.0f];
+            [_posterLabelFullscreen setMinimumScaleFactor:0.8f];
             [_posterLabelFullscreen setAdjustsFontSizeToFitWidth:NO];
             [_posterLabelFullscreen setMinimumScaleFactor:1.0f];
             [self.contentView addSubview:_posterLabelFullscreen];

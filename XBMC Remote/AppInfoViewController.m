@@ -71,7 +71,7 @@
         NSError *err;
         [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&err];
     }
-    [self dismissModalViewControllerAnimated:YES];
+    [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{

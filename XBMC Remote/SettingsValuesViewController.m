@@ -170,7 +170,7 @@
         [scrubbingMessage setBackgroundColor:[UIColor clearColor]];
         [scrubbingMessage setFont:[UIFont boldSystemFontOfSize:13]];
         [scrubbingMessage setAdjustsFontSizeToFitWidth:YES];
-        [scrubbingMessage setMinimumFontSize:10];
+        [scrubbingMessage setMinimumScaleFactor:10.0f/13.0f];
         [scrubbingMessage setTextColor:[UIColor whiteColor]];
         [scrubbingMessage setText:NSLocalizedString(@"Slide your finger up or down to adjust the scrubbing rate.", nil)];
         [scrubbingMessage setTextAlignment:NSTextAlignmentCenter];
@@ -404,7 +404,7 @@
         cellLabel.tag = 1;
         [cellLabel setFont:[UIFont systemFontOfSize:18]];
         [cellLabel setAdjustsFontSizeToFitWidth:YES];
-        [cellLabel setMinimumFontSize:12];
+        [cellLabel setMinimumScaleFactor:12.0f/18.0f];
         [cellLabel setTextColor:[UIColor blackColor]];
         [cellLabel setHighlightedTextColor:[UIColor whiteColor]];
         [cell.contentView addSubview:cellLabel];
@@ -420,7 +420,7 @@
         [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
         [descriptionLabel setAdjustsFontSizeToFitWidth:YES];
         [descriptionLabel setNumberOfLines:0];
-        [descriptionLabel setMinimumFontSize:12];
+        [descriptionLabel setMinimumScaleFactor:11.0f/12.0f];
         [descriptionLabel setTextColor:[UIColor grayColor]];
         [descriptionLabel setHighlightedTextColor:[UIColor lightGrayColor]];
         [cell.contentView addSubview:descriptionLabel];
@@ -444,7 +444,7 @@
         [uiSliderLabel setTextAlignment:NSTextAlignmentCenter];
         [uiSliderLabel setFont:[UIFont systemFontOfSize:14]];
         [uiSliderLabel setAdjustsFontSizeToFitWidth:YES];
-        [uiSliderLabel setMinimumFontSize:12];
+        [uiSliderLabel setMinimumScaleFactor:12.0f/14.0f];
         [uiSliderLabel setTextColor:[UIColor grayColor]];
         [uiSliderLabel setHighlightedTextColor:[UIColor lightGrayColor]];
         [cell.contentView addSubview:uiSliderLabel];

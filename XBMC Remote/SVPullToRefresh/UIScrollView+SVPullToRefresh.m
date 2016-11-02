@@ -221,15 +221,17 @@ static char UIScrollViewPullToRefreshView;
         NSString *subtitle = [self.subtitles objectAtIndex:self.state];
         self.subtitleLabel.text = subtitle.length > 0 ? subtitle : nil;
         
+        CGRect titleRect = [self.titleLabel.text boundingRectWithSize:CGSizeMake(labelMaxWidth,self.titleLabel.font.lineHeight)
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                          attributes:@{NSFontAttributeName:self.titleLabel.font}
+                                             context:nil];
+        CGSize titleSize = titleRect.size;
         
-        CGSize titleSize = [self.titleLabel.text sizeWithFont:self.titleLabel.font
-                                            constrainedToSize:CGSizeMake(labelMaxWidth,self.titleLabel.font.lineHeight)
-                                                lineBreakMode:self.titleLabel.lineBreakMode];
-        
-        
-        CGSize subtitleSize = [self.subtitleLabel.text sizeWithFont:self.subtitleLabel.font
-                                                  constrainedToSize:CGSizeMake(labelMaxWidth,self.subtitleLabel.font.lineHeight)
-                                                      lineBreakMode:self.subtitleLabel.lineBreakMode];
+        CGRect subtitleRect = [self.subtitleLabel.text boundingRectWithSize:CGSizeMake(labelMaxWidth,self.subtitleLabel.font.lineHeight)
+                                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                                           attributes:@{NSFontAttributeName:self.subtitleLabel.font}
+                                                              context:nil];
+        CGSize subtitleSize = subtitleRect.size;
         
         CGFloat maxLabelWidth = MAX(titleSize.width,subtitleSize.width);
         CGFloat totalMaxWidth = leftViewWidth + margin + maxLabelWidth;
@@ -338,7 +340,7 @@ static char UIScrollViewPullToRefreshView;
         _titleLabel.text = NSLocalizedString(@"Pull to refresh...",);
         _titleLabel.font = [UIFont boldSystemFontOfSize:13];
         _titleLabel.numberOfLines = 1;
-        _titleLabel.minimumFontSize = 12;
+        _titleLabel.minimumScaleFactor = 12.0f/13.0f;
         _titleLabel.adjustsFontSizeToFitWidth = YES;
         _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.textColor = textColor;
@@ -352,7 +354,7 @@ static char UIScrollViewPullToRefreshView;
         _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
         _subtitleLabel.font = [UIFont systemFontOfSize:11];
         _subtitleLabel.numberOfLines = 1;
-        _subtitleLabel.minimumFontSize = 9;
+        _subtitleLabel.minimumScaleFactor = 9.0f/11.0f;
         _subtitleLabel.adjustsFontSizeToFitWidth = YES;
         _subtitleLabel.backgroundColor = [UIColor clearColor];
         _subtitleLabel.textColor = [UIColor lightGrayColor];

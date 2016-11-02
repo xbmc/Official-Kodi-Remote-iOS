@@ -2809,7 +2809,6 @@ int currentItemID;
                                                                           [[NSLocalizedString(@"Video ", nil) capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], nil
                                                                           ]
                                 ];
-    playlistSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     float seg_width = 122.0f;
     float left_margin = 99.0f;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -2854,10 +2853,10 @@ int currentItemID;
         }
         if ([self.navigationController.viewControllers indexOfObject:self] == 0){
             UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
         }
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:self action:@selector(revealUnderRight:)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
     }
@@ -3116,10 +3115,10 @@ int currentItemID;
     lastSelected = -1;
     storedItemID = -1;
     storeSelection = nil;
-    albumDetailsButton.titleLabel.textAlignment = UITextAlignmentCenter;
-    albumTracksButton.titleLabel.textAlignment = UITextAlignmentCenter;
-    artistDetailsButton.titleLabel.textAlignment = UITextAlignmentCenter;
-    artistAlbumsButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    albumDetailsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    albumTracksButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    artistDetailsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    artistAlbumsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self setIphoneInterface];
     }

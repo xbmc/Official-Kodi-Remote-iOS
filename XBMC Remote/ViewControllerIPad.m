@@ -494,9 +494,9 @@
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(428, 966, 190, 33)]; //225
     [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
-    xbmcInfo.titleLabel.minimumFontSize = 6.0f;
+    xbmcInfo.titleLabel.minimumScaleFactor = 6.0f / 11.0f;
     xbmcInfo.titleLabel.numberOfLines = 2;
-    xbmcInfo.titleLabel.textAlignment=UITextAlignmentCenter;
+    xbmcInfo.titleLabel.textAlignment=NSTextAlignmentCenter;
     xbmcInfo.titleEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
     xbmcInfo.titleLabel.shadowOffset = CGSizeMake (1.0, 1.0);

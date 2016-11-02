@@ -40,7 +40,7 @@
     [pieLabel setBackgroundColor:[UIColor clearColor]];
     [pieLabel setFont:[UIFont systemFontOfSize:pieLabelFontSize]];
     pieLabel.adjustsFontSizeToFitWidth = YES;
-    pieLabel.minimumFontSize =pieLabelFontSize;
+    pieLabel.minimumScaleFactor =pieLabelFontSize * 0.9f;
     pieLabel.textAlignment = NSTextAlignmentCenter;
     [pieLabel setTextColor:color];
     [pieLabel setHighlightedTextColor:color];

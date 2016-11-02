@@ -450,7 +450,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     CGSize size = CGSizeMake(320, 380);
-    self.contentSizeForViewInPopover = size;
+    self.preferredContentSize = size;
     [super viewWillAppear:animated];
 }
 

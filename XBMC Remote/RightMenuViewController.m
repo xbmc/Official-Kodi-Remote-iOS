@@ -283,13 +283,13 @@
                                                                                    target: nil
                                                                                    action: nil];
     addButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"...more", nil)
-                                                                   style: UIBarButtonItemStyleBordered
+                                                                   style: UIBarButtonItemStylePlain
                                                                   target: self
                                                                  action: @selector(addButtonToList:)];
     
     addButton.enabled = NO;
     editTableButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"Edit", nil)
-                                                                   style: UIBarButtonItemStyleBordered
+                                                                   style: UIBarButtonItemStylePlain
                                                                   target: self
                                                                   action: @selector(editTable:)];
     [toolbar setItems:[NSArray arrayWithObjects:fixedSpace, addButton, flexibleSpace, editTableButton, fixedSpace2, nil]];
@@ -333,7 +333,7 @@
     if ([arrayButtons.buttons count] == 0){
         [menuTableView setEditing:NO animated:YES];
         [editTableButton setTitle:NSLocalizedString(@"Edit", nil)];
-        [editTableButton setStyle:UIBarButtonItemStyleBordered];
+        [editTableButton setStyle:UIBarButtonItemStylePlain];
         [editTableButton setEnabled:NO];
         [arrayButtons.buttons addObject:infoCustomButton];
         [self setRightMenuOption:@"online" reloadTableData:YES];
@@ -363,7 +363,7 @@
     if (menuTableView.editing == YES){
         [menuTableView setEditing:NO animated:YES];
         [editButton setTitle:NSLocalizedString(@"Edit", nil)];
-        [editButton setStyle:UIBarButtonItemStyleBordered];
+        [editButton setStyle:UIBarButtonItemStylePlain];
     }
     else{
         [menuTableView setEditing:YES animated:YES];

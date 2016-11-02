@@ -229,7 +229,7 @@
     navController = nil;
     navController = [[CustomNavigationController alloc] initWithRootViewController:object];
     UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
-    object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+    object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
     
     UINavigationBar *newBar = navController.navigationBar;
     [newBar setTintColor:IOS6_BAR_TINT_COLOR];

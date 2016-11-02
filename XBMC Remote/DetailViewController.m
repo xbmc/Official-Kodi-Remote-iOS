@@ -240,8 +240,8 @@
                                     [objectToSearch objectForKey:@"title"]
                                     ] forKey:@"current"];
             NSCalendar *gregorian = [[NSCalendar alloc]
-                                     initWithCalendarIdentifier:NSGregorianCalendar];
-            NSUInteger unitFlags = NSMinuteCalendarUnit;
+                                     initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+            NSUInteger unitFlags = NSCalendarUnitMinute;
             NSDateComponents *components = [gregorian components:unitFlags
                                                         fromDate:[objectToSearch objectForKey:@"starttime"]
                                                           toDate:[objectToSearch objectForKey:@"endtime"] options:0];
@@ -303,8 +303,8 @@
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
         [progressView updateProgressPercentage:percent_elapsed];
         progressView.hidden = NO;
-        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-        NSUInteger unitFlags = NSMinuteCalendarUnit;
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSUInteger unitFlags = NSCalendarUnitMinute;
         NSDateComponents *components = [gregorian components:unitFlags
                                                     fromDate:[channelEPG objectForKey:@"starttime"]
                                                       toDate:[channelEPG objectForKey:@"endtime"] options:0];
@@ -2011,7 +2011,7 @@ int originYear = 0;
             [trackNumberLabel setBackgroundColor:[UIColor clearColor]];
             [trackNumberLabel setFont:[UIFont systemFontOfSize:artistFontSize]];
             trackNumberLabel.adjustsFontSizeToFitWidth = YES;
-            trackNumberLabel.minimumFontSize = artistFontSize - 4;
+            trackNumberLabel.minimumScaleFactor = (artistFontSize - 4) / artistFontSize;
             trackNumberLabel.tag = 101;
             [trackNumberLabel setHighlightedTextColor:[UIColor whiteColor]];
             [cell addSubview:trackNumberLabel];
@@ -2021,7 +2021,7 @@ int originYear = 0;
             [programTimeLabel setBackgroundColor:[UIColor clearColor]];
             [programTimeLabel setFont:[UIFont systemFontOfSize:12]];
             programTimeLabel.adjustsFontSizeToFitWidth = YES;
-            programTimeLabel.minimumFontSize = 8;
+            programTimeLabel.minimumScaleFactor = 8.0f / 12.0f;
             programTimeLabel.textAlignment = NSTextAlignmentCenter;
             programTimeLabel.tag = 102;
             [programTimeLabel setHighlightedTextColor:[UIColor whiteColor]];
@@ -2194,8 +2194,8 @@ int originYear = 0;
                 NSDate *endTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
                 genre.text = [localFormatter stringFromDate:timerStartTime];
                 [localFormatter setDateFormat:@"HH:mm"];
-                NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-                NSUInteger unitFlags = NSMinuteCalendarUnit;
+                NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+                NSUInteger unitFlags = NSCalendarUnitMinute;
                 NSDateComponents *components = [gregorian components:unitFlags fromDate:timerStartTime toDate:endTime options:0];
                 NSInteger minutes = [components minute];
                 genre.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", genre.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
@@ -2213,7 +2213,7 @@ int originYear = 0;
             frame.origin.y = 0;
             [title setFrame:frame];
             genre.font =  [genre.font fontWithSize:11];
-            [genre setMinimumFontSize:11];
+            [genre setMinimumScaleFactor:10.0f/11.0f];
             [genre sizeToFit];
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"sectionid"] || [[item objectForKey:@"family"] isEqualToString:@"categoryid"]|| [[item objectForKey:@"family"] isEqualToString:@"id"] || [[item objectForKey:@"family"] isEqualToString:@"addonid"]){
@@ -2235,7 +2235,7 @@ int originYear = 0;
             genre.frame = frame;
             [genre setNumberOfLines:2];
             genre.font =  [genre.font fontWithSize:11];
-            [genre setMinimumFontSize:11];
+            [genre setMinimumScaleFactor:10.f/11.0f];
             [genre sizeToFit];
         }
         else{
@@ -2267,7 +2267,7 @@ int originYear = 0;
         genre.frame = frame;
         [genre setNumberOfLines:3];
         genre.font =  [genre.font fontWithSize:11];
-        [genre setMinimumFontSize:11];
+        [genre setMinimumScaleFactor:10.0f/11.0f];
         UILabel *programStartTime = (UILabel *)[cell viewWithTag:102];
         NSDateFormatter *test= [[NSDateFormatter alloc] init];
         [test setDateFormat:@"yyyy-MM-dd HH:mm"];
@@ -2286,8 +2286,8 @@ int originYear = 0;
             [progressView updateProgressPercentage:[[item objectForKey:@"progresspercentage"] floatValue]];
             progressView.pieLabel.hidden = NO;
             NSCalendar *gregorian = [[NSCalendar alloc]
-                                     initWithCalendarIdentifier:NSGregorianCalendar];
-            NSUInteger unitFlags = NSMinuteCalendarUnit;
+                                     initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+            NSUInteger unitFlags = NSCalendarUnitMinute;
             NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
             NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
             NSDateComponents *components = [gregorian components:unitFlags
@@ -2494,7 +2494,7 @@ int originYear = 0;
         [artist setShadowOffset:CGSizeMake(0, 1)];
         [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
         artist.adjustsFontSizeToFitWidth = YES;
-        artist.minimumFontSize = 9;
+        artist.minimumScaleFactor = 9.0f / artistFontSize;
         artist.text = [item objectForKey:@"genre"];
         [albumDetailView addSubview:artist];
         
@@ -2505,11 +2505,14 @@ int originYear = 0;
         [albumLabel setFont:[UIFont boldSystemFontOfSize:albumFontSize]];
         albumLabel.text = self.navigationItem.title;
         albumLabel.numberOfLines = 0;
-        CGSize maximunLabelSize= CGSizeMake(viewWidth - albumViewHeight - albumViewPadding, albumViewHeight - albumViewPadding*4 -28);
-        CGSize expectedLabelSize = [albumLabel.text
-                                    sizeWithFont:albumLabel.font
-                                    constrainedToSize:maximunLabelSize
-                                    lineBreakMode:albumLabel.lineBreakMode];
+        CGSize maximunLabelSize= CGSizeMake(viewWidth - albumViewHeight - albumViewPadding, albumViewHeight - (albumViewPadding * 4) - 28);
+        
+        CGRect expectedLabelRect = [albumLabel.text boundingRectWithSize:maximunLabelSize
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:@{NSFontAttributeName:albumLabel.font}
+                                           context:nil];
+        CGSize expectedLabelSize = expectedLabelRect.size;
+        
         CGRect newFrame = albumLabel.frame;
         newFrame.size.height = expectedLabelSize.height + 8;
         albumLabel.frame = newFrame;
@@ -2637,7 +2640,7 @@ int originYear = 0;
             [artist setShadowOffset:CGSizeMake(0, 1)];
             [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
             artist.adjustsFontSizeToFitWidth = YES;
-            artist.minimumFontSize = 9;
+            artist.minimumScaleFactor = 9.0f/artistFontSize;
             artist.text = [item objectForKey:@"genre"];
             [albumDetailView addSubview:artist];
             
@@ -2649,10 +2652,12 @@ int originYear = 0;
             albumLabel.text = [[self.extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"label"];
             albumLabel.numberOfLines = 0;
             CGSize maximunLabelSize= CGSizeMake(viewWidth - albumViewHeight - albumViewPadding - toggleIconSpace, albumViewHeight - albumViewPadding*4 -28);
-            CGSize expectedLabelSize = [albumLabel.text
-                                        sizeWithFont:albumLabel.font
-                                        constrainedToSize:maximunLabelSize
-                                        lineBreakMode:albumLabel.lineBreakMode];
+            
+            CGRect expectedLabelRect = [albumLabel.text boundingRectWithSize:maximunLabelSize
+                                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                                  attributes:@{NSFontAttributeName:albumLabel.font}
+                                                                     context:nil];
+            CGSize expectedLabelSize = expectedLabelRect.size;
             CGRect newFrame = albumLabel.frame;
             newFrame.size.height = expectedLabelSize.height + 8;
             albumLabel.frame = newFrame;
@@ -2674,7 +2679,7 @@ int originYear = 0;
             [releasedLabel setShadowOffset:CGSizeMake(0, 1)];
             [releasedLabel setTextColor:[UIColor darkGrayColor]];
             [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
-            [releasedLabel setMinimumFontSize:trackCountFontSize - 2];
+            [releasedLabel setMinimumScaleFactor:(trackCountFontSize - 2)/trackCountFontSize];
             [releasedLabel setNumberOfLines:1];
             [releasedLabel setAdjustsFontSizeToFitWidth:YES];
             
@@ -3547,10 +3552,10 @@ NSIndexPath *selected;
         topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
         topNavigationLabel.backgroundColor = [UIColor clearColor];
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
-        topNavigationLabel.minimumFontSize=8.0;
+        topNavigationLabel.minimumScaleFactor=8.0f/11.0f;
         topNavigationLabel.numberOfLines=2;
         topNavigationLabel.adjustsFontSizeToFitWidth = YES;
-        topNavigationLabel.textAlignment = UITextAlignmentLeft;
+        topNavigationLabel.textAlignment = NSTextAlignmentLeft;
         topNavigationLabel.textColor = [UIColor whiteColor];
         topNavigationLabel.shadowColor = shadowColor;
         topNavigationLabel.shadowOffset    = CGSizeMake (0.0, -1.0);
@@ -3564,7 +3569,7 @@ NSIndexPath *selected;
                 nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Now Playing", nil) style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
                 [nowPlayingButtonItem setTitleTextAttributes:
                  [NSDictionary dictionaryWithObjectsAndKeys:
-                  [UIFont systemFontOfSize:12], UITextAttributeFont,
+                  [UIFont systemFontOfSize:12], NSFontAttributeName,
                   nil] 
                 forState:UIControlStateNormal];
             }
@@ -5033,7 +5038,7 @@ NSIndexPath *selected;
         localDate.timeZone = [NSTimeZone systemTimeZone];
         NSDate *nowDate = [NSDate date];
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSInteger components = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit);
+        NSInteger components = (NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute);
         NSDateComponents *nowDateComponents = [calendar components:components fromDate: nowDate];
         nowDate = [calendar dateFromComponents:nowDateComponents];
         NSUInteger countRow = 0;
@@ -5819,7 +5824,7 @@ NSIndexPath *selected;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]){
         titleView = [[UIView alloc] initWithFrame:CGRectMake(320, 0, STACKSCROLL_WIDTH - 320, 44)];
         [titleView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-        topNavigationLabel.textAlignment = UITextAlignmentRight;
+        topNavigationLabel.textAlignment = NSTextAlignmentRight;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:14];
         [topNavigationLabel setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin];
         [titleView addSubview:topNavigationLabel];

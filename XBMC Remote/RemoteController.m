@@ -1210,7 +1210,7 @@ NSInteger buttonAction;
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:self action:@selector(revealUnderRight:)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
             [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];            
         }

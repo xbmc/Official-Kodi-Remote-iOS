@@ -56,11 +56,11 @@ int count=0;
         viewTitle = [[UILabel alloc] initWithFrame:frame];
         viewTitle.numberOfLines=0;
         viewTitle.font = [UIFont boldSystemFontOfSize:11];
-        viewTitle.minimumFontSize=6;
+        viewTitle.minimumScaleFactor = 6.0f/11.0f;
         viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         viewTitle.backgroundColor = [UIColor clearColor];
         viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
-        viewTitle.textAlignment = UITextAlignmentCenter;
+        viewTitle.textAlignment = NSTextAlignmentCenter;
         viewTitle.textColor = [UIColor whiteColor];
         viewTitle.text = [item objectForKey:@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
@@ -97,25 +97,25 @@ int count=0;
         if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
             if (fromAlbumView){
-                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(goBack:)];
+                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
             else{
-                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             }
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
-            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon"];
             if (fromEpisodesView){
-                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(goBack:)];
+                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
             else{
-                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+                extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             }
             titleWidth = 350;
         }
@@ -145,10 +145,10 @@ int count=0;
             toolbar.translucent = YES;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
-            actionSheetButtonItemIpad.style = UIBarButtonItemStyleBordered;
+            actionSheetButtonItemIpad.style = UIBarButtonItemStylePlain;
             viewTitle.numberOfLines=1;
             viewTitle.font = [UIFont boldSystemFontOfSize:22];
-            viewTitle.minimumFontSize=6;
+            viewTitle.minimumScaleFactor = 6.0f/22.0f;
             viewTitle.adjustsFontSizeToFitWidth = YES;
             viewTitle.shadowOffset = CGSizeMake(1.0, 1.0);
             viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.7];
@@ -156,7 +156,7 @@ int count=0;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
             [viewTitle setFrame:CGRectMake(0, 0, titleWidth, 44)];
             [viewTitle sizeThatFits:CGSizeMake(titleWidth, 44)];
-            viewTitle.textAlignment = UITextAlignmentLeft;
+            viewTitle.textAlignment = NSTextAlignmentLeft;
             UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
             if (extraButton == nil){
                 extraButton = spacer;
@@ -215,20 +215,26 @@ int count=0;
 #pragma mark - Utility 
 
 -(void)dismissModal:(id)sender {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(BOOL)isModal {
-    BOOL isModal = ((self.parentViewController && self.parentViewController.modalViewController == self) ||
-                    ( self.navigationController && self.navigationController.parentViewController && self.navigationController.parentViewController.modalViewController == self.navigationController) ||
-                    [[[self tabBarController] parentViewController] isKindOfClass:[UITabBarController class]]);
-    if (!isModal && [self respondsToSelector:@selector(presentingViewController)]) {
-        
-        isModal = ((self.presentingViewController && self.presentingViewController.modalViewController == self) ||
-                   (self.navigationController && self.navigationController.presentingViewController && self.navigationController.presentingViewController.modalViewController == self.navigationController) ||
-                   [[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]]);
-    }
-    return isModal;
+//-(BOOL)isModal {
+//    BOOL isModal = ((self.parentViewController && self.parentViewController.modalViewController == self) ||
+//                    ( self.navigationController && self.navigationController.parentViewController && self.navigationController.parentViewController.modalViewController == self.navigationController) ||
+//                    [[[self tabBarController] parentViewController] isKindOfClass:[UITabBarController class]]);
+//    if (!isModal && [self respondsToSelector:@selector(presentingViewController)]) {
+//        
+//        isModal = ((self.presentingViewController && self.presentingViewController.modalViewController == self) ||
+//                   (self.navigationController && self.navigationController.presentingViewController && self.navigationController.presentingViewController.modalViewController == self.navigationController) ||
+//                   [[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]]);
+//    }
+//    return isModal;
+//}
+
+- (BOOL)isModal {
+    return self.presentingViewController.presentedViewController == self
+    || (self.navigationController != nil && self.navigationController.presentingViewController.presentedViewController == self.navigationController)
+    || [self.tabBarController.presentingViewController isKindOfClass:[UITabBarController class]];
 }
 
 -(void)goBack:(id)sender{
@@ -1084,10 +1090,11 @@ int h=0;
         }
         genreLabel.numberOfLines = 0;
         CGSize maximunLabelSize= CGSizeMake(pageSize, 9999);
-        CGSize expectedLabelSize = [genreLabel.text
-                                    sizeWithFont:genreLabel.font
-                                    constrainedToSize:maximunLabelSize
-                                    lineBreakMode:genreLabel.lineBreakMode];
+        CGRect expectedLabelRect = [genreLabel.text boundingRectWithSize:maximunLabelSize
+                                                                 options:NSStringDrawingUsesLineFragmentOrigin
+                                                              attributes:@{NSFontAttributeName:genreLabel.font}
+                                                                 context:nil];
+        CGSize expectedLabelSize = expectedLabelRect.size;
         
         //adjust the label the the new height.
         CGRect newFrame = genreLabel.frame;
@@ -1217,8 +1224,8 @@ int h=0;
         if (startTime != nil && endTime != nil) {
             directorLabel.text = [localFormatter stringFromDate:startTime];
             [localFormatter setDateFormat:@"HH:mm"];
-            NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-            NSUInteger unitFlags = NSMinuteCalendarUnit;
+            NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+            NSUInteger unitFlags = NSCalendarUnitMinute;
             NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
             NSInteger minutes = [components minute];
             directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
@@ -1403,10 +1410,11 @@ int h=0;
         summaryLabel.text=[[item objectForKey:@"description"] length]==0 ? @"-" : [item objectForKey:@"description"];
     }
     CGSize maximunLabelSize= CGSizeMake(pageSize, 9999);
-    CGSize expectedLabelSize = [summaryLabel.text 
-                                sizeWithFont:summaryLabel.font
-                                constrainedToSize:maximunLabelSize 
-                                lineBreakMode:summaryLabel.lineBreakMode]; 
+    CGRect expectedLabelRect = [summaryLabel.text  boundingRectWithSize:maximunLabelSize
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                          attributes:@{NSFontAttributeName:summaryLabel.font}
+                                                             context:nil];
+    CGSize expectedLabelSize = expectedLabelRect.size;
     
     CGRect newFrame = summaryLabel.frame;
     newFrame.size.height = expectedLabelSize.height + size;
@@ -1429,10 +1437,13 @@ int h=0;
         frame.size.height = 2000;
         parentalRatingLabel.frame = frame;
         parentalRatingLabel.text = [[item objectForKey:@"mpaa"] length]==0 ? @"-" : [item objectForKey:@"mpaa"];
-        expectedLabelSize = [parentalRatingLabel.text
-                             sizeWithFont:parentalRatingLabel.font
-                             constrainedToSize:maximunLabelSize
-                             lineBreakMode:parentalRatingLabel.lineBreakMode];
+        
+        CGRect expectedLabelRect = [parentalRatingLabel.text  boundingRectWithSize:maximunLabelSize
+                                                                    options:NSStringDrawingUsesLineFragmentOrigin
+                                                                 attributes:@{NSFontAttributeName:parentalRatingLabel.font}
+                                                                    context:nil];
+        CGSize expectedLabelSize = expectedLabelRect.size;
+        
         newFrame = parentalRatingLabel.frame;
         newFrame.size.height = expectedLabelSize.height + size;
         parentalRatingLabel.frame = newFrame;        
@@ -2078,7 +2089,8 @@ int h=0;
         UIBarButtonItem *close = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
         [items insertObject:close atIndex:0];
         [toolbar setItems:items];
-        viewTitle.textAlignment = UITextAlignmentCenter;
+        toolbar.tintColor = TINT_COLOR;
+        viewTitle.textAlignment = NSTextAlignmentCenter;
         bottomShadow.hidden = YES;
     }
     if (isViewDidLoad){
@@ -2095,6 +2107,10 @@ int h=0;
     if (foundTintColor != nil){
         self.navigationController.navigationBar.tintColor = foundTintColor;
         toolbar.tintColor = foundTintColor;
+    }
+    else {
+        self.navigationController.navigationBar.tintColor = TINT_COLOR;
+        toolbar.tintColor = TINT_COLOR;
     }
     float alphaValue = 0.2;
     if (closeButton.alpha==1){

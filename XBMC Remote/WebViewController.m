@@ -235,16 +235,16 @@
             fromAlbumView = [[item objectForKey:@"fromAlbumView"] boolValue];
         }
         if (fromAlbumView){
-            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(goBack:)];
+            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
         }
         else{
-            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
         }        
         titleWidth = 254;
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
         UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
-        extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStyleBordered target:self action:@selector(showContent:)];
+        extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
         titleWidth = 254;
     }
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 244, 44)];
@@ -254,10 +254,10 @@
     topNavigationLabel.tag = 1;
     topNavigationLabel.backgroundColor = [UIColor clearColor];
     topNavigationLabel.font = [UIFont boldSystemFontOfSize:12];
-    topNavigationLabel.minimumFontSize=10.0;
+    topNavigationLabel.minimumScaleFactor=10.0f/12.0f;
     topNavigationLabel.numberOfLines=0;
     topNavigationLabel.adjustsFontSizeToFitWidth = YES;
-    topNavigationLabel.textAlignment = UITextAlignmentLeft;
+    topNavigationLabel.textAlignment = NSTextAlignmentLeft;
     topNavigationLabel.textColor = [UIColor whiteColor];
     topNavigationLabel.shadowOffset    = CGSizeMake (0.0, -1.0);
     topNavigationLabel.highlightedTextColor = [UIColor blackColor];

@@ -153,7 +153,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.text = indexTitle;
         label.font = [UIFont boldSystemFontOfSize:11];
-        label.minimumFontSize = 5;
+        label.minimumScaleFactor = 5.0f/11.0f;
         label.adjustsFontSizeToFitWidth = YES;
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0];

@@ -95,7 +95,7 @@
         [(UIImageView*) [cell viewWithTag:1] setHidden:TRUE];
         UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
         UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
-        cellLabel.textAlignment=UITextAlignmentCenter;
+        cellLabel.textAlignment=NSTextAlignmentCenter;
         [cellLabel setText:NSLocalizedString(@"No saved hosts found", nil)];
         [cellIP setText:@""];
         cell.accessoryType=UITableViewCellAccessoryNone;
@@ -105,7 +105,7 @@
         [(UIImageView*) [cell viewWithTag:1] setHidden:FALSE];
         UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
         UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
-        cellLabel.textAlignment=UITextAlignmentLeft;
+        cellLabel.textAlignment=NSTextAlignmentLeft;
         NSDictionary *item=[[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
         [cellLabel setText:[item objectForKey:@"serverDescription"]];
         [cellIP setText:[item objectForKey:@"serverIP"]];
@@ -332,15 +332,14 @@ static inline BOOL IsEmpty(id obj) {
         appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil] ;
     appInfoView.modalTransitionStyle = UIModalTransitionStylePartialCurl;
 //	appInfoView.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentModalViewController:appInfoView animated:YES];
+    [self.navigationController presentViewController:appInfoView animated:YES completion:nil];
 }
-
 
 #pragma mark - LifeCycle
 
 - (void)viewWillAppear:(BOOL)animated{
     CGSize size = CGSizeMake(320, 400); // size of view in popover
-    self.contentSizeForViewInPopover = size;
+    self.preferredContentSize = size;
     [super viewWillAppear:animated];
     [self selectIndex:nil reloadData:YES];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -351,9 +350,9 @@ static inline BOOL IsEmpty(id obj) {
         [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogo;
         UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealMenu:)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStyleBordered target:nil action:@selector(revealUnderRight:)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealUnderRight:)];
         if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
             MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
             masterViewController.mainMenu = self.mainMenu;
