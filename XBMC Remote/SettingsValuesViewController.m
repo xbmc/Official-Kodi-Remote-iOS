@@ -377,14 +377,16 @@
 }
 
 - (void)adjustFontSize:(UILabel *)label {
-    CGSize descriptionSize;
+    CGRect descriptionRect;
     BOOL done = FALSE;
     CGFloat startSize = label.font.pointSize - 1;
     CGFloat endSize = startSize - 2;
     while (done == FALSE && startSize >= endSize){
-        descriptionSize = [label.text sizeWithFont: label.font
-                                 constrainedToSize: CGSizeMake(label.bounds.size.width, NSIntegerMax)
-                                     lineBreakMode: label.lineBreakMode];
+        descriptionRect = [label.text  boundingRectWithSize:CGSizeMake(label.bounds.size.width, NSIntegerMax)
+                                                                    options:NSStringDrawingUsesLineFragmentOrigin
+                                                                 attributes:@{NSFontAttributeName:label.font}
+                                                                    context:nil];
+        CGSize descriptionSize = descriptionRect.size;
         if (descriptionSize.height > label.bounds.size.height) {
             [label setFont:[UIFont systemFontOfSize:startSize]];
         }
@@ -694,27 +696,31 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
 //    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
-        UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
-        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
-        [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
-        [descriptionLabel setBackgroundColor:[UIColor clearColor]];
-        [descriptionLabel setNumberOfLines:20];
-        [descriptionLabel setTextColor:[UIColor whiteColor]];
-        [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
-        [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
-        [descriptionLabel setText:[footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
-        if (xbmcSetting == cUnsupported){
-            [helpView setBackgroundColor:[UIColor colorWithRed:.741f green:.141f blue:.141f alpha:1.0f]];
-        }
-        else{
-            [helpView setBackgroundColor:[UIColor colorWithRed:45.0f/255.0f green:45.0f/255.0f blue:45.0f/255.0f alpha:0.95f]];
-        }
-        CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
-                                            constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax) lineBreakMode:descriptionLabel.lineBreakMode];
-        [descriptionLabel setFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, descriptionSize.height)];
-        footerHeight = descriptionSize.height + cellLabelOffset * 2;
-        [helpView addSubview:descriptionLabel];
-        return helpView;
+    UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
+    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
+    [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
+    [descriptionLabel setBackgroundColor:[UIColor clearColor]];
+    [descriptionLabel setNumberOfLines:20];
+    [descriptionLabel setTextColor:[UIColor whiteColor]];
+    [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
+    [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
+    [descriptionLabel setText:[footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
+    if (xbmcSetting == cUnsupported){
+        [helpView setBackgroundColor:[UIColor colorWithRed:.741f green:.141f blue:.141f alpha:1.0f]];
+    }
+    else{
+        [helpView setBackgroundColor:[UIColor colorWithRed:45.0f/255.0f green:45.0f/255.0f blue:45.0f/255.0f alpha:0.95f]];
+    }
+    CGRect descriptionRect = [descriptionLabel.text  boundingRectWithSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax)
+                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                                               attributes:@{NSFontAttributeName:descriptionLabel.font}
+                                                                  context:nil];
+    CGSize descriptionSize = descriptionRect.size;
+    
+    [descriptionLabel setFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, descriptionSize.height)];
+    footerHeight = descriptionSize.height + cellLabelOffset * 2;
+    [helpView addSubview:descriptionLabel];
+    return helpView;
 //    }
 //    else {
 //        return nil;
@@ -729,8 +735,11 @@
             [descriptionLabel setNumberOfLines:20];
             [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
             [descriptionLabel setText:[footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
-            CGSize descriptionSize = [descriptionLabel.text sizeWithFont:descriptionLabel.font
-                                                       constrainedToSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax) lineBreakMode:descriptionLabel.lineBreakMode];
+            CGRect descriptionRect = [descriptionLabel.text  boundingRectWithSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax)
+                                                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                                                       attributes:@{NSFontAttributeName:descriptionLabel.font}
+                                                                          context:nil];
+            CGSize descriptionSize = descriptionRect.size;
             footerHeight = descriptionSize.height + cellLabelOffset * 2;
         }
         return footerHeight;
