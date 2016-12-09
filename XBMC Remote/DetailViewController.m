@@ -2092,8 +2092,8 @@ int originYear = 0;
     frame.size.width=frame.size.width - (labelPosition - frame.origin.x);
     frame.origin.x=labelPosition; 
     genre.frame=frame;
-    [genre setText:[item objectForKey:@"genre"]];
-    
+    [genre setText:[[item objectForKey:@"genre"] stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
+
     frame=runtimeyear.frame;
     frame.origin.x=Menuitem.originYearDuration;
     runtimeyear.frame=frame;
