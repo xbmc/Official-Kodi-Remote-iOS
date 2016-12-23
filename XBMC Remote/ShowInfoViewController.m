@@ -120,10 +120,10 @@ int count=0;
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
-            NSString *pvrAction = [[item objectForKey:@"hastimer"] boolValue] == YES ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
+//            NSString *pvrAction = [[item objectForKey:@"hastimer"] boolValue] == YES ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
             sheetActions = [[NSMutableArray alloc] initWithObjects:
                             NSLocalizedString(@"Play", nil),
-                            pvrAction,
+//                            pvrAction,
                             nil];
             titleWidth = 350;
         }

@@ -3188,8 +3188,14 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.thumbWidth = [livetvThumbWidth intValue];
     item8.subItem.defaultThumb = @"nocover_channels";
     item8.subItem.sheetActions = [NSArray arrayWithObjects:
-                                  [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Record", nil),NSLocalizedString(@"Channel Guide", nil), nil],
-                                   [NSArray arrayWithObjects:NSLocalizedString(@"Play", nil), NSLocalizedString(@"Record", nil),NSLocalizedString(@"Channel Guide", nil), nil],
+                                  [NSArray arrayWithObjects:
+                                   NSLocalizedString(@"Play", nil),
+//                                   NSLocalizedString(@"Record", nil),
+                                   NSLocalizedString(@"Channel Guide", nil), nil],
+                                   [NSArray arrayWithObjects:
+                                    NSLocalizedString(@"Play", nil),
+//                                    NSLocalizedString(@"Record", nil),
+                                    NSLocalizedString(@"Channel Guide", nil), nil],
                                   [NSArray array],
                                   [NSArray array],
                                   nil];
@@ -3301,11 +3307,11 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
                                           [NSArray arrayWithObjects:
                                            NSLocalizedString(@"Play", nil),
-                                           NSLocalizedString(@"Record", nil),
+//                                           NSLocalizedString(@"Record", nil),
                                            NSLocalizedString(@"Broadcast Details", nil), nil],
                                           [NSArray arrayWithObjects:
                                            NSLocalizedString(@"Play", nil),
-                                           NSLocalizedString(@"Record", nil),
+//                                           NSLocalizedString(@"Record", nil),
                                            NSLocalizedString(@"Broadcast Details", nil), nil],
                                           [NSArray array],
                                           [NSArray array],
