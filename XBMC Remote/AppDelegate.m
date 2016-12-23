@@ -4494,6 +4494,18 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
                               withIntermediateDirectories:YES
                                                attributes:nil
                                                     error:NULL];
+    
+    // Clean NetworkCache
+    NSString *caches = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, TRUE) objectAtIndex:0];
+    NSString *appID = [[NSBundle mainBundle] infoDictionary][@"CFBundleIdentifier"];
+    NSString *path = [NSString stringWithFormat:@"%@/%@/Cache.db-wal", caches, appID];
+    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    path = [NSString stringWithFormat:@"%@/%@/Cache.db-shm", caches, appID];
+    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    path = [NSString stringWithFormat:@"%@/%@/Cache.db", caches, appID];
+    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    path = [NSString stringWithFormat:@"%@/%@/fsCachedData", caches, appID];
+    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
 }
 
 @end
