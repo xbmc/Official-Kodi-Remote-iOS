@@ -34,6 +34,7 @@
 				<string>Spanish</string>
 				<string>Czech</string>
 				<string>Dutch</string>
+				<string>Türk</string>
 			</array>
 			<key>Values</key>
 			<array>
@@ -48,6 +49,7 @@
 				<string>es</string>
 				<string>cs</string>
 				<string>nl</string>
+				<string>tr</string>
 			</array>
 		</dict>
 		<dict>

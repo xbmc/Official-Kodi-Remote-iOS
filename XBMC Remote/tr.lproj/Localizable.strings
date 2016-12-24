@@ -1,0 +1,334 @@
+/* 
+  Localisable.strings
+  XBMC Remote
+
+  Created by Percin on 06/12/16.
+  Copyright (c) 2016 joethefox inc. All rights reserved.
+ */
+
+"Listen to" = "Dinle";
+"Watch your" = "İzle";
+"Browse your" = "Gözat";
+"See what's" = "Görüntüle";
+"Use as" = "Kullan";
+"Watch" = "İzle";
+
+"Music" = "Müzik";
+"Movies" = "Filmler";
+"TV Shows" = "Diziler";
+"Pictures" = "Resimler";
+"Now Playing" = "Oynatılıyor";
+"Remote Control" = "Uzaktan Kumanda";
+"XBMC Server" = "Kodi Sunucusu";
+"New XBMC Server" = "Yeni Kodi Sunucusu";
+"Modify XBMC Server" = "Sunucu değiştir";
+"Select an XBMC Server from the list" = "Listeden sunucu seç";
+
+"Files" = "Dosyalar";
+"Video Add-ons" = "Video Eklentileri";
+"Live TV" = "TV İzle";
+"Movie Genres" = "Film Türleri";
+"Music Videos" = "Müzik Klipleri";
+"Added Movies" = "Eklenen Filmler";
+"More (%d)" = "Daha fazla (%d)";
+"Movie Sets" = "Film Setleri";
+
+"Albums" = "Albümler";
+"Artists" = "Sanatçılar";
+"Genres" = "Türler";
+"Added Albums" = "Ekli Albümler";
+"Recently added albums" = "Yeni eklenen albümler";
+"Added Songs" = "Ekli Şarkılar";
+"Recently added songs" = "Yeni eklenen şarkılar";
+"Top 100 Albums" = "En İyi 100 Albüm";
+"Top 100 Songs" = "En İyi 100 Şarkı";
+"Played albums" = "Dinlediğiniz albümler";
+"Recently played albums" = "Yeni dinlediğiniz albümler";
+"Played songs" = "Dinlediğiniz şarkılar";
+"Recently played songs" = "Yeni dinlediğiniz şarkılar";
+"All songs" = "Tüm şarkılar";
+"Music Add-ons" = "Müzik Eklentileri";
+"Music Playlists" = "Çalma Listeleri";
+
+"Added Episodes" = "Eklenen Bölümler";
+
+"Picture Add-ons" = "Resim Eklentileri";
+
+"Power off System" = "Sistemi Kapat";
+"Power off" = "Kapat";
+"Hibernate" = "Uyku Modu";
+"Suspend" = "Askıya Al";
+"Reboot" = "Yeniden Başlat";
+"Quit XBMC application" = "Kodi'yi Kapat";
+"Update Audio Library" = "Ses Kütüphanesini Güncelle";
+"Update Audio" = "Sesi Güncelle";
+"Clean Audio Library" = "Ses Kütüphanesini Temizle";
+"Clean Audio" = "Sesi Temizle";
+"Update Video Library" = "Video Kütüphanesini Güncelle";
+"Update Video" = "Videoyu Güncelle";
+"Clean Video Library" = "Video Kütüphanesini Temizle";
+"Clean Video" = "Videoyu Temizle";
+"Quit" = "Çıkış";
+
+"Keyboard" = "Klavye";
+"Gesture Zone" = "Dokunma Alanı";
+"Button Pad" = "Tuş Takımı";
+"Help Screen" = "Yardım";
+"LED Torch" = "Aydınlatma";
+
+"No connection" = "Bağlantı Yok";
+
+"Queue after current" = "Bundan Sonra Oynat";
+"Queue" = "Kuyruğa Ekle";
+"Play" = "Oynat";
+"Stream to iPhone" = "iPhone'da oynat";
+"Search Wikipedia" = "Vikipedi'de ara";
+"Search last.fm charts" = "last.fm listelerinde ara";
+"Album Tracks" = "Albüm Başlıkları";
+"Artist Albums" = "Sanatçının Albümleri";
+"Artist Details" = "Sanatçı Hakkında";
+"Album Details" = "Albüm Hakkında";
+"Movie Details" = "Film Hakkında";
+"Episode Details" = "Bölüm Hakkında";
+"TV Show Details" = "Dizi Hakkında";
+"Music Video Details" = "Klip Hakkında";
+"Details" = "Ayrıntılar";
+"Play Trailer" = "Fragmanı izle";
+
+"Playlist" = "Oynatma Listesi";
+"Nothing is playing" = "Oynatılan bir şey yok";
+"Details not found" = "Ayrıntı bulunamadı";
+"Open in Safari" = "Safari'de aç";
+"Error loading page" = "Sayfa Yükleme Hatası";
+"OK" = "Tamam";
+"Cancel" = "İptal";
+"Resume from %@" = "%@'dan devam et";
+"Resume from" = "Şuradan devam et";
+"First aired on %@" = "İlk yayın tarihi: %@";
+"Episodes: %@" = "Bölüm Sayısı: %@";
+"1 result" = "1 sonuç";
+"%d results" = "%d sonuç";
+"Music " = "Müzik ";
+"Video " = "Video ";
+"Songs" = "Şarkılar";
+"Song" = "Şarkı";
+"Mins." = "Dakika";
+"Min" = "Dakika";
+"Released %d" = "Yayın Tarihi: %d";
+
+"Clear Playlist" = "Oynatma Listesini Temizle";
+"No server MAC address defined" = "Sunucu MAC adresi belirlenmedi";
+"Command executed" = "Komut uygulandı";
+"Warning" = "Uyarı";
+"Cannot do that" = "Yapılamıyor";
+"Wake On Lan" = "Ağ bağlantısında uyan";
+"No saved hosts found" = "Kayıtlı sunucu bulunamadı";
+
+"Are you sure you want to clear the %@playlist?" = "Temizlensin mi: %@playlist ?";
+"Are you sure you want to power off your XBMC system now?" = "Kodi kapatılsın mı?";
+"Are you sure you want to hibernate your XBMC system now?" = "Kodi uyku moduna alınsın mı?";
+"Are you sure you want to suspend your XBMC system now?" = "Kodi askıya alınsın mı?";
+"Are you sure you want to reboot your XBMC system now?" = "Kodi yeniden başlatılsın mı?";
+"Are you sure you want to quit XBMC application now?" = "Kodi uygulamasından çıkılsın mı?";
+"Are you sure you want to update your audio library now?" = "Ses kütüphanesi güncellensin mi?";
+"Are you sure you want to clean your audio library now?" = "Ses kütüphanesi temizlensin mi?";
+"Are you sure you want to update your video library now?" = "Video kütüphanesi güncellensin mi?";
+"Are you sure you want to clean your video library now?" = "Video kütüphanesi temizlensin mi?";
+
+"DIRECTED BY" = "YÖNETMEN";
+"RUNTIME" = "SÜRE";
+"PARENTAL RATING" = "EBEVEYN NOTU";
+"CAST" = "OYUNCULAR";
+"EPISODES" = "BÖLÜMLER";
+"GENRE" = "TÜR";
+"STUDIO" = "STÜDYO";
+"TV SHOW" = "DİZİ";
+"DIRECTOR" = "YÖNETMEN";
+"WRITER" = "SENARİST";
+"FIRST AIRED" = "YAYIN TARİHİ";
+"SUMMARY" = "ÖZET";
+"PLOT OUTLINE" = "KONU";
+"ARTIST" = "SANATÇI";
+"YEAR" = "YIL";
+"ALBUM LABEL" = "ALBÜM ETİKETİ";
+"DESCRIPTION" = "AÇIKLAMA";
+"STYLE" = "TARZ";
+"BORN / FORMED" = "DOĞUM / KURULUŞ";
+"TRAILER" = "FRAGMAN";
+
+"codec" = "codec";
+"bit rate" = "bit rate";
+"sample rate" = "sample rate";
+"resolution" = "çözünürlük";
+"aspect ratio" = "görüntü oranı";
+"Subtitles not available" = "Altyazı yok";
+"Audiostream not available" = "Ses akışı yok";
+"Audiostreams not available" = "Ses akışları yok";
+
+"LongDateTimeFormat" = "dd MMMM, YYYY";
+"ShortDateTimeFormat" = "yyyy-MM-dd";
+"LocaleIdentifier" = "tr_TR";
+
+"Yes" = "Evet";
+"No" = "Hayır";
+"Authentication Failed" = "Doğrulama Başarısız";
+"Incorrect Username or Password.\nCheck your settings." = "Kullanıcı adı veya Şifre yanlış.\nAyarları kontrol edin.";
+
+"WIKI_LANG" = "tr";
+
+"vote" = "oy";
+"votes" = "oy";
+
+"Slide your finger up to adjust the scrubbing rate." = "Düzeltme oranını ayarlamak için yukarı sürükleyin.";
+"Scrubbing 1" = "Yüksek Hızlı Düzeltme";
+"Scrubbing 0.5" = "Yarı Hızlı Düzeltme";
+"Scrubbing 0.25" = "Çeyrek Hızlı Düzeltme";
+"Scrubbing 0.1" = "Hassas Düzeltme";
+"Scrubbing 0.05" = "Daha Hassas Düzeltme";
+"Scrubbing 0.025" = "En Hassas Düzeltme";
+
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Önbellek temizleniyor...\n\nLütfen bekleyin, uzun sürebilir";
+"Pull to sync with XBMC..." = "Kodi ile eşlemek için çekin...";
+"Release to sync with XBMC..." = "Eşleme için serbest bırakın...";
+"Syncing..." = "Eşleniyor...";
+"Last sync" = "Son eşlenme";
+"View: Wall" = "Görünüm: Duvar";
+"View: List" = "Görünüm: Liste";
+"View: Fanart" = "Görünüm: Fanart";
+
+"Show Content" = "İçeriği Göster";
+"Play in party mode" = "Parti Modu";
+"Play in shuffle mode" = "Karışık Oynat";
+
+"Channel Guide" = "Kanal Rehberi";
+"Record" = "Kaydet";
+"Stop Recording" = "Kaydı Durdur";
+"Recordings" = "Kayıtlar";
+"Timers" = "Zamanlamalar";
+"Broadcast Details" = "Yayın Ayrıntıları";
+"TIME" = "ZAMAN";
+
+"ERROR" = "HATA";
+"Subtitles disabled" = "Altyazılar devre dışı";
+"Subtitle" = "Altyazı";
+"Mark as watched" = "İzlendi olarak işaretle";
+"Mark as unwatched" = "İzlenmedi olarak işaretle";
+
+"Button Pad/Gesture Zone" = "Tuş Takımı/Dokunma Alanı";
+"Slide your finger up or down to adjust the scrubbing rate." = "Düzeltme oranını ayarlamak için yukarı/aşağı kaydırın.";
+
+"Programs" = "Programlar";
+"Video Add-ons" = "Video Eklentileri";
+"Music Add-ons" = "Müzik Eklentileri";
+"XBMC Settings" = "Kodi Ayarları";
+
+"Custom button" = "Özel tuş";
+"Modify label:" = "Etiketi değiştir:";
+"Update label" = "Etiketi güncelle";
+"Add a new button" = "Yeni tuş ekle";
+"Enter the label:" = "Etiket gir:";
+"Add button" = "Tuş ekle";
+"Button added" = "Tuş eklendi";
+"enter value" = "değer gir";
+"Tap and hold a setting to add a new button." = "Yeni tuş eklemek için bir ayara basılı tutun.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Özel tuş ayarlanmadı.\r\nEklemek için \"...daha fazla\" seçeneğine basın.";
+
+"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- UYARI --\nKodi API zamanlayıcı ayarına izin vermiyor. Kodi arayüzünü kullanarak ekleyip, silebilirsiniz.";
+
+"Execute program" = "Programı çalıştır";
+"Execute video add-on" = "Video eklentisi çalıştır";
+"Execute audio add-on" = "Ses eklentisi çalıştır";
+"Add-on executed successfully" = "Eklenti başarıyla çalıştı";
+"Unable to execute the add-on" = "Eklenti başlatılamadı";
+
+"...more" = "...daha fazla";
+"Edit" = "Düzenleyici";
+"Done" = "Bitti";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Ayarlara erişmek için Kodi versiyon 13 veya daha yenisi gerekiyor.";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- UYARI --\nBu ayarlara uzaktan erişilemiyor. Kodi arayüzünü kullanın.";
+
+"Official XBMC Remote\nfor iOS" = "Kodi Resmi Uzaktan Kumandası \niOS sürümü";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Resmi Kodi Uzaktan Kumanda uygulaması http://fanart.tv adresinden görsel indirir. Daha fazla görsel için \"artwork downloader\" uygulamasını deneyebilirsiniz.\n\nKodi logosu, Zappy maskotu ve Resmi Kodi Uzaktan Kumanda ikonlarının tüm hakları Kodi'ye aittir\nhttp://www.kodi.tv/contribute";
+"Enjoy!" = "İyi eğlenceler!";
+
+"No items found." = "Hiçbir şey bulunamadı";
+"Video" = "Video";
+"Party" = "Parti";
+"Search" = "Ara";
+
+"Supported XBMC version is Eden (11) or higher" = "Desteklenen Kodi sürümü Eden (11) ve yukarısıdır";
+"Add Host" = "Sunucu ekle";
+
+"Description" = "Açıklama";
+"Host : port /\nTCP port" = "Sunucu : port /\nTCP port";
+"MAC Address" = "MAC Adresi";
+"Username and Password" = "Kullanıcı adı ve şifre";
+"Prefer posters for TV shows" = "Dizilerde posterleri tercih et";
+"Find XBMC" = "Kodi Bul";
+"Save" = "Kaydet";
+"No XBMC instances were found :(" = "Kodi bulunamadı :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Kodi Bul\" Kodi sunucusu seçeneği gerekir\n\"Zéroconf üzerinden bu servisleri diğer sistemlere duyur\"";
+"How-to activate the remote app in XBMC" = "Kodi'de uzaktan kumanda nasıl etkinleştirilir";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nAyarlar -> Ağ -> HTTP yoluyla Kodi'nin kontrolüne izin ver";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nAyarlar -> Hizmetler -> Web Sunucusu -> HTTP yoluyla Kodi'nin kontrolüne izin ver";
+"e.g. My XBMC" = "Örn. Kodi'm";
+"e.g. 192.168.0.8" = "Örn. 192.168.0.8";
+"Username" = "Kullanıcı adı";
+"Password" = "Parola";
+
+"Sort by" = "Sırala";
+"tap" = "dokun";
+"the selection" = "seçim";
+"tap the selection\nto reverse the sort order" = "Sıralamayı tersine çevirmek için\nseçime dokunun";
+"Not listened" = "Dinlenmedi";
+"Listened one time" = "Bir kez dinlendi";
+"Listened %@ times" = "%@ kez dinlendi";
+"Not watched" = "İzlenmedi ";
+"Watched one time" = "Bir kez izlendi";
+"Watched %@ times" = "%@ kez izlendi";
+"Artist" = "Sanatçı";
+"Year" = "Yıl";
+"Play count" = "Oynatma sayısı";
+"Track" = "Parça";
+"Title" = "Başlık";
+"Rating" = "Puan";
+"Duration" = "Süre";
+"Date added" = "Eklenme tarihi";
+"Name" = "İsim";
+"User rating" = "Kullanıcı puanı";
+"The %@s decade" = "%@'lı yıllar";
+"Year not available" = "Yıl belirtilmedi";
+"Year %@" = "Yıl: %@";
+"Rated %@" = "Puan: %@";
+"Track n.%@" = "Parça n°%@";
+
+"Less than 15 minutes" = "15 dakikadan az";
+"Less than half an hour" = "30 dakikadan az";
+"About half an hour" = "Yaklaşık yarım saat";
+"Less than one hour" = "1 saatten az";
+"About one hour" = "Yaklaşık 1 saat";
+"About an hour and a half" = "Yaklaşık 1,5 saat";
+"Nearly two hours" = "Yaklaşık 2 saat";
+"About two hours" = "Yaklaşık 2 saat";
+"Two hours" = "2 saat";
+"About two and a half hours" = "Yaklaşık 2,5 saat";
+"More than two and a half hours" = "2,5 saatten fazla";
+"Nearly three hours" = "Yaklaşık 3 saat";
+"About three hours" = "Yaklaşık 3 saat";
+"Nearly three and half hours" = "Yaklaşık 3,5 saat";
+"About three and half hours" = "Yaklaşık 3,5 saat";
+"Nearly four hours" = "Yaklaşık 4 saat";
+"About four hours" = "Yaklaşık 4 saat";
+"More than four hours" = "4 saatten fazla";
+
+"Unknown" = "Bilinmiyor";
+"Audio stream" = "Ses akışı";
+"Disable subtitles" = "Altyazıyı kapat";
+"Subtitles" = "Altyazılar";
+
+"Execute a specific action" = "Bir eylem çalıştır";
+"Activate a specific window" = "Bir pencere etkinleştir";
+"Execute action" = "Eylem çalıştır";
+"Activate window" = "Pencere etkinleştir";
+"Add action button" = "Eylem tuşu ekle";
+"Add window activation button" = "Pencere etkinleştirme tuşu ekle";
