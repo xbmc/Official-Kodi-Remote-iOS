@@ -37,8 +37,8 @@
 	<array>
 		<string>vlc</string>
 	</array>
-	<key>LSMinimumSystemVersion</key>
-	<string>5.1.1</string>
+	<key>MinimumOSVersion</key>
+	<string>8.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
