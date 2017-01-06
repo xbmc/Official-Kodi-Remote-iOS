@@ -2443,7 +2443,7 @@ int currentItemID;
     UILabel *subLabel = (UILabel*) [cell viewWithTag:2];
     UILabel *cornerLabel = (UILabel*) [cell viewWithTag:3];
 
-    [mainLabel setText:[item objectForKey:@"title"]];
+    [mainLabel setText:![[item objectForKey:@"title"] isEqualToString:@""] ? [item objectForKey:@"title"] : [item objectForKey:@"label"] ];
     [(UILabel*) [cell viewWithTag:2] setText:@""];
     if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
         if ([[item objectForKey:@"season"] intValue]!=0 || [[item objectForKey:@"episode"] intValue]!=0){
