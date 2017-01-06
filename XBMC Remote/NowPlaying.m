@@ -1461,7 +1461,7 @@ int currentItemID;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     [jsonRPC callMethod:@"Playlist.GetItems" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", @"tvshowid", @"file", nil], @"properties",
+                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", @"tvshowid", @"file", @"title", nil], @"properties",
                          [NSNumber numberWithInt:playlistID], @"playlistid",
                          nil] 
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1488,6 +1488,7 @@ int currentItemID;
                        for (int i=0; i<total; i++) {
                            NSString *idItem=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"id"]];
                            NSString *label=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"label"]];
+                           NSString *title=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"title"]];
                            
                            NSString *artist=@"";
                            if ([[[playlistItems objectAtIndex:i] objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")]){
@@ -1531,6 +1532,7 @@ int currentItemID;
                                                     idItem, @"idItem",
                                                     file, @"file",
                                                     label, @"label",
+                                                    title, @"title",
                                                     type,@"type",
                                                     artist, @"artist",
                                                     album, @"album",
@@ -2441,7 +2443,7 @@ int currentItemID;
     UILabel *subLabel = (UILabel*) [cell viewWithTag:2];
     UILabel *cornerLabel = (UILabel*) [cell viewWithTag:3];
 
-    [mainLabel setText:[item objectForKey:@"label"]];
+    [mainLabel setText:[item objectForKey:@"title"]];
     [(UILabel*) [cell viewWithTag:2] setText:@""];
     if ([[item objectForKey:@"type"] isEqualToString:@"episode"]){
         if ([[item objectForKey:@"season"] intValue]!=0 || [[item objectForKey:@"episode"] intValue]!=0){
