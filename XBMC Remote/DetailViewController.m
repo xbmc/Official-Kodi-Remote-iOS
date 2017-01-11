@@ -3919,11 +3919,20 @@ NSIndexPath *selected;
 }
 
 -(void)recordChannel:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath {
-    NSNumber *channelid = [NSNumber numberWithInt:[[item objectForKey:@"channelid"] intValue]];
-    if ([channelid isEqualToValue:[NSNumber numberWithInt:0]]) {
-        channelid = [NSNumber numberWithInt:[[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"] intValue]];
-        if ([channelid isEqualToValue:[NSNumber numberWithInt:0]]) {
+    NSString *methodToCall = @"PVR.Record";
+    NSString *parameterName = @"channel";
+    
+    NSNumber *itemid = [NSNumber numberWithInt:[[item objectForKey:@"channelid"] intValue]];
+    
+    if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
+        itemid = [NSNumber numberWithInt:[[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"] intValue]];
+        if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
             return;
+        }
+        if ([NSNumber numberWithInt:[[item objectForKey:@"isactive"] intValue]] == [NSNumber numberWithInt:0]) {
+            itemid = [NSNumber numberWithInt:[[item objectForKey:@"broadcastid"] intValue]];
+            methodToCall = @"PVR.ToggleTimer";
+            parameterName = @"broadcastid";
         }
     }
     id cell;
@@ -3939,9 +3948,9 @@ NSIndexPath *selected;
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                channelid, @"channel",
+                                itemid, parameterName,
                                 nil];
-    [jsonRPC callMethod:@"PVR.Record"
+    [jsonRPC callMethod:methodToCall
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [queuing stopAnimating];
@@ -3962,7 +3971,7 @@ NSIndexPath *selected;
                }
                else {
                    NSString *message = @"";
-                    message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", @"PVR.Record", [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                    message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil){
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }

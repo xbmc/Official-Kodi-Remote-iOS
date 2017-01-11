@@ -3190,11 +3190,11 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSArray arrayWithObjects:
                                    NSLocalizedString(@"Play", nil),
-//                                   NSLocalizedString(@"Record", nil),
+                                   NSLocalizedString(@"Record", nil),
                                    NSLocalizedString(@"Channel Guide", nil), nil],
                                    [NSArray arrayWithObjects:
                                     NSLocalizedString(@"Play", nil),
-//                                    NSLocalizedString(@"Record", nil),
+                                    NSLocalizedString(@"Record", nil),
                                     NSLocalizedString(@"Channel Guide", nil), nil],
                                   [NSArray array],
                                   [NSArray array],
@@ -3307,11 +3307,11 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
                                           [NSArray arrayWithObjects:
                                            NSLocalizedString(@"Play", nil),
-//                                           NSLocalizedString(@"Record", nil),
+                                           NSLocalizedString(@"Record", nil),
                                            NSLocalizedString(@"Broadcast Details", nil), nil],
                                           [NSArray arrayWithObjects:
                                            NSLocalizedString(@"Play", nil),
-//                                           NSLocalizedString(@"Record", nil),
+                                           NSLocalizedString(@"Record", nil),
                                            NSLocalizedString(@"Broadcast Details", nil), nil],
                                           [NSArray array],
                                           [NSArray array],
