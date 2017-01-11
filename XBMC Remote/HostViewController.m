@@ -326,7 +326,7 @@
 -(void)fillMacAddressInfo {
     NSString *macAddress = [self resolveMacFromIP:ipUI.text];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
-    if ([macPart count] == 6){
+    if ([macPart count] == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]){
         [mac_0_UI setText:[macPart objectAtIndex:0]];
         [mac_0_UI setTextColor:[UIColor blueColor]];
         [mac_1_UI setText:[macPart objectAtIndex:1]];
