@@ -1,5 +1,5 @@
-Official-XBMC-Remote
-iOS Full-featured remote control for XBMC Media Center. It features library browsing, now playing informations and a direct remote control.
+Official-Kodi-Remote-iOS
+iOS Full-featured remote control for Kodi Media Center. It features library browsing, now playing informations and a direct remote control.
 
 In order to avoid possible GPL violations when publishing on Apple's App Store, I believe
 it necessary to reserve the right to relicense this software as I see fit. Rather than
