@@ -28,11 +28,7 @@
 
 #define serviceType @"_xbmc-jsonrpc-h._tcp"
 #define domainName @"local"
-#define DISCOVER_TIMEOUT 5.0f
-
-@interface HostViewController ()
--(void)configureView;
-@end
+#define DISCOVER_TIMEOUT 15.0f
 
 @implementation HostViewController
 
@@ -65,24 +61,18 @@
     [UIView commitAnimations];
 }
 
-- (void)configureView{
-    if (self.detailItem==nil){
+- (void)configureView {
+    if (self.detailItem == nil) {
         self.navigationItem.title=NSLocalizedString(@"New XBMC Server", nil);
     }
     else {
         self.navigationItem.title=NSLocalizedString(@"Modify XBMC Server", nil);
         NSIndexPath *idx=self.detailItem;
-        
-        descriptionUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverDescription"];
-        
-        usernameUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverUser"];
-
-        passwordUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPass"];
-
-        ipUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverIP"];
-
-        portUI.text=[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPort"];
-        
+        descriptionUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverDescription"];
+        usernameUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverUser"];
+        passwordUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPass"];
+        ipUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverIP"];
+        portUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPort"];
         NSString *macAddress = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverMacAddress"];
         NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
         NSInteger num_octects = [mac_octect count];
@@ -92,10 +82,8 @@
         if (num_octects>3) mac_3_UI.text = [mac_octect objectAtIndex:3];
         if (num_octects>4) mac_4_UI.text = [mac_octect objectAtIndex:4];
         if (num_octects>5) mac_5_UI.text = [mac_octect objectAtIndex:5];
-
         preferTVPostersUI.on=[[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"preferTVPosters"] boolValue];
         tcpPortUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"tcpPort"];
-
     }
 }
 
@@ -452,6 +440,12 @@
     CGSize size = CGSizeMake(320, 380);
     self.preferredContentSize = size;
     [super viewWillAppear:animated];
+    [self configureView];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    services = [[NSMutableArray alloc] init];
+    netServiceBrowser = [[NSNetServiceBrowser alloc] init];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -459,6 +453,28 @@
     timer = nil;
     netServiceBrowser = nil;
     services = nil;
+    [self AnimView:discoveredInstancesView AnimDuration:0.0 Alpha:1.0 XPos:self.view.frame.size.width];
+    descriptionUI.text = @"";
+    usernameUI.text = @"";
+    passwordUI.text = @"";
+    ipUI.text = @"";
+    portUI.text = @"";
+    mac_0_UI.text = @"";
+    mac_1_UI.text = @"";
+    mac_2_UI.text = @"";
+    mac_3_UI.text = @"";
+    mac_4_UI.text = @"";
+    mac_5_UI.text = @"";
+    preferTVPostersUI.on = FALSE;
+    [descriptionUI setTextColor:[UIColor blackColor]];
+    [ipUI setTextColor:[UIColor blackColor]];
+    [portUI setTextColor:[UIColor blackColor]];
+    [mac_0_UI setTextColor:[UIColor blackColor]];
+    [mac_1_UI setTextColor:[UIColor blackColor]];
+    [mac_2_UI setTextColor:[UIColor blackColor]];
+    [mac_3_UI setTextColor:[UIColor blackColor]];
+    [mac_4_UI setTextColor:[UIColor blackColor]];
+    [mac_5_UI setTextColor:[UIColor blackColor]];
 }
 
 - (void)viewDidLoad{
@@ -500,14 +516,11 @@
         self.edgesForExtendedLayout = 0;
     }
     [discoveredInstancesTableView setBackgroundColor:[UIColor whiteColor]];
-    services = [[NSMutableArray alloc] init];
-    netServiceBrowser = [[NSNetServiceBrowser alloc] init];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
     rightSwipe.numberOfTouchesRequired = 1;
     rightSwipe.cancelsTouchesInView=NO;
     rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:rightSwipe];
-    [self configureView];
 }
 
 - (void)viewDidUnload{
