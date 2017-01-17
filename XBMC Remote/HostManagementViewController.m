@@ -29,8 +29,10 @@
 #pragma mark - Button Mamagement
 
 -(IBAction)addHost:(id)sender{
-    self.hostController=nil;
-    self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
+    if (self.hostController == nil) {
+        self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
+    }
+    self.hostController.detailItem = nil;
     [self.navigationController pushViewController:self.hostController animated:YES];
 }
 
@@ -55,9 +57,10 @@
         }
         [connectingActivityIndicator stopAnimating];
     }
-    self.hostController=nil;
-    self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
-    self.hostController.detailItem=item;
+    if (self.hostController == nil) {
+        self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
+    }
+    self.hostController.detailItem = item;
     [self.navigationController pushViewController:self.hostController animated:YES];
 }
 
