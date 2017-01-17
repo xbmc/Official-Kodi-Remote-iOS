@@ -159,6 +159,7 @@
     [descriptionUI resignFirstResponder];
     [ipUI resignFirstResponder];
     [portUI resignFirstResponder];
+    [tcpPortUI resignFirstResponder];
     [usernameUI resignFirstResponder];
     [mac_0_UI resignFirstResponder];
     [mac_1_UI resignFirstResponder];
@@ -170,31 +171,26 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    [self resignKeyboard];
-    [theTextField resignFirstResponder];
-    return YES;
+    if (theTextField.tag < 12){
+        UITextField *next = (UITextField*) [self.view viewWithTag:theTextField.tag + 1];
+        [next becomeFirstResponder];
+        //[next selectAll:self];
+        return NO;
+    }
+    else {
+        [self resignKeyboard];
+        [theTextField resignFirstResponder];
+        return YES;
+    }
 }
 
 -(IBAction)textFieldDoneEditing:(id)sender{
     [self resignKeyboard];
 }
 
-
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSUInteger newLength = [textField.text length] + [string length] - range.length;
-    if (newLength > 2 && textField.tag>100){
-        if (textField.tag < 106){
-            UITextField *next = (UITextField*) [self.view viewWithTag:textField.tag + 1];
-            [next becomeFirstResponder];
-            [next selectAll:self];
-        }
-        return NO;
-    }
-    else{
-        return YES;
-    }
-//    return (newLength > 2 && textField.tag>100) ? NO : YES;
+    return (newLength > 2 && textField.tag >= 5 && textField.tag <= 10) ? NO : YES;
 }
 
 # pragma  mark - Gestures
