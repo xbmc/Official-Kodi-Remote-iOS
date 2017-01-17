@@ -1363,6 +1363,10 @@
                 [cell.posterLabel setHidden:YES];
                 [cell.labelImageView setHidden:YES];
             }
+            else {
+                [cell.posterLabel setHidden:NO];
+                [cell.labelImageView setHidden:NO];
+            }
         }
         else {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
