@@ -2278,7 +2278,13 @@ int originYear = 0;
         test.timeZone = [NSTimeZone systemTimeZone];
         programStartTime.text = [localHourMinuteFormatter stringFromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]]];
         ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
-        if ([[item objectForKey:@"isactive"] boolValue] == TRUE){
+        NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
+        NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
+        float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
+        float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
+        float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
+
+        if (percent_elapsed >= 0 && percent_elapsed < 100) {
             [title setTextColor:[UIColor blueColor]];
             [genre setTextColor:[UIColor blueColor]];
             [programStartTime setTextColor:[UIColor blueColor]];
@@ -2287,13 +2293,11 @@ int originYear = 0;
             [genre setHighlightedTextColor:[UIColor blueColor]];
             [programStartTime setHighlightedTextColor:[UIColor blueColor]];
 
-            [progressView updateProgressPercentage:[[item objectForKey:@"progresspercentage"] floatValue]];
+            [progressView updateProgressPercentage:percent_elapsed];
             progressView.pieLabel.hidden = NO;
             NSCalendar *gregorian = [[NSCalendar alloc]
                                      initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
             NSUInteger unitFlags = NSCalendarUnitMinute;
-            NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
-            NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
             NSDateComponents *components = [gregorian components:unitFlags
                                                         fromDate:starttime
                                                           toDate:endtime
@@ -5396,7 +5400,7 @@ NSIndexPath *selected;
         [self startRetrieveDataWithRefresh:NO];
         isViewDidLoad = FALSE;
     }
-    if (channelListView == YES){
+    if (channelListView == YES || channelGuideView == YES) {
         [channelListUpdateTimer invalidate];
         channelListUpdateTimer = nil;
         NSDate * now = [NSDate date];
