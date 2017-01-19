@@ -1,0 +1,337 @@
+/*
+ Localisable.strings
+ XBMC Remote
+ 
+ Created by Pierrick Rouxel on 21/12/12.
+ Copyright (c) 2012 joethefox inc. All rights reserved.
+ 
+ Swedish translation by Daniel Nylander 2017-01-15
+ 
+ */
+
+"Listen to" = "Lyssna på";
+"Watch your" = "Se på dina";
+"Browse your" = "Sök efter dina";
+"See what's" = "Se vad som är";
+"Use as" = "Använd som";
+"Watch" = "Se";
+
+"Music" = "Musik";
+"Movies" = "Filmer";
+"TV Shows" = "TV-serier";
+"Pictures" = "Bilder";
+"Now Playing" = "Nu spelas";
+"Remote Control" = "Fjärrkontroll";
+"XBMC Server" = "Kodi-server";
+"New XBMC Server" = "Ny Kodi-server";
+"Modify XBMC Server" = "Ändra Kodi-server";
+"Select an XBMC Server from the list" = "Välj en Kodi-server från listan";
+
+"Files" = "Filer";
+"Video Add-ons" = "Filmtillägg";
+"Live TV" = "Live TV";
+"Movie Genres" = "Filmgenrer";
+"Music Videos" = "Musikvideor";
+"Added Movies" = "Tillagda filmer";
+"More (%d)" = "Fler (%d)";
+"Movie Sets" = "Filmuppsättningar";
+
+"Albums" = "Album";
+"Artists" = "Artister";
+"Genres" = "Genrer";
+"Added Albums" = "Tillagda album";
+"Recently added albums" = "Senast tillagda album";
+"Added Songs" = "Tillagda låtar";
+"Recently added songs" = "Senast tillagda låtar";
+"Top 100 Albums" = "Topp 100 album";
+"Top 100 Songs" = "Topp 100 låtar";
+"Played albums" = "Spelade album";
+"Recently played albums" = "Senast spelade album";
+"Played songs" = "Spelade låtar";
+"Recently played songs" = "Senast spelade låtar";
+"All songs" = "Alla låtar";
+"Music Add-ons" = "Musiktillägg";
+"Music Playlists" = "Musikspellistor";
+
+"Added Episodes" = "Tillagda avsnitt";
+
+"Pictures Add-ons" = "Bildtillägg";
+
+"Power off System" = "Stäng av systemet";
+"Power off" = "Stäng av";
+"Hibernate" = "Vänteläge";
+"Suspend" = "Viloläge";
+"Reboot" = "Starta om";
+"Quit XBMC application" = "Avsluta Kodi";
+"Update Audio Library" = "Uppdatera ljudbiblioteket";
+"Update Audio" = "Uppdatera ljud";
+"Clean Audio Library" = "Städa i ljudbiblioteket";
+"Clean Audio" = "Städa ljud";
+"Update Video Library" = "Uppdatera filmbiblioteket";
+"Update Video" = "Uppdatera film";
+"Clean Video Library" = "Städa i filmbiblioteket";
+"Clean Video" = "Städa film";
+"Quit" = "Avsluta";
+
+"Keyboard" = "Tangentbord";
+"Gesture Zone" = "Gestzon";
+"Button Pad" = "Knappsats";
+"Help Screen" = "Hjälpskärm";
+"LED Torch" = "LED-lampa";
+
+"No connection" = "Ingen anslutning";
+
+"Queue after current" = "Kölägg efter aktuell";
+"Queue" = "Kölägg";
+"Play" = "Spela";
+"Stream to iPhone" = "Strömma till iPhone";
+"Search Wikipedia" = "Sök på Wikipedia";
+"Search last.fm charts" = "Sök på last.fm-topplistor";
+"Album Tracks" = "Albumspår";
+"Artist Albums" = "Artistalbum";
+"Artist Details" = "Information om artist";
+"Album Details" = "Information om album";
+"Movie Details" = "Information om film";
+"Episode Details" = "Information om avsnitt";
+"TV Show Details" = "Information om tv-serie";
+"Music Video Details" = "Information om musikvideo";
+"Details" = "Information";
+"Play Trailer" = "Spela förhandsvisning";
+
+"Playlist" = "Spellista";
+"Nothing is playing" = "Ingenting spelas upp";
+"Details not found" = "Information hittades inte";
+"Open in Safari" = "Öppna i Safari";
+"Error loading page" = "Fel vid inläsning av sidan";
+"OK" = "Ok";
+"Cancel" = "Avbryt";
+"Resume from %@" = "Återuppta från %@";
+"Resume from" = "Återuppta från";
+"First aired on %@" = "Sändes första gången %@";
+"Episodes: %@" = "Avsnitt: %@";
+"1 result" = "1 resultat";
+"%d results" = "%d resultat";
+"Music " = "Musik ";
+"Video " = "Film ";
+"Songs" = "Låtar";
+"Song" = "Låt";
+"Mins." = "Min.";
+"Min" = "Min";
+"Released %d" = "Släppdatum %d";
+
+"Clear Playlist" = "Töm spellista";
+"No server MAC address defined" = "Ingen hårdvaruadress för server definierad";
+"Command executed" = "Kommandot kördes";
+"Warning" = "Varning";
+"Cannot do that" = "Kan inte göra detta";
+"Wake On Lan" = "Wake On Lan";
+"No saved hosts found" = "Inga sparade värddatorer hittades";
+
+"Are you sure you want to clear the %@playlist?" = "Är du säker på att du vill tömma %@playlist?";
+"Are you sure you want to power off your XBMC system now?" = "Är du säker på att du vill stänga av ditt Kodi-system nu?";
+"Are you sure you want to hibernate your XBMC system now?" = "Är du säker på att du vill försätta ditt Kodi-system i vänteläge nu?";
+"Are you sure you want to suspend your XBMC system now?" = "Är du säker på att du vill försätta ditt Kodi-system i viloläge nu?";
+"Are you sure you want to reboot your XBMC system now?" = "Är du säker på att du vill starta om ditt Kodi-system nu?";
+"Are you sure you want to quit XBMC application now?" = "Är du säker på att du vill avsluta Kodi nu?";
+"Are you sure you want to update your audio library now?" = "Är du säker på att du vill uppdatera ditt ljudbibliotek nu?";
+"Are you sure you want to clean your audio library now?" = "Är du säker på att du vill tömma ditt ljudbibliotek nu?";
+"Are you sure you want to update your video library now?" = "Är du säker på att du vill uppdatera ditt filmbibliotek nu?";
+"Are you sure you want to clean your video library now?" = "Är du säker på att du vill tömma ditt filmbibliotek nu?";
+
+"DIRECTED BY" = "REGISSERAD AV";
+"RUNTIME" = "SPELTID";
+"PARENTAL RATING" = "PARENTAL RATING";
+"CAST" = "MEDVERKANDE";
+"EPISODES" = "AVSNITT";
+"GENRE" = "GENRE";
+"STUDIO" = "STUDIO";
+"TV SHOW" = "TV-SERIE";
+"DIRECTOR" = "REGISSÖR";
+"WRITER" = "FÖRFATTARE";
+"FIRST AIRED" = "SÄNDES FÖRSTA GÅNGEN";
+"SUMMARY" = "SAMMANFATTNING";
+"PLOT OUTLINE" = "KORT HANDLING";
+"ARTIST" = "ARTIST";
+"YEAR" = "ÅR";
+"ALBUM LABEL" = "MUSIKFÖRLAG";
+"DESCRIPTION" = "BESKRIVNING";
+"STYLE" = "STIL";
+"BORN / FORMED" = "FÖDDES / STARTADES";
+"TRAILER" = "TRAILER";
+
+"codec" = "kodek";
+"bit rate" = "bithastighet";
+"sample rate" = "samplingshastighet";
+"resolution" = "upplösning";
+"aspect ratio" = "bildförhållande";
+"Subtitles not available" = "Undertexter inte tillgängliga";
+"Audiostream not available" = "Ljudström inte tillgänglig";
+"Audiostreams not available" = "Ljudströmmar inte tillgängliga";
+
+"LongDateTimeFormat" = "yyyy-MM-dd";
+"ShortDateTimeFormat" = "yyyy-MM-dd";
+"LocaleIdentifier" = "sv_SE";
+
+"Yes" = "Ja";
+"No" = "Nej";
+"Authentication Failed" = "Autentisering misslyckades";
+"Incorrect Username or Password.\nCheck your settings." = "Felaktigt användarnamn eller lösenord.\nKontrollera dina inställningar.";
+
+"WIKI_LANG" = "sv";
+
+"vote" = "röst";
+"votes" = "röster";
+
+"Slide your finger up to adjust the scrubbing rate." = "Svep ditt finger för att justera snabbspolningshastigheten.";
+"Scrubbing 1" = "Snabbspola mycket snabbt";
+"Scrubbing 0.5" = "Snabbspola halv hastighet";
+"Scrubbing 0.25" = "Snabbspola kvartshastighet";
+"Scrubbing 0.1" = "Snabbspola normalt";
+"Scrubbing 0.05" = "Snabbspola långsamt";
+"Scrubbing 0.025" = "Snabbspola mycket långsamt";
+
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Tömmer applikationens diskmellanlagring...\n\nVänta då detta kan ta lite tid";
+"Pull to sync with XBMC..." = "Dra för att synkronisera med Kodi...";
+"Release to sync with XBMC..." = "Släpp för att synkronisera med Kodi...";
+"Syncing..." = "Synkroniserar...";
+"Last sync" = "Senaste synkronisering";
+"View: Wall" = "Visa: Vägg";
+"View: List" = "Visa: Lista";
+"View: Fanart" = "Visa: Fanart";
+
+"Show Content" = "Visa innehåll";
+"Play in party mode" = "Spela i partyläge";
+"Play in shuffle mode" = "Spela i blandningsläge";
+
+"Channel Guide" = "Kanalguide";
+"Record" = "Spela in";
+"Stop Recording" = "Stoppa inspelning";
+"Recordings" = "Inspelningar";
+"Timers" = "Tider";
+"Broadcast Details" = "Information om sändning";
+"TIME" = "TID";
+
+"ERROR" = "FEL";
+"Subtitles disabled" = "Undertexter inaktiverade";
+"Subtitle" = "Undertext";
+"Mark as watched" = "Markera som sedd";
+"Mark as unwatched" = "Markera som icke-sedd";
+
+"Button Pad/Gesture Zone" = "Knappsats/Gestzon";
+"Slide your finger up or down to adjust the scrubbing rate." = "Dra ditt finger upp eller ner för att justera snabbspolningshastigheten.";
+
+"Programs" = "Program";
+"Video Add-ons" = "Videotillägg";
+"Music Add-ons" = "Musiktillägg";
+"XBMC Settings" = "Kodi-inställningar";
+
+"Custom button" = "Anpassad knapp";
+"Modify label:" = "Ändra etikett:";
+"Update label" = "Uppdatera etikett";
+"Add a new button" = "Lägg till ny knapp";
+"Enter the label:" = "Ange etikett:";
+"Add button" = "Lägg till knapp";
+"Button added" = "Knappen lades till";
+"enter value" = "ange värde";
+"Tap and hold a setting to add a new button." = "Tryck och håll en inställning för att lägga till en ny knapp.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Ingen anpassad knapp definierad.\r\nTryck \"...fler\" nedan för att lägga till nya.";
+
+"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- VARNING --\nNuvarande Kodi API tillåter inte tidsredigeringar. Använd Kodis grafiska gränssnitt för att lägga till, redigera och ta bort tider.";
+
+"Execute program" = "Kör program";
+"Execute video add-on" = "Kör filmtillägg";
+"Execute audio add-on" = "Kör ljudtillägg";
+"Add-on executed successfully" = "Tillägget kördes utan problem";
+"Unable to execute the add-on" = "Kunde inte köra tillägget";
+
+"...more" = "...fler";
+"Edit" = "Redigera";
+"Done" = "Klar";
+"Kodi version 13 or superior is required to access Kodi settings" = "XBMC \"Gotham\" version 13 eller senare krävs för att komma åt XBMC-inställningarna";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- VARNING --\nDenna typ av inställning kan inte konfigureras här. Använd det grafiska gränssnittet i Kodi för att ändra denna inställning.";
+
+"Official XBMC Remote\nfor iOS" = "Officiell Kodi-fjärrkontroll\nför iOS";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Officiella Kodi-fjärrkontrollen använder bilder från http://fanart.tv, hämta och kör Kodi-tillägget \"artwork downloader\" för att låsa upp dessa vackra konstverk!\n\nKodi-logotypen, maskoten Zappy och ikonerna för Officiella Kodi-fjärrkontrollen ägs av Kodi\nhttp://www.kodi.tv/contribute";
+"enjoy!" = "Njut!";
+
+"No items found." = "Inga objekt hittades.";
+"Video" = "Video";
+"Party" = "Party";
+"Search" = "Sök";
+
+"Supported XBMC version is Eden (11) or higher" = "Kodi version Eden (11) eller högre krävs";
+"Add Host" = "Lägg till värd";
+
+"Description" = "Beskrivning";
+"Host : port /\nTCP port" = "Värd : port /\nTCP-port";
+"MAC Address" = "Hårdvaruadress";
+"Username and Password" = "Användarnamn och lösenord";
+"Prefer posters for TV shows" = "Föredra affischer för tv-serier";
+"Find XBMC" = "Sök efter Kodi";
+"Save" = "Spara";
+"No XBMC instances were found :(" = "Inga Kodi-instanser hittades :(";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Sök efter Kodi\" kräver inställning på Kodi-servern\n\"Annonsera tjänster till andra system\" via Zeroconf krävs";
+"How-to activate the remote app in XBMC" = "Hur man aktiverar fjärrkontrollen i Kodi";
+"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nInställningar -> Nätverk -> Tillåt styrning av Kodi via HTTP";
+"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nInställningar -> Tjänster -> Webbserver -> Tillåt styrning av Kodi via HTTP";
+"e.g. My XBMC" = "t.ex. Min Kodi";
+"e.g. 192.168.0.8" = "t.ex. 192.168.0.8";
+"User" = "Användare";
+"Password" = "Lösenord";
+
+"Sort by" = "Sortera efter";
+"tap" = "tryck";
+"the selection" = "på valet";
+"tap the selection\nto reverse the sort order" = "tryck på valet\nför att ändra sortingsordning";
+"Not listened" = "Inte lyssnat på";
+"Listened one time" = "Lyssnat på en gång";
+"Listened %@ times" = "Lyssnat på %@ gånger";
+"Not watched" = "Inte sett på";
+"Watched one time" = "Sett på en gång";
+"Watched %@ times" = "Sett på %@ gånger";
+"Artist" = "Artist";
+"Year" = "År";
+"Play count" = "Spelat antal";
+"Track" = "Spår";
+"Title" = "Titel";
+"Rating" = "Betyg";
+"Duration" = "Speltid";
+"Date added" = "Tillagt datum";
+"Name" = "Namn";
+"User rating" = "Användarbetyg";
+"The %@s decade" = "Årtiondet %@s";
+"Year not available" = "Året finns inte tillgängligt";
+"Year %@" = "År %@";
+"Rated %@" = "Betyg %@";
+"Track n.%@" = "Spår n.%@";
+
+"Less than 15 minutes" = "Mindre än 15 minuter";
+"Less than half an hour" = "Mindre än en halvtimme";
+"About half an hour" = "Ungefär en halvtimme";
+"Less than one hour" = "Mindre än en timme";
+"About one hour" = "Ungefär en timme";
+"About an hour and a half" = "Ungefär en och en halv timme";
+"Nearly two hours" = "Nästan två timmar";
+"About two hours" = "Ungefär två timmar";
+"Two hours" = "Två timmar";
+"About two and a half hours" = "Ungefär två och en halv timme";
+"More than two and a half hours" = "Mer än två och en halv timme";
+"Nearly three hours" = "Nästan tre timmar";
+"About three hours" = "Ungefär tre timmar";
+"Nearly three and half hours" = "Nästan tre och en halv timme";
+"About three and half hours" = "Ungefär tre och en halv timme";
+"Nearly four hours" = "Nästan fyra timmar";
+"About four hours" = "Ungefär fyra timmar";
+"More than four hours" = "Mer än fyra timmar";
+
+"Unknown" = "Okänd";
+"Audio stream" = "Ljudström";
+"Disable subtitles" = "Inaktivera undertexter";
+"Subtitles" = "Undertexter";
+
+"Execute a specific action" = "Kör en specifik åtgärd";
+"Activate a specific window" = "Aktivera ett specifikt fönster";
+"Execute action" = "Kör åtgärd";
+"Activate window" = "Aktivera fönster";
+"Add action button" = "Lägg till åtgärdsknapp";
+"Add window activation button" = "Lägg till knapp för fönsteraktivering";

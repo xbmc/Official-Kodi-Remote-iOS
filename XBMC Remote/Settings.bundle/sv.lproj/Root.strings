@@ -1,0 +1,21 @@
+/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
+/* Swedish translation by Daniel Nylander 2017-01-15 */
+
+"General" = "Allmänt";
+"Language" = "Språk";
+"Automatic" = "Automatiskt";
+"Language changes needs app restart" = "Ändring av språk kräver omstart";
+"Direct Play mode" = "Direct Play-läge";
+"Ken Burns effect" = "Ken Burns-effekt";
+"Shake to clear playlist" = "Skaka för att tömma spellista";
+"Show jewel cases" = "Visa omslagsbilder";
+"Hide labels in wall view" = "Dölj etiketter i väggvy";
+"Remote Control" = "Fjärrkontroll";
+"Gesture remote control" = "Fjärrkontroll med gester";
+"Vibrate remote control" = "Vibrera fjärrkontrollen";
+"App Settings" = "Programinställningar";
+"Clear cache on next start" = "Töm mellanlagring vid nästa start";
+"Enable contents cache" = "Aktivera mellanlagring av innehåll";
+"Override Lockscreen" = "Åsidosätt låsskärm";
+"Show all files in filemode" = "Visa alla filer i filläge";
+"Filemode changes needs app restart" = "Ändring av filläge kräver omstart";
