@@ -3937,7 +3937,12 @@ NSIndexPath *selected;
         if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
             return;
         }
-        if ([NSNumber numberWithInt:[[item objectForKey:@"isactive"] intValue]] == [NSNumber numberWithInt:0]) {
+        NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
+        NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
+        float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
+        float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
+        float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
+        if (percent_elapsed < 0 || percent_elapsed >= 100) {
             itemid = [NSNumber numberWithInt:[[item objectForKey:@"broadcastid"] intValue]];
             methodToCall = @"PVR.ToggleTimer";
             parameterName = @"broadcastid";
