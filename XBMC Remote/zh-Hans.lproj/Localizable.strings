@@ -205,6 +205,7 @@
 "Stop Recording" = "停止录制";
 "Recordings" = "录像";
 "Timers" = "定时器";
+"Delete timer" = "Delete timer";
 "Broadcast Details" = "播出信息";
 "TIME" = "时间";
 
@@ -233,7 +234,7 @@
 "Tap and hold a setting to add a new button." = "点按设置来增加新按钮。";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "无自定义按钮。\r\n按 \"...更多\" 来增加。";
 
-"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- 注意 --\n目前Kodi API不支持定时器编辑。请使用Kodi图形用户界面增加、编辑和删除定时器。谢谢。";
+"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- 注意 --\n\nKodi API之前的Krypton（v17）不允许计时器编辑。请使用Kodi图形用户界面增加、编辑和删除定时器。谢谢。";
 
 "Execute program" = "运行程序";
 "Execute video add-on" = "运行视频插件";

@@ -3014,8 +3014,10 @@ NSIndexPath *selected;
     NSInteger numActions=[sheetActions count];
     if (numActions){
         NSString *title=[NSString stringWithFormat:@"%@%@%@", [item objectForKey:@"label"], [[item objectForKey:@"genre"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"\n%@", [item objectForKey:@"genre"]], [[item objectForKey:@"family"] isEqualToString:@"songid"] ? [NSString stringWithFormat:@"\n%@", [item objectForKey:@"album"]] : @""];
-        if ( [[item objectForKey:@"family"] isEqualToString:@"timerid"] ) {
-            title = [NSString stringWithFormat:@"%@\n\n%@", title, NSLocalizedString(@"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you.", nil)];
+        if ( [[item objectForKey:@"family"] isEqualToString:@"timerid"] && [AppDelegate instance].serverVersion < 17) {
+            title = [NSString stringWithFormat:@"%@\n\n%@", title, NSLocalizedString(@"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.", nil)];
+            sheetActions = [NSArray arrayWithObjects: NSLocalizedString(@"Ok", nil), nil];
+            numActions = 1;
         }
         UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
                                                             delegate:self
@@ -3275,6 +3277,9 @@ NSIndexPath *selected;
         }
         else if ([option isEqualToString:NSLocalizedString(@"Record", nil)] || [option isEqualToString:NSLocalizedString(@"Stop Recording", nil)]){
             [self recordChannel:item indexPath:selected];
+        }
+        else if ([option isEqualToString:NSLocalizedString(@"Delete timer", nil)]){
+            [self deleteTimer:item indexPath:selected];
         }
         else if ([option isEqualToString:NSLocalizedString(@"Play in shuffle mode", nil)]){
             [self addPlayback:item indexPath:selected position:0 shuffle:YES];
@@ -3924,6 +3929,68 @@ NSIndexPath *selected;
             }
         }];
     }
+}
+
+-(void)deleteTimer:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath {
+    NSNumber *itemid = [NSNumber numberWithInt:[[item objectForKey:@"timerid"] intValue]];
+    if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
+        return;
+    }
+    id cell;
+    if ([self.searchDisplayController isActive]){
+        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    }
+    else if (enableCollectionView){
+        cell = [collectionView cellForItemAtIndexPath:indexPath];
+    }
+    else{
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+    }
+    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
+    NSString *methodToCall = @"PVR.DeleteTimer";
+    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                itemid, @"timerid",
+                                nil];
+
+    [queuing startAnimating];
+    [jsonRPC callMethod:methodToCall
+         withParameters:parameters
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+               [queuing stopAnimating];
+               if ([self.searchDisplayController isActive]){
+                   [self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:indexPath animated:NO];
+               }
+               else{
+                   if (enableCollectionView){
+                       [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+                   }
+                   else{
+                       [dataList deselectRowAtIndexPath:indexPath animated:NO];
+                   }
+               }
+               if (error == nil && methodError == nil) {
+                   [self.searchDisplayController setActive:NO animated:NO];
+                   [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3f Alpha:1.0 XPos:viewWidth];
+                   [self startRetrieveDataWithRefresh:YES];
+               }
+               else {
+                   NSString *message = @"";
+                   message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   if (methodError != nil){
+                       message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
+                   }
+                   if (error != nil){
+                       message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
+                       
+                   }
+                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
+                                                                       message:message
+                                                                      delegate:self
+                                                             cancelButtonTitle:nil
+                                                             otherButtonTitles:@"Copy to clipboard", nil];
+                   [alertView show];
+               }
+    }];
 }
 
 -(void)recordChannel:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath {

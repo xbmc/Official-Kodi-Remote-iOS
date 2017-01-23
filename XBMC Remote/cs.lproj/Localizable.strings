@@ -205,6 +205,7 @@
 "Stop Recording" = "Stop Recording";
 "Recordings" = "Nahrávky";
 "Timers" = "Časovače";
+"Delete timer" = "Delete timer";
 "Broadcast Details" = "Detaily přenosu";
 "TIME" = "ČAS";
 
@@ -233,7 +234,7 @@
 "Tap and hold a setting to add a new button." = "Pro přidání nového tlačítka klepněte a podržte nastavení.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "Není definováno žádné vlastní tlačítko.\r\nStiskněte \"...více\" níže pro přidání nového.";
 
-"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- VAROVÁNÍ --\nSoučasné API Kodi API neumožňuje editaci časovačů. Použijte grafické prostředí Kodi pro přidání, úpravu nebo odstranění časovačů. Děkujeme.";
+"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- VAROVÁNÍ --\nKodi API před Krypton (v17) neumožňují úpravy časovače. Použijte grafické prostředí Kodi pro přidání, úpravu nebo odstranění časovačů. Děkujeme.";
 
 "Execute program" = "Spustit program";
 "Execute video add-on" = "Spustit video doplněk";

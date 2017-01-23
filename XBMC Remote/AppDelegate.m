@@ -3070,7 +3070,7 @@ NSMutableArray *hostRightMenuItems;
                         [NSArray array],
                         [NSArray array],
                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
-                        [NSArray arrayWithObjects: NSLocalizedString(@"Ok", nil), nil],
+                        [NSArray arrayWithObjects: NSLocalizedString(@"Delete timer", nil), nil],
                         nil];
     //    item8.showInfo = YES;
     item8.showInfo = [NSArray arrayWithObjects:

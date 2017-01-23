@@ -205,6 +205,7 @@
 "Stop Recording" = "Stop Recording";
 "Recordings" = "Recordings";
 "Timers" = "Timers";
+"Delete timer" = "Delete timer";
 "Broadcast Details" = "Broadcast Details";
 "TIME" = "TIME";
 
@@ -233,7 +234,7 @@
 "Tap and hold a setting to add a new button." = "Tap and hold a setting to add a new button.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "No custom button defined.\r\nPress \"...more\" below to add new ones.";
 
-"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- WARNING --\nCurrent Kodi API doesn't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.";
+"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- WARNUNG --\nKodi API vor Krypton (v17) erlauben keine Timer-Bearbeitung. Verwenden Sie die Kodi-GUI zum Hinzufügen, Bearbeiten und Entfernen von Timern. Vielen Dank.";
 
 "Execute program" = "Execute program";
 "Execute video add-on" = "Execute video add-on";

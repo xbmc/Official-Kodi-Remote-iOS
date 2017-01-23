@@ -208,6 +208,7 @@
 "Stop Recording" = "Stoppa inspelning";
 "Recordings" = "Inspelningar";
 "Timers" = "Tider";
+"Delete timer" = "Delete timer";
 "Broadcast Details" = "Information om sändning";
 "TIME" = "TID";
 
@@ -236,7 +237,7 @@
 "Tap and hold a setting to add a new button." = "Tryck och håll en inställning för att lägga till en ny knapp.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "Ingen anpassad knapp definierad.\r\nTryck \"...fler\" nedan för att lägga till nya.";
 
-"-- WARNING --\nCurrent XBMC Gotham API doesn't allow timers editing. Use the XBMC GUI for adding, editing and removing timers. Thank you." = "-- VARNING --\nNuvarande Kodi API tillåter inte tidsredigeringar. Använd Kodis grafiska gränssnitt för att lägga till, redigera och ta bort tider.";
+"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- VARNING --\nKodi API innan Krypton (v17) tillåter inte times redigering. Använd Kodis grafiska gränssnitt för att lägga till, redigera och ta bort tider.";
 
 "Execute program" = "Kör program";
 "Execute video add-on" = "Kör filmtillägg";
