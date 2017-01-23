@@ -108,8 +108,8 @@
 "Episodes: %@" = "Episódios: %@";
 "1 result" = "1 resultado";
 "%d results" = "%d resultados";
-"Music playlist" = "lista de reprodução musical";/*------ To verify ------*/
-"Video playlist" = "lista de reprodução de vídeo";/*------ To verify ------*/
+"Music playlist" = "lista de reprodução de música";
+"Video playlist" = "lista de reprodução de vídeo";
 "Songs" = "Músicas";
 "Song" = "Música";
 "Mins." = "Mins.";
@@ -179,7 +179,7 @@
 "vote" = "voto";
 "votes" = "votos";
 
-"Slide your finger up to adjust the scrubbing rate." = "Deslize para cima para ajustar a velocidade do cursor de reprodução.";/*------ To verify ------*/
+"Slide your finger up to adjust the scrubbing rate." = "Deslize para cima para ajustar a velocidade do cursor de reprodução.";
 "Scrubbing 1" = "Cursor de reprodução muito rápido";
 "Scrubbing 0.5" = "Cursor de reprodução com metade da velocidade";
 "Scrubbing 0.25" = "Cursor de reprodução com um quarto da velocidade";
@@ -192,9 +192,9 @@
 "Release to sync with XBMC..." = "Largar para sincronizar com Kodi...";
 "Syncing..." = "A sincronizar...";
 "Last sync" = "Última sincronização";
-"View: Wall" = "Ver: Mural";/*------ To verify ------*/
+"View: Wall" = "Ver: Mural";
 "View: List" = "Ver: Lista";
-"View: Fanart" = "Ver: Fanart";/*------ To verify ------*/
+"View: Fanart" = "Ver: Fanart";
 
 "Show Content" = "Mostrar conteúdo";
 "Play in party mode" = "Reproduzir em modo de festa";
@@ -205,7 +205,7 @@
 "Stop Recording" = "Parar gravação";
 "Recordings" = "Gravações";
 "Timers" = "Temporizadores";
-"Delete timer" = "Delete timer";
+"Delete timer" = "Eliminar temporizador";
 "Broadcast Details" = "Detalhes da emissão";
 "TIME" = "HORA";
 
@@ -216,7 +216,7 @@
 "Mark as unwatched" = "Marcar como não visto";
 
 "Button Pad/Gesture Zone" = "Botões / Gestos";
-"Slide your finger up or down to adjust the scrubbing rate." = "Deslize para cima ou para baixo para ajustar a velocidade do cursor de reprodução.";/*------ To verify ------*/
+"Slide your finger up or down to adjust the scrubbing rate." = "Deslize para cima ou para baixo para ajustar a velocidade do cursor de reprodução.";
 
 "Programs" = "Programas";
 "Video Add-ons" = "Add-ons de vídeo";/*------ To verify ------*/
@@ -234,7 +234,7 @@
 "Tap and hold a setting to add a new button." = "Toque e segure uma definição para adicionar um novo botão.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "Nenhum botão personalizado definido.\r\nPressione abaixo em \"...mais\" para adicionar novos.";
 
-"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- AVISO --\nKodi API anterior Krypton (v17) não permitem a edição de temporizadores. Utilize o GUI do Kodi GUI para adicionar, editar ou remover temporizadores. Obrigado.";
+"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- AVISO --\nA API do Kodi anterior ao Krypton (v17) não permite editar temporizadores. Utilize o GUI do Kodi para adicionar, editar ou remover temporizadores. Obrigado.";
 
 "Execute program" = "Executar programa";
 "Execute video add-on" = "Executar add-on de vídeo";
