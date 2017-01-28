@@ -121,7 +121,6 @@ int count=0;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
             NSString *pvrAction = [[item objectForKey:@"hastimer"] boolValue] == YES ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
-            [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
             sheetActions = [[NSMutableArray alloc] initWithObjects:
                             NSLocalizedString(@"Play", nil),
                             pvrAction,
