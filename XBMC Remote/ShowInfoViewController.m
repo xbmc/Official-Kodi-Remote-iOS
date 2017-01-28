@@ -120,10 +120,11 @@ int count=0;
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
-//            NSString *pvrAction = [[item objectForKey:@"hastimer"] boolValue] == YES ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
+            NSString *pvrAction = [[item objectForKey:@"hastimer"] boolValue] == YES ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
+            [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
             sheetActions = [[NSMutableArray alloc] initWithObjects:
                             NSLocalizedString(@"Play", nil),
-//                            pvrAction,
+                            pvrAction,
                             nil];
             titleWidth = 350;
         }
@@ -545,27 +546,62 @@ int count=0;
     if ([channelid isEqualToValue:[NSNumber numberWithInt:0]]) {
         return;
     }
+    NSString *methodToCall = @"PVR.Record";
+    NSString *parameterName = @"channel";
+    NSNumber *itemid = [NSNumber numberWithInt:[[self.detailItem objectForKey:@"channelid"] intValue]];
+    NSNumber *storeChannelid = itemid;
+    NSNumber *storeBroadcastid = [NSNumber numberWithInt:[[self.detailItem objectForKey:@"broadcastid"] intValue]];
+    if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
+        itemid = [NSNumber numberWithInt:[[[self.detailItem objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"] intValue]];
+        if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
+            return;
+        }
+        storeChannelid = itemid;
+        NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
+        [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+        NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [self.detailItem objectForKey:@"starttime"]]];
+        NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [self.detailItem objectForKey:@"endtime"]]];
+        float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
+        float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
+        float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
+        if (percent_elapsed < 0 || percent_elapsed >= 100) {
+            itemid = [NSNumber numberWithInt:[[self.detailItem objectForKey:@"broadcastid"] intValue]];
+            storeBroadcastid = itemid;
+            storeChannelid = [NSNumber numberWithInteger:0];
+            methodToCall = @"PVR.ToggleTimer";
+            parameterName = @"broadcastid";
+        }
+    }
     self.navigationItem.rightBarButtonItem.enabled=NO;
     [activityIndicatorView startAnimating];
-    
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                channelid, @"channel",
+                                itemid, parameterName,
                                 nil];
-    [jsonRPC callMethod:@"PVR.Record"
+    [jsonRPC callMethod:methodToCall
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [activityIndicatorView stopAnimating];
                self.navigationItem.rightBarButtonItem.enabled=YES;
-                if (error==nil && methodError==nil){
-                    [self animateRecordAction];
+               if (error == nil && methodError == nil) {
+                   [self animateRecordAction];
+                   NSNumber *status = [NSNumber numberWithBool:![[self.detailItem objectForKey:@"isrecording"] boolValue]];
+                   if ([[self.detailItem objectForKey:@"broadcastid"] intValue] > 0) {
+                       status = [NSNumber numberWithBool:![[self.detailItem objectForKey:@"hastimer"] boolValue]];
+                   }
+                   NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                           storeChannelid, @"channelid",
+                                           storeBroadcastid, @"broadcastid",
+                                           status, @"status",
+                                           nil];
+                   [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
                }
                else {
                    NSString *message = @"";
-                   message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", @"PVR.Record", [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
-                   if (methodError != nil){
+                   message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
-                   if (error != nil){
+                   if (error != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
                        
                    }
