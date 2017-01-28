@@ -2159,7 +2159,6 @@ int originYear = 0;
             ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
             progressView.hidden = YES;
             UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
-            //TODO: store the recording state instead of checking the isrecording state or update the isrecording state when live changed
             isRecording.hidden = ![[item objectForKey:@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     channelid, @"channelid",
@@ -3257,7 +3256,7 @@ NSIndexPath *selected;
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
     if (buttonIndex!=actionSheet.cancelButtonIndex){
-        NSDictionary *item = nil;
+        NSMutableDictionary *item = nil;
         if (selected != nil){
             if ([self.searchDisplayController isActive]){
                 item = [self.filteredListContent objectAtIndex:selected.row];
@@ -3993,17 +3992,18 @@ NSIndexPath *selected;
     }];
 }
 
--(void)recordChannel:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath {
+-(void)recordChannel:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath {
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
-    
     NSNumber *itemid = [NSNumber numberWithInt:[[item objectForKey:@"channelid"] intValue]];
-    
+    NSNumber *storeChannelid = itemid;
+    NSNumber *storeBroadcastid = [NSNumber numberWithInt:[[item objectForKey:@"broadcastid"] intValue]];
     if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
         itemid = [NSNumber numberWithInt:[[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"] intValue]];
         if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
             return;
         }
+        storeChannelid = itemid;
         NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
         float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
@@ -4011,6 +4011,8 @@ NSIndexPath *selected;
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
         if (percent_elapsed < 0 || percent_elapsed >= 100) {
             itemid = [NSNumber numberWithInt:[[item objectForKey:@"broadcastid"] intValue]];
+            storeBroadcastid = itemid;
+            storeChannelid = [NSNumber numberWithInteger:0];
             methodToCall = @"PVR.ToggleTimer";
             parameterName = @"broadcastid";
         }
@@ -4045,9 +4047,19 @@ NSIndexPath *selected;
                        [dataList deselectRowAtIndexPath:indexPath animated:NO];
                    }
                }
-               if (error==nil && methodError==nil){
+               if (error==nil && methodError==nil) {
                    UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
                    isRecording.hidden = !isRecording.hidden;
+                   NSNumber *status = [NSNumber numberWithBool:![[item objectForKey:@"isrecording"] boolValue]];
+                   if ([[item objectForKey:@"broadcastid"] intValue] > 0) {
+                       status = [NSNumber numberWithBool:![[item objectForKey:@"hastimer"] boolValue]];
+                   }
+                   NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                           storeChannelid, @"channelid",
+                                           storeBroadcastid, @"broadcastid",
+                                           status, @"status",
+                                           nil];
+                   [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
                }
                else {
                    NSString *message = @"";
@@ -5376,6 +5388,11 @@ NSIndexPath *selected;
 }
 
 -(void)updateChannelListTableCell {
+    if ([self.searchDisplayController isActive]) {
+        [self.searchDisplayController.searchResultsTableView beginUpdates];
+        [self.searchDisplayController.searchResultsTableView reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+        [self.searchDisplayController.searchResultsTableView endUpdates];
+    }
     [dataList beginUpdates];
     [dataList reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
     [dataList endUpdates];
@@ -5907,6 +5924,47 @@ NSIndexPath *selected;
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
+    if (channelListView == YES || channelGuideView == YES) {
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleRecordTimerStatusChange:)
+                                                     name: @"KodiServerRecordTimerStatusChange"
+                                                   object: nil];
+    }
+}
+
+-(void)handleRecordTimerStatusChange:(NSNotification*)note {
+    NSDictionary *theData = [note userInfo];
+    NSArray *keys= [self.sections allKeys];
+    for (NSString *keysV in keys) {
+        [self checkUpdateRecordingState: [self.sections objectForKey: keysV] dataInfo:theData];
+    }
+    if ([self.searchDisplayController isActive]) {
+        [self checkUpdateRecordingState:self.filteredListContent dataInfo:theData];
+    }
+}
+
+-(void)checkUpdateRecordingState:(NSMutableArray *)source dataInfo:(NSDictionary *)data {
+    NSNumber *channelid = [data objectForKey:@"channelid"];
+    NSNumber *broadcastid = [data objectForKey:@"broadcastid"];
+    NSNumber *status = [data objectForKey:@"status"];
+    if (channelid.integerValue > 0) {
+        NSPredicate *filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"channelid = %@", channelid]];
+        NSArray *filteredItems = [source filteredArrayUsingPredicate:filter];
+        if ([filteredItems count] > 0) {
+            NSMutableDictionary *item = [filteredItems objectAtIndex:0];
+            [item setObject:status forKey:@"isrecording"];
+            [self updateChannelListTableCell];
+        }
+    }
+    if (broadcastid.integerValue > 0) {
+        NSPredicate *filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"broadcastid = %@", broadcastid]];
+        NSArray *filteredItems = [source filteredArrayUsingPredicate:filter];
+        if ([filteredItems count] > 0) {
+            NSMutableDictionary *item = [filteredItems objectAtIndex:0];
+            [item setObject:status forKey:@"hastimer"];
+            [self updateChannelListTableCell];
+        }
+    }
 }
 
 -(void)initIpadCornerInfo {
