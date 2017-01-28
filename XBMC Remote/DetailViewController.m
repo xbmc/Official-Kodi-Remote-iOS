@@ -5390,7 +5390,7 @@ NSIndexPath *selected;
 -(void)updateChannelListTableCell {
     if ([self.searchDisplayController isActive]) {
         [self.searchDisplayController.searchResultsTableView beginUpdates];
-        [self.searchDisplayController.searchResultsTableView reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+        [self.searchDisplayController.searchResultsTableView reloadRowsAtIndexPaths:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
         [self.searchDisplayController.searchResultsTableView endUpdates];
     }
     [dataList beginUpdates];
