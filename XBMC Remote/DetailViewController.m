@@ -2006,7 +2006,6 @@ int originYear = 0;
 	else{
         item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
-    NSNumber *channelid = [item objectForKey:@"channelid"];
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
@@ -2042,7 +2041,7 @@ int originYear = 0;
             [hasTimer setBackgroundColor:[UIColor clearColor]];
             [cell addSubview:hasTimer];
         }
-        else if ([channelid intValue] > 0) {
+        else if (channelListView) {
             float pieSize = 28.0f;
             ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2.0f, 10.0f, pieSize, pieSize) color:[UIColor blackColor]];
             progressView.tag = 103;
@@ -2140,7 +2139,7 @@ int originYear = 0;
     genre.hidden = NO;
     runtimeyear.hidden = NO;
     if (!albumView && !episodesView && !channelGuideView){
-        if ([channelid intValue] > 0){
+        if (channelListView){
             CGRect frame = genre.frame;
             genre.autoresizingMask = title.autoresizingMask;
             frame.size.width = title.frame.size.width;;
@@ -2161,7 +2160,7 @@ int originYear = 0;
             UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
             isRecording.hidden = ![[item objectForKey:@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    channelid, @"channelid",
+                                    [NSNumber numberWithInteger:[[item objectForKey:@"channelid"] integerValue]], @"channelid",
                                     tableView, @"tableView",
                                     indexPath, @"indexPath",
                                     item, @"item",
