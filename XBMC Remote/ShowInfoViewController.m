@@ -1345,18 +1345,16 @@ int h=0;
     }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image!=nil){
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                Utilities *utils = [[Utilities alloc] init];
-                UIColor *averageColor = [utils averageColor:image inverse:NO];
-                foundTintColor = TINT_COLOR;
-                CGFloat red, green, blue, alpha;
-                [averageColor getRed:&red green:&green blue:&blue alpha:&alpha];
-                if (alpha > 0){
-                    foundTintColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
-                }
-                self.navigationController.navigationBar.tintColor = foundTintColor;
-                toolbar.tintColor = foundTintColor;
+            Utilities *utils = [[Utilities alloc] init];
+            UIColor *averageColor = [utils averageColor:image inverse:NO];
+            foundTintColor = TINT_COLOR;
+            CGFloat red, green, blue, alpha;
+            [averageColor getRed:&red green:&green blue:&blue alpha:&alpha];
+            if (alpha > 0){
+                foundTintColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
             }
+            self.navigationController.navigationBar.tintColor = foundTintColor;
+            toolbar.tintColor = foundTintColor;
             if (enableJewel){
                 coverView.image = image;
                 [activityIndicatorView stopAnimating];
@@ -1373,7 +1371,7 @@ int h=0;
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && error == nil){
+                     if (error == nil){
                          if (image !=nil){
                              Utilities *utils = [[Utilities alloc] init];
                              newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
@@ -1390,7 +1388,7 @@ int h=0;
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                      if (image !=nil){
-                                         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && error == nil){
+                                         if (error == nil){
                                              Utilities *utils = [[Utilities alloc] init];
                                              newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
                                              [sf setIOS7barTintColor:newColor];
@@ -1703,9 +1701,7 @@ int h=0;
         else {
             [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
         }
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-            [self.navigationController setNavigationBarHidden:NO animated:YES];
-        }
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             if (![self isModal]){
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
@@ -1729,9 +1725,7 @@ int h=0;
         }
     }
     else {
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-            [self.navigationController setNavigationBarHidden:YES animated:YES];
-        }
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             if (![self isModal]){
                 NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2150,9 +2144,7 @@ int h=0;
     float alphaValue = 0.2;
     if (closeButton.alpha==1){
         alphaValue = 1;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [self.navigationController setNavigationBarHidden:YES animated:YES];
-        }
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
     }
     if (!enableKenBurns){
         [self alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
@@ -2173,10 +2165,8 @@ int h=0;
 
 -(void)viewWillDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
-        toolbar.tintColor = TINT_COLOR;
-    }
+    [self.navigationController.navigationBar setTintColor:TINT_COLOR];
+    toolbar.tintColor = TINT_COLOR;
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -2225,7 +2215,7 @@ int h=0;
     [touchOnKenView setNumberOfTapsRequired:1];
     [touchOnKenView setNumberOfTouchesRequired:1];
     [fanartView addGestureRecognizer:touchOnKenView];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.top = 44 + fabs(iOSYDelta);

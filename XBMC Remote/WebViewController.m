@@ -212,18 +212,13 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [bottomToolbar setTintColor:TINT_COLOR];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-            float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
-            tableViewInsets.top = 44 + fabs(iOSYDelta);
-            Twitterweb.scrollView.contentInset = tableViewInsets;
-            Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
-        }
-    }
-    else{
-        [bottomToolbar setBackgroundImage:[UIImage imageNamed:@"st_background"] forToolbarPosition:0 barMetrics:0];
+    [bottomToolbar setTintColor:TINT_COLOR];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+        float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
+        tableViewInsets.top = 44 + fabs(iOSYDelta);
+        Twitterweb.scrollView.contentInset = tableViewInsets;
+        Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
     }
     NSDictionary *item = self.detailItem;
     UIBarButtonItem *extraButton = nil;
@@ -270,9 +265,7 @@
     [titleView addSubview:topNavigationLabel];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         UIToolbar *toolbar = [UIToolbar new];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [toolbar setTintColor:TINT_COLOR];
-        }
+        [toolbar setTintColor:TINT_COLOR];
         toolbar.barStyle = UIBarStyleBlackTranslucent;
         toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         toolbar.contentMode = UIViewContentModeScaleAspectFill;            

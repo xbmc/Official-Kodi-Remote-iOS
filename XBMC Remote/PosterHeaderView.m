@@ -29,31 +29,20 @@
 //        }
         
         if (self.frame.size.height > 1){
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                //TYPE 1
-                UIToolbar *buttonsToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-                [buttonsToolbar setBarStyle:UIBarStyleBlack];
-                [buttonsToolbar setTranslucent:YES];
-                [self insertSubview: buttonsToolbar atIndex:0];
-                
-                // TYPE 2
-//                [self setBackgroundColor:[UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:.95]];
-                
-                // TYPE 3
-//                CAGradientLayer *gradient = [CAGradientLayer layer];
-//                gradient.frame = self.bounds;
-//                gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:75.0f/255.0f green:75.0f/255.0f blue:75.0f/255.0f alpha:.95] CGColor], (id)[[UIColor colorWithRed:35.0f/255.0f green:35.0f/255.0f blue:35.0f/255.0f alpha:.95] CGColor], nil];
-//                [self.layer insertSublayer:gradient atIndex:0];
-            }
-            else{
-                UIView *lineViewBottom = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
-                [lineViewBottom setBackgroundColor:[UIColor colorWithRed:52.0f/255.0f green:52.0f/255.0f blue:52.0f/255.0f alpha:1]];
-                [self addSubview:lineViewBottom];
-                CAGradientLayer *gradient = [CAGradientLayer layer];
-                gradient.frame = self.bounds;
-                gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:103.0f/255.0f green:103.0f/255.0f blue:103.0f/255.0f alpha:.9] CGColor], (id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.9] CGColor], nil];
-                [self.layer insertSublayer:gradient atIndex:0];
-            }
+            //TYPE 1
+            UIToolbar *buttonsToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+            [buttonsToolbar setBarStyle:UIBarStyleBlack];
+            [buttonsToolbar setTranslucent:YES];
+            [self insertSubview: buttonsToolbar atIndex:0];
+            
+            // TYPE 2
+//            [self setBackgroundColor:[UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:.95]];
+            
+            // TYPE 3
+//            CAGradientLayer *gradient = [CAGradientLayer layer];
+//            gradient.frame = self.bounds;
+//            gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:75.0f/255.0f green:75.0f/255.0f blue:75.0f/255.0f alpha:.95] CGColor], (id)[[UIColor colorWithRed:35.0f/255.0f green:35.0f/255.0f blue:35.0f/255.0f alpha:.95] CGColor], nil];
+//            [self.layer insertSublayer:gradient atIndex:0];
         }
 
         if (self.frame.size.height > 10){

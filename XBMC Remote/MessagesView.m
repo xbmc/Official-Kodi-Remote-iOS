@@ -18,9 +18,7 @@
     if (self) {
         CALayer *bottomBorder = [CALayer layer];
         CGFloat borderSize = 1.0f;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-            borderSize = 0.5f;
-        }
+        borderSize = 0.5f;
         bottomBorder.frame = CGRectMake(0.0f, frame.size.height - borderSize, frame.size.width, borderSize);
         bottomBorder.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.35f].CGColor;
         [self.layer addSublayer:bottomBorder];

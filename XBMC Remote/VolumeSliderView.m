@@ -22,18 +22,9 @@
 		self = [nib objectAtIndex:0];
         CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * -0.5);
         volumeSlider.transform = trans;
-        pg_thumb_name = @"pgbar_thumb";
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
-            [volumeSlider setMaximumTrackTintColor:APP_TINT_COLOR];
-            pg_thumb_name = @"pgbar_thumb_iOS7";
-        }
-        else{
-            UIImage *sliderRightTrackImage = [[UIImage imageNamed: @"slider"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
-            UIImage *sliderLeftTrackImage = [[UIImage imageNamed: @"slider_on"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)];
-            [volumeSlider setMinimumTrackImage: sliderLeftTrackImage forState: UIControlStateNormal];
-            [volumeSlider setMaximumTrackImage: sliderRightTrackImage forState: UIControlStateNormal];
-        }
+        pg_thumb_name = @"pgbar_thumb_iOS7";
+        [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
+        [volumeSlider setMaximumTrackTintColor:APP_TINT_COLOR];
         [volumeSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
         [volumeSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
         [self volumeInfo];

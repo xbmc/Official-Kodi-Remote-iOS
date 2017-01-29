@@ -502,9 +502,7 @@
     [ipUI setPlaceholder:NSLocalizedString(@"e.g. 192.168.0.8", nil)];
     [usernameUI setPlaceholder:NSLocalizedString(@"Username", nil)];
     [passwordUI setPlaceholder:NSLocalizedString(@"Password", nil)];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = 0;
-    }
+    self.edgesForExtendedLayout = 0;
     [discoveredInstancesTableView setBackgroundColor:[UIColor whiteColor]];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
     rightSwipe.numberOfTouchesRequired = 1;

@@ -1211,9 +1211,7 @@ NSInteger buttonAction;
         self.slidingViewController.underRightViewController = rightMenuViewController;
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];            
-        }
+        [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
@@ -1308,12 +1306,10 @@ NSInteger buttonAction;
     float infoButtonOriginY = -16;
     float infoButtonalpha = 0.9f;
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = 0;
-        self.view.tintColor = TINT_COLOR;
-        infoButtonOriginY = -14;
-        infoButtonalpha = 1.0f;
-    }
+    self.edgesForExtendedLayout = 0;
+    self.view.tintColor = TINT_COLOR;
+    infoButtonOriginY = -14;
+    infoButtonalpha = 1.0f;
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];

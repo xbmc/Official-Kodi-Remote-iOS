@@ -137,10 +137,7 @@
         [longPressGesture setDelegate:self];
         [_tableView addGestureRecognizer:longPressGesture];
         
-        CGFloat deltaY = 0;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            deltaY = 64.0f;
-        }
+        CGFloat deltaY = 64.0f;
         CGRect frame = [[UIScreen mainScreen ] bounds];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             frame.size.width = STACKSCROLL_WIDTH;
@@ -465,11 +462,9 @@
         textInputField.delegate = self;
         textInputField.tag = 301;
         [cell.contentView addSubview:textInputField];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [cellLabel setHighlightedTextColor:[UIColor blackColor]];
-            [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
-            [uiSliderLabel setHighlightedTextColor:[UIColor grayColor]];
-        }
+        [cellLabel setHighlightedTextColor:[UIColor blackColor]];
+        [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
+        [uiSliderLabel setHighlightedTextColor:[UIColor grayColor]];
 	}
     cell.accessoryType =  UITableViewCellAccessoryNone;
 
@@ -853,14 +848,12 @@
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [_tableView setSeparatorInset:UIEdgeInsetsMake(0, cellLabelOffset, 0, 0)];
-        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-        _tableView.contentInset = tableViewInsets;
-        _tableView.scrollIndicatorInsets = tableViewInsets;
-        [_tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
-    }
+    [_tableView setSeparatorInset:UIEdgeInsetsMake(0, cellLabelOffset, 0, 0)];
+    UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+    tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+    _tableView.contentInset = tableViewInsets;
+    _tableView.scrollIndicatorInsets = tableViewInsets;
+    [_tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
     if (xbmcSetting == cMultiselect) {
         [_tableView reloadData];
     }

@@ -200,9 +200,7 @@
     self.serverPickerPopover = [[UIPopoverController alloc]
                                 initWithContentViewController:[AppDelegate instance].navigationController];
     self.serverPickerPopover.delegate = self;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [self.serverPickerPopover setBackgroundColor:[UIColor clearColor]];
-    }
+    [self.serverPickerPopover setBackgroundColor:[UIColor clearColor]];
     [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
 }
 
@@ -233,9 +231,7 @@
                                     initWithContentViewController:_appInfoView];
         self.appInfoPopover.delegate = self;
         [self.appInfoPopover setPopoverContentSize:CGSizeMake(320, 460)];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            self.appInfoPopover.backgroundColor = [UIColor colorWithRed:187.0f/255.0f green:187.0f/255.0f blue:187.0f/255.0f alpha:1.0f];
-        }
+        self.appInfoPopover.backgroundColor = [UIColor colorWithRed:187.0f/255.0f green:187.0f/255.0f blue:187.0f/255.0f alpha:1.0f];
     }
     [self.appInfoPopover presentPopoverFromRect:xbmcLogo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
@@ -383,12 +379,9 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    int deltaY = 0;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [self setNeedsStatusBarAppearanceUpdate];
-        deltaY = 22;
-        self.view.tintColor = APP_TINT_COLOR;
-    }
+    int deltaY = 22.0f;
+    [self setNeedsStatusBarAppearanceUpdate];
+    self.view.tintColor = APP_TINT_COLOR;
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
@@ -504,19 +497,13 @@
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(620, 966, 42, 33)]; //225
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
-        xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
-        xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
-        [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-        [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
-        [menuViewController.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
+    xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
+    xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
+    [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+    [menuViewController.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
 
-    }
-    else{
-        [xbmcInfo setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
-        [powerButton setBackgroundImage:[[UIImage imageNamed: @"now_playing_empty_up"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6)] forState:UIControlStateNormal];
-    }
     [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateNormal];
     [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;

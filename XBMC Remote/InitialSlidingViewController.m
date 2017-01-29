@@ -50,12 +50,10 @@
     UINavigationBar *newBar = navController.navigationBar;
     [newBar setTintColor:IOS6_BAR_TINT_COLOR];
     [newBar setBarStyle:UIBarStyleBlackTranslucent];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [self setNeedsStatusBarAppearanceUpdate];
-        [newBar setTintColor:TINT_COLOR];
-        self.view.tintColor = APP_TINT_COLOR;
-        [navController hideNavBarBottomLine:YES];
-    }
+    [self setNeedsStatusBarAppearanceUpdate];
+    [newBar setTintColor:TINT_COLOR];
+    self.view.tintColor = APP_TINT_COLOR;
+    [navController hideNavBarBottomLine:YES];
     hostManagementViewController.mainMenu = self.mainMenu;
     self.topViewController = navController;
 }

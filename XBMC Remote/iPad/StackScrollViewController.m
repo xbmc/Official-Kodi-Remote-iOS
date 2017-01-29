@@ -129,7 +129,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     if (!duration){
         duration = 1.5f;
     }
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && clipsToBounds) {
+    if (clipsToBounds) {
         senderView.clipsToBounds = YES;
     }
 //    [[senderView viewWithTag:2002] setHidden:YES];
@@ -146,7 +146,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                  originalFrame = subview.frame;
                                  CGRect frame = subview.frame;
                                  frame.origin.x = 0 - 300;
-                                 if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && hideToolbar == YES){
+                                 if (hideToolbar == YES){
                                      frame.origin.y = frame.origin.y - 22;
                                      frame.size.height = frame.size.height + 22;
                                  }
@@ -162,7 +162,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                                  frame = [[[slideViews subviews] objectAtIndex:j] frame];
                                  [stackViewsFrames addObject:[NSValue valueWithCGRect:frame]];
                                  frame.origin.x = self.view.frame.size.width;
-                                 if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && hideToolbar == YES){
+                                 if (hideToolbar == YES){
                                      frame.origin.y = frame.origin.y - 20;
                                      frame.size.height = frame.size.height + 20;
                                  }

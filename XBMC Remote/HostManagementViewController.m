@@ -87,11 +87,9 @@
     [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:NULL];
     if (cell==nil){
         cell = serverListCell;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
-            [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
-            [cell setTintColor:[UIColor lightGrayColor]];
-        }
+        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
+        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
+        [cell setTintColor:[UIColor lightGrayColor]];
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     if ([[AppDelegate instance].arrayServerList count] == 0){
@@ -382,14 +380,12 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-//    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-//        int barEffectHeight = 1;
-//        if (iOS7navBarEffect == nil && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-//            iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, barEffectHeight)];
-//            iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//            [iOS7navBarEffect setBackgroundColor:[UIColor redColor]];
-//            [self.view insertSubview:iOS7navBarEffect atIndex:1];
-//        }
+//    int barEffectHeight = 1;
+//    if (iOS7navBarEffect == nil && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+//        iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, barEffectHeight)];
+//        iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+//        [iOS7navBarEffect setBackgroundColor:[UIColor redColor]];
+//        [self.view insertSubview:iOS7navBarEffect atIndex:1];
 //    }
 }
 
@@ -413,47 +409,45 @@ static inline BOOL IsEmpty(id obj) {
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     editTableButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
     [supportedVersionLabel setText:NSLocalizedString(@"Supported XBMC version is Eden (11) or higher", nil)];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
-
-        [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-        [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
-        [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
-        [editTableButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
-        [editTableButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-        [editTableButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [editTableButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+    [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
+    
+    [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+    [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+    [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
+    [editTableButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    [editTableButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [editTableButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [editTableButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+    
+    [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+    [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+    [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
+    [addHostButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    [addHostButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [addHostButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [addHostButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        self.edgesForExtendedLayout = 0;
+        self.view.tintColor = APP_TINT_COLOR;
+    }
+    else{
+        int barHeight = 44;
+        int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
         
-        [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-        [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
-        [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
-        [addHostButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
-        [addHostButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-        [addHostButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [addHostButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+        CGRect frame = supportedVersionView.frame;
+        frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+        supportedVersionView.frame = frame;
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            self.edgesForExtendedLayout = 0;
-            self.view.tintColor = APP_TINT_COLOR;
-        }
-        else{
-            int barHeight = 44;
-            int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
-            
-            CGRect frame = supportedVersionView.frame;
-            frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
-            supportedVersionView.frame = frame;
-            
-            frame = serverListTableView.frame;
-            frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
-            frame.size.height = frame.size.height - (barHeight + statusBarHeight);
-            serverListTableView.frame = frame;
-            
-            frame = connectingActivityIndicator.frame;
-            frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
-            connectingActivityIndicator.frame = frame;
-
-        }
+        frame = serverListTableView.frame;
+        frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+        frame.size.height = frame.size.height - (barHeight + statusBarHeight);
+        serverListTableView.frame = frame;
+        
+        frame = connectingActivityIndicator.frame;
+        frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+        connectingActivityIndicator.frame = frame;
+        
     }
     doRevealMenu = YES;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {

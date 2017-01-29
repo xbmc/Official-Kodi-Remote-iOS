@@ -628,14 +628,12 @@
         [moreItemsViewController.view setBackgroundColor:[UIColor clearColor]];
         [moreItemsViewController viewWillAppear:FALSE];
         [moreItemsViewController viewDidAppear:FALSE];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-            tableViewInsets.bottom = 44;
-            tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-            moreItemsViewController.tableView.contentInset = tableViewInsets;
-            moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
-            [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
-        }
+        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+        tableViewInsets.bottom = 44;
+        tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+        moreItemsViewController.tableView.contentInset = tableViewInsets;
+        moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
+        [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
         [detailView insertSubview:moreItemsViewController.view aboveSubview:dataList];
     }
 
@@ -757,9 +755,7 @@
         }
         self.searchDisplayController.searchBar.tintColor = collectionViewSearchBarColor;
         [self.searchDisplayController.searchBar setBackgroundColor:collectionViewSearchBarColor];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
-        }
+        self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
         searchBarColor = collectionViewSearchBarColor;
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
     }
@@ -774,9 +770,7 @@
         self.indexView.hidden = YES;
         self.searchDisplayController.searchBar.tintColor = tableViewSearchBarColor;
         [self.searchDisplayController.searchBar setBackgroundColor:tableViewSearchBarColor];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
-        }
+        self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
         searchBarColor = tableViewSearchBarColor;
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
     }
@@ -926,7 +920,7 @@
         dataList.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
         self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
     }
-    if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length] && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+    if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length]){
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
     }
     if ([methods objectForKey:@"method"]!=nil){
@@ -1692,9 +1686,7 @@ int originYear = 0;
     if (albumView){
         thumbWidth = 0;
         labelPosition = thumbWidth + albumViewPadding + trackCountLabelWidth;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [dataList setSeparatorInset:UIEdgeInsetsMake(0, 8, 0, 0)];
-        }
+        [dataList setSeparatorInset:UIEdgeInsetsMake(0, 8, 0, 0)];
     }
     else if (episodesView){
         thumbWidth = 0;
@@ -1715,25 +1707,21 @@ int originYear = 0;
     
     int iOS7offset = 0;
     int iOS7insetSeparator = 0;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            iOS7offset = 12;
-            iOS7insetSeparator = 20;
-        }
-        else{
-            iOS7offset = 4;
-            iOS7insetSeparator = 30;
-        }
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        iOS7offset = 12;
+        iOS7insetSeparator = 20;
+    }
+    else{
+        iOS7offset = 4;
+        iOS7insetSeparator = 30;
     }
     if (episodesView || (([self.sectionArray count] == 1) && !channelGuideView)) {
         //([self.richResults count]<=SECTIONS_START_AT || ![self.detailItem enableSection])
         newWidthLabel = viewWidth - 8 - labelPosition;
         Menuitem.originYearDuration = viewWidth - 72;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
-            dataListSeparatorInset.right = 0;
-            [dataList setSeparatorInset:dataListSeparatorInset];
-        }
+        UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
+        dataListSeparatorInset.right = 0;
+        [dataList setSeparatorInset:dataListSeparatorInset];
     }
     else {
         int extraPadding = 0;
@@ -1743,7 +1731,7 @@ int originYear = 0;
         else if ([sortMethodName isEqualToString:@"runtime"]) {
             extraPadding = 12;
         }
-        if (iOS7offset > 0 && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        if (iOS7offset > 0) {
             UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
             dataListSeparatorInset.right = iOS7insetSeparator + extraPadding;
             [dataList setSeparatorInset:dataListSeparatorInset];
@@ -2057,15 +2045,13 @@ int originYear = 0;
             [isRecording setBackgroundColor:[UIColor clearColor]];
             [cell addSubview:isRecording];
         }
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
-            [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
-            [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
-            [(UILabel*) [cell viewWithTag:4] setHighlightedTextColor:[UIColor blackColor]];
-            [(UILabel*) [cell viewWithTag:5] setHighlightedTextColor:[UIColor darkGrayColor]];
-            [(UILabel*) [cell viewWithTag:101] setHighlightedTextColor:[UIColor blackColor]];
-            [(UILabel*) [cell viewWithTag:102] setHighlightedTextColor:[UIColor blackColor]];
-        }
+        [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
+        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
+        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
+        [(UILabel*) [cell viewWithTag:4] setHighlightedTextColor:[UIColor blackColor]];
+        [(UILabel*) [cell viewWithTag:5] setHighlightedTextColor:[UIColor darkGrayColor]];
+        [(UILabel*) [cell viewWithTag:101] setHighlightedTextColor:[UIColor blackColor]];
+        [(UILabel*) [cell viewWithTag:102] setHighlightedTextColor:[UIColor blackColor]];
     }
     mainMenu *Menuitem = self.detailItem;
 //    NSDictionary *mainFields=[[Menuitem mainFields] objectAtIndex:choosedTab];
@@ -2310,16 +2296,9 @@ int originYear = 0;
             [title setTextColor:[UIColor blackColor]];
             [genre setTextColor:[UIColor blackColor]];
             [programStartTime setTextColor:[UIColor blackColor]];
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                [title setHighlightedTextColor:[UIColor blackColor]];
-                [genre setHighlightedTextColor:[UIColor blackColor]];
-                [programStartTime setHighlightedTextColor:[UIColor blackColor]];
-            }
-            else{
-                [title setHighlightedTextColor:[UIColor whiteColor]];
-                [genre setHighlightedTextColor:[UIColor whiteColor]];
-                [programStartTime setHighlightedTextColor:[UIColor whiteColor]];
-            }
+            [title setHighlightedTextColor:[UIColor blackColor]];
+            [genre setHighlightedTextColor:[UIColor blackColor]];
+            [programStartTime setHighlightedTextColor:[UIColor blackColor]];
         }
         UIImageView *hasTimer = (UIImageView*) [cell viewWithTag:104];
         if ([[item objectForKey:@"hastimer"] boolValue]){
@@ -2436,14 +2415,8 @@ int originYear = 0;
                                       if (enableBarColor == YES){
                                           albumColor = [utils averageColor:image inverse:NO];
                                           UIColor *slightLightAlbumColor = [utils slightLighterColorForColor:albumColor];
-                                          if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                                              self.navigationController.navigationBar.tintColor = slightLightAlbumColor;
-                                              self.searchDisplayController.searchBar.tintColor = slightLightAlbumColor;
-                                          }
-                                          else{
-                                              self.navigationController.navigationBar.tintColor = albumColor;
-                                              self.searchDisplayController.searchBar.tintColor = albumColor;
-                                          }
+                                          self.navigationController.navigationBar.tintColor = slightLightAlbumColor;
+                                          self.searchDisplayController.searchBar.tintColor = slightLightAlbumColor;
                                           if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
                                               [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
                                           }
@@ -2467,10 +2440,8 @@ int originYear = 0;
                                               UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"_searchField"];
                                               if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
                                                   UIImageView *iconView = (id)searchTextField.leftView;
-                                                  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                                                      iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                                      iconView.tintColor = slightLightAlbumColor;
-                                                  }
+                                                  iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                                                  iconView.tintColor = slightLightAlbumColor;
                                                   searchTextField.textColor = slightLightAlbumColor;
                                                   searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchDisplayController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: slightLightAlbumColor}];
                                               }
@@ -2815,7 +2786,7 @@ int originYear = 0;
 -(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     bar.isVisible = YES;
-    if (enableCollectionView == YES  && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){ // temp hack to avoid the iOS7 search bar disappearing!!!
+    if (enableCollectionView == YES){ // temp hack to avoid the iOS7 search bar disappearing!!!
         [self.searchDisplayController.searchBar removeFromSuperview];
         [activeLayoutView addSubview:self.searchDisplayController.searchBar];
     }
@@ -2853,7 +2824,7 @@ int originYear = 0;
         }
         if ([paths containsObject:searchBarPath]){
             bar.isVisible = YES;
-            if (enableCollectionView == YES && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){ // temp hack to avoid the iOS7 search bar disappearing!!!
+            if (enableCollectionView == YES){ // temp hack to avoid the iOS7 search bar disappearing!!!
                 [self.searchDisplayController.searchBar removeFromSuperview];
                 [activeLayoutView addSubview:self.searchDisplayController.searchBar];
             }
@@ -2899,7 +2870,7 @@ int originYear = 0;
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
     ((UITableView *)activeLayoutView).pullToRefreshView.alpha = 0;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         enableIpadWA = YES;
         [[activeLayoutView superview] addSubview:self.searchDisplayController.searchBar];
         [self.searchDisplayController.searchResultsTableView setContentOffset:CGPointMake(0, 0)];
@@ -2919,10 +2890,8 @@ int originYear = 0;
     if (enableCollectionView){
         self.indexView.hidden = YES;
     }
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [activeLayoutView setFrame:CGRectMake(((UITableView *)activeLayoutView).frame.origin.x, ((UITableView *)activeLayoutView).frame.origin.y - 44, ((UITableView *)activeLayoutView).frame.size.width, ((UITableView *)activeLayoutView).frame.size.height)];
-        }
     }
 }
 
@@ -2936,16 +2905,14 @@ int originYear = 0;
         }
         [collectionView addGestureRecognizer:longPressGesture];
     }
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        if (enableIpadWA == YES){
-            [activeLayoutView addSubview:self.searchDisplayController.searchBar];
-            [self.searchDisplayController.searchResultsTableView setContentOffset:CGPointMake(0, 0)];
-        }
-        [self.searchDisplayController.searchBar layoutSubviews];
-        UINavigationBar *newBar = self.navigationController.navigationBar;
-        UIImageView *navBarHairlineImageView = [self findHairlineImageViewUnder:newBar];
-        navBarHairlineImageView.hidden = YES;
+    if (enableIpadWA == YES){
+        [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+        [self.searchDisplayController.searchResultsTableView setContentOffset:CGPointMake(0, 0)];
     }
+    [self.searchDisplayController.searchBar layoutSubviews];
+    UINavigationBar *newBar = self.navigationController.navigationBar;
+    UIImageView *navBarHairlineImageView = [self findHairlineImageViewUnder:newBar];
+    navBarHairlineImageView.hidden = YES;
 }
 
 - (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
@@ -2962,7 +2929,7 @@ int originYear = 0;
 }
 
 - (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller{
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationDuration:0.3];
@@ -3576,22 +3543,11 @@ NSIndexPath *selected;
         self.navigationItem.title = [self.detailItem mainLabel];
         if (![self.detailItem disableNowPlaying]){
             UIBarButtonItem *nowPlayingButtonItem = nil;
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Now Playing", nil) style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
-                [nowPlayingButtonItem setTitleTextAttributes:
-                 [NSDictionary dictionaryWithObjectsAndKeys:
-                  [UIFont systemFontOfSize:12], NSFontAttributeName,
-                  nil] 
-                forState:UIControlStateNormal];
-            }
-            else{
-                UIImage* nowPlayingImg = [UIImage imageNamed:@"button_now_playing_empty.png"];
-                CGRect frameimg = CGRectMake(0, 0, nowPlayingImg.size.width, nowPlayingImg.size.height);
-                UIButton *nowPlayingButton = [[UIButton alloc] initWithFrame:frameimg];
-                [nowPlayingButton setBackgroundImage:nowPlayingImg forState:UIControlStateNormal];
-                [nowPlayingButton addTarget:self action:@selector(showNowPlaying) forControlEvents:UIControlEventTouchUpInside];
-                nowPlayingButtonItem =[[UIBarButtonItem alloc] initWithCustomView:nowPlayingButton];
-            }
+            nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Now Playing", nil) style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
+            [nowPlayingButtonItem setTitleTextAttributes:
+             [NSDictionary dictionaryWithObjectsAndKeys:
+              [UIFont systemFontOfSize:12], NSFontAttributeName,
+              nil] forState:UIControlStateNormal];
             self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
             
             UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
@@ -5417,14 +5373,8 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
     [self.navigationController.navigationBar setTintColor:IOS6_BAR_TINT_COLOR];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
-//        self.searchDisplayController.searchBar.barTintColor = searchBarColor;
-        self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:searchBarColor];
-    }
-    else{
-        self.searchDisplayController.searchBar.tintColor = searchBarColor;
-    }
+    [self.navigationController.navigationBar setTintColor:TINT_COLOR];
+    self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:searchBarColor];
     [channelListUpdateTimer invalidate];
     channelListUpdateTimer = nil;
 }
@@ -5478,9 +5428,7 @@ NSIndexPath *selected;
     [activeLayoutView setScrollsToTop:YES];
     if (albumColor!=nil){
         [self.navigationController.navigationBar setTintColor:albumColor];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [self.navigationController.navigationBar setTintColor:[utils slightLighterColorForColor:albumColor]];
-        }
+        [self.navigationController.navigationBar setTintColor:[utils slightLighterColorForColor:albumColor]];
     }
     if (isViewDidLoad){
         [activeLayoutView addSubview:self.searchDisplayController.searchBar];
@@ -5725,32 +5673,29 @@ NSIndexPath *selected;
     [localHourMinuteFormatter setDateFormat:@"HH:mm"];
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
-            UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-            tableViewInsets.top = 44 + fabs(iOSYDelta);
-            dataList.contentInset = tableViewInsets;
-            dataList.scrollIndicatorInsets = tableViewInsets;
-        }
-        dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-        [self.searchDisplayController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
-        [dataList setSectionIndexBackgroundColor:[UIColor clearColor]];
-        [dataList setSectionIndexTrackingBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
-        [dataList setSeparatorInset:UIEdgeInsetsMake(0, 53, 0, 0)];
-        
-        UIEdgeInsets tableViewInsets = dataList.contentInset;
-        tableViewInsets.bottom = 44;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
+        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+        tableViewInsets.top = 44 + fabs(iOSYDelta);
         dataList.contentInset = tableViewInsets;
         dataList.scrollIndicatorInsets = tableViewInsets;
-        CGRect frame = dataList.frame;
-        frame.size.height=self.view.bounds.size.height;
-        dataList.frame = frame;
-        buttonsViewBgImage.hidden = YES;
-        buttonsViewBgToolbar.hidden = NO;
-
     }
-
+    dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.searchDisplayController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
+    [dataList setSectionIndexBackgroundColor:[UIColor clearColor]];
+    [dataList setSectionIndexTrackingBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+    [dataList setSeparatorInset:UIEdgeInsetsMake(0, 53, 0, 0)];
+    
+    UIEdgeInsets tableViewInsets = dataList.contentInset;
+    tableViewInsets.bottom = 44;
+    dataList.contentInset = tableViewInsets;
+    dataList.scrollIndicatorInsets = tableViewInsets;
+    CGRect frame = dataList.frame;
+    frame.size.height=self.view.bounds.size.height;
+    dataList.frame = frame;
+    buttonsViewBgImage.hidden = YES;
+    buttonsViewBgToolbar.hidden = NO;
+    
     __weak DetailViewController *weakSelf = self;
     [dataList addPullToRefreshWithActionHandler:^{
         [weakSelf startRetrieveDataWithRefresh:YES];
@@ -5799,11 +5744,9 @@ NSIndexPath *selected;
     collectionViewSearchBarColor = [UIColor blackColor];
     
     CGFloat deltaY = 0;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        searchBarColor = [UIColor colorWithRed:.572f green:.572f blue:.572f alpha:1];
-        collectionViewSearchBarColor = [UIColor colorWithRed:22.0f/255.0f green:22.0f/255.0f blue:22.0f/255.0f alpha:1];
-        deltaY = 64.0f;
-    }
+    searchBarColor = [UIColor colorWithRed:.572f green:.572f blue:.572f alpha:1];
+    collectionViewSearchBarColor = [UIColor colorWithRed:22.0f/255.0f green:22.0f/255.0f blue:22.0f/255.0f alpha:1];
+    deltaY = 64.0f;
 
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
         albumView = TRUE;
@@ -5811,10 +5754,8 @@ NSIndexPath *selected;
     else if ([[methods objectForKey:@"episodesView"] boolValue] == YES){
         episodesView = TRUE;
         searchBarColor = [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            searchBarColor = [UIColor colorWithRed:229.0f/255.0f green:229.0f/255.0f blue:229.0f/255.0f alpha:1];
-            [dataList setSeparatorInset:UIEdgeInsetsMake(0, 18, 0, 0)];
-        }
+        searchBarColor = [UIColor colorWithRed:229.0f/255.0f green:229.0f/255.0f blue:229.0f/255.0f alpha:1];
+        [dataList setSeparatorInset:UIEdgeInsetsMake(0, 18, 0, 0)];
     }
     else if ([[methods objectForKey:@"tvshowsView"] boolValue] == YES){
         tvshowsView = [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO;
@@ -5830,9 +5771,7 @@ NSIndexPath *selected;
     tableViewSearchBarColor = searchBarColor;
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         blackTableSeparator = YES;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [dataList setSeparatorInset:UIEdgeInsetsZero];
-        }
+        [dataList setSeparatorInset:UIEdgeInsetsZero];
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
         self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
@@ -5851,14 +5790,14 @@ NSIndexPath *selected;
         deltaY = 0;
     }
     
-    if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length] && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+    if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length]){
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
     }
     
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, deltaY + 42.0f) deltaY:deltaY deltaX:0];
     [self.view addSubview:messagesView];
     
-    CGRect frame = dataList.frame;
+    frame = dataList.frame;
     if ([parameters objectForKey:@"animationStartX"] != nil){
         frame.origin.x = [[parameters objectForKey:@"animationStartX"] intValue];
     }

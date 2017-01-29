@@ -87,9 +87,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        self.edgesForExtendedLayout = 0;
-    }
+    self.edgesForExtendedLayout = 0;
     [appName setText:NSLocalizedString(@"Official XBMC Remote\nfor iOS", nil)];
     [appVersion setText:[NSString stringWithFormat:@"v%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]]];
     [appDescription setText:NSLocalizedString(@"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute", nil)];

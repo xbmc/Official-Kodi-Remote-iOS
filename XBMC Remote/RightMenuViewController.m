@@ -156,9 +156,7 @@
         cell = rightMenuCell;
         [cell setAccessoryView:nil];
         cell.backgroundColor = [UIColor colorWithRed:0.141176f green:0.141176f blue:0.141176f alpha:1.0f];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-            [cell setTintColor:[UIColor lightGrayColor]];
-        }
+        [cell setTintColor:[UIColor lightGrayColor]];
         [cell setEditingAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
         icon = (UIImageView*) [cell viewWithTag:1];
         title = (UILabel*) [cell viewWithTag:3];
@@ -270,9 +268,7 @@
     [newView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth];
     [newView setBackgroundColor:[UIColor clearColor]];
     [toolbar setBarStyle:UIBarStyleBlackTranslucent];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [toolbar setTintColor:[UIColor lightGrayColor]];
-    }
+    [toolbar setTintColor:[UIColor lightGrayColor]];
 
     UIBarButtonItem *fixedSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
                                                                                 target: nil
@@ -314,9 +310,7 @@
             UINavigationBar *newBar = navController.navigationBar;
             [newBar setTintColor:IOS6_BAR_TINT_COLOR];
             [newBar setBarStyle:UIBarStyleBlack];
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-                [newBar setTintColor:TINT_COLOR];
-            }
+            [newBar setTintColor:TINT_COLOR];
             [self presentViewController:navController animated:YES completion:NULL];
         }
         else {
@@ -600,11 +594,8 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    int deltaY = 0.0f;
+    int deltaY = 22.0f;
     self.peekLeftAmount = 40.0f;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        deltaY = 22.0f;
-    }
     CGRect frame = [[UIScreen mainScreen ] bounds];
     CGFloat deltaX = 40.0f;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -664,9 +655,7 @@
     [menuTableView setBackgroundColor:[UIColor clearColor]];
     [menuTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [menuTableView setScrollEnabled:[[self.rightMenuItems objectAtIndex:0] enableSection]];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
-        [menuTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-    }
+    [menuTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     menuTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:menuTableView];
 
