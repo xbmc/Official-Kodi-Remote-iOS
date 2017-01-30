@@ -2986,7 +2986,7 @@ NSIndexPath *selected;
         }
         id cell = [self getCell:indexPath];
         UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
-        UIActionSheet *action = [self buildActionSheetOptions:title options:sheetActions item:item recording:isRecording.hidden];
+        UIActionSheet *action = [self buildActionSheetOptions:title options:sheetActions item:item recording:!isRecording.hidden];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             [action showInView:self.view];
         }
@@ -3056,7 +3056,7 @@ NSIndexPath *selected;
                 id cell = [self getCell:selected];
                 UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
                 
-                UIActionSheet *action = [self buildActionSheetOptions:title options:sheetActions item:item recording:isRecording.hidden];
+                UIActionSheet *action = [self buildActionSheetOptions:title options:sheetActions item:item recording:!isRecording.hidden];
                 
                 if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
                     if ([[item objectForKey:@"trailer"] length]!=0 && [[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
@@ -3101,7 +3101,7 @@ NSIndexPath *selected;
     title = @"";
     for (int i = 0; i < numActions; i++) {
         title = [sheetActions objectAtIndex:i];
-        if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && !isRecording) {
+        if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && isRecording) {
             title = NSLocalizedString(@"Stop Recording", nil);
         }
         [action addButtonWithTitle:title];
