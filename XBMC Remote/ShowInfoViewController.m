@@ -563,7 +563,7 @@ int count=0;
         float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
-        if (percent_elapsed < 0 || percent_elapsed >= 100) {
+        if (percent_elapsed < 0) {
             itemid = [NSNumber numberWithInt:[[self.detailItem objectForKey:@"broadcastid"] intValue]];
             storeBroadcastid = itemid;
             storeChannelid = [NSNumber numberWithInteger:0];
