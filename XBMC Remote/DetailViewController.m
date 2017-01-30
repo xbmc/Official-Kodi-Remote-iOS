@@ -2984,25 +2984,9 @@ NSIndexPath *selected;
             sheetActions = [NSArray arrayWithObjects: NSLocalizedString(@"Ok", nil), nil];
             numActions = 1;
         }
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
-                                                            delegate:self
-                                                   cancelButtonTitle:nil
-                                              destructiveButtonTitle:nil
-                                                   otherButtonTitles:nil
-                                 ];
-        action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        
         id cell = [self getCell:indexPath];
         UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
-        
-        for (int i = 0; i < numActions; i++) {
-            title = [sheetActions objectAtIndex:i];
-            if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && !isRecording.hidden) {
-                title = NSLocalizedString(@"Stop Recording", nil);
-            }
-            [action addButtonWithTitle:title];
-        }
-        action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+        UIActionSheet *action = [self buildActionSheetOptions:title options:sheetActions item:item recording:isRecording.hidden];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             [action showInView:self.view];
         }
@@ -3069,22 +3053,11 @@ NSIndexPath *selected;
 //                    return;
 //                }
                 NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
-                UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
-                                                                    delegate:self
-                                                           cancelButtonTitle:nil
-                                                      destructiveButtonTitle:nil
-                                                           otherButtonTitles:nil
-                                         ];
-                action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
                 id cell = [self getCell:selected];
                 UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
-                for (int i = 0; i < numActions; i++) {
-                    NSString *title = [sheetActions objectAtIndex:i];
-                    if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && !isRecording.hidden) {
-                        title = NSLocalizedString(@"Stop Recording", nil);
-                    }
-                    [action addButtonWithTitle:title];
-                }
+                
+                UIActionSheet *action = [self buildActionSheetOptions:title options:sheetActions item:item recording:isRecording.hidden];
+                
                 if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
                     if ([[item objectForKey:@"trailer"] length]!=0 && [[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
                         [action addButtonWithTitle:NSLocalizedString(@"Play Trailer", nil)];
@@ -3104,7 +3077,6 @@ NSIndexPath *selected;
                         [[[self.detailItem sheetActions] objectAtIndex:choosedTab] addObject:actionString];
                     }
                 }
-                action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                     [action showInView:self.view];
                 }
@@ -3114,6 +3086,28 @@ NSIndexPath *selected;
             }
         }
     }
+}
+
+-(UIActionSheet *)buildActionSheetOptions:(NSString *)title options:(NSArray *)sheetActions item:(NSDictionary *)item recording:(BOOL)isRecording {
+    
+    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:title
+                                                        delegate:self
+                                               cancelButtonTitle:nil
+                                          destructiveButtonTitle:nil
+                                               otherButtonTitles:nil
+                            ];
+    action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    NSInteger numActions = [sheetActions count];
+    title = @"";
+    for (int i = 0; i < numActions; i++) {
+        title = [sheetActions objectAtIndex:i];
+        if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && !isRecording) {
+            title = NSLocalizedString(@"Stop Recording", nil);
+        }
+        [action addButtonWithTitle:title];
+    }
+    action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+    return action;
 }
 
 -(void)markVideo:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath watched:(int)watched{
