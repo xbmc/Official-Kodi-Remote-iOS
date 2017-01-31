@@ -66,6 +66,15 @@
         _busyView.center = CGPointMake(frame.size.width / 2, (frame.size.height / 2) - borderWidth);
         _busyView.tag = 8;
         [self.contentView addSubview:_busyView];
+        
+        float dotSize = 8.0f;
+        UIImageView *isRecording = [[UIImageView alloc] initWithFrame:CGRectMake(6.0f, 6.0f, dotSize, dotSize)];
+        [isRecording setImage:[UIImage imageNamed:@"button_timer"]];
+        [isRecording setContentMode:UIViewContentModeScaleToFill];
+        isRecording.tag = 104;
+        isRecording.hidden = YES;
+        [isRecording setBackgroundColor:[UIColor clearColor]];
+        [self.contentView addSubview:isRecording];
 
         UIView *bgView = [[UIView alloc] initWithFrame:frame];
         [bgView setBackgroundColor:[UIColor colorWithRed:0.0f green:132.0f/255.0f blue:1.0f alpha:1]];

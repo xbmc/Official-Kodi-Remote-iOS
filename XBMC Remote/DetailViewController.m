@@ -1348,6 +1348,10 @@
                 displayThumb=stringURL;
             }
         }
+        else if (channelListView) {
+            UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
+            isRecording.hidden = ![[item objectForKey:@"isrecording"] boolValue];
+        }
         if (![stringURL isEqualToString:@""]){
             if ([[item objectForKey:@"family"] isEqualToString:@"channelid"]){
                 [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
@@ -5345,6 +5349,10 @@ NSIndexPath *selected;
     [dataList beginUpdates];
     [dataList reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
     [dataList endUpdates];
+    
+    [collectionView performBatchUpdates:^{
+        [collectionView reloadItemsAtIndexPaths:[collectionView indexPathsForVisibleItems]];
+    } completion:^(BOOL finished) {}];
 }
 
 -(NSComparisonResult)alphaNumericCompare:(id)firstObject secondObject:(id)secondObject{
