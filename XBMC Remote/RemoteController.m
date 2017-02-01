@@ -1204,6 +1204,7 @@ NSInteger buttonAction;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.slidingViewController.underRightViewController = nil;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
@@ -1270,6 +1271,7 @@ NSInteger buttonAction;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [self resetRemote];
 }
 

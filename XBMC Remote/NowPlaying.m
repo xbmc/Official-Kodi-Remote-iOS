@@ -2843,6 +2843,7 @@ int currentItemID;
 #pragma mark - Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         if (self.slidingViewController.panGesture != nil) {
             [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
@@ -2945,6 +2946,7 @@ int currentItemID;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self handleXBMCPlaylistHasChanged:nil];
     [self playbackInfo];
     updateProgressBar = YES;
@@ -2979,6 +2981,7 @@ int currentItemID;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [timer invalidate];
     currentItemID = -1;
     self.slidingViewController.panGesture.delegate = nil;
@@ -2986,6 +2989,7 @@ int currentItemID;
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     songDetailsView.alpha = 0;
     [playlistTableView setEditing:NO animated:YES];

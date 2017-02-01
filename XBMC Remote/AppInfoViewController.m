@@ -75,10 +75,12 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     creditsMask.hidden = YES;
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     creditsMask.hidden = YES;
     [audioPlayer stop];
     [audioPlayer setCurrentTime:0];

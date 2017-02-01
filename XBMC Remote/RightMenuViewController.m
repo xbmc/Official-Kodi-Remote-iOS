@@ -589,6 +589,7 @@
 #pragma mark - LifeCycle
 
 -(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [volumeSliderView stopTimer];
 }
 

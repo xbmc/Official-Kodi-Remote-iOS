@@ -2102,6 +2102,7 @@ int h=0;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     alreadyPush=NO;
     self.slidingViewController.underRightViewController = nil;
     self.slidingViewController.anchorLeftPeekAmount     = 0;
@@ -2129,6 +2130,7 @@ int h=0;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleSwipeFromLeft:)
                                                  name: @"ECSLidingSwipeLeft"
@@ -2164,12 +2166,14 @@ int h=0;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [self.navigationController.navigationBar setTintColor:TINT_COLOR];
     toolbar.tintColor = TINT_COLOR;
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0f];
     if (self.kenView != nil){
         [UIView animateWithDuration:0.3

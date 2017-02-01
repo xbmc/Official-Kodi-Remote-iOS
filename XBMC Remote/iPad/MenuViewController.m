@@ -344,10 +344,6 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewDidUnload {
-}
-
-
 - (void)dealloc {
 //    [_tableView release];
 //    [super dealloc];

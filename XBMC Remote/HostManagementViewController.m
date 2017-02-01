@@ -379,16 +379,6 @@ static inline BOOL IsEmpty(id obj) {
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-//    int barEffectHeight = 1;
-//    if (iOS7navBarEffect == nil && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-//        iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, barEffectHeight)];
-//        iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//        [iOS7navBarEffect setBackgroundColor:[UIColor redColor]];
-//        [self.view insertSubview:iOS7navBarEffect atIndex:1];
-//    }
-}
-
 - (void)viewDidLoad{
     [super viewDidLoad];
     int deltaY = 62;
