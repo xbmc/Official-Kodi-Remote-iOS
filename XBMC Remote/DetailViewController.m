@@ -5451,6 +5451,7 @@ NSIndexPath *selected;
         NSDate * now = [NSDate date];
         NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
         [outputFormatter setDateFormat:@"ss"];
+        [self updateChannelListTableCell];
         [self performSelector:@selector(startChannelListUpdateTimer) withObject:nil afterDelay:60.0f - [[outputFormatter stringFromDate:now] floatValue]];
     }
 }
