@@ -2012,7 +2012,7 @@ int originYear = 0;
             trackNumberLabel.minimumScaleFactor = (artistFontSize - 4) / artistFontSize;
             trackNumberLabel.tag = 101;
             [trackNumberLabel setHighlightedTextColor:[UIColor whiteColor]];
-            [cell addSubview:trackNumberLabel];
+            [cell.contentView addSubview:trackNumberLabel];
         }
         else if (channelGuideView){
             UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(4, 8, epgChannelTimeLabelWidth - 8, 12 + labelPadding)];
@@ -2023,25 +2023,25 @@ int originYear = 0;
             programTimeLabel.textAlignment = NSTextAlignmentCenter;
             programTimeLabel.tag = 102;
             [programTimeLabel setHighlightedTextColor:[UIColor whiteColor]];
-            [cell addSubview:programTimeLabel];
+            [cell.contentView addSubview:programTimeLabel];
             ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(4, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, epgChannelTimeLabelWidth - 8, epgChannelTimeLabelWidth - 8)];
             progressView.tag = 103;
             progressView.hidden = YES;
-            [cell addSubview:progressView];
+            [cell.contentView addSubview:progressView];
             
             UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake((int)((2 + (epgChannelTimeLabelWidth - 8) - 6) / 2), programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 14, 12, 12)];
             [hasTimer setImage:[UIImage imageNamed:@"button_timer"]];
             hasTimer.tag = 104;
             hasTimer.hidden = YES;
             [hasTimer setBackgroundColor:[UIColor clearColor]];
-            [cell addSubview:hasTimer];
+            [cell.contentView addSubview:hasTimer];
         }
         else if (channelListView) {
             float pieSize = 28.0f;
             ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2.0f, 10.0f, pieSize, pieSize) color:[UIColor blackColor]];
             progressView.tag = 103;
             progressView.hidden = YES;
-            [cell addSubview:progressView];
+            [cell.contentView addSubview:progressView];
             
             float dotSize = 6.0f;
             UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2.0f - dotSize/2.0f, progressView.frame.origin.y + [progressView getPieRadius]/2.0f + [progressView getLineWidth] + 0.5f, dotSize, dotSize)];
@@ -2050,7 +2050,7 @@ int originYear = 0;
             isRecordingImageView.tag = 104;
             isRecordingImageView.hidden = YES;
             [isRecordingImageView setBackgroundColor:[UIColor clearColor]];
-            [cell addSubview:isRecordingImageView];
+            [cell.contentView addSubview:isRecordingImageView];
         }
         [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
         [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
