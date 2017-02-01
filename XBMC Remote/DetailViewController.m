@@ -181,9 +181,9 @@
     NSIndexPath *indexPath = [parameters objectForKey:@"indexPath"];
     UITableView *tableView = [parameters objectForKey:@"tableView"];
     NSMutableDictionary *item = [parameters objectForKey:@"item"];
-    NSMutableDictionary *channelEPG = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *channelEPG = nil;
     if ([channelid intValue] > 0){
-        NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
+        NSMutableArray *retrievedEPG = nil;
         retrievedEPG = [self loadEPGFromMemory:channelid];
         channelEPG = [self parseEpgData:retrievedEPG];
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2989,7 +2989,6 @@ NSIndexPath *selected;
         if ( [[item objectForKey:@"family"] isEqualToString:@"timerid"] && [AppDelegate instance].serverVersion < 17) {
             title = [NSString stringWithFormat:@"%@\n\n%@", title, NSLocalizedString(@"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.", nil)];
             sheetActions = [NSArray arrayWithObjects: NSLocalizedString(@"Ok", nil), nil];
-            numActions = 1;
         }
         id cell = [self getCell:indexPath];
         UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
@@ -3056,7 +3055,6 @@ NSIndexPath *selected;
                     item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
                 }
                  sheetActions = [self checkMusicPlaylists:sheetActions item:item params:[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]]];
-                numActions=[sheetActions count];
 //                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
 //                    return;
 //                }
@@ -3107,7 +3105,6 @@ NSIndexPath *selected;
                             ];
     action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     NSInteger numActions = [sheetActions count];
-    title = @"";
     for (int i = 0; i < numActions; i++) {
         title = [sheetActions objectAtIndex:i];
         if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && isRecording) {
@@ -3822,7 +3819,9 @@ NSIndexPath *selected;
                                     [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
                                     [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                     [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
-                                    nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                    nil], @"parameters",
+                                   libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
+                                   [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                    [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                    [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                    @"Files.GetDirectory", @"exploreCommand",
@@ -4589,11 +4588,8 @@ NSIndexPath *selected;
                      fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                  }
                  NSString *filetype=@"";
-                 NSString *type=@"";
-                 
                  if ([videoLibraryMovieDetail objectForKey:@"filetype"]!=nil){
                      filetype=[videoLibraryMovieDetail objectForKey:@"filetype"];
-                     type=[videoLibraryMovieDetail objectForKey:@"type"];;
                      if ([filetype isEqualToString:@"directory"]){
                          stringURL=@"nocover_filemode.png";
                      }
@@ -4846,11 +4842,8 @@ NSIndexPath *selected;
                              fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                          }
                          NSString *filetype=@"";
-                         NSString *type=@"";
-                         
                          if ([[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"]!=nil){
                              filetype=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"];
-                             type=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"type"];;
                              if ([thumbnailPath length] == 0){
                                  if ([filetype isEqualToString:@"directory"]){
                                      stringURL=@"nocover_filemode.png";
@@ -5377,6 +5370,7 @@ NSIndexPath *selected;
 # pragma mark - Life-Cycle
 
 -(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
     [self.navigationController.navigationBar setTintColor:IOS6_BAR_TINT_COLOR];
