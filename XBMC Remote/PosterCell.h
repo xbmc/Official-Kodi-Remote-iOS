@@ -11,8 +11,10 @@
 
 @interface PosterCell : UICollectionViewCell {
     UIImageView *overlayWatched;
+    UIImageView *isRecordingImageView;
 }
 
+-(void)setIsRecording:(BOOL)enable;
 -(void)setOverlayWatched:(BOOL)enable;
 
 @property (nonatomic, readonly) UIImageView *posterThumbnail;

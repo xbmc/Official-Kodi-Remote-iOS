@@ -1343,15 +1343,16 @@
             [cell.posterLabel setText:[item objectForKey:@"label"]];
             cell.posterLabelFullscreen.hidden = YES;
         }
+        
         if ([[item objectForKey:@"filetype"] length]!=0 || [[item objectForKey:@"family"] isEqualToString:@"file"] || [[item objectForKey:@"family"] isEqualToString:@"genreid"]){
             if (![stringURL isEqualToString:@""]){
                 displayThumb=stringURL;
             }
         }
         else if (channelListView) {
-            UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
-            isRecording.hidden = ![[item objectForKey:@"isrecording"] boolValue];
+            [cell setIsRecording:[[item objectForKey:@"isrecording"] boolValue]];
         }
+        
         if (![stringURL isEqualToString:@""]){
             if ([[item objectForKey:@"family"] isEqualToString:@"channelid"]){
                 [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
@@ -1371,12 +1372,14 @@
             [cell.posterLabel setHidden:NO];
             [cell.labelImageView setHidden:NO];
         }
+        
         if ([playcount intValue]){
             [cell setOverlayWatched:YES];
         }
         else{
             [cell setOverlayWatched:NO];
         }
+        
         return cell;
     }
     else{
@@ -2041,13 +2044,13 @@ int originYear = 0;
             [cell addSubview:progressView];
             
             float dotSize = 6.0f;
-            UIImageView *isRecording = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2.0f - dotSize/2.0f, progressView.frame.origin.y + [progressView getPieRadius]/2.0f + [progressView getLineWidth] + 0.5f, dotSize, dotSize)];
-            [isRecording setImage:[UIImage imageNamed:@"button_timer"]];
-            [isRecording setContentMode:UIViewContentModeScaleToFill];
-            isRecording.tag = 104;
-            isRecording.hidden = YES;
-            [isRecording setBackgroundColor:[UIColor clearColor]];
-            [cell addSubview:isRecording];
+            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2.0f - dotSize/2.0f, progressView.frame.origin.y + [progressView getPieRadius]/2.0f + [progressView getLineWidth] + 0.5f, dotSize, dotSize)];
+            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer"]];
+            [isRecordingImageView setContentMode:UIViewContentModeScaleToFill];
+            isRecordingImageView.tag = 104;
+            isRecordingImageView.hidden = YES;
+            [isRecordingImageView setBackgroundColor:[UIColor clearColor]];
+            [cell addSubview:isRecordingImageView];
         }
         [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
         [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
@@ -2147,8 +2150,8 @@ int originYear = 0;
             cell.urlImageView.frame = frame;
             ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
             progressView.hidden = YES;
-            UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
-            isRecording.hidden = ![[item objectForKey:@"isrecording"] boolValue];
+            UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
+            isRecordingImageView.hidden = ![[item objectForKey:@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithInteger:[[item objectForKey:@"channelid"] integerValue]], @"channelid",
                                     tableView, @"tableView",
@@ -2989,8 +2992,9 @@ NSIndexPath *selected;
             numActions = 1;
         }
         id cell = [self getCell:indexPath];
-        UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
-        UIActionSheet *action = [self buildActionSheetOptions:title options:sheetActions item:item recording:!isRecording.hidden];
+        UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
+        BOOL isRecording = isRecordingImageView == nil ? false : !isRecordingImageView.hidden;
+        UIActionSheet *action = [self buildActionSheetOptions:title options:sheetActions item:item recording:isRecording];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             [action showInView:self.view];
         }
@@ -3058,9 +3062,10 @@ NSIndexPath *selected;
 //                }
                 NSString *title=[NSString stringWithFormat:@"%@\n%@", [item objectForKey:@"label"], [item objectForKey:@"genre"]];
                 id cell = [self getCell:selected];
-                UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
                 
-                UIActionSheet *action = [self buildActionSheetOptions:title options:sheetActions item:item recording:!isRecording.hidden];
+                UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
+                BOOL isRecording = isRecordingImageView == nil ? false : !isRecordingImageView.hidden;
+                UIActionSheet *action = [self buildActionSheetOptions:title options:sheetActions item:item recording:isRecording];
                 
                 if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
                     if ([[item objectForKey:@"trailer"] length]!=0 && [[[self.detailItem sheetActions] objectAtIndex:choosedTab] isKindOfClass:[NSMutableArray class]]){
@@ -4001,8 +4006,8 @@ NSIndexPath *selected;
                    }
                }
                if (error==nil && methodError==nil) {
-                   UIImageView *isRecording = (UIImageView*) [cell viewWithTag:104];
-                   isRecording.hidden = !isRecording.hidden;
+                   UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
+                   isRecordingImageView.hidden = !isRecordingImageView.hidden;
                    NSNumber *status = [NSNumber numberWithBool:![[item objectForKey:@"isrecording"] boolValue]];
                    if ([[item objectForKey:@"broadcastid"] intValue] > 0) {
                        status = [NSNumber numberWithBool:![[item objectForKey:@"hastimer"] boolValue]];
