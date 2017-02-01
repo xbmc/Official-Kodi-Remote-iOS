@@ -5387,6 +5387,7 @@ NSIndexPath *selected;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     if (self.slidingViewController != nil){
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
         self.slidingViewController.underRightViewController = nil;
@@ -5422,6 +5423,7 @@ NSIndexPath *selected;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleSwipeFromLeft:)
                                                  name: @"ECSLidingSwipeLeft"
