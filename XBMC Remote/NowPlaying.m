@@ -1556,7 +1556,7 @@ int currentItemID;
            }];
 }
 
--(void)showPlaylistTable{    
+-(void)showPlaylistTable{
     numResults = (int)[playlistData count];
     if (numResults==0)
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
@@ -2912,6 +2912,11 @@ int currentItemID;
                                              selector: @selector(disableInteractivePopGestureRecognizer:)
                                                  name: @"ECSlidingViewTopDidReset"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionSuccess:)
+                                                 name: @"XBMCServerConnectionSuccess"
+                                               object: nil];
 
     // TRICK TO FORCE VIEW IN PORTRAIT EVEN IF ROOT NAVIGATION WAS LANDSCAPE
 //    UIViewController *c = [[UIViewController alloc]init];
@@ -3106,6 +3111,14 @@ int currentItemID;
         [self setIpadInterface:toolbarAlpha];
     }
     playlistData = [[NSMutableArray alloc] init ];
+}
+
+- (void)connectionSuccess:(NSNotification *)note {
+    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
+    NSDictionary *httpHeaders = [AppDelegate instance].getServerHTTPHeaders;
+    if ([httpHeaders objectForKey:@"Authorization"] != nil){
+        [manager setValue:[httpHeaders objectForKey:@"Authorization"] forHTTPHeaderField:@"Authorization"];
+    }
 }
 
 -(void)handleShakeNotification{
