@@ -271,7 +271,7 @@
         for (int i = 0; i < numActions; i++) {
             [actionSheetPower addButtonWithTitle:[sheetActions objectAtIndex:i]];
         }
-        actionSheetPower.cancelButtonIndex = [actionSheetPower addButtonWithTitle:@"Cancel"];
+        actionSheetPower.cancelButtonIndex = [actionSheetPower addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
        [actionSheetPower showFromRect:CGRectMake(powerButton.frame.origin.x + powerButton.frame.size.width/2, powerButton.frame.origin.y, 1, 1) inView:self.view animated:YES];
     }
 }
