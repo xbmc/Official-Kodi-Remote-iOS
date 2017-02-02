@@ -4478,6 +4478,7 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
     NSString *fullNamespace = @"ImageCache"; 
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:fullNamespace];
+    [[NSFileManager defaultManager] removeItemAtPath:diskCachePath error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:[paths objectAtIndex:0] error:nil];
     
     // TO BE CHANGED!!!
