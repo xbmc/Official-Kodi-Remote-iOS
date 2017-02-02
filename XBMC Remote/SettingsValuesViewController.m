@@ -201,10 +201,8 @@
 -(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint p;
-        CGPoint selectedPoint;
         NSIndexPath *indexPath = nil;
         p = [gestureRecognizer locationInView:_tableView];
-        selectedPoint=[gestureRecognizer locationInView:self.view];
         indexPath = [_tableView indexPathForRowAtPoint:p];
         if (indexPath != nil){
             longPressRow = indexPath;
