@@ -226,8 +226,7 @@ float cellBarWidth=45;
         NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
         NSString *serverHTTP=[NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=PlayerControl(Partymode('music'))", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
         NSURL *url = [NSURL  URLWithString:serverHTTP];
-        NSString *requestANS = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
-        requestANS=nil;
+        [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
         playerID = -1;
         selectedPlayerID = -1;
         [self createPlaylist:NO animTableView:YES];
@@ -947,8 +946,8 @@ int currentItemID;
                                      }
                                      else{
                                          [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
-                                             UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
                                              if (image!=nil){
+                                                 UIImage *buttonImage = nil;
                                                  if (enableJewel){
                                                      thumbnailView.image=image;
                                                      buttonImage=[self resizeImage:[self imageWithBorderFromImage:image] width:76 height:66 padding:10];
@@ -1178,7 +1177,6 @@ int currentItemID;
                                                  UITableViewScrollPosition position=UITableViewScrollPositionMiddle;
                                                  if (musicPartyMode)
                                                      position=UITableViewScrollPositionNone;
-                                                 selection = [playlistTableView indexPathForSelectedRow];
                                                  [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
                                                  UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
                                                  UIView *timePlaying=(UIView*) [cell viewWithTag:5];
@@ -1186,7 +1184,6 @@ int currentItemID;
                                                      [self fadeView:timePlaying hidden:NO];
                                                  storeSelection=newSelection;
                                                  lastSelected=playlistPosition;
-                                                 selection = [playlistTableView indexPathForSelectedRow];
                                              }
                                          }
                                          else {
@@ -1764,11 +1761,9 @@ int currentItemID;
                      fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
                  }
                  NSString *filetype=@"";
-                 NSString *type=@"";
                  
                  if ([videoLibraryMovieDetail objectForKey:@"filetype"]!=nil){
                      filetype=[videoLibraryMovieDetail objectForKey:@"filetype"];
-                     type=[videoLibraryMovieDetail objectForKey:@"type"];;
                      if ([filetype isEqualToString:@"directory"]){
                          stringURL=@"nocover_filemode.png";
                      }

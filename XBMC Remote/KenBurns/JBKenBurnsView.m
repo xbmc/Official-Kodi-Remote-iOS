@@ -132,7 +132,6 @@
 }
 
 - (void) _startInternetAnimations:(NSArray *)urls{
-    BOOL wrapping = NO;
     int bufferIndex = 0;
     
     for (NSInteger urlIndex=self.imagesArray.count; urlIndex < [urls count]; urlIndex++) {
@@ -146,8 +145,6 @@
         
         if ( bufferIndex == self.imagesArray.count -1)
         {
-            NSLog(@"Wrapping!!");
-            wrapping = YES;
             bufferIndex = -1;
         }
         

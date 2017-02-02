@@ -160,10 +160,6 @@
     if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
         NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
         NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[MenuItem.subItem mainParameters] objectAtIndex:choosedTab]];
-        NSString *key=@"null";
-        if ([item objectForKey:[mainFields objectForKey:@"row15"]]!=nil){
-            key=[mainFields objectForKey:@"row15"];
-        }
         id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
         id objKey = [mainFields objectForKey:@"row6"];
         if ([AppDelegate instance].serverVersion>11 && [[parameters objectForKey:@"disableFilterParameter"] boolValue] == FALSE){

@@ -30,9 +30,8 @@
 - (void)loadData {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSFileManager *fileManager1 = [NSFileManager defaultManager];
     NSString *customButtonDatFile = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"customButtons_%@.dat", [self getServerKey]]];
-    fileManager1 = [NSFileManager defaultManager];
+    NSFileManager *fileManager1 = [NSFileManager defaultManager];
     if([fileManager1 fileExistsAtPath:customButtonDatFile]) {
         NSMutableArray *tempArray;
         tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile: customButtonDatFile];
