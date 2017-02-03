@@ -20,14 +20,13 @@
         textSize = 14;
         background_padding = 6;
         alignBottom = 10;
-        UIColor *accessoryColor = [UIColor colorWithRed:0.565f green:0.596f blue:0.643f alpha:1];
+        UIColor *accessoryBackgroundColor = [UIColor colorWithRed:202.0f/255.0f green:205.0f/255.0f blue:212.0f/255.0f alpha:1];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             accessoryHeight = 74;
             verboseHeight = 34;
             padding = 50;
             textSize = 20;
             alignBottom = 12;
-            accessoryColor = [UIColor colorWithRed:0.615f green:0.611f blue:0.654f alpha:1];
         }
 
         xbmcVirtualKeyboard = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
@@ -58,11 +57,8 @@
         [keyboardTitle setFont:[UIFont boldSystemFontOfSize:textSize]];
         
         inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
-        UIToolbar *buttonsToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
-        [buttonsToolbar setBarStyle:UIBarStyleDefault];
-        [buttonsToolbar setTranslucent:YES];
-        [buttonsToolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-        [inputAccView insertSubview: buttonsToolbar atIndex:0];
+        [inputAccView setBackgroundColor:accessoryBackgroundColor];
+
         [keyboardTitle setTextColor:BAR_TINT_COLOR];
 
         backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
@@ -141,20 +137,26 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     verboseOutput.text = xbmcVirtualKeyboard.text;
+    float finalHeight = accessoryHeight - alignBottom;
     if ([keyboardTitle.text isEqualToString:@""]){
         [inputAccView setFrame:
-         CGRectMake(0, 0, screenWidth, accessoryHeight - alignBottom)];
+         CGRectMake(0, 0, screenWidth, finalHeight)];
         [verboseOutput setFrame:
          CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - (int)(alignBottom/2), screenWidth - padding * 2, verboseHeight)];
         [backgroundTextField setFrame:
          CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - (int)(alignBottom/2), screenWidth - (padding - background_padding) * 2, verboseHeight)];
     }
     else{
-        [inputAccView setFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
+        finalHeight = accessoryHeight;
+        [inputAccView setFrame:CGRectMake(0, 0, screenWidth, finalHeight)];
         [verboseOutput setFrame:CGRectMake(padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - padding * 2, verboseHeight)];
         [backgroundTextField setFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
     }
     [textField setInputAccessoryView:inputAccView];
+    if ([textField.inputAccessoryView constraints].count > 0) {
+        NSLayoutConstraint *constraint = [[textField.inputAccessoryView constraints] objectAtIndex:0];
+        constraint.constant = finalHeight;
+    }
 }
 
 -(BOOL) textField: (UITextField *)theTextField shouldChangeCharactersInRange: (NSRange)range replacementString: (NSString *)string {
