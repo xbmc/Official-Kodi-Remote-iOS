@@ -137,7 +137,6 @@ NSOutputStream	*outStream;
             [theStream close];
             [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             [theStream setDelegate:nil];
-            theStream = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionClosed" object:nil userInfo:nil];
 
             break;
