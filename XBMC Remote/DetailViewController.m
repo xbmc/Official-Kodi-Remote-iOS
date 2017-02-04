@@ -5331,10 +5331,8 @@ NSIndexPath *selected;
 
 -(void)startChannelListUpdateTimer {
     [self updateChannelListTableCell];
-    if (channelListUpdateTimer != nil){
-        [channelListUpdateTimer invalidate];
-        channelListUpdateTimer = nil;
-    }
+    [channelListUpdateTimer invalidate];
+    channelListUpdateTimer = nil;
     channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0f target:self selector:@selector(updateChannelListTableCell) userInfo:nil repeats:YES];
 }
 
@@ -5376,6 +5374,12 @@ NSIndexPath *selected;
     [self.navigationController.navigationBar setTintColor:IOS6_BAR_TINT_COLOR];
     [self.navigationController.navigationBar setTintColor:TINT_COLOR];
     self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:searchBarColor];
+    [channelListUpdateTimer invalidate];
+    channelListUpdateTimer = nil;
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     [channelListUpdateTimer invalidate];
     channelListUpdateTimer = nil;
 }
@@ -5446,7 +5450,7 @@ NSIndexPath *selected;
         NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
         [outputFormatter setDateFormat:@"ss"];
         [self updateChannelListTableCell];
-        [self performSelector:@selector(startChannelListUpdateTimer) withObject:nil afterDelay:60.0f - [[outputFormatter stringFromDate:now] floatValue]];
+        channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(60.0f - [[outputFormatter stringFromDate:now] floatValue]) target:self selector:@selector(startChannelListUpdateTimer) userInfo:nil repeats:NO];
     }
 }
 
