@@ -58,7 +58,7 @@ NSOutputStream	*outStream;
     }
     CFReadStreamRef readStream;
 	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)CFBridgingRetain(server), port, &readStream, NULL);
-	inStream = (NSInputStream *)CFBridgingRelease(readStream);
+	inStream = (__bridge NSInputStream *)readStream;
 //	outStream = (__bridge NSOutputStream *)writeStream;
 	[inStream setDelegate:self];
 //	[outStream setDelegate:self];
@@ -66,6 +66,7 @@ NSOutputStream	*outStream;
 //	[outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	[inStream open];
 //	[outStream open];
+    CFRelease((__bridge CFTypeRef)(server));
 }
 
 -(NSStreamStatus)currentSocketInStatus{
