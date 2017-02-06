@@ -30,8 +30,6 @@
     UILabel *verboseOutput;
     UILabel *keyboardTitle;
     UITextField *backgroundTextField;
-    UISwipeGestureRecognizer *rightSwipe;
-    UISwipeGestureRecognizer *leftSwipe;
     NSDictionary *subsDictionary;
     NSDictionary *audiostreamsDictionary;
 }

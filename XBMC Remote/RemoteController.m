@@ -141,16 +141,6 @@
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
-        rightSwipe.numberOfTouchesRequired = 1;
-        rightSwipe.cancelsTouchesInView=YES;
-        rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-        [remoteControlView addGestureRecognizer:rightSwipe];
-        leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
-        leftSwipe.numberOfTouchesRequired = 1;
-        leftSwipe.cancelsTouchesInView=YES;
-        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        [remoteControlView addGestureRecognizer:leftSwipe];
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         if([[UIScreen mainScreen ] bounds].size.height >= 568){
             float transform = 1.0f;
@@ -441,8 +431,6 @@
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
-        leftSwipe.enabled = NO;
-        rightSwipe.enabled = NO;
         [UIView commitAnimations];
         imageName=@"circle.png";
     }
@@ -459,8 +447,6 @@
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 0;
         buttonZoneView.alpha = 1;
-        leftSwipe.enabled = YES;
-        rightSwipe.enabled = YES;
         [UIView commitAnimations];
         imageName=@"finger.png";
     }
@@ -1079,20 +1065,6 @@ NSInteger buttonAction;
 
 # pragma  mark - Gestures
 
-- (void)handleSwipeFromRight:(id)sender {
-    if ([self.navigationController.viewControllers indexOfObject:self] == 0){
-        [self revealMenu:nil];
-    }
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)handleSwipeFromLeft:(id)sender {
-    if ([self.navigationController.viewControllers indexOfObject:self] == 0){
-        [self revealUnderRight:nil];
-    }
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 -(IBAction)handleButtonLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
         switch (gestureRecognizer.view.tag) {
@@ -1328,8 +1300,6 @@ NSInteger buttonAction;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
-        leftSwipe.enabled = NO;
-        rightSwipe.enabled = NO;
     }
     torchIsOn = NO;
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
