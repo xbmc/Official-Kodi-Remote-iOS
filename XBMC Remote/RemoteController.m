@@ -228,18 +228,6 @@
     [twoFingersTap setNumberOfTapsRequired:1];
     [twoFingersTap setNumberOfTouchesRequired:2];
     [gestureZoneView addGestureRecognizer:twoFingersTap];
-    
-    UISwipeGestureRecognizer *twoFingersDownSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    twoFingersDownSwipe.numberOfTouchesRequired = 2;
-    twoFingersDownSwipe.cancelsTouchesInView=NO;
-    twoFingersDownSwipe.direction = UISwipeGestureRecognizerDirectionDown;
-    [gestureZoneView addGestureRecognizer:twoFingersDownSwipe];
-    
-    UISwipeGestureRecognizer *twoFingersUpSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    twoFingersUpSwipe.numberOfTouchesRequired = 2;
-    twoFingersUpSwipe.cancelsTouchesInView=NO;
-    twoFingersUpSwipe.direction = UISwipeGestureRecognizerDirectionUp;
-    [gestureZoneView addGestureRecognizer:twoFingersUpSwipe];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -250,23 +238,6 @@
 #pragma mark - Touch
 
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer {
-//    if (recognizer.numberOfTouches == 2 && recognizer.direction == UISwipeGestureRecognizerDirectionDown){
-////        NSLog(@"down");
-////        if (storeBrightness == -1){
-////            storeBrightness = [UIScreen mainScreen].brightness;
-////            [[UIScreen mainScreen] setWantsSoftwareDimming:YES];
-////            [[UIScreen mainScreen] setBrightness:0.0];
-////        }
-//    }
-//    else if (recognizer.numberOfTouches == 2 && recognizer.direction == UISwipeGestureRecognizerDirectionUp){
-////        NSLog(@"up");
-////        if (storeBrightness > -1){
-////            [[UIScreen mainScreen] setWantsSoftwareDimming:NO];
-////            [[UIScreen mainScreen] setBrightness:storeBrightness];
-////            storeBrightness = -1;
-////        }
-//    }
-//    else
     if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
         buttonAction = 14;
         [self sendAction];
