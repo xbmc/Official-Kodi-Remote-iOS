@@ -672,7 +672,11 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     if ([touches count] == 1){
-        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:1.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
+        float timeInterval = 1.5f;
+        if (buttonAction > 0) {
+            timeInterval = 0.5f;
+        }
+        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
     }
 }
 
