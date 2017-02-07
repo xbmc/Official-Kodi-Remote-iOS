@@ -467,6 +467,7 @@
     [mac_3_UI setTextColor:[UIColor blackColor]];
     [mac_4_UI setTextColor:[UIColor blackColor]];
     [mac_5_UI setTextColor:[UIColor blackColor]];
+    [self AnimLabel:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
 }
 
 - (void)viewDidLoad{
