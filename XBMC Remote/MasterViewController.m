@@ -232,11 +232,10 @@
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
     
     UINavigationBar *newBar = navController.navigationBar;
-    [newBar setTintColor:IOS6_BAR_TINT_COLOR];
     [newBar setBarStyle:UIBarStyleBlack];
     [newBar setTintColor:TINT_COLOR];
     if (setBarTintColor) {
-        [newBar setBarTintColor:BAR_TINT_COLOR];
+        [newBar setBackgroundColor:[UIColor colorWithRed:.8f green:.8f blue:.8f alpha:0.35f]];
     }
     if (hideBottonLine) {
         [navController hideNavBarBottomLine:YES];
