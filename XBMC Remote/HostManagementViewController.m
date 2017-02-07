@@ -344,16 +344,6 @@ static inline BOOL IsEmpty(id obj) {
     [super viewWillAppear:animated];
     [self selectIndex:nil reloadData:YES];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 107, 37)];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateNormal];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateHighlighted];
-        xbmcLogo.showsTouchWhenHighlighted = NO;
-        [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
-        self.navigationItem.titleView = xbmcLogo;
-        UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealUnderRight:)];
         if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
             MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
             masterViewController.mainMenu = self.mainMenu;
@@ -420,6 +410,12 @@ static inline BOOL IsEmpty(id obj) {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         self.edgesForExtendedLayout = 0;
         self.view.tintColor = APP_TINT_COLOR;
+        CGRect frame = backgroundImageView.frame;
+        frame.size.height = frame.size.height + 8;
+        backgroundImageView.frame = frame;
+        [self.view setBackgroundColor:[UIColor blackColor]];
+        [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
     }
     else{
         int barHeight = 44;
@@ -438,22 +434,25 @@ static inline BOOL IsEmpty(id obj) {
         frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
         connectingActivityIndicator.frame = frame;
         
+        UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 107, 37)];
+        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateNormal];
+        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateHighlighted];
+        xbmcLogo.showsTouchWhenHighlighted = NO;
+        [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.titleView = xbmcLogo;
+        UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealUnderRight:)];
+        if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
+            MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+            masterViewController.mainMenu = self.mainMenu;
+            masterViewController.hostController = self;
+            self.slidingViewController.underLeftViewController = masterViewController;
+        }
     }
     doRevealMenu = YES;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        CGRect frame = backgroundImageView.frame;
-        frame.size.height = frame.size.height + 8;
-        backgroundImageView.frame = frame;
-        [self.view setBackgroundColor:[UIColor blackColor]];
-        [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-        [self.navigationController.navigationBar setTintColor:TINT_COLOR];
-    }
-    else if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
-        MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-        masterViewController.mainMenu = self.mainMenu;
-        masterViewController.hostController = self;
-        self.slidingViewController.underLeftViewController = masterViewController;
-    }
+
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     int lastServer;
     if ([userDefaults objectForKey:@"lastServer"]!=nil){
