@@ -344,15 +344,15 @@ static inline BOOL IsEmpty(id obj) {
     [super viewWillAppear:animated];
     [self selectIndex:nil reloadData:YES];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        self.slidingViewController.underRightViewController = nil;
+        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
+        rightMenuViewController.rightMenuItems = [AppDelegate instance].rightMenuItems;
+        self.slidingViewController.underRightViewController = rightMenuViewController;
         if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
             MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
             masterViewController.mainMenu = self.mainMenu;
             self.slidingViewController.underLeftViewController = masterViewController;
         }
-        self.slidingViewController.underRightViewController = nil;
-        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-        rightMenuViewController.rightMenuItems = [AppDelegate instance].rightMenuItems;
-        self.slidingViewController.underRightViewController = rightMenuViewController;
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
     else{
@@ -444,12 +444,6 @@ static inline BOOL IsEmpty(id obj) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealUnderRight:)];
-        if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
-            MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-            masterViewController.mainMenu = self.mainMenu;
-            masterViewController.hostController = self;
-            self.slidingViewController.underLeftViewController = masterViewController;
-        }
     }
     doRevealMenu = YES;
 
