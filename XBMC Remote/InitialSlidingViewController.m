@@ -49,7 +49,6 @@
     HostManagementViewController *hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     navController = [[CustomNavigationController alloc] initWithRootViewController:hostManagementViewController];
     UINavigationBar *newBar = navController.navigationBar;
-    [newBar setTintColor:IOS6_BAR_TINT_COLOR];
     [newBar setBarStyle:UIBarStyleBlackTranslucent];
     [self setNeedsStatusBarAppearanceUpdate];
     [newBar setTintColor:TINT_COLOR];

@@ -308,7 +308,6 @@
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:detailViewController];
             UINavigationBar *newBar = navController.navigationBar;
-            [newBar setTintColor:IOS6_BAR_TINT_COLOR];
             [newBar setBarStyle:UIBarStyleBlack];
             [newBar setTintColor:TINT_COLOR];
             [self presentViewController:navController animated:YES completion:NULL];
