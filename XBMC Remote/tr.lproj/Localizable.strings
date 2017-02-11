@@ -269,9 +269,8 @@
 "Save" = "Kaydet";
 "No XBMC instances were found :(" = "Kodi bulunamadı :(";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Kodi Bul\" Kodi sunucusu seçeneği gerekir\n\"Zéroconf üzerinden bu servisleri diğer sistemlere duyur\"";
-"How-to activate the remote app in XBMC" = "Kodi'de uzaktan kumanda nasıl etkinleştirilir";
-"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nAyarlar -> Ağ -> HTTP yoluyla Kodi'nin kontrolüne izin ver";
-"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nAyarlar -> Hizmetler -> Web Sunucusu -> HTTP yoluyla Kodi'nin kontrolüne izin ver";
+"How-to activate the remote app in Kodi" = "Kodi'de uzaktan kumanda nasıl etkinleştirilir";
+"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Ayarlar > Hizmetler > Denetim:\n1. Web sunucusu > HTTP üzerinden uzaktan kontrole izin ver\n2. Uygulama denetimi > Diğer sistemlerdeki programların uzactan kontrol etmesine izin ver";
 "e.g. My XBMC" = "Örn. Kodi'm";
 "e.g. 192.168.0.8" = "Örn. 192.168.0.8";
 "Username" = "Kullanıcı adı";

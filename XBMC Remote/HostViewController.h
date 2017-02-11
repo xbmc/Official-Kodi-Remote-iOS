@@ -41,7 +41,6 @@
     IBOutlet UILabel *noInstancesLabel;
     IBOutlet UILabel *findLabel;
     IBOutlet UILabel *howtoLabel;
-    IBOutlet UILabel *howtoEdenLabel;
     IBOutlet UILabel *howtoLaterLabel;
     IBOutlet UIButton *saveButton;
 }

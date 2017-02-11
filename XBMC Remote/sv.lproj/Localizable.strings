@@ -272,9 +272,8 @@
 "Save" = "Spara";
 "No XBMC instances were found :(" = "Inga Kodi-instanser hittades :(";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Sök efter Kodi\" kräver inställning på Kodi-servern\n\"Annonsera tjänster till andra system\" via Zeroconf krävs";
-"How-to activate the remote app in XBMC" = "Hur man aktiverar fjärrkontrollen i Kodi";
-"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nInställningar -> Nätverk -> Tillåt styrning av Kodi via HTTP";
-"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nInställningar -> Tjänster -> Webbserver -> Tillåt styrning av Kodi via HTTP";
+"How-to activate the remote app in Kodi" = "Hur man aktiverar fjärrkontrollen i Kodi";
+"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Inställningar > Tjänster > Kontroll:\n1. Webserver > Tillåt fjärrstyrning via HTTP\n2. Applikationskontroll > Tillåt fjärrstyrning från program på andra system";
 "e.g. My XBMC" = "t.ex. Min Kodi";
 "e.g. 192.168.0.8" = "t.ex. 192.168.0.8";
 "User" = "Användare";

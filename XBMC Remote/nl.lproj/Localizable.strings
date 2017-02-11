@@ -270,9 +270,8 @@
 "Save" = "Opslaan";
 "No XBMC instances were found :(" = "Er is geen Kodi-systeem gevonden :(";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Vind Kodi\" Vereist de Kodi-Optie\n\"Aankondigen services naar andere systemen via Zeroconf\"";
-"How-to activate the remote app in XBMC" = "Zo activeer je de Afstandsbediening in Kodi";
-"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nInstellingen -> Netwerk -> Toestaan besturing op afstand via HTTP";
-"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nSysteem/Instellingen -> Diensten -> Webserver -> Toestaan besturing op afstand via HTTP";
+"How-to activate the remote app in Kodi" = "Zo activeer je de Afstandsbediening in Kodi";
+"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Instellingen > Diensten > Beheer:\n1. Webserver > Toestaan besturing op afstand via HTTP\n2. Applicatie beheer > Toestaan besturing op afstand via applicatie`s op andere systemen";
 "e.g. My XBMC" = "Bvb. Mijn Kodi";
 "e.g. 192.168.0.8" = "Bvb. 192.168.0.8";
 "Username" = "Gebruikersnaam";

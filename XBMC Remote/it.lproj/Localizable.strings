@@ -269,9 +269,8 @@
 "Save" = "Salva";
 "No XBMC instances were found :(" = "Nessun server Kodi è stato trovato :(";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Trova Kodi\" richiede l'opzione\n\"Annuncia questi servizi ad altri sistemi via Zeroconf\" abilitata in Kodi";
-"How-to activate the remote app in XBMC" = "Come attivare l'app remota in Kodi";
-"Eden\nSettings -> Network -> Allow control of XBMC via HTTP" = "Eden\nImpostazioni ->Rete ->Permetti il controllo di Kodi via HTTP";
-"Frodo / Gotham\nSettings -> Services -> Web Server -> Allow control of XBMC via HTTP" = "Frodo / Gotham\nImpostazioni ->Servizi ->Webserver ->Permetti il controllo di Kodi via HTTP";
+"How-to activate the remote app in Kodi" = "Come attivare l'app remota in Kodi";
+"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Impostazioni > Servizi > Controllo:\n1. Web Server > Permetti controllo remoto via HTTP\n2. Controllo Applicazione > Permetti controllo remoto da applicazioni su altri dispositivi";
 "e.g. My XBMC" = "es. Mio Kodi";
 "e.g. 192.168.0.8" = "es. 192.168.0.8";
 "Username" = "Username";
