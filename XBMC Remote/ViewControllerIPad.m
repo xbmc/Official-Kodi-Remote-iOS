@@ -200,7 +200,7 @@
     self.serverPickerPopover = [[UIPopoverController alloc]
                                 initWithContentViewController:[AppDelegate instance].navigationController];
     self.serverPickerPopover.delegate = self;
-    [self.serverPickerPopover setBackgroundColor:[UIColor clearColor]];
+    [self.serverPickerPopover setBackgroundColor:[UIColor colorWithRed:41.0f/255.0f green:41.0f/255.0f blue:41.0f/255.0f alpha:1.0f]];
     [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
 }
 
