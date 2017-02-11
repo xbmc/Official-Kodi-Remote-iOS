@@ -56,6 +56,9 @@ NSOutputStream	*outStream;
     if (port == 0){
         port = 9090;
     }
+    if ([server isEqualToString:@""]) {
+        return;
+    }
     CFReadStreamRef readStream;
 	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)CFBridgingRetain(server), port, &readStream, NULL);
 	inStream = (__bridge NSInputStream *)readStream;
