@@ -3514,6 +3514,10 @@ NSIndexPath *selected;
 
 #pragma mark - View Configuration
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
