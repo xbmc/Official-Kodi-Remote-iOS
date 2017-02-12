@@ -5,6 +5,7 @@
 "Language" = "Språk";
 "Automatic" = "Automatiskt";
 "Language changes needs app restart" = "Ändring av språk kräver omstart";
+"Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play-läge";
 "Ken Burns effect" = "Ken Burns-effekt";
 "Shake to clear playlist" = "Skaka för att tömma spellista";

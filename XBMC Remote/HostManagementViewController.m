@@ -492,6 +492,91 @@ static inline BOOL IsEmpty(id obj) {
                                              selector: @selector(connectionError:)
                                                  name: @"XBMCServerConnectionError"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(tcpJSONRPCConnectionError:)
+                                                 name: @"tcpJSONRPCConnectionError"
+                                               object: nil];
+    
+    
+}
+
+-(void)tcpJSONRPCConnectionError:(NSNotification *)note {
+    BOOL showConnectionNotice = NO;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    NSString *showConnectionNoticeString = [userDefaults objectForKey:@"connection_info_preference"];
+    if (showConnectionNoticeString == nil || [showConnectionNoticeString boolValue]) {
+        showConnectionNotice = YES;
+    }
+    if (showConnectionNotice == YES && [AppDelegate instance].serverOnLine == YES) {
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:NSLocalizedString(@"Kodi connection notice", nil)
+                                              message:[NSString stringWithFormat:@"%@\n\n%@", NSLocalizedString(@"It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input.", nil), NSLocalizedString(@"Do you want to enable this connection now?", nil)]
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *cancelAction = [UIAlertAction
+                                       actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                       style:UIAlertActionStyleCancel
+                                       handler:^(UIAlertAction *action) {}];
+        
+        UIAlertAction *dontShowAction = [UIAlertAction
+                                         actionWithTitle:NSLocalizedString(@"Don't show this message again", nil)
+                                         style:UIAlertActionStyleDestructive
+                                         handler:^(UIAlertAction *action) {
+                                             [self disableTCPconnectionNotice];
+                                         }];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"Enable TCP connection on Kodi", nil)
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action) {
+                                       [self enableTCPconnection];
+                                   }];
+        
+        [alertController addAction:cancelAction];
+        [alertController addAction:dontShowAction];
+        [alertController addAction:okAction];
+        id presentingView = self.presentingViewController == nil ? self : self.presentingViewController;
+        [presentingView presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)disableTCPconnectionNotice {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"connection_info_preference"];
+}
+
+-(void)enableTCPconnection {
+    jsonRPC = nil;
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
+    NSString *methodToCall = @"Settings.SetSettingValue";
+    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"services.esallinterfaces", @"setting",
+                                [NSNumber numberWithBool:YES], @"value",
+                                nil];
+    [jsonRPC callMethod: methodToCall
+         withParameters: parameters
+           onCompletion: ^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+               if ( error == nil && methodError == nil ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationWillEnterForegroundNotification" object:nil userInfo:nil];
+               }
+               else {
+                   UIAlertController *alertController = [UIAlertController
+                                                         alertControllerWithTitle:NSLocalizedString(@"Cannot do that", nil)
+                                                         message:nil
+                                                         preferredStyle:UIAlertControllerStyleAlert];
+
+                   UIAlertAction *okAction = [UIAlertAction
+                                              actionWithTitle:NSLocalizedString(@"OK", nil)
+                                              style:UIAlertActionStyleDefault
+                                              handler:^(UIAlertAction *action) {}];
+                   [alertController addAction:okAction];
+                   id presentingView = self.presentingViewController == nil ? self : self.presentingViewController;
+                   [presentingView presentViewController:alertController animated:YES completion:nil];
+               }
+           }
+     ];
 }
 
 -(void)connectionError:(NSNotification *)note {
@@ -550,7 +635,8 @@ static inline BOOL IsEmpty(id obj) {
     return UIInterfaceOrientationMaskPortrait;
 }
 
-- (void)dealloc{
+- (void)dealloc {
+    jsonRPC = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

@@ -4,6 +4,7 @@
 "Language" = "语言";
 "Automatic" = "自动";
 "Language changes needs app restart" = "变更语言需要重启应用";
+"Show connection notice" = "Show connection notice";
 "Direct Play mode" = "直接播放模式";
 "Ken Burns effect" = "Ken Burns特效";
 "Shake to clear playlist" = "晃动清除播放列表";

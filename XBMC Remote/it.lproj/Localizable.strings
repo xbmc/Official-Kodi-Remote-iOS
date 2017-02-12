@@ -259,6 +259,11 @@
 
 "Supported XBMC version is Eden (11) or higher" = "Versione Kodi supportata Eden (11) o superiore";
 "Add Host" = "Aggiungi";
+"Kodi connection notice" = "Avviso di connessione Kodi";
+"It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Sembra che la connessione TCP con Kodi non può essere stabilita. Ciò impedirà all'app di ascoltare Kodi. Ad esempio, l'input da tastiera all'interno dell'app non verrà visualizzato quando Kodi richiede input da tastiera.";
+"Do you want to enable this connection now?" = "Si desidera abilitare la connessione ora?";
+"Don't show this message again" = "Non mostrare più questo messaggio";
+"Enable TCP connection on Kodi" = "Abilita connessione TCP su Kodi";
 
 "Description" = "Descrizione";
 "Host : port /\nTCP port" = "Host : porta /\nporta TCP";

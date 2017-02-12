@@ -56,6 +56,16 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
+			<true/>
+			<key>Key</key>
+			<string>connection_info_preference</string>
+			<key>Title</key>
+			<string>Show connection notice</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
 			<string>song_preference</string>

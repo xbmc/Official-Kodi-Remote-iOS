@@ -11,6 +11,7 @@
 #import "MasterViewController.h"
 #import "RightMenuViewController.h"
 #import "MessagesView.h"
+#import "DSJSONRPC.h"
 
 @class HostViewController;
 @class AppInfoViewController;
@@ -30,6 +31,7 @@
     __weak IBOutlet UIView *supportedVersionView;
     __weak IBOutlet UILabel *supportedVersionLabel;
     MessagesView *messagesView;
+    DSJSONRPC *jsonRPC;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
