@@ -4,6 +4,7 @@
 
  Created by Rick (Ludacrash) on 26/02/2016
  Updated by Pieter Jan (pieterjandesmedt) on 10/01/2017
+ Updated by Pieter Jan (pieterjandesmedt) on 22/02/2017
  Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
@@ -260,11 +261,11 @@
 
 "Supported XBMC version is Eden (11) or higher" = "Ondersteunde XBMC/Kodi versie is Eden (11) of nieuwer";
 "Add Host" = "Host toevoegen";
-"Kodi connection notice" = "Kodi connection notice";
-"It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input.";
-"Do you want to enable this connection now?" = "Do you want to enable this connection now?";
-"Don't show this message again" = "Don't show this message again";
-"Enable TCP connection on Kodi" = "Enable TCP connection on Kodi";
+"Kodi connection notice" = "Kodi verbindingsbericht";
+"It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "De app kan geen TCP-verbinding maken met Kodi. Daardoor kan de app niet luisteren naar Kodi. Zo zal bijvoorbeeld het toetsenbord in de app niet getoond worden als Kodi toetsenbordinvoer vraagt.";
+"Do you want to enable this connection now?" = "Wil je deze verbinging nu aanzetten?";
+"Don't show this message again" = "Toon dit bericht niet opnieuw";
+"Enable TCP connection on Kodi" = "Zet de TCP-verbinding aan in Kodi";
 
 "Description" = "Beschrijving";
 "Host : port /\nTCP port" = "Host : poort /\nTCP poort";
