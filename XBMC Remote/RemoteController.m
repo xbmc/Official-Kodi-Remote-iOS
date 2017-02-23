@@ -1056,7 +1056,12 @@ NSInteger buttonAction;
                 break;
                 
             case 11:// CODEC INFO
-                [self GUIAction:@"Input.ShowCodec" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04F)"];
+                if ([AppDelegate instance].serverVersion > 16) {
+                    [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:@"playerdebug", @"action", nil] httpAPIcallback:nil];
+                }
+                else {
+                    [self GUIAction:@"Input.ShowCodec" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04F)"];
+                }
                 break;
 
             case 13:// CONTEXT MENU
