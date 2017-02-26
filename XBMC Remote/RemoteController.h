@@ -11,7 +11,7 @@
 //#import "VolumeSliderView.h"
 //#import "RightMenuViewController.h"
 
-@interface RemoteController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate>{
+@interface RemoteController : UIViewController <UIActionSheetDelegate>{
     DSJSONRPC *jsonRPC;
     IBOutlet UIView *remoteControlView;
     IBOutlet UILabel *subsInfoLabel;
@@ -27,9 +27,6 @@
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
     BOOL torchIsOn;
-    UILabel *verboseOutput;
-    UILabel *keyboardTitle;
-    UITextField *backgroundTextField;
     NSDictionary *subsDictionary;
     NSDictionary *audiostreamsDictionary;
 }
