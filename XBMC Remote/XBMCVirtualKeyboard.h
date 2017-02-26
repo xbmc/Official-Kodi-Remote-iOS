@@ -12,7 +12,6 @@
 @interface XBMCVirtualKeyboard : UIView <UITextFieldDelegate>{
     UITextField *xbmcVirtualKeyboard;
     UIView *inputAccView;
-    UILabel *verboseOutput;
     UILabel *keyboardTitle;
     UITextField *backgroundTextField;
     int accessoryHeight;
