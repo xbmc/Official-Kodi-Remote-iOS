@@ -14,6 +14,7 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
+        float keyboardTitlePadding = 6.0f;
         accessoryHeight = 52;
         padding = 25;
         verboseHeight = 24;
@@ -40,12 +41,14 @@
         CGSize screenSize = screenBound.size;
         screenWidth = screenSize.width;
         
-        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
+        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(keyboardTitlePadding, 0, screenWidth - keyboardTitlePadding * 2, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
         [keyboardTitle setContentMode:UIViewContentModeScaleToFill];
         [keyboardTitle setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
         [keyboardTitle setTextAlignment:NSTextAlignmentCenter];
         [keyboardTitle setBackgroundColor:[UIColor clearColor]];
         [keyboardTitle setFont:[UIFont boldSystemFontOfSize:textSize]];
+        [keyboardTitle setAdjustsFontSizeToFitWidth:YES];
+        [keyboardTitle setMinimumScaleFactor:0.6f];
         [keyboardTitle setTextColor:BAR_TINT_COLOR];
 
         backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
