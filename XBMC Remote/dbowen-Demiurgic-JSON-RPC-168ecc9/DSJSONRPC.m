@@ -153,7 +153,7 @@
     [serviceRequest setValue:[NSString stringWithFormat:@"%i", (int)postData.length] forHTTPHeaderField:@"Content-Length"];
     [serviceRequest setHTTPMethod:@"POST"];
     [serviceRequest setHTTPBody:postData];
-    [serviceRequest setTimeoutInterval:240];
+    [serviceRequest setTimeoutInterval:3600];
     
     // Create dictionary to store information about the request so we can recall it later
     NSMutableDictionary *connectionInfo = [NSMutableDictionary dictionaryWithCapacity:3];
