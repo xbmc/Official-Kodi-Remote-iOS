@@ -630,7 +630,9 @@
         [moreItemsViewController viewDidAppear:FALSE];
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.bottom = 44;
-        tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+        if (SYSTEM_VERSION_LESS_THAN(@"11.0")) {
+            tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+        }
         moreItemsViewController.tableView.contentInset = tableViewInsets;
         moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
         [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
