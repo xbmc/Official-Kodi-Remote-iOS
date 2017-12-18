@@ -3053,6 +3053,11 @@ int currentItemID;
     [self addSegmentControl];
     pg_thumb_name = @"pgbar_thumb_iOS7";
     cellBackgroundColor = [UIColor whiteColor];
+    bottomPadding = 0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
     toolbarAlpha = 1.0f;
     int barHeight = 44;
     int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
@@ -3074,17 +3079,30 @@ int currentItemID;
         playlistTableView.scrollIndicatorInsets = tableViewInsets;
         
         frame= playlistTableView.frame;
-        frame.size.height=self.view.bounds.size.height;
+        frame.size.height=self.view.bounds.size.height - bottomPadding;
         playlistView.frame = frame;
         playlistTableView.frame = frame;
     }
     [self setIOS7toolbar];
     [playlistTableView setSeparatorInset:UIEdgeInsetsMake(0, 53, 0, 0)];
+    
     CGRect frame;
     frame = nowPlayingView.frame;
     frame.origin.y = barHeight + statusBarHeight;
-    frame.size.height = frame.size.height - barHeight - statusBarHeight;
+    frame.size.height = frame.size.height - barHeight - statusBarHeight - bottomPadding;
     nowPlayingView.frame = frame;
+    
+    if (bottomPadding > 0) {
+        frame = playlistToolbar.frame;
+        frame.size.height += bottomPadding;
+        frame.origin.y -= bottomPadding;
+        playlistToolbar.frame = frame;
+        
+        frame= playlistTableView.frame;
+        frame.size.height -= bottomPadding;
+        playlistView.frame = frame;
+        playlistTableView.frame = frame;
+    }
     
     [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
     [ProgressSlider setMaximumTrackTintColor:APP_TINT_COLOR];

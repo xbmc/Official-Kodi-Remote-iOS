@@ -115,6 +115,7 @@
     NSString *storeClearlogo;
     NSString *storeClearart;
     NSString *storeCurrentLogo;
+    CGFloat bottomPadding;
 }
 
 - (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
