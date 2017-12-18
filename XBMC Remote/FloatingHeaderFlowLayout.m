@@ -84,17 +84,18 @@
 
 -(CGSize)collectionViewContentSize{
     CGSize size = [super collectionViewContentSize];
-    if (size.height < self.collectionView.frame.size.height + 44 ){
-        size.height = self.collectionView.frame.size.height + 44;
+    if (size.height < self.collectionView.frame.size.height + searchBarHeight ){
+        size.height = self.collectionView.frame.size.height + searchBarHeight;
     }    
     return size;
 }
 
-
+-(void)setSearchBarHeight:(CGFloat)height {
+    searchBarHeight = height;
+}
 
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity{
     float offsetAdjustment = 0;
-    float searchBarHeight = 44.0f;
     float threshold = searchBarHeight / 2;
     float contentOffsetInset = proposedContentOffset.y;
     contentOffsetInset = contentOffsetInset + self.collectionView.contentInset.top;

@@ -1253,6 +1253,7 @@
 -(void)initCollectionView{
     if (collectionView == nil){
         flowLayout = [[FloatingHeaderFlowLayout alloc] init];
+        [flowLayout setSearchBarHeight:self.searchDisplayController.searchBar.frame.size.height];
         [self setFlowLayoutParams];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
@@ -5676,7 +5677,7 @@ NSIndexPath *selected;
     hiddenLabel = [hidden_label_preferenceString boolValue];
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
     isViewDidLoad = YES;
-    iOSYDelta = 44;
+    iOSYDelta = self.searchDisplayController.searchBar.frame.size.height;
     sectionHeight = 16;
     dataList.tableFooterView = [UIView new];
     epgDict = [[NSMutableDictionary alloc] init];
@@ -5687,12 +5688,17 @@ NSIndexPath *selected;
     [localHourMinuteFormatter setDateFormat:@"HH:mm"];
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (SYSTEM_VERSION_LESS_THAN(@"11.0")) {
         iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.top = 44 + fabs(iOSYDelta);
+        tableViewInsets.top = self.searchDisplayController.searchBar.frame.size.height + fabs(iOSYDelta);
         dataList.contentInset = tableViewInsets;
         dataList.scrollIndicatorInsets = tableViewInsets;
+        }
+        else {
+            self.edgesForExtendedLayout = 0;
+        }
     }
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.searchDisplayController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];

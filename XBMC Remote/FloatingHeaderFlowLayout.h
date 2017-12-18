@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FloatingHeaderFlowLayout : UICollectionViewFlowLayout
+@interface FloatingHeaderFlowLayout : UICollectionViewFlowLayout {
+    CGFloat searchBarHeight;
+}
+
+-(void)setSearchBarHeight:(CGFloat)height;
 
 @end
