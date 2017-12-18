@@ -724,8 +724,12 @@ int h=0;
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
--(void)elaborateImage:(UIImage *)image{
+-(void)startActivityIndicator {
     [activityIndicatorView startAnimating];
+}
+
+-(void)elaborateImage:(UIImage *)image{
+    [self performSelectorOnMainThread:@selector(startActivityIndicator) withObject:nil waitUntilDone:YES];
     UIImage *elabImage = [self imageWithBorderFromImage:image];
     [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];    
 }
@@ -757,7 +761,7 @@ int h=0;
     if (!enableJewel) {
         jewelView.image = nil;
     }
-    clearLogoWidth = 300;
+    clearLogoWidth = self.view.frame.size.width - 20.0f;
     clearLogoHeight = 116;
     thumbWidth = PHONE_TV_SHOWS_BANNER_WIDTH;
     tvshowHeight = PHONE_TV_SHOWS_BANNER_HEIGHT;
@@ -1581,6 +1585,7 @@ int h=0;
                     [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
                     [playTrailerButton setFrame:CGRectMake(0, 0, trailerView.frame.size.width, trailerView.frame.size.height)];
                     [playTrailerButton addTarget:self action:@selector(loadUrl:) forControlEvents:UIControlEventTouchUpInside];
+                    [playTrailerButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
                     [trailerView addSubview:playTrailerButton];
                 }
                 embedVideoActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -1600,7 +1605,7 @@ int h=0;
     if (![[item objectForKey:@"family"] isEqualToString:@"albumid"]) {// TRANSFORM IN SHOW_CAST BOOLEAN
         cast = [item objectForKey:contributorString];
         if (actorsTable == nil){
-            int actorsTableWidth = 320;
+            int actorsTableWidth = self.view.frame.size.width;
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
                 actorsTableWidth = pageSize + 40;
             }
@@ -2207,7 +2212,7 @@ int h=0;
     [touchOnKenView setNumberOfTapsRequired:1];
     [touchOnKenView setNumberOfTouchesRequired:1];
     [fanartView addGestureRecognizer:touchOnKenView];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && SYSTEM_VERSION_LESS_THAN(@"11.0")){
         float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.top = 44 + fabs(iOSYDelta);

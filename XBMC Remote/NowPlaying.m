@@ -3056,7 +3056,7 @@ int currentItemID;
     toolbarAlpha = 1.0f;
     int barHeight = 44;
     int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && SYSTEM_VERSION_LESS_THAN(@"11.0")){
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.top = barHeight + statusBarHeight;
         playlistTableView.contentInset = tableViewInsets;
