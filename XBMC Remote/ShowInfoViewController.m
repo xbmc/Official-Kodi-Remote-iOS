@@ -2212,12 +2212,17 @@ int h=0;
     [touchOnKenView setNumberOfTapsRequired:1];
     [touchOnKenView setNumberOfTouchesRequired:1];
     [fanartView addGestureRecognizer:touchOnKenView];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && SYSTEM_VERSION_LESS_THAN(@"11.0")){
-        float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
-        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.top = 44 + fabs(iOSYDelta);
-        scrollView.contentInset = tableViewInsets;
-        scrollView.scrollIndicatorInsets = tableViewInsets;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (SYSTEM_VERSION_LESS_THAN(@"11.0")) {
+            float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
+            UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
+            tableViewInsets.top = 44 + fabs(iOSYDelta);
+            scrollView.contentInset = tableViewInsets;
+            scrollView.scrollIndicatorInsets = tableViewInsets;
+        }
+        else {
+            self.edgesForExtendedLayout = 0;
+        }
     }
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
