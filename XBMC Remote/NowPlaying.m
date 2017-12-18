@@ -922,14 +922,14 @@ int currentItemID;
                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                                                             }
                                                                             else {
-                                                                                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [UIImage imageNamed:@""], @"image", nil];
+                                                                                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [[UIImage alloc] init], @"image", nil];
                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                                                             }
                                                                             
                                                                         }];
                                          }
                                          else {
-                                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [UIImage imageNamed:@""], @"image", nil];
+                                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [[UIImage alloc] init], @"image", nil];
                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                          }
                                      }
@@ -3000,8 +3000,8 @@ int currentItemID;
     UIButton *buttonItem= nil;
     for (int i=1; i<8; i++) {
         buttonItem=(UIButton *)[self.view viewWithTag:i];
-        [buttonItem setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        [buttonItem setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+        [buttonItem setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+        [buttonItem setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
     }
     
     [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];

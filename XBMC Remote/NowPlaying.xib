@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -555,14 +555,14 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="ljf-eE-qpy"/>
                         <barButtonItem style="plain" id="12">
                             <button key="customView" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="11">
-                                <rect key="frame" x="11" y="5.5" width="38" height="33"/>
+                                <rect key="frame" x="19" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_previous.png" backgroundImage="now_playing_empty_up.png">
+                                <state key="normal" image="now_playing_previous.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_previous.png" backgroundImage="now_playing_empty_down.png">
+                                <state key="highlighted" image="now_playing_previous.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -573,15 +573,15 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="210"/>
                         <barButtonItem style="plain" id="15">
                             <button key="customView" opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="16">
-                                <rect key="frame" x="55" y="5.5" width="38" height="33"/>
+                                <rect key="frame" x="59.5" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_seek_backward.png" backgroundImage="now_playing_empty_up.png">
+                                <state key="normal" image="now_playing_seek_backward.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_seek_backward.png" backgroundImage="now_playing_empty_down.png">
+                                <state key="highlighted" image="now_playing_seek_backward.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -596,14 +596,14 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="80"/>
                         <barButtonItem style="plain" id="67">
                             <button key="customView" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="68">
-                                <rect key="frame" x="98" y="5.5" width="38" height="33"/>
+                                <rect key="frame" x="100.5" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_pause.png" backgroundImage="now_playing_empty_up.png">
+                                <state key="normal" image="now_playing_pause.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_pause.png" backgroundImage="now_playing_empty_down.png">
+                                <state key="highlighted" image="now_playing_pause.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -617,14 +617,14 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="81"/>
                         <barButtonItem style="plain" id="17">
                             <button key="customView" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="18">
-                                <rect key="frame" x="141" y="5.5" width="38" height="33"/>
+                                <rect key="frame" x="141" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_stop.png" backgroundImage="now_playing_empty_up.png">
+                                <state key="normal" image="now_playing_stop.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_stop.png" backgroundImage="now_playing_empty_down.png">
+                                <state key="highlighted" image="now_playing_stop.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -638,15 +638,15 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="82"/>
                         <barButtonItem style="plain" id="71">
                             <button key="customView" opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="72">
-                                <rect key="frame" x="184" y="5.5" width="38" height="33"/>
+                                <rect key="frame" x="182" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_seek_forward.png" backgroundImage="now_playing_empty_up.png">
+                                <state key="normal" image="now_playing_seek_forward.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_seek_forward.png" backgroundImage="now_playing_empty_down.png">
+                                <state key="highlighted" image="now_playing_seek_forward.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -661,14 +661,14 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="83"/>
                         <barButtonItem style="plain" id="19">
                             <button key="customView" opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="20">
-                                <rect key="frame" x="228" y="5.5" width="38" height="33"/>
+                                <rect key="frame" x="222.5" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_next.png" backgroundImage="now_playing_empty_up.png">
+                                <state key="normal" image="now_playing_next.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_next.png" backgroundImage="now_playing_empty_down.png">
+                                <state key="highlighted" image="now_playing_next.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -682,14 +682,14 @@ albums</string>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="26"/>
                         <barButtonItem style="plain" id="23">
                             <button key="customView" opaque="NO" tag="5" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="24">
-                                <rect key="frame" x="271" y="5.5" width="38" height="33"/>
+                                <rect key="frame" x="263.5" y="5.5" width="38" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <state key="normal" image="xbmc_overlay_small.png" backgroundImage="now_playing_empty_up.png">
+                                <state key="normal" image="xbmc_overlay_small.png">
                                     <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_playlist.png" backgroundImage="now_playing_empty_down.png">
+                                <state key="highlighted" image="now_playing_playlist.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -738,8 +738,6 @@ albums</string>
         <image name="button_repeat.png" width="41" height="41"/>
         <image name="button_shuffle.png" width="41" height="41"/>
         <image name="icon_dark.png" width="37" height="37"/>
-        <image name="now_playing_empty_down.png" width="38" height="33"/>
-        <image name="now_playing_empty_up.png" width="38" height="33"/>
         <image name="now_playing_next.png" width="38" height="34"/>
         <image name="now_playing_pause.png" width="38" height="34"/>
         <image name="now_playing_playlist.png" width="38" height="34"/>
@@ -766,9 +764,4 @@ albums</string>
         <image name="xbmc_overlay.png" width="512" height="127"/>
         <image name="xbmc_overlay_small.png" width="38" height="9"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>
