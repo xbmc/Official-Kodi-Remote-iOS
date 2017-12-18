@@ -389,7 +389,7 @@
 //    if ([[fieldB objectForKey:@"sort"] respondsToSelector:@selector(removeObjectForKey:)]){
 //        [[fieldB objectForKey:@"sort"] removeObjectForKey:@"available_methods"];
 //    }
-    return [[NSString stringWithFormat:@"%@%@%@%d%d%@%@", obj.serverIP, obj.serverPort, obj.serverDescription, [AppDelegate instance].serverVersion, [AppDelegate instance].serverMinorVersion, fieldA, fieldB] MD5String];
+    return [[NSString stringWithFormat:@"%@%@%@%d%d%@%@", obj.serverIP, obj.serverPort, obj.serverDescription, serverVersion, serverMinorVersion, fieldA, fieldB] MD5String];
 }
 
 -(void)saveData:(NSMutableDictionary *)mutableParameters{
@@ -428,7 +428,7 @@
 
 -(void)loadDataFromDisk:(NSDictionary*)params{
     NSString *viewKey = [self getCacheKey:[params objectForKey:@"methodToCall"] parameters:[params objectForKey:@"mutableParameters"]];    
-    NSString *documentsDirectory = [AppDelegate instance].libraryCachePath;
+    NSString *documentsDirectory = libraryCachePath;
     NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     NSMutableArray *tempArray;
 //    NSMutableDictionary *tempDict;
@@ -468,7 +468,7 @@
     if (!enableDiskCache) return NO;
     NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *documentsDirectory = [AppDelegate instance].libraryCachePath;
+    NSString *documentsDirectory = libraryCachePath;
     NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     if([fileManager fileExistsAtPath:path]){
         NSDictionary *extraParams = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -5662,6 +5662,9 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    serverVersion = [AppDelegate instance].serverVersion;
+    serverMinorVersion = [AppDelegate instance].serverMinorVersion;
+    libraryCachePath = [AppDelegate instance].libraryCachePath;
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
     NSDictionary *httpHeaders = [AppDelegate instance].getServerHTTPHeaders;
     if ([httpHeaders objectForKey:@"Authorization"] != nil){

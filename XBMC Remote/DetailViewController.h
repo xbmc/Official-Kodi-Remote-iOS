@@ -135,6 +135,9 @@
     NSString *sortAscDesc;
     int numberOfStars;
     NSDictionary *watchedListenedStrings;
+    int serverVersion;
+    int serverMinorVersion;
+    NSString *libraryCachePath;
 }
 
 - (id)initWithFrame:(CGRect)frame;
