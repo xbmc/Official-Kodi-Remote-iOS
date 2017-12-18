@@ -1543,7 +1543,7 @@
     CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth + 2,
                               CGRectGetMinY(dataList.frame) + dataList.contentInset.top + COLLECTION_HEADER_HEIGHT + 2,
                               indexWidth,
-                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4 -COLLECTION_HEADER_HEIGHT);
+                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4 -COLLECTION_HEADER_HEIGHT - bottomPadding);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
     _indexView.hidden = YES;
@@ -5520,7 +5520,7 @@ NSIndexPath *selected;
         else{
             cellMinimumLineSpacing = 0;
             cellGridWidth = [[itemSizes objectForKey:@"width"] floatValue];
-            if (IS_IPHONE_6) {
+            if (IS_IPHONE_6 || IS_IPHONE_X) {
                 cellGridWidth = (int)(cellGridWidth * 1.18f);
             }
             else if (IS_IPHONE_6_PLUS){
@@ -5528,7 +5528,7 @@ NSIndexPath *selected;
             }
         }
         cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
-        if (IS_IPHONE_6) {
+        if (IS_IPHONE_6 || IS_IPHONE_X) {
             cellGridHeight = (int)(cellGridHeight * 1.18f);
         }
         else if (IS_IPHONE_6_PLUS){
@@ -5791,7 +5791,18 @@ NSIndexPath *selected;
     }
     self.searchDisplayController.searchBar.tintColor = searchBarColor;
     [self.searchDisplayController.searchBar setBackgroundColor:searchBarColor];
-
+    bottomPadding = 0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
+    if (bottomPadding > 0) {
+        frame = buttonsView.frame;
+        frame.size.height += bottomPadding;
+        frame.origin.y -= bottomPadding;
+        buttonsView.frame = frame;
+    }
+    
     [detailView setClipsToBounds:YES];
     trackCountLabelWidth = 26;
     epgChannelTimeLabelWidth = 48;
