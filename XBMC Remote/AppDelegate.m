@@ -4367,7 +4367,7 @@ NSMutableArray *hostRightMenuItems;
 int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
 	int i,sockfd,an=1;
 	char *x;
-	char mac[102];
+	long mac[102];
 	char macpart[2];
 	char test[103];
 	
