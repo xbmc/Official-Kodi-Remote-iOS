@@ -3555,6 +3555,10 @@ NSIndexPath *selected;
              [NSDictionary dictionaryWithObjectsAndKeys:
               [UIFont systemFontOfSize:12], NSFontAttributeName,
               nil] forState:UIControlStateNormal];
+            [nowPlayingButtonItem setTitleTextAttributes:
+             [NSDictionary dictionaryWithObjectsAndKeys:
+              [UIFont systemFontOfSize:12], NSFontAttributeName,
+              nil] forState:UIControlStateHighlighted];
             self.navigationItem.rightBarButtonItem=nowPlayingButtonItem;
             
             UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
