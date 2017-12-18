@@ -11,8 +11,8 @@
 #include <arpa/inet.h>
 #if (TARGET_IPHONE_SIMULATOR)
 #import <net/if_types.h>
-#import <net/route.h>
-#import <netinet/if_ether.h>
+#import "route.h"
+#import "if_ether.h"
 #else
 #import "if_types.h"
 #import "route.h"
