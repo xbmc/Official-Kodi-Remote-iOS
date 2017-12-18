@@ -57,7 +57,7 @@
     int startX = -6;
     int startY = 6;
     int transViewY = 46;
-    if (IS_IPHONE_6) {
+    if (IS_IPHONE_6 || IS_IPHONE_X) {
         transform = 1.16f;
         startX = 3;
         transViewY = 58;
@@ -144,7 +144,7 @@
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         if([[UIScreen mainScreen ] bounds].size.height >= 568){
             float transform = 1.0f;
-            if (IS_IPHONE_6) {
+            if (IS_IPHONE_6 || IS_IPHONE_X) {
                 transform = 1.16f;
             }
             else if (IS_IPHONE_6_PLUS){
