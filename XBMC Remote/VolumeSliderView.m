@@ -91,7 +91,7 @@
             self.frame = frame_tmp;
             plusButton.frame = minusButton.frame;
             float transform = 1.0f;
-            if (IS_IPHONE_6) {
+            if (IS_IPHONE_6 || IS_IPHONE_X) {
                 transform = 1.30f;
                 frame_tmp = plusButton.frame;
                 frame_tmp.origin.y = frame_tmp.origin.y + 54.0f;
