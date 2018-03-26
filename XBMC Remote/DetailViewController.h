@@ -139,7 +139,7 @@
     int serverMinorVersion;
     NSString *libraryCachePath;
     CGFloat bottomPadding;
-    NSString *documentsDirectory;
+    NSString *epgCachePath;
 }
 
 - (id)initWithFrame:(CGRect)frame;
