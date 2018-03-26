@@ -132,7 +132,6 @@
 }
 
 -(NSMutableArray *)loadEPGFromDisk:(NSNumber *)channelid parameters:(NSDictionary *)params{
-    NSString *documentsDirectory = [AppDelegate instance].epgCachePath;
     NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
     NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:filename];
@@ -159,10 +158,9 @@
 
 -(void)saveEPGToDisk:(NSNumber *)channelid epgData:(NSMutableArray *)epgArray{
     if (epgArray != nil && channelid != nil && [epgArray count] > 0){
-        NSString *diskCachePath = [AppDelegate instance].epgCachePath;
         NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
         NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
-        NSString  *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
+        NSString  *dicPath = [documentsDirectory stringByAppendingPathComponent:filename];
         @synchronized(epgArray){
             [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
             [epgDict setObject:epgArray forKey:channelid];
@@ -397,12 +395,11 @@
     if (mutableParameters != nil){
         NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
         NSString *viewKey = [self getCacheKey:[methods objectForKey:@"method"] parameters:mutableParameters];
-        NSString *diskCachePath = [AppDelegate instance].libraryCachePath;
 //        if ([paths count] > 0) {
         
 
             NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
-            NSString  *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
+            NSString  *dicPath = [documentsDirectory stringByAppendingPathComponent:filename];
             [NSKeyedArchiver archiveRootObject:self.richResults toFile:dicPath];
             [self updateSyncDate:dicPath];
 
@@ -420,7 +417,7 @@
 //            [NSKeyedArchiver archiveRootObject:self.sectionArrayOpen toFile:dicPath];
 //            
             filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
-            dicPath = [diskCachePath stringByAppendingPathComponent:filename];
+            dicPath = [documentsDirectory stringByAppendingPathComponent:filename];
             [NSKeyedArchiver archiveRootObject:self.extraSectionRichResults toFile:dicPath];
 //        }
     }
@@ -5862,6 +5859,9 @@ NSIndexPath *selected;
         [self initCollectionView];
     }
     activeLayoutView = dataList;
+    
+    documentsDirectory = [AppDelegate instance].epgCachePath;
+    
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     
     self.sections = [[NSMutableDictionary alloc] init];

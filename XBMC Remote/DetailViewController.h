@@ -139,6 +139,7 @@
     int serverMinorVersion;
     NSString *libraryCachePath;
     CGFloat bottomPadding;
+    NSString *documentsDirectory;
 }
 
 - (id)initWithFrame:(CGRect)frame;
