@@ -2224,6 +2224,14 @@ int h=0;
             self.edgesForExtendedLayout = 0;
         }
     }
+    CGFloat bottomPadding = 0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
+    CGRect frame = arrow_continue_down.frame;
+    frame.origin.y -= bottomPadding;
+    [arrow_continue_down setFrame:frame];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
