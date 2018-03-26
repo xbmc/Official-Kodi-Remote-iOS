@@ -435,7 +435,7 @@ int currentItemID;
             }
             if (screenWidth > 320) {
                 float transform = 1.0f;
-                if (IS_IPHONE_6) {
+                if (IS_IPHONE_6 || IS_IPHONE_X) {
                     transform = 0.9f;
                 }
                 else if (IS_IPHONE_6_PLUS){
