@@ -853,6 +853,9 @@
     [_tableView setSeparatorInset:UIEdgeInsetsMake(0, cellLabelOffset, 0, 0)];
     UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
     tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"11.0")) {
+        tableViewInsets.top = 0;
+    }
     _tableView.contentInset = tableViewInsets;
     _tableView.scrollIndicatorInsets = tableViewInsets;
     [_tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
