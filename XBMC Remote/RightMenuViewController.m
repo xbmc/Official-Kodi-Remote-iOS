@@ -604,6 +604,9 @@
         deltaY = 0.0f;
         self.peekLeftAmount = 0.0f;
     }
+    else if (IS_IPHONE_X) {
+        deltaY += 26.0f;
+    }
     torchIsOn = NO;
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
     if (captureDeviceClass != nil) {

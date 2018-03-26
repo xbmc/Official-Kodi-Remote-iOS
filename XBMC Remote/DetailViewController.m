@@ -5821,6 +5821,9 @@ NSIndexPath *selected;
     NSDictionary *itemSizes = [parameters objectForKey:@"itemSizes"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [self setIphoneInterface:[itemSizes objectForKey:@"iphone"]];
+        if (IS_IPHONE_X) {
+            deltaY = 0;
+        }
     }
     else {
         [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];

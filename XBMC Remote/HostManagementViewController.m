@@ -376,6 +376,9 @@ static inline BOOL IsEmpty(id obj) {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         deltaY = 0;
     }
+    else if (IS_IPHONE_X) {
+        deltaY += 26;
+    }
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 36 + deltaY) deltaY:deltaY deltaX:deltaX];
     [messagesView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
     [self.view addSubview:messagesView];

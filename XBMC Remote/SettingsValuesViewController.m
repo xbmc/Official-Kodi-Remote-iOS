@@ -143,6 +143,9 @@
             frame.size.width = STACKSCROLL_WIDTH;
             deltaY = 0;
         }
+        else if (IS_IPHONE_X) {
+            deltaY += 26.0f;
+        }
         
         scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
         [scrubbingView setCenter:CGPointMake((int)(frame.size.width / 2), (int)(frame.size.height / 2) + 50)];
