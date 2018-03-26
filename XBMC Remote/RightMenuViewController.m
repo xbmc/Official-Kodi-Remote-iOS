@@ -256,12 +256,12 @@
                                                                                 target: nil
                                                                                 action: nil];
     [fixedSpace setWidth:50.0f];
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, footerHeight)];
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44.0f)];
     [toolbar setAutoresizingMask: UIViewAutoresizingFlexibleWidth];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         frame.size.width = STACKSCROLL_WIDTH;
         [fixedSpace setWidth:0.0f];
-        [toolbar setFrame:CGRectMake(0, 0, frame.size.width, footerHeight)];
+        [toolbar setFrame:CGRectMake(0, 0, frame.size.width, 44.0f)];
         [toolbar setAutoresizingMask: UIViewAutoresizingNone];
     }
     UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];
@@ -641,9 +641,14 @@
                         nil];
     
     mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
+    CGFloat bottomPadding = 0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
     CGFloat footerHeight = 0.0f;
     if (menuItems.family == 3) {
-        footerHeight = 44.0f;
+        footerHeight = 44.0f + bottomPadding;
         [self.view addSubview:[self createTableFooterView: footerHeight]];
     }
     if (menuItems.family == 2 || menuItems.family == 3) {

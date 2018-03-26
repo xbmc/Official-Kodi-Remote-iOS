@@ -32,6 +32,8 @@
     __weak IBOutlet UILabel *supportedVersionLabel;
     MessagesView *messagesView;
     DSJSONRPC *jsonRPC;
+    __weak IBOutlet UIToolbar *bottomToolbar;
+    __weak IBOutlet UIImageView *bottomToolbarShadowImageView;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;

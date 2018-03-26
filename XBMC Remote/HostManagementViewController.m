@@ -379,6 +379,28 @@ static inline BOOL IsEmpty(id obj) {
     else if (IS_IPHONE_X) {
         deltaY += 26;
     }
+    CGFloat bottomPadding = 0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
+    CGRect frame = bottomToolbar.frame;
+    frame.origin.y -= bottomPadding;
+    frame.size.height += bottomPadding;
+    [bottomToolbar setFrame:frame];
+    
+    frame = bottomToolbarShadowImageView.frame;
+    frame.origin.y -= bottomPadding;
+    [bottomToolbarShadowImageView setFrame:frame];
+    
+    frame = addHostButton.frame;
+    frame.origin.y -= bottomPadding;
+    [addHostButton setFrame:frame];
+    
+    frame = editTableButton.frame;
+    frame.origin.y -= bottomPadding;
+    [editTableButton setFrame:frame];
+    
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 36 + deltaY) deltaY:deltaY deltaX:deltaX];
     [messagesView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
     [self.view addSubview:messagesView];
@@ -430,7 +452,7 @@ static inline BOOL IsEmpty(id obj) {
         
         frame = serverListTableView.frame;
         frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
-        frame.size.height = frame.size.height - (barHeight + statusBarHeight);
+        frame.size.height = frame.size.height - (barHeight + statusBarHeight) - bottomPadding;
         serverListTableView.frame = frame;
         
         frame = connectingActivityIndicator.frame;
