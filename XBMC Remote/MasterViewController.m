@@ -421,7 +421,7 @@
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
     float transform = 1.0f;
-    if (IS_IPHONE_6) {
+    if (IS_IPHONE_6 || IS_IPHONE_X) {
         transform = 1.18f;
     }
     else if (IS_IPHONE_6_PLUS){
