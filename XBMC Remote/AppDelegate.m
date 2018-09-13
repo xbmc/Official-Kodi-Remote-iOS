@@ -15,6 +15,29 @@
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
 #import "Utilities.h"
+#import "KodiAPI/KodiAPI-Swift.h"
+
+@interface WCSessionResponse : NSObject<KodiAPIDelegate> {}
+typedef void(^ReplyHandler)(NSDictionary<NSString *, id> *replyMessage);
+@property (nonatomic, copy) ReplyHandler reply;
+@end
+
+@implementation WCSessionResponse
+- (id) initWith:(ReplyHandler) reply {
+    if (self = [super init]) {
+        self.reply = reply;
+    }
+    return self;
+}
+
+- (void)kodiApi:(KodiAPI * _Nonnull)api response:(id _Nonnull)response {
+    self.reply([NSDictionary dictionaryWithObject:@"TRUE" forKey:@"result"]);
+}
+
+- (void)kodiApi:(KodiAPI * _Nonnull)api error:(NSError * _Nonnull)error {
+    self.reply([NSDictionary dictionaryWithObject:@"FALSE" forKey:@"result"]);
+}
+@end
 
 @implementation AppDelegate
 
@@ -47,8 +70,53 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark -
 #pragma mark init
 
+- (void) watchInit {
+    if ([WCSession isSupported]) {
+        WCSession* session = [WCSession defaultSession];
+        [session setDelegate:self];
+        [session activateSession];
+    }
+}
+
+- (void) watchUpdate {
+    if ([WCSession isSupported]) {
+        WCSession* session = [WCSession defaultSession];
+        NSDictionary *dict = @{@"WatchHosts": [self arrayServerList]};
+        
+        if (session.activationState == WCSessionActivationStateActivated &&
+            [session isPaired] && [session isWatchAppInstalled]) {
+            [session updateApplicationContext:dict error:nil];
+        }
+        
+        if (session.isReachable) {
+            [session sendMessage:dict replyHandler:nil errorHandler:nil];
+        }
+    }
+}
+
+- (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(NSError *)error {
+    [self watchUpdate];
+}
+
+- (void)sessionDidBecomeInactive:(WCSession *)session {}
+
+- (void)sessionDidDeactivate:(WCSession *)session {}
+
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *, id> *)message replyHandler:(void(^)(NSDictionary<NSString *, id> *replyMessage))replyHandler {
+
+    NSData *hostData = [message objectForKey:@"host"];
+    NSString *methodName = [message objectForKey:@"method"];
+    KodiHost *host = [KodiHost decodeFromJson:hostData error:nil];
+    
+    KodiAPI *api = [[KodiAPI alloc] initWithHost:host];
+    [api setDelegate:[[WCSessionResponse alloc] initWith:replyHandler]];
+    [api doAction:methodName];
+}
+
 - (id) init {
 	if ((self = [super init])) {
+        [self watchInit];
+        
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         self.dataFilePath = [documentsDirectory stringByAppendingPathComponent:@"serverList_saved.dat"];
@@ -71,7 +139,6 @@ NSMutableArray *hostRightMenuItems;
         if (![fileManager1 fileExistsAtPath:self.epgCachePath]){
             [fileManager1 createDirectoryAtPath:self.epgCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
         }
-        
     }
 	return self;
 	
@@ -4475,6 +4542,7 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
     if ([paths count] > 0) { 
         [NSKeyedArchiver archiveRootObject:arrayServerList toFile:self.dataFilePath];
     }
+    [self watchUpdate];
 }
 
 -(void)clearAppDiskCache{

@@ -12,6 +12,8 @@ Features
 - Displays movie poster and actor thumbs where available
 - Play and queue albums, songs, genre selections and much more directly without having to turn on your TV.
 - Browse files directly
+- Watch-app remote control
+
 ... and much more!
 
 ## For testers

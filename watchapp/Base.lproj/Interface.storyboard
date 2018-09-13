@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14113" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14033"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="DejaVuSansMono.ttf">
+            <string>DejaVuSansMono</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Kodi Remote-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller title="Kodi Remote" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="watchapp" customModuleProvider="target">
+                    <items>
+                        <label alignment="center" verticalAlignment="center" hidden="YES" text="Use Kodi Remote App to add hosts" textAlignment="center" numberOfLines="2" id="VXf-2M-oIh"/>
+                        <table alignment="left" id="Tgb-K2-iAF">
+                            <items>
+                                <tableRow identifier="HostRow" id="Ki0-qT-ZG5" customClass="HostRowController" customModule="watchapp_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="QEC-FQ-0fc">
+                                        <items>
+                                            <label width="0.90000000000000002" alignment="left" verticalAlignment="center" text="Name" id="H6E-Fv-Kgc"/>
+                                            <label width="0.10000000000000001" alignment="right" verticalAlignment="center" text="&gt;" id="PZp-Gi-Ri8"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="nameLabel" destination="H6E-Fv-Kgc" id="7wh-G8-m3E"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="emptyLabel" destination="VXf-2M-oIh" id="yCg-fN-avc"/>
+                        <outlet property="hostTable" destination="Tgb-K2-iAF" id="ddL-LI-Mx9"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="220" y="287"/>
+        </scene>
+        <!--RemoteController-->
+        <scene sceneID="Fke-NH-Tlb">
+            <objects>
+                <controller identifier="RemoteController" id="E9R-h5-xmG" customClass="RemoteInterfaceController" customModule="watchapp_Extension">
+                    <items>
+                        <group width="1" height="0.29999999999999999" alignment="center" verticalAlignment="center" id="VXz-f7-Z1p">
+                            <items>
+                                <button width="0.33000000000000002" height="1" alignment="center" verticalAlignment="center" accessibilityLabel="Stop" title="◼" id="upJ-OX-XgY">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" name="DejaVuSansMono" family="DejaVu Sans Mono" pointSize="15"/>
+                                    <connections>
+                                        <action selector="stopButtonAction" destination="E9R-h5-xmG" id="T4G-5X-MGL"/>
+                                    </connections>
+                                </button>
+                                <button width="0.33000000000000002" height="1" alignment="center" verticalAlignment="center" accessibilityLabel="Up" title="▲" id="dVa-o3-TwL">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" name="DejaVuSansMono" family="DejaVu Sans Mono" pointSize="15"/>
+                                    <connections>
+                                        <action selector="upButtonAction" destination="E9R-h5-xmG" id="PcH-be-6uQ"/>
+                                    </connections>
+                                </button>
+                                <button width="0.33000000000000002" height="1" alignment="center" verticalAlignment="center" accessibilityLabel="Play" title="▶❚❚" id="5NX-cC-Vqg">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" name="DejaVuSansMono" family="DejaVu Sans Mono" pointSize="12"/>
+                                    <connections>
+                                        <action selector="playPauseButtonAction" destination="E9R-h5-xmG" id="Gnc-f6-65p"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                        <group width="1" height="0.29999999999999999" heightAdjustment="-1" alignment="center" verticalAlignment="center" id="zCh-39-AKc">
+                            <items>
+                                <button width="0.33000000000000002" height="1" alignment="center" verticalAlignment="center" accessibilityLabel="Left" title="◀" id="LNW-X2-x8D">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" name="DejaVuSansMono" family="DejaVu Sans Mono" pointSize="15"/>
+                                    <connections>
+                                        <action selector="leftButtonAction" destination="E9R-h5-xmG" id="xJE-Cl-npf"/>
+                                    </connections>
+                                </button>
+                                <button width="0.33000000000000002" height="1" alignment="center" verticalAlignment="center" accessibilityLabel="Enter" title="◈" id="yew-9k-GxT">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" name="DejaVuSansMono" family="DejaVu Sans Mono" pointSize="15"/>
+                                    <connections>
+                                        <action selector="enterButtonAction" destination="E9R-h5-xmG" id="hwZ-xk-oZs"/>
+                                    </connections>
+                                </button>
+                                <button width="0.33000000000000002" height="1" alignment="center" verticalAlignment="center" accessibilityLabel="Right" title="▶" id="UY3-Eu-lsg">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" name="DejaVuSansMono" family="DejaVu Sans Mono" pointSize="15"/>
+                                    <connections>
+                                        <action selector="rightButtonAction" destination="E9R-h5-xmG" id="k12-LW-Fku"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                        <group width="1" height="0.29999999999999999" alignment="center" verticalAlignment="center" id="MxV-NA-1xg">
+                            <items>
+                                <button width="0.33000000000000002" height="1" alignment="center" verticalAlignment="center" accessibilityLabel="Back" title="↩" id="0Sf-Ra-tbD">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" name="DejaVuSansMono" family="DejaVu Sans Mono" pointSize="20"/>
+                                    <connections>
+                                        <action selector="backButtonAction" destination="E9R-h5-xmG" id="EWR-as-I9d"/>
+                                    </connections>
+                                </button>
+                                <button width="0.33000000000000002" height="1" alignment="center" verticalAlignment="center" accessibilityLabel="Down" title="▼" id="PLb-Tr-epZ">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" name="DejaVuSansMono" family="DejaVu Sans Mono" pointSize="15"/>
+                                    <connections>
+                                        <action selector="downButtonAction" destination="E9R-h5-xmG" id="m3s-Y2-fey"/>
+                                    </connections>
+                                </button>
+                                <button width="0.33000000000000002" height="1" alignment="center" verticalAlignment="center" accessibilityLabel="Menu" title="☰" id="ORL-Gv-xDs">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" name="DejaVuSansMono" family="DejaVu Sans Mono" pointSize="15"/>
+                                    <connections>
+                                        <action selector="menuButtonAction" destination="E9R-h5-xmG" id="SRf-fo-Say"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="backButton" destination="0Sf-Ra-tbD" id="Wea-q9-Zvs"/>
+                        <outlet property="downButton" destination="PLb-Tr-epZ" id="9bl-OV-4qu"/>
+                        <outlet property="enterButton" destination="yew-9k-GxT" id="57T-tb-ZRM"/>
+                        <outlet property="leftButton" destination="LNW-X2-x8D" id="D8d-TJ-5pO"/>
+                        <outlet property="menuButton" destination="ORL-Gv-xDs" id="npH-mQ-foo"/>
+                        <outlet property="ppButton" destination="5NX-cC-Vqg" id="lij-Ed-7t1"/>
+                        <outlet property="rightButton" destination="UY3-Eu-lsg" id="oMC-Gd-9xm"/>
+                        <outlet property="stopButton" destination="upJ-OX-XgY" id="T2V-8e-c8P"/>
+                        <outlet property="upButton" destination="dVa-o3-TwL" id="xU3-eP-j8h"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="497" y="287"/>
+        </scene>
+    </scenes>
+</document>
