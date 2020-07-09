@@ -2421,6 +2421,8 @@ int originYear = 0;
                                       if (enableBarColor == YES){
                                           albumColor = [utils averageColor:image inverse:NO];
                                           UIColor *slightLightAlbumColor = [utils slightLighterColorForColor:albumColor];
+                                          UIColor *lightAlbumColor = [utils lighterColorForColor:albumColor];
+
                                           self.navigationController.navigationBar.tintColor = slightLightAlbumColor;
                                           self.searchDisplayController.searchBar.tintColor = slightLightAlbumColor;
                                           if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
@@ -2442,14 +2444,24 @@ int originYear = 0;
                                           [trackCountLabel setShadowColor:albumFontShadowColor];
                                           [releasedLabel setTextColor:albumDetailsColor];
                                           [releasedLabel setShadowColor:albumFontShadowColor];
-                                          if (((NSNull *)[self.searchDisplayController.searchBar valueForKey:@"_searchField"] != [NSNull null])){
-                                              UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"_searchField"];
-                                              if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
-                                                  UIImageView *iconView = (id)searchTextField.leftView;
-                                                  iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                                  iconView.tintColor = slightLightAlbumColor;
-                                                  searchTextField.textColor = slightLightAlbumColor;
-                                                  searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchDisplayController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: slightLightAlbumColor}];
+                                          if (@available(iOS 13.0, *)) {
+                                              UITextField *searchTextField = self.searchDisplayController.searchBar.searchTextField;
+                                              UIImageView *iconView = (id)searchTextField.leftView;
+                                              iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                                              iconView.tintColor = lightAlbumColor;
+                                              searchTextField.textColor = lightAlbumColor;
+                                              searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchDisplayController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: lightAlbumColor}];
+                                          }
+                                          else {
+                                              if (((NSNull *)[self.searchDisplayController.searchBar valueForKey:@"_searchField"] != [NSNull null])){
+                                                  UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"_searchField"];
+                                                  if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
+                                                      UIImageView *iconView = (id)searchTextField.leftView;
+                                                      iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                                                      iconView.tintColor = slightLightAlbumColor;
+                                                      searchTextField.textColor = slightLightAlbumColor;
+                                                      searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchDisplayController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: slightLightAlbumColor}];
+                                                  }
                                               }
                                           }
                                       }
