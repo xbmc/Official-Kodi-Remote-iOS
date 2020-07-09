@@ -140,10 +140,10 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          int i = 0;
-                         NSInteger numViews = [[slideViews subviews] count];
-                         for (UIView* subview in [slideViews subviews]) {
+        NSInteger numViews = [[self->slideViews subviews] count];
+        for (UIView* subview in [self->slideViews subviews]) {
                              if ([subview isEqual:[sender object]]){
-                                 originalFrame = subview.frame;
+                                 self->originalFrame = subview.frame;
                                  CGRect frame = subview.frame;
                                  frame.origin.x = 0 - 300;
                                  if (hideToolbar == YES){
@@ -159,14 +159,14 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                          if (i + 1 < numViews){
                              CGRect frame = CGRectZero;
                              for (int j = i + 1; j < numViews; j++) {
-                                 frame = [[[slideViews subviews] objectAtIndex:j] frame];
-                                 [stackViewsFrames addObject:[NSValue valueWithCGRect:frame]];
+                                 frame = [[[self->slideViews subviews] objectAtIndex:j] frame];
+                                 [self->stackViewsFrames addObject:[NSValue valueWithCGRect:frame]];
                                  frame.origin.x = self.view.frame.size.width;
                                  if (hideToolbar == YES){
                                      frame.origin.y = frame.origin.y - 20;
                                      frame.size.height = frame.size.height + 20;
                                  }
-                                 [[[slideViews subviews] objectAtIndex:j] setFrame:frame];
+                                 [[[self->slideViews subviews] objectAtIndex:j] setFrame:frame];
                              }
                          }
                          
@@ -192,19 +192,19 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          int i = 0;
-                         NSInteger numViews = [[slideViews subviews] count];
-                         for (UIView* subview in [slideViews subviews]) {
+        NSInteger numViews = [[self->slideViews subviews] count];
+        for (UIView* subview in [self->slideViews subviews]) {
                              if ([subview isEqual:[sender object]]){
-                                 subview.frame = originalFrame;
+                                 subview.frame = self->originalFrame;
                                  break;
                              }
                              i++;
                          }
                          if (i + 1 < numViews){
                              int k = 0;
-                             NSInteger numStoredFrames = [stackViewsFrames count];
+                             NSInteger numStoredFrames = [self->stackViewsFrames count];
                              for (int j = i + 1; j < numViews && k < numStoredFrames; j++) {
-                                 [[[slideViews subviews] objectAtIndex:j] setFrame:[[stackViewsFrames objectAtIndex:k] CGRectValue]];
+                                 [[[self->slideViews subviews] objectAtIndex:j] setFrame:[[self->stackViewsFrames objectAtIndex:k] CGRectValue]];
                                  k ++;
                              }
                          }
@@ -273,33 +273,33 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 
 -(void)offView{
     
-    int orientation= [[UIApplication sharedApplication] statusBarOrientation];
+    UIInterfaceOrientation orientation= [[UIApplication sharedApplication] statusBarOrientation];
     int posX = (orientation==1 || orientation==2) ? 468 : 724;
     
     [UIView animateWithDuration:0.2
                      animations:^{ 
                          [UIView setAnimationBeginsFromCurrentState:YES];
                          [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
-                         for (UIView* subview in [slideViews subviews]) {
-                             [subview setFrame:CGRectMake(posX, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
+        for (UIView* subview in [self->slideViews subviews]) {
+            [subview setFrame:CGRectMake(posX, self->viewAtLeft.frame.origin.y, self->viewAtLeft.frame.size.width, self->viewAtLeft.frame.size.height)];
                          }
-                         [[borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
-                         [[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
-                         [[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
-                         viewAtLeft2 = nil;
-                         viewAtRight = nil;
-                         viewAtLeft= nil;
+        [[self->borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
+        [[self->borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
+        [[self->borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
+        self->viewAtLeft2 = nil;
+        self->viewAtRight = nil;
+        self->viewAtLeft= nil;
                          
-                         viewAtRight2 = nil;
+        self->viewAtRight2 = nil;
                      }
                      completion:^(BOOL finished){
-                         for (UIView* subview in [slideViews subviews]) {
+        for (UIView* subview in [self->slideViews subviews]) {
                              [subview removeFromSuperview];
                          }
-                         [[borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
-                         [[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
-                         [[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
-                         [viewControllersStack removeAllObjects];
+        [[self->borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
+        [[self->borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
+        [[self->borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
+        [self->viewControllersStack removeAllObjects];
                          [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOffScreen" object: nil]; 
                      }];
     return;
@@ -708,7 +708,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 							viewAtRight = nil;
 							viewAtRight2 = nil;
                             // MODDED BY JOE
-                            int orientation= [[UIApplication sharedApplication] statusBarOrientation];
+                            UIInterfaceOrientation orientation= [[UIApplication sharedApplication] statusBarOrientation];
 //                            int marginPosX = (orientation==1 || orientation==2) ? 468 : 724; // OFF SHOW THE STACK
                             int marginPosX = (orientation==1 || orientation==2) ? 415 : 671; // SHOW A LITTLE PIECE OF THE STACK
                             if ((((UIView*)[[slideViews subviews] objectAtIndex:0]).frame.origin.x+marginPosX/2) >= marginPosX) {
@@ -926,7 +926,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	if (isStackStartView) {
         NSInteger numViews=[[slideViews subviews]count];
         if (numViews==0){
-            int orientation= [[UIApplication sharedApplication] statusBarOrientation];
+            UIInterfaceOrientation orientation= [[UIApplication sharedApplication] statusBarOrientation];
             animX = (orientation==1 || orientation==2) ? 468 : 724;
         }
         else {

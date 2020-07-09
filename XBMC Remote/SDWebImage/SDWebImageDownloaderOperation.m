@@ -15,7 +15,7 @@
 
 @property (copy, nonatomic) SDWebImageDownloaderProgressBlock progressBlock;
 @property (copy, nonatomic) SDWebImageDownloaderCompletedBlock completedBlock;
-@property (copy, nonatomic) void (^cancelBlock)();
+@property (copy, nonatomic) void (^cancelBlock)(void);
 
 @property (assign, nonatomic, getter = isExecuting) BOOL _executing;
 @property (assign, nonatomic, getter = isFinished) BOOL _finished;
@@ -34,7 +34,7 @@
     BOOL responseFromCached;
 }
 
-- (id)initWithRequest:(NSURLRequest *)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary *)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)())cancelBlock
+- (id)initWithRequest:(NSURLRequest *)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary *)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)(void))cancelBlock
 {
     if ((self = [super init]))
     {
@@ -202,20 +202,20 @@
             CGImageSourceRef imageSource = CGImageSourceCreateIncremental(NULL);
             CGImageSourceUpdateData(imageSource, (__bridge  CFDataRef)self.imageData, totalSize == self.expectedSize);
 
-            if (width + height == 0)
+            if (self->width + self->height == 0)
             {
                 CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
                 if (properties)
                 {
                     CFTypeRef val = CFDictionaryGetValue(properties, kCGImagePropertyPixelHeight);
-                    if (val) CFNumberGetValue(val, kCFNumberLongType, &height);
+                    if (val) CFNumberGetValue(val, kCFNumberLongType, &self->height);
                     val = CFDictionaryGetValue(properties, kCGImagePropertyPixelWidth);
-                    if (val) CFNumberGetValue(val, kCFNumberLongType, &width);
+                    if (val) CFNumberGetValue(val, kCFNumberLongType, &self->width);
                     CFRelease(properties);
                 }
             }
 
-            if (width + height > 0 && totalSize < self.expectedSize)
+            if (self->width + self->height > 0 && totalSize < self.expectedSize)
             {
                 // Create the image
                 CGImageRef partialImageRef = CGImageSourceCreateImageAtIndex(imageSource, 0, NULL);
@@ -226,11 +226,11 @@
                 {
                     const size_t partialHeight = CGImageGetHeight(partialImageRef);
                     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-                    CGContextRef bmContext = CGBitmapContextCreate(NULL, width, height, 8, width * 4, colorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+                    CGContextRef bmContext = CGBitmapContextCreate(NULL, self->width, self->height, 8, self->width * 4, colorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
                     CGColorSpaceRelease(colorSpace);
                     if (bmContext)
                     {
-                        CGContextDrawImage(bmContext, (CGRect){.origin.x = 0.0f, .origin.y = 0.0f, .size.width = width, .size.height = partialHeight}, partialImageRef);
+                        CGContextDrawImage(bmContext, (CGRect){.origin.x = 0.0f, .origin.y = 0.0f, .size.width = self->width, .size.height = partialHeight}, partialImageRef);
                         CGImageRelease(partialImageRef);
                         partialImageRef = CGBitmapContextCreateImage(bmContext);
                         CGContextRelease(bmContext);
