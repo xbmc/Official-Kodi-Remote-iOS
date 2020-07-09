@@ -29,6 +29,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [navController.view setClipsToBounds:NO];
     CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height + 22);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
