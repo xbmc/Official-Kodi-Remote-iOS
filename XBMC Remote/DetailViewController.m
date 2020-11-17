@@ -4533,7 +4533,7 @@ NSIndexPath *selected;
                  }
                  NSString *label=[NSString stringWithFormat:@"%@",[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row1"]]];
                  NSString *genre=@"";
-                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:[NSArray class]]){
                      genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] componentsJoinedByString:@" / "]];
                  }
                  else{
@@ -4552,7 +4552,7 @@ NSIndexPath *selected;
                          year=[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row3"]];
                  }                     
                  NSString *runtime=@"";
-                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:[NSArray class]]){
                      runtime=[NSString stringWithFormat:@"%@",[[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] componentsJoinedByString:@" / "]];
                  }
                  else if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
@@ -4788,7 +4788,7 @@ NSIndexPath *selected;
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                      if ([self.detailItem noConvertTime]) secondsToMinute = 60;
                  }
-                 if ([videoLibraryMovies isKindOfClass:NSClassFromString(@"JKArray")]) {
+                 if ([videoLibraryMovies isKindOfClass:[NSArray class]]) {
                      if (((NSNull *)videoLibraryMovies != [NSNull null])) {
                          total = (int)[videoLibraryMovies count];
                      }
@@ -4796,7 +4796,7 @@ NSIndexPath *selected;
                          NSString *label=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row1"]]];
                          
                          NSString *genre=@"";
-                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:[NSArray class]]){
                              genre=[NSString stringWithFormat:@"%@",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] componentsJoinedByString:@" / "]];
                          }
                          else{
@@ -4818,7 +4818,7 @@ NSIndexPath *selected;
                          if ([year isEqualToString:@"(null)"]) year=@"";
                          
                          NSString *runtime=@"";
-                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:[NSArray class]]){
                              runtime=[NSString stringWithFormat:@"%@",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] componentsJoinedByString:@" / "]];
                          }
                          else if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
@@ -4884,7 +4884,7 @@ NSIndexPath *selected;
                              row19key = @"episode";
                          }
                          id episodeNumber = @"";
-                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] isKindOfClass:NSClassFromString(@"JKDictionary")]){
+                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] isKindOfClass:[NSDictionary class]]){
                              episodeNumber = [[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] mutableCopy];
                          }
                          else{
@@ -4924,10 +4924,10 @@ NSIndexPath *selected;
                                                       nil]];
                      }
                  }
-                 else if ([videoLibraryMovies isKindOfClass:NSClassFromString(@"JKDictionary")]) {
+                 else if ([videoLibraryMovies isKindOfClass:[NSDictionary class]]) {
                      NSDictionary *dictVideoLibraryMovies = [methodResult objectForKey:itemid];
-                     if ([[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] isKindOfClass:NSClassFromString(@"JKDictionary")]){
-                         if ([[[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] objectForKey:[mainFields objectForKey:@"fieldname"]] isKindOfClass:NSClassFromString(@"JKArray")]) {
+                     if ([[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] isKindOfClass:[NSDictionary class]]){
+                         if ([[[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] objectForKey:[mainFields objectForKey:@"fieldname"]] isKindOfClass:[NSArray class]]) {
                              videoLibraryMovies = [[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] objectForKey:[mainFields objectForKey:@"fieldname"]];
                              if (((NSNull *)videoLibraryMovies != [NSNull null])) {
                                  total = (int)[videoLibraryMovies count];
@@ -5163,7 +5163,7 @@ NSIndexPath *selected;
             for (NSDictionary *item in copyRichResults){
                 found = NO;
                 NSString *searchKey = @"";
-                if ([[item objectForKey:sortMethodName] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortMethodName] isKindOfClass:NSClassFromString(@"JKArray")]){
+                if ([[item objectForKey:sortMethodName] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortMethodName] isKindOfClass:[NSArray class]]){
                     searchKey = [[item objectForKey:sortMethodName] componentsJoinedByString:@""];
                 }
                 else {

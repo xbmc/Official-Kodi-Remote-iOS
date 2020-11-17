@@ -51,7 +51,7 @@
         settingOptions = [self.detailItem objectForKey:@"options"];
         
 //        if (![settingOptions isKindOfClass:[NSArray class]]) {
-//            if ([[self.detailItem objectForKey:@"definition"] isKindOfClass:NSClassFromString(@"JKDictionary")]){
+//            if ([[self.detailItem objectForKey:@"definition"] isKindOfClass:[NSDictionary class]]){
 //                settingOptions = [[self.detailItem objectForKey:@"definition"] objectForKey:@"options"];
 //            }
 //        }

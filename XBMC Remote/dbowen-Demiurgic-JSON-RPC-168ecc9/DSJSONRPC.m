@@ -37,7 +37,6 @@
  */
 
 #import "DSJSONRPC.h"
-#import "JSONKit.h"
 
 #ifdef __OBJC_GC__
 #error Demiurgic JSON-RPC does not support Objective-C Garbage Collection
@@ -122,8 +121,8 @@
     NSDictionary *methodCall = [NSDictionary dictionaryWithObjects:methodObjs forKeys:methodKeys];
     
     // Attempt to serialize the call payload to a JSON string
-    NSError *error;
-    NSData *postData = [methodCall JSONDataWithOptions:JKSerializeOptionNone error:&error];
+    NSError *error = nil;
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:methodCall options:kNilOptions error:&error];
 //    NSLog(@"PARAMS: %@", methodParams);
     // TODO: Make this a parameter??
     if (error != nil) {
@@ -275,9 +274,8 @@
     
     // Attempt to deserialize result
     NSError *error = nil;
-    int parseOption = JKParseOptionLooseUnicode;
-//    NSDictionary *jsonResult = [connectionData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
-    NSDictionary *jsonResult = [connectionData objectFromJSONDataWithParseOptions:parseOption error:&error];
+    NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:connectionData options:kNilOptions error:&error];
+    
     if (error) {
         NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
         

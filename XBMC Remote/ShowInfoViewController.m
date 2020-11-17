@@ -901,16 +901,14 @@ int h=0;
             NSDate *date = [format dateFromString:[item objectForKey:@"premiered"]];
             [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
             genreLabel.text = date == nil ? @"-" : [format stringFromDate:date];
-            if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-                [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
+            if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
                 runtimeLabel.text=[[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
                 runtimeLabel.text=[runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
             }
             else{
                 runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
             }
-            if ([[item objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-                [[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
+            if ([[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
                 studioLabel.text=[[item objectForKey:@"studio"] componentsJoinedByString:@" / "];
                 studioLabel.text=[studioLabel.text length]==0 ? @"-" : studioLabel.text;
             }
@@ -971,16 +969,14 @@ int h=0;
                 aired = [format stringFromDate:date];
             }
             genreLabel.text = aired;
-            if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-                [[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
+            if ([[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
                 runtimeLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
                 runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
             }
             else{
                 runtimeLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
             }
-            if ([[item objectForKey:@"writer"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-                [[item objectForKey:@"writer"] isKindOfClass:[NSArray class]]){
+            if ([[item objectForKey:@"writer"] isKindOfClass:[NSArray class]]){
                 studioLabel.text = [[item objectForKey:@"writer"] componentsJoinedByString:@" / "];
                 studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
             }
@@ -1050,8 +1046,7 @@ int h=0;
             frame.origin.x = 80;
         }
         coverView.frame = frame;
-        if ([[item objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"artist"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"artist"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"artist"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
         }
@@ -1059,8 +1054,7 @@ int h=0;
             directorLabel.text = [[item objectForKey:@"artist"] length] == 0 ? @"-" : [item objectForKey:@"artist"];
         }
         genreLabel.text = [[item objectForKey:@"year"] length] == 0 ? @"-" : [item objectForKey:@"year"];
-        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
             runtimeLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
             runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
         }
@@ -1098,8 +1092,7 @@ int h=0;
         starsView.hidden = YES;
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
-        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
         }
@@ -1107,8 +1100,7 @@ int h=0;
             directorLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
         }
         
-        if ([[item objectForKey:@"style"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"style"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"style"] isKindOfClass:[NSArray class]]){
             genreLabel.text = [[item objectForKey:@"style"] componentsJoinedByString:@" / "];
             genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
         }
@@ -1129,8 +1121,7 @@ int h=0;
         genreLabel.frame = newFrame;
         [self moveLabel:[NSArray arrayWithObjects:label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(expectedLabelSize.height - labelSpace)];
         
-        if ([[item objectForKey:@"born"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"born"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"born"] isKindOfClass:[NSArray class]]){
             studioLabel.text = [[item objectForKey:@"born"] componentsJoinedByString:@" / "];
             studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
         }
@@ -1138,8 +1129,7 @@ int h=0;
             studioLabel.text = [[item objectForKey:@"born"] length] == 0 ? @"-" : [item objectForKey:@"born"];
         }
         
-        if ([[item objectForKey:@"formed"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"formed"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"formed"] isKindOfClass:[NSArray class]]){
             studioLabel.text = [[item objectForKey:@"formed"] componentsJoinedByString:@" / "];
             studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
         }
@@ -1301,8 +1291,7 @@ int h=0;
             int deltaY = -(coverHeight - originalHeight);
             [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
         }
-        if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
         }
@@ -1310,8 +1299,7 @@ int h=0;
             directorLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
         }
         directorLabel.text = [[item objectForKey:@"year"] length] == 0 ? directorLabel.text : [NSString stringWithFormat:@"%@ (%@)", directorLabel.text, [item objectForKey:@"year"]];
-        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
             genreLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
             genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
         }
@@ -1319,8 +1307,7 @@ int h=0;
             genreLabel.text = [[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
         }
         runtimeLabel.text = [[item objectForKey:@"runtime"] length]==0 ? @"-" : [item objectForKey:@"runtime"];
-        if ([[item objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
             studioLabel.text = [[item objectForKey:@"studio"] componentsJoinedByString:@" / "];
             studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
         }

@@ -875,7 +875,7 @@ int currentItemID;
                                  NSString *title = [[nowPlayingInfo  objectForKey:@"title"] length] !=0 ? [NSString stringWithFormat:@"%@",[nowPlayingInfo  objectForKey:@"title"]] : @"";
                                  storeLiveTVTitle = title;
                                  NSString *artist=@"";
-                                 if ([[nowPlayingInfo objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                                 if ([[nowPlayingInfo objectForKey:@"artist"] isKindOfClass:[NSArray class]]){
                                      artist = [[nowPlayingInfo objectForKey:@"artist"] componentsJoinedByString:@" / "];
                                      artist = [artist length]==0 ? @"" : artist;
                                  }
@@ -889,7 +889,7 @@ int currentItemID;
                                      title = [[nowPlayingInfo  objectForKey:@"label"] length]!=0? [nowPlayingInfo  objectForKey:@"label"] : @"";
 
                                  if ([artist length] == 0 && ((NSNull *)[nowPlayingInfo  objectForKey:@"studio"] != [NSNull null])){
-                                     if ([[nowPlayingInfo  objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                                     if ([[nowPlayingInfo  objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
                                          artist = [[nowPlayingInfo  objectForKey:@"studio"] componentsJoinedByString:@" / "];
                                          artist = [artist length]==0 ? @"" : artist;
                                      }
@@ -1484,7 +1484,7 @@ int currentItemID;
                            NSString *title=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"title"]];
                            
                            NSString *artist=@"";
-                           if ([[[playlistItems objectAtIndex:i] objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                           if ([[[playlistItems objectAtIndex:i] objectForKey:@"artist"] isKindOfClass:[NSArray class]]){
                                artist = [[[playlistItems objectAtIndex:i] objectForKey:@"artist"] componentsJoinedByString:@" / "];
                                artist = [artist length]==0 ? @"-" : artist;
                            }
@@ -1506,7 +1506,7 @@ int currentItemID;
                            NSString *albumid=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"albumid"]];
                            NSString *movieid=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"id"]];
                            NSString *genre = @"";
-                           if ([[[playlistItems objectAtIndex:i] objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")]){
+                           if ([[[playlistItems objectAtIndex:i] objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
                                genre=[NSString stringWithFormat:@"%@",[[[playlistItems objectAtIndex:i] objectForKey:@"genre"] componentsJoinedByString:@" / "]];
                            }
                            else{
@@ -1699,7 +1699,7 @@ int currentItemID;
 
                  NSString *label=[NSString stringWithFormat:@"%@",[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row1"]]];
                  NSString *genre=@"";
-                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:[NSArray class]]){
                      genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] componentsJoinedByString:@" / "]];
                  }
                  else{
@@ -1718,7 +1718,7 @@ int currentItemID;
                          year=[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row3"]];
                  }
                  NSString *runtime=@"";
-                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:[NSArray class]]){
                      runtime=[NSString stringWithFormat:@"%@",[[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] componentsJoinedByString:@" / "]];
                  }
                  else if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
