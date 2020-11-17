@@ -3471,7 +3471,7 @@ NSIndexPath *selected;
         searchString = self.navigationItem.title;
         forceMusicAlbumMode = NO;
     }
-    NSString *query = [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *query = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
 	NSString *url = [NSString stringWithFormat:serviceURL, query]; 
 	NSURL *_url = [NSURL URLWithString:url];    
     self.webViewController.urlRequest = [NSURLRequest requestWithURL:_url];
@@ -4589,10 +4589,10 @@ NSIndexPath *selected;
                  NSString *fanartURL=@"";
                  NSString *stringURL = @"";
                  if (![thumbnailPath isEqualToString:@""] && ![thumbnailPath isEqualToString:@"(null)"]){
-                     stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                     stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
                  }
                  if (![fanartPath isEqualToString:@""]){
-                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
                  }
                  NSString *filetype=@"";
                  if ([videoLibraryMovieDetail objectForKey:@"filetype"]!=nil){
@@ -4843,7 +4843,7 @@ NSIndexPath *selected;
                          NSString *stringURL = @"";
                          
                          if (![thumbnailPath isEqualToString:@""] && thumbnailPath != nil){
-                             stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                             stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
                          }
                          if (![fanartPath isEqualToString:@""]){
                              fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
