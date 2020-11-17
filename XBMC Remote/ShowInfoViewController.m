@@ -847,7 +847,7 @@ int h=0;
         if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
             GlobalData *obj=[GlobalData getInstance];
             if (obj.preferTVPosters==NO && [AppDelegate instance].serverVersion < 12){
-                placeHolderImage = @"";
+                placeHolderImage = @"blank.png";
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                     coverHeight=70;
                     deltaY=coverView.frame.size.height - coverHeight;
@@ -1406,7 +1406,7 @@ int h=0;
         }
         else{
             [fanartView setImageWithURL:[NSURL URLWithString:fanartPath]
-                       placeholderImage:[UIImage imageNamed:@""]
+                       placeholderImage:[UIImage imageNamed:@"blank.png"]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                   if (inEnableKenBurns){
                                       [sf elabKenBurns:image];
@@ -1638,7 +1638,7 @@ int h=0;
             [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
             [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
             NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-            [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
+            [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank.png"]];
             [clearlogoButton addSubview:clearLogoImageView];
         }
         else{

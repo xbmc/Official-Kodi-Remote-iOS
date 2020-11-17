@@ -105,7 +105,7 @@
     icon.hidden = NO;
     xbmc_logo.hidden = YES;
     [cell setAccessoryView:nil];
-    NSString *iconName = @"";
+    NSString *iconName = @"blank.png";
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         xbmc_logo.hidden = NO;
@@ -241,7 +241,7 @@
         }
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"xbmc-exec-addon"]){
-        [icon setImageWithURL:[NSURL URLWithString:[[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@""] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
+        [icon setImageWithURL:[NSURL URLWithString:[[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@"blank.png"] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
         icon.alpha = 1.0f;
     }
     else{
