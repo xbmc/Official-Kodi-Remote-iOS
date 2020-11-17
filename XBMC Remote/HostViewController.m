@@ -505,6 +505,17 @@
     [usernameUI setPlaceholder:NSLocalizedString(@"Username", nil)];
     [passwordUI setPlaceholder:NSLocalizedString(@"Password", nil)];
     self.edgesForExtendedLayout = 0;
+    [descriptionUI setBackgroundColor:[UIColor whiteColor]];
+    [ipUI setBackgroundColor:[UIColor whiteColor]];
+    [portUI setBackgroundColor:[UIColor whiteColor]];
+    [usernameUI setBackgroundColor:[UIColor whiteColor]];
+    [passwordUI setBackgroundColor:[UIColor whiteColor]];
+    [mac_0_UI setBackgroundColor:[UIColor whiteColor]];
+    [mac_1_UI setBackgroundColor:[UIColor whiteColor]];
+    [mac_2_UI setBackgroundColor:[UIColor whiteColor]];
+    [mac_3_UI setBackgroundColor:[UIColor whiteColor]];
+    [mac_4_UI setBackgroundColor:[UIColor whiteColor]];
+    [mac_5_UI setBackgroundColor:[UIColor whiteColor]];
     [discoveredInstancesTableView setBackgroundColor:[UIColor whiteColor]];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
     rightSwipe.numberOfTouchesRequired = 1;
