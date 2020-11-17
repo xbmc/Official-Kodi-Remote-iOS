@@ -1232,9 +1232,9 @@ int currentItemID;
 -(void)loadCodecView {
     [jsonRPC 
      callMethod:@"XBMC.GetInfoLabels" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
+     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                      [[NSArray alloc] initWithObjects:@"MusicPlayer.Codec",@"MusicPlayer.SampleRate",@"MusicPlayer.BitRate", @"MusicPlayer.Channels", @"VideoPlayer.VideoResolution", @"VideoPlayer.VideoAspect", @"VideoPlayer.AudioCodec", @"VideoPlayer.VideoCodec", nil], @"labels",
-                     nil] 
+                     nil]
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
              NSString *codec = @"";
@@ -1852,16 +1852,15 @@ int currentItemID;
                                  buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
                              }
                              if (!buttonImage.size.width){
-                                 buttonImage = [self resizeImage:[UIImage imageNamed:@"xbmc_overlay_small"] width:76 height:66 padding:10];
+                                 buttonImage = [self resizeImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] width:76 height:66 padding:10];
                              }
                              [button setImage:buttonImage forState:UIControlStateNormal];
                              [button setImage:buttonImage forState:UIControlStateHighlighted];
                              [button setImage:buttonImage forState:UIControlStateSelected];
                          }
                          else{
-                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateNormal];
-                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateHighlighted];
-                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateSelected];
+                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x.png"] forState:UIControlStateNormal];
+                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x.png"] forState:UIControlStateHighlighted];
                              [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x.png"] forState:UIControlStateSelected];
                          }
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
@@ -2053,17 +2052,16 @@ int currentItemID;
     if ([AppDelegate instance].serverVersion>11){
         [self SimpleAction:@"Player.SetShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"toggle", @"shuffle", nil] reloadPlaylist:YES startProgressBar:NO];
         if (shuffled){
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle.png"] forState:UIControlStateNormal];
         }
         else{
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
             [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on.png"] forState:UIControlStateNormal];
         }
     }
     else{
         if (shuffled){
             [self SimpleAction:@"Player.UnShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID],@"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle.png"] forState:UIControlStateNormal];
         }
         else{
             [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
@@ -2078,10 +2076,9 @@ int currentItemID;
     if ([AppDelegate instance].serverVersion>11){
         [self SimpleAction:@"Player.SetRepeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"cycle", @"repeat", nil] reloadPlaylist:NO startProgressBar:NO];
         if ([repeatStatus isEqualToString:@"off"]){
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all.png"] forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"all"]){
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one.png"] forState:UIControlStateNormal];
 
         }
@@ -2092,7 +2089,7 @@ int currentItemID;
     else{
         if ([repeatStatus isEqualToString:@"off"]){
             [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"all", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all.png"] forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"all"]){
             [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"one", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
@@ -2101,6 +2098,7 @@ int currentItemID;
         }
         else if ([repeatStatus isEqualToString:@"one"]){
             [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"off", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat.png"] forState:UIControlStateNormal];
         }
     }
 }
@@ -2846,10 +2844,9 @@ int currentItemID;
             [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
         }
         if ([self.navigationController.viewControllers indexOfObject:self] == 0){
-            UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+            UIImage* menuImg = [UIImage imageNamed:@"button_menu.png"];
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
         }
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings.png"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
         self.slidingViewController.underRightViewController = nil;
@@ -2882,9 +2879,8 @@ int currentItemID;
                 [playlistButton setImage:buttonImage forState:UIControlStateSelected];
             }
             else{
-                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
-                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
-                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
+                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateNormal];
+                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateHighlighted];
                 [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateSelected];
             }
         }
