@@ -508,7 +508,6 @@
 		0F74773A151E094C00EF78AD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F747739151E094C00EF78AD /* AudioToolbox.framework */; };
 		0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776A151E5E8600EF78AD /* DSJSONRPC.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776C151E5E8600EF78AD /* DSJSONRPCError.m */; };
-		0F747771151E5E8600EF78AD /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776E151E5E8600EF78AD /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0F747D9D1652D19D00856B89 /* button_volume_plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F747D9C1652D19D00856B89 /* button_volume_plus.png */; };
 		0F747DA01652D1C100856B89 /* button_volume_plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F747D9F1652D1C100856B89 /* button_volume_plus@2x.png */; };
 		0F747DA21652D33100856B89 /* button_volume_minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F747DA11652D33100856B89 /* button_volume_minus.png */; };
@@ -1453,8 +1452,6 @@
 		0F74776A151E5E8600EF78AD /* DSJSONRPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSJSONRPC.m; sourceTree = "<group>"; };
 		0F74776B151E5E8600EF78AD /* DSJSONRPCError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSJSONRPCError.h; sourceTree = "<group>"; };
 		0F74776C151E5E8600EF78AD /* DSJSONRPCError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSJSONRPCError.m; sourceTree = "<group>"; };
-		0F74776D151E5E8600EF78AD /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
-		0F74776E151E5E8600EF78AD /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		0F747D9C1652D19D00856B89 /* button_volume_plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_volume_plus.png; sourceTree = "<group>"; };
 		0F747D9F1652D1C100856B89 /* button_volume_plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_volume_plus@2x.png"; sourceTree = "<group>"; };
 		0F747DA11652D33100856B89 /* button_volume_minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_volume_minus.png; sourceTree = "<group>"; };
@@ -2924,8 +2921,6 @@
 				0F74776A151E5E8600EF78AD /* DSJSONRPC.m */,
 				0F74776B151E5E8600EF78AD /* DSJSONRPCError.h */,
 				0F74776C151E5E8600EF78AD /* DSJSONRPCError.m */,
-				0F74776D151E5E8600EF78AD /* JSONKit.h */,
-				0F74776E151E5E8600EF78AD /* JSONKit.m */,
 			);
 			name = "Demiurgic-JSON-RPC";
 			path = "dbowen-Demiurgic-JSON-RPC-168ecc9";
@@ -3139,15 +3134,10 @@
 			attributes = {
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "joethefox inc.";
-				TargetAttributes = {
-					0F5548F5151D1187007E633F = {
-						DevelopmentTeam = KWZL4ZWD6C;
-					};
-				};
 			};
 			buildConfigurationList = 0F5548F0151D1187007E633F /* Build configuration list for PBXProject "Kodi Remote" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -3162,6 +3152,7 @@
 				nl,
 				tr,
 				sv,
+				Base,
 			);
 			mainGroup = 0F5548EB151D1187007E633F;
 			productRefGroup = 0F5548F7151D1187007E633F /* Products */;
@@ -3986,7 +3977,6 @@
 				0F747734151DD91D00EF78AD /* RemoteController.m in Sources */,
 				0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */,
 				0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */,
-				0F747771151E5E8600EF78AD /* JSONKit.m in Sources */,
 				0F370054151F6A9E00A3D42C /* jsonDataCell.m in Sources */,
 				0F4883C41521B3D400883243 /* GlobalData.m in Sources */,
 				0F4883D21521CC7300883243 /* VolumeSliderView.m in Sources */,
@@ -4305,6 +4295,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
@@ -4319,8 +4310,8 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s";
-				"VALID_ARCHS[sdk=*]" = "arm64 armv7 armv7s";
+				VALID_ARCHS = "x86_64 armv7s arm64";
+				"VALID_ARCHS[sdk=*]" = "x86_64 armv7s arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4332,6 +4323,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
@@ -4343,7 +4335,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = "x86_64 armv7s arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
