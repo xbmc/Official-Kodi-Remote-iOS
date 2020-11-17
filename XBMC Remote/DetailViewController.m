@@ -2442,16 +2442,6 @@ int originYear = 0;
                                           [trackCountLabel setShadowColor:albumFontShadowColor];
                                           [releasedLabel setTextColor:albumDetailsColor];
                                           [releasedLabel setShadowColor:albumFontShadowColor];
-                                          if (((NSNull *)[self.searchDisplayController.searchBar valueForKey:@"_searchField"] != [NSNull null])){
-                                              UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"_searchField"];
-                                              if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
-                                                  UIImageView *iconView = (id)searchTextField.leftView;
-                                                  iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                                  iconView.tintColor = slightLightAlbumColor;
-                                                  searchTextField.textColor = slightLightAlbumColor;
-                                                  searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchDisplayController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: slightLightAlbumColor}];
-                                              }
-                                          }
                                       }
                                   }];
         }
