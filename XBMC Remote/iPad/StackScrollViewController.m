@@ -1019,7 +1019,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     shadowRect = CGRectMake(-15.0f, -15.0f, STACKSCROLL_WIDTH + 30.0f, 15);
     UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadowUp setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    [shadowUp setImage:[UIImage imageNamed:@"stackScrollUpShadow"]];
+    [shadowUp setImage:[UIImage imageNamed:@"stackScrollUpShadow.png"]];
     [controller.view insertSubview:shadowUp atIndex:1];
     
 	[slideViews addSubview:[controller view]];

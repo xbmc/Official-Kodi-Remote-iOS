@@ -755,7 +755,7 @@
         [self.searchDisplayController.searchBar setBackgroundColor:collectionViewSearchBarColor];
         self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
         searchBarColor = collectionViewSearchBarColor;
-        [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
+        [bar.leftButton setImage:[UIImage imageNamed:@"button_view.png"] forState:UIControlStateNormal];
     }
     else{
         [dataList setDelegate:self];
@@ -770,7 +770,7 @@
         [self.searchDisplayController.searchBar setBackgroundColor:tableViewSearchBarColor];
         self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
         searchBarColor = tableViewSearchBarColor;
-        [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
+        [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list.png"] forState:UIControlStateNormal];
     }
     if (!isViewDidLoad){
         [activeLayoutView addSubview:self.searchDisplayController.searchBar];
@@ -2029,7 +2029,7 @@ int originYear = 0;
             [cell.contentView addSubview:progressView];
             
             UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake((int)((2 + (epgChannelTimeLabelWidth - 8) - 6) / 2), programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 14, 12, 12)];
-            [hasTimer setImage:[UIImage imageNamed:@"button_timer"]];
+            [hasTimer setImage:[UIImage imageNamed:@"button_timer.png"]];
             hasTimer.tag = 104;
             hasTimer.hidden = YES;
             [hasTimer setBackgroundColor:[UIColor clearColor]];
@@ -2044,7 +2044,7 @@ int originYear = 0;
             
             float dotSize = 6.0f;
             UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2.0f - dotSize/2.0f, progressView.frame.origin.y + [progressView getPieRadius]/2.0f + [progressView getLineWidth] + 0.5f, dotSize, dotSize)];
-            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer"]];
+            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer.png"]];
             [isRecordingImageView setContentMode:UIViewContentModeScaleToFill];
             isRecordingImageView.tag = 104;
             isRecordingImageView.hidden = YES;
@@ -2537,7 +2537,7 @@ int originYear = 0;
 //        UIButton *albumPlaybackButton =  [UIButton buttonWithType:UIButtonTypeCustom];
 //        albumPlaybackButton.tag = 0;
 //        albumPlaybackButton.showsTouchWhenHighlighted = YES;
-//        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
+//        UIImage *btnImage = [UIImage imageNamed:@"button_play.png"];
 //        [albumPlaybackButton setImage:btnImage forState:UIControlStateNormal];
 //        albumPlaybackButton.alpha = .8f;
 //        int playbackOriginX = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)]] intValue];
@@ -2561,8 +2561,8 @@ int originYear = 0;
             button.tag = 99;
             button.alpha = .5;
             button.frame = CGRectMake(3.0, (int)(albumViewHeight / 2) - 6, 11.0, 11.0);
-            [button setImage:[UIImage imageNamed:@"arrow_close"] forState:UIControlStateNormal];
-            [button setImage:[UIImage imageNamed:@"arrow_open"] forState:UIControlStateSelected];
+            [button setImage:[UIImage imageNamed:@"arrow_close.png"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"arrow_open.png"] forState:UIControlStateSelected];
 //            [button addTarget:self action:@selector(toggleOpen:) forControlEvents:UIControlEventTouchUpInside];
             if ([[self.sectionArrayOpen objectAtIndex:section] boolValue] == TRUE){
                 [button setSelected:YES];
@@ -2614,7 +2614,7 @@ int originYear = 0;
             
             UIImageView *thumbImageShadowView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace - 3, albumViewPadding - 3, seasonThumbWidth + 6, albumViewHeight - (albumViewPadding * 2) + 6)];
             [thumbImageShadowView setContentMode:UIViewContentModeScaleToFill];
-            thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow"];
+            thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow.png"];
             [albumDetailView addSubview:thumbImageShadowView];
             
             UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2), (albumViewPadding / 2), viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
@@ -3637,7 +3637,7 @@ NSIndexPath *selected;
                                               animations:^{
                                                   collectionView.alpha = 1;
                                                   dataList.alpha = 1;
-                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
+                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen.png"] forState:UIControlStateNormal];
                                                   fullscreenButton.backgroundColor = [UIColor clearColor];
                                               }
                                               completion:^(BOOL finished) {
@@ -3704,7 +3704,7 @@ NSIndexPath *selected;
                                                  options:UIViewAnimationOptionCurveEaseInOut
                                               animations:^{
                                                   collectionView.alpha = 1;
-                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen"] forState:UIControlStateNormal];
+                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen.png"] forState:UIControlStateNormal];
                                                   fullscreenButton.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
                                               }
                                               completion:^(BOOL finished) {
@@ -4410,44 +4410,44 @@ NSIndexPath *selected;
     if (elapsedTime > WARNING_TIMEOUT && longTimeout == nil){
         longTimeout = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 111, 56)];
         longTimeout.animationImages = [NSArray arrayWithObjects:    
-                                       [UIImage imageNamed:@"monkeys_1"],
-                                       [UIImage imageNamed:@"monkeys_2"],
-                                       [UIImage imageNamed:@"monkeys_3"],
-                                       [UIImage imageNamed:@"monkeys_4"],
-                                       [UIImage imageNamed:@"monkeys_5"],
-                                       [UIImage imageNamed:@"monkeys_6"],
-                                       [UIImage imageNamed:@"monkeys_7"],
-                                       [UIImage imageNamed:@"monkeys_8"],
-                                       [UIImage imageNamed:@"monkeys_9"],
-                                       [UIImage imageNamed:@"monkeys_10"],
-                                       [UIImage imageNamed:@"monkeys_11"],
-                                       [UIImage imageNamed:@"monkeys_12"],
-                                       [UIImage imageNamed:@"monkeys_13"],
-                                       [UIImage imageNamed:@"monkeys_14"],
-                                       [UIImage imageNamed:@"monkeys_15"],
-                                       [UIImage imageNamed:@"monkeys_16"],
-                                       [UIImage imageNamed:@"monkeys_17"],
-                                       [UIImage imageNamed:@"monkeys_18"],
-                                       [UIImage imageNamed:@"monkeys_19"],
-                                       [UIImage imageNamed:@"monkeys_20"],
-                                       [UIImage imageNamed:@"monkeys_21"],
-                                       [UIImage imageNamed:@"monkeys_22"],
-                                       [UIImage imageNamed:@"monkeys_23"],
-                                       [UIImage imageNamed:@"monkeys_24"],
-                                       [UIImage imageNamed:@"monkeys_25"],
-                                       [UIImage imageNamed:@"monkeys_26"],
-                                       [UIImage imageNamed:@"monkeys_27"],
-                                       [UIImage imageNamed:@"monkeys_28"],
-                                       [UIImage imageNamed:@"monkeys_29"],
-                                       [UIImage imageNamed:@"monkeys_30"],
-                                       [UIImage imageNamed:@"monkeys_31"],
-                                       [UIImage imageNamed:@"monkeys_32"],
-                                       [UIImage imageNamed:@"monkeys_33"],
-                                       [UIImage imageNamed:@"monkeys_34"],
-                                       [UIImage imageNamed:@"monkeys_35"],
-                                       [UIImage imageNamed:@"monkeys_36"],
-                                       [UIImage imageNamed:@"monkeys_37"],
-                                       [UIImage imageNamed:@"monkeys_38"],
+                                       [UIImage imageNamed:@"monkeys_1.png"],
+                                       [UIImage imageNamed:@"monkeys_2.png"],
+                                       [UIImage imageNamed:@"monkeys_3.png"],
+                                       [UIImage imageNamed:@"monkeys_4.png"],
+                                       [UIImage imageNamed:@"monkeys_5.png"],
+                                       [UIImage imageNamed:@"monkeys_6.png"],
+                                       [UIImage imageNamed:@"monkeys_7.png"],
+                                       [UIImage imageNamed:@"monkeys_8.png"],
+                                       [UIImage imageNamed:@"monkeys_9.png"],
+                                       [UIImage imageNamed:@"monkeys_10.png"],
+                                       [UIImage imageNamed:@"monkeys_11.png"],
+                                       [UIImage imageNamed:@"monkeys_12.png"],
+                                       [UIImage imageNamed:@"monkeys_13.png"],
+                                       [UIImage imageNamed:@"monkeys_14.png"],
+                                       [UIImage imageNamed:@"monkeys_15.png"],
+                                       [UIImage imageNamed:@"monkeys_16.png"],
+                                       [UIImage imageNamed:@"monkeys_17.png"],
+                                       [UIImage imageNamed:@"monkeys_18.png"],
+                                       [UIImage imageNamed:@"monkeys_19.png"],
+                                       [UIImage imageNamed:@"monkeys_20.png"],
+                                       [UIImage imageNamed:@"monkeys_21.png"],
+                                       [UIImage imageNamed:@"monkeys_22.png"],
+                                       [UIImage imageNamed:@"monkeys_23.png"],
+                                       [UIImage imageNamed:@"monkeys_24.png"],
+                                       [UIImage imageNamed:@"monkeys_25.png"],
+                                       [UIImage imageNamed:@"monkeys_26.png"],
+                                       [UIImage imageNamed:@"monkeys_27.png"],
+                                       [UIImage imageNamed:@"monkeys_28.png"],
+                                       [UIImage imageNamed:@"monkeys_29.png"],
+                                       [UIImage imageNamed:@"monkeys_30.png"],
+                                       [UIImage imageNamed:@"monkeys_31.png"],
+                                       [UIImage imageNamed:@"monkeys_32.png"],
+                                       [UIImage imageNamed:@"monkeys_33.png"],
+                                       [UIImage imageNamed:@"monkeys_34.png"],
+                                       [UIImage imageNamed:@"monkeys_35.png"],
+                                       [UIImage imageNamed:@"monkeys_36.png"],
+                                       [UIImage imageNamed:@"monkeys_37.png"],
+                                       [UIImage imageNamed:@"monkeys_38.png"],
                                         nil];        
         longTimeout.animationDuration = 5.0f;
         longTimeout.animationRepeatCount = 0;
@@ -5480,8 +5480,8 @@ NSIndexPath *selected;
     if (choosedTab > MAX_NORMAL_BUTTONS)
         choosedTab = MAX_NORMAL_BUTTONS;
     for (i=0;i<count;i++){
-        NSString *imageNameOff=[NSString stringWithFormat:@"%@_off", [buttons objectAtIndex:i]];
-        NSString *imageNameOn=[NSString stringWithFormat:@"%@_on", [buttons objectAtIndex:i]];
+        NSString *imageNameOff=[NSString stringWithFormat:@"%@_off.png", [buttons objectAtIndex:i]];
+        NSString *imageNameOn=[NSString stringWithFormat:@"%@_on.png", [buttons objectAtIndex:i]];
         [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
         [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
         [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
@@ -5502,8 +5502,8 @@ NSIndexPath *selected;
         collectionView.scrollIndicatorInsets = tableViewInsets;
     }
     if ([[self.detailItem mainMethod] count]>MAX_NORMAL_BUTTONS){
-        NSString *imageNameOff=@"st_more_off";
-        NSString *imageNameOn=@"st_more_on";
+        NSString *imageNameOff=@"st_more_off.png";
+        NSString *imageNameOn=@"st_more_on.png";
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
@@ -5967,7 +5967,7 @@ NSIndexPath *selected;
                 [fullscreenButton setShowsTouchWhenHighlighted:YES];
                 [fullscreenButton setFrame:CGRectMake(0, 0, 26, 26)];
                 [fullscreenButton setContentMode:UIViewContentModeCenter];
-                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
+                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen.png"] forState:UIControlStateNormal];
                 fullscreenButton.layer.cornerRadius = 2.0f;
                 [fullscreenButton setTintColor:[UIColor whiteColor]];
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen:) forControlEvents:UIControlEventTouchUpInside];

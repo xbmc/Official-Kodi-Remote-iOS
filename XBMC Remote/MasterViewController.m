@@ -157,13 +157,13 @@
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:11]];
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0) {
-        iconName = @"connection_off";
+        iconName = @"connection_off.png";
         if ([AppDelegate instance].serverOnLine == YES) {
             if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
-                iconName = @"connection_on";
+                iconName = @"connection_on.png";
             }
             else {
-                iconName = @"connection_on_notcp";
+                iconName = @"connection_on_notcp.png";
             }
         }
     }
@@ -228,7 +228,7 @@
     }
     navController = nil;
     navController = [[CustomNavigationController alloc] initWithRootViewController:object];
-    UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+    UIImage* menuImg = [UIImage imageNamed:@"button_menu.png"];
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
     
     UINavigationBar *newBar = navController.navigationBar;

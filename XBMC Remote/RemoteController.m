@@ -100,12 +100,12 @@
     int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
     [remoteControlView setFrame:CGRectMake(startX, startY, newWidth, newHeight)];
     
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
+    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger.png"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL showGesture=[[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture){
-        gestureSwitchImg = [UIImage imageNamed:@"circle"];
+        gestureSwitchImg = [UIImage imageNamed:@"circle.png"];
         frame = [gestureZoneView frame];
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
@@ -124,8 +124,8 @@
     [gestureButton setShowsTouchWhenHighlighted:NO];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateHighlighted];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up@2x"] forState:UIControlStateNormal];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down@2x"] forState:UIControlStateHighlighted];
+    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up@2x.png"] forState:UIControlStateNormal];
+    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down@2x.png"] forState:UIControlStateHighlighted];
     gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
     [remoteControlView addSubview:gestureButton];
@@ -141,7 +141,7 @@
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
+        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help.png"];
         if([[UIScreen mainScreen ] bounds].size.height >= 568){
             float transform = 1.0f;
             if (IS_IPHONE_6 || IS_IPHONE_X) {
@@ -175,7 +175,7 @@
 
         int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;        
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
+        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad.png"];
         CGRect frame = subsInfoLabel.frame;
         frame.size.width = newWidth;
         frame.origin.x = 0;
@@ -1161,7 +1161,7 @@ NSInteger buttonAction;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings.png"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
         [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];
     }
@@ -1237,12 +1237,12 @@ NSInteger buttonAction;
                 [device setTorchMode:AVCaptureTorchModeOn];
                 [device setFlashMode:AVCaptureFlashModeOn];
                 torchIsOn = YES;
-                [sender setImage:[UIImage imageNamed:@"torch_on"] forState:UIControlStateNormal];
+                [sender setImage:[UIImage imageNamed:@"torch_on.png"] forState:UIControlStateNormal];
             } else {
                 [device setTorchMode:AVCaptureTorchModeOff];
                 [device setFlashMode:AVCaptureFlashModeOff];
                 torchIsOn = NO;
-                [sender setImage:[UIImage imageNamed:@"torch"] forState:UIControlStateNormal];
+                [sender setImage:[UIImage imageNamed:@"torch.png"] forState:UIControlStateNormal];
             }
             [device unlockForConfiguration];
         }
@@ -1296,7 +1296,7 @@ NSInteger buttonAction;
         settingButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
         [settingButton setContentMode:UIViewContentModeRight];
         [settingButton setShowsTouchWhenHighlighted:YES];
-        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
+        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon.png"] forState:UIControlStateNormal];
         settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [settingButton addTarget:self action:@selector(addButtonToListIPad:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:settingButton];

@@ -457,8 +457,8 @@
     [self.view addSubview:rootView];
     
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(671, 967, 87, 30)];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateHighlighted];
     xbmcLogo.showsTouchWhenHighlighted = NO;
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
@@ -504,8 +504,8 @@
     [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
     [menuViewController.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
 
-    [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateNormal];
-    [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateHighlighted];
+    [powerButton setImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateNormal];
+    [powerButton setImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
     

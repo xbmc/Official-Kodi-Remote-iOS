@@ -42,8 +42,8 @@
         UIImageView *labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(startX, frame.size.height - genreHeight - yearHeight - labelHeight + borderWidth*2, fanartWidth - borderWidth * 3, labelHeight + genreHeight + yearHeight - borderWidth*3)];
         [labelImageView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
 
-        [labelImageView setImage:[UIImage imageNamed:@"cell_bg"]];
-        [labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
+        [labelImageView setImage:[UIImage imageNamed:@"cell_bg.png"]];
+        [labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected.png"]];
         
         int posterYOffset = 4;
         int labelPadding = 4;
@@ -100,7 +100,7 @@
 -(void)setOverlayWatched:(BOOL)enable{
     if (enable == YES){
         if (overlayWatched == nil){
-            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
+            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched.png"]];
             [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width - 4,
                                               self.contentView.frame.size.height - overlayWatched.frame.size.height - 4,

@@ -220,7 +220,7 @@
     UIBarButtonItem *extraButton = nil;
     int titleWidth = 310;
     if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
-        UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
+        UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon.png"];
         BOOL fromAlbumView = NO;
         if (((NSNull *)[item objectForKey:@"fromAlbumView"] != [NSNull null])){
             fromAlbumView = [[item objectForKey:@"fromAlbumView"] boolValue];
@@ -234,7 +234,7 @@
         titleWidth = 254;
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
-        UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
+        UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon.png"];
         extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
         titleWidth = 254;
     }

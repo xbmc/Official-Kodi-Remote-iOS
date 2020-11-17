@@ -38,12 +38,12 @@
                 [device setTorchMode:AVCaptureTorchModeOn];
                 [device setFlashMode:AVCaptureFlashModeOn];
                 torchIsOn = YES;
-                [iconTorch setImage:[UIImage imageNamed:@"torch_on"]];
+                [iconTorch setImage:[UIImage imageNamed:@"torch_on.png"]];
             } else {
                 [device setTorchMode:AVCaptureTorchModeOff];
                 [device setFlashMode:AVCaptureFlashModeOff];
                 torchIsOn = NO;
-                [iconTorch setImage:[UIImage imageNamed:@"torch"]];
+                [iconTorch setImage:[UIImage imageNamed:@"torch.png"]];
             }
             [device unlockForConfiguration];
         }
@@ -109,14 +109,14 @@
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         xbmc_logo.hidden = NO;
-        iconName = @"connection_off";
+        iconName = @"connection_off.png";
         icon.alpha = 1;
         if ([AppDelegate instance].serverOnLine == YES) {
             if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
-                iconName = @"connection_on";
+                iconName = @"connection_on.png";
             }
             else {
-                iconName = @"connection_on_notcp";
+                iconName = @"connection_on_notcp.png";
             }
         }
         int cellHeight = 44;
@@ -237,7 +237,7 @@
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
         icon.alpha = .8f;
         if (torchIsOn){
-            iconName = @"torch_on";
+            iconName = @"torch_on.png";
         }
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"xbmc-exec-addon"]){
