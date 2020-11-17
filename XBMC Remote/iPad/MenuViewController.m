@@ -248,8 +248,8 @@
             int cellHeightPad = cellHeight - 4;
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(232, (int)((cellHeight/2) - (cellHeightPad/2)) - 1, 73, cellHeightPad)];
             xbmc_logo. alpha = .25f;
-            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo"]];
-            [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo"]];
+            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+            [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo.png"]];
             [xbmc_logo setContentMode:UIViewContentModeScaleAspectFit];
             [cell insertSubview:xbmc_logo atIndex:0];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];

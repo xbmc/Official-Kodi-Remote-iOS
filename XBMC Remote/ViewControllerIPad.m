@@ -457,8 +457,8 @@
     [self.view addSubview:rootView];
     
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(671, 967, 87, 30)];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateHighlighted];
     xbmcLogo.showsTouchWhenHighlighted = NO;
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;

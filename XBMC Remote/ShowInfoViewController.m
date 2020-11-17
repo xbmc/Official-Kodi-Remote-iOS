@@ -95,7 +95,7 @@ int count=0;
         UIBarButtonItem *extraButton = nil;
         int titleWidth = 350;
         if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon.png"];
             if (fromAlbumView){
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
@@ -105,12 +105,12 @@ int count=0;
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon.png"];
             extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon.png"];
             if (fromEpisodesView){
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
@@ -1226,7 +1226,7 @@ int h=0;
             dotSize = 10.0f;
             dotSizePadding = 4.0f;
             isRecording = [[UIImageView alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y + (frame.size.height/2.0f - dotSize/2.0f), dotSize, dotSize)];
-            [isRecording setImage:[UIImage imageNamed:@"button_timer"]];
+            [isRecording setImage:[UIImage imageNamed:@"button_timer.png"]];
             [isRecording setContentMode:UIViewContentModeScaleAspectFill];
             isRecording.alpha = 0.0f;
             [isRecording setBackgroundColor:[UIColor clearColor]];
@@ -1240,7 +1240,7 @@ int h=0;
         }
         [item setValue:[item objectForKey:@"label"] forKey:@"rating"];
         [item setValue:[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_icon"] forKey:@"thumbnail"];
-        placeHolderImage = @"nocover_channels";
+        placeHolderImage = @"nocover_channels.png";
         NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
         NSDateFormatter *localFormatter = [[NSDateFormatter alloc] init];
@@ -1260,7 +1260,7 @@ int h=0;
         else {
             directorLabel.text = @"-";
         }
-//        UIImage *buttonImage = [UIImage imageNamed:@"button_record"];
+//        UIImage *buttonImage = [UIImage imageNamed:@"button_record.png"];
 //        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
 //        recordButton.frame = CGRectMake(0, 0, 200.0f, 29.0f);
 //        [recordButton setImage:buttonImage forState:UIControlStateNormal];
@@ -1581,7 +1581,7 @@ int h=0;
                     </html>";
                     [trailerView loadHTMLString:blackPage baseURL:nil];
                     UIButton *playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                    UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
+                    UIImage *playTrailerImg = [UIImage imageNamed:@"button_play.png"];
                     [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
                     [playTrailerButton setFrame:CGRectMake(0, 0, trailerView.frame.size.width, trailerView.frame.size.height)];
                     [playTrailerButton addTarget:self action:@selector(loadUrl:) forControlEvents:UIControlEventTouchUpInside];
@@ -1871,7 +1871,7 @@ int h=0;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([AppDelegate instance].serverVersion > 11  && ![self isModal]) {
-        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected.png"]];
         cell.accessoryView.alpha = 0.5f;
     }
     else {

@@ -52,14 +52,14 @@
             
         }
         else if (frame.size.width == 0){
-            [plusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_plus"] forState:UIControlStateNormal];
             [plusButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+            [plusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_plus.png"] forState:UIControlStateNormal];
             [plusButton setTitle:@"" forState:UIControlStateNormal];
             [plusButton setTitle:@"" forState:UIControlStateHighlighted];
             [plusButton setShowsTouchWhenHighlighted:YES];
 
-            [minusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_minus"] forState:UIControlStateNormal];
             [minusButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+            [minusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_minus.png"] forState:UIControlStateNormal];
             [minusButton setTitle:@"" forState:UIControlStateNormal];
             [minusButton setTitle:@"" forState:UIControlStateHighlighted];
             [minusButton setShowsTouchWhenHighlighted:YES];

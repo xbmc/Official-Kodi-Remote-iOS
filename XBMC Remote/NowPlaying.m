@@ -577,9 +577,9 @@ int currentItemID;
 
 -(void)nothingIsPlaying{
     if (startFlipDemo){
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
+        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateNormal];
+        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateHighlighted];
+        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateSelected];
         [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
         startFlipDemo = NO;
     }
@@ -761,7 +761,7 @@ int currentItemID;
                                                duration:1.0f
                                                 options:UIViewAnimationOptionTransitionCrossDissolve
                                              animations:^{
-                                                 backgroundImageView.image=[UIImage imageNamed:@"shiny_black_back"];
+                                                 backgroundImageView.image=[UIImage imageNamed:@"shiny_black_back.png"];
                                              }
                                              completion:NULL];
                              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -784,7 +784,7 @@ int currentItemID;
                                                duration:1.0f
                                                 options:UIViewAnimationOptionTransitionCrossDissolve
                                              animations:^{
-                                                 backgroundImageView.image=[utils colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
+                                                 backgroundImageView.image=[utils colorizeImage:[UIImage imageNamed:@"shiny_black_back.png"] withColor:lighterColor];
                                              }
                                              completion:NULL];
                              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -1064,13 +1064,13 @@ int currentItemID;
                                          repeatButton.hidden = NO;
                                      }
                                      if ([repeatStatus isEqualToString:@"all"]){
-                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
+                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all.png"] forState:UIControlStateNormal];
                                      }
                                      else if ([repeatStatus isEqualToString:@"one"]){
-                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
+                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one.png"] forState:UIControlStateNormal];
                                      }
                                      else{
-                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
+                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat.png"] forState:UIControlStateNormal];
                                      }
                                  }
                                  else if (repeatButton.hidden == NO){
@@ -1083,10 +1083,10 @@ int currentItemID;
                                          shuffleButton.hidden = NO;
                                      }
                                      if (shuffled){
-                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on.png"] forState:UIControlStateNormal];
                                      }
                                      else{
-                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle.png"] forState:UIControlStateNormal];
                                      }
                                  }
                                  else if (shuffleButton.hidden == NO){
@@ -1862,6 +1862,7 @@ int currentItemID;
                              [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateNormal];
                              [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateHighlighted];
                              [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x"] forState:UIControlStateSelected];
+                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x.png"] forState:UIControlStateSelected];
                          }
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          [UIView setAnimationTransition:anim forView:button cache:YES];
@@ -2056,6 +2057,7 @@ int currentItemID;
         }
         else{
             [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on.png"] forState:UIControlStateNormal];
         }
     }
     else{
@@ -2065,7 +2067,7 @@ int currentItemID;
         }
         else{
             [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on.png"] forState:UIControlStateNormal];
         }
     }
 }
@@ -2080,10 +2082,11 @@ int currentItemID;
         }
         else if ([repeatStatus isEqualToString:@"all"]){
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one.png"] forState:UIControlStateNormal];
 
         }
         else if ([repeatStatus isEqualToString:@"one"]){
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat.png"] forState:UIControlStateNormal];
         }
     }
     else{
@@ -2093,12 +2096,11 @@ int currentItemID;
         }
         else if ([repeatStatus isEqualToString:@"all"]){
             [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"one", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one.png"] forState:UIControlStateNormal];
             
         }
         else if ([repeatStatus isEqualToString:@"one"]){
             [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"off", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
         }
     }
 }
@@ -2848,6 +2850,7 @@ int currentItemID;
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
         }
         UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings.png"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
@@ -2882,6 +2885,7 @@ int currentItemID;
                 [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
                 [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
                 [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
+                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateSelected];
             }
         }
     }

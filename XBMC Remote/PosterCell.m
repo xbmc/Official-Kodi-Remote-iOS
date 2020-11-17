@@ -30,8 +30,8 @@
         
         _labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
         [_labelImageView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
-        [_labelImageView setImage:[UIImage imageNamed:@"cell_bg"]];
-        [_labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
+        [_labelImageView setImage:[UIImage imageNamed:@"cell_bg.png"]];
+        [_labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected.png"]];
 
         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
         [_posterLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
@@ -85,7 +85,7 @@
         if (isRecordingImageView == nil) {
             float dotSize = 8.0f;
             isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(6.0f, 6.0f, dotSize, dotSize)];
-            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer"]];
+            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer.png"]];
             [isRecordingImageView setContentMode:UIViewContentModeScaleToFill];
             isRecordingImageView.tag = 104;
             [isRecordingImageView setBackgroundColor:[UIColor clearColor]];
@@ -101,7 +101,7 @@
 -(void)setOverlayWatched:(BOOL)enable{
     if (enable == YES){
         if (overlayWatched == nil){
-            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
+            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched.png"]];
             [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width + 2,
                                               self.contentView.frame.size.height - overlayWatched.frame.size.height + 1,
