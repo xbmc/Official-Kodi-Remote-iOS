@@ -1637,7 +1637,7 @@ int h=0;
             clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
             [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
             [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
-            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
             [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank.png"]];
             [clearlogoButton addSubview:clearLogoImageView];
         }
@@ -1859,7 +1859,7 @@ int h=0;
     if ([AppDelegate instance].serverVersion > 11){
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
-    NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+    NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
     [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"] andResize:CGSizeMake(castWidth, castHeight)];
     cell.actorName.text = [[cast objectAtIndex:indexPath.row] objectForKey:@"name"] == nil ? [self.detailItem objectForKey:@"label"] : [[cast objectAtIndex:indexPath.row] objectForKey:@"name"];
     if ([[[cast objectAtIndex:indexPath.row] objectForKey:@"role"] length] != 0){
