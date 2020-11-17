@@ -273,7 +273,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 
 -(void)offView{
     
-    int orientation= [[UIApplication sharedApplication] statusBarOrientation];
+    int orientation= (int)[[UIApplication sharedApplication] statusBarOrientation];
     int posX = (orientation==1 || orientation==2) ? 468 : 724;
     
     [UIView animateWithDuration:0.2
@@ -708,7 +708,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 							viewAtRight = nil;
 							viewAtRight2 = nil;
                             // MODDED BY JOE
-                            int orientation= [[UIApplication sharedApplication] statusBarOrientation];
+                            int orientation= (int)[[UIApplication sharedApplication] statusBarOrientation];
 //                            int marginPosX = (orientation==1 || orientation==2) ? 468 : 724; // OFF SHOW THE STACK
                             int marginPosX = (orientation==1 || orientation==2) ? 415 : 671; // SHOW A LITTLE PIECE OF THE STACK
                             if ((((UIView*)[[slideViews subviews] objectAtIndex:0]).frame.origin.x+marginPosX/2) >= marginPosX) {
@@ -926,7 +926,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	if (isStackStartView) {
         NSInteger numViews=[[slideViews subviews]count];
         if (numViews==0){
-            int orientation= [[UIApplication sharedApplication] statusBarOrientation];
+            int orientation= (int)[[UIApplication sharedApplication] statusBarOrientation];
             animX = (orientation==1 || orientation==2) ? 468 : 724;
         }
         else {
