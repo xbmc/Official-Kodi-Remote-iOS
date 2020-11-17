@@ -813,7 +813,7 @@
     self.indexView.hidden = YES;
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     if (choosedTab < [buttonsIB count]){
-        [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
+        [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateSelected];
     }
     watchMode = 0;
     startTime = 0;
@@ -1403,10 +1403,10 @@
         }
 
         if (![fanartURL isEqualToString:@""]){
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@""]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank.png"]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
         }
         else {
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@""]];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"blank.png"]];
         }
         
         [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:fanartFontSize + 8]];
@@ -2465,7 +2465,7 @@ int originYear = 0;
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
             fanartBackgroundImage.alpha = 0.1f;
             [fanartBackgroundImage setClipsToBounds:YES];
-            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
+            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank.png"]];
             [albumDetailView addSubview:fanartBackgroundImage];
         }
         [thumbImageContainer addSubview:thumbImageView];

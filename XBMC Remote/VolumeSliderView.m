@@ -22,7 +22,7 @@
 		self = [nib objectAtIndex:0];
         CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * -0.5);
         volumeSlider.transform = trans;
-        pg_thumb_name = @"pgbar_thumb_iOS7";
+        pg_thumb_name = @"blank.png";
         [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
         [volumeSlider setMaximumTrackTintColor:APP_TINT_COLOR];
         [volumeSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
@@ -52,14 +52,14 @@
             
         }
         else if (frame.size.width == 0){
-            [plusButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
             [plusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_plus.png"] forState:UIControlStateNormal];
+            [plusButton setBackgroundImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateHighlighted];
             [plusButton setTitle:@"" forState:UIControlStateNormal];
             [plusButton setTitle:@"" forState:UIControlStateHighlighted];
             [plusButton setShowsTouchWhenHighlighted:YES];
 
-            [minusButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
             [minusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_minus.png"] forState:UIControlStateNormal];
+            [minusButton setBackgroundImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateHighlighted];
             [minusButton setTitle:@"" forState:UIControlStateNormal];
             [minusButton setTitle:@"" forState:UIControlStateHighlighted];
             [minusButton setShowsTouchWhenHighlighted:YES];
