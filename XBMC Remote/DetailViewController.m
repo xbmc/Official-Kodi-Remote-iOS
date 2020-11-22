@@ -283,8 +283,8 @@
     UITableView *tableView = [parameters objectForKey:@"tableView"];
     NSMutableDictionary *item = [parameters objectForKey:@"item"];
     UITableViewCell *cell = nil;
-    if (tableView == self.searchDisplayController.searchResultsTableView){
-        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    if (self.searchController.showsSearchResultsController){
+        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     else{
         cell = [dataList cellForRowAtIndexPath:indexPath];
@@ -751,9 +751,9 @@
         if ([self.indexView.indexTitles count]>1){
             self.indexView.hidden = NO;
         }
-        self.searchDisplayController.searchBar.tintColor = collectionViewSearchBarColor;
-        [self.searchDisplayController.searchBar setBackgroundColor:collectionViewSearchBarColor];
-        self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
+        self.searchController.searchBar.tintColor = collectionViewSearchBarColor;
+        [self.searchController.searchBar setBackgroundColor:collectionViewSearchBarColor];
+        self.searchController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
         searchBarColor = collectionViewSearchBarColor;
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view.png"] forState:UIControlStateNormal];
     }
@@ -766,14 +766,15 @@
         [collectionView setScrollsToTop:NO];
         activeLayoutView = dataList;
         self.indexView.hidden = YES;
-        self.searchDisplayController.searchBar.tintColor = tableViewSearchBarColor;
-        [self.searchDisplayController.searchBar setBackgroundColor:tableViewSearchBarColor];
-        self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
+        self.searchController.searchBar.tintColor = [UIColor whiteColor];
+        self.searchController.searchBar.backgroundColor = [UIColor blackColor];
+        self.searchController.searchBar.barStyle = UIBarStyleBlack;
+        self.searchController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
         searchBarColor = tableViewSearchBarColor;
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list.png"] forState:UIControlStateNormal];
     }
     if (!isViewDidLoad){
-        [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+        [activeLayoutView addSubview:self.searchController.searchBar];
     }
 }
 
@@ -858,7 +859,7 @@
     sortMethodName = nil;
     sortAscDesc = nil;
     if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
-        [self setUpSort:bar methods:methods parameters:parameters];
+       [self setUpSort:bar methods:methods parameters:parameters];
     }
     [self checkDiskCache];
     float animDuration = 0.3f;
@@ -910,13 +911,13 @@
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         blackTableSeparator = YES;
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
-        self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+        dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
     else{
         blackTableSeparator = NO;
-        self.searchDisplayController.searchBar.tintColor = searchBarColor;
+        self.searchController.searchBar.tintColor = searchBarColor;
         dataList.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
-        self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
+        dataList.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
     }
     if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length]){
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
@@ -1251,7 +1252,7 @@
 -(void)initCollectionView{
     if (collectionView == nil){
         flowLayout = [[FloatingHeaderFlowLayout alloc] init];
-        [flowLayout setSearchBarHeight:self.searchDisplayController.searchBar.frame.size.height];
+        [flowLayout setSearchBarHeight:self.searchController.searchBar.frame.size.height];
         [self setFlowLayoutParams];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
@@ -1291,7 +1292,7 @@
         margin = 8.0f;
     }
     if (section == 0) {
-        return UIEdgeInsetsMake(CGRectGetHeight(self.searchDisplayController.searchBar.frame), margin, 0, margin);
+        return UIEdgeInsetsMake(CGRectGetHeight(self.searchController.searchBar.frame), margin, 0, margin);
     }
     
     return UIEdgeInsetsMake(0, margin, 0, margin);
@@ -1769,8 +1770,8 @@ int originYear = 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (tableView == self.searchDisplayController.searchResultsTableView){
-        return 1;
+    if (self.searchController.showsSearchResultsController){
+        return (([self.filteredListContent count]>0) ? 1 : 0);
     }
 	else{
         return [[self.sections allKeys] count];
@@ -1778,7 +1779,7 @@ int originYear = 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (tableView == self.searchDisplayController.searchResultsTableView){
+    if (self.searchController.showsSearchResultsController){
         int numResult = (int)[self.filteredListContent count];
         if (numResult){
             if (numResult!=1)
@@ -1933,7 +1934,7 @@ int originYear = 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
+    if (self.searchController.showsSearchResultsController) {
         return [self.filteredListContent count];
     }
 	else {
@@ -1953,7 +1954,7 @@ int originYear = 0;
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    if (tableView == self.searchDisplayController.searchResultsTableView){
+    if (self.searchController.showsSearchResultsController){
         return nil;
     }
     else {
@@ -1994,7 +1995,7 @@ int originYear = 0;
     static NSString *identifier = @"jsonDataCellIdentifier";
     jsonDataCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     NSMutableDictionary *item = nil;
-    if (tableView == self.searchDisplayController.searchResultsTableView){
+    if (self.searchController.showsSearchResultsController){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
     }
 	else{
@@ -2330,14 +2331,15 @@ int originYear = 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self.searchDisplayController.searchBar resignFirstResponder];
+    [self.searchController.searchBar resignFirstResponder];
     NSDictionary *item = nil;
     UITableViewCell *cell = nil;
     CGPoint offsetPoint;
-    if (tableView == self.searchDisplayController.searchResultsTableView){
+    if (self.searchController.showsSearchResultsController){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
-        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
-        offsetPoint = [self.searchDisplayController.searchResultsTableView contentOffset];
+
+        cell = [dataList cellForRowAtIndexPath:indexPath];
+        offsetPoint = [dataList contentOffset];
         offsetPoint.y = offsetPoint.y - 44;
     }
     else{
@@ -2422,11 +2424,11 @@ int originYear = 0;
                                           albumColor = [utils averageColor:image inverse:NO];
                                           UIColor *slightLightAlbumColor = [utils slightLighterColorForColor:albumColor];
                                           self.navigationController.navigationBar.tintColor = slightLightAlbumColor;
-                                          self.searchDisplayController.searchBar.tintColor = slightLightAlbumColor;
-                                          if ([[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
-                                              [[[self.searchDisplayController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
+                                          self.searchController.searchBar.tintColor = slightLightAlbumColor;
+                                          if ([[[self.searchController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
+                                              [[[self.searchController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
                                           }
-                                          [self.searchDisplayController.searchBar setBackgroundColor:albumColor];
+                                          [self.searchController.searchBar setBackgroundColor:albumColor];
                                           CAGradientLayer *gradient = [CAGradientLayer layer];
                                           gradient.frame = albumDetailView.bounds;
                                           gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
@@ -2442,14 +2444,14 @@ int originYear = 0;
                                           [trackCountLabel setShadowColor:albumFontShadowColor];
                                           [releasedLabel setTextColor:albumDetailsColor];
                                           [releasedLabel setShadowColor:albumFontShadowColor];
-                                          UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"searchField"];
+                                          UITextField *searchTextField = self.searchController.searchBar.searchTextField;
                                           if (searchTextField != nil) {
                                               if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
                                                   UIImageView *iconView = (id)searchTextField.leftView;
                                                   iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
                                                   iconView.tintColor = slightLightAlbumColor;
                                                   searchTextField.textColor = slightLightAlbumColor;
-                                                  searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchDisplayController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: slightLightAlbumColor}];
+                                                  searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: slightLightAlbumColor}];
                                               }
                                           }
                                       }
@@ -2460,7 +2462,7 @@ int originYear = 0;
         }
         stringURL = [item objectForKey:@"fanart"];
         if (![stringURL isEqualToString:@""]){
-            UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, - self.searchDisplayController.searchBar.frame.size.height, viewWidth, albumViewHeight + 2 + self.searchDisplayController.searchBar.frame.size.height)];
+            UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, - self.searchController.searchBar.frame.size.height, viewWidth, albumViewHeight + 2 + self.searchController.searchBar.frame.size.height)];
             fanartBackgroundImage.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
             fanartBackgroundImage.alpha = 0.1f;
@@ -2548,7 +2550,7 @@ int originYear = 0;
 
         return albumDetailView;
     }
-    else if (episodesView && [self.richResults count]>0 && !(tableView == self.searchDisplayController.searchResultsTableView)){
+    else if (episodesView && [self.richResults count]>0 && !(self.searchController.showsSearchResultsController)){
         UIColor *seasonFontShadowColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
         albumDetailView.tag = section;
@@ -2587,7 +2589,7 @@ int originYear = 0;
         [albumDetailView addSubview:toolbarShadow];
         
         NSDictionary *item;
-        if (tableView == self.searchDisplayController.searchResultsTableView){
+        if (self.searchController.showsSearchResultsController){
             item = [self.richResults objectAtIndex:0];
         }
         else{
@@ -2767,10 +2769,10 @@ int originYear = 0;
     if (albumView && [self.richResults count]>0){
         return albumViewHeight + 2;
     }
-    else if (episodesView  && [self.richResults count]>0 && !(tableView == self.searchDisplayController.searchResultsTableView)){
+    else if (episodesView  && [self.richResults count]>0 && !(self.searchController.showsSearchResultsController)){
         return albumViewHeight + 2;
     }
-    else if (section!=0 || tableView == self.searchDisplayController.searchResultsTableView){
+    else if (section!=0 || self.searchController.showsSearchResultsController){
         return sectionHeight;
     }
     if ([[self.sections allKeys] count] == 1){
@@ -2793,8 +2795,8 @@ int originYear = 0;
     UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     bar.isVisible = YES;
     if (enableCollectionView == YES){ // temp hack to avoid the iOS7 search bar disappearing!!!
-        [self.searchDisplayController.searchBar removeFromSuperview];
-        [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+        [self.searchController.searchBar removeFromSuperview];
+        [activeLayoutView addSubview:self.searchController.searchBar];
     }
 }
 
@@ -2814,7 +2816,7 @@ int originYear = 0;
 
 // iOS7 scrolling performance boost for a UITableView/UICollectionView with a custom UISearchBar header
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (!hideSearchBarActive || [scrollView isEqual:self.searchDisplayController.searchResultsTableView]) return;
+    if (!hideSearchBarActive || self.searchController.showsSearchResultsController) return;
     NSArray *paths;
     NSIndexPath *searchBarPath;
     NSInteger sectionNumber = [self.sections count] > 1 ? 1 : 0;
@@ -2831,8 +2833,8 @@ int originYear = 0;
         if ([paths containsObject:searchBarPath]){
             bar.isVisible = YES;
             if (enableCollectionView == YES){ // temp hack to avoid the iOS7 search bar disappearing!!!
-                [self.searchDisplayController.searchBar removeFromSuperview];
-                [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+                [self.searchController.searchBar removeFromSuperview];
+                [activeLayoutView addSubview:self.searchController.searchBar];
             }
         }
         else{
@@ -2870,57 +2872,6 @@ int originYear = 0;
     numFilteredResults = (int)[self.filteredListContent count];
 }
 
-
-#pragma mark -
-#pragma mark UISearchDisplayController Delegate Methods
-
-- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
-    ((UITableView *)activeLayoutView).pullToRefreshView.alpha = 0;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-        enableIpadWA = YES;
-        [[activeLayoutView superview] addSubview:self.searchDisplayController.searchBar];
-        [self.searchDisplayController.searchResultsTableView setContentOffset:CGPointMake(0, 0)];
-    }
-    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
-    bar.isVisible = YES;
-}
-
-- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
-    controller.searchResultsTableView.backgroundColor = [UIColor blackColor];
-    if (longPressGesture == nil){
-        longPressGesture = [UILongPressGestureRecognizer new];
-        [longPressGesture addTarget:self action:@selector(handleLongPress)];
-    }
-    [collectionView removeGestureRecognizer:longPressGesture];
-    [self.searchDisplayController.searchResultsTableView addGestureRecognizer:longPressGesture];
-    if (enableCollectionView){
-        self.indexView.hidden = YES;
-    }
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        [activeLayoutView setFrame:CGRectMake(((UITableView *)activeLayoutView).frame.origin.x, ((UITableView *)activeLayoutView).frame.origin.y - 44, ((UITableView *)activeLayoutView).frame.size.width, ((UITableView *)activeLayoutView).frame.size.height)];
-    }
-}
-
--(void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
-    if (longPressGesture) {
-        [self.searchDisplayController.searchResultsTableView removeGestureRecognizer:longPressGesture];
-    }
-    if (enableCollectionView){
-        if ([[self.indexView indexTitles] count] > 1){
-            self.indexView.hidden = NO;
-        }
-        [collectionView addGestureRecognizer:longPressGesture];
-    }
-    if (enableIpadWA == YES){
-        [activeLayoutView addSubview:self.searchDisplayController.searchBar];
-        [self.searchDisplayController.searchResultsTableView setContentOffset:CGPointMake(0, 0)];
-    }
-    [self.searchDisplayController.searchBar layoutSubviews];
-    UINavigationBar *newBar = self.navigationController.navigationBar;
-    UIImageView *navBarHairlineImageView = [self findHairlineImageViewUnder:newBar];
-    navBarHairlineImageView.hidden = YES;
-}
-
 - (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
     if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
         return (UIImageView *)view;
@@ -2934,39 +2885,10 @@ int originYear = 0;
     return nil;
 }
 
-- (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationBeginsFromCurrentState:YES];
-        [UIView setAnimationDuration:0.3];
-        [activeLayoutView setFrame:CGRectMake(((UITableView *)activeLayoutView).frame.origin.x, ((UITableView *)activeLayoutView).frame.origin.y + 44, ((UITableView *)activeLayoutView).frame.size.width, ((UITableView *)activeLayoutView).frame.size.height)];
-        [UIView commitAnimations];
-    }
-    ((UITableView *)activeLayoutView).pullToRefreshView.alpha = 1;
-    
-}
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
-    [self filterContentForSearchText:searchString scope:
-     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
-}
-
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption{
-    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:
-     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
-}
-
 - (id)getCell:(NSIndexPath *)indexPath {
     id cell;
-    if ([self.searchDisplayController isActive]){
-        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    if ([self.searchController isActive]){
+        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -3012,18 +2934,16 @@ NSIndexPath *selected;
         CGPoint selectedPoint;
         NSIndexPath *indexPath = nil;
         NSIndexPath *indexPath2 = nil;
-        if (enableCollectionView && ![self.searchDisplayController isActive]){
+        if (enableCollectionView && ![self.searchController isActive]){
             p = [longPressGesture locationInView:collectionView];
             selectedPoint=[longPressGesture locationInView:self.view];
             indexPath = [collectionView indexPathForItemAtPoint:p];
-           
-        }
-        else{
+        }else{
             p = [lpgr locationInView:dataList];
             selectedPoint=[lpgr locationInView:self.view];
             indexPath = [dataList indexPathForRowAtPoint:p];
-            CGPoint p2 = [longPressGesture locationInView:self.searchDisplayController.searchResultsTableView];
-            indexPath2 = [self.searchDisplayController.searchResultsTableView indexPathForRowAtPoint:p2];
+           CGPoint p2 = [longPressGesture locationInView:dataList];
+           indexPath2 = [dataList indexPathForRowAtPoint:p2];
         }
         
         if (indexPath != nil || indexPath2 != nil ){
@@ -3038,11 +2958,11 @@ NSIndexPath *selected;
             NSInteger numActions = [sheetActions count];
             if (numActions){
                 NSDictionary *item = nil;
-                if ([self.searchDisplayController isActive]){
+                if ([self.searchController isActive]){
                     selected=indexPath2;
                     selectedPoint=[longPressGesture locationInView:self.view];
                     item = [self.filteredListContent objectAtIndex:indexPath2.row];
-                    [self.searchDisplayController.searchResultsTableView selectRowAtIndexPath:indexPath2 animated:NO scrollPosition:UITableViewScrollPositionNone];
+                    [dataList selectRowAtIndexPath:indexPath2 animated:NO scrollPosition:UITableViewScrollPositionNone];
                 }
                 else{                    
                     if (enableCollectionView){
@@ -3119,10 +3039,10 @@ NSIndexPath *selected;
     id cell;
     UITableView *tableView;
     BOOL isTableView = FALSE;
-    if ([self.searchDisplayController isActive]){
-        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    if ([self.searchController isActive]){
+        cell = [dataList cellForRowAtIndexPath:indexPath];
         isTableView = TRUE;
-        tableView = self.searchDisplayController.searchResultsTableView;
+        tableView = dataList;
     }
     else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -3223,7 +3143,7 @@ NSIndexPath *selected;
     if (buttonIndex!=actionSheet.cancelButtonIndex){
         NSMutableDictionary *item = nil;
         if (selected != nil){
-            if ([self.searchDisplayController isActive]){
+            if ([self.searchController isActive]){
                 item = [self.filteredListContent objectAtIndex:selected.row];
             }
             else{
@@ -3430,8 +3350,8 @@ NSIndexPath *selected;
     }
     else{
         forceMusicAlbumMode = NO;
-        if ([self.searchDisplayController isActive]){
-            [self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selected animated:NO];
+        if ([self.searchController isActive]){
+            [dataList deselectRowAtIndexPath:selected animated:NO];
         }
         else{
             if (enableCollectionView){
@@ -3769,33 +3689,6 @@ NSIndexPath *selected;
     }
     [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:
                       [NSDictionary dictionaryWithObjectsAndKeys:smartplaylist, @"partymode", nil], @"item", nil] index:indexPath];
-//    id cell;
-//    if ([self.searchDisplayController isActive]){
-//        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
-//    }
-//    else if (enableCollectionView){
-//        cell = [collectionView cellForItemAtIndexPath:indexPath];
-//    }
-//    else{
-//        cell = [dataList cellForRowAtIndexPath:indexPath];
-//    }
-//    UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
-//    [queuing startAnimating];
-//    [jsonRPC
-//     callMethod:@"Player.Open"
-//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-//                     [NSDictionary dictionaryWithObjectsAndKeys:smartplaylist, @"partymode", nil], @"item", nil]
-//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//         [queuing stopAnimating];
-//
-//         if (error==nil && methodError==nil){
-//             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-//             [self showNowPlaying];
-//         }
-////         else {
-////             NSLog(@"errore %@",methodError);
-////         }
-//     }];
 }
 
 -(void)exploreItem:(NSDictionary *)item{
@@ -3859,8 +3752,8 @@ NSIndexPath *selected;
 
 -(void)openWithVLC:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath{
     id cell;
-    if ([self.searchDisplayController isActive]){
-        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    if ([self.searchController isActive]){
+        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -3900,8 +3793,8 @@ NSIndexPath *selected;
         return;
     }
     id cell;
-    if ([self.searchDisplayController isActive]){
-        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    if ([self.searchController isActive]){
+        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -3920,8 +3813,8 @@ NSIndexPath *selected;
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [queuing stopAnimating];
-               if ([self.searchDisplayController isActive]){
-                   [self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:indexPath animated:NO];
+               if ([self.searchController isActive]){
+                  [dataList deselectRowAtIndexPath:indexPath animated:NO];
                }
                else{
                    if (enableCollectionView){
@@ -3932,7 +3825,7 @@ NSIndexPath *selected;
                    }
                }
                if (error == nil && methodError == nil) {
-                   [self.searchDisplayController setActive:NO animated:NO];
+                   [self.searchController setActive:NO];
                    [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3f Alpha:1.0 XPos:viewWidth];
                    [self startRetrieveDataWithRefresh:YES];
                }
@@ -3982,8 +3875,8 @@ NSIndexPath *selected;
         }
     }
     id cell;
-    if ([self.searchDisplayController isActive]){
-        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    if ([self.searchController isActive]){
+        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -4000,8 +3893,8 @@ NSIndexPath *selected;
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [queuing stopAnimating];
-               if ([self.searchDisplayController isActive]){
-                   [self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:indexPath animated:NO];
+               if ([self.searchController isActive]){
+                   [dataList deselectRowAtIndexPath:indexPath animated:NO];
                }
                else{
                    if (enableCollectionView){
@@ -4052,8 +3945,8 @@ NSIndexPath *selected;
 -(void)addQueue:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath afterCurrentItem:(BOOL)afterCurrent{
 //    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     id cell;
-    if ([self.searchDisplayController isActive]){
-        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    if ([self.searchController isActive]){
+        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -4133,8 +4026,8 @@ NSIndexPath *selected;
 
 -(void)playerOpen:(NSDictionary *)params index:(NSIndexPath *) indexPath{
     id cell;
-    if ([self.searchDisplayController isActive]){
-        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    if ([self.searchController isActive]){
+        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -4166,8 +4059,8 @@ NSIndexPath *selected;
         return;
     }
     id cell;
-    if ([self.searchDisplayController isActive]){
-        cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+    if ([self.searchController isActive]){
+        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     else if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -4339,7 +4232,7 @@ NSIndexPath *selected;
     MenuItem.subItem.mainLabel=self.navigationItem.title;
     [MenuItem.subItem setMainMethod:nil];
     if ([self.richResults count]>0){
-        [self.searchDisplayController.searchBar resignFirstResponder];
+        [self.searchController.searchBar resignFirstResponder];
         [self showInfo:nil menuItem:MenuItem item:[self.richResults objectAtIndex:0] tabToShow:0];
     }
 }
@@ -4478,8 +4371,8 @@ NSIndexPath *selected;
     
     if (indexPath != nil){
         id cell = nil;
-        if ([self.searchDisplayController isActive]){
-            cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+        if ([self.searchController isActive]){
+            cell = [dataList cellForRowAtIndexPath:indexPath];
         }
         else if (enableCollectionView){
             cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -5261,6 +5154,7 @@ NSIndexPath *selected;
 -(void)displayData{
     [self configureLibraryView];
     [self choseParams];
+    [self.searchController setActive:NO];
     numResults = (int)[self.richResults count];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([self.detailItem enableSection]){
@@ -5344,10 +5238,10 @@ NSIndexPath *selected;
 }
 
 -(void)updateChannelListTableCell {
-    if ([self.searchDisplayController isActive]) {
-        [self.searchDisplayController.searchResultsTableView beginUpdates];
-        [self.searchDisplayController.searchResultsTableView reloadRowsAtIndexPaths:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
-        [self.searchDisplayController.searchResultsTableView endUpdates];
+    if ([self.searchController isActive]) {
+        [dataList beginUpdates];
+        [dataList reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+        [dataList endUpdates];
     }
     [dataList beginUpdates];
     [dataList reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
@@ -5374,10 +5268,11 @@ NSIndexPath *selected;
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [self.searchController setActive:NO];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
     [self.navigationController.navigationBar setTintColor:TINT_COLOR];
-    self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:searchBarColor];
+    self.searchController.searchBar.tintColor = [utils lighterColorForColor:searchBarColor];
     [channelListUpdateTimer invalidate];
     channelListUpdateTimer = nil;
 }
@@ -5402,9 +5297,9 @@ NSIndexPath *selected;
 	if (selection){
 		[dataList deselectRowAtIndexPath:selection animated:NO];
     }
-    selection = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+    selection = [dataList indexPathForSelectedRow];
     if (selection){
-		[self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:selection animated:YES];
+		[dataList deselectRowAtIndexPath:selection animated:YES];
     }
     
     for (selection in [collectionView indexPathsForSelectedItems]) {
@@ -5442,7 +5337,7 @@ NSIndexPath *selected;
         [self.navigationController.navigationBar setTintColor:[utils slightLighterColorForColor:albumColor]];
     }
     if (isViewDidLoad){
-        [activeLayoutView addSubview:self.searchDisplayController.searchBar];
+        [activeLayoutView addSubview:self.searchController.searchBar];
         [self initIpadCornerInfo];
         [self startRetrieveDataWithRefresh:NO];
         isViewDidLoad = FALSE;
@@ -5648,6 +5543,22 @@ NSIndexPath *selected;
     return sortMethod;
 }
 
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+  NSString *searchString = searchController.searchBar.text;
+  [self searchForText:searchString];
+  [dataList reloadData];
+}
+
+- (void)searchForText:(NSString *)searchText
+{
+    // filter here
+    [self.filteredListContent removeAllObjects];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@", searchText];
+    self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
+    numFilteredResults = (int)[self.filteredListContent count];
+}
+
 -(NSString *)getCurrentSortAscDesc:(NSDictionary *)methods withParameters:(NSDictionary *)parameters {
     NSString *sortAscDescSaved = nil;
     if (methods != nil){
@@ -5678,7 +5589,6 @@ NSIndexPath *selected;
     hiddenLabel = [hidden_label_preferenceString boolValue];
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
     isViewDidLoad = YES;
-    iOSYDelta = self.searchDisplayController.searchBar.frame.size.height;
     sectionHeight = 16;
     dataList.tableFooterView = [UIView new];
     epgDict = [[NSMutableDictionary alloc] init];
@@ -5688,21 +5598,40 @@ NSIndexPath *selected;
     localHourMinuteFormatter = [[NSDateFormatter alloc] init];
     [localHourMinuteFormatter setDateFormat:@"HH:mm"];
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];
-    self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
+    dataList.tableFooterView = [UIView new];
+
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        self.searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
+    }
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.delegate = self;
+    self.definesPresentationContext = NO;
+    [self.searchController.searchBar sizeToFit];
+    [self.searchController setActive:NO];
+    self.navigationController.view.backgroundColor = [UIColor blackColor];
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.searchController.searchBar.placeholder = NSLocalizedString(@"Search", nil);
+    iOSYDelta = self.searchController.searchBar.frame.size.height;
+    dataList.tableHeaderView = self.searchController.searchBar;
+
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         if (SYSTEM_VERSION_LESS_THAN(@"11.0")) {
         iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.top = self.searchDisplayController.searchBar.frame.size.height + fabs(iOSYDelta);
+        tableViewInsets.top = self.searchController.searchBar.frame.size.height + fabs(iOSYDelta);
         dataList.contentInset = tableViewInsets;
         dataList.scrollIndicatorInsets = tableViewInsets;
         }
         else {
-            self.edgesForExtendedLayout = 0;
+            self.edgesForExtendedLayout = UIRectEdgeNone;
         }
     }
+    else {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.searchDisplayController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
+    [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
     [dataList setSectionIndexBackgroundColor:[UIColor clearColor]];
     [dataList setSectionIndexTrackingBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
     [dataList setSeparatorInset:UIEdgeInsetsMake(0, 53, 0, 0)];
@@ -5725,7 +5654,7 @@ NSIndexPath *selected;
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     enableBarColor = YES;
     utils = [[Utilities alloc] init];
-    for(UIView *subView in self.searchDisplayController.searchBar.subviews){
+    for(UIView *subView in self.searchController.searchBar.subviews){
         if([subView isKindOfClass: [UITextField class]]){
             [(UITextField *)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
         }
@@ -5794,10 +5723,10 @@ NSIndexPath *selected;
         blackTableSeparator = YES;
         [dataList setSeparatorInset:UIEdgeInsetsZero];
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
-        self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+        dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
-    self.searchDisplayController.searchBar.tintColor = searchBarColor;
-    [self.searchDisplayController.searchBar setBackgroundColor:searchBarColor];
+    self.searchController.searchBar.tintColor = searchBarColor;
+    [self.searchController.searchBar setBackgroundColor:searchBarColor];
     bottomPadding = 0;
     if (@available(iOS 11.0, *)) {
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
@@ -5914,7 +5843,7 @@ NSIndexPath *selected;
     for (NSString *keysV in keys) {
         [self checkUpdateRecordingState: [self.sections objectForKey: keysV] dataInfo:theData];
     }
-    if ([self.searchDisplayController isActive]) {
+    if ([self.searchController isActive]) {
         [self checkUpdateRecordingState:self.filteredListContent dataInfo:theData];
     }
 }
@@ -6019,7 +5948,7 @@ NSIndexPath *selected;
 }
 
 -(void)handleChangeLibraryView{
-    if ([self.searchDisplayController isActive]) return;
+    if ([self.searchController isActive]) return;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([self collectionViewCanBeEnabled] == YES && self.view.superview != nil && ![[methods objectForKey:@"method"] isEqualToString:@""]){

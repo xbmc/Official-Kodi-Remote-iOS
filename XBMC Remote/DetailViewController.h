@@ -24,7 +24,7 @@
 @class PlayFileViewController;
 //@class DetailViewController;
 
-@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>{
+@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating>{
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     DSJSONRPC *jsonRPC;
@@ -158,5 +158,6 @@
 @property (nonatomic,retain) NSArray *sectionArray;
 @property (nonatomic,retain) NSMutableArray *sectionArrayOpen;
 @property (nonatomic,retain) NSMutableArray *extraSectionRichResults;
+@property (strong, nonatomic) UISearchController *searchController;
 
 @end
