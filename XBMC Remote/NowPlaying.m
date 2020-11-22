@@ -3048,10 +3048,10 @@ int currentItemID;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
     float toolbarAlpha = 0.8f;
-    pg_thumb_name = @"blank.png";
+    pg_thumb_name = @"pgbar_thumb.png";
     cellBackgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];
     [self addSegmentControl];
-    pg_thumb_name = @"blank.png";
+    pg_thumb_name = @"pgbar_thumb.png";
     cellBackgroundColor = [UIColor whiteColor];
     bottomPadding = 0;
     if (@available(iOS 11.0, *)) {

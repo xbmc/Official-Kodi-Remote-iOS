@@ -22,7 +22,7 @@
 		self = [nib objectAtIndex:0];
         CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * -0.5);
         volumeSlider.transform = trans;
-        pg_thumb_name = @"blank.png";
+        pg_thumb_name = @"pgbar_thumb_iOS7.png";
         [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
         [volumeSlider setMaximumTrackTintColor:APP_TINT_COLOR];
         [volumeSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
