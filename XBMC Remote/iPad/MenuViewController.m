@@ -264,13 +264,13 @@
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0){
-        iconName = @"connection_off";
+        iconName = @"connection_off.png";
         if ([AppDelegate instance].serverOnLine == YES) {
             if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
-                iconName = @"connection_on";
+                iconName = @"connection_on.png";
             }
             else {
-                iconName = @"connection_on_notcp";
+                iconName = @"connection_on_notcp.png";
             }
         }
         line.hidden = YES;

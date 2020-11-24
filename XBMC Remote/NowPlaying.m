@@ -1997,7 +1997,7 @@ int currentItemID;
             break;
             
         case 5:
-            [self animViews];       
+            [self animViews];
             [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
             break;
             
@@ -2725,21 +2725,19 @@ int currentItemID;
     frame = ProgressSlider.frame;
     frame.origin.y = frame.origin.y - 5;
     ProgressSlider.frame = frame;
-    
+
     NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
-    [items removeObjectAtIndex:0];
-    [items removeObjectAtIndex:1];
-    [items removeObjectAtIndex:2];
-    [items removeObjectAtIndex:3];
-    [items removeObjectAtIndex:4];
-    [items removeObjectAtIndex:5];
+    [items removeObjectAtIndex:14];
+    [items removeObjectAtIndex:13];
+    [items removeObjectAtIndex:10];
+    [items removeObjectAtIndex:8];
     [items removeObjectAtIndex:6];
-    [items removeObjectAtIndex:7];
-    [playlistToolbar setItems:items animated:YES];
+    [items removeObjectAtIndex:4];
+    [items removeObjectAtIndex:2];
+    [items removeObjectAtIndex:0];
+    [playlistToolbar setItems:items animated:NO];
     playlistToolbar.alpha = toolbarAlpha;
-    UIButton *buttonItem=(UIButton *)[self.view viewWithTag:5];
-    [buttonItem removeFromSuperview];
-    
+ 
     nowPlayingView.hidden=NO;
     playlistView.hidden=NO;
     xbmcOverlayImage_iphone.hidden = YES;
