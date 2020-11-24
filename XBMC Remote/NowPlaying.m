@@ -1997,7 +1997,7 @@ int currentItemID;
             break;
             
         case 5:
-            [self animViews];       
+            [self animViews];
             [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
             break;
             
@@ -2726,19 +2726,25 @@ int currentItemID;
     frame.origin.y = frame.origin.y - 5;
     ProgressSlider.frame = frame;
     
+    /* TODO: Find an elegant solution for the following code.
+       Toolbar items defined in xib are:
+       0, 2, 4, 6, 8, 10, 12, 14 = flexible spaces
+       1, 3, 5, 7, 9, 11         = playback control buttons (skip, search, play, pause)
+       13                        = button to switch between NowPlaying and playlist
+       For the iPad toolbar we need to remove the not supported switch-button at
+       index 13 and all flexible spaces execpt the one right of the last playback control
+       button, which is the flexible space at index 12. */
     NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
-    [items removeObjectAtIndex:0];
-    [items removeObjectAtIndex:1];
-    [items removeObjectAtIndex:2];
-    [items removeObjectAtIndex:3];
-    [items removeObjectAtIndex:4];
-    [items removeObjectAtIndex:5];
+    [items removeObjectAtIndex:14];
+    [items removeObjectAtIndex:13];
+    [items removeObjectAtIndex:10];
+    [items removeObjectAtIndex:8];
     [items removeObjectAtIndex:6];
-    [items removeObjectAtIndex:7];
-    [playlistToolbar setItems:items animated:YES];
+    [items removeObjectAtIndex:4];
+    [items removeObjectAtIndex:2];
+    [items removeObjectAtIndex:0];
+    [playlistToolbar setItems:items animated:NO];
     playlistToolbar.alpha = toolbarAlpha;
-    UIButton *buttonItem=(UIButton *)[self.view viewWithTag:5];
-    [buttonItem removeFromSuperview];
     
     nowPlayingView.hidden=NO;
     playlistView.hidden=NO;
