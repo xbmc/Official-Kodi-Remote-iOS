@@ -484,7 +484,7 @@
     volumeSliderView.transform = trans;
     [self.view addSubview:volumeSliderView];
     
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(428, 966, 190, 33)]; //225
+    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(439, 966, 190, 33)]; //225
     [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
     xbmcInfo.titleLabel.minimumScaleFactor = 6.0f / 11.0f;
@@ -493,7 +493,7 @@
     xbmcInfo.titleEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
     xbmcInfo.titleLabel.shadowOffset = CGSizeMake (1.0, 1.0);
-    xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(620, 966, 42, 33)]; //225
