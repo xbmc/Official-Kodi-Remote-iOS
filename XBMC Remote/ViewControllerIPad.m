@@ -514,7 +514,7 @@
     
     [self.view insertSubview:self.nowPlayingController.scrabbingView aboveSubview:rootView];
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
-    [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
+//    [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
     frame = self.nowPlayingController.ProgressSlider.frame;
     frame.origin.x = self.nowPlayingController.ProgressSlider.frame.origin.x + PAD_MENU_TABLE_WIDTH;
     self.nowPlayingController.ProgressSlider.frame=frame;
