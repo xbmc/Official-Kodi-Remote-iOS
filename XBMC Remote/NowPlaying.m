@@ -2694,6 +2694,38 @@ int currentItemID;
 -(void)setIphoneInterface{
     slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
     xbmcOverlayImage.hidden = YES;
+    
+    // Use bigger fonts and move text and bar towards to the cover
+    if (IS_AT_LEAST_IPHONE_X_HEIGHT) {
+        [albumName setFont:[UIFont systemFontOfSize:20]];
+        [songName setFont:[UIFont systemFontOfSize:18]];
+        [artistName setFont:[UIFont systemFontOfSize:16]];
+        [currentTime setFont:[UIFont systemFontOfSize:14]];
+        [duration setFont:[UIFont systemFontOfSize:14]];
+        
+        CGRect frame;
+        frame = nowPlayingView.frame;
+        frame.size.width = frame.size.width;
+        frame.origin.y += 30;
+        frame.size.height -= 2*30;
+        nowPlayingView.frame = frame;
+        
+        frame = ProgressSlider.frame;
+        frame.origin.y -= 5;
+        ProgressSlider.frame = frame;
+        
+        frame = scrabbingView.frame;
+        frame.origin.y -= 5;
+        scrabbingView.frame = frame;
+        
+        frame = songName.frame;
+        frame.origin.y += 10;
+        songName.frame = frame;
+        
+        frame = artistName.frame;
+        frame.origin.y += 15;
+        artistName.frame = frame;
+    }
 }
 
 -(void)setIpadInterface:(float)toolbarAlpha{
@@ -2704,19 +2736,19 @@ int currentItemID;
     frame=albumName.frame;
     frame.origin.y=10;
     albumName.frame=frame;
-    [songName setFont:[UIFont systemFontOfSize:18]];
+    [songName setFont:[UIFont systemFontOfSize:20]];
 
     frame=songName.frame;
     frame.origin.y=frame.origin.y+6;
     songName.frame=frame;
     
-    [artistName setFont:[UIFont systemFontOfSize:16]];
+    [artistName setFont:[UIFont systemFontOfSize:18]];
     frame=artistName.frame;
     frame.origin.y=frame.origin.y+12;
     artistName.frame=frame;
     
-    [currentTime setFont:[UIFont systemFontOfSize:14]];
-    [duration setFont:[UIFont systemFontOfSize:14]];
+    [currentTime setFont:[UIFont systemFontOfSize:16]];
+    [duration setFont:[UIFont systemFontOfSize:16]];
 
     frame=playlistTableView.frame;
     frame.origin.x=slideFrom;
