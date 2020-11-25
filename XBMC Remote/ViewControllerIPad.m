@@ -504,8 +504,8 @@
     [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
     [menuViewController.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
 
-    [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateNormal];
-    [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateHighlighted];
+    [powerButton setImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateNormal];
+    [powerButton setImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
     
