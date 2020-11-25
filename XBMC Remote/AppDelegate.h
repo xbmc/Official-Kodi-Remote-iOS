@@ -60,7 +60,7 @@
 
 #define PAD_MENU_HEIGHT 50.0f
 #define PAD_MENU_INFO_HEIGHT 18.0f
-#define PAD_MENU_TABLE_WIDTH 300.0f;
+#define PAD_MENU_TABLE_WIDTH 300.0f
 
 + (AppDelegate *) instance;
 
