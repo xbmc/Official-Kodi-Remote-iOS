@@ -46,6 +46,7 @@ float startx=14;
 float barwidth=280;
 float cellBarWidth=45;
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
+#define THUMB_SIZE_POS width:60 height:60 padding:0
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
@@ -934,7 +935,7 @@ int currentItemID;
                                          }
                                      }
                                      if ([thumbnailPath isEqualToString:@""]){
-                                         UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
+                                         UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] THUMB_SIZE_POS];
                                          [self setButtonImageAndStartDemo:buttonImage];
                                          [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
                                          if (enableJewel){
@@ -950,11 +951,11 @@ int currentItemID;
                                                  UIImage *buttonImage = nil;
                                                  if (enableJewel){
                                                      thumbnailView.image=image;
-                                                     buttonImage=[self resizeImage:[self imageWithBorderFromImage:image] width:76 height:66 padding:10];
+                                                     buttonImage=[self resizeImage:[self imageWithBorderFromImage:image] THUMB_SIZE_POS];
                                                  }
                                                  else{
                                                      [self changeImage:jewelView image:[self imageWithBorderFromImage:image]];
-                                                     buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                                                     buttonImage=[self resizeImage:jewelView.image THUMB_SIZE_POS];
                                                  }
                                                  [self setButtonImageAndStartDemo:buttonImage];
                                                  Utilities *utils = [[Utilities alloc] init];
@@ -970,7 +971,7 @@ int currentItemID;
                                                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                                               if (error == nil){
                                                                                   
-                                                                                  UIImage *buttonImage=[sf resizeImage:[sf imageWithBorderFromImage:image] width:76 height:66 padding:10];
+                                                                                  UIImage *buttonImage=[sf resizeImage:[sf imageWithBorderFromImage:image] THUMB_SIZE_POS];
                                                                                   [sf setButtonImageAndStartDemo:buttonImage];
                                                                                   Utilities *utils = [[Utilities alloc] init];
                                                                                   newColor = [utils averageColor:image inverse:NO];
@@ -986,7 +987,7 @@ int currentItemID;
                                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                           if (error == nil){
                                                               [sf changeImage:jV image:[sf imageWithBorderFromImage:image]];
-                                                              UIImage *buttonImage=[sf resizeImage:jV.image width:76 height:66 padding:10];
+                                                              UIImage *buttonImage=[sf resizeImage:jV.image THUMB_SIZE_POS];
                                                               [sf setButtonImageAndStartDemo:buttonImage];
                                                               Utilities *utils = [[Utilities alloc] init];
                                                               newColor = [utils averageColor:image inverse:NO];
@@ -1846,13 +1847,13 @@ int currentItemID;
                          if (nowPlayingHidden){
                              UIImage *buttonImage;
                              if ([self enableJewelCases] && thumbnailView.image.size.width){
-                                 buttonImage=[self resizeImage:[self imageWithBorderFromImage:thumbnailView.image] width:76 height:66 padding:10];
+                                 buttonImage=[self resizeImage:[self imageWithBorderFromImage:thumbnailView.image] THUMB_SIZE_POS];
                              }
                              else if (jewelView.image.size.width){
-                                 buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                                 buttonImage=[self resizeImage:jewelView.image THUMB_SIZE_POS];
                              }
                              if (!buttonImage.size.width){
-                                 buttonImage = [self resizeImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] width:76 height:66 padding:10];
+                                 buttonImage = [self resizeImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] THUMB_SIZE_POS];
                              }
                              [button setImage:buttonImage forState:UIControlStateNormal];
                              [button setImage:buttonImage forState:UIControlStateHighlighted];
@@ -2882,11 +2883,9 @@ int currentItemID;
             startFlipDemo = YES;
             UIImage *buttonImage;
             if ([self enableJewelCases]){
-                buttonImage=[self resizeImage:thumbnailView.image width:76 height:66 padding:10];
+                buttonImage=[self resizeImage:thumbnailView.image THUMB_SIZE_POS];
             }
-            else {
-                buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
-            }
+
             if (buttonImage.size.width!=0){
                 [playlistButton setImage:buttonImage forState:UIControlStateNormal];
                 [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
