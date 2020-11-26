@@ -384,6 +384,9 @@ static inline BOOL IsEmpty(id obj) {
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
         bottomPadding = window.safeAreaInsets.bottom;
     }
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        bottomPadding = 10;
+    }
     CGRect frame = bottomToolbar.frame;
     frame.origin.y -= bottomPadding;
     frame.size.height += bottomPadding;
