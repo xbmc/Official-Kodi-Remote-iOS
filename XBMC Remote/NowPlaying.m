@@ -96,6 +96,10 @@ float cellBarWidth=45;
 
 # pragma mark - toolbar management
 
+-(UIImage *)resizeToolbarThumb: (UIImage *)img {
+    return [self resizeImage:img width:34 height:34 padding:0];
+}
+
 -(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
 	[UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
@@ -934,7 +938,7 @@ int currentItemID;
                                          }
                                      }
                                      if ([thumbnailPath isEqualToString:@""]){
-                                         UIImage *buttonImage = [self resizeImage:[UIImage imageNamed:@"coverbox_back.png"] width:76 height:66 padding:10];
+                                         UIImage *buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"coverbox_back.png"]];
                                          [self setButtonImageAndStartDemo:buttonImage];
                                          [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
                                          if (enableJewel){
@@ -950,11 +954,11 @@ int currentItemID;
                                                  UIImage *buttonImage = nil;
                                                  if (enableJewel){
                                                      thumbnailView.image=image;
-                                                     buttonImage=[self resizeImage:[self imageWithBorderFromImage:image] width:76 height:66 padding:10];
+                                                     buttonImage=[self resizeToolbarThumb:[self imageWithBorderFromImage:image]];
                                                  }
                                                  else{
                                                      [self changeImage:jewelView image:[self imageWithBorderFromImage:image]];
-                                                     buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                                                     buttonImage=[self resizeToolbarThumb:jewelView.image];
                                                  }
                                                  [self setButtonImageAndStartDemo:buttonImage];
                                                  Utilities *utils = [[Utilities alloc] init];
@@ -970,7 +974,7 @@ int currentItemID;
                                                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                                               if (error == nil){
                                                                                   
-                                                                                  UIImage *buttonImage=[sf resizeImage:[sf imageWithBorderFromImage:image] width:76 height:66 padding:10];
+                                                                                  UIImage *buttonImage=[sf resizeToolbarThumb:[sf imageWithBorderFromImage:image]];
                                                                                   [sf setButtonImageAndStartDemo:buttonImage];
                                                                                   Utilities *utils = [[Utilities alloc] init];
                                                                                   newColor = [utils averageColor:image inverse:NO];
@@ -986,7 +990,7 @@ int currentItemID;
                                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                           if (error == nil){
                                                               [sf changeImage:jV image:[sf imageWithBorderFromImage:image]];
-                                                              UIImage *buttonImage=[sf resizeImage:jV.image width:76 height:66 padding:10];
+                                                              UIImage *buttonImage=[sf resizeToolbarThumb:jV.image];
                                                               [sf setButtonImageAndStartDemo:buttonImage];
                                                               Utilities *utils = [[Utilities alloc] init];
                                                               newColor = [utils averageColor:image inverse:NO];
@@ -1846,13 +1850,13 @@ int currentItemID;
                          if (nowPlayingHidden){
                              UIImage *buttonImage;
                              if ([self enableJewelCases] && thumbnailView.image.size.width){
-                                 buttonImage=[self resizeImage:[self imageWithBorderFromImage:thumbnailView.image] width:76 height:66 padding:10];
+                                 buttonImage=[self resizeToolbarThumb:[self imageWithBorderFromImage:thumbnailView.image]];
                              }
                              else if (jewelView.image.size.width){
-                                 buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                                 buttonImage=[self resizeToolbarThumb:jewelView.image];
                              }
                              if (!buttonImage.size.width){
-                                 buttonImage = [self resizeImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] width:76 height:66 padding:10];
+                                 buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"xbmc_overlay_small.png"]];
                              }
                              [button setImage:buttonImage forState:UIControlStateNormal];
                              [button setImage:buttonImage forState:UIControlStateHighlighted];
@@ -2906,10 +2910,10 @@ int currentItemID;
             startFlipDemo = YES;
             UIImage *buttonImage;
             if ([self enableJewelCases]){
-                buttonImage=[self resizeImage:thumbnailView.image width:76 height:66 padding:10];
+                buttonImage=[self resizeToolbarThumb:thumbnailView.image];
             }
             else {
-                buttonImage=[self resizeImage:jewelView.image width:76 height:66 padding:10];
+                buttonImage=[self resizeToolbarThumb:jewelView.image];
             }
             if (buttonImage.size.width!=0){
                 [playlistButton setImage:buttonImage forState:UIControlStateNormal];
