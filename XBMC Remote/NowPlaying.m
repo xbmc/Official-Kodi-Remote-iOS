@@ -2710,6 +2710,22 @@ int currentItemID;
         frame.origin.y += 30;
         frame.size.height -= 2*30;
         nowPlayingView.frame = frame;
+        
+        frame = ProgressSlider.frame;
+        frame.origin.y -= 5;
+        ProgressSlider.frame = frame;
+        
+        frame = scrabbingView.frame;
+        frame.origin.y -= 5;
+        scrabbingView.frame = frame;
+        
+        frame = songName.frame;
+        frame.origin.y += 10;
+        songName.frame = frame;
+        
+        frame = artistName.frame;
+        frame.origin.y += 15;
+        artistName.frame = frame;
     }
 }
 
