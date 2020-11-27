@@ -46,7 +46,7 @@ float startx=14;
 float barwidth=280;
 float cellBarWidth=45;
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
-#define THUMB_SIZE_POS width:60 height:60 padding:0
+#define THUMB_SIZE_POS width:65 height:60 padding:0
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
