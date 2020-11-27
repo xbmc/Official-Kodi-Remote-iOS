@@ -1885,7 +1885,7 @@ int currentItemID;
     float iOS7effectDuration = 1.0f;
     BOOL hideLine = NO;
     if (!nowPlayingView.hidden) {
-        hideLine = YES;
+ //       hideLine = YES;
         iOS7effectDuration = 0.0f;
         nowPlayingView.hidden = YES;
         transitionView=nowPlayingView;
@@ -3123,7 +3123,7 @@ int currentItemID;
     
     if (bottomPadding > 0) {
         frame = playlistToolbar.frame;
-        frame.size.height += bottomPadding;
+//        frame.size.height += bottomPadding;
         frame.origin.y -= bottomPadding;
         playlistToolbar.frame = frame;
         
