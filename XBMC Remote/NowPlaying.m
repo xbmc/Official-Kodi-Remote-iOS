@@ -589,6 +589,7 @@ int currentItemID;
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+    ProgressSlider.hidden = YES;
     currentTime.text=@"";
     thumbnailView.image = nil;
     lastThumbnail = @"";
