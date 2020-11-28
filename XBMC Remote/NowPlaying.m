@@ -592,6 +592,7 @@ int currentItemID;
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+    ProgressSlider.hidden = YES;
     currentTime.text=@"";
     thumbnailView.image = nil;
     lastThumbnail = @"";
@@ -1126,6 +1127,7 @@ int currentItemID;
                                  NSString *actualTime=[NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"":[NSString stringWithFormat:@"%02i:", hours], minutes, seconds];
                                  if (updateProgressBar){
                                      currentTime.text=actualTime;
+                                     ProgressSlider.hidden = NO;
                                  }
                                  NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
                                  if (storeSelection)
