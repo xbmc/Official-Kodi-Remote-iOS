@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 //#import "GlobalData.h"
 
-@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate,  NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate, NSURLConnectionDataDelegate>{
+@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate,  NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate>{
 //    GlobalData *obj;
     IBOutlet UITextField *descriptionUI;
     IBOutlet UITextField *ipUI;
