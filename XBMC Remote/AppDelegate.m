@@ -77,7 +77,6 @@ NSMutableArray *hostRightMenuItems;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-    [application setStatusBarStyle:UIStatusBarStyleLightContent];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
