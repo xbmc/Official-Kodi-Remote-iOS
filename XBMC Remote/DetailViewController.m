@@ -4836,7 +4836,7 @@ NSIndexPath *selected;
                              stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
                          }
                          if (![fanartPath isEqualToString:@""]){
-                             fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                             fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
                          }
                          NSString *filetype=@"";
                          if ([[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"]!=nil){
