@@ -32,16 +32,17 @@
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
     if (captureDeviceClass != nil) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettings];
         if ([device hasTorch] && [device hasFlash]){
             [device lockForConfiguration:nil];
             if (on) {
                 [device setTorchMode:AVCaptureTorchModeOn];
-                [device setFlashMode:AVCaptureFlashModeOn];
+                [settings setFlashMode:AVCaptureFlashModeOn];
                 torchIsOn = YES;
                 [iconTorch setImage:[UIImage imageNamed:@"torch_on.png"]];
             } else {
                 [device setTorchMode:AVCaptureTorchModeOff];
-                [device setFlashMode:AVCaptureFlashModeOff];
+                [settings setFlashMode:AVCaptureFlashModeOff];
                 torchIsOn = NO;
                 [iconTorch setImage:[UIImage imageNamed:@"torch.png"]];
             }

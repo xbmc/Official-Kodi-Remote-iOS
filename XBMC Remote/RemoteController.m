@@ -1231,16 +1231,17 @@ NSInteger buttonAction;
     torchIsOn = !torchIsOn;
     if (captureDeviceClass != nil) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettings];
         if ([device hasTorch] && [device hasFlash]){
             [device lockForConfiguration:nil];
             if (torchIsOn) {
                 [device setTorchMode:AVCaptureTorchModeOn];
-                [device setFlashMode:AVCaptureFlashModeOn];
+                [settings setFlashMode:AVCaptureFlashModeOn];
                 torchIsOn = YES;
                 [sender setImage:[UIImage imageNamed:@"torch_on.png"] forState:UIControlStateNormal];
             } else {
                 [device setTorchMode:AVCaptureTorchModeOff];
-                [device setFlashMode:AVCaptureFlashModeOff];
+                [settings setFlashMode:AVCaptureFlashModeOff];
                 torchIsOn = NO;
                 [sender setImage:[UIImage imageNamed:@"torch.png"] forState:UIControlStateNormal];
             }
