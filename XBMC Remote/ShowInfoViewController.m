@@ -611,7 +611,10 @@ int count=0;
 }
 
 -(IBAction)scrollDown:(id)sender{
-    CGPoint bottomOffset = CGPointMake(0, scrollView.contentSize.height - scrollView.bounds.size.height);
+    int height_content = scrollView.contentSize.height;
+    int height_bounds = scrollView.bounds.size.height;
+    int bottom_scroll = (height_content - height_bounds)>0 ? height_content - height_bounds : 0;
+    CGPoint bottomOffset = CGPointMake(0, bottom_scroll);
     [scrollView setContentOffset:bottomOffset animated:YES];
 }
 
@@ -1629,13 +1632,24 @@ int h=0;
             [clearlogoButton addSubview:clearLogoImageView];
         }
         else{
-            [clearlogoButton setTitle:[[item objectForKey:@"showtitle"] length] == 0 ? [item objectForKey:@"label"] :[item objectForKey:@"showtitle"] forState:UIControlStateNormal];
+             [clearlogoButton setTitle:[[item objectForKey:@"showtitle"] length] == 0 ? [item objectForKey:@"label"] :[item objectForKey:@"showtitle"] forState:UIControlStateNormal];
             [clearlogoButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
         }
         [scrollView addSubview:clearlogoButton];
     }
     startY = startY + clearLogoHeight + 20;
     scrollView.contentSize=CGSizeMake(320, startY);
+    
+    // Check if the arrow needs to be displayed (only if content is > visible area)
+    int height_content = scrollView.contentSize.height;
+    int height_bounds = scrollView.bounds.size.height;
+    int height_navbar = self.navigationController.navigationBar.frame.size.height + labelSpace;
+    if (height_content > height_bounds-height_navbar){
+        arrow_continue_down.hidden = NO;
+    }
+    else{
+        arrow_continue_down.hidden = YES;
+    }
 }
 
 -(void)buildTrailerView{
@@ -1786,18 +1800,22 @@ int h=0;
 }
 
 - (void) scrollViewDidScroll: (UIScrollView *) theScrollView{
-    if (arrow_continue_down.alpha && theScrollView.contentOffset.y>40){
+    int height_content = theScrollView.contentSize.height;
+    int height_bounds = theScrollView.bounds.size.height;
+    int scrolled = theScrollView.contentOffset.y;
+    bool at_bottom = scrolled >= height_content-height_bounds;
+    if (arrow_continue_down.hidden==NO && at_bottom==YES){
+        arrow_continue_down.hidden=YES;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:1];
-        arrow_continue_down.alpha=0;
         [UIView commitAnimations];
     }
-    else if (arrow_continue_down.alpha==0 && theScrollView.contentOffset.y<40){
+    else if (arrow_continue_down.hidden==YES && at_bottom==NO){
+        arrow_continue_down.hidden=NO;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:1];
-        arrow_continue_down.alpha=0.5;
         [UIView commitAnimations];
     }
 }
@@ -2218,7 +2236,8 @@ int h=0;
     }
     CGRect frame = arrow_continue_down.frame;
     frame.origin.y -= bottomPadding;
-    [arrow_continue_down setFrame:frame];
+    arrow_continue_down.frame = frame;
+    arrow_continue_down.alpha = 0.5;
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
