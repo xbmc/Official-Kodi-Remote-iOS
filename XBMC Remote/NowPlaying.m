@@ -1124,6 +1124,7 @@ int currentItemID;
                                  NSString *actualTime=[NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"":[NSString stringWithFormat:@"%02i:", hours], minutes, seconds];
                                  if (updateProgressBar){
                                      currentTime.text=actualTime;
+                                     ProgressSlider.hidden = FALSE;
                                  }
                                  NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
                                  if (storeSelection)
