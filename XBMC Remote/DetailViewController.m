@@ -2442,8 +2442,8 @@ int originYear = 0;
                                           [trackCountLabel setShadowColor:albumFontShadowColor];
                                           [releasedLabel setTextColor:albumDetailsColor];
                                           [releasedLabel setShadowColor:albumFontShadowColor];
-                                          if (((NSNull *)[self.searchDisplayController.searchBar valueForKey:@"_searchField"] != [NSNull null])){
-                                              UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"_searchField"];
+                                          UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"searchField"];
+                                          if (searchTextField != nil) {
                                               if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
                                                   UIImageView *iconView = (id)searchTextField.leftView;
                                                   iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
