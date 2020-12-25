@@ -493,6 +493,7 @@
     [descriptionUI setBackgroundColor:[UIColor whiteColor]];
     [ipUI setBackgroundColor:[UIColor whiteColor]];
     [portUI setBackgroundColor:[UIColor whiteColor]];
+    [tcpPortUI setBackgroundColor:[UIColor whiteColor]];
     [usernameUI setBackgroundColor:[UIColor whiteColor]];
     [passwordUI setBackgroundColor:[UIColor whiteColor]];
     [mac_0_UI setBackgroundColor:[UIColor whiteColor]];
