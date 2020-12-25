@@ -911,12 +911,12 @@ int currentItemID;
                                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                                  }
                                  NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
-                                 NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
+                                 NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                                  if (![lastThumbnail isEqualToString:stringURL]){
                                      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
                                          NSString *fanart = (NSNull *)[nowPlayingInfo  objectForKey:@"fanart"] == [NSNull null] ? @"" : [nowPlayingInfo  objectForKey:@"fanart"];
                                          if (![fanart isEqualToString:@""]){
-                                             NSString *fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanart stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
+                                             NSString *fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanart stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                                              [tempFanartImageView setImageWithURL:[NSURL URLWithString:fanartURL]
                                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                                             if (error == nil && image != nil){
@@ -1017,7 +1017,7 @@ int currentItemID;
                                      storeClearlogo = storeClearart;
                                  }
                                  if (![storeClearlogo isEqualToString:@""]){
-                                     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [storeClearlogo stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
+                                     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [storeClearlogo stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                                      [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL]];
                                      storeCurrentLogo = storeClearlogo;
                                  }
@@ -1521,7 +1521,7 @@ int currentItemID;
                            NSString *durationTime=[itemDurationSec longValue]==0 ? @"" : [self convertTimeFromSeconds:itemDurationSec];
 
                            NSString *thumbnail=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"thumbnail"]];
-                           NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnail stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
+                           NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnail stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                            NSNumber *tvshowid =[NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i]  objectForKey:@"tvshowid"]]intValue]];
                            NSString *file=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"file"]];
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1758,10 +1758,10 @@ int currentItemID;
                  NSString *fanartURL=@"";
                  NSString *stringURL = @"";
                  if (![thumbnailPath isEqualToString:@""]){
-                     stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
+                     stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                  }
                  if (![fanartPath isEqualToString:@""]){
-                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
+                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                  }
                  NSString *filetype=@"";
                  
@@ -2142,7 +2142,7 @@ int currentItemID;
         storeCurrentLogo = storeClearart;
     }
     if (![storeCurrentLogo isEqualToString:@""]){
-        NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [storeCurrentLogo stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
+        NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [storeCurrentLogo stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
         [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:itemLogoImage.image];
     }
 }
