@@ -2699,7 +2699,7 @@ int currentItemID;
     xbmcOverlayImage.hidden = YES;
     
     // Use bigger fonts and move text and bar towards to the cover
-    if (IS_IPHONE_X) {
+    if (IS_AT_LEAST_IPHONE_X_HEIGHT) {
         [albumName setFont:[UIFont systemFontOfSize:20]];
         [songName setFont:[UIFont systemFontOfSize:18]];
         [artistName setFont:[UIFont systemFontOfSize:16]];
