@@ -751,9 +751,9 @@
         if ([self.indexView.indexTitles count]>1){
             self.indexView.hidden = NO;
         }
-        self.searchController.searchBar.tintColor = collectionViewSearchBarColor;
         [self.searchController.searchBar setBackgroundColor:collectionViewSearchBarColor];
         self.searchController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
+        self.searchController.searchBar.barStyle = UIBarStyleBlack;
         searchBarColor = collectionViewSearchBarColor;
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view.png"] forState:UIControlStateNormal];
     }
@@ -766,10 +766,9 @@
         [collectionView setScrollsToTop:NO];
         activeLayoutView = dataList;
         self.indexView.hidden = YES;
-        self.searchController.searchBar.tintColor = [UIColor whiteColor];
-        self.searchController.searchBar.backgroundColor = [UIColor blackColor];
+        self.searchController.searchBar.backgroundColor = [UIColor whiteColor];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
-        self.searchController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
+        self.searchController.searchBar.tintColor = tableViewSearchBarColor;
         searchBarColor = tableViewSearchBarColor;
         [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list.png"] forState:UIControlStateNormal];
     }
