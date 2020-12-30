@@ -2008,13 +2008,13 @@ int currentItemID;
             
         case 6:
             action=@"Player.Seek";
-            params=[NSArray arrayWithObjects:@"smallbackward", @"value", nil];
+            params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
             [self playbackAction:action params:params checkPartyMode:NO];
             break;
             
         case 7:
             action=@"Player.Seek";
-            params=[NSArray arrayWithObjects:@"smallforward", @"value", nil];
+            params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
             [self playbackAction:action params:params checkPartyMode:NO];
             break;
                     
@@ -2255,7 +2255,7 @@ int currentItemID;
 }
 
 -(IBAction)startUpdateProgressBar:(id)sender{
-    [self SimpleAction:@"Player.Seek" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playerID], @"playerid", [NSNumber numberWithFloat:ProgressSlider.value], @"value", nil] reloadPlaylist:NO startProgressBar:YES];
+    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:playerID percentage:ProgressSlider.value] reloadPlaylist:NO startProgressBar:YES];
     [self changeAlphaView:scrabbingView alpha:0.0 time:0.3];
 }
 

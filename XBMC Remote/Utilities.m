@@ -145,4 +145,32 @@
     return img;
 }
 
++ (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage{
+    NSDictionary *params = nil;
+    if ([AppDelegate instance].serverVersion < 15){
+        params = @{
+            @"playerid": @(playerID),
+            @"value": @(percentage),
+        };
+    } else
+    {
+        params = @{
+            @"playerid": @(playerID),
+            @"value": @{@"percentage": @(percentage)},
+        };
+    }
+    return params;
+}
+
++ (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode{
+    NSArray *params = nil;
+    if ([AppDelegate instance].serverVersion < 15){
+        params = @[stepmode, @"value"];
+    } else
+    {
+        params = @[ @{@"step": stepmode}, @"value"];
+    }
+    return params;
+}
+
 @end
