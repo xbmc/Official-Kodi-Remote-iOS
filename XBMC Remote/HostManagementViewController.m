@@ -39,7 +39,7 @@
 -(void)modifyHost:(NSIndexPath *)item{
     if (storeServerSelection && item.row == storeServerSelection.row){
         UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:item];
-        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
+        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off.png"]];
         [serverListTableView deselectRowAtIndexPath:item animated:YES];
         cell.accessoryType = UITableViewCellAccessoryNone;
         storeServerSelection = nil;
@@ -115,10 +115,10 @@
             cell.accessoryType=UITableViewCellAccessoryCheckmark;
             if ([AppDelegate instance].serverOnLine == YES) {
                 if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
-                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
+                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on.png"]];
                 }
                 else {
-                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on_notcp"]];
+                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on_notcp.png"]];
                 }
             }
         }
@@ -168,7 +168,7 @@ static inline BOOL IsEmpty(id obj) {
         [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
         [standardUserDefaults synchronize];
     }
-    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
+    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off.png"]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -200,7 +200,7 @@ static inline BOOL IsEmpty(id obj) {
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType=UITableViewCellAccessoryNone;
-    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
+    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off.png"]];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -356,7 +356,7 @@ static inline BOOL IsEmpty(id obj) {
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
     else{
-        UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom_logo_up"]];
+        UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom_logo_up.png"]];
         self.navigationItem.titleView = xbmcLogoView;
     }
 }
@@ -383,6 +383,9 @@ static inline BOOL IsEmpty(id obj) {
     if (@available(iOS 11.0, *)) {
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
         bottomPadding = window.safeAreaInsets.bottom;
+    }
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        bottomPadding = 10;
     }
     CGRect frame = bottomToolbar.frame;
     frame.origin.y -= bottomPadding;
@@ -460,14 +463,14 @@ static inline BOOL IsEmpty(id obj) {
         connectingActivityIndicator.frame = frame;
         
         UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 107, 37)];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateNormal];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateHighlighted];
+        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone.png"] forState:UIControlStateNormal];
+        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone.png"] forState:UIControlStateHighlighted];
         xbmcLogo.showsTouchWhenHighlighted = NO;
         [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogo;
-        UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+        UIImage* menuImg = [UIImage imageNamed:@"button_menu.png"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings.png"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealUnderRight:)];
     }
     doRevealMenu = YES;

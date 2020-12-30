@@ -95,7 +95,7 @@ int count=0;
         UIBarButtonItem *extraButton = nil;
         int titleWidth = 350;
         if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon.png"];
             if (fromAlbumView){
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
@@ -105,12 +105,12 @@ int count=0;
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon.png"];
             extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon.png"];
             if (fromEpisodesView){
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
@@ -611,7 +611,10 @@ int count=0;
 }
 
 -(IBAction)scrollDown:(id)sender{
-    CGPoint bottomOffset = CGPointMake(0, scrollView.contentSize.height - scrollView.bounds.size.height);
+    int height_content = scrollView.contentSize.height;
+    int height_bounds = scrollView.bounds.size.height;
+    int bottom_scroll = MAX(height_content - height_bounds, 0);
+    CGPoint bottomOffset = CGPointMake(0, bottom_scroll);
     [scrollView setContentOffset:bottomOffset animated:YES];
 }
 
@@ -847,7 +850,7 @@ int h=0;
         if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
             GlobalData *obj=[GlobalData getInstance];
             if (obj.preferTVPosters==NO && [AppDelegate instance].serverVersion < 12){
-                placeHolderImage = @"";
+                placeHolderImage = @"blank.png";
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                     coverHeight=70;
                     deltaY=coverView.frame.size.height - coverHeight;
@@ -901,16 +904,14 @@ int h=0;
             NSDate *date = [format dateFromString:[item objectForKey:@"premiered"]];
             [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
             genreLabel.text = date == nil ? @"-" : [format stringFromDate:date];
-            if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-                [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
+            if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
                 runtimeLabel.text=[[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
                 runtimeLabel.text=[runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
             }
             else{
                 runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
             }
-            if ([[item objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-                [[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
+            if ([[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
                 studioLabel.text=[[item objectForKey:@"studio"] componentsJoinedByString:@" / "];
                 studioLabel.text=[studioLabel.text length]==0 ? @"-" : studioLabel.text;
             }
@@ -971,16 +972,14 @@ int h=0;
                 aired = [format stringFromDate:date];
             }
             genreLabel.text = aired;
-            if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-                [[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
+            if ([[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
                 runtimeLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
                 runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
             }
             else{
                 runtimeLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
             }
-            if ([[item objectForKey:@"writer"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-                [[item objectForKey:@"writer"] isKindOfClass:[NSArray class]]){
+            if ([[item objectForKey:@"writer"] isKindOfClass:[NSArray class]]){
                 studioLabel.text = [[item objectForKey:@"writer"] componentsJoinedByString:@" / "];
                 studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
             }
@@ -1050,8 +1049,7 @@ int h=0;
             frame.origin.x = 80;
         }
         coverView.frame = frame;
-        if ([[item objectForKey:@"artist"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"artist"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"artist"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"artist"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
         }
@@ -1059,8 +1057,7 @@ int h=0;
             directorLabel.text = [[item objectForKey:@"artist"] length] == 0 ? @"-" : [item objectForKey:@"artist"];
         }
         genreLabel.text = [[item objectForKey:@"year"] length] == 0 ? @"-" : [item objectForKey:@"year"];
-        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
             runtimeLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
             runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
         }
@@ -1098,8 +1095,7 @@ int h=0;
         starsView.hidden = YES;
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
-        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
         }
@@ -1107,8 +1103,7 @@ int h=0;
             directorLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
         }
         
-        if ([[item objectForKey:@"style"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"style"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"style"] isKindOfClass:[NSArray class]]){
             genreLabel.text = [[item objectForKey:@"style"] componentsJoinedByString:@" / "];
             genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
         }
@@ -1129,8 +1124,7 @@ int h=0;
         genreLabel.frame = newFrame;
         [self moveLabel:[NSArray arrayWithObjects:label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(expectedLabelSize.height - labelSpace)];
         
-        if ([[item objectForKey:@"born"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"born"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"born"] isKindOfClass:[NSArray class]]){
             studioLabel.text = [[item objectForKey:@"born"] componentsJoinedByString:@" / "];
             studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
         }
@@ -1138,8 +1132,7 @@ int h=0;
             studioLabel.text = [[item objectForKey:@"born"] length] == 0 ? @"-" : [item objectForKey:@"born"];
         }
         
-        if ([[item objectForKey:@"formed"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"formed"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"formed"] isKindOfClass:[NSArray class]]){
             studioLabel.text = [[item objectForKey:@"formed"] componentsJoinedByString:@" / "];
             studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
         }
@@ -1226,7 +1219,7 @@ int h=0;
             dotSize = 10.0f;
             dotSizePadding = 4.0f;
             isRecording = [[UIImageView alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y + (frame.size.height/2.0f - dotSize/2.0f), dotSize, dotSize)];
-            [isRecording setImage:[UIImage imageNamed:@"button_timer"]];
+            [isRecording setImage:[UIImage imageNamed:@"button_timer.png"]];
             [isRecording setContentMode:UIViewContentModeScaleAspectFill];
             isRecording.alpha = 0.0f;
             [isRecording setBackgroundColor:[UIColor clearColor]];
@@ -1240,7 +1233,7 @@ int h=0;
         }
         [item setValue:[item objectForKey:@"label"] forKey:@"rating"];
         [item setValue:[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_icon"] forKey:@"thumbnail"];
-        placeHolderImage = @"nocover_channels";
+        placeHolderImage = @"nocover_channels.png";
         NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
         NSDateFormatter *localFormatter = [[NSDateFormatter alloc] init];
@@ -1260,7 +1253,7 @@ int h=0;
         else {
             directorLabel.text = @"-";
         }
-//        UIImage *buttonImage = [UIImage imageNamed:@"button_record"];
+//        UIImage *buttonImage = [UIImage imageNamed:@"button_record.png"];
 //        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
 //        recordButton.frame = CGRectMake(0, 0, 200.0f, 29.0f);
 //        [recordButton setImage:buttonImage forState:UIControlStateNormal];
@@ -1301,8 +1294,7 @@ int h=0;
             int deltaY = -(coverHeight - originalHeight);
             [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
         }
-        if ([[item objectForKey:@"director"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
         }
@@ -1310,8 +1302,7 @@ int h=0;
             directorLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
         }
         directorLabel.text = [[item objectForKey:@"year"] length] == 0 ? directorLabel.text : [NSString stringWithFormat:@"%@ (%@)", directorLabel.text, [item objectForKey:@"year"]];
-        if ([[item objectForKey:@"genre"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
             genreLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
             genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
         }
@@ -1319,8 +1310,7 @@ int h=0;
             genreLabel.text = [[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
         }
         runtimeLabel.text = [[item objectForKey:@"runtime"] length]==0 ? @"-" : [item objectForKey:@"runtime"];
-        if ([[item objectForKey:@"studio"] isKindOfClass:NSClassFromString(@"JKArray")] ||
-            [[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
+        if ([[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
             studioLabel.text = [[item objectForKey:@"studio"] componentsJoinedByString:@" / "];
             studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
         }
@@ -1406,7 +1396,7 @@ int h=0;
         }
         else{
             [fanartView setImageWithURL:[NSURL URLWithString:fanartPath]
-                       placeholderImage:[UIImage imageNamed:@""]
+                       placeholderImage:[UIImage imageNamed:@"blank.png"]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                   if (inEnableKenBurns){
                                       [sf elabKenBurns:image];
@@ -1581,7 +1571,7 @@ int h=0;
                     </html>";
                     [trailerView loadHTMLString:blackPage baseURL:nil];
                     UIButton *playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                    UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
+                    UIImage *playTrailerImg = [UIImage imageNamed:@"button_play.png"];
                     [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
                     [playTrailerButton setFrame:CGRectMake(0, 0, trailerView.frame.size.width, trailerView.frame.size.height)];
                     [playTrailerButton addTarget:self action:@selector(loadUrl:) forControlEvents:UIControlEventTouchUpInside];
@@ -1637,8 +1627,8 @@ int h=0;
             clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
             [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
             [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
-            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-            [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
+            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+            [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank.png"]];
             [clearlogoButton addSubview:clearLogoImageView];
         }
         else{
@@ -1649,6 +1639,12 @@ int h=0;
     }
     startY = startY + clearLogoHeight + 20;
     scrollView.contentSize=CGSizeMake(320, startY);
+    
+    // Check if the arrow needs to be displayed (only if content is > visible area)
+    int height_content = scrollView.contentSize.height;
+    int height_bounds = scrollView.bounds.size.height;
+    int height_navbar = self.navigationController.navigationBar.frame.size.height + labelSpace;
+    arrow_continue_down.hidden = (height_content <= height_bounds-height_navbar);
 }
 
 -(void)buildTrailerView{
@@ -1799,18 +1795,22 @@ int h=0;
 }
 
 - (void) scrollViewDidScroll: (UIScrollView *) theScrollView{
-    if (arrow_continue_down.alpha && theScrollView.contentOffset.y>40){
+    int height_content = theScrollView.contentSize.height;
+    int height_bounds = theScrollView.bounds.size.height;
+    int scrolled = theScrollView.contentOffset.y;
+    bool at_bottom = scrolled >= height_content-height_bounds;
+    if (!arrow_continue_down.hidden && at_bottom){
+        arrow_continue_down.hidden=YES;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:1];
-        arrow_continue_down.alpha=0;
         [UIView commitAnimations];
     }
-    else if (arrow_continue_down.alpha==0 && theScrollView.contentOffset.y<40){
+    else if (arrow_continue_down.hidden && !at_bottom){
+        arrow_continue_down.hidden=NO;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:1];
-        arrow_continue_down.alpha=0.5;
         [UIView commitAnimations];
     }
 }
@@ -1859,7 +1859,7 @@ int h=0;
     if ([AppDelegate instance].serverVersion > 11){
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
-    NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+    NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
     [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"] andResize:CGSizeMake(castWidth, castHeight)];
     cell.actorName.text = [[cast objectAtIndex:indexPath.row] objectForKey:@"name"] == nil ? [self.detailItem objectForKey:@"label"] : [[cast objectAtIndex:indexPath.row] objectForKey:@"name"];
     if ([[[cast objectAtIndex:indexPath.row] objectForKey:@"role"] length] != 0){
@@ -1871,7 +1871,7 @@ int h=0;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([AppDelegate instance].serverVersion > 11  && ![self isModal]) {
-        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected.png"]];
         cell.accessoryView.alpha = 0.5f;
     }
     else {
@@ -1913,7 +1913,7 @@ int h=0;
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
                     NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stringURL]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stringURL] options:@{} completionHandler:nil];
                     [activityIndicatorView stopAnimating];
                     self.navigationItem.rightBarButtonItem.enabled=YES;
                 }
@@ -2232,6 +2232,7 @@ int h=0;
     CGRect frame = arrow_continue_down.frame;
     frame.origin.y -= bottomPadding;
     [arrow_continue_down setFrame:frame];
+    arrow_continue_down.alpha = 0.5;
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

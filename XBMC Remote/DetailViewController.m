@@ -636,13 +636,13 @@
     }
 
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
-    self.navigationItem.title = [NSString stringWithFormat:NSLocalizedString(@"More (%d)", nil), (count - MAX_NORMAL_BUTTONS)];
+    self.navigationItem.title = [NSString stringWithFormat:NSLocalizedString(@"More (%ld)", nil), (long)(count - MAX_NORMAL_BUTTONS)];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.3];
         topNavigationLabel.alpha = 0;
         [UIView commitAnimations];
-        topNavigationLabel.text = [NSString stringWithFormat:NSLocalizedString(@"More (%d)", nil), (count - MAX_NORMAL_BUTTONS)];
+        topNavigationLabel.text = [NSString stringWithFormat:NSLocalizedString(@"More (%ld)", nil), (long)(count - MAX_NORMAL_BUTTONS)];
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.1];
         topNavigationLabel.alpha = 1;
@@ -755,7 +755,7 @@
         [self.searchDisplayController.searchBar setBackgroundColor:collectionViewSearchBarColor];
         self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
         searchBarColor = collectionViewSearchBarColor;
-        [bar.leftButton setImage:[UIImage imageNamed:@"button_view"] forState:UIControlStateNormal];
+        [bar.leftButton setImage:[UIImage imageNamed:@"button_view.png"] forState:UIControlStateNormal];
     }
     else{
         [dataList setDelegate:self];
@@ -770,7 +770,7 @@
         [self.searchDisplayController.searchBar setBackgroundColor:tableViewSearchBarColor];
         self.searchDisplayController.searchBar.tintColor = [utils lighterColorForColor:tableViewSearchBarColor];
         searchBarColor = tableViewSearchBarColor;
-        [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
+        [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list.png"] forState:UIControlStateNormal];
     }
     if (!isViewDidLoad){
         [activeLayoutView addSubview:self.searchDisplayController.searchBar];
@@ -813,7 +813,7 @@
     self.indexView.hidden = YES;
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     if (choosedTab < [buttonsIB count]){
-        [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
+        [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateSelected];
     }
     watchMode = 0;
     startTime = 0;
@@ -1403,10 +1403,10 @@
         }
 
         if (![fanartURL isEqualToString:@""]){
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@""]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank.png"]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
         }
         else {
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@""]];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"blank.png"]];
         }
         
         [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:fanartFontSize + 8]];
@@ -1782,7 +1782,7 @@ int originYear = 0;
         int numResult = (int)[self.filteredListContent count];
         if (numResult){
             if (numResult!=1)
-                return [NSString stringWithFormat:NSLocalizedString(@"%d results", nil), [self.filteredListContent count]];
+                return [NSString stringWithFormat:NSLocalizedString(@"%lu results", nil), (unsigned long)[self.filteredListContent count]];
             else {
                 return NSLocalizedString(@"1 result", nil);
             }
@@ -2029,7 +2029,7 @@ int originYear = 0;
             [cell.contentView addSubview:progressView];
             
             UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake((int)((2 + (epgChannelTimeLabelWidth - 8) - 6) / 2), programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 14, 12, 12)];
-            [hasTimer setImage:[UIImage imageNamed:@"button_timer"]];
+            [hasTimer setImage:[UIImage imageNamed:@"button_timer.png"]];
             hasTimer.tag = 104;
             hasTimer.hidden = YES;
             [hasTimer setBackgroundColor:[UIColor clearColor]];
@@ -2044,7 +2044,7 @@ int originYear = 0;
             
             float dotSize = 6.0f;
             UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2.0f - dotSize/2.0f, progressView.frame.origin.y + [progressView getPieRadius]/2.0f + [progressView getLineWidth] + 0.5f, dotSize, dotSize)];
-            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer"]];
+            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer.png"]];
             [isRecordingImageView setContentMode:UIViewContentModeScaleToFill];
             isRecordingImageView.tag = 104;
             isRecordingImageView.hidden = YES;
@@ -2442,8 +2442,8 @@ int originYear = 0;
                                           [trackCountLabel setShadowColor:albumFontShadowColor];
                                           [releasedLabel setTextColor:albumDetailsColor];
                                           [releasedLabel setShadowColor:albumFontShadowColor];
-                                          if (((NSNull *)[self.searchDisplayController.searchBar valueForKey:@"_searchField"] != [NSNull null])){
-                                              UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"_searchField"];
+                                          UITextField *searchTextField = [self.searchDisplayController.searchBar valueForKey:@"searchField"];
+                                          if (searchTextField != nil) {
                                               if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
                                                   UIImageView *iconView = (id)searchTextField.leftView;
                                                   iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -2465,7 +2465,7 @@ int originYear = 0;
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
             fanartBackgroundImage.alpha = 0.1f;
             [fanartBackgroundImage setClipsToBounds:YES];
-            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@""]];
+            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank.png"]];
             [albumDetailView addSubview:fanartBackgroundImage];
         }
         [thumbImageContainer addSubview:thumbImageView];
@@ -2537,7 +2537,7 @@ int originYear = 0;
 //        UIButton *albumPlaybackButton =  [UIButton buttonWithType:UIButtonTypeCustom];
 //        albumPlaybackButton.tag = 0;
 //        albumPlaybackButton.showsTouchWhenHighlighted = YES;
-//        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
+//        UIImage *btnImage = [UIImage imageNamed:@"button_play.png"];
 //        [albumPlaybackButton setImage:btnImage forState:UIControlStateNormal];
 //        albumPlaybackButton.alpha = .8f;
 //        int playbackOriginX = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)]] intValue];
@@ -2561,8 +2561,8 @@ int originYear = 0;
             button.tag = 99;
             button.alpha = .5;
             button.frame = CGRectMake(3.0, (int)(albumViewHeight / 2) - 6, 11.0, 11.0);
-            [button setImage:[UIImage imageNamed:@"arrow_close"] forState:UIControlStateNormal];
-            [button setImage:[UIImage imageNamed:@"arrow_open"] forState:UIControlStateSelected];
+            [button setImage:[UIImage imageNamed:@"arrow_close.png"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"arrow_open.png"] forState:UIControlStateSelected];
 //            [button addTarget:self action:@selector(toggleOpen:) forControlEvents:UIControlEventTouchUpInside];
             if ([[self.sectionArrayOpen objectAtIndex:section] boolValue] == TRUE){
                 [button setSelected:YES];
@@ -2614,7 +2614,7 @@ int originYear = 0;
             
             UIImageView *thumbImageShadowView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace - 3, albumViewPadding - 3, seasonThumbWidth + 6, albumViewHeight - (albumViewPadding * 2) + 6)];
             [thumbImageShadowView setContentMode:UIViewContentModeScaleToFill];
-            thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow"];
+            thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow.png"];
             [albumDetailView addSubview:thumbImageShadowView];
             
             UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2), (albumViewPadding / 2), viewWidth - albumViewHeight - albumViewPadding, artistFontSize + labelPadding)];
@@ -3471,7 +3471,7 @@ NSIndexPath *selected;
         searchString = self.navigationItem.title;
         forceMusicAlbumMode = NO;
     }
-    NSString *query = [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *query = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 	NSString *url = [NSString stringWithFormat:serviceURL, query]; 
 	NSURL *_url = [NSURL URLWithString:url];    
     self.webViewController.urlRequest = [NSURLRequest requestWithURL:_url];
@@ -3637,7 +3637,7 @@ NSIndexPath *selected;
                                               animations:^{
                                                   collectionView.alpha = 1;
                                                   dataList.alpha = 1;
-                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
+                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen.png"] forState:UIControlStateNormal];
                                                   fullscreenButton.backgroundColor = [UIColor clearColor];
                                               }
                                               completion:^(BOOL finished) {
@@ -3704,7 +3704,7 @@ NSIndexPath *selected;
                                                  options:UIViewAnimationOptionCurveEaseInOut
                                               animations:^{
                                                   collectionView.alpha = 1;
-                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen"] forState:UIControlStateNormal];
+                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen.png"] forState:UIControlStateNormal];
                                                   fullscreenButton.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
                                               }
                                               completion:^(BOOL finished) {
@@ -3883,7 +3883,7 @@ NSIndexPath *selected;
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
                     NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stringURL]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stringURL] options:@{} completionHandler:nil];
                     [queuing stopAnimating];
                 }
             }
@@ -4410,44 +4410,44 @@ NSIndexPath *selected;
     if (elapsedTime > WARNING_TIMEOUT && longTimeout == nil){
         longTimeout = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 111, 56)];
         longTimeout.animationImages = [NSArray arrayWithObjects:    
-                                       [UIImage imageNamed:@"monkeys_1"],
-                                       [UIImage imageNamed:@"monkeys_2"],
-                                       [UIImage imageNamed:@"monkeys_3"],
-                                       [UIImage imageNamed:@"monkeys_4"],
-                                       [UIImage imageNamed:@"monkeys_5"],
-                                       [UIImage imageNamed:@"monkeys_6"],
-                                       [UIImage imageNamed:@"monkeys_7"],
-                                       [UIImage imageNamed:@"monkeys_8"],
-                                       [UIImage imageNamed:@"monkeys_9"],
-                                       [UIImage imageNamed:@"monkeys_10"],
-                                       [UIImage imageNamed:@"monkeys_11"],
-                                       [UIImage imageNamed:@"monkeys_12"],
-                                       [UIImage imageNamed:@"monkeys_13"],
-                                       [UIImage imageNamed:@"monkeys_14"],
-                                       [UIImage imageNamed:@"monkeys_15"],
-                                       [UIImage imageNamed:@"monkeys_16"],
-                                       [UIImage imageNamed:@"monkeys_17"],
-                                       [UIImage imageNamed:@"monkeys_18"],
-                                       [UIImage imageNamed:@"monkeys_19"],
-                                       [UIImage imageNamed:@"monkeys_20"],
-                                       [UIImage imageNamed:@"monkeys_21"],
-                                       [UIImage imageNamed:@"monkeys_22"],
-                                       [UIImage imageNamed:@"monkeys_23"],
-                                       [UIImage imageNamed:@"monkeys_24"],
-                                       [UIImage imageNamed:@"monkeys_25"],
-                                       [UIImage imageNamed:@"monkeys_26"],
-                                       [UIImage imageNamed:@"monkeys_27"],
-                                       [UIImage imageNamed:@"monkeys_28"],
-                                       [UIImage imageNamed:@"monkeys_29"],
-                                       [UIImage imageNamed:@"monkeys_30"],
-                                       [UIImage imageNamed:@"monkeys_31"],
-                                       [UIImage imageNamed:@"monkeys_32"],
-                                       [UIImage imageNamed:@"monkeys_33"],
-                                       [UIImage imageNamed:@"monkeys_34"],
-                                       [UIImage imageNamed:@"monkeys_35"],
-                                       [UIImage imageNamed:@"monkeys_36"],
-                                       [UIImage imageNamed:@"monkeys_37"],
-                                       [UIImage imageNamed:@"monkeys_38"],
+                                       [UIImage imageNamed:@"monkeys_1.png"],
+                                       [UIImage imageNamed:@"monkeys_2.png"],
+                                       [UIImage imageNamed:@"monkeys_3.png"],
+                                       [UIImage imageNamed:@"monkeys_4.png"],
+                                       [UIImage imageNamed:@"monkeys_5.png"],
+                                       [UIImage imageNamed:@"monkeys_6.png"],
+                                       [UIImage imageNamed:@"monkeys_7.png"],
+                                       [UIImage imageNamed:@"monkeys_8.png"],
+                                       [UIImage imageNamed:@"monkeys_9.png"],
+                                       [UIImage imageNamed:@"monkeys_10.png"],
+                                       [UIImage imageNamed:@"monkeys_11.png"],
+                                       [UIImage imageNamed:@"monkeys_12.png"],
+                                       [UIImage imageNamed:@"monkeys_13.png"],
+                                       [UIImage imageNamed:@"monkeys_14.png"],
+                                       [UIImage imageNamed:@"monkeys_15.png"],
+                                       [UIImage imageNamed:@"monkeys_16.png"],
+                                       [UIImage imageNamed:@"monkeys_17.png"],
+                                       [UIImage imageNamed:@"monkeys_18.png"],
+                                       [UIImage imageNamed:@"monkeys_19.png"],
+                                       [UIImage imageNamed:@"monkeys_20.png"],
+                                       [UIImage imageNamed:@"monkeys_21.png"],
+                                       [UIImage imageNamed:@"monkeys_22.png"],
+                                       [UIImage imageNamed:@"monkeys_23.png"],
+                                       [UIImage imageNamed:@"monkeys_24.png"],
+                                       [UIImage imageNamed:@"monkeys_25.png"],
+                                       [UIImage imageNamed:@"monkeys_26.png"],
+                                       [UIImage imageNamed:@"monkeys_27.png"],
+                                       [UIImage imageNamed:@"monkeys_28.png"],
+                                       [UIImage imageNamed:@"monkeys_29.png"],
+                                       [UIImage imageNamed:@"monkeys_30.png"],
+                                       [UIImage imageNamed:@"monkeys_31.png"],
+                                       [UIImage imageNamed:@"monkeys_32.png"],
+                                       [UIImage imageNamed:@"monkeys_33.png"],
+                                       [UIImage imageNamed:@"monkeys_34.png"],
+                                       [UIImage imageNamed:@"monkeys_35.png"],
+                                       [UIImage imageNamed:@"monkeys_36.png"],
+                                       [UIImage imageNamed:@"monkeys_37.png"],
+                                       [UIImage imageNamed:@"monkeys_38.png"],
                                         nil];        
         longTimeout.animationDuration = 5.0f;
         longTimeout.animationRepeatCount = 0;
@@ -4533,7 +4533,7 @@ NSIndexPath *selected;
                  }
                  NSString *label=[NSString stringWithFormat:@"%@",[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row1"]]];
                  NSString *genre=@"";
-                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:[NSArray class]]){
                      genre=[NSString stringWithFormat:@"%@",[[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row2"]] componentsJoinedByString:@" / "]];
                  }
                  else{
@@ -4552,7 +4552,7 @@ NSIndexPath *selected;
                          year=[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row3"]];
                  }                     
                  NSString *runtime=@"";
-                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                 if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:[NSArray class]]){
                      runtime=[NSString stringWithFormat:@"%@",[[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] componentsJoinedByString:@" / "]];
                  }
                  else if ([[videoLibraryMovieDetail objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
@@ -4589,10 +4589,10 @@ NSIndexPath *selected;
                  NSString *fanartURL=@"";
                  NSString *stringURL = @"";
                  if (![thumbnailPath isEqualToString:@""] && ![thumbnailPath isEqualToString:@"(null)"]){
-                     stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                     stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                  }
                  if (![fanartPath isEqualToString:@""]){
-                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                  }
                  NSString *filetype=@"";
                  if ([videoLibraryMovieDetail objectForKey:@"filetype"]!=nil){
@@ -4788,7 +4788,7 @@ NSIndexPath *selected;
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                      if ([self.detailItem noConvertTime]) secondsToMinute = 60;
                  }
-                 if ([videoLibraryMovies isKindOfClass:NSClassFromString(@"JKArray")]) {
+                 if ([videoLibraryMovies isKindOfClass:[NSArray class]]) {
                      if (((NSNull *)videoLibraryMovies != [NSNull null])) {
                          total = (int)[videoLibraryMovies count];
                      }
@@ -4796,7 +4796,7 @@ NSIndexPath *selected;
                          NSString *label=[NSString stringWithFormat:@"%@",[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row1"]]];
                          
                          NSString *genre=@"";
-                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] isKindOfClass:[NSArray class]]){
                              genre=[NSString stringWithFormat:@"%@",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row2"]] componentsJoinedByString:@" / "]];
                          }
                          else{
@@ -4818,7 +4818,7 @@ NSIndexPath *selected;
                          if ([year isEqualToString:@"(null)"]) year=@"";
                          
                          NSString *runtime=@"";
-                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:NSClassFromString(@"JKArray")]){
+                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] isKindOfClass:[NSArray class]]){
                              runtime=[NSString stringWithFormat:@"%@",[[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] componentsJoinedByString:@" / "]];
                          }
                          else if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row4"]] intValue]){
@@ -4843,10 +4843,10 @@ NSIndexPath *selected;
                          NSString *stringURL = @"";
                          
                          if (![thumbnailPath isEqualToString:@""] && thumbnailPath != nil){
-                             stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                             stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                          }
                          if (![fanartPath isEqualToString:@""]){
-                             fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+                             fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                          }
                          NSString *filetype=@"";
                          if ([[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"]!=nil){
@@ -4884,7 +4884,7 @@ NSIndexPath *selected;
                              row19key = @"episode";
                          }
                          id episodeNumber = @"";
-                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] isKindOfClass:NSClassFromString(@"JKDictionary")]){
+                         if ([[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] isKindOfClass:[NSDictionary class]]){
                              episodeNumber = [[[videoLibraryMovies objectAtIndex:i] objectForKey:[mainFields objectForKey:@"row19"]] mutableCopy];
                          }
                          else{
@@ -4924,10 +4924,10 @@ NSIndexPath *selected;
                                                       nil]];
                      }
                  }
-                 else if ([videoLibraryMovies isKindOfClass:NSClassFromString(@"JKDictionary")]) {
+                 else if ([videoLibraryMovies isKindOfClass:[NSDictionary class]]) {
                      NSDictionary *dictVideoLibraryMovies = [methodResult objectForKey:itemid];
-                     if ([[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] isKindOfClass:NSClassFromString(@"JKDictionary")]){
-                         if ([[[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] objectForKey:[mainFields objectForKey:@"fieldname"]] isKindOfClass:NSClassFromString(@"JKArray")]) {
+                     if ([[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] isKindOfClass:[NSDictionary class]]){
+                         if ([[[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] objectForKey:[mainFields objectForKey:@"fieldname"]] isKindOfClass:[NSArray class]]) {
                              videoLibraryMovies = [[dictVideoLibraryMovies objectForKey:[mainFields objectForKey:@"typename"]] objectForKey:[mainFields objectForKey:@"fieldname"]];
                              if (((NSNull *)videoLibraryMovies != [NSNull null])) {
                                  total = (int)[videoLibraryMovies count];
@@ -5163,7 +5163,7 @@ NSIndexPath *selected;
             for (NSDictionary *item in copyRichResults){
                 found = NO;
                 NSString *searchKey = @"";
-                if ([[item objectForKey:sortMethodName] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortMethodName] isKindOfClass:NSClassFromString(@"JKArray")]){
+                if ([[item objectForKey:sortMethodName] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortMethodName] isKindOfClass:[NSArray class]]){
                     searchKey = [[item objectForKey:sortMethodName] componentsJoinedByString:@""];
                 }
                 else {
@@ -5480,8 +5480,8 @@ NSIndexPath *selected;
     if (choosedTab > MAX_NORMAL_BUTTONS)
         choosedTab = MAX_NORMAL_BUTTONS;
     for (i=0;i<count;i++){
-        NSString *imageNameOff=[NSString stringWithFormat:@"%@_off", [buttons objectAtIndex:i]];
-        NSString *imageNameOn=[NSString stringWithFormat:@"%@_on", [buttons objectAtIndex:i]];
+        NSString *imageNameOff=[NSString stringWithFormat:@"%@_off.png", [buttons objectAtIndex:i]];
+        NSString *imageNameOn=[NSString stringWithFormat:@"%@_on.png", [buttons objectAtIndex:i]];
         [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
         [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
         [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
@@ -5502,8 +5502,8 @@ NSIndexPath *selected;
         collectionView.scrollIndicatorInsets = tableViewInsets;
     }
     if ([[self.detailItem mainMethod] count]>MAX_NORMAL_BUTTONS){
-        NSString *imageNameOff=@"st_more_off";
-        NSString *imageNameOn=@"st_more_on";
+        NSString *imageNameOff=@"st_more_off.png";
+        NSString *imageNameOn=@"st_more_on.png";
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
@@ -5967,7 +5967,7 @@ NSIndexPath *selected;
                 [fullscreenButton setShowsTouchWhenHighlighted:YES];
                 [fullscreenButton setFrame:CGRectMake(0, 0, 26, 26)];
                 [fullscreenButton setContentMode:UIViewContentModeCenter];
-                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
+                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen.png"] forState:UIControlStateNormal];
                 fullscreenButton.layer.cornerRadius = 2.0f;
                 [fullscreenButton setTintColor:[UIColor whiteColor]];
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen:) forControlEvents:UIControlEventTouchUpInside];

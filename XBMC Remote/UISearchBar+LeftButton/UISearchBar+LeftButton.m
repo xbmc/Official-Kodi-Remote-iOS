@@ -39,13 +39,13 @@
     gestureRecognizer = nil;
     
     self.leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, self.frame.size.height/2 - buttonHeight/2, buttonWidth, buttonHeight)];
-    [self.leftButton setImage:[UIImage imageNamed:@"button_view_list"] forState:UIControlStateNormal];
+    [self.leftButton setImage:[UIImage imageNamed:@"button_view_list.png"] forState:UIControlStateNormal];
     [self.leftButton setShowsTouchWhenHighlighted:YES];
     self.leftButton.alpha = 0;
     [self addSubview:self.leftButton];
     
     self.sortButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, self.frame.size.height/2 - buttonHeight/2, buttonWidth, buttonHeight)];
-    [self.sortButton setImage:[UIImage imageNamed:@"button_sort"] forState:UIControlStateNormal];
+    [self.sortButton setImage:[UIImage imageNamed:@"button_sort.png"] forState:UIControlStateNormal];
     [self.sortButton setShowsTouchWhenHighlighted:YES];
     self.sortButton.alpha = 0;
     [self addSubview:self.sortButton];
@@ -115,10 +115,10 @@
 
 -(void)setSortButtonImage:(NSString *)sortOrder {
     if ([sortOrder isEqualToString:@"descending"]) {
-        [self.sortButton setImage:[UIImage imageNamed:@"button_sort_descending"] forState:UIControlStateNormal];
+        [self.sortButton setImage:[UIImage imageNamed:@"button_sort_descending.png"] forState:UIControlStateNormal];
     }
     else {
-        [self.sortButton setImage:[UIImage imageNamed:@"button_sort"] forState:UIControlStateNormal];
+        [self.sortButton setImage:[UIImage imageNamed:@"button_sort.png"] forState:UIControlStateNormal];
     }
 }
 

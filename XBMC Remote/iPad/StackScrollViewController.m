@@ -273,8 +273,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 
 -(void)offView{
     
-    int orientation= [[UIApplication sharedApplication] statusBarOrientation];
-    int posX = (orientation==1 || orientation==2) ? 468 : 724;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    int posX = (UIInterfaceOrientationIsPortrait(orientation)) ? 468 : 724;
     
     [UIView animateWithDuration:0.2
                      animations:^{ 
@@ -708,9 +708,9 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 							viewAtRight = nil;
 							viewAtRight2 = nil;
                             // MODDED BY JOE
-                            int orientation= [[UIApplication sharedApplication] statusBarOrientation];
-//                            int marginPosX = (orientation==1 || orientation==2) ? 468 : 724; // OFF SHOW THE STACK
-                            int marginPosX = (orientation==1 || orientation==2) ? 415 : 671; // SHOW A LITTLE PIECE OF THE STACK
+                            UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+//                            int marginPosX = (UIInterfaceOrientationIsPortrait(orientation)) ? 468 : 724; // OFF SHOW THE STACK
+                            int marginPosX = (UIInterfaceOrientationIsPortrait(orientation)) ? 415 : 671; // SHOW A LITTLE PIECE OF THE STACK
                             if ((((UIView*)[[slideViews subviews] objectAtIndex:0]).frame.origin.x+marginPosX/2) >= marginPosX) {
                                 posX = marginPosX;
                             }
@@ -926,8 +926,8 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	if (isStackStartView) {
         NSInteger numViews=[[slideViews subviews]count];
         if (numViews==0){
-            int orientation= [[UIApplication sharedApplication] statusBarOrientation];
-            animX = (orientation==1 || orientation==2) ? 468 : 724;
+            UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+            animX = (UIInterfaceOrientationIsPortrait(orientation)) ? 468 : 724;
         }
         else {
             animX=[[[slideViews subviews] objectAtIndex:0] frame].origin.x;
@@ -1019,7 +1019,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     shadowRect = CGRectMake(-15.0f, -15.0f, STACKSCROLL_WIDTH + 30.0f, 15);
     UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadowUp setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    [shadowUp setImage:[UIImage imageNamed:@"stackScrollUpShadow"]];
+    [shadowUp setImage:[UIImage imageNamed:@"stackScrollUpShadow.png"]];
     [controller.view insertSubview:shadowUp atIndex:1];
     
 	[slideViews addSubview:[controller view]];

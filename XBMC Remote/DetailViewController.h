@@ -35,7 +35,6 @@
     IBOutlet UILongPressGestureRecognizer *lpgr;
     BOOL alreadyPush;
     IBOutlet UIWebView *webPlayView;
-    MPMoviePlayerController *playerViewController;
     int choosedTab;
     int numTabs;
     int watchMode;
