@@ -412,7 +412,7 @@
 
 #pragma mark - NSURLConnection Delegate Methods
 
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
     [self fillMacAddressInfo];
 }
 
