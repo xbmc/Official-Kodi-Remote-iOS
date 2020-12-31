@@ -97,11 +97,10 @@
     [appGreeting setText:NSLocalizedString(@"enjoy!", nil)];
 }
 
-- (void)viewDidUnload{
+- (void)dealloc {
     creditsMask = nil;
     creditsSign = nil;
     audioPlayer = nil;
-    [super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

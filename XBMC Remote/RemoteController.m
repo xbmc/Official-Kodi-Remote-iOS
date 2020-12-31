@@ -1348,17 +1348,11 @@ NSInteger buttonAction;
     }
 }
 
-- (void)viewDidUnload{
-    TransitionalView = nil;
-    gestureZoneImageView = nil;
-    [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    jsonRPC = nil;
-}
-
 -(void)dealloc{
     jsonRPC = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    TransitionalView = nil;
+    gestureZoneImageView = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

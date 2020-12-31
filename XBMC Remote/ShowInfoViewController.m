@@ -2240,11 +2240,6 @@ int h=0;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
 }
 
-- (void)viewDidUnload{
-    [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

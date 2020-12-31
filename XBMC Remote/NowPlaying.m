@@ -3173,18 +3173,6 @@ int currentItemID;
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
 }
 
-- (void)viewDidUnload{
-    playlistLeftShadow = nil;
-    scrabbingView = nil;
-    scrabbingMessage = nil;
-    scrabbingRate = nil;
-    [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-    volumeSliderView = nil;
-    [timer invalidate];
-    timer = nil;
-}
-
 -(void)dealloc{
     volumeSliderView = nil;
     self.detailItem = nil;
@@ -3195,6 +3183,10 @@ int currentItemID;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [timer invalidate];
     timer = nil;
+    playlistLeftShadow = nil;
+    scrabbingView = nil;
+    scrabbingMessage = nil;
+    scrabbingRate = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

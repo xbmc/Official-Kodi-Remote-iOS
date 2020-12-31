@@ -444,17 +444,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-- (void)viewDidUnload{
-    [super viewDidUnload];
-    self.detailViewController = nil;
-    self.nowPlaying = nil;
-    self.remoteController = nil;
-    self.hostController = nil;
-    navController = nil;
-    self.tcpJSONRPCconnection = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }

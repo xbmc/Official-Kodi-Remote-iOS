@@ -5992,26 +5992,6 @@ NSIndexPath *selected;
     }
 }
 
-- (void)viewDidUnload{
-    debugText = nil;
-    [super viewDidUnload];
-    jsonRPC = nil;
-    self.richResults = nil;
-    self.filteredListContent = nil;
-    self.sections = nil;
-    dataList = nil;
-    collectionView = nil;
-    jsonCell = nil;
-    activityIndicatorView = nil;
-    nowPlaying = nil;
-    playFileViewController = nil;
-    epgDownloadQueue = nil;
-    epgDict = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [channelListUpdateTimer invalidate];
-    channelListUpdateTimer = nil;
-}
-
 //- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation duration:(NSTimeInterval)duration {
 //	if (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 //        dataList.alpha = 1;
@@ -6046,6 +6026,10 @@ NSIndexPath *selected;
     self.detailViewController = nil;
     epgDownloadQueue = nil;
     epgDict = nil;
+    debugText = nil;
+    playFileViewController = nil;
+    [channelListUpdateTimer invalidate];
+    channelListUpdateTimer = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

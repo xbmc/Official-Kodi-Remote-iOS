@@ -639,12 +639,6 @@ static inline BOOL IsEmpty(id obj) {
     }
 }
 
-- (void)viewDidUnload{
-    connectingActivityIndicator = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super viewDidUnload];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
@@ -664,6 +658,7 @@ static inline BOOL IsEmpty(id obj) {
 
 - (void)dealloc {
     jsonRPC = nil;
+    connectingActivityIndicator = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
