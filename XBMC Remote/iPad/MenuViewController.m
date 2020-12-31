@@ -193,11 +193,6 @@
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Override to allow orientations other than the default portrait orientation.
-    return YES;
-}
-
 
 #pragma mark -
 #pragma mark Table view data source

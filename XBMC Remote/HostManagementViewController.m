@@ -639,10 +639,6 @@ static inline BOOL IsEmpty(id obj) {
     }
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 -(BOOL)shouldAutorotate{
     return YES;
 }

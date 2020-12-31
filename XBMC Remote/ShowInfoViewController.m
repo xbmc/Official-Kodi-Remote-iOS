@@ -2264,10 +2264,6 @@ int h=0;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
-
 -(BOOL)shouldAutorotate{
     return YES;
 }

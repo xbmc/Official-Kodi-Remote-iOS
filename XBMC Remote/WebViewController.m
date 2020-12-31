@@ -302,11 +302,6 @@
     [Twitterweb loadRequest:self.urlRequest];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    return YES;
-}
-
 -(BOOL)shouldAutorotate{
     return YES;
 }

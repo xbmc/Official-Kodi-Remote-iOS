@@ -804,13 +804,12 @@
     }
 }	
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-	return YES;
-}
-
 -(BOOL)shouldAutorotate{
     return !stackScrollIsFullscreen;
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+     return UIInterfaceOrientationMaskAll;
+ }
 
 @end
