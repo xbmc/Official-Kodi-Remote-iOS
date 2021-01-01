@@ -503,10 +503,10 @@
 
 -(void)setSortButtonImage:(NSString *)sortOrder {
     if ([sortOrder isEqualToString:@"descending"]) {
-        [button7 setImage:[UIImage imageNamed:@"button_sort_descending.png"] forState:UIControlStateNormal];
+        [button7 setImage:[UIImage imageNamed:@"button_sort_descending_bright.png"] forState:UIControlStateNormal];
     }
     else {
-        [button7 setImage:[UIImage imageNamed:@"button_sort.png"] forState:UIControlStateNormal];
+        [button7 setImage:[UIImage imageNamed:@"button_sort_bright.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -5607,7 +5607,7 @@ NSIndexPath *selected;
     [button6 setImage:viewButtonImg forState:UIControlStateNormal];
     [button6 addTarget:self action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
 
-    UIImage *sortButtonImg = [UIImage imageNamed:@"button_sort.png"];
+    UIImage *sortButtonImg = [UIImage imageNamed:@"button_sort_bright.png"];
     [button7 setImage:sortButtonImg forState:UIControlStateNormal];
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
 
