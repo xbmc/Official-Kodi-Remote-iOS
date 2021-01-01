@@ -765,7 +765,7 @@
         self.searchController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         searchBarColor = collectionViewSearchBarColor;
-        [button6 setImage:[UIImage imageNamed:@"button_view.png"] forState:UIControlStateNormal];
+        [button6 setImage:[UIImage imageNamed:@"button_view_toolbar.png"] forState:UIControlStateNormal];
     }
     else{
         [dataList setDelegate:self];
@@ -780,7 +780,7 @@
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         self.searchController.searchBar.tintColor = tableViewSearchBarColor;
         searchBarColor = tableViewSearchBarColor;
-        [button6 setImage:[UIImage imageNamed:@"button_view_list.png"] forState:UIControlStateNormal];
+        [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar.png"] forState:UIControlStateNormal];
     }
     if (!isViewDidLoad){
         [activeLayoutView addSubview:self.searchController.searchBar];
@@ -5603,7 +5603,7 @@ NSIndexPath *selected;
     iOSYDelta = self.searchController.searchBar.frame.size.height;
     dataList.tableHeaderView = self.searchController.searchBar;
 
-    UIImage *viewButtonImg = [UIImage imageNamed:@"button_view_list.png"];
+    UIImage *viewButtonImg = [UIImage imageNamed:@"button_view_list_toolbar.png"];
     [button6 setImage:viewButtonImg forState:UIControlStateNormal];
     [button6 addTarget:self action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
 
