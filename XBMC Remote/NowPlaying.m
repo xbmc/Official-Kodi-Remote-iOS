@@ -2744,12 +2744,12 @@ int currentItemID;
     [songName setFont:[UIFont systemFontOfSize:20]];
 
     frame=songName.frame;
-    frame.origin.y=frame.origin.y+6;
+    frame.origin.y=frame.origin.y - 12;
     songName.frame=frame;
     
     [artistName setFont:[UIFont systemFontOfSize:18]];
     frame=artistName.frame;
-    frame.origin.y=frame.origin.y+12;
+    frame.origin.y=frame.origin.y - 8;
     artistName.frame=frame;
     
     [currentTime setFont:[UIFont systemFontOfSize:16]];
@@ -2760,7 +2760,7 @@ int currentItemID;
     playlistTableView.frame=frame;
     
     frame = ProgressSlider.frame;
-    frame.origin.y = frame.origin.y - 5;
+    frame.origin.y = frame.origin.y - 14;
     ProgressSlider.frame = frame;
     
     /* TODO: Find an elegant solution for the following code.
