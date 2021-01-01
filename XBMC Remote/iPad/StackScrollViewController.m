@@ -56,6 +56,12 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	
 	if(self= [super init]) {
 		
+        bottomPadding = 0;
+        if (@available(iOS 11.0, *)) {
+            UIWindow *window = UIApplication.sharedApplication.keyWindow;
+            bottomPadding = window.safeAreaInsets.bottom;
+        }
+        
 		viewControllersStack = [[NSMutableArray alloc] init];
         stackViewsFrames = [[NSMutableArray alloc] init];
 		borderViews = [[UIView alloc] initWithFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION - 2, -2, 2, self.view.frame.size.height + 2)];
@@ -77,7 +83,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		
 		[self.view addSubview:borderViews];
 		
-		slideViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+		slideViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
 		[slideViews setBackgroundColor:[UIColor clearColor]];
 		[self.view setBackgroundColor:[UIColor clearColor]];
 		[self.view setFrame:slideViews.frame];
@@ -978,7 +984,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	
 	if ([slideViews.subviews count] != 0) {
 //        NSLog(@"QUATTRO");
-        UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, 40 , self.view.frame.size.height)];
+        UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, 40 , self.view.frame.size.height - bottomPadding)];
 		[verticalLineView setBackgroundColor:[UIColor clearColor]];
 		[verticalLineView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
 		[verticalLineView setClipsToBounds:NO];
@@ -995,12 +1001,12 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		slideStartPosition = SLIDE_VIEWS_START_X_POS;
 		viewXPosition = slideStartPosition;
 	}
-	[[controller view] setFrame:CGRectMake(viewXPosition, 0, [controller view].frame.size.width, self.view.frame.size.height)];
+	[[controller view] setFrame:CGRectMake(viewXPosition, 0, [controller view].frame.size.width, self.view.frame.size.height - bottomPadding)];
 	[controller.view setTag:([viewControllersStack count]-1) + VIEW_TAG];
 	[controller viewWillAppear:FALSE];
 	[controller viewDidAppear:FALSE];
     
-    CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height);
+    CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height - bottomPadding);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [shadow setImage:[UIImage imageNamed:@"tableLeft.png"]];
@@ -1008,7 +1014,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     shadow.tag = 2001;
     [controller.view addSubview:shadow];
     
-    shadowRect = CGRectMake(STACKSCROLL_WIDTH, 0.0f, 16.0f, self.view.frame.size.height);
+    shadowRect = CGRectMake(STACKSCROLL_WIDTH, 0.0f, 16.0f, self.view.frame.size.height - bottomPadding);
     UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin];
     [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
@@ -1027,12 +1033,12 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 		if ([[slideViews subviews] count]==1) {
 //            NSLog(@"SETTE"); //FIRST
 			viewAtLeft = [[slideViews subviews] objectAtIndex:[[slideViews subviews] count]-1];
-            [[controller view] setFrame:CGRectMake(animX, 0, [controller view].frame.size.width, self.view.frame.size.height)];
+            [[controller view] setFrame:CGRectMake(animX, 0, [controller view].frame.size.width, self.view.frame.size.height - bottomPadding)];
 
             [UIView beginAnimations:nil context:NULL];
 			[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:viewAtLeft cache:YES];	
 			[UIView setAnimationBeginsFromCurrentState:NO];	
-            [[controller view] setFrame:CGRectMake(viewXPosition, 0, [controller view].frame.size.width, self.view.frame.size.height)];
+            [[controller view] setFrame:CGRectMake(viewXPosition, 0, [controller view].frame.size.width, self.view.frame.size.height - bottomPadding)];
 
             [UIView commitAnimations];
 			viewAtLeft2 = nil;
@@ -1113,38 +1119,38 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	for (UIViewController* subController in viewControllersStack) {
 		if (viewAtRight != nil && [viewAtRight isEqual:subController.view]) {
 			if (viewAtRight.frame.origin.x <= (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) {
-				[subController.view setFrame:CGRectMake(self.view.frame.size.width - subController.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height)];
+				[subController.view setFrame:CGRectMake(self.view.frame.size.width - subController.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
 			}else{
-				[subController.view setFrame:CGRectMake(viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height)];
+				[subController.view setFrame:CGRectMake(viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
 			}
 			isViewOutOfScreen = TRUE;
 		}
 		else if (viewAtLeft != nil && [viewAtLeft isEqual:subController.view]) {
 			if (viewAtLeft2 == nil) {
 				if(viewAtRight == nil){					
-					[subController.view setFrame:CGRectMake(posX, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height)];
+					[subController.view setFrame:CGRectMake(posX, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
 				}
 				else{
-					[subController.view setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height)];
-					[viewAtRight setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + subController.view.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width, viewAtRight.frame.size.height)];
+					[subController.view setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
+					[viewAtRight setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + subController.view.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width, viewAtRight.frame.size.height - bottomPadding)];
 				}
 			}
 			else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS) {
-				[subController.view setFrame:CGRectMake(subController.view.frame.origin.x, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height)];
+				[subController.view setFrame:CGRectMake(subController.view.frame.origin.x, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
 			}
 			else {
 				if (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width == self.view.frame.size.width) {
-					[subController.view setFrame:CGRectMake(self.view.frame.size.width - subController.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height)];
+					[subController.view setFrame:CGRectMake(self.view.frame.size.width - subController.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
 				}else{
-					[subController.view setFrame:CGRectMake(viewAtLeft2.frame.origin.x + viewAtLeft2.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height)];
+					[subController.view setFrame:CGRectMake(viewAtLeft2.frame.origin.x + viewAtLeft2.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
 				}
 			}
 		}
 		else if(!isViewOutOfScreen){
-			[subController.view setFrame:CGRectMake(subController.view.frame.origin.x, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height)];
+			[subController.view setFrame:CGRectMake(subController.view.frame.origin.x, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
 		}
 		else {
-			[subController.view setFrame:CGRectMake(self.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height)];
+			[subController.view setFrame:CGRectMake(self.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
 		}
 		
 	}

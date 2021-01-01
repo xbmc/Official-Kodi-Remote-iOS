@@ -5805,11 +5805,13 @@ NSIndexPath *selected;
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
         bottomPadding = window.safeAreaInsets.bottom;
     }
-    if (bottomPadding > 0) {
-        frame = buttonsView.frame;
-        frame.size.height += bottomPadding;
-        frame.origin.y -= bottomPadding;
-        buttonsView.frame = frame;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        if (bottomPadding > 0) {
+            frame = buttonsView.frame;
+            frame.size.height += bottomPadding;
+            frame.origin.y -= bottomPadding;
+            buttonsView.frame = frame;
+        }
     }
     
     [detailView setClipsToBounds:YES];

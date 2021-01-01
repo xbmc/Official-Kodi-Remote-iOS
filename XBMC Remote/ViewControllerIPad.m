@@ -532,6 +532,31 @@
         [self.view addSubview:clearView];
         [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
     }
+
+    int bottomPadding = 0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
+    
+    if (bottomPadding > 0) {
+        frame = volumeSliderView.frame;
+        frame.origin.y -= bottomPadding;
+        volumeSliderView.frame = frame;
+        
+        frame = powerButton.frame;
+        frame.origin.y -= bottomPadding;
+        powerButton.frame = frame;
+        
+        frame = xbmcInfo.frame;
+        frame.origin.y -= bottomPadding;
+        xbmcInfo.frame = frame;
+        
+        frame = xbmcLogo.frame;
+        frame.origin.y -= bottomPadding;
+        xbmcLogo.frame = frame;
+    }
+
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleXBMCServerHasChanged:)
                                                  name: @"XBMCServerHasChanged"
