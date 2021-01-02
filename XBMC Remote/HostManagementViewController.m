@@ -354,11 +354,6 @@ static inline BOOL IsEmpty(id obj) {
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].rightMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
-        if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
-            MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-            masterViewController.mainMenu = self.mainMenu;
-            self.slidingViewController.underLeftViewController = masterViewController;
-        }
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
     else{

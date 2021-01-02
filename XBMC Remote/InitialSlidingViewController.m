@@ -47,7 +47,12 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+    masterViewController.mainMenu = self.mainMenu;
+    self.underLeftViewController = masterViewController;
+
     HostManagementViewController *hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
+    masterViewController.hostController = hostManagementViewController;
     navController = [[CustomNavigationController alloc] initWithRootViewController:hostManagementViewController];
     UINavigationBar *newBar = navController.navigationBar;
     [newBar setBarStyle:UIBarStyleBlackTranslucent];
