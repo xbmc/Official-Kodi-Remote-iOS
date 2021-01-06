@@ -2013,7 +2013,7 @@ int h=0;
                                 [activityIndicatorView stopAnimating];
                                 [self showNowPlaying];
                                 if (resumePointLocal){
-                                    [self SimpleAction:@"Player.Seek" params:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playerid", [NSNumber numberWithFloat:resumePointLocal], @"value", nil]];
+                                    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:(int)[item objectForKey:@"playlistid"] percentage:resumePointLocal]];
                                 }
                             }
                             else {

@@ -820,7 +820,7 @@ NSInteger buttonAction;
                                   PvrIsPlayingTv = [methodResult objectForKey:@"Pvr.IsPlayingTv"];
                               }
                               if (winID == 12005  && [PvrIsPlayingTv boolValue] == NO && [VideoPlayerHasMenu boolValue] == NO){
-                                  [self playbackAction:@"Player.Seek" params:[NSArray arrayWithObjects:step, @"value", nil]];
+                                  [self playbackAction:@"Player.Seek" params:[Utilities buildPlayerSeekStepParams:step]];
                               }
                               else if (winID == 12006 && musicAction != nil){
                                   [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
@@ -908,7 +908,7 @@ NSInteger buttonAction;
             break;
         case 2:
             action=@"Player.Seek";
-            params=[NSArray arrayWithObjects:@"smallbackward", @"value", nil];
+            params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
             [self playbackAction:action params:params];
             break;
             
@@ -920,7 +920,7 @@ NSInteger buttonAction;
             
         case 4:
             action=@"Player.Seek";
-            params=[NSArray arrayWithObjects:@"smallforward", @"value", nil];
+            params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
             [self playbackAction:action params:params];
             break;
         case 5:
