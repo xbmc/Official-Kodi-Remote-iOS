@@ -44,6 +44,8 @@
     IBOutlet UIButton *button3;
     IBOutlet UIButton *button4;
     IBOutlet UIButton *button5;
+    IBOutlet UIButton *button6;
+    IBOutlet UIButton *button7;
     IBOutlet UIView *buttonsView;
     int numResults;
     int numFilteredResults;

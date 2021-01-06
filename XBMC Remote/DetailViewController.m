@@ -58,6 +58,7 @@
 #define MAX_NORMAL_BUTTONS 4
 #define WARNING_TIMEOUT 30.0f
 #define COLLECTION_HEADER_HEIGHT 16
+#define FIXED_SPACE_WIDTH 120
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -280,7 +281,6 @@
 -(void)updateEpgTableInfo:(NSDictionary *)parameters{
     NSMutableDictionary *channelEPG = [parameters objectForKey:@"channelEPG"];
     NSIndexPath *indexPath = [parameters objectForKey:@"indexPath"];
-    UITableView *tableView = [parameters objectForKey:@"tableView"];
     NSMutableDictionary *item = [parameters objectForKey:@"item"];
     UITableViewCell *cell = nil;
     if (self.searchController.showsSearchResultsController){
@@ -501,6 +501,15 @@
 
 #pragma mark - Utility
 
+-(void)setSortButtonImage:(NSString *)sortOrder {
+    if ([sortOrder isEqualToString:@"descending"]) {
+        [button7 setImage:[UIImage imageNamed:@"button_sort_descending.png"] forState:UIControlStateNormal];
+    }
+    else {
+        [button7 setImage:[UIImage imageNamed:@"button_sort.png"] forState:UIControlStateNormal];
+    }
+}
+
 -(void)toggleOpen:(UITapGestureRecognizer *)sender {
     NSInteger section = [sender.view tag];
     [self.sectionArrayOpen replaceObjectAtIndex:section withObject:[NSNumber numberWithBool:![[self.sectionArrayOpen objectAtIndex:section] boolValue]]];
@@ -595,6 +604,8 @@
 -(IBAction)showMore:(id)sender{
 //    if ([sender tag]==choosedTab) return;
     self.indexView.hidden = YES;
+    button6.hidden = YES;
+    button7.hidden = YES;
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [activityIndicatorView startAnimating];
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
@@ -732,7 +743,6 @@
 }
 
 -(void)configureLibraryView{
-    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     if (enableCollectionView){
         [self initCollectionView];
         if (longPressGesture == nil){
@@ -755,7 +765,7 @@
         self.searchController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         searchBarColor = collectionViewSearchBarColor;
-        [bar.leftButton setImage:[UIImage imageNamed:@"button_view.png"] forState:UIControlStateNormal];
+        [button6 setImage:[UIImage imageNamed:@"button_view.png"] forState:UIControlStateNormal];
     }
     else{
         [dataList setDelegate:self];
@@ -770,15 +780,15 @@
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         self.searchController.searchBar.tintColor = tableViewSearchBarColor;
         searchBarColor = tableViewSearchBarColor;
-        [bar.leftButton setImage:[UIImage imageNamed:@"button_view_list.png"] forState:UIControlStateNormal];
+        [button6 setImage:[UIImage imageNamed:@"button_view_list.png"] forState:UIControlStateNormal];
     }
     if (!isViewDidLoad){
         [activeLayoutView addSubview:self.searchController.searchBar];
     }
 }
 
--(void)setUpSort:(UISearchBarLeftButton *)bar methods:(NSDictionary *)methods parameters:(NSDictionary *)parameters{
-    [bar showSortButton:YES];
+-(void)setUpSort:(NSDictionary *)methods parameters:(NSDictionary *)parameters{
+    button7.hidden = NO;
     NSDictionary *sortDictionary = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"];
     sortMethodName = [self getCurrentSortMethod:methods withParameters:parameters];
     NSUInteger foundIndex = [[sortDictionary objectForKey:@"method"] indexOfObject:sortMethodName];
@@ -848,17 +858,16 @@
     }
 
     BOOL newEnableCollectionView = [self collectionViewIsEnabled];
-    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
-    [bar showLeftButton:NO];
-    [bar showSortButton:NO];
+    button6.hidden = YES;
+    button7.hidden = YES;
     if ([self collectionViewCanBeEnabled] == YES){
-        [bar showLeftButton:YES];
+        button6.hidden = NO;;
     }
     sortMethodIndex = -1;
     sortMethodName = nil;
     sortAscDesc = nil;
     if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
-       [self setUpSort:bar methods:methods parameters:parameters];
+        [self setUpSort:methods parameters:parameters];
     }
     [self checkDiskCache];
     float animDuration = 0.3f;
@@ -2791,8 +2800,6 @@ int originYear = 0;
 #pragma mark - ScrollView Delegate
 
 -(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
-    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
-    bar.isVisible = YES;
     if (enableCollectionView == YES){ // temp hack to avoid the iOS7 search bar disappearing!!!
         [self.searchController.searchBar removeFromSuperview];
         [activeLayoutView addSubview:self.searchController.searchBar];
@@ -2819,7 +2826,6 @@ int originYear = 0;
     NSArray *paths;
     NSIndexPath *searchBarPath;
     NSInteger sectionNumber = [self.sections count] > 1 ? 1 : 0;
-    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
     if ([self.richResults count]){
         if ([scrollView isEqual:dataList]){
             paths = [dataList indexPathsForVisibleRows];
@@ -2830,14 +2836,10 @@ int originYear = 0;
             searchBarPath = [NSIndexPath indexPathForItem:0 inSection:sectionNumber];
         }
         if ([paths containsObject:searchBarPath]){
-            bar.isVisible = YES;
             if (enableCollectionView == YES){ // temp hack to avoid the iOS7 search bar disappearing!!!
                 [self.searchController.searchBar removeFromSuperview];
                 [activeLayoutView addSubview:self.searchController.searchBar];
             }
-        }
-        else{
-            bar.isVisible = NO;
         }
     }
 }
@@ -3521,17 +3523,14 @@ NSIndexPath *selected;
                          animations:^{
                              collectionView.alpha = 0;
                              dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 1.0f;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 1.0f;
                             
                          }
                          completion:^(BOOL finished) {
                              viewWidth = STACKSCROLL_WIDTH;
-                             UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
-                             bar.storeWidth = viewWidth;
                              if ([self collectionViewCanBeEnabled] == YES){
-                                 [bar showLeftButton:YES];
+                                 button6.hidden = NO;;
                              }
-                             [bar layoutSubviews];
                              sectionArray = [storeSectionArray copy];
                              sections = [storeSections mutableCopy];
                              [self choseParams];
@@ -3577,14 +3576,10 @@ NSIndexPath *selected;
                          animations:^{
                              collectionView.alpha = 0;
                              dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 0.0f;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 0.0f;
                          }
                          completion:^(BOOL finished) {
-                             UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
-                             viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
-                             bar.storeWidth = viewWidth;
-                             [bar showLeftButton:NO];
-                             [bar layoutSubviews];
+                             button6.hidden = YES;
                              moreItemsViewController.view.hidden = YES;
                              storeSectionArray = [sectionArray copy];
                              storeSections = [sections mutableCopy];
@@ -5088,18 +5083,12 @@ NSIndexPath *selected;
                          [[self.sections allKeys] sortedArrayUsingComparator:^(id firstObject, id secondObject) {
         return [self alphaNumericCompare:firstObject secondObject:secondObject];
     }]];
-    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
-    bar.rightPadding = 0;
     self.sectionArrayOpen = [[NSMutableArray alloc] init];
     BOOL defaultValue = FALSE;
     if ([self.sectionArray count] == 1){
         defaultValue = TRUE;
     }
-    else {
-        bar.rightPadding = 26;
-    }
-    [bar setSortButtonImage:sortAscDesc];
-    [bar layoutSubviews];
+    [self setSortButtonImage:sortAscDesc];
     for (int i=0; i<[self.sectionArray count]; i++) {
         [self.sectionArrayOpen addObject:[NSNumber numberWithBool:defaultValue]];
     }
@@ -5614,6 +5603,14 @@ NSIndexPath *selected;
     iOSYDelta = self.searchController.searchBar.frame.size.height;
     dataList.tableHeaderView = self.searchController.searchBar;
 
+    UIImage *viewButtonImg = [UIImage imageNamed:@"button_view_list.png"];
+    [button6 setImage:viewButtonImg forState:UIControlStateNormal];
+    [button6 addTarget:self action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
+
+    UIImage *sortButtonImg = [UIImage imageNamed:@"button_sort.png"];
+    [button7 setImage:sortButtonImg forState:UIControlStateNormal];
+    [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
+
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         if (SYSTEM_VERSION_LESS_THAN(@"11.0")) {
         iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
@@ -5678,17 +5675,17 @@ NSIndexPath *selected;
         numberOfStars = [[parameters objectForKey:@"numberOfStars"] intValue];
     }
     
-    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
+    button6.hidden = YES;
+    button7.hidden = YES;
     if ([self collectionViewCanBeEnabled] == YES){
-        [bar showLeftButton:YES];
+        button6.hidden = NO;;
     }
     sortMethodIndex = -1;
     sortMethodName = nil;
     sortAscDesc = nil;
     if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
-        [self setUpSort:bar methods:methods parameters:parameters];
+        [self setUpSort:methods parameters:parameters];
     }
-    [bar setPlaceholder:NSLocalizedString(@"Search", nil)];
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     
@@ -5772,7 +5769,6 @@ NSIndexPath *selected;
     if ([[parameters objectForKey:@"animationStartBottomScreen"] boolValue] == YES){
         frame.origin.y = [[UIScreen mainScreen ] bounds].size.height - 44;
     }
-    bar.storeWidth = viewWidth;
     dataList.frame=frame;
     currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
     if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){
@@ -5873,7 +5869,7 @@ NSIndexPath *selected;
 
 -(void)initIpadCornerInfo {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]){
-        titleView = [[UIView alloc] initWithFrame:CGRectMake(320, 0, STACKSCROLL_WIDTH - 320, 44)];
+        titleView = [[UIView alloc] initWithFrame:CGRectMake(STACKSCROLL_WIDTH - FIXED_SPACE_WIDTH, 0, FIXED_SPACE_WIDTH, buttonsView.frame.size.height)];
         [titleView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
         topNavigationLabel.textAlignment = NSTextAlignmentRight;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:14];
@@ -5881,6 +5877,17 @@ NSIndexPath *selected;
         [titleView addSubview:topNavigationLabel];
         [buttonsView addSubview:titleView];
         [self checkFullscreenButton:NO];
+    }
+    else {
+        // Remove the reserved fixed space which is only used for iPad corner info
+        for (UILabel *view in buttonsView.subviews) {
+            if ([view isKindOfClass:[UIToolbar class]]){
+                UIToolbar *bar = (UIToolbar*)view;
+                NSMutableArray *items = [NSMutableArray arrayWithArray:bar.items];
+                [items removeObjectAtIndex:15];
+                [bar setItems:items animated:NO];
+            }
+        }
     }
 }
 
@@ -6008,8 +6015,7 @@ NSIndexPath *selected;
     if (sortMethodIndex != -1){
         [sortOptions replaceObjectAtIndex:sortMethodIndex withObject:[NSString stringWithFormat:@"\u2713 %@", [sortOptions objectAtIndex:sortMethodIndex]]];
     }
-    UISearchBarLeftButton *bar = (UISearchBarLeftButton *)self.searchDisplayController.searchBar;
-    [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:bar.sortButton.center.x rectOriginY:bar.sortButton.center.y];
+    [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - (button7.frame.size.height/2)];
 }
 
 -(void)handleLongPressSortButton:(UILongPressGestureRecognizer *)gestureRecognizer {
