@@ -67,6 +67,8 @@
     BOOL stackScrollIsFullscreen;
     
     NSMutableArray *stackViewsFrames;
+    
+    CGFloat bottomPadding;
 }
 
 - (void)offView;
