@@ -858,6 +858,7 @@
 		ABF7E14325ACA88200A830FB /* icon_not_listened@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF7E14525ACA88200A830FB /* icon_not_listened@2x.png */; };
 		ABF7E14925ACA88D00A830FB /* icon_listened.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF7E14B25ACA88D00A830FB /* icon_listened.png */; };
 		ABF7E14D25ACA89100A830FB /* icon_not_listened.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF7E14F25ACA89100A830FB /* icon_not_listened.png */; };
+		C718444625FFD06400F5A060 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C718444525FFD06300F5A060 /* SafariServices.framework */; };
 		C7478BF9257258E700161C1E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7478BF8257258E700161C1E /* Launch Screen.storyboard */; };
 		C788DDA2259F5172006C90F1 /* button_sort_bright.png in Resources */ = {isa = PBXBuildFile; fileRef = C788DDA0259F5172006C90F1 /* button_sort_bright.png */; };
 		C788DDA3259F5172006C90F1 /* button_sort_descending_bright.png in Resources */ = {isa = PBXBuildFile; fileRef = C788DDA1259F5172006C90F1 /* button_sort_descending_bright.png */; };
@@ -1874,6 +1875,7 @@
 		B1FF37EB1709D20D005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
 		B1FF37EC1709D211005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/button_now_playing_empty.png"; sourceTree = "<group>"; };
 		B1FF37ED1709D211005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/button_now_playing.png"; sourceTree = "<group>"; };
+		C718444525FFD06300F5A060 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		C7478BF8257258E700161C1E /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C788DDA0259F5172006C90F1 /* button_sort_bright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_sort_bright.png; sourceTree = "<group>"; };
 		C788DDA1259F5172006C90F1 /* button_sort_descending_bright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_sort_descending_bright.png; sourceTree = "<group>"; };
@@ -1900,6 +1902,7 @@
 				0F74773A151E094C00EF78AD /* AudioToolbox.framework in Frameworks */,
 				0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */,
 				0F5548FD151D1187007E633F /* Foundation.framework in Frameworks */,
+				C718444625FFD06400F5A060 /* SafariServices.framework in Frameworks */,
 				0F5548FF151D1187007E633F /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2208,6 +2211,7 @@
 		0F5548F9151D1187007E633F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C718444525FFD06300F5A060 /* SafariServices.framework */,
 				0F32092F16FE193400636BA2 /* ImageIO.framework */,
 				0FB8598515FF9ED10070F324 /* AVFoundation.framework */,
 				0F49885C152879FF0041DA92 /* QuartzCore.framework */,

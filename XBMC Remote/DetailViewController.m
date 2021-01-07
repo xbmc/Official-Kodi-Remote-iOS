@@ -3440,7 +3440,20 @@ NSIndexPath *selected;
     }
     NSString *query = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *url = [NSString stringWithFormat:serviceURL, query];
-    [Utilities loadURL:url];
+    [self SFloadURL:url];
+}
+
+#pragma mark - Safari
+
+- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
+- (void)SFloadURL:(NSString*)url {
+    NSURL *nsurl = [NSURL URLWithString:url];
+    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nsurl];
+    svc.delegate = (id)self;
+    [self presentViewController:svc animated:YES completion:nil];
 }
 
 #pragma mark - Gestures
@@ -3749,7 +3762,7 @@ NSIndexPath *selected;
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
                     NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
-                    [Utilities loadURL:stringURL];
+                    [self SFloadURL:stringURL];
                     [queuing stopAnimating];
                 }
             }
