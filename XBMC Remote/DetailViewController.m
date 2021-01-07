@@ -282,7 +282,7 @@
     NSIndexPath *indexPath = [parameters objectForKey:@"indexPath"];
     NSMutableDictionary *item = [parameters objectForKey:@"item"];
     UITableViewCell *cell = nil;
-    if (self.searchController.showsSearchResultsController){
+    if ([self doesShowSearchResults]){
         cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     else{
@@ -499,6 +499,27 @@
 }
 
 #pragma mark - Utility
+
+-(BOOL)doesShowSearchResults {
+    BOOL result = NO;
+    if (@available(iOS 13.0, *)) {
+        result = self.searchController.showsSearchResultsController;
+    } else {
+        // Fallback on earlier versions
+        result = ([self.filteredListContent count]>0);
+    }
+    return result;
+}
+
+-(UITextField*)getSearchTextField {
+    UITextField *textfield = nil;
+    if (@available(iOS 13.0, *)) {
+        textfield = self.searchController.searchBar.searchTextField;
+    } else {
+        textfield = [self.searchController.searchBar valueForKey:@"searchField"];
+    }
+    return textfield;
+}
 
 -(void)setSortButtonImage:(NSString *)sortOrder {
     if ([sortOrder isEqualToString:@"descending"]) {
@@ -1777,7 +1798,7 @@ int originYear = 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (self.searchController.showsSearchResultsController){
+    if ([self doesShowSearchResults]){
         return (([self.filteredListContent count]>0) ? 1 : 0);
     }
 	else{
@@ -1786,7 +1807,7 @@ int originYear = 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (self.searchController.showsSearchResultsController){
+    if ([self doesShowSearchResults]){
         int numResult = (int)[self.filteredListContent count];
         if (numResult){
             if (numResult!=1)
@@ -1941,7 +1962,7 @@ int originYear = 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.searchController.showsSearchResultsController) {
+    if ([self doesShowSearchResults]) {
         return [self.filteredListContent count];
     }
 	else {
@@ -1961,7 +1982,7 @@ int originYear = 0;
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    if (self.searchController.showsSearchResultsController){
+    if ([self doesShowSearchResults]){
         return nil;
     }
     else {
@@ -2002,7 +2023,7 @@ int originYear = 0;
     static NSString *identifier = @"jsonDataCellIdentifier";
     jsonDataCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     NSMutableDictionary *item = nil;
-    if (self.searchController.showsSearchResultsController){
+    if ([self doesShowSearchResults]){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
     }
 	else{
@@ -2342,7 +2363,7 @@ int originYear = 0;
     NSDictionary *item = nil;
     UITableViewCell *cell = nil;
     CGPoint offsetPoint;
-    if (self.searchController.showsSearchResultsController){
+    if ([self doesShowSearchResults]){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
 
         cell = [dataList cellForRowAtIndexPath:indexPath];
@@ -2451,7 +2472,7 @@ int originYear = 0;
                                           [trackCountLabel setShadowColor:albumFontShadowColor];
                                           [releasedLabel setTextColor:albumDetailsColor];
                                           [releasedLabel setShadowColor:albumFontShadowColor];
-                                          UITextField *searchTextField = self.searchController.searchBar.searchTextField;
+                                          UITextField *searchTextField = [self getSearchTextField];
                                           if (searchTextField != nil) {
                                               if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
                                                   UIImageView *iconView = (id)searchTextField.leftView;
@@ -2557,7 +2578,7 @@ int originYear = 0;
 
         return albumDetailView;
     }
-    else if (episodesView && [self.richResults count]>0 && !(self.searchController.showsSearchResultsController)){
+    else if (episodesView && [self.richResults count]>0 && !([self doesShowSearchResults])){
         UIColor *seasonFontShadowColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
         albumDetailView.tag = section;
@@ -2596,7 +2617,7 @@ int originYear = 0;
         [albumDetailView addSubview:toolbarShadow];
         
         NSDictionary *item;
-        if (self.searchController.showsSearchResultsController){
+        if ([self doesShowSearchResults]){
             item = [self.richResults objectAtIndex:0];
         }
         else{
@@ -2776,10 +2797,10 @@ int originYear = 0;
     if (albumView && [self.richResults count]>0){
         return albumViewHeight + 2;
     }
-    else if (episodesView  && [self.richResults count]>0 && !(self.searchController.showsSearchResultsController)){
+    else if (episodesView  && [self.richResults count]>0 && !([self doesShowSearchResults])){
         return albumViewHeight + 2;
     }
-    else if (section!=0 || self.searchController.showsSearchResultsController){
+    else if (section!=0 || [self doesShowSearchResults]){
         return sectionHeight;
     }
     if ([[self.sections allKeys] count] == 1){
@@ -2821,7 +2842,7 @@ int originYear = 0;
 
 // iOS7 scrolling performance boost for a UITableView/UICollectionView with a custom UISearchBar header
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (!hideSearchBarActive || self.searchController.showsSearchResultsController) return;
+    if (!hideSearchBarActive || [self doesShowSearchResults]) return;
     NSArray *paths;
     NSIndexPath *searchBarPath;
     NSInteger sectionNumber = [self.sections count] > 1 ? 1 : 0;
