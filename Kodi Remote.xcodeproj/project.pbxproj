@@ -49,7 +49,6 @@
 		0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2D154D6AFA00C1C61F /* MenuViewController.m */; };
 		0F1ABF01157167C400BF9DA7 /* remote_temp.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F1ABF00157167C400BF9DA7 /* remote_temp.png */; };
 		0F1F67F61563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */; };
-		0F221977171181C300B111F2 /* UISearchBar+LeftButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F221976171181C300B111F2 /* UISearchBar+LeftButton.m */; };
 		0F22197A1711AF3F00B111F2 /* button_view.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2219791711AF3F00B111F2 /* button_view.png */; };
 		0F22197C1711AF4A00B111F2 /* button_view@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F22197B1711AF4A00B111F2 /* button_view@2x.png */; };
 		0F22197E1711D56800B111F2 /* button_view_list.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F22197D1711D56800B111F2 /* button_view_list.png */; };
@@ -929,8 +928,6 @@
 		0F175F2D154D6AFA00C1C61F /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = iPad/MenuViewController.m; sourceTree = "<group>"; };
 		0F1ABF00157167C400BF9DA7 /* remote_temp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remote_temp.png; sourceTree = "<group>"; };
 		0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DejaVuSans-Bold-Caps.ttf"; sourceTree = "<group>"; };
-		0F221975171181C300B111F2 /* UISearchBar+LeftButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UISearchBar+LeftButton.h"; path = "UISearchBar+LeftButton/UISearchBar+LeftButton.h"; sourceTree = "<group>"; };
-		0F221976171181C300B111F2 /* UISearchBar+LeftButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UISearchBar+LeftButton.m"; path = "UISearchBar+LeftButton/UISearchBar+LeftButton.m"; sourceTree = "<group>"; };
 		0F2219791711AF3F00B111F2 /* button_view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_view.png; sourceTree = "<group>"; };
 		0F22197B1711AF4A00B111F2 /* button_view@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_view@2x.png"; sourceTree = "<group>"; };
 		0F22197D1711D56800B111F2 /* button_view_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_view_list.png; sourceTree = "<group>"; };
@@ -2101,15 +2098,6 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
-		0F2219781711AA8100B111F2 /* UISearchBar+LeftButton */ = {
-			isa = PBXGroup;
-			children = (
-				0F221975171181C300B111F2 /* UISearchBar+LeftButton.h */,
-				0F221976171181C300B111F2 /* UISearchBar+LeftButton.m */,
-			);
-			name = "UISearchBar+LeftButton";
-			sourceTree = "<group>";
-		};
 		0F4156421646D810009E6DD4 /* KenBurns */ = {
 			isa = PBXGroup;
 			children = (
@@ -2936,7 +2924,6 @@
 			children = (
 				0F175F20154D5C0D00C1C61F /* iPad */,
 				0F175F13154D45B300C1C61F /* iPhone */,
-				0F2219781711AA8100B111F2 /* UISearchBar+LeftButton */,
 				0F7B95101708975500880F33 /* UIImage+Resize */,
 				0FB1616B151F4005001BA2D4 /* SDWebImage */,
 				0F747767151E5E8600EF78AD /* Demiurgic-JSON-RPC */,
@@ -4103,7 +4090,6 @@
 				0F4019B018F3ECEB0064E4DC /* customButton.m in Sources */,
 				0FDC891A170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m in Sources */,
 				0F680CB917103DB60092298A /* ClearCacheView.m in Sources */,
-				0F221977171181C300B111F2 /* UISearchBar+LeftButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

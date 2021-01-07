@@ -29,7 +29,6 @@
 #import "RecentlyAddedCell.h"
 #import "NSString+MD5.h"
 #import "UIScrollView+SVPullToRefresh.h"
-#import "UISearchBar+LeftButton.h"
 #import "ProgressPieView.h"
 #import "SettingsValuesViewController.h"
 #import "customButton.h"
