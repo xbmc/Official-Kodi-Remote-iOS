@@ -5530,6 +5530,36 @@ NSIndexPath *selected;
     return sortMethod;
 }
 
+#pragma mark -
+#pragma mark UISearchController Delegate Methods
+
+-(void)showSearchBar {
+    UISearchBar *searchbar = self.searchController.searchBar;
+    if (showbar) {
+        searchbar.frame = CGRectMake(0, 0, self.view.frame.size.width, searchbar.frame.size.height);
+        [self.view addSubview:searchbar];
+    }
+    else {
+        [searchbar removeFromSuperview];
+        [dataList addSubview:searchbar];
+    }
+}
+
+-(void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    [self showSearchBar];
+}
+
+- (void)willPresentSearchController:(UISearchController *)controller {
+    showbar = YES;
+    [self showSearchBar];
+}
+
+- (void) willDismissSearchController:(UISearchController *)controller{
+    showbar = NO;
+    [self showSearchBar];
+}
+
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
   NSString *searchString = searchController.searchBar.text;
@@ -5587,12 +5617,11 @@ NSIndexPath *selected;
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];
     dataList.tableFooterView = [UIView new];
 
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
-    }
+    self.searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.searchBar.delegate = self;
+    self.searchController.delegate = self;
     self.definesPresentationContext = NO;
     [self.searchController.searchBar sizeToFit];
     [self.searchController setActive:NO];
