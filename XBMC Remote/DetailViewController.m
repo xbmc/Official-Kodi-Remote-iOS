@@ -6023,6 +6023,12 @@ NSIndexPath *selected;
         [userDefaults setObject:[NSNumber numberWithBool:![[userDefaults objectForKey:viewKey] boolValue]]
                          forKey:viewKey];
         enableCollectionView = [self collectionViewIsEnabled];
+        if (enableCollectionView) {
+            self.searchController.searchBar.hidden = YES;
+        }
+        else {
+            self.searchController.searchBar.hidden = NO;
+        }
         if ([[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue] == YES){
             recentlyAddedView = TRUE;
             currentCollectionViewName = NSLocalizedString(@"View: Fanart", nil);
