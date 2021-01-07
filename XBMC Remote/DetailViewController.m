@@ -5278,7 +5278,6 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
     [self.navigationController.navigationBar setTintColor:TINT_COLOR];
-    self.searchController.searchBar.tintColor = [utils lighterColorForColor:searchBarColor];
     [channelListUpdateTimer invalidate];
     channelListUpdateTimer = nil;
 }
