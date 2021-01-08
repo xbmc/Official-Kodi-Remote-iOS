@@ -1574,6 +1574,7 @@
                               CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4 -COLLECTION_HEADER_HEIGHT - bottomPadding);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
+    _indexView.alpha = 1.0;
     _indexView.hidden = YES;
     [_indexView addTarget:self action:@selector(indexViewValueChanged:) forControlEvents:UIControlEventValueChanged];
     [detailView addSubview:_indexView];
@@ -1646,6 +1647,7 @@
     if (stackscrollFullscreen == YES){
         [self alphaView:sectionNameOverlayView AnimDuration:0.3f Alpha:0];
     }
+    _indexView.alpha = 1.0;
 }
 
 #pragma mark - Table Animation
@@ -5673,6 +5675,7 @@ NSIndexPath *selected;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
     [dataList setSectionIndexBackgroundColor:[UIColor clearColor]];
+    [dataList setSectionIndexColor:[UIColor systemGrayColor]];
     [dataList setSectionIndexTrackingBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
     [dataList setSeparatorInset:UIEdgeInsetsMake(0, 53, 0, 0)];
     

@@ -150,18 +150,20 @@
 
     NSMutableArray *workingLabels = [NSMutableArray arrayWithCapacity:self.indexTitles.count];
     for (NSString *indexTitle in self.indexTitles) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        label.text = indexTitle;
-        label.font = [UIFont boldSystemFontOfSize:11];
-        label.minimumScaleFactor = 5.0f/11.0f;
-        label.adjustsFontSizeToFitWidth = YES;
-        label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0];
-        label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1.0];
-        label.shadowOffset = CGSizeMake(0, 1);
-        label.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:label];
-        [workingLabels addObject:label];
+        if (![indexTitle isEqualToString:@"🔍"]) {
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+            label.text = indexTitle;
+            label.font = [UIFont boldSystemFontOfSize:11];
+            label.minimumScaleFactor = 5.0f/11.0f;
+            label.adjustsFontSizeToFitWidth = YES;
+            label.backgroundColor = [UIColor clearColor];
+            label.textColor = [UIColor systemGrayColor];
+            label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1.0];
+            label.shadowOffset = CGSizeMake(0, 1);
+            label.textAlignment = NSTextAlignmentCenter;
+            [self addSubview:label];
+            [workingLabels addObject:label];
+        }
     }
     self.indexLabels = [NSArray arrayWithArray:workingLabels];
 }
