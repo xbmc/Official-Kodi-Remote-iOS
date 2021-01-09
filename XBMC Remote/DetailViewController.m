@@ -727,30 +727,32 @@
     self.richResults = [storeRichResults mutableCopy];
     NSInteger total = [self.richResults count];
     NSMutableIndexSet *mutableIndexSet = [[NSMutableIndexSet alloc] init];
-    switch (newWatchMode) {
-        case 0:
-            break;
-            
-        case 1:
-            for (int i = 0; i < total; i++){
-                if ([[[self.richResults objectAtIndex:i] objectForKey:@"playcount"] intValue] > 0){
-                    [mutableIndexSet addIndex:i];
+    if (!albumView) {
+        switch (newWatchMode) {
+            case 0:
+                break;
+                
+            case 1:
+                for (int i = 0; i < total; i++){
+                    if ([[[self.richResults objectAtIndex:i] objectForKey:@"playcount"] intValue] > 0){
+                        [mutableIndexSet addIndex:i];
+                    }
                 }
-            }
-            [self.richResults removeObjectsAtIndexes:mutableIndexSet];
-            break;
+                [self.richResults removeObjectsAtIndexes:mutableIndexSet];
+                break;
 
-        case 2:
-            for (int i = 0; i < total; i++){
-                if ([[[self.richResults objectAtIndex:i] objectForKey:@"playcount"] intValue] == 0){
-                    [mutableIndexSet addIndex:i];
+            case 2:
+                for (int i = 0; i < total; i++){
+                    if ([[[self.richResults objectAtIndex:i] objectForKey:@"playcount"] intValue] == 0){
+                        [mutableIndexSet addIndex:i];
+                    }
                 }
-            }
-            [self.richResults removeObjectsAtIndexes:mutableIndexSet];
-            break;
-            
-        default:
-            break;
+                [self.richResults removeObjectsAtIndexes:mutableIndexSet];
+                break;
+                
+            default:
+                break;
+        }
     }
     [self indexAndDisplayData];
     
