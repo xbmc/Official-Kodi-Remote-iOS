@@ -1,0 +1,28 @@
+default_platform(:ios)
+
+before_all do
+  ensure_bundle_exec
+  skip_docs
+  xcversion(version: "~> 12.3")
+end
+
+after_all do
+  clean_build_artifacts
+end
+
+error do
+  clean_build_artifacts
+end
+
+desc 'Build & upload to Testflight'
+lane :tf do
+  gym(
+    scheme: 'Kodi Remote',
+    clean: true,
+    output_directory: 'build',
+    include_symbols: true,
+    include_bitcode: true,
+    export_method: 'app-store',
+  )
+  testflight
+end

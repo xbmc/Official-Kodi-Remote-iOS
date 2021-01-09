@@ -14,3 +14,5 @@ build/
 *.perspectivev3
 *.psd
 DerivedData/*
+.bundle
+fastlane/report.xml
