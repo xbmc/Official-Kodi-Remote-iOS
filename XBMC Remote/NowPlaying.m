@@ -438,12 +438,8 @@ int currentItemID;
                 frame.size.height = frame.size.height * (screenSize/originalSize) + 10;
             }
             if (screenWidth > 320) {
-                float transform = 1.0f;
-                if (IS_IPHONE_6 || IS_IPHONE_X) {
-                    transform = 0.9f;
-                }
-                else if (IS_IPHONE_6_PLUS){
-                    transform = 0.82f;
+                float transform = 1.0f/GET_TRANSFORM_X;
+                if (IS_IPHONE_6_PLUS){
                     frame.origin.x = frame.origin.x + 8;
                     frame.origin.y = frame.origin.y + 3;
                 }
