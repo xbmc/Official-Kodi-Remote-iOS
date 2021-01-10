@@ -5603,12 +5603,10 @@ NSIndexPath *selected;
     iOSYDelta = self.searchController.searchBar.frame.size.height;
     dataList.tableHeaderView = self.searchController.searchBar;
 
-    UIImage *viewButtonImg = [UIImage imageNamed:@"button_view_list_toolbar.png"];
-    [button6 setImage:viewButtonImg forState:UIControlStateNormal];
+    [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar.png"] forState:UIControlStateNormal];
     [button6 addTarget:self action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
 
-    UIImage *sortButtonImg = [UIImage imageNamed:@"button_sort_bright.png"];
-    [button7 setImage:sortButtonImg forState:UIControlStateNormal];
+    [button7 setImage:[UIImage imageNamed:@"button_sort_bright.png"] forState:UIControlStateNormal];
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
