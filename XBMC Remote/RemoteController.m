@@ -58,13 +58,15 @@
     int startX = -6;
     int startY = 6;
     int transViewY = 46;
-    if (IS_IPHONE_6 || IS_IPHONE_X) {
-        startX = 3;
-        transViewY = 58;
-    }
-    else if (IS_IPHONE_6_PLUS){
+    if (transform>=1.29f) {
+        // All devices with width >= 414
         startX = 6;
         transViewY = 66;
+    }
+    else if (transform>1.0f) {
+        // All devices with 320 > width > 414
+        startX = 3;
+        transViewY = 58;
     }
         
     int newWidth = (int) (296.0f * transform);

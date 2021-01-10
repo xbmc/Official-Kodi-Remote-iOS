@@ -5756,10 +5756,8 @@ NSIndexPath *selected;
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     
-    CGFloat deltaY = 0;
     searchBarColor = [UIColor colorWithRed:.572f green:.572f blue:.572f alpha:1];
     collectionViewSearchBarColor = [UIColor colorWithRed:22.0f/255.0f green:22.0f/255.0f blue:22.0f/255.0f alpha:1];
-    deltaY = 64.0f;
 
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
         albumView = TRUE;
@@ -5810,20 +5808,16 @@ NSIndexPath *selected;
     NSDictionary *itemSizes = [parameters objectForKey:@"itemSizes"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [self setIphoneInterface:[itemSizes objectForKey:@"iphone"]];
-        if (IS_IPHONE_X) {
-            deltaY = 0;
-        }
     }
     else {
         [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
-        deltaY = 0;
     }
     
     if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length]){
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
     }
     
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, deltaY + 42.0f) deltaY:deltaY deltaX:0];
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 42.0f) deltaY:0 deltaX:0];
     [self.view addSubview:messagesView];
     
     frame = dataList.frame;
