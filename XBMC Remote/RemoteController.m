@@ -20,6 +20,7 @@
 #import "DetailViewController.h"
 
 #define ROTATION_TRIGGER 0.015f 
+#define SCALE_TO_REDUCE_BORDERS 1.05f
 
 @interface RemoteController ()
 
@@ -141,14 +142,12 @@
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help.png"];
-        if([[UIScreen mainScreen ] bounds].size.height >= 568){
-            float transform = GET_TRANSFORM_X;
-            CGRect frame = remoteControlView.frame;
-            frame.size.height = frame.size.height *transform;
-            frame.size.width = frame.size.width*transform;
-            [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y + 12, frame.size.width * 1.075, frame.size.height * 1.075)];
-        }
-        CGRect frame = subsInfoLabel.frame;
+        float transform = GET_TRANSFORM_X;
+        CGRect frame = remoteControlView.frame;
+        frame.size.height = frame.size.height *transform;
+        frame.size.width = frame.size.width*transform;
+        [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width* SCALE_TO_REDUCE_BORDERS, frame.size.height* SCALE_TO_REDUCE_BORDERS)];
+        frame = subsInfoLabel.frame;
         frame.size.width = [[UIScreen mainScreen ] bounds].size.width;
         frame.origin.x = ((remoteControlView.frame.size.width - [[UIScreen mainScreen ] bounds].size.width) / 2);
         subsInfoLabel.frame = frame;
@@ -1120,7 +1119,7 @@ NSInteger buttonAction;
         [UIView setAnimationDuration:0.2];
         quickHelpView.alpha = 1.0;
         [UIView commitAnimations];
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
 
     }
     else {
