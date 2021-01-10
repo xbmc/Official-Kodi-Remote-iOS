@@ -281,13 +281,7 @@
     NSMutableDictionary *channelEPG = [parameters objectForKey:@"channelEPG"];
     NSIndexPath *indexPath = [parameters objectForKey:@"indexPath"];
     NSMutableDictionary *item = [parameters objectForKey:@"item"];
-    UITableViewCell *cell = nil;
-    if ([self doesShowSearchResults]){
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-    }
-    else{
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-    }
+    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];;
     UILabel *current = (UILabel*) [cell viewWithTag:2];
     UILabel *next = (UILabel*) [cell viewWithTag:4];
     current.text = [channelEPG objectForKey:@"current"];
@@ -939,12 +933,10 @@
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         blackTableSeparator = YES;
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
-        dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
     else{
         blackTableSeparator = NO;
         self.searchController.searchBar.tintColor = searchBarColor;
-        dataList.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
         dataList.separatorColor = [UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1];
     }
     if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length]){
@@ -2909,15 +2901,9 @@ int originYear = 0;
 }
 
 - (id)getCell:(NSIndexPath *)indexPath {
-    id cell;
-    if ([self.searchController isActive]){
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-    }
-    else if (enableCollectionView){
+    id cell = [dataList cellForRowAtIndexPath:indexPath];
+    if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
-    else{
-        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     return cell;
 }
@@ -3059,22 +3045,12 @@ NSIndexPath *selected;
 }
 
 -(void)markVideo:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath watched:(int)watched{
-    id cell;
-    UITableView *tableView;
-    BOOL isTableView = FALSE;
-    if ([self.searchController isActive]){
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-        isTableView = TRUE;
-        tableView = dataList;
-    }
-    else if (enableCollectionView){
+    id cell = [dataList cellForRowAtIndexPath:indexPath];;
+    UITableView *tableView = dataList;
+    BOOL isTableView = TRUE;
+    if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
         isTableView = FALSE;
-    }
-    else{
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-        isTableView = TRUE;
-        tableView = dataList;
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
@@ -3767,15 +3743,9 @@ NSIndexPath *selected;
 }
 
 -(void)openWithVLC:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath{
-    id cell;
-    if ([self.searchController isActive]){
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-    }
-    else if (enableCollectionView){
+    id cell = [dataList cellForRowAtIndexPath:indexPath];
+    if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
-    else{
-        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
@@ -3808,15 +3778,9 @@ NSIndexPath *selected;
     if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
         return;
     }
-    id cell;
-    if ([self.searchController isActive]){
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-    }
-    else if (enableCollectionView){
+    id cell = [dataList cellForRowAtIndexPath:indexPath];;
+    if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
-    else{
-        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     NSString *methodToCall = @"PVR.DeleteTimer";
@@ -3890,15 +3854,9 @@ NSIndexPath *selected;
             parameterName = @"broadcastid";
         }
     }
-    id cell;
-    if ([self.searchController isActive]){
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-    }
-    else if (enableCollectionView){
+    id cell = [dataList cellForRowAtIndexPath:indexPath];;
+    if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
-    else{
-        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
@@ -3959,16 +3917,9 @@ NSIndexPath *selected;
 }
 
 -(void)addQueue:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath afterCurrentItem:(BOOL)afterCurrent{
-//    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
-    id cell;
-    if ([self.searchController isActive]){
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-    }
-    else if (enableCollectionView){
+    id cell = [dataList cellForRowAtIndexPath:indexPath];
+    if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
-    else{
-        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
@@ -4041,15 +3992,9 @@ NSIndexPath *selected;
 }
 
 -(void)playerOpen:(NSDictionary *)params index:(NSIndexPath *) indexPath{
-    id cell;
-    if ([self.searchController isActive]){
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-    }
-    else if (enableCollectionView){
+    id cell = [dataList cellForRowAtIndexPath:indexPath];
+    if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
-    else{
-        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
@@ -4074,15 +4019,9 @@ NSIndexPath *selected;
     if ([mainFields count]==0){
         return;
     }
-    id cell;
-    if ([self.searchController isActive]){
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-    }
-    else if (enableCollectionView){
+    id cell = [dataList cellForRowAtIndexPath:indexPath];;
+    if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
-    else{
-        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
@@ -4386,15 +4325,9 @@ NSIndexPath *selected;
     UIActivityIndicatorView *queuing= nil;
     
     if (indexPath != nil){
-        id cell = nil;
-        if ([self.searchController isActive]){
-            cell = [dataList cellForRowAtIndexPath:indexPath];
-        }
-        else if (enableCollectionView){
+        id cell = [dataList cellForRowAtIndexPath:indexPath];
+        if (enableCollectionView){
             cell = [collectionView cellForItemAtIndexPath:indexPath];
-        }
-        else{
-            cell = [dataList cellForRowAtIndexPath:indexPath];
         }
         queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
         [queuing startAnimating];
@@ -5247,11 +5180,6 @@ NSIndexPath *selected;
 }
 
 -(void)updateChannelListTableCell {
-    if ([self.searchController isActive]) {
-        [dataList beginUpdates];
-        [dataList reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
-        [dataList endUpdates];
-    }
     [dataList beginUpdates];
     [dataList reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
     [dataList endUpdates];
@@ -5765,7 +5693,6 @@ NSIndexPath *selected;
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         blackTableSeparator = YES;
         [dataList setSeparatorInset:UIEdgeInsetsZero];
-        dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
         dataList.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
     }
     self.searchController.searchBar.tintColor = searchBarColor;
