@@ -56,6 +56,7 @@
         [backgroundTextField setBorderStyle:UITextBorderStyleRoundedRect];
         [backgroundTextField setBackgroundColor:[UIColor whiteColor]];
         [backgroundTextField setFont:[UIFont systemFontOfSize:textSize]];
+        [backgroundTextField setTextColor:[UIColor blackColor]];
         [backgroundTextField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
         backgroundTextField.autocorrectionType = UITextAutocorrectionTypeNo;
         backgroundTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
