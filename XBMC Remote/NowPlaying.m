@@ -382,12 +382,20 @@ float storePercentage;
 int storedItemID;
 int currentItemID;
 
+-(CGRect)transformFrame:(CGRect)frame{
+    CGFloat center_x = CGRectGetMidX(frame);
+    CGFloat center_y = CGRectGetMidY(frame);
+    CGFloat transform_x = GET_TRANSFORM_X;
+    CGFloat transform_y = GET_TRANSFORM_Y;
+    frame.size.width *= transform_x;
+    frame.size.height *= transform_x;
+    frame.origin.x = center_x*transform_x - frame.size.width/2;
+    frame.origin.y = center_y*transform_y - frame.size.height/2;
+    return frame;
+}
+
 -(void)setCoverSize:(NSString *)type{
     NSString *jewelImg = @"";
-    float screenSize = [[UIScreen mainScreen ] bounds].size.height;
-    float screenWidth = [[UIScreen mainScreen ] bounds].size.width;
-    float originalSize = 480.0f;
-
     if ([type isEqualToString:@"song"]){
         jewelImg = @"jewel_cd.9.png";
         CGRect frame = thumbnailView.frame;
@@ -396,15 +404,7 @@ int currentItemID;
             frame.origin.y = 43;
             frame.size.width = 238;
             frame.size.height = 238;
-            if(screenSize >= 568) {
-                frame.origin.y = frame.origin.y  + 36;
-            }
-            if (screenWidth > 320) {
-                frame.origin.x = frame.origin.x * (screenWidth/320);
-                frame.origin.y = frame.origin.y * (screenWidth/320) + ( 36 * (screenWidth/320)) - 36;
-                frame.size.width = frame.size.width * (screenWidth/320) + ( 6 * (screenWidth/320));
-                frame.size.height = frame.size.height * (screenWidth/320) + ( 6 * (screenWidth/320));
-            }
+            frame = [self transformFrame:frame];
         }
         else {
             jewelImg=@"jewel_cd.9@2x.png";
@@ -431,23 +431,7 @@ int currentItemID;
             frame.origin.y = 39;
             frame.size.width = 172;
             frame.size.height = 248;
-            if(screenSize >= 568) {
-                frame.origin.x = frame.origin.x - 12;
-                frame.origin.y = frame.origin.y + 10;
-                frame.size.width = frame.size.width * (screenSize/originalSize);
-                frame.size.height = frame.size.height * (screenSize/originalSize) + 10;
-            }
-            if (screenWidth > 320) {
-                float transform = 1.0f/GET_TRANSFORM_X;
-                if (IS_IPHONE_6_PLUS){
-                    frame.origin.x = frame.origin.x + 8;
-                    frame.origin.y = frame.origin.y + 3;
-                }
-                frame.origin.x = frame.origin.x * (screenWidth/320) * transform;
-                frame.origin.y = frame.origin.y * (screenWidth/320);
-                frame.size.width = frame.size.width * (screenWidth/320) * transform;
-                frame.size.height = frame.size.height * (screenWidth/320) * transform;
-            }
+            frame = [self transformFrame:frame];
         }
         else{
             jewelImg=@"jewel_dvd.9@2x.png";
@@ -474,17 +458,7 @@ int currentItemID;
             frame.origin.y = 78;
             frame.size.width = 280;
             frame.size.height = 158;
-            if(screenSize >= 568) {
-                frame.origin.y = frame.origin.y  + 36;
-                frame.origin.x = frame.origin.x  + 2;
-            }
-            if (screenWidth > 320) {
-                frame.origin.x = frame.origin.x * (screenWidth/320);
-                frame.origin.y = frame.origin.y * (screenWidth/320) + ( 36 * (screenWidth/320)) - 34;
-                frame.size.width = frame.size.width * (screenWidth/320);
-                frame.size.height = frame.size.height * (screenWidth/320) + ( 6 * (screenWidth/320));
-            }
-
+            frame = [self transformFrame:frame];
         }
         else{
             jewelImg=@"jewel_tv.9@2x.png";
@@ -511,15 +485,7 @@ int currentItemID;
             frame.origin.y = 43;
             frame.size.width = 238;
             frame.size.height = 238;
-            if(screenSize >= 568) {
-                frame.origin.y = frame.origin.y  + 36;
-            }
-            if (screenWidth > 320) {
-                frame.origin.x = frame.origin.x * (screenWidth/320);
-                frame.origin.y = frame.origin.y * (screenWidth/320) + ( 36 * (screenWidth/320)) - 36;
-                frame.size.width = frame.size.width * (screenWidth/320) + ( 6 * (screenWidth/320));
-                frame.size.height = frame.size.height * (screenWidth/320) + ( 6 * (screenWidth/320));
-            }
+            frame = [self transformFrame:frame];
         }
         else {
             jewelImg=@"jewel_cd.9@2x.png";

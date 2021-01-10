@@ -33,6 +33,8 @@
 #define IS_IPHONE_X     (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)812) < DBL_EPSILON)
 
 #define GET_TRANSFORM_X (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/320.0f)
+#define GET_TRANSFORM_Y (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/480.0f)
+
 #define IS_AT_LEAST_IPHONE_X_HEIGHT (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds) >= 812)
 
 
