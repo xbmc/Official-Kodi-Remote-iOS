@@ -3938,7 +3938,7 @@ NSIndexPath *selected;
                }
                else {
                    NSString *message = @"";
-                   message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil){
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -3950,7 +3950,7 @@ NSIndexPath *selected;
                                                                        message:message
                                                                       delegate:self
                                                              cancelButtonTitle:nil
-                                                             otherButtonTitles:@"Copy to clipboard", nil];
+                                                             otherButtonTitles:NSLocalizedString(@"Copy to clipboard", nil), nil];
                    [alertView show];
                }
     }];
@@ -4027,7 +4027,7 @@ NSIndexPath *selected;
                }
                else {
                    NSString *message = @"";
-                    message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                    message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil){
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -4039,7 +4039,7 @@ NSIndexPath *selected;
                                                                        message:message
                                                                       delegate:self
                                                              cancelButtonTitle:nil
-                                                             otherButtonTitles:@"Copy to clipboard", nil];
+                                                             otherButtonTitles:NSLocalizedString(@"Copy to clipboard", nil), nil];
                    [alertView show];
                }
            }];
@@ -4734,7 +4734,7 @@ NSIndexPath *selected;
     GlobalData *obj=[GlobalData getInstance];
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];    
 //    NSLog(@"START");
-    debugText.text = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+    debugText.text = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
@@ -5012,7 +5012,7 @@ NSIndexPath *selected;
                                                                  message:debugText.text
                                                                 delegate:self
                                                        cancelButtonTitle:nil
-                                                       otherButtonTitles:@"Copy to clipboard", nil];
+                                                       otherButtonTitles:NSLocalizedString(@"Copy to clipboard",nil), nil];
              [alertView show];
              UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
              pasteboard.string = debugText.text;
