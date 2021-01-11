@@ -592,7 +592,7 @@ int count=0;
                }
                else {
                    NSString *message = @"";
-                   message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -604,7 +604,7 @@ int count=0;
                                                                        message:message
                                                                       delegate:self
                                                              cancelButtonTitle:nil
-                                                             otherButtonTitles:@"Copy to clipboard", nil];
+                                                             otherButtonTitles:NSLocalizedString(@"Copy to clipboard",nil), nil];
                    [alertView show];
                }
            }];
