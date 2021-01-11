@@ -4347,6 +4347,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
@@ -4366,6 +4367,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
