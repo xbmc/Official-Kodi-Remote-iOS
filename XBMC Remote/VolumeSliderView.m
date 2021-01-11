@@ -90,23 +90,13 @@
             frame_tmp.size.width = [self currentScreenBoundsDependOnOrientation].size.width;
             self.frame = frame_tmp;
             plusButton.frame = minusButton.frame;
-            float transform = 1.0f;
-            if (IS_IPHONE_6 || IS_IPHONE_X) {
-                transform = 1.30f;
-                frame_tmp = plusButton.frame;
-                frame_tmp.origin.y = frame_tmp.origin.y + 54.0f;
-                plusButton.frame = frame_tmp;
-            }
-            else if (IS_IPHONE_6_PLUS){
-                transform = 1.53f;
-                frame_tmp = plusButton.frame;
-                frame_tmp.origin.y = frame_tmp.origin.y + 94.0f;
-                plusButton.frame = frame_tmp;
-            }
+            frame_tmp = plusButton.frame;
+            frame_tmp.origin.y = [self currentScreenBoundsDependOnOrientation].size.width - 44 - plusButton.frame.size.height;
+            plusButton.frame = frame_tmp;
             frame_tmp = minusButton.frame;
             [minusButton setFrame:CGRectMake(frame_tmp.origin.x, 26, frame_tmp.size.width, frame_tmp.size.height)];
             frame_tmp = volumeSlider.frame;
-            [volumeSlider setFrame:CGRectMake(frame_tmp.origin.x, 33 + minusButton.frame.size.width, frame_tmp.size.width, frame_tmp.size.height * transform)];
+            [volumeSlider setFrame:CGRectMake(frame_tmp.origin.x, 33 + minusButton.frame.size.width, frame_tmp.size.width, plusButton.frame.origin.y - minusButton.frame.origin.y - minusButton.frame.size.height - 12)];
         }
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleApplicationOnVolumeChanged:)

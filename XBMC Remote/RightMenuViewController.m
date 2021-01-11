@@ -595,7 +595,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    int deltaY = 22.0f;
+    CGFloat deltaY = [[UIApplication sharedApplication] statusBarFrame].size.height;
     self.peekLeftAmount = 40.0f;
     CGRect frame = [[UIScreen mainScreen ] bounds];
     CGFloat deltaX = 40.0f;
@@ -604,9 +604,6 @@
         deltaX = 0.0f;
         deltaY = 0.0f;
         self.peekLeftAmount = 0.0f;
-    }
-    else if (IS_IPHONE_X) {
-        deltaY += 26.0f;
     }
     torchIsOn = NO;
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");

@@ -20,6 +20,7 @@
 #import "DetailViewController.h"
 
 #define ROTATION_TRIGGER 0.015f 
+#define SCALE_TO_REDUCE_BORDERS 1.05
 
 @interface RemoteController ()
 
@@ -53,20 +54,21 @@
 
 - (void)setEmbeddedView{
     CGRect frame = TransitionalView.frame;
-    float transform = 1.0f;
+    float transform = GET_TRANSFORM_X;
     int startX = -6;
     int startY = 6;
     int transViewY = 46;
-    if (IS_IPHONE_6 || IS_IPHONE_X) {
-        transform = 1.16f;
-        startX = 3;
-        transViewY = 58;
-    }
-    else if (IS_IPHONE_6_PLUS){
-        transform = 1.29f;
+    if (transform>=1.29f) {
+        // All devices with width >= 414
         startX = 6;
         transViewY = 66;
     }
+    else if (transform>1.0f) {
+        // All devices with 320 > width > 414
+        startX = 3;
+        transViewY = 58;
+    }
+        
     int newWidth = (int) (296.0f * transform);
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton *) self.view viewWithTag:2],
@@ -142,20 +144,12 @@
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help.png"];
-        if([[UIScreen mainScreen ] bounds].size.height >= 568){
-            float transform = 1.0f;
-            if (IS_IPHONE_6 || IS_IPHONE_X) {
-                transform = 1.16f;
-            }
-            else if (IS_IPHONE_6_PLUS){
-                transform = 1.29f;
-            }
-            CGRect frame = remoteControlView.frame;
-            frame.size.height = frame.size.height *transform;
-            frame.size.width = frame.size.width*transform;
-            [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y + 12, frame.size.width * 1.075, frame.size.height * 1.075)];
-        }
-        CGRect frame = subsInfoLabel.frame;
+        CGFloat transform = GET_TRANSFORM_X;
+        CGRect frame = remoteControlView.frame;
+        frame.size.height = frame.size.height *transform;
+        frame.size.width = frame.size.width*transform;
+        [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width* SCALE_TO_REDUCE_BORDERS, frame.size.height* SCALE_TO_REDUCE_BORDERS)];
+        frame = subsInfoLabel.frame;
         frame.size.width = [[UIScreen mainScreen ] bounds].size.width;
         frame.origin.x = ((remoteControlView.frame.size.width - [[UIScreen mainScreen ] bounds].size.width) / 2);
         subsInfoLabel.frame = frame;
@@ -1127,7 +1121,7 @@ NSInteger buttonAction;
         [UIView setAnimationDuration:0.2];
         quickHelpView.alpha = 1.0;
         [UIView commitAnimations];
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
 
     }
     else {

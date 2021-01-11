@@ -5327,20 +5327,10 @@ NSIndexPath *selected;
         else{
             cellMinimumLineSpacing = 0;
             cellGridWidth = [[itemSizes objectForKey:@"width"] floatValue];
-            if (IS_IPHONE_6 || IS_IPHONE_X) {
-                cellGridWidth = (int)(cellGridWidth * 1.18f);
-            }
-            else if (IS_IPHONE_6_PLUS){
-                cellGridWidth = (int)(cellGridWidth * 1.31f);
-            }
+            cellGridWidth = (int)(cellGridWidth * GET_TRANSFORM_X);
         }
         cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
-        if (IS_IPHONE_6 || IS_IPHONE_X) {
-            cellGridHeight = (int)(cellGridHeight * 1.18f);
-        }
-        else if (IS_IPHONE_6_PLUS){
-            cellGridHeight = (int)(cellGridHeight * 1.31f);
-        }
+        cellGridHeight = (int)(cellGridHeight * GET_TRANSFORM_X);
     }
     if ([itemSizes objectForKey:@"fullscreenWidth"] && [itemSizes objectForKey:@"fullscreenHeight"]){
         fullscreenCellGridWidth = [[itemSizes objectForKey:@"fullscreenWidth"] floatValue];
@@ -5640,10 +5630,8 @@ NSIndexPath *selected;
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     
-    CGFloat deltaY = 0;
     searchBarColor = [UIColor colorWithRed:.572f green:.572f blue:.572f alpha:1];
     collectionViewSearchBarColor = [UIColor colorWithRed:22.0f/255.0f green:22.0f/255.0f blue:22.0f/255.0f alpha:1];
-    deltaY = 64.0f;
 
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
         albumView = TRUE;
@@ -5693,20 +5681,16 @@ NSIndexPath *selected;
     NSDictionary *itemSizes = [parameters objectForKey:@"itemSizes"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         [self setIphoneInterface:[itemSizes objectForKey:@"iphone"]];
-        if (IS_IPHONE_X) {
-            deltaY = 0;
-        }
     }
     else {
         [self setIpadInterface:[itemSizes objectForKey:@"ipad"]];
-        deltaY = 0;
     }
     
     if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length]){
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
     }
     
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, deltaY + 42.0f) deltaY:deltaY deltaX:0];
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 42.0f) deltaY:0 deltaX:0];
     [self.view addSubview:messagesView];
     
     frame = dataList.frame;

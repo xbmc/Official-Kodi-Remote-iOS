@@ -374,13 +374,9 @@ static inline BOOL IsEmpty(id obj) {
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    int deltaY = 62;
-    int deltaX = 0;
+    int deltaY = 44 + [[UIApplication sharedApplication] statusBarFrame].size.height;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         deltaY = 0;
-    }
-    else if (IS_IPHONE_X) {
-        deltaY += 26;
     }
     CGFloat bottomPadding = 0;
     if (@available(iOS 11.0, *)) {
@@ -407,7 +403,7 @@ static inline BOOL IsEmpty(id obj) {
     frame.origin.y -= bottomPadding;
     [editTableButton setFrame:frame];
     
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 36 + deltaY) deltaY:deltaY deltaX:deltaX];
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 36 + deltaY) deltaY:deltaY deltaX:0];
     [messagesView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
     [self.view addSubview:messagesView];
     [addHostButton setTitle:NSLocalizedString(@"Add Host", nil) forState:UIControlStateNormal];
