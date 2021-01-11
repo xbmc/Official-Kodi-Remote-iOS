@@ -29,8 +29,8 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
-#define GET_TRANSFORM_X (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/320.0f)
-#define GET_TRANSFORM_Y (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/480.0f)
+#define GET_TRANSFORM_X (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/320.0)
+#define GET_TRANSFORM_Y (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/480.0)
 
 #define IS_AT_LEAST_IPHONE_X_HEIGHT (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds) >= 812)
 

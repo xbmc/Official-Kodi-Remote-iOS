@@ -767,8 +767,8 @@ int h=0;
     clearLogoWidth = self.view.frame.size.width - 20.0f;
     clearLogoHeight = 116;
     float transform = GET_TRANSFORM_X;
-    thumbWidth = PHONE_TV_SHOWS_BANNER_WIDTH * transform;
-    tvshowHeight = PHONE_TV_SHOWS_BANNER_HEIGHT * transform;
+    thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
+    tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
     int shiftParentalRating = -20;
     NSString *contributorString = @"cast";
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){

@@ -20,7 +20,7 @@
 #import "DetailViewController.h"
 
 #define ROTATION_TRIGGER 0.015f 
-#define SCALE_TO_REDUCE_BORDERS 1.05f
+#define SCALE_TO_REDUCE_BORDERS 1.05
 
 @interface RemoteController ()
 
@@ -144,7 +144,7 @@
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help.png"];
-        float transform = GET_TRANSFORM_X;
+        CGFloat transform = GET_TRANSFORM_X;
         CGRect frame = remoteControlView.frame;
         frame.size.height = frame.size.height *transform;
         frame.size.width = frame.size.width*transform;
