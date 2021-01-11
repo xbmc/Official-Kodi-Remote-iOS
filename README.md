@@ -18,7 +18,7 @@ Features
 
 ### For testers
 
-TODO
+Join beta testing: https://testflight.apple.com/join/VQkpfqDN
 
 ### For maintainers (team Kodi)
 
@@ -27,3 +27,4 @@ Use [fastlane](https://fastlane.tools/) to build and submit to Testflight.
 1. `cd` to project's directory in terminal
 2. Install or update Ruby dependencies: `bundle install` or `bundle update`
 3. Run fastlane: `bundle exec fastlane tf`
+    - to avoid username prompt, use `FASTLANE_USER` environment variable

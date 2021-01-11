@@ -24,5 +24,8 @@ lane :tf do
     include_bitcode: true,
     export_method: 'app-store',
   )
-  testflight
+  testflight(
+    distribute_external: true,
+    groups: ['external testers'],
+  )
 end
