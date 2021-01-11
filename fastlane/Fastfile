@@ -2,6 +2,7 @@ default_platform(:ios)
 
 before_all do
   ensure_bundle_exec
+  ensure_git_status_clean
   skip_docs
   xcversion(version: "~> 12.3")
 end
@@ -24,5 +25,8 @@ lane :tf do
     include_bitcode: true,
     export_method: 'app-store',
   )
-  testflight
+  testflight(
+    distribute_external: true,
+    groups: ['external testers'],
+  )
 end
