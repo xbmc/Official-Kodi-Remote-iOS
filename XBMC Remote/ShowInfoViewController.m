@@ -766,7 +766,7 @@ int h=0;
     }
     clearLogoWidth = self.view.frame.size.width - 20.0f;
     clearLogoHeight = 116;
-    float transform = GET_TRANSFORM_X;
+    CGFloat transform = [Utilities getTransformX];
     thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
     tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
     int shiftParentalRating = -20;
@@ -822,7 +822,7 @@ int h=0;
         [self setAndMoveLabels:arrayLabels size:size];
     }
     else {
-        float transform = GET_TRANSFORM_X;
+        CGFloat transform = [Utilities getTransformX];
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
         if (!enableJewel) {

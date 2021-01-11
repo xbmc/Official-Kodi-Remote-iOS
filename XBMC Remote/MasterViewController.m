@@ -420,7 +420,7 @@
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    float transform = GET_TRANSFORM_X;
+    CGFloat transform = [Utilities getTransformX];
     int thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
     int tvshowHeight =  (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
     if ([AppDelegate instance].obj.preferTVPosters==YES){

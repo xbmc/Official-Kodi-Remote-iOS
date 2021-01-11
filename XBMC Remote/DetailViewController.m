@@ -5318,6 +5318,7 @@ NSIndexPath *selected;
 
 -(void)checkParamSize:(NSDictionary *)itemSizes viewWidth:(int)fullWidth{
     if ([itemSizes objectForKey:@"width"] && [itemSizes objectForKey:@"height"]){
+        CGFloat transform = [Utilities getTransformX];
         if ([[itemSizes objectForKey:@"width"] isKindOfClass:[NSString class]]){
             if ([[itemSizes objectForKey:@"width"] isEqualToString:@"fullWidth"]){
                 cellGridWidth = fullWidth;
@@ -5327,10 +5328,10 @@ NSIndexPath *selected;
         else{
             cellMinimumLineSpacing = 0;
             cellGridWidth = [[itemSizes objectForKey:@"width"] floatValue];
-            cellGridWidth = (int)(cellGridWidth * GET_TRANSFORM_X);
+            cellGridWidth = (int)(cellGridWidth * transform);
         }
         cellGridHeight =  [[itemSizes objectForKey:@"height"] floatValue];
-        cellGridHeight = (int)(cellGridHeight * GET_TRANSFORM_X);
+        cellGridHeight = (int)(cellGridHeight * transform);
     }
     if ([itemSizes objectForKey:@"fullscreenWidth"] && [itemSizes objectForKey:@"fullscreenHeight"]){
         fullscreenCellGridWidth = [[itemSizes objectForKey:@"fullscreenWidth"] floatValue];

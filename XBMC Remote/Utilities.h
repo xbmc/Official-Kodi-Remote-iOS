@@ -19,5 +19,7 @@
 - (UIImage*)colorizeImage:(UIImage *)image withColor:(UIColor*)color;
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage;
 + (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode;
++ (CGFloat)getTransformX;
++ (CGFloat)getTransformY;
 
 @end
