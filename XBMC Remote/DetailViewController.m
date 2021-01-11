@@ -2355,19 +2355,14 @@ int originYear = 0;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.searchController.searchBar resignFirstResponder];
     NSDictionary *item = nil;
-    UITableViewCell *cell = nil;
-    CGPoint offsetPoint;
+    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
+    CGPoint offsetPoint = [dataList contentOffset];
     if ([self doesShowSearchResults]){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
-
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-        offsetPoint = [dataList contentOffset];
         offsetPoint.y = offsetPoint.y - 44;
     }
     else{
         item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-        cell = [dataList cellForRowAtIndexPath:indexPath];
-        offsetPoint = [dataList contentOffset];
     }
     int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
