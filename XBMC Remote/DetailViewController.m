@@ -5352,10 +5352,8 @@ NSIndexPath *selected;
     [dataList beginUpdates];
     [dataList reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
     [dataList endUpdates];
-    
-    [collectionView performBatchUpdates:^{
-        [collectionView reloadItemsAtIndexPaths:[collectionView indexPathsForVisibleItems]];
-    } completion:^(BOOL finished) {}];
+
+    [collectionView reloadItemsAtIndexPaths:[collectionView indexPathsForVisibleItems]];
 }
 
 -(NSComparisonResult)alphaNumericCompare:(id)firstObject secondObject:(id)secondObject{
