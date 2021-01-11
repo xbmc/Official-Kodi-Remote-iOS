@@ -281,7 +281,7 @@
     NSMutableDictionary *channelEPG = [parameters objectForKey:@"channelEPG"];
     NSIndexPath *indexPath = [parameters objectForKey:@"indexPath"];
     NSMutableDictionary *item = [parameters objectForKey:@"item"];
-    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];;
+    UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UILabel *current = (UILabel*) [cell viewWithTag:2];
     UILabel *next = (UILabel*) [cell viewWithTag:4];
     current.text = [channelEPG objectForKey:@"current"];
@@ -875,7 +875,7 @@
     button6.hidden = YES;
     button7.hidden = YES;
     if ([self collectionViewCanBeEnabled] == YES){
-        button6.hidden = NO;;
+        button6.hidden = NO;
     }
     sortMethodIndex = -1;
     sortMethodName = nil;
@@ -2157,7 +2157,7 @@ int originYear = 0;
         if (channelListView){
             CGRect frame = genre.frame;
             genre.autoresizingMask = title.autoresizingMask;
-            frame.size.width = title.frame.size.width;;
+            frame.size.width = title.frame.size.width;
             genre.frame = frame;
             [genre setTextColor:[UIColor blackColor]];
             [genre setFont:[UIFont boldSystemFontOfSize:genre.font.pointSize]];
@@ -3045,7 +3045,7 @@ NSIndexPath *selected;
 }
 
 -(void)markVideo:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath watched:(int)watched{
-    id cell = [dataList cellForRowAtIndexPath:indexPath];;
+    id cell = [dataList cellForRowAtIndexPath:indexPath];
     UITableView *tableView = dataList;
     BOOL isTableView = TRUE;
     if (enableCollectionView){
@@ -3527,7 +3527,7 @@ NSIndexPath *selected;
                          completion:^(BOOL finished) {
                              viewWidth = STACKSCROLL_WIDTH;
                              if ([self collectionViewCanBeEnabled] == YES){
-                                 button6.hidden = NO;;
+                                 button6.hidden = NO;
                              }
                              sectionArray = [storeSectionArray copy];
                              sections = [storeSections mutableCopy];
@@ -3778,7 +3778,7 @@ NSIndexPath *selected;
     if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
         return;
     }
-    id cell = [dataList cellForRowAtIndexPath:indexPath];;
+    id cell = [dataList cellForRowAtIndexPath:indexPath];
     if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
     }
@@ -3854,7 +3854,7 @@ NSIndexPath *selected;
             parameterName = @"broadcastid";
         }
     }
-    id cell = [dataList cellForRowAtIndexPath:indexPath];;
+    id cell = [dataList cellForRowAtIndexPath:indexPath];
     if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
     }
@@ -4019,7 +4019,7 @@ NSIndexPath *selected;
     if ([mainFields count]==0){
         return;
     }
-    id cell = [dataList cellForRowAtIndexPath:indexPath];;
+    id cell = [dataList cellForRowAtIndexPath:indexPath];
     if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
     }
@@ -5653,7 +5653,7 @@ NSIndexPath *selected;
     button6.hidden = YES;
     button7.hidden = YES;
     if ([self collectionViewCanBeEnabled] == YES){
-        button6.hidden = NO;;
+        button6.hidden = NO;
     }
     sortMethodIndex = -1;
     sortMethodName = nil;
