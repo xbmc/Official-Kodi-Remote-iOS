@@ -2,6 +2,7 @@ default_platform(:ios)
 
 before_all do
   ensure_bundle_exec
+  ensure_git_status_clean
   skip_docs
   xcversion(version: "~> 12.3")
 end
