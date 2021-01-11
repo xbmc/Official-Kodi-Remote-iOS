@@ -2901,9 +2901,12 @@ int originYear = 0;
 }
 
 - (id)getCell:(NSIndexPath *)indexPath {
-    id cell = [dataList cellForRowAtIndexPath:indexPath];
+    id cell = nil;
     if (enableCollectionView){
         cell = [collectionView cellForItemAtIndexPath:indexPath];
+    }
+    else {
+        cell = [dataList cellForRowAtIndexPath:indexPath];
     }
     return cell;
 }
@@ -3045,12 +3048,11 @@ NSIndexPath *selected;
 }
 
 -(void)markVideo:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath watched:(int)watched{
-    id cell = [dataList cellForRowAtIndexPath:indexPath];
+    id cell = [self getCell:indexPath];
     UITableView *tableView = dataList;
-    BOOL isTableView = TRUE;
+    BOOL isTableView = YES;
     if (enableCollectionView){
-        cell = [collectionView cellForItemAtIndexPath:indexPath];
-        isTableView = FALSE;
+        isTableView = NO;
     }
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
@@ -3080,7 +3082,7 @@ NSIndexPath *selected;
                      nil]
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if ( error == nil && methodError == nil ) {
-             if ( isTableView == TRUE ) {
+             if ( isTableView == YES ) {
                  UIImageView *flagView = (UIImageView*) [cell viewWithTag:9];
                  if ( watched > 0 ){
                      [flagView setHidden:NO];
@@ -3743,10 +3745,7 @@ NSIndexPath *selected;
 }
 
 -(void)openWithVLC:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath{
-    id cell = [dataList cellForRowAtIndexPath:indexPath];
-    if (enableCollectionView){
-        cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
+    id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]){
@@ -3778,10 +3777,7 @@ NSIndexPath *selected;
     if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
         return;
     }
-    id cell = [dataList cellForRowAtIndexPath:indexPath];
-    if (enableCollectionView){
-        cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
+    id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     NSString *methodToCall = @"PVR.DeleteTimer";
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3854,10 +3850,7 @@ NSIndexPath *selected;
             parameterName = @"broadcastid";
         }
     }
-    id cell = [dataList cellForRowAtIndexPath:indexPath];
-    if (enableCollectionView){
-        cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
+    id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3917,10 +3910,7 @@ NSIndexPath *selected;
 }
 
 -(void)addQueue:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath afterCurrentItem:(BOOL)afterCurrent{
-    id cell = [dataList cellForRowAtIndexPath:indexPath];
-    if (enableCollectionView){
-        cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
+    id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     NSDictionary *mainFields=[[self.detailItem mainFields] objectAtIndex:choosedTab];
@@ -3992,10 +3982,7 @@ NSIndexPath *selected;
 }
 
 -(void)playerOpen:(NSDictionary *)params index:(NSIndexPath *) indexPath{
-    id cell = [dataList cellForRowAtIndexPath:indexPath];
-    if (enableCollectionView){
-        cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
+    id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     [jsonRPC callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -4019,10 +4006,7 @@ NSIndexPath *selected;
     if ([mainFields count]==0){
         return;
     }
-    id cell = [dataList cellForRowAtIndexPath:indexPath];
-    if (enableCollectionView){
-        cell = [collectionView cellForItemAtIndexPath:indexPath];
-    }
+    id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
@@ -4325,10 +4309,7 @@ NSIndexPath *selected;
     UIActivityIndicatorView *queuing= nil;
     
     if (indexPath != nil){
-        id cell = [dataList cellForRowAtIndexPath:indexPath];
-        if (enableCollectionView){
-            cell = [collectionView cellForItemAtIndexPath:indexPath];
-        }
+        id cell = [self getCell:indexPath];
         queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
         [queuing startAnimating];
     }
