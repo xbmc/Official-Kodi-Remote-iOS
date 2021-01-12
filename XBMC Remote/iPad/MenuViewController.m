@@ -248,8 +248,8 @@
             int cellHeightPad = cellHeight - 4;
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(232, (int)((cellHeight/2) - (cellHeightPad/2)) - 1, 73, cellHeightPad)];
             xbmc_logo. alpha = .25f;
-            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo"]];
-            [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo"]];
+            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+            [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo.png"]];
             [xbmc_logo setContentMode:UIViewContentModeScaleAspectFit];
             [cell insertSubview:xbmc_logo atIndex:0];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -264,13 +264,13 @@
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0){
-        iconName = @"connection_off";
+        iconName = @"connection_off.png";
         if ([AppDelegate instance].serverOnLine == YES) {
             if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
-                iconName = @"connection_on";
+                iconName = @"connection_on.png";
             }
             else {
-                iconName = @"connection_on_notcp";
+                iconName = @"connection_on_notcp.png";
             }
         }
         line.hidden = YES;

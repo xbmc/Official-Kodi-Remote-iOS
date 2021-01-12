@@ -32,18 +32,19 @@
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
     if (captureDeviceClass != nil) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettings];
         if ([device hasTorch] && [device hasFlash]){
             [device lockForConfiguration:nil];
             if (on) {
                 [device setTorchMode:AVCaptureTorchModeOn];
-                [device setFlashMode:AVCaptureFlashModeOn];
+                [settings setFlashMode:AVCaptureFlashModeOn];
                 torchIsOn = YES;
-                [iconTorch setImage:[UIImage imageNamed:@"torch_on"]];
+                [iconTorch setImage:[UIImage imageNamed:@"torch_on.png"]];
             } else {
                 [device setTorchMode:AVCaptureTorchModeOff];
-                [device setFlashMode:AVCaptureFlashModeOff];
+                [settings setFlashMode:AVCaptureFlashModeOff];
                 torchIsOn = NO;
-                [iconTorch setImage:[UIImage imageNamed:@"torch"]];
+                [iconTorch setImage:[UIImage imageNamed:@"torch.png"]];
             }
             [device unlockForConfiguration];
         }
@@ -105,18 +106,18 @@
     icon.hidden = NO;
     xbmc_logo.hidden = YES;
     [cell setAccessoryView:nil];
-    NSString *iconName = @"";
+    NSString *iconName = @"blank.png";
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         xbmc_logo.hidden = NO;
-        iconName = @"connection_off";
+        iconName = @"connection_off.png";
         icon.alpha = 1;
         if ([AppDelegate instance].serverOnLine == YES) {
             if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
-                iconName = @"connection_on";
+                iconName = @"connection_on.png";
             }
             else {
-                iconName = @"connection_on_notcp";
+                iconName = @"connection_on_notcp.png";
             }
         }
         int cellHeight = 44;
@@ -237,11 +238,11 @@
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
         icon.alpha = .8f;
         if (torchIsOn){
-            iconName = @"torch_on";
+            iconName = @"torch_on.png";
         }
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"xbmc-exec-addon"]){
-        [icon setImageWithURL:[NSURL URLWithString:[[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@""] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
+        [icon setImageWithURL:[NSURL URLWithString:[[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@"blank.png"] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
         icon.alpha = 1.0f;
     }
     else{
@@ -594,7 +595,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    int deltaY = 22.0f;
+    CGFloat deltaY = [[UIApplication sharedApplication] statusBarFrame].size.height;
     self.peekLeftAmount = 40.0f;
     CGRect frame = [[UIScreen mainScreen ] bounds];
     CGFloat deltaX = 40.0f;
@@ -603,9 +604,6 @@
         deltaX = 0.0f;
         deltaY = 0.0f;
         self.peekLeftAmount = 0.0f;
-    }
-    else if (IS_IPHONE_X) {
-        deltaY += 26.0f;
     }
     torchIsOn = NO;
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");

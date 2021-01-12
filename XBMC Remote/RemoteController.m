@@ -20,6 +20,7 @@
 #import "DetailViewController.h"
 
 #define ROTATION_TRIGGER 0.015f 
+#define SCALE_TO_REDUCE_BORDERS 1.05
 
 @interface RemoteController ()
 
@@ -53,20 +54,21 @@
 
 - (void)setEmbeddedView{
     CGRect frame = TransitionalView.frame;
-    float transform = 1.0f;
+    float transform = GET_TRANSFORM_X;
     int startX = -6;
     int startY = 6;
     int transViewY = 46;
-    if (IS_IPHONE_6 || IS_IPHONE_X) {
-        transform = 1.16f;
-        startX = 3;
-        transViewY = 58;
-    }
-    else if (IS_IPHONE_6_PLUS){
-        transform = 1.29f;
+    if (transform>=1.29f) {
+        // All devices with width >= 414
         startX = 6;
         transViewY = 66;
     }
+    else if (transform>1.0f) {
+        // All devices with 320 > width > 414
+        startX = 3;
+        transViewY = 58;
+    }
+        
     int newWidth = (int) (296.0f * transform);
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton *) self.view viewWithTag:2],
@@ -100,12 +102,12 @@
     int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
     [remoteControlView setFrame:CGRectMake(startX, startY, newWidth, newHeight)];
     
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
+    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger.png"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL showGesture=[[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture){
-        gestureSwitchImg = [UIImage imageNamed:@"circle"];
+        gestureSwitchImg = [UIImage imageNamed:@"circle.png"];
         frame = [gestureZoneView frame];
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
@@ -124,8 +126,8 @@
     [gestureButton setShowsTouchWhenHighlighted:NO];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateHighlighted];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up@2x"] forState:UIControlStateNormal];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down@2x"] forState:UIControlStateHighlighted];
+    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up@2x.png"] forState:UIControlStateNormal];
+    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down@2x.png"] forState:UIControlStateHighlighted];
     gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
     [remoteControlView addSubview:gestureButton];
@@ -141,21 +143,13 @@
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
-        if([[UIScreen mainScreen ] bounds].size.height >= 568){
-            float transform = 1.0f;
-            if (IS_IPHONE_6 || IS_IPHONE_X) {
-                transform = 1.16f;
-            }
-            else if (IS_IPHONE_6_PLUS){
-                transform = 1.29f;
-            }
-            CGRect frame = remoteControlView.frame;
-            frame.size.height = frame.size.height *transform;
-            frame.size.width = frame.size.width*transform;
-            [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y + 12, frame.size.width * 1.075, frame.size.height * 1.075)];
-        }
-        CGRect frame = subsInfoLabel.frame;
+        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help.png"];
+        CGFloat transform = GET_TRANSFORM_X;
+        CGRect frame = remoteControlView.frame;
+        frame.size.height = frame.size.height *transform;
+        frame.size.width = frame.size.width*transform;
+        [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width* SCALE_TO_REDUCE_BORDERS, frame.size.height* SCALE_TO_REDUCE_BORDERS)];
+        frame = subsInfoLabel.frame;
         frame.size.width = [[UIScreen mainScreen ] bounds].size.width;
         frame.origin.x = ((remoteControlView.frame.size.width - [[UIScreen mainScreen ] bounds].size.width) / 2);
         subsInfoLabel.frame = frame;
@@ -175,7 +169,7 @@
 
         int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;        
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
+        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad.png"];
         CGRect frame = subsInfoLabel.frame;
         frame.size.width = newWidth;
         frame.origin.x = 0;
@@ -820,7 +814,7 @@ NSInteger buttonAction;
                                   PvrIsPlayingTv = [methodResult objectForKey:@"Pvr.IsPlayingTv"];
                               }
                               if (winID == 12005  && [PvrIsPlayingTv boolValue] == NO && [VideoPlayerHasMenu boolValue] == NO){
-                                  [self playbackAction:@"Player.Seek" params:[NSArray arrayWithObjects:step, @"value", nil]];
+                                  [self playbackAction:@"Player.Seek" params:[Utilities buildPlayerSeekStepParams:step]];
                               }
                               else if (winID == 12006 && musicAction != nil){
                                   [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
@@ -908,7 +902,7 @@ NSInteger buttonAction;
             break;
         case 2:
             action=@"Player.Seek";
-            params=[NSArray arrayWithObjects:@"smallbackward", @"value", nil];
+            params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
             [self playbackAction:action params:params];
             break;
             
@@ -920,7 +914,7 @@ NSInteger buttonAction;
             
         case 4:
             action=@"Player.Seek";
-            params=[NSArray arrayWithObjects:@"smallforward", @"value", nil];
+            params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
             [self playbackAction:action params:params];
             break;
         case 5:
@@ -1127,7 +1121,7 @@ NSInteger buttonAction;
         [UIView setAnimationDuration:0.2];
         quickHelpView.alpha = 1.0;
         [UIView commitAnimations];
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
 
     }
     else {
@@ -1161,7 +1155,7 @@ NSInteger buttonAction;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings.png"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
         [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];
     }
@@ -1231,18 +1225,19 @@ NSInteger buttonAction;
     torchIsOn = !torchIsOn;
     if (captureDeviceClass != nil) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettings];
         if ([device hasTorch] && [device hasFlash]){
             [device lockForConfiguration:nil];
             if (torchIsOn) {
                 [device setTorchMode:AVCaptureTorchModeOn];
-                [device setFlashMode:AVCaptureFlashModeOn];
+                [settings setFlashMode:AVCaptureFlashModeOn];
                 torchIsOn = YES;
-                [sender setImage:[UIImage imageNamed:@"torch_on"] forState:UIControlStateNormal];
+                [sender setImage:[UIImage imageNamed:@"torch_on.png"] forState:UIControlStateNormal];
             } else {
                 [device setTorchMode:AVCaptureTorchModeOff];
-                [device setFlashMode:AVCaptureFlashModeOff];
+                [settings setFlashMode:AVCaptureFlashModeOff];
                 torchIsOn = NO;
-                [sender setImage:[UIImage imageNamed:@"torch"] forState:UIControlStateNormal];
+                [sender setImage:[UIImage imageNamed:@"torch.png"] forState:UIControlStateNormal];
             }
             [device unlockForConfiguration];
         }
@@ -1296,7 +1291,7 @@ NSInteger buttonAction;
         settingButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
         [settingButton setContentMode:UIViewContentModeRight];
         [settingButton setShowsTouchWhenHighlighted:YES];
-        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
+        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon.png"] forState:UIControlStateNormal];
         settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [settingButton addTarget:self action:@selector(addButtonToListIPad:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:settingButton];

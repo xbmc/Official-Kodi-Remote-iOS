@@ -305,7 +305,7 @@ BOOL moved;
   [self anchorTopViewTo:side animations:nil onComplete:nil];
 }
 
-- (void)anchorTopViewTo:(ECSide)side animations:(void (^)())animations onComplete:(void (^)(void))complete
+- (void)anchorTopViewTo:(ECSide)side animations:(void (^)(void))animations onComplete:(void (^)(void))complete
 {
   CGFloat newCenter = self.topView.center.x;
   
@@ -345,7 +345,7 @@ BOOL moved;
   [self anchorTopViewOffScreenTo:side animations:nil onComplete:nil];
 }
 
-- (void)anchorTopViewOffScreenTo:(ECSide)side animations:(void(^)())animations onComplete:(void(^)(void))complete
+- (void)anchorTopViewOffScreenTo:(ECSide)side animations:(void(^)(void))animations onComplete:(void(^)(void))complete
 {
   CGFloat newCenter = self.topView.center.x;
   
@@ -383,7 +383,7 @@ BOOL moved;
   [self resetTopViewWithAnimations:nil onComplete:nil];
 }
 
-- (void)resetTopViewWithAnimations:(void(^)())animations onComplete:(void(^)(void))complete
+- (void)resetTopViewWithAnimations:(void(^)(void))animations onComplete:(void(^)(void))complete
 {
   [self topViewHorizontalCenterWillChange:self.resettedCenter];
   

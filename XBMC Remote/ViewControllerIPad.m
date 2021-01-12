@@ -457,8 +457,8 @@
     [self.view addSubview:rootView];
     
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(671, 967, 87, 30)];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateHighlighted];
     xbmcLogo.showsTouchWhenHighlighted = NO;
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
@@ -484,7 +484,7 @@
     volumeSliderView.transform = trans;
     [self.view addSubview:volumeSliderView];
     
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(428, 966, 190, 33)]; //225
+    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(439, 966, 190, 33)]; //225
     [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
     xbmcInfo.titleLabel.minimumScaleFactor = 6.0f / 11.0f;
@@ -493,7 +493,7 @@
     xbmcInfo.titleEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
     xbmcInfo.titleLabel.shadowOffset = CGSizeMake (1.0, 1.0);
-    xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(620, 966, 42, 33)]; //225
@@ -504,8 +504,8 @@
     [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
     [menuViewController.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
 
-    [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateNormal];
-    [powerButton setImage:[UIImage imageNamed: @"icon_power_up"] forState:UIControlStateHighlighted];
+    [powerButton setImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateNormal];
+    [powerButton setImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
     
@@ -514,7 +514,6 @@
     
     [self.view insertSubview:self.nowPlayingController.scrabbingView aboveSubview:rootView];
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
-    [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
     frame = self.nowPlayingController.ProgressSlider.frame;
     frame.origin.x = self.nowPlayingController.ProgressSlider.frame.origin.x + PAD_MENU_TABLE_WIDTH;
     self.nowPlayingController.ProgressSlider.frame=frame;
@@ -533,6 +532,31 @@
         [self.view addSubview:clearView];
         [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
     }
+
+    int bottomPadding = 0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
+    
+    if (bottomPadding > 0) {
+        frame = volumeSliderView.frame;
+        frame.origin.y -= bottomPadding;
+        volumeSliderView.frame = frame;
+        
+        frame = powerButton.frame;
+        frame.origin.y -= bottomPadding;
+        powerButton.frame = frame;
+        
+        frame = xbmcInfo.frame;
+        frame.origin.y -= bottomPadding;
+        xbmcInfo.frame = frame;
+        
+        frame = xbmcLogo.frame;
+        frame.origin.y -= bottomPadding;
+        xbmcLogo.frame = frame;
+    }
+
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleXBMCServerHasChanged:)
                                                  name: @"XBMCServerHasChanged"

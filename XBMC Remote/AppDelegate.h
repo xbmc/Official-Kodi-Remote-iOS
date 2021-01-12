@@ -28,9 +28,11 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
-#define IS_IPHONE_6 (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)667) < DBL_EPSILON)
-#define IS_IPHONE_6_PLUS (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)736) < DBL_EPSILON)
-#define IS_IPHONE_X     (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)812) < DBL_EPSILON)
+
+#define GET_TRANSFORM_X (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/320.0)
+#define GET_TRANSFORM_Y (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/480.0)
+
+#define IS_AT_LEAST_IPHONE_X_HEIGHT (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds) >= 812)
 
 
 #define APP_TINT_COLOR [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]
@@ -59,7 +61,7 @@
 
 #define PAD_MENU_HEIGHT 50.0f
 #define PAD_MENU_INFO_HEIGHT 18.0f
-#define PAD_MENU_TABLE_WIDTH 300.0f;
+#define PAD_MENU_TABLE_WIDTH 300.0f
 
 + (AppDelegate *) instance;
 

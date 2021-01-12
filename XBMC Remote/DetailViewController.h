@@ -24,7 +24,7 @@
 @class PlayFileViewController;
 //@class DetailViewController;
 
-@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>{
+@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating>{
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     DSJSONRPC *jsonRPC;
@@ -35,7 +35,6 @@
     IBOutlet UILongPressGestureRecognizer *lpgr;
     BOOL alreadyPush;
     IBOutlet UIWebView *webPlayView;
-    MPMoviePlayerController *playerViewController;
     int choosedTab;
     int numTabs;
     int watchMode;
@@ -45,6 +44,8 @@
     IBOutlet UIButton *button3;
     IBOutlet UIButton *button4;
     IBOutlet UIButton *button5;
+    IBOutlet UIButton *button6;
+    IBOutlet UIButton *button7;
     IBOutlet UIView *buttonsView;
     int numResults;
     int numFilteredResults;
@@ -140,6 +141,7 @@
     NSString *libraryCachePath;
     CGFloat bottomPadding;
     NSString *epgCachePath;
+    BOOL showbar;
 }
 
 - (id)initWithFrame:(CGRect)frame;
@@ -159,5 +161,6 @@
 @property (nonatomic,retain) NSArray *sectionArray;
 @property (nonatomic,retain) NSMutableArray *sectionArrayOpen;
 @property (nonatomic,retain) NSMutableArray *extraSectionRichResults;
+@property (strong, nonatomic) UISearchController *searchController;
 
 @end

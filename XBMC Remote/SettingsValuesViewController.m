@@ -33,7 +33,7 @@
 		
         [self.view setFrame:frame];
         
-        UIImageView *imageBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shiny_black_back"]];
+        UIImageView *imageBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shiny_black_back.png"]];
         [imageBackground setAutoresizingMask: UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
         [imageBackground setFrame:frame];
         [self.view addSubview:imageBackground];
@@ -51,7 +51,7 @@
         settingOptions = [self.detailItem objectForKey:@"options"];
         
 //        if (![settingOptions isKindOfClass:[NSArray class]]) {
-//            if ([[self.detailItem objectForKey:@"definition"] isKindOfClass:NSClassFromString(@"JKDictionary")]){
+//            if ([[self.detailItem objectForKey:@"definition"] isKindOfClass:[NSDictionary class]]){
 //                settingOptions = [[self.detailItem objectForKey:@"definition"] objectForKey:@"options"];
 //            }
 //        }
@@ -142,9 +142,6 @@
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             frame.size.width = STACKSCROLL_WIDTH;
             deltaY = 0;
-        }
-        else if (IS_IPHONE_X) {
-            deltaY += 26.0f;
         }
         
         scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
