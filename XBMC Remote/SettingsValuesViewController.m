@@ -137,11 +137,13 @@
         [longPressGesture setDelegate:self];
         [_tableView addGestureRecognizer:longPressGesture];
         
-        CGFloat deltaY = 64.0f;
+        CGFloat deltaY = 0;
         CGRect frame = [[UIScreen mainScreen ] bounds];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             frame.size.width = STACKSCROLL_WIDTH;
-            deltaY = 0;
+        }
+        else {
+            deltaY = 44 + CGRectGetHeight(UIApplication.sharedApplication.statusBarFrame);
         }
         
         scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
