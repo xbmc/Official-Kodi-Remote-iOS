@@ -14,6 +14,7 @@
 #import <arpa/inet.h>
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
+#import "Utilities.h"
 
 @implementation AppDelegate
 
@@ -110,7 +111,7 @@ NSMutableArray *hostRightMenuItems;
     obj=[GlobalData getInstance];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        float transform = GET_TRANSFORM_X;
+        CGFloat transform = [Utilities getTransformX];
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:

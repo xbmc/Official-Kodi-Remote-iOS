@@ -385,8 +385,8 @@ int currentItemID;
 -(CGRect)transformFrame:(CGRect)frame{
     CGFloat center_x = CGRectGetMidX(frame);
     CGFloat center_y = CGRectGetMidY(frame);
-    CGFloat transform_x = GET_TRANSFORM_X;
-    CGFloat transform_y = GET_TRANSFORM_Y;
+    CGFloat transform_x = [Utilities getTransformX];
+    CGFloat transform_y = [Utilities getTransformY];
     frame.size.width *= transform_x;
     frame.size.height *= transform_x;
     frame.origin.x = center_x*transform_x - frame.size.width/2;

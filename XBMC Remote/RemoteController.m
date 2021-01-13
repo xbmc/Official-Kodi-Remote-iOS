@@ -54,7 +54,7 @@
 
 - (void)setEmbeddedView{
     CGRect frame = TransitionalView.frame;
-    float transform = GET_TRANSFORM_X;
+    CGFloat transform = [Utilities getTransformX];
     int startX = -6;
     int startY = 6;
     int transViewY = 46;
@@ -69,7 +69,7 @@
         transViewY = 58;
     }
         
-    int newWidth = (int) (296.0f * transform);
+    int newWidth = (int) (296 * transform);
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton *) self.view viewWithTag:2],
                        [(UIButton *) self.view viewWithTag:3],
@@ -144,7 +144,7 @@
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         quickHelpImageView.image = [UIImage imageNamed:@"remote quick help.png"];
-        CGFloat transform = GET_TRANSFORM_X;
+        CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
         frame.size.height = frame.size.height *transform;
         frame.size.width = frame.size.width*transform;

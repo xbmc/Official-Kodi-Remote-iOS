@@ -173,4 +173,26 @@
     return params;
 }
 
++ (CGFloat)getTransformX {
+    // We scale for iPhone with their different device widths.
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/320.0);
+    }
+    // For iPad a fixed frame width is used.
+    else {
+        return 1.0;
+    }
+}
+
++ (CGFloat)getTransformY {
+    // We scale for iPhone with their different device widths.
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/480.0);
+    }
+    // For iPad a fixed frame width is used.
+    else {
+        return 1.0;
+    }
+}
+
 @end
