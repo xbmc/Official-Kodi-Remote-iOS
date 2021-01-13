@@ -311,6 +311,7 @@
             UINavigationBar *newBar = navController.navigationBar;
             [newBar setBarStyle:UIBarStyleBlack];
             [newBar setTintColor:TINT_COLOR];
+            [navController setModalPresentationStyle:UIModalPresentationFullScreen];
             [self presentViewController:navController animated:YES completion:NULL];
         }
         else {
