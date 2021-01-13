@@ -58,8 +58,4 @@
     return NO;
 }
 
-- (void)dealloc{
-    navBarHairlineImageView = nil;
-}
-
 @end

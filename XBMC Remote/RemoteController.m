@@ -1349,10 +1349,7 @@ NSInteger buttonAction;
 }
 
 -(void)dealloc{
-    jsonRPC = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    TransitionalView = nil;
-    gestureZoneImageView = nil;
 }
 
 -(BOOL)shouldAutorotate{

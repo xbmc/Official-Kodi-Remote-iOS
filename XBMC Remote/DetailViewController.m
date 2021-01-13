@@ -5986,34 +5986,10 @@ NSIndexPath *selected;
 //}
 
 -(void)dealloc{
-    jsonRPC = nil;
     [self.richResults removeAllObjects];
     [self.filteredListContent removeAllObjects];
-    self.richResults = nil;
-    self.filteredListContent = nil;
-    self.detailItem = nil;
     [self.sections removeAllObjects];
-    self.sections = nil;
-    self.sectionArray = nil;
-    self.sectionArrayOpen = nil;
-    self.extraSectionRichResults = nil;
-    self.indexView = nil;
-    dataList = nil;
-    collectionView = nil;
-    jsonCell = nil;
-    activityIndicatorView = nil;
-    nowPlaying = nil;
-    self.playFileViewController = nil;
-    self.nowPlaying = nil;
-    self.webViewController = nil;
-    self.showInfoViewController = nil;
-    self.detailViewController = nil;
-    epgDownloadQueue = nil;
-    epgDict = nil;
-    debugText = nil;
-    playFileViewController = nil;
     [channelListUpdateTimer invalidate];
-    channelListUpdateTimer = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 

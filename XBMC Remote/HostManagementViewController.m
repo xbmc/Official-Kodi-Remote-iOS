@@ -648,8 +648,6 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 - (void)dealloc {
-    jsonRPC = nil;
-    connectingActivityIndicator = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

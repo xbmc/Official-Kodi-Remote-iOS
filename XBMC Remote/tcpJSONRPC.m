@@ -237,9 +237,7 @@ NSOutputStream	*outStream;
 
 
 - (void)dealloc{
-    inStream = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-//    outStream = nil;
 }
 
 @end

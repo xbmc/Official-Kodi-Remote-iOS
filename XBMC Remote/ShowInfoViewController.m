@@ -2228,22 +2228,10 @@ int h=0;
 }
 
 -(void)dealloc{
-    trailerView.delegate = nil;
     [trailerView stopLoading];
     [trailerView removeFromSuperview];
-    trailerView = nil;
-    actorsTable = nil;
     [kenView removeFromSuperview];
     [self.kenView removeFromSuperview];
-    kenView = nil;
-    clearLogoImageView = nil;
-    nowPlaying=nil;
-    jsonRPC=nil;
-    fanartView=nil;
-    coverView=nil;
-    scrollView=nil;
-    self.nowPlaying = nil;
-    self.kenView = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 

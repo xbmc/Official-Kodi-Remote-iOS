@@ -62,10 +62,6 @@
     // Do any additional setup after loading the view from its nib.
 }
 
--(void)dealloc{
-    jsonRPC=nil;
-}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }

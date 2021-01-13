@@ -217,7 +217,6 @@ NSInteger action;
 }
 
 -(void)dealloc{
-    jsonRPC = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [self stopTimer];
 }

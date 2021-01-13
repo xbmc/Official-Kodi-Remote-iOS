@@ -97,12 +97,6 @@
     [appGreeting setText:NSLocalizedString(@"enjoy!", nil)];
 }
 
-- (void)dealloc {
-    creditsMask = nil;
-    creditsSign = nil;
-    audioPlayer = nil;
-}
-
 -(BOOL)shouldAutorotate{
     return YES;
 }

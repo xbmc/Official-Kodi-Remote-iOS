@@ -3158,19 +3158,8 @@ int currentItemID;
 }
 
 -(void)dealloc{
-    volumeSliderView = nil;
-    self.detailItem = nil;
-    playlistData = nil;
-    jsonRPC = nil;
-    self.remoteController=nil;
-    sheetActions = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [timer invalidate];
-    timer = nil;
-    playlistLeftShadow = nil;
-    scrabbingView = nil;
-    scrabbingMessage = nil;
-    scrabbingRate = nil;
 }
 
 -(BOOL)shouldAutorotate{

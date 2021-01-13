@@ -716,7 +716,6 @@
 }
 
 - (void)dealloc {
-    self.tcpJSONRPCconnection = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 

@@ -339,11 +339,6 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)dealloc {
-//    [_tableView release];
-//    [super dealloc];
-}
-
 
 @end
 

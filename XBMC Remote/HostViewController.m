@@ -533,20 +533,4 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
--(void)dealloc{
-    services = nil;
-    netServiceBrowser = nil;
-    descriptionUI = nil;
-    ipUI = nil;
-    usernameUI = nil;
-    passwordUI = nil;
-    portUI = nil;
-    mac_0_UI = nil;
-    mac_1_UI = nil;
-    mac_2_UI = nil;
-    mac_3_UI = nil;
-    mac_4_UI = nil;
-    mac_5_UI = nil;
-}
-
 @end

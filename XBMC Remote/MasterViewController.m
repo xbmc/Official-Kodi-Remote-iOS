@@ -435,12 +435,6 @@
 }
 
 -(void)dealloc{
-    self.detailViewController = nil;
-    self.nowPlaying = nil;
-    self.remoteController = nil;
-    self.hostController = nil;
-    navController = nil;
-    self.tcpJSONRPCconnection = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
