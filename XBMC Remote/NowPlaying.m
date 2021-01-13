@@ -1865,7 +1865,7 @@ int currentItemID;
         anim2=UIViewAnimationTransitionFlipFromRight;
         effectColor = [UIColor clearColor];
         barColor = TINT_COLOR;
-        playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height - playlistTableView.contentInset.bottom;
+        playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height - playlistTableView.scrollIndicatorInsets.bottom;
         [self IOS7effect:effectColor barTintColor:barColor effectDuration:0.2f];
     }
     else {
