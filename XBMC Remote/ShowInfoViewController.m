@@ -1678,14 +1678,6 @@ int h=0;
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^ {
                                  [toolbar setAlpha:1.0];
-                                 if ([self isModal]){
-                                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-//                                         self.view.superview.bounds = originalSelfFrame;
-                                     }
-                                     else {
-                                         self.view.superview.bounds = originalSelfFrame;
-                                     }
-                                 }
                              }
                              completion:^(BOOL finished) {}
              ];
@@ -1711,12 +1703,6 @@ int h=0;
                                      originalSelfFrame = self.view.frame;
                                      CGRect fullscreenRect = [self currentScreenBoundsDependOnOrientation];
                                      fullscreenRect.origin.y += 10;
-                                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-//                                         self.view.superview.bounds = fullscreenRect;
-                                     }
-                                     else {
-                                         self.view.superview.bounds = fullscreenRect;
-                                     }
                                  }
                              }
                              completion:^(BOOL finished) {}

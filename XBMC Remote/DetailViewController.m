@@ -691,7 +691,6 @@
 -(void)changeViewMode:(int)newWatchMode forceRefresh:(BOOL)refresh{
     [activityIndicatorView startAnimating];
     if (!refresh){
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")){
             [UIView transitionWithView: activeLayoutView
                               duration: 0.2
                                options: UIViewAnimationOptionBeginFromCurrentState
@@ -706,11 +705,6 @@
                             completion:^(BOOL finished){
                                 [self changeViewMode:newWatchMode];
                             }];
-        }
-        else{
-            [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-            [self changeViewMode:newWatchMode];
-        }
     }
     else{
         [self changeViewMode:newWatchMode];
@@ -5377,7 +5371,7 @@ NSIndexPath *selected;
 
 -(BOOL)collectionViewCanBeEnabled{
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES));
+    return (([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES));
 }
 
 -(BOOL)collectionViewIsEnabled{
@@ -5415,7 +5409,7 @@ NSIndexPath *selected;
         }
     }
     NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:[methods objectForKey:@"method"] parameters:tempDict]];
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
+    return (([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
 }
 
 -(NSString *)getCurrentSortMethod:(NSDictionary *)methods withParameters:(NSDictionary *)parameters {
