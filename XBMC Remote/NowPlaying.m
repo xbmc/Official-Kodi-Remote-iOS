@@ -1850,7 +1850,6 @@ int currentItemID;
     UIColor *barColor;
     __block CGRect playlistToolBarOriginY = playlistActionView.frame;
     float iOS7effectDuration = 1.0f;
-    BOOL hideLine = NO;
     if (!nowPlayingView.hidden) {
         iOS7effectDuration = 0.0f;
         nowPlayingView.hidden = YES;
@@ -1905,7 +1904,6 @@ int currentItemID;
                                               self.navigationItem.titleView.hidden=NO;
                                               playlistActionView.frame = playlistToolBarOriginY;
                                               playlistActionView.alpha = (int)nowPlayingHidden;
-                                              playlistToolbar.clipsToBounds = hideLine;
                                               [UIView setAnimationTransition:anim2 forView:transitionedView cache:YES];
                                           }
                                           completion:^(BOOL finished){
@@ -2661,6 +2659,7 @@ int currentItemID;
 -(void)setIphoneInterface{
     slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
     xbmcOverlayImage.hidden = YES;
+    [playlistToolbar setShadowImage:[UIImage imageNamed:@"blank.png"] forToolbarPosition:UIBarPositionAny];
     
     // Use bigger fonts and move text and bar towards to the cover
     if (IS_AT_LEAST_IPHONE_X_HEIGHT) {
