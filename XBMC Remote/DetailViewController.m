@@ -2903,6 +2903,15 @@ int originYear = 0;
     return cell;
 }
 
+- (void)deselectAtIndexPath:(NSIndexPath *)indexPath {
+    if (enableCollectionView){
+        [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+    }
+    else{
+        [dataList deselectRowAtIndexPath:indexPath animated:NO];
+    }
+}
+
 #pragma mark - Long Press & Action sheet
 
 NSIndexPath *selected;
@@ -3343,17 +3352,7 @@ NSIndexPath *selected;
     }
     else{
         forceMusicAlbumMode = NO;
-        if ([self.searchController isActive]){
-            [dataList deselectRowAtIndexPath:selected animated:NO];
-        }
-        else{
-            if (enableCollectionView){
-                [collectionView deselectItemAtIndexPath:selected animated:NO];
-            }
-            else{
-                [dataList deselectRowAtIndexPath:selected animated:NO];
-            }
-        }
+        [self deselectAtIndexPath:selected];
     }
 }
 
@@ -3781,17 +3780,7 @@ NSIndexPath *selected;
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [queuing stopAnimating];
-               if ([self.searchController isActive]){
-                  [dataList deselectRowAtIndexPath:indexPath animated:NO];
-               }
-               else{
-                   if (enableCollectionView){
-                       [collectionView deselectItemAtIndexPath:indexPath animated:NO];
-                   }
-                   else{
-                       [dataList deselectRowAtIndexPath:indexPath animated:NO];
-                   }
-               }
+               [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
                    [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3f Alpha:1.0 XPos:viewWidth];
@@ -3852,17 +3841,7 @@ NSIndexPath *selected;
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [queuing stopAnimating];
-               if ([self.searchController isActive]){
-                   [dataList deselectRowAtIndexPath:indexPath animated:NO];
-               }
-               else{
-                   if (enableCollectionView){
-                       [collectionView deselectItemAtIndexPath:indexPath animated:NO];
-                   }
-                   else{
-                       [dataList deselectRowAtIndexPath:indexPath animated:NO];
-                   }
-               }
+               [self deselectAtIndexPath:indexPath];
                if (error==nil && methodError==nil) {
                    UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
                    isRecordingImageView.hidden = !isRecordingImageView.hidden;
