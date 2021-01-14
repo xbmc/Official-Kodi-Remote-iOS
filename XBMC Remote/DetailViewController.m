@@ -2972,7 +2972,6 @@ NSIndexPath *selected;
             if (numActions){
                 NSDictionary *item = nil;
                 if ([self.searchController isActive]){
-                    selected=indexPath2;
                     selectedPoint=[longPressGesture locationInView:self.view];
                     item = [self.filteredListContent objectAtIndex:indexPath2.row];
                     [dataList selectRowAtIndexPath:indexPath2 animated:NO scrollPosition:UITableViewScrollPositionNone];
