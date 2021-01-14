@@ -3191,7 +3191,13 @@ NSIndexPath *selected;
         else if ([option isEqualToString:NSLocalizedString(@"Play in party mode", nil)]){
             [self partyModeItem:item indexPath:selected];
         }
-        else if ([option rangeOfString:NSLocalizedString(@"Details", nil)].location!= NSNotFound){
+        else if ([option isEqualToString:NSLocalizedString(@"Artist Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Album Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Movie Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Episode Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"TV Show Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Music Video Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Broadcast Details", nil)]){
             if (forceMusicAlbumMode){
                 [self prepareShowAlbumInfo:nil];
             }
