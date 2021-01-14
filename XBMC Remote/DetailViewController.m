@@ -1621,12 +1621,7 @@
     }
     else{
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
-        if (path.section == 1 && ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)){
-            [collectionView setContentOffset:CGPointMake(0, -4) animated:NO];
-        }
-        else {
-            [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-        }
+        [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
         collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT + 4);
     }
 }
