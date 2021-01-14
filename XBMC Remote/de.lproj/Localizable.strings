@@ -17,7 +17,7 @@
 "Movies" = "Filme";
 "TV Shows" = "TV-Serien";
 "Pictures" = "Bilder";
-"Now Playing" = "Gerade spielt";
+"Now Playing" = "Gerade läuft";
 "Remote Control" = "Fernbedienung";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "Neuer Kodi Server";
@@ -129,10 +129,10 @@
 
 "Are you sure you want to clear the %@playlist?" = "Bist du sicher, dass Du die Wiedergabeliste %@ löschen möchtest?";
 "Are you sure you want to power off your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt ausschalten möchtest?";
-"Are you sure you want to hibernate your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt in den Ruhezustand gehen soll?";
-"Are you sure you want to suspend your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt in den Stanyby gehen soll?";
+"Are you sure you want to hibernate your XBMC system now?" = "Bist du sicher, dass dein Kodi-System jetzt in den Ruhezustand gehen soll?";
+"Are you sure you want to suspend your XBMC system now?" = "Bist du sicher, dass dein Kodi-System jetzt in den Standby gehen soll?";
 "Are you sure you want to reboot your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt neu starten möchtest?";
-"Are you sure you want to quit XBMC application now?" = "Bist du sicher, dass Du die Kodi jetzt beenden möchtest?";
+"Are you sure you want to quit XBMC application now?" = "Bist du sicher, dass Du Kodi jetzt beenden möchtest?";
 "Are you sure you want to update your audio library now?" = "Bist du sicher, dass Du deine Audiobibliothek jetzt aktualisieren möchtest?";
 "Are you sure you want to clean your audio library now?" = "Bist du sicher, dass Du deine Audiobibliothek jetzt bereinigen möchtest?";
 "Are you sure you want to update your video library now?" = "Bist du sicher, dass Du deine Videobibliothek jetzt aktualisieren möchtest?";
@@ -187,8 +187,8 @@
 "Scrubbing 0.5" = "Scrubbing-Geschwindigkeit: 50%";
 "Scrubbing 0.25" = "Scrubbing-Geschwindigkeit: 25%";
 "Scrubbing 0.1" = "Scrubbing-Geschwindigkeit: Fein";
-"Scrubbing 0.05" = "Scrubbing.Geschwindigkeit: Sehr fein";
-"Scrubbing 0.025" = "Scrubbing.Geschwindigkeit: Super fein";
+"Scrubbing 0.05" = "Scrubbing-Geschwindigkeit: Sehr fein";
+"Scrubbing 0.025" = "Scrubbing-Geschwindigkeit: Super fein";
 
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Lösche Cache-Dateien...\n\nBitte warten, dies kann einen Moment dauern...";
 "Pull to sync with XBMC..." = "Runterziehen zur Synchronisation mit Kodi...";
@@ -226,26 +226,26 @@
 "Music Add-ons" = "Musik Add-ons";
 "XBMC Settings" = "Kodi Einstellungen";
 
-"Custom button" = "Eigener Schalter";
+"Custom button" = "Eigene Aktion";
 "Modify label:" = "Bezeichnung ändern:";
 "Update label" = "Bezeichnung aktualisieren";
-"Add a new button" = "Neuen Schalter hinzufügen";
+"Add a new button" = "Neue Aktion hinzufügen";
 "Enter the label:" = "Bezeichnung eingeben:";
-"Add button" = "Schalter hinzufügen";
-"Button added" = "Schalter hinzugefügt";
+"Add button" = "Aktion hinzufügen";
+"Button added" = "Aktion hinzugefügt";
 "enter value" = "Wert eingeben";
-"Tap and hold a setting to add a new button." = "Tippen und Halten auf eine Einstellung um einen neuen Schalter anzulegen.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Kein eigener Schalter definiert.\r\nWähle \"Funktionen...\" um Neue hinzuzufügen.";
+"Tap and hold a setting to add a new button." = "Tippen und Halten auf eine Einstellung um eine neue Aktion anzulegen.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Keine Aktion definiert.\r\nWähle \"Mehr...\" um Neue hinzuzufügen.";
 
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- WARNUNG --\nKodi API vor Krypton (v17) erlaubt keine Timer-Bearbeitung. Bitte nutze die Einstellungen direkt in Kodi zum Hinzufügen, Bearbeiten und Entfernen von Timern. Vielen Dank.";
 
 "Execute program" = "Programm ausführen";
-"Execute video add-on" = "Video-Erweiterung ausführen";
-"Execute audio add-on" = "Audio-Erweiterung ausführen";
-"Add-on executed successfully" = "Erweiterung erfolgreich ausgeführt";
-"Unable to execute the add-on" = "Ausführung der Erweiterung nicht möglich";
+"Execute video add-on" = "Video-Add-on ausführen";
+"Execute audio add-on" = "Audio-Add-on ausführen";
+"Add-on executed successfully" = "Add-on erfolgreich ausgeführt";
+"Unable to execute the add-on" = "Ausführung des Add-on nicht möglich";
 
-"...more" = "Funktionen...";
+"...more" = "Mehr...";
 "Edit" = "Bearbeiten";
 "Done" = "Fertig";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi version 13 or größer wird benötigt, um die Kodi Einstellungen aufzurufen.";
@@ -331,15 +331,15 @@
 
 "Unknown" = "Unbekannt";
 "Audio stream" = "Audiospur";
-"Disable subtitles" = "Unterstitel ausblenden";
+"Disable subtitles" = "Untertitel ausblenden";
 "Subtitles" = "Untertitel";
 
 "Execute a specific action" = "Eine bestimmte Aktion ausführen";
 "Activate a specific window" = "Ein bestimmtes Fenster aktivieren";
 "Execute action" = "Aktion ausführen";
 "Activate window" = "Fenster aktivieren";
-"Add action button" = "Aktions-Schalter hinzufügen";
-"Add window activation button" = "Fenster-Aktivierungs-Schalter hinzufügen";
+"Add action button" = "Aktion hinzufügen";
+"Add window activation button" = "Fenster-Aktivierung hinzufügen";
 
 "Copy to clipboard" = "In die Zwischenablage kopieren";
 "METHOD\n%@\n\nPARAMETERS\n%@\n" = "METHODE\n%@\n\nPARAMETER\n%@\n";
