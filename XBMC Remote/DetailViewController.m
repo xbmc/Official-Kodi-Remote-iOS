@@ -5719,6 +5719,12 @@ NSIndexPath *selected;
     if ([self collectionViewCanBeEnabled]) { // TEMP FIX
         [self initCollectionView];
     }
+    if (enableCollectionView) {
+        self.searchController.searchBar.hidden = YES;
+    }
+    else {
+        self.searchController.searchBar.hidden = NO;
+    }
     activeLayoutView = dataList;
     
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
