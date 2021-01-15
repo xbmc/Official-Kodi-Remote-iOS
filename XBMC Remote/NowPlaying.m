@@ -2777,23 +2777,7 @@ int currentItemID;
 #pragma mark - UISegmentControl
 
 -(CGRect)currentScreenBoundsDependOnOrientation {
-    NSString *reqSysVer = @"8.0";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending) {
-        return [UIScreen mainScreen].bounds;
-    }
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
-    CGFloat width = CGRectGetWidth(screenBounds);
-    CGFloat height = CGRectGetHeight(screenBounds);
-    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    
-    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-        screenBounds.size = CGSizeMake(width, height);
-    }
-    else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-        screenBounds.size = CGSizeMake(height, width);
-    }
-    return screenBounds ;
+    return UIScreen.mainScreen.bounds;
 }
 
 -(void)addSegmentControl{
@@ -3173,44 +3157,16 @@ int currentItemID;
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
 }
 
-- (void)viewDidUnload{
-    playlistLeftShadow = nil;
-    scrabbingView = nil;
-    scrabbingMessage = nil;
-    scrabbingRate = nil;
-    [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-    volumeSliderView = nil;
-    [timer invalidate];
-    timer = nil;
-}
-
 -(void)dealloc{
-    volumeSliderView = nil;
-    self.detailItem = nil;
-    playlistData = nil;
-    jsonRPC = nil;
-    self.remoteController=nil;
-    sheetActions = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [timer invalidate];
-    timer = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 -(BOOL)shouldAutorotate{
     return YES;
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
-- (NSUInteger)supportedInterfaceOrientations
-#else
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-#endif
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
 

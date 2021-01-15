@@ -302,27 +302,11 @@
     [Twitterweb loadRequest:self.urlRequest];
 }
 
-- (void)viewDidUnload{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    return YES;
-}
-
 -(BOOL)shouldAutorotate{
     return YES;
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
-- (NSUInteger)supportedInterfaceOrientations
-#else
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-#endif
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 

@@ -1092,22 +1092,9 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewDidUnload {
-	[super viewDidUnload];
-	for (UIViewController* subController in viewControllersStack) {
-		[subController viewDidUnload];
-	}
-}
-
 
 #pragma mark -
 #pragma mark Rotation support
-
-
-// Ensure that the view controller supports rotation and that the split view can therefore show in both portrait and landscape.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-}
 
 
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{

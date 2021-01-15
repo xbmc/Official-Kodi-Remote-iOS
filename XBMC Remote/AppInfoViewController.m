@@ -97,27 +97,11 @@
     [appGreeting setText:NSLocalizedString(@"enjoy!", nil)];
 }
 
-- (void)viewDidUnload{
-    creditsMask = nil;
-    creditsSign = nil;
-    audioPlayer = nil;
-    [super viewDidUnload];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 -(BOOL)shouldAutorotate{
     return YES;
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
-- (NSUInteger)supportedInterfaceOrientations
-#else
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-#endif
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
 

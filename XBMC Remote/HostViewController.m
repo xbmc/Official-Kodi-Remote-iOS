@@ -412,7 +412,7 @@
 
 #pragma mark - NSURLConnection Delegate Methods
 
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
     [self fillMacAddressInfo];
 }
 
@@ -525,41 +525,12 @@
     [self.view addGestureRecognizer:rightSwipe];
 }
 
-- (void)viewDidUnload{
-    [super viewDidUnload];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 -(BOOL)shouldAutorotate{
     return YES;
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
-- (NSUInteger)supportedInterfaceOrientations
-#else
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-#endif
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
-}
-
--(void)dealloc{
-    services = nil;
-    netServiceBrowser = nil;
-    descriptionUI = nil;
-    ipUI = nil;
-    usernameUI = nil;
-    passwordUI = nil;
-    portUI = nil;
-    mac_0_UI = nil;
-    mac_1_UI = nil;
-    mac_2_UI = nil;
-    mac_3_UI = nil;
-    mac_4_UI = nil;
-    mac_5_UI = nil;
 }
 
 @end

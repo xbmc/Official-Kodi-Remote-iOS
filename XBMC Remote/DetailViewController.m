@@ -691,7 +691,6 @@
 -(void)changeViewMode:(int)newWatchMode forceRefresh:(BOOL)refresh{
     [activityIndicatorView startAnimating];
     if (!refresh){
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")){
             [UIView transitionWithView: activeLayoutView
                               duration: 0.2
                                options: UIViewAnimationOptionBeginFromCurrentState
@@ -706,11 +705,6 @@
                             completion:^(BOOL finished){
                                 [self changeViewMode:newWatchMode];
                             }];
-        }
-        else{
-            [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-            [self changeViewMode:newWatchMode];
-        }
     }
     else{
         [self changeViewMode:newWatchMode];
@@ -3490,23 +3484,7 @@ NSIndexPath *selected;
 }
 
 -(CGRect)currentScreenBoundsDependOnOrientation {
-    NSString *reqSysVer = @"8.0";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending) {
-        return [UIScreen mainScreen].bounds;
-    }
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
-    CGFloat width = CGRectGetWidth(screenBounds);
-    CGFloat height = CGRectGetHeight(screenBounds);
-    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    
-    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-        screenBounds.size = CGSizeMake(width, height);
-    }
-    else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-        screenBounds.size = CGSizeMake(height, width);
-    }
-    return screenBounds ;
+    return UIScreen.mainScreen.bounds;
 }
 
 - (void)toggleFullscreen:(id)sender {
@@ -5393,7 +5371,7 @@ NSIndexPath *selected;
 
 -(BOOL)collectionViewCanBeEnabled{
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES));
+    return (([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES));
 }
 
 -(BOOL)collectionViewIsEnabled{
@@ -5431,7 +5409,7 @@ NSIndexPath *selected;
         }
     }
     NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:[methods objectForKey:@"method"] parameters:tempDict]];
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && ([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
+    return (([[parameters objectForKey:@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
 }
 
 -(NSString *)getCurrentSortMethod:(NSDictionary *)methods withParameters:(NSDictionary *)parameters {
@@ -5992,26 +5970,6 @@ NSIndexPath *selected;
     }
 }
 
-- (void)viewDidUnload{
-    debugText = nil;
-    [super viewDidUnload];
-    jsonRPC = nil;
-    self.richResults = nil;
-    self.filteredListContent = nil;
-    self.sections = nil;
-    dataList = nil;
-    collectionView = nil;
-    jsonCell = nil;
-    activityIndicatorView = nil;
-    nowPlaying = nil;
-    playFileViewController = nil;
-    epgDownloadQueue = nil;
-    epgDict = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [channelListUpdateTimer invalidate];
-    channelListUpdateTimer = nil;
-}
-
 //- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation duration:(NSTimeInterval)duration {
 //	if (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 //        dataList.alpha = 1;
@@ -6022,52 +5980,18 @@ NSIndexPath *selected;
 //}
 
 -(void)dealloc{
-    jsonRPC = nil;
     [self.richResults removeAllObjects];
     [self.filteredListContent removeAllObjects];
-    self.richResults = nil;
-    self.filteredListContent = nil;
-    self.detailItem = nil;
     [self.sections removeAllObjects];
-    self.sections = nil;
-    self.sectionArray = nil;
-    self.sectionArrayOpen = nil;
-    self.extraSectionRichResults = nil;
-    self.indexView = nil;
-    dataList = nil;
-    collectionView = nil;
-    jsonCell = nil;
-    activityIndicatorView = nil;
-    nowPlaying = nil;
-    self.playFileViewController = nil;
-    self.nowPlaying = nil;
-    self.webViewController = nil;
-    self.showInfoViewController = nil;
-    self.detailViewController = nil;
-    epgDownloadQueue = nil;
-    epgDict = nil;
+    [channelListUpdateTimer invalidate];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-////    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-//    return interfaceOrientation;
-//
-//}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 -(BOOL)shouldAutorotate{
     return YES;
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
-- (NSUInteger)supportedInterfaceOrientations
-#else
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-#endif
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
 ////EXPERIMENTAL CODE

@@ -1647,24 +1647,7 @@ int h=0;
 }
 
 -(CGRect)currentScreenBoundsDependOnOrientation {
-    NSString *reqSysVer = @"8.0";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending) {
-        return [UIScreen mainScreen].bounds;
-    }
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
-    CGFloat width = CGRectGetWidth(screenBounds);
-    CGFloat height = CGRectGetHeight(screenBounds);
-    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    
-    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-        screenBounds.size = CGSizeMake(width, height);
-    }
-    else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-        screenBounds.size = CGSizeMake(height, width);
-    }
-    
-    return screenBounds ;
+    return UIScreen.mainScreen.bounds;
 }
 
 - (void)showBackground:(id)sender {
@@ -1695,14 +1678,6 @@ int h=0;
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^ {
                                  [toolbar setAlpha:1.0];
-                                 if ([self isModal]){
-                                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-//                                         self.view.superview.bounds = originalSelfFrame;
-                                     }
-                                     else {
-                                         self.view.superview.bounds = originalSelfFrame;
-                                     }
-                                 }
                              }
                              completion:^(BOOL finished) {}
              ];
@@ -1728,12 +1703,6 @@ int h=0;
                                      originalSelfFrame = self.view.frame;
                                      CGRect fullscreenRect = [self currentScreenBoundsDependOnOrientation];
                                      fullscreenRect.origin.y += 10;
-                                     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-//                                         self.view.superview.bounds = fullscreenRect;
-                                     }
-                                     else {
-                                         self.view.superview.bounds = fullscreenRect;
-                                     }
                                  }
                              }
                              completion:^(BOOL finished) {}
@@ -2240,49 +2209,23 @@ int h=0;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
 }
 
-- (void)viewDidUnload{
-    [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
 -(void)dealloc{
-    trailerView.delegate = nil;
     [trailerView stopLoading];
     [trailerView removeFromSuperview];
-    trailerView = nil;
-    actorsTable = nil;
     [kenView removeFromSuperview];
     [self.kenView removeFromSuperview];
-    kenView = nil;
-    clearLogoImageView = nil;
-    nowPlaying=nil;
-    jsonRPC=nil;
-    fanartView=nil;
-    coverView=nil;
-    scrollView=nil;
-    self.nowPlaying = nil;
-    self.kenView = nil;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 -(BOOL)shouldAutorotate{
     return YES;
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
-- (NSUInteger)supportedInterfaceOrientations
-#else
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-#endif
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 

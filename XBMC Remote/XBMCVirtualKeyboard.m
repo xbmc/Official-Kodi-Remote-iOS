@@ -230,7 +230,6 @@
 #pragma mark - lifecycle
 
 -(void)dealloc{
-    jsonRPC = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
