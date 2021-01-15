@@ -19,9 +19,9 @@
 "Pictures" = "Bilder";
 "Now Playing" = "Gerade läuft";
 "Remote Control" = "Fernbedienung";
-"XBMC Server" = "Kodi Server";
-"New XBMC Server" = "Neuer Kodi Server";
-"Modify XBMC Server" = "Kodi Server bearbeiten";
+"XBMC Server" = "Kodi-Server";
+"New XBMC Server" = "Neuer Kodi-Server";
+"Modify XBMC Server" = "Kodi-Server bearbeiten";
 "Select an XBMC Server from the list" = "Wähle einen Kodi-Server aus der Liste";
 
 "Files" = "Dateien";
@@ -237,22 +237,22 @@
 "Tap and hold a setting to add a new button." = "Tippen und Halten auf eine Einstellung um eine neue Aktion anzulegen.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "Keine Aktion definiert.\r\nWähle \"Mehr...\" um Neue hinzuzufügen.";
 
-"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- WARNUNG --\nKodi API vor Krypton (v17) erlaubt keine Timer-Bearbeitung. Bitte nutze die Einstellungen direkt in Kodi zum Hinzufügen, Bearbeiten und Entfernen von Timern. Vielen Dank.";
+"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- ACHTUNG --\nDie Kodi-API vor Krypton (v17) erlaubt keine Timer-Bearbeitung. Bitte nutze die Einstellungen direkt in Kodi zum Hinzufügen, Bearbeiten und Entfernen von Timern. Vielen Dank.";
 
 "Execute program" = "Programm ausführen";
-"Execute video add-on" = "Video-Add-on ausführen";
-"Execute audio add-on" = "Audio-Add-on ausführen";
+"Execute video add-on" = "Video Add-on ausführen";
+"Execute audio add-on" = "Audio Add-on ausführen";
 "Add-on executed successfully" = "Add-on erfolgreich ausgeführt";
 "Unable to execute the add-on" = "Ausführung des Add-on nicht möglich";
 
 "...more" = "Mehr...";
 "Edit" = "Bearbeiten";
 "Done" = "Fertig";
-"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi version 13 or größer wird benötigt, um die Kodi Einstellungen aufzurufen.";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Die Kodi-Version Gotham (v13) oder höher wird benötigt, um die Kodi-Einstellungen aufzurufen.";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- ACHTUNG --\nDiese Art der Einstellung kann hier nicht bearbeitet werden. Bitte nutze dafür die Einstellungen direkt in Kodi.\nVielen Dank.";
 
 "Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nfür iOS";
-"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Die \"Official Kodi Remote app\" benutzt Bilder die von http://fanart.tv kommen. Installiere das \"artwork downloader\" Kodi Add-on um dies auch in Kodi zu nutzen!\n\nDas Kodi-Logo, das Zappy Maskottchen und die \"Official Kodi Remote\"-Icons sind Eigentum von Kodi\nhttp://www.kodi.tv/contribute";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Die \"Official Kodi Remote app\" benutzt Bilder, die von http://fanart.tv kommen. Installiere das \"artwork downloader\" Kodi Add-on, um dies auch in Kodi zu nutzen!\n\nDas Kodi-Logo, das Zappy Maskottchen und die \"Official Kodi Remote\"-Icons sind Eigentum von Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "Viel Spaß!";
 
 "No items found." = "Keine Einträge gefunden";
@@ -260,7 +260,7 @@
 "Party" = "Party";
 "Search" = "Suche";
 
-"Supported XBMC version is Eden (11) or higher" = "Unterstütze Kodi-Versionen Eden (11) oder höher";
+"Supported XBMC version is Eden (11) or higher" = "Unterstützt Kodi-Version Eden (v11) oder höher";
 "Add Host" = "Hinzufügen";
 "Kodi connection notice" = "Kodi Verbindungshinweis";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Es scheint, dass keine TCP-Verbindung mit Kodi hergestellt werden kann. Dies verhindert, dass die App auf Änderungen von Kodi reagieren kann. Zum Beispiel wird die Tastatureingabe in der App nicht angezeigt, wenn Kodi diese anfordert.";
