@@ -1577,11 +1577,7 @@
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView *)sender {
     if (sender.currentIndex == 0){
-        float deltaY = 0;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            deltaY = - 44 + iOSYDelta;
-        }
-        [collectionView setContentOffset:CGPointMake(0, deltaY) animated:NO];
+        [collectionView setContentOffset:CGPointZero animated:NO];
         if (sectionNameOverlayView == nil && stackscrollFullscreen == YES){
             [self initSectionNameOverlayView];
         }
