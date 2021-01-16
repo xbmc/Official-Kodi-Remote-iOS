@@ -13,19 +13,18 @@
 
 @synthesize viewMessage;
 
-- (id)initWithFrame:(CGRect)frame deltaY:(float)deltaY deltaX:(float)deltaX {
+- (id)initWithFrame:(CGRect)frame deltaY:(CGFloat)deltaY deltaX:(CGFloat)deltaX {
     self = [super initWithFrame:frame];
     if (self) {
         CALayer *bottomBorder = [CALayer layer];
-        CGFloat borderSize = 1.0f;
-        borderSize = 0.5f;
-        bottomBorder.frame = CGRectMake(0.0f, frame.size.height - borderSize, frame.size.width, borderSize);
+        CGFloat borderSize = 0.5;
+        bottomBorder.frame = CGRectMake(0.0, frame.size.height - borderSize, frame.size.width, borderSize);
         bottomBorder.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.35f].CGColor;
         [self.layer addSublayer:bottomBorder];
         [self setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
         slideHeight = frame.size.height;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-            slideHeight += 22.0f;
+            slideHeight += 22.0;
         }
         [self setFrame:CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height)];
         viewMessage = [[UILabel alloc] initWithFrame:CGRectMake(deltaX, deltaY, frame.size.width - deltaX, frame.size.height - deltaY)];
