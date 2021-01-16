@@ -185,7 +185,7 @@
         
         [self.view insertSubview:scrubbingView aboveSubview:_tableView];
 
-        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + 42.0f) deltaY:deltaY deltaX:0];
+        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + DEFAULT_MSG_HEIGHT) deltaY:deltaY deltaX:0];
         [self.view addSubview:messagesView];
 	}
     return self;

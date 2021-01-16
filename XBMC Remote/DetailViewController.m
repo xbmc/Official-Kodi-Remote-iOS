@@ -5693,7 +5693,7 @@ NSIndexPath *selected;
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
     }
     
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 42.0f) deltaY:0 deltaX:0];
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
     [self.view addSubview:messagesView];
     
     frame = dataList.frame;

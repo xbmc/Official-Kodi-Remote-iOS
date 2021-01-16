@@ -681,7 +681,7 @@
         putXBMClogo = YES;
         [self setRightMenuOption:@"utility" reloadTableData:NO];
     }
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44.0f + deltaY) deltaY:deltaY deltaX:deltaX];
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:deltaX];
     [self.view addSubview:messagesView];
     
     [[NSNotificationCenter defaultCenter] addObserver: self

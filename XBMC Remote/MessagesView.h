@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define DEFAULT_MSG_HEIGHT 44
+
 @interface MessagesView : UIView {
     NSTimer *fadeoutTimer;
     CGFloat slideHeight;
