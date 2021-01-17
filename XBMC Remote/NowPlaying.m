@@ -3065,28 +3065,6 @@ int currentItemID;
     toolbarAlpha = 1.0f;
     int barHeight = 44;
     int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && SYSTEM_VERSION_LESS_THAN(@"11.0")){
-        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.top = barHeight + statusBarHeight;
-        playlistTableView.contentInset = tableViewInsets;
-        playlistTableView.scrollIndicatorInsets = tableViewInsets;
-        CGRect frame = xbmcOverlayImage_iphone.frame;
-        frame.origin.y = frame.origin.y + barHeight - statusBarHeight/2;
-        xbmcOverlayImage_iphone.frame = frame;
-        frame = noFoundView.frame;
-        frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
-        noFoundView.frame = frame;
-        
-        tableViewInsets = playlistTableView.contentInset;
-        tableViewInsets.bottom = barHeight * 2;
-        playlistTableView.contentInset = tableViewInsets;
-        playlistTableView.scrollIndicatorInsets = tableViewInsets;
-        
-        frame= playlistTableView.frame;
-        frame.size.height=self.view.bounds.size.height - bottomPadding;
-        playlistView.frame = frame;
-        playlistTableView.frame = frame;
-    }
     [self setIOS7toolbar];
     [playlistTableView setSeparatorInset:UIEdgeInsetsMake(0, 53, 0, 0)];
     

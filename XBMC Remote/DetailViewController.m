@@ -651,9 +651,6 @@
         [moreItemsViewController viewDidAppear:FALSE];
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.bottom = 44;
-        if (SYSTEM_VERSION_LESS_THAN(@"11.0")) {
-            tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-        }
         moreItemsViewController.tableView.contentInset = tableViewInsets;
         moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
         [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
@@ -5528,22 +5525,7 @@ NSIndexPath *selected;
 
     [button7 setImage:[UIImage imageNamed:@"button_sort_bright.png"] forState:UIControlStateNormal];
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
-
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        if (SYSTEM_VERSION_LESS_THAN(@"11.0")) {
-        iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
-        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.top = self.searchController.searchBar.frame.size.height + fabs(iOSYDelta);
-        dataList.contentInset = tableViewInsets;
-        dataList.scrollIndicatorInsets = tableViewInsets;
-        }
-        else {
-            self.edgesForExtendedLayout = UIRectEdgeNone;
-        }
-    }
-    else {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    }
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
     [dataList setSectionIndexBackgroundColor:[UIColor clearColor]];

@@ -209,18 +209,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     [bottomToolbar setTintColor:TINT_COLOR];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        if (SYSTEM_VERSION_LESS_THAN(@"11.0")) {
-            UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-            float iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
-            tableViewInsets.top = 44 + fabs(iOSYDelta);
-            Twitterweb.scrollView.contentInset = tableViewInsets;
-            Twitterweb.scrollView.scrollIndicatorInsets = tableViewInsets;
-        }
-        else{
-            self.edgesForExtendedLayout = UIRectEdgeNone;
-        }
-    }
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     NSDictionary *item = self.detailItem;
     UIBarButtonItem *extraButton = nil;
     int titleWidth = 310;
