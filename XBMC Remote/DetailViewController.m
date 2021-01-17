@@ -4369,6 +4369,9 @@ NSIndexPath *selected;
                  
                  NSString *thumbnailPath = [videoLibraryMovieDetail objectForKey:@"thumbnail"];
                  NSDictionary *art = [videoLibraryMovieDetail objectForKey:@"art"];
+                 if ([art count] && [[art objectForKey:@"poster"] length]!=0) {
+                     thumbnailPath = [art objectForKey:@"poster"];
+                 }
 
                  NSString *clearlogo = @"";
                  NSString *clearart = @"";
@@ -4635,6 +4638,9 @@ NSIndexPath *selected;
                          NSDictionary *art = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"art"];
                          if ([art count] && [[art objectForKey:@"banner"] length]!=0 && tvshowsView){
                              thumbnailPath = [art objectForKey:@"banner"];
+                         }
+                         if ([art count] && [[art objectForKey:@"poster"] length]!=0) {
+                             thumbnailPath = [art objectForKey:@"poster"];
                          }
                          NSString *fanartPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"];
                          NSString *fanartURL=@"";
