@@ -64,7 +64,7 @@
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarShadow.opaque = YES;
-        toolbarShadow.alpha = .8f;
+        toolbarShadow.alpha = 0.8;
         [self addSubview:toolbarShadow];
 
     }

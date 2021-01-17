@@ -1252,12 +1252,12 @@ NSInteger buttonAction;
         [manager setValue:[httpHeaders objectForKey:@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
     CGFloat infoButtonOriginY = -16;
-    float infoButtonalpha = 0.9f;
+    CGFloat infoButtonalpha = 0.9;
 
     self.edgesForExtendedLayout = 0;
     self.view.tintColor = TINT_COLOR;
     infoButtonOriginY = -14;
-    infoButtonalpha = 1.0f;
+    infoButtonalpha = 1.0;
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
@@ -1303,7 +1303,7 @@ NSInteger buttonAction;
         [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
         gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-        gestureButton.alpha = .8f;
+        gestureButton.alpha = 0.8;
         [self.view addSubview:gestureButton];
         
         UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1314,7 +1314,7 @@ NSInteger buttonAction;
         [keyboardButton setImage:keyboardImg forState:UIControlStateNormal];
         keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
-        keyboardButton.alpha = .8f;
+        keyboardButton.alpha = 0.8;
         [self.view addSubview:keyboardButton];
 
         UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];

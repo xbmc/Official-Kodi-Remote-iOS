@@ -150,7 +150,7 @@
         scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
         [scrubbingView setCenter:CGPointMake((int)(frame.size.width / 2), (int)(frame.size.height / 2) + 50)];
         [scrubbingView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
-        scrubbingView.alpha = 0.0f;
+        scrubbingView.alpha = 0.0;
         CGRect toolbarShadowFrame = CGRectMake(0, 44, self.view.frame.size.width, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
@@ -604,7 +604,7 @@
 
 #pragma mark Table view delegate
 
-- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	tV.alpha = alphavalue;
@@ -681,7 +681,7 @@
     toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbarShadow.contentMode = UIViewContentModeScaleToFill;
     toolbarShadow.opaque = YES;
-    toolbarShadow.alpha = .3f;
+    toolbarShadow.alpha = 0.3;
     [sectionView addSubview:toolbarShadow];
     return sectionView;
 }
@@ -767,7 +767,7 @@
 
 #pragma mark - UISlider
 
--(void)changeAlphaView:(UIView *)view alpha:(float)value time:(float)sec{
+-(void)changeAlphaView:(UIView *)view alpha:(CGFloat)value time:(float)sec{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:sec];
 	view.alpha = value;

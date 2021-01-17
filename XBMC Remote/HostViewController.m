@@ -47,7 +47,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
-- (void)AnimLabel:(UIView *)Lab AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimLabel:(UIView *)Lab AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	Lab.alpha = alphavalue;
@@ -59,7 +59,7 @@
     
 }
 
-- (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;

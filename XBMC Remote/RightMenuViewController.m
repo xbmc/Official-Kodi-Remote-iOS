@@ -94,7 +94,7 @@
         [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backView;
         UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 195, (int)((44/2) - (36/2)) - 2, 145, 36)];
-        xbmc_logo. alpha = .25f;
+        xbmc_logo. alpha = 0.25;
         [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
         xbmc_logo.tag = 101;
         [cell.contentView insertSubview:xbmc_logo atIndex:0];
@@ -166,7 +166,7 @@
         [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backView;
         UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(125, (int)((44/2) - (36/2)) - 2, 145, 36)];
-        xbmc_logo. alpha = .25f;
+        xbmc_logo. alpha = 0.25;
         [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
         xbmc_logo.tag = 101;
         xbmc_logo.hidden = YES;
@@ -216,7 +216,7 @@
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
         [title setNumberOfLines:2];
         [title setText:[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"]];
-        icon.alpha = .6f;
+        icon.alpha = 0.6;
         iconName = [[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"];
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"hideLineSeparator"] boolValue] == YES){
@@ -236,14 +236,14 @@
         [title setHighlightedTextColor:fontColor];
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
-        icon.alpha = .8f;
+        icon.alpha = 0.8;
         if (torchIsOn){
             iconName = @"torch_on.png";
         }
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"xbmc-exec-addon"]){
         [icon setImageWithURL:[NSURL URLWithString:[[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@"blank.png"] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
-        icon.alpha = 1.0f;
+        icon.alpha = 1.0;
     }
     else{
         [icon setImage:[UIImage imageNamed:iconName]];

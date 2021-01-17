@@ -57,7 +57,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.2];
     [self setFrame:CGRectMake(frame.origin.x, 0, frame.size.width, frame.size.height)];
-    [self setAlpha:1.0f];
+    [self setAlpha:1.0];
     [UIView commitAnimations];
     //then slide out again after timeout seconds
     if ([fadeoutTimer isValid])
@@ -71,7 +71,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.4];
     [self setFrame:CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height)];
-    [self setAlpha:0.0f];
+    [self setAlpha:0.0];
     [UIView commitAnimations];
     [fadeoutTimer invalidate];
     fadeoutTimer = nil;

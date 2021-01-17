@@ -2,7 +2,7 @@
 #import "Utilities.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define DEFAULT_ALPHA 0.3f
+#define DEFAULT_ALPHA 0.3
 
 @interface BDKCollectionIndexView ()
 
@@ -195,7 +195,7 @@
     }
     else{
         [self setBackgroundVisibility:TRUE];
-        self.alpha = 1.0f;
+        self.alpha = 1.0;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateBegin" object: nil];
     }
     [self setNewIndexForPoint:[recognizer locationInView:self]];

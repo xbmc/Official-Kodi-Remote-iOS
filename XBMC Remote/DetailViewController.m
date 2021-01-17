@@ -610,7 +610,7 @@
     UIImage *image = [params objectForKey:@"image"];
     UIImageView *destinationView = [params objectForKey:@"destinationView"];
     destinationView.image = image;
-    [self alphaView:destinationView AnimDuration:0.1 Alpha:1.0f];
+    [self alphaView:destinationView AnimDuration:0.1 Alpha:1.0];
 }
 
 #pragma mark - Tabbar management
@@ -1628,21 +1628,21 @@
 
 #pragma mark - Table Animation
 
--(void)alphaImage:(UIImageView *)image AnimDuration:(float)seconds Alpha:(float)alphavalue{
+-(void)alphaImage:(UIImageView *)image AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	image.alpha = alphavalue;
     [UIView commitAnimations];
 }
 
--(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue{
+-(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;
     [UIView commitAnimations];
 }
 
-- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:seconds];
     tV.alpha = alphavalue;
@@ -1654,7 +1654,7 @@
     [UIView commitAnimations];
 }
 
-- (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;
@@ -2499,7 +2499,7 @@ int originYear = 0;
             UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, - self.searchController.searchBar.frame.size.height, viewWidth, albumViewHeight + 2 + self.searchController.searchBar.frame.size.height)];
             fanartBackgroundImage.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
-            fanartBackgroundImage.alpha = 0.1f;
+            fanartBackgroundImage.alpha = 0.1;
             [fanartBackgroundImage setClipsToBounds:YES];
             [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank.png"]];
             [albumDetailView addSubview:fanartBackgroundImage];
@@ -2563,7 +2563,7 @@ int originYear = 0;
         [albumDetailView addSubview:releasedLabel];
         
         UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ];
-        albumInfoButton.alpha = .5f;
+        albumInfoButton.alpha = 0.5;
         [albumInfoButton setShowsTouchWhenHighlighted:YES];
         [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 3, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
         albumInfoButton.tag = 0;
@@ -2575,7 +2575,7 @@ int originYear = 0;
 //        albumPlaybackButton.showsTouchWhenHighlighted = YES;
 //        UIImage *btnImage = [UIImage imageNamed:@"button_play.png"];
 //        [albumPlaybackButton setImage:btnImage forState:UIControlStateNormal];
-//        albumPlaybackButton.alpha = .8f;
+//        albumPlaybackButton.alpha = 0.8;
 //        int playbackOriginX = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)]] intValue];
 //        int playbackOriginY = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.height/2 + albumViewPadding)]] intValue];
 //        [albumPlaybackButton setFrame:CGRectMake(playbackOriginX, playbackOriginY, btnImage.size.width, btnImage.size.height)];
@@ -2595,7 +2595,7 @@ int originYear = 0;
             [albumDetailView addGestureRecognizer:tapGesture];
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = 99;
-            button.alpha = .5;
+            button.alpha = 0.5;
             button.frame = CGRectMake(3, (int)(albumViewHeight / 2) - 6, 11, 11);
             [button setImage:[UIImage imageNamed:@"arrow_close.png"] forState:UIControlStateNormal];
             [button setImage:[UIImage imageNamed:@"arrow_open.png"] forState:UIControlStateSelected];
@@ -2717,7 +2717,7 @@ int originYear = 0;
             [albumDetailView addSubview:releasedLabel];
 
             UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
-            albumInfoButton.alpha = .6f;
+            albumInfoButton.alpha = 0.6;
             [albumInfoButton setShowsTouchWhenHighlighted:YES];
             [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 6, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
             albumInfoButton.tag = 1;
@@ -2737,7 +2737,7 @@ int originYear = 0;
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarShadow.opaque = YES;
-        toolbarShadow.alpha = .3f;
+        toolbarShadow.alpha = 0.3;
         [sectionView addSubview:toolbarShadow];
         return sectionView;
     }
@@ -2768,7 +2768,7 @@ int originYear = 0;
     toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbarShadow.contentMode = UIViewContentModeScaleToFill;
     toolbarShadow.opaque = YES;
-    toolbarShadow.alpha = .3f;
+    toolbarShadow.alpha = 0.3;
     [sectionView addSubview:toolbarShadow];
     
     if (section>1){
@@ -2778,7 +2778,7 @@ int originYear = 0;
         toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarUpShadow.opaque = YES;
-        toolbarUpShadow.alpha = .3f;
+        toolbarUpShadow.alpha = 0.3;
         [sectionView addSubview:toolbarUpShadow];
     }
     
@@ -3523,7 +3523,7 @@ NSIndexPath *selected;
                          animations:^{
                              collectionView.alpha = 0;
                              dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 1.0f;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 1.0;
                             
                          }
                          completion:^(BOOL finished) {
@@ -3576,7 +3576,7 @@ NSIndexPath *selected;
                          animations:^{
                              collectionView.alpha = 0;
                              dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 0.0f;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 0.0;
                          }
                          completion:^(BOOL finished) {
                              button6.hidden = YES;

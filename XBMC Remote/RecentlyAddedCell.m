@@ -36,7 +36,7 @@
         [_posterFanart setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterFanart setClipsToBounds:YES];
         [_posterFanart setContentMode:UIViewContentModeScaleAspectFill];
-        _posterFanart.alpha = 0.9f;
+        _posterFanart.alpha = 0.9;
         [self.contentView addSubview:_posterFanart];
 
         int frameHeight = labelHeight + genreHeight + yearHeight - borderWidth*2;

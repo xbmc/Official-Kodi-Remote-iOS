@@ -100,7 +100,7 @@ CGFloat cellBarWidth=45;
     return [self resizeImage:img width:34 height:34 padding:0];
 }
 
--(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
+-(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
 	[UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
 	[UIView setAnimationDuration:seconds];
@@ -270,7 +270,7 @@ CGFloat cellBarWidth=45;
     view.hidden=value;
 }
 
-- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	tV.alpha = alphavalue;
@@ -1366,7 +1366,7 @@ int currentItemID;
 //        }
     }];
 }
--(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue{
+-(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;
@@ -2203,7 +2203,7 @@ int currentItemID;
     }
 }
 
--(void)changeAlphaView:(UIView *)view alpha:(float)value time:(float)sec{
+-(void)changeAlphaView:(UIView *)view alpha:(CGFloat)value time:(float)sec{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:sec];
 	view.alpha = value;
@@ -2699,7 +2699,7 @@ int currentItemID;
     }
 }
 
--(void)setIpadInterface:(float)toolbarAlpha{
+-(void)setIpadInterface:(CGFloat)toolbarAlpha{
     playlistLeftShadow.hidden = NO;
     slideFrom=-300;
     CGRect frame;
@@ -2756,7 +2756,7 @@ int currentItemID;
     frame = playlistActionView.frame;
     frame.origin.y = playlistToolbar.frame.origin.y - playlistToolbar.frame.size.height;
     playlistActionView.frame = frame;
-    playlistActionView.alpha = 1.0f;
+    playlistActionView.alpha = 1.0;
     
     frame = scrabbingView.frame;
     frame.origin.y =frame.origin.y - 24;
@@ -3040,7 +3040,7 @@ int currentItemID;
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
-    float toolbarAlpha = 0.8f;
+    CGFloat toolbarAlpha = 0.8;
     pg_thumb_name = @"pgbar_thumb.png";
     cellBackgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];
     [self addSegmentControl];
@@ -3051,7 +3051,7 @@ int currentItemID;
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
         bottomPadding = window.safeAreaInsets.bottom;
     }
-    toolbarAlpha = 1.0f;
+    toolbarAlpha = 1.0;
     int barHeight = 44;
     int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     [self setIOS7toolbar];

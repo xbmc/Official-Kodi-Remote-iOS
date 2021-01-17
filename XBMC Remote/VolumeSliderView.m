@@ -38,7 +38,7 @@
             trans = CGAffineTransformMakeRotation(M_PI * - 0.5);
             minusButton.transform = trans;
             volumeLabel.transform = trans;
-            volumeLabel.alpha = .8f;
+            volumeLabel.alpha = 0.8;
             [volumeLabel setFrame:CGRectMake((int)volumeLabel.frame.origin.x, (int)volumeLabel.frame.origin.y, volumeLabel.frame.size.width, volumeLabel.frame.size.height)];
             volumeView.hidden = YES;
             

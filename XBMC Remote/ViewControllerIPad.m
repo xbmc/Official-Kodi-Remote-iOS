@@ -173,7 +173,7 @@
 
 # pragma mark - toolbar management
 
--(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
+-(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
 	[UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
 	[UIView setAnimationDuration:seconds];
@@ -401,7 +401,7 @@
     fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     fanartBackgroundImage.autoresizingMask = rootView.autoresizingMask;
     fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
-    fanartBackgroundImage.alpha = 0.05f;
+    fanartBackgroundImage.alpha = 0.05;
     [self.view addSubview:fanartBackgroundImage];
     
 	leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableWidth, self.view.frame.size.height)];
@@ -462,7 +462,7 @@
     xbmcLogo.showsTouchWhenHighlighted = NO;
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-    xbmcLogo.alpha = .9f;
+    xbmcLogo.alpha = 0.9;
     [self.view addSubview:xbmcLogo];
     
     UIButton  *volumeButton = [[UIButton alloc] initWithFrame:CGRectMake(341, 964, 36, 37)];
