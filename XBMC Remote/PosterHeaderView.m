@@ -58,7 +58,7 @@
             [self addSubview:_headerLabel];
         }
         
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, self.frame.size.height - 1, self.frame.size.width, 4);
+        CGRect toolbarShadowFrame = CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;

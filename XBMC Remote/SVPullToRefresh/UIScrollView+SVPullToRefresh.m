@@ -307,7 +307,7 @@ static char UIScrollViewPullToRefreshView;
         else if(contentOffset.y >= scrollOffsetThreshold && self.state != SVPullToRefreshStateStopped)
             self.state = SVPullToRefreshStateStopped;
     } else {
-        CGFloat offset = MAX(self.scrollView.contentOffset.y * -1, 0.0f);
+        CGFloat offset = MAX(self.scrollView.contentOffset.y * -1, 0);
         offset = MIN(offset, self.originalTopInset + self.bounds.size.height);
         UIEdgeInsets contentInset = self.scrollView.contentInset;
         self.scrollView.contentInset = UIEdgeInsetsMake(offset, contentInset.left, contentInset.bottom, contentInset.right);
@@ -340,7 +340,7 @@ static char UIScrollViewPullToRefreshView;
         _titleLabel.text = NSLocalizedString(@"Pull to refresh...",);
         _titleLabel.font = [UIFont boldSystemFontOfSize:13];
         _titleLabel.numberOfLines = 1;
-        _titleLabel.minimumScaleFactor = 12.0f/13.0f;
+        _titleLabel.minimumScaleFactor = 12.0/13.0;
         _titleLabel.adjustsFontSizeToFitWidth = YES;
         _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.textColor = textColor;
@@ -354,7 +354,7 @@ static char UIScrollViewPullToRefreshView;
         _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
         _subtitleLabel.font = [UIFont systemFontOfSize:11];
         _subtitleLabel.numberOfLines = 1;
-        _subtitleLabel.minimumScaleFactor = 9.0f/11.0f;
+        _subtitleLabel.minimumScaleFactor = 9.0/11.0;
         _subtitleLabel.adjustsFontSizeToFitWidth = YES;
         _subtitleLabel.backgroundColor = [UIColor clearColor];
         _subtitleLabel.textColor = [UIColor lightGrayColor];
@@ -550,7 +550,7 @@ static char UIScrollViewPullToRefreshView;
 	
 	// Gradient Declaration
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGFloat alphaGradientLocations[] = {0, 0.8f};
+	CGFloat alphaGradientLocations[] = {0, 0.8};
     
 	CGGradientRef alphaGradient = nil;
     if([[[UIDevice currentDevice] systemVersion]floatValue] >= 5){

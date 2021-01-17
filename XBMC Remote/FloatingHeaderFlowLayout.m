@@ -95,9 +95,9 @@
 }
 
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity{
-    float offsetAdjustment = 0;
-    float threshold = searchBarHeight / 2;
-    float contentOffsetInset = proposedContentOffset.y;
+    CGFloat offsetAdjustment = 0;
+    CGFloat threshold = searchBarHeight / 2;
+    CGFloat contentOffsetInset = proposedContentOffset.y;
     contentOffsetInset = contentOffsetInset + self.collectionView.contentInset.top;
     if (contentOffsetInset  <= threshold){
         offsetAdjustment = - contentOffsetInset;

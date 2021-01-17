@@ -20,8 +20,8 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        float labelHeight = (int)(frame.size.height * 0.19f);
-        float borderWidth = [self halfSizeIfRetina:1.0f];
+        CGFloat labelHeight = ceil(frame.size.height * 0.19);
+        CGFloat borderWidth = [self halfSizeIfRetina:1.0];
         self.restorationIdentifier = @"posterCell";
         _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, borderWidth, frame.size.width - borderWidth * 2, frame.size.height - borderWidth * 2)];
         [_posterThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin];
@@ -42,9 +42,9 @@
         [_posterLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6]];
         [_posterLabel setShadowOffset:CGSizeMake(0,1)];
         [_posterLabel setNumberOfLines:2];
-        [_posterLabel setMinimumScaleFactor:0.8f];
+        [_posterLabel setMinimumScaleFactor:0.8];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
-        [_posterLabel setMinimumScaleFactor:1.0f];
+        [_posterLabel setMinimumScaleFactor:1.0];
 
         [_labelImageView addSubview:_posterLabel];
         [self.contentView addSubview:_labelImageView];
@@ -56,9 +56,9 @@
             [_posterLabelFullscreen setTextColor:[UIColor grayColor]];
             [_posterLabelFullscreen setTextAlignment:NSTextAlignmentCenter];
             [_posterLabelFullscreen setNumberOfLines:1];
-            [_posterLabelFullscreen setMinimumScaleFactor:0.8f];
+            [_posterLabelFullscreen setMinimumScaleFactor:0.8];
             [_posterLabelFullscreen setAdjustsFontSizeToFitWidth:NO];
-            [_posterLabelFullscreen setMinimumScaleFactor:1.0f];
+            [_posterLabelFullscreen setMinimumScaleFactor:1.0];
             [self.contentView addSubview:_posterLabelFullscreen];
         }
 
@@ -75,7 +75,7 @@
     return self;
 }
 
-- (float)halfSizeIfRetina:(float)size{
+- (CGFloat)halfSizeIfRetina:(CGFloat)size{
     BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
     size = isRetina ? size / [[UIScreen mainScreen] scale] : size;
     return size;
@@ -84,8 +84,8 @@
 -(void)setIsRecording:(BOOL)enable {
     if (enable == YES) {
         if (isRecordingImageView == nil) {
-            float dotSize = 8.0f;
-            isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(6.0f, 6.0f, dotSize, dotSize)];
+            CGFloat dotSize = 8;
+            isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, dotSize, dotSize)];
             [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer.png"]];
             [isRecordingImageView setContentMode:UIViewContentModeScaleToFill];
             isRecordingImageView.tag = 104;

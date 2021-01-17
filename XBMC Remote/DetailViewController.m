@@ -591,7 +591,7 @@
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-    CGFloat borderWidth = 2.0f;
+    CGFloat borderWidth = 2;
 	CGContextSetLineWidth(context, borderWidth);
     CGContextStrokeRect(context, rect);
     
@@ -1243,17 +1243,17 @@
 -(void)setFlowLayoutParams{
     if (stackscrollFullscreen == YES){
         [flowLayout setItemSize:CGSizeMake(fullscreenCellGridWidth, fullscreenCellGridHeight)];
-        if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0.0f;
+        if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0;
         if  (!recentlyAddedView) {
-            [flowLayout setMinimumLineSpacing:38.0f];
+            [flowLayout setMinimumLineSpacing:38];
         }
         else {
-            [flowLayout setMinimumLineSpacing:4.0f];
+            [flowLayout setMinimumLineSpacing:4];
         }
         [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
     }
     else{
-        if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0.0f;
+        if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0;
         [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
         [flowLayout setMinimumLineSpacing:cellMinimumLineSpacing];
         [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
@@ -1300,9 +1300,9 @@
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    float margin = 0.0f;
+    CGFloat margin = 0;
     if (stackscrollFullscreen == YES) {
-        margin = 8.0f;
+        margin = 8;
     }
     if (section == 0) {
         return UIEdgeInsetsMake(CGRectGetHeight(self.searchController.searchBar.frame), margin, 0, margin);
@@ -1333,8 +1333,8 @@
     NSString *displayThumb=[NSString stringWithFormat:@"%@_wall", defaultThumb];
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     
-    float cellthumbWidth = cellGridWidth;
-    float cellthumbHeight = cellGridHeight;
+    CGFloat cellthumbWidth = cellGridWidth;
+    CGFloat cellthumbHeight = cellGridHeight;
     if (stackscrollFullscreen == YES) {
         cellthumbWidth = fullscreenCellGridWidth;
         cellthumbHeight = fullscreenCellGridHeight;
@@ -1398,8 +1398,8 @@
     else{
         static NSString *identifier = @"recentlyAddedCell";
         RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-        float posterWidth = cellthumbHeight * 0.66f;
-        float fanartWidth = cellthumbWidth - posterWidth;
+        CGFloat posterWidth = cellthumbHeight * 0.66;
+        CGFloat fanartWidth = cellthumbWidth - posterWidth;
 
         if (![stringURL isEqualToString:@""]){
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(posterWidth, cellthumbHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
@@ -1407,7 +1407,7 @@
                 CGFloat hue, saturation, brightness, alpha;
                 BOOL ok = [averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                 if (ok) {
-                    UIColor *bgColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2f alpha:alpha];
+                    UIColor *bgColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2 alpha:alpha];
                     [cell setBackgroundColor:bgColor];
                 }
             }];
@@ -1527,7 +1527,7 @@
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
     [sectionNameOverlayView setBackgroundColor:[UIColor clearColor]];
     sectionNameOverlayView.center = [[[[UIApplication sharedApplication] delegate] window] rootViewController].view.center;
-    float cornerRadius = 12.0f;
+    CGFloat cornerRadius = 12;
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = sectionNameOverlayView.bounds;
@@ -2051,7 +2051,7 @@ int originYear = 0;
             [programTimeLabel setBackgroundColor:[UIColor clearColor]];
             [programTimeLabel setFont:[UIFont systemFontOfSize:12]];
             programTimeLabel.adjustsFontSizeToFitWidth = YES;
-            programTimeLabel.minimumScaleFactor = 8.0f / 12.0f;
+            programTimeLabel.minimumScaleFactor = 8.0 / 12.0;
             programTimeLabel.textAlignment = NSTextAlignmentCenter;
             programTimeLabel.tag = 102;
             [programTimeLabel setHighlightedTextColor:[UIColor whiteColor]];
@@ -2069,14 +2069,14 @@ int originYear = 0;
             [cell.contentView addSubview:hasTimer];
         }
         else if (channelListView) {
-            float pieSize = 28.0f;
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2.0f, 10.0f, pieSize, pieSize) color:[UIColor blackColor]];
+            CGFloat pieSize = 28;
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2, 10, pieSize, pieSize) color:[UIColor blackColor]];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
             
-            float dotSize = 6.0f;
-            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2.0f - dotSize/2.0f, progressView.frame.origin.y + [progressView getPieRadius]/2.0f + [progressView getLineWidth] + 0.5f, dotSize, dotSize)];
+            CGFloat dotSize = 6;
+            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2 - dotSize/2, progressView.frame.origin.y + [progressView getPieRadius]/2 + [progressView getLineWidth] + 0.5, dotSize, dotSize)];
             [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer.png"]];
             [isRecordingImageView setContentMode:UIViewContentModeScaleToFill];
             isRecordingImageView.tag = 104;
@@ -2182,10 +2182,10 @@ int originYear = 0;
             frame.size.width=Menuitem.widthLabel;
             runtime.frame = frame;
             frame = cell.urlImageView.frame;
-            frame.size.width = thumbWidth * 0.9f;
+            frame.size.width = thumbWidth * 0.9;
             frame.origin.x = 6;
             frame.origin.y = 10;
-            frame.size.height = thumbWidth * 0.7f;
+            frame.size.height = thumbWidth * 0.7;
             cell.urlImageView.frame = frame;
             ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
             progressView.hidden = YES;
@@ -2247,7 +2247,7 @@ int originYear = 0;
             frame.origin.y = 0;
             [title setFrame:frame];
             genre.font =  [genre.font fontWithSize:11];
-            [genre setMinimumScaleFactor:10.0f/11.0f];
+            [genre setMinimumScaleFactor:10.0/11.0];
             [genre sizeToFit];
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"sectionid"] || [[item objectForKey:@"family"] isEqualToString:@"categoryid"]|| [[item objectForKey:@"family"] isEqualToString:@"id"] || [[item objectForKey:@"family"] isEqualToString:@"addonid"]){
@@ -2269,7 +2269,7 @@ int originYear = 0;
             genre.frame = frame;
             [genre setNumberOfLines:2];
             genre.font =  [genre.font fontWithSize:11];
-            [genre setMinimumScaleFactor:10.f/11.0f];
+            [genre setMinimumScaleFactor:10.0/11.0];
             [genre sizeToFit];
         }
         else{
@@ -2301,7 +2301,7 @@ int originYear = 0;
         genre.frame = frame;
         [genre setNumberOfLines:3];
         genre.font =  [genre.font fontWithSize:11];
-        [genre setMinimumScaleFactor:10.0f/11.0f];
+        [genre setMinimumScaleFactor:10.0/11.0];
         UILabel *programStartTime = (UILabel *)[cell viewWithTag:102];
         NSDateFormatter *test= [[NSDateFormatter alloc] init];
         [test setDateFormat:@"yyyy-MM-dd HH:mm"];
@@ -2410,7 +2410,7 @@ int originYear = 0;
         gradient.frame = albumDetailView.bounds;
         gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor], nil];
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, albumViewHeight + 1, viewWidth, 8);
+        CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -2443,12 +2443,12 @@ int originYear = 0;
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                       BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
-                                      float thumbBorder = isRetina ? 1.0f/[[UIScreen mainScreen] scale] : 1.0f;
+                                      CGFloat thumbBorder = isRetina ? 1.0/[[UIScreen mainScreen] scale] : 1.0;
                                       [thumbImageContainer setBackgroundColor:[UIColor clearColor]];
                                       thumbImageContainer.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1].CGColor;
                                       thumbImageContainer.layer.shadowOpacity = 1.0f;
-                                      thumbImageContainer.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-                                      thumbImageContainer.layer.shadowRadius = 2.0f;
+                                      thumbImageContainer.layer.shadowOffset = CGSizeMake(0, 0);
+                                      thumbImageContainer.layer.shadowRadius = 2.0;
                                       thumbImageContainer.layer.masksToBounds = NO;
                                       thumbImageContainer.layer.borderWidth = thumbBorder;
                                       thumbImageContainer.layer.borderColor = [UIColor blackColor].CGColor;
@@ -2513,7 +2513,7 @@ int originYear = 0;
         [artist setShadowOffset:CGSizeMake(0, 1)];
         [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
         artist.adjustsFontSizeToFitWidth = YES;
-        artist.minimumScaleFactor = 9.0f / artistFontSize;
+        artist.minimumScaleFactor = 9.0 / artistFontSize;
         artist.text = [item objectForKey:@"genre"];
         [albumDetailView addSubview:artist];
         
@@ -2596,7 +2596,7 @@ int originYear = 0;
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = 99;
             button.alpha = .5;
-            button.frame = CGRectMake(3.0, (int)(albumViewHeight / 2) - 6, 11.0, 11.0);
+            button.frame = CGRectMake(3, (int)(albumViewHeight / 2) - 6, 11, 11);
             [button setImage:[UIImage imageNamed:@"arrow_close.png"] forState:UIControlStateNormal];
             [button setImage:[UIImage imageNamed:@"arrow_open.png"] forState:UIControlStateSelected];
 //            [button addTarget:self action:@selector(toggleOpen:) forControlEvents:UIControlEventTouchUpInside];
@@ -2614,7 +2614,7 @@ int originYear = 0;
             [lineView setBackgroundColor:[UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1]];
             [albumDetailView addSubview:lineView];
         }
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, albumViewHeight + 1, viewWidth, 8);
+        CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -2630,7 +2630,7 @@ int originYear = 0;
             item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:section]] objectAtIndex:0];
         }
         NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:self.extraSectionRichResults];
-        float seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
+        CGFloat seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
         if (seasonIdx != NSNotFound){
             
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
@@ -2659,7 +2659,7 @@ int originYear = 0;
             [artist setShadowOffset:CGSizeMake(0, 1)];
             [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
             artist.adjustsFontSizeToFitWidth = YES;
-            artist.minimumScaleFactor = 9.0f/artistFontSize;
+            artist.minimumScaleFactor = 9.0/artistFontSize;
             artist.text = [item objectForKey:@"genre"];
             [albumDetailView addSubview:artist];
             
@@ -2731,7 +2731,7 @@ int originYear = 0;
     if (sectionTitle == nil) {
         UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
         [sectionView setBackgroundColor:[UIColor colorWithRed:.4 green:.4 blue:.4 alpha:1]];
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, 1, viewWidth, 4);
+        CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -2762,7 +2762,7 @@ int originYear = 0;
 //    [sectionView addSubview:lineView];
     //END TEST
 
-    CGRect toolbarShadowFrame = CGRectMake(0.0f, sectionHeight - 1, viewWidth, 4);
+    CGRect toolbarShadowFrame = CGRectMake(0, sectionHeight - 1, viewWidth, 4);
     UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
     [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
     toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -2772,7 +2772,7 @@ int originYear = 0;
     [sectionView addSubview:toolbarShadow];
     
     if (section>1){
-        CGRect toolbarShadowUpFrame = CGRectMake(0.0f, -3, viewWidth, 2);
+        CGRect toolbarShadowUpFrame = CGRectMake(0, -3, viewWidth, 2);
         UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowUpFrame];
         [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
         toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -2785,7 +2785,7 @@ int originYear = 0;
     int labelFontSize = sectionHeight > 16 ? sectionHeight - 10 : sectionHeight - 5;
     int labelOriginY = sectionHeight > 16 ? 2 : 1;
     BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
-    float shadowOffset = isRetina ? 1.0f/[[UIScreen mainScreen] scale] : 1.0f;
+    CGFloat shadowOffset = isRetina ? 1.0/[[UIScreen mainScreen] scale] : 1.0;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, labelOriginY, viewWidth - 20, sectionHeight)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
@@ -3470,13 +3470,13 @@ NSIndexPath *selected;
         topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
         topNavigationLabel.backgroundColor = [UIColor clearColor];
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
-        topNavigationLabel.minimumScaleFactor=8.0f/11.0f;
+        topNavigationLabel.minimumScaleFactor=8.0/11.0;
         topNavigationLabel.numberOfLines=2;
         topNavigationLabel.adjustsFontSizeToFitWidth = YES;
         topNavigationLabel.textAlignment = NSTextAlignmentLeft;
         topNavigationLabel.textColor = [UIColor whiteColor];
         topNavigationLabel.shadowColor = shadowColor;
-        topNavigationLabel.shadowOffset    = CGSizeMake (0.0, -1.0);
+        topNavigationLabel.shadowOffset    = CGSizeMake (0, -1);
         topNavigationLabel.highlightedTextColor = [UIColor blackColor];
         topNavigationLabel.opaque=YES;
         topNavigationLabel.text=[self.detailItem mainLabel];
@@ -4265,8 +4265,8 @@ NSIndexPath *selected;
         longTimeout.animationRepeatCount = 0;
         longTimeout.center = activityIndicatorView.center;
         CGRect frame = longTimeout.frame;
-        frame.origin.y = frame.origin.y + 30.0f;
-        frame.origin.x = frame.origin.x - 3.0f;
+        frame.origin.y = frame.origin.y + 30;
+        frame.origin.x = frame.origin.x - 3;
         longTimeout.frame = frame;
         [longTimeout startAnimating];
         [self.view addSubview:longTimeout];
@@ -5341,8 +5341,8 @@ NSIndexPath *selected;
     albumFontSize = 15;
     trackCountFontSize = 11;
     labelPadding = 8;
-    cellGridWidth =105.0f;
-    cellGridHeight =  151.0f;
+    cellGridWidth =105;
+    cellGridHeight =  151;
     posterFontSize = 10;
     fanartFontSize = 10;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
@@ -5359,10 +5359,10 @@ NSIndexPath *selected;
     albumFontSize = 18;
     trackCountFontSize = 13;
     labelPadding = 8;
-    cellGridWidth =117.0f;
-    cellGridHeight =  168.0f;
-    fullscreenCellGridWidth = 164.0f;
-    fullscreenCellGridHeight = 246.0f;
+    cellGridWidth =117;
+    cellGridHeight =  168;
+    fullscreenCellGridWidth = 164;
+    fullscreenCellGridHeight = 246;
     posterFontSize = 11;
     fanartFontSize = 13;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
@@ -5824,7 +5824,7 @@ NSIndexPath *selected;
                 [fullscreenButton setFrame:CGRectMake(0, 0, 26, 26)];
                 [fullscreenButton setContentMode:UIViewContentModeCenter];
                 [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen.png"] forState:UIControlStateNormal];
-                fullscreenButton.layer.cornerRadius = 2.0f;
+                fullscreenButton.layer.cornerRadius = 2;
                 [fullscreenButton setTintColor:[UIColor whiteColor]];
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen:) forControlEvents:UIControlEventTouchUpInside];
                 [fullscreenButton setFrame:CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width - buttonPadding,

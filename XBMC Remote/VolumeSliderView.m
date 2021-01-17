@@ -74,7 +74,7 @@
             UIColor *darkShadow =[UIColor colorWithRed:.2 green:.2 blue:.2 alpha:.6];
             [volumeLabel setTextColor:[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.8]];
             [volumeLabel setShadowColor:darkShadow];
-            [volumeLabel setShadowOffset:CGSizeMake(.5f, .7f)];
+            [volumeLabel setShadowOffset:CGSizeMake(0.5, 0.7)];
             volumeLabel.layer.shadowColor = darkShadow.CGColor;
             volumeLabel.layer.shadowOffset = CGSizeMake(0, 0);
             volumeLabel.layer.shadowOpacity = 1;

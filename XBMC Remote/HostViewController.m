@@ -507,7 +507,7 @@
     startDiscover.titleLabel.adjustsFontSizeToFitWidth = YES;
     startDiscover.titleLabel.lineBreakMode = NSLineBreakByClipping;
     UIImage *buttonEdit = [UIImage imageNamed:@"button_edit.png"];
-    UIEdgeInsets insets = UIEdgeInsetsMake(0.0f, 16.0f, 0.0f, 16.0f);
+    UIEdgeInsets insets = UIEdgeInsetsMake(0, 16, 0, 16);
     buttonEdit = [buttonEdit resizableImageWithCapInsets:insets];
     [startDiscover setBackgroundImage:buttonEdit forState:UIControlStateNormal];
     UIImage *buttonEditSelected = [UIImage imageNamed:@"button_edit_highlight.png"];

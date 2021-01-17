@@ -70,14 +70,14 @@
 //        CGRect shadowRect;
 //        UIImageView *shadow;
         
-//        shadowRect = CGRectMake(0.0f, 0.0f, 300.0f, 8.0f);
+//        shadowRect = CGRectMake(0, 0, 300, 8);
 //        shadow = [[UIImageView alloc] initWithFrame:shadowRect];
 //        [shadow setImage:[UIImage imageNamed:@"tableUp.png"]];
 //        shadow.opaque = YES;
 //        shadow.alpha = 0.5;
 //        [self.view addSubview:shadow];
         
-//        shadowRect = CGRectMake(0.0f, tableHeight - 8, self.view.frame.size.width, 8.0f);
+//        shadowRect = CGRectMake(0, tableHeight - 8, self.view.frame.size.width, 8);
 //        shadow = [[UIImageView alloc] initWithFrame:shadowRect];
 //        [shadow setImage:[UIImage imageNamed:@"tableDown.png"]];
 //        shadow.opaque = YES;

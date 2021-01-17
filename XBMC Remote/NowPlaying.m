@@ -42,9 +42,9 @@
 @synthesize itemDescription;
 //@synthesize presentedFromNavigation;
 
-float startx=14;
-float barwidth=280;
-float cellBarWidth=45;
+CGFloat startx=14;
+CGFloat barwidth=280;
+CGFloat cellBarWidth=45;
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 
 - (void)setDetailItem:(id)newDetailItem{
@@ -190,7 +190,7 @@ float cellBarWidth=45;
     return (NSDictionary *)mutableDictionary;
 }
 
--(void)animCursor:(float)x{
+-(void)animCursor:(CGFloat)x{
     float time=1.0f;
     if (x==startx){
         time=0.1f;
@@ -205,7 +205,7 @@ float cellBarWidth=45;
     [UIView commitAnimations];
 }
 
--(void)resizeCellBar:(float)width image:(UIImageView *)cellBarImage{
+-(void)resizeCellBar:(CGFloat)width image:(UIImageView *)cellBarImage{
     float time=1.0f;
     if (width==0){
         time=0.1f;
@@ -758,9 +758,9 @@ int currentItemID;
                                  CGFloat hue, saturation, brightness, alpha;
                                  BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                                  if (ok) {
-                                     UIColor *iPadStartColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2f alpha:alpha];
+                                     UIColor *iPadStartColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2 alpha:alpha];
                                      
-                                     UIColor *iPadEndColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.1f alpha:alpha];
+                                     UIColor *iPadEndColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.1 alpha:alpha];
                                      NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                                              iPadStartColor, @"startColor",
                                                              iPadEndColor, @"endColor",
@@ -1099,7 +1099,7 @@ int currentItemID;
                                      UILabel *playlistActualTime=(UILabel*) [cell viewWithTag:6];
                                      playlistActualTime.text=actualTime;
                                      UIImageView *playlistActualBar=(UIImageView*) [cell viewWithTag:7];
-                                     float newx=cellBarWidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
+                                     CGFloat newx=cellBarWidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
                                      if (newx<1)
                                          newx=1;
                                      [self resizeCellBar:newx image:playlistActualBar];
@@ -2759,7 +2759,7 @@ int currentItemID;
     playlistActionView.alpha = 1.0f;
     
     frame = scrabbingView.frame;
-    frame.origin.y =frame.origin.y - 24.0f;
+    frame.origin.y =frame.origin.y - 24;
     [scrabbingView setFrame:frame];
     [itemDescription setFont:[UIFont systemFontOfSize:15]];
 }
@@ -2793,8 +2793,8 @@ int currentItemID;
                                                                           [[NSLocalizedString(@"Video ", nil) capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], nil
                                                                           ]
                                 ];
-    float seg_width = 122.0f;
-    float left_margin = 99.0f;
+    CGFloat seg_width = 122;
+    CGFloat left_margin = 99;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         left_margin = (int)(([self currentScreenBoundsDependOnOrientation].size.width/2) - (seg_width/2));
     }

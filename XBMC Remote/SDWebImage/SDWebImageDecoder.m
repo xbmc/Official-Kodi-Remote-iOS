@@ -49,8 +49,8 @@
     }
 
 //    CGRect newRect;
-//    float ImageWidth = imageSize.width;
-//    float ImageHeight = imageSize.height;
+//    CGFloat ImageWidth = imageSize.width;
+//    CGFloat ImageHeight = imageSize.height;
 
     if (newSize.width && newSize.height){
         CGFloat horizontalRatio = newSize.width / imageSize.width;

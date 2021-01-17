@@ -53,7 +53,7 @@
     }
 	CFRelease(data);
     
-	CGFloat f = 1.0f / (255.0f * imageWidth * imageHeight);
+	CGFloat f = 1.0 / (255.0 * imageWidth * imageHeight);
 	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
 }
 
@@ -88,7 +88,7 @@
 }
 
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker{
-    CGFloat trigger = 0.4f;
+    CGFloat trigger = 0.4;
     return [self updateColor:newColor lightColor:lighter darkColor:darker trigger:trigger];
 }
 
@@ -109,8 +109,8 @@
     UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
     
     CGRect contextRect;
-    contextRect.origin.x = 0.0f;
-    contextRect.origin.y = 0.0f;
+    contextRect.origin.x = 0;
+    contextRect.origin.y = 0;
     contextRect.size = [image size];
     
     CGSize itemImageSize = [image size];

@@ -10,7 +10,7 @@
 
 @interface ProgressPieView : UIView {
     int padding;
-    float lineWidth;
+    CGFloat lineWidth;
     UIColor *pieColor;
     CGFloat radius;
     CAShapeLayer *progressShape;

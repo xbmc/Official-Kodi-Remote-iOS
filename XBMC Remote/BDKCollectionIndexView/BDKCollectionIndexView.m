@@ -154,7 +154,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
             label.text = indexTitle;
             label.font = [UIFont boldSystemFontOfSize:11];
-            label.minimumScaleFactor = 5.0f/11.0f;
+            label.minimumScaleFactor = 5.0/11.0;
             label.adjustsFontSizeToFitWidth = YES;
             label.backgroundColor = [UIColor clearColor];
             label.textColor = [UIColor systemGrayColor];
@@ -181,7 +181,7 @@
 }
 
 - (void)setBackgroundVisibility:(BOOL)flag {
-    CGFloat alpha = flag ? 0.5f : 0;
+    CGFloat alpha = flag ? 0.5 : 0;
     self.touchStatusView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:alpha];
 }
 

@@ -17,11 +17,11 @@
     if (self) {
         self.restorationIdentifier = @"recentlyAddedCell";
         self.backgroundColor = [UIColor grayColor];
-        float labelHeight = (int)(frame.size.height * 0.19f);
-        float genreHeight = (int)(frame.size.height * 0.12f);
-        float yearHeight = (int)(frame.size.height * 0.12f);
+        int labelHeight = (int)(frame.size.height * 0.19);
+        int genreHeight = (int)(frame.size.height * 0.12);
+        int yearHeight = (int)(frame.size.height * 0.12);
         int borderWidth = 2;
-        int posterWidth = (int)(frame.size.height * 0.66f) + 1;
+        int posterWidth = (int)(frame.size.height * 0.66) + 1;
         int fanartWidth = frame.size.width - posterWidth;
         int posterStartX = borderWidth;
         int startX = borderWidth * 2 + posterWidth;
@@ -58,7 +58,7 @@
         [_posterLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6]];
         [_posterLabel setShadowOffset:CGSizeMake(0,1)];
         [_posterLabel setNumberOfLines:1];
-        [_posterLabel setMinimumScaleFactor:0.5f];
+        [_posterLabel setMinimumScaleFactor:0.5];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
         [labelImageView addSubview:_posterLabel];
         
@@ -69,7 +69,7 @@
         [_posterGenre setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6]];
         [_posterGenre setShadowOffset:CGSizeMake(0,1)];
         [_posterGenre setNumberOfLines:1];
-        [_posterGenre setMinimumScaleFactor:0.5f];
+        [_posterGenre setMinimumScaleFactor:0.5];
         [_posterGenre setAdjustsFontSizeToFitWidth:YES];
         [labelImageView addSubview:_posterGenre];
         
@@ -80,7 +80,7 @@
         [_posterYear setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6]];
         [_posterYear setShadowOffset:CGSizeMake(0,1)];
         [_posterYear setNumberOfLines:1];
-        [_posterYear setMinimumScaleFactor:0.5f];
+        [_posterYear setMinimumScaleFactor:0.5];
         [_posterYear setAdjustsFontSizeToFitWidth:YES];
         [labelImageView addSubview:_posterYear];
         [self.contentView addSubview:labelImageView];

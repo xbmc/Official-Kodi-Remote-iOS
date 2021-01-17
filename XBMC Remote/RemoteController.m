@@ -19,7 +19,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DetailViewController.h"
 
-#define ROTATION_TRIGGER 0.015f 
+#define ROTATION_TRIGGER 0.015 
 #define SCALE_TO_REDUCE_BORDERS 1.05
 
 @interface RemoteController ()
@@ -58,12 +58,12 @@
     int startX = -6;
     int startY = 6;
     int transViewY = 46;
-    if (transform>=1.29f) {
+    if (transform>=1.29) {
         // All devices with width >= 414
         startX = 6;
         transViewY = 66;
     }
-    else if (transform>1.0f) {
+    else if (transform>1.0) {
         // All devices with 320 > width > 414
         startX = 3;
         transViewY = 58;
@@ -1251,7 +1251,7 @@ NSInteger buttonAction;
     if ([httpHeaders objectForKey:@"Authorization"] != nil){
         [manager setValue:[httpHeaders objectForKey:@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
-    float infoButtonOriginY = -16;
+    CGFloat infoButtonOriginY = -16;
     float infoButtonalpha = 0.9f;
 
     self.edgesForExtendedLayout = 0;
@@ -1297,7 +1297,7 @@ NSInteger buttonAction;
         [self.view addSubview:settingButton];
         
         UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        gestureButton.frame = CGRectMake(self.view.bounds.size.width - 188, self.view.bounds.size.height - 43, 56.0, 36.0);
+        gestureButton.frame = CGRectMake(self.view.bounds.size.width - 188, self.view.bounds.size.height - 43, 56, 36);
         [gestureButton setContentMode:UIViewContentModeRight];
         [gestureButton setShowsTouchWhenHighlighted:YES];
         [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
@@ -1307,7 +1307,7 @@ NSInteger buttonAction;
         [self.view addSubview:gestureButton];
         
         UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 120, self.view.bounds.size.height - 43, 56.0, 36.0);
+        keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 120, self.view.bounds.size.height - 43, 56, 36);
         UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
         [keyboardButton setContentMode:UIViewContentModeRight];
         [keyboardButton setShowsTouchWhenHighlighted:YES];
