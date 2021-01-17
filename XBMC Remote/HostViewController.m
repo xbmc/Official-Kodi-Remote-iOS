@@ -29,7 +29,7 @@
 
 #define serviceType @"_xbmc-jsonrpc-h._tcp"
 #define domainName @"local"
-#define DISCOVER_TIMEOUT 15.0f
+#define DISCOVER_TIMEOUT 15.0
 #define BUFLEN (sizeof(struct rt_msghdr) + 512)
 #define SEQ 9999
 #define RTM_VERSION	5           // important, version 2 does not return a mac address!
@@ -47,7 +47,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
-- (void)AnimLabel:(UIView *)Lab AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
+- (void)AnimLabel:(UIView *)Lab AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	Lab.alpha = alphavalue;
@@ -59,7 +59,7 @@
     
 }
 
-- (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
+- (void)AnimView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;

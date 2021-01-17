@@ -317,7 +317,7 @@ BOOL moved;
   
   [self topViewHorizontalCenterWillChange:newCenter];
   
-  [UIView animateWithDuration:0.25f animations:^{
+  [UIView animateWithDuration:0.25 animations:^{
     if (animations) {
       animations();
     }
@@ -357,7 +357,7 @@ BOOL moved;
   
   [self topViewHorizontalCenterWillChange:newCenter];
   
-  [UIView animateWithDuration:0.25f animations:^{
+  [UIView animateWithDuration:0.25 animations:^{
     if (animations) {
       animations();
     }
@@ -387,7 +387,7 @@ BOOL moved;
 {
   [self topViewHorizontalCenterWillChange:self.resettedCenter];
   
-  [UIView animateWithDuration:0.25f animations:^{
+  [UIView animateWithDuration:0.25 animations:^{
     if (animations) {
       animations();
     }

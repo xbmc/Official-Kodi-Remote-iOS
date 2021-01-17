@@ -9,8 +9,8 @@
 #import "tcpJSONRPC.h"
 #import "AppDelegate.h"
 
-#define SERVER_TIMEOUT 3.0f
-#define MRMC_TIMEWARP 14.0f
+#define SERVER_TIMEOUT 3.0
+#define MRMC_TIMEWARP 14.0
 
 NSInputStream	*inStream;
 NSOutputStream	*outStream;

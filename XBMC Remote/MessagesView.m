@@ -42,7 +42,7 @@
 
 # pragma mark - view Effects
 
-- (void)showMessage:(NSString *)message timeout:(float)timeout color:(UIColor *)color{
+- (void)showMessage:(NSString *)message timeout:(NSTimeInterval)timeout color:(UIColor *)color{
     // first slide out
     CGRect frame = self.frame;
     [UIView beginAnimations:nil context:nil];

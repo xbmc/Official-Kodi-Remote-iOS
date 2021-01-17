@@ -101,7 +101,7 @@
 
 // (int)timeout PARAMETER ADDED BY JOE
 
-- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams withTimeout:(float)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
+- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams withTimeout:(NSTimeInterval)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
     
     // Generate a random Id for the call
     NSInteger aId = arc4random();

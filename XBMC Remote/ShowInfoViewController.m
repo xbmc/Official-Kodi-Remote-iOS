@@ -513,8 +513,8 @@ int count=0;
 }
 
 -(void)animateRecordAction {
-    [UIView animateWithDuration: 0.2f
-                          delay: 0.0f
+    [UIView animateWithDuration: 0.2
+                          delay: 0.0
                         options: UIViewAnimationOptionCurveEaseOut
                      animations: ^{
                          CGRect frame;
@@ -1673,7 +1673,7 @@ int h=0;
             if (![self isModal]){
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
             }
-            [UIView animateWithDuration:1.5f
+            [UIView animateWithDuration:1.5
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^ {
@@ -1693,7 +1693,7 @@ int h=0;
                                         nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
             }
-            [UIView animateWithDuration:1.5f
+            [UIView animateWithDuration:1.5
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^ {
@@ -1779,7 +1779,7 @@ int h=0;
     }
 }
 
--(void)alphaImage:(UIImageView *)image AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue{
+-(void)alphaImage:(UIImageView *)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -1790,7 +1790,7 @@ int h=0;
     [UIView commitAnimations];
 }
 
--(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue{
+-(void)alphaView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -2231,7 +2231,7 @@ int h=0;
                          }
                          completion:^(BOOL finished){
                              [self elabKenBurns:fanartView.image];
-                             [self alphaView:self.kenView AnimDuration:.2 Alpha:alphaValue];
+                             [self alphaView:self.kenView AnimDuration:0.2 Alpha:alphaValue];
                          }
          ];
     }

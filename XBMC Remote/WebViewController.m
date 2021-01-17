@@ -32,7 +32,7 @@
     return self;
 }
 
--(void)fade:(UIView*)view AnimDuration:(float)seconds startAlpha:(CGFloat)start endAlpha:(CGFloat)end {
+-(void)fade:(UIView*)view AnimDuration:(NSTimeInterval)seconds startAlpha:(CGFloat)start endAlpha:(CGFloat)end {
     view.alpha = start;
     CGContextRef contextView = UIGraphicsGetCurrentContext();
 	[UIView beginAnimations:nil context:contextView];

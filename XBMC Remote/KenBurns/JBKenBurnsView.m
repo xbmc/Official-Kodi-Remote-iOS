@@ -68,7 +68,7 @@
     self.isLoop = NO;
 }
 
-- (void) animateWithImages:(NSMutableArray *)images transitionDuration:(float)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
+- (void) animateWithImages:(NSMutableArray *)images transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
     self.imagesArray      = images;
     self.timeTransition   = duration;
     self.isLoop           = shouldLoop;
@@ -86,7 +86,7 @@
     
 }
 
-- (void) animateWithURLs:(NSArray *)urls transitionDuration:(float)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
+- (void) animateWithURLs:(NSArray *)urls transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
     self.imagesArray      = [[NSMutableArray alloc] init];
     self.timeTransition   = duration;
     self.isLoop           = shouldLoop;

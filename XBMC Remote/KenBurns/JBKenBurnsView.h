@@ -38,22 +38,22 @@
 
 @interface KenBurnsView : UIView {
     NSMutableArray *imagesArray;
-    float timeTransition;
+    NSTimeInterval timeTransition;
     BOOL isLoop;
     BOOL isLandscape;
     CGFloat newEnlargeRatio;
     __weak id <KenBurnsViewDelegate> delegate;
 }
 
-@property (nonatomic, assign) float timeTransition;
+@property (nonatomic, assign) NSTimeInterval timeTransition;
 @property (nonatomic, retain) NSMutableArray *imagesArray;
 @property (nonatomic) BOOL isLoop;
 @property (nonatomic) BOOL isLandscape;
 @property (weak) id<KenBurnsViewDelegate> delegate;
 
 - (void) stopAnimation;
-- (void) animateWithImages:(NSArray *)images transitionDuration:(float)time loop:(BOOL)isLoop isLandscape:(BOOL)isLandscape;
-- (void) animateWithURLs:(NSArray *)urls transitionDuration:(float)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;
+- (void) animateWithImages:(NSArray *)images transitionDuration:(NSTimeInterval)time loop:(BOOL)isLoop isLandscape:(BOOL)isLandscape;
+- (void) animateWithURLs:(NSArray *)urls transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;
 
 @end
 

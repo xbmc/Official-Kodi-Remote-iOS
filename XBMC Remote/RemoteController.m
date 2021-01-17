@@ -336,7 +336,7 @@
         
 # pragma mark - view Effects
 
--(void)showSubInfo:(NSString *)message timeout:(float)timeout color:(UIColor *)color{
+-(void)showSubInfo:(NSString *)message timeout:(NSTimeInterval)timeout color:(UIColor *)color{
     // first fadeout 
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -666,9 +666,9 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     if ([touches count] == 1){
-        float timeInterval = 1.5f;
+        NSTimeInterval timeInterval = 1.5;
         if (buttonAction > 0) {
-            timeInterval = 0.5f;
+            timeInterval = 0.5;
         }
         self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
     }
@@ -745,7 +745,7 @@ NSInteger buttonAction;
         [self.holdVolumeTimer invalidate];
         self.holdVolumeTimer=nil;
     }
-    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
+    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     
@@ -833,17 +833,17 @@ NSInteger buttonAction;
 
 -(void)sendAction{
     if (!buttonAction) return;
-    if (self.holdVolumeTimer.timeInterval == 0.5f || self.holdVolumeTimer.timeInterval == 1.5f){
+    if (self.holdVolumeTimer.timeInterval == 0.5 || self.holdVolumeTimer.timeInterval == 1.5){
         
-        if (self.holdVolumeTimer.timeInterval == 1.5f){
+        if (self.holdVolumeTimer.timeInterval == 1.5){
             [self.holdVolumeTimer invalidate];
             self.holdVolumeTimer=nil;
-            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];  
+            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
         }
         else{
             [self.holdVolumeTimer invalidate];
             self.holdVolumeTimer=nil;
-            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(sendAction) userInfo:nil repeats:YES]; 
+            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendAction) userInfo:nil repeats:YES]; 
         }
     }
     NSString *action;

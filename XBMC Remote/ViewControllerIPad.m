@@ -20,8 +20,8 @@
 #import "gradientUIView.h"
 #import "CustomNavigationController.h"
 
-#define CONNECTION_TIMEOUT 240.0f
-#define SERVER_TIMEOUT 2.0f
+#define CONNECTION_TIMEOUT 240.0
+#define SERVER_TIMEOUT 2.0
 
 @interface ViewControllerIPad (){
     NSMutableArray *mainMenu;
@@ -173,7 +173,7 @@
 
 # pragma mark - toolbar management
 
--(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
+-(void)toggleViewToolBar:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
 	[UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
 	[UIView setAnimationDuration:seconds];
@@ -622,7 +622,7 @@
 
 -(void)handleChangeBackgroundImage:(NSNotification *)sender {
     [UIView transitionWithView: fanartBackgroundImage
-                      duration: 1.0f
+                      duration: 1.0
                        options: UIViewAnimationOptionTransitionCrossDissolve
                     animations: ^{
                         [fanartBackgroundImage setImage:[[sender userInfo] valueForKey:@"image"]];

@@ -20,7 +20,7 @@
 #import "XBMCVirtualKeyboard.h"
 #import "ClearCacheView.h"
 
-#define SERVER_TIMEOUT 2.0f
+#define SERVER_TIMEOUT 2.0
 
 @interface MasterViewController () {
     NSMutableArray *_objects;

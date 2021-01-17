@@ -150,7 +150,7 @@
     volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
     volumeSlider.value = [AppDelegate instance].serverVolume;
     [self stopTimer];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(volumeInfo) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(volumeInfo) userInfo:nil repeats:YES];
 }
 
 -(void)stopTimer{
@@ -186,7 +186,7 @@ NSInteger action;
     [self stopTimer];
     action = [sender tag];
     [self changeVolume];
-    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];
+    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];
 }
 
 -(IBAction)stopVolume:(id)sender{
@@ -199,10 +199,10 @@ NSInteger action;
 }
 
 -(void)changeVolume{
-    if (self.holdVolumeTimer.timeInterval == 0.5f){
+    if (self.holdVolumeTimer.timeInterval == 0.5){
         [self.holdVolumeTimer invalidate];
         self.holdVolumeTimer=nil;
-        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];        
+        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];        
     }
     if (action==1){ //Volume Raise
        volumeSlider.value=(int)volumeSlider.value+2; 

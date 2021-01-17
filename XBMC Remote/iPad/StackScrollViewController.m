@@ -131,9 +131,9 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     }
     BOOL hideToolbar = [[[sender userInfo] valueForKey:@"hideToolbar"] boolValue];
     BOOL clipsToBounds = [[[sender userInfo] valueForKey:@"clipsToBounds"] boolValue];
-    float duration = [[[sender userInfo] valueForKey:@"duration"] floatValue];
+    NSTimeInterval duration = [[[sender userInfo] valueForKey:@"duration"] doubleValue];
     if (!duration){
-        duration = 1.5f;
+        duration = 1.5;
     }
     if (clipsToBounds) {
         senderView.clipsToBounds = YES;
@@ -186,9 +186,9 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     if ([[sender object] isKindOfClass:[UIView class]]){
         senderView = [sender object];
     }
-    float duration = [[[sender userInfo] valueForKey:@"duration"] floatValue];
+    NSTimeInterval duration = [[[sender userInfo] valueForKey:@"duration"] doubleValue];
     if (!duration){
-        duration = 1.5f;
+        duration = 1.5;
     }
     senderView.clipsToBounds = NO;
 //    [[senderView viewWithTag:2002] setHidden:NO];

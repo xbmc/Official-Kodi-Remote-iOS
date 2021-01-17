@@ -55,7 +55,7 @@
 #define SECTIONS_START_AT 100
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 #define MAX_NORMAL_BUTTONS 4
-#define WARNING_TIMEOUT 30.0f
+#define WARNING_TIMEOUT 30.0
 #define COLLECTION_HEADER_HEIGHT 16
 #define FIXED_SPACE_WIDTH 120
 
@@ -877,7 +877,7 @@
         [self setUpSort:methods parameters:parameters];
     }
     [self checkDiskCache];
-    float animDuration = 0.3f;
+    NSTimeInterval animDuration = 0.3;
     if (newEnableCollectionView != enableCollectionView){
         animDuration = 0.0;
     }
@@ -1615,34 +1615,34 @@
 
 -(void)handleCollectionIndexStateBegin{
     if (stackscrollFullscreen == YES){
-        [self alphaView:sectionNameOverlayView AnimDuration:0.1f Alpha:1];
+        [self alphaView:sectionNameOverlayView AnimDuration:0.1 Alpha:1];
     }
 }
 
 -(void)handleCollectionIndexStateEnded{
     if (stackscrollFullscreen == YES){
-        [self alphaView:sectionNameOverlayView AnimDuration:0.3f Alpha:0];
+        [self alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
     }
     _indexView.alpha = 1.0;
 }
 
 #pragma mark - Table Animation
 
--(void)alphaImage:(UIImageView *)image AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue{
+-(void)alphaImage:(UIImageView *)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	image.alpha = alphavalue;
     [UIView commitAnimations];
 }
 
--(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue{
+-(void)alphaView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;
     [UIView commitAnimations];
 }
 
-- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
+- (void)AnimTable:(UITableView *)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:seconds];
     tV.alpha = alphavalue;
@@ -1654,7 +1654,7 @@
     [UIView commitAnimations];
 }
 
-- (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
+- (void)AnimView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;
@@ -3385,7 +3385,7 @@ NSIndexPath *selected;
     customButton *arrayButtons = [[customButton alloc] init];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
@@ -3514,10 +3514,10 @@ NSIndexPath *selected;
 
 - (void)toggleFullscreen:(id)sender {
     [activityIndicatorView startAnimating];
-    float animDuration = 0.5f;
+    NSTimeInterval animDuration = 0.5;
     if (stackscrollFullscreen == YES) {
         stackscrollFullscreen = NO;
-        [UIView animateWithDuration:0.1f
+        [UIView animateWithDuration:0.1
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
@@ -3549,8 +3549,8 @@ NSIndexPath *selected;
                                                      [NSNumber numberWithFloat:animDuration], @"duration",
                                                      nil];
                              [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:params];
-                             [UIView animateWithDuration:0.2f
-                                                   delay:0.0f
+                             [UIView animateWithDuration:0.2
+                                                   delay:0.0
                                                  options:UIViewAnimationOptionCurveEaseInOut
                                               animations:^{
                                                   collectionView.alpha = 1;
@@ -3570,7 +3570,7 @@ NSIndexPath *selected;
     }
     else {
         stackscrollFullscreen = YES;
-        [UIView animateWithDuration:0.1f
+        [UIView animateWithDuration:0.1
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
@@ -3613,8 +3613,8 @@ NSIndexPath *selected;
                                                      [NSNumber numberWithFloat:animDuration], @"duration",
                                                      nil];
                              [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
-                             [UIView animateWithDuration:0.2f
-                                                   delay:0.0f
+                             [UIView animateWithDuration:0.2
+                                                   delay:0.0
                                                  options:UIViewAnimationOptionCurveEaseInOut
                                               animations:^{
                                                   collectionView.alpha = 1;
@@ -3792,7 +3792,7 @@ NSIndexPath *selected;
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
-                   [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3f Alpha:1.0 XPos:viewWidth];
+                   [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
                    [self startRetrieveDataWithRefresh:YES];
                }
                else {
@@ -4103,10 +4103,10 @@ NSIndexPath *selected;
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters success:(NSString *)successMessage failure:(NSString *)failureMessage{
     [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if ( error == nil && methodError == nil ){
-            [messagesView showMessage:successMessage timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+            [messagesView showMessage:successMessage timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
         else {
-            [messagesView showMessage:failureMessage timeout:2.0f color:[Utilities getSystemRed:0.95]];
+            [messagesView showMessage:failureMessage timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
     }];
 }
@@ -4261,7 +4261,7 @@ NSIndexPath *selected;
                                        [UIImage imageNamed:@"monkeys_37.png"],
                                        [UIImage imageNamed:@"monkeys_38.png"],
                                         nil];        
-        longTimeout.animationDuration = 5.0f;
+        longTimeout.animationDuration = 5.0;
         longTimeout.animationRepeatCount = 0;
         longTimeout.center = activityIndicatorView.center;
         CGRect frame = longTimeout.frame;
@@ -4538,7 +4538,7 @@ NSIndexPath *selected;
     }
 
     GlobalData *obj=[GlobalData getInstance];
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];    
+    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
 //    NSLog(@"START");
     debugText.text = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     elapsedTime = 0;
@@ -5143,7 +5143,7 @@ NSIndexPath *selected;
     [self updateChannelListTableCell];
     [channelListUpdateTimer invalidate];
     channelListUpdateTimer = nil;
-    channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0f target:self selector:@selector(updateChannelListTableCell) userInfo:nil repeats:YES];
+    channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(updateChannelListTableCell) userInfo:nil repeats:YES];
 }
 
 -(void)updateChannelListTableCell {
@@ -5251,7 +5251,7 @@ NSIndexPath *selected;
         NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
         [outputFormatter setDateFormat:@"ss"];
         [self updateChannelListTableCell];
-        channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(60.0f - [[outputFormatter stringFromDate:now] floatValue]) target:self selector:@selector(startChannelListUpdateTimer) userInfo:nil repeats:NO];
+        channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(60.0 - [[outputFormatter stringFromDate:now] floatValue]) target:self selector:@selector(startChannelListUpdateTimer) userInfo:nil repeats:NO];
     }
 }
 

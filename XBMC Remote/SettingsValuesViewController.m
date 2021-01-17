@@ -292,7 +292,7 @@
     customButton *arrayButtons = [[customButton alloc] init];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
@@ -310,10 +310,10 @@
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicator stopAnimating];
         if (methodError==nil && error == nil){
-            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
         else{
-            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0f color:[Utilities getSystemRed:0.95]];
+            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
             [sender setUserInteractionEnabled:YES];
@@ -604,7 +604,7 @@
 
 #pragma mark Table view delegate
 
-- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
+- (void)AnimTable:(UITableView *)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	tV.alpha = alphavalue;
@@ -767,7 +767,7 @@
 
 #pragma mark - UISlider
 
--(void)changeAlphaView:(UIView *)view alpha:(CGFloat)value time:(float)sec{
+-(void)changeAlphaView:(UIView *)view alpha:(CGFloat)value time:(NSTimeInterval)sec{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:sec];
 	view.alpha = value;

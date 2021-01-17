@@ -453,7 +453,7 @@
                 NSString *serverMAC = [AppDelegate instance].obj.serverHWAddr;
                 if (serverMAC != nil && ![serverMAC isEqualToString:@":::::"]){
                     [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                    [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+                    [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
                 }
                 else{
                     UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
@@ -513,10 +513,10 @@
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
-            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
         else{
-            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0f color:[Utilities getSystemRed:0.95]];
+            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
             [sender setUserInteractionEnabled:YES];
@@ -727,7 +727,7 @@
 }
 
 -(void)showNotificationMessage:(NSNotification *)note {
-    [messagesView showMessage:note.name timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+    [messagesView showMessage:note.name timeout:2.0 color:[Utilities getSystemGreen:0.95]];
 }
 
 -(void)reloadCustomButtonTable:(NSNotification *)note {
