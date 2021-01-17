@@ -12,6 +12,9 @@
 #import "mainMenu.h"
 #import "AppInfoViewController.h"
 
+// +2 to cover two single-line separators
+#define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
+
 @interface HostManagementViewController ()
 
 @end
@@ -374,7 +377,7 @@ static inline BOOL IsEmpty(id obj) {
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    int deltaY = 44 + [[UIApplication sharedApplication] statusBarFrame].size.height;
+    CGFloat deltaY = CGRectGetMaxY(self.navigationController.navigationBar.frame);
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         deltaY = 0;
     }
@@ -403,7 +406,7 @@ static inline BOOL IsEmpty(id obj) {
     frame.origin.y -= bottomPadding;
     [editTableButton setFrame:frame];
     
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 36 + deltaY) deltaY:deltaY deltaX:0];
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HOSTMANAGERVC_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:0];
     [messagesView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
     [self.view addSubview:messagesView];
     [addHostButton setTitle:NSLocalizedString(@"Add Host", nil) forState:UIControlStateNormal];

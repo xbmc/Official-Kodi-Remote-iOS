@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+#define DEFAULT_MSG_HEIGHT 44
+
 @interface MessagesView : UIView {
     NSTimer *fadeoutTimer;
     CGFloat slideHeight;
 }
 
-- (id)initWithFrame:(CGRect)frame deltaY:(float)deltaY deltaX:(float)deltaX;
+- (id)initWithFrame:(CGRect)frame deltaY:(CGFloat)deltaY deltaX:(CGFloat)deltaX;
 - (void)showMessage:(NSString *)message timeout:(float)timeout color:(UIColor *)color;
 
 @property (nonatomic, retain) UILabel *viewMessage;
