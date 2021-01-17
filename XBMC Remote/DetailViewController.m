@@ -651,9 +651,6 @@
         [moreItemsViewController viewDidAppear:FALSE];
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.bottom = 44;
-        if (SYSTEM_VERSION_LESS_THAN(@"11.0")) {
-            tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-        }
         moreItemsViewController.tableView.contentInset = tableViewInsets;
         moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
         [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
@@ -1571,11 +1568,7 @@
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView *)sender {
     if (sender.currentIndex == 0){
-        float deltaY = 0;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            deltaY = - 44 + iOSYDelta;
-        }
-        [collectionView setContentOffset:CGPointMake(0, deltaY) animated:NO];
+        [collectionView setContentOffset:CGPointZero animated:NO];
         if (sectionNameOverlayView == nil && stackscrollFullscreen == YES){
             [self initSectionNameOverlayView];
         }
@@ -1615,12 +1608,7 @@
     }
     else{
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
-        if (path.section == 1 && ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)){
-            [collectionView setContentOffset:CGPointMake(0, -4) animated:NO];
-        }
-        else {
-            [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-        }
+        [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
         collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT + 4);
     }
 }
@@ -2902,6 +2890,15 @@ int originYear = 0;
     return cell;
 }
 
+- (void)deselectAtIndexPath:(NSIndexPath *)indexPath {
+    if (enableCollectionView){
+        [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+    }
+    else{
+        [dataList deselectRowAtIndexPath:indexPath animated:NO];
+    }
+}
+
 #pragma mark - Long Press & Action sheet
 
 NSIndexPath *selected;
@@ -2962,7 +2959,6 @@ NSIndexPath *selected;
             if (numActions){
                 NSDictionary *item = nil;
                 if ([self.searchController isActive]){
-                    selected=indexPath2;
                     selectedPoint=[longPressGesture locationInView:self.view];
                     item = [self.filteredListContent objectAtIndex:indexPath2.row];
                     [dataList selectRowAtIndexPath:indexPath2 animated:NO scrollPosition:UITableViewScrollPositionNone];
@@ -3181,7 +3177,13 @@ NSIndexPath *selected;
         else if ([option isEqualToString:NSLocalizedString(@"Play in party mode", nil)]){
             [self partyModeItem:item indexPath:selected];
         }
-        else if ([option rangeOfString:NSLocalizedString(@"Details", nil)].location!= NSNotFound){
+        else if ([option isEqualToString:NSLocalizedString(@"Artist Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Album Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Movie Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Episode Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"TV Show Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Music Video Details", nil)] ||
+                 [option isEqualToString:NSLocalizedString(@"Broadcast Details", nil)]){
             if (forceMusicAlbumMode){
                 [self prepareShowAlbumInfo:nil];
             }
@@ -3342,17 +3344,7 @@ NSIndexPath *selected;
     }
     else{
         forceMusicAlbumMode = NO;
-        if ([self.searchController isActive]){
-            [dataList deselectRowAtIndexPath:selected animated:NO];
-        }
-        else{
-            if (enableCollectionView){
-                [collectionView deselectItemAtIndexPath:selected animated:NO];
-            }
-            else{
-                [dataList deselectRowAtIndexPath:selected animated:NO];
-            }
-        }
+        [self deselectAtIndexPath:selected];
     }
 }
 
@@ -3764,17 +3756,7 @@ NSIndexPath *selected;
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [queuing stopAnimating];
-               if ([self.searchController isActive]){
-                  [dataList deselectRowAtIndexPath:indexPath animated:NO];
-               }
-               else{
-                   if (enableCollectionView){
-                       [collectionView deselectItemAtIndexPath:indexPath animated:NO];
-                   }
-                   else{
-                       [dataList deselectRowAtIndexPath:indexPath animated:NO];
-                   }
-               }
+               [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
                    [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3f Alpha:1.0 XPos:viewWidth];
@@ -3835,17 +3817,7 @@ NSIndexPath *selected;
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [queuing stopAnimating];
-               if ([self.searchController isActive]){
-                   [dataList deselectRowAtIndexPath:indexPath animated:NO];
-               }
-               else{
-                   if (enableCollectionView){
-                       [collectionView deselectItemAtIndexPath:indexPath animated:NO];
-                   }
-                   else{
-                       [dataList deselectRowAtIndexPath:indexPath animated:NO];
-                   }
-               }
+               [self deselectAtIndexPath:indexPath];
                if (error==nil && methodError==nil) {
                    UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
                    isRecordingImageView.hidden = !isRecordingImageView.hidden;
@@ -5537,22 +5509,7 @@ NSIndexPath *selected;
 
     [button7 setImage:[UIImage imageNamed:@"button_sort_bright.png"] forState:UIControlStateNormal];
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
-
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        if (SYSTEM_VERSION_LESS_THAN(@"11.0")) {
-        iOSYDelta = - [[UIApplication sharedApplication] statusBarFrame].size.height;
-        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.top = self.searchController.searchBar.frame.size.height + fabs(iOSYDelta);
-        dataList.contentInset = tableViewInsets;
-        dataList.scrollIndicatorInsets = tableViewInsets;
-        }
-        else {
-            self.edgesForExtendedLayout = UIRectEdgeNone;
-        }
-    }
-    else {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    }
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
     [dataList setSectionIndexBackgroundColor:[UIColor clearColor]];
@@ -5702,6 +5659,12 @@ NSIndexPath *selected;
     enableCollectionView = [self collectionViewIsEnabled];
     if ([self collectionViewCanBeEnabled]) { // TEMP FIX
         [self initCollectionView];
+    }
+    if (enableCollectionView) {
+        self.searchController.searchBar.hidden = YES;
+    }
+    else {
+        self.searchController.searchBar.hidden = NO;
     }
     activeLayoutView = dataList;
     
