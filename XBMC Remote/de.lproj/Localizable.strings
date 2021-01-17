@@ -17,11 +17,11 @@
 "Movies" = "Filme";
 "TV Shows" = "TV-Serien";
 "Pictures" = "Bilder";
-"Now Playing" = "Gerade spielt";
+"Now Playing" = "Gerade läuft";
 "Remote Control" = "Fernbedienung";
-"XBMC Server" = "Kodi Server";
-"New XBMC Server" = "Neuer Kodi Server";
-"Modify XBMC Server" = "Kodi Server bearbeiten";
+"XBMC Server" = "Kodi-Server";
+"New XBMC Server" = "Neuer Kodi-Server";
+"Modify XBMC Server" = "Kodi-Server bearbeiten";
 "Select an XBMC Server from the list" = "Wähle einen Kodi-Server aus der Liste";
 
 "Files" = "Dateien";
@@ -129,10 +129,10 @@
 
 "Are you sure you want to clear the %@playlist?" = "Bist du sicher, dass Du die Wiedergabeliste %@ löschen möchtest?";
 "Are you sure you want to power off your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt ausschalten möchtest?";
-"Are you sure you want to hibernate your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt in den Ruhezustand gehen soll?";
-"Are you sure you want to suspend your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt in den Stanyby gehen soll?";
+"Are you sure you want to hibernate your XBMC system now?" = "Bist du sicher, dass dein Kodi-System jetzt in den Ruhezustand gehen soll?";
+"Are you sure you want to suspend your XBMC system now?" = "Bist du sicher, dass dein Kodi-System jetzt in den Standby gehen soll?";
 "Are you sure you want to reboot your XBMC system now?" = "Bist du sicher, dass Du dein Kodi-System jetzt neu starten möchtest?";
-"Are you sure you want to quit XBMC application now?" = "Bist du sicher, dass Du die Kodi jetzt beenden möchtest?";
+"Are you sure you want to quit XBMC application now?" = "Bist du sicher, dass Du Kodi jetzt beenden möchtest?";
 "Are you sure you want to update your audio library now?" = "Bist du sicher, dass Du deine Audiobibliothek jetzt aktualisieren möchtest?";
 "Are you sure you want to clean your audio library now?" = "Bist du sicher, dass Du deine Audiobibliothek jetzt bereinigen möchtest?";
 "Are you sure you want to update your video library now?" = "Bist du sicher, dass Du deine Videobibliothek jetzt aktualisieren möchtest?";
@@ -187,8 +187,8 @@
 "Scrubbing 0.5" = "Scrubbing-Geschwindigkeit: 50%";
 "Scrubbing 0.25" = "Scrubbing-Geschwindigkeit: 25%";
 "Scrubbing 0.1" = "Scrubbing-Geschwindigkeit: Fein";
-"Scrubbing 0.05" = "Scrubbing.Geschwindigkeit: Sehr fein";
-"Scrubbing 0.025" = "Scrubbing.Geschwindigkeit: Super fein";
+"Scrubbing 0.05" = "Scrubbing-Geschwindigkeit: Sehr fein";
+"Scrubbing 0.025" = "Scrubbing-Geschwindigkeit: Super fein";
 
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Lösche Cache-Dateien...\n\nBitte warten, dies kann einen Moment dauern...";
 "Pull to sync with XBMC..." = "Runterziehen zur Synchronisation mit Kodi...";
@@ -226,33 +226,33 @@
 "Music Add-ons" = "Musik Add-ons";
 "XBMC Settings" = "Kodi Einstellungen";
 
-"Custom button" = "Eigener Schalter";
+"Custom button" = "Eigene Aktion";
 "Modify label:" = "Bezeichnung ändern:";
 "Update label" = "Bezeichnung aktualisieren";
-"Add a new button" = "Neuen Schalter hinzufügen";
+"Add a new button" = "Neue Aktion hinzufügen";
 "Enter the label:" = "Bezeichnung eingeben:";
-"Add button" = "Schalter hinzufügen";
-"Button added" = "Schalter hinzugefügt";
+"Add button" = "Aktion hinzufügen";
+"Button added" = "Aktion hinzugefügt";
 "enter value" = "Wert eingeben";
-"Tap and hold a setting to add a new button." = "Tippen und Halten auf eine Einstellung um einen neuen Schalter anzulegen.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Kein eigener Schalter definiert.\r\nWähle \"Funktionen...\" um Neue hinzuzufügen.";
+"Tap and hold a setting to add a new button." = "Tippen und Halten auf eine Einstellung um eine neue Aktion anzulegen.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Keine Aktion definiert.\r\nWähle \"Mehr...\" um Neue hinzuzufügen.";
 
-"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- WARNUNG --\nKodi API vor Krypton (v17) erlaubt keine Timer-Bearbeitung. Bitte nutze die Einstellungen direkt in Kodi zum Hinzufügen, Bearbeiten und Entfernen von Timern. Vielen Dank.";
+"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- ACHTUNG --\nDie Kodi-API vor Krypton (v17) erlaubt keine Timer-Bearbeitung. Bitte nutze die Einstellungen direkt in Kodi zum Hinzufügen, Bearbeiten und Entfernen von Timern. Vielen Dank.";
 
 "Execute program" = "Programm ausführen";
-"Execute video add-on" = "Video-Erweiterung ausführen";
-"Execute audio add-on" = "Audio-Erweiterung ausführen";
-"Add-on executed successfully" = "Erweiterung erfolgreich ausgeführt";
-"Unable to execute the add-on" = "Ausführung der Erweiterung nicht möglich";
+"Execute video add-on" = "Video Add-on ausführen";
+"Execute audio add-on" = "Audio Add-on ausführen";
+"Add-on executed successfully" = "Add-on erfolgreich ausgeführt";
+"Unable to execute the add-on" = "Ausführung des Add-on nicht möglich";
 
-"...more" = "Funktionen...";
+"...more" = "Mehr...";
 "Edit" = "Bearbeiten";
 "Done" = "Fertig";
-"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi version 13 or größer wird benötigt, um die Kodi Einstellungen aufzurufen.";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Die Kodi-Version Gotham (v13) oder höher wird benötigt, um die Kodi-Einstellungen aufzurufen.";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- ACHTUNG --\nDiese Art der Einstellung kann hier nicht bearbeitet werden. Bitte nutze dafür die Einstellungen direkt in Kodi.\nVielen Dank.";
 
 "Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nfür iOS";
-"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Die \"Official Kodi Remote app\" benutzt Bilder die von http://fanart.tv kommen. Installiere das \"artwork downloader\" Kodi Add-on um dies auch in Kodi zu nutzen!\n\nDas Kodi-Logo, das Zappy Maskottchen und die \"Official Kodi Remote\"-Icons sind Eigentum von Kodi\nhttp://www.kodi.tv/contribute";
+"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Die \"Official Kodi Remote app\" benutzt Bilder, die von http://fanart.tv kommen. Installiere das \"artwork downloader\" Kodi Add-on, um dies auch in Kodi zu nutzen!\n\nDas Kodi-Logo, das Zappy Maskottchen und die \"Official Kodi Remote\"-Icons sind Eigentum von Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "Viel Spaß!";
 
 "No items found." = "Keine Einträge gefunden";
@@ -260,7 +260,7 @@
 "Party" = "Party";
 "Search" = "Suche";
 
-"Supported XBMC version is Eden (11) or higher" = "Unterstütze Kodi-Versionen Eden (11) oder höher";
+"Supported XBMC version is Eden (11) or higher" = "Unterstützt Kodi-Version Eden (v11) oder höher";
 "Add Host" = "Hinzufügen";
 "Kodi connection notice" = "Kodi Verbindungshinweis";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Es scheint, dass keine TCP-Verbindung mit Kodi hergestellt werden kann. Dies verhindert, dass die App auf Änderungen von Kodi reagieren kann. Zum Beispiel wird die Tastatureingabe in der App nicht angezeigt, wenn Kodi diese anfordert.";
@@ -331,15 +331,15 @@
 
 "Unknown" = "Unbekannt";
 "Audio stream" = "Audiospur";
-"Disable subtitles" = "Unterstitel ausblenden";
+"Disable subtitles" = "Untertitel ausblenden";
 "Subtitles" = "Untertitel";
 
 "Execute a specific action" = "Eine bestimmte Aktion ausführen";
 "Activate a specific window" = "Ein bestimmtes Fenster aktivieren";
 "Execute action" = "Aktion ausführen";
 "Activate window" = "Fenster aktivieren";
-"Add action button" = "Aktions-Schalter hinzufügen";
-"Add window activation button" = "Fenster-Aktivierungs-Schalter hinzufügen";
+"Add action button" = "Aktion hinzufügen";
+"Add window activation button" = "Fenster-Aktivierung hinzufügen";
 
 "Copy to clipboard" = "In die Zwischenablage kopieren";
 "METHOD\n%@\n\nPARAMETERS\n%@\n" = "METHODE\n%@\n\nPARAMETER\n%@\n";
