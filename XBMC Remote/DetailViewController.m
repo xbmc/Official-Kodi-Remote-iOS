@@ -1243,7 +1243,6 @@
 -(void)setFlowLayoutParams{
     if (stackscrollFullscreen == YES){
         [flowLayout setItemSize:CGSizeMake(fullscreenCellGridWidth, fullscreenCellGridHeight)];
-        if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0;
         if  (!recentlyAddedView) {
             [flowLayout setMinimumLineSpacing:38];
         }
@@ -1253,7 +1252,6 @@
         [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
     }
     else{
-        if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0;
         [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
         [flowLayout setMinimumLineSpacing:cellMinimumLineSpacing];
         [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
@@ -2442,8 +2440,7 @@ int originYear = 0;
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
-                                      CGFloat thumbBorder = isRetina ? 1.0/[[UIScreen mainScreen] scale] : 1.0;
+                                      CGFloat thumbBorder = 1.0/[[UIScreen mainScreen] scale];
                                       [thumbImageContainer setBackgroundColor:[UIColor clearColor]];
                                       thumbImageContainer.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1].CGColor;
                                       thumbImageContainer.layer.shadowOpacity = 1.0f;
@@ -2784,8 +2781,7 @@ int originYear = 0;
     
     int labelFontSize = sectionHeight > 16 ? sectionHeight - 10 : sectionHeight - 5;
     int labelOriginY = sectionHeight > 16 ? 2 : 1;
-    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
-    CGFloat shadowOffset = isRetina ? 1.0/[[UIScreen mainScreen] scale] : 1.0;
+    CGFloat shadowOffset = 1.0/[[UIScreen mainScreen] scale];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, labelOriginY, viewWidth - 20, sectionHeight)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];

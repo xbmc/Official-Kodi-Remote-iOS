@@ -1327,7 +1327,6 @@ NSInteger buttonAction;
         helpButton.alpha = infoButtonalpha;
         [self.view addSubview:helpButton];
     }
-    storeBrightness = -1;
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
 }
 

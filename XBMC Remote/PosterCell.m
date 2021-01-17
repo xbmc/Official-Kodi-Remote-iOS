@@ -76,9 +76,7 @@
 }
 
 - (CGFloat)halfSizeIfRetina:(CGFloat)size{
-    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
-    size = isRetina ? size / [[UIScreen mainScreen] scale] : size;
-    return size;
+    return size / [[UIScreen mainScreen] scale];
 }
 
 -(void)setIsRecording:(BOOL)enable {
