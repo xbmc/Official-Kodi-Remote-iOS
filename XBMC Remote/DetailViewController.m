@@ -4608,11 +4608,11 @@ NSIndexPath *selected;
                          
                          NSString *thumbnailPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"thumbnail"];
                          NSDictionary *art = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"art"];
-                         if ([art count] && [[art objectForKey:@"banner"] length]!=0 && tvshowsView){
-                             thumbnailPath = [art objectForKey:@"banner"];
-                         }
                          if ([art count] && [[art objectForKey:@"poster"] length]!=0) {
                              thumbnailPath = [art objectForKey:@"poster"];
+                         }
+                         if ([art count] && [[art objectForKey:@"banner"] length]!=0 && tvshowsView){
+                             thumbnailPath = [art objectForKey:@"banner"];
                          }
                          NSString *fanartPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"];
                          NSString *fanartURL=@"";
