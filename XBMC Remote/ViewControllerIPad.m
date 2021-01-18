@@ -679,15 +679,6 @@
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    int thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
-    int tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
-    if ([AppDelegate instance].obj.preferTVPosters==YES){
-        thumbWidth = PAD_TV_SHOWS_POSTER_WIDTH;
-        tvshowHeight = PAD_TV_SHOWS_POSTER_HEIGHT;
-    }
-    mainMenu *menuItem=[self.mainMenu objectAtIndex:3];
-    menuItem.thumbWidth=thumbWidth;
-    menuItem.rowHeight=tvshowHeight;
     [[AppDelegate instance].windowController.stackScrollViewController offView];
     NSIndexPath *selection=[menuViewController.tableView indexPathForSelectedRow];
     if (selection){

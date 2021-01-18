@@ -421,16 +421,6 @@
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    CGFloat transform = [Utilities getTransformX];
-    int thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
-    int tvshowHeight =  (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
-    if ([AppDelegate instance].obj.preferTVPosters==YES){
-        thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
-        tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
-    }
-    mainMenu *menuItem=[self.mainMenu objectAtIndex:3];
-    menuItem.thumbWidth=thumbWidth;
-    menuItem.rowHeight=tvshowHeight;
     [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil) icon:@"connection_off"];
 }
 
