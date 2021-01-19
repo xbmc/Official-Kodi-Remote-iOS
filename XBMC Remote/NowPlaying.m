@@ -3072,6 +3072,7 @@ int currentItemID;
         playlistView.frame = frame;
         playlistTableView.frame = frame;
     }
+    [playlistTableView setContentInset:UIEdgeInsetsMake(0, 0, barHeight, 0)];
     
     [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
     [ProgressSlider setMaximumTrackTintColor:APP_TINT_COLOR];
