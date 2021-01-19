@@ -524,6 +524,20 @@
     rightSwipe.cancelsTouchesInView=NO;
     rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:rightSwipe];
+    
+    CGFloat bottomPadding = 0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        bottomPadding = SERVERPOPUP_BOTTOMPADDING;
+    }
+    if (bottomPadding >0) {
+        CGRect frame = tipView.frame;
+        frame.origin.y -= bottomPadding;
+        tipView.frame = frame;
+    }
 }
 
 -(BOOL)shouldAutorotate{

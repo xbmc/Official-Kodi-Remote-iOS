@@ -390,7 +390,7 @@ static inline BOOL IsEmpty(id obj) {
         bottomPadding = window.safeAreaInsets.bottom;
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        bottomPadding = 10;
+        bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }
     CGRect frame = bottomToolbar.frame;
     frame.origin.y -= bottomPadding;
