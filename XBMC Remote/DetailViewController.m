@@ -5700,6 +5700,9 @@ NSIndexPath *selected;
     else {
         self.searchController.searchBar.hidden = NO;
     }
+    frame = collectionView.pullToRefreshView.frame;
+    frame.origin.y = 0;
+    collectionView.pullToRefreshView.frame = frame;
     activeLayoutView = dataList;
     
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
