@@ -377,7 +377,7 @@ static inline BOOL IsEmpty(id obj) {
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    CGFloat deltaY = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+    CGFloat deltaY = 44 + [[UIApplication sharedApplication] statusBarFrame].size.height;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         deltaY = 0;
     }
