@@ -151,10 +151,28 @@
     [[AppDelegate instance] saveServerList];
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+#pragma mark - Helper
+
+- (void)tailorViewContent:(BOOL)isEditing {
+    if (isEditing) {
+        if (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) && UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+            tipView.hidden = YES;
+        }
+        else {
+            tipView.hidden = NO;
+        }
+    }
+    else {
+        tipView.hidden = NO;
+    }
+}
+
 #pragma mark - UITextFieldDelegate Methods
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
     [textField setTextColor:[Utilities get1stLabelColor]];
+    [self tailorViewContent:YES];
 }
 -(void)resignKeyboard{
     [descriptionUI resignFirstResponder];
@@ -169,6 +187,7 @@
     [mac_4_UI resignFirstResponder];
     [mac_5_UI resignFirstResponder];
     [passwordUI resignFirstResponder];
+    [self tailorViewContent:NO];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)theTextField {
