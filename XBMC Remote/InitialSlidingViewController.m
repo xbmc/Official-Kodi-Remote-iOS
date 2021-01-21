@@ -9,6 +9,7 @@
 #import "InitialSlidingViewController.h"
 #import "HostManagementViewController.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 @interface InitialSlidingViewController ()
 

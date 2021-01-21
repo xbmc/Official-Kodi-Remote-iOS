@@ -59,7 +59,7 @@ int count=0;
         viewTitle.minimumScaleFactor = 6.0/11.0;
         viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         viewTitle.backgroundColor = [UIColor clearColor];
-        viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
+        viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0];
         viewTitle.textAlignment = NSTextAlignmentCenter;
         viewTitle.textColor = [UIColor whiteColor];
         viewTitle.text = [item objectForKey:@"label"];
@@ -151,7 +151,7 @@ int count=0;
             viewTitle.minimumScaleFactor = 6.0/22.0;
             viewTitle.adjustsFontSizeToFitWidth = YES;
             viewTitle.shadowOffset = CGSizeMake(1, 1);
-            viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.7];
+            viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0.7];
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
             [viewTitle setFrame:CGRectMake(0, 0, titleWidth, 44)];
@@ -1525,7 +1525,7 @@ int h=0;
                 if (((NSNull *)[[trailerView subviews] objectAtIndex:0] != [NSNull null])){
                     ((UIScrollView *)[[trailerView subviews] objectAtIndex:0]).scrollsToTop = NO;
                 }
-                [trailerView setBackgroundColor:[UIColor colorWithRed:0.5f green:0.5f blue:0.5f alpha:0.5f]];
+                [trailerView setBackgroundColor:[Utilities getGrayColor:0.5 alpha:0.5]];
                 [trailerView setClipsToBounds: NO];
                 trailerView.layer.shadowColor = [UIColor blackColor].CGColor;
                 trailerView.layer.shadowOpacity = 0.7f;
@@ -1612,7 +1612,7 @@ int h=0;
     if (!([[item objectForKey:@"family"] isEqualToString:@"broadcastid"] || [[item objectForKey:@"family"] isEqualToString:@"recordingid"])){
         clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
-        [clearlogoButton.titleLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+        [clearlogoButton.titleLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.8]];
         [clearlogoButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
         [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -1731,7 +1731,7 @@ int h=0;
             int cbWidth = clearLogoWidth / 2;
             int cbHeight = clearLogoHeight / 2;
             closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - cbWidth/2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
-            [closeButton.titleLabel setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+            [closeButton.titleLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.8]];
             [closeButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
             [closeButton setAutoresizingMask:
              UIViewAutoresizingFlexibleTopMargin    |

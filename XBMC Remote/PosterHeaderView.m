@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PosterLabel.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 @implementation PosterHeaderView
 
@@ -24,7 +25,7 @@
         
 //        if (self.frame.size.height > 0){
 //            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
-//            [lineView setBackgroundColor:[UIColor colorWithRed:130.0f/255.0f green:130.0f/255.0f blue:130.0f/255.0f alpha:1]];
+//            [lineView setBackgroundColor:[Utilities getGrayColor:130.0/255.0 alpha:1]];
 //            [self addSubview:lineView];
 //        }
         
@@ -36,12 +37,12 @@
             [self insertSubview: buttonsToolbar atIndex:0];
             
             // TYPE 2
-//            [self setBackgroundColor:[UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:.95]];
+//            [self setBackgroundColor:[Utilities getGrayColor:30.0/255.0 alpha:0.95]];
             
             // TYPE 3
 //            CAGradientLayer *gradient = [CAGradientLayer layer];
 //            gradient.frame = self.bounds;
-//            gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:75.0f/255.0f green:75.0f/255.0f blue:75.0f/255.0f alpha:.95] CGColor], (id)[[UIColor colorWithRed:35.0f/255.0f green:35.0f/255.0f blue:35.0f/255.0f alpha:.95] CGColor], nil];
+//            gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getGrayColor:75.0/255.0 alpha:0.95] CGColor], (id)[[Utilities getGrayColor:35.0/255.0 alpha:0.95] CGColor], nil];
 //            [self.layer insertSublayer:gradient atIndex:0];
         }
 
@@ -49,10 +50,10 @@
             _headerLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width - 10, self.frame.size.height - 1)];
             [_headerLabel setBackgroundColor:[UIColor clearColor]];
             [_headerLabel setFont:[UIFont boldSystemFontOfSize:(self.frame.size.height > 20 ? 17 : self.frame.size.height - 5)]];
-            [_headerLabel setShadowColor:[UIColor colorWithRed:10.0f/255.0f green:10.0f/255.0f blue:10.0f/255.0f alpha:1]];
+            [_headerLabel setShadowColor:[Utilities getGrayColor:10.0/255.0 alpha:1]];
             [_headerLabel setShadowOffset:CGSizeZero];
             
-            [_headerLabel setTextColor:[UIColor colorWithRed:120.0f/255.0f green:120.0f/255.0f blue:120.0f/255.0f alpha:1]];
+            [_headerLabel setTextColor:[Utilities getGrayColor:120.0/255.0 alpha:1]];
             [_headerLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
             
             [self addSubview:_headerLabel];

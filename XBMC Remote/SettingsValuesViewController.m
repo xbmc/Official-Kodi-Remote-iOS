@@ -149,7 +149,7 @@
         
         scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
         [scrubbingView setCenter:CGPointMake((int)(frame.size.width / 2), (int)(frame.size.height / 2) + 50)];
-        [scrubbingView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
+        [scrubbingView setBackgroundColor:[Utilities getGrayColor:0 alpha:0.9]];
         scrubbingView.alpha = 0.0;
         CGRect toolbarShadowFrame = CGRectMake(0, 44, self.view.frame.size.width, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
@@ -674,7 +674,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSInteger viewWidth = self.view.frame.size.width;
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
-    [sectionView setBackgroundColor:[UIColor colorWithRed:.4 green:.4 blue:.4 alpha:1]];
+    [sectionView setBackgroundColor:[Utilities getGrayColor:0.4 alpha:1]];
     CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
     UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
     [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
@@ -705,7 +705,7 @@
         [helpView setBackgroundColor:[Utilities getSystemRed:1.0]];
     }
     else{
-        [helpView setBackgroundColor:[UIColor colorWithRed:45.0f/255.0f green:45.0f/255.0f blue:45.0f/255.0f alpha:0.95f]];
+        [helpView setBackgroundColor:[Utilities getGrayColor:45.0/255.0 alpha:0.95]];
     }
     CGRect descriptionRect = [descriptionLabel.text  boundingRectWithSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax)
                                                                   options:NSStringDrawingUsesLineFragmentOrigin

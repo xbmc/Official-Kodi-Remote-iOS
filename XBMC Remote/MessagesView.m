@@ -8,6 +8,7 @@
 
 #import "MessagesView.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 @implementation MessagesView
 
@@ -18,10 +19,10 @@
     if (self) {
         CALayer *bottomBorder = [CALayer layer];
         CGFloat borderSize = 0.5;
-        bottomBorder.frame = CGRectMake(0, frame.size.height - borderSize, frame.size.width, borderSize);
-        bottomBorder.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.35f].CGColor;
+        bottomBorder.frame = CGRectMake(0.0, frame.size.height - borderSize, frame.size.width, borderSize);
+        bottomBorder.backgroundColor = [Utilities getGrayColor:0 alpha:0.35].CGColor;
         [self.layer addSublayer:bottomBorder];
-        [self setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
+        [self setBackgroundColor:[Utilities getGrayColor:0 alpha:0.9]];
         slideHeight = frame.size.height;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             slideHeight += 22.0;

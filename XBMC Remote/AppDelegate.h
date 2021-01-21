@@ -32,14 +32,12 @@
 #define IS_AT_LEAST_IPHONE_X_HEIGHT (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds) >= 812)
 
 
-#define APP_TINT_COLOR [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]
-//#define APP_TINT_COLOR [UIColor colorWithRed:61.0f/255.0f green:132.0f/255.0f blue:1.0f alpha:1]
+#define APP_TINT_COLOR [Utilities getGrayColor:0 alpha:0.3]
 
-#define TINT_COLOR [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:.35f]
-//#define TINT_COLOR [UIColor colorWithRed:88.0f/255.0f green:149.0f/255.0f blue:1.0f alpha:1]
+#define TINT_COLOR [Utilities getGrayColor:1 alpha:.35]
 
-#define BAR_TINT_COLOR [UIColor colorWithRed:.1f green:.1f blue:.1f alpha:1]
-#define REMOTE_CONTROL_BAR_TINT_COLOR [UIColor colorWithRed:12.0f/255.0f green:12.0f/255.0f blue:15.0f/255.0f alpha:1]
+#define BAR_TINT_COLOR [Utilities getGrayColor:0.1 alpha:1]
+#define REMOTE_CONTROL_BAR_TINT_COLOR [Utilities getGrayColor:12.0/255.0 alpha:1]
 #define SLIDER_DEFAULT_COLOR [Utilities getSystemTeal]
 
 #define STACKSCROLL_WIDTH 476 // 724

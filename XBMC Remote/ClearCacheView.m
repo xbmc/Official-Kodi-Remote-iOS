@@ -8,6 +8,7 @@
 
 #import "ClearCacheView.h"
 #import "PosterLabel.h"
+#import "Utilities.h"
 
 @implementation ClearCacheView
 
@@ -20,8 +21,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-        [self setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7]];
-        CGFloat labelHeight = 300;
+        [self setBackgroundColor:[Utilities getGrayColor:0 alpha:0.7]];
+        float labelHeight = 300;
         PosterLabel *label = [[PosterLabel alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.frame)/2 - (labelHeight/2), CGRectGetWidth(self.frame) - borderWidth, labelHeight)];
          [label setAutoresizingMask:
           UIViewAutoresizingFlexibleHeight |
