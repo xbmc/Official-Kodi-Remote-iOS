@@ -25,6 +25,7 @@
 #import <net/if_dl.h>
 #import <net/if.h>
 #import <netinet/in.h>
+#import "Utilities.h"
 
 #define serviceType @"_xbmc-jsonrpc-h._tcp"
 #define domainName @"local"
@@ -153,7 +154,7 @@
 #pragma mark - UITextFieldDelegate Methods
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
-    [textField setTextColor:[UIColor blackColor]];
+    [textField setTextColor:[Utilities get1stLabelColor]];
 }
 -(void)resignKeyboard{
     [descriptionUI resignFirstResponder];
@@ -459,14 +460,14 @@
     mac_5_UI.text = @"";
     preferTVPostersUI.on = FALSE;
     [descriptionUI setTextColor:[UIColor blackColor]];
-    [ipUI setTextColor:[UIColor blackColor]];
-    [portUI setTextColor:[UIColor blackColor]];
-    [mac_0_UI setTextColor:[UIColor blackColor]];
-    [mac_1_UI setTextColor:[UIColor blackColor]];
-    [mac_2_UI setTextColor:[UIColor blackColor]];
-    [mac_3_UI setTextColor:[UIColor blackColor]];
-    [mac_4_UI setTextColor:[UIColor blackColor]];
-    [mac_5_UI setTextColor:[UIColor blackColor]];
+    [ipUI setTextColor:[Utilities get1stLabelColor]];
+    [portUI setTextColor:[Utilities get1stLabelColor]];
+    [mac_0_UI setTextColor:[Utilities get1stLabelColor]];
+    [mac_1_UI setTextColor:[Utilities get1stLabelColor]];
+    [mac_2_UI setTextColor:[Utilities get1stLabelColor]];
+    [mac_3_UI setTextColor:[Utilities get1stLabelColor]];
+    [mac_4_UI setTextColor:[Utilities get1stLabelColor]];
+    [mac_5_UI setTextColor:[Utilities get1stLabelColor]];
     [self AnimLabel:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
 }
 
@@ -505,19 +506,19 @@
     [usernameUI setPlaceholder:NSLocalizedString(@"Username", nil)];
     [passwordUI setPlaceholder:NSLocalizedString(@"Password", nil)];
     self.edgesForExtendedLayout = 0;
-    [descriptionUI setBackgroundColor:[UIColor whiteColor]];
-    [ipUI setBackgroundColor:[UIColor whiteColor]];
-    [portUI setBackgroundColor:[UIColor whiteColor]];
-    [tcpPortUI setBackgroundColor:[UIColor whiteColor]];
-    [usernameUI setBackgroundColor:[UIColor whiteColor]];
-    [passwordUI setBackgroundColor:[UIColor whiteColor]];
-    [mac_0_UI setBackgroundColor:[UIColor whiteColor]];
-    [mac_1_UI setBackgroundColor:[UIColor whiteColor]];
-    [mac_2_UI setBackgroundColor:[UIColor whiteColor]];
-    [mac_3_UI setBackgroundColor:[UIColor whiteColor]];
-    [mac_4_UI setBackgroundColor:[UIColor whiteColor]];
-    [mac_5_UI setBackgroundColor:[UIColor whiteColor]];
-    [discoveredInstancesTableView setBackgroundColor:[UIColor whiteColor]];
+    [descriptionUI setBackgroundColor:[Utilities getSystemGray6]];
+    [ipUI setBackgroundColor:[Utilities getSystemGray6]];
+    [portUI setBackgroundColor:[Utilities getSystemGray6]];
+    [tcpPortUI setBackgroundColor:[Utilities getSystemGray6]];
+    [usernameUI setBackgroundColor:[Utilities getSystemGray6]];
+    [passwordUI setBackgroundColor:[Utilities getSystemGray6]];
+    [mac_0_UI setBackgroundColor:[Utilities getSystemGray6]];
+    [mac_1_UI setBackgroundColor:[Utilities getSystemGray6]];
+    [mac_2_UI setBackgroundColor:[Utilities getSystemGray6]];
+    [mac_3_UI setBackgroundColor:[Utilities getSystemGray6]];
+    [mac_4_UI setBackgroundColor:[Utilities getSystemGray6]];
+    [mac_5_UI setBackgroundColor:[Utilities getSystemGray6]];
+    [discoveredInstancesTableView setBackgroundColor:[Utilities getSystemGray6]];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
     rightSwipe.numberOfTouchesRequired = 1;
     rightSwipe.cancelsTouchesInView=NO;

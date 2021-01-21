@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "mainMenu.h"
 #import "AppInfoViewController.h"
+#import "Utilities.h"
 
 // +2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
@@ -90,8 +91,10 @@
     [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:NULL];
     if (cell==nil){
         cell = serverListCell;
-        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
-        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
+        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*) [cell viewWithTag:2] setTextColor:[Utilities getSystemGray1]];
+        [(UILabel*) [cell viewWithTag:3] setTextColor:[Utilities getSystemGray1]];
         [cell setTintColor:[UIColor lightGrayColor]];
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }

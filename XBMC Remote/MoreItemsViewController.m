@@ -8,6 +8,7 @@
 
 #import "MoreItemsViewController.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 @implementation MoreItemsViewController
 
@@ -50,7 +51,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {    
-	cell.backgroundColor = [UIColor whiteColor];
+	cell.backgroundColor = [Utilities getSystemGray6];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -63,7 +64,7 @@
 
     UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 0, self.view.bounds.size.width - cellLabelOffset - 24, 43)];
     [cellLabel setFont:[UIFont systemFontOfSize:18]];
-    [cellLabel setTextColor:[UIColor blackColor]];
+    [cellLabel setTextColor:[Utilities get1stLabelColor]];
     [cellLabel setHighlightedTextColor:[UIColor whiteColor]];
     NSDictionary *item = [mainMenuItems objectAtIndex:indexPath.row];
     [cellLabel setText:[item objectForKey:@"label"]];

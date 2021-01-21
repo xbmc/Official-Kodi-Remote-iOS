@@ -783,7 +783,7 @@
         [collectionView setScrollsToTop:NO];
         activeLayoutView = dataList;
         self.indexView.hidden = YES;
-        self.searchController.searchBar.backgroundColor = [UIColor whiteColor];
+        self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         self.searchController.searchBar.tintColor = tableViewSearchBarColor;
         searchBarColor = tableViewSearchBarColor;
@@ -1994,7 +1994,7 @@ int originYear = 0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {    
-	cell.backgroundColor = [UIColor whiteColor];
+	cell.backgroundColor = [Utilities getSystemGray6];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -2058,13 +2058,20 @@ int originYear = 0;
             [isRecordingImageView setBackgroundColor:[UIColor clearColor]];
             [cell.contentView addSubview:isRecordingImageView];
         }
-        [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
-        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
-        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
-        [(UILabel*) [cell viewWithTag:4] setHighlightedTextColor:[UIColor blackColor]];
-        [(UILabel*) [cell viewWithTag:5] setHighlightedTextColor:[UIColor darkGrayColor]];
-        [(UILabel*) [cell viewWithTag:101] setHighlightedTextColor:[UIColor blackColor]];
-        [(UILabel*) [cell viewWithTag:102] setHighlightedTextColor:[UIColor blackColor]];
+        [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:4] setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:5] setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:101] setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*) [cell viewWithTag:102] setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:1] setTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*) [cell viewWithTag:2] setTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:3] setTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:4] setTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:5] setTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:101] setTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*) [cell viewWithTag:102] setTextColor:[Utilities get2ndLabelColor]];
     }
     mainMenu *Menuitem = self.detailItem;
 //    NSDictionary *mainFields=[[Menuitem mainFields] objectAtIndex:choosedTab];
@@ -2306,12 +2313,12 @@ int originYear = 0;
         else{
             progressView.hidden = YES;
             progressView.pieLabel.hidden = YES;
-            [title setTextColor:[UIColor blackColor]];
-            [genre setTextColor:[UIColor blackColor]];
-            [programStartTime setTextColor:[UIColor blackColor]];
-            [title setHighlightedTextColor:[UIColor blackColor]];
-            [genre setHighlightedTextColor:[UIColor blackColor]];
-            [programStartTime setHighlightedTextColor:[UIColor blackColor]];
+            [title setTextColor:[Utilities get1stLabelColor]];
+            [genre setTextColor:[Utilities get2ndLabelColor]];
+            [programStartTime setTextColor:[Utilities get2ndLabelColor]];
+            [title setHighlightedTextColor:[Utilities get1stLabelColor]];
+            [genre setHighlightedTextColor:[Utilities get2ndLabelColor]];
+            [programStartTime setHighlightedTextColor:[Utilities get2ndLabelColor]];
         }
         UIImageView *hasTimer = (UIImageView*) [cell viewWithTag:104];
         if ([[item objectForKey:@"hastimer"] boolValue]){
@@ -2375,7 +2382,7 @@ int originYear = 0;
         UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize -labelPadding/2, viewWidth - albumViewHeight - albumViewPadding, trackCountFontSize + labelPadding)];
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
-        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:.95] CGColor], (id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:.95] CGColor], nil];
+        gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor], nil];
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
         CGRect toolbarShadowFrame = CGRectMake(0.0f, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
@@ -2574,7 +2581,7 @@ int originYear = 0;
         }
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
-        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1] CGColor], (id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:.95] CGColor], nil];
+        gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getSystemGray5] CGColor], (id)[[Utilities getSystemGray1] CGColor], nil];
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
         if (section>0){
             UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -1, viewWidth, 1)];
@@ -2714,7 +2721,7 @@ int originYear = 0;
     gradient.frame = sectionView.bounds;
     
     // TEST
-    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:.95] CGColor], (id)[[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:.95] CGColor], nil];
+    gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor], nil];
 //    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:.1 green:.1 blue:.1 alpha:.8] CGColor], (id)[[UIColor colorWithRed:.3 green:.3 blue:.3 alpha:.8f] CGColor], nil];
     //END TEST
 

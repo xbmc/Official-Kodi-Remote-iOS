@@ -13,6 +13,7 @@
 #import "customButton.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
+#import "Utilities.h"
 
 @interface SettingsValuesViewController ()
 
@@ -370,7 +371,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-	cell.backgroundColor = [UIColor whiteColor];
+	cell.backgroundColor = [Utilities getSystemGray6];
 }
 
 - (void)adjustFontSize:(UILabel *)label {
@@ -404,7 +405,7 @@
         [cellLabel setFont:[UIFont systemFontOfSize:18]];
         [cellLabel setAdjustsFontSizeToFitWidth:YES];
         [cellLabel setMinimumScaleFactor:12.0f/18.0f];
-        [cellLabel setTextColor:[UIColor blackColor]];
+        [cellLabel setTextColor:[Utilities get1stLabelColor]];
         [cellLabel setHighlightedTextColor:[UIColor whiteColor]];
         [cell.contentView addSubview:cellLabel];
         
@@ -420,7 +421,7 @@
         [descriptionLabel setAdjustsFontSizeToFitWidth:YES];
         [descriptionLabel setNumberOfLines:0];
         [descriptionLabel setMinimumScaleFactor:11.0f/12.0f];
-        [descriptionLabel setTextColor:[UIColor grayColor]];
+        [descriptionLabel setTextColor:[Utilities get2ndLabelColor]];
         [descriptionLabel setHighlightedTextColor:[UIColor lightGrayColor]];
         [cell.contentView addSubview:descriptionLabel];
         
@@ -444,7 +445,7 @@
         [uiSliderLabel setFont:[UIFont systemFontOfSize:14]];
         [uiSliderLabel setAdjustsFontSizeToFitWidth:YES];
         [uiSliderLabel setMinimumScaleFactor:12.0f/14.0f];
-        [uiSliderLabel setTextColor:[UIColor grayColor]];
+        [uiSliderLabel setTextColor:[Utilities get2ndLabelColor]];
         [uiSliderLabel setHighlightedTextColor:[UIColor lightGrayColor]];
         [cell.contentView addSubview:uiSliderLabel];
         
@@ -462,9 +463,9 @@
         textInputField.delegate = self;
         textInputField.tag = 301;
         [cell.contentView addSubview:textInputField];
-        [cellLabel setHighlightedTextColor:[UIColor blackColor]];
-        [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
-        [uiSliderLabel setHighlightedTextColor:[UIColor grayColor]];
+        [cellLabel setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [descriptionLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        [uiSliderLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
 	}
     cell.accessoryType =  UITableViewCellAccessoryNone;
 
