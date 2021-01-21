@@ -5284,7 +5284,7 @@ NSIndexPath *selected;
     }
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     if (count==0){
-        buttonsView.hidden=YES;
+        button5.hidden=YES;
         CGRect frame=dataList.frame;
         frame.size.height=self.view.bounds.size.height;
         dataList.frame=frame;
