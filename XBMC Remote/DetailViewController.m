@@ -2289,13 +2289,13 @@ int originYear = 0;
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
 
         if (percent_elapsed >= 0 && percent_elapsed < 100) {
-            [title setTextColor:[UIColor blueColor]];
-            [genre setTextColor:[UIColor blueColor]];
-            [programStartTime setTextColor:[UIColor blueColor]];
+            [title setTextColor:[Utilities getSystemBlue]];
+            [genre setTextColor:[Utilities getSystemBlue]];
+            [programStartTime setTextColor:[Utilities getSystemBlue]];
 
-            [title setHighlightedTextColor:[UIColor blueColor]];
-            [genre setHighlightedTextColor:[UIColor blueColor]];
-            [programStartTime setHighlightedTextColor:[UIColor blueColor]];
+            [title setHighlightedTextColor:[Utilities getSystemBlue]];
+            [genre setHighlightedTextColor:[Utilities getSystemBlue]];
+            [programStartTime setHighlightedTextColor:[Utilities getSystemBlue]];
 
             [progressView updateProgressPercentage:percent_elapsed];
             progressView.pieLabel.hidden = NO;
@@ -3359,7 +3359,7 @@ NSIndexPath *selected;
     customButton *arrayButtons = [[customButton alloc] init];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
+    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
@@ -4077,10 +4077,10 @@ NSIndexPath *selected;
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters success:(NSString *)successMessage failure:(NSString *)failureMessage{
     [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if ( error == nil && methodError == nil ){
-            [messagesView showMessage:successMessage timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
+            [messagesView showMessage:successMessage timeout:2.0f color:[Utilities getSystemGreen:0.95]];
         }
         else {
-            [messagesView showMessage:failureMessage timeout:2.0f color:[UIColor colorWithRed:189.0f/255.0f green:36.0f/255.0f blue:36.0f/255.0f alpha:0.95f]];
+            [messagesView showMessage:failureMessage timeout:2.0f color:[Utilities getSystemRed:0.95]];
         }
     }];
 }

@@ -21,6 +21,10 @@
 + (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode;
 + (CGFloat)getTransformX;
 + (CGFloat)getTransformY;
++ (UIColor*)getSystemRed:(CGFloat)alpha;
++ (UIColor*)getSystemGreen:(CGFloat)alpha;
++ (UIColor*)getSystemBlue;
++ (UIColor*)getSystemTeal;
 + (UIColor*)getSystemGray1;
 + (UIColor*)getSystemGray2;
 + (UIColor*)getSystemGray3;

@@ -614,7 +614,7 @@ static inline BOOL IsEmpty(id obj) {
 
 -(void)connectionError:(NSNotification *)note {
     NSDictionary *theData = [note userInfo];
-    [messagesView showMessage:[theData objectForKey:@"error_message"] timeout:2.0f color:[UIColor colorWithRed:189.0f/255.0f green:36.0f/255.0f blue:36.0f/255.0f alpha:0.95f]];
+    [messagesView showMessage:[theData objectForKey:@"error_message"] timeout:2.0f color:[Utilities getSystemRed:0.95]];
 }
 
 -(void)authFailed:(NSNotification *)note {

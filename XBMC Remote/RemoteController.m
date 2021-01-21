@@ -500,7 +500,7 @@
                                      [self showActionSheet:NSLocalizedString(@"Subtitles", nil) sheetActions:actionSheetTitles destructiveButtonTitle:disableSubs actionTag:0 rectOriginX:subsButton.center.x rectOriginY:subsButton.center.y];
                                 }
                                  else {
-                                     [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[UIColor redColor]];
+                                     [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
                                  }
                              }
                          }
@@ -508,7 +508,7 @@
                  }];
             }
             else{
-                [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[UIColor redColor]];
+                [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
             }
         }
     }];
@@ -571,7 +571,7 @@
                                      [self showActionSheet:NSLocalizedString(@"Audio stream", nil) sheetActions:actionSheetTitles destructiveButtonTitle:nil actionTag:1 rectOriginX:audioStreamsButton.center.x rectOriginY:audioStreamsButton.center.y];
                                  }
                                  else {
-                                     [self showSubInfo:NSLocalizedString(@"Audiostreams not available",nil) timeout:2.0 color:[UIColor redColor]];
+                                     [self showSubInfo:NSLocalizedString(@"Audiostreams not available",nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
                                  }
                              }
                         }
@@ -579,7 +579,7 @@
                  }];
             }
             else{
-                [self showSubInfo:NSLocalizedString(@"Audiostream not available",nil) timeout:2.0 color:[UIColor redColor]];
+                [self showSubInfo:NSLocalizedString(@"Audiostream not available",nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
             }
         }
     }];
@@ -702,7 +702,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
     if (buttonIndex == actionSheet.destructiveButtonIndex && actionSheet.tag == 0) {
-        [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[UIColor redColor]];
+        [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
         [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
     }
     else if (buttonIndex != actionSheet.cancelButtonIndex) {

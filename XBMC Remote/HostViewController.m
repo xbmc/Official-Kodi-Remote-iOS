@@ -307,17 +307,17 @@
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
     if ([macPart count] == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]){
         [mac_0_UI setText:[macPart objectAtIndex:0]];
-        [mac_0_UI setTextColor:[UIColor blueColor]];
+        [mac_0_UI setTextColor:[Utilities getSystemBlue]];
         [mac_1_UI setText:[macPart objectAtIndex:1]];
-        [mac_1_UI setTextColor:[UIColor blueColor]];
+        [mac_1_UI setTextColor:[Utilities getSystemBlue]];
         [mac_2_UI setText:[macPart objectAtIndex:2]];
-        [mac_2_UI setTextColor:[UIColor blueColor]];
+        [mac_2_UI setTextColor:[Utilities getSystemBlue]];
         [mac_3_UI setText:[macPart objectAtIndex:3]];
-        [mac_3_UI setTextColor:[UIColor blueColor]];
+        [mac_3_UI setTextColor:[Utilities getSystemBlue]];
         [mac_4_UI setText:[macPart objectAtIndex:4]];
-        [mac_4_UI setTextColor:[UIColor blueColor]];
+        [mac_4_UI setTextColor:[Utilities getSystemBlue]];
         [mac_5_UI setText:[macPart objectAtIndex:5]];
-        [mac_5_UI setTextColor:[UIColor blueColor]];
+        [mac_5_UI setTextColor:[Utilities getSystemBlue]];
     }
 }
 
@@ -343,9 +343,9 @@
                 descriptionUI.text = [service name];
                 ipUI.text = [NSString stringWithFormat:@"%s", addressStr];
                 portUI.text = [NSString stringWithFormat:@"%d", port];
-                [descriptionUI setTextColor:[UIColor blueColor]];
-                [ipUI setTextColor:[UIColor blueColor]];
-                [portUI setTextColor:[UIColor blueColor]];
+                [descriptionUI setTextColor:[Utilities getSystemBlue]];
+                [ipUI setTextColor:[Utilities getSystemBlue]];
+                [portUI setTextColor:[Utilities getSystemBlue]];
                 NSString *serverJSON=[NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
                 NSURL *url = [[NSURL alloc] initWithString:serverJSON];
                 NSURLRequest *request = [NSURLRequest requestWithURL:url];

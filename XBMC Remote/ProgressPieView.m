@@ -7,6 +7,7 @@
 //
 
 #import "ProgressPieView.h"
+#import "Utilities.h"
 
 @implementation ProgressPieView
 
@@ -23,7 +24,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self pieCustomization:[UIColor blueColor]];
+        [self pieCustomization:[Utilities getSystemBlue]];
     }
     return self;
 }

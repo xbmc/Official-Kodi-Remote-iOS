@@ -197,6 +197,22 @@
     }
 }
 
++ (UIColor*)getSystemRed:(CGFloat)alpha{
+    return [[UIColor systemRedColor] colorWithAlphaComponent:alpha];
+}
+
++ (UIColor*)getSystemGreen:(CGFloat)alpha{
+    return [[UIColor systemGreenColor] colorWithAlphaComponent:alpha];
+}
+
++ (UIColor*)getSystemBlue{
+    return [UIColor systemBlueColor];
+}
+
++ (UIColor*)getSystemTeal{
+    return [UIColor systemTealColor];
+}
+
 + (UIColor*)getSystemGray1{
     return [UIColor systemGrayColor];
 }
