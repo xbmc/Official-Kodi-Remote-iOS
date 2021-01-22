@@ -1667,6 +1667,32 @@
 
 #pragma mark - Cell Formatting 
 
+-(void)setTVshowThumbSize {
+    mainMenu *Menuitem = self.detailItem;
+    // Adapt thumbsize if viewing TV Shows and "preferTVPoster" feature is enabled
+    if (!tvshowsView) {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            Menuitem.thumbWidth = PAD_TV_SHOWS_POSTER_WIDTH;
+            Menuitem.rowHeight = PAD_TV_SHOWS_POSTER_HEIGHT;
+        }
+        else {
+            Menuitem.thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
+            Menuitem.rowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
+        }
+    }
+    else {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            Menuitem.thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
+            Menuitem.rowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
+        }
+        else {
+            CGFloat transform = [Utilities getTransformX];
+            Menuitem.thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
+            Menuitem.rowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
+        }
+    }
+}
+
 int originYear = 0;
 -(void)choseParams{ // DA OTTIMIZZARE TROPPI IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     flagX = 43;
@@ -5588,6 +5614,7 @@ NSIndexPath *selected;
     }
     else if ([[methods objectForKey:@"tvshowsView"] boolValue] == YES){
         tvshowsView = [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO;
+        [self setTVshowThumbSize];
     }
     else if ([[methods objectForKey:@"channelGuideView"] boolValue] == YES){
         channelGuideView = YES;
