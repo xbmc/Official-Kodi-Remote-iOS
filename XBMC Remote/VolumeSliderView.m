@@ -10,6 +10,7 @@
 #import "GlobalData.h"
 #import "DSJSONRPC.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 @implementation VolumeSliderView
 

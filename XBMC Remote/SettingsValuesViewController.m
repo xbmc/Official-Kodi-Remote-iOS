@@ -13,6 +13,7 @@
 #import "customButton.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
+#import "Utilities.h"
 
 @interface SettingsValuesViewController ()
 
@@ -291,7 +292,7 @@
     customButton *arrayButtons = [[customButton alloc] init];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
+    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
@@ -309,10 +310,10 @@
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicator stopAnimating];
         if (methodError==nil && error == nil){
-            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[UIColor colorWithRed:39.0f/255.0f green:158.0f/255.0f blue:34.0f/255.0f alpha:0.95f]];
+            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
         }
         else{
-            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0f color:[UIColor colorWithRed:189.0f/255.0f green:36.0f/255.0f blue:36.0f/255.0f alpha:0.95f]];
+            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0f color:[Utilities getSystemRed:0.95]];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
             [sender setUserInteractionEnabled:YES];
@@ -370,7 +371,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-	cell.backgroundColor = [UIColor whiteColor];
+	cell.backgroundColor = [Utilities getSystemGray6];
 }
 
 - (void)adjustFontSize:(UILabel *)label {
@@ -404,7 +405,7 @@
         [cellLabel setFont:[UIFont systemFontOfSize:18]];
         [cellLabel setAdjustsFontSizeToFitWidth:YES];
         [cellLabel setMinimumScaleFactor:12.0f/18.0f];
-        [cellLabel setTextColor:[UIColor blackColor]];
+        [cellLabel setTextColor:[Utilities get1stLabelColor]];
         [cellLabel setHighlightedTextColor:[UIColor whiteColor]];
         [cell.contentView addSubview:cellLabel];
         
@@ -420,7 +421,7 @@
         [descriptionLabel setAdjustsFontSizeToFitWidth:YES];
         [descriptionLabel setNumberOfLines:0];
         [descriptionLabel setMinimumScaleFactor:11.0f/12.0f];
-        [descriptionLabel setTextColor:[UIColor grayColor]];
+        [descriptionLabel setTextColor:[Utilities get2ndLabelColor]];
         [descriptionLabel setHighlightedTextColor:[UIColor lightGrayColor]];
         [cell.contentView addSubview:descriptionLabel];
         
@@ -444,7 +445,7 @@
         [uiSliderLabel setFont:[UIFont systemFontOfSize:14]];
         [uiSliderLabel setAdjustsFontSizeToFitWidth:YES];
         [uiSliderLabel setMinimumScaleFactor:12.0f/14.0f];
-        [uiSliderLabel setTextColor:[UIColor grayColor]];
+        [uiSliderLabel setTextColor:[Utilities get2ndLabelColor]];
         [uiSliderLabel setHighlightedTextColor:[UIColor lightGrayColor]];
         [cell.contentView addSubview:uiSliderLabel];
         
@@ -462,9 +463,9 @@
         textInputField.delegate = self;
         textInputField.tag = 301;
         [cell.contentView addSubview:textInputField];
-        [cellLabel setHighlightedTextColor:[UIColor blackColor]];
-        [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
-        [uiSliderLabel setHighlightedTextColor:[UIColor grayColor]];
+        [cellLabel setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [descriptionLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        [uiSliderLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
 	}
     cell.accessoryType =  UITableViewCellAccessoryNone;
 
@@ -701,7 +702,7 @@
     [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
     [descriptionLabel setText:[footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
     if (xbmcSetting == cUnsupported){
-        [helpView setBackgroundColor:[UIColor colorWithRed:.741f green:.141f blue:.141f alpha:1.0f]];
+        [helpView setBackgroundColor:[Utilities getSystemRed:1.0]];
     }
     else{
         [helpView setBackgroundColor:[UIColor colorWithRed:45.0f/255.0f green:45.0f/255.0f blue:45.0f/255.0f alpha:0.95f]];

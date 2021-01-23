@@ -8,6 +8,7 @@
 
 #import "XBMCVirtualKeyboard.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 @implementation XBMCVirtualKeyboard
 
@@ -21,7 +22,7 @@
         textSize = 14;
         background_padding = 6;
         alignBottom = 10;
-        UIColor *accessoryBackgroundColor = [UIColor colorWithRed:202.0f/255.0f green:205.0f/255.0f blue:212.0f/255.0f alpha:1];
+        UIColor *accessoryBackgroundColor = [Utilities getSystemGray4];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             accessoryHeight = 74;
             verboseHeight = 34;
@@ -54,9 +55,9 @@
         backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
         [backgroundTextField setUserInteractionEnabled:YES];
         [backgroundTextField setBorderStyle:UITextBorderStyleRoundedRect];
-        [backgroundTextField setBackgroundColor:[UIColor whiteColor]];
+        [backgroundTextField setBackgroundColor:[Utilities getSystemGray6]];
         [backgroundTextField setFont:[UIFont systemFontOfSize:textSize]];
-        [backgroundTextField setTextColor:[UIColor blackColor]];
+        [backgroundTextField setTextColor:[Utilities get1stLabelColor]];
         [backgroundTextField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
         backgroundTextField.autocorrectionType = UITextAutocorrectionTypeNo;
         backgroundTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;

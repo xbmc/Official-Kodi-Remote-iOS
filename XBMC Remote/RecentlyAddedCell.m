@@ -7,6 +7,7 @@
 //
 
 #import "RecentlyAddedCell.h"
+#import "Utilities.h"
 
 @implementation RecentlyAddedCell
 
@@ -91,7 +92,7 @@
         [self.contentView addSubview:_busyView];
         
         UIView *bgView = [[UIView alloc] initWithFrame:frame];
-        [bgView setBackgroundColor:[UIColor colorWithRed:0.0f green:132.0f/255.0f blue:1.0f alpha:1]];
+        [bgView setBackgroundColor:[Utilities getSystemGreen:1.0]];
         self.selectedBackgroundView = bgView;
     }
     return self;

@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "mainMenu.h"
 #import "AppInfoViewController.h"
+#import "Utilities.h"
 
 // +2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
@@ -90,8 +91,10 @@
     [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:NULL];
     if (cell==nil){
         cell = serverListCell;
-        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
-        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
+        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*) [cell viewWithTag:2] setTextColor:[Utilities getSystemGray1]];
+        [(UILabel*) [cell viewWithTag:3] setTextColor:[Utilities getSystemGray1]];
         [cell setTintColor:[UIColor lightGrayColor]];
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
@@ -611,7 +614,7 @@ static inline BOOL IsEmpty(id obj) {
 
 -(void)connectionError:(NSNotification *)note {
     NSDictionary *theData = [note userInfo];
-    [messagesView showMessage:[theData objectForKey:@"error_message"] timeout:2.0f color:[UIColor colorWithRed:189.0f/255.0f green:36.0f/255.0f blue:36.0f/255.0f alpha:0.95f]];
+    [messagesView showMessage:[theData objectForKey:@"error_message"] timeout:2.0f color:[Utilities getSystemRed:0.95]];
 }
 
 -(void)authFailed:(NSNotification *)note {

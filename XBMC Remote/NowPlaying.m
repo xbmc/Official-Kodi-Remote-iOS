@@ -2377,7 +2377,7 @@ int currentItemID;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 //	cell.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];
-    cell.backgroundColor = cellBackgroundColor;
+    cell.backgroundColor = [Utilities getSystemGray6];
 
 }
 
@@ -2386,9 +2386,13 @@ int currentItemID;
     if (cell == nil){
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"playlistCellView" owner:self options:nil];
         cell = [nib objectAtIndex:0];
-        [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[UIColor blackColor]];
-        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[UIColor blackColor]];
-        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[UIColor blackColor]];
+        [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        
+        [(UILabel*) [cell viewWithTag:1] setTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*) [cell viewWithTag:2] setTextColor:[Utilities get2ndLabelColor]];
+        [(UILabel*) [cell viewWithTag:3] setTextColor:[Utilities get2ndLabelColor]];
     }
     NSDictionary *item = [playlistData objectAtIndex:indexPath.row];
     UIImageView *thumb = (UIImageView*) [cell viewWithTag:4];
