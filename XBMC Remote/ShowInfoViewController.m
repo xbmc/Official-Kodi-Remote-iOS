@@ -692,7 +692,7 @@ int h=0;
     CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
-    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 10, [UIColor blackColor].CGColor);
+    CGContextSetShadowWithColor(shadowContext, CGSizeZero, 10, [UIColor blackColor].CGColor);
     CGContextDrawImage(shadowContext, CGRectMake(10, 10, source.size.width, source.size.height), source.CGImage);
     
     CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
@@ -1529,7 +1529,7 @@ int h=0;
                 [trailerView setClipsToBounds: NO];
                 trailerView.layer.shadowColor = [UIColor blackColor].CGColor;
                 trailerView.layer.shadowOpacity = 0.7f;
-                trailerView.layer.shadowOffset = CGSizeMake(0, 0);
+                trailerView.layer.shadowOffset = CGSizeZero;
                 trailerView.layer.shadowRadius = 3.0;
                 trailerView.layer.masksToBounds = NO;
                 

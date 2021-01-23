@@ -344,7 +344,7 @@ CGFloat cellBarWidth=45;
     CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
-    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 10, [UIColor blackColor].CGColor);
+    CGContextSetShadowWithColor(shadowContext, CGSizeZero, 10, [UIColor blackColor].CGColor);
     CGContextDrawImage(shadowContext, CGRectMake(10, 10, source.size.width, source.size.height), source.CGImage);
     
     CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
@@ -3003,13 +3003,13 @@ int currentItemID;
     [editTableButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [editTableButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [editTableButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [editTableButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+    [editTableButton.titleLabel setShadowOffset:CGSizeZero];
     
     [PartyModeButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [PartyModeButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [PartyModeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     [PartyModeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    [PartyModeButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+    [PartyModeButton.titleLabel setShadowOffset:CGSizeZero];
 
 
 }

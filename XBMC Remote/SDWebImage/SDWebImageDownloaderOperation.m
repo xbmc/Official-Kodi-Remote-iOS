@@ -230,7 +230,7 @@
                     CGColorSpaceRelease(colorSpace);
                     if (bmContext)
                     {
-                        CGContextDrawImage(bmContext, (CGRect){.origin.x = 0, .origin.y = 0, .size.width = self->width, .size.height = partialHeight}, partialImageRef);
+                        CGContextDrawImage(bmContext, CGRectMake(0, 0, self->width, partialHeight), partialImageRef);
                         CGImageRelease(partialImageRef);
                         partialImageRef = CGBitmapContextCreateImage(bmContext);
                         CGContextRelease(bmContext);

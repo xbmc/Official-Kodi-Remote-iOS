@@ -76,7 +76,7 @@
             [volumeLabel setShadowColor:darkShadow];
             [volumeLabel setShadowOffset:CGSizeMake(0.5, 0.7)];
             volumeLabel.layer.shadowColor = darkShadow.CGColor;
-            volumeLabel.layer.shadowOffset = CGSizeMake(0, 0);
+            volumeLabel.layer.shadowOffset = CGSizeZero;
             volumeLabel.layer.shadowOpacity = 1;
             volumeLabel.layer.shadowRadius = 1.0;
             self.transform = trans;

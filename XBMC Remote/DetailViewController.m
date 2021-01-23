@@ -571,7 +571,7 @@
     CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + shadowRadius * 2, source.size.height + shadowRadius * 2, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
-    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), shadowRadius, [UIColor blackColor].CGColor);
+    CGContextSetShadowWithColor(shadowContext, CGSizeZero, shadowRadius, [UIColor blackColor].CGColor);
     CGContextDrawImage(shadowContext, CGRectMake(shadowRadius, shadowRadius, source.size.width, source.size.height), source.CGImage);
     
     CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
@@ -1236,7 +1236,7 @@
         return CGSizeMake(dataList.frame.size.width, COLLECTION_HEADER_HEIGHT);
     }
     else{
-        return CGSizeMake(0, 0);
+        return CGSizeZero;
     }
 }
 
@@ -2444,7 +2444,7 @@ int originYear = 0;
                                       [thumbImageContainer setBackgroundColor:[UIColor clearColor]];
                                       thumbImageContainer.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1].CGColor;
                                       thumbImageContainer.layer.shadowOpacity = 1.0f;
-                                      thumbImageContainer.layer.shadowOffset = CGSizeMake(0, 0);
+                                      thumbImageContainer.layer.shadowOffset = CGSizeZero;
                                       thumbImageContainer.layer.shadowRadius = 2.0;
                                       thumbImageContainer.layer.masksToBounds = NO;
                                       thumbImageContainer.layer.borderWidth = thumbBorder;

@@ -50,7 +50,7 @@
             [_headerLabel setBackgroundColor:[UIColor clearColor]];
             [_headerLabel setFont:[UIFont boldSystemFontOfSize:(self.frame.size.height > 20 ? 17 : self.frame.size.height - 5)]];
             [_headerLabel setShadowColor:[UIColor colorWithRed:10.0f/255.0f green:10.0f/255.0f blue:10.0f/255.0f alpha:1]];
-            [_headerLabel setShadowOffset:CGSizeMake(0, 0)];
+            [_headerLabel setShadowOffset:CGSizeZero];
             
             [_headerLabel setTextColor:[UIColor colorWithRed:120.0f/255.0f green:120.0f/255.0f blue:120.0f/255.0f alpha:1]];
             [_headerLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];

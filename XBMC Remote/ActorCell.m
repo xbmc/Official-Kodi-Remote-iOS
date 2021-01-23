@@ -33,7 +33,7 @@ int offsetY = 5;
         [actorContainer setBackgroundColor:[UIColor clearColor]];
         actorContainer.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8].CGColor;
         actorContainer.layer.shadowOpacity = 0.7f;
-        actorContainer.layer.shadowOffset = CGSizeMake(0, 0);
+        actorContainer.layer.shadowOffset = CGSizeZero;
         actorContainer.layer.shadowRadius = 2.0;
         actorContainer.layer.masksToBounds = NO;
         UIBezierPath *path = [UIBezierPath bezierPathWithRect:actorContainer.bounds];

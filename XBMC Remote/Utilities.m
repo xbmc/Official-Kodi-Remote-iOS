@@ -108,10 +108,7 @@
     if (color == nil) return image;
     UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
     
-    CGRect contextRect;
-    contextRect.origin.x = 0;
-    contextRect.origin.y = 0;
-    contextRect.size = [image size];
+    CGRect contextRect = (CGRect){.origin = CGPointZero, .size = [image size]};
     
     CGSize itemImageSize = [image size];
     CGPoint itemImagePosition;
