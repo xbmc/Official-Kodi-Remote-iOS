@@ -238,9 +238,9 @@
     CGFloat maxMoveX = optimusWidth - frameWidth;
     CGFloat maxMoveY = optimusHeight - frameHeight;
     
-    CGFloat rotation = (arc4random() % 9) / 100;
+    CGFloat rotation = arc4random_uniform(9) / 100;
     
-    switch (arc4random() % 4) {
+    switch (arc4random_uniform(4)) {
         case 0:
             originX = 0;
             originY = 0;
