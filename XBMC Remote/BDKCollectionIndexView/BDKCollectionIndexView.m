@@ -1,5 +1,5 @@
 #import "BDKCollectionIndexView.h"
-
+#import "Utilities.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define DEFAULT_ALPHA 0.3f
@@ -119,7 +119,7 @@
 - (UIView *)touchStatusView {
     if (_touchStatusView) return _touchStatusView;
     _touchStatusView = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, 2, 2)];
-    _touchStatusView.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0];
+    _touchStatusView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
     _touchStatusView.layer.cornerRadius = 0;
     _touchStatusView.layer.masksToBounds = YES;
     return _touchStatusView;
