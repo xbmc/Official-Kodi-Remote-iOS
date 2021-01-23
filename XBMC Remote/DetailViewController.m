@@ -5604,6 +5604,10 @@ NSIndexPath *selected;
     if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
         [self setUpSort:methods parameters:parameters];
     }
+    // Hide the toolbar when no button is shown at all (button5 is only hidden when 1-4 are not available)
+    if (button5.hidden && button6.hidden && button7.hidden) {
+        buttonsView.hidden = YES;
+    }
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     
