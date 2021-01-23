@@ -168,8 +168,8 @@
     CGFloat zoomInY       = -1;
     CGFloat moveX         = -1;
     CGFloat moveY         = -1;
-    CGFloat frameWidth    = isLandscape? self.frame.size.width : self.frame.size.height;
-    CGFloat frameHeight   = isLandscape? self.frame.size.height : self.frame.size.width;
+    CGFloat frameWidth    = isLandscape ? self.frame.size.width : self.frame.size.height;
+    CGFloat frameHeight   = isLandscape ? self.frame.size.height : self.frame.size.width;
     
     // Widder than screen 
     if (image.size.width > frameWidth){

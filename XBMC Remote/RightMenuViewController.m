@@ -94,7 +94,7 @@
         [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backView;
         UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 195, (int)((44/2) - (36/2)) - 2, 145, 36)];
-        xbmc_logo. alpha = 0.25;
+        xbmc_logo.alpha = 0.25;
         [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
         xbmc_logo.tag = 101;
         [cell.contentView insertSubview:xbmc_logo atIndex:0];
@@ -166,7 +166,7 @@
         [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backView;
         UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(125, (int)((44/2) - (36/2)) - 2, 145, 36)];
-        xbmc_logo. alpha = 0.25;
+        xbmc_logo.alpha = 0.25;
         [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
         xbmc_logo.tag = 101;
         xbmc_logo.hidden = YES;

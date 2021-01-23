@@ -341,7 +341,7 @@
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.1];
-    subsInfoLabel. alpha = 0;
+    subsInfoLabel.alpha = 0;
     [UIView commitAnimations];
     [subsInfoLabel setText:message];
     [subsInfoLabel setTextColor:color];
@@ -350,7 +350,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.1];
     subsInfoLabel.hidden = NO;
-    subsInfoLabel. alpha = 0.8;
+    subsInfoLabel.alpha = 0.8;
     [UIView commitAnimations];
     //then fade out again after timeout seconds
     if ([fadeoutTimer isValid])
@@ -363,7 +363,7 @@
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.2];
-    subsInfoLabel. alpha = 0;
+    subsInfoLabel.alpha = 0;
     [UIView commitAnimations];
     [fadeoutTimer invalidate];
     fadeoutTimer = nil;
