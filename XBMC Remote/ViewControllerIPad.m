@@ -201,7 +201,7 @@
     self.serverPickerPopover = [[UIPopoverController alloc]
                                 initWithContentViewController:[AppDelegate instance].navigationController];
     self.serverPickerPopover.delegate = self;
-    [self.serverPickerPopover setBackgroundColor:[Utilities getGrayColor:41.0/255.0 alpha:1]];
+    [self.serverPickerPopover setBackgroundColor:[Utilities getGrayColor:41 alpha:1]];
     [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
 }
 
@@ -232,7 +232,7 @@
                                     initWithContentViewController:_appInfoView];
         self.appInfoPopover.delegate = self;
         [self.appInfoPopover setPopoverContentSize:CGSizeMake(320, 460)];
-        self.appInfoPopover.backgroundColor = [Utilities getGrayColor:187.0/255.0 alpha:1];
+        self.appInfoPopover.backgroundColor = [Utilities getGrayColor:187 alpha:1];
     }
     [self.appInfoPopover presentPopoverFromRect:xbmcLogo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
@@ -423,7 +423,7 @@
     
     UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight + separator - 2, tableWidth, 1)];
 //    [horizontalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [horizontalLineView1 setBackgroundColor:[Utilities getGrayColor:0.3 alpha:0.2]];
+    [horizontalLineView1 setBackgroundColor:[Utilities getGrayColor:77 alpha:0.2]];
     [leftMenuView addSubview:horizontalLineView1];
 
     self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
@@ -452,7 +452,7 @@
 	[rootView addSubview:leftMenuView];
 	[rootView addSubview:rightSlideView];
     
-//    self.view.backgroundColor = [Utilities getGrayColor:0.14 alpha:1];
+//    self.view.backgroundColor = [Utilities getGrayColor:36 alpha:1];
 //    self.view.backgroundColor = [[UIColor scrollViewTexturedBackgroundColor] colorWithAlphaComponent:0.5];
 //	[self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
     [self.view addSubview:rootView];
@@ -617,8 +617,8 @@
     
     [self initHostManagemetPopOver];
     
-    [(gradientUIView *)self.view setColoursWithCGColors:[Utilities getGrayColor:0.141 alpha:1].CGColor
-                                               endColor:[Utilities getGrayColor:0.086 alpha:1].CGColor];
+    [(gradientUIView *)self.view setColoursWithCGColors:[Utilities getGrayColor:36 alpha:1].CGColor
+                                               endColor:[Utilities getGrayColor:22 alpha:1].CGColor];
 }
 
 -(void)handleChangeBackgroundImage:(NSNotification *)sender {

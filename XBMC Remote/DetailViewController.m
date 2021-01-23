@@ -925,12 +925,12 @@
     }
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         blackTableSeparator = YES;
-        dataList.separatorColor = [Utilities getGrayColor:0.15 alpha:1];
+        dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
     else{
         blackTableSeparator = NO;
         self.searchController.searchBar.tintColor = searchBarColor;
-        dataList.separatorColor = [Utilities getGrayColor:0.75 alpha:1];
+        dataList.separatorColor = [Utilities getGrayColor:191 alpha:1];
     }
     if ([[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] length]){
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, [[[parameters objectForKey:@"itemSizes"] objectForKey:@"separatorInset"] intValue], 0, 0)];
@@ -1529,7 +1529,7 @@
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = sectionNameOverlayView.bounds;
-    gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getGrayColor:0.1 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:0 alpha:0.8] CGColor], nil];
+    gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getGrayColor:26 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:0 alpha:0.8] CGColor], nil];
     gradient.cornerRadius = cornerRadius;
     [sectionNameOverlayView.layer insertSublayer:gradient atIndex:0];
     
@@ -2395,7 +2395,7 @@ int originYear = 0;
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (albumView && [self.richResults count]>0){
         __block UIColor *albumFontColor = [UIColor blackColor];
-        __block UIColor *albumFontShadowColor = [Utilities getGrayColor:1 alpha:0.3];
+        __block UIColor *albumFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
         __block UIColor *albumDetailsColor = [UIColor darkGrayColor];
 
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
@@ -2465,8 +2465,8 @@ int originYear = 0;
                                           gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
                                           [albumDetailView.layer insertSublayer:gradient atIndex:1];
                                           albumFontColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
-                                          albumFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:1 alpha:0.3]];
-                                          albumDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:1 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+                                          albumFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
+                                          albumDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
                                           [artist setTextColor:albumFontColor];
                                           [artist setShadowColor:albumFontShadowColor];
                                           [albumLabel setTextColor:albumFontColor];
@@ -2582,7 +2582,7 @@ int originYear = 0;
         return albumDetailView;
     }
     else if (episodesView && [self.richResults count]>0 && !([self doesShowSearchResults])){
-        UIColor *seasonFontShadowColor = [Utilities getGrayColor:1 alpha:0.3];
+        UIColor *seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
         albumDetailView.tag = section;
         int toggleIconSpace = 0;
@@ -2608,7 +2608,7 @@ int originYear = 0;
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
         if (section>0){
             UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -1, viewWidth, 1)];
-            [lineView setBackgroundColor:[Utilities getGrayColor:0.95 alpha:1]];
+            [lineView setBackgroundColor:[Utilities getGrayColor:242 alpha:1]];
             [albumDetailView addSubview:lineView];
         }
         CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
@@ -2727,7 +2727,7 @@ int originYear = 0;
     NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
     if (sectionTitle == nil) {
         UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
-        [sectionView setBackgroundColor:[Utilities getGrayColor:0.4 alpha:1]];
+        [sectionView setBackgroundColor:[Utilities getGrayColor:102 alpha:1]];
         CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
@@ -2745,17 +2745,17 @@ int originYear = 0;
     
     // TEST
     gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor], nil];
-//    gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getGrayColor:0.1 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:0.3 alpha:0.8] CGColor], nil];
+//    gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getGrayColor:26 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:77 alpha:0.8] CGColor], nil];
     //END TEST
 
     [sectionView.layer insertSublayer:gradient atIndex:0];
     
     //TEST
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -1, viewWidth, 1)];
-    [lineView setBackgroundColor:[Utilities getGrayColor:0.5725 alpha:1]];
+    [lineView setBackgroundColor:[Utilities getGrayColor:146 alpha:1]];
     [sectionView addSubview:lineView];
 //    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -2, viewWidth, 1)];
-//    [lineView setBackgroundColor:[Utilities getGrayColor:0.1 alpha:1]];
+//    [lineView setBackgroundColor:[Utilities getGrayColor:26 alpha:1]];
 //    [sectionView addSubview:lineView];
     //END TEST
 
@@ -5603,19 +5603,19 @@ NSIndexPath *selected;
     if (button5.hidden && button6.hidden && button7.hidden) {
         buttonsView.hidden = YES;
     }
-    searchBarColor = [Utilities getGrayColor:0.35 alpha:1];
+    searchBarColor = [Utilities getGrayColor:89 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
     
-    searchBarColor = [Utilities getGrayColor:0.572 alpha:1];
-    collectionViewSearchBarColor = [Utilities getGrayColor:22.0/255.0 alpha:1];
+    searchBarColor = [Utilities getGrayColor:146 alpha:1];
+    collectionViewSearchBarColor = [Utilities getGrayColor:22 alpha:1];
 
     if ([[methods objectForKey:@"albumView"] boolValue] == YES){
         albumView = TRUE;
     }
     else if ([[methods objectForKey:@"episodesView"] boolValue] == YES){
         episodesView = TRUE;
-        searchBarColor = [Utilities getGrayColor:0.95 alpha:1];
-        searchBarColor = [Utilities getGrayColor:229.0/255.0 alpha:1];
+        searchBarColor = [Utilities getGrayColor:242 alpha:1];
+        searchBarColor = [Utilities getGrayColor:229 alpha:1];
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, 18, 0, 0)];
     }
     else if ([[methods objectForKey:@"tvshowsView"] boolValue] == YES){
@@ -5634,7 +5634,7 @@ NSIndexPath *selected;
     if ([[parameters objectForKey:@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO){
         blackTableSeparator = YES;
         [dataList setSeparatorInset:UIEdgeInsetsZero];
-        dataList.separatorColor = [Utilities getGrayColor:0.15 alpha:1];
+        dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
     self.searchController.searchBar.tintColor = searchBarColor;
     [self.searchController.searchBar setBackgroundColor:searchBarColor];

@@ -81,7 +81,7 @@
                                                alpha:1];
     }
     else { // xcode xib bug with ipad?
-        cell.backgroundColor = [Utilities getGrayColor:0.141176 alpha:1];
+        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
     }
 }
 
@@ -92,7 +92,7 @@
     if ( cell == nil ) {
         cell = rightMenuCell;
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
-        [backView setBackgroundColor:[Utilities getGrayColor:0.086 alpha:1]];
+        [backView setBackgroundColor:[Utilities getGrayColor:22 alpha:1]];
         cell.selectedBackgroundView = backView;
         UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
         UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
@@ -158,14 +158,14 @@
         int cellHeight = 50;
         cell = rightMenuCell;
         [cell setAccessoryView:nil];
-        cell.backgroundColor = [Utilities getGrayColor:0.141176 alpha:1];
+        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
         [cell setTintColor:[UIColor lightGrayColor]];
         [cell setEditingAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
         icon = (UIImageView*) [cell viewWithTag:1];
         title = (UILabel*) [cell viewWithTag:3];
         line = (UIImageView*) [cell viewWithTag:4];
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
-        [backView setBackgroundColor:[Utilities getGrayColor:0.086 alpha:1]];
+        [backView setBackgroundColor:[Utilities getGrayColor:22 alpha:1]];
         cell.selectedBackgroundView = backView;
         UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
         UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
@@ -234,7 +234,7 @@
         [title setHighlightedTextColor:fontColor];
     }
     else{
-        UIColor *fontColor = [Utilities getGrayColor:0.49 alpha:1];
+        UIColor *fontColor = [Utilities getGrayColor:125 alpha:1];
         [title setTextColor:fontColor];
         [title setHighlightedTextColor:fontColor];
     }
@@ -626,7 +626,7 @@
     [infoLabel setBackgroundColor:[UIColor clearColor]];
     [infoLabel setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
     [infoLabel setTextAlignment:NSTextAlignmentCenter];
-    [infoLabel setTextColor:[Utilities getGrayColor:0.49 alpha:1]];
+    [infoLabel setTextColor:[Utilities getGrayColor:125 alpha:1]];
     infoLabel.alpha = 0;
     [self.view addSubview:infoLabel];
     
@@ -659,7 +659,7 @@
     }
     menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight - 1) style:UITableViewStylePlain];
     [menuTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
-    [menuTableView setSeparatorColor:[Utilities getGrayColor:0.114 alpha:1]];
+    [menuTableView setSeparatorColor:[Utilities getGrayColor:29 alpha:1]];
     [menuTableView setDelegate:self];
     [menuTableView setDataSource:self];
     [menuTableView setBackgroundColor:[UIColor clearColor]];

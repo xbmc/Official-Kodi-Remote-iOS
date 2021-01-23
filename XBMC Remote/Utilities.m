@@ -283,8 +283,8 @@
     }
 }
 
-+ (UIColor*)getGrayColor:(CGFloat)tone alpha:(CGFloat)alpha{
-    return [UIColor colorWithRed:tone green:tone blue:tone alpha:alpha];
++ (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha{
+    return RGBA(tone, tone, tone, alpha);
 }
 
 + (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width {

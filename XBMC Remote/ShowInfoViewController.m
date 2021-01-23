@@ -1525,7 +1525,7 @@ int h=0;
                 if (((NSNull *)[[trailerView subviews] objectAtIndex:0] != [NSNull null])){
                     ((UIScrollView *)[[trailerView subviews] objectAtIndex:0]).scrollsToTop = NO;
                 }
-                [trailerView setBackgroundColor:[Utilities getGrayColor:0.5 alpha:0.5]];
+                [trailerView setBackgroundColor:[Utilities getGrayColor:128 alpha:0.5]];
                 [trailerView setClipsToBounds: NO];
                 trailerView.layer.shadowColor = [UIColor blackColor].CGColor;
                 trailerView.layer.shadowOpacity = 0.7f;

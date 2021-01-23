@@ -65,7 +65,7 @@ CGFloat cellBarWidth=45;
 //        viewTitle.font = [UIFont boldSystemFontOfSize:18];
 //        viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0.5];
 //        viewTitle.textAlignment = UITextAlignmentCenter;
-//        viewTitle.textColor = [Utilities getGrayColor:0.9 alpha:1];
+//        viewTitle.textColor = [Utilities getGrayColor:230 alpha:1];
 //        viewTitle.text = NSLocalizedString(@"Now Playing", nil);
 //        [viewTitle sizeToFit];
 //        self.navigationItem.titleView = viewTitle;
@@ -640,7 +640,7 @@ int currentItemID;
                                               duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
-                                                [songName setTextColor:[Utilities getGrayColor:0.9 alpha:1]];
+                                                [songName setTextColor:[Utilities getGrayColor:230 alpha:1]];
                                             }
                                             completion:NULL];
                             [UIView transitionWithView:artistName
@@ -733,8 +733,8 @@ int currentItemID;
                                              completion:NULL];
                              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
                                  NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                         [Utilities getGrayColor:0.141 alpha:1], @"startColor",
-                                                         [Utilities getGrayColor:0.086 alpha:1], @"endColor",
+                                                         [Utilities getGrayColor:36 alpha:1], @"startColor",
+                                                         [Utilities getGrayColor:22 alpha:1], @"endColor",
                                                          nil, @"image",
                                                          nil];
                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundGradientColor" object:nil userInfo:params];
@@ -2375,7 +2375,7 @@ int currentItemID;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-//	cell.backgroundColor = [Utilities getGrayColor:0.85 alpha:1];
+//	cell.backgroundColor = [Utilities getGrayColor:217 alpha:1];
     cell.backgroundColor = [Utilities getSystemGray6];
 
 }
@@ -3040,7 +3040,7 @@ int currentItemID;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
     CGFloat toolbarAlpha = 0.8;
     pg_thumb_name = @"pgbar_thumb.png";
-    cellBackgroundColor = [Utilities getGrayColor:0.85 alpha:1];
+    cellBackgroundColor = [Utilities getGrayColor:217 alpha:1];
     [self addSegmentControl];
     pg_thumb_name = @"pgbar_thumb_iOS7.png";
     cellBackgroundColor = [UIColor whiteColor];

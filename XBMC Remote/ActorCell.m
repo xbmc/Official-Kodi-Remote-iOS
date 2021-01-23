@@ -68,7 +68,7 @@ int offsetY = 5;
         [self addSubview:_actorRole];
         
         UIView *myBackView = [[UIView alloc] initWithFrame:self.frame];
-        myBackView.backgroundColor = [Utilities getGrayColor:0.5 alpha:0.5];
+        myBackView.backgroundColor = [Utilities getGrayColor:128 alpha:0.5];
         self.selectedBackgroundView = myBackView;
     }
     return self;

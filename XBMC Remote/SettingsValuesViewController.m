@@ -674,7 +674,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSInteger viewWidth = self.view.frame.size.width;
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
-    [sectionView setBackgroundColor:[Utilities getGrayColor:0.4 alpha:1]];
+    [sectionView setBackgroundColor:[Utilities getGrayColor:102 alpha:1]];
     CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
     UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
     [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
@@ -705,7 +705,7 @@
         [helpView setBackgroundColor:[Utilities getSystemRed:1.0]];
     }
     else{
-        [helpView setBackgroundColor:[Utilities getGrayColor:45.0/255.0 alpha:0.95]];
+        [helpView setBackgroundColor:[Utilities getGrayColor:45 alpha:0.95]];
     }
     CGRect descriptionRect = [descriptionLabel.text  boundingRectWithSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax)
                                                                   options:NSStringDrawingUsesLineFragmentOrigin

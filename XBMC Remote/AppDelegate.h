@@ -34,10 +34,10 @@
 
 #define APP_TINT_COLOR [Utilities getGrayColor:0 alpha:0.3]
 
-#define TINT_COLOR [Utilities getGrayColor:1 alpha:.35]
+#define TINT_COLOR [Utilities getGrayColor:255 alpha:.35]
 
-#define BAR_TINT_COLOR [Utilities getGrayColor:0.1 alpha:1]
-#define REMOTE_CONTROL_BAR_TINT_COLOR [Utilities getGrayColor:12.0/255.0 alpha:1]
+#define BAR_TINT_COLOR [Utilities getGrayColor:26 alpha:1]
+#define REMOTE_CONTROL_BAR_TINT_COLOR [Utilities getGrayColor:12 alpha:1]
 #define SLIDER_DEFAULT_COLOR [Utilities getSystemTeal]
 
 #define STACKSCROLL_WIDTH 476 // 724

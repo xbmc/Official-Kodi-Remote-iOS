@@ -71,8 +71,8 @@
             frame_tmp.origin.x = 22;
             volumeLabel.frame = frame_tmp;
             [volumeLabel setFont:[UIFont boldSystemFontOfSize:15]];
-            UIColor *darkShadow =[Utilities getGrayColor:0.2 alpha:0.6];
-            [volumeLabel setTextColor:[Utilities getGrayColor:0.1 alpha:0.8]];
+            UIColor *darkShadow =[Utilities getGrayColor:51 alpha:0.6];
+            [volumeLabel setTextColor:[Utilities getGrayColor:26 alpha:0.8]];
             [volumeLabel setShadowColor:darkShadow];
             [volumeLabel setShadowOffset:CGSizeMake(0.5, 0.7)];
             volumeLabel.layer.shadowColor = darkShadow.CGColor;

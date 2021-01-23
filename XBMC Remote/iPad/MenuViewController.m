@@ -87,7 +87,7 @@
         
 //        UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, -5, 1, self.view.frame.size.height+5)];
 //		[verticalLineView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-//		[verticalLineView setBackgroundColor:[Utilities getGrayColor:0.1 alpha:1]];
+//		[verticalLineView setBackgroundColor:[Utilities getGrayColor:26 alpha:1]];
 //		[self.view addSubview:verticalLineView];
 
 //        UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width + 1, -5, 5, self.view.frame.size.height-39)];
@@ -105,7 +105,7 @@
         
         UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, 0, 1, self.view.frame.size.height-39)];
 		[verticalLineView2 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-		[verticalLineView2 setBackgroundColor:[Utilities getGrayColor:0.3 alpha:0.2]];
+		[verticalLineView2 setBackgroundColor:[Utilities getGrayColor:77 alpha:0.2]];
 		[self.view addSubview:verticalLineView2];
         
         [self.view bringSubviewToFront:verticalLineView2];
@@ -218,10 +218,10 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0){
-        cell.backgroundColor = [Utilities getGrayColor:0.508 alpha:0.1];
+        cell.backgroundColor = [Utilities getGrayColor:130 alpha:0.1];
     }
     else{
-//        cell.backgroundColor = [Utilities getGrayColor:0.141 alpha:1];
+//        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
         cell.backgroundColor = [UIColor clearColor];
     }
 }
@@ -237,7 +237,7 @@
         [backgroundView setBackgroundColor:[Utilities getGrayColor:0 alpha:0.4]];
         cell.selectedBackgroundView = backgroundView;
         if (indexPath.row == 0){
-            [backgroundView setBackgroundColor:[Utilities getGrayColor:0.508 alpha:0.1]];
+            [backgroundView setBackgroundColor:[Utilities getGrayColor:130 alpha:0.1]];
             cell.selectedBackgroundView = backgroundView;
             UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:PAD_MENU_INFO_HEIGHT width:PAD_MENU_TABLE_WIDTH]];
