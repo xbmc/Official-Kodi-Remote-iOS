@@ -239,12 +239,11 @@
         if (indexPath.row == 0){
             [backgroundView setBackgroundColor:[UIColor colorWithRed:.508f green:.508f blue:.508f alpha:0.1f]];
             cell.selectedBackgroundView = backgroundView;
-            int cellHeight = PAD_MENU_INFO_HEIGHT;
-            int cellHeightPad = cellHeight - 4;
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(232, (int)((cellHeight/2) - (cellHeightPad/2)) - 1, 73, cellHeightPad)];
+            UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:PAD_MENU_INFO_HEIGHT width:PAD_MENU_TABLE_WIDTH]];
             xbmc_logo.alpha = 0.25;
-            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
-            [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+            [xbmc_logo setImage:logo];
+            [xbmc_logo setHighlightedImage:logo];
             [xbmc_logo setContentMode:UIViewContentModeScaleAspectFit];
             [cell insertSubview:xbmc_logo atIndex:0];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];

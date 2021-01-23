@@ -19,6 +19,7 @@
 #import "tcpJSONRPC.h"
 #import "XBMCVirtualKeyboard.h"
 #import "ClearCacheView.h"
+#import "Utilities.h"
 
 #define SERVER_TIMEOUT 2.0
 
@@ -130,16 +131,17 @@
         [(UILabel*) [cell viewWithTag:3] setText:NSLocalizedString(@"No connection", nil)];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
         if (indexPath.row == 0){
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 193, (int)((44/2) - (36/2)) - 2, 145, 36)];
+            UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+            int cellHeight = 44;
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:cellHeight width:self.view.bounds.size.width]];
             xbmc_logo.alpha = 0.25;
-            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+            [xbmc_logo setImage:logo];
             [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo_selected.png"]];
             [cell insertSubview:xbmc_logo atIndex:0];
             UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
             UIImageView *line = (UIImageView*) [cell viewWithTag:4];
             UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
             line.hidden = YES;
-            int cellHeight = 44;
             [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
             [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight/2) - (18/2)), 18, 18)];
             [title setFrame:CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight)];
@@ -319,7 +321,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.slidingViewController setAnchorRightPeekAmount: 40.0f];
+    [self.slidingViewController setAnchorRightPeekAmount: ANCHORRIGHTPEEK];
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
 }
 

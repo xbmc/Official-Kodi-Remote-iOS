@@ -14,6 +14,7 @@
 #import "customButton.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
+#import "Utilities.h"
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -93,9 +94,10 @@
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backView;
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 195, (int)((44/2) - (36/2)) - 2, 145, 36)];
+        UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
         xbmc_logo.alpha = 0.25;
-        [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+        [xbmc_logo setImage:logo];
         xbmc_logo.tag = 101;
         [cell.contentView insertSubview:xbmc_logo atIndex:0];
     }
@@ -165,9 +167,10 @@
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backView;
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(125, (int)((44/2) - (36/2)) - 2, 145, 36)];
+        UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
         xbmc_logo.alpha = 0.25;
-        [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+        [xbmc_logo setImage:logo];
         xbmc_logo.tag = 101;
         xbmc_logo.hidden = YES;
         [cell.contentView insertSubview:xbmc_logo atIndex:0];

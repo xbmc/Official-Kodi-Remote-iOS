@@ -35,5 +35,6 @@
 + (UIColor*)get2ndLabelColor;
 + (UIColor*)get3rdLabelColor;
 + (UIColor*)get4thLabelColor;
++ (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width;
 
 @end

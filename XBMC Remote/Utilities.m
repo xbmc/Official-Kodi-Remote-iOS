@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+#define HEADROOM_FOR_XBMC_LOGO 10
 
 @implementation Utilities
 
@@ -286,5 +287,13 @@
     }
 }
 
++ (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return CGRectMake(width - ANCHORRIGHTPEEK - logo.size.width - HEADROOM_FOR_XBMC_LOGO, (height - logo.size.height)/2, logo.size.width, logo.size.height);
+    }
+    else {
+        return CGRectMake(width - logo.size.width/2 - HEADROOM_FOR_XBMC_LOGO, (height - logo.size.height/2)/2, logo.size.width/2, logo.size.height/2);
+    }
+}
 
 @end

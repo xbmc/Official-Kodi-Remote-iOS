@@ -60,6 +60,8 @@
 #define PAD_MENU_INFO_HEIGHT 18
 #define PAD_MENU_TABLE_WIDTH 300
 
+#define ANCHORRIGHTPEEK 40
+
 + (AppDelegate *) instance;
 
 -(void)saveServerList;
