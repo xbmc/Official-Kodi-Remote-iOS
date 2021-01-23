@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 //#import "GlobalData.h"
 
+#define SERVERPOPUP_BOTTOMPADDING 10
+
 @interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate,  NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate, NSURLConnectionDataDelegate>{
 //    GlobalData *obj;
     IBOutlet UITextField *descriptionUI;
@@ -40,6 +42,7 @@
     IBOutlet UILabel *preferLabel;
     IBOutlet UILabel *noInstancesLabel;
     IBOutlet UILabel *findLabel;
+    IBOutlet UIView *tipView;
     IBOutlet UILabel *howtoLabel;
     IBOutlet UILabel *howtoLaterLabel;
     IBOutlet UIButton *saveButton;

@@ -5284,7 +5284,7 @@ NSIndexPath *selected;
     }
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     if (count==0){
-        buttonsView.hidden=YES;
+        button5.hidden=YES;
         CGRect frame=dataList.frame;
         frame.size.height=self.view.bounds.size.height;
         dataList.frame=frame;
@@ -5700,6 +5700,9 @@ NSIndexPath *selected;
     else {
         self.searchController.searchBar.hidden = NO;
     }
+    frame = collectionView.pullToRefreshView.frame;
+    frame.origin.y = 0;
+    collectionView.pullToRefreshView.frame = frame;
     activeLayoutView = dataList;
     
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];

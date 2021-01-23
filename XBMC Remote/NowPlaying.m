@@ -875,7 +875,8 @@ int currentItemID;
                                  if ([AppDelegate instance].serverVersion > 11){
                                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                                  }
-                                 NSString *thumbnailPath=[nowPlayingInfo objectForKey:@"thumbnail"];
+                                 NSDictionary *art = nowPlayingInfo[@"art"];
+                                 NSString *thumbnailPath = art[@"poster"] ?: nowPlayingInfo[@"thumbnail"];
                                  NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                                  if (![lastThumbnail isEqualToString:stringURL]){
                                      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -967,7 +968,6 @@ int currentItemID;
                                  }
                                  lastThumbnail = stringURL;
                                  itemLogoImage.image = nil;
-                                 NSDictionary *art = [nowPlayingInfo objectForKey:@"art"];
                                  storeClearlogo = @"";
                                  storeClearart = @"";
                                  for (NSString *key in art) {
@@ -1422,7 +1422,7 @@ int currentItemID;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     [jsonRPC callMethod:@"Playlist.GetItems" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", @"tvshowid", @"file", @"title", nil], @"properties",
+                         [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", @"tvshowid", @"file", @"title", @"art", nil], @"properties",
                          [NSNumber numberWithInt:playlistID], @"playlistid",
                          nil] 
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1485,7 +1485,8 @@ int currentItemID;
                            NSNumber *itemDurationSec=[[playlistItems objectAtIndex:i] objectForKey:@"duration"];
                            NSString *durationTime=[itemDurationSec longValue]==0 ? @"" : [self convertTimeFromSeconds:itemDurationSec];
 
-                           NSString *thumbnail=[NSString stringWithFormat:@"%@",[[playlistItems objectAtIndex:i] objectForKey:@"thumbnail"]];
+                           NSDictionary *art = playlistItems[i][@"art"];
+                           NSString *thumbnail = art[@"poster"] ?: playlistItems[i][@"thumbnail"];
                            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnail stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                            NSNumber *tvshowid =[NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i]  objectForKey:@"tvshowid"]]intValue]];
                            NSString *file=[NSString stringWithFormat:@"%@", [[playlistItems objectAtIndex:i] objectForKey:@"file"]];
@@ -3072,6 +3073,7 @@ int currentItemID;
         playlistView.frame = frame;
         playlistTableView.frame = frame;
     }
+    [playlistTableView setContentInset:UIEdgeInsetsMake(0, 0, barHeight, 0)];
     
     [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
     [ProgressSlider setMaximumTrackTintColor:APP_TINT_COLOR];
