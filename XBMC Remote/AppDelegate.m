@@ -2698,7 +2698,7 @@ NSMutableArray *hostRightMenuItems;
                                        [NSNumber numberWithBool:FALSE],@"ignorearticle",
                                        @"label", @"method",
                                        nil],@"sort",
-                                      [NSArray arrayWithObjects:@"season", @"thumbnail", @"tvshowid", @"playcount", @"episode", nil], @"properties",
+                                      [NSArray arrayWithObjects:@"season", @"thumbnail", @"tvshowid", @"playcount", @"episode", @"art", nil], @"properties",
                                       nil], @"extra_section_parameters",
                                      @"YES", @"FrodoExtraArt",
                                      nil],
