@@ -72,7 +72,7 @@
     if (![[item objectForKey:@"icon"] isEqualToString:@""]){
         CGRect iconImageViewRect = CGRectMake(8.0f, 6.0f, 34.0f, 30.0f);
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
-        [iconImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_black", [item objectForKey:@"icon"]]]];
+        [iconImage setImage:[UIImage imageNamed:@"nocover_filemode.png"]];
         [cell.contentView addSubview:iconImage];
     }
     return cell;
