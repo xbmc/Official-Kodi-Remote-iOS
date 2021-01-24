@@ -2174,7 +2174,7 @@ int originYear = 0;
             genre.autoresizingMask = title.autoresizingMask;
             frame.size.width = title.frame.size.width;
             genre.frame = frame;
-            [genre setTextColor:[UIColor blackColor]];
+            [genre setTextColor:[Utilities get1stLabelColor]];
             [genre setFont:[UIFont boldSystemFontOfSize:genre.font.pointSize]];
             frame = runtime.frame;
             frame.size.width=Menuitem.widthLabel;
@@ -2684,7 +2684,7 @@ int originYear = 0;
             [trackCountLabel setBackgroundColor:[UIColor clearColor]];
             [trackCountLabel setShadowColor:seasonFontShadowColor];
             [trackCountLabel setShadowOffset:CGSizeMake(0, 1)];
-            [trackCountLabel setTextColor:[UIColor darkGrayColor]];
+            [trackCountLabel setTextColor:[Utilities get2ndLabelColor]];
             [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
             trackCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Episodes: %@", nil), [[self.extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"episode"]];
             [albumDetailView addSubview:trackCountLabel];
@@ -2693,7 +2693,7 @@ int originYear = 0;
             [releasedLabel setBackgroundColor:[UIColor clearColor]];
             [releasedLabel setShadowColor:seasonFontShadowColor];
             [releasedLabel setShadowOffset:CGSizeMake(0, 1)];
-            [releasedLabel setTextColor:[UIColor darkGrayColor]];
+            [releasedLabel setTextColor:[Utilities get2ndLabelColor]];
             [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
             [releasedLabel setMinimumScaleFactor:(trackCountFontSize - 2)/trackCountFontSize];
             [releasedLabel setNumberOfLines:1];
@@ -5599,6 +5599,10 @@ NSIndexPath *selected;
     sortAscDesc = nil;
     if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
         [self setUpSort:methods parameters:parameters];
+    }
+    // Hide the toolbar when no button is shown at all (button5 is only hidden when 1-4 are not available)
+    if (button5.hidden && button6.hidden && button7.hidden) {
+        buttonsView.hidden = YES;
     }
     searchBarColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];

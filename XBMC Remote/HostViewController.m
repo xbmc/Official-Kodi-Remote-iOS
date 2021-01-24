@@ -421,7 +421,7 @@
 	}
     NSNetService* service = [services objectAtIndex:indexPath.row];
 	cell.textLabel.text = [service name];
-	cell.textLabel.textColor = [UIColor blackColor];
+	cell.textLabel.textColor = [Utilities get1stLabelColor];
 	cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
 	return cell;
 }
@@ -478,7 +478,7 @@
     mac_4_UI.text = @"";
     mac_5_UI.text = @"";
     preferTVPostersUI.on = FALSE;
-    [descriptionUI setTextColor:[UIColor blackColor]];
+    [descriptionUI setTextColor:[Utilities get1stLabelColor]];
     [ipUI setTextColor:[Utilities get1stLabelColor]];
     [portUI setTextColor:[Utilities get1stLabelColor]];
     [mac_0_UI setTextColor:[Utilities get1stLabelColor]];
