@@ -1328,7 +1328,7 @@ int h=0;
             CGFloat red, green, blue, alpha;
             [averageColor getRed:&red green:&green blue:&blue alpha:&alpha];
             if (alpha > 0){
-                foundTintColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                foundTintColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
             }
             self.navigationController.navigationBar.tintColor = foundTintColor;
             toolbar.tintColor = foundTintColor;
@@ -1351,7 +1351,7 @@ int h=0;
                      if (error == nil){
                          if (image !=nil){
                              Utilities *utils = [[Utilities alloc] init];
-                             newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                             newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                              [sf setIOS7barTintColor:newColor];
                          }
                      }
@@ -1367,7 +1367,7 @@ int h=0;
                                      if (image !=nil){
                                          if (error == nil){
                                              Utilities *utils = [[Utilities alloc] init];
-                                             newColor = [utils slightLighterColorForColor:[utils averageColor:image inverse:NO]];
+                                             newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                                              [sf setIOS7barTintColor:newColor];
                                          }
                                          [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];

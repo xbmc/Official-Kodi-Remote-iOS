@@ -2453,9 +2453,9 @@ int originYear = 0;
                                       thumbImageContainer.layer.shadowPath = path.CGPath;
                                       if (enableBarColor == YES){
                                           albumColor = [utils averageColor:image inverse:NO];
-                                          UIColor *slightLightAlbumColor = [utils slightLighterColorForColor:albumColor];
-                                          self.navigationController.navigationBar.tintColor = slightLightAlbumColor;
-                                          self.searchController.searchBar.tintColor = slightLightAlbumColor;
+                                          UIColor *lightAlbumColor = [utils lighterColorForColor:albumColor];
+                                          self.navigationController.navigationBar.tintColor = lightAlbumColor;
+                                          self.searchController.searchBar.tintColor = lightAlbumColor;
                                           if ([[[self.searchController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
                                               [[[self.searchController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
                                           }
@@ -2480,9 +2480,9 @@ int originYear = 0;
                                               if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
                                                   UIImageView *iconView = (id)searchTextField.leftView;
                                                   iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                                  iconView.tintColor = slightLightAlbumColor;
-                                                  searchTextField.textColor = slightLightAlbumColor;
-                                                  searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: slightLightAlbumColor}];
+                                                  iconView.tintColor = lightAlbumColor;
+                                                  searchTextField.textColor = lightAlbumColor;
+                                                  searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: lightAlbumColor}];
                                               }
                                           }
                                       }
@@ -5232,7 +5232,7 @@ NSIndexPath *selected;
     [activeLayoutView setScrollsToTop:YES];
     if (albumColor!=nil){
         [self.navigationController.navigationBar setTintColor:albumColor];
-        [self.navigationController.navigationBar setTintColor:[utils slightLighterColorForColor:albumColor]];
+        [self.navigationController.navigationBar setTintColor:[utils lighterColorForColor:albumColor]];
     }
     if (isViewDidLoad){
         [activeLayoutView addSubview:self.searchController.searchBar];
