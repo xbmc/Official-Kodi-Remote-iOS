@@ -54,7 +54,7 @@
          _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, posterYOffset, fanartWidth - labelPadding -borderWidth * 4, labelHeight - borderWidth)];
         [_posterLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterLabel setBackgroundColor:[UIColor clearColor]];
-        [_posterLabel setTextColor:[Utilities getGrayColor:255 alpha:1]];
+        [_posterLabel setTextColor:[UIColor whiteColor]];
         [_posterLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.6]];
         [_posterLabel setShadowOffset:CGSizeMake(0,1)];
         [_posterLabel setNumberOfLines:1];
@@ -65,7 +65,7 @@
         _posterGenre = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, frameHeight - genreHeight - yearHeight + borderWidth, fanartWidth - labelPadding - borderWidth * 4, genreHeight - borderWidth)];
         [_posterGenre setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterGenre setBackgroundColor:[UIColor clearColor]];
-        [_posterGenre setTextColor:[Utilities getGrayColor:255 alpha:1]];
+        [_posterGenre setTextColor:[UIColor whiteColor]];
         [_posterGenre setShadowColor:[Utilities getGrayColor:0 alpha:0.6]];
         [_posterGenre setShadowOffset:CGSizeMake(0,1)];
         [_posterGenre setNumberOfLines:1];
@@ -76,7 +76,7 @@
         _posterYear = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, frameHeight - yearHeight, fanartWidth - labelPadding - borderWidth * 4, yearHeight - borderWidth)];
         [_posterYear setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterYear setBackgroundColor:[UIColor clearColor]];
-        [_posterYear setTextColor:[Utilities getGrayColor:255 alpha:1]];
+        [_posterYear setTextColor:[UIColor whiteColor]];
         [_posterYear setShadowColor:[Utilities getGrayColor:0 alpha:0.6]];
         [_posterYear setShadowOffset:CGSizeMake(0,1)];
         [_posterYear setNumberOfLines:1];

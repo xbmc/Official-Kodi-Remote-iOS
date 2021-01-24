@@ -2442,7 +2442,7 @@ int originYear = 0;
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                       CGFloat thumbBorder = 1.0/[[UIScreen mainScreen] scale];
                                       [thumbImageContainer setBackgroundColor:[UIColor clearColor]];
-                                      thumbImageContainer.layer.shadowColor = [Utilities getGrayColor:0 alpha:1].CGColor;
+                                      thumbImageContainer.layer.shadowColor = [UIColor blackColor].CGColor;
                                       thumbImageContainer.layer.shadowOpacity = 1.0f;
                                       thumbImageContainer.layer.shadowOffset = CGSizeZero;
                                       thumbImageContainer.layer.shadowRadius = 2.0;

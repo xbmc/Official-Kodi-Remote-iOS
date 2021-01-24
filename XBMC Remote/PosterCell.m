@@ -38,7 +38,7 @@
         [_posterLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterLabel setBackgroundColor:[UIColor clearColor]];
         [_posterLabel setTextAlignment:NSTextAlignmentCenter];
-        [_posterLabel setTextColor:[Utilities getGrayColor:255 alpha:1]];
+        [_posterLabel setTextColor:[UIColor whiteColor]];
         [_posterLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.6]];
         [_posterLabel setShadowOffset:CGSizeMake(0,1)];
         [_posterLabel setNumberOfLines:2];
