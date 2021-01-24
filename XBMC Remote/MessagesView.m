@@ -18,7 +18,7 @@
     if (self) {
         CALayer *bottomBorder = [CALayer layer];
         CGFloat borderSize = 0.5;
-        bottomBorder.frame = CGRectMake(0.0, frame.size.height - borderSize, frame.size.width, borderSize);
+        bottomBorder.frame = CGRectMake(0, frame.size.height - borderSize, frame.size.width, borderSize);
         bottomBorder.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.35f].CGColor;
         [self.layer addSublayer:bottomBorder];
         [self setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
@@ -31,7 +31,7 @@
         [viewMessage setBackgroundColor:[UIColor clearColor]];
         [viewMessage setFont:[UIFont boldSystemFontOfSize:16]];
         [viewMessage setAdjustsFontSizeToFitWidth:YES];
-        [viewMessage setMinimumScaleFactor:10.0f/16.0f];
+        [viewMessage setMinimumScaleFactor:10.0/16.0];
         [viewMessage setTextColor:[UIColor whiteColor]];
         [viewMessage setTextAlignment:NSTextAlignmentCenter];
         [viewMessage setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
@@ -42,7 +42,7 @@
 
 # pragma mark - view Effects
 
-- (void)showMessage:(NSString *)message timeout:(float)timeout color:(UIColor *)color{
+- (void)showMessage:(NSString *)message timeout:(NSTimeInterval)timeout color:(UIColor *)color{
     // first slide out
     CGRect frame = self.frame;
     [UIView beginAnimations:nil context:nil];
@@ -57,7 +57,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.2];
     [self setFrame:CGRectMake(frame.origin.x, 0, frame.size.width, frame.size.height)];
-    [self setAlpha:1.0f];
+    [self setAlpha:1.0];
     [UIView commitAnimations];
     //then slide out again after timeout seconds
     if ([fadeoutTimer isValid])
@@ -71,7 +71,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.4];
     [self setFrame:CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height)];
-    [self setAlpha:0.0f];
+    [self setAlpha:0.0];
     [UIView commitAnimations];
     [fadeoutTimer invalidate];
     fadeoutTimer = nil;

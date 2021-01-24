@@ -20,8 +20,8 @@
 #import "gradientUIView.h"
 #import "CustomNavigationController.h"
 
-#define CONNECTION_TIMEOUT 240.0f
-#define SERVER_TIMEOUT 2.0f
+#define CONNECTION_TIMEOUT 240.0
+#define SERVER_TIMEOUT 2.0
 
 @interface ViewControllerIPad (){
     NSMutableArray *mainMenu;
@@ -173,7 +173,7 @@
 
 # pragma mark - toolbar management
 
--(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
+-(void)toggleViewToolBar:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
 	[UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
 	[UIView setAnimationDuration:seconds];
@@ -379,7 +379,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    int deltaY = 22.0f;
+    int deltaY = 22;
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
@@ -401,7 +401,7 @@
     fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     fanartBackgroundImage.autoresizingMask = rootView.autoresizingMask;
     fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
-    fanartBackgroundImage.alpha = 0.05f;
+    fanartBackgroundImage.alpha = 0.05;
     [self.view addSubview:fanartBackgroundImage];
     
 	leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableWidth, self.view.frame.size.height)];
@@ -414,13 +414,13 @@
 	[leftMenuView addSubview:menuViewController.view];
     int separator = 2;
     
-//    CGRect seamBackground = CGRectMake(0.0f, tableHeight + headerHeight - 2, tableWidth, separator);
+//    CGRect seamBackground = CGRectMake(0, tableHeight + headerHeight - 2, tableWidth, separator);
 //    UIImageView *seam = [[UIImageView alloc] initWithFrame:seamBackground];
 //    [seam setImage:[UIImage imageNamed:@"denim_single_seam.png"]];
 //    seam.opaque = YES;
 //    [leftMenuView addSubview:seam];
     
-    UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, tableHeight + separator - 2, tableWidth, 1)];
+    UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight + separator - 2, tableWidth, 1)];
 //    [horizontalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [horizontalLineView1 setBackgroundColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:.2]];
     [leftMenuView addSubview:horizontalLineView1];
@@ -462,7 +462,7 @@
     xbmcLogo.showsTouchWhenHighlighted = NO;
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-    xbmcLogo.alpha = .9f;
+    xbmcLogo.alpha = 0.9;
     [self.view addSubview:xbmcLogo];
     
     UIButton  *volumeButton = [[UIButton alloc] initWithFrame:CGRectMake(341, 964, 36, 37)];
@@ -474,7 +474,7 @@
     volumeButton.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:volumeButton];
     
-    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 62.0f, 296.0f)];
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0, 0, 62, 296)];
     volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     frame=volumeSliderView.frame;
     frame.origin.x=408;
@@ -487,12 +487,12 @@
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(439, 966, 190, 33)]; //225
     [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
-    xbmcInfo.titleLabel.minimumScaleFactor = 6.0f / 11.0f;
+    xbmcInfo.titleLabel.minimumScaleFactor = 6.0 / 11.0;
     xbmcInfo.titleLabel.numberOfLines = 2;
     xbmcInfo.titleLabel.textAlignment=NSTextAlignmentCenter;
     xbmcInfo.titleEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
-    xbmcInfo.titleLabel.shadowOffset = CGSizeMake (1.0, 1.0);
+    xbmcInfo.titleLabel.shadowOffset = CGSizeMake (1, 1);
     xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
     
@@ -622,7 +622,7 @@
 
 -(void)handleChangeBackgroundImage:(NSNotification *)sender {
     [UIView transitionWithView: fanartBackgroundImage
-                      duration: 1.0f
+                      duration: 1.0
                        options: UIViewAnimationOptionTransitionCrossDissolve
                     animations: ^{
                         [fanartBackgroundImage setImage:[[sender userInfo] valueForKey:@"image"]];
@@ -742,7 +742,7 @@
         frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 580;
         self.nowPlayingController.ProgressSlider.frame=frame;
         frame = self.nowPlayingController.scrabbingView.frame;
-        frame.origin.y = self.nowPlayingController.ProgressSlider.frame.origin.y - self.nowPlayingController.scrabbingView.frame.size.height - 2.0f;
+        frame.origin.y = self.nowPlayingController.ProgressSlider.frame.origin.y - self.nowPlayingController.scrabbingView.frame.size.height - 2;
         self.nowPlayingController.scrabbingView.frame=frame;
 
         [self.nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height - 414 YPOS:YPOS playBarWidth:426 portrait:TRUE];
@@ -752,7 +752,7 @@
         frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 168;
         self.nowPlayingController.ProgressSlider.frame=frame;
         frame = self.nowPlayingController.scrabbingView.frame;
-        frame.origin.y = self.nowPlayingController.ProgressSlider.frame.origin.y - self.nowPlayingController.scrabbingView.frame.size.height - 2.0f;
+        frame.origin.y = self.nowPlayingController.ProgressSlider.frame.origin.y - self.nowPlayingController.scrabbingView.frame.size.height - 2;
         self.nowPlayingController.scrabbingView.frame=frame;
         [self.nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS playBarWidth:680 portrait:FALSE];
 	}

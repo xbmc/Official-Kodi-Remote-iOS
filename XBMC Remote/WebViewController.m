@@ -32,7 +32,7 @@
     return self;
 }
 
--(void)fade:(UIView*)view AnimDuration:(float)seconds startAlpha:(float)start endAlpha:(float)end {
+-(void)fade:(UIView*)view AnimDuration:(NSTimeInterval)seconds startAlpha:(CGFloat)start endAlpha:(CGFloat)end {
     view.alpha = start;
     CGContextRef contextView = UIGraphicsGetCurrentContext();
 	[UIView beginAnimations:nil context:contextView];
@@ -239,15 +239,15 @@
     topNavigationLabel.tag = 1;
     topNavigationLabel.backgroundColor = [UIColor clearColor];
     topNavigationLabel.font = [UIFont boldSystemFontOfSize:12];
-    topNavigationLabel.minimumScaleFactor=10.0f/12.0f;
+    topNavigationLabel.minimumScaleFactor=10.0/12.0;
     topNavigationLabel.numberOfLines=0;
     topNavigationLabel.adjustsFontSizeToFitWidth = YES;
     topNavigationLabel.textAlignment = NSTextAlignmentLeft;
     topNavigationLabel.textColor = [UIColor whiteColor];
-    topNavigationLabel.shadowOffset    = CGSizeMake (0.0, -1.0);
+    topNavigationLabel.shadowOffset    = CGSizeMake (0, -1);
     topNavigationLabel.highlightedTextColor = [UIColor blackColor];
     topNavigationLabel.opaque=YES;
-    CGRect frame = CGRectMake(0.0, 12.0, 25.0, 44.0);  	
+    CGRect frame = CGRectMake(0, 12, 25, 44);
 	TwitterwebLoadIndicator = [[UIActivityIndicatorView alloc] initWithFrame:frame];	
 	TwitterwebLoadIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;	
 	[TwitterwebLoadIndicator sizeToFit];  	
@@ -266,7 +266,7 @@
                                      CGRectGetMinY(mainViewBounds),
                                      CGRectGetWidth(mainViewBounds),
                                      toolbarHeight)];
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, 43, 320, 8);
+        CGRect toolbarShadowFrame = CGRectMake(0, 43, 320, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;

@@ -42,9 +42,9 @@
 @synthesize itemDescription;
 //@synthesize presentedFromNavigation;
 
-float startx=14;
-float barwidth=280;
-float cellBarWidth=45;
+CGFloat startx=14;
+CGFloat barwidth=280;
+CGFloat cellBarWidth=45;
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 
 - (void)setDetailItem:(id)newDetailItem{
@@ -100,7 +100,7 @@ float cellBarWidth=45;
     return [self resizeImage:img width:34 height:34 padding:0];
 }
 
--(void)toggleViewToolBar:(UIView*)view AnimDuration:(float)seconds Alpha:(float)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
+-(void)toggleViewToolBar:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
 	[UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
 	[UIView setAnimationDuration:seconds];
@@ -190,10 +190,10 @@ float cellBarWidth=45;
     return (NSDictionary *)mutableDictionary;
 }
 
--(void)animCursor:(float)x{
-    float time=1.0f;
+-(void)animCursor:(CGFloat)x{
+    NSTimeInterval time=1.0;
     if (x==startx){
-        time=0.1f;
+        time=0.1;
     }
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:time];
@@ -205,10 +205,10 @@ float cellBarWidth=45;
     [UIView commitAnimations];
 }
 
--(void)resizeCellBar:(float)width image:(UIImageView *)cellBarImage{
-    float time=1.0f;
+-(void)resizeCellBar:(CGFloat)width image:(UIImageView *)cellBarImage{
+    NSTimeInterval time=1.0;
     if (width==0){
-        time=0.1f;
+        time=0.1;
     }
     if (width>cellBarWidth)
         width=cellBarWidth;
@@ -270,7 +270,7 @@ float cellBarWidth=45;
     view.hidden=value;
 }
 
-- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimTable:(UITableView *)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	tV.alpha = alphavalue;
@@ -281,7 +281,7 @@ float cellBarWidth=45;
     [UIView commitAnimations];
 }
 
-- (void)AnimButton:(UIButton *)button AnimDuration:(float)seconds hidden:(BOOL)hiddenValue XPos:(int)X{
+- (void)AnimButton:(UIButton *)button AnimDuration:(NSTimeInterval)seconds hidden:(BOOL)hiddenValue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	CGRect frame;
@@ -344,7 +344,7 @@ float cellBarWidth=45;
     CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
-    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 10, [UIColor blackColor].CGColor);
+    CGContextSetShadowWithColor(shadowContext, CGSizeZero, 10, [UIColor blackColor].CGColor);
     CGContextDrawImage(shadowContext, CGRectMake(10, 10, source.size.width, source.size.height), source.CGImage);
     
     CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
@@ -546,7 +546,7 @@ int currentItemID;
         [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateNormal];
         [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateHighlighted];
         [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateSelected];
-        [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
         startFlipDemo = NO;
     }
     if (nothingIsPlaying == YES) return;
@@ -612,7 +612,7 @@ int currentItemID;
         [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
         [playlistButton setImage:buttonImage forState:UIControlStateSelected];
         if (startFlipDemo){
-            [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
             startFlipDemo = NO;
         }
     }
@@ -620,7 +620,7 @@ int currentItemID;
 
 -(void)IOS7colorProgressSlider:(UIColor *)color{
     [UIView transitionWithView:ProgressSlider
-                      duration:0.3f
+                      duration:0.3
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
                         if ([color isEqual:[UIColor clearColor]]){
@@ -630,35 +630,35 @@ int currentItemID;
                                 [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
                             }
                             [UIView transitionWithView:albumName
-                                              duration:1.0f
+                                              duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
                                                 [albumName setTextColor:[UIColor whiteColor]];
                                             }
                                             completion:NULL];
                             [UIView transitionWithView:songName
-                                              duration:1.0f
+                                              duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
                                                 [songName setTextColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0f]];
                                             }
                                             completion:NULL];
                             [UIView transitionWithView:artistName
-                                              duration:1.0f
+                                              duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
                                                 [artistName setTextColor:[UIColor lightGrayColor]];
                                             }
                                             completion:NULL];
                             [UIView transitionWithView:currentTime
-                                              duration:1.0f
+                                              duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
                                                 [currentTime setTextColor:[UIColor lightGrayColor]];
                                             }
                                             completion:NULL];
                             [UIView transitionWithView:duration
-                                              duration:1.0f
+                                              duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
                                                 [duration setTextColor:[UIColor lightGrayColor]];
@@ -678,35 +678,35 @@ int currentItemID;
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
                             }
                             [UIView transitionWithView:albumName
-                                              duration:1.0f
+                                              duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
                                                 [albumName setTextColor:pgThumbColor];
                                             }
                                             completion:NULL];
                             [UIView transitionWithView:songName
-                                              duration:1.0f
+                                              duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
                                                 [songName setTextColor:pgThumbColor];
                                             }
                                             completion:NULL];
                             [UIView transitionWithView:artistName
-                                              duration:1.0f
+                                              duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
                                                 [artistName setTextColor:progressColor];
                                             }
                                             completion:NULL];
                             [UIView transitionWithView:currentTime
-                                              duration:1.0f
+                                              duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
                                                 [currentTime setTextColor:progressColor];
                                             }
                                             completion:NULL];
                             [UIView transitionWithView:duration
-                                              duration:1.0f
+                                              duration:1.0
                                                options:UIViewAnimationOptionTransitionCrossDissolve
                                             animations:^{
                                                 [duration setTextColor:progressColor];
@@ -717,7 +717,7 @@ int currentItemID;
                     completion:NULL];
 }
 
--(void)IOS7effect:(UIColor *)color barTintColor:(UIColor *)barColor effectDuration:(float)time{
+-(void)IOS7effect:(UIColor *)color barTintColor:(UIColor *)barColor effectDuration:(NSTimeInterval)time{
     [UIView animateWithDuration:time
                      animations:^{
                          [iOS7bgEffect setBackgroundColor:color];
@@ -725,7 +725,7 @@ int currentItemID;
                          if ([color isEqual:[UIColor clearColor]]){
                              self.navigationController.navigationBar.tintColor = TINT_COLOR;
                              [UIView transitionWithView:backgroundImageView
-                                               duration:1.0f
+                                               duration:1.0
                                                 options:UIViewAnimationOptionTransitionCrossDissolve
                                              animations:^{
                                                  backgroundImageView.image=[UIImage imageNamed:@"shiny_black_back.png"];
@@ -748,7 +748,7 @@ int currentItemID;
                              UIColor *navBarColor = [utils updateColor:color lightColor:slightLighterColor darkColor:color trigger:0.4];
                              self.navigationController.navigationBar.tintColor = navBarColor;
                              [UIView transitionWithView:backgroundImageView
-                                               duration:1.0f
+                                               duration:1.0
                                                 options:UIViewAnimationOptionTransitionCrossDissolve
                                              animations:^{
                                                  backgroundImageView.image=[utils colorizeImage:[UIImage imageNamed:@"shiny_black_back.png"] withColor:lighterColor];
@@ -758,9 +758,9 @@ int currentItemID;
                                  CGFloat hue, saturation, brightness, alpha;
                                  BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                                  if (ok) {
-                                     UIColor *iPadStartColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2f alpha:alpha];
+                                     UIColor *iPadStartColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2 alpha:alpha];
                                      
-                                     UIColor *iPadEndColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.1f alpha:alpha];
+                                     UIColor *iPadEndColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.1 alpha:alpha];
                                      NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                                              iPadStartColor, @"startColor",
                                                              iPadEndColor, @"endColor",
@@ -777,13 +777,13 @@ int currentItemID;
     foundEffectColor = color;
     if (nowPlayingView.hidden == NO){
         [self IOS7colorProgressSlider:color];
-        [self IOS7effect:color barTintColor:barColor effectDuration:1.0f];
+        [self IOS7effect:color barTintColor:barColor effectDuration:1.0];
     }
 }
 
 -(void)changeImage:(UIImageView *)imageView image:(UIImage *)newImage{
     [UIView transitionWithView:jewelView
-                      duration:0.2f
+                      duration:0.2
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
                         imageView.image=newImage;
@@ -1099,7 +1099,7 @@ int currentItemID;
                                      UILabel *playlistActualTime=(UILabel*) [cell viewWithTag:6];
                                      playlistActualTime.text=actualTime;
                                      UIImageView *playlistActualBar=(UIImageView*) [cell viewWithTag:7];
-                                     float newx=cellBarWidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
+                                     CGFloat newx=cellBarWidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
                                      if (newx<1)
                                          newx=1;
                                      [self resizeCellBar:newx image:playlistActualBar];
@@ -1366,14 +1366,14 @@ int currentItemID;
 //        }
     }];
 }
--(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue{
+-(void)alphaView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;
     [UIView commitAnimations];
 }
 
--(void)alphaButton:(UIButton *)button AnimDuration:(float)seconds show:(BOOL)show{
+-(void)alphaButton:(UIButton *)button AnimDuration:(NSTimeInterval)seconds show:(BOOL)show{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	button.hidden = show;
@@ -1850,9 +1850,9 @@ int currentItemID;
     UIColor *effectColor;
     UIColor *barColor;
     __block CGRect playlistToolBarOriginY = playlistActionView.frame;
-    float iOS7effectDuration = 1.0f;
+    NSTimeInterval iOS7effectDuration = 1.0;
     if (!nowPlayingView.hidden) {
-        iOS7effectDuration = 0.0f;
+        iOS7effectDuration = 0.0;
         nowPlayingView.hidden = YES;
         transitionView=nowPlayingView;
         transitionedView=playlistView;
@@ -1866,7 +1866,7 @@ int currentItemID;
         effectColor = [UIColor clearColor];
         barColor = TINT_COLOR;
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height - playlistTableView.scrollIndicatorInsets.bottom;
-        [self IOS7effect:effectColor barTintColor:barColor effectDuration:0.2f];
+        [self IOS7effect:effectColor barTintColor:barColor effectDuration:0.2];
     }
     else {
         playlistView.hidden = YES;
@@ -2203,7 +2203,7 @@ int currentItemID;
     }
 }
 
--(void)changeAlphaView:(UIView *)view alpha:(float)value time:(float)sec{
+-(void)changeAlphaView:(UIView *)view alpha:(CGFloat)value time:(NSTimeInterval)sec{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:sec];
 	view.alpha = value;
@@ -2699,7 +2699,7 @@ int currentItemID;
     }
 }
 
--(void)setIpadInterface:(float)toolbarAlpha{
+-(void)setIpadInterface:(CGFloat)toolbarAlpha{
     playlistLeftShadow.hidden = NO;
     slideFrom=-300;
     CGRect frame;
@@ -2756,10 +2756,10 @@ int currentItemID;
     frame = playlistActionView.frame;
     frame.origin.y = playlistToolbar.frame.origin.y - playlistToolbar.frame.size.height;
     playlistActionView.frame = frame;
-    playlistActionView.alpha = 1.0f;
+    playlistActionView.alpha = 1.0;
     
     frame = scrabbingView.frame;
-    frame.origin.y =frame.origin.y - 24.0f;
+    frame.origin.y =frame.origin.y - 24;
     [scrabbingView setFrame:frame];
     [itemDescription setFont:[UIFont systemFontOfSize:15]];
 }
@@ -2793,8 +2793,8 @@ int currentItemID;
                                                                           [[NSLocalizedString(@"Video ", nil) capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], nil
                                                                           ]
                                 ];
-    float seg_width = 122.0f;
-    float left_margin = 99.0f;
+    CGFloat seg_width = 122;
+    CGFloat left_margin = 99;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         left_margin = (int)(([self currentScreenBoundsDependOnOrientation].size.width/2) - (seg_width/2));
     }
@@ -2947,7 +2947,7 @@ int currentItemID;
         [timer invalidate];
         timer = nil;
     }
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
     fromItself = FALSE;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.slidingViewController.underRightViewController = nil;
@@ -3003,13 +3003,13 @@ int currentItemID;
     [editTableButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [editTableButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [editTableButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [editTableButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+    [editTableButton.titleLabel setShadowOffset:CGSizeZero];
     
     [PartyModeButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [PartyModeButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [PartyModeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     [PartyModeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    [PartyModeButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+    [PartyModeButton.titleLabel setShadowOffset:CGSizeZero];
 
 
 }
@@ -3040,7 +3040,7 @@ int currentItemID;
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
-    float toolbarAlpha = 0.8f;
+    CGFloat toolbarAlpha = 0.8;
     pg_thumb_name = @"pgbar_thumb.png";
     cellBackgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1];
     [self addSegmentControl];
@@ -3051,7 +3051,7 @@ int currentItemID;
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
         bottomPadding = window.safeAreaInsets.bottom;
     }
-    toolbarAlpha = 1.0f;
+    toolbarAlpha = 1.0;
     int barHeight = 44;
     int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     [self setIOS7toolbar];
@@ -3127,7 +3127,7 @@ int currentItemID;
         [timer invalidate];
         timer = nil;
     }
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
 }
 
 - (void) handleXBMCPlaylistHasChanged: (NSNotification*) sender{

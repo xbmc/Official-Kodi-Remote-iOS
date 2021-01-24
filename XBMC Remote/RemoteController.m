@@ -19,7 +19,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DetailViewController.h"
 
-#define ROTATION_TRIGGER 0.015f 
+#define ROTATION_TRIGGER 0.015 
 #define SCALE_TO_REDUCE_BORDERS 1.05
 
 @interface RemoteController ()
@@ -58,12 +58,12 @@
     int startX = -6;
     int startY = 6;
     int transViewY = 46;
-    if (transform>=1.29f) {
+    if (transform>=1.29) {
         // All devices with width >= 414
         startX = 6;
         transViewY = 66;
     }
-    else if (transform>1.0f) {
+    else if (transform>1.0) {
         // All devices with 320 > width > 414
         startX = 3;
         transViewY = 58;
@@ -336,12 +336,12 @@
         
 # pragma mark - view Effects
 
--(void)showSubInfo:(NSString *)message timeout:(float)timeout color:(UIColor *)color{
+-(void)showSubInfo:(NSString *)message timeout:(NSTimeInterval)timeout color:(UIColor *)color{
     // first fadeout 
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.1];
-    subsInfoLabel. alpha = 0;
+    subsInfoLabel.alpha = 0;
     [UIView commitAnimations];
     [subsInfoLabel setText:message];
     [subsInfoLabel setTextColor:color];
@@ -350,7 +350,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.1];
     subsInfoLabel.hidden = NO;
-    subsInfoLabel. alpha = 0.8;
+    subsInfoLabel.alpha = 0.8;
     [UIView commitAnimations];
     //then fade out again after timeout seconds
     if ([fadeoutTimer isValid])
@@ -363,7 +363,7 @@
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.2];
-    subsInfoLabel. alpha = 0;
+    subsInfoLabel.alpha = 0;
     [UIView commitAnimations];
     [fadeoutTimer invalidate];
     fadeoutTimer = nil;
@@ -666,9 +666,9 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     if ([touches count] == 1){
-        float timeInterval = 1.5f;
+        NSTimeInterval timeInterval = 1.5;
         if (buttonAction > 0) {
-            timeInterval = 0.5f;
+            timeInterval = 0.5;
         }
         self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
     }
@@ -745,7 +745,7 @@ NSInteger buttonAction;
         [self.holdVolumeTimer invalidate];
         self.holdVolumeTimer=nil;
     }
-    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
+    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     
@@ -833,17 +833,17 @@ NSInteger buttonAction;
 
 -(void)sendAction{
     if (!buttonAction) return;
-    if (self.holdVolumeTimer.timeInterval == 0.5f || self.holdVolumeTimer.timeInterval == 1.5f){
+    if (self.holdVolumeTimer.timeInterval == 0.5 || self.holdVolumeTimer.timeInterval == 1.5){
         
-        if (self.holdVolumeTimer.timeInterval == 1.5f){
+        if (self.holdVolumeTimer.timeInterval == 1.5){
             [self.holdVolumeTimer invalidate];
             self.holdVolumeTimer=nil;
-            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(sendAction) userInfo:nil repeats:YES];  
+            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
         }
         else{
             [self.holdVolumeTimer invalidate];
             self.holdVolumeTimer=nil;
-            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(sendAction) userInfo:nil repeats:YES]; 
+            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendAction) userInfo:nil repeats:YES]; 
         }
     }
     NSString *action;
@@ -1251,13 +1251,13 @@ NSInteger buttonAction;
     if ([httpHeaders objectForKey:@"Authorization"] != nil){
         [manager setValue:[httpHeaders objectForKey:@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
-    float infoButtonOriginY = -16;
-    float infoButtonalpha = 0.9f;
+    CGFloat infoButtonOriginY = -16;
+    CGFloat infoButtonalpha = 0.9;
 
     self.edgesForExtendedLayout = 0;
     self.view.tintColor = TINT_COLOR;
     infoButtonOriginY = -14;
-    infoButtonalpha = 1.0f;
+    infoButtonalpha = 1.0;
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
@@ -1297,24 +1297,24 @@ NSInteger buttonAction;
         [self.view addSubview:settingButton];
         
         UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        gestureButton.frame = CGRectMake(self.view.bounds.size.width - 188, self.view.bounds.size.height - 43, 56.0, 36.0);
+        gestureButton.frame = CGRectMake(self.view.bounds.size.width - 188, self.view.bounds.size.height - 43, 56, 36);
         [gestureButton setContentMode:UIViewContentModeRight];
         [gestureButton setShowsTouchWhenHighlighted:YES];
         [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
         gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-        gestureButton.alpha = .8f;
+        gestureButton.alpha = 0.8;
         [self.view addSubview:gestureButton];
         
         UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 120, self.view.bounds.size.height - 43, 56.0, 36.0);
+        keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 120, self.view.bounds.size.height - 43, 56, 36);
         UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
         [keyboardButton setContentMode:UIViewContentModeRight];
         [keyboardButton setShowsTouchWhenHighlighted:YES];
         [keyboardButton setImage:keyboardImg forState:UIControlStateNormal];
         keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
-        keyboardButton.alpha = .8f;
+        keyboardButton.alpha = 0.8;
         [self.view addSubview:keyboardButton];
 
         UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -1327,7 +1327,6 @@ NSInteger buttonAction;
         helpButton.alpha = infoButtonalpha;
         [self.view addSubview:helpButton];
     }
-    storeBrightness = -1;
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
 }
 

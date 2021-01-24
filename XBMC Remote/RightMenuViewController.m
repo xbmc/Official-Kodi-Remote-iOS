@@ -14,6 +14,7 @@
 #import "customButton.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
+#import "Utilities.h"
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -93,9 +94,10 @@
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backView;
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 195.0f, (int)((44/2) - (36/2)) - 2, 145, 36)];
-        xbmc_logo. alpha = .25f;
-        [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+        UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
+        xbmc_logo.alpha = 0.25;
+        [xbmc_logo setImage:logo];
         xbmc_logo.tag = 101;
         [cell.contentView insertSubview:xbmc_logo atIndex:0];
     }
@@ -137,7 +139,7 @@
 
         [title setText:@""];
         if (volumeSliderView == nil){
-            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
+            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
             [volumeSliderView startTimer];
         }
         [cell.contentView addSubview:volumeSliderView];
@@ -153,7 +155,7 @@
         }
     }
     else {
-        int cellHeight = 50.0f;
+        int cellHeight = 50;
         cell = rightMenuCell;
         [cell setAccessoryView:nil];
         cell.backgroundColor = [UIColor colorWithRed:0.141176f green:0.141176f blue:0.141176f alpha:1.0f];
@@ -165,9 +167,10 @@
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         [backView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
         cell.selectedBackgroundView = backView;
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(125, (int)((44/2) - (36/2)) - 2, 145, 36)];
-        xbmc_logo. alpha = .25f;
-        [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+        UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
+        xbmc_logo.alpha = 0.25;
+        [xbmc_logo setImage:logo];
         xbmc_logo.tag = 101;
         xbmc_logo.hidden = YES;
         [cell.contentView insertSubview:xbmc_logo atIndex:0];
@@ -194,7 +197,7 @@
             [indicator setCenter:onoff.center];
             [onoffview addSubview:indicator];
 
-            frame.size.width = cell.frame.size.width - frame.origin.x - 16.0f;
+            frame.size.width = cell.frame.size.width - frame.origin.x - 16;
             icon.hidden = YES;
             if ([[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"value"] isKindOfClass:[NSNumber class]]){
                 [onoff setOn:[[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"value"] boolValue]];
@@ -209,14 +212,14 @@
             [cell setAccessoryView:onoffview];
         }
         else {
-            frame.size.width = 202.0f;
+            frame.size.width = 202;
         }
         [title setFrame:frame];
         [title setAutoresizingMask:storeMask];
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
         [title setNumberOfLines:2];
         [title setText:[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"]];
-        icon.alpha = .6f;
+        icon.alpha = 0.6;
         iconName = [[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"];
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"hideLineSeparator"] boolValue] == YES){
@@ -236,14 +239,14 @@
         [title setHighlightedTextColor:fontColor];
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
-        icon.alpha = .8f;
+        icon.alpha = 0.8;
         if (torchIsOn){
             iconName = @"torch_on.png";
         }
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"xbmc-exec-addon"]){
         [icon setImageWithURL:[NSURL URLWithString:[[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@"blank.png"] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
-        icon.alpha = 1.0f;
+        icon.alpha = 1.0;
     }
     else{
         [icon setImage:[UIImage imageNamed:iconName]];
@@ -256,13 +259,13 @@
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
                                                                                 target: nil
                                                                                 action: nil];
-    [fixedSpace setWidth:50.0f];
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44.0f)];
+    [fixedSpace setWidth:50.0];
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
     [toolbar setAutoresizingMask: UIViewAutoresizingFlexibleWidth];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         frame.size.width = STACKSCROLL_WIDTH;
-        [fixedSpace setWidth:0.0f];
-        [toolbar setFrame:CGRectMake(0, 0, frame.size.width, 44.0f)];
+        [fixedSpace setWidth:0.0];
+        [toolbar setFrame:CGRectMake(0, 0, frame.size.width, 44)];
         [toolbar setAutoresizingMask: UIViewAutoresizingNone];
     }
     UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];
@@ -274,7 +277,7 @@
     UIBarButtonItem *fixedSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
                                                                                 target: nil
                                                                                 action: nil];
-    [fixedSpace2 setWidth:2.0f];
+    [fixedSpace2 setWidth:2.0];
 
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
                                                                                    target: nil
@@ -453,7 +456,7 @@
                 NSString *serverMAC = [AppDelegate instance].obj.serverHWAddr;
                 if (serverMAC != nil && ![serverMAC isEqualToString:@":::::"]){
                     [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                    [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+                    [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
                 }
                 else{
                     UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
@@ -513,10 +516,10 @@
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
-            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
         else{
-            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0f color:[Utilities getSystemRed:0.95]];
+            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
             [sender setUserInteractionEnabled:YES];
@@ -597,14 +600,14 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     CGFloat deltaY = [[UIApplication sharedApplication] statusBarFrame].size.height;
-    self.peekLeftAmount = 40.0f;
+    self.peekLeftAmount = 40;
     CGRect frame = [[UIScreen mainScreen ] bounds];
-    CGFloat deltaX = 40.0f;
+    CGFloat deltaX = 40;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         frame.size.width = STACKSCROLL_WIDTH;
-        deltaX = 0.0f;
-        deltaY = 0.0f;
-        self.peekLeftAmount = 0.0f;
+        deltaX = 0;
+        deltaY = 0;
+        self.peekLeftAmount = 0;
     }
     torchIsOn = NO;
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
@@ -645,13 +648,13 @@
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
         bottomPadding = window.safeAreaInsets.bottom;
     }
-    CGFloat footerHeight = 0.0f;
+    CGFloat footerHeight = 0;
     if (menuItems.family == 3) {
-        footerHeight = 44.0f + bottomPadding;
+        footerHeight = 44 + bottomPadding;
         [self.view addSubview:[self createTableFooterView: footerHeight]];
     }
     if (menuItems.family == 2 || menuItems.family == 3) {
-        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0, 0)];
+        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         [volumeSliderView startTimer];
     }
     menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight - 1) style:UITableViewStylePlain];
@@ -727,7 +730,7 @@
 }
 
 -(void)showNotificationMessage:(NSNotification *)note {
-    [messagesView showMessage:note.name timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+    [messagesView showMessage:note.name timeout:2.0 color:[Utilities getSystemGreen:0.95]];
 }
 
 -(void)reloadCustomButtonTable:(NSNotification *)note {

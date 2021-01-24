@@ -82,8 +82,8 @@
     CGRect originalSelfFrame;
     BOOL isViewDidLoad;
     UIImageView *isRecording;
-    float dotSize;
-    float dotSizePadding;
+    CGFloat dotSize;
+    CGFloat dotSizePadding;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

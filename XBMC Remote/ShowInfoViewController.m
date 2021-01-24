@@ -56,7 +56,7 @@ int count=0;
         viewTitle = [[UILabel alloc] initWithFrame:frame];
         viewTitle.numberOfLines=0;
         viewTitle.font = [UIFont boldSystemFontOfSize:11];
-        viewTitle.minimumScaleFactor = 6.0f/11.0f;
+        viewTitle.minimumScaleFactor = 6.0/11.0;
         viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         viewTitle.backgroundColor = [UIColor clearColor];
         viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0];
@@ -148,9 +148,9 @@ int count=0;
             actionSheetButtonItemIpad.style = UIBarButtonItemStylePlain;
             viewTitle.numberOfLines=1;
             viewTitle.font = [UIFont boldSystemFontOfSize:22];
-            viewTitle.minimumScaleFactor = 6.0f/22.0f;
+            viewTitle.minimumScaleFactor = 6.0/22.0;
             viewTitle.adjustsFontSizeToFitWidth = YES;
-            viewTitle.shadowOffset = CGSizeMake(1.0, 1.0);
+            viewTitle.shadowOffset = CGSizeMake(1, 1);
             viewTitle.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.7];
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
@@ -469,7 +469,7 @@ int count=0;
         NSString *title;
         for (int i = 0; i < numActions; i++) {
              title = [sheetActions objectAtIndex:i];
-            if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && isRecording.alpha == 1.0f) {
+            if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && isRecording.alpha == 1.0) {
                 title = NSLocalizedString(@"Stop Recording", nil);
             }
             [actionSheetView addButtonWithTitle:title];
@@ -513,20 +513,20 @@ int count=0;
 }
 
 -(void)animateRecordAction {
-    [UIView animateWithDuration: 0.2f
-                          delay: 0.0f
+    [UIView animateWithDuration: 0.2
+                          delay: 0.0
                         options: UIViewAnimationOptionCurveEaseOut
                      animations: ^{
                          CGRect frame;
                          frame = voteLabel.frame;
-                         if (isRecording.alpha == 0.0f) {
-                             isRecording.alpha = 1.0f;
+                         if (isRecording.alpha == 0.0) {
+                             isRecording.alpha = 1.0;
                              frame.origin.x += dotSize + dotSizePadding;
                              frame.size.width -= dotSize + dotSizePadding;
                              [voteLabel setFrame:frame];
                          }
                          else {
-                             isRecording.alpha = 0.0f;
+                             isRecording.alpha = 0.0;
                              frame.origin.x -= dotSize + dotSizePadding;
                              frame.size.width += dotSize + dotSizePadding;
                              [voteLabel setFrame:frame];
@@ -692,7 +692,7 @@ int h=0;
     CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
-    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), 10, [UIColor blackColor].CGColor);
+    CGContextSetShadowWithColor(shadowContext, CGSizeZero, 10, [UIColor blackColor].CGColor);
     CGContextDrawImage(shadowContext, CGRectMake(10, 10, source.size.width, source.size.height), source.CGImage);
     
     CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
@@ -741,7 +741,7 @@ int h=0;
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
     jewelView.image = image;
-    [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0f];
+    [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
 
 -(void)setIOS7barTintColor:(UIColor *)tintColor{
@@ -764,7 +764,7 @@ int h=0;
     if (!enableJewel) {
         jewelView.image = nil;
     }
-    clearLogoWidth = self.view.frame.size.width - 20.0f;
+    clearLogoWidth = self.view.frame.size.width - 20;
     clearLogoHeight = 116;
     CGFloat transform = [Utilities getTransformX];
     thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
@@ -1193,7 +1193,7 @@ int h=0;
         frame.origin.y = jewelView.frame.origin.y;
         frame.origin.x = jewelView.frame.origin.x + jewelView.frame.size.width + 8;
         frame.size.width = pageSize - frame.origin.x;
-        frame.size.height = jewelView.frame.size.height / 2.0f;
+        frame.size.height = jewelView.frame.size.height / 2;
         voteLabel.frame = frame;
         voteLabel.numberOfLines = 2;
         [voteLabel setFont:[UIFont fontWithName:label1.font.fontName size:castFontSize]];
@@ -1211,16 +1211,16 @@ int h=0;
             [item setValue:[item objectForKey:@"genre"] forKey:@"plot"];
             numVotesLabel.text = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
             frame = voteLabel.frame;
-            dotSize = 10.0f;
-            dotSizePadding = 4.0f;
-            isRecording = [[UIImageView alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y + (frame.size.height/2.0f - dotSize/2.0f), dotSize, dotSize)];
+            dotSize = 10;
+            dotSizePadding = 4;
+            isRecording = [[UIImageView alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y + (frame.size.height/2 - dotSize/2), dotSize, dotSize)];
             [isRecording setImage:[UIImage imageNamed:@"button_timer.png"]];
             [isRecording setContentMode:UIViewContentModeScaleAspectFill];
-            isRecording.alpha = 0.0f;
+            isRecording.alpha = 0.0;
             [isRecording setBackgroundColor:[UIColor clearColor]];
             [scrollView addSubview:isRecording];
             if ([[item objectForKey:@"hastimer"] boolValue] == YES) {
-                isRecording.alpha = 1.0f;
+                isRecording.alpha = 1.0;
                 frame.origin.x += dotSize + dotSizePadding;
                 frame.size.width -= dotSize + dotSizePadding;
                 [voteLabel setFrame:frame];
@@ -1250,7 +1250,7 @@ int h=0;
         }
 //        UIImage *buttonImage = [UIImage imageNamed:@"button_record.png"];
 //        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
-//        recordButton.frame = CGRectMake(0, 0, 200.0f, 29.0f);
+//        recordButton.frame = CGRectMake(0, 0, 200, 29);
 //        [recordButton setImage:buttonImage forState:UIControlStateNormal];
 //        frame = recordButton.frame;
 //        frame.origin.x = label2.frame.origin.x;
@@ -1262,7 +1262,7 @@ int h=0;
 //        recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
 //        [recordButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
 //        [recordButton setContentMode:UIViewContentModeScaleAspectFill];
-//        recordButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 4.0f, 0.0, 0.0);
+//        recordButton.titleEdgeInsets = UIEdgeInsetsMake(0, 4, 0, 0);
 //        [scrollView addSubview:recordButton];
     }
     else {
@@ -1529,8 +1529,8 @@ int h=0;
                 [trailerView setClipsToBounds: NO];
                 trailerView.layer.shadowColor = [UIColor blackColor].CGColor;
                 trailerView.layer.shadowOpacity = 0.7f;
-                trailerView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-                trailerView.layer.shadowRadius = 3.0f;
+                trailerView.layer.shadowOffset = CGSizeZero;
+                trailerView.layer.shadowRadius = 3.0;
                 trailerView.layer.masksToBounds = NO;
                 
                 UIBezierPath *path = [UIBezierPath bezierPathWithRect:trailerView.bounds];
@@ -1663,7 +1663,7 @@ int h=0;
         [self alphaView:closeButton AnimDuration:1.5 Alpha:0];
         [self alphaView:scrollView AnimDuration:1.5 Alpha:1];
         if (!enableKenBurns) {
-            [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.2f];// cool
+            [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.2];// cool
         }
         else {
             [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
@@ -1673,7 +1673,7 @@ int h=0;
             if (![self isModal]){
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
             }
-            [UIView animateWithDuration:1.5f
+            [UIView animateWithDuration:1.5
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^ {
@@ -1693,7 +1693,7 @@ int h=0;
                                         nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
             }
-            [UIView animateWithDuration:1.5f
+            [UIView animateWithDuration:1.5
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^ {
@@ -1708,7 +1708,7 @@ int h=0;
                              completion:^(BOOL finished) {}
              ];
             if (self.kenView != nil) {
-                float alphaValue = 1;
+                CGFloat alphaValue = 1;
                 [UIView animateWithDuration:0.2
                                  animations:^ {
                                      self.kenView.alpha = 0;
@@ -1779,7 +1779,7 @@ int h=0;
     }
 }
 
--(void)alphaImage:(UIImageView *)image AnimDuration:(float)seconds Alpha:(float)alphavalue{
+-(void)alphaImage:(UIImageView *)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -1790,7 +1790,7 @@ int h=0;
     [UIView commitAnimations];
 }
 
--(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue{
+-(void)alphaView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -1836,7 +1836,7 @@ int h=0;
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([AppDelegate instance].serverVersion > 11  && ![self isModal]) {
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected.png"]];
-        cell.accessoryView.alpha = 0.5f;
+        cell.accessoryView.alpha = 0.5;
     }
     else {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -2101,7 +2101,7 @@ int h=0;
         self.navigationController.navigationBar.tintColor = TINT_COLOR;
         toolbar.tintColor = TINT_COLOR;
     }
-    float alphaValue = 0.2;
+    CGFloat alphaValue = 0.2;
     if (closeButton.alpha==1){
         alphaValue = 1;
         [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -2132,7 +2132,7 @@ int h=0;
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0f];
+    [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0];
     if (self.kenView != nil){
         [UIView animateWithDuration:0.3
                          animations:^{
@@ -2221,7 +2221,7 @@ int h=0;
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     if (self.kenView != nil){
-        float alphaValue = 0.2;
+        CGFloat alphaValue = 0.2;
         if (closeButton.alpha==1){
             alphaValue = 1;
         }
@@ -2231,7 +2231,7 @@ int h=0;
                          }
                          completion:^(BOOL finished){
                              [self elabKenBurns:fanartView.image];
-                             [self alphaView:self.kenView AnimDuration:.2 Alpha:alphaValue];
+                             [self alphaView:self.kenView AnimDuration:0.2 Alpha:alphaValue];
                          }
          ];
     }

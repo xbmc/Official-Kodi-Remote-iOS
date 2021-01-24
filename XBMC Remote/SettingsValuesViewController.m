@@ -47,7 +47,7 @@
 
         self.detailItem = item;
 
-        cellHeight = 44.0f;
+        cellHeight = 44.0;
         
         settingOptions = [self.detailItem objectForKey:@"options"];
         
@@ -66,7 +66,7 @@
         
         if ([[itemControls objectForKey:@"format"] isEqualToString:@"boolean"]) {
             xbmcSetting = cSwitch;
-            cellHeight = 210.0f;
+            cellHeight = 210.0;
         }
         else if ([[itemControls objectForKey:@"multiselect"] boolValue] == YES && ![settingOptions isKindOfClass:[NSArray class]]){
             xbmcSetting = cMultiselect;
@@ -74,7 +74,7 @@
         }
         else if ([[itemControls objectForKey:@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
-            cellHeight = 44.0f;
+            cellHeight = 44;
             [_tableView setFrame:CGRectMake(self.view.frame.size.width, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height)];
             self.navigationItem.title = [self.detailItem objectForKey:@"label"];
             settingOptions = [[NSMutableArray alloc] init];
@@ -89,21 +89,21 @@
         else if ([[itemControls objectForKey:@"format"] isEqualToString:@"action"] || [[itemControls objectForKey:@"format"] isEqualToString:@"path"]) {
             self.navigationItem.title = [self.detailItem objectForKey:@"label"];
             xbmcSetting = cUnsupported;
-            cellHeight = 142.0f;
+            cellHeight = 142.0;
         }
         else if ([[itemControls objectForKey:@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
             xbmcSetting = cSlider;
             storeSliderValue = [[self.detailItem objectForKey:@"value"] intValue];
-            cellHeight = 184.0f;
+            cellHeight = 184.0;
         }
         else if ([[itemControls objectForKey:@"type"] isEqualToString:@"edit"]) {
             xbmcSetting = cInput;
-            cellHeight = 172.0f;
+            cellHeight = 172.0;
         }
         else if ([[itemControls objectForKey:@"type"] isEqualToString:@"list"] && settingOptions == nil) {
             xbmcSetting = cSlider;
             storeSliderValue = [[self.detailItem objectForKey:@"value"] intValue];
-            cellHeight = 184.0f;
+            cellHeight = 184.0;
         }
         else {
             self.navigationItem.title = [self.detailItem objectForKey:@"label"];
@@ -150,8 +150,8 @@
         scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
         [scrubbingView setCenter:CGPointMake((int)(frame.size.width / 2), (int)(frame.size.height / 2) + 50)];
         [scrubbingView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9f]];
-        scrubbingView.alpha = 0.0f;
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, 44, self.view.frame.size.width, 4);
+        scrubbingView.alpha = 0.0;
+        CGRect toolbarShadowFrame = CGRectMake(0, 44, self.view.frame.size.width, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -170,7 +170,7 @@
         [scrubbingMessage setBackgroundColor:[UIColor clearColor]];
         [scrubbingMessage setFont:[UIFont boldSystemFontOfSize:13]];
         [scrubbingMessage setAdjustsFontSizeToFitWidth:YES];
-        [scrubbingMessage setMinimumScaleFactor:10.0f/13.0f];
+        [scrubbingMessage setMinimumScaleFactor:10.0/13.0];
         [scrubbingMessage setTextColor:[UIColor whiteColor]];
         [scrubbingMessage setText:NSLocalizedString(@"Slide your finger up or down to adjust the scrubbing rate.", nil)];
         [scrubbingMessage setTextAlignment:NSTextAlignmentCenter];
@@ -292,7 +292,7 @@
     customButton *arrayButtons = [[customButton alloc] init];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
@@ -310,10 +310,10 @@
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicator stopAnimating];
         if (methodError==nil && error == nil){
-            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
         else{
-            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0f color:[Utilities getSystemRed:0.95]];
+            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
             [sender setUserInteractionEnabled:YES];
@@ -404,8 +404,8 @@
         cellLabel.tag = 1;
         [cellLabel setFont:[UIFont systemFontOfSize:18]];
         [cellLabel setAdjustsFontSizeToFitWidth:YES];
-        [cellLabel setMinimumScaleFactor:12.0f/18.0f];
-        [cellLabel setTextColor:[Utilities get1stLabelColor]];
+        [cellLabel setMinimumScaleFactor:12.0/18.0];
+        [cellLabel setTextColor:[UIColor blackColor]];
         [cellLabel setHighlightedTextColor:[UIColor whiteColor]];
         [cell.contentView addSubview:cellLabel];
         
@@ -420,8 +420,8 @@
         [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
         [descriptionLabel setAdjustsFontSizeToFitWidth:YES];
         [descriptionLabel setNumberOfLines:0];
-        [descriptionLabel setMinimumScaleFactor:11.0f/12.0f];
-        [descriptionLabel setTextColor:[Utilities get2ndLabelColor]];
+        [descriptionLabel setMinimumScaleFactor:11.0/12.0];
+        [descriptionLabel setTextColor:[UIColor grayColor]];
         [descriptionLabel setHighlightedTextColor:[UIColor lightGrayColor]];
         [cell.contentView addSubview:descriptionLabel];
         
@@ -444,8 +444,8 @@
         [uiSliderLabel setTextAlignment:NSTextAlignmentCenter];
         [uiSliderLabel setFont:[UIFont systemFontOfSize:14]];
         [uiSliderLabel setAdjustsFontSizeToFitWidth:YES];
-        [uiSliderLabel setMinimumScaleFactor:12.0f/14.0f];
-        [uiSliderLabel setTextColor:[Utilities get2ndLabelColor]];
+        [uiSliderLabel setMinimumScaleFactor:12.0/14.0];
+        [uiSliderLabel setTextColor:[UIColor grayColor]];
         [uiSliderLabel setHighlightedTextColor:[UIColor lightGrayColor]];
         [cell.contentView addSubview:uiSliderLabel];
         
@@ -604,7 +604,7 @@
 
 #pragma mark Table view delegate
 
-- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimTable:(UITableView *)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	tV.alpha = alphavalue;
@@ -675,13 +675,13 @@
     NSInteger viewWidth = self.view.frame.size.width;
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
     [sectionView setBackgroundColor:[UIColor colorWithRed:.4 green:.4 blue:.4 alpha:1]];
-    CGRect toolbarShadowFrame = CGRectMake(0.0f, 1, viewWidth, 4);
+    CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
     UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
     [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
     toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbarShadow.contentMode = UIViewContentModeScaleToFill;
     toolbarShadow.opaque = YES;
-    toolbarShadow.alpha = .3f;
+    toolbarShadow.alpha = 0.3;
     [sectionView addSubview:toolbarShadow];
     return sectionView;
 }
@@ -767,7 +767,7 @@
 
 #pragma mark - UISlider
 
--(void)changeAlphaView:(UIView *)view alpha:(float)value time:(float)sec{
+-(void)changeAlphaView:(UIView *)view alpha:(CGFloat)value time:(NSTimeInterval)sec{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:sec];
 	view.alpha = value;

@@ -19,8 +19,9 @@
 #import "tcpJSONRPC.h"
 #import "XBMCVirtualKeyboard.h"
 #import "ClearCacheView.h"
+#import "Utilities.h"
 
-#define SERVER_TIMEOUT 2.0f
+#define SERVER_TIMEOUT 2.0
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -130,16 +131,17 @@
         [(UILabel*) [cell viewWithTag:3] setText:NSLocalizedString(@"No connection", nil)];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
         if (indexPath.row == 0){
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 193.0f, (int)((44/2) - (36/2)) - 2, 145, 36)];
-            xbmc_logo. alpha = .25f;
-            [xbmc_logo setImage:[UIImage imageNamed:@"xbmc_logo.png"]];
+            UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+            int cellHeight = 44;
+            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:cellHeight width:self.view.bounds.size.width]];
+            xbmc_logo.alpha = 0.25;
+            [xbmc_logo setImage:logo];
             [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo_selected.png"]];
             [cell insertSubview:xbmc_logo atIndex:0];
             UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
             UIImageView *line = (UIImageView*) [cell viewWithTag:4];
             UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
             line.hidden = YES;
-            int cellHeight = 44;
             [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
             [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight/2) - (18/2)), 18, 18)];
             [title setFrame:CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight)];
@@ -241,14 +243,14 @@
         [navController hideNavBarBottomLine:YES];
     }
     [navController.view setClipsToBounds:NO];
-    CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height + 22);
+    CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height + 22);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [shadow setImage:[UIImage imageNamed:@"tableLeft.png"]];
     shadow.opaque = YES;
     [navController.view addSubview:shadow];
     
-    shadowRect = CGRectMake(self.view.frame.size.width, 0.0f, 16.0f, self.view.frame.size.height + 22);
+    shadowRect = CGRectMake(self.view.frame.size.width, 0, 16, self.view.frame.size.height + 22);
     UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
@@ -319,7 +321,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.slidingViewController setAnchorRightPeekAmount: 40.0f];
+    [self.slidingViewController setAnchorRightPeekAmount: ANCHORRIGHTPEEK];
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
 }
 

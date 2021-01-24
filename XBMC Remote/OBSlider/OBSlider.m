@@ -11,7 +11,7 @@
 @interface OBSlider ()
 
 @property (assign, nonatomic, readwrite) float scrubbingSpeed;
-@property (assign, nonatomic, readwrite) float realPositionValue;
+@property (assign, nonatomic, readwrite) CGFloat realPositionValue;
 @property (assign, nonatomic) CGPoint beganTrackingLocation;
 
 - (NSUInteger)indexOfLowerScrubbingSpeed:(NSArray*)scrubbingSpeedPositions forOffset:(CGFloat)verticalOffset;
@@ -93,8 +93,8 @@
 		CGRect thumbRect = [self thumbRectForBounds:self.bounds 
 										  trackRect:[self trackRectForBounds:self.bounds]
 											  value:self.value];
-        self.beganTrackingLocation = CGPointMake(thumbRect.origin.x + thumbRect.size.width / 2.0f, 
-												 thumbRect.origin.y + thumbRect.size.height / 2.0f); 
+        self.beganTrackingLocation = CGPointMake(thumbRect.origin.x + thumbRect.size.width / 2,
+												 thumbRect.origin.y + thumbRect.size.height / 2); 
         self.realPositionValue = self.value;
     }
     return beginTracking;
@@ -120,7 +120,7 @@
         self.realPositionValue = self.realPositionValue + (self.maximumValue - self.minimumValue) * (trackingOffset / trackRect.size.width);
 		
 		CGFloat valueAdjustment = self.scrubbingSpeed * (self.maximumValue - self.minimumValue) * (trackingOffset / trackRect.size.width);
-		CGFloat thumbAdjustment = 0.0f;
+		CGFloat thumbAdjustment = 0;
         if ( ((self.beganTrackingLocation.y < currentLocation.y) && (currentLocation.y < previousLocation.y)) ||
              ((self.beganTrackingLocation.y > currentLocation.y) && (currentLocation.y > previousLocation.y)) )
             {

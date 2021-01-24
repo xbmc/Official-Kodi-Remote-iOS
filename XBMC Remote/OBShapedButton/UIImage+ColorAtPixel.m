@@ -47,7 +47,7 @@
  */
 - (UIColor *)colorAtPixel:(CGPoint)point {
     // Cancel if point is outside image coordinates
-    if (!CGRectContainsPoint(CGRectMake(0.0f, 0.0f, self.size.width, self.size.height), point)) {
+    if (!CGRectContainsPoint(CGRectMake(0, 0, self.size.width, self.size.height), point)) {
         return nil;
     }
     
@@ -76,14 +76,14 @@
 
     // Draw the pixel we are interested in onto the bitmap context
     CGContextTranslateCTM(context, -pointX, pointY-(CGFloat)height);
-    CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, (CGFloat)width, (CGFloat)height), cgImage);
+    CGContextDrawImage(context, CGRectMake(0, 0, (CGFloat)width, (CGFloat)height), cgImage);
     CGContextRelease(context);
     
     // Convert color values [0..255] to floats [0.0..1.0]
-    CGFloat red   = (CGFloat)pixelData[0] / 255.0f;
-    CGFloat green = (CGFloat)pixelData[1] / 255.0f;
-    CGFloat blue  = (CGFloat)pixelData[2] / 255.0f;
-    CGFloat alpha = (CGFloat)pixelData[3] / 255.0f;
+    CGFloat red   = (CGFloat)pixelData[0] / 255.0;
+    CGFloat green = (CGFloat)pixelData[1] / 255.0;
+    CGFloat blue  = (CGFloat)pixelData[2] / 255.0;
+    CGFloat alpha = (CGFloat)pixelData[3] / 255.0;
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
 

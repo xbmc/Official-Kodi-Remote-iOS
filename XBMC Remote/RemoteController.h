@@ -22,8 +22,7 @@
     IBOutlet UIView *buttonZoneView;
     IBOutlet UIImageView *panFallbackImageView;
     int audioVolume;
-    float lastRotation;
-    float storeBrightness;
+    CGFloat lastRotation;
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
     BOOL torchIsOn;

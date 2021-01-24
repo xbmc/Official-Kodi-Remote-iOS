@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+#define HEADROOM_FOR_XBMC_LOGO 10
 
 @implementation Utilities
 
@@ -53,7 +54,7 @@
     }
 	CFRelease(data);
     
-	CGFloat f = 1.0f / (255.0f * imageWidth * imageHeight);
+	CGFloat f = 1.0 / (255.0 * imageWidth * imageHeight);
 	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
 }
 
@@ -88,7 +89,7 @@
 }
 
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker{
-    CGFloat trigger = 0.4f;
+    CGFloat trigger = 0.4;
     return [self updateColor:newColor lightColor:lighter darkColor:darker trigger:trigger];
 }
 
@@ -108,10 +109,7 @@
     if (color == nil) return image;
     UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
     
-    CGRect contextRect;
-    contextRect.origin.x = 0.0f;
-    contextRect.origin.y = 0.0f;
-    contextRect.size = [image size];
+    CGRect contextRect = (CGRect){.origin = CGPointZero, .size = [image size]};
     
     CGSize itemImageSize = [image size];
     CGPoint itemImagePosition;
@@ -289,5 +287,13 @@
     }
 }
 
++ (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return CGRectMake(width - ANCHORRIGHTPEEK - logo.size.width - HEADROOM_FOR_XBMC_LOGO, (height - logo.size.height)/2, logo.size.width, logo.size.height);
+    }
+    else {
+        return CGRectMake(width - logo.size.width/2 - HEADROOM_FOR_XBMC_LOGO, (height - logo.size.height/2)/2, logo.size.width/2, logo.size.height/2);
+    }
+}
 
 @end

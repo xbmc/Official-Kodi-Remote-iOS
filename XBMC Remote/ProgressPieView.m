@@ -31,9 +31,8 @@
 
 -(void)pieCustomization:(UIColor *)color{
     padding = 8;
-    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
-    lineWidth = isRetina ? 1.0f/[[UIScreen mainScreen] scale] : 1.0f;
-    int pieLabelFontSize = isRetina ? 7 : 9;
+    lineWidth = 1.0/[[UIScreen mainScreen] scale];
+    int pieLabelFontSize = 7;
     [self setBackgroundColor:[UIColor clearColor]];
     pieColor = color;
     radius = (MIN(self.frame.size.width, self.frame.size.height) / 2 ) - padding;
@@ -41,7 +40,7 @@
     [pieLabel setBackgroundColor:[UIColor clearColor]];
     [pieLabel setFont:[UIFont systemFontOfSize:pieLabelFontSize]];
     pieLabel.adjustsFontSizeToFitWidth = YES;
-    pieLabel.minimumScaleFactor =pieLabelFontSize * 0.9f;
+    pieLabel.minimumScaleFactor =pieLabelFontSize * 0.9;
     pieLabel.textAlignment = NSTextAlignmentCenter;
     [pieLabel setTextColor:color];
     [pieLabel setHighlightedTextColor:color];

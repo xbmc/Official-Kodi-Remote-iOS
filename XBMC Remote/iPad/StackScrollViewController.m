@@ -131,9 +131,9 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     }
     BOOL hideToolbar = [[[sender userInfo] valueForKey:@"hideToolbar"] boolValue];
     BOOL clipsToBounds = [[[sender userInfo] valueForKey:@"clipsToBounds"] boolValue];
-    float duration = [[[sender userInfo] valueForKey:@"duration"] floatValue];
+    NSTimeInterval duration = [[[sender userInfo] valueForKey:@"duration"] doubleValue];
     if (!duration){
-        duration = 1.5f;
+        duration = 1.5;
     }
     if (clipsToBounds) {
         senderView.clipsToBounds = YES;
@@ -186,9 +186,9 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     if ([[sender object] isKindOfClass:[UIView class]]){
         senderView = [sender object];
     }
-    float duration = [[[sender userInfo] valueForKey:@"duration"] floatValue];
+    NSTimeInterval duration = [[[sender userInfo] valueForKey:@"duration"] doubleValue];
     if (!duration){
-        duration = 1.5f;
+        duration = 1.5;
     }
     senderView.clipsToBounds = NO;
 //    [[senderView viewWithTag:2002] setHidden:NO];
@@ -928,7 +928,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 }
 
 - (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView{
-    float animX=0;
+    CGFloat animX=0;
 	if (isStackStartView) {
         NSInteger numViews=[[slideViews subviews]count];
         if (numViews==0){
@@ -1006,7 +1006,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 	[controller viewWillAppear:FALSE];
 	[controller viewDidAppear:FALSE];
     
-    CGRect shadowRect = CGRectMake(-16.0f, 0.0f, 16.0f, self.view.frame.size.height - bottomPadding);
+    CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height - bottomPadding);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [shadow setImage:[UIImage imageNamed:@"tableLeft.png"]];
@@ -1014,7 +1014,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     shadow.tag = 2001;
     [controller.view addSubview:shadow];
     
-    shadowRect = CGRectMake(STACKSCROLL_WIDTH, 0.0f, 16.0f, self.view.frame.size.height - bottomPadding);
+    shadowRect = CGRectMake(STACKSCROLL_WIDTH, 0, 16, self.view.frame.size.height - bottomPadding);
     UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin];
     [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
@@ -1022,7 +1022,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
     shadowRight.tag = 2002;
     [controller.view addSubview:shadowRight];
     
-    shadowRect = CGRectMake(-15.0f, -15.0f, STACKSCROLL_WIDTH + 30.0f, 15);
+    shadowRect = CGRectMake(-15, -15, STACKSCROLL_WIDTH + 30, 15);
     UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadowUp setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [shadowUp setImage:[UIImage imageNamed:@"stackScrollUpShadow.png"]];

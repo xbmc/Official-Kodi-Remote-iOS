@@ -55,7 +55,7 @@
 #define SECTIONS_START_AT 100
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 #define MAX_NORMAL_BUTTONS 4
-#define WARNING_TIMEOUT 30.0f
+#define WARNING_TIMEOUT 30.0
 #define COLLECTION_HEADER_HEIGHT 16
 #define FIXED_SPACE_WIDTH 120
 
@@ -571,7 +571,7 @@
     CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + shadowRadius * 2, source.size.height + shadowRadius * 2, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colourSpace);
     
-    CGContextSetShadowWithColor(shadowContext, CGSizeMake(0, 0), shadowRadius, [UIColor blackColor].CGColor);
+    CGContextSetShadowWithColor(shadowContext, CGSizeZero, shadowRadius, [UIColor blackColor].CGColor);
     CGContextDrawImage(shadowContext, CGRectMake(shadowRadius, shadowRadius, source.size.width, source.size.height), source.CGImage);
     
     CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
@@ -591,7 +591,7 @@
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-    CGFloat borderWidth = 2.0f;
+    CGFloat borderWidth = 2;
 	CGContextSetLineWidth(context, borderWidth);
     CGContextStrokeRect(context, rect);
     
@@ -610,7 +610,7 @@
     UIImage *image = [params objectForKey:@"image"];
     UIImageView *destinationView = [params objectForKey:@"destinationView"];
     destinationView.image = image;
-    [self alphaView:destinationView AnimDuration:0.1 Alpha:1.0f];
+    [self alphaView:destinationView AnimDuration:0.1 Alpha:1.0];
 }
 
 #pragma mark - Tabbar management
@@ -877,7 +877,7 @@
         [self setUpSort:methods parameters:parameters];
     }
     [self checkDiskCache];
-    float animDuration = 0.3f;
+    NSTimeInterval animDuration = 0.3;
     if (newEnableCollectionView != enableCollectionView){
         animDuration = 0.0;
     }
@@ -1236,24 +1236,22 @@
         return CGSizeMake(dataList.frame.size.width, COLLECTION_HEADER_HEIGHT);
     }
     else{
-        return CGSizeMake(0, 0);
+        return CGSizeZero;
     }
 }
 
 -(void)setFlowLayoutParams{
     if (stackscrollFullscreen == YES){
         [flowLayout setItemSize:CGSizeMake(fullscreenCellGridWidth, fullscreenCellGridHeight)];
-        if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0.0f;
         if  (!recentlyAddedView) {
-            [flowLayout setMinimumLineSpacing:38.0f];
+            [flowLayout setMinimumLineSpacing:38];
         }
         else {
-            [flowLayout setMinimumLineSpacing:4.0f];
+            [flowLayout setMinimumLineSpacing:4];
         }
         [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
     }
     else{
-        if (!cellMinimumLineSpacing) cellMinimumLineSpacing = 0.0f;
         [flowLayout setItemSize:CGSizeMake(cellGridWidth, cellGridHeight)];
         [flowLayout setMinimumLineSpacing:cellMinimumLineSpacing];
         [flowLayout setMinimumInteritemSpacing:cellMinimumLineSpacing];
@@ -1300,9 +1298,9 @@
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    float margin = 0.0f;
+    CGFloat margin = 0;
     if (stackscrollFullscreen == YES) {
-        margin = 8.0f;
+        margin = 8;
     }
     if (section == 0) {
         return UIEdgeInsetsMake(CGRectGetHeight(self.searchController.searchBar.frame), margin, 0, margin);
@@ -1333,8 +1331,8 @@
     NSString *displayThumb=[NSString stringWithFormat:@"%@_wall", defaultThumb];
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     
-    float cellthumbWidth = cellGridWidth;
-    float cellthumbHeight = cellGridHeight;
+    CGFloat cellthumbWidth = cellGridWidth;
+    CGFloat cellthumbHeight = cellGridHeight;
     if (stackscrollFullscreen == YES) {
         cellthumbWidth = fullscreenCellGridWidth;
         cellthumbHeight = fullscreenCellGridHeight;
@@ -1398,8 +1396,8 @@
     else{
         static NSString *identifier = @"recentlyAddedCell";
         RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-        float posterWidth = cellthumbHeight * 0.66f;
-        float fanartWidth = cellthumbWidth - posterWidth;
+        CGFloat posterWidth = cellthumbHeight * 0.66;
+        CGFloat fanartWidth = cellthumbWidth - posterWidth;
 
         if (![stringURL isEqualToString:@""]){
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(posterWidth, cellthumbHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
@@ -1407,7 +1405,7 @@
                 CGFloat hue, saturation, brightness, alpha;
                 BOOL ok = [averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                 if (ok) {
-                    UIColor *bgColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2f alpha:alpha];
+                    UIColor *bgColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2 alpha:alpha];
                     [cell setBackgroundColor:bgColor];
                 }
             }];
@@ -1527,7 +1525,7 @@
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
     [sectionNameOverlayView setBackgroundColor:[UIColor clearColor]];
     sectionNameOverlayView.center = [[[[UIApplication sharedApplication] delegate] window] rootViewController].view.center;
-    float cornerRadius = 12.0f;
+    CGFloat cornerRadius = 12;
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = sectionNameOverlayView.bounds;
@@ -1615,34 +1613,34 @@
 
 -(void)handleCollectionIndexStateBegin{
     if (stackscrollFullscreen == YES){
-        [self alphaView:sectionNameOverlayView AnimDuration:0.1f Alpha:1];
+        [self alphaView:sectionNameOverlayView AnimDuration:0.1 Alpha:1];
     }
 }
 
 -(void)handleCollectionIndexStateEnded{
     if (stackscrollFullscreen == YES){
-        [self alphaView:sectionNameOverlayView AnimDuration:0.3f Alpha:0];
+        [self alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
     }
     _indexView.alpha = 1.0;
 }
 
 #pragma mark - Table Animation
 
--(void)alphaImage:(UIImageView *)image AnimDuration:(float)seconds Alpha:(float)alphavalue{
+-(void)alphaImage:(UIImageView *)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	image.alpha = alphavalue;
     [UIView commitAnimations];
 }
 
--(void)alphaView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue{
+-(void)alphaView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;
     [UIView commitAnimations];
 }
 
-- (void)AnimTable:(UITableView *)tV AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimTable:(UITableView *)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:seconds];
     tV.alpha = alphavalue;
@@ -1654,7 +1652,7 @@
     [UIView commitAnimations];
 }
 
-- (void)AnimView:(UIView *)view AnimDuration:(float)seconds Alpha:(float)alphavalue XPos:(int)X{
+- (void)AnimView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;
@@ -2051,7 +2049,7 @@ int originYear = 0;
             [programTimeLabel setBackgroundColor:[UIColor clearColor]];
             [programTimeLabel setFont:[UIFont systemFontOfSize:12]];
             programTimeLabel.adjustsFontSizeToFitWidth = YES;
-            programTimeLabel.minimumScaleFactor = 8.0f / 12.0f;
+            programTimeLabel.minimumScaleFactor = 8.0 / 12.0;
             programTimeLabel.textAlignment = NSTextAlignmentCenter;
             programTimeLabel.tag = 102;
             [programTimeLabel setHighlightedTextColor:[UIColor whiteColor]];
@@ -2069,14 +2067,14 @@ int originYear = 0;
             [cell.contentView addSubview:hasTimer];
         }
         else if (channelListView) {
-            float pieSize = 28.0f;
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2.0f, 10.0f, pieSize, pieSize) color:[UIColor blackColor]];
+            CGFloat pieSize = 28;
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2, 10, pieSize, pieSize) color:[UIColor blackColor]];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
             
-            float dotSize = 6.0f;
-            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2.0f - dotSize/2.0f, progressView.frame.origin.y + [progressView getPieRadius]/2.0f + [progressView getLineWidth] + 0.5f, dotSize, dotSize)];
+            CGFloat dotSize = 6;
+            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2 - dotSize/2, progressView.frame.origin.y + [progressView getPieRadius]/2 + [progressView getLineWidth] + 0.5, dotSize, dotSize)];
             [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer.png"]];
             [isRecordingImageView setContentMode:UIViewContentModeScaleToFill];
             isRecordingImageView.tag = 104;
@@ -2182,10 +2180,10 @@ int originYear = 0;
             frame.size.width=Menuitem.widthLabel;
             runtime.frame = frame;
             frame = cell.urlImageView.frame;
-            frame.size.width = thumbWidth * 0.9f;
+            frame.size.width = thumbWidth * 0.9;
             frame.origin.x = 6;
             frame.origin.y = 10;
-            frame.size.height = thumbWidth * 0.7f;
+            frame.size.height = thumbWidth * 0.7;
             cell.urlImageView.frame = frame;
             ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
             progressView.hidden = YES;
@@ -2247,7 +2245,7 @@ int originYear = 0;
             frame.origin.y = 0;
             [title setFrame:frame];
             genre.font =  [genre.font fontWithSize:11];
-            [genre setMinimumScaleFactor:10.0f/11.0f];
+            [genre setMinimumScaleFactor:10.0/11.0];
             [genre sizeToFit];
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"sectionid"] || [[item objectForKey:@"family"] isEqualToString:@"categoryid"]|| [[item objectForKey:@"family"] isEqualToString:@"id"] || [[item objectForKey:@"family"] isEqualToString:@"addonid"]){
@@ -2269,7 +2267,7 @@ int originYear = 0;
             genre.frame = frame;
             [genre setNumberOfLines:2];
             genre.font =  [genre.font fontWithSize:11];
-            [genre setMinimumScaleFactor:10.f/11.0f];
+            [genre setMinimumScaleFactor:10.0/11.0];
             [genre sizeToFit];
         }
         else{
@@ -2301,7 +2299,7 @@ int originYear = 0;
         genre.frame = frame;
         [genre setNumberOfLines:3];
         genre.font =  [genre.font fontWithSize:11];
-        [genre setMinimumScaleFactor:10.0f/11.0f];
+        [genre setMinimumScaleFactor:10.0/11.0];
         UILabel *programStartTime = (UILabel *)[cell viewWithTag:102];
         NSDateFormatter *test= [[NSDateFormatter alloc] init];
         [test setDateFormat:@"yyyy-MM-dd HH:mm"];
@@ -2410,7 +2408,7 @@ int originYear = 0;
         gradient.frame = albumDetailView.bounds;
         gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor], nil];
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, albumViewHeight + 1, viewWidth, 8);
+        CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -2442,13 +2440,12 @@ int originYear = 0;
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
-                                      float thumbBorder = isRetina ? 1.0f/[[UIScreen mainScreen] scale] : 1.0f;
+                                      CGFloat thumbBorder = 1.0/[[UIScreen mainScreen] scale];
                                       [thumbImageContainer setBackgroundColor:[UIColor clearColor]];
                                       thumbImageContainer.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1].CGColor;
                                       thumbImageContainer.layer.shadowOpacity = 1.0f;
-                                      thumbImageContainer.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-                                      thumbImageContainer.layer.shadowRadius = 2.0f;
+                                      thumbImageContainer.layer.shadowOffset = CGSizeZero;
+                                      thumbImageContainer.layer.shadowRadius = 2.0;
                                       thumbImageContainer.layer.masksToBounds = NO;
                                       thumbImageContainer.layer.borderWidth = thumbBorder;
                                       thumbImageContainer.layer.borderColor = [UIColor blackColor].CGColor;
@@ -2499,7 +2496,7 @@ int originYear = 0;
             UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, - self.searchController.searchBar.frame.size.height, viewWidth, albumViewHeight + 2 + self.searchController.searchBar.frame.size.height)];
             fanartBackgroundImage.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
-            fanartBackgroundImage.alpha = 0.1f;
+            fanartBackgroundImage.alpha = 0.1;
             [fanartBackgroundImage setClipsToBounds:YES];
             [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank.png"]];
             [albumDetailView addSubview:fanartBackgroundImage];
@@ -2513,7 +2510,7 @@ int originYear = 0;
         [artist setShadowOffset:CGSizeMake(0, 1)];
         [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
         artist.adjustsFontSizeToFitWidth = YES;
-        artist.minimumScaleFactor = 9.0f / artistFontSize;
+        artist.minimumScaleFactor = 9.0 / artistFontSize;
         artist.text = [item objectForKey:@"genre"];
         [albumDetailView addSubview:artist];
         
@@ -2563,7 +2560,7 @@ int originYear = 0;
         [albumDetailView addSubview:releasedLabel];
         
         UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ];
-        albumInfoButton.alpha = .5f;
+        albumInfoButton.alpha = 0.5;
         [albumInfoButton setShowsTouchWhenHighlighted:YES];
         [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 3, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
         albumInfoButton.tag = 0;
@@ -2575,7 +2572,7 @@ int originYear = 0;
 //        albumPlaybackButton.showsTouchWhenHighlighted = YES;
 //        UIImage *btnImage = [UIImage imageNamed:@"button_play.png"];
 //        [albumPlaybackButton setImage:btnImage forState:UIControlStateNormal];
-//        albumPlaybackButton.alpha = .8f;
+//        albumPlaybackButton.alpha = 0.8;
 //        int playbackOriginX = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)]] intValue];
 //        int playbackOriginY = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.height/2 + albumViewPadding)]] intValue];
 //        [albumPlaybackButton setFrame:CGRectMake(playbackOriginX, playbackOriginY, btnImage.size.width, btnImage.size.height)];
@@ -2595,8 +2592,8 @@ int originYear = 0;
             [albumDetailView addGestureRecognizer:tapGesture];
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = 99;
-            button.alpha = .5;
-            button.frame = CGRectMake(3.0, (int)(albumViewHeight / 2) - 6, 11.0, 11.0);
+            button.alpha = 0.5;
+            button.frame = CGRectMake(3, (int)(albumViewHeight / 2) - 6, 11, 11);
             [button setImage:[UIImage imageNamed:@"arrow_close.png"] forState:UIControlStateNormal];
             [button setImage:[UIImage imageNamed:@"arrow_open.png"] forState:UIControlStateSelected];
 //            [button addTarget:self action:@selector(toggleOpen:) forControlEvents:UIControlEventTouchUpInside];
@@ -2614,7 +2611,7 @@ int originYear = 0;
             [lineView setBackgroundColor:[UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1]];
             [albumDetailView addSubview:lineView];
         }
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, albumViewHeight + 1, viewWidth, 8);
+        CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -2630,7 +2627,7 @@ int originYear = 0;
             item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:section]] objectAtIndex:0];
         }
         NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:self.extraSectionRichResults];
-        float seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
+        CGFloat seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
         if (seasonIdx != NSNotFound){
             
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
@@ -2659,7 +2656,7 @@ int originYear = 0;
             [artist setShadowOffset:CGSizeMake(0, 1)];
             [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
             artist.adjustsFontSizeToFitWidth = YES;
-            artist.minimumScaleFactor = 9.0f/artistFontSize;
+            artist.minimumScaleFactor = 9.0/artistFontSize;
             artist.text = [item objectForKey:@"genre"];
             [albumDetailView addSubview:artist];
             
@@ -2717,7 +2714,7 @@ int originYear = 0;
             [albumDetailView addSubview:releasedLabel];
 
             UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
-            albumInfoButton.alpha = .6f;
+            albumInfoButton.alpha = 0.6;
             [albumInfoButton setShowsTouchWhenHighlighted:YES];
             [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 6, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
             albumInfoButton.tag = 1;
@@ -2731,13 +2728,13 @@ int originYear = 0;
     if (sectionTitle == nil) {
         UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
         [sectionView setBackgroundColor:[UIColor colorWithRed:.4 green:.4 blue:.4 alpha:1]];
-        CGRect toolbarShadowFrame = CGRectMake(0.0f, 1, viewWidth, 4);
+        CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
         [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarShadow.opaque = YES;
-        toolbarShadow.alpha = .3f;
+        toolbarShadow.alpha = 0.3;
         [sectionView addSubview:toolbarShadow];
         return sectionView;
     }
@@ -2762,30 +2759,29 @@ int originYear = 0;
 //    [sectionView addSubview:lineView];
     //END TEST
 
-    CGRect toolbarShadowFrame = CGRectMake(0.0f, sectionHeight - 1, viewWidth, 4);
+    CGRect toolbarShadowFrame = CGRectMake(0, sectionHeight - 1, viewWidth, 4);
     UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
     [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
     toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbarShadow.contentMode = UIViewContentModeScaleToFill;
     toolbarShadow.opaque = YES;
-    toolbarShadow.alpha = .3f;
+    toolbarShadow.alpha = 0.3;
     [sectionView addSubview:toolbarShadow];
     
     if (section>1){
-        CGRect toolbarShadowUpFrame = CGRectMake(0.0f, -3, viewWidth, 2);
+        CGRect toolbarShadowUpFrame = CGRectMake(0, -3, viewWidth, 2);
         UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowUpFrame];
         [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
         toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarUpShadow.opaque = YES;
-        toolbarUpShadow.alpha = .3f;
+        toolbarUpShadow.alpha = 0.3;
         [sectionView addSubview:toolbarUpShadow];
     }
     
     int labelFontSize = sectionHeight > 16 ? sectionHeight - 10 : sectionHeight - 5;
     int labelOriginY = sectionHeight > 16 ? 2 : 1;
-    BOOL isRetina = ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] >= 2);
-    float shadowOffset = isRetina ? 1.0f/[[UIScreen mainScreen] scale] : 1.0f;
+    CGFloat shadowOffset = 1.0/[[UIScreen mainScreen] scale];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, labelOriginY, viewWidth - 20, sectionHeight)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
@@ -3385,7 +3381,7 @@ NSIndexPath *selected;
     customButton *arrayButtons = [[customButton alloc] init];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
@@ -3470,13 +3466,13 @@ NSIndexPath *selected;
         topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
         topNavigationLabel.backgroundColor = [UIColor clearColor];
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
-        topNavigationLabel.minimumScaleFactor=8.0f/11.0f;
+        topNavigationLabel.minimumScaleFactor=8.0/11.0;
         topNavigationLabel.numberOfLines=2;
         topNavigationLabel.adjustsFontSizeToFitWidth = YES;
         topNavigationLabel.textAlignment = NSTextAlignmentLeft;
         topNavigationLabel.textColor = [UIColor whiteColor];
         topNavigationLabel.shadowColor = shadowColor;
-        topNavigationLabel.shadowOffset    = CGSizeMake (0.0, -1.0);
+        topNavigationLabel.shadowOffset    = CGSizeMake (0, -1);
         topNavigationLabel.highlightedTextColor = [UIColor blackColor];
         topNavigationLabel.opaque=YES;
         topNavigationLabel.text=[self.detailItem mainLabel];
@@ -3514,16 +3510,16 @@ NSIndexPath *selected;
 
 - (void)toggleFullscreen:(id)sender {
     [activityIndicatorView startAnimating];
-    float animDuration = 0.5f;
+    NSTimeInterval animDuration = 0.5;
     if (stackscrollFullscreen == YES) {
         stackscrollFullscreen = NO;
-        [UIView animateWithDuration:0.1f
+        [UIView animateWithDuration:0.1
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              collectionView.alpha = 0;
                              dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 1.0f;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 1.0;
                             
                          }
                          completion:^(BOOL finished) {
@@ -3549,8 +3545,8 @@ NSIndexPath *selected;
                                                      [NSNumber numberWithFloat:animDuration], @"duration",
                                                      nil];
                              [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:params];
-                             [UIView animateWithDuration:0.2f
-                                                   delay:0.0f
+                             [UIView animateWithDuration:0.2
+                                                   delay:0.0
                                                  options:UIViewAnimationOptionCurveEaseInOut
                                               animations:^{
                                                   collectionView.alpha = 1;
@@ -3570,13 +3566,13 @@ NSIndexPath *selected;
     }
     else {
         stackscrollFullscreen = YES;
-        [UIView animateWithDuration:0.1f
+        [UIView animateWithDuration:0.1
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              collectionView.alpha = 0;
                              dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 0.0f;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 0.0;
                          }
                          completion:^(BOOL finished) {
                              button6.hidden = YES;
@@ -3613,8 +3609,8 @@ NSIndexPath *selected;
                                                      [NSNumber numberWithFloat:animDuration], @"duration",
                                                      nil];
                              [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
-                             [UIView animateWithDuration:0.2f
-                                                   delay:0.0f
+                             [UIView animateWithDuration:0.2
+                                                   delay:0.0
                                                  options:UIViewAnimationOptionCurveEaseInOut
                                               animations:^{
                                                   collectionView.alpha = 1;
@@ -3792,7 +3788,7 @@ NSIndexPath *selected;
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
-                   [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3f Alpha:1.0 XPos:viewWidth];
+                   [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
                    [self startRetrieveDataWithRefresh:YES];
                }
                else {
@@ -4103,10 +4099,10 @@ NSIndexPath *selected;
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters success:(NSString *)successMessage failure:(NSString *)failureMessage{
     [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if ( error == nil && methodError == nil ){
-            [messagesView showMessage:successMessage timeout:2.0f color:[Utilities getSystemGreen:0.95]];
+            [messagesView showMessage:successMessage timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
         else {
-            [messagesView showMessage:failureMessage timeout:2.0f color:[Utilities getSystemRed:0.95]];
+            [messagesView showMessage:failureMessage timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
     }];
 }
@@ -4261,12 +4257,12 @@ NSIndexPath *selected;
                                        [UIImage imageNamed:@"monkeys_37.png"],
                                        [UIImage imageNamed:@"monkeys_38.png"],
                                         nil];        
-        longTimeout.animationDuration = 5.0f;
+        longTimeout.animationDuration = 5.0;
         longTimeout.animationRepeatCount = 0;
         longTimeout.center = activityIndicatorView.center;
         CGRect frame = longTimeout.frame;
-        frame.origin.y = frame.origin.y + 30.0f;
-        frame.origin.x = frame.origin.x - 3.0f;
+        frame.origin.y = frame.origin.y + 30;
+        frame.origin.x = frame.origin.x - 3;
         longTimeout.frame = frame;
         [longTimeout startAnimating];
         [self.view addSubview:longTimeout];
@@ -4538,7 +4534,7 @@ NSIndexPath *selected;
     }
 
     GlobalData *obj=[GlobalData getInstance];
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];    
+    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
 //    NSLog(@"START");
     debugText.text = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     elapsedTime = 0;
@@ -5143,7 +5139,7 @@ NSIndexPath *selected;
     [self updateChannelListTableCell];
     [channelListUpdateTimer invalidate];
     channelListUpdateTimer = nil;
-    channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0f target:self selector:@selector(updateChannelListTableCell) userInfo:nil repeats:YES];
+    channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(updateChannelListTableCell) userInfo:nil repeats:YES];
 }
 
 -(void)updateChannelListTableCell {
@@ -5251,7 +5247,7 @@ NSIndexPath *selected;
         NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
         [outputFormatter setDateFormat:@"ss"];
         [self updateChannelListTableCell];
-        channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(60.0f - [[outputFormatter stringFromDate:now] floatValue]) target:self selector:@selector(startChannelListUpdateTimer) userInfo:nil repeats:NO];
+        channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(60.0 - [[outputFormatter stringFromDate:now] floatValue]) target:self selector:@selector(startChannelListUpdateTimer) userInfo:nil repeats:NO];
     }
 }
 
@@ -5341,8 +5337,8 @@ NSIndexPath *selected;
     albumFontSize = 15;
     trackCountFontSize = 11;
     labelPadding = 8;
-    cellGridWidth =105.0f;
-    cellGridHeight =  151.0f;
+    cellGridWidth =105;
+    cellGridHeight =  151;
     posterFontSize = 10;
     fanartFontSize = 10;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
@@ -5359,10 +5355,10 @@ NSIndexPath *selected;
     albumFontSize = 18;
     trackCountFontSize = 13;
     labelPadding = 8;
-    cellGridWidth =117.0f;
-    cellGridHeight =  168.0f;
-    fullscreenCellGridWidth = 164.0f;
-    fullscreenCellGridHeight = 246.0f;
+    cellGridWidth = 117;
+    cellGridHeight = 168;
+    fullscreenCellGridWidth = 164;
+    fullscreenCellGridHeight = 246;
     posterFontSize = 11;
     fanartFontSize = 13;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
@@ -5824,7 +5820,7 @@ NSIndexPath *selected;
                 [fullscreenButton setFrame:CGRectMake(0, 0, 26, 26)];
                 [fullscreenButton setContentMode:UIViewContentModeCenter];
                 [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen.png"] forState:UIControlStateNormal];
-                fullscreenButton.layer.cornerRadius = 2.0f;
+                fullscreenButton.layer.cornerRadius = 2;
                 [fullscreenButton setTintColor:[UIColor whiteColor]];
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen:) forControlEvents:UIControlEventTouchUpInside];
                 [fullscreenButton setFrame:CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width - buttonPadding,

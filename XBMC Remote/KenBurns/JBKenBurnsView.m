@@ -68,7 +68,7 @@
     self.isLoop = NO;
 }
 
-- (void) animateWithImages:(NSMutableArray *)images transitionDuration:(float)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
+- (void) animateWithImages:(NSMutableArray *)images transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
     self.imagesArray      = images;
     self.timeTransition   = duration;
     self.isLoop           = shouldLoop;
@@ -86,7 +86,7 @@
     
 }
 
-- (void) animateWithURLs:(NSArray *)urls transitionDuration:(float)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
+- (void) animateWithURLs:(NSArray *)urls transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
     self.imagesArray      = [[NSMutableArray alloc] init];
     self.timeTransition   = duration;
     self.isLoop           = shouldLoop;
@@ -159,17 +159,17 @@
     UIImage* image = [self.imagesArray objectAtIndex:[num intValue]];
     UIImageView *imageView;
     
-    float resizeRatio   = -1;
-    float widthDiff     = -1;
-    float heightDiff    = -1;
-    float originX       = -1;
-    float originY       = -1;
-    float zoomInX       = -1;
-    float zoomInY       = -1;
-    float moveX         = -1;
-    float moveY         = -1;
-    float frameWidth    = isLandscape? self.frame.size.width : self.frame.size.height;
-    float frameHeight   = isLandscape? self.frame.size.height : self.frame.size.width;
+    CGFloat resizeRatio   = -1;
+    CGFloat widthDiff     = -1;
+    CGFloat heightDiff    = -1;
+    CGFloat originX       = -1;
+    CGFloat originY       = -1;
+    CGFloat zoomInX       = -1;
+    CGFloat zoomInY       = -1;
+    CGFloat moveX         = -1;
+    CGFloat moveY         = -1;
+    CGFloat frameWidth    = isLandscape ? self.frame.size.width : self.frame.size.height;
+    CGFloat frameHeight   = isLandscape ? self.frame.size.height : self.frame.size.width;
     
     // Widder than screen 
     if (image.size.width > frameWidth){
@@ -230,17 +230,17 @@
 //    }
     
     // Resize the image.
-    float optimusWidth  = (image.size.width * resizeRatio) * newEnlargeRatio;
-    float optimusHeight = (image.size.height * resizeRatio) * newEnlargeRatio;
+    CGFloat optimusWidth  = (image.size.width * resizeRatio) * newEnlargeRatio;
+    CGFloat optimusHeight = (image.size.height * resizeRatio) * newEnlargeRatio;
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, optimusWidth, optimusHeight)];
     
     // Calcule the maximum move allowed.
-    float maxMoveX = optimusWidth - frameWidth;
-    float maxMoveY = optimusHeight - frameHeight;
+    CGFloat maxMoveX = optimusWidth - frameWidth;
+    CGFloat maxMoveY = optimusHeight - frameHeight;
     
-    float rotation = (arc4random() % 9) / 100;
+    CGFloat rotation = arc4random_uniform(9) / 100;
     
-    switch (arc4random() % 4) {
+    switch (arc4random_uniform(4)) {
         case 0:
             originX = 0;
             originY = 0;

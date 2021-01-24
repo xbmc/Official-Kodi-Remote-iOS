@@ -9,15 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface gradientUIView : UIView {
-    float startRed;
-    float startGreen;
-    float startBlue;
-    float endRed;
-    float endGreen;
-    float endBlue;
+    CGFloat startRed;
+    CGFloat startGreen;
+    CGFloat startBlue;
+    CGFloat endRed;
+    CGFloat endGreen;
+    CGFloat endBlue;
 }
 
 - (void)setColoursWithCGColors:(CGColorRef)color1 endColor:(CGColorRef)color2;
-- (void)setStartRed:(float)sR startGreen:(float)sG startBlue:(float)sB endRed:(float)eR endGreen:(float)eG endBlue:(float)eB;
+- (void)setStartRed:(CGFloat)sR startGreen:(CGFloat)sG startBlue:(CGFloat)sB endRed:(CGFloat)eR endGreen:(CGFloat)eG endBlue:(CGFloat)eB;
 
 @end

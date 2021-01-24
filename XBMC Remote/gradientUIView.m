@@ -29,14 +29,14 @@
     rgbColorspace = CGColorSpaceCreateDeviceRGB();
     glossGradient = CGGradientCreateWithColorComponents(rgbColorspace, components, locations, numLocations);
     CGRect currentBounds = self.bounds;
-    CGPoint topCenter = CGPointMake(CGRectGetMidX(currentBounds), 0.0f);
+    CGPoint topCenter = CGPointMake(CGRectGetMidX(currentBounds), 0);
     CGPoint bottomCenter = CGPointMake(CGRectGetMidX(currentBounds), CGRectGetMaxY(currentBounds));
     CGContextDrawLinearGradient(currentContext, glossGradient, topCenter, bottomCenter, 0);
     CGGradientRelease(glossGradient);
     CGColorSpaceRelease(rgbColorspace);
 }
 
-- (void)setStartRed:(float)sR startGreen:(float)sG startBlue:(float)sB endRed:(float)eR endGreen:(float)eG endBlue:(float)eB {
+- (void)setStartRed:(CGFloat)sR startGreen:(CGFloat)sG startBlue:(CGFloat)sB endRed:(CGFloat)eR endGreen:(CGFloat)eG endBlue:(CGFloat)eB {
     startRed = sR;
     startGreen = sG;
     startBlue = sB;

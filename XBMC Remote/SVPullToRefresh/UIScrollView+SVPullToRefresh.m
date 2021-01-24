@@ -307,7 +307,7 @@ static char UIScrollViewPullToRefreshView;
         else if(contentOffset.y >= scrollOffsetThreshold && self.state != SVPullToRefreshStateStopped)
             self.state = SVPullToRefreshStateStopped;
     } else {
-        CGFloat offset = MAX(self.scrollView.contentOffset.y * -1, 0.0f);
+        CGFloat offset = MAX(self.scrollView.contentOffset.y * -1, 0);
         offset = MIN(offset, self.originalTopInset + self.bounds.size.height);
         UIEdgeInsets contentInset = self.scrollView.contentInset;
         self.scrollView.contentInset = UIEdgeInsetsMake(offset, contentInset.left, contentInset.bottom, contentInset.right);
@@ -340,7 +340,7 @@ static char UIScrollViewPullToRefreshView;
         _titleLabel.text = NSLocalizedString(@"Pull to refresh...",);
         _titleLabel.font = [UIFont boldSystemFontOfSize:13];
         _titleLabel.numberOfLines = 1;
-        _titleLabel.minimumScaleFactor = 12.0f/13.0f;
+        _titleLabel.minimumScaleFactor = 12.0/13.0;
         _titleLabel.adjustsFontSizeToFitWidth = YES;
         _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.textColor = textColor;
@@ -354,7 +354,7 @@ static char UIScrollViewPullToRefreshView;
         _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
         _subtitleLabel.font = [UIFont systemFontOfSize:11];
         _subtitleLabel.numberOfLines = 1;
-        _subtitleLabel.minimumScaleFactor = 9.0f/11.0f;
+        _subtitleLabel.minimumScaleFactor = 9.0/11.0;
         _subtitleLabel.adjustsFontSizeToFitWidth = YES;
         _subtitleLabel.backgroundColor = [UIColor clearColor];
         _subtitleLabel.textColor = [UIColor lightGrayColor];
@@ -550,37 +550,14 @@ static char UIScrollViewPullToRefreshView;
 	
 	// Gradient Declaration
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGFloat alphaGradientLocations[] = {0, 0.8f};
+	CGFloat alphaGradientLocations[] = {0, 0.8};
     
 	CGGradientRef alphaGradient = nil;
-    if([[[UIDevice currentDevice] systemVersion]floatValue] >= 5){
-        NSArray* alphaGradientColors = [NSArray arrayWithObjects:
-                                        (id)[self.arrowColor colorWithAlphaComponent:0].CGColor,
-                                        (id)[self.arrowColor colorWithAlphaComponent:1].CGColor,
-                                        nil];
-        alphaGradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)alphaGradientColors, alphaGradientLocations);
-    }else{
-        const CGFloat * components = CGColorGetComponents([self.arrowColor CGColor]);
-        int numComponents = (int)CGColorGetNumberOfComponents([self.arrowColor CGColor]);
-        CGFloat colors[8];
-        switch(numComponents){
-            case 2:{
-                colors[0] = colors[4] = components[0];
-                colors[1] = colors[5] = components[0];
-                colors[2] = colors[6] = components[0];
-                break;
-            }
-            case 4:{
-                colors[0] = colors[4] = components[0];
-                colors[1] = colors[5] = components[1];
-                colors[2] = colors[6] = components[2];
-                break;
-            }
-        }
-        colors[3] = 0;
-        colors[7] = 1;
-        alphaGradient = CGGradientCreateWithColorComponents(colorSpace,colors,alphaGradientLocations,2);
-    }
+    NSArray* alphaGradientColors = [NSArray arrayWithObjects:
+                                    (id)[self.arrowColor colorWithAlphaComponent:0].CGColor,
+                                    (id)[self.arrowColor colorWithAlphaComponent:1].CGColor,
+                                    nil];
+    alphaGradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)alphaGradientColors, alphaGradientLocations);
 	
 	
 	CGContextDrawLinearGradient(c, alphaGradient, CGPointZero, CGPointMake(0, rect.size.height), 0);

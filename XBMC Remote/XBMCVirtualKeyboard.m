@@ -15,7 +15,7 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        float keyboardTitlePadding = 6.0f;
+        CGFloat keyboardTitlePadding = 6;
         accessoryHeight = 52;
         padding = 25;
         verboseHeight = 24;
@@ -49,7 +49,7 @@
         [keyboardTitle setBackgroundColor:[UIColor clearColor]];
         [keyboardTitle setFont:[UIFont boldSystemFontOfSize:textSize]];
         [keyboardTitle setAdjustsFontSizeToFitWidth:YES];
-        [keyboardTitle setMinimumScaleFactor:0.6f];
+        [keyboardTitle setMinimumScaleFactor:0.6];
         [keyboardTitle setTextColor:BAR_TINT_COLOR];
 
         backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
@@ -140,7 +140,7 @@
 #pragma mark - UITextFieldDelegate Methods
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
-    float finalHeight = accessoryHeight - alignBottom;
+    CGFloat finalHeight = accessoryHeight - alignBottom;
     CGRect screenBound = [[UIScreen mainScreen] bounds];
     CGSize screenSize = screenBound.size;
     screenWidth = screenSize.width;

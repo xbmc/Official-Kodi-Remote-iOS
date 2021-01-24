@@ -430,7 +430,7 @@ static inline BOOL IsEmpty(id obj) {
     [editTableButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [editTableButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [editTableButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [editTableButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+    [editTableButton.titleLabel setShadowOffset:CGSizeZero];
     
     [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     [addHostButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
@@ -438,7 +438,7 @@ static inline BOOL IsEmpty(id obj) {
     [addHostButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [addHostButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [addHostButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [addHostButton.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+    [addHostButton.titleLabel setShadowOffset:CGSizeZero];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         self.edgesForExtendedLayout = 0;
@@ -614,7 +614,7 @@ static inline BOOL IsEmpty(id obj) {
 
 -(void)connectionError:(NSNotification *)note {
     NSDictionary *theData = [note userInfo];
-    [messagesView showMessage:[theData objectForKey:@"error_message"] timeout:2.0f color:[Utilities getSystemRed:0.95]];
+    [messagesView showMessage:[theData objectForKey:@"error_message"] timeout:2.0 color:[Utilities getSystemRed:0.95]];
 }
 
 -(void)authFailed:(NSNotification *)note {
