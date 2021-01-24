@@ -58,34 +58,37 @@
 	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
 }
 
-- (UIColor *)slightLighterColorForColor:(UIColor *)c{
-    CGFloat r, g, b, a;
-    if ([c getRed:&r green:&g blue:&b alpha:&a])
-        return [UIColor colorWithRed:MIN(r + 0.2, 1.0)
-                               green:MIN(g + 0.2, 1.0)
-                                blue:MIN(b + 0.2, 1.0)
-                               alpha:a];
-    return nil;
+- (UIColor *)slightLighterColorForColor:(UIColor *)color_in{
+    CGFloat hue, sat, bright, alpha;
+    UIColor *color_out = nil;
+    if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
+        sat = MAX(sat / 3, 0);  // de-saturate, but do not remove saturation fully
+        bright = MIN((MAX(bright * 1.2, 0.5)), 0.6); // limit brightness to range [0.5 ... 0.6]
+        color_out = [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
+    }
+    return color_out;
 }
 
-- (UIColor *)lighterColorForColor:(UIColor *)c{
-    CGFloat r, g, b, a;
-    if ([c getRed:&r green:&g blue:&b alpha:&a])
-        return [UIColor colorWithRed:MIN(r + 0.4, 1.0)
-                               green:MIN(g + 0.4, 1.0)
-                                blue:MIN(b + 0.4, 1.0)
-                               alpha:a];
-    return nil;
+- (UIColor *)lighterColorForColor:(UIColor *)color_in{
+    CGFloat hue, sat, bright, alpha;
+    UIColor *color_out = nil;
+    if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
+        sat = MAX(sat / 3, 0); // de-saturate, but do not remove saturation fully
+        bright = MIN((MAX(bright * 1.5, 0.7)), 0.9); // limit brightness to range [0.7 ... 0.9]
+        color_out = [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
+    }
+    return color_out;
 }
 
-- (UIColor *)darkerColorForColor:(UIColor *)c{
-    CGFloat r, g, b, a;
-    if ([c getRed:&r green:&g blue:&b alpha:&a])
-        return [UIColor colorWithRed:MAX(r - 0.1, 0.0)
-                               green:MAX(g - 0.1, 0.0)
-                                blue:MAX(b - 0.1, 0.0)
-                               alpha:a];
-    return nil;
+- (UIColor *)darkerColorForColor:(UIColor *)color_in{
+    CGFloat hue, sat, bright, alpha;
+    UIColor *color_out = nil;
+    if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
+        sat = MAX(sat / 3, 0); // de-saturate, but do not remove saturation fully
+        bright = MIN((MAX(bright * 0.75, 0.2)), 0.4); // limit brightness to range [0.2 ... 0.4]
+        color_out = [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
+    }
+    return color_out;
 }
 
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker{
