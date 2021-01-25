@@ -65,7 +65,7 @@
     UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 0, self.view.bounds.size.width - cellLabelOffset - 24, 43)];
     [cellLabel setFont:[UIFont systemFontOfSize:18]];
     [cellLabel setTextColor:[Utilities get1stLabelColor]];
-    [cellLabel setHighlightedTextColor:[UIColor whiteColor]];
+    [cellLabel setHighlightedTextColor:[Utilities get1stLabelColor]];
     NSDictionary *item = [mainMenuItems objectAtIndex:indexPath.row];
     [cellLabel setText:[item objectForKey:@"label"]];
     [cell.contentView addSubview:cellLabel];

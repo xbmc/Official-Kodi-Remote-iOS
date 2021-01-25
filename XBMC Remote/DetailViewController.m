@@ -2068,7 +2068,7 @@ int originYear = 0;
         }
         else if (channelListView) {
             CGFloat pieSize = 28;
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2, 10, pieSize, pieSize) color:[UIColor blackColor]];
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2, 10, pieSize, pieSize) color:[Utilities get1stLabelColor]];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
