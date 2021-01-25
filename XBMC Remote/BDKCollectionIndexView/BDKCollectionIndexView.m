@@ -166,8 +166,8 @@
             label.minimumScaleFactor = 5.0/11.0;
             label.adjustsFontSizeToFitWidth = YES;
             label.backgroundColor = [UIColor clearColor];
-            label.textColor = [UIColor systemGrayColor];
-            label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1.0];
+            label.textColor = [UIColor systemBlueColor];
+            label.shadowColor = [UIColor clearColor];
             label.shadowOffset = CGSizeMake(0, 1);
             label.textAlignment = NSTextAlignmentCenter;
             [self addSubview:label];
