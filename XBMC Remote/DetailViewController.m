@@ -5301,6 +5301,9 @@ NSIndexPath *selected;
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setEnabled:YES];
         selectedMoreTab = [[UIButton alloc] init];
     }
+    else {
+        button5.hidden = YES;
+    }
 }
 
 -(void)checkParamSize:(NSDictionary *)itemSizes viewWidth:(int)fullWidth{
