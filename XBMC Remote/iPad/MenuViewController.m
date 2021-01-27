@@ -53,19 +53,19 @@
 
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu{
     if (self = [super init]) {
-		[self.view setFrame:frame]; 
-        int tableHeight = ([menu count] -1) * PAD_MENU_HEIGHT + PAD_MENU_INFO_HEIGHT;
-		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, tableHeight) style:UITableViewStylePlain];
+        [self.view setFrame:frame];
+        CGFloat tableHeight = ([menu count]-1) * PAD_MENU_HEIGHT + PAD_MENU_INFO_HEIGHT;
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, tableHeight) style:UITableViewStylePlain];
         [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-		[_tableView setDelegate:self];
-		[_tableView setDataSource:self];
+        [_tableView setDelegate:self];
+        [_tableView setDataSource:self];
         [_tableView setBackgroundColor:[UIColor clearColor]];
         [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
         [_tableView setSeparatorColor:[UIColor colorWithWhite:0.0f alpha:0.1]];
         mainMenuItems=menu;
         UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-		_tableView.tableFooterView = footerView;        
-		[self.view addSubview:_tableView];
+        _tableView.tableFooterView = footerView;
+        [self.view addSubview:_tableView];
         
 //        CGRect shadowRect;
 //        UIImageView *shadow;
