@@ -1661,8 +1661,8 @@ int currentItemID;
 }
 
 -(void)somethingGoesWrong:(NSString *)message{
-    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-    [alertView show];
+    UIAlertController *alertView = [Utilities createAlertOK:message message:nil];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 
 # pragma mark -  animations
@@ -1988,8 +1988,14 @@ int currentItemID;
             playlistName=NSLocalizedString(@"Video ", nil);
         }
         NSString *message=[NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to clear the %@playlist?", nil), playlistName];
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Clear Playlist", nil), nil];
-        [alertView show];
+        UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+        UIAlertAction* clearButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Clear Playlist", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                [self clearPlaylist:playerID];
+            }];
+        [alertView addAction:cancelButton];
+        [alertView addAction:clearButton];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
 }
 
@@ -2220,14 +2226,6 @@ int currentItemID;
         }
     }
     
-}
-
-# pragma mark - UIAlertView
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1){
-        [self clearPlaylist:playerID];
-    }
 }
 
 #pragma mark - Table view data source

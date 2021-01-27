@@ -282,12 +282,12 @@
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
+            UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Command executed", nil) message:nil];
+            [self presentViewController:alertView animated:YES completion:nil];
         }
         else{
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-            [alertView show];
+            UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Cannot do that", nil) message:nil];
+            [self presentViewController:alertView animated:YES completion:nil];
         }
     }];
 }
@@ -297,12 +297,12 @@
         if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Wake On Lan", nil)]){
             if ([AppDelegate instance].obj.serverHWAddr != nil){
                 [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-                [alertView show];
+                UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Command executed", nil) message:nil];
+                [self presentViewController:alertView animated:YES completion:nil];
             }
             else{
-                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-                [alertView show];
+                UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil)];
+                [self presentViewController:alertView animated:YES completion:nil];
             }
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Power off System", nil)]){

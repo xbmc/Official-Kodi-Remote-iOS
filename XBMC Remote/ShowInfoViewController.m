@@ -600,12 +600,8 @@ int count=0;
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
                        
                    }
-                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
-                                                                       message:message
-                                                                      delegate:self
-                                                             cancelButtonTitle:nil
-                                                             otherButtonTitles:NSLocalizedString(@"Copy to clipboard",nil), nil];
-                   [alertView show];
+                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:message];
+                   [self presentViewController:alertView animated:YES completion:nil];
                }
            }];
 }
@@ -1806,8 +1802,8 @@ int h=0;
     if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]){
         [activityIndicatorView stopAnimating];
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"VLC non installed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-        [alertView show];
+        UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"VLC non installed", nil) message:nil];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
         [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {

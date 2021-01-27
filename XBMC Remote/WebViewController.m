@@ -91,14 +91,8 @@
 		if ([error code] != NSURLErrorCancelled) {
 			//show error alert, etc.
 		}
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-								   initWithTitle:NSLocalizedString(@"Error loading page", nil)
-								   message: [error localizedFailureReason]
-								   delegate:nil
-								   cancelButtonTitle:NSLocalizedString(@"OK", nil)
-								   otherButtonTitles:nil];
-        [errorAlert show];
-//        [errorAlert release];
+        UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Error loading page", nil) message:[error localizedFailureReason]];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
 }
 

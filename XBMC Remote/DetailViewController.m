@@ -3790,8 +3790,8 @@ NSIndexPath *selected;
     [queuing startAnimating];
     if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]){
         [queuing stopAnimating];
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-        [alertView show];
+        UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Cannot do that", nil) message:nil];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
         [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -3845,12 +3845,8 @@ NSIndexPath *selected;
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
                        
                    }
-                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
-                                                                       message:message
-                                                                      delegate:self
-                                                             cancelButtonTitle:nil
-                                                             otherButtonTitles:NSLocalizedString(@"Copy to clipboard", nil), nil];
-                   [alertView show];
+                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:message];
+                   [self presentViewController:alertView animated:YES completion:nil];
                }
     }];
 }
@@ -3915,12 +3911,8 @@ NSIndexPath *selected;
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
                        
                    }
-                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
-                                                                       message:message
-                                                                      delegate:self
-                                                             cancelButtonTitle:nil
-                                                             otherButtonTitles:NSLocalizedString(@"Copy to clipboard", nil), nil];
-                   [alertView show];
+                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:message];
+                   [self presentViewController:alertView animated:YES completion:nil];
                }
            }];
 }
@@ -4521,8 +4513,8 @@ NSIndexPath *selected;
              }
          }
          else {
-             UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Details not found", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-             [alertView show];
+             UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Details not found", nil) message:nil];
+             [self presentViewController:alertView animated:YES completion:nil];
              [queuing stopAnimating];
          }
      }];
@@ -4877,14 +4869,8 @@ NSIndexPath *selected;
                  debugText.text = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, debugText.text];
                  
              }
-             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
-                                                                 message:debugText.text
-                                                                delegate:self
-                                                       cancelButtonTitle:nil
-                                                       otherButtonTitles:NSLocalizedString(@"Copy to clipboard",nil), nil];
-             [alertView show];
-             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-             pasteboard.string = debugText.text;
+             UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:debugText.text];
+             [self presentViewController:alertView animated:YES completion:nil];
              // END DISPLAY DEBUG
              
              [self showNoResultsFound:resultStoreArray refresh:forceRefresh];

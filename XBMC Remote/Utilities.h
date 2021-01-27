@@ -44,5 +44,7 @@ typedef enum {
 + (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha;
 + (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width;
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(eJewelType)type;
++ (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
++ (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
 
 @end

@@ -337,4 +337,23 @@
     return frame;
 }
 
++ (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg {
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* okButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+    [alertView addAction:okButton];
+    return alertView;
+}
+
++ (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg {
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* copyButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Copy to clipboard", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            pasteboard.string = msg;
+    }];
+    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+    [alertView addAction:copyButton];
+    [alertView addAction:cancelButton];
+    return alertView;
+}
+
 @end
