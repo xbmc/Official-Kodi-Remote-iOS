@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class DetailViewController;
 
-@interface WebViewController : UIViewController <UIActionSheetDelegate>{
+@interface WebViewController : UIViewController {
     IBOutlet UIWebView *Twitterweb;
     UIActivityIndicatorView *TwitterwebLoadIndicator;
     IBOutlet UILabel *tweetURL;
