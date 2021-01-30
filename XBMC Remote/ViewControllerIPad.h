@@ -20,7 +20,7 @@
 @class AppInfoViewController;
 
 
-@interface ViewControllerIPad : UIViewController <UIPopoverControllerDelegate, UIActionSheetDelegate>{
+@interface ViewControllerIPad : UIViewController <UIPopoverControllerDelegate>{
 	UIViewExt* rootView;
 	UIView* leftMenuView;
 	UIView* rightSlideView;
@@ -38,8 +38,6 @@
     NSTimer* extraTimer;
     UIPopoverController *_serverPickerPopover;
     HostManagementViewController *_hostPickerViewController;
-    UIActionSheet *actionSheetPower;
-    BOOL showActionPower;
     BOOL stackScrollIsFullscreen;
     BOOL serverPicker;
     BOOL appInfo;
