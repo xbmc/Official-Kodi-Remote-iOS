@@ -19,7 +19,7 @@ typedef enum {
     cUnsupported,
 } SettingType;
 
-@interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate> {
+@interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate> {
     int cellLabelOffset;
     CGFloat cellHeight;
     NSMutableArray *settingOptions;
