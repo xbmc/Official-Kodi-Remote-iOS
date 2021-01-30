@@ -405,8 +405,8 @@
         [cellLabel setFont:[UIFont systemFontOfSize:18]];
         [cellLabel setAdjustsFontSizeToFitWidth:YES];
         [cellLabel setMinimumScaleFactor:12.0/18.0];
-        [cellLabel setTextColor:[UIColor blackColor]];
-        [cellLabel setHighlightedTextColor:[UIColor whiteColor]];
+        [cellLabel setTextColor:[Utilities get1stLabelColor]];
+        [cellLabel setHighlightedTextColor:[Utilities get1stLabelColor]];
         [cell.contentView addSubview:cellLabel];
         
         UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
@@ -421,8 +421,8 @@
         [descriptionLabel setAdjustsFontSizeToFitWidth:YES];
         [descriptionLabel setNumberOfLines:0];
         [descriptionLabel setMinimumScaleFactor:11.0/12.0];
-        [descriptionLabel setTextColor:[UIColor grayColor]];
-        [descriptionLabel setHighlightedTextColor:[UIColor lightGrayColor]];
+        [descriptionLabel setTextColor:[Utilities get2ndLabelColor]];
+        [descriptionLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
         [cell.contentView addSubview:descriptionLabel];
         
         OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 20)];
@@ -445,8 +445,8 @@
         [uiSliderLabel setFont:[UIFont systemFontOfSize:14]];
         [uiSliderLabel setAdjustsFontSizeToFitWidth:YES];
         [uiSliderLabel setMinimumScaleFactor:12.0/14.0];
-        [uiSliderLabel setTextColor:[UIColor grayColor]];
-        [uiSliderLabel setHighlightedTextColor:[UIColor lightGrayColor]];
+        [uiSliderLabel setTextColor:[Utilities get2ndLabelColor]];
+        [uiSliderLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
         [cell.contentView addSubview:uiSliderLabel];
         
         UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 30)];
@@ -699,7 +699,7 @@
     [descriptionLabel setNumberOfLines:20];
     [descriptionLabel setTextColor:[UIColor whiteColor]];
     [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
-    [descriptionLabel setHighlightedTextColor:[UIColor grayColor]];
+    [descriptionLabel setHighlightedTextColor:[UIColor whiteColor]];
     [descriptionLabel setText:[footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
     if (xbmcSetting == cUnsupported){
         [helpView setBackgroundColor:[Utilities getSystemRed:1.0]];

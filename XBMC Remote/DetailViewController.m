@@ -58,6 +58,7 @@
 #define WARNING_TIMEOUT 30.0
 #define COLLECTION_HEADER_HEIGHT 16
 #define FIXED_SPACE_WIDTH 120
+#define INFO_PADDING 10
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -2068,7 +2069,7 @@ int originYear = 0;
         }
         else if (channelListView) {
             CGFloat pieSize = 28;
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2, 10, pieSize, pieSize) color:[UIColor blackColor]];
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2, 10, pieSize, pieSize) color:[Utilities get1stLabelColor]];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
@@ -5300,6 +5301,9 @@ NSIndexPath *selected;
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setEnabled:YES];
         selectedMoreTab = [[UIButton alloc] init];
     }
+    else {
+        button5.hidden = YES;
+    }
 }
 
 -(void)checkParamSize:(NSDictionary *)itemSizes viewWidth:(int)fullWidth{
@@ -5699,10 +5703,20 @@ NSIndexPath *selected;
     else {
         self.searchController.searchBar.hidden = NO;
     }
-    frame = collectionView.pullToRefreshView.frame;
-    frame.origin.y = 0;
-    collectionView.pullToRefreshView.frame = frame;
     activeLayoutView = dataList;
+    
+    // For CollectionView place an info label at the position of the searchbar
+    UIView *infobar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, self.searchController.searchBar.frame.size.height)];
+    infobar.backgroundColor = [UIColor clearColor];
+    UILabel *infolabel = [[UILabel alloc] initWithFrame:CGRectMake(INFO_PADDING, INFO_PADDING, viewWidth - 2*INFO_PADDING, self.searchController.searchBar.frame.size.height - 2*INFO_PADDING)];
+    infolabel.backgroundColor = collectionViewSearchBarColor;
+    infolabel.textColor = [UIColor darkGrayColor];
+    infolabel.text = [NSString stringWithFormat:@" %@", NSLocalizedString(@"For search switch to list view", nil)];
+    infolabel.layer.masksToBounds = YES;
+    infolabel.layer.cornerRadius = 10;
+    infolabel.layer.borderWidth = 0;
+    [infobar addSubview:infolabel];
+    [collectionView addSubview:infobar];
     
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     
