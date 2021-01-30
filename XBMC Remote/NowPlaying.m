@@ -669,8 +669,8 @@ int currentItemID;
                             Utilities *utils = [[Utilities alloc] init];
                             UIColor *lighterColor = [utils lighterColorForColor:color];
                             UIColor *slightLighterColor = [utils slightLighterColorForColor:color];
-                            UIColor *progressColor =[utils updateColor:color lightColor:slightLighterColor darkColor:color trigger:0.2];
-                            UIColor *pgThumbColor = [utils updateColor:color lightColor:lighterColor darkColor:slightLighterColor trigger:0.2];
+                            UIColor *progressColor = slightLighterColor;
+                            UIColor *pgThumbColor = lighterColor;
                             [ProgressSlider setMinimumTrackTintColor:progressColor];
                             if (ProgressSlider.userInteractionEnabled){
                                 UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:pg_thumb_name] withColor:pgThumbColor];
@@ -744,9 +744,7 @@ int currentItemID;
                          else{
                              Utilities *utils = [[Utilities alloc] init];
                              UIColor *lighterColor = [utils lighterColorForColor:color];
-                             UIColor *slightLighterColor = [utils slightLighterColorForColor:color];
-                             UIColor *navBarColor = [utils updateColor:color lightColor:slightLighterColor darkColor:color trigger:0.4];
-                             self.navigationController.navigationBar.tintColor = navBarColor;
+                             self.navigationController.navigationBar.tintColor = lighterColor;
                              [UIView transitionWithView:backgroundImageView
                                                duration:1.0
                                                 options:UIViewAnimationOptionTransitionCrossDissolve

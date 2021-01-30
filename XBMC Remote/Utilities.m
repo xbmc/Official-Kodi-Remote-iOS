@@ -58,34 +58,29 @@
 	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
 }
 
-- (UIColor *)slightLighterColorForColor:(UIColor *)c{
-    CGFloat r, g, b, a;
-    if ([c getRed:&r green:&g blue:&b alpha:&a])
-        return [UIColor colorWithRed:MIN(r + 0.2, 1.0)
-                               green:MIN(g + 0.2, 1.0)
-                                blue:MIN(b + 0.2, 1.0)
-                               alpha:a];
-    return nil;
++ (UIColor *)tailorColor:(UIColor *)color_in satscale:(CGFloat)satscale brightscale:(CGFloat)brightscale brightmin:(CGFloat)brightmin brightmax:(CGFloat)brightmax{
+    CGFloat hue, sat, bright, alpha;
+    UIColor *color_out = nil;
+    if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
+        // de-saturate, but do not remove saturation fully
+        sat = MIN(MAX(sat * satscale, 0), 1);
+        // scale and limit brightness to range [brightmin ... brightmax]
+        bright = MIN((MAX(bright * brightscale, brightmin)), brightmax);
+        color_out = [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
+    }
+    return color_out;
 }
 
-- (UIColor *)lighterColorForColor:(UIColor *)c{
-    CGFloat r, g, b, a;
-    if ([c getRed:&r green:&g blue:&b alpha:&a])
-        return [UIColor colorWithRed:MIN(r + 0.4, 1.0)
-                               green:MIN(g + 0.4, 1.0)
-                                blue:MIN(b + 0.4, 1.0)
-                               alpha:a];
-    return nil;
+- (UIColor *)slightLighterColorForColor:(UIColor *)color_in{
+    return [Utilities tailorColor:color_in satscale:0.33 brightscale:1.2 brightmin:0.5 brightmax:0.6];
 }
 
-- (UIColor *)darkerColorForColor:(UIColor *)c{
-    CGFloat r, g, b, a;
-    if ([c getRed:&r green:&g blue:&b alpha:&a])
-        return [UIColor colorWithRed:MAX(r - 0.1, 0.0)
-                               green:MAX(g - 0.1, 0.0)
-                                blue:MAX(b - 0.1, 0.0)
-                               alpha:a];
-    return nil;
+- (UIColor *)lighterColorForColor:(UIColor *)color_in{
+    return [Utilities tailorColor:color_in satscale:0.33 brightscale:1.5 brightmin:0.7 brightmax:0.9];
+}
+
+- (UIColor *)darkerColorForColor:(UIColor *)color_in{
+    return [Utilities tailorColor:color_in satscale:0.33 brightscale:0.7 brightmin:0.2 brightmax:0.4];
 }
 
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker{
