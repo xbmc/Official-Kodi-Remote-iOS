@@ -115,7 +115,7 @@ NSMutableArray *hostRightMenuItems;
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                   [UIColor colorWithRed:1 green:1 blue:1 alpha:1], NSForegroundColorAttributeName,
+                                                   [UIColor whiteColor], NSForegroundColorAttributeName,
                                                    [UIFont boldSystemFontOfSize:18], NSFontAttributeName, nil];
         [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     }

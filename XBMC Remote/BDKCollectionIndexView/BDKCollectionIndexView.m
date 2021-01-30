@@ -191,7 +191,7 @@
 
 - (void)setBackgroundVisibility:(BOOL)flag {
     CGFloat alpha = flag ? 0.5 : 0;
-    self.touchStatusView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:alpha];
+    self.touchStatusView.backgroundColor = [Utilities getGrayColor:0 alpha:alpha];
 }
 
 #pragma mark - Gestures

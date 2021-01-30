@@ -9,6 +9,7 @@
 #import "ActorCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 @implementation ActorCell
 
@@ -31,7 +32,7 @@ int offsetY = 5;
         UIView *actorContainer = [[UIView alloc] initWithFrame:CGRectMake(offsetX, offsetY, castWidth, castHeight)];
         [actorContainer setClipsToBounds: NO];
         [actorContainer setBackgroundColor:[UIColor clearColor]];
-        actorContainer.layer.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8].CGColor;
+        actorContainer.layer.shadowColor = [Utilities getGrayColor:0 alpha:0.8].CGColor;
         actorContainer.layer.shadowOpacity = 0.7f;
         actorContainer.layer.shadowOffset = CGSizeZero;
         actorContainer.layer.shadowRadius = 2.0;
@@ -67,7 +68,7 @@ int offsetY = 5;
         [self addSubview:_actorRole];
         
         UIView *myBackView = [[UIView alloc] initWithFrame:self.frame];
-        myBackView.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.5];
+        myBackView.backgroundColor = [Utilities getGrayColor:128 alpha:0.5];
         self.selectedBackgroundView = myBackView;
     }
     return self;

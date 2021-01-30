@@ -19,6 +19,7 @@
 #import "ClearCacheView.h"
 #import "gradientUIView.h"
 #import "CustomNavigationController.h"
+#import "Utilities.h"
 
 #define CONNECTION_TIMEOUT 240.0
 #define SERVER_TIMEOUT 2.0
@@ -200,7 +201,7 @@
     self.serverPickerPopover = [[UIPopoverController alloc]
                                 initWithContentViewController:[AppDelegate instance].navigationController];
     self.serverPickerPopover.delegate = self;
-    [self.serverPickerPopover setBackgroundColor:[UIColor colorWithRed:41.0f/255.0f green:41.0f/255.0f blue:41.0f/255.0f alpha:1.0f]];
+    [self.serverPickerPopover setBackgroundColor:[Utilities getGrayColor:41 alpha:1]];
     [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
 }
 
@@ -231,7 +232,7 @@
                                     initWithContentViewController:_appInfoView];
         self.appInfoPopover.delegate = self;
         [self.appInfoPopover setPopoverContentSize:CGSizeMake(320, 460)];
-        self.appInfoPopover.backgroundColor = [UIColor colorWithRed:187.0f/255.0f green:187.0f/255.0f blue:187.0f/255.0f alpha:1.0f];
+        self.appInfoPopover.backgroundColor = [Utilities getGrayColor:187 alpha:1];
     }
     [self.appInfoPopover presentPopoverFromRect:xbmcLogo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
@@ -422,7 +423,7 @@
     
     UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight + separator - 2, tableWidth, 1)];
 //    [horizontalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [horizontalLineView1 setBackgroundColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:.2]];
+    [horizontalLineView1 setBackgroundColor:[Utilities getGrayColor:77 alpha:0.2]];
     [leftMenuView addSubview:horizontalLineView1];
 
     self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
@@ -451,7 +452,7 @@
 	[rootView addSubview:leftMenuView];
 	[rootView addSubview:rightSlideView];
     
-//    self.view.backgroundColor = [UIColor colorWithWhite:.14 alpha:1];
+//    self.view.backgroundColor = [Utilities getGrayColor:36 alpha:1];
 //    self.view.backgroundColor = [[UIColor scrollViewTexturedBackgroundColor] colorWithAlphaComponent:0.5];
 //	[self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
     [self.view addSubview:rootView];
@@ -616,8 +617,8 @@
     
     [self initHostManagemetPopOver];
     
-    [(gradientUIView *)self.view setColoursWithCGColors:[UIColor colorWithRed:0.141f green:0.141f blue:0.141f alpha:1.0f].CGColor
-                                               endColor:[UIColor colorWithRed:0.086f green:0.086f blue:0.086f alpha:1.0f].CGColor];
+    [(gradientUIView *)self.view setColoursWithCGColors:[Utilities getGrayColor:36 alpha:1].CGColor
+                                               endColor:[Utilities getGrayColor:22 alpha:1].CGColor];
 }
 
 -(void)handleChangeBackgroundImage:(NSNotification *)sender {

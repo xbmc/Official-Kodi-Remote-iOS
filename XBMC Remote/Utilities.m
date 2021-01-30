@@ -8,6 +8,7 @@
 
 #import "Utilities.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 #define HEADROOM_FOR_XBMC_LOGO 10
@@ -280,6 +281,10 @@
     } else {
         return RGBA(60, 60, 67, 0.18);
     }
+}
+
++ (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha{
+    return RGBA(tone, tone, tone, alpha);
 }
 
 + (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width {

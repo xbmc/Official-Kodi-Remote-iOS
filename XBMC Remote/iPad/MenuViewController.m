@@ -61,7 +61,7 @@
 		[_tableView setDataSource:self];
         [_tableView setBackgroundColor:[UIColor clearColor]];
         [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
-        [_tableView setSeparatorColor:[UIColor colorWithWhite:0.0f alpha:0.1]];
+        [_tableView setSeparatorColor:[Utilities getGrayColor:0 alpha:0.1]];
         mainMenuItems=menu;
         UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
 		_tableView.tableFooterView = footerView;        
@@ -87,7 +87,7 @@
         
 //        UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, -5, 1, self.view.frame.size.height+5)];
 //		[verticalLineView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-//		[verticalLineView setBackgroundColor:[UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1]];
+//		[verticalLineView setBackgroundColor:[Utilities getGrayColor:26 alpha:1]];
 //		[self.view addSubview:verticalLineView];
 
 //        UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width + 1, -5, 5, self.view.frame.size.height-39)];
@@ -98,14 +98,14 @@
         
 		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, 1, self.view.frame.size.height-39)];
 		[verticalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-		[verticalLineView1 setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:.3]];
+		[verticalLineView1 setBackgroundColor:[Utilities getGrayColor:0 alpha:0.3]];
 		[self.view addSubview:verticalLineView1];
         [self.view bringSubviewToFront:verticalLineView1];
 
         
         UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, 0, 1, self.view.frame.size.height-39)];
 		[verticalLineView2 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-		[verticalLineView2 setBackgroundColor:[UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:0.2f]];
+		[verticalLineView2 setBackgroundColor:[Utilities getGrayColor:77 alpha:0.2]];
 		[self.view addSubview:verticalLineView2];
         
         [self.view bringSubviewToFront:verticalLineView2];
@@ -218,10 +218,10 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0){
-        cell.backgroundColor = [UIColor colorWithRed:.508f green:.508f blue:.508f alpha:0.1f];
+        cell.backgroundColor = [Utilities getGrayColor:130 alpha:0.1];
     }
     else{
-//        cell.backgroundColor = [UIColor colorWithRed:.141f green:.141f blue:.141f alpha:1];
+//        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
         cell.backgroundColor = [UIColor clearColor];
     }
 }
@@ -234,10 +234,10 @@
     if (cell==nil){
         cell = resultMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
-        [backgroundView setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.4f]];
+        [backgroundView setBackgroundColor:[Utilities getGrayColor:0 alpha:0.4]];
         cell.selectedBackgroundView = backgroundView;
         if (indexPath.row == 0){
-            [backgroundView setBackgroundColor:[UIColor colorWithRed:.508f green:.508f blue:.508f alpha:0.1f]];
+            [backgroundView setBackgroundColor:[Utilities getGrayColor:130 alpha:0.1]];
             cell.selectedBackgroundView = backgroundView;
             UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:PAD_MENU_INFO_HEIGHT width:PAD_MENU_TABLE_WIDTH]];

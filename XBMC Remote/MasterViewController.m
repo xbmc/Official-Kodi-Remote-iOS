@@ -113,7 +113,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0){
-        cell.backgroundColor = [UIColor colorWithRed:.208f green:.208f blue:.208f alpha:1];
+        cell.backgroundColor = [Utilities getGrayColor:53 alpha:1];
     }
 }
 
@@ -126,7 +126,7 @@
     if (cell == nil){
         cell = resultMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
-        [backgroundView setBackgroundColor:[UIColor colorWithRed:.086 green:.086 blue:.086 alpha:1]];
+        [backgroundView setBackgroundColor:[Utilities getGrayColor:22 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
         [(UILabel*) [cell viewWithTag:3] setText:NSLocalizedString(@"No connection", nil)];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
@@ -237,7 +237,7 @@
     [newBar setBarStyle:UIBarStyleBlack];
     [newBar setTintColor:TINT_COLOR];
     if (setBarTintColor) {
-        [newBar setBackgroundColor:[UIColor colorWithRed:.8f green:.8f blue:.8f alpha:0.35f]];
+        [newBar setBackgroundColor:[Utilities getGrayColor:204 alpha:0.35]];
     }
     if (hideBottonLine) {
         [navController hideNavBarBottomLine:YES];
@@ -383,7 +383,7 @@
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
     
-    [self.view setBackgroundColor:[UIColor colorWithRed:.141f green:.141f blue:.141f alpha:1]];
+    [self.view setBackgroundColor:[Utilities getGrayColor:36 alpha:1]];
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
