@@ -5803,7 +5803,7 @@ NSIndexPath *selected;
 
 -(void)initIpadCornerInfo {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]){
-        titleView = [[UIView alloc] initWithFrame:CGRectMake(STACKSCROLL_WIDTH - FIXED_SPACE_WIDTH, 0, FIXED_SPACE_WIDTH, buttonsView.frame.size.height)];
+        titleView = [[UIView alloc] initWithFrame:CGRectMake(STACKSCROLL_WIDTH - FIXED_SPACE_WIDTH, 0, FIXED_SPACE_WIDTH - 5, buttonsView.frame.size.height)];
         [titleView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
         topNavigationLabel.textAlignment = NSTextAlignmentRight;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:14];
