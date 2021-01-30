@@ -3,6 +3,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define DEFAULT_ALPHA 0.3
+#define INDEX_HEIGHT_IPHONE 14  // tested for iPod and Xs and 12 Pro and 6s (10.x)
+#define INDEX_HEIGHT_IPAD 24 // tested for iPad Pro 12.9" and iPad Pro 9.7" and iPad 8G and iPad 5G
 
 @interface BDKCollectionIndexView ()
 
@@ -79,14 +81,22 @@
 - (void)layoutSubviews {
 
     CGFloat maxLength = 0.0;
+    CGFloat cumulativeLength = 0.0;
     switch (_direction) {
         case BDKCollectionIndexViewDirectionHorizontal:
             _theDimension = CGRectGetHeight(self.frame);
             maxLength = CGRectGetWidth(self.frame) - (self.endPadding * 2);
+            cumulativeLength = self.endPadding;
             break;
         case BDKCollectionIndexViewDirectionVertical:
-            _theDimension = CGRectGetWidth(self.frame) - (self.labelPadding * 2);
-            maxLength = CGRectGetHeight(self.frame) - self.endPadding;
+            _theDimension = CGRectGetWidth(self.frame);
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                maxLength = self.indexLabels.count * INDEX_HEIGHT_IPHONE;
+            }
+            else {
+                maxLength = self.indexLabels.count * INDEX_HEIGHT_IPAD;
+            }
+            cumulativeLength = (CGRectGetHeight(self.frame) - maxLength)/2;
             break;
     }
 
@@ -94,7 +104,6 @@
 //    self.touchStatusView.layer.cornerRadius = floorf(self.theDimension / 2.75);
     self.touchStatusView.layer.cornerRadius = 0;
 
-    CGFloat cumulativeLength = self.endPadding;
     CGSize labelSize = CGSizeMake(self.theDimension, self.theDimension);
 
     CGFloat otherDimension = floorf(maxLength / self.indexLabels.count);
@@ -157,8 +166,8 @@
             label.minimumScaleFactor = 5.0/11.0;
             label.adjustsFontSizeToFitWidth = YES;
             label.backgroundColor = [UIColor clearColor];
-            label.textColor = [UIColor systemGrayColor];
-            label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1.0];
+            label.textColor = [UIColor systemBlueColor];
+            label.shadowColor = [UIColor clearColor];
             label.shadowOffset = CGSizeMake(0, 1);
             label.textAlignment = NSTextAlignmentCenter;
             [self addSubview:label];

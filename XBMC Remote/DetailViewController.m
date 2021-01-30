@@ -5542,7 +5542,7 @@ NSIndexPath *selected;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
     [dataList setSectionIndexBackgroundColor:[UIColor clearColor]];
-    [dataList setSectionIndexColor:[UIColor systemGrayColor]];
+    [dataList setSectionIndexColor:[UIColor systemBlueColor]];
     [dataList setSectionIndexTrackingBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
     [dataList setSeparatorInset:UIEdgeInsetsMake(0, 53, 0, 0)];
     
