@@ -38,20 +38,19 @@
     unsigned int green = 0;
     unsigned int blue  = 0;
     
-	for (int row = 0; row < imageHeight; row++) {
-		const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-		for (int column = 0; column < imageWidth; column++) {
-            if (inverse == YES){
-                blue    += rowPtr[0];
-                red   += rowPtr[2];
-            }
-            else{
-                red    += rowPtr[0];
-                blue   += rowPtr[2];
-            }
+    for (int row = 0; row < imageHeight; row++) {
+        const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+        for (int column = 0; column < imageWidth; column++) {
+            red    += rowPtr[0];
             green  += rowPtr[1];
-			rowPtr += stride;
+            blue   += rowPtr[2];
+            rowPtr += stride;
         }
+    }
+    if (inverse) {
+        unsigned int tmp = red;
+        red = blue;
+        blue = tmp;
     }
 	CFRelease(data);
     
