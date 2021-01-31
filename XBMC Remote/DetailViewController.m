@@ -494,6 +494,17 @@
 
 #pragma mark - Utility
 
+-(void)setLogoBackgroundColor:(UIImageView*)imageview {
+    // adapt color
+    UIImage *image = imageview.image;
+    Utilities *utils = [[Utilities alloc] init];
+    UIColor *imgcolor = [utils averageColor:image inverse:NO];
+    UIColor *bglight = [Utilities getGrayColor:28 alpha:1.0];
+    UIColor *bgdark = [Utilities getGrayColor:242 alpha:1.0];
+    UIColor *bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.3];
+    [imageview setBackgroundColor:bgcolor];
+}
+
 -(BOOL)doesShowSearchResults {
     BOOL result = NO;
     if (@available(iOS 13.0, *)) {
@@ -1404,7 +1415,11 @@
             if ([[item objectForKey:@"family"] isEqualToString:@"channelid"]){
                 [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
             }
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellthumbWidth, cellthumbHeight)];
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellthumbWidth, cellthumbHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                if (channelListView || channelGuideView) {
+                    [self setLogoBackgroundColor:cell.posterThumbnail];
+                }
+            }];
             if (hiddenLabel) {
                 [cell.posterLabel setHidden:YES];
                 [cell.labelImageView setHidden:YES];
@@ -2311,7 +2326,11 @@ int originYear = 0;
             if ([[item objectForKey:@"family"] isEqualToString:@"channelid"]){
                 [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
             }
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight)];
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                if (channelListView || channelGuideView) {
+                    [self setLogoBackgroundColor:cell.urlImageView];
+                }
+            }];
         }
         else {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
