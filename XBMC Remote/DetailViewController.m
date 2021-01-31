@@ -2066,6 +2066,7 @@ int originYear = 0;
             hasTimer.hidden = YES;
             [hasTimer setBackgroundColor:[UIColor clearColor]];
             [cell.contentView addSubview:hasTimer];
+            [cell.urlImageView setBackgroundColor:[Utilities getGrayColor:28 alpha:0.8]];
         }
         else if (channelListView) {
             CGFloat pieSize = 28;
@@ -2082,6 +2083,7 @@ int originYear = 0;
             isRecordingImageView.hidden = YES;
             [isRecordingImageView setBackgroundColor:[UIColor clearColor]];
             [cell.contentView addSubview:isRecordingImageView];
+            [cell.urlImageView setBackgroundColor:[Utilities getGrayColor:28 alpha:0.8]];
         }
         [(UILabel*) [cell viewWithTag:1] setHighlightedTextColor:[Utilities get1stLabelColor]];
         [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[Utilities get2ndLabelColor]];
