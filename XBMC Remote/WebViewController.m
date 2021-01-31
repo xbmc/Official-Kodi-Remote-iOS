@@ -74,6 +74,7 @@
     [webBackButton setEnabled:[Twitterweb canGoBack] && !blank_page]; // Enable or disable back
     [webForwardButton setEnabled:[Twitterweb canGoForward]];
     tweetURL.text=[[Twitterweb.request URL] absoluteString];
+    tweetURL.textAlignment = NSTextAlignmentCenter;
     topNavigationLabel.text=[Twitterweb stringByEvaluatingJavaScriptFromString:@"document.title"];
     [self fade:topNavigationLabel AnimDuration:0.2 startAlpha:0 endAlpha:1];
     UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
@@ -209,6 +210,22 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     [bottomToolbar setTintColor:TINT_COLOR];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        CGFloat bottomPadding = 0;
+        if (@available(iOS 11.0, *)) {
+            UIWindow *window = UIApplication.sharedApplication.keyWindow;
+            bottomPadding = window.safeAreaInsets.bottom;
+        }
+        if (bottomPadding > 0) {
+            CGRect frame = bottomToolbar.frame;
+            frame.origin.y -= bottomPadding;
+            bottomToolbar.frame = frame;
+            
+            frame = tweetURL.frame;
+            frame.origin.y -= bottomPadding;
+            tweetURL.frame = frame;
+        }
+    }
     self.edgesForExtendedLayout = UIRectEdgeNone;
     NSDictionary *item = self.detailItem;
     UIBarButtonItem *extraButton = nil;
