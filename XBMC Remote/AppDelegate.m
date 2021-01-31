@@ -153,6 +153,9 @@ NSMutableArray *hostRightMenuItems;
     float itemMovieHeightRecentlyIphone =  132.0f;
     float itemMovieHeightRecentlyIpad =  196.0f;
     
+    float fullscreenItemMovieBannerWidthIpad = 502.0f;
+    float fullscreenItemMovieBannerHeightIpad = 206.0f;
+    
     [self.window makeKeyAndVisible];
     
     mainMenuItems = [NSMutableArray arrayWithCapacity:1];
@@ -1754,8 +1757,8 @@ NSMutableArray *hostRightMenuItems;
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              @"fullWidth", @"width",
                              [NSNumber numberWithFloat:itemMovieHeightRecentlyIpad], @"height",
-                             [NSNumber numberWithFloat:502], @"fullscreenWidth",
-                             [NSNumber numberWithFloat:206.0f], @"fullscreenHeight", nil], @"ipad",
+                             [NSNumber numberWithFloat:fullscreenItemMovieBannerWidthIpad], @"fullscreenWidth",
+                             [NSNumber numberWithFloat:fullscreenItemMovieBannerHeightIpad], @"fullscreenHeight", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           

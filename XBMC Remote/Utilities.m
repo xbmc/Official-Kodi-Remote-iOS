@@ -175,7 +175,7 @@
     }
     // For iPad a fixed frame width is used.
     else {
-        return 1.0;
+        return (STACKSCROLL_WIDTH/476.0);
     }
 }
 
