@@ -5280,17 +5280,10 @@ NSIndexPath *selected;
     }
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
     if (count==0){
-        button5.hidden=YES;
+        button1.hidden = button2.hidden = button3.hidden = button4.hidden = button5.hidden = YES;
         CGRect frame=dataList.frame;
         frame.size.height=self.view.bounds.size.height;
         dataList.frame=frame;
-        
-        UIEdgeInsets tableViewInsets = dataList.contentInset;
-        tableViewInsets.bottom = 0;
-        dataList.contentInset = tableViewInsets;
-        dataList.scrollIndicatorInsets = tableViewInsets;
-        collectionView.contentInset = tableViewInsets;
-        collectionView.scrollIndicatorInsets = tableViewInsets;
     }
     if ([[self.detailItem mainMethod] count]>MAX_NORMAL_BUTTONS){
         NSString *imageNameOff=@"st_more_off.png";
@@ -5606,6 +5599,13 @@ NSIndexPath *selected;
     // Hide the toolbar when no button is shown at all (button5 is only hidden when 1-4 are not available)
     if (button5.hidden && button6.hidden && button7.hidden) {
         buttonsView.hidden = YES;
+        
+        UIEdgeInsets tableViewInsets = dataList.contentInset;
+        tableViewInsets.bottom = 0;
+        dataList.contentInset = tableViewInsets;
+        dataList.scrollIndicatorInsets = tableViewInsets;
+        collectionView.contentInset = tableViewInsets;
+        collectionView.scrollIndicatorInsets = tableViewInsets;
     }
     searchBarColor = [Utilities getGrayColor:89 alpha:1];
     collectionViewSearchBarColor = [UIColor blackColor];
