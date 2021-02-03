@@ -435,7 +435,7 @@
     self.nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
     self.nowPlayingController.view.frame=frame;
     
-    [self.nowPlayingController setToolbarWidth:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height - 414 YPOS:YPOS playBarWidth:1426 portrait:TRUE];
+    [self.nowPlayingController setToolbarWidth:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height YPOS:YPOS portrait:TRUE];
     
     [leftMenuView addSubview:self.nowPlayingController.view];
 
@@ -515,14 +515,6 @@
     
     [self.view insertSubview:self.nowPlayingController.scrabbingView aboveSubview:rootView];
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
-    frame = self.nowPlayingController.ProgressSlider.frame;
-    frame.origin.x = self.nowPlayingController.ProgressSlider.frame.origin.x + PAD_MENU_TABLE_WIDTH;
-    self.nowPlayingController.ProgressSlider.frame=frame;
-    
-    frame = self.nowPlayingController.scrabbingView.frame;
-    frame.size.width += 2;
-    frame.origin.x = self.nowPlayingController.scrabbingView.frame.origin.x + PAD_MENU_TABLE_WIDTH;
-    self.nowPlayingController.scrabbingView.frame=frame;
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
@@ -737,26 +729,8 @@
 }
 
 - (void)viewWillLayoutSubviews{
-    UIInterfaceOrientation toInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-        CGRect frame = self.nowPlayingController.ProgressSlider.frame;
-        frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 580;
-        self.nowPlayingController.ProgressSlider.frame=frame;
-        frame = self.nowPlayingController.scrabbingView.frame;
-        frame.origin.y = self.nowPlayingController.ProgressSlider.frame.origin.y - self.nowPlayingController.scrabbingView.frame.size.height - 2;
-        self.nowPlayingController.scrabbingView.frame=frame;
-
-        [self.nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height - 414 YPOS:YPOS playBarWidth:426 portrait:TRUE];
-	}
-	else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight){
-        CGRect frame = self.nowPlayingController.ProgressSlider.frame;
-        frame.origin.y = [self currentScreenBoundsDependOnOrientation].size.height - 168;
-        self.nowPlayingController.ProgressSlider.frame=frame;
-        frame = self.nowPlayingController.scrabbingView.frame;
-        frame.origin.y = self.nowPlayingController.ProgressSlider.frame.origin.y - self.nowPlayingController.scrabbingView.frame.size.height - 2;
-        self.nowPlayingController.scrabbingView.frame=frame;
-        [self.nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS playBarWidth:680 portrait:FALSE];
-	}
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    [self.nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS portrait:(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)];
 }
 
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{

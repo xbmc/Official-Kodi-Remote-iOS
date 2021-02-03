@@ -20,7 +20,6 @@
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage;
 + (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode;
 + (CGFloat)getTransformX;
-+ (CGFloat)getTransformY;
 + (UIColor*)getSystemRed:(CGFloat)alpha;
 + (UIColor*)getSystemGreen:(CGFloat)alpha;
 + (UIColor*)getSystemBlue;

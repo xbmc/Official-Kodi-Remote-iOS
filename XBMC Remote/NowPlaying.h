@@ -118,7 +118,7 @@
     CGFloat bottomPadding;
 }
 
-- (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait;
+- (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS portrait:(BOOL)isPortrait;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
 - (void)toggleSongDetails;

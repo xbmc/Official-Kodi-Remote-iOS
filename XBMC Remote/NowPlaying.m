@@ -43,9 +43,10 @@
 //@synthesize presentedFromNavigation;
 
 CGFloat startx=14;
-CGFloat barwidth=280;
 CGFloat cellBarWidth=45;
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
+#define PROGRESSBAR_PADDING_LEFT 20
+#define PROGRESSBAR_PADDING_BOTTOM 80
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
@@ -382,127 +383,39 @@ float storePercentage;
 int storedItemID;
 int currentItemID;
 
--(CGRect)transformFrame:(CGRect)frame{
-    CGFloat center_x = CGRectGetMidX(frame);
-    CGFloat center_y = CGRectGetMidY(frame);
-    CGFloat transform_x = [Utilities getTransformX];
-    CGFloat transform_y = [Utilities getTransformY];
-    frame.size.width *= transform_x;
-    frame.size.height *= transform_x;
-    frame.origin.x = center_x*transform_x - frame.size.width/2;
-    frame.origin.y = center_y*transform_y - frame.size.height/2;
-    return frame;
-}
-
 -(void)setCoverSize:(NSString *)type{
     NSString *jewelImg = @"";
     if ([type isEqualToString:@"song"]){
-        jewelImg = @"jewel_cd.9.png";
-        CGRect frame = thumbnailView.frame;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            frame.origin.x = 52;
-            frame.origin.y = 43;
-            frame.size.width = 238;
-            frame.size.height = 238;
-            frame = [self transformFrame:frame];
+            jewelImg = @"jewel_cd.9.png";
         }
         else {
             jewelImg=@"jewel_cd.9@2x.png";
-            if (portraitMode){
-                frame.origin.x = 82;
-                frame.origin.y = 60;
-                frame.size.width = 334;
-                frame.size.height = 334;
-            }
-            else {
-                frame.origin.x = 158;
-                frame.origin.y = 80;
-                frame.size.width = 435;
-                frame.size.height = 435;
-            }
         }
-        thumbnailView.frame = frame;
     }
     else if ([type isEqualToString:@"movie"]){
-        jewelImg=@"jewel_dvd.9.png";
-        CGRect frame = thumbnailView.frame;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            frame.origin.x = 86;
-            frame.origin.y = 39;
-            frame.size.width = 172;
-            frame.size.height = 248;
-            frame = [self transformFrame:frame];
+            jewelImg=@"jewel_dvd.9.png";
         }
         else{
             jewelImg=@"jewel_dvd.9@2x.png";
-            if (portraitMode){
-                frame.origin.x = 128;
-                frame.origin.y = 56;
-                frame.size.width = 240;
-                frame.size.height = 346;
-            }
-            else {
-                frame.origin.x = 222;
-                frame.origin.y = 74;
-                frame.size.width = 306;
-                frame.size.height = 450;
-            }
         }
-        thumbnailView.frame = frame;
     }
     else if ([type isEqualToString:@"episode"]){
-        jewelImg = @"jewel_tv.9.png";
-        CGRect frame = thumbnailView.frame;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            frame.origin.x = 22;
-            frame.origin.y = 78;
-            frame.size.width = 280;
-            frame.size.height = 158;
-            frame = [self transformFrame:frame];
+            jewelImg = @"jewel_tv.9.png";
         }
         else{
             jewelImg=@"jewel_tv.9@2x.png";
-            if (portraitMode){
-                frame.origin.x = 28;
-                frame.origin.y = 102;
-                frame.size.width = 412;
-                frame.size.height = 236;
-            }
-            else {
-                frame.origin.x = 38 ;
-                frame.origin.y = 102;
-                frame.size.width = 646;
-                frame.size.height = 364;
-            }
         }
-        thumbnailView.frame = frame;
     }
     else{
-        jewelImg = @"jewel_cd.9.png";
-        CGRect frame = thumbnailView.frame;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            frame.origin.x = 52;
-            frame.origin.y = 43;
-            frame.size.width = 238;
-            frame.size.height = 238;
-            frame = [self transformFrame:frame];
+            jewelImg = @"jewel_cd.9.png";
         }
         else {
             jewelImg=@"jewel_cd.9@2x.png";
-            if (portraitMode){
-                frame.origin.x = 82;
-                frame.origin.y = 60;
-                frame.size.width = 334;
-                frame.size.height = 334;
-            }
-            else {
-                frame.origin.x = 158;
-                frame.origin.y = 80;
-                frame.size.width = 435;
-                frame.size.height = 435;
-            }
         }
-        thumbnailView.frame = frame;
     }
     if ([self enableJewelCases]){
         jewelView.image = [UIImage imageNamed:jewelImg];
@@ -2638,24 +2551,45 @@ int currentItemID;
 
 #pragma mark - Interface customizations
 
--(void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS playBarWidth:(int)playBarWidth portrait:(BOOL)isPortrait{
+-(void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS portrait:(BOOL)isPortrait{
     CGRect frame;
-    barwidth = playBarWidth;
-    frame=playlistToolbar.frame;
-    frame.size.width=width+20;
-    frame.origin.x=0;
-    playlistToolbar.frame=frame;
-    frame=nowPlayingView.frame;
-    frame.origin.x=302;
-    frame.origin.y=YPOS;
-    frame.size.height=height - 84;
-    frame.size.width=width - 302;
-    nowPlayingView.frame=frame;
+    
+    // Maximum allowed height shall be 90% of visible height in landscape mode
+    CGFloat bottomPadding = 0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
+    CGFloat maxheight = floor((CGRectGetHeight(UIScreen.mainScreen.bounds) - bottomPadding - playlistToolbar.frame.size.height) * 0.9);
+    
+    frame = ProgressSlider.frame;
+    frame.origin.y = maxheight - PROGRESSBAR_PADDING_BOTTOM;
+    frame.origin.x = PAD_MENU_TABLE_WIDTH + PROGRESSBAR_PADDING_LEFT;
+    ProgressSlider.frame=frame;
+    
+    frame = scrabbingView.frame;
+    frame.origin.y = ProgressSlider.frame.origin.y - scrabbingView.frame.size.height - 2;
+    frame.origin.x = ProgressSlider.frame.origin.x;
+    frame.size.width = ProgressSlider.frame.size.width;
+    scrabbingView.frame=frame;
+    
+    frame = playlistToolbar.frame;
+    frame.size.width = width;
+    frame.origin.x = 0;
+    playlistToolbar.frame = frame;
+    
+    frame = nowPlayingView.frame;
+    frame.origin.x = PAD_MENU_TABLE_WIDTH + 2;
+    frame.origin.y = YPOS;
+    frame.size.height = maxheight;
+    frame.size.width = width - (PAD_MENU_TABLE_WIDTH + 2);
+    nowPlayingView.frame = frame;
     portraitMode = isPortrait;
     
     frame = iOS7bgEffect.frame;
     frame.size.width = width;
     iOS7bgEffect.frame = frame;
+    
     [self setCoverSize:currentType];
 }
 
@@ -2698,34 +2632,46 @@ int currentItemID;
 }
 
 -(void)setIpadInterface:(CGFloat)toolbarAlpha{
-    playlistLeftShadow.hidden = NO;
-    slideFrom=-300;
+    slideFrom = -PAD_MENU_TABLE_WIDTH;
     CGRect frame;
-    [albumName setFont:[UIFont systemFontOfSize:24]];
-    frame=albumName.frame;
-    frame.origin.y=10;
-    albumName.frame=frame;
-    [songName setFont:[UIFont systemFontOfSize:20]];
-
-    frame=songName.frame;
-    frame.origin.y=frame.origin.y - 12;
-    songName.frame=frame;
-    
-    [artistName setFont:[UIFont systemFontOfSize:18]];
-    frame=artistName.frame;
-    frame.origin.y=frame.origin.y - 8;
-    artistName.frame=frame;
-    
-    [currentTime setFont:[UIFont systemFontOfSize:16]];
-    [duration setFont:[UIFont systemFontOfSize:16]];
-
-    frame=playlistTableView.frame;
-    frame.origin.x=slideFrom;
-    playlistTableView.frame=frame;
-    
-    frame = ProgressSlider.frame;
-    frame.origin.y = frame.origin.y - 14;
-    ProgressSlider.frame = frame;
+    if (IS_AT_LEAST_IPAD_1K_WIDTH) {
+        [albumName setFont:[UIFont systemFontOfSize:28]];
+        [songName setFont:[UIFont systemFontOfSize:24]];
+        [artistName setFont:[UIFont systemFontOfSize:22]];
+        [currentTime setFont:[UIFont systemFontOfSize:20]];
+        [duration setFont:[UIFont systemFontOfSize:20]];
+        
+        frame = songName.frame;
+        frame.origin.y += 15;
+        songName.frame=frame;
+        
+        frame = artistName.frame;
+        frame.origin.y += 25;
+        artistName.frame = frame;
+        
+        frame = playlistTableView.frame;
+        frame.origin.x = slideFrom;
+        playlistTableView.frame = frame;
+    }
+    else {
+        [albumName setFont:[UIFont systemFontOfSize:24]];
+        [songName setFont:[UIFont systemFontOfSize:20]];
+        [artistName setFont:[UIFont systemFontOfSize:18]];
+        [currentTime setFont:[UIFont systemFontOfSize:16]];
+        [duration setFont:[UIFont systemFontOfSize:16]];
+        
+        frame = songName.frame;
+        frame.origin.y += 10;
+        songName.frame=frame;
+        
+        frame = artistName.frame;
+        frame.origin.y += 15;
+        artistName.frame = frame;
+        
+        frame = playlistTableView.frame;
+        frame.origin.x = slideFrom;
+        playlistTableView.frame = frame;
+    }
     
     /* TODO: Find an elegant solution for the following code.
        Toolbar items defined in xib are:
@@ -2747,18 +2693,16 @@ int currentItemID;
     [playlistToolbar setItems:items animated:NO];
     playlistToolbar.alpha = toolbarAlpha;
     
-    nowPlayingView.hidden=NO;
-    playlistView.hidden=NO;
+    nowPlayingView.hidden = NO;
+    playlistView.hidden = NO;
     xbmcOverlayImage_iphone.hidden = YES;
+    playlistLeftShadow.hidden = NO;
     
     frame = playlistActionView.frame;
     frame.origin.y = playlistToolbar.frame.origin.y - playlistToolbar.frame.size.height;
     playlistActionView.frame = frame;
     playlistActionView.alpha = 1.0;
     
-    frame = scrabbingView.frame;
-    frame.origin.y =frame.origin.y - 24;
-    [scrabbingView setFrame:frame];
     [itemDescription setFont:[UIFont systemFontOfSize:15]];
 }
 
