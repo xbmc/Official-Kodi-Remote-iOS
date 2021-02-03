@@ -72,7 +72,6 @@
     int iPadthumbHeight;
     IBOutlet UIView *playlistActionView;
     IBOutlet UIImageView *pgbar;
-    BOOL portraitMode;
     NSString *currentType;
     BOOL nothingIsPlaying;
     IBOutlet UIImageView *xbmcOverlayImage;
@@ -118,7 +117,7 @@
     CGFloat bottomPadding;
 }
 
-- (void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS portrait:(BOOL)isPortrait;
+- (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
 - (void)toggleSongDetails;

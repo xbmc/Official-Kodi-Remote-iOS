@@ -2551,7 +2551,7 @@ int currentItemID;
 
 #pragma mark - Interface customizations
 
--(void)setToolbarWidth:(int)width height:(int)height YPOS:(int)YPOS portrait:(BOOL)isPortrait{
+-(void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS {
     CGRect frame;
     
     // Maximum allowed height shall be 90% of visible height in landscape mode
@@ -2584,7 +2584,6 @@ int currentItemID;
     frame.size.height = maxheight;
     frame.size.width = width - (PAD_MENU_TABLE_WIDTH + 2);
     nowPlayingView.frame = frame;
-    portraitMode = isPortrait;
     
     frame = iOS7bgEffect.frame;
     frame.size.width = width;

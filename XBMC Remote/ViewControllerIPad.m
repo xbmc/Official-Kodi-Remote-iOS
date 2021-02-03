@@ -435,7 +435,7 @@
     self.nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
     self.nowPlayingController.view.frame=frame;
     
-    [self.nowPlayingController setToolbarWidth:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height YPOS:YPOS portrait:TRUE];
+    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height YPOS:YPOS];
     
     [leftMenuView addSubview:self.nowPlayingController.view];
 
@@ -729,8 +729,7 @@
 }
 
 - (void)viewWillLayoutSubviews{
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    [self.nowPlayingController setToolbarWidth:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS portrait:(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)];
+    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS];
 }
 
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
