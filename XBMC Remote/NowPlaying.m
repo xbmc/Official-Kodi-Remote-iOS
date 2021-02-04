@@ -383,39 +383,30 @@ float storePercentage;
 int storedItemID;
 int currentItemID;
 
+-(NSString*)getJewelImage:(NSString*)name {
+    NSString *jewelImageName = nil;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        jewelImageName = [NSString stringWithFormat:@"%@@2x.png", name];
+    }
+    else {
+        jewelImageName = [NSString stringWithFormat:@"%@.png", name];
+    }
+    return jewelImageName;
+}
+
 -(void)setCoverSize:(NSString *)type{
     NSString *jewelImg = @"";
     if ([type isEqualToString:@"song"]){
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            jewelImg = @"jewel_cd.9.png";
-        }
-        else {
-            jewelImg=@"jewel_cd.9@2x.png";
-        }
+        jewelImg = [self getJewelImage:@"jewel_cd.9"];
     }
     else if ([type isEqualToString:@"movie"]){
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            jewelImg=@"jewel_dvd.9.png";
-        }
-        else{
-            jewelImg=@"jewel_dvd.9@2x.png";
-        }
+        jewelImg = [self getJewelImage:@"jewel_dvd.9"];
     }
     else if ([type isEqualToString:@"episode"]){
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            jewelImg = @"jewel_tv.9.png";
-        }
-        else{
-            jewelImg=@"jewel_tv.9@2x.png";
-        }
+        jewelImg = [self getJewelImage:@"jewel_tv.9"];
     }
     else{
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            jewelImg = @"jewel_cd.9.png";
-        }
-        else {
-            jewelImg=@"jewel_cd.9@2x.png";
-        }
+        jewelImg = [self getJewelImage:@"jewel_cd.9"];
     }
     if ([self enableJewelCases]){
         jewelView.image = [UIImage imageNamed:jewelImg];
