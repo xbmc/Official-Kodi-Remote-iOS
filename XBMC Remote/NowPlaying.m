@@ -42,9 +42,7 @@
 @synthesize itemDescription;
 //@synthesize presentedFromNavigation;
 
-CGFloat startx=14;
-CGFloat cellBarWidth=45;
-#define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
+#define MAX_CELLBAR_WIDTH 45
 #define PROGRESSBAR_PADDING_LEFT 20
 #define PROGRESSBAR_PADDING_BOTTOM 80
 #define SEGMENTCONTROL_WIDTH 122
@@ -193,28 +191,9 @@ CGFloat cellBarWidth=45;
     return (NSDictionary *)mutableDictionary;
 }
 
--(void)animCursor:(CGFloat)x{
-    NSTimeInterval time=1.0;
-    if (x==startx){
-        time=0.1;
-    }
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:time];
-    [UIView setAnimationCurve:UIViewAnimationCurveLinear ];
-    CGRect frame;
-    frame = [timeCursor frame];
-    frame.origin.x = x;
-    timeCursor.frame = frame;
-    [UIView commitAnimations];
-}
-
 -(void)resizeCellBar:(CGFloat)width image:(UIImageView *)cellBarImage{
-    NSTimeInterval time=1.0;
-    if (width==0){
-        time=0.1;
-    }
-    if (width>cellBarWidth)
-        width=cellBarWidth;
+    NSTimeInterval time = (width==0) ? 0.1 : 1.0;
+    width = MIN(width, MAX_CELLBAR_WIDTH);
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:time];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
@@ -1002,9 +981,7 @@ int currentItemID;
                                      UILabel *playlistActualTime=(UILabel*) [cell viewWithTag:6];
                                      playlistActualTime.text=actualTime;
                                      UIImageView *playlistActualBar=(UIImageView*) [cell viewWithTag:7];
-                                     CGFloat newx=cellBarWidth * [(NSNumber*) [methodResult objectForKey:@"percentage"] floatValue] / 100;
-                                     if (newx<1)
-                                         newx=1;
+                                     CGFloat newx = MAX(MAX_CELLBAR_WIDTH * [(NSNumber *)methodResult[@"percentage"] doubleValue] / 100, 1.0);
                                      [self resizeCellBar:newx image:playlistActualBar];
                                      UIView *timePlaying=(UIView*) [cell viewWithTag:5];
                                      if (timePlaying.hidden==YES)
@@ -2991,7 +2968,6 @@ int currentItemID;
     int barHeight = 44;
     int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     [self setIOS7toolbar];
-    [playlistTableView setSeparatorInset:UIEdgeInsetsMake(0, 53, 0, 0)];
     
     CGRect frame;
     frame = nowPlayingView.frame;
