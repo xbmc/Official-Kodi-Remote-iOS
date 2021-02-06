@@ -25,6 +25,12 @@ lane :tf do
     include_bitcode: true,
     export_method: 'app-store',
   )
+  app_store_connect_api_key(
+    key_id: "AX6GU8LT6K",
+    issuer_id: "69a6de97-a91c-47e3-e053-5b8c7c11a4d1",
+    key_filepath: "AuthKey_AX6GU8LT6K.p8",
+    in_house: false,
+  )
   testflight(
     distribute_external: true,
     groups: ['external testers'],

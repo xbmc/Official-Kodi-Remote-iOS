@@ -16,3 +16,4 @@ build/
 DerivedData/*
 .bundle
 fastlane/report.xml
+*.p8
