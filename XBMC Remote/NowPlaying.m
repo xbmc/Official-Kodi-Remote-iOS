@@ -416,16 +416,15 @@ int currentItemID;
         thumbnailView.hidden = NO;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             CGRect frame = jewelView.frame;
-            frame.origin.x = 10;
+            frame.origin.x = (nowPlayingView.frame.size.width - jewelView.frame.size.width)/2;
             jewelView.frame = frame;
             frame = thumbnailView.frame;
             frame.origin.x += PAD_MENU_TABLE_WIDTH;
-            frame.origin.y += 22;
+            frame.origin.y += [[UIApplication sharedApplication] statusBarFrame].size.height + 2;
             songDetailsView.frame = frame;
         }
         else {
             songDetailsView.frame = thumbnailView.frame;
-
         }
     }
     else {
@@ -433,10 +432,10 @@ int currentItemID;
         thumbnailView.hidden = YES;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             CGRect frame = jewelView.frame;
-            frame.origin.x = 14;
+            frame.origin.x = (nowPlayingView.frame.size.width - jewelView.frame.size.width)/2;
             jewelView.frame = frame;
             frame.origin.x += PAD_MENU_TABLE_WIDTH;
-            frame.origin.y += 22;
+            frame.origin.y += [[UIApplication sharedApplication] statusBarFrame].size.height + 2;
             songDetailsView.frame = frame;
         }
         else {
@@ -2888,15 +2887,19 @@ int currentItemID;
         rightMenuViewController.rightMenuItems = [AppDelegate instance].nowPlayingMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
     }
-    int effectHeight = 22;
-    int barEffectHeight = 32;
+    // upper half of bottom area is colored in album color
     if (iOS7bgEffect == nil){
-        iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, effectHeight)];
+        CGFloat bottomBarHeight = playlistToolbar.frame.size.height + bottomPadding;
+        CGFloat effectHeight = bottomBarHeight/2;
+        iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomBarHeight, self.view.frame.size.width, effectHeight)];
         iOS7bgEffect.autoresizingMask = playlistToolbar.autoresizingMask;
         [self.view insertSubview:iOS7bgEffect atIndex:0];
     }
+    // lower half of top area is colored in album color
     if (iOS7navBarEffect == nil && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, 64 - barEffectHeight, self.view.frame.size.width, barEffectHeight)];
+        CGFloat topBarHeight = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+        CGFloat effectHeight = topBarHeight/2;
+        iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, topBarHeight - effectHeight, self.view.frame.size.width, effectHeight)];
         iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self.view insertSubview:iOS7navBarEffect atIndex:0];
     }
