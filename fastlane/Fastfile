@@ -4,7 +4,7 @@ before_all do
   ensure_bundle_exec
   ensure_git_status_clean
   skip_docs
-  xcversion(version: "~> 12.3")
+  xcversion(version: "~> 12.4")
 end
 
 after_all do
