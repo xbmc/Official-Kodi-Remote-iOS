@@ -77,10 +77,8 @@
 @synthesize mainMenu;
 @synthesize menuViewController, stackScrollViewController;
 @synthesize nowPlayingController;
-@synthesize serverPickerPopover = _serverPickerPopover;
 @synthesize hostPickerViewController = _hostPickerViewController;
 @synthesize appInfoView = _appInfoView;
-@synthesize appInfoPopover = _appInfoPopover;
 @synthesize tcpJSONRPCconnection;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -198,25 +196,26 @@
     self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     [AppDelegate instance].navigationController = [[CustomNavigationController alloc] initWithRootViewController:_hostPickerViewController];
     [[AppDelegate instance].navigationController hideNavBarBottomLine:YES];
-    self.serverPickerPopover = [[UIPopoverController alloc]
-                                initWithContentViewController:[AppDelegate instance].navigationController];
-    self.serverPickerPopover.delegate = self;
-    [self.serverPickerPopover setBackgroundColor:[Utilities getGrayColor:41 alpha:1]];
-    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
 }
 
 - (void)toggleSetup {
     if (_hostPickerViewController == nil) {
         [self initHostManagemetPopOver];
     }
-    [self.serverPickerPopover presentPopoverFromRect:xbmcInfo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [[AppDelegate instance].navigationController setModalPresentationStyle:UIModalPresentationPopover];
+    UIPopoverPresentationController *popPresenter = [[AppDelegate instance].navigationController popoverPresentationController];
+    if (popPresenter != nil) {
+        popPresenter.sourceView = self.view;
+        popPresenter.sourceRect = xbmcInfo.frame;
+    }
+    [self presentViewController:[AppDelegate instance].navigationController animated:YES completion:nil];
 }
 
 -(void) showSetup:(BOOL)show{
     firstRun = NO;
-    if ([self.serverPickerPopover isPopoverVisible]) {
+    if ([self.hostPickerViewController isViewLoaded]) {
         if (show==NO)
-            [self.serverPickerPopover dismissPopoverAnimated:YES];
+            [self.hostPickerViewController dismissViewControllerAnimated:NO completion:nil];
     }
     else{
         if (show==YES){
@@ -228,14 +227,16 @@
 - (void)toggleInfoView {
     if (_appInfoView == nil) {
         self.appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
-        self.appInfoPopover = [[UIPopoverController alloc] 
-                                    initWithContentViewController:_appInfoView];
-        self.appInfoPopover.delegate = self;
-        [self.appInfoPopover setPopoverContentSize:CGSizeMake(320, 460)];
-        self.appInfoPopover.backgroundColor = [Utilities getGrayColor:187 alpha:1];
+        [self.appInfoView setModalPresentationStyle:UIModalPresentationPopover];
     }
-    [self.appInfoPopover presentPopoverFromRect:xbmcLogo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    UIPopoverPresentationController *popPresenter = [self.appInfoView popoverPresentationController];
+    if (popPresenter != nil) {
+        popPresenter.sourceView = self.view;
+        popPresenter.sourceRect = xbmcLogo.frame;
+    }
+    [self presentViewController:self.appInfoView animated:YES completion:nil];
 }
+
 #pragma mark - power control action sheet
 
 -(void)powerControl{
@@ -731,12 +732,12 @@
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
 	[menuViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	[stackScrollViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    if ([self.serverPickerPopover isPopoverVisible]) {
-        [self.serverPickerPopover dismissPopoverAnimated:NO];
+    if ([[AppDelegate instance].navigationController isViewLoaded]) {
+        [[AppDelegate instance].navigationController dismissViewControllerAnimated:NO completion:nil];
         serverPicker = TRUE;
     }
-    if ([self.appInfoPopover isPopoverVisible]) {
-        [self.appInfoPopover dismissPopoverAnimated:NO];
+    if ([self.appInfoView isViewLoaded]) {
+        [self.appInfoView dismissViewControllerAnimated:NO completion:nil];
         appInfo = TRUE;
     }
 }	

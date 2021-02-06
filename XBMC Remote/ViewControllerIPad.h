@@ -20,7 +20,7 @@
 @class AppInfoViewController;
 
 
-@interface ViewControllerIPad : UIViewController <UIPopoverControllerDelegate>{
+@interface ViewControllerIPad : UIViewController {
 	UIViewExt* rootView;
 	UIView* leftMenuView;
 	UIView* rightSlideView;
@@ -36,7 +36,6 @@
     DSJSONRPC *jsonRPC;
     BOOL firstRun;
     NSTimer* extraTimer;
-    UIPopoverController *_serverPickerPopover;
     HostManagementViewController *_hostPickerViewController;
     BOOL stackScrollIsFullscreen;
     BOOL serverPicker;
@@ -48,8 +47,6 @@
 @property (nonatomic, retain) MenuViewController* menuViewController;
 @property (nonatomic, retain) NowPlaying* nowPlayingController;
 @property (nonatomic, strong) StackScrollViewController* stackScrollViewController;
-@property (nonatomic, retain) UIPopoverController *serverPickerPopover;
-@property (nonatomic, retain) UIPopoverController *appInfoPopover;
 @property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
 @property (nonatomic, retain) HostManagementViewController *hostPickerViewController;
 @property (nonatomic, retain) AppInfoViewController *appInfoView;
