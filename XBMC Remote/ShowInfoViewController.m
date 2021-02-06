@@ -1196,14 +1196,12 @@ int h=0;
         frame.size.height = jewelView.frame.size.height / 2;
         voteLabel.frame = frame;
         voteLabel.numberOfLines = 2;
-        [voteLabel setFont:[UIFont fontWithName:label1.font.fontName size:castFontSize]];
         [voteLabel setTextColor:directorLabel.textColor];
         frame = numVotesLabel.frame;
         frame.size.width = voteLabel.frame.size.width;
         frame.origin.y = (int)(voteLabel.frame.origin.y + voteLabel.frame.size.height + 10);
         frame.origin.x = voteLabel.frame.origin.x;
         numVotesLabel.frame = frame;
-        [numVotesLabel setFont:[UIFont fontWithName:label1.font.fontName size:label1.font.pointSize]];
         if ([[item objectForKey:@"family"] isEqualToString:@"recordingid"]){
             numVotesLabel.text = [item objectForKey:@"channel"];
         }
