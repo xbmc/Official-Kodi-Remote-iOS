@@ -14,7 +14,7 @@
 @class NowPlaying;
 @class DetailViewController;
 
-@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate>{
+@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate>{
     IBOutlet UIImageView *coverView;
     IBOutlet UIImageView *starsView;
     IBOutlet UILabel *voteLabel;
@@ -52,7 +52,6 @@
     UIToolbar *toolbar;
     NSMutableArray *sheetActions;
     UIBarButtonItem *actionSheetButtonItemIpad;
-    UIActionSheet *actionSheetView;
     int choosedTab;
     NSString *notificationName;
     float resumePointPercentage;
