@@ -11,7 +11,7 @@
 //#import "VolumeSliderView.h"
 //#import "RightMenuViewController.h"
 
-@interface RemoteController : UIViewController <UIActionSheetDelegate>{
+@interface RemoteController : UIViewController {
     DSJSONRPC *jsonRPC;
     IBOutlet UIView *remoteControlView;
     IBOutlet UILabel *subsInfoLabel;
