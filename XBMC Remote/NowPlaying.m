@@ -47,6 +47,8 @@ CGFloat cellBarWidth=45;
 #define SHOW_ONLY_VISIBLE_THUMBNAIL_START_AT 50
 #define PROGRESSBAR_PADDING_LEFT 20
 #define PROGRESSBAR_PADDING_BOTTOM 80
+#define SEGMENTCONTROL_WIDTH 122
+#define SEGMENTCONTROL_HEIGHT 29
 
 - (void)setDetailItem:(id)newDetailItem{
     if (_detailItem != newDetailItem) {
@@ -2725,12 +2727,11 @@ int currentItemID;
                                                                           [[NSLocalizedString(@"Video ", nil) capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], nil
                                                                           ]
                                 ];
-    CGFloat seg_width = 122;
-    CGFloat left_margin = 99;
+    CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH)/2;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        left_margin = (int)(([self currentScreenBoundsDependOnOrientation].size.width/2) - (seg_width/2));
+        left_margin = floor(([self currentScreenBoundsDependOnOrientation].size.width - SEGMENTCONTROL_WIDTH)/2);
     }
-    playlistSegmentedControl.frame = CGRectMake(left_margin, 7, seg_width, 29);
+    playlistSegmentedControl.frame = CGRectMake(left_margin, (playlistActionView.frame.size.height - SEGMENTCONTROL_HEIGHT)/2, SEGMENTCONTROL_WIDTH, SEGMENTCONTROL_HEIGHT);
     playlistSegmentedControl.tintColor = [UIColor whiteColor];
     [playlistSegmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents: UIControlEventValueChanged];
     [playlistActionView addSubview:playlistSegmentedControl];
