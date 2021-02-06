@@ -26,5 +26,5 @@ Use [fastlane](https://fastlane.tools/) to build and submit to Testflight.
 
 1. `cd` to project's directory in terminal
 2. Install or update Ruby dependencies: `bundle install` or `bundle update`
-3. Run fastlane: `bundle exec fastlane tf`
-    - to avoid username prompt, use `FASTLANE_USER` environment variable
+3. Grab p8 file (AppStoreConnect API key) from 1Password and place it in the project's directory
+4. Run fastlane: `bundle exec fastlane tf`
