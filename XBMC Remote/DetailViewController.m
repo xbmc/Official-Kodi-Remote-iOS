@@ -525,6 +525,46 @@
     }
 }
 
+-(void)setButtonViewContent {
+    NSDictionary *methods = [self indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
+    NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+    
+    // Show grid/list button when grid view is possible
+    button6.hidden = YES;
+    if ([self collectionViewCanBeEnabled]){
+        button6.hidden = NO;
+    }
+    
+    // Show sort button when sorting is possible
+    sortMethodIndex = -1;
+    sortMethodName = nil;
+    sortAscDesc = nil;
+    button7.hidden = YES;
+    if ([parameters objectForKey:@"parameters"][@"sort"][@"available_methods"] != nil) {
+        [self setUpSort:methods parameters:parameters];
+        button7.hidden = NO;
+    }
+    
+    [self hideButtonListWhenEmpty];
+}
+
+-(void)hideButtonListWhenEmpty {
+    // Hide the toolbar when no button is shown at all (button5 is only hidden when 1-4 are not available)
+    if (button5.hidden && button6.hidden && button7.hidden) {
+        buttonsView.hidden = YES;
+        
+        UIEdgeInsets tableViewInsets = dataList.contentInset;
+        tableViewInsets.bottom = 0;
+        dataList.contentInset = tableViewInsets;
+        dataList.scrollIndicatorInsets = tableViewInsets;
+        collectionView.contentInset = tableViewInsets;
+        collectionView.scrollIndicatorInsets = tableViewInsets;
+    }
+    else {
+        buttonsView.hidden = NO;
+    }
+}
+
 -(void)toggleOpen:(UITapGestureRecognizer *)sender {
     NSInteger section = [sender.view tag];
     [self.sectionArrayOpen replaceObjectAtIndex:section withObject:[NSNumber numberWithBool:![[self.sectionArrayOpen objectAtIndex:section] boolValue]]];
@@ -796,7 +836,6 @@
 }
 
 -(void)setUpSort:(NSDictionary *)methods parameters:(NSDictionary *)parameters{
-    button7.hidden = NO;
     NSDictionary *sortDictionary = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"];
     sortMethodName = [self getCurrentSortMethod:methods withParameters:parameters];
     NSUInteger foundIndex = [[sortDictionary objectForKey:@"method"] indexOfObject:sortMethodName];
@@ -866,17 +905,7 @@
     }
 
     BOOL newEnableCollectionView = [self collectionViewIsEnabled];
-    button6.hidden = YES;
-    button7.hidden = YES;
-    if ([self collectionViewCanBeEnabled] == YES){
-        button6.hidden = NO;
-    }
-    sortMethodIndex = -1;
-    sortMethodName = nil;
-    sortAscDesc = nil;
-    if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
-        [self setUpSort:methods parameters:parameters];
-    }
+    [self setButtonViewContent];
     [self checkDiskCache];
     NSTimeInterval animDuration = 0.3;
     if (newEnableCollectionView != enableCollectionView){
@@ -5251,6 +5280,7 @@ NSIndexPath *selected;
         [self updateChannelListTableCell];
         channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(60.0 - [[outputFormatter stringFromDate:now] floatValue]) target:self selector:@selector(startChannelListUpdateTimer) userInfo:nil repeats:NO];
     }
+    [self setButtonViewContent];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -5430,7 +5460,6 @@ NSIndexPath *selected;
     return sortMethod;
 }
 
-#pragma mark -
 #pragma mark UISearchController Delegate Methods
 
 -(void)showSearchBar {
@@ -5558,7 +5587,7 @@ NSIndexPath *selected;
     [dataList addPullToRefreshWithActionHandler:^{
         [weakSelf startRetrieveDataWithRefresh:YES];
     }];
-    darkCells = [[NSMutableArray alloc] init];
+//    darkCells = [[NSMutableArray alloc] init];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     enableBarColor = YES;
     utils = [[Utilities alloc] init];
@@ -5589,28 +5618,7 @@ NSIndexPath *selected;
     
     button6.hidden = YES;
     button7.hidden = YES;
-    if ([self collectionViewCanBeEnabled] == YES){
-        button6.hidden = NO;
-    }
-    sortMethodIndex = -1;
-    sortMethodName = nil;
-    sortAscDesc = nil;
-    if ([[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"available_methods"] != nil) {
-        [self setUpSort:methods parameters:parameters];
-    }
-    // Hide the toolbar when no button is shown at all (button5 is only hidden when 1-4 are not available)
-    if (button5.hidden && button6.hidden && button7.hidden) {
-        buttonsView.hidden = YES;
-        
-        UIEdgeInsets tableViewInsets = dataList.contentInset;
-        tableViewInsets.bottom = 0;
-        dataList.contentInset = tableViewInsets;
-        dataList.scrollIndicatorInsets = tableViewInsets;
-        collectionView.contentInset = tableViewInsets;
-        collectionView.scrollIndicatorInsets = tableViewInsets;
-    }
-    searchBarColor = [Utilities getGrayColor:89 alpha:1];
-    collectionViewSearchBarColor = [UIColor blackColor];
+    [self hideButtonListWhenEmpty];
     
     searchBarColor = [Utilities getGrayColor:146 alpha:1];
     collectionViewSearchBarColor = [Utilities getGrayColor:22 alpha:1];
