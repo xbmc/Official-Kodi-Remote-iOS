@@ -4556,6 +4556,15 @@ NSIndexPath *selected;
              [longTimeout removeFromSuperview];
              longTimeout = nil;
          }
+         // Cannot check for PVR Add-on availability. We show "no results" in case of a
+         // methodError "-32100" combined with "PVR." method calls. Other errors are still
+         // shown via debug message.
+         if (error==nil && methodError!=nil && [methodToCall containsString:@"PVR."]) {
+             if (methodError.code == -32100) {
+                 [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
+                 return;
+             }
+         }
          if (error==nil && methodError==nil){
              callBack = FALSE;
 //             debugText.text = [NSString stringWithFormat:@"%@\n*DATA: %@", debugText.text, methodResult];
@@ -4780,18 +4789,7 @@ NSIndexPath *selected;
                  }
              }
              else {
-                 if (forceRefresh == YES){
-                     [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
-                     [activeLayoutView setUserInteractionEnabled:YES];
-                 }
-                 [resultStoreArray removeAllObjects];
-                 [self.sections removeAllObjects];
-                 [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
-                 [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-                 //                NSLog(@"NON E' JSON %@", methodError);
-                 [activityIndicatorView stopAnimating];
-                 [activeLayoutView reloadData];
-                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                 [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
              }
          }
          else {
@@ -4823,20 +4821,24 @@ NSIndexPath *selected;
              pasteboard.string = debugText.text;
              // END DISPLAY DEBUG
              
-             if (forceRefresh == YES){
-                 [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
-                 [activeLayoutView setUserInteractionEnabled:YES];
-             }
-             [resultStoreArray removeAllObjects];
-             [self.sections removeAllObjects];
-             [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
-             [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-             [activityIndicatorView stopAnimating];
-             [activeLayoutView reloadData];
-             [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+             [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
 //             }
          }
      }];
+}
+
+-(void)showNoResultsFound:(NSMutableArray*)resultStoreArray refresh:(BOOL)forceRefresh {
+    if (forceRefresh){
+        [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
+        [activeLayoutView setUserInteractionEnabled:YES];
+    }
+    [resultStoreArray removeAllObjects];
+    [self.sections removeAllObjects];
+    self.sections[@""] = @[];
+    [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+    [activityIndicatorView stopAnimating];
+    [activeLayoutView reloadData];
+    [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
 
 -(void)indexAndDisplayData {
