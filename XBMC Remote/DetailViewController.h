@@ -99,8 +99,8 @@
     int fanartFontSize;
     FloatingHeaderFlowLayout *flowLayout;
     //  EXPERIMENTAL CODE
-    NSMutableArray *darkCells;
-    BOOL autoScroll;
+//    NSMutableArray *darkCells;
+//    BOOL autoScroll;
     // END EXPERIMENTAL CODE
     UIView *sectionNameOverlayView;
     UILabel *sectionNameLabel;
