@@ -3709,12 +3709,16 @@ NSIndexPath *selected;
     if ([parameters objectForKey:@"thumbWidth"] != nil){
         filemodeThumbWidth = [parameters objectForKey:@"thumbWidth"];
     }
+    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"file_properties"] mutableCopy];
+    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11){
+        [mutableProperties addObject:@"art"];
+    }
     NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     [item objectForKey:[mainFields objectForKey:@"row6"]],@"directory",
                                     [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
                                     [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
-                                    [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
+                                    mutableProperties, @"file_properties",
                                     nil], @"parameters",
                                    libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
                                    [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
