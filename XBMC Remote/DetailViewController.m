@@ -4540,6 +4540,15 @@ NSIndexPath *selected;
     if ([self loadedDataFromDisk:methodToCall parameters:(sectionParameters == nil) ? mutableParameters : [NSMutableDictionary dictionaryWithDictionary:sectionParameters] refresh:forceRefresh] == YES){
         return;
     }
+    
+    // "sort" in "PVR." methods is only allowed from JSON API 12.1 on, for lower version remove "sort"
+    if ([methodToCall containsString:@"PVR."]) {
+        if (([AppDelegate instance].APImajorVersion < 12) ||
+           (([AppDelegate instance].APImajorVersion == 12) && ([AppDelegate instance].APIminorVersion < 1))) {
+            // remove "sort" from setup
+            [mutableParameters removeObjectForKey:@"sort"];
+        }
+    }
 
     GlobalData *obj=[GlobalData getInstance];
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
