@@ -351,3 +351,7 @@
 "Pull to refresh..." = "Runterziehen zur Aktualisierung...";
 
 "For search switch to list view" = "Zur Suche in Listenansicht wechseln";
+
+"Channel" = "TV Sender";
+"Date" = "Datum";
+"Runtime" = "Laufzeit";
