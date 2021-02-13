@@ -1832,7 +1832,7 @@ NSMutableArray *hostRightMenuItems;
                            @"nocover_filemode.png", @"defaultThumb",
                            filemodeRowHeight, @"rowHeight",
                            filemodeThumbWidth, @"thumbWidth",
-                           @"YES", @"isMusicPlaylist",
+                           @"YES", @"isVideoPlaylist",
                            nil],
                           
                           nil];
