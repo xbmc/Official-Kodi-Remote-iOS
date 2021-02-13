@@ -95,6 +95,9 @@
 @property (nonatomic, assign) int serverMinorVersion;
 @property (nonatomic, assign) int serverVolume;
 @property (retain, nonatomic) NSString *serverName;
+@property (nonatomic, assign) int APImajorVersion;
+@property (nonatomic, assign) int APIminorVersion;
+@property (nonatomic, assign) int APIpatchVersion;
 @property (nonatomic, retain) GlobalData *obj;
 
 @end

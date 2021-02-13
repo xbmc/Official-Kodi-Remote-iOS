@@ -232,6 +232,18 @@ NSOutputStream	*outStream;
              [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
          }
      }];
+    // Read the JSON API version
+    [jsonRPC
+     callMethod:@"JSONRPC.Version"
+     withParameters:nil
+     withTimeout: SERVER_TIMEOUT
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if (!error && !methodError) {
+             [AppDelegate instance].APImajorVersion = [methodResult[@"version"][@"major"] intValue];
+             [AppDelegate instance].APIminorVersion = [methodResult[@"version"][@"minor"] intValue];
+             [AppDelegate instance].APIpatchVersion = [methodResult[@"version"][@"patch"] intValue];
+         }
+    }];
     jsonRPC=nil;
 }
 
