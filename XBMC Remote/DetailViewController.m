@@ -562,6 +562,13 @@
     }
     else {
         buttonsView.hidden = NO;
+        
+        UIEdgeInsets tableViewInsets = dataList.contentInset;
+        tableViewInsets.bottom = 44;
+        dataList.contentInset = tableViewInsets;
+        dataList.scrollIndicatorInsets = tableViewInsets;
+        collectionView.contentInset = tableViewInsets;
+        collectionView.scrollIndicatorInsets = tableViewInsets;
     }
 }
 
@@ -5573,10 +5580,6 @@ NSIndexPath *selected;
     [dataList setSectionIndexTrackingBackgroundColor:[Utilities getGrayColor:0 alpha:0.3]];
     [dataList setSeparatorInset:UIEdgeInsetsMake(0, 53, 0, 0)];
     
-    UIEdgeInsets tableViewInsets = dataList.contentInset;
-    tableViewInsets.bottom = 44;
-    dataList.contentInset = tableViewInsets;
-    dataList.scrollIndicatorInsets = tableViewInsets;
     CGRect frame = dataList.frame;
     frame.size.height=self.view.bounds.size.height;
     dataList.frame = frame;
