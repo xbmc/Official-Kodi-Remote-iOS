@@ -2599,7 +2599,7 @@ int currentItemID;
     }
 }
 
--(void)setIpadInterface:(CGFloat)toolbarAlpha{
+-(void)setIpadInterface {
     slideFrom = -PAD_MENU_TABLE_WIDTH;
     CGRect frame;
     
@@ -2657,7 +2657,7 @@ int currentItemID;
     [items removeObjectAtIndex:2];
     [items removeObjectAtIndex:0];
     [playlistToolbar setItems:items animated:NO];
-    playlistToolbar.alpha = toolbarAlpha;
+    playlistToolbar.alpha = 1.0;
     
     nowPlayingView.hidden = NO;
     playlistView.hidden = NO;
@@ -2950,9 +2950,6 @@ int currentItemID;
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
-    CGFloat toolbarAlpha = 0.8;
-    pg_thumb_name = @"pgbar_thumb.png";
-    cellBackgroundColor = [Utilities getGrayColor:217 alpha:1];
     [self addSegmentControl];
     pg_thumb_name = @"pgbar_thumb_iOS7.png";
     cellBackgroundColor = [UIColor whiteColor];
@@ -2961,7 +2958,6 @@ int currentItemID;
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
         bottomPadding = window.safeAreaInsets.bottom;
     }
-    toolbarAlpha = 1.0;
     [self setIOS7toolbar];
 
     if (bottomPadding > 0) {
@@ -3003,7 +2999,7 @@ int currentItemID;
         [self setIphoneInterface];
     }
     else{
-        [self setIpadInterface:toolbarAlpha];
+        [self setIpadInterface];
     }
     playlistData = [[NSMutableArray alloc] init ];
 }
