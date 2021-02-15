@@ -2602,44 +2602,42 @@ int currentItemID;
 -(void)setIpadInterface:(CGFloat)toolbarAlpha{
     slideFrom = -PAD_MENU_TABLE_WIDTH;
     CGRect frame;
+    
+    // fontsizes and offsets for smaller iPads
+    CGFloat albumFontSize  = 24;
+    CGFloat songFontSize   = 20;
+    CGFloat artistFontSize = 18;
+    CGFloat timeFontSize   = 16;
+    CGFloat songOffset     = 10;
+    CGFloat artistOffset   = 15;
+    
+    // fontsizes and offsets for larger iPads
     if (IS_AT_LEAST_IPAD_1K_WIDTH) {
-        [albumName setFont:[UIFont systemFontOfSize:28]];
-        [songName setFont:[UIFont systemFontOfSize:24]];
-        [artistName setFont:[UIFont systemFontOfSize:22]];
-        [currentTime setFont:[UIFont systemFontOfSize:20]];
-        [duration setFont:[UIFont systemFontOfSize:20]];
-        
-        frame = songName.frame;
-        frame.origin.y += 15;
-        songName.frame=frame;
-        
-        frame = artistName.frame;
-        frame.origin.y += 25;
-        artistName.frame = frame;
-        
-        frame = playlistTableView.frame;
-        frame.origin.x = slideFrom;
-        playlistTableView.frame = frame;
+        albumFontSize  = 28;
+        songFontSize   = 24;
+        artistFontSize = 22;
+        timeFontSize   = 20;
+        songOffset     = 15;
+        artistOffset   = 25;
     }
-    else {
-        [albumName setFont:[UIFont systemFontOfSize:24]];
-        [songName setFont:[UIFont systemFontOfSize:20]];
-        [artistName setFont:[UIFont systemFontOfSize:18]];
-        [currentTime setFont:[UIFont systemFontOfSize:16]];
-        [duration setFont:[UIFont systemFontOfSize:16]];
-        
-        frame = songName.frame;
-        frame.origin.y += 10;
-        songName.frame=frame;
-        
-        frame = artistName.frame;
-        frame.origin.y += 15;
-        artistName.frame = frame;
-        
-        frame = playlistTableView.frame;
-        frame.origin.x = slideFrom;
-        playlistTableView.frame = frame;
-    }
+    
+    [albumName setFont:[UIFont systemFontOfSize:albumFontSize]];
+    [songName setFont:[UIFont systemFontOfSize:songFontSize]];
+    [artistName setFont:[UIFont systemFontOfSize:artistFontSize]];
+    [currentTime setFont:[UIFont systemFontOfSize:timeFontSize]];
+    [duration setFont:[UIFont systemFontOfSize:timeFontSize]];
+    
+    frame = songName.frame;
+    frame.origin.y += songOffset;
+    songName.frame=frame;
+    
+    frame = artistName.frame;
+    frame.origin.y += artistOffset;
+    artistName.frame = frame;
+    
+    frame = playlistTableView.frame;
+    frame.origin.x = slideFrom;
+    playlistTableView.frame = frame;
     
     /* TODO: Find an elegant solution for the following code.
        Toolbar items defined in xib are:
