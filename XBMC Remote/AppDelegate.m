@@ -277,7 +277,7 @@ NSMutableArray *hostRightMenuItems;
                             [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"ascending",@"order",
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
-                             @"label", @"method",
+                             @"artist", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", @"genre", nil], @"properties",
                             nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype",
