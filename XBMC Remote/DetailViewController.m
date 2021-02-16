@@ -2904,33 +2904,6 @@ int originYear = 0;
 
 #pragma mark - Content Filtering
 
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope{
-	/*
-	 Update the filtered array based on the search text and scope.
-	 */
-	[self.filteredListContent removeAllObjects]; // First clear the filtered array.
-	
-	/*
-	 Search the main list for products whose type matches the scope (if selected) and whose name matches searchText; add items that match to the filtered array.
-	 */
-	for (NSDictionary *item in self.richResults){
-//		if ([scope isEqualToString:@"All"] || [[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]] isEqualToString:scope])
-//		{
-//			NSComparisonResult result = [[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]] compare:searchText options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:NSMakeRange(0, [searchText length])];
-//            if (result == NSOrderedSame)
-//			{
-//				[self.filteredListContent addObject:item];
-//            }
-        
-        NSRange range = [[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-        if (range.location != NSNotFound) {
-            [self.filteredListContent addObject:item];
-        }
-//		}
-	}
-    numFilteredResults = (int)[self.filteredListContent count];
-}
-
 - (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
     if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
         return (UIImageView *)view;
@@ -2999,7 +2972,7 @@ NSIndexPath *selected;
         CGPoint selectedPoint;
         NSIndexPath *indexPath = nil;
         NSIndexPath *indexPath2 = nil;
-        if (enableCollectionView && ![self.searchController isActive]){
+        if (enableCollectionView){
             p = [longPressGesture locationInView:collectionView];
             selectedPoint=[longPressGesture locationInView:self.view];
             indexPath = [collectionView indexPathForItemAtPoint:p];
@@ -3007,8 +2980,8 @@ NSIndexPath *selected;
             p = [lpgr locationInView:dataList];
             selectedPoint=[lpgr locationInView:self.view];
             indexPath = [dataList indexPathForRowAtPoint:p];
-           CGPoint p2 = [longPressGesture locationInView:dataList];
-           indexPath2 = [dataList indexPathForRowAtPoint:p2];
+            CGPoint p2 = [longPressGesture locationInView:dataList];
+            indexPath2 = [dataList indexPathForRowAtPoint:p2];
         }
         
         if (indexPath != nil || indexPath2 != nil ){
@@ -3023,7 +2996,7 @@ NSIndexPath *selected;
             NSInteger numActions = [sheetActions count];
             if (numActions){
                 NSDictionary *item = nil;
-                if ([self.searchController isActive]){
+                if ([self doesShowSearchResults]){
                     selectedPoint=[longPressGesture locationInView:self.view];
                     item = [self.filteredListContent objectAtIndex:indexPath2.row];
                     [dataList selectRowAtIndexPath:indexPath2 animated:NO scrollPosition:UITableViewScrollPositionNone];
@@ -3196,7 +3169,7 @@ NSIndexPath *selected;
     if (buttonIndex!=actionSheet.cancelButtonIndex){
         NSMutableDictionary *item = nil;
         if (selected != nil){
-            if ([self.searchController isActive]){
+            if ([self doesShowSearchResults]){
                 item = [self.filteredListContent objectAtIndex:selected.row];
             }
             else{
@@ -5784,7 +5757,7 @@ NSIndexPath *selected;
     for (NSString *keysV in keys) {
         [self checkUpdateRecordingState: [self.sections objectForKey: keysV] dataInfo:theData];
     }
-    if ([self.searchController isActive]) {
+    if ([self doesShowSearchResults]) {
         [self checkUpdateRecordingState:self.filteredListContent dataInfo:theData];
     }
 }
@@ -5900,7 +5873,7 @@ NSIndexPath *selected;
 }
 
 -(void)handleChangeLibraryView{
-    if ([self.searchController isActive]) return;
+    if ([self doesShowSearchResults]) return;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[self.detailItem mainMethod] objectAtIndex:choosedTab]];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([self collectionViewCanBeEnabled] == YES && self.view.superview != nil && ![[methods objectForKey:@"method"] isEqualToString:@""]){
