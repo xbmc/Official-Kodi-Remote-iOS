@@ -2904,33 +2904,6 @@ int originYear = 0;
 
 #pragma mark - Content Filtering
 
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope{
-	/*
-	 Update the filtered array based on the search text and scope.
-	 */
-	[self.filteredListContent removeAllObjects]; // First clear the filtered array.
-	
-	/*
-	 Search the main list for products whose type matches the scope (if selected) and whose name matches searchText; add items that match to the filtered array.
-	 */
-	for (NSDictionary *item in self.richResults){
-//		if ([scope isEqualToString:@"All"] || [[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]] isEqualToString:scope])
-//		{
-//			NSComparisonResult result = [[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]] compare:searchText options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:NSMakeRange(0, [searchText length])];
-//            if (result == NSOrderedSame)
-//			{
-//				[self.filteredListContent addObject:item];
-//            }
-        
-        NSRange range = [[NSString stringWithFormat:@"%@",[item objectForKey:@"label"]] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-        if (range.location != NSNotFound) {
-            [self.filteredListContent addObject:item];
-        }
-//		}
-	}
-    numFilteredResults = (int)[self.filteredListContent count];
-}
-
 - (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
     if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
         return (UIImageView *)view;
