@@ -285,4 +285,39 @@
     }
 }
 
++ (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(eJewelType)type {
+    CGFloat border_right, border_bottom, border_top, border_left;
+    // Setup the border width on all 4 sides for each jewel case type
+    switch (type) {
+        case jewelTypeCD:
+            border_right  = 14;
+            border_bottom = 15;
+            border_top    = 11;
+            border_left   = 32;
+            break;
+        case jewelTypeDVD:
+            border_right  = 10;
+            border_bottom = 14;
+            border_top    = 11;
+            border_left   = 35;
+            break;
+        case jewelTypeTV:
+            border_right  = 10;
+            border_bottom = 26;
+            border_top    = 10;
+            border_left   = 15;
+            break;
+        default:
+            return CGRectZero;
+            break;
+    }
+    CGFloat factor = MIN(jewelView.frame.size.width / jewelView.image.size.width, jewelView.frame.size.height / jewelView.image.size.height);
+    CGRect frame = jewelView.frame;
+    frame.size.width = ceil((jewelView.image.size.width - border_left - border_right) * factor);
+    frame.size.height = ceil((jewelView.image.size.height - border_top - border_bottom) * factor);
+    frame.origin.y = floor(jewelView.center.y - frame.size.height/2 + (border_top - border_bottom)/2 * factor);
+    frame.origin.x = floor(jewelView.center.x - frame.size.width/2 + (border_left - border_right)/2 * factor);
+    return frame;
+}
+
 @end
