@@ -620,7 +620,6 @@ static inline BOOL IsEmpty(id obj) {
 -(void)authFailed:(NSNotification *)note {
     UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Authentication Failed", nil) message:NSLocalizedString(@"Incorrect Username or Password.\nCheck your settings.", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
     [alertView show];
-    [self modifyHost:storeServerSelection];
 }
 
 -(void)resetDoReveal:(NSNotification *)note {
