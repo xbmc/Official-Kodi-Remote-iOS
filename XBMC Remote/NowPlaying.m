@@ -2015,7 +2015,7 @@ int currentItemID;
         NSIndexPath *indexPath = [playlistTableView indexPathForRowAtPoint:p];
         if (indexPath != nil){
             [sheetActions removeAllObjects];
-            NSDictionary *item = [playlistData objectAtIndex:indexPath.row];
+            NSDictionary *item = ([playlistData count]>indexPath.row) ? playlistData[indexPath.row] : nil;
             selected = indexPath;
             CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
             if ([[item objectForKey:@"albumid"] intValue]>0){
@@ -2275,7 +2275,7 @@ int currentItemID;
         [(UILabel*) [cell viewWithTag:2] setTextColor:[Utilities get2ndLabelColor]];
         [(UILabel*) [cell viewWithTag:3] setTextColor:[Utilities get2ndLabelColor]];
     }
-    NSDictionary *item = [playlistData objectAtIndex:indexPath.row];
+    NSDictionary *item = ([playlistData count]>indexPath.row) ? playlistData[indexPath.row] : nil;
     UIImageView *thumb = (UIImageView*) [cell viewWithTag:4];
     
     UILabel *mainLabel = (UILabel*) [cell viewWithTag:1];
