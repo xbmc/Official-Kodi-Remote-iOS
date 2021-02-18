@@ -2985,7 +2985,7 @@ NSIndexPath *selected;
         UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
         BOOL isRecording = isRecordingImageView == nil ? false : !isRecordingImageView.hidden;
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
-        [self showActionSheetOptions:title options:sheetActions recording:isRecording point:sheetOrigin];
+        [self showActionSheetOptions:title options:sheetActions recording:isRecording point:sheetOrigin fromcontroller:self fromview:self.view];
     }
     else if (indexPath!=nil){ // No actions found, revert back to standard play action
         [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
@@ -3062,13 +3062,24 @@ NSIndexPath *selected;
                 }
                 UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
                 BOOL isRecording = isRecordingImageView == nil ? false : !isRecordingImageView.hidden;
-                [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint];
+                UIViewController *showfromctrl = nil;
+                UIView *showfromview = nil;
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    showfromctrl = self;
+                    showfromview = self.view;
+                }
+                else {
+                    showfromctrl = ([self doesShowSearchResults]) ? self.searchController : self;
+                    showfromview = [showfromctrl.view superview];
+                    selectedPoint = [lpgr locationInView:showfromview];
+                }
+                [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint fromcontroller:showfromctrl fromview:showfromview];
             }
         }
     }
 }
 
--(void)showActionSheetOptions:(NSString *)title options:(NSArray *)sheetActions recording:(BOOL)isRecording point:(CGPoint)origin {
+-(void)showActionSheetOptions:(NSString *)title options:(NSArray *)sheetActions recording:(BOOL)isRecording point:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview{
     NSInteger numActions = [sheetActions count];
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -3093,9 +3104,11 @@ NSIndexPath *selected;
         [actionView setModalPresentationStyle:UIModalPresentationPopover];
         
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
-        popPresenter.sourceView = self.view;
-        popPresenter.sourceRect = CGRectMake(origin.x, origin.y, 1, 1);
-        [self presentViewController:actionView animated:YES completion:nil];
+        if (popPresenter != nil) {
+            popPresenter.sourceView = fromview;
+            popPresenter.sourceRect = CGRectMake(origin.x, origin.y, 1, 1);
+        }
+        [fromctrl presentViewController:actionView animated:YES completion:nil];
     }
 }
 
