@@ -3043,7 +3043,8 @@ NSIndexPath *selected;
                     [action showInView:self.view];
                 }
                 else{
-                   [action showFromRect:CGRectMake(selectedPoint.x, selectedPoint.y, 1, 1) inView:[self.view superview] animated:YES];
+                    selectedPoint = [lpgr locationInView:[self.view superview]];
+                    [action showFromRect:CGRectMake(selectedPoint.x, selectedPoint.y, 1, 1) inView:[self.view superview] animated:YES];
                 }
             }
         }
