@@ -2997,7 +2997,6 @@ NSIndexPath *selected;
             if (numActions){
                 NSDictionary *item = nil;
                 if ([self doesShowSearchResults]){
-                    selectedPoint=[longPressGesture locationInView:self.view];
                     item = [self.filteredListContent objectAtIndex:indexPath2.row];
                     [dataList selectRowAtIndexPath:indexPath2 animated:NO scrollPosition:UITableViewScrollPositionNone];
                 }
@@ -3044,7 +3043,8 @@ NSIndexPath *selected;
                     [action showInView:self.view];
                 }
                 else{
-                   [action showFromRect:CGRectMake(selectedPoint.x, selectedPoint.y, 1, 1) inView:self.view animated:YES];
+                    selectedPoint = [lpgr locationInView:[self.view superview]];
+                    [action showFromRect:CGRectMake(selectedPoint.x, selectedPoint.y, 1, 1) inView:[self.view superview] animated:YES];
                 }
             }
         }
