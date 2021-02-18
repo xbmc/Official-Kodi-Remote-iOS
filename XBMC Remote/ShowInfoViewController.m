@@ -754,6 +754,7 @@ int h=0;
     NSDictionary *item=self.detailItem;
     NSString *placeHolderImage = @"coverbox_back.png";
 //    NSLog(@"ITEM %@", item);
+    eJewelType jeweltype = jewelTypeUnknown;
     castFontSize = 14;
     size = 0;
     castWidth = 50;
@@ -848,49 +849,24 @@ int h=0;
                 placeHolderImage = @"blank.png";
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                     coverHeight=70;
-                    deltaY=coverView.frame.size.height - coverHeight;
-                    jewelView.hidden=YES;
-                    frame=coverView.frame;
-                    frame.origin.x=0;
-                    frame.origin.y=12;
-                    frame.size.width=320;
-                    frame.size.height=59;
-                    coverView.frame=frame;
-                    jewelView.frame = frame;
                 }
                 else {
                     coverHeight=90;
-                    deltaY=coverView.frame.size.height - coverHeight;
-                    jewelView.hidden=YES;
-                    frame=coverView.frame;
-                    frame.origin.x=-78;
-                    frame.origin.y=12;
-                    frame.size.width=STACKSCROLL_WIDTH;
-                    frame.size.height=90;
-                    coverView.frame=frame;
-                    jewelView.frame = frame;
                 }
+                deltaY=coverView.frame.size.height - coverHeight;
+                jewelView.hidden=YES;
             }
             else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
                 int originalHeight = jewelView.frame.size.height;
                 int coverHeight = 560;
-                int coverWidth = STACKSCROLL_WIDTH;
-                CGRect frame;
-                frame = jewelView.frame;
-                frame.origin.x = 0;
-                frame.size.height = coverHeight;
-                frame.size.width = coverWidth;
-                jewelView.frame = frame;
-                frame=coverView.frame;
-                frame.origin.x = 87;
-                frame.origin.y = 24;
-                frame.size.width = 353;
-                frame.size.height = 518;
-                coverView.autoresizingMask = UIViewAutoresizingNone;
-                coverView.contentMode = UIViewContentModeScaleAspectFill;
-                coverView.frame = frame;
                 deltaY = -(coverHeight - originalHeight);
             }
+            if (enableJewel){
+                jewelView.image = [UIImage imageNamed:@"jewel_dvd.9.png"];
+                jeweltype = jewelTypeDVD;
+            }
+            coverView.autoresizingMask = UIViewAutoresizingNone;
+            coverView.contentMode = UIViewContentModeScaleAspectFill;
             label1.text = NSLocalizedString(@"EPISODES", nil);
             label3.text = NSLocalizedString(@"GENRE", nil);
             label4.text = NSLocalizedString(@"STUDIO", nil);
@@ -919,28 +895,14 @@ int h=0;
         else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
                 coverHeight = 280;
-                jewelView.hidden = NO;
-                deltaY = jewelView.frame.size.height - coverHeight;
-                coverView.autoresizingMask = UIViewAutoresizingNone;
-                coverView.contentMode = UIViewContentModeScaleAspectFill;
-                frame = coverView.frame;
-                frame.origin.x = 32;
-                frame.origin.y = 20;
-                frame.size.width = 414;
-                frame.size.height = 232;
-                coverView.frame = frame;
             }
             else{
                 coverHeight = 200;
-                jewelView.hidden = NO;
-                deltaY = jewelView.frame.size.height - coverHeight;
-                frame = coverView.frame;
-                frame.origin.x = 11;
-                frame.origin.y = 17;
-                frame.size.width = 297;
-                frame.size.height = 167;
-                coverView.frame = frame;
             }
+            jewelView.hidden = NO;
+            deltaY = jewelView.frame.size.height - coverHeight;
+            coverView.autoresizingMask = UIViewAutoresizingNone;
+            coverView.contentMode = UIViewContentModeScaleAspectFill;
             label1.text = NSLocalizedString(@"TV SHOW", nil);
             label3.text = NSLocalizedString(@"DIRECTOR", nil);
             label4.text = NSLocalizedString(@"WRITER", nil);
@@ -952,6 +914,7 @@ int h=0;
             label6.frame = frame;
             if (enableJewel){
                 jewelView.image = [UIImage imageNamed:@"jewel_tv.9.png"];
+                jeweltype = jewelTypeTV;
             }
             frame = jewelView.frame;
             frame.size.height = coverHeight;
@@ -1024,26 +987,12 @@ int h=0;
         label6.frame = frame;
         if (enableJewel){
             jewelView.image = [UIImage imageNamed:@"jewel_cd.9.png"];
+            jeweltype = jewelTypeCD;
         }
         frame = jewelView.frame;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
         
-        frame = coverView.frame;
-        frame.origin.x = 5;
-        frame.origin.y = 24;
-        frame.size.width = 336;
-        frame.size.height = 336;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            frame.origin.x = 42;
-            frame.origin.y = 22;
-            frame.size.width = 256;
-            frame.size.height = 256;
-        }
-        else {
-            frame.origin.x = 80;
-        }
-        coverView.frame = frame;
         if ([[item objectForKey:@"artist"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"artist"] componentsJoinedByString:@" / "];
             directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
@@ -1265,6 +1214,9 @@ int h=0;
     }
     else {
         placeHolderImage = @"coverbox_back_movies.png";
+        jeweltype = jewelTypeDVD;
+        coverView.autoresizingMask = UIViewAutoresizingNone;
+        coverView.contentMode = UIViewContentModeScaleToFill;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             placeHolderImage = @"coverbox_back_movies@2x.png";
             int originalHeight = jewelView.frame.size.height;
@@ -1276,16 +1228,7 @@ int h=0;
             frame.size.height = coverHeight;
             frame.size.width = coverWidth;
             jewelView.frame = frame;
-            frame=coverView.frame;
-            frame.origin.x = 87;
-            frame.origin.y = 24;
-            frame.size.width = 353;
-            frame.size.height = 518;
-            coverView.autoresizingMask = UIViewAutoresizingNone;
-            coverView.contentMode = UIViewContentModeScaleAspectFill;
-            coverView.frame = frame;
-            int deltaY = -(coverHeight - originalHeight);
-            [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
+            [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(coverHeight - originalHeight)];
         }
         if ([[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
@@ -1332,6 +1275,7 @@ int h=0;
             toolbar.tintColor = foundTintColor;
             if (enableJewel){
                 coverView.image = image;
+                coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
             }
@@ -1355,6 +1299,7 @@ int h=0;
                      }
                  }];
                 foundTintColor = newColor;
+                coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
             }

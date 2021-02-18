@@ -377,50 +377,34 @@ int currentItemID;
 
 -(void)setCoverSize:(NSString *)type{
     NSString *jewelImg = @"";
+    eJewelType jeweltype;
     if ([type isEqualToString:@"song"]){
         jewelImg = [self getJewelImage:@"jewel_cd.9"];
+        jeweltype = jewelTypeCD;
     }
     else if ([type isEqualToString:@"movie"]){
         jewelImg = [self getJewelImage:@"jewel_dvd.9"];
+        jeweltype = jewelTypeDVD;
     }
     else if ([type isEqualToString:@"episode"]){
         jewelImg = [self getJewelImage:@"jewel_tv.9"];
+        jeweltype = jewelTypeTV;
     }
     else{
         jewelImg = [self getJewelImage:@"jewel_cd.9"];
+        jeweltype = jewelTypeCD;
     }
     if ([self enableJewelCases]){
         jewelView.image = [UIImage imageNamed:jewelImg];
+        thumbnailView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
         [nowPlayingView bringSubviewToFront:jewelView];
         thumbnailView.hidden = NO;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            CGRect frame = jewelView.frame;
-            frame.origin.x = (nowPlayingView.frame.size.width - jewelView.frame.size.width)/2;
-            jewelView.frame = frame;
-            frame = thumbnailView.frame;
-            frame.origin.x += PAD_MENU_TABLE_WIDTH;
-            frame.origin.y += [[UIApplication sharedApplication] statusBarFrame].size.height + 2;
-            songDetailsView.frame = frame;
-        }
-        else {
-            songDetailsView.frame = thumbnailView.frame;
-        }
+        songDetailsView.frame = thumbnailView.frame;
     }
     else {
         [nowPlayingView sendSubviewToBack:jewelView];
         thumbnailView.hidden = YES;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            CGRect frame = jewelView.frame;
-            frame.origin.x = (nowPlayingView.frame.size.width - jewelView.frame.size.width)/2;
-            jewelView.frame = frame;
-            frame.origin.x += PAD_MENU_TABLE_WIDTH;
-            frame.origin.y += [[UIApplication sharedApplication] statusBarFrame].size.height + 2;
-            songDetailsView.frame = frame;
-        }
-        else {
-            songDetailsView.frame = jewelView.frame;
-            songDetailsView.center = jewelView.center;
-        }
+        songDetailsView.frame = jewelView.frame;
     }
     [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
 }

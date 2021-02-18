@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    jewelTypeCD,
+    jewelTypeDVD,
+    jewelTypeTV,
+    jewelTypeUnknown,
+} eJewelType;
+
 @interface Utilities : NSObject
 
 - (UIColor *)averageColor:(UIImage *)image inverse:(BOOL)inverse;
@@ -36,5 +43,6 @@
 + (UIColor*)get4thLabelColor;
 + (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha;
 + (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width;
++ (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(eJewelType)type;
 
 @end
