@@ -1402,7 +1402,7 @@
         [cell.posterLabelFullscreen setText:@""];
         [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
         [cell.posterLabelFullscreen setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
-        [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFill];
+        [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
         if (stackscrollFullscreen == YES) {
             [cell.posterLabelFullscreen setText:[item objectForKey:@"label"]];
             cell.labelImageView.hidden = YES;
@@ -1427,7 +1427,7 @@
                 [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
             }
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellthumbWidth, cellthumbHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                if (channelListView || channelGuideView) {
+                if (channelListView || channelGuideView || recordingListView) {
                     [self setLogoBackgroundColor:cell.posterThumbnail];
                 }
             }];
@@ -1444,6 +1444,7 @@
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
             [cell.posterLabel setHidden:NO];
             [cell.labelImageView setHidden:NO];
+            [cell.posterThumbnail setBackgroundColor:[Utilities getSystemGray6]];
         }
         
         if ([playcount intValue]){
@@ -2338,13 +2339,14 @@ int originYear = 0;
                 [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
             }
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                if (channelListView || channelGuideView) {
+                if (channelListView || channelGuideView || recordingListView) {
                     [self setLogoBackgroundColor:cell.urlImageView];
                 }
             }];
         }
         else {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
+            [cell.urlImageView setBackgroundColor:[Utilities getSystemGray6]];
         }
     }
     else if (albumView){
@@ -4637,6 +4639,12 @@ NSIndexPath *selected;
                          return;
                      }
                  }
+                 if ([methodResult objectForKey:@"recordings"] != nil) {
+                     recordingListView = YES;
+                 }
+                 else {
+                     recordingListView = NO;
+                 }
                  NSArray *videoLibraryMovies = [methodResult objectForKey:itemid];
                  NSString *serverURL= @"";
                  serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
@@ -4697,6 +4705,9 @@ NSIndexPath *selected;
                          }
                          if ([art count] && [[art objectForKey:@"banner"] length]!=0 && tvshowsView){
                              thumbnailPath = [art objectForKey:@"banner"];
+                         }
+                         if ([art count] && [[art objectForKey:@"icon"] length]!=0 && recordingListView){
+                             thumbnailPath = [art objectForKey:@"icon"];
                          }
                          NSString *fanartPath = [[videoLibraryMovies objectAtIndex:i] objectForKey:@"fanart"];
                          NSString *fanartURL=@"";
