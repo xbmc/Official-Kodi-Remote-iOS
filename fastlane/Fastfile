@@ -5,6 +5,12 @@ before_all do
   ensure_git_status_clean
   skip_docs
   xcversion(version: "~> 12.4")
+  app_store_connect_api_key(
+    key_id: "AX6GU8LT6K",
+    issuer_id: "69a6de97-a91c-47e3-e053-5b8c7c11a4d1",
+    key_filepath: "AuthKey_AX6GU8LT6K.p8",
+    in_house: false,
+  )
 end
 
 after_all do
@@ -25,14 +31,26 @@ lane :tf do
     include_bitcode: true,
     export_method: 'app-store',
   )
-  app_store_connect_api_key(
-    key_id: "AX6GU8LT6K",
-    issuer_id: "69a6de97-a91c-47e3-e053-5b8c7c11a4d1",
-    key_filepath: "AuthKey_AX6GU8LT6K.p8",
-    in_house: false,
-  )
   testflight(
     distribute_external: true,
     groups: ['external testers'],
+  )
+end
+
+desc 'Submit to AppStore review'
+lane :asc do |options|
+  appstore(
+    app_version: options[:app_version],
+    build_number: options[:build_number],
+    skip_binary_upload: true,
+    skip_screenshots: true,
+    force: true,
+    submit_for_review: true,
+    reject_if_possible: true,
+    automatic_release: true,
+    submission_information: {
+      add_id_info_uses_idfa: false,
+    },
+    precheck_include_in_app_purchases: false,
   )
 end
