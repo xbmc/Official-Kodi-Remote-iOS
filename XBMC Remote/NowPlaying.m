@@ -399,13 +399,13 @@ int currentItemID;
         thumbnailView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
         [nowPlayingView bringSubviewToFront:jewelView];
         thumbnailView.hidden = NO;
-        songDetailsView.frame = thumbnailView.frame;
     }
     else {
         [nowPlayingView sendSubviewToBack:jewelView];
         thumbnailView.hidden = YES;
-        songDetailsView.frame = jewelView.frame;
     }
+    songDetailsView.frame = jewelView.frame;
+    [nowPlayingView addSubview:songDetailsView];
     [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
 }
 
