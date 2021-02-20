@@ -14,17 +14,27 @@ Features
 - Browse files directly
 ... and much more!
 
-## Testflight
+## For testers
 
-### For testers
+Join Testflight beta testing: https://testflight.apple.com/join/VQkpfqDN
 
-Join beta testing: https://testflight.apple.com/join/VQkpfqDN
+## For maintainers (team Kodi)
 
-### For maintainers (team Kodi)
+Use [fastlane](https://fastlane.tools/) to manage everything related to AppStoreConnect.
 
-Use [fastlane](https://fastlane.tools/) to build and submit to Testflight.
+### Prerequisites
 
 1. `cd` to project's directory in terminal
 2. Install or update Ruby dependencies: `bundle install` or `bundle update`
-3. Grab p8 file (AppStoreConnect API key) from 1Password and place it in the project's directory
-4. Run fastlane: `bundle exec fastlane tf`
+
+### Build and submit to Testflight
+
+1. Grab p8 file (AppStoreConnect API key) from 1Password and place it in the project's directory
+2. Run fastlane: `bundle exec fastlane tf`
+
+### Fetch metadata
+
+```sh
+# optionally pass username via -u parameter
+SPACESHIP_SKIP_2FA_UPGRADE=1 bundle exec fastlane deliver download_metadata --use_live_version
+```
