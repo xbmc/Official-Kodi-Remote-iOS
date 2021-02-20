@@ -1,3 +1,1 @@
-- iPhone X and bigger devices support
-- Kodi v19 "Matrix" support
 - Bug fixes and stability improvements
