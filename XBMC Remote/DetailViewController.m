@@ -1583,11 +1583,8 @@
 
 - (BDKCollectionIndexView *)indexView {
     if (_indexView) return _indexView;
-    CGFloat indexWidth = 26;
-    if ( [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-        indexWidth = 32;
-    }
-    CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth + 2,
+    CGFloat indexWidth = 40;
+    CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
                               CGRectGetMinY(dataList.frame) + dataList.contentInset.top + COLLECTION_HEADER_HEIGHT + 2,
                               indexWidth,
                               CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4 -COLLECTION_HEADER_HEIGHT - bottomPadding);
