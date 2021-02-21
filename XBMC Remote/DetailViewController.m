@@ -5051,11 +5051,11 @@ NSIndexPath *selected;
     else if ([sortMethod isEqualToString:@"rating"]) {
         currentValue = [@(round([currentValue doubleValue])) stringValue];
     }
-    else if ([sortMethod isEqualToString:@"dateadded"] && ![currentValue isEqualToString:@"(null)"]) {
+    else if (([sortMethod isEqualToString:@"dateadded"] || [sortMethod isEqualToString:@"starttime"]) && ![currentValue isEqualToString:@"(null)"]) {
         NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitYear fromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", currentValue]]];
         currentValue = [NSString stringWithFormat:@"%ld", (long)[components year]];
     }
-    else if (([sortMethod isEqualToString:@"label"]  || [sortMethod isEqualToString:@"genre"] || [sortMethod isEqualToString:@"album"]) && [currentValue length]) {
+    else if (([sortMethod isEqualToString:@"label"]  || [sortMethod isEqualToString:@"genre"] || [sortMethod isEqualToString:@"album"] || [sortMethod isEqualToString:@"channel"]) && [currentValue length]) {
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
         NSString *c = @"/";
