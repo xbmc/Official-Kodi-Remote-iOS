@@ -548,8 +548,8 @@
 }
 
 -(void)hideButtonListWhenEmpty {
-    // Hide the toolbar when no button is shown at all (button5 is only hidden when 1-4 are not available)
-    if (button5.hidden && button6.hidden && button7.hidden) {
+    // Hide the toolbar when no button is shown at all
+    if (button1.hidden && button2.hidden && button3.hidden && button4.hidden && button5.hidden && button6.hidden && button7.hidden) {
         buttonsView.hidden = YES;
         
         UIEdgeInsets tableViewInsets = dataList.contentInset;
