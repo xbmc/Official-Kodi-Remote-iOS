@@ -4537,6 +4537,15 @@ NSIndexPath *selected;
     if ([self loadedDataFromDisk:methodToCall parameters:(sectionParameters == nil) ? mutableParameters : [NSMutableDictionary dictionaryWithDictionary:sectionParameters] refresh:forceRefresh] == YES){
         return;
     }
+    
+    // "sort" in "PVR." methods is only allowed from JSON API 12.1 on, for lower version remove "sort"
+    if ([methodToCall containsString:@"PVR."]) {
+        if (([AppDelegate instance].APImajorVersion < 12) ||
+           (([AppDelegate instance].APImajorVersion == 12) && ([AppDelegate instance].APIminorVersion < 1))) {
+            // remove "sort" from setup
+            [mutableParameters removeObjectForKey:@"sort"];
+        }
+    }
 
     GlobalData *obj=[GlobalData getInstance];
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
@@ -5039,11 +5048,11 @@ NSIndexPath *selected;
     else if ([sortMethod isEqualToString:@"rating"]) {
         currentValue = [@(round([currentValue doubleValue])) stringValue];
     }
-    else if ([sortMethod isEqualToString:@"dateadded"] && ![currentValue isEqualToString:@"(null)"]) {
+    else if (([sortMethod isEqualToString:@"dateadded"] || [sortMethod isEqualToString:@"starttime"]) && ![currentValue isEqualToString:@"(null)"]) {
         NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitYear fromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", currentValue]]];
         currentValue = [NSString stringWithFormat:@"%ld", (long)[components year]];
     }
-    else if (([sortMethod isEqualToString:@"label"]  || [sortMethod isEqualToString:@"genre"] || [sortMethod isEqualToString:@"album"]) && [currentValue length]) {
+    else if (([sortMethod isEqualToString:@"label"]  || [sortMethod isEqualToString:@"genre"] || [sortMethod isEqualToString:@"album"] || [sortMethod isEqualToString:@"channel"]) && [currentValue length]) {
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
         NSString *c = @"/";
