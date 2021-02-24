@@ -826,11 +826,11 @@ int h=0;
         CGFloat transform = [Utilities getTransformX];
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
-        if (!enableJewel) {
-            CGRect frame = jewelView.frame;
-            frame.origin.x = frame.origin.x + 4;
-            jewelView.frame = frame;
-        }
+    }
+    if (!enableJewel) {
+        CGRect frame = jewelView.frame;
+        frame.origin.x = 0;
+        jewelView.frame = frame;
     }
     if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
         int deltaY=0;
