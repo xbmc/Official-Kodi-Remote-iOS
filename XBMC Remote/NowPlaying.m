@@ -405,7 +405,7 @@ int currentItemID;
         thumbnailView.hidden = YES;
     }
     songDetailsView.frame = jewelView.frame;
-    [nowPlayingView addSubview:songDetailsView];
+    songDetailsView.center = [jewelView.superview convertPoint:jewelView.center toView:songDetailsView.superview];
     [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
 }
 
