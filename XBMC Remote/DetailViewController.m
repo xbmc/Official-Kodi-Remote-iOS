@@ -1740,12 +1740,12 @@
         }
     }
     else {
+        CGFloat transform = [Utilities getTransformX];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            Menuitem.thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
-            Menuitem.rowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
+            Menuitem.thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
+            Menuitem.rowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT * transform);
         }
         else {
-            CGFloat transform = [Utilities getTransformX];
             Menuitem.thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
             Menuitem.rowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
         }
