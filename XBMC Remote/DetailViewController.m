@@ -5173,20 +5173,6 @@ NSIndexPath *selected;
     [collectionView reloadItemsAtIndexPaths:[collectionView indexPathsForVisibleItems]];
 }
 
--(NSComparisonResult)alphaNumericCompare:(id)firstObject secondObject:(id)secondObject{
-    if ([((NSString *)firstObject) isEqualToString:UITableViewIndexSearch]){
-        return NSOrderedAscending;
-    }
-    else if ([((NSString *)secondObject) isEqualToString:UITableViewIndexSearch]){
-        return NSOrderedDescending;
-    }
-    int comparisionSign = [sortAscDesc isEqualToString:@"descending"] ? -1 : 1;
-    if (episodesView || [sortMethodName isEqualToString:@"runtime"] || [sortMethodName isEqualToString:@"track"] || [sortMethodName isEqualToString:@"duration"] || [sortMethodName isEqualToString:@"rating"]){
-        return comparisionSign * [((NSString *)firstObject) compare:((NSString *)secondObject) options:NSNumericSearch];
-    }
-    return comparisionSign * [((NSString *)firstObject) localizedCaseInsensitiveCompare:((NSString *)secondObject)];
-}
-
 # pragma mark - Life-Cycle
 
 -(void)viewWillDisappear:(BOOL)animated{
