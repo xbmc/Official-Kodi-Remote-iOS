@@ -4545,6 +4545,10 @@ NSIndexPath *selected;
             // remove "sort" from setup
             [mutableParameters removeObjectForKey:@"sort"];
         }
+        else if ([mutableParameters[@"channelgroupid"] intValue] == -1) {
+            [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
+            return;
+        }
     }
 
     GlobalData *obj=[GlobalData getInstance];
