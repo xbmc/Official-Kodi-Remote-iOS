@@ -1573,7 +1573,7 @@ int h=0;
         [scrollView addSubview:clearlogoButton];
     }
     startY = startY + clearLogoHeight + 20;
-    scrollView.contentSize=CGSizeMake(320, startY);
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, startY);
     
     // Check if the arrow needs to be displayed (only if content is > visible area)
     int height_content = scrollView.contentSize.height;

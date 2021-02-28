@@ -112,7 +112,7 @@
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
         frame = [buttonZoneView frame];
-        frame.origin.x = 320;
+        frame.origin.x = self.view.frame.size.width;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
@@ -383,7 +383,7 @@
     if (showGesture == YES){
         CGRect frame;
         frame = [gestureZoneView frame];
-        frame.origin.x = -320;
+        frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];     
@@ -392,7 +392,7 @@
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
         frame = [buttonZoneView frame];
-        frame.origin.x = 320;
+        frame.origin.x = self.view.frame.size.width;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
@@ -405,7 +405,7 @@
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDuration:0.3];      
         frame = [gestureZoneView frame];
-        frame.origin.x = -320;
+        frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
         frame = [buttonZoneView frame];
         frame.origin.x = 0;
@@ -1271,7 +1271,7 @@ NSInteger buttonAction;
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
         frame = [buttonZoneView frame];
-        frame.origin.x = 320;
+        frame.origin.x = self.view.frame.size.width;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;

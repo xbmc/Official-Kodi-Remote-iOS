@@ -57,7 +57,7 @@ int offsetY = 5;
         [_actorName setShadowOffset:CGSizeMake(1, 1)];
         [self addSubview:_actorName];
         
-        _actorRole = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, offsetY +  17 + size / 2, 320 - (castWidth + offsetX + 20) , 16 + size)];
+        _actorRole = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, offsetY +  17 + size / 2, self.frame.size.width - (castWidth + offsetX + 20) , 16 + size)];
         _actorRole.numberOfLines = 3;
         [_actorRole setFont:[UIFont systemFontOfSize:castFontSize - 2]];
         [_actorRole setBackgroundColor:[UIColor clearColor]];
