@@ -43,10 +43,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define VIEW_TAG 1000
-
-
-const NSInteger SLIDE_VIEWS_MINUS_X_POSITION = -228;
-const NSInteger SLIDE_VIEWS_START_X_POS = 0;
+#define SLIDE_VIEWS_MINUS_X_POSITION -200 /* Lets two stacks slightly overlap in landscape. */
+#define SLIDE_VIEWS_START_X_POS 0
 
 @implementation StackScrollViewController
 
