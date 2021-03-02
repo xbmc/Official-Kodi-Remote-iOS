@@ -244,6 +244,19 @@ NSOutputStream	*outStream;
              [AppDelegate instance].APIpatchVersion = [methodResult[@"version"][@"patch"] intValue];
          }
     }];
+    // Read the sorttokens
+    [jsonRPC
+     callMethod:@"Application.GetProperties"
+     withParameters:@{@"properties":@[@"sorttokens"]}
+     withTimeout: SERVER_TIMEOUT
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if (!error && !methodError) {
+             [AppDelegate instance].KodiSorttokens = methodResult[@"sorttokens"];
+         }
+         else {
+             [AppDelegate instance].KodiSorttokens = nil;
+         }
+    }];
     jsonRPC=nil;
 }
 

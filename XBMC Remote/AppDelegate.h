@@ -103,6 +103,7 @@
 @property (nonatomic, assign) int APImajorVersion;
 @property (nonatomic, assign) int APIminorVersion;
 @property (nonatomic, assign) int APIpatchVersion;
+@property (nonatomic, copy) NSArray *KodiSorttokens;
 @property (nonatomic, retain) GlobalData *obj;
 
 @end

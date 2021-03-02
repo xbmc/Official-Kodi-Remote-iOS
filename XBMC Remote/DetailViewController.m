@@ -4866,6 +4866,36 @@ NSIndexPath *selected;
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
 
+-(NSString*)ignoreSorttoken:(NSString*)text {
+    NSMutableString *string = [text mutableCopy];
+    NSString *token = @"";
+    NSInteger token_count = [[AppDelegate instance].KodiSorttokens count];
+    if (token_count > 0) {
+        for (token in [AppDelegate instance].KodiSorttokens) {
+            NSRange range = [string rangeOfString:token];
+            if (range.location==0 && range.length > 0) {
+                [string deleteCharactersInRange:range];
+            }
+        }
+    }
+    return [string copy];
+}
+
+-(NSArray*)applySortTokens:(NSArray*)incomingRichArray sortmethod:(NSString*)sortmethod {
+    NSMutableArray *copymutable = [[NSMutableArray alloc] initWithCapacity:[incomingRichArray count]];
+    for (NSMutableDictionary *mutabledict in incomingRichArray) {
+        NSDictionary *dict = @{@"sortby": [self ignoreSorttoken:mutabledict[sortmethod]]};
+        [mutabledict addEntriesFromDictionary:dict];
+        [copymutable addObject:mutabledict];
+    }
+    return [copymutable copy];
+}
+
+-(NSArray*)applySortByMethod:(NSArray*)incomingRichArray sortmethod:(NSString*)sortmethod ascending:(BOOL)isAscending{
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortmethod ascending:isAscending selector:@selector(localizedStandardCompare:)];
+    return [incomingRichArray sortedArrayUsingDescriptors:@[sortDescriptor]];
+}
+
 -(void)indexAndDisplayData {
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     NSArray *copyRichResults = [self.richResults copy];
@@ -4878,19 +4908,16 @@ NSIndexPath *selected;
     }
     BOOL sortAscending = [sortAscDesc isEqualToString:@"descending"] ? NO : YES;
     if ([self.detailItem enableSection] && [copyRichResults count]>SECTIONS_START_AT && (sortMethodIndex == -1 || [sortMethodName isEqualToString:@"label"])){
-        if ([sortAscDesc isEqualToString:@"descending"]) {
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"label" ascending:sortAscending];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
-        }
+        copyRichResults = [self applySortTokens:copyRichResults sortmethod:@"label"];
+        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"sortby" ascending:sortAscending];
         addUITableViewIndexSearch = YES;
         BOOL found;
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
         for (NSDictionary *item in copyRichResults){
             NSString *c = @"/";
-            if ([[item objectForKey:@"label"] length]>0){
-                c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
+            if ([[item objectForKey:@"sortby"] length]>0){
+                c = [[[item objectForKey:@"sortby"] substringToIndex:1] uppercaseString];
             }
             if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
                 c = @"#";
@@ -4988,19 +5015,18 @@ NSIndexPath *selected;
     else {
         NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
         if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortMethodName ascending:sortAscending];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
+            copyRichResults = [self applySortTokens:copyRichResults sortmethod:sortMethodName];
+            copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"sortby" ascending:sortAscending];
             BOOL found;
             addUITableViewIndexSearch = YES;
             for (NSDictionary *item in copyRichResults){
                 found = NO;
                 NSString *searchKey = @"";
-                if ([[item objectForKey:sortMethodName] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortMethodName] isKindOfClass:[NSArray class]]){
-                    searchKey = [[item objectForKey:sortMethodName] componentsJoinedByString:@""];
+                if ([[item objectForKey:@"sortby"] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:@"sortby"] isKindOfClass:[NSArray class]]){
+                    searchKey = [[item objectForKey:@"sortby"] componentsJoinedByString:@""];
                 }
                 else {
-                    searchKey = [item objectForKey:sortMethodName];
+                    searchKey = [item objectForKey:@"sortby"];
                 }
                 NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
                 if ([[self.sections allKeys] containsObject:key] == YES){
@@ -5016,9 +5042,8 @@ NSIndexPath *selected;
             NSString *defaultSortOrder = parameters[@"parameters"][@"sort"][@"order"];
             if (sortAscDesc!=nil && ![sortAscDesc isEqualToString:defaultSortOrder]) {
                 NSString *methodSort = (sortMethodName == nil) ?  @"label" : sortMethodName;
-                NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:methodSort ascending:sortAscending];
-                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-                copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
+                copyRichResults = [self applySortTokens:copyRichResults sortmethod:methodSort];
+                copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"sortby" ascending:sortAscending];
             }
             [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
             for (NSDictionary *item in copyRichResults){
