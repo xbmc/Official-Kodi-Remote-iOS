@@ -4908,16 +4908,20 @@ NSIndexPath *selected;
     }
     BOOL sortAscending = [sortAscDesc isEqualToString:@"descending"] ? NO : YES;
     if ([self.detailItem enableSection] && [copyRichResults count]>SECTIONS_START_AT && (sortMethodIndex == -1 || [sortMethodName isEqualToString:@"label"])){
-        copyRichResults = [self applySortTokens:copyRichResults sortmethod:@"label"];
-        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"sortby" ascending:sortAscending];
+        NSString *sortbymethod = @"label";
+        if ([AppDelegate instance].isIgnoreArticlesEnabled && [[AppDelegate instance].KodiSorttokens count]>0) {
+            copyRichResults = [self applySortTokens:copyRichResults sortmethod:sortbymethod];
+            sortbymethod = @"sortby";
+        }
+        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:sortbymethod ascending:sortAscending];
         addUITableViewIndexSearch = YES;
         BOOL found;
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
         for (NSDictionary *item in copyRichResults){
             NSString *c = @"/";
-            if ([[item objectForKey:@"sortby"] length]>0){
-                c = [[[item objectForKey:@"sortby"] substringToIndex:1] uppercaseString];
+            if ([[item objectForKey:sortbymethod] length]>0){
+                c = [[[item objectForKey:sortbymethod] substringToIndex:1] uppercaseString];
             }
             if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
                 c = @"#";
@@ -5015,18 +5019,22 @@ NSIndexPath *selected;
     else {
         NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
         if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
-            copyRichResults = [self applySortTokens:copyRichResults sortmethod:sortMethodName];
-            copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"sortby" ascending:sortAscending];
+            NSString *sortbymethod = sortMethodName;
+            if ([AppDelegate instance].isIgnoreArticlesEnabled && [[AppDelegate instance].KodiSorttokens count]>0) {
+                copyRichResults = [self applySortTokens:copyRichResults sortmethod:sortMethodName];
+                sortbymethod = @"sortby";
+            }
+            copyRichResults = [self applySortByMethod:copyRichResults sortmethod:sortbymethod ascending:sortAscending];
             BOOL found;
             addUITableViewIndexSearch = YES;
             for (NSDictionary *item in copyRichResults){
                 found = NO;
                 NSString *searchKey = @"";
-                if ([[item objectForKey:@"sortby"] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:@"sortby"] isKindOfClass:[NSArray class]]){
-                    searchKey = [[item objectForKey:@"sortby"] componentsJoinedByString:@""];
+                if ([[item objectForKey:sortbymethod] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortbymethod] isKindOfClass:[NSArray class]]){
+                    searchKey = [[item objectForKey:sortbymethod] componentsJoinedByString:@""];
                 }
                 else {
-                    searchKey = [item objectForKey:@"sortby"];
+                    searchKey = [item objectForKey:sortbymethod];
                 }
                 NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
                 if ([[self.sections allKeys] containsObject:key] == YES){
@@ -5042,8 +5050,11 @@ NSIndexPath *selected;
             NSString *defaultSortOrder = parameters[@"parameters"][@"sort"][@"order"];
             if (sortAscDesc!=nil && ![sortAscDesc isEqualToString:defaultSortOrder]) {
                 NSString *methodSort = (sortMethodName == nil) ?  @"label" : sortMethodName;
-                copyRichResults = [self applySortTokens:copyRichResults sortmethod:methodSort];
-                copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"sortby" ascending:sortAscending];
+                if ([AppDelegate instance].isIgnoreArticlesEnabled && [[AppDelegate instance].KodiSorttokens count]>0) {
+                    copyRichResults = [self applySortTokens:copyRichResults sortmethod:methodSort];
+                    methodSort = @"sortby";
+                }
+                copyRichResults = [self applySortByMethod:copyRichResults sortmethod:methodSort ascending:sortAscending];
             }
             [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
             for (NSDictionary *item in copyRichResults){
@@ -5052,9 +5063,7 @@ NSIndexPath *selected;
         }
     }
     // first sort the index table ...
-    NSMutableArray<NSString*> *sectionKeys = [self.sections.allKeys mutableCopy];
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:nil ascending:sortAscending selector:@selector(localizedStandardCompare:)];
-    [sectionKeys sortUsingDescriptors:@[sortDescriptor]];
+    NSMutableArray<NSString*> *sectionKeys = [[self applySortByMethod:[self.sections.allKeys copy] sortmethod:nil ascending:sortAscending] mutableCopy];
     // ... then add the search item on top of the sorted list when needed
     if (addUITableViewIndexSearch) {
         [sectionKeys insertObject:UITableViewIndexSearch atIndex:0];

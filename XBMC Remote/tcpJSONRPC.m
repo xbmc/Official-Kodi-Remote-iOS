@@ -257,6 +257,19 @@ NSOutputStream	*outStream;
              [AppDelegate instance].KodiSorttokens = nil;
          }
     }];
+    // Check if ignorearticles is enabled
+    [jsonRPC
+     callMethod:@"Settings.GetSettingValue"
+     withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
+     withTimeout: SERVER_TIMEOUT
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if (!error && !methodError) {
+             [AppDelegate instance].isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
+         }
+         else {
+             [AppDelegate instance].isIgnoreArticlesEnabled = NO;
+         }
+    }];
     jsonRPC=nil;
 }
 
