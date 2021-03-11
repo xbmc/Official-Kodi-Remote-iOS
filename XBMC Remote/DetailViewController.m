@@ -2034,7 +2034,7 @@ int originYear = 0;
                         [format setLocale:locale];
                         [format setDateFormat:@"yyyy-MM-dd"];
                         NSDate *date = [format dateFromString:label];
-                        [format setDateFormat:@"ccccc"];
+                        [format setDateFormat:@"EEE"];
                     if ([format stringFromDate:date] != nil){
                         dateString = [format stringFromDate:date];
                     }
