@@ -131,7 +131,7 @@
     NSString *path = [epgCachePath stringByAppendingPathComponent:filename];
     NSMutableArray *epgArray;
     epgArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    if (epgArray != nil) {
+    if (epgArray != nil && channelid != nil) {
         [epgDict setObject:epgArray forKey:channelid];
 //        // UPDATE DISK CACHE
 //        if (![epgDownloadQueue containsObject:channelid]){
@@ -280,7 +280,9 @@
     UILabel *next = (UILabel*) [cell viewWithTag:4];
     current.text = [channelEPG objectForKey:@"current"];
     next.text = [channelEPG objectForKey:@"next"];
-    [item setObject:[channelEPG objectForKey:@"current_details"] forKey:@"genre"];
+    if ([channelEPG objectForKey:@"current_details"] != nil) {
+        [item setObject:[channelEPG objectForKey:@"current_details"] forKey:@"genre"];
+    }
     ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
     if (![current.text isEqualToString:NSLocalizedString(@"Not Available",nil)] && [[channelEPG objectForKey:@"starttime"] isKindOfClass:[NSDate class]] && [[channelEPG objectForKey:@"endtime"] isKindOfClass:[NSDate class]]) {
         float total_seconds = [[channelEPG objectForKey:@"endtime"] timeIntervalSince1970] - [[channelEPG objectForKey:@"starttime"] timeIntervalSince1970];
