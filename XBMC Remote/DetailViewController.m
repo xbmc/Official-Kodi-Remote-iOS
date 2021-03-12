@@ -4858,6 +4858,7 @@ NSIndexPath *selected;
 -(void)indexAndDisplayData {
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     NSArray *copyRichResults = [self.richResults copy];
+    BOOL addUITableViewIndexSearch = NO;
     self.sectionArray = nil;
     autoScrollTable = nil;
     if ([copyRichResults count] == 0){
@@ -4871,7 +4872,7 @@ NSIndexPath *selected;
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
         }
-        [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
+        addUITableViewIndexSearch = YES;
         BOOL found;
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
@@ -4911,7 +4912,7 @@ NSIndexPath *selected;
         }
     }
     else if (channelGuideView){
-        [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
+        addUITableViewIndexSearch = YES;
         BOOL found;
         NSDateFormatter *localDate = [[NSDateFormatter alloc] init];
         [localDate setDateFormat:@"yyyy-MM-dd"];
@@ -4980,7 +4981,7 @@ NSIndexPath *selected;
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
             BOOL found;
-            [self.sections setValue:[[NSMutableArray alloc] init] forKey:UITableViewIndexSearch];
+            addUITableViewIndexSearch = YES;
             for (NSDictionary *item in copyRichResults){
                 found = NO;
                 NSString *searchKey = @"";
@@ -5013,10 +5014,16 @@ NSIndexPath *selected;
             }
         }
     }
-    self.sectionArray = [[NSArray alloc] initWithArray:
-                         [[self.sections allKeys] sortedArrayUsingComparator:^(id firstObject, id secondObject) {
-        return [self alphaNumericCompare:firstObject secondObject:secondObject];
-    }]];
+    // first sort the index table ...
+    NSMutableArray<NSString*> *sectionKeys = [self.sections.allKeys mutableCopy];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:nil ascending:sortAscending selector:@selector(localizedStandardCompare:)];
+    [sectionKeys sortUsingDescriptors:@[sortDescriptor]];
+    // ... then add the search item on top of the sorted list when needed
+    if (addUITableViewIndexSearch) {
+        [sectionKeys insertObject:UITableViewIndexSearch atIndex:0];
+        self.sections[UITableViewIndexSearch] = @[];
+    }
+    self.sectionArray = sectionKeys;
     self.sectionArrayOpen = [[NSMutableArray alloc] init];
     BOOL defaultValue = FALSE;
     if ([self.sectionArray count] == 1){
@@ -5164,20 +5171,6 @@ NSIndexPath *selected;
     [dataList endUpdates];
 
     [collectionView reloadItemsAtIndexPaths:[collectionView indexPathsForVisibleItems]];
-}
-
--(NSComparisonResult)alphaNumericCompare:(id)firstObject secondObject:(id)secondObject{
-    if ([((NSString *)firstObject) isEqualToString:UITableViewIndexSearch]){
-        return NSOrderedAscending;
-    }
-    else if ([((NSString *)secondObject) isEqualToString:UITableViewIndexSearch]){
-        return NSOrderedDescending;
-    }
-    int comparisionSign = [sortAscDesc isEqualToString:@"descending"] ? -1 : 1;
-    if (episodesView || [sortMethodName isEqualToString:@"runtime"] || [sortMethodName isEqualToString:@"track"] || [sortMethodName isEqualToString:@"duration"] || [sortMethodName isEqualToString:@"rating"]){
-        return comparisionSign * [((NSString *)firstObject) compare:((NSString *)secondObject) options:NSNumericSearch];
-    }
-    return comparisionSign * [((NSString *)firstObject) localizedCaseInsensitiveCompare:((NSString *)secondObject)];
 }
 
 # pragma mark - Life-Cycle
