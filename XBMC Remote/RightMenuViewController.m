@@ -411,8 +411,14 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
 	if (editingStyle == UITableViewCellEditingStyleDelete){
-        [tableData removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        if ([indexPath row] < [tableData count]) {
+            [tableData removeObjectAtIndex:indexPath.row];
+        }
+        if ([indexPath row] < [tableView numberOfRowsInSection:[indexPath section]]) {
+            [tableView beginUpdates];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            [tableView endUpdates];
+        }
         [self deleteCustomButton:(indexPath.row - editableRowStartAt)];
 	}
 }

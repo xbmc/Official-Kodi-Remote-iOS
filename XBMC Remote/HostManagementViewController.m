@@ -247,7 +247,11 @@ static inline BOOL IsEmpty(id obj) {
                 [standardUserDefaults synchronize];
             }
         }
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        if ([indexPath row] < [tableView numberOfRowsInSection:[indexPath section]]) {
+            [tableView beginUpdates];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            [tableView endUpdates];
+        }
 	}   
 }
 

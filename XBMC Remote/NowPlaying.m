@@ -2434,7 +2434,11 @@ int currentItemID;
                 if ([indexPath row] < numObj){
                     [playlistData removeObjectAtIndex:indexPath.row];
                 }
-                [playlistTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+                if ([indexPath row] < [playlistTableView numberOfRowsInSection:[indexPath section]]) {
+                    [playlistTableView beginUpdates];
+                    [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+                    [playlistTableView endUpdates];
+                }
                 if ((storeSelection) && (indexPath.row<storeSelection.row)){
                     storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
                 }
