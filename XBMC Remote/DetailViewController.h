@@ -141,6 +141,7 @@
     CGFloat bottomPadding;
     NSString *epgCachePath;
     BOOL showbar;
+    dispatch_queue_t epglockqueue;
 }
 
 - (id)initWithFrame:(CGRect)frame;

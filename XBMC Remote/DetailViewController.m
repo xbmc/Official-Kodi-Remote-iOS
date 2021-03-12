@@ -122,25 +122,23 @@
 #pragma mark - live tv epg memory/disk cache management
 
 -(NSMutableArray *)loadEPGFromMemory:(NSNumber *)channelid {
-    return [epgDict objectForKey:channelid];
+    __block NSMutableArray *epgarray = nil;
+    dispatch_sync(epglockqueue, ^{
+        epgarray = [epgDict objectForKey:channelid];
+    });
+    return epgarray;
 }
 
 -(NSMutableArray *)loadEPGFromDisk:(NSNumber *)channelid parameters:(NSDictionary *)params{
     NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
     NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
     NSString *path = [epgCachePath stringByAppendingPathComponent:filename];
-    NSMutableArray *epgArray;
-    epgArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    if (epgArray != nil && channelid != nil) {
-        [epgDict setObject:epgArray forKey:channelid];
-//        // UPDATE DISK CACHE
-//        if (![epgDownloadQueue containsObject:channelid]){
-//            @synchronized(epgDownloadQueue){
-//                [epgDownloadQueue addObject:channelid];
-//            }
-//            [self performSelectorOnMainThread:@selector(getJsonEPG:) withObject:params waitUntilDone:NO];
-//        }
-    }
+    NSMutableArray *epgArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    dispatch_sync(epglockqueue, ^{
+        if (epgArray != nil && channelid != nil) {
+            [epgDict setObject:epgArray forKey:channelid];
+        }
+    });
     return epgArray;
 }
 
@@ -155,15 +153,12 @@
         NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
         NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
         NSString  *dicPath = [epgCachePath stringByAppendingPathComponent:filename];
-        @synchronized(epgArray){
-            [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
+        [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
+        dispatch_sync(epglockqueue, ^{
             [epgDict setObject:epgArray forKey:channelid];
-        }
-        @synchronized(epgDownloadQueue){
             [epgDownloadQueue removeObject:channelid];
-        }
+        });
     }
-    return;
 }
 
 #pragma mark - live tv epg management
@@ -195,16 +190,12 @@
                                        item, @"item",
                                        nil];
             [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
-            BOOL alreadyInDownloadQueue = FALSE;
-            @synchronized(epgDownloadQueue){
-                alreadyInDownloadQueue = [epgDownloadQueue containsObject:channelid];
-            }
-            if ([[channelEPG objectForKey:@"refresh_data"] boolValue] == YES && !alreadyInDownloadQueue){
-                @synchronized(epgDownloadQueue){
+            dispatch_sync(epglockqueue, ^{
+                if ([[channelEPG objectForKey:@"refresh_data"] boolValue] && ![epgDownloadQueue containsObject:channelid]){
                     [epgDownloadQueue addObject:channelid];
+                    [self performSelectorOnMainThread:@selector(getJsonEPG:) withObject:parameters waitUntilDone:NO];
                 }
-                [self performSelectorOnMainThread:@selector(getJsonEPG:) withObject:parameters waitUntilDone:NO];
-            }
+            });
         }
     }
     return;
@@ -5527,6 +5518,7 @@ NSIndexPath *selected;
     isViewDidLoad = YES;
     sectionHeight = 16;
     dataList.tableFooterView = [UIView new];
+    epglockqueue = dispatch_queue_create("com.epg.arrayupdate", DISPATCH_QUEUE_SERIAL);
     epgDict = [[NSMutableDictionary alloc] init];
     epgDownloadQueue = [[NSMutableArray alloc] init];
     xbmcDateFormatter = [[NSDateFormatter alloc] init];
