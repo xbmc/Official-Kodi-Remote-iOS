@@ -463,6 +463,11 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"parameters", NSLocalizedString(@"All songs", nil), @"label", NSLocalizedString(@"All songs", nil), @"morelabel",
                            @"YES", @"enableLibraryCache",
                            [NSNumber numberWithInt:5], @"numberOfStars",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            NSLocalizedString(@"Not listened", nil), @"notWatched",
+                            NSLocalizedString(@"Listened one time", nil), @"watchedOneTime",
+                            NSLocalizedString(@"Listened %@ times", nil), @"watchedTimes",
+                            nil], @"watchedListenedStrings",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -937,7 +942,7 @@ NSMutableArray *hostRightMenuItems;
                                       [NSArray arrayWithObjects:@"label", @"genre", @"year", @"playcount", nil], @"method",
                                       nil], @"available_methods",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
+                                    [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"playcount", nil], @"properties",
                                     nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
@@ -1114,7 +1119,7 @@ NSMutableArray *hostRightMenuItems;
                                @"albumid",@"row6",
                                [NSNumber numberWithInt:0], @"playlistid",
                                @"albumid",@"row8",
-                               @"albumid", @"row9",
+                               @"playcount", @"row9",
                                @"artist", @"row10",
                                @"genre",@"row11",
                                @"description",@"row12",

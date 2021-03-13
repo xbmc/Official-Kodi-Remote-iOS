@@ -1083,7 +1083,7 @@
                                        [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
                                        newSectionParameters, @"extra_section_parameters",
                                        [NSString stringWithFormat:@"%@", [parameters objectForKey:@"defaultThumb"]], @"defaultThumb",
-                                       [parameters objectForKey:@"combinedFilter"], @"combinedFilter",
+                                       [parameters objectForKey:@"watchedListenedStrings"], @"watchedListenedStrings",
                                        nil];
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab=choosedTab;
