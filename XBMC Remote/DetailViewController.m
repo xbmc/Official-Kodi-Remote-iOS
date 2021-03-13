@@ -5027,7 +5027,7 @@ NSIndexPath *selected;
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
     }
     else {
-        NSString *defaultSortMethod = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"method"];
+        NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
         if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
             NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortMethodName ascending:sortAscending];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
@@ -5054,7 +5054,8 @@ NSIndexPath *selected;
             }
         }
         else {
-            if ([sortAscDesc isEqualToString:@"descending"]) {
+            NSString *defaultSortOrder = parameters[@"parameters"][@"sort"][@"order"];
+            if (![sortAscDesc isEqualToString:defaultSortOrder]) {
                 NSString *methodSort = (sortMethodName == nil) ?  @"label" : sortMethodName;
                 NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:methodSort ascending:sortAscending];
                 NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];

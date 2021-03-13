@@ -643,7 +643,7 @@ NSMutableArray *hostRightMenuItems;
                        @"albumid",@"row6",
                        [NSNumber numberWithInt:0], @"playlistid",
                        @"albumid",@"row8",
-                       @"albumid", @"row9",
+                       @"playcount", @"row9",
                        @"artist", @"row10",
                        @"genre",@"row11",
                        @"description",@"row12",
