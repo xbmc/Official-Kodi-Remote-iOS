@@ -1647,7 +1647,7 @@ NSMutableArray *hostRightMenuItems;
                       
                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                       
-//                      [NSArray arrayWithObjects:@"Files.GetDirectory", @"method",nil],
+                      [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                       
                       nil];
     
@@ -1815,25 +1815,25 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"itemSizes",
                            nil],
                           
-//                          [NSMutableArray arrayWithObjects:
-//                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                             @"ascending",@"order",
-//                             [NSNumber numberWithBool:FALSE],@"ignorearticle",
-//                             @"label", @"method",
-//                             nil],@"sort",
-//                            @"video", @"media",
-//                            @"special://profile/playlists/video", @"directory",
-//                            [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"properties",
-//                            [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"file_properties",
-//                            nil], @"parameters",
-//                           NSLocalizedString(@"Video Playlists", nil), @"label",
-//                           NSLocalizedString(@"Video Playlists", nil), @"morelabel",
-//                           @"nocover_filemode.png", @"defaultThumb",
-//                           filemodeRowHeight, @"rowHeight",
-//                           filemodeThumbWidth, @"thumbWidth",
-//                           @"YES", @"isMusicPlaylist",
-//                           nil],
+                          [NSMutableArray arrayWithObjects:
+                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                             @"ascending", @"order",
+                             [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                             @"label", @"method",
+                             nil], @"sort",
+                            @"video", @"media",
+                            @"special://videoplaylists", @"directory",
+                            [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"properties",
+                            [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"file_properties",
+                            nil], @"parameters",
+                           NSLocalizedString(@"Video Playlists", nil), @"label",
+                           NSLocalizedString(@"Video Playlists", nil), @"morelabel",
+                           @"nocover_filemode.png", @"defaultThumb",
+                           filemodeRowHeight, @"rowHeight",
+                           filemodeThumbWidth, @"thumbWidth",
+                           @"YES", @"isVideoPlaylist",
+                           nil],
                           
                           nil];
     

@@ -1237,7 +1237,7 @@
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults synchronize];
             if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO || [[parameters objectForKey:@"forceActionSheet"] boolValue] == YES) {
-                sheetActions = [self checkMusicPlaylists:sheetActions item:item params:[self indexKeyedMutableDictionaryFromArray:[[MenuItem mainParameters] objectAtIndex:choosedTab]]];
+                sheetActions = [self getPlaylistActions:sheetActions item:item params:[self indexKeyedMutableDictionaryFromArray:[[MenuItem mainParameters] objectAtIndex:choosedTab]]];
                 selected=indexPath;
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
@@ -1248,8 +1248,9 @@
     }
 }
 
--(NSMutableArray *)checkMusicPlaylists:(NSMutableArray *)sheetActions item:(NSDictionary *)item params:(NSMutableDictionary *)parameters{
-    if ([[parameters objectForKey:@"isMusicPlaylist"] boolValue] == YES){ // NOTE: sheetActions objects must be moved outside from there
+-(NSMutableArray *)getPlaylistActions:(NSMutableArray *)sheetActions item:(NSDictionary *)item params:(NSMutableDictionary *)parameters{
+    if ([[parameters objectForKey:@"isMusicPlaylist"] boolValue] ||
+        [[parameters objectForKey:@"isVideoPlaylist"] boolValue]){ // NOTE: sheetActions objects must be moved outside from there
         if ([sheetActions isKindOfClass:[NSMutableArray class]]){
             [sheetActions removeAllObjects];
             [sheetActions addObject:NSLocalizedString(@"Queue after current", nil)];
@@ -3006,7 +3007,7 @@ NSIndexPath *selected;
                     }
                     item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
                 }
-                 sheetActions = [self checkMusicPlaylists:sheetActions item:item params:[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]]];
+                 sheetActions = [self getPlaylistActions:sheetActions item:item params:[self indexKeyedMutableDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]]];
 //                if ([[item objectForKey:@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
 //                    return;
 //                }
@@ -3708,12 +3709,16 @@ NSIndexPath *selected;
     if ([parameters objectForKey:@"thumbWidth"] != nil){
         filemodeThumbWidth = [parameters objectForKey:@"thumbWidth"];
     }
+    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"file_properties"] mutableCopy];
+    if ([[parameters objectForKey:@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11){
+        [mutableProperties addObject:@"art"];
+    }
     NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     [item objectForKey:[mainFields objectForKey:@"row6"]],@"directory",
                                     [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
                                     [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
-                                    [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
+                                    mutableProperties, @"file_properties",
                                     nil], @"parameters",
                                    libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
                                    [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
