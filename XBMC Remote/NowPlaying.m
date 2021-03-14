@@ -282,7 +282,7 @@
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source {
-    return [Utilities imageWithShadow:source radius:10];
+    return [Utilities applyRoundedEdgesImage:source drawBorder:YES];
 }
 
 #pragma mark - JSON management
