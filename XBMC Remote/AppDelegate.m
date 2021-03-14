@@ -255,6 +255,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"extra_info_parameters",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
+                           @"YES", @"enableLibraryFullScreen",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             NSLocalizedString(@"Not listened", nil), @"notWatched",
                             NSLocalizedString(@"Listened one time", nil), @"watchedOneTime",
@@ -288,6 +289,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"extra_info_parameters",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
+                           @"YES", @"enableLibraryFullScreen",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
