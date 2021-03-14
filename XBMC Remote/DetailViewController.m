@@ -4545,6 +4545,10 @@ NSIndexPath *selected;
             // remove "sort" from setup
             [mutableParameters removeObjectForKey:@"sort"];
         }
+        else if ([mutableParameters[@"channelgroupid"] intValue] == -1) {
+            [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
+            return;
+        }
     }
 
     GlobalData *obj=[GlobalData getInstance];
@@ -5166,11 +5170,17 @@ NSIndexPath *selected;
 }
 
 -(void)updateChannelListTableCell {
-    [dataList beginUpdates];
-    [dataList reloadRowsAtIndexPaths:[dataList indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
-    [dataList endUpdates];
+    NSArray* indexPaths = [dataList indexPathsForVisibleRows];
+    if ([dataList numberOfSections]>0 && [indexPaths count]>0) {
+        [dataList beginUpdates];
+        [dataList reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+        [dataList endUpdates];
+    }
 
-    [collectionView reloadItemsAtIndexPaths:[collectionView indexPathsForVisibleItems]];
+    indexPaths = [collectionView indexPathsForVisibleItems];
+    if ([collectionView numberOfSections]>0 && [indexPaths count]>0) {
+        [collectionView reloadItemsAtIndexPaths:indexPaths];
+    }
 }
 
 # pragma mark - Life-Cycle
