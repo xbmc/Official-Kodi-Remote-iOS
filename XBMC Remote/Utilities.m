@@ -11,7 +11,7 @@
 #import "Utilities.h"
 
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
-#define HEADROOM_FOR_XBMC_LOGO 10
+#define XBMC_LOGO_PADDING 10
 
 @implementation Utilities
 
@@ -19,13 +19,13 @@
     CGImageRef rawImageRef = [image CGImage];
     if (rawImageRef == nil) return [UIColor clearColor];
     
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
-
-    int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
-    BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
-                        infoMask == kCGImageAlphaNoneSkipFirst ||
-                        infoMask == kCGImageAlphaNoneSkipLast);
-    if (!anyNonAlpha) return [UIColor clearColor];
+//    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
+//
+//    int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
+//    BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
+//                        infoMask == kCGImageAlphaNoneSkipFirst ||
+//                        infoMask == kCGImageAlphaNoneSkipLast);
+//    if (!anyNonAlpha) return [UIColor clearColor];
 	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
     const UInt8 *rawPixelData = CFDataGetBytePtr(data);
     
@@ -38,20 +38,19 @@
     unsigned int green = 0;
     unsigned int blue  = 0;
     
-	for (int row = 0; row < imageHeight; row++) {
-		const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-		for (int column = 0; column < imageWidth; column++) {
-            if (inverse == YES){
-                blue    += rowPtr[0];
-                red   += rowPtr[2];
-            }
-            else{
-                red    += rowPtr[0];
-                blue   += rowPtr[2];
-            }
+    for (int row = 0; row < imageHeight; row++) {
+        const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+        for (int column = 0; column < imageWidth; column++) {
+            red    += rowPtr[0];
             green  += rowPtr[1];
-			rowPtr += stride;
+            blue   += rowPtr[2];
+            rowPtr += stride;
         }
+    }
+    if (inverse) {
+        unsigned int tmp = red;
+        red = blue;
+        blue = tmp;
     }
 	CFRelease(data);
     
@@ -278,10 +277,10 @@
 
 + (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return CGRectMake(width - ANCHORRIGHTPEEK - logo.size.width - HEADROOM_FOR_XBMC_LOGO, (height - logo.size.height)/2, logo.size.width, logo.size.height);
+        return CGRectMake(width - ANCHORRIGHTPEEK - logo.size.width - XBMC_LOGO_PADDING, (height - logo.size.height)/2, logo.size.width, logo.size.height);
     }
     else {
-        return CGRectMake(width - logo.size.width/2 - HEADROOM_FOR_XBMC_LOGO, (height - logo.size.height/2)/2, logo.size.width/2, logo.size.height/2);
+        return CGRectMake(width - logo.size.width/2 - XBMC_LOGO_PADDING, (height - logo.size.height/2)/2, logo.size.width/2, logo.size.height/2);
     }
 }
 

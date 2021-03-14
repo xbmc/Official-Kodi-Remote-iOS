@@ -71,6 +71,7 @@
     BOOL tvshowsView;
     BOOL channelGuideView;
     BOOL channelListView;
+    BOOL recordingListView;
     int albumViewHeight;
     int albumViewPadding;
     int artistFontSize;
