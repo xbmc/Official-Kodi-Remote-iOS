@@ -510,9 +510,9 @@
     UIImage *image = imageview.image;
     Utilities *utils = [[Utilities alloc] init];
     UIColor *imgcolor = [utils averageColor:image inverse:NO];
-    UIColor *bglight = [Utilities getGrayColor:28 alpha:1.0];
-    UIColor *bgdark = [Utilities getGrayColor:242 alpha:1.0];
-    UIColor *bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.3];
+    UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
+    UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
+    UIColor *bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
     [imageview setBackgroundColor:bgcolor];
 }
 
