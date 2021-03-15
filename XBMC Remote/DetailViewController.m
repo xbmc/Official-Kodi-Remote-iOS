@@ -3069,9 +3069,9 @@ NSIndexPath *selected;
                     showfromview = self.view;
                 }
                 else {
-                    showfromctrl = ([self doesShowSearchResults]) ? self.searchController : self;
-                    showfromview = [showfromctrl.view superview];
-                    selectedPoint = [lpgr locationInView:showfromview];
+                    showfromctrl = [self doesShowSearchResults] ? self.searchController : self;
+                    showfromview = enableCollectionView ? collectionView : [showfromctrl.view superview];
+                    selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
                 [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint fromcontroller:showfromctrl fromview:showfromview];
             }
