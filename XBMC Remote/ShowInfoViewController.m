@@ -424,28 +424,6 @@ int count=0;
     }
 }
 
-#pragma mark - UIWebView delegates
-
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    NSString *requestString = [[request URL] absoluteString];
-    return (([requestString isEqualToString:@"about:blank"] || [requestString isEqualToString:embedVideoURL]) || ([embedVideoURL rangeOfString:@"http://www.youtube.com/embed/"].location == NSNotFound));
-}
-
--(void)webViewDidStartLoad:(UIWebView *)webView{
-    [embedVideoActivityIndicator startAnimating];
-}
-
--(void)webViewDidFinishLoad:(UIWebView *)webView{
-    [embedVideoActivityIndicator stopAnimating];
-}
-
--(void)loadUrl:(id)sender{
-    [trailerView stopLoading];
-    [embedVideoActivityIndicator startAnimating];
-    [(UIButton *)sender setHidden:YES];
-    [trailerView loadHTMLString:embedVideo baseURL:nil];
-}
-
 #pragma mark - ActionSheet
 
 -(void)showActionSheet {
@@ -1403,120 +1381,7 @@ int h=0;
     frame.origin.y = frame.origin.y + summaryLabel.frame.size.height + shiftParentalRating - 40;
     label6.frame = frame;
     int startY = label6.frame.origin.y - label6.frame.size.height + size;
-    if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
-        BOOL isYoutubeVideoLink = NO;
-        if ([[item objectForKey:@"trailer"] length]> 0){
-            NSString *param = nil;
-            embedVideoURL = nil;
-            
-            if (([[item objectForKey:@"trailer"] rangeOfString:@"plugin://plugin.video.youtube"].location!= NSNotFound)){
-                NSString *url = [[item objectForKey:@"trailer"] lastPathComponent];
-                NSRange start = [url rangeOfString:@"videoid="];
-                if (start.location != NSNotFound){
-                    param = [url substringFromIndex:start.location + start.length];
-                    NSRange end = [param rangeOfString:@"&"];
-                    if (end.location != NSNotFound){
-                        param = [param substringToIndex:end.location];
-                    }
-                }
-                if ([param length] > 0){
-                    NSString *param = nil;
-                    NSString *url = [[item objectForKey:@"trailer"] lastPathComponent];
-                    NSRange start = [url rangeOfString:@"videoid="];
-                    if (start.location != NSNotFound){
-                        param = [url substringFromIndex:start.location + start.length];
-                        NSRange end = [param rangeOfString:@"&"];
-                        if (end.location != NSNotFound){
-                            param = [param substringToIndex:end.location];
-                        }
-                    }
-                    embedVideoURL = [NSString stringWithFormat:@"//www.youtube.com/embed/%@?&hd=1&showinfo=0&autohide=1&rel=0", param];
-                    isYoutubeVideoLink = YES;
-                }
-            }
-            else{
-                embedVideoURL = [item objectForKey:@"trailer"];
-            }
-            if (embedVideoURL != nil){
-                startY = startY + 20;
-                UILabel *trailerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, label1.frame.size.height)];
-                [trailerLabel setText:NSLocalizedString(@"TRAILER", nil)];
-                [trailerLabel setTextColor:label1.textColor];
-                [trailerLabel setFont:label1.font];
-                [trailerLabel setShadowColor:label1.shadowColor];
-                [trailerLabel setShadowOffset:label1.shadowOffset];
-                [trailerLabel setBackgroundColor:[UIColor clearColor]];
-                [scrollView addSubview:trailerLabel];
-                startY = startY + label1.frame.size.height;
-                int videoHeight = (int)((clearLogoWidth * 9) / 16);
-                if (trailerView == nil){
-                    trailerView = [[UIWebView alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, videoHeight)];
-                    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                        [trailerView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-                    }
-                    trailerView.delegate = self;
-                }
-                if (((NSNull *)[[trailerView subviews] objectAtIndex:0] != [NSNull null])){
-                    ((UIScrollView *)[[trailerView subviews] objectAtIndex:0]).scrollsToTop = NO;
-                }
-                [trailerView setBackgroundColor:[Utilities getGrayColor:128 alpha:0.5]];
-                [trailerView setClipsToBounds: NO];
-                trailerView.layer.shadowColor = [UIColor blackColor].CGColor;
-                trailerView.layer.shadowOpacity = 0.7f;
-                trailerView.layer.shadowOffset = CGSizeZero;
-                trailerView.layer.shadowRadius = 3.0;
-                trailerView.layer.masksToBounds = NO;
-                
-                UIBezierPath *path = [UIBezierPath bezierPathWithRect:trailerView.bounds];
-                trailerView.layer.shadowPath = path.CGPath;
-                
-                [trailerView.layer setBorderWidth:1];
-                [trailerView.layer setBorderColor:[[UIColor blackColor] CGColor]];
-                embedVideo = [NSString stringWithFormat:@"\
-                                          <html>\
-                                          <head>\
-                                          <style type=\"text/css\">\
-                                          iframe {position:absolute; top:50%%; margin-top:-%dpx;}\
-                                          body {background-color:#000; margin:0;}\
-                                          </style>\
-                                          </head>\
-                                          <body>\
-                                          <iframe width=\"100%%\" height=\"%dpx\" src=\"%@\" frameborder=\"0\" allowfullscreen></iframe>\
-                                          </body>\
-                                          </html>", videoHeight/2, videoHeight, embedVideoURL];
-                if (isYoutubeVideoLink){
-                    [trailerView loadHTMLString:embedVideo baseURL:[NSURL URLWithString:@"http:"]];
-                }
-                else{
-                    NSString *blackPage = @"\
-                    <html>\
-                    <head>\
-                    <style type=\"text/css\">\
-                    body {background-color:#000; margin:0;}\
-                    </style>\
-                    </head>\
-                    <body>\
-                    </body>\
-                    </html>";
-                    [trailerView loadHTMLString:blackPage baseURL:nil];
-                    UIButton *playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                    UIImage *playTrailerImg = [UIImage imageNamed:@"button_play.png"];
-                    [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
-                    [playTrailerButton setFrame:CGRectMake(0, 0, trailerView.frame.size.width, trailerView.frame.size.height)];
-                    [playTrailerButton addTarget:self action:@selector(loadUrl:) forControlEvents:UIControlEventTouchUpInside];
-                    [playTrailerButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-                    [trailerView addSubview:playTrailerButton];
-                }
-                embedVideoActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-                embedVideoActivityIndicator.hidesWhenStopped = YES;
-                embedVideoActivityIndicator.center = CGPointMake(trailerView.frame.size.width / 2, videoHeight / 2);
-                [embedVideoActivityIndicator setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-                [trailerView addSubview:embedVideoActivityIndicator];
-                [scrollView addSubview:trailerView];
-                startY = startY + videoHeight - 10;
-            }
-        }
-    }
+    // Here was the trailer view
     frame = label6.frame;
     frame.origin.y = startY + 20;
     label6.frame = frame;
@@ -1811,7 +1676,7 @@ int h=0;
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
                     NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stringURL] options:@{} completionHandler:nil];
+                    [Utilities loadURL:stringURL];
                     [activityIndicatorView stopAnimating];
                     self.navigationItem.rightBarButtonItem.enabled=YES;
                 }
@@ -2052,7 +1917,6 @@ int h=0;
     }
     if ([self isModal]){
         [clearlogoButton setFrame:CGRectMake((int)(self.view.frame.size.width/2) - (int)(clearlogoButton.frame.size.width/2), clearlogoButton.frame.origin.y, clearlogoButton.frame.size.width, clearlogoButton.frame.size.height)];
-        [trailerView setFrame:CGRectMake((int)(self.view.frame.size.width/2) - (int)(trailerView.frame.size.width/2), trailerView.frame.origin.y, trailerView.frame.size.width, trailerView.frame.size.height)];
         self.view.superview.backgroundColor = [UIColor clearColor];
     }
 }
@@ -2138,8 +2002,6 @@ int h=0;
 }
 
 -(void)dealloc{
-    [trailerView stopLoading];
-    [trailerView removeFromSuperview];
     [kenView removeFromSuperview];
     [self.kenView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver: self];

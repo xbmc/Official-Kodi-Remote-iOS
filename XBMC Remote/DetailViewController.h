@@ -13,7 +13,6 @@
 #import "UIImageView+WebCache.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "mainMenu.h"
-#import "WebViewController.h"
 #import "MoreItemsViewController.h"
 #import "Utilities.h"
 #import "BDKCollectionIndexView.h"
@@ -21,7 +20,6 @@
 #import "MessagesView.h"
 
 @class NowPlaying;
-@class PlayFileViewController;
 //@class DetailViewController;
 
 @interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating>{
@@ -34,7 +32,6 @@
     NSMutableDictionary *sections;  
     IBOutlet UILongPressGestureRecognizer *lpgr;
     BOOL alreadyPush;
-    IBOutlet UIWebView *webPlayView;
     int choosedTab;
     int numTabs;
     int watchMode;
@@ -154,8 +151,6 @@
 @property (strong, nonatomic) ShowInfoViewController *showInfoViewController;
 @property (strong, nonatomic) DetailViewController *detailViewController;
 @property (strong, nonatomic) NowPlaying *nowPlaying;
-@property (strong, nonatomic) PlayFileViewController *playFileViewController;
-@property (strong, nonatomic) WebViewController *webViewController;
 @property (strong, nonatomic) BDKCollectionIndexView *indexView;
 @property (nonatomic,retain) NSMutableDictionary *sections;
 @property (nonatomic,retain) NSMutableArray *richResults;

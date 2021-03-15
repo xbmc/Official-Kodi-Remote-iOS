@@ -46,5 +46,6 @@ typedef enum {
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(eJewelType)type;
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
++ (void)loadURL:(NSString*)url;
 
 @end

@@ -14,7 +14,7 @@
 @class NowPlaying;
 @class DetailViewController;
 
-@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate>{
+@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate>{
     IBOutlet UIImageView *coverView;
     IBOutlet UIImageView *starsView;
     IBOutlet UILabel *voteLabel;
@@ -71,10 +71,6 @@
     int thumbWidth;
     int tvshowHeight;
     UITableView *actorsTable;
-    UIWebView *trailerView;
-    NSString *embedVideoURL;
-    UIActivityIndicatorView *embedVideoActivityIndicator;
-    NSString *embedVideo;
     UIColor *foundTintColor;
     UILabel *viewTitle;
     __weak IBOutlet UIImageView *bottomShadow;

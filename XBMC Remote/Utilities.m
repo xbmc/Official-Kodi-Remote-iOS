@@ -356,4 +356,9 @@
     return alertView;
 }
 
++ (void)loadURL:(NSString*)url {
+    NSURL *nsurl = [NSURL URLWithString:url];
+    [[UIApplication sharedApplication] openURL:nsurl options:@{} completionHandler:nil];
+}
+
 @end

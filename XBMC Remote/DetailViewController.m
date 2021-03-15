@@ -9,15 +9,11 @@
 #import "DetailViewController.h"
 #import "mainMenu.h"
 #import "DSJSONRPC.h"
-//#import "UIImageView+WebCache.h"
 #import "GlobalData.h"
 #import "ShowInfoViewController.h"
 #import "DetailViewController.h"
 #import "NowPlaying.h"
-#import "PlayFileViewController.h"
-//#import <MediaPlayer/MediaPlayer.h>
 #import "SDImageCache.h"
-#import "WebViewController.h"
 #import "AppDelegate.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
@@ -45,10 +41,8 @@
 @synthesize detailViewController;
 @synthesize nowPlaying;
 @synthesize showInfoViewController;
-@synthesize playFileViewController;
 @synthesize filteredListContent;
 @synthesize richResults;
-@synthesize webViewController;
 @synthesize sectionArray;
 @synthesize sectionArrayOpen;
 //@synthesize detailDescriptionLabel = _detailDescriptionLabel;
@@ -3439,36 +3433,14 @@ NSIndexPath *selected;
             }
         }
     }
-    self.webViewController = nil;
-    self.webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
     NSString *searchString = [item objectForKey:@"label"];
     if (forceMusicAlbumMode){
         searchString = self.navigationItem.title;
         forceMusicAlbumMode = NO;
     }
     NSString *query = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-	NSString *url = [NSString stringWithFormat:serviceURL, query]; 
-	NSURL *_url = [NSURL URLWithString:url];    
-    self.webViewController.urlRequest = [NSURLRequest requestWithURL:_url];
-    [item setObject:[NSNumber numberWithBool:albumView] forKey:@"fromAlbumView"];
-    self.webViewController.detailItem = item;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        [self.navigationController pushViewController:self.webViewController animated:YES];
-    }
-    else{
-        CGRect frame=self.webViewController.view.frame;
-        frame.size.width=STACKSCROLL_WIDTH;
-        self.webViewController.view.frame=frame;
-        if (stackscrollFullscreen == YES){
-            [self toggleFullscreen:nil];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:self.webViewController invokeByController:self isStackStartView:FALSE];
-            });
-        }
-        else {
-            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:self.webViewController invokeByController:self isStackStartView:FALSE];
-        }
-    }
+    NSString *url = [NSString stringWithFormat:serviceURL, query];
+    [Utilities loadURL:url];
 }
 
 #pragma mark - Gestures
@@ -3672,31 +3644,6 @@ NSIndexPath *selected;
     }];
 }
 
-#pragma mark - WebView for playback
-
-- (void)webViewDidStartLoad: (UIWebView *)webView{
-//    NSLog(@"START");
-}
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-//    NSLog(@"Loading: %@", [request URL]);
-    return YES;
-}
-
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-//    NSLog(@"didFinish: %@; stillLoading:%@", [[webView request]URL],
-//          (webView.loading?@"NO":@"YES"));
-//    if (webView.loading)
-//        return;
-}
-
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-//    NSLog(@"didFail: %@; stillLoading:%@", [[webView request]URL],
-//          (webView.loading?@"NO":@"YES"));
-}
-
 -(void)showNowPlaying{
     if (!alreadyPush){
         //self.nowPlaying=nil;
@@ -3802,7 +3749,7 @@ NSIndexPath *selected;
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
                     NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stringURL] options:@{} completionHandler:nil];
+                    [Utilities loadURL:stringURL];
                     [queuing stopAnimating];
                 }
             }
@@ -5245,7 +5192,6 @@ NSIndexPath *selected;
         self.slidingViewController.anchorLeftRevealAmount   = 0;
     }
     alreadyPush = NO;
-    self.webViewController = nil;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
 	if (selection){
 		[dataList deselectRowAtIndexPath:selection animated:NO];
