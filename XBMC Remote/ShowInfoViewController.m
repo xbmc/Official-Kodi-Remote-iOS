@@ -1657,8 +1657,13 @@ int h=0;
 - (void)SFloadURL:(NSString*)url {
     NSURL *nsurl = [NSURL URLWithString:url];
     SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nsurl];
+    UIViewController *ctrl = self;
     svc.delegate = (id)self;
-    [self presentViewController:svc animated:YES completion:nil];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        // On iPad presenting from the active ViewController results in blank screen
+        ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
+    }
+    [ctrl presentViewController:svc animated:YES completion:nil];
 }
 
 #pragma mark - Gestures
