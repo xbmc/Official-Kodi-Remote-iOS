@@ -20,6 +20,8 @@
 #import "ActorCell.h"
 #import "Utilities.h"
 
+#define PLAY_BUTTON_SIZE 20
+
 @interface ShowInfoViewController ()
 @end
 
@@ -422,6 +424,10 @@ int count=0;
             }
         }
     }
+}
+
+-(void)callbrowser:(id)sender{
+    [self SFloadURL:embedVideoURL];
 }
 
 #pragma mark - ActionSheet
@@ -1381,7 +1387,62 @@ int h=0;
     frame.origin.y = frame.origin.y + summaryLabel.frame.size.height + shiftParentalRating - 40;
     label6.frame = frame;
     int startY = label6.frame.origin.y - label6.frame.size.height + size;
-    // Here was the trailer view
+    if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]) {
+        if ([[item objectForKey:@"trailer"] length]> 0){
+            NSString *param = nil;
+            embedVideoURL = nil;
+            
+            if (([[item objectForKey:@"trailer"] rangeOfString:@"plugin://plugin.video.youtube"].location!= NSNotFound)){
+                NSString *url = [[item objectForKey:@"trailer"] lastPathComponent];
+                NSRange start = [url rangeOfString:@"videoid="];
+                if (start.location != NSNotFound){
+                    param = [url substringFromIndex:start.location + start.length];
+                    NSRange end = [param rangeOfString:@"&"];
+                    if (end.location != NSNotFound){
+                        param = [param substringToIndex:end.location];
+                    }
+                }
+                if ([param length] > 0){
+                    NSString *param = nil;
+                    NSString *url = [[item objectForKey:@"trailer"] lastPathComponent];
+                    NSRange start = [url rangeOfString:@"videoid="];
+                    if (start.location != NSNotFound){
+                        param = [url substringFromIndex:start.location + start.length];
+                        NSRange end = [param rangeOfString:@"&"];
+                        if (end.location != NSNotFound){
+                            param = [param substringToIndex:end.location];
+                        }
+                    }
+                    embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", param];
+                }
+            }
+            else{
+                embedVideoURL = [item objectForKey:@"trailer"];
+            }
+            if (embedVideoURL != nil){
+                startY = startY + 20;
+                UILabel *trailerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, label1.frame.size.height)];
+                [trailerLabel setText:NSLocalizedString(@"TRAILER", nil)];
+                [trailerLabel setTextColor:label1.textColor];
+                [trailerLabel setFont:label1.font];
+                [trailerLabel setShadowColor:label1.shadowColor];
+                [trailerLabel setShadowOffset:label1.shadowOffset];
+                [trailerLabel setBackgroundColor:[UIColor clearColor]];
+                [scrollView addSubview:trailerLabel];
+                startY = startY + label1.frame.size.height;
+
+                UIButton *playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                UIImage *playTrailerImg = [UIImage imageNamed:@"button_play.png"];
+                [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
+                [playTrailerButton setFrame:CGRectMake(10, startY, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE)];
+                [playTrailerButton addTarget:self action:@selector(callbrowser:) forControlEvents:UIControlEventTouchUpInside];
+                [playTrailerButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+                [scrollView addSubview:playTrailerButton];
+
+                startY = startY + PLAY_BUTTON_SIZE - 10;
+            }
+        }
+    }
     frame = label6.frame;
     frame.origin.y = startY + 20;
     label6.frame = frame;
