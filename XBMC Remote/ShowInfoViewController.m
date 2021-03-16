@@ -427,7 +427,7 @@ int count=0;
 }
 
 -(void)callbrowser:(id)sender{
-    [self SFloadURL:embedVideoURL];
+    [Utilities SFloadURL:embedVideoURL fromctrl:self];
 }
 
 #pragma mark - ActionSheet
@@ -1715,18 +1715,6 @@ int h=0;
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
-- (void)SFloadURL:(NSString*)url {
-    NSURL *nsurl = [NSURL URLWithString:url];
-    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nsurl];
-    UIViewController *ctrl = self;
-    svc.delegate = (id)self;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        // On iPad presenting from the active ViewController results in blank screen
-        ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
-    }
-    [ctrl presentViewController:svc animated:YES completion:nil];
-}
-
 #pragma mark - Gestures
 
 - (void)handleSwipeFromLeft:(id)sender {
@@ -1755,7 +1743,7 @@ int h=0;
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
                     NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
-                    [self SFloadURL:stringURL];
+                    [Utilities SFloadURL:stringURL fromctrl:self];
                     [activityIndicatorView stopAnimating];
                     self.navigationItem.rightBarButtonItem.enabled=YES;
                 }

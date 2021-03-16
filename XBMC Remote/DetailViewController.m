@@ -3440,25 +3440,13 @@ NSIndexPath *selected;
     }
     NSString *query = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *url = [NSString stringWithFormat:serviceURL, query];
-    [self SFloadURL:url];
+    [Utilities SFloadURL:url fromctrl:self];
 }
 
 #pragma mark - Safari
 
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
     [self dismissViewControllerAnimated:true completion:nil];
-}
-
-- (void)SFloadURL:(NSString*)url {
-    NSURL *nsurl = [NSURL URLWithString:url];
-    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nsurl];
-    UIViewController *ctrl = self;
-    svc.delegate = (id)self;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        // On iPad presenting from the active ViewController results in blank screen
-        ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
-    }
-    [ctrl presentViewController:svc animated:YES completion:nil];
 }
 
 #pragma mark - Gestures
@@ -3767,7 +3755,7 @@ NSIndexPath *selected;
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
                     NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
-                    [self SFloadURL:stringURL];
+                    [Utilities SFloadURL:stringURL fromctrl:self];
                     [queuing stopAnimating];
                 }
             }
