@@ -368,7 +368,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"playcount", @"method",
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Play count", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), nil], @"label",
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Top 100 Albums", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), nil], @"label",
                               [NSArray arrayWithObjects:@"playcount", @"label", @"genre", @"year", nil], @"method",
                               nil], @"available_methods",
                              nil],@"sort",
@@ -401,7 +401,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"playcount", @"method",
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Play count", nil), NSLocalizedString(@"Track", nil),NSLocalizedString(@"Title", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Year", nil), nil], @"label",
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Top 100 Songs", nil), NSLocalizedString(@"Track", nil),NSLocalizedString(@"Title", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Year", nil), nil], @"label",
                               [NSArray arrayWithObjects:@"playcount", @"track", @"label", @"album", @"genre", @"rating", @"year", nil], @"method",
                               nil], @"available_methods",
                              nil],@"sort",
@@ -643,7 +643,7 @@ NSMutableArray *hostRightMenuItems;
                        @"albumid",@"row6",
                        [NSNumber numberWithInt:0], @"playlistid",
                        @"albumid",@"row8",
-                       @"playcount", @"row9",
+                       @"albumid", @"row9",
                        @"artist", @"row10",
                        @"genre",@"row11",
                        @"description",@"row12",
