@@ -110,8 +110,8 @@ NSMutableArray *hostRightMenuItems;
     
     obj=[GlobalData getInstance];
     
+    CGFloat transform = [Utilities getTransformX];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        CGFloat transform = [Utilities getTransformX];
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -122,8 +122,8 @@ NSMutableArray *hostRightMenuItems;
     else {
         animationStartBottomScreen = [NSNumber numberWithBool:NO];
         animationStartX = [NSNumber numberWithInt: STACKSCROLL_WIDTH];
-        thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
-        tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
+        thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
+        tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT* transform);
     }
     
     float itemMusicWidthIphone = 106.0f;
@@ -152,6 +152,9 @@ NSMutableArray *hostRightMenuItems;
     
     float itemMovieHeightRecentlyIphone =  132.0f;
     float itemMovieHeightRecentlyIpad =  196.0f;
+    
+    float fullscreenItemMovieBannerWidthIpad = 502.0f;
+    float fullscreenItemMovieBannerHeightIpad = 206.0f;
     
     [self.window makeKeyAndVisible];
     
@@ -1754,8 +1757,8 @@ NSMutableArray *hostRightMenuItems;
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              @"fullWidth", @"width",
                              [NSNumber numberWithFloat:itemMovieHeightRecentlyIpad], @"height",
-                             [NSNumber numberWithFloat:502], @"fullscreenWidth",
-                             [NSNumber numberWithFloat:206.0f], @"fullscreenHeight", nil], @"ipad",
+                             [NSNumber numberWithFloat:fullscreenItemMovieBannerWidthIpad], @"fullscreenWidth",
+                             [NSNumber numberWithFloat:fullscreenItemMovieBannerHeightIpad], @"fullscreenHeight", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           

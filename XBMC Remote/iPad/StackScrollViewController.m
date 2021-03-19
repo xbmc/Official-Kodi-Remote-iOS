@@ -43,10 +43,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define VIEW_TAG 1000
-
-
-const NSInteger SLIDE_VIEWS_MINUS_X_POSITION = -228;
-const NSInteger SLIDE_VIEWS_START_X_POS = 0;
+#define SLIDE_VIEWS_MINUS_X_POSITION -200 /* Lets two stacks slightly overlap in landscape. */
+#define SLIDE_VIEWS_START_X_POS 0
 
 @implementation StackScrollViewController
 
@@ -151,12 +149,12 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
                              if ([subview isEqual:[sender object]]){
                                  originalFrame = subview.frame;
                                  CGRect frame = subview.frame;
-                                 frame.origin.x = 0 - 300;
+                                 frame.origin.x = 0 - PAD_MENU_TABLE_WIDTH;
                                  if (hideToolbar == YES){
                                      frame.origin.y = frame.origin.y - 22;
                                      frame.size.height = frame.size.height + 22;
                                  }
-                                 frame.size.width = self.view.frame.size.width + 300;
+                                 frame.size.width = self.view.frame.size.width + PAD_MENU_TABLE_WIDTH;
                                  subview.frame = frame;
                                  break;
                              }
@@ -668,7 +666,7 @@ const NSInteger SLIDE_VIEWS_START_X_POS = 0;
 						
 						//Drop Card View Animation
                         int posX=SLIDE_VIEWS_START_X_POS;
-						if ((((UIView*)[[slideViews subviews] objectAtIndex:0]).frame.origin.x+300) >= (self.view.frame.origin.x + ((UIView*)[[slideViews subviews] objectAtIndex:0]).frame.size.width)) {
+						if ((((UIView*)[[slideViews subviews] objectAtIndex:0]).frame.origin.x + PAD_MENU_TABLE_WIDTH) >= (self.view.frame.origin.x + ((UIView*)[[slideViews subviews] objectAtIndex:0]).frame.size.width)) {
                             
 //                            NSLog(@"ELIMINO 2");
 							NSInteger viewControllerCount = [viewControllersStack count];

@@ -70,7 +70,7 @@
 //        CGRect shadowRect;
 //        UIImageView *shadow;
         
-//        shadowRect = CGRectMake(0, 0, 300, 8);
+//        shadowRect = CGRectMake(0, 0, PAD_MENU_TABLE_WIDTH, 8);
 //        shadow = [[UIImageView alloc] initWithFrame:shadowRect];
 //        [shadow setImage:[UIImage imageNamed:@"tableUp.png"]];
 //        shadow.opaque = YES;

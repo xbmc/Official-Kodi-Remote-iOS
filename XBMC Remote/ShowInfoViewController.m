@@ -768,15 +768,13 @@ int h=0;
     clearLogoWidth = self.view.frame.size.width - 20;
     clearLogoHeight = 116;
     CGFloat transform = [Utilities getTransformX];
-    thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
-    tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
     int shiftParentalRating = -20;
     NSString *contributorString = @"cast";
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         clearLogoWidth = 457;
         clearLogoHeight = 177;
-        thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
-        tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
+        thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
+        tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT * transform);
         shiftParentalRating = -40;
         labelSpace = 33;
         placeHolderImage = @"coverbox_back@2x.png";
@@ -823,7 +821,6 @@ int h=0;
         [self setAndMoveLabels:arrayLabels size:size];
     }
     else {
-        CGFloat transform = [Utilities getTransformX];
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
     }
@@ -1576,7 +1573,7 @@ int h=0;
         [scrollView addSubview:clearlogoButton];
     }
     startY = startY + clearLogoHeight + 20;
-    scrollView.contentSize=CGSizeMake(320, startY);
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, startY);
     
     // Check if the arrow needs to be displayed (only if content is > visible area)
     int height_content = scrollView.contentSize.height;
