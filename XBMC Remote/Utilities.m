@@ -19,12 +19,11 @@
     CGImageRef rawImageRef = [image CGImage];
     if (rawImageRef == nil) return [UIColor clearColor];
     
-//    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
-//
-//    int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
-//    BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
-//                        infoMask == kCGImageAlphaNoneSkipFirst ||
-//                        infoMask == kCGImageAlphaNoneSkipLast);
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
+    int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
+    BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
+                        infoMask == kCGImageAlphaNoneSkipFirst ||
+                        infoMask == kCGImageAlphaNoneSkipLast);
 //    if (!anyNonAlpha) return [UIColor clearColor];
 	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
     const UInt8 *rawPixelData = CFDataGetBytePtr(data);
@@ -37,15 +36,35 @@
     unsigned int red   = 0;
     unsigned int green = 0;
     unsigned int blue  = 0;
+    unsigned int alpha = 0;
+    CGFloat f = 1.0;
     
-    for (int row = 0; row < imageHeight; row++) {
-        const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-        for (int column = 0; column < imageWidth; column++) {
-            red    += rowPtr[0];
-            green  += rowPtr[1];
-            blue   += rowPtr[2];
-            rowPtr += stride;
+    if (anyNonAlpha) {
+        // no alpha channel present
+        for (int row = 0; row < imageHeight; row++) {
+            const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+            for (int column = 0; column < imageWidth; column++) {
+                red    += rowPtr[0];
+                green  += rowPtr[1];
+                blue   += rowPtr[2];
+                rowPtr += stride;
+            }
         }
+        f = 1.0 / (255.0 * imageWidth * imageHeight);
+    }
+    else {
+        // weight color with alpha to ignore transparent sections
+        for (int row = 0; row < imageHeight; row++) {
+            const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+            for (int column = 0; column < imageWidth; column++) {
+                red    += rowPtr[0] * rowPtr[3];
+                green  += rowPtr[1] * rowPtr[3];
+                blue   += rowPtr[2] * rowPtr[3];
+                alpha  += rowPtr[3];
+                rowPtr += stride;
+            }
+        }
+        f = 1.0 / (255.0 * alpha);
     }
     if (inverse) {
         unsigned int tmp = red;
@@ -54,7 +73,6 @@
     }
 	CFRelease(data);
     
-	CGFloat f = 1.0 / (255.0 * imageWidth * imageHeight);
 	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
 }
 
