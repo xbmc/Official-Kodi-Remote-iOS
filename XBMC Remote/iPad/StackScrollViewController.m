@@ -1094,74 +1094,69 @@
 #pragma mark -
 #pragma mark Rotation support
 
-
--(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-	BOOL isViewOutOfScreen = FALSE; 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    BOOL isViewOutOfScreen = NO;
     int posX=SLIDE_VIEWS_START_X_POS;
     if ([viewControllersStack count]==1){
         posX=[[[slideViews subviews] objectAtIndex:0] frame].origin.x;
     }
-	for (UIViewController* subController in viewControllersStack) {
-		if (viewAtRight != nil && [viewAtRight isEqual:subController.view]) {
-			if (viewAtRight.frame.origin.x <= (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) {
-				[subController.view setFrame:CGRectMake(self.view.frame.size.width - subController.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
-			}else{
-				[subController.view setFrame:CGRectMake(viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
-			}
-			isViewOutOfScreen = TRUE;
-		}
-		else if (viewAtLeft != nil && [viewAtLeft isEqual:subController.view]) {
-			if (viewAtLeft2 == nil) {
-				if(viewAtRight == nil){					
-					[subController.view setFrame:CGRectMake(posX, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
-				}
-				else{
-					[subController.view setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
-					[viewAtRight setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + subController.view.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width, viewAtRight.frame.size.height - bottomPadding)];
-				}
-			}
-			else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS) {
-				[subController.view setFrame:CGRectMake(subController.view.frame.origin.x, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
-			}
-			else {
-				if (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width == self.view.frame.size.width) {
-					[subController.view setFrame:CGRectMake(self.view.frame.size.width - subController.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
-				}else{
-					[subController.view setFrame:CGRectMake(viewAtLeft2.frame.origin.x + viewAtLeft2.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
-				}
-			}
-		}
-		else if(!isViewOutOfScreen){
-			[subController.view setFrame:CGRectMake(subController.view.frame.origin.x, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
-		}
-		else {
-			[subController.view setFrame:CGRectMake(self.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
-		}
-		
-	}
-	for (UIViewController* subController in viewControllersStack) {
-		[subController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration]; 		
-		if (!((viewAtRight != nil && [viewAtRight isEqual:subController.view]) || (viewAtLeft != nil && [viewAtLeft isEqual:subController.view]) || (viewAtLeft2 != nil && [viewAtLeft2 isEqual:subController.view]))) {
-			[[subController view] setHidden:TRUE];		
-		}
-		
-	}       	
-	
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {	
-	for (UIViewController* subController in viewControllersStack) {
-		[subController didRotateFromInterfaceOrientation:fromInterfaceOrientation];                
-	}
-	if (viewAtLeft !=nil) {
-		[viewAtLeft setHidden:FALSE];
-	}
-	if (viewAtRight !=nil) {
-		[viewAtRight setHidden:FALSE];
-	}	
-	if (viewAtLeft2 !=nil) {
-		[viewAtLeft2 setHidden:FALSE];
-	}	
+    for (UIViewController* subController in viewControllersStack) {
+        if (viewAtRight != nil && [viewAtRight isEqual:subController.view]) {
+            if (viewAtRight.frame.origin.x <= (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) {
+                [subController.view setFrame:CGRectMake(self.view.frame.size.width - subController.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
+            }else{
+                [subController.view setFrame:CGRectMake(viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
+            }
+            isViewOutOfScreen = YES;
+        }
+        else if (viewAtLeft != nil && [viewAtLeft isEqual:subController.view]) {
+            if (viewAtLeft2 == nil) {
+                if(viewAtRight == nil){
+                    [subController.view setFrame:CGRectMake(posX, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
+                }
+                else{
+                    [subController.view setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
+                    [viewAtRight setFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + subController.view.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width, viewAtRight.frame.size.height - bottomPadding)];
+                }
+            }
+            else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS) {
+                [subController.view setFrame:CGRectMake(subController.view.frame.origin.x, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
+            }
+            else {
+                if (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width == self.view.frame.size.width) {
+                    [subController.view setFrame:CGRectMake(self.view.frame.size.width - subController.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
+                }else{
+                    [subController.view setFrame:CGRectMake(viewAtLeft2.frame.origin.x + viewAtLeft2.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
+                }
+            }
+        }
+        else if(!isViewOutOfScreen){
+            [subController.view setFrame:CGRectMake(subController.view.frame.origin.x, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
+        }
+        else {
+            [subController.view setFrame:CGRectMake(self.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding)];
+        }
+        
+    }
+    for (UIViewController* subController in viewControllersStack) {
+        [subController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+        if (!((viewAtRight != nil && [viewAtRight isEqual:subController.view]) || (viewAtLeft != nil && [viewAtLeft isEqual:subController.view]) || (viewAtLeft2 != nil && [viewAtLeft2 isEqual:subController.view]))) {
+            [[subController view] setHidden:YES];
+        }
+        
+    }
+    
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
+                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        for (UIViewController* subController in viewControllersStack) {
+            [subController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+        }
+        [viewAtLeft setHidden:NO];
+        [viewAtRight setHidden:NO];
+        [viewAtLeft2 setHidden:NO];
+    }];
 }
 
 - (void)dealloc {

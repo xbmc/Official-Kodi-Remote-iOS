@@ -5981,15 +5981,6 @@ NSIndexPath *selected;
     }
 }
 
-//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation duration:(NSTimeInterval)duration {
-//	if (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-//        dataList.alpha = 1;
-//	}
-//	else if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight){
-//        dataList.alpha = 0;
-//	}
-//}
-
 -(void)dealloc{
     [self.richResults removeAllObjects];
     [self.filteredListContent removeAllObjects];

@@ -2085,7 +2085,9 @@ int h=0;
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     if (self.kenView != nil){
         CGFloat alphaValue = 0.2;
         if (closeButton.alpha==1){

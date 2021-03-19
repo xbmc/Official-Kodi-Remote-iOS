@@ -189,11 +189,6 @@
     [super viewDidAppear:animated];
 }
 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
-
-
 #pragma mark -
 #pragma mark Table view data source
 

@@ -199,25 +199,24 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
   [self adjustLayout];
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
-  self.topView.layer.shadowPath = nil;
-  self.topView.layer.shouldRasterize = YES;
-  
-  if(![self topViewHasFocus]){
-    [self removeTopViewSnapshot];
-  }
-  
-  [self adjustLayout];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-  self.topView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
-  self.topView.layer.shouldRasterize = NO;
-  
-  if(![self topViewHasFocus]){
-    [self addTopViewSnapshot];
-  }
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    self.topView.layer.shadowPath = nil;
+    self.topView.layer.shouldRasterize = YES;
+    if(![self topViewHasFocus]) {
+        [self removeTopViewSnapshot];
+    }
+    [self adjustLayout];
+    
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
+                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        self.topView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
+        self.topView.layer.shouldRasterize = NO;
+        if(![self topViewHasFocus]) {
+            [self addTopViewSnapshot];
+        }
+    }];
 }
 
 - (void)setResetStrategy:(ECResetStrategy)theResetStrategy
