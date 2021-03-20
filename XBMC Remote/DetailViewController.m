@@ -494,6 +494,14 @@
 
 #pragma mark - Utility
 
+-(void)addFrameToUIImameView:(UIImageView*)imageview color:(UIColor*)framecolor {
+    CGFloat thumbBorder = 1.0/[[UIScreen mainScreen] scale];
+    imageview.layer.masksToBounds = YES;
+    imageview.layer.borderWidth = thumbBorder;
+    imageview.layer.borderColor = framecolor.CGColor;
+    imageview.layer.cornerRadius = 0.0;
+}
+
 -(void)setLabelColor:(UIColor*)text fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4{
     [label1 setShadowColor:shadow];
     [label1 setTextColor:text];
@@ -514,6 +522,8 @@
     UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
     UIColor *bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
     [imageview setBackgroundColor:bgcolor];
+    // add border with color contrasting the chosen background
+    [self addFrameToUIImameView:imageview color:((bgcolor==bglight) ? bgdark : bglight)];
 }
 
 -(BOOL)doesShowSearchResults {
@@ -2230,6 +2240,9 @@ int originYear = 0;
     genre.hidden = NO;
     runtimeyear.hidden = NO;
     if (!albumView && !episodesView && !channelGuideView){
+        // by default the ImageView has no frame, this is only added when required
+        [self addFrameToUIImameView:cell.urlImageView color:[UIColor clearColor]];
+        
         if (channelListView){
             CGRect frame = genre.frame;
             genre.autoresizingMask = title.autoresizingMask;
@@ -2240,12 +2253,6 @@ int originYear = 0;
             frame = runtime.frame;
             frame.size.width=Menuitem.widthLabel;
             runtime.frame = frame;
-            frame = cell.urlImageView.frame;
-            frame.size.width = thumbWidth * 0.9;
-            frame.origin.x = 6;
-            frame.origin.y = 10;
-            frame.size.height = thumbWidth * 0.7;
-            cell.urlImageView.frame = frame;
             ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
             progressView.hidden = YES;
             UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
