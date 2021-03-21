@@ -2083,8 +2083,7 @@ int originYear = 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier = @"jsonDataCellIdentifier";
-    jsonDataCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    jsonDataCell *cell = [tableView dequeueReusableCellWithIdentifier:@"jsonDataCellIdentifier"];
     NSMutableDictionary *item = nil;
     if ([self doesShowSearchResults]){
         item = [self.filteredListContent objectAtIndex:indexPath.row];
@@ -2230,6 +2229,15 @@ int originYear = 0;
     genre.hidden = NO;
     runtimeyear.hidden = NO;
     if (!albumView && !episodesView && !channelGuideView){
+        if (channelListView || recordingListView) {
+            CGRect frame;
+            frame.origin.x = 4;
+            frame.origin.y = 10;
+            frame.size.width = ceil(thumbWidth * 0.9);
+            frame.size.height = ceil(thumbWidth * 0.7);
+            cell.urlImageView.frame = frame;
+            cell.urlImageView.autoresizingMask = UIViewAutoresizingNone;
+        }
         if (channelListView){
             CGRect frame = genre.frame;
             genre.autoresizingMask = title.autoresizingMask;
@@ -2240,12 +2248,6 @@ int originYear = 0;
             frame = runtime.frame;
             frame.size.width=Menuitem.widthLabel;
             runtime.frame = frame;
-            frame = cell.urlImageView.frame;
-            frame.size.width = thumbWidth * 0.9;
-            frame.origin.x = 6;
-            frame.origin.y = 10;
-            frame.size.height = thumbWidth * 0.7;
-            cell.urlImageView.frame = frame;
             ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
             progressView.hidden = YES;
             UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
