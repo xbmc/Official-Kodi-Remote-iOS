@@ -4407,10 +4407,13 @@ NSIndexPath *selected;
                  if ([rating isEqualToString:@"0.0"])
                      rating=@"";
                  
-                 NSString *thumbnailPath = [videoLibraryMovieDetail objectForKey:@"thumbnail"];
-                 NSDictionary *art = [videoLibraryMovieDetail objectForKey:@"art"];
-                 if ([art count] && [[art objectForKey:@"poster"] length]!=0) {
-                     thumbnailPath = [art objectForKey:@"poster"];
+                 NSString *thumbnailPath = videoLibraryMovieDetail[@"thumbnail"];
+                 NSDictionary *art = videoLibraryMovieDetail[@"art"];
+                 if ([art count] && [art[@"poster"] length]!=0) {
+                     thumbnailPath = art[@"poster"];
+                 }
+                 if ([art count] && [art[@"icon"] length]!=0 && methodResult[@"recordingdetails"]!=nil) {
+                     thumbnailPath = art[@"icon"];
                  }
 
                  NSString *clearlogo = @"";

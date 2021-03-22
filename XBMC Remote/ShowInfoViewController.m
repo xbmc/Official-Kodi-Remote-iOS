@@ -1164,8 +1164,11 @@ int h=0;
                 [voteLabel setFrame:frame];
             }
         }
-        [item setValue:[item objectForKey:@"label"] forKey:@"rating"];
-        [item setValue:[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_icon"] forKey:@"thumbnail"];
+        // Be aware: "rating" is later used to display the label
+        [item setValue:item[@"label"] forKey:@"rating"];
+        if (item[@"pvrExtraInfo"][@"channel_icon"] != nil) {
+            [item setValue:item[@"pvrExtraInfo"][@"channel_icon"] forKey:@"thumbnail"];
+        }
         placeHolderImage = @"nocover_channels.png";
         NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
