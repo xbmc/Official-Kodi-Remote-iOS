@@ -5195,8 +5195,8 @@ NSIndexPath *selected;
     [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     [collectionView layoutSubviews];
     [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-    if (channelGuideView && autoScrollTable != nil){
-        [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition: UITableViewScrollPositionTop animated: NO];
+    if (channelGuideView && autoScrollTable != nil && [autoScrollTable row] < [dataList numberOfRowsInSection:[autoScrollTable section]]){
+            [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition:UITableViewScrollPositionTop animated: NO];
     }
 }
 
