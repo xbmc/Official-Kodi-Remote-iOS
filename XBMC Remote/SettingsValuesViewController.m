@@ -209,81 +209,80 @@
         indexPath = [_tableView indexPathForRowAtPoint:p];
         if (indexPath != nil){
             longPressRow = indexPath;
-            
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Add a new button", nil)
-                                                                message: NSLocalizedString(@"Enter the label:", nil)
-                                                               delegate: self
-                                                      cancelButtonTitle: NSLocalizedString(@"Cancel", nil)
-                                                      otherButtonTitles: NSLocalizedString(@"Add button", nil), nil];
-            [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-            NSString *subTitle = @"";
-            NSString *stringFormat = @": %i";
-            switch (xbmcSetting) {
-                case cList:
-                    subTitle = [NSString stringWithFormat:@": %@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"label"]];
-                    break;
-                case cSlider:
-                    if ([itemControls objectForKey:@"formatlabel"] != nil){
-                        stringFormat = [NSString stringWithFormat:@": %@", [itemControls objectForKey:@"formatlabel"]];
-                    }
-                    subTitle = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
-                    break;
-                case cUnsupported:
-                    return;
-                    break;
-                default:
-                    break;
-            }
-            NSString *title=[NSString stringWithFormat:@"%@%@", [self.detailItem objectForKey:@"label"], subTitle];
-            [[alertView textFieldAtIndex:0] setText:title];
-            [alertView show];
+
+            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Add a new button", nil) message:NSLocalizedString(@"Enter the label:", nil) preferredStyle:UIAlertControllerStyleAlert];
+            [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.placeholder = @"";
+                textField.text = [self getActionButtonTitle];
+            }];
+            UIAlertAction* addButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Add button", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                    [self addActionButton:alertView];
+                }];
+            UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+            [alertView addAction:addButton];
+            [alertView addAction:cancelButton];
+            [self presentViewController:alertView animated:YES completion:nil];
         }
     }
 }
 
-#pragma mark - Alert View
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex!=alertView.cancelButtonIndex){
-        NSString *option = [alertView buttonTitleAtIndex:buttonIndex];
-        if ([option isEqualToString:NSLocalizedString(@"Add button", nil)]){
-            NSString *command = @"Settings.SetSettingValue";
-            id value = @"";
-            NSString *type = @"string";
-            if ([self.detailItem objectForKey:@"year"] != nil){
-                type = [self.detailItem objectForKey:@"year"];
+- (NSString*)getActionButtonTitle {
+    NSString *subTitle = @"";
+    NSString *stringFormat = @": %i";
+    switch (xbmcSetting) {
+        case cList:
+            subTitle = [NSString stringWithFormat:@": %@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"label"]];
+            break;
+        case cSlider:
+            if ([itemControls objectForKey:@"formatlabel"] != nil){
+                stringFormat = [NSString stringWithFormat:@": %@", [itemControls objectForKey:@"formatlabel"]];
             }
-            switch (xbmcSetting) {
-                case cList:
-                    if ([type isEqualToString:@"integer"]){
-                        value = [NSNumber numberWithInt:[[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"] intValue]];
-                    }
-                    else {
-                        value = [NSString stringWithFormat:@"%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"]];
-                    }
-                    break;
-                case cSlider:
-                    value = [NSNumber numberWithInt: (int)storeSliderValue];
-                    break;
-                default:
-                    value = @"";
-                    break;
-            }
-            NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", value, @"value", nil];
-            NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       [[alertView textFieldAtIndex:0]text], @"label",
-                                       type, @"type",
-                                       @"default-right-menu-icon", @"icon",
-                                       [NSNumber numberWithInt:xbmcSetting], @"xbmcSetting",
-                                       [self.detailItem objectForKey:@"genre"], @"helpText",
-                                       [NSDictionary dictionaryWithObjectsAndKeys:
-                                        command, @"command",
-                                        params, @"params",
-                                        nil], @"action",
-                                       nil];
-            [self saveCustomButton:newButton];
-        }
+            subTitle = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
+            break;
+        case cUnsupported:
+            return nil;
+        default:
+            break;
     }
+    return [NSString stringWithFormat:@"%@%@", [self.detailItem objectForKey:@"label"], subTitle];
+}
+
+- (void)addActionButton:(UIAlertController*)alertView {
+    NSString *command = @"Settings.SetSettingValue";
+    id value = @"";
+    NSString *type = @"string";
+    if ([self.detailItem objectForKey:@"year"] != nil){
+        type = [self.detailItem objectForKey:@"year"];
+    }
+    switch (xbmcSetting) {
+        case cList:
+            if ([type isEqualToString:@"integer"]){
+                value = [NSNumber numberWithInt:[[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"] intValue]];
+            }
+            else {
+                value = [NSString stringWithFormat:@"%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"]];
+            }
+            break;
+        case cSlider:
+            value = [NSNumber numberWithInt: (int)storeSliderValue];
+            break;
+        default:
+            value = @"";
+            break;
+    }
+    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", value, @"value", nil];
+    NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                               [[alertView textFields][0] text], @"label",
+                               type, @"type",
+                               @"default-right-menu-icon", @"icon",
+                               [NSNumber numberWithInt:xbmcSetting], @"xbmcSetting",
+                               [self.detailItem objectForKey:@"genre"], @"helpText",
+                               [NSDictionary dictionaryWithObjectsAndKeys:
+                                command, @"command",
+                                params, @"params",
+                                nil], @"action",
+                               nil];
+    [self saveCustomButton:newButton];
 }
 
 #pragma mark - custom button

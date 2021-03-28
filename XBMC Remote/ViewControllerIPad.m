@@ -77,10 +77,8 @@
 @synthesize mainMenu;
 @synthesize menuViewController, stackScrollViewController;
 @synthesize nowPlayingController;
-@synthesize serverPickerPopover = _serverPickerPopover;
 @synthesize hostPickerViewController = _hostPickerViewController;
 @synthesize appInfoView = _appInfoView;
-@synthesize appInfoPopover = _appInfoPopover;
 @synthesize tcpJSONRPCconnection;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -198,25 +196,26 @@
     self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     [AppDelegate instance].navigationController = [[CustomNavigationController alloc] initWithRootViewController:_hostPickerViewController];
     [[AppDelegate instance].navigationController hideNavBarBottomLine:YES];
-    self.serverPickerPopover = [[UIPopoverController alloc]
-                                initWithContentViewController:[AppDelegate instance].navigationController];
-    self.serverPickerPopover.delegate = self;
-    [self.serverPickerPopover setBackgroundColor:[Utilities getGrayColor:41 alpha:1]];
-    [self.serverPickerPopover setPopoverContentSize:CGSizeMake(320, 436)];
 }
 
 - (void)toggleSetup {
     if (_hostPickerViewController == nil) {
         [self initHostManagemetPopOver];
     }
-    [self.serverPickerPopover presentPopoverFromRect:xbmcInfo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [[AppDelegate instance].navigationController setModalPresentationStyle:UIModalPresentationPopover];
+    UIPopoverPresentationController *popPresenter = [[AppDelegate instance].navigationController popoverPresentationController];
+    if (popPresenter != nil) {
+        popPresenter.sourceView = self.view;
+        popPresenter.sourceRect = xbmcInfo.frame;
+    }
+    [self presentViewController:[AppDelegate instance].navigationController animated:YES completion:nil];
 }
 
 -(void) showSetup:(BOOL)show{
     firstRun = NO;
-    if ([self.serverPickerPopover isPopoverVisible]) {
+    if ([self.hostPickerViewController isViewLoaded]) {
         if (show==NO)
-            [self.serverPickerPopover dismissPopoverAnimated:YES];
+            [self.hostPickerViewController dismissViewControllerAnimated:NO completion:nil];
     }
     else{
         if (show==YES){
@@ -228,14 +227,16 @@
 - (void)toggleInfoView {
     if (_appInfoView == nil) {
         self.appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
-        self.appInfoPopover = [[UIPopoverController alloc] 
-                                    initWithContentViewController:_appInfoView];
-        self.appInfoPopover.delegate = self;
-        [self.appInfoPopover setPopoverContentSize:CGSizeMake(320, 460)];
-        self.appInfoPopover.backgroundColor = [Utilities getGrayColor:187 alpha:1];
+        [self.appInfoView setModalPresentationStyle:UIModalPresentationPopover];
     }
-    [self.appInfoPopover presentPopoverFromRect:xbmcLogo.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    UIPopoverPresentationController *popPresenter = [self.appInfoView popoverPresentationController];
+    if (popPresenter != nil) {
+        popPresenter.sourceView = self.view;
+        popPresenter.sourceRect = xbmcLogo.frame;
+    }
+    [self presentViewController:self.appInfoView animated:YES completion:nil];
 }
+
 #pragma mark - power control action sheet
 
 -(void)powerControl{
@@ -244,95 +245,95 @@
         return;
     }
     NSString *title=[NSString stringWithFormat:@"%@\n%@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
-    NSString *destructive = nil;
-    NSArray *sheetActions = nil;
-    if (![AppDelegate instance].serverOnLine){
-        sheetActions=[NSArray arrayWithObjects:NSLocalizedString(@"Wake On Lan", nil), nil];
+    UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    if (![AppDelegate instance].serverOnLine) {
+        UIAlertAction* action_wake = [UIAlertAction actionWithTitle:NSLocalizedString(@"Wake On Lan", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            if ([AppDelegate instance].obj.serverHWAddr != nil){
+                [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
+                UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Command executed", nil) message:nil];
+                [self presentViewController:alertView animated:YES completion:nil];
+            }
+            else{
+                UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil)];
+                [self presentViewController:alertView animated:YES completion:nil];
+            }
+        }];
+        [actionView addAction:action_wake];
     }
-    else{
-        destructive = NSLocalizedString(@"Power off System", nil);
-        sheetActions=[NSArray arrayWithObjects:
-                      NSLocalizedString(@"Hibernate", nil),
-                      NSLocalizedString(@"Suspend", nil),
-                      NSLocalizedString(@"Reboot", nil),
-                      NSLocalizedString(@"Quit XBMC application", nil),
-                      NSLocalizedString(@"Update Audio Library", nil),
-                      NSLocalizedString(@"Clean Audio Library", nil),
-                      NSLocalizedString(@"Update Video Library", nil),
-                      NSLocalizedString(@"Clean Video Library", nil),  nil];
+    else {
+        UIAlertAction* action_pwr_off_system = [UIAlertAction actionWithTitle:NSLocalizedString(@"Power off System", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionary]];
+        }];
+        [actionView addAction:action_pwr_off_system];
+        
+        UIAlertAction* action_quit_kodi = [UIAlertAction actionWithTitle:NSLocalizedString(@"Quit XBMC application", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [self powerAction:@"Application.Quit" params:[NSDictionary dictionary]];
+        }];
+        [actionView addAction:action_quit_kodi];
+        
+        UIAlertAction* action_hibernate = [UIAlertAction actionWithTitle:NSLocalizedString(@"Hibernate", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionary]];
+        }];
+        [actionView addAction:action_hibernate];
+        
+        UIAlertAction* action_suspend = [UIAlertAction actionWithTitle:NSLocalizedString(@"Suspend", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [self powerAction:@"System.Suspend" params:[NSDictionary dictionary]];
+        }];
+        [actionView addAction:action_suspend];
+        
+        UIAlertAction* action_reboot = [UIAlertAction actionWithTitle:NSLocalizedString(@"Reboot", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [self powerAction:@"System.Reboot" params:[NSDictionary dictionary]];
+        }];
+        [actionView addAction:action_reboot];
+        
+        UIAlertAction* action_scan_audio_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update Audio Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionary]];
+        }];
+        [actionView addAction:action_scan_audio_lib];
+        
+        UIAlertAction* action_clean_audio_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Clean Audio Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [self powerAction:@"AudioLibrary.Clean" params:[NSDictionary dictionary]];
+        }];
+        [actionView addAction:action_clean_audio_lib];
+        
+        UIAlertAction* action_scan_video_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update Video Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionary]];
+        }];
+        [actionView addAction:action_scan_video_lib];
+        
+        UIAlertAction* action_clean_video_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Clean Video Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [self powerAction:@"VideoLibrary.Clean" params:[NSDictionary dictionary]];
+        }];
+        [actionView addAction:action_clean_video_lib];
     }
-    NSInteger numActions=[sheetActions count];
-    if (numActions){
-        actionSheetPower = [[UIActionSheet alloc] initWithTitle:title
-                                                            delegate:self
-                                                   cancelButtonTitle:nil
-                                              destructiveButtonTitle:destructive
-                                                   otherButtonTitles:nil];
-        actionSheetPower.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        for (int i = 0; i < numActions; i++) {
-            [actionSheetPower addButtonWithTitle:[sheetActions objectAtIndex:i]];
-        }
-        actionSheetPower.cancelButtonIndex = [actionSheetPower addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-       [actionSheetPower showFromRect:CGRectMake(powerButton.frame.origin.x + powerButton.frame.size.width/2, powerButton.frame.origin.y, 1, 1) inView:self.view animated:YES];
+    
+    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+    [actionView addAction:cancelButton];
+    [actionView setModalPresentationStyle:UIModalPresentationPopover];
+    
+    UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+    if (popPresenter != nil) {
+        popPresenter.sourceView = powerButton;
+        popPresenter.sourceRect = powerButton.bounds;
     }
+    [self presentViewController:actionView animated:YES completion:nil];
 }
 
 -(void)powerAction:(NSString *)action params:(NSDictionary *)params{
     jsonRPC = nil;
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        NSString *alertTitle = nil;
         if (methodError==nil && error == nil){
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
+            alertTitle = NSLocalizedString(@"Command executed", nil);
         }
         else{
-            UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot do that", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-            [alertView show];
+            alertTitle = NSLocalizedString(@"Cannot do that", nil);
         }
+        UIAlertController *alertView = [Utilities createAlertOK:alertTitle message:nil];
+        [self presentViewController:alertView animated:YES completion:nil];
     }];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex!=actionSheet.cancelButtonIndex){
-        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Wake On Lan", nil)]){
-            if ([AppDelegate instance].obj.serverHWAddr != nil){
-                [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Command executed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-                [alertView show];
-            }
-            else{
-                UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-                [alertView show];
-            }
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Power off System", nil)]){
-            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionary]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Quit XBMC application", nil)]){
-            [self powerAction:@"Application.Quit" params:[NSDictionary dictionary]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Hibernate", nil)]){
-            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionary]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Suspend", nil)]){
-            [self powerAction:@"System.Suspend" params:[NSDictionary dictionary]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Reboot", nil)]){
-            [self powerAction:@"System.Reboot" params:[NSDictionary dictionary]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Update Audio Library", nil)]){
-            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionary]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Clean Audio Library", nil)]){
-            [self powerAction:@"AudioLibrary.Clean" params:[NSDictionary dictionary]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Update Video Library", nil)]){
-            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionary]];
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Clean Video Library", nil)]){
-            [self powerAction:@"VideoLibrary.Clean" params:[NSDictionary dictionary]];
-        }
-    }
 }
 
 #pragma mark - Touch Events
@@ -714,10 +715,6 @@
         appInfo = FALSE;
         [self toggleInfoView];
     }
-    if (showActionPower){
-        [actionSheetPower showFromRect:CGRectMake(powerButton.frame.origin.x + powerButton.frame.size.width/2, powerButton.frame.origin.y, 1, 1) inView:self.view animated:YES];
-        showActionPower = NO;
-    }
 }
 
 -(CGSize)screenSizeOrientationIndependent {
@@ -735,18 +732,13 @@
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
 	[menuViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	[stackScrollViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    if ([self.serverPickerPopover isPopoverVisible]) {
-        [self.serverPickerPopover dismissPopoverAnimated:NO];
+    if ([[AppDelegate instance].navigationController isViewLoaded]) {
+        [[AppDelegate instance].navigationController dismissViewControllerAnimated:NO completion:nil];
         serverPicker = TRUE;
     }
-    if ([self.appInfoPopover isPopoverVisible]) {
-        [self.appInfoPopover dismissPopoverAnimated:NO];
+    if ([self.appInfoView isViewLoaded]) {
+        [self.appInfoView dismissViewControllerAnimated:NO completion:nil];
         appInfo = TRUE;
-    }
-    showActionPower = NO;
-    if ([actionSheetPower isVisible]){
-        showActionPower = YES;
-        [actionSheetPower dismissWithClickedButtonIndex:actionSheetPower.cancelButtonIndex animated:YES];
     }
 }	
 

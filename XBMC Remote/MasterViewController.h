@@ -19,7 +19,7 @@
 @class AppInfoViewController;
 @class HostManagementViewController;
 
-@interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>{
+@interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
     IBOutlet UITableView *menuList;
     IBOutlet UITableViewCell *resultMenuCell;
     DSJSONRPC *jsonRPC;

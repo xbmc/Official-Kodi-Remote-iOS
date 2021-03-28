@@ -449,10 +449,6 @@ int count=0;
 #pragma mark - ActionSheet
 
 -(void)showActionSheet {
-    if (actionSheetView.window){
-        [actionSheetView dismissWithClickedButtonIndex:actionSheetView.cancelButtonIndex animated:YES];
-        return;
-    }
     NSInteger numActions = [sheetActions count];
     if (numActions){
         NSDictionary *item=self.detailItem;
@@ -460,55 +456,57 @@ int count=0;
         if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
             sheetTitle = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
         }
-        actionSheetView = [[UIActionSheet alloc] initWithTitle:sheetTitle
-                                                            delegate:self
-                                                   cancelButtonTitle:nil
-                                              destructiveButtonTitle:nil
-                                                   otherButtonTitles:nil];
-        actionSheetView.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        NSString *title;
+        
+        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            // do nothing
+        }];
+        
         for (int i = 0; i < numActions; i++) {
-             title = [sheetActions objectAtIndex:i];
-            if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && isRecording.alpha == 1.0) {
-                title = NSLocalizedString(@"Stop Recording", nil);
+            NSString *actiontitle = [sheetActions objectAtIndex:i];
+            UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                [self actionSheetHandler:actiontitle];
+            }];
+            [actionView addAction:action];
+        }
+        [actionView addAction:action_cancel];
+        [actionView setModalPresentationStyle:UIModalPresentationPopover];
+        
+        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        if (popPresenter != nil) {
+            popPresenter.sourceView = self.view;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+                popPresenter.barButtonItem = actionSheetButtonItemIpad;
             }
-            [actionSheetView addButtonWithTitle:title];
         }
-        actionSheetView.cancelButtonIndex = [actionSheetView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            [actionSheetView showInView:self.view];
-        }
-        else{
-            [actionSheetView showFromBarButtonItem:actionSheetButtonItemIpad animated:YES];
-        }
+        [self presentViewController:actionView animated:YES completion:nil];
     }
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex!=actionSheet.cancelButtonIndex){
-        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
-            [self addQueueAfterCurrent:YES];
-
-        }
-        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue", nil)]){
-            [self addQueueAfterCurrent:NO];
-        }
-        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play", nil)]){
-            [self addPlayback:0.0];
-        }
-        else if (([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Record", nil)] || [[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Stop Recording", nil)])) {
-            [self recordChannel];
-        }
-        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Open with VLC", nil)]){
-            [self openWithVLC:self.detailItem];
-        }
-        else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:NSLocalizedString(@"Resume from", nil)].location!= NSNotFound){
-            [self addPlayback:resumePointPercentage];
-            return;
-        }
-        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
-            [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"trailer"], @"file", nil], @"item", nil]];
-        }
+- (void)actionSheetHandler:(NSString*)actiontitle {
+    if ([actiontitle isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
+        [self addQueueAfterCurrent:YES];
+    }
+    else if([actiontitle isEqualToString:NSLocalizedString(@"Queue", nil)]){
+        [self addQueueAfterCurrent:NO];
+    }
+    else if([actiontitle isEqualToString:NSLocalizedString(@"Play", nil)]){
+        [self addPlayback:0.0];
+    }
+    else if (([actiontitle isEqualToString:NSLocalizedString(@"Record", nil)] ||
+              [actiontitle isEqualToString:NSLocalizedString(@"Stop Recording", nil)])) {
+        [self recordChannel];
+    }
+    else if([actiontitle isEqualToString:NSLocalizedString(@"Open with VLC", nil)]){
+        [self openWithVLC:self.detailItem];
+    }
+    else if ([actiontitle rangeOfString:NSLocalizedString(@"Resume from", nil)].location!= NSNotFound){
+        [self addPlayback:resumePointPercentage];
+        return;
+    }
+    else if([actiontitle isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
+        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"trailer"], @"file", nil], @"item", nil]];
     }
 }
 
@@ -600,12 +598,8 @@ int count=0;
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
                        
                    }
-                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
-                                                                       message:message
-                                                                      delegate:self
-                                                             cancelButtonTitle:nil
-                                                             otherButtonTitles:NSLocalizedString(@"Copy to clipboard",nil), nil];
-                   [alertView show];
+                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:message];
+                   [self presentViewController:alertView animated:YES completion:nil];
                }
            }];
 }
@@ -1806,8 +1800,8 @@ int h=0;
     if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]){
         [activityIndicatorView stopAnimating];
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"VLC non installed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-        [alertView show];
+        UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"VLC non installed", nil) message:nil];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
         [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {

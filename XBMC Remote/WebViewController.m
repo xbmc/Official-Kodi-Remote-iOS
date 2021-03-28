@@ -42,21 +42,6 @@
 }
 
 #pragma mark -	
-#pragma mark actionSheet delegate methods;
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-	switch (actionSheet.tag) {
-        case 30:
-            if (buttonIndex == 0){
-                [[UIApplication sharedApplication] openURL:[Twitterweb.request URL]];
-            }
-            break;
-        default: break;
-    }
-}
-
-
-#pragma mark -	
 #pragma mark webView delegate methods;
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -91,14 +76,8 @@
 		if ([error code] != NSURLErrorCancelled) {
 			//show error alert, etc.
 		}
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-								   initWithTitle:NSLocalizedString(@"Error loading page", nil)
-								   message: [error localizedFailureReason]
-								   delegate:nil
-								   cancelButtonTitle:NSLocalizedString(@"OK", nil)
-								   otherButtonTitles:nil];
-        [errorAlert show];
-//        [errorAlert release];
+        UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Error loading page", nil) message:[error localizedFailureReason]];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
 }
 
@@ -111,15 +90,21 @@
 }
 
 -(IBAction)TwitterWebActionButton:(id)sender{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                                               destructiveButtonTitle:nil
-                                                    otherButtonTitles:NSLocalizedString(@"Open in Safari", nil), nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-    [actionSheet showInView:self.view];
-    actionSheet.tag = 30;
-//    [actionSheet release];
+    UIAlertController *actionView = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+    UIAlertAction* actionButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Open in Safari", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        [[UIApplication sharedApplication] openURL:[Twitterweb.request URL]];
+    }];
+    [actionView addAction:actionButton];
+    [actionView addAction:cancelButton];
+    [actionView setModalPresentationStyle:UIModalPresentationPopover];
+    
+    UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+    if (popPresenter != nil) {
+        popPresenter.sourceView = bottomToolbar;
+        popPresenter.sourceRect = bottomToolbar.bounds;
+    }
+    [self presentViewController:actionView animated:YES completion:nil];
 }
 
 #pragma mark - JSON calls
