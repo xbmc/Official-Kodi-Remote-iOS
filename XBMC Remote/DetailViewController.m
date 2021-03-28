@@ -5055,7 +5055,7 @@ NSIndexPath *selected;
         }
         else {
             NSString *defaultSortOrder = parameters[@"parameters"][@"sort"][@"order"];
-            if (![sortAscDesc isEqualToString:defaultSortOrder]) {
+            if (sortAscDesc!=nil && ![sortAscDesc isEqualToString:defaultSortOrder]) {
                 NSString *methodSort = (sortMethodName == nil) ?  @"label" : sortMethodName;
                 NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:methodSort ascending:sortAscending];
                 NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
