@@ -5123,6 +5123,13 @@ NSIndexPath *selected;
 -(void)displayData{
     [self configureLibraryView];
     [self choseParams];
+    enableCollectionView = [self collectionViewIsEnabled];
+    if (enableCollectionView) {
+        self.searchController.searchBar.hidden = YES;
+    }
+    else {
+        self.searchController.searchBar.hidden = NO;
+    }
     numResults = (int)[self.richResults count];
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     if ([self.detailItem enableSection]){
