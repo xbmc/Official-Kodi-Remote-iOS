@@ -691,7 +691,10 @@ int currentItemID;
 //                         NSLog(@"Risposta %@", methodResult);
                          bool enableJewel = [self enableJewelCases];
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                             NSDictionary *nowPlayingInfo = [methodResult objectForKey:@"item"];
+                             NSDictionary *nowPlayingInfo = nil;
+                             if ((NSNull *)methodResult[@"item"] != [NSNull null]) {
+                                 nowPlayingInfo = methodResult[@"item"];
+                             }
                              if ([nowPlayingInfo  objectForKey:@"id"] == nil)
                                  currentItemID = -2;
                              else
