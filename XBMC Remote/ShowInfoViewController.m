@@ -729,7 +729,7 @@ int h=0;
 
 -(void)createInfo{
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
-    NSDictionary *item=self.detailItem;
+    NSMutableDictionary *item = self.detailItem;
     NSString *placeHolderImage = @"coverbox_back.png";
 //    NSLog(@"ITEM %@", item);
     eJewelType jeweltype = jewelTypeUnknown;
@@ -1130,7 +1130,7 @@ int h=0;
             numVotesLabel.text = [item objectForKey:@"channel"];
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]) {
-            [item setValue:[item objectForKey:@"genre"] forKey:@"plot"];
+            item[@"plot"] = [item objectForKey:@"genre"];
             numVotesLabel.text = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
             frame = voteLabel.frame;
             dotSize = 10;
@@ -1148,8 +1148,11 @@ int h=0;
                 [voteLabel setFrame:frame];
             }
         }
-        [item setValue:[item objectForKey:@"label"] forKey:@"rating"];
-        [item setValue:[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_icon"] forKey:@"thumbnail"];
+        // Be aware: "rating" is later used to display the label
+        item[@"rating"] = item[@"label"];
+        if (item[@"pvrExtraInfo"][@"channel_icon"] != nil) {
+            item[@"thumbnail"] = item[@"pvrExtraInfo"][@"channel_icon"];
+        }
         placeHolderImage = @"nocover_channels.png";
         NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
