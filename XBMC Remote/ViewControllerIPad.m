@@ -732,11 +732,11 @@
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
 	[menuViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	[stackScrollViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    if ([[AppDelegate instance].navigationController isViewLoaded]) {
+    if (self.hostPickerViewController.isViewLoaded && self.hostPickerViewController.view.window != nil) {
         [[AppDelegate instance].navigationController dismissViewControllerAnimated:NO completion:nil];
         serverPicker = TRUE;
     }
-    if ([self.appInfoView isViewLoaded]) {
+    if (self.appInfoView.isViewLoaded && self.appInfoView.view.window != nil) {
         [self.appInfoView dismissViewControllerAnimated:NO completion:nil];
         appInfo = TRUE;
     }
