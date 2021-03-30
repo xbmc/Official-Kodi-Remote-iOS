@@ -8,7 +8,6 @@
 
 #import "Utilities.h"
 #import "AppDelegate.h"
-#import "Utilities.h"
 
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 #define XBMC_LOGO_PADDING 10
@@ -354,6 +353,18 @@
     [alertView addAction:copyButton];
     [alertView addAction:cancelButton];
     return alertView;
+}
+
++ (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate> *)fromctrl {
+    NSURL *nsurl = [NSURL URLWithString:url];
+    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nsurl];
+    UIViewController *ctrl = fromctrl;
+    svc.delegate = fromctrl;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        // On iPad presenting from the active ViewController results in blank screen
+        ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
+    }
+    [ctrl presentViewController:svc animated:YES completion:nil];
 }
 
 @end

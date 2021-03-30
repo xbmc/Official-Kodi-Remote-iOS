@@ -94,8 +94,6 @@
 		0F2E433315ED38C40012E3F6 /* st_artist_info.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2E433215ED38C40012E3F6 /* st_artist_info.png */; };
 		0F2E433515ED45980012E3F6 /* st_album_tracks.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2E433415ED45980012E3F6 /* st_album_tracks.png */; };
 		0F2E433715ED45A00012E3F6 /* st_album_tracks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2E433615ED45A00012E3F6 /* st_album_tracks@2x.png */; };
-		0F2EB20D1547EA37005CAD4A /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F2EB20C1547EA37005CAD4A /* WebViewController.xib */; };
-		0F2EB2111547EA4A005CAD4A /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2EB2101547EA4A005CAD4A /* WebViewController.m */; };
 		0F2EB21B1547EF84005CAD4A /* arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2EB2191547EF84005CAD4A /* arrow_left@2x.png */; };
 		0F2EB21C1547EF84005CAD4A /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2EB21A1547EF84005CAD4A /* arrow_right@2x.png */; };
 		0F2EB21F1547EF91005CAD4A /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2EB21D1547EF91005CAD4A /* arrow_left.png */; };
@@ -537,8 +535,6 @@
 		0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA4164A6D730080A14A /* UIImage+ImageWithUIView.m */; };
 		0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */; };
 		0F7F3DAC164AAD0F0080A14A /* InitialSlidingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */; };
-		0F82A5A4152C608100FC8B7A /* PlayFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F82A5A2152C608100FC8B7A /* PlayFileViewController.m */; };
-		0F82A5A5152C608100FC8B7A /* PlayFileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */; };
 		0F82F78B15EE12F6008A1D81 /* st_artist_albums.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F82F78A15EE12F6008A1D81 /* st_artist_albums.png */; };
 		0F82F78E15EE12FE008A1D81 /* st_artist_albums@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F82F78D15EE12FE008A1D81 /* st_artist_albums@2x.png */; };
 		0F85A0341525D0BA007B7112 /* line_blu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F85A0331525D0BA007B7112 /* line_blu.png */; };
@@ -862,6 +858,7 @@
 		ABF7E14325ACA88200A830FB /* icon_not_listened@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF7E14525ACA88200A830FB /* icon_not_listened@2x.png */; };
 		ABF7E14925ACA88D00A830FB /* icon_listened.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF7E14B25ACA88D00A830FB /* icon_listened.png */; };
 		ABF7E14D25ACA89100A830FB /* icon_not_listened.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF7E14F25ACA89100A830FB /* icon_not_listened.png */; };
+		C718444625FFD06400F5A060 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C718444525FFD06300F5A060 /* SafariServices.framework */; };
 		C7478BF9257258E700161C1E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7478BF8257258E700161C1E /* Launch Screen.storyboard */; };
 		C788DDA2259F5172006C90F1 /* button_sort_bright.png in Resources */ = {isa = PBXBuildFile; fileRef = C788DDA0259F5172006C90F1 /* button_sort_bright.png */; };
 		C788DDA3259F5172006C90F1 /* button_sort_descending_bright.png in Resources */ = {isa = PBXBuildFile; fileRef = C788DDA1259F5172006C90F1 /* button_sort_descending_bright.png */; };
@@ -985,9 +982,6 @@
 		0F2E433215ED38C40012E3F6 /* st_artist_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_artist_info.png; sourceTree = "<group>"; };
 		0F2E433415ED45980012E3F6 /* st_album_tracks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_album_tracks.png; sourceTree = "<group>"; };
 		0F2E433615ED45A00012E3F6 /* st_album_tracks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_album_tracks@2x.png"; sourceTree = "<group>"; };
-		0F2EB20C1547EA37005CAD4A /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
-		0F2EB20F1547EA4A005CAD4A /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		0F2EB2101547EA4A005CAD4A /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		0F2EB2191547EF84005CAD4A /* arrow_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_left@2x.png"; sourceTree = "<group>"; };
 		0F2EB21A1547EF84005CAD4A /* arrow_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_right@2x.png"; sourceTree = "<group>"; };
 		0F2EB21D1547EF91005CAD4A /* arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_left.png; sourceTree = "<group>"; };
@@ -1501,9 +1495,6 @@
 		0F7F3DA8164AAD0F0080A14A /* InitialSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialSlidingViewController.h; sourceTree = "<group>"; };
 		0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialSlidingViewController.m; sourceTree = "<group>"; };
 		0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialSlidingViewController.xib; sourceTree = "<group>"; };
-		0F82A5A1152C608100FC8B7A /* PlayFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayFileViewController.h; path = "XBMC Remote/PlayFileViewController.h"; sourceTree = SOURCE_ROOT; };
-		0F82A5A2152C608100FC8B7A /* PlayFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayFileViewController.m; path = "XBMC Remote/PlayFileViewController.m"; sourceTree = SOURCE_ROOT; };
-		0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayFileViewController.xib; path = "XBMC Remote/PlayFileViewController.xib"; sourceTree = SOURCE_ROOT; };
 		0F82F78A15EE12F6008A1D81 /* st_artist_albums.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = st_artist_albums.png; sourceTree = "<group>"; };
 		0F82F78D15EE12FE008A1D81 /* st_artist_albums@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "st_artist_albums@2x.png"; sourceTree = "<group>"; };
 		0F85A0331525D0BA007B7112 /* line_blu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = line_blu.png; sourceTree = "<group>"; };
@@ -1884,6 +1875,7 @@
 		B1FF37EB1709D20D005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/button_now_playing_empty@2x.png"; sourceTree = "<group>"; };
 		B1FF37EC1709D211005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/button_now_playing_empty.png"; sourceTree = "<group>"; };
 		B1FF37ED1709D211005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/button_now_playing.png"; sourceTree = "<group>"; };
+		C718444525FFD06300F5A060 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		C7478BF8257258E700161C1E /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C788DDA0259F5172006C90F1 /* button_sort_bright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_sort_bright.png; sourceTree = "<group>"; };
 		C788DDA1259F5172006C90F1 /* button_sort_descending_bright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_sort_descending_bright.png; sourceTree = "<group>"; };
@@ -1910,6 +1902,7 @@
 				0F74773A151E094C00EF78AD /* AudioToolbox.framework in Frameworks */,
 				0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */,
 				0F5548FD151D1187007E633F /* Foundation.framework in Frameworks */,
+				C718444625FFD06400F5A060 /* SafariServices.framework in Frameworks */,
 				0F5548FF151D1187007E633F /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2014,8 +2007,6 @@
 				0F74772C151DD77400EF78AD /* NowPlaying.m */,
 				0F747731151DD91D00EF78AD /* RemoteController.h */,
 				0F747732151DD91D00EF78AD /* RemoteController.m */,
-				0F82A5A1152C608100FC8B7A /* PlayFileViewController.h */,
-				0F82A5A2152C608100FC8B7A /* PlayFileViewController.m */,
 				0F4883D01521CC7200883243 /* VolumeSliderView.h */,
 				0F4883D11521CC7300883243 /* VolumeSliderView.m */,
 				0F5A5049155FA8630062FD6E /* HostManagementViewController.h */,
@@ -2024,8 +2015,6 @@
 				0F487B4A15396D4C004530C1 /* HostViewController.m */,
 				0F61E197153C828300A89BB1 /* AppInfoViewController.h */,
 				0F61E198153C828300A89BB1 /* AppInfoViewController.m */,
-				0F2EB20F1547EA4A005CAD4A /* WebViewController.h */,
-				0F2EB2101547EA4A005CAD4A /* WebViewController.m */,
 				0F4063331578C6CD00596B61 /* MoreItemsViewController.h */,
 				0F4063341578C6CD00596B61 /* MoreItemsViewController.m */,
 				0F540660160C82E900853B02 /* CustomNavigationController.h */,
@@ -2061,12 +2050,10 @@
 				0F6234EF192811150024FEFA /* NowPlaying.xib */,
 				0F747733151DD91D00EF78AD /* RemoteController.xib */,
 				0F4883D31521CD1C00883243 /* VolumeSliderView.xib */,
-				0F82A5A3152C608100FC8B7A /* PlayFileViewController.xib */,
 				0FB4044C1928C33200346300 /* HostManagementViewController.xib */,
 				0FB4044E1928D0D300346300 /* HostViewController.xib */,
 				0FB40450192922E100346300 /* ShowInfoViewController.xib */,
 				0F7A8A911926776900313C17 /* AppInfoViewController.xib */,
-				0F2EB20C1547EA37005CAD4A /* WebViewController.xib */,
 				0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */,
 				0F40F5A6164D5FA000AF9DE9 /* RightMenuViewController.xib */,
 			);
@@ -2224,6 +2211,7 @@
 		0F5548F9151D1187007E633F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C718444525FFD06300F5A060 /* SafariServices.framework */,
 				0F32092F16FE193400636BA2 /* ImageIO.framework */,
 				0FB8598515FF9ED10070F324 /* AVFoundation.framework */,
 				0F49885C152879FF0041DA92 /* QuartzCore.framework */,
@@ -3455,7 +3443,6 @@
 				0F4B8523152B497100450384 /* arrow_continue_down.png in Resources */,
 				0FFBCF0C152BAC1600066B30 /* nocover_tvshows_episode@2x.png in Resources */,
 				0FFBCF0F152BAC2D00066B30 /* nocover_tvshows_episode.png in Resources */,
-				0F82A5A5152C608100FC8B7A /* PlayFileViewController.xib in Resources */,
 				0F0498C51C28A870008A3013 /* 576.png in Resources */,
 				ABF7E14325ACA88200A830FB /* icon_not_listened@2x.png in Resources */,
 				0F30E176152DD8BC00282769 /* person.png in Resources */,
@@ -3506,7 +3493,6 @@
 				0FE071E91C259BF1008CB464 /* button_sort_descending@2x.png in Resources */,
 				0FAC974D19A3699000945624 /* button_fullscreen@2x.png in Resources */,
 				0FAAADFF1541CF5300854BEB /* speech_balloon.png in Resources */,
-				0F2EB20D1547EA37005CAD4A /* WebViewController.xib in Resources */,
 				0F3434D918FA7E2400840E27 /* st_recordings_off.png in Resources */,
 				0F2EB21B1547EF84005CAD4A /* arrow_left@2x.png in Resources */,
 				0F2EB21C1547EF84005CAD4A /* arrow_right@2x.png in Resources */,
@@ -4052,11 +4038,9 @@
 				0F4883C41521B3D400883243 /* GlobalData.m in Sources */,
 				0F4883D21521CC7300883243 /* VolumeSliderView.m in Sources */,
 				0F4883E51522418E00883243 /* ShowInfoViewController.m in Sources */,
-				0F82A5A4152C608100FC8B7A /* PlayFileViewController.m in Sources */,
 				0F487B4C15396D4C004530C1 /* HostViewController.m in Sources */,
 				0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */,
 				0F089AA518EC4E3300F32430 /* SettingsValuesViewController.m in Sources */,
-				0F2EB2111547EA4A005CAD4A /* WebViewController.m in Sources */,
 				0F175F24154D5C3600C1C61F /* ViewControllerIPad.m in Sources */,
 				0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */,
 				0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */,
