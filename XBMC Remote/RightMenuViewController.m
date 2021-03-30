@@ -525,6 +525,9 @@
         [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [self turnTorchOn:!torchIsOn icon:torchIcon];
     }
+    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Cancel", nil)]){
+        [self.slidingViewController resetTopView];
+    }
 }
 
 #pragma mark - JSON

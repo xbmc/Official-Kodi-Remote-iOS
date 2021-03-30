@@ -4113,8 +4113,12 @@ NSMutableArray *hostRightMenuItems;
                                 nil],
 
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                NSLocalizedString(@"LED Torch", nil), @"label",
-                                @"torch", @"icon",
+                                NSLocalizedString(@"Cancel", nil), @"label",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:.702f], @"red",
+                                 [NSNumber numberWithFloat:.702f], @"green",
+                                 [NSNumber numberWithFloat:.702f], @"blue",
+                                 nil], @"fontColor",
                                 nil],
                                nil],@"online",
                         
