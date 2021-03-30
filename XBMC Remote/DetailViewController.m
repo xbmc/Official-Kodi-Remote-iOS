@@ -2699,6 +2699,7 @@ int originYear = 0;
                     CAGradientLayer *gradient = [CAGradientLayer layer];
                     gradient.frame = albumDetailView.bounds;
                     albumColor = [utils averageColor:image inverse:NO];
+                    albumColor = [utils limitSaturation:albumColor satmax:0.33];
                     gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
                     seasonFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
                     seasonFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];

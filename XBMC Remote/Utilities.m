@@ -75,6 +75,17 @@
 	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
 }
 
+- (UIColor *)limitSaturation:(UIColor *)color_in satmax:(CGFloat)satmax {
+    CGFloat hue, sat, bright, alpha;
+    UIColor *color_out = nil;
+    if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
+        // limit saturation
+        sat = MIN(MAX(sat, 0), satmax);
+        color_out = [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
+    }
+    return color_out;
+}
+
 + (UIColor *)tailorColor:(UIColor *)color_in satscale:(CGFloat)satscale brightscale:(CGFloat)brightscale brightmin:(CGFloat)brightmin brightmax:(CGFloat)brightmax{
     CGFloat hue, sat, bright, alpha;
     UIColor *color_out = nil;
