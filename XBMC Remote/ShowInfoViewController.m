@@ -443,9 +443,7 @@ int count=0;
         
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            // do nothing
-        }];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = [sheetActions objectAtIndex:i];

@@ -218,7 +218,7 @@
             UIAlertAction* addButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Add button", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                     [self addActionButton:alertView];
                 }];
-            UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+            UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
             [alertView addAction:addButton];
             [alertView addAction:cancelButton];
             [self presentViewController:alertView animated:YES completion:nil];

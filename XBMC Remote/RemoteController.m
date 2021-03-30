@@ -675,9 +675,7 @@
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Audio stream", nil) message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            // do nothing
-        }];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = [sheetActions objectAtIndex:i];
@@ -707,9 +705,7 @@
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Subtitles", nil) message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            // do nothing
-        }];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         UIAlertAction* action_disable = [UIAlertAction actionWithTitle:NSLocalizedString(@"Disable subtitles", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
             [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];

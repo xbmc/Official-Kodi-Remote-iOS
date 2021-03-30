@@ -308,7 +308,7 @@
         [actionView addAction:action_clean_video_lib];
     }
     
-    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
     [actionView addAction:cancelButton];
     [actionView setModalPresentationStyle:UIModalPresentationPopover];
     
