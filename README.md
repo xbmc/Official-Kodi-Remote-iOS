@@ -32,6 +32,10 @@ Use [fastlane](https://fastlane.tools/) to manage everything related to AppStore
 
 `bundle exec fastlane tf`
 
+To be able to also create prerelease+tag on Github, define `GITHUB_TOKEN` environment variable. Example:
+
+`GITHUB_TOKEN=your_PAT_token bundle exec fastlane tf`
+
 ### Submit to AppStore review
 
 `bundle exec fastlane asc`
