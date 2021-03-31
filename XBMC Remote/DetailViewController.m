@@ -493,13 +493,8 @@
 }
 
 -(void)setLogoBackgroundColor:(UIImageView*)imageview {
-    // adapt color
-    UIImage *image = imageview.image;
-    Utilities *utils = [[Utilities alloc] init];
-    UIColor *imgcolor = [utils averageColor:image inverse:NO];
-    UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
-    UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
-    UIColor *bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
+    // get background color and colorize the image background
+    UIColor *bgcolor = [Utilities getLogoBackgroundColor:imageview.image];
     [imageview setBackgroundColor:bgcolor];
 }
 
