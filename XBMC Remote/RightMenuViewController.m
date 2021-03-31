@@ -411,8 +411,14 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
 	if (editingStyle == UITableViewCellEditingStyleDelete){
-        [tableData removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        if ([indexPath row] < [tableData count]) {
+            [tableData removeObjectAtIndex:indexPath.row];
+        }
+        if ([indexPath row] < [tableView numberOfRowsInSection:[indexPath section]]) {
+            [tableView beginUpdates];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            [tableView endUpdates];
+        }
         [self deleteCustomButton:(indexPath.row - editableRowStartAt)];
 	}
 }
@@ -444,6 +450,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([indexPath row] >= [tableData count]) {
+        return;
+    }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
         return;
     }

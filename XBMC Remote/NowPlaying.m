@@ -691,7 +691,10 @@ int currentItemID;
 //                         NSLog(@"Risposta %@", methodResult);
                          bool enableJewel = [self enableJewelCases];
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                             NSDictionary *nowPlayingInfo = [methodResult objectForKey:@"item"];
+                             NSDictionary *nowPlayingInfo = nil;
+                             if ((NSNull *)methodResult[@"item"] != [NSNull null]) {
+                                 nowPlayingInfo = methodResult[@"item"];
+                             }
                              if ([nowPlayingInfo  objectForKey:@"id"] == nil)
                                  currentItemID = -2;
                              else
@@ -2432,7 +2435,11 @@ int currentItemID;
                 if ([indexPath row] < numObj){
                     [playlistData removeObjectAtIndex:indexPath.row];
                 }
-                [playlistTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+                if ([indexPath row] < [playlistTableView numberOfRowsInSection:[indexPath section]]) {
+                    [playlistTableView beginUpdates];
+                    [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+                    [playlistTableView endUpdates];
+                }
                 if ((storeSelection) && (indexPath.row<storeSelection.row)){
                     storeSelection=[NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
                 }
