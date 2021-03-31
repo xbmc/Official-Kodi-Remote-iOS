@@ -1989,12 +1989,12 @@ int currentItemID;
         }
         NSString *message=[NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to clear the %@playlist?", nil), playlistName];
         UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+        UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         UIAlertAction* clearButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Clear Playlist", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 [self clearPlaylist:playerID];
             }];
-        [alertView addAction:cancelButton];
         [alertView addAction:clearButton];
+        [alertView addAction:cancelButton];
         [self presentViewController:alertView animated:YES completion:nil];
     }
 }
@@ -2103,9 +2103,7 @@ int currentItemID;
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            // do nothing
-        }];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = [sheetActions objectAtIndex:i];
