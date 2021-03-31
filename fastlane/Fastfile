@@ -31,7 +31,15 @@ lane :tf do
     include_bitcode: true,
     export_method: 'app-store',
   )
+
+  lastTag = last_git_tag
+  changelog = changelog_from_git_commits(
+    between: [lastTag, 'HEAD'],
+    pretty: '- %b (%s)',
+    merge_commit_filtering: 'only_include_merges',
+  )
   testflight(
+    changelog: changelog,
     distribute_external: true,
     groups: ['external testers'],
   )
