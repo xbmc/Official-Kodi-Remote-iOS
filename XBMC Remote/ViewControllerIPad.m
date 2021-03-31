@@ -704,17 +704,35 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	[menuViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-	[stackScrollViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    if (serverPicker == TRUE){
-        serverPicker = FALSE;
-        [self toggleSetup];
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    // save state for restoration after rotation and close popups
+    if (self.hostPickerViewController.isViewLoaded && self.hostPickerViewController.view.window != nil) {
+        serverPicker = YES;
+        [self.hostPickerViewController dismissViewControllerAnimated:NO completion:nil];
     }
-    if (appInfo == TRUE){
-        appInfo = FALSE;
-        [self toggleInfoView];
+    if (self.appInfoView.isViewLoaded && self.appInfoView.view.window != nil) {
+        appInfo = YES;
+        [self.appInfoView dismissViewControllerAnimated:NO completion:nil];
     }
+    
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [menuViewController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+        [stackScrollViewController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    }
+                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        // restore state
+        if (serverPicker) {
+            serverPicker = NO;
+            [self toggleSetup];
+        }
+        if (appInfo) {
+            appInfo = NO;
+            [self toggleInfoView];
+        }
+    }];
 }
 
 -(CGSize)screenSizeOrientationIndependent {
@@ -728,19 +746,6 @@
 - (void)viewWillLayoutSubviews{
     [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS];
 }
-
--(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-	[menuViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	[stackScrollViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    if (self.hostPickerViewController.isViewLoaded && self.hostPickerViewController.view.window != nil) {
-        [[AppDelegate instance].navigationController dismissViewControllerAnimated:NO completion:nil];
-        serverPicker = TRUE;
-    }
-    if (self.appInfoView.isViewLoaded && self.appInfoView.view.window != nil) {
-        [self.appInfoView dismissViewControllerAnimated:NO completion:nil];
-        appInfo = TRUE;
-    }
-}	
 
 -(BOOL)shouldAutorotate{
     return !stackScrollIsFullscreen;
