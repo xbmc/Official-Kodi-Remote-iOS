@@ -4869,15 +4869,15 @@ NSIndexPath *selected;
 }
 
 -(NSString*)ignoreSorttoken:(NSString*)text {
+    if ([[AppDelegate instance].KodiSorttokens count] == 0) {
+        return text;
+    }
     NSMutableString *string = [text mutableCopy];
-    NSString *token = @"";
-    NSInteger token_count = [[AppDelegate instance].KodiSorttokens count];
-    if (token_count > 0) {
-        for (token in [AppDelegate instance].KodiSorttokens) {
-            NSRange range = [string rangeOfString:token];
-            if (range.location==0 && range.length > 0) {
-                [string deleteCharactersInRange:range];
-            }
+    for (NSString *token in [AppDelegate instance].KodiSorttokens) {
+        NSRange range = [string rangeOfString:token];
+        if (range.location==0 && range.length > 0) {
+            [string deleteCharactersInRange:range];
+            break; // We want to leave the loop after we removed the sort token
         }
     }
     return [string copy];
