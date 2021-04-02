@@ -157,6 +157,30 @@
     return img;
 }
 
++ (UIImage*)colorizeImageBackground:(UIImage*)image color:(UIColor*)newcolor {
+    CALayer *imageLayer = [CALayer layer];
+    imageLayer.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+    imageLayer.contents = (id)image.CGImage;
+    imageLayer.masksToBounds = YES;
+    imageLayer.backgroundColor = newcolor.CGColor;
+    
+    UIGraphicsBeginImageContext(image.size);
+    [imageLayer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *recoloredImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return recoloredImage;
+}
+
++ (UIColor*)getLogoBackgroundColor:(UIImage*)image {
+    Utilities *utils = [[Utilities alloc] init];
+    UIColor *imgcolor = [utils averageColor:image inverse:NO];
+    UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
+    UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
+    UIColor *bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
+    return bgcolor;
+}
+
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage{
     NSDictionary *params = nil;
     if ([AppDelegate instance].serverVersion < 15){

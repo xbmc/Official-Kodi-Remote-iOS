@@ -216,6 +216,12 @@ int count=0;
 
 #pragma mark - Utility 
 
+-(UIImage*)setLogoBackgroundColor:(UIImage*)image{
+    // get background color and colorize the image background
+    UIColor *bgcolor = [Utilities getLogoBackgroundColor:image];
+    return [Utilities colorizeImageBackground:image color:bgcolor];
+}
+
 -(void)dismissModal:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -709,6 +715,9 @@ int h=0;
 
 -(void)elaborateImage:(UIImage *)image{
     [self performSelectorOnMainThread:@selector(startActivityIndicator) withObject:nil waitUntilDone:YES];
+    if (isRecordingDetail) {
+        image = [self setLogoBackgroundColor:image];
+    }
     UIImage *elabImage = [self imageWithBorderFromImage:image];
     [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];    
 }
@@ -729,6 +738,7 @@ int h=0;
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSMutableDictionary *item = self.detailItem;
     NSString *placeHolderImage = @"coverbox_back.png";
+    isRecordingDetail = item[@"recordingid"] != nil;
 //    NSLog(@"ITEM %@", item);
     eJewelType jeweltype = jewelTypeUnknown;
     castFontSize = 14;
@@ -1172,7 +1182,7 @@ int h=0;
             directorLabel.text = @"-";
         }
 //        UIImage *buttonImage = [UIImage imageNamed:@"button_record.png"];
-//        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
+//        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        recordButton.frame = CGRectMake(0, 0, 200, 29);
 //        [recordButton setImage:buttonImage forState:UIControlStateNormal];
 //        frame = recordButton.frame;

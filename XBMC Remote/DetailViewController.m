@@ -493,13 +493,8 @@
 }
 
 -(void)setLogoBackgroundColor:(UIImageView*)imageview {
-    // adapt color
-    UIImage *image = imageview.image;
-    Utilities *utils = [[Utilities alloc] init];
-    UIColor *imgcolor = [utils averageColor:image inverse:NO];
-    UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
-    UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
-    UIColor *bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
+    // get background color and colorize the image background
+    UIColor *bgcolor = [Utilities getLogoBackgroundColor:imageview.image];
     [imageview setBackgroundColor:bgcolor];
 }
 
@@ -2709,7 +2704,7 @@ int originYear = 0;
             }
             else {
                 [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
-                seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];;
+                seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
                 seasonFontColor = [Utilities get1stLabelColor];
                 [self setLabelColor:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
             }            

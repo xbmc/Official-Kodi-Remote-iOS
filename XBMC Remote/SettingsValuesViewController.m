@@ -453,7 +453,7 @@
         textInputField.borderStyle = UITextBorderStyleRoundedRect;
         textInputField.textAlignment = NSTextAlignmentCenter;
         textInputField.font = [UIFont systemFontOfSize:15];
-        textInputField.placeholder = NSLocalizedString(@"enter value", nil);;
+        textInputField.placeholder = NSLocalizedString(@"enter value", nil);
         textInputField.autocorrectionType = UITextAutocorrectionTypeNo;
         textInputField.keyboardType = UIKeyboardTypeDefault;
         textInputField.returnKeyType = UIReturnKeyDefault;
