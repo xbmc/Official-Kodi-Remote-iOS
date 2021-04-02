@@ -508,12 +508,6 @@
     [label4 setTextColor:text];
 }
 
--(void)setLogoBackgroundColor:(UIImageView*)imageview {
-    // get background color and colorize the image background
-    UIColor *bgcolor = [Utilities getLogoBackgroundColor:imageview.image];
-    [imageview setBackgroundColor:bgcolor];
-}
-
 -(BOOL)doesShowSearchResults {
     BOOL result = NO;
     if (@available(iOS 13.0, *)) {
@@ -1427,7 +1421,7 @@
             }
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellthumbWidth, cellthumbHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
-                    [self setLogoBackgroundColor:cell.posterThumbnail];
+                    [Utilities setLogoBackgroundColor:cell.posterThumbnail];
                 }
             }];
             if (hiddenLabel) {
@@ -2341,7 +2335,7 @@ int originYear = 0;
             }
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
-                    [self setLogoBackgroundColor:cell.urlImageView];
+                    [Utilities setLogoBackgroundColor:cell.urlImageView];
                 }
             }];
         }

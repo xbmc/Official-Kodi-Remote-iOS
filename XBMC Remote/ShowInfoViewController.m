@@ -214,13 +214,7 @@ int count=0;
     }
 }
 
-#pragma mark - Utility 
-
--(UIImage*)setLogoBackgroundColor:(UIImage*)image{
-    // get background color and colorize the image background
-    UIColor *bgcolor = [Utilities getLogoBackgroundColor:image];
-    return [Utilities colorizeImageBackground:image color:bgcolor];
-}
+#pragma mark - Utility
 
 -(void)dismissModal:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -715,10 +709,7 @@ int h=0;
 
 -(void)elaborateImage:(UIImage *)image{
     [self performSelectorOnMainThread:@selector(startActivityIndicator) withObject:nil waitUntilDone:YES];
-    if (isRecordingDetail) {
-        image = [self setLogoBackgroundColor:image];
-    }
-    UIImage *elabImage = [self imageWithBorderFromImage:image];
+    UIImage *elabImage = isRecordingDetail ? image : [self imageWithBorderFromImage:image];
     [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];    
 }
 
@@ -726,6 +717,9 @@ int h=0;
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
     jewelView.image = image;
+    if (isRecordingDetail) {
+        [Utilities setLogoBackgroundColor:jewelView];
+    }
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
 
