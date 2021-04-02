@@ -481,6 +481,22 @@
 
 #pragma mark - Utility
 
+-(void)setSearchBarColor:(UIColor*)albumColor {
+    UITextField *searchTextField = [self getSearchTextField];
+    UIColor *lightAlbumColor = [utils lighterColorForColor:albumColor];
+    if (searchTextField != nil) {
+        UIImageView *iconView = (id)searchTextField.leftView;
+        iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        iconView.tintColor = lightAlbumColor;
+        searchTextField.textColor = lightAlbumColor;
+        searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: lightAlbumColor}];
+    }
+    self.searchController.searchBar.backgroundColor = albumColor;
+    self.searchController.searchBar.tintColor = lightAlbumColor;
+    self.searchController.searchBar.barTintColor = lightAlbumColor;
+    self.searchController.searchBar.barStyle = UIBarStyleBlack;
+}
+
 -(void)setLabelColor:(UIColor*)text fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4{
     [label1 setShadowColor:shadow];
     [label1 setTextColor:text];
@@ -2506,11 +2522,9 @@ int originYear = 0;
                                           albumColor = [utils averageColor:image inverse:NO];
                                           UIColor *lightAlbumColor = [utils lighterColorForColor:albumColor];
                                           self.navigationController.navigationBar.tintColor = lightAlbumColor;
-                                          self.searchController.searchBar.tintColor = lightAlbumColor;
                                           if ([[[self.searchController.searchBar subviews] objectAtIndex:0] isKindOfClass:[UIImageView class]]){
                                               [[[self.searchController.searchBar subviews] objectAtIndex:0] removeFromSuperview];
                                           }
-                                          [self.searchController.searchBar setBackgroundColor:albumColor];
                                           CAGradientLayer *gradient = [CAGradientLayer layer];
                                           gradient.frame = albumDetailView.bounds;
                                           gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
@@ -2519,16 +2533,7 @@ int originYear = 0;
                                           albumFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
                                           albumDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
                                           [self setLabelColor:albumFontColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
-                                          UITextField *searchTextField = [self getSearchTextField];
-                                          if (searchTextField != nil) {
-                                              if ([searchTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
-                                                  UIImageView *iconView = (id)searchTextField.leftView;
-                                                  iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                                  iconView.tintColor = lightAlbumColor;
-                                                  searchTextField.textColor = lightAlbumColor;
-                                                  searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: lightAlbumColor}];
-                                              }
-                                          }
+                                          [self setSearchBarColor:albumColor];
                                       }
                                   }];
         }
@@ -2651,7 +2656,6 @@ int originYear = 0;
         gradient.frame = albumDetailView.bounds;
         gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getSystemGray5] CGColor], (id)[[Utilities getSystemGray1] CGColor], nil];
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
-        [self.searchController.searchBar setBackgroundColor:[Utilities getSystemGray5]];
         if (section>0){
             UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -1, viewWidth, 1)];
             [lineView setBackgroundColor:[Utilities getGrayColor:242 alpha:1]];
@@ -2686,6 +2690,10 @@ int originYear = 0;
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
             NSString *stringURL = [[self.extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"thumbnail"];
             NSString *displayThumb=@"coverbox_back_section.png";
+            if (seasonIdx == 0) {
+                self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
+                self.searchController.searchBar.tintColor = tableViewSearchBarColor;
+            }
             if ([[item objectForKey:@"filetype"] length]!=0){
                 displayThumb=stringURL;
             }
@@ -2694,11 +2702,14 @@ int originYear = 0;
                     CAGradientLayer *gradient = [CAGradientLayer layer];
                     gradient.frame = albumDetailView.bounds;
                     albumColor = [utils averageColor:image inverse:NO];
+                    albumColor = [utils limitSaturation:albumColor satmax:0.33];
                     gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
                     seasonFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
                     seasonFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
                     [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                    [self.searchController.searchBar setBackgroundColor:albumColor];
+                    if (seasonIdx == 0) {
+                        [self setSearchBarColor:albumColor];
+                    }
                     [self setLabelColor:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                 }];
             }

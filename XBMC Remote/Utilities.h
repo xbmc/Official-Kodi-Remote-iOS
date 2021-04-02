@@ -19,6 +19,7 @@ typedef enum {
 @interface Utilities : NSObject
 
 - (UIColor *)averageColor:(UIImage *)image inverse:(BOOL)inverse;
+- (UIColor *)limitSaturation:(UIColor *)c satmax:(CGFloat)satmax;
 - (UIColor *)slightLighterColorForColor:(UIColor *)c;
 - (UIColor *)lighterColorForColor:(UIColor *)c;
 - (UIColor *)darkerColorForColor:(UIColor *)c;
