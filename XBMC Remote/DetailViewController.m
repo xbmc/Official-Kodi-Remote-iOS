@@ -4907,7 +4907,8 @@ NSIndexPath *selected;
     BOOL isEligible = NO;
     // Support sort token processing only for a set of sort methods (same as in Kodi server)
     // Taken from xbmc/xbmc/utils/SortUtils.cpp (method for which SortAttributeIgnoreArticle is defined)
-    if ([sortMethodName isEqualToString:@"label"] ||
+    if ([sortMethodName isEqualToString:@"genre"] || // genre is misused for artists for app-internal reasons
+        [sortMethodName isEqualToString:@"label"] ||
         [sortMethodName isEqualToString:@"title"] ||
         [sortMethodName isEqualToString:@"artist"] ||
         [sortMethodName isEqualToString:@"album"] ||
@@ -4916,6 +4917,20 @@ NSIndexPath *selected;
         isEligible = ([AppDelegate instance].isIgnoreArticlesEnabled && [[AppDelegate instance].KodiSorttokens count]>0);
     }
     return isEligible;
+}
+
+-(BOOL)isSortDifferentToDefault {
+    BOOL isDifferent = NO;
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
+    if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
+        isDifferent = YES;
+    }
+    // Exception: genre is misused for artist for app-internal reasons
+    else if ([sortMethodName isEqualToString:@"genre"] && [defaultSortMethod isEqualToString:@"artist"]) {
+        isDifferent = NO;
+    }
+    return isDifferent;
 }
 
 -(NSArray*)applySortByMethod:(NSArray*)incomingRichArray sortmethod:(NSString*)sortmethod ascending:(BOOL)isAscending selector:(SEL)selector {
@@ -4935,6 +4950,11 @@ NSIndexPath *selected;
     }
     BOOL sortAscending = [sortAscDesc isEqualToString:@"descending"] ? NO : YES;
     
+    // In case of sorting by playcount and not having any key, we skip sorting (happens for "Top 100")
+    if ([sortMethodName isEqualToString:@"playcount"] && [copyRichResults count]>0 && copyRichResults[0][sortMethodName]==nil) {
+        sortMethodName = nil;
+    }
+    
     // If a sort method is defined which is not found as key, we select @"label" as sort method.
     // This happens for example when sorting by @"artist".
     if (sortMethodName!=nil && [copyRichResults count]>0 && copyRichResults[0][sortMethodName]==nil) {
@@ -4950,8 +4970,7 @@ NSIndexPath *selected;
             sortbymethod = @"sortby";
         }
         // Only sort if the sort method is different to what Kodi server provides or if sort token must be applied
-        NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
-        if (![sortMethodName isEqualToString:defaultSortMethod] || [self isEligibleForSorttokenSort]) {
+        if ([self isSortDifferentToDefault] || [self isEligibleForSorttokenSort]) {
             // Use localizedStandardCompare for all NSString items to be sorted (provides correct order for multi-digit
             // numbers). But do not use for any other types as this crashes.
             SEL selector = nil;
@@ -5066,8 +5085,7 @@ NSIndexPath *selected;
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
     }
     else {
-        NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
-        if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
+        if ([self isSortDifferentToDefault]) {
             BOOL found;
             addUITableViewIndexSearch = YES;
             for (NSDictionary *item in copyRichResults){
