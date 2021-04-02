@@ -2704,7 +2704,7 @@ int originYear = 0;
             }
             else {
                 [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
-                seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];;
+                seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
                 seasonFontColor = [Utilities get1stLabelColor];
                 [self setLabelColor:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
             }            

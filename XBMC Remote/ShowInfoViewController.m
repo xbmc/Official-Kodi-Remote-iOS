@@ -1182,7 +1182,7 @@ int h=0;
             directorLabel.text = @"-";
         }
 //        UIImage *buttonImage = [UIImage imageNamed:@"button_record.png"];
-//        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
+//        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        recordButton.frame = CGRectMake(0, 0, 200, 29);
 //        [recordButton setImage:buttonImage forState:UIControlStateNormal];
 //        frame = recordButton.frame;
