@@ -102,12 +102,12 @@
     int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
     [remoteControlView setFrame:CGRectMake(startX, startY, newWidth, newHeight)];
     
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger.png"];
+    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL showGesture=[[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture){
-        gestureSwitchImg = [UIImage imageNamed:@"circle.png"];
+        gestureSwitchImg = [UIImage imageNamed:@"circle"];
         frame = [gestureZoneView frame];
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
@@ -143,7 +143,7 @@
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help.png"];
+        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
         frame.size.height = frame.size.height *transform;
@@ -169,7 +169,7 @@
 
         int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;        
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad.png"];
+        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
         CGRect frame = subsInfoLabel.frame;
         frame.size.width = newWidth;
         frame.origin.x = 0;
@@ -397,7 +397,7 @@
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
         [UIView commitAnimations];
-        imageName=@"circle.png";
+        imageName=@"circle";
     }
     else{
         CGRect frame;
@@ -413,7 +413,7 @@
         gestureZoneView.alpha = 0;
         buttonZoneView.alpha = 1;
         [UIView commitAnimations];
-        imageName=@"finger.png";
+        imageName=@"finger";
     }
     if ([sender isKindOfClass: [UIButton class]]){
         [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
@@ -1160,7 +1160,7 @@ NSInteger buttonAction;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings.png"];
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
         [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];
     }
@@ -1237,12 +1237,12 @@ NSInteger buttonAction;
                 [device setTorchMode:AVCaptureTorchModeOn];
                 [settings setFlashMode:AVCaptureFlashModeOn];
                 torchIsOn = YES;
-                [sender setImage:[UIImage imageNamed:@"torch_on.png"] forState:UIControlStateNormal];
+                [sender setImage:[UIImage imageNamed:@"torch_on"] forState:UIControlStateNormal];
             } else {
                 [device setTorchMode:AVCaptureTorchModeOff];
                 [settings setFlashMode:AVCaptureFlashModeOff];
                 torchIsOn = NO;
-                [sender setImage:[UIImage imageNamed:@"torch.png"] forState:UIControlStateNormal];
+                [sender setImage:[UIImage imageNamed:@"torch"] forState:UIControlStateNormal];
             }
             [device unlockForConfiguration];
         }
@@ -1266,12 +1266,12 @@ NSInteger buttonAction;
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger.png"];
+    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL showGesture=[[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture){
-        gestureSwitchImg = [UIImage imageNamed:@"circle.png"];
+        gestureSwitchImg = [UIImage imageNamed:@"circle"];
         CGRect frame = [gestureZoneView frame];
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
@@ -1296,7 +1296,7 @@ NSInteger buttonAction;
         settingButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
         [settingButton setContentMode:UIViewContentModeRight];
         [settingButton setShowsTouchWhenHighlighted:YES];
-        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon.png"] forState:UIControlStateNormal];
+        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
         settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [settingButton addTarget:self action:@selector(addButtonToListIPad:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:settingButton];
@@ -1313,7 +1313,7 @@ NSInteger buttonAction;
         
         UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
         keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 120, self.view.bounds.size.height - 43, 56, 36);
-        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
+        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon"];
         [keyboardButton setContentMode:UIViewContentModeRight];
         [keyboardButton setShowsTouchWhenHighlighted:YES];
         [keyboardButton setImage:keyboardImg forState:UIControlStateNormal];
@@ -1332,7 +1332,7 @@ NSInteger buttonAction;
         helpButton.alpha = infoButtonalpha;
         [self.view addSubview:helpButton];
     }
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat"]]];
 }
 
 -(void)addButtonToListIPad:(id)sender {

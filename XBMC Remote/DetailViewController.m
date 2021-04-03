@@ -528,10 +528,10 @@
 
 -(void)setSortButtonImage:(NSString *)sortOrder {
     if ([sortOrder isEqualToString:@"descending"]) {
-        [button7 setImage:[UIImage imageNamed:@"button_sort_descending_bright.png"] forState:UIControlStateNormal];
+        [button7 setImage:[UIImage imageNamed:@"button_sort_descending_bright"] forState:UIControlStateNormal];
     }
     else {
-        [button7 setImage:[UIImage imageNamed:@"button_sort_bright.png"] forState:UIControlStateNormal];
+        [button7 setImage:[UIImage imageNamed:@"button_sort_bright"] forState:UIControlStateNormal];
     }
 }
 
@@ -838,7 +838,7 @@
         self.searchController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         searchBarColor = collectionViewSearchBarColor;
-        [button6 setImage:[UIImage imageNamed:@"button_view_toolbar.png"] forState:UIControlStateNormal];
+        [button6 setImage:[UIImage imageNamed:@"button_view_toolbar"] forState:UIControlStateNormal];
     }
     else{
         [dataList setDelegate:self];
@@ -853,7 +853,7 @@
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         self.searchController.searchBar.tintColor = tableViewSearchBarColor;
         searchBarColor = tableViewSearchBarColor;
-        [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar.png"] forState:UIControlStateNormal];
+        [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar"] forState:UIControlStateNormal];
     }
     if (!isViewDidLoad){
         [activeLayoutView addSubview:self.searchController.searchBar];
@@ -895,7 +895,7 @@
     self.indexView.hidden = YES;
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     if (choosedTab < [buttonsIB count]){
-        [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateSelected];
+        [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:@"blank"] forState:UIControlStateSelected];
     }
     watchMode = 0;
     startTime = 0;
@@ -1128,7 +1128,7 @@
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
-                                                nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song",@"fileThumb",
+                                                nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song",@"fileThumb",
                                                [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                                [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                                [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
@@ -1189,7 +1189,7 @@
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
-                                            nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                            nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                            [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
@@ -1479,10 +1479,10 @@
         }
 
         if (![fanartURL isEqualToString:@""]){
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank.png"]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank"]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
         }
         else {
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"blank.png"]];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"blank"]];
         }
         
         [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:fanartFontSize + 8]];
@@ -2126,7 +2126,7 @@ int originYear = 0;
             [cell.contentView addSubview:progressView];
             
             UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake((int)((2 + (epgChannelTimeLabelWidth - 8) - 6) / 2), programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 14, 12, 12)];
-            [hasTimer setImage:[UIImage imageNamed:@"button_timer.png"]];
+            [hasTimer setImage:[UIImage imageNamed:@"button_timer"]];
             hasTimer.tag = 104;
             hasTimer.hidden = YES;
             [hasTimer setBackgroundColor:[UIColor clearColor]];
@@ -2141,7 +2141,7 @@ int originYear = 0;
             
             CGFloat dotSize = 6;
             UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2 - dotSize/2, progressView.frame.origin.y + [progressView getPieRadius]/2 + [progressView getLineWidth] + 0.5, dotSize, dotSize)];
-            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer.png"]];
+            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer"]];
             [isRecordingImageView setContentMode:UIViewContentModeScaleToFill];
             isRecordingImageView.tag = 104;
             isRecordingImageView.hidden = YES;
@@ -2499,7 +2499,7 @@ int originYear = 0;
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
         CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.opaque = YES;
         toolbarShadow.alpha = 0.3;
@@ -2520,7 +2520,7 @@ int originYear = 0;
         [thumbImageView addGestureRecognizer:touchOnAlbumView];
     
         NSString *stringURL = [item objectForKey:@"thumbnail"];
-        NSString *displayThumb=@"coverbox_back.png";
+        NSString *displayThumb=@"coverbox_back";
         if ([[item objectForKey:@"filetype"] length]!=0){
             displayThumb=stringURL;
         }
@@ -2570,7 +2570,7 @@ int originYear = 0;
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
             fanartBackgroundImage.alpha = 0.1;
             [fanartBackgroundImage setClipsToBounds:YES];
-            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank.png"]];
+            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank"]];
             [albumDetailView addSubview:fanartBackgroundImage];
         }
         [thumbImageContainer addSubview:thumbImageView];
@@ -2635,7 +2635,7 @@ int originYear = 0;
 //        UIButton *albumPlaybackButton =  [UIButton buttonWithType:UIButtonTypeCustom];
 //        albumPlaybackButton.tag = 0;
 //        albumPlaybackButton.showsTouchWhenHighlighted = YES;
-//        UIImage *btnImage = [UIImage imageNamed:@"button_play.png"];
+//        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
 //        [albumPlaybackButton setImage:btnImage forState:UIControlStateNormal];
 //        albumPlaybackButton.alpha = 0.8;
 //        int playbackOriginX = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)]] intValue];
@@ -2661,8 +2661,8 @@ int originYear = 0;
             button.tag = 99;
             button.alpha = 0.5;
             button.frame = CGRectMake(3, (int)(albumViewHeight / 2) - 6, 11, 11);
-            [button setImage:[UIImage imageNamed:@"arrow_close.png"] forState:UIControlStateNormal];
-            [button setImage:[UIImage imageNamed:@"arrow_open.png"] forState:UIControlStateSelected];
+            [button setImage:[UIImage imageNamed:@"arrow_close"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"arrow_open"] forState:UIControlStateSelected];
 //            [button addTarget:self action:@selector(toggleOpen:) forControlEvents:UIControlEventTouchUpInside];
             if ([[self.sectionArrayOpen objectAtIndex:section] boolValue] == TRUE){
                 [button setSelected:YES];
@@ -2680,7 +2680,7 @@ int originYear = 0;
         }
         CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.opaque = YES;
         toolbarShadow.alpha = 0.3;
@@ -2707,7 +2707,7 @@ int originYear = 0;
             UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize -labelPadding/2, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
             NSString *stringURL = [[self.extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"thumbnail"];
-            NSString *displayThumb=@"coverbox_back_section.png";
+            NSString *displayThumb=@"coverbox_back_section";
             BOOL isFirstListedSeason = [item[@"season"] intValue] == firstListedSeason;
             if (isFirstListedSeason) {
                 self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
@@ -2740,7 +2740,7 @@ int originYear = 0;
             [albumDetailView addSubview:thumbImageView];
             
             [thumbImageShadowView setContentMode:UIViewContentModeScaleToFill];
-            thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow.png"];
+            thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow"];
             [albumDetailView addSubview:thumbImageShadowView];
             
             [artist setBackgroundColor:[UIColor clearColor]];
@@ -2812,7 +2812,7 @@ int originYear = 0;
         [sectionView setBackgroundColor:[Utilities getGrayColor:102 alpha:1]];
         CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarShadow.opaque = YES;
@@ -2843,7 +2843,7 @@ int originYear = 0;
 
     CGRect toolbarShadowFrame = CGRectMake(0, sectionHeight - 1, viewWidth, 4);
     UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
     toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbarShadow.contentMode = UIViewContentModeScaleToFill;
     toolbarShadow.opaque = YES;
@@ -2853,7 +2853,7 @@ int originYear = 0;
     if (section>1){
         CGRect toolbarShadowUpFrame = CGRectMake(0, -3, viewWidth, 2);
         UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowUpFrame];
-        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
+        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown"]];
         toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarUpShadow.opaque = YES;
@@ -3603,7 +3603,7 @@ NSIndexPath *selected;
                                               animations:^{
                                                   collectionView.alpha = 1;
                                                   dataList.alpha = 1;
-                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen.png"] forState:UIControlStateNormal];
+                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
                                                   fullscreenButton.backgroundColor = [UIColor clearColor];
                                               }
                                               completion:^(BOOL finished) {
@@ -3666,7 +3666,7 @@ NSIndexPath *selected;
                                                  options:UIViewAnimationOptionCurveEaseInOut
                                               animations:^{
                                                   collectionView.alpha = 1;
-                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen.png"] forState:UIControlStateNormal];
+                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen"] forState:UIControlStateNormal];
                                                   fullscreenButton.backgroundColor = [Utilities getGrayColor:0 alpha:0.5];
                                               }
                                               completion:^(BOOL finished) {
@@ -3733,7 +3733,7 @@ NSIndexPath *selected;
                                     mutableProperties, @"file_properties",
                                     nil], @"parameters",
                                    libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
-                                   [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                   [parameters objectForKey:@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                    [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                    [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                    @"Files.GetDirectory", @"exploreCommand",
@@ -4230,44 +4230,44 @@ NSIndexPath *selected;
     if (elapsedTime > WARNING_TIMEOUT && longTimeout == nil){
         longTimeout = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 111, 56)];
         longTimeout.animationImages = [NSArray arrayWithObjects:    
-                                       [UIImage imageNamed:@"monkeys_1.png"],
-                                       [UIImage imageNamed:@"monkeys_2.png"],
-                                       [UIImage imageNamed:@"monkeys_3.png"],
-                                       [UIImage imageNamed:@"monkeys_4.png"],
-                                       [UIImage imageNamed:@"monkeys_5.png"],
-                                       [UIImage imageNamed:@"monkeys_6.png"],
-                                       [UIImage imageNamed:@"monkeys_7.png"],
-                                       [UIImage imageNamed:@"monkeys_8.png"],
-                                       [UIImage imageNamed:@"monkeys_9.png"],
-                                       [UIImage imageNamed:@"monkeys_10.png"],
-                                       [UIImage imageNamed:@"monkeys_11.png"],
-                                       [UIImage imageNamed:@"monkeys_12.png"],
-                                       [UIImage imageNamed:@"monkeys_13.png"],
-                                       [UIImage imageNamed:@"monkeys_14.png"],
-                                       [UIImage imageNamed:@"monkeys_15.png"],
-                                       [UIImage imageNamed:@"monkeys_16.png"],
-                                       [UIImage imageNamed:@"monkeys_17.png"],
-                                       [UIImage imageNamed:@"monkeys_18.png"],
-                                       [UIImage imageNamed:@"monkeys_19.png"],
-                                       [UIImage imageNamed:@"monkeys_20.png"],
-                                       [UIImage imageNamed:@"monkeys_21.png"],
-                                       [UIImage imageNamed:@"monkeys_22.png"],
-                                       [UIImage imageNamed:@"monkeys_23.png"],
-                                       [UIImage imageNamed:@"monkeys_24.png"],
-                                       [UIImage imageNamed:@"monkeys_25.png"],
-                                       [UIImage imageNamed:@"monkeys_26.png"],
-                                       [UIImage imageNamed:@"monkeys_27.png"],
-                                       [UIImage imageNamed:@"monkeys_28.png"],
-                                       [UIImage imageNamed:@"monkeys_29.png"],
-                                       [UIImage imageNamed:@"monkeys_30.png"],
-                                       [UIImage imageNamed:@"monkeys_31.png"],
-                                       [UIImage imageNamed:@"monkeys_32.png"],
-                                       [UIImage imageNamed:@"monkeys_33.png"],
-                                       [UIImage imageNamed:@"monkeys_34.png"],
-                                       [UIImage imageNamed:@"monkeys_35.png"],
-                                       [UIImage imageNamed:@"monkeys_36.png"],
-                                       [UIImage imageNamed:@"monkeys_37.png"],
-                                       [UIImage imageNamed:@"monkeys_38.png"],
+                                       [UIImage imageNamed:@"monkeys_1"],
+                                       [UIImage imageNamed:@"monkeys_2"],
+                                       [UIImage imageNamed:@"monkeys_3"],
+                                       [UIImage imageNamed:@"monkeys_4"],
+                                       [UIImage imageNamed:@"monkeys_5"],
+                                       [UIImage imageNamed:@"monkeys_6"],
+                                       [UIImage imageNamed:@"monkeys_7"],
+                                       [UIImage imageNamed:@"monkeys_8"],
+                                       [UIImage imageNamed:@"monkeys_9"],
+                                       [UIImage imageNamed:@"monkeys_10"],
+                                       [UIImage imageNamed:@"monkeys_11"],
+                                       [UIImage imageNamed:@"monkeys_12"],
+                                       [UIImage imageNamed:@"monkeys_13"],
+                                       [UIImage imageNamed:@"monkeys_14"],
+                                       [UIImage imageNamed:@"monkeys_15"],
+                                       [UIImage imageNamed:@"monkeys_16"],
+                                       [UIImage imageNamed:@"monkeys_17"],
+                                       [UIImage imageNamed:@"monkeys_18"],
+                                       [UIImage imageNamed:@"monkeys_19"],
+                                       [UIImage imageNamed:@"monkeys_20"],
+                                       [UIImage imageNamed:@"monkeys_21"],
+                                       [UIImage imageNamed:@"monkeys_22"],
+                                       [UIImage imageNamed:@"monkeys_23"],
+                                       [UIImage imageNamed:@"monkeys_24"],
+                                       [UIImage imageNamed:@"monkeys_25"],
+                                       [UIImage imageNamed:@"monkeys_26"],
+                                       [UIImage imageNamed:@"monkeys_27"],
+                                       [UIImage imageNamed:@"monkeys_28"],
+                                       [UIImage imageNamed:@"monkeys_29"],
+                                       [UIImage imageNamed:@"monkeys_30"],
+                                       [UIImage imageNamed:@"monkeys_31"],
+                                       [UIImage imageNamed:@"monkeys_32"],
+                                       [UIImage imageNamed:@"monkeys_33"],
+                                       [UIImage imageNamed:@"monkeys_34"],
+                                       [UIImage imageNamed:@"monkeys_35"],
+                                       [UIImage imageNamed:@"monkeys_36"],
+                                       [UIImage imageNamed:@"monkeys_37"],
+                                       [UIImage imageNamed:@"monkeys_38"],
                                         nil];        
         longTimeout.animationDuration = 5.0;
         longTimeout.animationRepeatCount = 0;
@@ -4415,18 +4415,18 @@ NSIndexPath *selected;
                  if ([videoLibraryMovieDetail objectForKey:@"filetype"]!=nil){
                      filetype=[videoLibraryMovieDetail objectForKey:@"filetype"];
                      if ([filetype isEqualToString:@"directory"]){
-                         stringURL=@"nocover_filemode.png";
+                         stringURL=@"nocover_filemode";
                      }
                      else if ([filetype isEqualToString:@"file"]){
                          if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
-                             stringURL=@"icon_song.png";
+                             stringURL=@"icon_song";
                              
                          }
                          else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
-                             stringURL=@"icon_video.png";
+                             stringURL=@"icon_video";
                          }
                          else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-                             stringURL=@"icon_picture.png";
+                             stringURL=@"icon_picture";
                          }
                      }
                  }
@@ -4704,18 +4704,18 @@ NSIndexPath *selected;
                              filetype=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"];
                              if ([thumbnailPath length] == 0){
                                  if ([filetype isEqualToString:@"directory"]){
-                                     stringURL=@"nocover_filemode.png";
+                                     stringURL=@"nocover_filemode";
                                  }
                                  else if ([filetype isEqualToString:@"file"]){
                                      if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
-                                         stringURL=@"icon_song.png";
+                                         stringURL=@"icon_song";
                                          
                                      }
                                      else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
-                                         stringURL=@"icon_video.png";
+                                         stringURL=@"icon_video";
                                      }
                                      else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-                                         stringURL=@"icon_picture.png";
+                                         stringURL=@"icon_picture";
                                      }
                                  }
                              }
@@ -5398,8 +5398,8 @@ NSIndexPath *selected;
     if (choosedTab > MAX_NORMAL_BUTTONS)
         choosedTab = MAX_NORMAL_BUTTONS;
     for (i=0;i<count;i++){
-        NSString *imageNameOff=[NSString stringWithFormat:@"%@_off.png", [buttons objectAtIndex:i]];
-        NSString *imageNameOn=[NSString stringWithFormat:@"%@_on.png", [buttons objectAtIndex:i]];
+        NSString *imageNameOff=[NSString stringWithFormat:@"%@_off", [buttons objectAtIndex:i]];
+        NSString *imageNameOn=[NSString stringWithFormat:@"%@_on", [buttons objectAtIndex:i]];
         [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
         [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
         [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
@@ -5413,8 +5413,8 @@ NSIndexPath *selected;
         dataList.frame=frame;
     }
     if ([[self.detailItem mainMethod] count]>MAX_NORMAL_BUTTONS){
-        NSString *imageNameOff=@"st_more_off.png";
-        NSString *imageNameOn=@"st_more_on.png";
+        NSString *imageNameOff=@"st_more_off";
+        NSString *imageNameOn=@"st_more_on";
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
@@ -5691,10 +5691,10 @@ NSIndexPath *selected;
     iOSYDelta = self.searchController.searchBar.frame.size.height;
     dataList.tableHeaderView = self.searchController.searchBar;
 
-    [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar.png"] forState:UIControlStateNormal];
+    [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar"] forState:UIControlStateNormal];
     [button6 addTarget:self action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
 
-    [button7 setImage:[UIImage imageNamed:@"button_sort_bright.png"] forState:UIControlStateNormal];
+    [button7 setImage:[UIImage imageNamed:@"button_sort_bright"] forState:UIControlStateNormal];
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -5973,7 +5973,7 @@ NSIndexPath *selected;
                 [fullscreenButton setShowsTouchWhenHighlighted:YES];
                 [fullscreenButton setFrame:CGRectMake(0, 0, 26, 26)];
                 [fullscreenButton setContentMode:UIViewContentModeCenter];
-                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen.png"] forState:UIControlStateNormal];
+                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
                 fullscreenButton.layer.cornerRadius = 2;
                 [fullscreenButton setTintColor:[UIColor whiteColor]];
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen:) forControlEvents:UIControlEventTouchUpInside];

@@ -424,7 +424,7 @@
     
 //    CGRect seamBackground = CGRectMake(0, tableHeight + headerHeight - 2, tableWidth, separator);
 //    UIImageView *seam = [[UIImageView alloc] initWithFrame:seamBackground];
-//    [seam setImage:[UIImage imageNamed:@"denim_single_seam.png"]];
+//    [seam setImage:[UIImage imageNamed:@"denim_single_seam"]];
 //    seam.opaque = YES;
 //    [leftMenuView addSubview:seam];
     
@@ -468,8 +468,8 @@
     
     // right most element
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - XBMCLOGO_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, XBMCLOGO_WIDTH, TOOLBAR_HEIGHT)];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateHighlighted];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
+    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
     xbmcLogo.showsTouchWhenHighlighted = NO;
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
@@ -478,8 +478,8 @@
     
     // 2nd right most element
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - POWERBUTTON_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
-    [powerButton setImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateNormal];
-    [powerButton setImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateHighlighted];
+    [powerButton setImage:[UIImage imageNamed:@"icon_power_up"] forState:UIControlStateNormal];
+    [powerButton setImage:[UIImage imageNamed:@"icon_power_up"] forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:powerButton];

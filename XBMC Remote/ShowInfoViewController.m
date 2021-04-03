@@ -96,7 +96,7 @@ int count=0;
         UIBarButtonItem *extraButton = nil;
         int titleWidth = 350;
         if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon.png"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
             if (fromAlbumView){
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
@@ -106,12 +106,12 @@ int count=0;
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon.png"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
             extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             titleWidth = 350;
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon.png"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon"];
             if (fromEpisodesView){
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
@@ -734,7 +734,7 @@ int h=0;
 -(void)createInfo{
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSMutableDictionary *item = self.detailItem;
-    NSString *placeHolderImage = @"coverbox_back.png";
+    NSString *placeHolderImage = @"coverbox_back";
     isRecordingDetail = item[@"recordingid"] != nil;
 //    NSLog(@"ITEM %@", item);
     eJewelType jeweltype = jewelTypeUnknown;
@@ -823,7 +823,7 @@ int h=0;
         if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
             GlobalData *obj=[GlobalData getInstance];
             if (obj.preferTVPosters==NO && [AppDelegate instance].serverVersion < 12){
-                placeHolderImage = @"blank.png";
+                placeHolderImage = @"blank";
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                     coverHeight=70;
                 }
@@ -842,7 +842,7 @@ int h=0;
                 jewelView.frame = frame;
             }
             if (enableJewel){
-                jewelView.image = [UIImage imageNamed:@"jewel_dvd.9.png"];
+                jewelView.image = [UIImage imageNamed:@"jewel_dvd.9"];
                 jeweltype = jewelTypeDVD;
             }
             coverView.autoresizingMask = UIViewAutoresizingNone;
@@ -893,7 +893,7 @@ int h=0;
             frame.origin.y = frame.origin.y + shiftParentalRating;
             label6.frame = frame;
             if (enableJewel){
-                jewelView.image = [UIImage imageNamed:@"jewel_tv.9.png"];
+                jewelView.image = [UIImage imageNamed:@"jewel_tv.9"];
                 jeweltype = jewelTypeTV;
             }
             frame = jewelView.frame;
@@ -966,7 +966,7 @@ int h=0;
         frame.origin.y = frame.origin.y-40;
         label6.frame = frame;
         if (enableJewel){
-            jewelView.image = [UIImage imageNamed:@"jewel_cd.9.png"];
+            jewelView.image = [UIImage imageNamed:@"jewel_cd.9"];
             jeweltype = jewelTypeCD;
         }
         frame = jewelView.frame;
@@ -995,7 +995,7 @@ int h=0;
         // artist details
         contributorString = @"roles";
         castHeight -= 26;
-        placeHolderImage = @"coverbox_back_artists.png";
+        placeHolderImage = @"coverbox_back_artists";
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
             placeHolderImage = @"coverbox_back_artists";
         }
@@ -1141,7 +1141,7 @@ int h=0;
             dotSize = 10;
             dotSizePadding = 4;
             isRecording = [[UIImageView alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y + (frame.size.height/2 - dotSize/2), dotSize, dotSize)];
-            [isRecording setImage:[UIImage imageNamed:@"button_timer.png"]];
+            [isRecording setImage:[UIImage imageNamed:@"button_timer"]];
             [isRecording setContentMode:UIViewContentModeScaleAspectFill];
             isRecording.alpha = 0.0;
             [isRecording setBackgroundColor:[UIColor clearColor]];
@@ -1158,7 +1158,7 @@ int h=0;
         if (item[@"pvrExtraInfo"][@"channel_icon"] != nil) {
             item[@"thumbnail"] = item[@"pvrExtraInfo"][@"channel_icon"];
         }
-        placeHolderImage = @"nocover_channels.png";
+        placeHolderImage = @"nocover_channels";
         NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
         NSDateFormatter *localFormatter = [[NSDateFormatter alloc] init];
@@ -1178,7 +1178,7 @@ int h=0;
         else {
             directorLabel.text = @"-";
         }
-//        UIImage *buttonImage = [UIImage imageNamed:@"button_record.png"];
+//        UIImage *buttonImage = [UIImage imageNamed:@"button_record"];
 //        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        recordButton.frame = CGRectMake(0, 0, 200, 29);
 //        [recordButton setImage:buttonImage forState:UIControlStateNormal];
@@ -1196,7 +1196,7 @@ int h=0;
 //        [scrollView addSubview:recordButton];
     }
     else {
-        placeHolderImage = @"coverbox_back_movies.png";
+        placeHolderImage = @"coverbox_back_movies";
         jeweltype = jewelTypeDVD;
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleToFill;
@@ -1316,7 +1316,7 @@ int h=0;
         }
         else{
             [fanartView setImageWithURL:[NSURL URLWithString:fanartPath]
-                       placeholderImage:[UIImage imageNamed:@"blank.png"]
+                       placeholderImage:[UIImage imageNamed:@"blank"]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                   if (inEnableKenBurns){
                                       [sf elabKenBurns:image];
@@ -1331,7 +1331,7 @@ int h=0;
     [fanartView setClipsToBounds:YES];
     
     voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
-    starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f.png", round([[item objectForKey:@"rating"] doubleValue])]];
+    starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f", round([[item objectForKey:@"rating"] doubleValue])]];
     
     NSString *numVotes=[[item objectForKey:@"votes"] length]==0 ? @"" : [item objectForKey:@"votes"];
     if ([numVotes length]!=0){
@@ -1439,7 +1439,7 @@ int h=0;
                 startY = startY + label1.frame.size.height;
 
                 UIButton *playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                UIImage *playTrailerImg = [UIImage imageNamed:@"button_play.png"];
+                UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
                 [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
                 [playTrailerButton setFrame:CGRectMake(10, startY, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE)];
                 [playTrailerButton addTarget:self action:@selector(callbrowser:) forControlEvents:UIControlEventTouchUpInside];
@@ -1490,7 +1490,7 @@ int h=0;
             [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
             [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
             NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
-            [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank.png"]];
+            [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank"]];
             [clearlogoButton addSubview:clearLogoImageView];
         }
         else{
@@ -1691,7 +1691,7 @@ int h=0;
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
-    [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person.png"] andResize:CGSizeMake(castWidth, castHeight)];
+    [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person"] andResize:CGSizeMake(castWidth, castHeight)];
     cell.actorName.text = [[cast objectAtIndex:indexPath.row] objectForKey:@"name"] == nil ? [self.detailItem objectForKey:@"label"] : [[cast objectAtIndex:indexPath.row] objectForKey:@"name"];
     if ([[[cast objectAtIndex:indexPath.row] objectForKey:@"role"] length] != 0){
         cell.actorRole.text = [NSString stringWithFormat:@"%@", [[cast objectAtIndex:indexPath.row] objectForKey:@"role"]];
@@ -1702,7 +1702,7 @@ int h=0;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([AppDelegate instance].serverVersion > 11  && ![self isModal]) {
-        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected.png"]];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
         cell.accessoryView.alpha = 0.5;
     }
     else {

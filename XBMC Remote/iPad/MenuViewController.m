@@ -72,14 +72,14 @@
         
 //        shadowRect = CGRectMake(0, 0, PAD_MENU_TABLE_WIDTH, 8);
 //        shadow = [[UIImageView alloc] initWithFrame:shadowRect];
-//        [shadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+//        [shadow setImage:[UIImage imageNamed:@"tableUp"]];
 //        shadow.opaque = YES;
 //        shadow.alpha = 0.5;
 //        [self.view addSubview:shadow];
         
 //        shadowRect = CGRectMake(0, tableHeight - 8, self.view.frame.size.width, 8);
 //        shadow = [[UIImageView alloc] initWithFrame:shadowRect];
-//        [shadow setImage:[UIImage imageNamed:@"tableDown.png"]];
+//        [shadow setImage:[UIImage imageNamed:@"tableDown"]];
 //        shadow.opaque = YES;
 //        shadow.alpha = 0.5;
 //        [self.view addSubview:shadow];
@@ -92,7 +92,7 @@
 
 //        UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width + 1, -5, 5, self.view.frame.size.height-39)];
 //		[verticalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-//		[verticalLineView1 setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"denim_seam_vertical.png"]]];
+//		[verticalLineView1 setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"denim_seam_vertical"]]];
 //		[self.view addSubview:verticalLineView1];
 //        [self.view bringSubviewToFront:verticalLineView1];
         
@@ -234,7 +234,7 @@
         if (indexPath.row == 0){
             [backgroundView setBackgroundColor:[Utilities getGrayColor:130 alpha:0.1]];
             cell.selectedBackgroundView = backgroundView;
-            UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+            UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:PAD_MENU_INFO_HEIGHT width:PAD_MENU_TABLE_WIDTH]];
             xbmc_logo.alpha = 0.25;
             [xbmc_logo setImage:logo];
@@ -253,13 +253,13 @@
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0){
-        iconName = @"connection_off.png";
+        iconName = @"connection_off";
         if ([AppDelegate instance].serverOnLine == YES) {
             if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
-                iconName = @"connection_on.png";
+                iconName = @"connection_on";
             }
             else {
-                iconName = @"connection_on_notcp.png";
+                iconName = @"connection_on_notcp";
             }
         }
         line.hidden = YES;
