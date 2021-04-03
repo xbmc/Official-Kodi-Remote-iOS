@@ -369,34 +369,23 @@ float storePercentage;
 int storedItemID;
 int currentItemID;
 
--(NSString*)getJewelImage:(NSString*)name {
-    NSString *jewelImageName = nil;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        jewelImageName = [NSString stringWithFormat:@"%@@2x.png", name];
-    }
-    else {
-        jewelImageName = [NSString stringWithFormat:@"%@.png", name];
-    }
-    return jewelImageName;
-}
-
 -(void)setCoverSize:(NSString *)type{
     NSString *jewelImg = @"";
     eJewelType jeweltype;
     if ([type isEqualToString:@"song"]){
-        jewelImg = [self getJewelImage:@"jewel_cd.9"];
+        jewelImg = @"jewel_cd.9";
         jeweltype = jewelTypeCD;
     }
     else if ([type isEqualToString:@"movie"]){
-        jewelImg = [self getJewelImage:@"jewel_dvd.9"];
+        jewelImg = @"jewel_dvd.9";
         jeweltype = jewelTypeDVD;
     }
     else if ([type isEqualToString:@"episode"]){
-        jewelImg = [self getJewelImage:@"jewel_tv.9"];
+        jewelImg = @"jewel_tv.9";
         jeweltype = jewelTypeTV;
     }
     else{
-        jewelImg = [self getJewelImage:@"jewel_cd.9"];
+        jewelImg = @"jewel_cd.9";
         jeweltype = jewelTypeCD;
     }
     if ([self enableJewelCases]){
@@ -1712,9 +1701,10 @@ int currentItemID;
                              [button setImage:buttonImage forState:UIControlStateSelected];
                          }
                          else{
-                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x.png"] forState:UIControlStateNormal];
-                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x.png"] forState:UIControlStateHighlighted];
-                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x.png"] forState:UIControlStateSelected];
+                             UIImage *image = [UIImage imageNamed:@"now_playing_playlist"];
+                             [button setImage:image forState:UIControlStateNormal];
+                             [button setImage:image forState:UIControlStateHighlighted];
+                             [button setImage:image forState:UIControlStateSelected];
                          }
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          [UIView setAnimationTransition:anim forView:button cache:YES];

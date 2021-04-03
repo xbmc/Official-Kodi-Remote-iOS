@@ -760,7 +760,7 @@ int h=0;
         tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT * transform);
         shiftParentalRating = -40;
         labelSpace = 33;
-        placeHolderImage = @"coverbox_back@2x.png";
+        placeHolderImage = @"coverbox_back";
         castFontSize = 16;
         size = 6;
         castWidth = 75;
@@ -815,7 +815,7 @@ int h=0;
         CGRect frame;
         placeHolderImage = @"coverbox_back_tvshows";
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-            placeHolderImage = @"coverbox_back_tvshows@2x.png";
+            placeHolderImage = @"coverbox_back_tvshows";
         }
         NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -997,7 +997,7 @@ int h=0;
         castHeight -= 26;
         placeHolderImage = @"coverbox_back_artists.png";
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-            placeHolderImage = @"coverbox_back_artists@2x.png";
+            placeHolderImage = @"coverbox_back_artists";
         }
         enableJewel = NO;
         jewelView.image = nil;
@@ -1201,7 +1201,7 @@ int h=0;
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleToFill;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-            placeHolderImage = @"coverbox_back_movies@2x.png";
+            placeHolderImage = @"coverbox_back_movies";
             int originalHeight = jewelView.frame.size.height;
             int coverHeight = 560;
             int coverWidth = STACKSCROLL_WIDTH;

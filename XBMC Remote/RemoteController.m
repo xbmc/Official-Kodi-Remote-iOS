@@ -126,8 +126,8 @@
     [gestureButton setShowsTouchWhenHighlighted:NO];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateHighlighted];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up@2x.png"] forState:UIControlStateNormal];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down@2x.png"] forState:UIControlStateHighlighted];
+    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up"] forState:UIControlStateNormal];
+    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down"] forState:UIControlStateHighlighted];
     gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
     [remoteControlView addSubview:gestureButton];
