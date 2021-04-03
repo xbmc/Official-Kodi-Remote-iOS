@@ -45,8 +45,7 @@ lane :tf do
   )
 
   # create prerelease on Github
-  ghPAT = ENV["GITHUB_TOKEN"]
-  next unless ghPAT
+  next unless ENV['GITHUB_API_TOKEN']
   appProperties = get_info_plist_value(
     key: 'ApplicationProperties',
     path: "#{lane_context[SharedValues::XCODEBUILD_ARCHIVE]}/Info.plist",
@@ -63,7 +62,6 @@ lane :tf do
 
   ghRelease = set_github_release(
     repository_name: 'xbmc/Official-Kodi-Remote-iOS',
-    api_token: ghPAT,
     tag_name: newTag,
     name: "Testflight #{appProperties['CFBundleVersion']}",
     description: changelog,
