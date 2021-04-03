@@ -405,9 +405,10 @@ int currentItemID;
 
 -(void)nothingIsPlaying{
     if (startFlipDemo){
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
+        UIImage *image = [UIImage imageNamed:@"xbmc_overlay_small"];
+        [playlistButton setImage:image forState:UIControlStateNormal];
+        [playlistButton setImage:image forState:UIControlStateHighlighted];
+        [playlistButton setImage:image forState:UIControlStateSelected];
         [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
         startFlipDemo = NO;
     }
@@ -488,8 +489,9 @@ int currentItemID;
                         if ([color isEqual:[UIColor clearColor]]){
                             [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
                             if (ProgressSlider.userInteractionEnabled){
-                                [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
-                                [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
+                                UIImage *image = [UIImage imageNamed:pg_thumb_name];
+                                [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
+                                [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
                             }
                             [UIView transitionWithView:albumName
                                               duration:1.0
@@ -926,8 +928,9 @@ int currentItemID;
                                  BOOL canseek = [[methodResult objectForKey:@"canseek"] boolValue];
                                  if (canseek && !ProgressSlider.userInteractionEnabled){
                                      ProgressSlider.userInteractionEnabled = YES;
-                                     [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
-                                     [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
+                                     UIImage *image = [UIImage imageNamed:pg_thumb_name];
+                                     [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
+                                     [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
 //                                     [ProgressSlider setThumbTintColor:[UIColor lightGrayColor]];
 
                                  }
@@ -2777,16 +2780,12 @@ int currentItemID;
             else {
                 buttonImage=[self resizeToolbarThumb:jewelView.image];
             }
-            if (buttonImage.size.width!=0){
-                [playlistButton setImage:buttonImage forState:UIControlStateNormal];
-                [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
-                [playlistButton setImage:buttonImage forState:UIControlStateSelected];
+            if (buttonImage.size.width==0){
+                buttonImage = [UIImage imageNamed:@"xbmc_overlay_small"];
             }
-            else{
-                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateNormal];
-                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateHighlighted];
-                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small"] forState:UIControlStateSelected];
-            }
+            [playlistButton setImage:buttonImage forState:UIControlStateNormal];
+            [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
+            [playlistButton setImage:buttonImage forState:UIControlStateSelected];
         }
     }
     [[NSNotificationCenter defaultCenter] addObserver: self

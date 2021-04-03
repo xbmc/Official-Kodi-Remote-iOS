@@ -5398,11 +5398,11 @@ NSIndexPath *selected;
     if (choosedTab > MAX_NORMAL_BUTTONS)
         choosedTab = MAX_NORMAL_BUTTONS;
     for (i=0;i<count;i++){
-        NSString *imageNameOff=[NSString stringWithFormat:@"%@_off", [buttons objectAtIndex:i]];
-        NSString *imageNameOn=[NSString stringWithFormat:@"%@_on", [buttons objectAtIndex:i]];
-        [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
-        [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
-        [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
+        UIImage *imageOff = [UIImage imageNamed:[NSString stringWithFormat:@"%@_off", buttons[i]]];
+        UIImage *imageOn = [UIImage imageNamed:[NSString stringWithFormat:@"%@_on", buttons[i]]];
+        [[buttonsIB objectAtIndex:i] setBackgroundImage:imageOff forState:UIControlStateNormal];
+        [[buttonsIB objectAtIndex:i] setBackgroundImage:imageOn forState:UIControlStateSelected];
+        [[buttonsIB objectAtIndex:i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
         [[buttonsIB objectAtIndex:i] setEnabled:YES];
     }
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
@@ -5413,11 +5413,11 @@ NSIndexPath *selected;
         dataList.frame=frame;
     }
     if ([[self.detailItem mainMethod] count]>MAX_NORMAL_BUTTONS){
-        NSString *imageNameOff=@"st_more_off";
-        NSString *imageNameOn=@"st_more_on";
-        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
-        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
-        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
+        UIImage *imageOff = [UIImage imageNamed:@"st_more_off"];
+        UIImage *imageOn = [UIImage imageNamed:@"st_more_on"];
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:imageOff forState:UIControlStateNormal];
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateSelected];
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setEnabled:YES];
         selectedMoreTab = [[UIButton alloc] init];
     }

@@ -467,8 +467,9 @@ static inline BOOL IsEmpty(id obj) {
         connectingActivityIndicator.frame = frame;
         
         UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 107, 37)];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateNormal];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone"] forState:UIControlStateHighlighted];
+        UIImage *image = [UIImage imageNamed:@"bottom_logo_up_iphone"];
+        [xbmcLogo setImage:image forState:UIControlStateNormal];
+        [xbmcLogo setImage:image forState:UIControlStateHighlighted];
         xbmcLogo.showsTouchWhenHighlighted = NO;
         [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogo;

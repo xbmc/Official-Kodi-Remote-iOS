@@ -467,9 +467,10 @@
     [self.view addSubview:volumeSliderView];
     
     // right most element
+    UIImage *image = [UIImage imageNamed:@"bottom_logo_up"];
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - XBMCLOGO_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, XBMCLOGO_WIDTH, TOOLBAR_HEIGHT)];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateNormal];
-    [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up"] forState:UIControlStateHighlighted];
+    [xbmcLogo setImage:image forState:UIControlStateNormal];
+    [xbmcLogo setImage:image forState:UIControlStateHighlighted];
     xbmcLogo.showsTouchWhenHighlighted = NO;
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
@@ -477,9 +478,10 @@
     [self.view addSubview:xbmcLogo];
     
     // 2nd right most element
+    image = [UIImage imageNamed:@"icon_power_up"];
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - POWERBUTTON_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
-    [powerButton setImage:[UIImage imageNamed:@"icon_power_up"] forState:UIControlStateNormal];
-    [powerButton setImage:[UIImage imageNamed:@"icon_power_up"] forState:UIControlStateHighlighted];
+    [powerButton setImage:image forState:UIControlStateNormal];
+    [powerButton setImage:image forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:powerButton];
