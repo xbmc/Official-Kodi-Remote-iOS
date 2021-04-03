@@ -32,14 +32,19 @@ lane :tf do
     export_method: 'app-store',
   )
 
+  # ignore commit messages that contain '[not app]'
+  changelogLines = []
   lastTag = last_git_tag
-  changelog = changelog_from_git_commits(
+  changelog_from_git_commits(
     between: [lastTag, 'HEAD'],
     pretty: '- %b (%s)',
     merge_commit_filtering: 'only_include_merges',
-  )
+  ).each_line(chomp: true) { |l|
+    changelogLines << l unless l.include?('[not app]')
+  }
+  Actions.lane_context[SharedValues::FL_CHANGELOG] = changelogLines.join("\n")
+
   testflight(
-    changelog: changelog,
     distribute_external: true,
     groups: ['external testers'],
   )
@@ -64,7 +69,6 @@ lane :tf do
     repository_name: 'xbmc/Official-Kodi-Remote-iOS',
     tag_name: newTag,
     name: "Testflight #{appProperties['CFBundleVersion']}",
-    description: changelog,
     is_prerelease: true,
   )
   UI.message JSON.pretty_generate(ghRelease)
