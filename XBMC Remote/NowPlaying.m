@@ -2502,19 +2502,6 @@ int currentItemID;
     }
 }
 
--(void)showRemoteController{
-    if (updateProgressBar){
-        if (self.remoteController == nil){
-            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
-        }
-        mainMenu *item = [[mainMenu alloc] init];
-        item.mainLabel = NSLocalizedString(@"Remote Control", nil);
-        self.remoteController.detailItem = item;
-        fromItself = TRUE;
-        [self.navigationController pushViewController:self.remoteController animated:YES];
-    }
-}
-
 #pragma mark - Interface customizations
 
 -(void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS {
