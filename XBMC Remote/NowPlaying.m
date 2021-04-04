@@ -2671,6 +2671,16 @@ int currentItemID;
     return YES;
 }
 
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (motion == UIEventSubtypeMotionShake) {
+        [self handleShakeNotification];
+    }
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
 #pragma mark - UISegmentControl
 
 -(CGRect)currentScreenBoundsDependOnOrientation {
@@ -2778,11 +2788,7 @@ int currentItemID;
                                              selector: @selector(handleXBMCPlaylistHasChanged:)
                                                  name: @"XBMCPlaylistHasChanged"
                                                object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleShakeNotification)
-                                                 name: @"UIApplicationShakeNotification"
-                                               object: nil];
+
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"
@@ -2831,6 +2837,7 @@ int currentItemID;
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    [self becomeFirstResponder];
     [self handleXBMCPlaylistHasChanged:nil];
     [self playbackInfo];
     updateProgressBar = YES;
