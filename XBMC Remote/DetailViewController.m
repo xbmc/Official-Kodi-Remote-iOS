@@ -3197,11 +3197,20 @@ NSIndexPath *selected;
     NSMutableDictionary *item = nil;
     if (selected != nil){
         if ([self.searchController isActive]){
-            item = [self.filteredListContent objectAtIndex:selected.row];
+            if (selected.row < [self.filteredListContent count]) {
+                item = self.filteredListContent[selected.row];
+            }
         }
         else{
-            item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:selected.section]] objectAtIndex:selected.row];
+            if (selected.section < [self.sectionArray count]) {
+                if (selected.row < [self.sections[self.sectionArray[selected.section]] count]) {
+                    item = self.sections[self.sectionArray[selected.section]][selected.row];
+                }
+            }
         }
+    }
+    if (item == nil) {
+        return;
     }
     if ([actiontitle isEqualToString:NSLocalizedString(@"Play", nil)]){
         NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
