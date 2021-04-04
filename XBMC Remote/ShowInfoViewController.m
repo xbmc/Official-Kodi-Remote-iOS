@@ -21,6 +21,7 @@
 #import "Utilities.h"
 
 #define PLAY_BUTTON_SIZE 20
+#define TV_LOGO_SIZE_REC_DETAILS 72
 
 @interface ShowInfoViewController ()
 @end
@@ -214,13 +215,7 @@ int count=0;
     }
 }
 
-#pragma mark - Utility 
-
--(UIImage*)setLogoBackgroundColor:(UIImage*)image{
-    // get background color and colorize the image background
-    UIColor *bgcolor = [Utilities getLogoBackgroundColor:image];
-    return [Utilities colorizeImageBackground:image color:bgcolor];
-}
+#pragma mark - Utility
 
 -(void)dismissModal:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -715,10 +710,7 @@ int h=0;
 
 -(void)elaborateImage:(UIImage *)image{
     [self performSelectorOnMainThread:@selector(startActivityIndicator) withObject:nil waitUntilDone:YES];
-    if (isRecordingDetail) {
-        image = [self setLogoBackgroundColor:image];
-    }
-    UIImage *elabImage = [self imageWithBorderFromImage:image];
+    UIImage *elabImage = isRecordingDetail ? image : [self imageWithBorderFromImage:image];
     [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];    
 }
 
@@ -726,6 +718,15 @@ int h=0;
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
     jewelView.image = image;
+    if (isRecordingDetail) {
+        [Utilities setLogoBackgroundColor:jewelView];
+        CGRect frame;
+        frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
+        frame.size.height = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.7);
+        frame.origin.x = jewelView.frame.origin.x + (jewelView.frame.size.width - frame.size.width)/2;
+        frame.origin.y = jewelView.frame.origin.y + 4;
+        jewelView.frame = frame;
+    }
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
 

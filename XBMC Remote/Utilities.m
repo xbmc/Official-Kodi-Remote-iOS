@@ -40,28 +40,70 @@
     
     if (anyNonAlpha) {
         // no alpha channel present
-        for (int row = 0; row < imageHeight; row++) {
-            const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-            for (int column = 0; column < imageWidth; column++) {
-                red    += rowPtr[0];
-                green  += rowPtr[1];
-                blue   += rowPtr[2];
-                rowPtr += stride;
-            }
+        switch (stride) {
+            case 4:
+                // standard RGB
+                for (int row = 0; row < imageHeight; row++) {
+                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+                    for (int column = 0; column < imageWidth; column++) {
+                        red    += rowPtr[0];
+                        green  += rowPtr[1];
+                        blue   += rowPtr[2];
+                        rowPtr += stride;
+                    }
+                }
+                break;
+            case 1:
+                // monochrome
+                for (int row = 0; row < imageHeight; row++) {
+                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+                    for (int column = 0; column < imageWidth; column++) {
+                        blue   += rowPtr[0];
+                        rowPtr += stride;
+                    }
+                }
+                red = green = blue;
+                break;
+            default:
+                // should not happen, return rgb=0
+                red = green = blue = 0;
+                break;
         }
         f = 1.0 / (255.0 * imageWidth * imageHeight);
     }
     else {
         // weight color with alpha to ignore transparent sections
-        for (int row = 0; row < imageHeight; row++) {
-            const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-            for (int column = 0; column < imageWidth; column++) {
-                red    += rowPtr[0] * rowPtr[3];
-                green  += rowPtr[1] * rowPtr[3];
-                blue   += rowPtr[2] * rowPtr[3];
-                alpha  += rowPtr[3];
-                rowPtr += stride;
-            }
+        switch (stride) {
+            case 4:
+                // standard RGBA
+                for (int row = 0; row < imageHeight; row++) {
+                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+                    for (int column = 0; column < imageWidth; column++) {
+                        red    += rowPtr[0] * rowPtr[3];
+                        green  += rowPtr[1] * rowPtr[3];
+                        blue   += rowPtr[2] * rowPtr[3];
+                        alpha  += rowPtr[3];
+                        rowPtr += stride;
+                    }
+                }
+                break;
+            case 2:
+                // monochrome with alpha
+                for (int row = 0; row < imageHeight; row++) {
+                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+                    for (int column = 0; column < imageWidth; column++) {
+                        blue   += rowPtr[0] * rowPtr[1];
+                        alpha  += rowPtr[1];
+                        rowPtr += stride;
+                    }
+                }
+                red = green = blue;
+                break;
+            default:
+                // should not happen, return rgb=0 and alpha=1
+                red = green = blue = 0;
+                alpha = 1;
+                break;
         }
         f = 1.0 / (255.0 * alpha);
     }
@@ -168,28 +210,14 @@
     return img;
 }
 
-+ (UIImage*)colorizeImageBackground:(UIImage*)image color:(UIColor*)newcolor {
-    CALayer *imageLayer = [CALayer layer];
-    imageLayer.frame = CGRectMake(0, 0, image.size.width, image.size.height);
-    imageLayer.contents = (id)image.CGImage;
-    imageLayer.masksToBounds = YES;
-    imageLayer.backgroundColor = newcolor.CGColor;
-    
-    UIGraphicsBeginImageContext(image.size);
-    [imageLayer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *recoloredImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-    return recoloredImage;
-}
-
-+ (UIColor*)getLogoBackgroundColor:(UIImage*)image {
++ (void)setLogoBackgroundColor:(UIImageView*)imageview {
+    // get background color and colorize the image background
     Utilities *utils = [[Utilities alloc] init];
-    UIColor *imgcolor = [utils averageColor:image inverse:NO];
+    UIColor *imgcolor = [utils averageColor:imageview.image inverse:NO];
     UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
     UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
     UIColor *bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
-    return bgcolor;
+    [imageview setBackgroundColor:bgcolor];
 }
 
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage{
