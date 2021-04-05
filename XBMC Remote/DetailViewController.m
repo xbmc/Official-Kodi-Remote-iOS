@@ -1437,7 +1437,7 @@
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
             [cell.posterLabel setHidden:NO];
             [cell.labelImageView setHidden:NO];
-            [cell.posterThumbnail setBackgroundColor:[Utilities getSystemGray6]];
+            [cell.posterThumbnail setBackgroundColor:[Utilities getGrayColor:28 alpha:1.0]];
         }
         
         if ([playcount intValue]){
