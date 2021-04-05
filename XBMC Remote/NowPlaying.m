@@ -489,7 +489,7 @@ int currentItemID;
                         if ([color isEqual:[UIColor clearColor]]){
                             [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
                             if (ProgressSlider.userInteractionEnabled){
-                                UIImage *image = [UIImage imageNamed:pg_thumb_name];
+                                UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
                                 [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
                             }
@@ -537,7 +537,7 @@ int currentItemID;
                             UIColor *pgThumbColor = lighterColor;
                             [ProgressSlider setMinimumTrackTintColor:progressColor];
                             if (ProgressSlider.userInteractionEnabled){
-                                UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:pg_thumb_name] withColor:pgThumbColor];
+                                UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:@"pgbar_thumb_iOS7"] withColor:pgThumbColor];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
                             }
@@ -928,7 +928,7 @@ int currentItemID;
                                  BOOL canseek = [[methodResult objectForKey:@"canseek"] boolValue];
                                  if (canseek && !ProgressSlider.userInteractionEnabled){
                                      ProgressSlider.userInteractionEnabled = YES;
-                                     UIImage *image = [UIImage imageNamed:pg_thumb_name];
+                                     UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
                                      [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
                                      [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
 //                                     [ProgressSlider setThumbTintColor:[UIColor lightGrayColor]];
@@ -2951,7 +2951,6 @@ int currentItemID;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
     [self addSegmentControl];
-    pg_thumb_name = @"pgbar_thumb_iOS7";
     cellBackgroundColor = [UIColor whiteColor];
     bottomPadding = 0;
     if (@available(iOS 11.0, *)) {
