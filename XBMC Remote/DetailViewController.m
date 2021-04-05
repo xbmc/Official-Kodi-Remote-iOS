@@ -3208,9 +3208,9 @@ NSIndexPath *selected;
                 }
             }
         }
-    }
-    if (item == nil) {
-        return;
+        if (item == nil) {
+            return;
+        }
     }
     if ([actiontitle isEqualToString:NSLocalizedString(@"Play", nil)]){
         NSString *songid = [NSString stringWithFormat:@"%@", [item objectForKey:@"songid"]];
