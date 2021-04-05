@@ -367,7 +367,7 @@ albums</string>
                                     <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </imageView>
-                                <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="pgbar_thumb" translatesAutoresizingMaskIntoConstraints="NO" id="29">
+                                <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="pgbar_thumb_iOS7" translatesAutoresizingMaskIntoConstraints="NO" id="29">
                                     <rect key="frame" x="14" y="298" width="15" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </imageView>
@@ -745,7 +745,7 @@ albums</string>
         <image name="now_playing_stop" width="38" height="34"/>
         <image name="pgbar_act" width="44" height="17"/>
         <image name="pgbar_inact_fake" width="50" height="17"/>
-        <image name="pgbar_thumb" width="18" height="18"/>
+        <image name="pgbar_thumb_iOS7" width="18" height="18"/>
         <image name="playlist_background" width="60" height="44"/>
         <image name="segment_left_down" width="70" height="28"/>
         <image name="segment_left_up" width="70" height="28"/>
