@@ -1638,21 +1638,27 @@
         if (sectionNameOverlayView == nil && stackscrollFullscreen == YES){
             [self initSectionNameOverlayView];
         }
+        // Ensure the sort tokens are respected as well when using the index in fullscreen mode
+        NSString *sortbymethod = sortMethodName;
+        if ([self isEligibleForSorttokenSort]) {
+            sortbymethod = @"sortby";
+        }
+        
         sectionNameLabel.text = [self buildSortInfo:[storeSectionArray objectAtIndex:sender.currentIndex]];
         NSString *value = [storeSectionArray objectAtIndex:sender.currentIndex];
-        NSPredicate *predExists = [NSPredicate predicateWithFormat: @"SELF.%@ BEGINSWITH[c] %@", sortMethodName, value];
+        NSPredicate *predExists = [NSPredicate predicateWithFormat: @"SELF.%@ BEGINSWITH[c] %@", sortbymethod, value];
         if ([value isEqual:@"#"]) {
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@ MATCHES[c] %@", sortMethodName, @"^[0-9].*"];
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@ MATCHES[c] %@", sortbymethod, @"^[0-9].*"];
         }
-        else if ([sortMethodName isEqualToString:@"rating"] && [value isEqualToString:@"0"]){
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.length == 0", sortMethodName];
+        else if ([sortbymethod isEqualToString:@"rating"] && [value isEqualToString:@"0"]){
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.length == 0", sortbymethod];
         }
-        else if ([sortMethodName isEqualToString:@"runtime"]){
+        else if ([sortbymethod isEqualToString:@"runtime"]){
              [NSPredicate predicateWithFormat: @"attributeName BETWEEN %@", @[@1, @10]];
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue BETWEEN %@", sortMethodName, [NSArray arrayWithObjects:[NSNumber numberWithInt:[value intValue] - 15],[NSNumber numberWithInt:[value intValue]], nil]];
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue BETWEEN %@", sortbymethod, [NSArray arrayWithObjects:[NSNumber numberWithInt:[value intValue] - 15],[NSNumber numberWithInt:[value intValue]], nil]];
         }
-        else if ([sortMethodName isEqualToString:@"playcount"]){
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue == %d", sortMethodName, [value intValue]];
+        else if ([sortbymethod isEqualToString:@"playcount"]){
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue == %d", sortbymethod, [value intValue]];
         }
         NSUInteger index = [[sections objectForKey:@""] indexOfObjectPassingTest:
                             ^(id obj, NSUInteger idx, BOOL *stop) {
