@@ -1379,7 +1379,7 @@
     NSDictionary *item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *fanartURL = [item objectForKey:@"fanart"];
-    NSString *displayThumb=[NSString stringWithFormat:@"%@_wall", defaultThumb];
+    NSString *displayThumb = [NSString stringWithFormat:@"%@_wall", defaultThumb.stringByDeletingPathExtension];
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     
     CGFloat cellthumbWidth = cellGridWidth;
