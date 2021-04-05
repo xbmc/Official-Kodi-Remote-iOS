@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -69,11 +69,11 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="shiny_black_back.png" translatesAutoresizingMaskIntoConstraints="NO" id="94">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="shiny_black_back" translatesAutoresizingMaskIntoConstraints="NO" id="94">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
-                        <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay.png" translatesAutoresizingMaskIntoConstraints="NO" id="156" userLabel="Image View - xbmc_overlay_iphone.png">
+                        <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="156" userLabel="Image View - xbmc_overlay_iphone">
                             <rect key="frame" x="20" y="120" width="280" height="73"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -92,7 +92,7 @@
                                             <color key="textColor" red="0.84919595718383789" green="0.84919595718383789" blue="0.84919595718383789" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="icon_dark.png" translatesAutoresizingMaskIntoConstraints="NO" id="133">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="icon_dark" translatesAutoresizingMaskIntoConstraints="NO" id="133">
                                             <rect key="frame" x="12" y="6" width="30" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                         </imageView>
@@ -116,7 +116,7 @@
                                     <rect key="frame" x="141" y="165" width="37" height="37"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
-                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableLeft.png" translatesAutoresizingMaskIntoConstraints="NO" id="211">
+                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableLeft" translatesAutoresizingMaskIntoConstraints="NO" id="211">
                                     <rect key="frame" x="318" y="0.0" width="2" height="374"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                 </imageView>
@@ -127,7 +127,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.40000000596046448" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay.png" translatesAutoresizingMaskIntoConstraints="NO" id="154" userLabel="Image View - xbmc_overlay_ipad.png">
+                                <imageView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.40000000596046448" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="154" userLabel="Image View - xbmc_overlay_ipad">
                                     <rect key="frame" x="20" y="121" width="280" height="72"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 </imageView>
@@ -156,7 +156,7 @@
                                         <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lna-Os-O4e" userLabel="Button Close">
                                             <rect key="frame" x="208" y="0.0" width="30" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="button_close.png"/>
+                                            <state key="normal" image="button_close"/>
                                             <connections>
                                                 <action selector="buttonToggleItemInfo:" destination="-1" eventType="touchUpInside" id="Zpm-ON-5ec"/>
                                             </connections>
@@ -228,7 +228,7 @@
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                             <inset key="titleEdgeInsets" minX="0.0" minY="16" maxX="0.0" maxY="0.0"/>
                                             <size key="titleShadowOffset" width="1" height="1"/>
-                                            <state key="normal" backgroundImage="st_album_info.png">
+                                            <state key="normal" backgroundImage="st_album_info">
                                                 <string key="title">Album
 details</string>
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -244,7 +244,7 @@ details</string>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                             <inset key="titleEdgeInsets" minX="0.0" minY="16" maxX="0.0" maxY="0.0"/>
                                             <size key="titleShadowOffset" width="1" height="1"/>
-                                            <state key="normal" backgroundImage="st_album_tracks.png">
+                                            <state key="normal" backgroundImage="st_album_tracks">
                                                 <string key="title">Album
 tracks</string>
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -260,7 +260,7 @@ tracks</string>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                             <inset key="titleEdgeInsets" minX="0.0" minY="16" maxX="0.0" maxY="0.0"/>
                                             <size key="titleShadowOffset" width="1" height="1"/>
-                                            <state key="normal" backgroundImage="st_artist_info.png">
+                                            <state key="normal" backgroundImage="st_artist_info">
                                                 <string key="title">Artist
 details</string>
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -276,7 +276,7 @@ details</string>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                             <inset key="titleEdgeInsets" minX="0.0" minY="16" maxX="0.0" maxY="0.0"/>
                                             <size key="titleShadowOffset" width="1" height="1"/>
-                                            <state key="normal" backgroundImage="st_artist_albums.png">
+                                            <state key="normal" backgroundImage="st_artist_albums">
                                                 <string key="title">Artist
 albums</string>
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -290,7 +290,7 @@ albums</string>
                                             <rect key="frame" x="66" y="189" width="41" height="41"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="button_repeat.png">
+                                            <state key="normal" backgroundImage="button_repeat">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
@@ -305,7 +305,7 @@ albums</string>
                                             <rect key="frame" x="130" y="189" width="41" height="41"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="button_shuffle.png">
+                                            <state key="normal" backgroundImage="button_shuffle">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
@@ -359,15 +359,15 @@ albums</string>
                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
                                     <size key="shadowOffset" width="1" height="1"/>
                                 </label>
-                                <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pgbar_inact_fake.png" translatesAutoresizingMaskIntoConstraints="NO" id="28">
+                                <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pgbar_inact_fake" translatesAutoresizingMaskIntoConstraints="NO" id="28">
                                     <rect key="frame" x="20" y="297" width="280" height="17"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 </imageView>
-                                <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pgbar_act.png" translatesAutoresizingMaskIntoConstraints="NO" id="55">
+                                <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pgbar_act" translatesAutoresizingMaskIntoConstraints="NO" id="55">
                                     <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </imageView>
-                                <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="pgbar_thumb.png" translatesAutoresizingMaskIntoConstraints="NO" id="29">
+                                <imageView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="pgbar_thumb" translatesAutoresizingMaskIntoConstraints="NO" id="29">
                                     <rect key="frame" x="14" y="298" width="15" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </imageView>
@@ -389,7 +389,7 @@ albums</string>
                                     <rect key="frame" x="0.0" y="243" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableDown.png" translatesAutoresizingMaskIntoConstraints="NO" id="223">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableDown" translatesAutoresizingMaskIntoConstraints="NO" id="223">
                                             <rect key="frame" x="0.0" y="-4" width="320" height="4"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </imageView>
@@ -411,7 +411,7 @@ albums</string>
                                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableUp.png" translatesAutoresizingMaskIntoConstraints="NO" id="227">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableUp" translatesAutoresizingMaskIntoConstraints="NO" id="227">
                                             <rect key="frame" x="0.0" y="44" width="320" height="4"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         </imageView>
@@ -421,7 +421,7 @@ albums</string>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableUp.png" translatesAutoresizingMaskIntoConstraints="NO" id="147">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableUp" translatesAutoresizingMaskIntoConstraints="NO" id="147">
                             <rect key="frame" x="0.0" y="-1" width="320" height="4"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -432,11 +432,11 @@ albums</string>
                     <rect key="frame" x="0.0" y="416" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.49999999999999961" contentMode="scaleToFill" fixedFrame="YES" image="tableDown.png" translatesAutoresizingMaskIntoConstraints="NO" id="118">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.49999999999999961" contentMode="scaleToFill" fixedFrame="YES" image="tableDown" translatesAutoresizingMaskIntoConstraints="NO" id="118">
                             <rect key="frame" x="0.0" y="-3" width="320" height="4"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         </imageView>
-                        <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="playlist_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="150">
+                        <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="playlist_background" translatesAutoresizingMaskIntoConstraints="NO" id="150">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         </imageView>
@@ -455,18 +455,18 @@ albums</string>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
-                            <state key="normal" title=" Music" backgroundImage="segment_left_up.png">
+                            <state key="normal" title=" Music" backgroundImage="segment_left_up">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="disabled" backgroundImage="segment_left_up.png">
+                            <state key="disabled" backgroundImage="segment_left_up">
                                 <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="selected" backgroundImage="segment_left_down.png">
+                            <state key="selected" backgroundImage="segment_left_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="segment_left_up.png">
+                            <state key="highlighted" backgroundImage="segment_left_up">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -479,17 +479,17 @@ albums</string>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
-                            <state key="normal" title="Video " backgroundImage="segment_right_up.png">
+                            <state key="normal" title="Video " backgroundImage="segment_right_up">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="disabled" backgroundImage="segment_right_down.png">
+                            <state key="disabled" backgroundImage="segment_right_down">
                                 <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="selected" backgroundImage="segment_right_down.png">
+                            <state key="selected" backgroundImage="segment_right_down">
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="segment_right_up.png">
+                            <state key="highlighted" backgroundImage="segment_right_up">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -503,15 +503,15 @@ albums</string>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
-                            <state key="normal" title="Edit" backgroundImage="button_edit.png">
+                            <state key="normal" title="Edit" backgroundImage="button_edit">
                                 <color key="titleColor" red="0.94702327251434326" green="0.94702327251434326" blue="0.94702327251434326" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="selected" title="Done" backgroundImage="button_edit_down.png">
+                            <state key="selected" title="Done" backgroundImage="button_edit_down">
                                 <color key="titleColor" red="0.94702327251434326" green="0.94702327251434326" blue="0.94702327251434326" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="button_edit_down.png">
+                            <state key="highlighted" backgroundImage="button_edit_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -526,15 +526,15 @@ albums</string>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
-                            <state key="normal" title="Party" backgroundImage="button_party_off.png">
+                            <state key="normal" title="Party" backgroundImage="button_party_off">
                                 <color key="titleColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="selected" title="Party" backgroundImage="button_party_on.png">
+                            <state key="selected" title="Party" backgroundImage="button_party_on">
                                 <color key="titleColor" red="0.94702327251434326" green="0.94702327251434326" blue="0.94702327251434326" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" title="Party" backgroundImage="button_party_on.png">
+                            <state key="highlighted" title="Party" backgroundImage="button_party_on">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -555,11 +555,11 @@ albums</string>
                                 <rect key="frame" x="7" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_previous.png">
+                                <state key="normal" image="now_playing_previous">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_previous.png">
+                                <state key="highlighted" image="now_playing_previous">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -574,11 +574,11 @@ albums</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_seek_backward.png">
+                                <state key="normal" image="now_playing_seek_backward">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_seek_backward.png">
+                                <state key="highlighted" image="now_playing_seek_backward">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -596,11 +596,11 @@ albums</string>
                                 <rect key="frame" x="96.5" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_pause.png">
+                                <state key="normal" image="now_playing_pause">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_pause.png">
+                                <state key="highlighted" image="now_playing_pause">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -617,11 +617,11 @@ albums</string>
                                 <rect key="frame" x="141" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_stop.png">
+                                <state key="normal" image="now_playing_stop">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_stop.png">
+                                <state key="highlighted" image="now_playing_stop">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -639,11 +639,11 @@ albums</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_seek_forward.png">
+                                <state key="normal" image="now_playing_seek_forward">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_seek_forward.png">
+                                <state key="highlighted" image="now_playing_seek_forward">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -661,11 +661,11 @@ albums</string>
                                 <rect key="frame" x="230.5" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="now_playing_next.png">
+                                <state key="normal" image="now_playing_next">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_next.png">
+                                <state key="highlighted" image="now_playing_next">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -682,11 +682,11 @@ albums</string>
                                 <rect key="frame" x="275.5" y="5" width="38" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="xbmc_overlay_small.png">
+                                <state key="normal" image="xbmc_overlay_small">
                                     <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <state key="highlighted" image="now_playing_playlist.png">
+                                <state key="highlighted" image="now_playing_playlist">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -728,38 +728,38 @@ albums</string>
         </pongPressGestureRecognizer>
     </objects>
     <resources>
-        <image name="button_close.png" width="30" height="30"/>
-        <image name="button_edit.png" width="72" height="28"/>
-        <image name="button_edit_down.png" width="72" height="28"/>
-        <image name="button_party_off.png" width="72" height="28"/>
-        <image name="button_party_on.png" width="72" height="28"/>
-        <image name="button_repeat.png" width="28.660194396972656" height="28.660194396972656"/>
-        <image name="button_shuffle.png" width="41" height="41"/>
-        <image name="icon_dark.png" width="37.5" height="37.5"/>
-        <image name="now_playing_next.png" width="38" height="34"/>
-        <image name="now_playing_pause.png" width="38" height="34"/>
-        <image name="now_playing_playlist.png" width="38" height="34"/>
-        <image name="now_playing_previous.png" width="38" height="34"/>
-        <image name="now_playing_seek_backward.png" width="38" height="34"/>
-        <image name="now_playing_seek_forward.png" width="38" height="34"/>
-        <image name="now_playing_stop.png" width="38" height="34"/>
-        <image name="pgbar_act.png" width="44" height="17"/>
-        <image name="pgbar_inact_fake.png" width="50" height="17"/>
-        <image name="pgbar_thumb.png" width="18" height="18"/>
-        <image name="playlist_background.png" width="60" height="44"/>
-        <image name="segment_left_down.png" width="70" height="28"/>
-        <image name="segment_left_up.png" width="70" height="28"/>
-        <image name="segment_right_down.png" width="70" height="28"/>
-        <image name="segment_right_up.png" width="70" height="28"/>
-        <image name="shiny_black_back.png" width="240" height="408"/>
-        <image name="st_album_info.png" width="46" height="40.5"/>
-        <image name="st_album_tracks.png" width="46" height="40.5"/>
-        <image name="st_artist_albums.png" width="46" height="40.5"/>
-        <image name="st_artist_info.png" width="46" height="40.5"/>
-        <image name="tableDown.png" width="480" height="8"/>
-        <image name="tableLeft.png" width="16" height="16"/>
-        <image name="tableUp.png" width="480" height="8"/>
-        <image name="xbmc_overlay.png" width="512.5" height="127"/>
-        <image name="xbmc_overlay_small.png" width="38" height="9.5"/>
+        <image name="button_close" width="30" height="30"/>
+        <image name="button_edit" width="72" height="28"/>
+        <image name="button_edit_down" width="72" height="28"/>
+        <image name="button_party_off" width="72" height="28"/>
+        <image name="button_party_on" width="72" height="28"/>
+        <image name="button_repeat" width="41" height="41"/>
+        <image name="button_shuffle" width="41" height="41"/>
+        <image name="icon_dark" width="37.5" height="37.5"/>
+        <image name="now_playing_next" width="38" height="34"/>
+        <image name="now_playing_pause" width="38" height="34"/>
+        <image name="now_playing_playlist" width="38" height="34"/>
+        <image name="now_playing_previous" width="38" height="34"/>
+        <image name="now_playing_seek_backward" width="38" height="34"/>
+        <image name="now_playing_seek_forward" width="38" height="34"/>
+        <image name="now_playing_stop" width="38" height="34"/>
+        <image name="pgbar_act" width="44" height="17"/>
+        <image name="pgbar_inact_fake" width="50" height="17"/>
+        <image name="pgbar_thumb" width="18" height="18"/>
+        <image name="playlist_background" width="60" height="44"/>
+        <image name="segment_left_down" width="70" height="28"/>
+        <image name="segment_left_up" width="70" height="28"/>
+        <image name="segment_right_down" width="70" height="28"/>
+        <image name="segment_right_up" width="70" height="28"/>
+        <image name="shiny_black_back" width="240" height="408"/>
+        <image name="st_album_info" width="46" height="40.5"/>
+        <image name="st_album_tracks" width="46" height="40.5"/>
+        <image name="st_artist_albums" width="46" height="40.5"/>
+        <image name="st_artist_info" width="46" height="40.5"/>
+        <image name="tableDown" width="480" height="8"/>
+        <image name="tableLeft" width="16" height="16"/>
+        <image name="tableUp" width="480" height="8"/>
+        <image name="xbmc_overlay" width="512.5" height="127"/>
+        <image name="xbmc_overlay_small" width="38" height="9.5"/>
     </resources>
 </document>
