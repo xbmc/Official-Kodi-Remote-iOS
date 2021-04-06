@@ -14,6 +14,35 @@
 
 @implementation Utilities
 
+- (CGContextRef)createBitmapContextFromImage:(CGImageRef)inImage format:(uint32_t)format {
+    size_t width = CGImageGetWidth(inImage);
+    size_t height = CGImageGetHeight(inImage);
+    unsigned long bytesPerRow = (width * 4); // 4 bytes for alpha, red, green and blue
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    if (colorSpace == NULL) {
+        return NULL;
+    }
+
+    CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8 /* 8 bits */, bytesPerRow, colorSpace, (CGBitmapInfo)format);
+    
+    // Make sure and release colorspace before returning
+    CGColorSpaceRelease(colorSpace);
+    return context;
+}
+
+- (CGImageRef) create32bppImage:(CGImageRef)imageRef format:(uint32_t)format {
+    CGContextRef ctx = [self createBitmapContextFromImage:imageRef format:format];
+    if (ctx == NULL) {
+        return NULL;
+    }
+    CGRect rect = CGRectMake(0, 0, CGImageGetWidth(imageRef), CGImageGetHeight(imageRef));
+    CGContextDrawImage(ctx, rect, imageRef);
+    imageRef = CGBitmapContextCreateImage(ctx);
+    CGContextRelease(ctx);
+    return imageRef;
+}
+
 - (UIColor *)averageColor:(UIImage *)image inverse:(BOOL)inverse{
     CGImageRef rawImageRef = [image CGImage];
     if (rawImageRef == nil) return [UIColor clearColor];
@@ -24,6 +53,18 @@
                         infoMask == kCGImageAlphaNoneSkipFirst ||
                         infoMask == kCGImageAlphaNoneSkipLast);
 //    if (!anyNonAlpha) return [UIColor clearColor];
+    
+    // Enforce images are converted to ARGB or RGB 32bpp before analyzing them
+    if (anyNonAlpha && (infoMask != kCGImageAlphaNoneSkipLast || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
+        rawImageRef = [self create32bppImage:rawImageRef format:kCGImageAlphaNoneSkipLast];
+    }
+    else if (!anyNonAlpha && (infoMask != kCGImageAlphaPremultipliedFirst || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
+        rawImageRef = [self create32bppImage:rawImageRef format:kCGImageAlphaPremultipliedFirst];
+    }
+    if (rawImageRef == NULL) {
+        return [UIColor clearColor];
+    }
+    
 	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
     const UInt8 *rawPixelData = CFDataGetBytePtr(data);
     
@@ -32,6 +73,19 @@
     NSUInteger bytesPerRow = CGImageGetBytesPerRow(rawImageRef);
 	NSUInteger stride = CGImageGetBitsPerPixel(rawImageRef) / 8;
     
+    // DEBUG
+    /*
+    bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
+    infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
+    BOOL isARGB = infoMask == kCGImageAlphaPremultipliedFirst;
+    BOOL isRGBA = infoMask == kCGImageAlphaPremultipliedLast;
+    BOOL isRGBa = infoMask == kCGImageAlphaLast;
+    BOOL isaRGB = infoMask == kCGImageAlphaFirst;
+    BOOL isxRGB = infoMask == kCGImageAlphaNoneSkipFirst;
+    BOOL isRGBx = infoMask == kCGImageAlphaNoneSkipLast;
+    BOOL isRGB = infoMask == kCGImageAlphaNone;
+    */
+    
     unsigned int red   = 0;
     unsigned int green = 0;
     unsigned int blue  = 0;
@@ -39,71 +93,30 @@
     CGFloat f = 1.0;
     
     if (anyNonAlpha) {
-        // no alpha channel present
-        switch (stride) {
-            case 4:
-                // standard RGB
-                for (int row = 0; row < imageHeight; row++) {
-                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-                    for (int column = 0; column < imageWidth; column++) {
-                        red    += rowPtr[0];
-                        green  += rowPtr[1];
-                        blue   += rowPtr[2];
-                        rowPtr += stride;
-                    }
-                }
-                break;
-            case 1:
-                // monochrome
-                for (int row = 0; row < imageHeight; row++) {
-                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-                    for (int column = 0; column < imageWidth; column++) {
-                        blue   += rowPtr[0];
-                        rowPtr += stride;
-                    }
-                }
-                red = green = blue;
-                break;
-            default:
-                // should not happen, return rgb=0
-                red = green = blue = 0;
-                break;
+        // RGB (kCGImageAlphaNoneSkipLast)
+        for (int row = 0; row < imageHeight; row++) {
+            const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+            for (int column = 0; column < imageWidth; column++) {
+                red    += rowPtr[0];
+                green  += rowPtr[1];
+                blue   += rowPtr[2];
+                rowPtr += stride;
+            }
         }
         f = 1.0 / (255.0 * imageWidth * imageHeight);
     }
     else {
         // weight color with alpha to ignore transparent sections
-        switch (stride) {
-            case 4:
-                // standard RGBA
-                for (int row = 0; row < imageHeight; row++) {
-                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-                    for (int column = 0; column < imageWidth; column++) {
-                        red    += rowPtr[0] * rowPtr[3];
-                        green  += rowPtr[1] * rowPtr[3];
-                        blue   += rowPtr[2] * rowPtr[3];
-                        alpha  += rowPtr[3];
-                        rowPtr += stride;
-                    }
-                }
-                break;
-            case 2:
-                // monochrome with alpha
-                for (int row = 0; row < imageHeight; row++) {
-                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-                    for (int column = 0; column < imageWidth; column++) {
-                        blue   += rowPtr[0] * rowPtr[1];
-                        alpha  += rowPtr[1];
-                        rowPtr += stride;
-                    }
-                }
-                red = green = blue;
-                break;
-            default:
-                // should not happen, return rgb=0 and alpha=1
-                red = green = blue = 0;
-                alpha = 1;
-                break;
+        // ARGB (kCGImageAlphaPremultipliedFirst)
+        for (int row = 0; row < imageHeight; row++) {
+            const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+            for (int column = 0; column < imageWidth; column++) {
+                alpha  += rowPtr[0];
+                red    += rowPtr[1] * rowPtr[0];
+                green  += rowPtr[2] * rowPtr[0];
+                blue   += rowPtr[3] * rowPtr[0];
+                rowPtr += stride;
+            }
         }
         f = 1.0 / (255.0 * alpha);
     }
