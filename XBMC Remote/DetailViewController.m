@@ -1379,7 +1379,7 @@
     NSDictionary *item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *fanartURL = [item objectForKey:@"fanart"];
-    NSString *displayThumb=[NSString stringWithFormat:@"%@_wall", defaultThumb];
+    NSString *displayThumb = [NSString stringWithFormat:@"%@_wall", defaultThumb.stringByDeletingPathExtension];
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     
     CGFloat cellthumbWidth = cellGridWidth;
@@ -1437,7 +1437,7 @@
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
             [cell.posterLabel setHidden:NO];
             [cell.labelImageView setHidden:NO];
-            [cell.posterThumbnail setBackgroundColor:[Utilities getSystemGray6]];
+            [cell.posterThumbnail setBackgroundColor:[Utilities getGrayColor:28 alpha:1.0]];
         }
         
         if ([playcount intValue]){
