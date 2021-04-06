@@ -2157,9 +2157,12 @@ int originYear = 0;
 //        cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator; 
 //    }
 /* end future */
-    CGRect frame = cell.urlImageView.frame;
+    CGRect frame;
+    frame.origin = CGPointZero;
     frame.size.width = thumbWidth;
+    frame.size.height = cellHeight;
     cell.urlImageView.frame = frame;
+    cell.urlImageView.autoresizingMask = UIViewAutoresizingNone;
     
     UILabel *title=(UILabel*) [cell viewWithTag:1];
     UILabel *genre=(UILabel*) [cell viewWithTag:2];
