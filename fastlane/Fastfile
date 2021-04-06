@@ -31,10 +31,47 @@ lane :tf do
     include_bitcode: true,
     export_method: 'app-store',
   )
+
+  # ignore commit messages that contain '[not app]'
+  changelogLines = []
+  lastTag = last_git_tag
+  changelog_from_git_commits(
+    between: [lastTag, 'HEAD'],
+    pretty: '- %b (%s)',
+    merge_commit_filtering: 'only_include_merges',
+  ).each_line(chomp: true) { |l|
+    changelogLines << l unless l.include?('[not app]')
+  }
+  Actions.lane_context[SharedValues::FL_CHANGELOG] = changelogLines.join("\n")
+
   testflight(
     distribute_external: true,
     groups: ['external testers'],
   )
+
+  # create prerelease on Github
+  next unless ENV['GITHUB_API_TOKEN']
+  appProperties = get_info_plist_value(
+    key: 'ApplicationProperties',
+    path: "#{lane_context[SharedValues::XCODEBUILD_ARCHIVE]}/Info.plist",
+  )
+
+  betaSuffix = '-b'
+  if (betaIndex = lastTag.rindex(betaSuffix))
+    afterBetaIndex = betaIndex + betaSuffix.length
+    lastBetaNumber = lastTag[afterBetaIndex, 3] # max number = 999
+    newTag = lastTag[0, afterBetaIndex] + "#{lastBetaNumber.to_i + 1}"
+  else
+    newTag = appPropertiesHash['CFBundleShortVersionString'] + betaSuffix + '1'
+  end
+
+  ghRelease = set_github_release(
+    repository_name: 'xbmc/Official-Kodi-Remote-iOS',
+    tag_name: newTag,
+    name: "Testflight #{appProperties['CFBundleVersion']}",
+    is_prerelease: true,
+  )
+  UI.message JSON.pretty_generate(ghRelease)
 end
 
 desc 'Submit to AppStore review'

@@ -20,7 +20,6 @@
     NSMutableArray *tableData;
     UILabel *infoLabel;
     DSJSONRPC *jsonRPC;
-    UIAlertView *actionAlertView;
     VolumeSliderView *volumeSliderView;
     RemoteController *remoteControllerView;
     BOOL torchIsOn;

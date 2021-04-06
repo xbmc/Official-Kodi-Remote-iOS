@@ -20,6 +20,9 @@
 #import "ActorCell.h"
 #import "Utilities.h"
 
+#define PLAY_BUTTON_SIZE 20
+#define TV_LOGO_SIZE_REC_DETAILS 72
+
 @interface ShowInfoViewController ()
 @end
 
@@ -212,7 +215,7 @@ int count=0;
     }
 }
 
-#pragma mark - Utility 
+#pragma mark - Utility
 
 -(void)dismissModal:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -424,35 +427,13 @@ int count=0;
     }
 }
 
-#pragma mark - UIWebView delegates
-
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    NSString *requestString = [[request URL] absoluteString];
-    return (([requestString isEqualToString:@"about:blank"] || [requestString isEqualToString:embedVideoURL]) || ([embedVideoURL rangeOfString:@"http://www.youtube.com/embed/"].location == NSNotFound));
-}
-
--(void)webViewDidStartLoad:(UIWebView *)webView{
-    [embedVideoActivityIndicator startAnimating];
-}
-
--(void)webViewDidFinishLoad:(UIWebView *)webView{
-    [embedVideoActivityIndicator stopAnimating];
-}
-
--(void)loadUrl:(id)sender{
-    [trailerView stopLoading];
-    [embedVideoActivityIndicator startAnimating];
-    [(UIButton *)sender setHidden:YES];
-    [trailerView loadHTMLString:embedVideo baseURL:nil];
+-(void)callbrowser:(id)sender{
+    [Utilities SFloadURL:embedVideoURL fromctrl:self];
 }
 
 #pragma mark - ActionSheet
 
 -(void)showActionSheet {
-    if (actionSheetView.window){
-        [actionSheetView dismissWithClickedButtonIndex:actionSheetView.cancelButtonIndex animated:YES];
-        return;
-    }
     NSInteger numActions = [sheetActions count];
     if (numActions){
         NSDictionary *item=self.detailItem;
@@ -460,55 +441,55 @@ int count=0;
         if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
             sheetTitle = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
         }
-        actionSheetView = [[UIActionSheet alloc] initWithTitle:sheetTitle
-                                                            delegate:self
-                                                   cancelButtonTitle:nil
-                                              destructiveButtonTitle:nil
-                                                   otherButtonTitles:nil];
-        actionSheetView.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        NSString *title;
+        
+        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        
         for (int i = 0; i < numActions; i++) {
-             title = [sheetActions objectAtIndex:i];
-            if ([title isEqualToString:NSLocalizedString(@"Record", nil)] && isRecording.alpha == 1.0) {
-                title = NSLocalizedString(@"Stop Recording", nil);
+            NSString *actiontitle = [sheetActions objectAtIndex:i];
+            UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                [self actionSheetHandler:actiontitle];
+            }];
+            [actionView addAction:action];
+        }
+        [actionView addAction:action_cancel];
+        [actionView setModalPresentationStyle:UIModalPresentationPopover];
+        
+        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        if (popPresenter != nil) {
+            popPresenter.sourceView = self.view;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+                popPresenter.barButtonItem = actionSheetButtonItemIpad;
             }
-            [actionSheetView addButtonWithTitle:title];
         }
-        actionSheetView.cancelButtonIndex = [actionSheetView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            [actionSheetView showInView:self.view];
-        }
-        else{
-            [actionSheetView showFromBarButtonItem:actionSheetButtonItemIpad animated:YES];
-        }
+        [self presentViewController:actionView animated:YES completion:nil];
     }
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex!=actionSheet.cancelButtonIndex){
-        if ([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
-            [self addQueueAfterCurrent:YES];
-
-        }
-        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Queue", nil)]){
-            [self addQueueAfterCurrent:NO];
-        }
-        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play", nil)]){
-            [self addPlayback:0.0];
-        }
-        else if (([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Record", nil)] || [[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Stop Recording", nil)])) {
-            [self recordChannel];
-        }
-        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Open with VLC", nil)]){
-            [self openWithVLC:self.detailItem];
-        }
-        else if ([[sheetActions objectAtIndex:buttonIndex] rangeOfString:NSLocalizedString(@"Resume from", nil)].location!= NSNotFound){
-            [self addPlayback:resumePointPercentage];
-            return;
-        }
-        else if([[sheetActions objectAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
-            [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"trailer"], @"file", nil], @"item", nil]];
-        }
+- (void)actionSheetHandler:(NSString*)actiontitle {
+    if ([actiontitle isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
+        [self addQueueAfterCurrent:YES];
+    }
+    else if([actiontitle isEqualToString:NSLocalizedString(@"Queue", nil)]){
+        [self addQueueAfterCurrent:NO];
+    }
+    else if([actiontitle isEqualToString:NSLocalizedString(@"Play", nil)]){
+        [self addPlayback:0.0];
+    }
+    else if (([actiontitle isEqualToString:NSLocalizedString(@"Record", nil)] ||
+              [actiontitle isEqualToString:NSLocalizedString(@"Stop Recording", nil)])) {
+        [self recordChannel];
+    }
+    else if([actiontitle isEqualToString:NSLocalizedString(@"Open with VLC", nil)]){
+        [self openWithVLC:self.detailItem];
+    }
+    else if ([actiontitle rangeOfString:NSLocalizedString(@"Resume from", nil)].location!= NSNotFound){
+        [self addPlayback:resumePointPercentage];
+        return;
+    }
+    else if([actiontitle isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
+        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"trailer"], @"file", nil], @"item", nil]];
     }
 }
 
@@ -600,12 +581,8 @@ int count=0;
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
                        
                    }
-                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ERROR", nil)
-                                                                       message:message
-                                                                      delegate:self
-                                                             cancelButtonTitle:nil
-                                                             otherButtonTitles:NSLocalizedString(@"Copy to clipboard",nil), nil];
-                   [alertView show];
+                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:message];
+                   [self presentViewController:alertView animated:YES completion:nil];
                }
            }];
 }
@@ -733,7 +710,7 @@ int h=0;
 
 -(void)elaborateImage:(UIImage *)image{
     [self performSelectorOnMainThread:@selector(startActivityIndicator) withObject:nil waitUntilDone:YES];
-    UIImage *elabImage = [self imageWithBorderFromImage:image];
+    UIImage *elabImage = isRecordingDetail ? image : [self imageWithBorderFromImage:image];
     [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];    
 }
 
@@ -741,6 +718,15 @@ int h=0;
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
     jewelView.image = image;
+    if (isRecordingDetail) {
+        [Utilities setLogoBackgroundColor:jewelView];
+        CGRect frame;
+        frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
+        frame.size.height = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.7);
+        frame.origin.x = jewelView.frame.origin.x + (jewelView.frame.size.width - frame.size.width)/2;
+        frame.origin.y = jewelView.frame.origin.y + 4;
+        jewelView.frame = frame;
+    }
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
 
@@ -751,8 +737,9 @@ int h=0;
 
 -(void)createInfo{
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
-    NSDictionary *item=self.detailItem;
+    NSMutableDictionary *item = self.detailItem;
     NSString *placeHolderImage = @"coverbox_back.png";
+    isRecordingDetail = item[@"recordingid"] != nil;
 //    NSLog(@"ITEM %@", item);
     eJewelType jeweltype = jewelTypeUnknown;
     castFontSize = 14;
@@ -768,15 +755,13 @@ int h=0;
     clearLogoWidth = self.view.frame.size.width - 20;
     clearLogoHeight = 116;
     CGFloat transform = [Utilities getTransformX];
-    thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
-    tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
     int shiftParentalRating = -20;
     NSString *contributorString = @"cast";
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         clearLogoWidth = 457;
         clearLogoHeight = 177;
-        thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
-        tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
+        thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
+        tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT * transform);
         shiftParentalRating = -40;
         labelSpace = 33;
         placeHolderImage = @"coverbox_back@2x.png";
@@ -823,14 +808,13 @@ int h=0;
         [self setAndMoveLabels:arrayLabels size:size];
     }
     else {
-        CGFloat transform = [Utilities getTransformX];
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
-        if (!enableJewel) {
-            CGRect frame = jewelView.frame;
-            frame.origin.x = frame.origin.x + 4;
-            jewelView.frame = frame;
-        }
+    }
+    if (!enableJewel) {
+        CGRect frame = jewelView.frame;
+        frame.origin.x = 0;
+        jewelView.frame = frame;
     }
     if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
         int deltaY=0;
@@ -1155,7 +1139,7 @@ int h=0;
             numVotesLabel.text = [item objectForKey:@"channel"];
         }
         else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]) {
-            [item setValue:[item objectForKey:@"genre"] forKey:@"plot"];
+            item[@"plot"] = [item objectForKey:@"genre"];
             numVotesLabel.text = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
             frame = voteLabel.frame;
             dotSize = 10;
@@ -1173,8 +1157,11 @@ int h=0;
                 [voteLabel setFrame:frame];
             }
         }
-        [item setValue:[item objectForKey:@"label"] forKey:@"rating"];
-        [item setValue:[[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_icon"] forKey:@"thumbnail"];
+        // Be aware: "rating" is later used to display the label
+        item[@"rating"] = item[@"label"];
+        if (item[@"pvrExtraInfo"][@"channel_icon"] != nil) {
+            item[@"thumbnail"] = item[@"pvrExtraInfo"][@"channel_icon"];
+        }
         placeHolderImage = @"nocover_channels.png";
         NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
@@ -1196,7 +1183,7 @@ int h=0;
             directorLabel.text = @"-";
         }
 //        UIImage *buttonImage = [UIImage imageNamed:@"button_record.png"];
-//        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];;
+//        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        recordButton.frame = CGRectMake(0, 0, 200, 29);
 //        [recordButton setImage:buttonImage forState:UIControlStateNormal];
 //        frame = recordButton.frame;
@@ -1412,8 +1399,7 @@ int h=0;
     frame.origin.y = frame.origin.y + summaryLabel.frame.size.height + shiftParentalRating - 40;
     label6.frame = frame;
     int startY = label6.frame.origin.y - label6.frame.size.height + size;
-    if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
-        BOOL isYoutubeVideoLink = NO;
+    if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]) {
         if ([[item objectForKey:@"trailer"] length]> 0){
             NSString *param = nil;
             embedVideoURL = nil;
@@ -1439,8 +1425,7 @@ int h=0;
                             param = [param substringToIndex:end.location];
                         }
                     }
-                    embedVideoURL = [NSString stringWithFormat:@"//www.youtube.com/embed/%@?&hd=1&showinfo=0&autohide=1&rel=0", param];
-                    isYoutubeVideoLink = YES;
+                    embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", param];
                 }
             }
             else{
@@ -1457,72 +1442,16 @@ int h=0;
                 [trailerLabel setBackgroundColor:[UIColor clearColor]];
                 [scrollView addSubview:trailerLabel];
                 startY = startY + label1.frame.size.height;
-                int videoHeight = (int)((clearLogoWidth * 9) / 16);
-                if (trailerView == nil){
-                    trailerView = [[UIWebView alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, videoHeight)];
-                    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                        [trailerView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-                    }
-                    trailerView.delegate = self;
-                }
-                if (((NSNull *)[[trailerView subviews] objectAtIndex:0] != [NSNull null])){
-                    ((UIScrollView *)[[trailerView subviews] objectAtIndex:0]).scrollsToTop = NO;
-                }
-                [trailerView setBackgroundColor:[Utilities getGrayColor:128 alpha:0.5]];
-                [trailerView setClipsToBounds: NO];
-                trailerView.layer.shadowColor = [UIColor blackColor].CGColor;
-                trailerView.layer.shadowOpacity = 0.7f;
-                trailerView.layer.shadowOffset = CGSizeZero;
-                trailerView.layer.shadowRadius = 3.0;
-                trailerView.layer.masksToBounds = NO;
-                
-                UIBezierPath *path = [UIBezierPath bezierPathWithRect:trailerView.bounds];
-                trailerView.layer.shadowPath = path.CGPath;
-                
-                [trailerView.layer setBorderWidth:1];
-                [trailerView.layer setBorderColor:[[UIColor blackColor] CGColor]];
-                embedVideo = [NSString stringWithFormat:@"\
-                                          <html>\
-                                          <head>\
-                                          <style type=\"text/css\">\
-                                          iframe {position:absolute; top:50%%; margin-top:-%dpx;}\
-                                          body {background-color:#000; margin:0;}\
-                                          </style>\
-                                          </head>\
-                                          <body>\
-                                          <iframe width=\"100%%\" height=\"%dpx\" src=\"%@\" frameborder=\"0\" allowfullscreen></iframe>\
-                                          </body>\
-                                          </html>", videoHeight/2, videoHeight, embedVideoURL];
-                if (isYoutubeVideoLink){
-                    [trailerView loadHTMLString:embedVideo baseURL:[NSURL URLWithString:@"http:"]];
-                }
-                else{
-                    NSString *blackPage = @"\
-                    <html>\
-                    <head>\
-                    <style type=\"text/css\">\
-                    body {background-color:#000; margin:0;}\
-                    </style>\
-                    </head>\
-                    <body>\
-                    </body>\
-                    </html>";
-                    [trailerView loadHTMLString:blackPage baseURL:nil];
-                    UIButton *playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                    UIImage *playTrailerImg = [UIImage imageNamed:@"button_play.png"];
-                    [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
-                    [playTrailerButton setFrame:CGRectMake(0, 0, trailerView.frame.size.width, trailerView.frame.size.height)];
-                    [playTrailerButton addTarget:self action:@selector(loadUrl:) forControlEvents:UIControlEventTouchUpInside];
-                    [playTrailerButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-                    [trailerView addSubview:playTrailerButton];
-                }
-                embedVideoActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-                embedVideoActivityIndicator.hidesWhenStopped = YES;
-                embedVideoActivityIndicator.center = CGPointMake(trailerView.frame.size.width / 2, videoHeight / 2);
-                [embedVideoActivityIndicator setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-                [trailerView addSubview:embedVideoActivityIndicator];
-                [scrollView addSubview:trailerView];
-                startY = startY + videoHeight - 10;
+
+                UIButton *playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                UIImage *playTrailerImg = [UIImage imageNamed:@"button_play.png"];
+                [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
+                [playTrailerButton setFrame:CGRectMake(10, startY, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE)];
+                [playTrailerButton addTarget:self action:@selector(callbrowser:) forControlEvents:UIControlEventTouchUpInside];
+                [playTrailerButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+                [scrollView addSubview:playTrailerButton];
+
+                startY = startY + PLAY_BUTTON_SIZE - 10;
             }
         }
     }
@@ -1576,7 +1505,7 @@ int h=0;
         [scrollView addSubview:clearlogoButton];
     }
     startY = startY + clearLogoHeight + 20;
-    scrollView.contentSize=CGSizeMake(320, startY);
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, startY);
     
     // Check if the arrow needs to be displayed (only if content is > visible area)
     int height_content = scrollView.contentSize.height;
@@ -1792,6 +1721,12 @@ int h=0;
     }
 }
 
+#pragma mark - Safari
+
+- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
 #pragma mark - Gestures
 
 - (void)handleSwipeFromLeft:(id)sender {
@@ -1809,8 +1744,8 @@ int h=0;
     if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]){
         [activityIndicatorView stopAnimating];
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"VLC non installed", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-        [alertView show];
+        UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"VLC non installed", nil) message:nil];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
         [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1820,7 +1755,7 @@ int h=0;
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
                     NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:stringURL] options:@{} completionHandler:nil];
+                    [Utilities SFloadURL:stringURL fromctrl:self];
                     [activityIndicatorView stopAnimating];
                     self.navigationItem.rightBarButtonItem.enabled=YES;
                 }
@@ -2061,7 +1996,6 @@ int h=0;
     }
     if ([self isModal]){
         [clearlogoButton setFrame:CGRectMake((int)(self.view.frame.size.width/2) - (int)(clearlogoButton.frame.size.width/2), clearlogoButton.frame.origin.y, clearlogoButton.frame.size.width, clearlogoButton.frame.size.height)];
-        [trailerView setFrame:CGRectMake((int)(self.view.frame.size.width/2) - (int)(trailerView.frame.size.width/2), trailerView.frame.origin.y, trailerView.frame.size.width, trailerView.frame.size.height)];
         self.view.superview.backgroundColor = [UIColor clearColor];
     }
 }
@@ -2147,8 +2081,6 @@ int h=0;
 }
 
 -(void)dealloc{
-    [trailerView stopLoading];
-    [trailerView removeFromSuperview];
     [kenView removeFromSuperview];
     [self.kenView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
@@ -2162,7 +2094,9 @@ int h=0;
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     if (self.kenView != nil){
         CGFloat alphaValue = 0.2;
         if (closeButton.alpha==1){

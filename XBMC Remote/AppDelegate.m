@@ -177,8 +177,8 @@ NSMutableArray *hostRightMenuItems;
     
     obj=[GlobalData getInstance];
     
+    CGFloat transform = [Utilities getTransformX];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        CGFloat transform = [Utilities getTransformX];
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -189,8 +189,8 @@ NSMutableArray *hostRightMenuItems;
     else {
         animationStartBottomScreen = [NSNumber numberWithBool:NO];
         animationStartX = [NSNumber numberWithInt: STACKSCROLL_WIDTH];
-        thumbWidth = PAD_TV_SHOWS_BANNER_WIDTH;
-        tvshowHeight = PAD_TV_SHOWS_BANNER_HEIGHT;
+        thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
+        tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT* transform);
     }
     
     float itemMusicWidthIphone = 106.0f;
@@ -219,6 +219,9 @@ NSMutableArray *hostRightMenuItems;
     
     float itemMovieHeightRecentlyIphone =  132.0f;
     float itemMovieHeightRecentlyIpad =  196.0f;
+    
+    float fullscreenItemMovieBannerWidthIpad = 502.0f;
+    float fullscreenItemMovieBannerHeightIpad = 206.0f;
     
     [self.window makeKeyAndVisible];
     
@@ -322,6 +325,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"extra_info_parameters",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
+                           @"YES", @"enableLibraryFullScreen",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             NSLocalizedString(@"Not listened", nil), @"notWatched",
                             NSLocalizedString(@"Listened one time", nil), @"watchedOneTime",
@@ -355,6 +359,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"extra_info_parameters",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
+                           @"YES", @"enableLibraryFullScreen",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -435,7 +440,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"playcount", @"method",
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Play count", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), nil], @"label",
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Top 100 Albums", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Year", nil), nil], @"label",
                               [NSArray arrayWithObjects:@"playcount", @"label", @"genre", @"year", nil], @"method",
                               nil], @"available_methods",
                              nil],@"sort",
@@ -468,7 +473,7 @@ NSMutableArray *hostRightMenuItems;
                              [NSNumber numberWithBool:FALSE],@"ignorearticle",
                              @"playcount", @"method",
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Play count", nil), NSLocalizedString(@"Track", nil),NSLocalizedString(@"Title", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Year", nil), nil], @"label",
+                              [NSMutableArray arrayWithObjects:NSLocalizedString(@"Top 100 Songs", nil), NSLocalizedString(@"Track", nil),NSLocalizedString(@"Title", nil), NSLocalizedString(@"Album", nil), NSLocalizedString(@"Artist", nil), NSLocalizedString(@"Rating", nil), NSLocalizedString(@"Year", nil), nil], @"label",
                               [NSArray arrayWithObjects:@"playcount", @"track", @"label", @"album", @"genre", @"rating", @"year", nil], @"method",
                               nil], @"available_methods",
                              nil],@"sort",
@@ -530,6 +535,11 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"parameters", NSLocalizedString(@"All songs", nil), @"label", NSLocalizedString(@"All songs", nil), @"morelabel",
                            @"YES", @"enableLibraryCache",
                            [NSNumber numberWithInt:5], @"numberOfStars",
+                           [NSDictionary dictionaryWithObjectsAndKeys:
+                            NSLocalizedString(@"Not listened", nil), @"notWatched",
+                            NSLocalizedString(@"Listened one time", nil), @"watchedOneTime",
+                            NSLocalizedString(@"Listened %@ times", nil), @"watchedTimes",
+                            nil], @"watchedListenedStrings",
                            nil],
                           
                           [NSMutableArray arrayWithObjects:
@@ -1004,7 +1014,7 @@ NSMutableArray *hostRightMenuItems;
                                       [NSArray arrayWithObjects:@"label", @"genre", @"year", @"playcount", nil], @"method",
                                       nil], @"available_methods",
                                      nil],@"sort",
-                                    [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist",  nil], @"properties",
+                                    [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"playcount", nil], @"properties",
                                     nil],  @"parameters", @"Albums", @"label", @"Album", @"wikitype",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"year", @"thumbnail", @"artist", @"genre", @"description", @"albumlabel", @"fanart",
@@ -1181,7 +1191,7 @@ NSMutableArray *hostRightMenuItems;
                                @"albumid",@"row6",
                                [NSNumber numberWithInt:0], @"playlistid",
                                @"albumid",@"row8",
-                               @"albumid", @"row9",
+                               @"playcount", @"row9",
                                @"artist", @"row10",
                                @"genre",@"row11",
                                @"description",@"row12",
@@ -1714,7 +1724,7 @@ NSMutableArray *hostRightMenuItems;
                       
                       [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                       
-//                      [NSArray arrayWithObjects:@"Files.GetDirectory", @"method",nil],
+                      [NSArray arrayWithObjects:@"Files.GetDirectory", @"method", nil],
                       
                       nil];
     
@@ -1821,8 +1831,8 @@ NSMutableArray *hostRightMenuItems;
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              @"fullWidth", @"width",
                              [NSNumber numberWithFloat:itemMovieHeightRecentlyIpad], @"height",
-                             [NSNumber numberWithFloat:502], @"fullscreenWidth",
-                             [NSNumber numberWithFloat:206.0f], @"fullscreenHeight", nil], @"ipad",
+                             [NSNumber numberWithFloat:fullscreenItemMovieBannerWidthIpad], @"fullscreenWidth",
+                             [NSNumber numberWithFloat:fullscreenItemMovieBannerHeightIpad], @"fullscreenHeight", nil], @"ipad",
                             nil], @"itemSizes",
                            nil],
                           
@@ -1882,25 +1892,25 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"itemSizes",
                            nil],
                           
-//                          [NSMutableArray arrayWithObjects:
-//                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                             @"ascending",@"order",
-//                             [NSNumber numberWithBool:FALSE],@"ignorearticle",
-//                             @"label", @"method",
-//                             nil],@"sort",
-//                            @"video", @"media",
-//                            @"special://profile/playlists/video", @"directory",
-//                            [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"properties",
-//                            [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"file_properties",
-//                            nil], @"parameters",
-//                           NSLocalizedString(@"Video Playlists", nil), @"label",
-//                           NSLocalizedString(@"Video Playlists", nil), @"morelabel",
-//                           @"nocover_filemode.png", @"defaultThumb",
-//                           filemodeRowHeight, @"rowHeight",
-//                           filemodeThumbWidth, @"thumbWidth",
-//                           @"YES", @"isMusicPlaylist",
-//                           nil],
+                          [NSMutableArray arrayWithObjects:
+                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                             @"ascending", @"order",
+                             [NSNumber numberWithBool:FALSE],@"ignorearticle",
+                             @"label", @"method",
+                             nil], @"sort",
+                            @"video", @"media",
+                            @"special://videoplaylists", @"directory",
+                            [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"properties",
+                            [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"file_properties",
+                            nil], @"parameters",
+                           NSLocalizedString(@"Video Playlists", nil), @"label",
+                           NSLocalizedString(@"Video Playlists", nil), @"morelabel",
+                           @"nocover_filemode.png", @"defaultThumb",
+                           filemodeRowHeight, @"rowHeight",
+                           filemodeThumbWidth, @"thumbWidth",
+                           @"YES", @"isVideoPlaylist",
+                           nil],
                           
                           nil];
     
@@ -3061,7 +3071,7 @@ NSMutableArray *hostRightMenuItems;
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", @"genre", @"playcount",@"resume", @"channel",  @"runtime",@"lifetime", @"icon", @"art", @"streamurl", @"file", @"directory", nil], @"properties",
                             nil], @"extra_info_parameters",
-                           NSLocalizedString(@"Recordings", nil), @"label", NSLocalizedString(@"Recordings", nil), @"morelabel", @"nocover_channels.png", @"defaultThumb", channelEPGRowHeight, @"rowHeight", @"53", @"thumbWidth",
+                           NSLocalizedString(@"Recordings", nil), @"label", NSLocalizedString(@"Recordings", nil), @"morelabel", @"nocover_channels.png", @"defaultThumb", channelEPGRowHeight, @"rowHeight", @"48", @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -4170,8 +4180,12 @@ NSMutableArray *hostRightMenuItems;
                                 nil],
 
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                NSLocalizedString(@"LED Torch", nil), @"label",
-                                @"torch", @"icon",
+                                NSLocalizedString(@"Cancel", nil), @"label",
+                                [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithFloat:.702f], @"red",
+                                 [NSNumber numberWithFloat:.702f], @"green",
+                                 [NSNumber numberWithFloat:.702f], @"blue",
+                                 nil], @"fontColor",
                                 nil],
                                nil],@"online",
                         
@@ -4516,12 +4530,6 @@ int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
         xbmcRemote.idleTimerDisabled = NO;
     }
 //    [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
-}
-
-- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event{
-    if(event.type == UIEventSubtypeMotionShake){
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationShakeNotification" object: nil]; 
-    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application{

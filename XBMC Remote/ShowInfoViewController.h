@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "JBKenBurnsView.h"
-//#import "UIImageView+WebCache.h"
+#import <SafariServices/SafariServices.h>
 
 @class NowPlaying;
 @class DetailViewController;
 
-@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate>{
+@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate, SFSafariViewControllerDelegate>{
     IBOutlet UIImageView *coverView;
     IBOutlet UIImageView *starsView;
     IBOutlet UILabel *voteLabel;
@@ -48,11 +48,10 @@
     IBOutlet UIImageView *fanartView;
 
     BOOL alreadyPush;
-    
+    BOOL isRecordingDetail;
     UIToolbar *toolbar;
     NSMutableArray *sheetActions;
     UIBarButtonItem *actionSheetButtonItemIpad;
-    UIActionSheet *actionSheetView;
     int choosedTab;
     NSString *notificationName;
     float resumePointPercentage;
@@ -72,10 +71,7 @@
     int thumbWidth;
     int tvshowHeight;
     UITableView *actorsTable;
-    UIWebView *trailerView;
     NSString *embedVideoURL;
-    UIActivityIndicatorView *embedVideoActivityIndicator;
-    NSString *embedVideo;
     UIColor *foundTintColor;
     UILabel *viewTitle;
     __weak IBOutlet UIImageView *bottomShadow;

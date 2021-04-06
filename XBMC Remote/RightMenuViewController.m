@@ -303,8 +303,8 @@
 
 -(void)addButtonToList:(id)sender {
     if ([AppDelegate instance].serverVersion < 13){
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        [alertView show];
+        UIAlertController *alertView = [Utilities createAlertOK:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings", nil)];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
     else{
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
@@ -411,27 +411,48 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
 	if (editingStyle == UITableViewCellEditingStyleDelete){
-        [tableData removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        if ([indexPath row] < [tableData count]) {
+            [tableData removeObjectAtIndex:indexPath.row];
+        }
+        if ([indexPath row] < [tableView numberOfRowsInSection:[indexPath section]]) {
+            [tableView beginUpdates];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            [tableView endUpdates];
+        }
         [self deleteCustomButton:(indexPath.row - editableRowStartAt)];
 	}
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Custom button", nil)
-                                                        message: NSLocalizedString(@"Modify label:", nil)
-                                                       delegate: self
-                                              cancelButtonTitle: NSLocalizedString(@"Cancel", nil)
-                                              otherButtonTitles: NSLocalizedString(@"Update label", nil), nil];
-    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-    NSString *title=[NSString stringWithFormat:@"%@", [[tableData objectAtIndex:indexPath.row] objectForKey:@"label"]];
-    alertView.tag = indexPath.row;
-    [[alertView textFieldAtIndex:0] setText:title];
-    [alertView show];
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Custom button", nil) message:NSLocalizedString(@"Modify label:", nil) preferredStyle:UIAlertControllerStyleAlert];
+    [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"";
+        textField.text = tableData[indexPath.row][@"label"];
+    }];
+    UIAlertAction* updateButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update label", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [[tableData objectAtIndex:indexPath.row] setObject:[[alertView textFields][0] text] forKey:@"label"];
+            
+            UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+            UILabel *title = (UILabel*) [cell viewWithTag:3];
+            [title setText:[[alertView textFields][0] text]];
+            
+            customButton *arrayButtons = [[customButton alloc] init];
+            if ([[arrayButtons.buttons objectAtIndex:indexPath.row -  editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]){
+                [[arrayButtons.buttons objectAtIndex:indexPath.row -  editableRowStartAt] setObject:[[alertView textFields][0] text] forKey:@"label"];
+                [arrayButtons saveData];
+            }
+        }];
+    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    [alertView addAction:updateButton];
+    [alertView addAction:cancelButton];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([indexPath row] >= [tableData count]) {
+        return;
+    }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
         return;
     }
@@ -446,9 +467,18 @@
             if (cancel_button == nil) cancel_button = NSLocalizedString(@"Cancel", nil);
             NSString *ok_button = [[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"ok_button"];
             if (ok_button == nil) ok_button = NSLocalizedString(@"Yes", nil);
-            actionAlertView = [[UIAlertView alloc] initWithTitle:message message:countdown_message delegate:self cancelButtonTitle:cancel_button otherButtonTitles:ok_button, nil];
-            
-            [actionAlertView show];
+            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:countdown_message preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:cancel_button style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+            UIAlertAction* okButton = [UIAlertAction actionWithTitle:ok_button style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:ok_button inArray:[tableData valueForKey:@"action"]];
+                NSString *command = [[[tableData valueForKey:@"action"] objectAtIndex:commandIdx.row] objectForKey:@"command"];
+                if (command != nil){
+                    [self xbmcAction:command params:[NSDictionary dictionary] uiControl:nil];
+                }
+            }];
+            [alertView addAction:cancelButton];
+            [alertView addAction:okButton];
+            [self presentViewController:alertView animated:YES completion:nil];
         }
         else{
             NSString *command = [[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"command"];
@@ -459,8 +489,8 @@
                     [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
                 }
                 else{
-                    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                    [alertView show];
+                    UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil)];
+                    [self presentViewController:alertView animated:YES completion:nil];
                 }
             }
             else if ([command isEqualToString:@"AddButton"]){
@@ -503,6 +533,9 @@
         UIImageView *torchIcon = (UIImageView *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [self turnTorchOn:!torchIsOn icon:torchIcon];
+    }
+    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Cancel", nil)]){
+        [self.slidingViewController resetTopView];
     }
 }
 
@@ -554,40 +587,6 @@
 
 -(void)wakeUp:(NSString *)macAddress{
     [[AppDelegate instance] sendWOL:macAddress withPort:9];
-}
-
-# pragma mark - UIAlertView
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex!=alertView.cancelButtonIndex){
-        NSString *option = [alertView buttonTitleAtIndex:buttonIndex];
-        if ([option isEqualToString:NSLocalizedString(@"Update label", nil)]){
-            
-            [[tableData objectAtIndex:alertView.tag] setObject:[[alertView textFieldAtIndex:0]text] forKey:@"label"];
-            
-            UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:alertView.tag inSection:0]];
-            UILabel *title = (UILabel*) [cell viewWithTag:3];
-            [title setText:[[alertView textFieldAtIndex:0]text]];
-            
-            customButton *arrayButtons = [[customButton alloc] init];
-            if ([[arrayButtons.buttons objectAtIndex:alertView.tag -  editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]){
-                [[arrayButtons.buttons objectAtIndex:alertView.tag -  editableRowStartAt] setObject:[[alertView textFieldAtIndex:0]text] forKey:@"label"];
-                [arrayButtons saveData];
-            }
-        }
-        else {
-            NSString *userChoice = [alertView buttonTitleAtIndex:buttonIndex];
-            NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:userChoice inArray:[tableData valueForKey:@"action"]];
-            NSString *command = [[[tableData valueForKey:@"action"] objectAtIndex:commandIdx.row] objectForKey:@"command"];
-            if (command != nil){
-                [self xbmcAction:command params:[NSDictionary dictionary] uiControl:nil];
-            }
-        }
-    }
-}
-
--(void)updateUIAlertViewCountdown:(NSString *)countdown_message{
-    [actionAlertView setMessage:countdown_message];
 }
 
 #pragma mark - LifeCycle

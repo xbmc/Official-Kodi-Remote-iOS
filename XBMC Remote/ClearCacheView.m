@@ -22,7 +22,7 @@
     if (self) {
         [self setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
         [self setBackgroundColor:[Utilities getGrayColor:0 alpha:0.7]];
-        float labelHeight = 300;
+        CGFloat labelHeight = 300.0;
         PosterLabel *label = [[PosterLabel alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.frame)/2 - (labelHeight/2), CGRectGetWidth(self.frame) - borderWidth, labelHeight)];
          [label setAutoresizingMask:
           UIViewAutoresizingFlexibleHeight |

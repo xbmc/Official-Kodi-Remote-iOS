@@ -367,9 +367,9 @@
                 [portUI setTextColor:[Utilities getSystemBlue]];
                 NSString *serverJSON=[NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
                 NSURL *url = [[NSURL alloc] initWithString:serverJSON];
-                NSURLRequest *request = [NSURLRequest requestWithURL:url];
-                NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
-                [connection start];
+                NSURLSession *pingSession = [NSURLSession sharedSession];
+                NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url];
+                [pingConnection resume];
                 [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
             }
         }

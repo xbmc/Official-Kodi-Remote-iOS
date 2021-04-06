@@ -8,10 +8,9 @@
 
 #import "Utilities.h"
 #import "AppDelegate.h"
-#import "Utilities.h"
 
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
-#define HEADROOM_FOR_XBMC_LOGO 10
+#define XBMC_LOGO_PADDING 10
 
 @implementation Utilities
 
@@ -20,12 +19,11 @@
     if (rawImageRef == nil) return [UIColor clearColor];
     
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
-
     int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
     BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
                         infoMask == kCGImageAlphaNoneSkipFirst ||
                         infoMask == kCGImageAlphaNoneSkipLast);
-    if (!anyNonAlpha) return [UIColor clearColor];
+//    if (!anyNonAlpha) return [UIColor clearColor];
 	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
     const UInt8 *rawPixelData = CFDataGetBytePtr(data);
     
@@ -37,26 +35,97 @@
     unsigned int red   = 0;
     unsigned int green = 0;
     unsigned int blue  = 0;
+    unsigned int alpha = 0;
+    CGFloat f = 1.0;
     
-	for (int row = 0; row < imageHeight; row++) {
-		const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
-		for (int column = 0; column < imageWidth; column++) {
-            if (inverse == YES){
-                blue    += rowPtr[0];
-                red   += rowPtr[2];
-            }
-            else{
-                red    += rowPtr[0];
-                blue   += rowPtr[2];
-            }
-            green  += rowPtr[1];
-			rowPtr += stride;
+    if (anyNonAlpha) {
+        // no alpha channel present
+        switch (stride) {
+            case 4:
+                // standard RGB
+                for (int row = 0; row < imageHeight; row++) {
+                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+                    for (int column = 0; column < imageWidth; column++) {
+                        red    += rowPtr[0];
+                        green  += rowPtr[1];
+                        blue   += rowPtr[2];
+                        rowPtr += stride;
+                    }
+                }
+                break;
+            case 1:
+                // monochrome
+                for (int row = 0; row < imageHeight; row++) {
+                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+                    for (int column = 0; column < imageWidth; column++) {
+                        blue   += rowPtr[0];
+                        rowPtr += stride;
+                    }
+                }
+                red = green = blue;
+                break;
+            default:
+                // should not happen, return rgb=0
+                red = green = blue = 0;
+                break;
         }
+        f = 1.0 / (255.0 * imageWidth * imageHeight);
+    }
+    else {
+        // weight color with alpha to ignore transparent sections
+        switch (stride) {
+            case 4:
+                // standard RGBA
+                for (int row = 0; row < imageHeight; row++) {
+                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+                    for (int column = 0; column < imageWidth; column++) {
+                        red    += rowPtr[0] * rowPtr[3];
+                        green  += rowPtr[1] * rowPtr[3];
+                        blue   += rowPtr[2] * rowPtr[3];
+                        alpha  += rowPtr[3];
+                        rowPtr += stride;
+                    }
+                }
+                break;
+            case 2:
+                // monochrome with alpha
+                for (int row = 0; row < imageHeight; row++) {
+                    const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
+                    for (int column = 0; column < imageWidth; column++) {
+                        blue   += rowPtr[0] * rowPtr[1];
+                        alpha  += rowPtr[1];
+                        rowPtr += stride;
+                    }
+                }
+                red = green = blue;
+                break;
+            default:
+                // should not happen, return rgb=0 and alpha=1
+                red = green = blue = 0;
+                alpha = 1;
+                break;
+        }
+        f = 1.0 / (255.0 * alpha);
+    }
+    if (inverse) {
+        unsigned int tmp = red;
+        red = blue;
+        blue = tmp;
     }
 	CFRelease(data);
     
-	CGFloat f = 1.0 / (255.0 * imageWidth * imageHeight);
 	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
+}
+
+- (UIColor *)limitSaturation:(UIColor *)color_in satmax:(CGFloat)satmax {
+    CGFloat hue, sat, bright, alpha;
+    UIColor *color_out = nil;
+    if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
+        // limit saturation
+        sat = MIN(MAX(sat, 0), satmax);
+        color_out = [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
+    }
+    return color_out;
 }
 
 + (UIColor *)tailorColor:(UIColor *)color_in satscale:(CGFloat)satscale brightscale:(CGFloat)brightscale brightmin:(CGFloat)brightmin brightmax:(CGFloat)brightmax{
@@ -141,6 +210,16 @@
     return img;
 }
 
++ (void)setLogoBackgroundColor:(UIImageView*)imageview {
+    // get background color and colorize the image background
+    Utilities *utils = [[Utilities alloc] init];
+    UIColor *imgcolor = [utils averageColor:imageview.image inverse:NO];
+    UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
+    UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
+    UIColor *bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
+    [imageview setBackgroundColor:bgcolor];
+}
+
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage{
     NSDictionary *params = nil;
     if ([AppDelegate instance].serverVersion < 15){
@@ -172,11 +251,11 @@
 + (CGFloat)getTransformX {
     // We scale for iPhone with their different device widths.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds)/320.0);
+        return (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) / IPHONE_SCREEN_DESIGN_WIDTH);
     }
     // For iPad a fixed frame width is used.
     else {
-        return 1.0;
+        return (STACKSCROLL_WIDTH / IPAD_SCREEN_DESIGN_WIDTH);
     }
 }
 
@@ -278,10 +357,10 @@
 
 + (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return CGRectMake(width - ANCHORRIGHTPEEK - logo.size.width - HEADROOM_FOR_XBMC_LOGO, (height - logo.size.height)/2, logo.size.width, logo.size.height);
+        return CGRectMake(width - ANCHORRIGHTPEEK - logo.size.width - XBMC_LOGO_PADDING, (height - logo.size.height)/2, logo.size.width, logo.size.height);
     }
     else {
-        return CGRectMake(width - logo.size.width/2 - HEADROOM_FOR_XBMC_LOGO, (height - logo.size.height/2)/2, logo.size.width/2, logo.size.height/2);
+        return CGRectMake(width - logo.size.width/2 - XBMC_LOGO_PADDING, (height - logo.size.height/2)/2, logo.size.width/2, logo.size.height/2);
     }
 }
 
@@ -318,6 +397,37 @@
     frame.origin.y = floor(jewelView.center.y - frame.size.height/2 + (border_top - border_bottom)/2 * factor);
     frame.origin.x = floor(jewelView.center.x - frame.size.width/2 + (border_left - border_right)/2 * factor);
     return frame;
+}
+
++ (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg {
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* okButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+    [alertView addAction:okButton];
+    return alertView;
+}
+
++ (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg {
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* copyButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Copy to clipboard", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            pasteboard.string = msg;
+    }];
+    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    [alertView addAction:copyButton];
+    [alertView addAction:cancelButton];
+    return alertView;
+}
+
++ (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate> *)fromctrl {
+    NSURL *nsurl = [NSURL URLWithString:url];
+    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nsurl];
+    UIViewController *ctrl = fromctrl;
+    svc.delegate = fromctrl;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        // On iPad presenting from the active ViewController results in blank screen
+        ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
+    }
+    [ctrl presentViewController:svc animated:YES completion:nil];
 }
 
 @end

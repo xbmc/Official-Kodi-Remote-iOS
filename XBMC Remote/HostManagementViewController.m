@@ -247,7 +247,11 @@ static inline BOOL IsEmpty(id obj) {
                 [standardUserDefaults synchronize];
             }
         }
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        if ([indexPath row] < [tableView numberOfRowsInSection:[indexPath section]]) {
+            [tableView beginUpdates];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            [tableView endUpdates];
+        }
 	}   
 }
 
@@ -475,7 +479,7 @@ static inline BOOL IsEmpty(id obj) {
         self.navigationItem.titleView = xbmcLogo;
         UIImage* menuImg = [UIImage imageNamed:@"button_menu.png"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings.png"];
+        UIImage* settingsImg = [UIImage imageNamed:@"icon_power_up.png"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealUnderRight:)];
     }
     doRevealMenu = YES;
@@ -595,18 +599,9 @@ static inline BOOL IsEmpty(id obj) {
                    [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationWillEnterForegroundNotification" object:nil userInfo:nil];
                }
                else {
-                   UIAlertController *alertController = [UIAlertController
-                                                         alertControllerWithTitle:NSLocalizedString(@"Cannot do that", nil)
-                                                         message:nil
-                                                         preferredStyle:UIAlertControllerStyleAlert];
-
-                   UIAlertAction *okAction = [UIAlertAction
-                                              actionWithTitle:NSLocalizedString(@"OK", nil)
-                                              style:UIAlertActionStyleDefault
-                                              handler:^(UIAlertAction *action) {}];
-                   [alertController addAction:okAction];
+                   UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Cannot do that", nil) message:nil];
                    id presentingView = self.presentingViewController == nil ? self : self.presentingViewController;
-                   [presentingView presentViewController:alertController animated:YES completion:nil];
+                   [presentingView presentViewController:alertView animated:YES completion:nil];
                }
            }
      ];
@@ -618,8 +613,8 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 -(void)authFailed:(NSNotification *)note {
-    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Authentication Failed", nil) message:NSLocalizedString(@"Incorrect Username or Password.\nCheck your settings.", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-    [alertView show];
+    UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Authentication Failed", nil) message:NSLocalizedString(@"Incorrect Username or Password.\nCheck your settings.", nil)];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 
 -(void)resetDoReveal:(NSNotification *)note {

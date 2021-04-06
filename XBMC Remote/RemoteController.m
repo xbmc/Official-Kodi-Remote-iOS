@@ -112,7 +112,7 @@
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
         frame = [buttonZoneView frame];
-        frame.origin.x = 320;
+        frame.origin.x = self.view.frame.size.width;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
@@ -383,7 +383,7 @@
     if (showGesture == YES){
         CGRect frame;
         frame = [gestureZoneView frame];
-        frame.origin.x = -320;
+        frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];     
@@ -392,7 +392,7 @@
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
         frame = [buttonZoneView frame];
-        frame.origin.x = 320;
+        frame.origin.x = self.view.frame.size.width;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
@@ -405,7 +405,7 @@
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDuration:0.3];      
         frame = [gestureZoneView frame];
-        frame.origin.x = -320;
+        frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
         frame = [buttonZoneView frame];
         frame.origin.x = 0;
@@ -469,10 +469,6 @@
                                                        nil];
                                      NSInteger numSubs=[subtitles count];
                                      NSMutableArray *actionSheetTitles =[NSMutableArray array];
-                                     NSString *disableSubs = nil;
-                                     if (subtitleEnabled == YES) {
-                                         disableSubs = NSLocalizedString(@"Disable subtitles", nil);
-                                     }
                                      for (int i = 0; i < numSubs; i++) {
                                          NSString *language = @"?";
                                          if (((NSNull *)[[subtitles objectAtIndex:i] objectForKey:@"language"] != [NSNull null])) {
@@ -496,8 +492,7 @@
                                          NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[[subtitles objectAtIndex:i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:i] objectForKey:@"name"], i + 1, (long)numSubs];
                                          [actionSheetTitles addObject:title];
                                      }
-                                     UIButton *subsButton = (UIButton *)[self.view viewWithTag:19];
-                                     [self showActionSheet:NSLocalizedString(@"Subtitles", nil) sheetActions:actionSheetTitles destructiveButtonTitle:disableSubs actionTag:0 rectOriginX:subsButton.center.x rectOriginY:subsButton.center.y];
+                                     [self showActionSubtitles:actionSheetTitles];
                                 }
                                  else {
                                      [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
@@ -567,8 +562,7 @@
                                          NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[[audiostreams objectAtIndex:i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[audiostreams objectAtIndex:i] objectForKey:@"name"], i + 1, (long)numAudio];
                                          [actionSheetTitles addObject:title];
                                      }
-                                     UIButton *audioStreamsButton = (UIButton *)[self.view viewWithTag:20];
-                                     [self showActionSheet:NSLocalizedString(@"Audio stream", nil) sheetActions:actionSheetTitles destructiveButtonTitle:nil actionTag:1 rectOriginX:audioStreamsButton.center.x rectOriginY:audioStreamsButton.center.y];
+                                     [self showActionAudiostreams:actionSheetTitles];
                                  }
                                  else {
                                      [self showSubInfo:NSLocalizedString(@"Audiostreams not available",nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
@@ -676,61 +670,72 @@
 
 #pragma mark - Action Sheet Method
 
--(void)showActionSheet:(NSString *)title sheetActions:(NSMutableArray *)sheetActions destructiveButtonTitle:(NSString *)destructiveButtonTitle actionTag:(int)actionTag rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
-    NSInteger numActions=[sheetActions count];
-    if (numActions){
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle: title
-                                                            delegate: self
-                                                   cancelButtonTitle: nil
-                                              destructiveButtonTitle: destructiveButtonTitle
-                                                   otherButtonTitles: nil];
-        action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        action.tag = actionTag;
+-(void)showActionAudiostreams:(NSMutableArray *)sheetActions {
+    NSInteger numActions = [sheetActions count];
+    if (numActions) {
+        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Audio stream", nil) message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        
         for (int i = 0; i < numActions; i++) {
-            [action addButtonWithTitle:[sheetActions objectAtIndex:i]];
+            NSString *actiontitle = [sheetActions objectAtIndex:i];
+            UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                if (![[[audiostreamsDictionary objectForKey:@"audiostreams"] objectAtIndex:i] isEqual:[audiostreamsDictionary objectForKey:@"currentaudiostream"]]){
+                    [self playbackAction:@"Player.SetAudioStream" params:[NSArray arrayWithObjects:[[[audiostreamsDictionary objectForKey:@"audiostreams"] objectAtIndex:i] objectForKey:@"index"], @"stream", nil]];
+                    [self showSubInfo:actiontitle timeout:2.0 color:[UIColor whiteColor]];
+                }
+            }];
+            [actionView addAction:action];
         }
-        action.cancelButtonIndex = [action addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            [action showInView:self.view];
+        [actionView addAction:action_cancel];
+        [actionView setModalPresentationStyle:UIModalPresentationPopover];
+        
+        UIButton *audioStreamsButton = (UIButton *)[self.view viewWithTag:20];
+        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        if (popPresenter != nil) {
+            popPresenter.sourceView = self.view;
+            popPresenter.sourceRect = CGRectMake(audioStreamsButton.center.x, audioStreamsButton.center.y, 1, 1);
         }
-        else{
-            [action showFromRect:CGRectMake(rectOriginX, rectOriginY, 1, 1) inView:self.view animated:YES];
-        }
+        [self presentViewController:actionView animated:YES completion:nil];
     }
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSString *option = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if (buttonIndex == actionSheet.destructiveButtonIndex && actionSheet.tag == 0) {
-        [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
-        [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
-    }
-    else if (buttonIndex != actionSheet.cancelButtonIndex) {
-        switch (actionSheet.tag) {
-            case  0: {
-                NSInteger selectedSub = buttonIndex;
-                if ([[subsDictionary objectForKey:@"subtitleenabled"] boolValue] == YES) {
-                    selectedSub--;
-                }
-                if (![[[subsDictionary objectForKey:@"subtitles"] objectAtIndex:selectedSub] isEqual:[subsDictionary objectForKey:@"currentsubtitle"]] || [[subsDictionary objectForKey:@"subtitleenabled"] boolValue] == NO){
-                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:[[[subsDictionary objectForKey:@"subtitles"] objectAtIndex:selectedSub] objectForKey:@"index"], @"subtitle", nil]];
-                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
-                    [self showSubInfo:option timeout:2.0 color:[UIColor whiteColor]];
-                }
-                break;
-            }
-            case 1: {
-                NSInteger selectedAudioStream = buttonIndex;
-                if (![[[audiostreamsDictionary objectForKey:@"audiostreams"] objectAtIndex:selectedAudioStream] isEqual:[audiostreamsDictionary objectForKey:@"currentaudiostream"]]){
-                    [self playbackAction:@"Player.SetAudioStream" params:[NSArray arrayWithObjects:[[[audiostreamsDictionary objectForKey:@"audiostreams"] objectAtIndex:selectedAudioStream] objectForKey:@"index"], @"stream", nil]];
-                    [self showSubInfo:option timeout:2.0 color:[UIColor whiteColor]];
-                }
-                break;
-            }
-            default: {
-                break;
-            }
+-(void)showActionSubtitles:(NSMutableArray *)sheetActions {
+    NSInteger numActions = [sheetActions count];
+    if (numActions) {
+        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Subtitles", nil) message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        
+        UIAlertAction* action_disable = [UIAlertAction actionWithTitle:NSLocalizedString(@"Disable subtitles", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+            [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+            [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
+        }];
+        if ([[subsDictionary objectForKey:@"subtitleenabled"] boolValue]) {
+            [actionView addAction:action_disable];
         }
+        
+        for (int i = 0; i < numActions; i++) {
+            NSString *actiontitle = [sheetActions objectAtIndex:i];
+            UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                if (![[[subsDictionary objectForKey:@"subtitles"] objectAtIndex:i] isEqual:[subsDictionary objectForKey:@"currentsubtitle"]] || [[subsDictionary objectForKey:@"subtitleenabled"] boolValue] == NO){
+                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:[[[subsDictionary objectForKey:@"subtitles"] objectAtIndex:i] objectForKey:@"index"], @"subtitle", nil]];
+                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
+                    [self showSubInfo:actiontitle timeout:2.0 color:[UIColor whiteColor]];
+                }
+            }];
+            [actionView addAction:action];
+        }
+        [actionView addAction:action_cancel];
+        [actionView setModalPresentationStyle:UIModalPresentationPopover];
+        
+        UIButton *subsButton = (UIButton *)[self.view viewWithTag:19];
+        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        if (popPresenter != nil) {
+            popPresenter.sourceView = self.view;
+            popPresenter.sourceRect = CGRectMake(subsButton.center.x, subsButton.center.y, 1, 1);
+        }
+        [self presentViewController:actionView animated:YES completion:nil];
     }
 }
 
@@ -1271,7 +1276,7 @@ NSInteger buttonAction;
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
         frame = [buttonZoneView frame];
-        frame.origin.x = 320;
+        frame.origin.x = self.view.frame.size.width;
         buttonZoneView.frame = frame;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
@@ -1332,8 +1337,8 @@ NSInteger buttonAction;
 
 -(void)addButtonToListIPad:(id)sender {
     if ([AppDelegate instance].serverVersion < 13){
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        [alertView show];
+        UIAlertController *alertView = [Utilities createAlertOK:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings", nil)];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
     else{
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
