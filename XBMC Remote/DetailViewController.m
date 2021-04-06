@@ -2455,6 +2455,17 @@ int originYear = 0;
             }];
 }
 
+- (NSInteger)getFirstListedSeason:(NSArray*)array {
+    NSInteger firstSeason = NSNotFound;
+    for (NSDictionary *season in array) {
+        NSInteger index = [season[@"season"] intValue];
+        if (index < firstSeason) {
+            firstSeason = index;
+        }
+    }
+    return firstSeason;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (albumView && [self.richResults count]>0){
         __block UIColor *albumFontColor = [UIColor blackColor];
@@ -2674,6 +2685,7 @@ int originYear = 0;
             item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:section]] objectAtIndex:0];
         }
         NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:self.extraSectionRichResults];
+        NSInteger firstListedSeason = [self getFirstListedSeason:self.extraSectionRichResults];
         CGFloat seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
         if (seasonIdx != NSNotFound){
             CGFloat origin_x = seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2);
@@ -2687,7 +2699,8 @@ int originYear = 0;
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
             NSString *stringURL = [[self.extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"thumbnail"];
             NSString *displayThumb=@"coverbox_back_section.png";
-            if (seasonIdx == 0) {
+            BOOL isFirstListedSeason = [item[@"season"] intValue] == firstListedSeason;
+            if (isFirstListedSeason) {
                 self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
                 self.searchController.searchBar.tintColor = tableViewSearchBarColor;
             }
@@ -2704,7 +2717,7 @@ int originYear = 0;
                     seasonFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
                     seasonFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
                     [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                    if (seasonIdx == 0) {
+                    if (isFirstListedSeason) {
                         [self setSearchBarColor:albumColor];
                     }
                     [self setLabelColor:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
