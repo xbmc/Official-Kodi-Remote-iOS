@@ -2163,6 +2163,7 @@ int originYear = 0;
     frame.size.height = cellHeight;
     cell.urlImageView.frame = frame;
     cell.urlImageView.autoresizingMask = UIViewAutoresizingNone;
+    cell.urlImageView.backgroundColor = [UIColor clearColor];
     
     UILabel *title=(UILabel*) [cell viewWithTag:1];
     UILabel *genre=(UILabel*) [cell viewWithTag:2];
@@ -2344,7 +2345,6 @@ int originYear = 0;
         }
         else {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
-            [cell.urlImageView setBackgroundColor:[Utilities getSystemGray6]];
         }
     }
     else if (albumView){
