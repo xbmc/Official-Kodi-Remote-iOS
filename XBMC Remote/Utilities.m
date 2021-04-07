@@ -86,10 +86,10 @@
     BOOL isRGB = infoMask == kCGImageAlphaNone;
     */
     
-    unsigned int red   = 0;
-    unsigned int green = 0;
-    unsigned int blue  = 0;
-    unsigned int alpha = 0;
+    UInt64 red   = 0;
+    UInt64 green = 0;
+    UInt64 blue  = 0;
+    UInt64 alpha = 0;
     CGFloat f = 1.0;
     
     if (anyNonAlpha) {
@@ -121,7 +121,7 @@
         f = 1.0 / (255.0 * alpha);
     }
     if (inverse) {
-        unsigned int tmp = red;
+        UInt64 tmp = red;
         red = blue;
         blue = tmp;
     }
