@@ -4927,9 +4927,13 @@ NSIndexPath *selected;
 
 -(BOOL)isSortDifferentToDefault {
     BOOL isDifferent = NO;
-    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
+    NSString *defaultSortOrder = parameters[@"parameters"][@"sort"][@"order"];
     if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
+        isDifferent = YES;
+    }
+    else if (sortAscDesc != nil && ![sortAscDesc isEqualToString:defaultSortOrder]) {
         isDifferent = YES;
     }
     // Exception: genre is misused for artist for app-internal reasons
