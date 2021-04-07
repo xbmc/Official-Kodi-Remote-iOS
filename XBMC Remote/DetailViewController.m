@@ -4936,10 +4936,6 @@ NSIndexPath *selected;
     else if (sortAscDesc != nil && ![sortAscDesc isEqualToString:defaultSortOrder]) {
         isDifferent = YES;
     }
-    // Exception: genre is misused for artist for app-internal reasons
-    else if ([sortMethodName isEqualToString:@"genre"] && [defaultSortMethod isEqualToString:@"artist"]) {
-        isDifferent = NO;
-    }
     return isDifferent;
 }
 
