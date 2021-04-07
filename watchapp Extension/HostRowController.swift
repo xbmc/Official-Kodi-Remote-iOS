@@ -7,7 +7,6 @@
 //
 
 import WatchKit
-import KodiAPI
 
 class HostRowController: NSObject {
     @IBOutlet var nameLabel: WKInterfaceLabel!

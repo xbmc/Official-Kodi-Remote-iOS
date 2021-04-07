@@ -11,11 +11,10 @@
 #import "mainMenu.h"
 #import "ECSlidingViewController.h"
 #import "CustomNavigationController.h"
-#import <WatchConnectivity/WatchConnectivity.h>
 
 @class ViewControllerIPad;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, WCSessionDelegate> {
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
 	NSMutableArray *arrayServerList;
     GlobalData *obj;
 }

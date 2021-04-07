@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum KodiError : Error {
+enum KodiError: Error {
     case AbstractTypeCalled
     case UnexpectedResponse
 }

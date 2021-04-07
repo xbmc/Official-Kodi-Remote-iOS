@@ -15,7 +15,8 @@
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
 #import "Utilities.h"
-#import "KodiAPI/KodiAPI-Swift.h"
+#import <WatchConnectivity/WatchConnectivity.h>
+#import "Kodi_Remote-Swift.h"
 
 @interface WCSessionResponse : NSObject<KodiAPIDelegate> {}
 typedef void(^ReplyHandler)(NSDictionary<NSString *, id> *replyMessage);
@@ -31,12 +32,15 @@ typedef void(^ReplyHandler)(NSDictionary<NSString *, id> *replyMessage);
 }
 
 - (void)kodiApi:(KodiAPI * _Nonnull)api response:(id _Nonnull)response {
-    self.reply([NSDictionary dictionaryWithObject:@"TRUE" forKey:@"result"]);
+    self.reply(@{@"result": @"TRUE"});
 }
 
 - (void)kodiApi:(KodiAPI * _Nonnull)api error:(NSError * _Nonnull)error {
-    self.reply([NSDictionary dictionaryWithObject:@"FALSE" forKey:@"result"]);
+    self.reply(@{@"result": @"FALSE"});
 }
+@end
+
+@interface AppDelegate () <WCSessionDelegate>
 @end
 
 @implementation AppDelegate
@@ -104,8 +108,8 @@ NSMutableArray *hostRightMenuItems;
 
 - (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *, id> *)message replyHandler:(void(^)(NSDictionary<NSString *, id> *replyMessage))replyHandler {
 
-    NSData *hostData = [message objectForKey:@"host"];
-    NSString *methodName = [message objectForKey:@"method"];
+    NSData *hostData = message[@"host"];
+    NSString *methodName = message[@"method"];
     KodiHost *host = [KodiHost decodeFromJson:hostData error:nil];
     
     KodiAPI *api = [[KodiAPI alloc] initWithHost:host];

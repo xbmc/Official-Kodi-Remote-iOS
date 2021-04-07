@@ -9,15 +9,17 @@
 import WatchKit
 import Foundation
 import WatchConnectivity
-import KodiAPI
+
+let WatchHostsKey = "WatchHosts"
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate  {
+    
     @IBOutlet var hostTable: WKInterfaceTable!
     @IBOutlet var emptyLabel: WKInterfaceLabel!
     
     var session : WCSession!
     
-    var hosts: [KodiHost]! = []
+    var hosts = [KodiHost]()
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
     }
@@ -31,9 +33,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate  {
     }
     
     func updateContext(_ context: [String : Any]) {
-        guard let array = context["WatchHosts"] as? [[String:Any]] else { return }
+        guard let array = context[WatchHostsKey] as? [[String:Any]] else { return }
         
-        UserDefaults.standard.setValue(array, forKey: "WatchHosts")
+        UserDefaults.standard.setValue(array, forKey: WatchHostsKey)
         
         DispatchQueue.main.async {
             self.updateList()
@@ -41,7 +43,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate  {
     }
     
     func updateList() {
-        if let defaultHosts = UserDefaults.standard.array(forKey: "WatchHosts") {
+        if let defaultHosts = UserDefaults.standard.array(forKey: WatchHostsKey) {
             hosts.removeAll()
             for defaultHostAny in defaultHosts {
                 guard let defaultHost = defaultHostAny as? [String:Any] else { continue }
@@ -67,7 +69,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate  {
         session.delegate = self
         session.activate()
         
-        updateList();
+        updateList()
     }
     
     override func willActivate() {

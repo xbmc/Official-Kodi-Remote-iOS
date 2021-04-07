@@ -8,8 +8,6 @@
 
 import WatchKit
 import Foundation
-import KodiAPI
-import APIKit
 
 class RemoteInterfaceController: WKInterfaceController, KodiAPIDelegate {
     

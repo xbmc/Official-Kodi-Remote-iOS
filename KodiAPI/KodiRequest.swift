@@ -10,7 +10,7 @@ import Foundation
 import APIKit
 
 protocol DecodableFromResponse {
-    init(from e: Any) throws;
+    init(from e: Any) throws
 }
 
 public struct PlayerId: DecodableFromResponse {
@@ -81,7 +81,7 @@ class KodiRequest<T: DecodableFromResponse>: KodiRequestProtocol {
             authPart += "@"
         }
         
-        return URL(string: "http://" + authPart + host.serverIp + ":" + String(host.serverPort))!
+        return URL(string: "http://\(authPart)\(host.serverIp):\(String(host.serverPort))")!
     }
     
     init(_ host: KodiHost) {
@@ -109,6 +109,6 @@ class KodiRequest<T: DecodableFromResponse>: KodiRequestProtocol {
     }
     
     var headerFields: [String: String] {
-        return ["Content-Type":"application/json"]
+        return ["Content-Type": "application/json"]
     }
 }
