@@ -139,20 +139,29 @@ import WatchConnectivity
         callInput(method: .Menu)
     }
     
-    @objc func doAction(_ name: String) -> Bool {
-        if let inputMethod = InputMethods.init(rawValue: name) {
-            callInput(method: inputMethod)
-            return true
+    private func handleInput(_ name: String) -> Bool {
+        guard let inputMethod = InputMethods.init(rawValue: name) else { return false }
+        callInput(method: inputMethod)
+        return true
+    }
+    
+    private func handlePlayer(_ name: String) -> Bool {
+        guard let playerMethod = PlayerMethods.init(rawValue: name) else { return false }
+        
+        switch playerMethod {
+        case .PlayPause: playPause()
+        case .Stop: stop()
+        case .GetActivePlayers: break
         }
         
-        if let playerMethod = PlayerMethods.init(rawValue: name) {
-            switch playerMethod {
-            case .PlayPause: playPause()
-            case .Stop: stop()
-            case .GetActivePlayers: break
+        return true
+    }
+    
+    @objc func doAction(_ name: String) -> Bool {
+        for method in [handleInput, handlePlayer] {
+            if (method(name)) {
+                return true
             }
-            
-            return true
         }
         
         return false
