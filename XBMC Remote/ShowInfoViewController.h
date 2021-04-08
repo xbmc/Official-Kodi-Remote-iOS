@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "JBKenBurnsView.h"
+#import "Utilities.h"
 #import <SafariServices/SafariServices.h>
 
 @class NowPlaying;
@@ -80,6 +81,7 @@
     UIImageView *isRecording;
     CGFloat dotSize;
     CGFloat dotSizePadding;
+    LogoBackgroundType logoBackgroundMode;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;

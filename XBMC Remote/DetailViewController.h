@@ -142,6 +142,7 @@
     NSString *epgCachePath;
     BOOL showbar;
     dispatch_queue_t epglockqueue;
+    LogoBackgroundType logoBackgroundMode;
 }
 
 - (id)initWithFrame:(CGRect)frame;

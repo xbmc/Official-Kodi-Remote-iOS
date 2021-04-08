@@ -1421,7 +1421,7 @@
             }
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellthumbWidth, cellthumbHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
-                    [Utilities setLogoBackgroundColor:cell.posterThumbnail];
+                    [Utilities setLogoBackgroundColor:cell.posterThumbnail mode:logoBackgroundMode];
                 }
             }];
             if (hiddenLabel) {
@@ -2339,7 +2339,7 @@ int originYear = 0;
             }
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
-                    [Utilities setLogoBackgroundColor:cell.urlImageView];
+                    [Utilities setLogoBackgroundColor:cell.urlImageView mode:logoBackgroundMode];
                 }
             }];
         }
@@ -5738,6 +5738,8 @@ NSIndexPath *selected;
     self.filteredListContent = [[NSMutableArray alloc] init ];
     storeRichResults = [[NSMutableArray alloc] init ];
     self.extraSectionRichResults = [[NSMutableArray alloc] init ];
+    
+    logoBackgroundMode = [Utilities getLogoBackgroundMode];
     
     [activityIndicatorView startAnimating];
     

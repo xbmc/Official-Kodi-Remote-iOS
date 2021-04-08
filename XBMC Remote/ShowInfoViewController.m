@@ -719,7 +719,7 @@ int h=0;
     jewelView.alpha = 0;
     jewelView.image = image;
     if (isRecordingDetail) {
-        [Utilities setLogoBackgroundColor:jewelView];
+        [Utilities setLogoBackgroundColor:jewelView mode:logoBackgroundMode];
         CGRect frame;
         frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
         frame.size.height = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.7);
@@ -2068,6 +2068,7 @@ int h=0;
     if (kenBurnsString == nil || [kenBurnsString boolValue]) kenBurns = YES;
     enableKenBurns = kenBurns;
     self.kenView = nil;
+    logoBackgroundMode = [Utilities getLogoBackgroundMode];
     [self configureView];
     jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
 }
