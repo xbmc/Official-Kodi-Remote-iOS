@@ -934,26 +934,6 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		92B4E10F2032C3EF008A12E4 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		92E59371214A022A00C06587 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -3304,7 +3284,6 @@
 				0F5548F3151D1187007E633F /* Frameworks */,
 				0F5548F4151D1187007E633F /* Resources */,
 				92663CCD203021D6002FE988 /* Embed Watch Content */,
-				92E59371214A022A00C06587 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3325,7 +3304,6 @@
 			buildPhases = (
 				92663CA6203021D5002FE988 /* Resources */,
 				92663CC9203021D6002FE988 /* Embed App Extensions */,
-				92700274261E0EFC00CFC8E2 /* Set Build Version */,
 			);
 			buildRules = (
 			);
@@ -3344,8 +3322,6 @@
 				92663CB0203021D6002FE988 /* Sources */,
 				92663CB1203021D6002FE988 /* Frameworks */,
 				92663CB2203021D6002FE988 /* Resources */,
-				92B4E10F2032C3EF008A12E4 /* Embed Frameworks */,
-				92700275261E0F1900CFC8E2 /* Set Build Version */,
 			);
 			buildRules = (
 			);
@@ -4239,49 +4215,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		92700274261E0EFC00CFC8E2 /* Set Build Version */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
-			);
-			name = "Set Build Version";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $(git rev-list --count HEAD)\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		92700275261E0F1900CFC8E2 /* Set Build Version */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
-			);
-			name = "Set Build Version";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $(git rev-list --count HEAD)\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0F5548F2151D1187007E633F /* Sources */ = {
