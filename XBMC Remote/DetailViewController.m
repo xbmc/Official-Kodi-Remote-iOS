@@ -1379,7 +1379,7 @@
     NSDictionary *item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *fanartURL = [item objectForKey:@"fanart"];
-    NSString *displayThumb=[NSString stringWithFormat:@"%@_wall", defaultThumb];
+    NSString *displayThumb = [NSString stringWithFormat:@"%@_wall", defaultThumb.stringByDeletingPathExtension];
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     
     CGFloat cellthumbWidth = cellGridWidth;
@@ -1437,7 +1437,7 @@
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
             [cell.posterLabel setHidden:NO];
             [cell.labelImageView setHidden:NO];
-            [cell.posterThumbnail setBackgroundColor:[Utilities getSystemGray6]];
+            [cell.posterThumbnail setBackgroundColor:[Utilities getGrayColor:28 alpha:1.0]];
         }
         
         if ([playcount intValue]){
@@ -2157,9 +2157,13 @@ int originYear = 0;
 //        cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator; 
 //    }
 /* end future */
-    CGRect frame = cell.urlImageView.frame;
+    CGRect frame;
+    frame.origin = CGPointZero;
     frame.size.width = thumbWidth;
+    frame.size.height = cellHeight;
     cell.urlImageView.frame = frame;
+    cell.urlImageView.autoresizingMask = UIViewAutoresizingNone;
+    cell.urlImageView.backgroundColor = [UIColor clearColor];
     
     UILabel *title=(UILabel*) [cell viewWithTag:1];
     UILabel *genre=(UILabel*) [cell viewWithTag:2];
@@ -2341,7 +2345,6 @@ int originYear = 0;
         }
         else {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
-            [cell.urlImageView setBackgroundColor:[Utilities getSystemGray6]];
         }
     }
     else if (albumView){
@@ -2450,6 +2453,17 @@ int originYear = 0;
             ^(id dictionary, NSUInteger idx, BOOL *stop) {
                 return ([[dictionary objectForKey: @"season"] isEqualToString: seasonNumber]);
             }];
+}
+
+- (NSInteger)getFirstListedSeason:(NSArray*)array {
+    NSInteger firstSeason = NSNotFound;
+    for (NSDictionary *season in array) {
+        NSInteger index = [season[@"season"] intValue];
+        if (index < firstSeason) {
+            firstSeason = index;
+        }
+    }
+    return firstSeason;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -2671,6 +2685,7 @@ int originYear = 0;
             item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:section]] objectAtIndex:0];
         }
         NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[[item objectForKey:@"season"] intValue]] inArray:self.extraSectionRichResults];
+        NSInteger firstListedSeason = [self getFirstListedSeason:self.extraSectionRichResults];
         CGFloat seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
         if (seasonIdx != NSNotFound){
             CGFloat origin_x = seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2);
@@ -2684,7 +2699,8 @@ int originYear = 0;
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
             NSString *stringURL = [[self.extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"thumbnail"];
             NSString *displayThumb=@"coverbox_back_section.png";
-            if (seasonIdx == 0) {
+            BOOL isFirstListedSeason = [item[@"season"] intValue] == firstListedSeason;
+            if (isFirstListedSeason) {
                 self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
                 self.searchController.searchBar.tintColor = tableViewSearchBarColor;
             }
@@ -2701,7 +2717,7 @@ int originYear = 0;
                     seasonFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
                     seasonFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
                     [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                    if (seasonIdx == 0) {
+                    if (isFirstListedSeason) {
                         [self setSearchBarColor:albumColor];
                     }
                     [self setLabelColor:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];

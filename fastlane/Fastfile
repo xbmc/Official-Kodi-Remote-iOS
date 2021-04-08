@@ -30,6 +30,7 @@ lane :tf do
     include_symbols: true,
     include_bitcode: true,
     export_method: 'app-store',
+    xcargs: "CURRENT_PROJECT_VERSION=#{number_of_commits}",
   )
 
   # ignore commit messages that contain '[not app]'
@@ -72,6 +73,8 @@ lane :tf do
     is_prerelease: true,
   )
   UI.message JSON.pretty_generate(ghRelease)
+
+  system 'git fetch --tags'
 end
 
 desc 'Submit to AppStore review'
