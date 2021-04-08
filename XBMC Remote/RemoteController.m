@@ -372,7 +372,7 @@
 # pragma mark - ToolBar
 
 -(void)toggleGestureZone:(id)sender{
-    NSString *imageName=@"";
+    NSString *imageName=@"blank";
     BOOL showGesture = (gestureZoneView.alpha == 0);
     if ([sender isKindOfClass:[NSNotification class]]){
         if ([[sender userInfo] isKindOfClass:[NSDictionary class]]){
