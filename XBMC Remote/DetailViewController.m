@@ -2468,9 +2468,9 @@ int originYear = 0;
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (albumView && [self.richResults count]>0){
-        __block UIColor *albumFontColor = [UIColor blackColor];
+        __block UIColor *albumFontColor = [Utilities getGrayColor:0 alpha:1];
         __block UIColor *albumFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
-        __block UIColor *albumDetailsColor = [UIColor darkGrayColor];
+        __block UIColor *albumDetailsColor = [Utilities getGrayColor:0 alpha:0.6];
 
         CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
         CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
@@ -2537,7 +2537,7 @@ int originYear = 0;
                                           gradient.frame = albumDetailView.bounds;
                                           gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
                                           [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                                          albumFontColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
+                                          albumFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
                                           albumFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
                                           albumDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
                                           [self setLabelColor:albumFontColor label34Color:albumDetailsColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
@@ -2639,8 +2639,9 @@ int originYear = 0;
         return albumDetailView;
     }
     else if (episodesView && [self.richResults count]>0 && !([self doesShowSearchResults])){
-        __block UIColor *seasonFontColor = [Utilities get1stLabelColor];
+        __block UIColor *seasonFontColor = [Utilities getGrayColor:0 alpha:1];
         __block UIColor *seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
+        __block UIColor *seasonDetailsColor = [Utilities getGrayColor:0 alpha:0.6];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
         albumDetailView.tag = section;
         int toggleIconSpace = 0;
@@ -2714,20 +2715,19 @@ int originYear = 0;
                     albumColor = [utils averageColor:image inverse:NO];
                     albumColor = [utils limitSaturation:albumColor satmax:0.33];
                     gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
+                    seasonFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
                     seasonFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
-                    seasonFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+                    seasonDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
                     [albumDetailView.layer insertSublayer:gradient atIndex:1];
                     if (isFirstListedSeason) {
                         [self setSearchBarColor:albumColor];
                     }
-                    [self setLabelColor:seasonFontColor label34Color:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
+                    [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                 }];
             }
             else {
                 [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
-                seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
-                seasonFontColor = [Utilities get1stLabelColor];
-                [self setLabelColor:seasonFontColor label34Color:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
+                [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
             }            
             [albumDetailView addSubview:thumbImageView];
             
