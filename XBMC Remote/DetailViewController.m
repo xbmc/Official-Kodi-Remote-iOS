@@ -2547,6 +2547,7 @@ int originYear = 0;
         }
         else {
             [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+            [self setLabelColor:albumFontColor label34Color:albumDetailsColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
         }
         stringURL = [item objectForKey:@"fanart"];
         if (![stringURL isEqualToString:@""]){
@@ -2562,8 +2563,6 @@ int originYear = 0;
         [albumDetailView addSubview:thumbImageContainer];
         
         [artist setBackgroundColor:[UIColor clearColor]];
-        [artist setTextColor:albumFontColor];
-        [artist setShadowColor:albumFontShadowColor];
         [artist setShadowOffset:CGSizeMake(0, 1)];
         [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
         artist.adjustsFontSizeToFitWidth = YES;
@@ -2572,8 +2571,6 @@ int originYear = 0;
         [albumDetailView addSubview:artist];
         
         [albumLabel setBackgroundColor:[UIColor clearColor]];
-        [albumLabel setTextColor:albumFontColor];
-        [albumLabel setShadowColor:albumFontShadowColor];
         [albumLabel setShadowOffset:CGSizeMake(0, 1)];
         [albumLabel setFont:[UIFont boldSystemFontOfSize:albumFontSize]];
         albumLabel.text = self.navigationItem.title;
@@ -2601,16 +2598,12 @@ int originYear = 0;
         NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:totalTime/60]];
         
         [trackCountLabel setBackgroundColor:[UIColor clearColor]];
-        [trackCountLabel setTextColor:albumDetailsColor];
-        [trackCountLabel setShadowColor:albumFontShadowColor];
         [trackCountLabel setShadowOffset:CGSizeMake(0, 1)];
         [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
         trackCountLabel.text = [NSString stringWithFormat:@"%lu %@, %@ %@", (unsigned long)[self.richResults count], [self.richResults count] > 1 ? NSLocalizedString(@"Songs", nil)  : NSLocalizedString(@"Song", nil), numberString, totalTime/60 > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
         [albumDetailView addSubview:trackCountLabel];
         int year = [[item objectForKey:@"year"] intValue];
         [releasedLabel setBackgroundColor:[UIColor clearColor]];
-        [releasedLabel setTextColor:albumDetailsColor];
-        [releasedLabel setShadowColor:albumFontShadowColor];
         [releasedLabel setShadowOffset:CGSizeMake(0, 1)];
         [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
         releasedLabel.text = [NSString stringWithFormat:@"%@", (year > 0) ? [NSString stringWithFormat:NSLocalizedString(@"Released %d", nil), year] : @"" ];
