@@ -3138,7 +3138,6 @@
 				0F5548F2151D1187007E633F /* Sources */,
 				0F5548F3151D1187007E633F /* Frameworks */,
 				0F5548F4151D1187007E633F /* Resources */,
-				AC81343A25A9DAE900CC52DF /* Set build version */,
 			);
 			buildRules = (
 			);
@@ -3996,29 +3995,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		AC81343A25A9DAE900CC52DF /* Set build version */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
-			);
-			name = "Set build version";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $(git rev-list --count HEAD)\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		0F5548F2151D1187007E633F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -4340,6 +4316,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -4388,6 +4365,7 @@
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QR7RHK8K4X;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
