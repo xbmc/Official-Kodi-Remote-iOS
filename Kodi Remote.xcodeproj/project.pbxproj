@@ -1946,7 +1946,6 @@
 		92663CD0203032AF002FE988 /* KodiHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KodiHost.swift; sourceTree = "<group>"; };
 		92663CD2203032FF002FE988 /* RemoteInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteInterfaceController.swift; sourceTree = "<group>"; };
 		92663CD7203137C3002FE988 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
-		92B4E1192032C621008A12E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		92B4E1262032C6A7008A12E4 /* KodiAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KodiAPI.swift; sourceTree = "<group>"; };
 		92B4E1282032C856008A12E4 /* KodiRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KodiRequest.swift; sourceTree = "<group>"; };
 		92B4E12A2032CCFD008A12E4 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
@@ -3287,7 +3286,6 @@
 			isa = PBXGroup;
 			children = (
 				92663CD0203032AF002FE988 /* KodiHost.swift */,
-				92B4E1192032C621008A12E4 /* Info.plist */,
 				92B4E1262032C6A7008A12E4 /* KodiAPI.swift */,
 				92B4E1282032C856008A12E4 /* KodiRequest.swift */,
 				92B4E12A2032CCFD008A12E4 /* Error.swift */,
