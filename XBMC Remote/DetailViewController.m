@@ -497,15 +497,15 @@
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
 }
 
--(void)setLabelColor:(UIColor*)text fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4{
+-(void)setLabelColor:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4{
     [label1 setShadowColor:shadow];
-    [label1 setTextColor:text];
+    [label1 setTextColor:lab12color];
     [label2 setShadowColor:shadow];
-    [label2 setTextColor:text];
+    [label2 setTextColor:lab12color];
     [label3 setShadowColor:shadow];
-    [label3 setTextColor:text];
+    [label3 setTextColor:lab34color];
     [label4 setShadowColor:shadow];
-    [label4 setTextColor:text];
+    [label4 setTextColor:lab34color];
 }
 
 -(BOOL)doesShowSearchResults {
@@ -2540,7 +2540,7 @@ int originYear = 0;
                                           albumFontColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
                                           albumFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
                                           albumDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
-                                          [self setLabelColor:albumFontColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
+                                          [self setLabelColor:albumFontColor label34Color:albumDetailsColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                                           [self setSearchBarColor:albumColor];
                                       }
                                   }];
@@ -2720,14 +2720,14 @@ int originYear = 0;
                     if (isFirstListedSeason) {
                         [self setSearchBarColor:albumColor];
                     }
-                    [self setLabelColor:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
+                    [self setLabelColor:seasonFontColor label34Color:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                 }];
             }
             else {
                 [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
                 seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
                 seasonFontColor = [Utilities get1stLabelColor];
-                [self setLabelColor:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
+                [self setLabelColor:seasonFontColor label34Color:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
             }            
             [albumDetailView addSubview:thumbImageView];
             
