@@ -72,6 +72,8 @@ lane :tf do
     is_prerelease: true,
   )
   UI.message JSON.pretty_generate(ghRelease)
+
+  system 'git fetch --tags'
 end
 
 desc 'Submit to AppStore review'
