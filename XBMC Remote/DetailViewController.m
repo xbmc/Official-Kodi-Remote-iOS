@@ -2609,8 +2609,8 @@ int originYear = 0;
         releasedLabel.text = [NSString stringWithFormat:@"%@", (year > 0) ? [NSString stringWithFormat:NSLocalizedString(@"Released %d", nil), year] : @"" ];
         [albumDetailView addSubview:releasedLabel];
         
-        UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ];
-        albumInfoButton.alpha = 0.5;
+        UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+        albumInfoButton.alpha = 0.8;
         [albumInfoButton setShowsTouchWhenHighlighted:YES];
         [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 3, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
         albumInfoButton.tag = 0;
@@ -2779,8 +2779,8 @@ int originYear = 0;
             }
             [albumDetailView addSubview:releasedLabel];
 
-            UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
-            albumInfoButton.alpha = 0.6;
+            UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+            albumInfoButton.alpha = 0.8;
             [albumInfoButton setShowsTouchWhenHighlighted:YES];
             [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 6, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
             albumInfoButton.tag = 1;
