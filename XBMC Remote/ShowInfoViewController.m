@@ -996,6 +996,7 @@ int h=0;
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        // artist details
         contributorString = @"roles";
         castHeight -= 26;
         placeHolderImage = @"coverbox_back_artists.png";
@@ -1068,17 +1069,16 @@ int h=0;
             studioLabel.text = [[item objectForKey:@"formed"] length] == 0 ? studioLabel.text : [item objectForKey:@"formed"];
         }
         
-//        if ([directorLabel.text isEqualToString:@"-"]){
-//            directorLabel.hidden = YES;
-//            label1.hidden = YES;
-//            [self moveLabel:[NSArray arrayWithObjects: label2, label4, label5, label6, genreLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:53];
-//        }
-//        
-//        if ([genreLabel.text isEqualToString:@"-"]){
-//            genreLabel.hidden = YES;
-//            label2.hidden = YES;
-//            [self moveLabel:[NSArray arrayWithObjects: label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:53];
-//        }
+        if ([directorLabel.text isEqualToString:@"-"]){
+            directorLabel.hidden = YES;
+            label1.hidden = YES;
+            [self moveLabel:[NSArray arrayWithObjects: label2, label4, label5, label6, genreLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+        }
+        if ([genreLabel.text isEqualToString:@"-"]){
+            genreLabel.hidden = YES;
+            label2.hidden = YES;
+            [self moveLabel:[NSArray arrayWithObjects: label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+        }
         if ([studioLabel.text isEqualToString:@"-"]){
             studioLabel.hidden = YES;
             label4.hidden = YES;
