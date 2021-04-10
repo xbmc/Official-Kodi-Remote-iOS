@@ -944,7 +944,7 @@ int h=0;
         voteLabel.frame=frame;
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
-        
+        // album details
         int coverHeight = 380;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             coverHeight = 290;
@@ -992,7 +992,7 @@ int h=0;
         else{
             runtimeLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
         }
-        studioLabel.text = [[item objectForKey:@"albumlabel"] length] == 0 ? @"-" : [item objectForKey:@"albumlabel"];
+        studioLabel.text = [item[@"label"] length] == 0 ? @"-" : item[@"label"];
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
