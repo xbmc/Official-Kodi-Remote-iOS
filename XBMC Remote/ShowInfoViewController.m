@@ -1258,8 +1258,7 @@ int h=0;
             if (alpha > 0){
                 foundTintColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
             }
-            self.navigationController.navigationBar.tintColor = foundTintColor;
-            toolbar.tintColor = foundTintColor;
+            [self setIOS7barTintColor:foundTintColor];
             if (enableJewel){
                 coverView.image = image;
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
@@ -1282,10 +1281,10 @@ int h=0;
                              Utilities *utils = [[Utilities alloc] init];
                              newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                              [sf setIOS7barTintColor:newColor];
+                             foundTintColor = newColor;
                          }
                      }
                  }];
-                foundTintColor = newColor;
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
@@ -1299,12 +1298,12 @@ int h=0;
                                              Utilities *utils = [[Utilities alloc] init];
                                              newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                                              [sf setIOS7barTintColor:newColor];
+                                             foundTintColor = newColor;
                                          }
                                          [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
                                      }
                                  }
                  ];
-                foundTintColor = newColor;
             }
         }
     }];
@@ -1955,7 +1954,7 @@ int h=0;
         UIBarButtonItem *close = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
         [items insertObject:close atIndex:0];
         [toolbar setItems:items];
-        toolbar.tintColor = TINT_COLOR;
+        [self setIOS7barTintColor:TINT_COLOR];
         viewTitle.textAlignment = NSTextAlignmentCenter;
         bottomShadow.hidden = YES;
     }
@@ -1972,12 +1971,10 @@ int h=0;
                                                  name: @"ECSLidingSwipeLeft"
                                                object: nil];
     if (foundTintColor != nil){
-        self.navigationController.navigationBar.tintColor = foundTintColor;
-        toolbar.tintColor = foundTintColor;
+        [self setIOS7barTintColor:foundTintColor];
     }
     else {
-        self.navigationController.navigationBar.tintColor = TINT_COLOR;
-        toolbar.tintColor = TINT_COLOR;
+        [self setIOS7barTintColor:TINT_COLOR];
     }
     CGFloat alphaValue = 0.2;
     if (closeButton.alpha==1){
@@ -2003,8 +2000,7 @@ int h=0;
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [self.navigationController.navigationBar setTintColor:TINT_COLOR];
-    toolbar.tintColor = TINT_COLOR;
+    [self setIOS7barTintColor:TINT_COLOR];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
