@@ -561,9 +561,8 @@
     [self hideButtonListWhenEmpty];
 }
 
--(void)hideButtonListWhenEmpty {
-    // Hide the toolbar when no button is shown at all
-    if (button1.hidden && button2.hidden && button3.hidden && button4.hidden && button5.hidden && button6.hidden && button7.hidden) {
+-(void)hideButtonList:(BOOL)hide {
+    if (hide) {
         buttonsView.hidden = YES;
         
         UIEdgeInsets tableViewInsets = dataList.contentInset;
@@ -583,6 +582,13 @@
         collectionView.contentInset = tableViewInsets;
         collectionView.scrollIndicatorInsets = tableViewInsets;
     }
+}
+
+-(void)hideButtonListWhenEmpty {
+    // Hide the toolbar when no button is shown at all
+    BOOL hide = button1.hidden && button2.hidden && button3.hidden && button4.hidden &&
+                button5.hidden && button6.hidden && button7.hidden;
+    [self hideButtonList:hide];
 }
 
 -(void)toggleOpen:(UITapGestureRecognizer *)sender {
@@ -5467,10 +5473,14 @@ NSIndexPath *selected;
 
 - (void)searchBarCancelButtonClicked:(UISearchBar*)searchbar {
     showkeyboard = NO;
+    // Restore the toolbar when search became inactive
+    [self hideButtonListWhenEmpty];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar*)searchbar {
     showkeyboard = NO;
+    // Hide the toolbar while search is active
+    [self hideButtonList:YES];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar*)searchbar {
