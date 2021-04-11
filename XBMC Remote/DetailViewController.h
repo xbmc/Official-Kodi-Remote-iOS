@@ -143,6 +143,7 @@
     BOOL showbar;
     dispatch_queue_t epglockqueue;
     LogoBackgroundType logoBackgroundMode;
+    BOOL showkeyboard;
 }
 
 - (id)initWithFrame:(CGRect)frame;

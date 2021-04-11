@@ -5279,6 +5279,10 @@ NSIndexPath *selected;
         [self updateChannelListTableCell];
         channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(60.0 - [[outputFormatter stringFromDate:now] floatValue]) target:self selector:@selector(startChannelListUpdateTimer) userInfo:nil repeats:NO];
     }
+    // Show the keyboard if it was active when the view was shown last time. Remark: Only works with dalay!
+    if (showkeyboard) {
+        [[self getSearchTextField] performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.1];
+    }
     [self setButtonViewContent];
 }
 
@@ -5457,6 +5461,20 @@ NSIndexPath *selected;
         }
     }
     return sortMethod;
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarCancelButtonClicked:(UISearchBar*)searchbar {
+    showkeyboard = NO;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar*)searchbar {
+    showkeyboard = NO;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar*)searchbar {
+    showkeyboard = YES;
 }
 
 #pragma mark UISearchController Delegate Methods
