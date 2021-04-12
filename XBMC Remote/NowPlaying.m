@@ -149,6 +149,13 @@
 
 #pragma mark - utility
 
+- (NSString*)processSongCodecName:(NSString*)codec {
+    if([codec rangeOfString:@"musepack"].location != NSNotFound) {
+        codec = [codec stringByReplacingOccurrencesOfString:@"musepack" withString:@"mpc"];
+    }
+    return codec;
+}
+
 - (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
     NSString *result = @"";    
     int secs = [seconds intValue];
@@ -1084,6 +1091,7 @@ int currentItemID;
                  songSampleRateImage.image = nil;
                  songNumChanImage.image = nil;
                  
+                 codec = [self processSongCodecName:codec];
                  UIImage *songImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", codec]];
                  [songCodecImage setImage:songImage];
                  if (songImage != nil){
