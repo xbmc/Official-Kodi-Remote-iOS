@@ -497,15 +497,15 @@
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
 }
 
--(void)setLabelColor:(UIColor*)text fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4{
+-(void)setLabelColor:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4{
     [label1 setShadowColor:shadow];
-    [label1 setTextColor:text];
+    [label1 setTextColor:lab12color];
     [label2 setShadowColor:shadow];
-    [label2 setTextColor:text];
+    [label2 setTextColor:lab12color];
     [label3 setShadowColor:shadow];
-    [label3 setTextColor:text];
+    [label3 setTextColor:lab34color];
     [label4 setShadowColor:shadow];
-    [label4 setTextColor:text];
+    [label4 setTextColor:lab34color];
 }
 
 -(BOOL)doesShowSearchResults {
@@ -2468,9 +2468,9 @@ int originYear = 0;
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (albumView && [self.richResults count]>0){
-        __block UIColor *albumFontColor = [UIColor blackColor];
+        __block UIColor *albumFontColor = [Utilities getGrayColor:0 alpha:1];
         __block UIColor *albumFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
-        __block UIColor *albumDetailsColor = [UIColor darkGrayColor];
+        __block UIColor *albumDetailsColor = [Utilities getGrayColor:0 alpha:0.6];
 
         CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
         CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
@@ -2537,16 +2537,17 @@ int originYear = 0;
                                           gradient.frame = albumDetailView.bounds;
                                           gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
                                           [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                                          albumFontColor = [utils updateColor:albumColor lightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
+                                          albumFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
                                           albumFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
                                           albumDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
-                                          [self setLabelColor:albumFontColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
+                                          [self setLabelColor:albumFontColor label34Color:albumDetailsColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                                           [self setSearchBarColor:albumColor];
                                       }
                                   }];
         }
         else {
             [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
+            [self setLabelColor:albumFontColor label34Color:albumDetailsColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
         }
         stringURL = [item objectForKey:@"fanart"];
         if (![stringURL isEqualToString:@""]){
@@ -2562,8 +2563,6 @@ int originYear = 0;
         [albumDetailView addSubview:thumbImageContainer];
         
         [artist setBackgroundColor:[UIColor clearColor]];
-        [artist setTextColor:albumFontColor];
-        [artist setShadowColor:albumFontShadowColor];
         [artist setShadowOffset:CGSizeMake(0, 1)];
         [artist setFont:[UIFont systemFontOfSize:artistFontSize]];
         artist.adjustsFontSizeToFitWidth = YES;
@@ -2572,8 +2571,6 @@ int originYear = 0;
         [albumDetailView addSubview:artist];
         
         [albumLabel setBackgroundColor:[UIColor clearColor]];
-        [albumLabel setTextColor:albumFontColor];
-        [albumLabel setShadowColor:albumFontShadowColor];
         [albumLabel setShadowOffset:CGSizeMake(0, 1)];
         [albumLabel setFont:[UIFont boldSystemFontOfSize:albumFontSize]];
         albumLabel.text = self.navigationItem.title;
@@ -2601,23 +2598,19 @@ int originYear = 0;
         NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:totalTime/60]];
         
         [trackCountLabel setBackgroundColor:[UIColor clearColor]];
-        [trackCountLabel setTextColor:albumDetailsColor];
-        [trackCountLabel setShadowColor:albumFontShadowColor];
         [trackCountLabel setShadowOffset:CGSizeMake(0, 1)];
         [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
         trackCountLabel.text = [NSString stringWithFormat:@"%lu %@, %@ %@", (unsigned long)[self.richResults count], [self.richResults count] > 1 ? NSLocalizedString(@"Songs", nil)  : NSLocalizedString(@"Song", nil), numberString, totalTime/60 > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
         [albumDetailView addSubview:trackCountLabel];
         int year = [[item objectForKey:@"year"] intValue];
         [releasedLabel setBackgroundColor:[UIColor clearColor]];
-        [releasedLabel setTextColor:albumDetailsColor];
-        [releasedLabel setShadowColor:albumFontShadowColor];
         [releasedLabel setShadowOffset:CGSizeMake(0, 1)];
         [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
         releasedLabel.text = [NSString stringWithFormat:@"%@", (year > 0) ? [NSString stringWithFormat:NSLocalizedString(@"Released %d", nil), year] : @"" ];
         [albumDetailView addSubview:releasedLabel];
         
-        UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ];
-        albumInfoButton.alpha = 0.5;
+        UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+        albumInfoButton.alpha = 0.8;
         [albumInfoButton setShowsTouchWhenHighlighted:YES];
         [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 3, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
         albumInfoButton.tag = 0;
@@ -2639,8 +2632,9 @@ int originYear = 0;
         return albumDetailView;
     }
     else if (episodesView && [self.richResults count]>0 && !([self doesShowSearchResults])){
-        __block UIColor *seasonFontColor = [Utilities get1stLabelColor];
+        __block UIColor *seasonFontColor = [Utilities getGrayColor:0 alpha:1];
         __block UIColor *seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
+        __block UIColor *seasonDetailsColor = [Utilities getGrayColor:0 alpha:0.6];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
         albumDetailView.tag = section;
         int toggleIconSpace = 0;
@@ -2714,20 +2708,19 @@ int originYear = 0;
                     albumColor = [utils averageColor:image inverse:NO];
                     albumColor = [utils limitSaturation:albumColor satmax:0.33];
                     gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
+                    seasonFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
                     seasonFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
-                    seasonFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+                    seasonDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
                     [albumDetailView.layer insertSublayer:gradient atIndex:1];
                     if (isFirstListedSeason) {
                         [self setSearchBarColor:albumColor];
                     }
-                    [self setLabelColor:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
+                    [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                 }];
             }
             else {
                 [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb] ];
-                seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
-                seasonFontColor = [Utilities get1stLabelColor];
-                [self setLabelColor:seasonFontColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
+                [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
             }            
             [albumDetailView addSubview:thumbImageView];
             
@@ -2786,8 +2779,8 @@ int originYear = 0;
             }
             [albumDetailView addSubview:releasedLabel];
 
-            UIButton *albumInfoButton =  [UIButton buttonWithType:UIButtonTypeInfoDark ] ;
-            albumInfoButton.alpha = 0.6;
+            UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+            albumInfoButton.alpha = 0.8;
             [albumInfoButton setShowsTouchWhenHighlighted:YES];
             [albumInfoButton setFrame:CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 6, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height)];
             albumInfoButton.tag = 1;
