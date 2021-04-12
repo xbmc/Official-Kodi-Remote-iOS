@@ -944,7 +944,7 @@ int h=0;
         voteLabel.frame=frame;
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
-        
+        // album details
         int coverHeight = 380;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             coverHeight = 290;
@@ -992,10 +992,11 @@ int h=0;
         else{
             runtimeLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
         }
-        studioLabel.text = [[item objectForKey:@"albumlabel"] length] == 0 ? @"-" : [item objectForKey:@"albumlabel"];
+        studioLabel.text = [item[@"label"] length] == 0 ? @"-" : item[@"label"];
         [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
     }
     else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        // artist details
         contributorString = @"roles";
         castHeight -= 26;
         placeHolderImage = @"coverbox_back_artists.png";
@@ -1068,17 +1069,16 @@ int h=0;
             studioLabel.text = [[item objectForKey:@"formed"] length] == 0 ? studioLabel.text : [item objectForKey:@"formed"];
         }
         
-//        if ([directorLabel.text isEqualToString:@"-"]){
-//            directorLabel.hidden = YES;
-//            label1.hidden = YES;
-//            [self moveLabel:[NSArray arrayWithObjects: label2, label4, label5, label6, genreLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:53];
-//        }
-//        
-//        if ([genreLabel.text isEqualToString:@"-"]){
-//            genreLabel.hidden = YES;
-//            label2.hidden = YES;
-//            [self moveLabel:[NSArray arrayWithObjects: label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:53];
-//        }
+        if ([directorLabel.text isEqualToString:@"-"]){
+            directorLabel.hidden = YES;
+            label1.hidden = YES;
+            [self moveLabel:[NSArray arrayWithObjects: label2, label4, label5, label6, genreLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+        }
+        if ([genreLabel.text isEqualToString:@"-"]){
+            genreLabel.hidden = YES;
+            label2.hidden = YES;
+            [self moveLabel:[NSArray arrayWithObjects: label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+        }
         if ([studioLabel.text isEqualToString:@"-"]){
             studioLabel.hidden = YES;
             label4.hidden = YES;
@@ -1258,8 +1258,7 @@ int h=0;
             if (alpha > 0){
                 foundTintColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
             }
-            self.navigationController.navigationBar.tintColor = foundTintColor;
-            toolbar.tintColor = foundTintColor;
+            [self setIOS7barTintColor:foundTintColor];
             if (enableJewel){
                 coverView.image = image;
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
@@ -1282,10 +1281,10 @@ int h=0;
                              Utilities *utils = [[Utilities alloc] init];
                              newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                              [sf setIOS7barTintColor:newColor];
+                             foundTintColor = newColor;
                          }
                      }
                  }];
-                foundTintColor = newColor;
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
@@ -1299,12 +1298,12 @@ int h=0;
                                              Utilities *utils = [[Utilities alloc] init];
                                              newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                                              [sf setIOS7barTintColor:newColor];
+                                             foundTintColor = newColor;
                                          }
                                          [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
                                      }
                                  }
                  ];
-                foundTintColor = newColor;
             }
         }
     }];
@@ -1955,7 +1954,7 @@ int h=0;
         UIBarButtonItem *close = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
         [items insertObject:close atIndex:0];
         [toolbar setItems:items];
-        toolbar.tintColor = TINT_COLOR;
+        [self setIOS7barTintColor:TINT_COLOR];
         viewTitle.textAlignment = NSTextAlignmentCenter;
         bottomShadow.hidden = YES;
     }
@@ -1972,12 +1971,10 @@ int h=0;
                                                  name: @"ECSLidingSwipeLeft"
                                                object: nil];
     if (foundTintColor != nil){
-        self.navigationController.navigationBar.tintColor = foundTintColor;
-        toolbar.tintColor = foundTintColor;
+        [self setIOS7barTintColor:foundTintColor];
     }
     else {
-        self.navigationController.navigationBar.tintColor = TINT_COLOR;
-        toolbar.tintColor = TINT_COLOR;
+        [self setIOS7barTintColor:TINT_COLOR];
     }
     CGFloat alphaValue = 0.2;
     if (closeButton.alpha==1){
@@ -2003,8 +2000,7 @@ int h=0;
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [self.navigationController.navigationBar setTintColor:TINT_COLOR];
-    toolbar.tintColor = TINT_COLOR;
+    [self setIOS7barTintColor:TINT_COLOR];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
