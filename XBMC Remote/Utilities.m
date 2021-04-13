@@ -223,14 +223,51 @@
     return img;
 }
 
-+ (void)setLogoBackgroundColor:(UIImageView*)imageview {
-    // get background color and colorize the image background
++ (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode{
     Utilities *utils = [[Utilities alloc] init];
-    UIColor *imgcolor = [utils averageColor:imageview.image inverse:NO];
+    UIColor *bgcolor = [UIColor clearColor];
+    UIColor *imgcolor = nil;
     UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
     UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
-    UIColor *bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
+    switch (mode) {
+        case bgAuto:
+            // get background color and colorize the image background
+            imgcolor = [utils averageColor:imageview.image inverse:NO];
+            bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
+            break;
+        case bgLight:
+            bgcolor = bglight;
+            break;
+        case bgDark:
+            bgcolor = bgdark;
+            break;
+        case bgTrans:
+            // bgcolor already defined to clearColor as default
+            break;
+        default:
+            NSLog(@"setLogoBackgroundColor: unknown mode %d", mode);
+            break;
+    }
     [imageview setBackgroundColor:bgcolor];
+}
+
++ (LogoBackgroundType)getLogoBackgroundMode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+    LogoBackgroundType setting = bgAuto;
+    NSString *mode = [userDefaults stringForKey:@"logo_background"];
+    if ([mode length]){
+        if ([mode isEqualToString:@"dark"]) {
+            setting = bgDark;
+        }
+        else if ([mode isEqualToString:@"light"]) {
+            setting = bgLight;
+        }
+        else if ([mode isEqualToString:@"trans"]) {
+            setting = bgTrans;
+        }
+    }
+    return setting;
 }
 
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage{
