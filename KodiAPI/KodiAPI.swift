@@ -16,6 +16,8 @@ import WatchConnectivity
 }
 
 @objc public class KodiAPI: NSObject {
+    @objc public static let WatchHostsKey = "WatchHosts"
+
     public let host: KodiHost
     @objc public var delegate: KodiAPIDelegate?
     public var session: WCSession?

@@ -10,9 +10,8 @@ import WatchKit
 import Foundation
 import WatchConnectivity
 
-let WatchHostsKey = "WatchHosts"
-
 class InterfaceController: WKInterfaceController, WCSessionDelegate  {
+    let WatchHostsKey = KodiAPI.WatchHostsKey
     
     @IBOutlet var hostTable: WKInterfaceTable!
     @IBOutlet var emptyLabel: WKInterfaceLabel!

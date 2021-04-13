@@ -81,7 +81,7 @@ class KodiRequest<T: DecodableFromResponse>: KodiRequestProtocol {
             authPart += "@"
         }
         
-        return URL(string: "http://\(authPart)\(host.serverIp):\(String(host.serverPort))")!
+        return URL(string: "http://\(authPart)\(host.serverIp):\(host.serverPort)")!
     }
     
     init(_ host: KodiHost) {

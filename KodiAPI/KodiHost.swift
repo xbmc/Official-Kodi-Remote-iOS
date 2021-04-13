@@ -13,8 +13,7 @@ import Foundation
     public var user: String = ""
     public var pass: String = ""
     public var serverIp: String
-    public var serverPort: Int = 9090
-    public var tcpPort: Int? = 0
+    public var serverPort: Int = 8080
     
     public init(fromDict dict: [String:Any]) {
         name = dict["serverDescription"] as! String
@@ -23,10 +22,8 @@ import Foundation
         serverIp = dict["serverIP"] as! String
         
         if let port = dict["serverPort"] as? String {
-            serverPort = Int(port) ?? 0
+            serverPort = Int(port) ?? 8080
         }
-        
-        tcpPort = dict["tcpPort"] as? Int
     }
     
     @objc public static func decode(fromJson data: Data) throws -> KodiHost {

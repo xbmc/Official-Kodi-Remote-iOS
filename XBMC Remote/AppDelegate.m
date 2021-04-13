@@ -85,7 +85,7 @@ NSMutableArray *hostRightMenuItems;
 - (void) watchUpdate {
     if ([WCSession isSupported]) {
         WCSession* session = [WCSession defaultSession];
-        NSDictionary *dict = @{@"WatchHosts": [self arrayServerList]};
+        NSDictionary *dict = @{KodiAPI.WatchHostsKey: [self arrayServerList]};
         
         if (session.activationState == WCSessionActivationStateActivated &&
             [session isPaired] && [session isWatchAppInstalled]) {
