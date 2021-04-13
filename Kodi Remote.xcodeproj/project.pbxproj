@@ -886,6 +886,7 @@
 		C70820E62621E0EE001DB3AD /* mpc.png in Resources */ = {isa = PBXBuildFile; fileRef = C70820E02621E0EE001DB3AD /* mpc.png */; };
 		C70820E72621E0EE001DB3AD /* mpc5.png in Resources */ = {isa = PBXBuildFile; fileRef = C70820E12621E0EE001DB3AD /* mpc5.png */; };
 		C718444625FFD06400F5A060 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C718444525FFD06300F5A060 /* SafariServices.framework */; };
+		C7478BF9257258E700161C1E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7478BF8257258E700161C1E /* Launch Screen.storyboard */; };
 		C788DDA2259F5172006C90F1 /* button_sort_bright.png in Resources */ = {isa = PBXBuildFile; fileRef = C788DDA0259F5172006C90F1 /* button_sort_bright.png */; };
 		C788DDA3259F5172006C90F1 /* button_sort_descending_bright.png in Resources */ = {isa = PBXBuildFile; fileRef = C788DDA1259F5172006C90F1 /* button_sort_descending_bright.png */; };
 		C788DDA7259F51A3006C90F1 /* button_sort_bright@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C788DDA5259F51A3006C90F1 /* button_sort_bright@3x.png */; };
@@ -3033,11 +3034,11 @@
 		0F747736151DD98600EF78AD /* classes */ = {
 			isa = PBXGroup;
 			children = (
-				0F747767151E5E8600EF78AD /* Demiurgic-JSON-RPC */,
 				0F175F20154D5C0D00C1C61F /* iPad */,
 				0F175F13154D45B300C1C61F /* iPhone */,
 				0F7B95101708975500880F33 /* UIImage+Resize */,
 				0FB1616B151F4005001BA2D4 /* SDWebImage */,
+				0F747767151E5E8600EF78AD /* Demiurgic-JSON-RPC */,
 				0F545D041575563100B6320D /* OBShapedButton */,
 				0F00207316EE247A003822B5 /* OBSlider */,
 				0F4156421646D810009E6DD4 /* KenBurns */,
@@ -3492,6 +3493,7 @@
 				0F554B4A151D13CA007E633F /* stars_1@2x.png in Resources */,
 				0FB8522F1C271FCF00F33FDF /* st_kodi_action_black@2x.png in Resources */,
 				0F554B4B151D13CA007E633F /* stars_2@2x.png in Resources */,
+				C7478BF9257258E700161C1E /* Launch Screen.storyboard in Resources */,
 				0F554B4C151D13CA007E633F /* stars_3@2x.png in Resources */,
 				0F554B4D151D13CA007E633F /* stars_4@2x.png in Resources */,
 				0FAC974F19A4A88900945624 /* button_exit_fullscreen.png in Resources */,
