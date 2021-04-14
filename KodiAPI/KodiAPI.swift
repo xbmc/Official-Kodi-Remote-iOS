@@ -159,7 +159,7 @@ import WatchConnectivity
         return true
     }
     
-    @objc func doAction(_ name: String) -> Bool {
+    @discardableResult @objc func doAction(_ name: String) -> Bool {
         for method in [handleInput, handlePlayer] {
             if (method(name)) {
                 return true
