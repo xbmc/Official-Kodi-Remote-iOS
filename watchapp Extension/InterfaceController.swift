@@ -23,16 +23,16 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate  {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
     }
     
-    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]){
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]){
         updateContext(applicationContext)
     }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
         updateContext(message)
     }
     
-    func updateContext(_ context: [String : Any]) {
-        guard let array = context[WatchHostsKey] as? [[String:Any]] else { return }
+    func updateContext(_ context: [String: Any]) {
+        guard let array = context[WatchHostsKey] as? [[String: Any]] else { return }
         
         UserDefaults.standard.setValue(array, forKey: WatchHostsKey)
         
@@ -45,7 +45,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate  {
         if let defaultHosts = UserDefaults.standard.array(forKey: WatchHostsKey) {
             hosts.removeAll()
             for defaultHostAny in defaultHosts {
-                guard let defaultHost = defaultHostAny as? [String:Any],
+                guard let defaultHost = defaultHostAny as? [String: Any],
                       let kodiHost = KodiHost.create(fromDict: defaultHost)
                 else { continue }
                 

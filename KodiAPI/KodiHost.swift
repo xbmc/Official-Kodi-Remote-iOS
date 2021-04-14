@@ -9,11 +9,11 @@
 import Foundation
 
 @objc public class KodiHost: NSObject, Codable {
-    public var name: String
-    public var user: String = ""
-    public var pass: String = ""
-    public var serverIp: String
-    private var serverPortStr: String
+    public let name: String
+    public let user: String = ""
+    public let pass: String = ""
+    public let serverIp: String
+    private let serverPortStr: String
     
     var serverPort: Int {
         return Int(serverPortStr) ?? 8080
@@ -28,18 +28,13 @@ import Foundation
     }
     
     static public func create(fromDict dict: [String: Any]) -> KodiHost? {
-        do {
-            return decode(fromJson: try JSONSerialization.data(withJSONObject: dict))
-        } catch {
-            return nil
-        }
+        guard let json = try? JSONSerialization.data(withJSONObject: dict)
+        else { return nil }
+
+        return decode(fromJson: json)
     }
 
     @objc public static func decode(fromJson data: Data) -> KodiHost? {
-        do {
-            return try JSONDecoder().decode(KodiHost.self, from: data)
-        }  catch {
-            return nil
-        }
+        return try? JSONDecoder().decode(KodiHost.self, from: data)
     }
 }
