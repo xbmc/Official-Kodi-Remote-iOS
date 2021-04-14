@@ -45,9 +45,11 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate  {
         if let defaultHosts = UserDefaults.standard.array(forKey: WatchHostsKey) {
             hosts.removeAll()
             for defaultHostAny in defaultHosts {
-                guard let defaultHost = defaultHostAny as? [String:Any] else { continue }
+                guard let defaultHost = defaultHostAny as? [String:Any],
+                      let kodiHost = KodiHost.create(fromDict: defaultHost)
+                else { continue }
                 
-                hosts.append(KodiHost(fromDict:defaultHost))
+                hosts.append(kodiHost)
             }
         }
         

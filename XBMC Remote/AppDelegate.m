@@ -110,7 +110,11 @@ NSMutableArray *hostRightMenuItems;
 
     NSData *hostData = message[@"host"];
     NSString *methodName = message[@"method"];
-    KodiHost *host = [KodiHost decodeFromJson:hostData error:nil];
+    KodiHost *host = [KodiHost decodeFromJson:hostData];
+    if (!host) {
+        NSLog(@"Unable to decode KodiHost from JSON");
+        return;
+    }
     
     KodiAPI *api = [[KodiAPI alloc] initWithHost:host];
     [api setDelegate:[[WCSessionResponse alloc] initWith:replyHandler]];

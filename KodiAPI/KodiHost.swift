@@ -13,20 +13,33 @@ import Foundation
     public var user: String = ""
     public var pass: String = ""
     public var serverIp: String
-    public var serverPort: Int = 8080
+    private var serverPortStr: String
     
-    public init(fromDict dict: [String:Any]) {
-        name = dict["serverDescription"] as! String
-        user = (dict["serverUser"] as? String) ?? ""
-        pass = (dict["serverPass"] as? String) ?? ""
-        serverIp = dict["serverIP"] as! String
-        
-        if let port = dict["serverPort"] as? String {
-            serverPort = Int(port) ?? 8080
-        }
+    var serverPort: Int {
+        return Int(serverPortStr) ?? 8080
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "serverDescription"
+        case serverIp = "serverIP"
+        case user = "serverUser"
+        case pass = "serverPass"
+        case serverPortStr = "serverPort"
     }
     
-    @objc public static func decode(fromJson data: Data) throws -> KodiHost {
-        return try JSONDecoder().decode(KodiHost.self, from: data)
+    static public func create(fromDict dict: [String: Any]) -> KodiHost? {
+        do {
+            return decode(fromJson: try JSONSerialization.data(withJSONObject: dict))
+        } catch {
+            return nil
+        }
+    }
+
+    @objc public static func decode(fromJson data: Data) -> KodiHost? {
+        do {
+            return try JSONDecoder().decode(KodiHost.self, from: data)
+        }  catch {
+            return nil
+        }
     }
 }
