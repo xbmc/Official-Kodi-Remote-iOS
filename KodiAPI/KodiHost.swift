@@ -10,8 +10,8 @@ import Foundation
 
 @objc public class KodiHost: NSObject, Codable {
     public let name: String
-    public let user: String = ""
-    public let pass: String = ""
+    public let user: String
+    public let pass: String
     public let serverIp: String
     private let serverPortStr: String
     
