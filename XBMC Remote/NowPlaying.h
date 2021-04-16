@@ -19,8 +19,6 @@
 
 @interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate>{
     IBOutlet UITableView *playlistTableView;
-    IBOutlet UITableViewCell *playlistTableViewCell;
-   // IBOutlet jsonDataCell *jsonCell;
     IBOutlet UILabel *albumName;
     IBOutlet UILabel *songName;
     IBOutlet UILabel *artistName;
