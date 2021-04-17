@@ -2996,7 +2996,6 @@ NSIndexPath *selected;
         CGPoint p;
         CGPoint selectedPoint;
         NSIndexPath *indexPath = nil;
-        NSIndexPath *indexPath2 = nil;
         if (enableCollectionView){
             p = [longPressGesture locationInView:collectionView];
             selectedPoint=[longPressGesture locationInView:self.view];
@@ -3005,11 +3004,9 @@ NSIndexPath *selected;
             p = [lpgr locationInView:dataList];
             selectedPoint=[lpgr locationInView:self.view];
             indexPath = [dataList indexPathForRowAtPoint:p];
-            CGPoint p2 = [longPressGesture locationInView:dataList];
-            indexPath2 = [dataList indexPathForRowAtPoint:p2];
         }
         
-        if (indexPath != nil || indexPath2 != nil ){
+        if (indexPath != nil){
             selected=indexPath;
             
             NSMutableArray *sheetActions = [[self.detailItem sheetActions] objectAtIndex:choosedTab];
@@ -3022,8 +3019,8 @@ NSIndexPath *selected;
             if (numActions){
                 NSDictionary *item = nil;
                 if ([self doesShowSearchResults]){
-                    item = [self.filteredListContent objectAtIndex:indexPath2.row];
-                    [dataList selectRowAtIndexPath:indexPath2 animated:NO scrollPosition:UITableViewScrollPositionNone];
+                    item = self.filteredListContent[indexPath.row];
+                    [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
                 }
                 else{                    
                     if (enableCollectionView){
