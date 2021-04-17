@@ -852,6 +852,23 @@ NSMutableArray *hostRightMenuItems;
                         [NSMutableArray array],
                         nil];
     
+    item1.showInfo = [NSArray arrayWithObjects:
+                      [NSNumber numberWithBool:YES],
+                      [NSNumber numberWithBool:YES],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      nil];
+    
     item1.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               
                               [NSArray arrayWithObjects:@"AudioLibrary.GetSongs", @"method", @"YES", @"albumView", nil],

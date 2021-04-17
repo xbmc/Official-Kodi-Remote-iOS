@@ -1248,7 +1248,8 @@
             }
         }
     }
-    else if ([methods objectForKey:@"method"]!=nil && ![[parameters objectForKey:@"forceActionSheet"] boolValue]){ // THERE IS A CHILD
+    else if (methods[@"method"]!=nil && ![parameters[@"forceActionSheet"] boolValue] && !stackscrollFullscreen){
+        // There is a child and we want to show it (only when not in fullscreen)
         [self viewChild:indexPath item:item displayPoint:point];
     }
     else {
