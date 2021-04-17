@@ -844,6 +844,9 @@ int h=0;
                 int originalHeight = jewelView.frame.size.height;
                 int coverHeight = 560;
                 deltaY = -(coverHeight - originalHeight);
+                frame = jewelView.frame;
+                frame.size.height = coverHeight;
+                jewelView.frame = frame;
             }
             if (enableJewel){
                 jewelView.image = [UIImage imageNamed:@"jewel_dvd.9.png"];
