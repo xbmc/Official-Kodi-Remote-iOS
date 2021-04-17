@@ -3067,7 +3067,7 @@ NSIndexPath *selected;
                     showfromview = self.view;
                 }
                 else {
-                    showfromctrl = [self doesShowSearchResults] ? self.searchController : self;
+                    showfromctrl = ([self doesShowSearchResults] || [self getSearchTextField].editing) ? self.searchController : self;
                     showfromview = enableCollectionView ? collectionView : [showfromctrl.view superview];
                     selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
@@ -3205,7 +3205,7 @@ NSIndexPath *selected;
 - (void)actionSheetHandler:(NSString*)actiontitle {
     NSMutableDictionary *item = nil;
     if (selected != nil){
-        if ([self.searchController isActive]){
+        if ([self doesShowSearchResults]){
             if (selected.row < [self.filteredListContent count]) {
                 item = self.filteredListContent[selected.row];
             }
