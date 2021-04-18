@@ -561,9 +561,8 @@
     [self hideButtonListWhenEmpty];
 }
 
--(void)hideButtonListWhenEmpty {
-    // Hide the toolbar when no button is shown at all
-    if (button1.hidden && button2.hidden && button3.hidden && button4.hidden && button5.hidden && button6.hidden && button7.hidden) {
+-(void)hideButtonList:(BOOL)hide {
+    if (hide) {
         buttonsView.hidden = YES;
         
         UIEdgeInsets tableViewInsets = dataList.contentInset;
@@ -583,6 +582,13 @@
         collectionView.contentInset = tableViewInsets;
         collectionView.scrollIndicatorInsets = tableViewInsets;
     }
+}
+
+-(void)hideButtonListWhenEmpty {
+    // Hide the toolbar when no button is shown at all
+    BOOL hide = button1.hidden && button2.hidden && button3.hidden && button4.hidden &&
+                button5.hidden && button6.hidden && button7.hidden;
+    [self hideButtonList:hide];
 }
 
 -(void)toggleOpen:(UITapGestureRecognizer *)sender {
@@ -5276,6 +5282,10 @@ NSIndexPath *selected;
         [self updateChannelListTableCell];
         channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(60.0 - [[outputFormatter stringFromDate:now] floatValue]) target:self selector:@selector(startChannelListUpdateTimer) userInfo:nil repeats:NO];
     }
+    // Show the keyboard if it was active when the view was shown last time. Remark: Only works with dalay!
+    if (showkeyboard) {
+        [[self getSearchTextField] performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.1];
+    }
     [self setButtonViewContent];
 }
 
@@ -5454,6 +5464,24 @@ NSIndexPath *selected;
         }
     }
     return sortMethod;
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarCancelButtonClicked:(UISearchBar*)searchbar {
+    showkeyboard = NO;
+    // Restore the toolbar when search became inactive
+    [self hideButtonListWhenEmpty];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar*)searchbar {
+    showkeyboard = NO;
+    // Hide the toolbar while search is active
+    [self hideButtonList:YES];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar*)searchbar {
+    showkeyboard = YES;
 }
 
 #pragma mark UISearchController Delegate Methods
