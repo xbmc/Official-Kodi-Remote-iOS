@@ -1214,7 +1214,7 @@ int h=0;
             int coverWidth = STACKSCROLL_WIDTH;
             CGRect frame;
             frame = jewelView.frame;
-            frame.origin.x = 0;
+            frame.origin.x = (self.view.frame.size.width - STACKSCROLL_WIDTH) / 2;
             frame.size.height = coverHeight;
             frame.size.width = coverWidth;
             jewelView.frame = frame;
