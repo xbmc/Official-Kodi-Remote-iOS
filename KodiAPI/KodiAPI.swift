@@ -27,9 +27,9 @@ import WatchConnectivity
     }
     func createRequest<T>(method name:String, args: [String: Any] = [:]) -> KodiRequest<T> {
         let request = KodiRequest<T>(host)
-        request.param("method", value: name)
-        request.param("id", value: 1)
-        request.param("params", value: args)
+        request.setParam("method", value: name)
+        request.setParam("id", value: 1)
+        request.setParam("params", value: args)
         return request
     }
     

@@ -92,11 +92,11 @@ class KodiRequest<T: DecodableFromResponse>: KodiRequestProtocol {
         return params
     }
     
-    func param(_ name: String, value: Any) {
+    func setParam(_ name: String, value: Any) {
         params[name] = value
     }
     
-    func param(_ name: String) -> Any? {
+    func getParam(_ name: String) -> Any? {
         return params[name]
     }
     
