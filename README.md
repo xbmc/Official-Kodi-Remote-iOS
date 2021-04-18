@@ -47,6 +47,8 @@ Optional parameters:
 
 Omitted parameter means "use the latest uploaded". [More about passing parameters](https://docs.fastlane.tools/advanced/lanes/#passing-parameters).
 
+Note: if new app version doesn't exist yet, you **must** pass at least `app_version`, otherwise fastlane fails. Hopefully it'll be fixed, see [issue about that](https://github.com/fastlane/fastlane/issues/18571).
+
 Example: `bundle exec fastlane asc app_version:1.6.1`
 
 ### Fetch metadata
