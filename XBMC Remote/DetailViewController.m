@@ -548,13 +548,15 @@
         button6.hidden = NO;
     }
     
-    // Show sort button when sorting is possible
+    // Set up sorting
     sortMethodIndex = -1;
     sortMethodName = nil;
     sortAscDesc = nil;
+    [self setUpSort:methods parameters:parameters];
+    
+    // Show sort button when sorting is possible
     button7.hidden = YES;
     if ([parameters objectForKey:@"parameters"][@"sort"][@"available_methods"] != nil) {
-        [self setUpSort:methods parameters:parameters];
         button7.hidden = NO;
     }
     
@@ -1636,21 +1638,27 @@
         if (sectionNameOverlayView == nil && stackscrollFullscreen == YES){
             [self initSectionNameOverlayView];
         }
+        // Ensure the sort tokens are respected as well when using the index in fullscreen mode
+        NSString *sortbymethod = sortMethodName;
+        if ([self isEligibleForSorttokenSort]) {
+            sortbymethod = @"sortby";
+        }
+        
         sectionNameLabel.text = [self buildSortInfo:[storeSectionArray objectAtIndex:sender.currentIndex]];
         NSString *value = [storeSectionArray objectAtIndex:sender.currentIndex];
-        NSPredicate *predExists = [NSPredicate predicateWithFormat: @"SELF.%@ BEGINSWITH[c] %@", sortMethodName, value];
+        NSPredicate *predExists = [NSPredicate predicateWithFormat: @"SELF.%@ BEGINSWITH[c] %@", sortbymethod, value];
         if ([value isEqual:@"#"]) {
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@ MATCHES[c] %@", sortMethodName, @"^[0-9].*"];
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@ MATCHES[c] %@", sortbymethod, @"^[0-9].*"];
         }
-        else if ([sortMethodName isEqualToString:@"rating"] && [value isEqualToString:@"0"]){
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.length == 0", sortMethodName];
+        else if ([sortbymethod isEqualToString:@"rating"] && [value isEqualToString:@"0"]){
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.length == 0", sortbymethod];
         }
-        else if ([sortMethodName isEqualToString:@"runtime"]){
+        else if ([sortbymethod isEqualToString:@"runtime"]){
              [NSPredicate predicateWithFormat: @"attributeName BETWEEN %@", @[@1, @10]];
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue BETWEEN %@", sortMethodName, [NSArray arrayWithObjects:[NSNumber numberWithInt:[value intValue] - 15],[NSNumber numberWithInt:[value intValue]], nil]];
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue BETWEEN %@", sortbymethod, [NSArray arrayWithObjects:[NSNumber numberWithInt:[value intValue] - 15],[NSNumber numberWithInt:[value intValue]], nil]];
         }
-        else if ([sortMethodName isEqualToString:@"playcount"]){
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue == %d", sortMethodName, [value intValue]];
+        else if ([sortbymethod isEqualToString:@"playcount"]){
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue == %d", sortbymethod, [value intValue]];
         }
         NSUInteger index = [[sections objectForKey:@""] indexOfObjectPassingTest:
                             ^(id obj, NSUInteger idx, BOOL *stop) {
@@ -4866,6 +4874,76 @@ NSIndexPath *selected;
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
 
+-(NSString*)ignoreSorttoken:(NSString*)text {
+    if ([[AppDelegate instance].KodiSorttokens count] == 0) {
+        return text;
+    }
+    NSMutableString *string = [text mutableCopy];
+    for (NSString *token in [AppDelegate instance].KodiSorttokens) {
+        NSRange range = [string rangeOfString:token];
+        if (range.location==0 && range.length > 0) {
+            [string deleteCharactersInRange:range];
+            break; // We want to leave the loop after we removed the sort token
+        }
+    }
+    return [string copy];
+}
+
+-(NSArray*)applySortTokens:(NSArray*)incomingRichArray sortmethod:(NSString*)sortmethod {
+    NSMutableArray *copymutable = [[NSMutableArray alloc] initWithCapacity:[incomingRichArray count]];
+    for (NSMutableDictionary *mutabledict in incomingRichArray) {
+        NSString *string = nil;
+        if ([mutabledict[sortmethod] isKindOfClass:[NSString class]]) {
+            string = mutabledict[sortmethod];
+        }
+        else if ([mutabledict[sortmethod] isKindOfClass:[NSNumber class]]) {
+            string = [mutabledict[sortmethod] stringValue];
+        }
+        else {
+            string = @"";
+        }
+        NSDictionary *dict = @{@"sortby": [self ignoreSorttoken:string]};
+        [mutabledict addEntriesFromDictionary:dict];
+        [copymutable addObject:mutabledict];
+    }
+    return [copymutable copy];
+}
+
+-(BOOL)isEligibleForSorttokenSort {
+    BOOL isEligible = NO;
+    // Support sort token processing only for a set of sort methods (same as in Kodi server)
+    // Taken from xbmc/xbmc/utils/SortUtils.cpp (method for which SortAttributeIgnoreArticle is defined)
+    if ([sortMethodName isEqualToString:@"genre"] || // genre is misused for artists for app-internal reasons
+        [sortMethodName isEqualToString:@"label"] ||
+        [sortMethodName isEqualToString:@"title"] ||
+        [sortMethodName isEqualToString:@"artist"] ||
+        [sortMethodName isEqualToString:@"album"] ||
+        [sortMethodName isEqualToString:@"sorttitle"] ||
+        [sortMethodName isEqualToString:@"studio"]) {
+        isEligible = ([AppDelegate instance].isIgnoreArticlesEnabled && [[AppDelegate instance].KodiSorttokens count]>0);
+    }
+    return isEligible;
+}
+
+-(BOOL)isSortDifferentToDefault {
+    BOOL isDifferent = NO;
+    NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+    NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
+    NSString *defaultSortOrder = parameters[@"parameters"][@"sort"][@"order"];
+    if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
+        isDifferent = YES;
+    }
+    else if (sortAscDesc != nil && ![sortAscDesc isEqualToString:defaultSortOrder]) {
+        isDifferent = YES;
+    }
+    return isDifferent;
+}
+
+-(NSArray*)applySortByMethod:(NSArray*)incomingRichArray sortmethod:(NSString*)sortmethod ascending:(BOOL)isAscending selector:(SEL)selector {
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortmethod ascending:isAscending selector:selector];
+    return [incomingRichArray sortedArrayUsingDescriptors:@[sortDescriptor]];
+}
+
 -(void)indexAndDisplayData {
     NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[[self.detailItem mainParameters] objectAtIndex:choosedTab]];
     NSArray *copyRichResults = [self.richResults copy];
@@ -4877,20 +4955,47 @@ NSIndexPath *selected;
         episodesView = FALSE;
     }
     BOOL sortAscending = [sortAscDesc isEqualToString:@"descending"] ? NO : YES;
-    if ([self.detailItem enableSection] && [copyRichResults count]>SECTIONS_START_AT && (sortMethodIndex == -1 || [sortMethodName isEqualToString:@"label"])){
-        if ([sortAscDesc isEqualToString:@"descending"]) {
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"label" ascending:sortAscending];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
+    
+    // In case of sorting by playcount and not having any key, we skip sorting (happens for "Top 100")
+    if ([sortMethodName isEqualToString:@"playcount"] && [copyRichResults count]>0 && copyRichResults[0][sortMethodName]==nil) {
+        sortMethodName = nil;
+    }
+    
+    // If a sort method is defined which is not found as key, we select @"label" as sort method.
+    // This happens for example when sorting by @"artist".
+    if (sortMethodName!=nil && [copyRichResults count]>0 && copyRichResults[0][sortMethodName]==nil) {
+        sortMethodName = @"label";
+    }
+    
+    // Sort tokens need to be processed outside of other conditions to ensure they are applied
+    // also for default sorting coming from Kodi server.
+    NSString *sortbymethod = sortMethodName;
+    if (sortMethodName != nil) {
+        if ([self isEligibleForSorttokenSort]) {
+            copyRichResults = [self applySortTokens:copyRichResults sortmethod:sortbymethod];
+            sortbymethod = @"sortby";
         }
+        // Only sort if the sort method is different to what Kodi server provides or if sort token must be applied
+        if ([self isSortDifferentToDefault] || [self isEligibleForSorttokenSort]) {
+            // Use localizedStandardCompare for all NSString items to be sorted (provides correct order for multi-digit
+            // numbers). But do not use for any other types as this crashes.
+            SEL selector = nil;
+            if ([copyRichResults count]>0 && [copyRichResults[0][sortbymethod] isKindOfClass:[NSString class]]) {
+                selector = @selector(localizedStandardCompare:);
+            }
+            copyRichResults = [self applySortByMethod:copyRichResults sortmethod:sortbymethod ascending:sortAscending selector:selector];
+        }
+    }
+    
+    if ([self.detailItem enableSection] && [copyRichResults count]>SECTIONS_START_AT && (sortMethodIndex == -1 || [sortMethodName isEqualToString:@"label"])){
         addUITableViewIndexSearch = YES;
         BOOL found;
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
         for (NSDictionary *item in copyRichResults){
             NSString *c = @"/";
-            if ([[item objectForKey:@"label"] length]>0){
-                c = [[[item objectForKey:@"label"] substringToIndex:1] uppercaseString];
+            if ([[item objectForKey:sortbymethod] length]>0){
+                c = [[[item objectForKey:sortbymethod] substringToIndex:1] uppercaseString];
             }
             if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound){
                 c = @"#";
@@ -4986,21 +5091,17 @@ NSIndexPath *selected;
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
     }
     else {
-        NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
-        if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortMethodName ascending:sortAscending];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
+        if ([self isSortDifferentToDefault]) {
             BOOL found;
             addUITableViewIndexSearch = YES;
             for (NSDictionary *item in copyRichResults){
                 found = NO;
                 NSString *searchKey = @"";
-                if ([[item objectForKey:sortMethodName] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortMethodName] isKindOfClass:[NSArray class]]){
-                    searchKey = [[item objectForKey:sortMethodName] componentsJoinedByString:@""];
+                if ([[item objectForKey:sortbymethod] isKindOfClass:[NSMutableArray class]] || [[item objectForKey:sortbymethod] isKindOfClass:[NSArray class]]){
+                    searchKey = [[item objectForKey:sortbymethod] componentsJoinedByString:@""];
                 }
                 else {
-                    searchKey = [item objectForKey:sortMethodName];
+                    searchKey = [item objectForKey:sortbymethod];
                 }
                 NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
                 if ([[self.sections allKeys] containsObject:key] == YES){
@@ -5013,13 +5114,6 @@ NSIndexPath *selected;
             }
         }
         else {
-            NSString *defaultSortOrder = parameters[@"parameters"][@"sort"][@"order"];
-            if (sortAscDesc!=nil && ![sortAscDesc isEqualToString:defaultSortOrder]) {
-                NSString *methodSort = (sortMethodName == nil) ?  @"label" : sortMethodName;
-                NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:methodSort ascending:sortAscending];
-                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-                copyRichResults = [copyRichResults sortedArrayUsingDescriptors:sortDescriptors];
-            }
             [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
             for (NSDictionary *item in copyRichResults){
                 [[self.sections objectForKey:@""] addObject:item];
@@ -5027,9 +5121,7 @@ NSIndexPath *selected;
         }
     }
     // first sort the index table ...
-    NSMutableArray<NSString*> *sectionKeys = [self.sections.allKeys mutableCopy];
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:nil ascending:sortAscending selector:@selector(localizedStandardCompare:)];
-    [sectionKeys sortUsingDescriptors:@[sortDescriptor]];
+    NSMutableArray<NSString*> *sectionKeys = [[self applySortByMethod:[self.sections.allKeys copy] sortmethod:nil ascending:sortAscending selector:@selector(localizedStandardCompare:)] mutableCopy];
     // ... then add the search item on top of the sorted list when needed
     if (addUITableViewIndexSearch) {
         [sectionKeys insertObject:UITableViewIndexSearch atIndex:0];
@@ -5539,7 +5631,7 @@ NSIndexPath *selected;
 }
 
 -(NSString *)getCurrentSortAscDesc:(NSDictionary *)methods withParameters:(NSDictionary *)parameters {
-    NSString *sortAscDescSaved = nil;
+    NSString *sortAscDescSaved = [[[parameters objectForKey:@"parameters"] objectForKey:@"sort"] objectForKey:@"order"];
     if (methods != nil){
         NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:[methods objectForKey:@"method"] parameters:[parameters mutableCopy]]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
