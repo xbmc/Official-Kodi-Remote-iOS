@@ -28,13 +28,17 @@ import WatchConnectivity
     func createRequest<T>(method name:String, args: [String: Any] = [:]) -> KodiRequest<T> {
         let request = KodiRequest<T>(host)
         request.setParam("method", value: name)
-        request.setParam("id", value: 1)
+        request.setParam("id", value: arc4random())
         request.setParam("params", value: args)
         return request
     }
     
-    func sendDirect<T, R: KodiRequest<T>>(request: R) {
-        Session.send(request) { result in
+    private func sendInternal<T, R: KodiRequest<T>>(_ request: R, handler: @escaping (Result<T, SessionTaskError>) -> Void) {
+        Session.send(request, handler: handler)
+    }
+
+    func send<T, R: KodiRequest<T>>(request: R) {
+        sendInternal(request) { result in
             switch result {
             case .success(let res):
                 self.delegate?.kodiApi(self, response: res)
@@ -43,34 +47,6 @@ import WatchConnectivity
                 self.delegate?.kodiApi(self, error: error)
             }
         }
-    }
-    
-    func send<T, R: KodiRequest<T>>(request: R) {
-// TODO: the following code is using WCSession to communicate via phone as "proxy",
-// but it's significantly slower.
-//
-//        if (session?.isReachable) == true, let method = request.param("method") {
-//            do {
-//                let encodedHost = try JSONEncoder().encode(host)
-//
-//                session!.sendMessage(["host": encodedHost, "method": method],
-//                                     replyHandler: { res in
-//                                        if let wcResponse = res["result"] as? String {
-//                                            if (wcResponse == "TRUE") {
-//                                                self.delegate?.kodiApi(self, response: res)
-//                                            } else {
-//                                                self.sendDirect(request: request)
-//                                            }
-//                                        }
-//                },
-//                                     errorHandler: { error in
-//                                        self.sendDirect(request: request)
-//                })
-//                return
-//            } catch {}
-//        }
-        
-        sendDirect(request: request)
     }
 }
 
@@ -100,17 +76,37 @@ import WatchConnectivity
             PlayerMethods.GetActivePlayers.rawValue)
         self.send(request: request)
     }
+
+    @nonobjc private func getActivePlayersInternal(_ handler: @escaping ([PlayerId]) -> Void) {
+        let request: KodiRequest<[PlayerId]> = createRequest(method:
+            PlayerMethods.GetActivePlayers.rawValue)
+        self.sendInternal(request) {
+            if case .success(let ids) = $0 {
+                handler(ids)
+            }
+        }
+    }
     
     func playPause() {
-        let request: KodiRequest<PlayerSpeed> = createRequest(method:
-            PlayerMethods.PlayPause.rawValue, args: ["playerid": 1])
-        self.send(request: request)
+        getActivePlayersInternal() { playerIds in
+            for playerId in playerIds {
+                let request: KodiRequest<PlayerSpeed> =
+                    self.createRequest(method: PlayerMethods.PlayPause.rawValue,
+                                       args: ["playerid": playerId.id])
+                self.send(request: request)
+            }
+        }
     }
     
     func stop() {
-        let request: KodiRequest<String> = createRequest(method:
-            PlayerMethods.Stop.rawValue, args: ["playerid": 1])
-        self.send(request: request)
+        getActivePlayersInternal() { playerIds in
+            for playerId in playerIds {
+                let request: KodiRequest<String> =
+                    self.createRequest(method: PlayerMethods.Stop.rawValue,
+                                       args: ["playerid": playerId.id])
+                self.send(request: request)
+            }
+        }
     }
     
     func up() {

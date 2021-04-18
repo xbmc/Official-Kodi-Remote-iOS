@@ -18,7 +18,7 @@ public struct PlayerId: DecodableFromResponse {
     
     init(from e: Any) throws {
         guard let dict = e as? [String: Any],
-            let id = dict["result"] as? Int
+            let id = dict["playerid"] as? Int
             else { throw KodiError.UnexpectedResponse }
         
         self.id = id
