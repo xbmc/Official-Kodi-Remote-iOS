@@ -243,10 +243,48 @@ NSOutputStream	*outStream;
              [AppDelegate instance].APIminorVersion = [methodResult[@"version"][@"minor"] intValue];
              [AppDelegate instance].APIpatchVersion = [methodResult[@"version"][@"patch"] intValue];
          }
+         // Read the sorttokens
+         [self readSorttokens];
+    }];
+    // Check if ignorearticles is enabled
+    [jsonRPC
+     callMethod:@"Settings.GetSettingValue"
+     withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
+     withTimeout: SERVER_TIMEOUT
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if (!error && !methodError) {
+             [AppDelegate instance].isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
+         }
+         else {
+             [AppDelegate instance].isIgnoreArticlesEnabled = NO;
+         }
     }];
     jsonRPC=nil;
 }
 
+- (void)readSorttokens {
+    NSArray *defaultTokens = @[@"The ", @"The.", @"The_"];
+    // Sort token can be read from API 9.5.0 on
+    if (([AppDelegate instance].APImajorVersion >= 10) ||
+        ([AppDelegate instance].APImajorVersion == 9 && [AppDelegate instance].APIminorVersion >= 5)) {
+        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
+        [jsonRPC
+         callMethod:@"Application.GetProperties"
+         withParameters:@{@"properties":@[@"sorttokens"]}
+         withTimeout: SERVER_TIMEOUT
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+             if (!error && !methodError) {
+                 [AppDelegate instance].KodiSorttokens = methodResult[@"sorttokens"];
+             }
+             else {
+                 [AppDelegate instance].KodiSorttokens = defaultTokens;
+             }
+        }];
+    }
+    else {
+        [AppDelegate instance].KodiSorttokens = defaultTokens;
+    }
+}
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver: self];

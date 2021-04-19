@@ -470,7 +470,20 @@
 
 + (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate> *)fromctrl {
     NSURL *nsurl = [NSURL URLWithString:url];
-    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nsurl];
+    SFSafariViewController *svc = nil;
+    // Try to load the URL via SFSafariViewController. If this is not possible, check if this is loadable
+    // with other system applications. If so, load it. If not, show an error popup.
+    @try {
+        svc = [[SFSafariViewController alloc] initWithURL:nsurl];
+    } @catch (NSException *exception) {
+        if ([UIApplication.sharedApplication canOpenURL:nsurl])
+            [UIApplication.sharedApplication openURL:nsurl options:@{} completionHandler:nil];
+        else {
+            UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Error loading page", nil) message:exception.reason];
+            [fromctrl presentViewController:alertView animated:YES completion:nil];
+        }
+        return;
+    }
     UIViewController *ctrl = fromctrl;
     svc.delegate = fromctrl;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {

@@ -4,7 +4,6 @@ before_all do
   ensure_bundle_exec
   ensure_git_status_clean
   skip_docs
-  xcversion(version: "~> 12.4")
   app_store_connect_api_key(
     key_id: "AX6GU8LT6K",
     issuer_id: "69a6de97-a91c-47e3-e053-5b8c7c11a4d1",
@@ -23,6 +22,7 @@ end
 
 desc 'Build & upload to Testflight'
 lane :tf do
+  xcversion(version: "~> 12.4")
   gym(
     scheme: 'Kodi Remote',
     clean: true,
@@ -66,22 +66,17 @@ lane :tf do
     newTag = appPropertiesHash['CFBundleShortVersionString'] + betaSuffix + '1'
   end
 
-  ghRelease = set_github_release(
-    repository_name: 'xbmc/Official-Kodi-Remote-iOS',
-    tag_name: newTag,
-    name: "Testflight #{appProperties['CFBundleVersion']}",
-    is_prerelease: true,
-  )
-  UI.message JSON.pretty_generate(ghRelease)
-
+  createGithubRelease("Testflight #{appProperties['CFBundleVersion']}", newTag, is_prerelease: true)
   system 'git fetch --tags'
 end
 
 desc 'Submit to AppStore review'
 lane :asc do |options|
+  appVersion = options[:app_version]
+  buildNumber = options[:build_number]
   appstore(
-    app_version: options[:app_version],
-    build_number: options[:build_number],
+    app_version: appVersion,
+    build_number: buildNumber,
     skip_binary_upload: true,
     skip_screenshots: true,
     force: true,
@@ -93,4 +88,32 @@ lane :asc do |options|
     },
     precheck_include_in_app_purchases: false,
   )
+
+  # draft release on Github
+  next unless ENV['GITHUB_API_TOKEN']
+  releaseName = options[:release_name]
+  releaseName ||= UI.input "Please enter Github release name: " if UI.interactive?
+  releaseName = releaseName&.strip
+  next if releaseName.nil? || releaseName.empty?
+
+  unless appVersion && buildNumber
+    app_store_build_number(live: false, version: appVersion)
+    appVersion ||= lane_context[SharedValues::LATEST_VERSION]
+    buildNumber ||= lane_context[SharedValues::LATEST_BUILD_NUMBER]
+  end
+  releaseNotes = File.read(File.join(FastlaneCore::FastlaneFolder.path, 'metadata/en-US/release_notes.txt'))
+  createGithubRelease(releaseName, appVersion, "Build #{buildNumber}\n\n#{releaseNotes}", is_draft: true)
+end
+
+
+def createGithubRelease(name, tag, description = nil, is_draft: false, is_prerelease: false)
+  ghRelease = set_github_release(
+    repository_name: 'xbmc/Official-Kodi-Remote-iOS',
+    tag_name: tag,
+    name: name,
+    description: description,
+    is_draft: is_draft,
+    is_prerelease: is_prerelease,
+  )
+  UI.message JSON.pretty_generate(ghRelease)
 end

@@ -1,1 +1,10 @@
-- Bug fixes and stability improvements
+- New features:
+  - Live TV: Sorting for PVR recordings
+  - Live TV: Selectable mode for background color of TV station logos
+  - Live TV: TV station logos for recording details
+  - TV Shows: Automatic background color for TV series / seasons
+  - Movies: Video playlist support
+  - Music: Fullscreen for music albums and artists
+  - iPad: Broader views on newer iPads
+- Bugfixes and stability improvements
+- Internal rework to maintain iOS support

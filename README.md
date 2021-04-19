@@ -42,12 +42,17 @@ To be able to also create prerelease+tag on Github, define `GITHUB_API_TOKEN` en
 
 `bundle exec fastlane asc`
 
+If you also want to draft release on Github, define `GITHUB_API_TOKEN` environment variable like above.
+
 Optional parameters:
 
 - `app_version`
 - `build_number`
+- `release_name` (you'll be asked to enter it if not provided)
 
 Omitted parameter means "use the latest uploaded". [More about passing parameters](https://docs.fastlane.tools/advanced/lanes/#passing-parameters).
+
+Note: if new app version doesn't exist yet, you **must** pass at least `app_version`, otherwise fastlane fails. Hopefully it'll be fixed, see [issue about that](https://github.com/fastlane/fastlane/issues/18571).
 
 Example: `bundle exec fastlane asc app_version:1.6.1`
 
