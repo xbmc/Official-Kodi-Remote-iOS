@@ -92,7 +92,8 @@
         [self.contentView addSubview:_busyView];
         
         UIView *bgView = [[UIView alloc] initWithFrame:frame];
-        [bgView setBackgroundColor:[Utilities getSystemGreen:1.0]];
+        bgView.layer.borderWidth = borderWidth;
+        bgView.layer.borderColor = [Utilities getSystemGreen:1.0].CGColor;
         self.selectedBackgroundView = bgView;
     }
     return self;
