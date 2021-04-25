@@ -1102,6 +1102,11 @@
 
                 });
             }
+            else if ([self isModal]) {
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                [iPadDetailViewController setModalPresentationStyle:UIModalPresentationFormSheet];
+                [self presentViewController:iPadDetailViewController animated:YES completion:nil];
+            }
             else {
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
@@ -2631,6 +2636,7 @@ int originYear = 0;
         albumInfoButton.tag = 0;
         [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
         [albumDetailView addSubview:albumInfoButton];
+        albumInfoButton.hidden = [self isModal];
         
 //        UIButton *albumPlaybackButton =  [UIButton buttonWithType:UIButtonTypeCustom];
 //        albumPlaybackButton.tag = 0;
@@ -2801,6 +2807,7 @@ int originYear = 0;
             albumInfoButton.tag = 1;
             [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
             [albumDetailView addSubview:albumInfoButton];
+            albumInfoButton.hidden = [self isModal];
         }
         return albumDetailView;
     }
@@ -5453,6 +5460,10 @@ NSIndexPath *selected;
     }
 }
 
+-(BOOL)isModal {
+    return [self presentingViewController] != nil;
+}
+
 -(void)setIphoneInterface:(NSDictionary *)itemSizes {
     viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
     albumViewHeight = 116;
@@ -5473,6 +5484,9 @@ NSIndexPath *selected;
 
 -(void)setIpadInterface:(NSDictionary *)itemSizes{
     viewWidth = STACKSCROLL_WIDTH;
+    // ensure modal views are forced to width = STACKSCROLL_WIDTH, this eases the layout
+    CGSize size = CGSizeMake(STACKSCROLL_WIDTH, self.view.frame.size.height);
+    self.preferredContentSize = size;
     albumViewHeight = 166;
     if (episodesView){
         albumViewHeight = 120;
@@ -5594,6 +5608,7 @@ NSIndexPath *selected;
 -(void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     [self showSearchBar];
+    viewWidth = self.view.bounds.size.width;
 }
 
 - (void)willPresentSearchController:(UISearchController *)controller {

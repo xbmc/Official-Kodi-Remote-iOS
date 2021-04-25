@@ -423,6 +423,11 @@ int count=0;
                 [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
                 [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
             }
+            else {
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                [iPadDetailViewController setModalPresentationStyle:UIModalPresentationFormSheet];
+                [self presentViewController:iPadDetailViewController animated:YES completion:nil];
+            }
         }
     }
 }
