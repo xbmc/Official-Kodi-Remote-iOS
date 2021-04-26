@@ -774,10 +774,7 @@ int h=0;
         size = 6;
         castWidth = 75;
         castHeight = 105;
-        pageSize = STACKSCROLL_WIDTH - 40;
-        if ([self isModal]){
-            pageSize = 540 - 40;
-        }
+        pageSize = self.view.bounds.size.width - 40;
         [starsView setFrame:
          CGRectMake(
                     starsView.frame.origin.x, 
