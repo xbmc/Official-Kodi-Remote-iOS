@@ -5340,7 +5340,7 @@ NSIndexPath *selected;
 
     [self choseParams];
 
-    if ([self presentingViewController] != nil) {
+    if ([self isModal]) {
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
