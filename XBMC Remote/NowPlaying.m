@@ -1961,7 +1961,7 @@ int currentItemID;
     else if ([itemLogoImage pointInside:viewPoint3 withEvent:event] && songDetailsView.alpha > 0 && itemLogoImage.image != nil) {
         [self updateCurrentLogo];
     }
-    else if([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]){
+    else if (!nothingIsPlaying && ([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView])){
         [self toggleSongDetails];
         [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
     }
