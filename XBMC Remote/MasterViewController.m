@@ -97,10 +97,6 @@
     }
 }
 
--(void)wakeUp:(NSString *)macAddress{
-    [[AppDelegate instance] sendWOL:macAddress withPort:9];
-}
-
 #pragma mark - Table view methods & data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

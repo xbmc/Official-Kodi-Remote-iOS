@@ -4325,10 +4325,6 @@ NSMutableArray *hostRightMenuItems;
     }
 }
 
--(void)wake:(NSString *)macAddress{
-    Wake_on_LAN("255.255.255.255", [macAddress UTF8String]);
-}
-
 -(void)sendWOL:(NSString *)MAC withPort:(NSInteger)WOLport {
     CFSocketRef     WOLsocket;
     WOLsocket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_DGRAM, IPPROTO_UDP, 0, NULL, NULL);
@@ -4386,57 +4382,6 @@ NSMutableArray *hostRightMenuItems;
             NSLog(@"CFSocketSendData error: %li", CFSocketSendData_error);
         }
     }
-}
-
-int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
-	int i,sockfd,an=1;
-	char *x;
-	long mac[102];
-	char macpart[2];
-	char test[103];
-	
-	struct sockaddr_in serverAddress;
-	
-	if ( (sockfd = socket( AF_INET, SOCK_DGRAM,17)) < 0 ) {
-		return 1;
-	}
-	
-	setsockopt(sockfd,SOL_SOCKET,SO_BROADCAST,&an,sizeof(an));
-	
-	bzero( &serverAddress, sizeof(serverAddress) );
-	serverAddress.sin_family = AF_INET;
-	serverAddress.sin_port = htons( 9 );
-	
-	inet_pton( AF_INET, ip_broadcast, &serverAddress.sin_addr );
-	
-	for (i=0;i<6;i++) mac[i]=255;
-	for (i=1;i<17;i++) {
-		macpart[0]=wake_mac[0];
-		macpart[1]=wake_mac[1];
-		mac[6*i]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[3];
-		macpart[1]=wake_mac[4];
-		mac[6*i+1]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[6];
-		macpart[1]=wake_mac[7];
-		mac[6*i+2]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[9];
-		macpart[1]=wake_mac[10];
-		mac[6*i+3]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[12];
-		macpart[1]=wake_mac[13];
-		mac[6*i+4]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[15];
-		macpart[1]=wake_mac[16];
-		mac[6*i+5]=strtol(macpart,&x,16);
-	}
-	for (i=0;i<103;i++) test[i]=mac[i];
-	test[102]=0;
-	
-	sendto(sockfd,&mac,102,0,(struct sockaddr *)&serverAddress,sizeof(serverAddress));
-	close(sockfd);
-	
-	return 0;
 }
 
 
