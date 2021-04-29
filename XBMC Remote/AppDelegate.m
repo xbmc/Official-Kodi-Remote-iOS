@@ -11,10 +11,13 @@
 #import "MasterViewController.h"
 #import "ViewControllerIPad.h"
 #import "GlobalData.h"
-#import <arpa/inet.h>
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
 #import "Utilities.h"
+
+#include <arpa/inet.h>
+#include <net/if.h>
+#include <ifaddrs.h>
 
 @implementation AppDelegate
 
@@ -4364,13 +4367,29 @@ NSMutableArray *hostRightMenuItems;
             memcpy(message_ptr, ether_addr, 6);
             message_ptr += 6;
         }
-        
+
+        __auto_type getLocalBroadcastAddress = ^in_addr_t {
+            in_addr_t broadcastAddress = 0xffffffff;
+            struct ifaddrs *ifs = NULL;
+            getifaddrs(&ifs);
+            for (__auto_type ifIter = ifs; ifIter != NULL; ifIter = ifIter->ifa_next) {
+                if (ifIter->ifa_flags & IFF_LOOPBACK || ifIter->ifa_flags & IFF_POINTOPOINT || !(ifIter->ifa_flags & IFF_RUNNING))
+                    continue;
+                if (!ifIter->ifa_addr || ifIter->ifa_addr->sa_family != AF_INET || !ifIter->ifa_broadaddr)
+                    continue;
+                broadcastAddress = ((struct sockaddr_in *)ifIter->ifa_broadaddr)->sin_addr.s_addr;
+                break;
+            }
+            if (ifs)
+                freeifaddrs(ifs);
+            return broadcastAddress;
+        };
+
         struct sockaddr_in addr;
-        
         memset(&addr, 0, sizeof(addr));
         addr.sin_len = sizeof(addr);
         addr.sin_family = AF_INET;
-        addr.sin_addr.s_addr = 0xffffffff;
+        addr.sin_addr.s_addr = getLocalBroadcastAddress();
         addr.sin_port = htons(WOLport);
         
         CFDataRef message_data = CFDataCreate(NULL, (unsigned char*)&message, sizeof(message));
