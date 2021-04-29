@@ -11,10 +11,13 @@
 #import "MasterViewController.h"
 #import "ViewControllerIPad.h"
 #import "GlobalData.h"
-#import <arpa/inet.h>
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
 #import "Utilities.h"
+
+#include <arpa/inet.h>
+#include <net/if.h>
+#include <ifaddrs.h>
 
 @implementation AppDelegate
 
@@ -4325,10 +4328,6 @@ NSMutableArray *hostRightMenuItems;
     }
 }
 
--(void)wake:(NSString *)macAddress{
-    Wake_on_LAN("255.255.255.255", [macAddress UTF8String]);
-}
-
 -(void)sendWOL:(NSString *)MAC withPort:(NSInteger)WOLport {
     CFSocketRef     WOLsocket;
     WOLsocket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_DGRAM, IPPROTO_UDP, 0, NULL, NULL);
@@ -4368,13 +4367,29 @@ NSMutableArray *hostRightMenuItems;
             memcpy(message_ptr, ether_addr, 6);
             message_ptr += 6;
         }
-        
+
+        __auto_type getLocalBroadcastAddress = ^in_addr_t {
+            in_addr_t broadcastAddress = 0xffffffff;
+            struct ifaddrs *ifs = NULL;
+            getifaddrs(&ifs);
+            for (__auto_type ifIter = ifs; ifIter != NULL; ifIter = ifIter->ifa_next) {
+                if (ifIter->ifa_flags & IFF_LOOPBACK || ifIter->ifa_flags & IFF_POINTOPOINT || !(ifIter->ifa_flags & IFF_RUNNING))
+                    continue;
+                if (!ifIter->ifa_addr || ifIter->ifa_addr->sa_family != AF_INET || !ifIter->ifa_broadaddr)
+                    continue;
+                broadcastAddress = ((struct sockaddr_in *)ifIter->ifa_broadaddr)->sin_addr.s_addr;
+                break;
+            }
+            if (ifs)
+                freeifaddrs(ifs);
+            return broadcastAddress;
+        };
+
         struct sockaddr_in addr;
-        
         memset(&addr, 0, sizeof(addr));
         addr.sin_len = sizeof(addr);
         addr.sin_family = AF_INET;
-        addr.sin_addr.s_addr = 0xffffffff;
+        addr.sin_addr.s_addr = getLocalBroadcastAddress();
         addr.sin_port = htons(WOLport);
         
         CFDataRef message_data = CFDataCreate(NULL, (unsigned char*)&message, sizeof(message));
@@ -4386,57 +4401,6 @@ NSMutableArray *hostRightMenuItems;
             NSLog(@"CFSocketSendData error: %li", CFSocketSendData_error);
         }
     }
-}
-
-int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
-	int i,sockfd,an=1;
-	char *x;
-	long mac[102];
-	char macpart[2];
-	char test[103];
-	
-	struct sockaddr_in serverAddress;
-	
-	if ( (sockfd = socket( AF_INET, SOCK_DGRAM,17)) < 0 ) {
-		return 1;
-	}
-	
-	setsockopt(sockfd,SOL_SOCKET,SO_BROADCAST,&an,sizeof(an));
-	
-	bzero( &serverAddress, sizeof(serverAddress) );
-	serverAddress.sin_family = AF_INET;
-	serverAddress.sin_port = htons( 9 );
-	
-	inet_pton( AF_INET, ip_broadcast, &serverAddress.sin_addr );
-	
-	for (i=0;i<6;i++) mac[i]=255;
-	for (i=1;i<17;i++) {
-		macpart[0]=wake_mac[0];
-		macpart[1]=wake_mac[1];
-		mac[6*i]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[3];
-		macpart[1]=wake_mac[4];
-		mac[6*i+1]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[6];
-		macpart[1]=wake_mac[7];
-		mac[6*i+2]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[9];
-		macpart[1]=wake_mac[10];
-		mac[6*i+3]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[12];
-		macpart[1]=wake_mac[13];
-		mac[6*i+4]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[15];
-		macpart[1]=wake_mac[16];
-		mac[6*i+5]=strtol(macpart,&x,16);
-	}
-	for (i=0;i<103;i++) test[i]=mac[i];
-	test[102]=0;
-	
-	sendto(sockfd,&mac,102,0,(struct sockaddr *)&serverAddress,sizeof(serverAddress));
-	close(sockfd);
-	
-	return 0;
 }
 
 
