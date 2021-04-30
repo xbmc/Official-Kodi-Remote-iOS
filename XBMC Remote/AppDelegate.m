@@ -151,7 +151,7 @@ NSMutableArray *hostRightMenuItems;
     float itemMovieHeightLargeIpad =  230.0f;
     
     float fullscreenItemMovieWidthIpad = 164.0f;
-    float fullscreenItemMovieHeightIpad = 246.0f;
+    float fullscreenItemMovieHeightIpad = 233.0f;
     
     float itemMovieHeightRecentlyIphone =  132.0f;
     float itemMovieHeightRecentlyIpad =  196.0f;
