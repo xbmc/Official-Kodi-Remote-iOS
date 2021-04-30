@@ -423,6 +423,11 @@ int count=0;
                 [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
                 [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
             }
+            else {
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                [iPadDetailViewController setModalPresentationStyle:UIModalPresentationFormSheet];
+                [self presentViewController:iPadDetailViewController animated:YES completion:nil];
+            }
         }
     }
 }
@@ -769,10 +774,7 @@ int h=0;
         size = 6;
         castWidth = 75;
         castHeight = 105;
-        pageSize = STACKSCROLL_WIDTH - 40;
-        if ([self isModal]){
-            pageSize = 540 - 40;
-        }
+        pageSize = self.view.bounds.size.width - 40;
         [starsView setFrame:
          CGRectMake(
                     starsView.frame.origin.x, 
