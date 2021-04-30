@@ -208,7 +208,9 @@
         popPresenter.sourceView = self.view;
         popPresenter.sourceRect = xbmcInfo.frame;
     }
-    [self presentViewController:[AppDelegate instance].navigationController animated:YES completion:nil];
+    if (![[AppDelegate instance].navigationController isBeingPresented]) {
+        [self presentViewController:[AppDelegate instance].navigationController animated:YES completion:nil];
+    }
 }
 
 -(void) showSetup:(BOOL)show{
