@@ -1432,7 +1432,7 @@
                     [Utilities setLogoBackgroundColor:cell.posterThumbnail mode:logoBackgroundMode];
                 }
             }];
-            if (hiddenLabel) {
+            if (hiddenLabel || stackscrollFullscreen) {
                 [cell.posterLabel setHidden:YES];
                 [cell.labelImageView setHidden:YES];
             }
