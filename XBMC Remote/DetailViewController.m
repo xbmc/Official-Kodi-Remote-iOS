@@ -3005,14 +3005,14 @@ NSIndexPath *selected;
         UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
         BOOL isRecording = isRecordingImageView == nil ? false : !isRecordingImageView.hidden;
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
-        UIViewController *showfromctrl = nil;
+        UIViewController *showFromCtrl = nil;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            showfromctrl = self;
+            showFromCtrl = self;
         }
         else {
-            showfromctrl = self.view.window.rootViewController;
+            showFromCtrl = self.view.window.rootViewController;
         }
-        [self showActionSheetOptions:title options:sheetActions recording:isRecording point:sheetOrigin fromcontroller:showfromctrl fromview:self.view];
+        [self showActionSheetOptions:title options:sheetActions recording:isRecording point:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
     }
     else if (indexPath!=nil){ // No actions found, revert back to standard play action
         [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
@@ -3086,18 +3086,18 @@ NSIndexPath *selected;
                 }
                 UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
                 BOOL isRecording = isRecordingImageView == nil ? false : !isRecordingImageView.hidden;
-                UIViewController *showfromctrl = nil;
+                UIViewController *showFromCtrl = nil;
                 UIView *showfromview = nil;
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                    showfromctrl = self;
+                    showFromCtrl = self;
                     showfromview = self.view;
                 }
                 else {
-                    showfromctrl = ([self doesShowSearchResults] || [self getSearchTextField].editing) ? self.searchController : self.view.window.rootViewController;
-                    showfromview = enableCollectionView ? collectionView : [showfromctrl.view superview];
+                    showFromCtrl = ([self doesShowSearchResults] || [self getSearchTextField].editing) ? self.searchController : self.view.window.rootViewController;
+                    showfromview = enableCollectionView ? collectionView : [showFromCtrl.view superview];
                     selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
-                [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint fromcontroller:showfromctrl fromview:showfromview];
+                [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint fromcontroller:showFromCtrl fromview:showfromview];
             }
         }
     }
