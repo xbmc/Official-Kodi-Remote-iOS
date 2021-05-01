@@ -3691,15 +3691,10 @@ NSIndexPath *selected;
 
 -(void)showNowPlaying{
     if (!alreadyPush){
-        //self.nowPlaying=nil;
-        if (self.nowPlaying == nil){
-            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-        }
+        self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
         self.nowPlaying.detailItem = self.detailItem;
-//        self.nowPlaying.presentedFromNavigation = YES;
-        
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
-        alreadyPush=YES;
+        alreadyPush = YES;
     }
 }
 

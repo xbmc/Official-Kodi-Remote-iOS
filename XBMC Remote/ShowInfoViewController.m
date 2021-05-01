@@ -602,15 +602,11 @@ int count=0;
 
 -(void)showNowPlaying{
     if (!alreadyPush){
-        //self.nowPlaying=nil;
-        if (self.nowPlaying == nil){
-            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-        }
+        self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
         self.nowPlaying.detailItem = self.detailItem;
-//        self.nowPlaying.presentedFromNavigation = YES;
         [self.navigationController pushViewController:self.nowPlaying animated:YES];
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        alreadyPush=YES;
+        alreadyPush = YES;
     }
 }
 
