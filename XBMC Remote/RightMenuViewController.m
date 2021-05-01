@@ -766,7 +766,7 @@
         }
 
         NSString *icon = [item objectForKey:@"icon"];
-        if (icon == nil) icon = @"";
+        if (icon == nil) icon = @"blank";
         
         NSMutableDictionary *action = [item objectForKey:@"action"];
         if (action == nil) action = [[NSMutableDictionary alloc] initWithCapacity:0];
@@ -800,7 +800,7 @@
             NSString *label = [item objectForKey:@"label"];
             if (label == nil) label = @"";
             NSString *icon = [item objectForKey:@"icon"];
-            if (icon == nil) icon = @"";
+            if (icon == nil) icon = @"blank";
             NSString *type = [item objectForKey:@"type"];
             if (type == nil) type = @"";
             NSNumber *isSetting = [item objectForKey:@"isSetting"];
