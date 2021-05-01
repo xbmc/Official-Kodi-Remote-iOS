@@ -154,6 +154,14 @@
     return codec;
 }
 
+- (UIImage*)loadImageFromName:(NSString*)imageName {
+    UIImage *image = nil;
+    if ([imageName length] != 0) {
+        image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", imageName]];
+    }
+    return image;
+}
+
 - (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
     NSString *result = @"";    
     int secs = [seconds intValue];
@@ -1087,7 +1095,7 @@ int currentItemID;
                  songNumChanImage.image = nil;
                  
                  codec = [self processSongCodecName:codec];
-                 UIImage *songImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@", codec]];
+                 UIImage *songImage = [self loadImageFromName:codec];
                  [songCodecImage setImage:songImage];
                  if (songImage != nil){
                      songCodec.hidden = YES;
@@ -1097,7 +1105,7 @@ int currentItemID;
                  songBitRate.text = numchan;
                  songBitRate.hidden = NO;
                  songBitRateImage.image = nil;
-                 UIImage *numChanImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@", numchan]];
+                 UIImage *numChanImage = [self loadImageFromName:numchan];
                  [songBitRateImage setImage:numChanImage];
                  if (numChanImage != nil){
                      songBitRate.hidden = YES;
@@ -1116,7 +1124,7 @@ int currentItemID;
                  songCodec.text = codec;
                  songCodec.hidden = NO;
                  songCodecImage.image = nil;
-                 UIImage *resolutionImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@", codec]];
+                 UIImage *resolutionImage = [self loadImageFromName:codec];
                  [songCodecImage setImage:resolutionImage];
                  if (resolutionImage != nil){
                      songCodec.hidden = YES;
@@ -1126,7 +1134,7 @@ int currentItemID;
                  songBitRate.text = bitrate;
                  songBitRate.hidden = NO;
                  songBitRateImage.image = nil;
-                 UIImage *aspectImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@", bitrate]];
+                 UIImage *aspectImage = [self loadImageFromName:bitrate];
                  [songBitRateImage setImage:aspectImage];
                  if (aspectImage != nil){
                      songBitRate.hidden = YES;
@@ -1136,7 +1144,7 @@ int currentItemID;
                  songSampleRate.text = samplerate;
                  songSampleRate.hidden = NO;
                  songSampleRateImage.image = nil;
-                 UIImage *videoCodecImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@", samplerate]];
+                 UIImage *videoCodecImage = [self loadImageFromName:samplerate];
                  [songSampleRateImage setImage:videoCodecImage];
                  if (videoCodecImage != nil){
                      songSampleRate.hidden = YES;
@@ -1147,7 +1155,7 @@ int currentItemID;
                  songNumChannels.text = numchan;
                  songNumChannels.hidden = NO;
                  songNumChanImage.image = nil;
-                 UIImage *audioCodecImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@", numchan]];
+                 UIImage *audioCodecImage = [self loadImageFromName:numchan];
                  [songNumChanImage setImage:audioCodecImage];
                  if (audioCodecImage != nil){
                      songNumChannels.hidden = YES;
