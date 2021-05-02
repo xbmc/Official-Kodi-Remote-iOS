@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-#import "VolumeSliderView.h"
 #import "UIImageView+WebCache.h"
 #import "RightMenuViewController.h"
 #import "OBSlider.h"
@@ -35,7 +34,6 @@
     IBOutlet UIView *songDetailsView;
     UILabel *viewTitle;
     NSTimer* timer;
-    VolumeSliderView *volumeSliderView;
     NSMutableArray *playlistData;
     IBOutlet UILabel *songCodec;
     __weak IBOutlet UIImageView *songCodecImage;

@@ -10,7 +10,6 @@
 #import "mainMenu.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "GlobalData.h"
-#import "VolumeSliderView.h"
 #import "SDImageCache.h"
 #import "AppDelegate.h"
 #import "ViewControllerIPad.h"

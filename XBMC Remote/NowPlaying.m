@@ -11,7 +11,6 @@
 #import "UIImageView+WebCache.h"
 #import <QuartzCore/QuartzCore.h>
 #import "GlobalData.h"
-#import "VolumeSliderView.h"
 #import "SDImageCache.h"
 #import "RemoteController.h"
 #import "AppDelegate.h"
@@ -97,26 +96,6 @@
 
 -(UIImage *)resizeToolbarThumb: (UIImage *)img {
     return [self resizeImage:img width:34 height:34 padding:0];
-}
-
--(void)toggleViewToolBar:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
-	[UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-	[UIView setAnimationDuration:seconds];
-    int actualPosY = view.frame.origin.y;
-    if (actualPosY == Y || hide) {
-        Y = -view.frame.size.height;
-    }
-    view.alpha = alphavalue;
-	CGRect frame;
-	frame = [view frame];
-	frame.origin.y = Y;
-    view.frame = frame;
-    [UIView commitAnimations];
-}
-
-- (void)toggleVolume{
-    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:NO];
 }
 
 -(IBAction)changePlaylist:(id)sender{
@@ -1728,7 +1707,6 @@ int currentItemID;
             
         case 5:
             [self animViews];
-            [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:YES];
             break;
             
         case 6:
@@ -1855,7 +1833,6 @@ int currentItemID;
     }
     else if ([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]) {
         [self toggleSongDetails];
-        [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:YES];
     }
 }
 
