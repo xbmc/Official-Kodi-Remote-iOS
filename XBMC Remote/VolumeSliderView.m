@@ -12,6 +12,10 @@
 #import "AppDelegate.h"
 #import "Utilities.h"
 
+#define VOLUMEICON_PADDING 10 /* space left/right from volume icons */
+#define VOLUMEVIEW_OFFSET 8 /* vertical offset to match menu */
+#define VOLUMESLIDER_HEIGHT 44
+
 @implementation VolumeSliderView
 
 @synthesize timer, holdVolumeTimer;
@@ -19,10 +23,9 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
+        Utilities *utils = [[Utilities alloc] init];
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:self options:nil];
 		self = [nib objectAtIndex:0];
-        CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * -0.5);
-        volumeSlider.transform = trans;
         pg_thumb_name = @"pgbar_thumb_iOS7.png";
         [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
         [volumeSlider setMaximumTrackTintColor:APP_TINT_COLOR];
@@ -35,69 +38,81 @@
         [volumeSlider addTarget:self action:@selector(stopTimer) forControlEvents:UIControlEventTouchDown];
         CGRect frame_tmp;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-            trans = CGAffineTransformMakeRotation(M_PI * - 0.5);
-            minusButton.transform = trans;
-            volumeLabel.transform = trans;
             volumeLabel.alpha = 0.8;
-            [volumeLabel setFrame:CGRectMake((int)volumeLabel.frame.origin.x, (int)volumeLabel.frame.origin.y, volumeLabel.frame.size.width, volumeLabel.frame.size.height)];
+            [volumeLabel setFrame:CGRectMake(volumeLabel.frame.origin.x, volumeLabel.frame.origin.y, volumeLabel.frame.size.width, volumeLabel.frame.size.height)];
             volumeView.hidden = YES;
-            
             volumeSlider.hidden = YES;
+            
+            frame_tmp = muteButton.frame;
+            frame_tmp.origin.x = 0;
+            muteButton.frame = frame_tmp;
+            
+            frame_tmp = minusButton.frame;
+            frame_tmp.origin.x = muteButton.frame.origin.x + muteButton.frame.size.width;
+            minusButton.frame = frame_tmp;
+            
             frame_tmp = volumeLabel.frame;
-            frame_tmp.origin.y = 204;
+            frame_tmp.origin.x = minusButton.frame.origin.x + minusButton.frame.size.width;
             volumeLabel.frame= frame_tmp;
             
             frame_tmp = plusButton.frame;
-            frame_tmp.origin.y = plusButton.frame.origin.y - 30;
+            frame_tmp.origin.x = volumeLabel.frame.origin.x + volumeLabel.frame.size.width;
             plusButton.frame = frame_tmp;
             
+            UIImage *img = [UIImage imageNamed:@"button_metal_up"];
+            [muteButton setBackgroundImage:img forState:UIControlStateNormal];
+            [muteButton setBackgroundImage:img forState:UIControlStateHighlighted];
+            img = [UIImage imageNamed:@"volume_slash"];
+            img = [utils colorizeImage:img withColor:[UIColor darkGrayColor]];
+            [muteButton setImage:img forState:UIControlStateNormal];
+            [muteButton setShowsTouchWhenHighlighted:YES];
+            
+            img = [UIImage imageNamed:@"button_metal_down"];
+            [minusButton setBackgroundImage:img forState:UIControlStateNormal];
+            [minusButton setBackgroundImage:img forState:UIControlStateHighlighted];
+            
+            img = [UIImage imageNamed:@"button_metal_up"];
+            [plusButton setBackgroundImage:img forState:UIControlStateNormal];
+            [plusButton setBackgroundImage:img forState:UIControlStateHighlighted];
+            
+            // set final used width for this view
+            frame_tmp = frame;
+            frame_tmp.size.width = plusButton.frame.origin.x + plusButton.frame.size.width;
+            self.frame = frame_tmp;
         }
-        else if (frame.size.width == 0){
-            [plusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_plus.png"] forState:UIControlStateNormal];
-            [plusButton setBackgroundImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateHighlighted];
-            [plusButton setTitle:@"" forState:UIControlStateNormal];
-            [plusButton setTitle:@"" forState:UIControlStateHighlighted];
-            [plusButton setShowsTouchWhenHighlighted:YES];
-
-            [minusButton setBackgroundImage:[UIImage imageNamed:@"button_volume_minus.png"] forState:UIControlStateNormal];
-            [minusButton setBackgroundImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateHighlighted];
-            [minusButton setTitle:@"" forState:UIControlStateNormal];
-            [minusButton setTitle:@"" forState:UIControlStateHighlighted];
-            [minusButton setShowsTouchWhenHighlighted:YES];
+        else {
+            minusButton.hidden = YES;
+            plusButton.hidden = YES;
+            
+            UIImage *img = [UIImage imageNamed:@"button_metal_up"];
+            img = [utils colorizeImage:img withColor:[UIColor grayColor]];
+            [muteButton setBackgroundImage:img forState:UIControlStateNormal];
+            [muteButton setBackgroundImage:img forState:UIControlStateHighlighted];
+            img = [UIImage imageNamed:@"volume_slash"];
+            img = [utils colorizeImage:img withColor:[UIColor darkGrayColor]];
+            [muteButton setImage:img forState:UIControlStateNormal];
+            [muteButton setShowsTouchWhenHighlighted:YES];
 
             volumeView.hidden = YES;
-            frame_tmp = volumeLabel.frame;
-            frame_tmp.origin.y = (int)(([self currentScreenBoundsDependOnOrientation].size.width - 12) / 2) - (int)(frame_tmp.size.height/2);
-            frame_tmp.origin.x = 22;
-            volumeLabel.frame = frame_tmp;
-            [volumeLabel setFont:[UIFont boldSystemFontOfSize:15]];
-            UIColor *darkShadow =[Utilities getGrayColor:51 alpha:0.6];
-            [volumeLabel setTextColor:[Utilities getGrayColor:26 alpha:0.8]];
-            [volumeLabel setShadowColor:darkShadow];
-            [volumeLabel setShadowOffset:CGSizeMake(0.5, 0.7)];
-            volumeLabel.layer.shadowColor = darkShadow.CGColor;
-            volumeLabel.layer.shadowOffset = CGSizeZero;
-            volumeLabel.layer.shadowOpacity = 1;
-            volumeLabel.layer.shadowRadius = 1.0;
-            self.transform = trans;
-            minusButton.transform = trans;
-            trans = CGAffineTransformMakeRotation(M_PI * 0.5);
-            volumeSlider.transform = trans;
-            volumeLabel.transform = trans;
-            frame_tmp = self.frame;
-            frame_tmp.origin.x = -10;
-            frame_tmp.origin.y = 12;
-            frame_tmp.size.height = 44;
-            frame_tmp.size.width = [self currentScreenBoundsDependOnOrientation].size.width;
-            self.frame = frame_tmp;
-            plusButton.frame = minusButton.frame;
-            frame_tmp = plusButton.frame;
-            frame_tmp.origin.y = [self currentScreenBoundsDependOnOrientation].size.width - 44 - plusButton.frame.size.height;
-            plusButton.frame = frame_tmp;
-            frame_tmp = minusButton.frame;
-            [minusButton setFrame:CGRectMake(frame_tmp.origin.x, 26, frame_tmp.size.width, frame_tmp.size.height)];
+            volumeLabel.hidden = YES;
+
+            self.frame = CGRectMake(0, VOLUMEVIEW_OFFSET, [self currentScreenBoundsDependOnOrientation].size.width, VOLUMESLIDER_HEIGHT);
+            
+            frame_tmp = muteButton.frame;
+            frame_tmp.origin.x = VOLUMEICON_PADDING;
+            muteButton.frame = frame_tmp;
+            
             frame_tmp = volumeSlider.frame;
-            [volumeSlider setFrame:CGRectMake(frame_tmp.origin.x, 33 + minusButton.frame.size.width, frame_tmp.size.width, plusButton.frame.origin.y - minusButton.frame.origin.y - minusButton.frame.size.height - 12)];
+            frame_tmp.origin.x = muteButton.frame.origin.x + muteButton.frame.size.width + VOLUMEICON_PADDING;
+            frame_tmp.size.width = self.frame.size.width - frame_tmp.origin.x - ANCHORRIGHTPEEK - VOLUMEICON_PADDING;
+            volumeSlider.frame = frame_tmp;
+            
+            img = [UIImage imageNamed:@"volume_1"];
+            img = [utils colorizeImage:img withColor:[UIColor grayColor]];
+            [volumeSlider setMinimumValueImage:img];
+            img = [UIImage imageNamed:@"volume_3"];
+            img = [utils colorizeImage:img withColor:[UIColor grayColor]];
+            [volumeSlider setMaximumValueImage:img];
         }
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleApplicationOnVolumeChanged:)
@@ -180,6 +195,36 @@
     volumeLabel.text = [NSString  stringWithFormat:@"%.0f", volumeSlider.value];
 }
 
+-(IBAction)toggleMute:(id)sender {
+    [self handleMute:!isMuted];
+}
+
+-(void)handleMute:(BOOL)mute {
+    Utilities *utils = [[Utilities alloc] init];
+    isMuted = mute;
+    if (isMuted) {
+        UIImage *img = [UIImage imageNamed:@"volume_slash"];
+        img = [utils colorizeImage:img withColor:[UIColor systemRedColor]];
+        [muteButton setImage:img forState:UIControlStateNormal];
+        
+        img = [UIImage imageNamed:@"pgbar_thumb_iOS7.png"];
+        img = [utils colorizeImage:img withColor:[UIColor darkGrayColor]];
+        [volumeSlider setThumbImage:img forState:UIControlStateNormal];
+        [volumeSlider setMinimumTrackTintColor:[UIColor darkGrayColor]];
+        [volumeSlider setUserInteractionEnabled:NO];
+    }
+    else {
+        UIImage *img = [UIImage imageNamed:@"volume_slash"];
+        img = [utils colorizeImage:img withColor:[UIColor darkGrayColor]];
+        [muteButton setImage:img forState:UIControlStateNormal];
+        
+        img = [UIImage imageNamed:@"pgbar_thumb_iOS7.png"];
+        [volumeSlider setThumbImage:img forState:UIControlStateNormal];
+        [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
+        [volumeSlider setUserInteractionEnabled:YES];
+    }
+}
+
 NSInteger action;
 
 -(IBAction)holdVolume:(id)sender{
@@ -215,6 +260,7 @@ NSInteger action;
     [AppDelegate instance].serverVolume = volumeSlider.value;
     volumeLabel.text=[NSString  stringWithFormat:@"%.0f", volumeSlider.value];
     [self changeServerVolume:nil];
+    [self handleMute:NO];
 }
 
 -(void)dealloc{

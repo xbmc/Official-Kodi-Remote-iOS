@@ -23,6 +23,10 @@
 
 #define CONNECTION_TIMEOUT 240.0
 #define SERVER_TIMEOUT 2.0
+#define VIEW_PADDING 10 /* separation between toolbar views */
+#define TOOLBAR_HEIGHT 44
+#define XBMCLOGO_WIDTH 87
+#define POWERBUTTON_WIDTH 42
 
 @interface ViewControllerIPad (){
     NSMutableArray *mainMenu;
@@ -442,7 +446,7 @@
     
     [leftMenuView addSubview:self.nowPlayingController.view];
 
-	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, 0, rootView.frame.size.width - leftMenuView.frame.size.width, rootView.frame.size.height-44)];
+	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, 0, rootView.frame.size.width - leftMenuView.frame.size.width, rootView.frame.size.height - TOOLBAR_HEIGHT)];
 	rightSlideView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
     
 	stackScrollViewController = [[StackScrollViewController alloc] init];	
@@ -455,12 +459,15 @@
 	[rootView addSubview:leftMenuView];
 	[rootView addSubview:rightSlideView];
     
-//    self.view.backgroundColor = [Utilities getGrayColor:36 alpha:1];
-//    self.view.backgroundColor = [[UIColor scrollViewTexturedBackgroundColor] colorWithAlphaComponent:0.5];
-//	[self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
     [self.view addSubview:rootView];
     
-    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(671, 967, 87, 30)];
+    // left most element
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT)];
+    volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
+    [self.view addSubview:volumeSliderView];
+    
+    // right most element
+    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - XBMCLOGO_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, XBMCLOGO_WIDTH, TOOLBAR_HEIGHT)];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateNormal];
     [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up.png"] forState:UIControlStateHighlighted];
     xbmcLogo.showsTouchWhenHighlighted = NO;
@@ -469,52 +476,33 @@
     xbmcLogo.alpha = 0.9;
     [self.view addSubview:xbmcLogo];
     
-    UIButton  *volumeButton = [[UIButton alloc] initWithFrame:CGRectMake(341, 964, 36, 37)];
-    [volumeButton setImage:[UIImage imageNamed:@"volume@2x.png"] forState:UIControlStateNormal];
-    [volumeButton setImage:[UIImage imageNamed:@"volume@2x.png"] forState:UIControlStateHighlighted];
-    [volumeButton setImage:[UIImage imageNamed:@"volume@2x.png"] forState:UIControlStateSelected];
-    volumeButton.alpha = 0.1;
-    volumeButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
-    volumeButton.contentMode = UIViewContentModeScaleAspectFit;
-    [self.view addSubview:volumeButton];
-    
-    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0, 0, 62, 296)];
-    volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
-    frame=volumeSliderView.frame;
-    frame.origin.x=408;
-    frame.origin.y=self.view.frame.size.height - 170;
-    volumeSliderView.frame=frame;
-    CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * 0.5);
-    volumeSliderView.transform = trans;
-    [self.view addSubview:volumeSliderView];
-    
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(439, 966, 190, 33)]; //225
-    [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
-    xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:11];
-    xbmcInfo.titleLabel.minimumScaleFactor = 6.0 / 11.0;
-    xbmcInfo.titleLabel.numberOfLines = 2;
-    xbmcInfo.titleLabel.textAlignment=NSTextAlignmentCenter;
-    xbmcInfo.titleEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
-    xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
-    xbmcInfo.titleLabel.shadowOffset = CGSizeMake (1, 1);
-    xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
-    
-    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(620, 966, 42, 33)]; //225
-    xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
-    xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
-    xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
-    [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-    [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
-    [menuViewController.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-
+    // 2nd right most element
+    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - POWERBUTTON_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [powerButton setImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateNormal];
     [powerButton setImage:[UIImage imageNamed:@"icon_power_up.png"] forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:xbmcInfo];
     [self.view addSubview:powerButton];
+    
+    // element between left most and 2nd right most uses up free space
+    CGFloat startInfo = volumeSliderView.frame.origin.x + volumeSliderView.frame.size.width + VIEW_PADDING;
+    CGFloat widthInfo = powerButton.frame.origin.x - startInfo - VIEW_PADDING;
+    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(startInfo, self.view.frame.size.height - TOOLBAR_HEIGHT, widthInfo, TOOLBAR_HEIGHT)];
+    [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
+    xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
+    xbmcInfo.titleLabel.minimumScaleFactor = 6.0 / 13.0;
+    xbmcInfo.titleLabel.numberOfLines = 2;
+    xbmcInfo.titleLabel.textAlignment=NSTextAlignmentCenter;
+    xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
+    xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
+    xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
+    xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
+    [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+    [self.view addSubview:xbmcInfo];
+    
+    menuViewController.tableView.separatorInset = UIEdgeInsetsZero;
     
     [self.view insertSubview:self.nowPlayingController.scrabbingView aboveSubview:rootView];
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];

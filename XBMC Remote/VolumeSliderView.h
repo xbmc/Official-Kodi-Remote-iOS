@@ -13,10 +13,12 @@
     IBOutlet UIView *volumeView;
     IBOutlet UISlider *volumeSlider;
     IBOutlet UILabel *volumeLabel;
+    IBOutlet UIButton *muteButton;
     DSJSONRPC *jsonRPC;
     IBOutlet UIButton *plusButton;
     IBOutlet UIButton *minusButton;
     NSString *pg_thumb_name;
+    BOOL isMuted;
 }
 
 - (IBAction)slideVolume:(id)sender;
