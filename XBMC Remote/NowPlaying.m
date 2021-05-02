@@ -1875,7 +1875,7 @@ int currentItemID;
 }
 
 - (void)toggleSongDetails{
-    if (nothingIsPlaying) {
+    if (nothingIsPlaying || playerID==2) {
         return;
     }
     [UIView beginAnimations:nil context:nil];
