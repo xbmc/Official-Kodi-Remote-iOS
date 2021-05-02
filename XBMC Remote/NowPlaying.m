@@ -965,6 +965,11 @@ int currentItemID;
                                      currentTime.text=actualTime;
                                      ProgressSlider.hidden = NO;
                                  }
+                                 if (playerID == 2) {
+                                     ProgressSlider.hidden = YES;
+                                     currentTime.hidden = YES;
+                                     duration.hidden = YES;
+                                 }
                                  NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
                                  if (storeSelection)
                                      selection=storeSelection;
@@ -1114,7 +1119,7 @@ int currentItemID;
                  songSampleRate.text = bitrate;
                  songSampleRate.hidden = NO;
              }
-             else if (currentPlayerID==playerID) {
+             else if (playerID==1 && currentPlayerID==playerID) {
                  codec = [[methodResult objectForKey:@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoResolution"]] ;
                  songCodec.text = codec;
                  songCodec.hidden = NO;
@@ -1155,6 +1160,12 @@ int currentItemID;
                  if (audioCodecImage != nil){
                      songNumChannels.hidden = YES;
                  }
+             }
+             else {
+                 songCodec.hidden = YES;
+                 songBitRate.hidden = YES;
+                 songSampleRate.hidden = YES;
+                 songNumChannels.hidden = YES;
              }
          }
     }];
