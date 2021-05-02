@@ -1148,6 +1148,7 @@ int currentItemID;
                  }
                  
                  numchan = [[methodResult objectForKey:@"VideoPlayer.AudioCodec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.AudioCodec"]];
+                 numchan = [self processSongCodecName:numchan];
                  songNumChannels.text = numchan;
                  songNumChannels.hidden = NO;
                  songNumChanImage.image = nil;
