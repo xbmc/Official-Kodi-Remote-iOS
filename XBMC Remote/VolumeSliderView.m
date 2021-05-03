@@ -288,13 +288,16 @@ NSInteger action;
         self.holdVolumeTimer=nil;
         self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];        
     }
-    if (action==1){ //Volume Raise
-       volumeSlider.value=(int)volumeSlider.value+2; 
+    if (action==1){ // Volume Raise
+       volumeSlider.value = (int)volumeSlider.value + 2;
         
     }
     else if (action==2) { // Volume Lower
-        volumeSlider.value=(int)volumeSlider.value-2;
+        volumeSlider.value = (int)volumeSlider.value - 2;
 
+    }
+    else { // Volume in 2-step resolution
+        volumeSlider.value= ((int)volumeSlider.value / 2) * 2;
     }
     [AppDelegate instance].serverVolume = volumeSlider.value;
     volumeLabel.text=[NSString  stringWithFormat:@"%.0f", volumeSlider.value];
