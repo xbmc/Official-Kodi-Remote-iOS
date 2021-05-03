@@ -302,7 +302,9 @@ NSInteger action;
     [AppDelegate instance].serverVolume = volumeSlider.value;
     volumeLabel.text=[NSString  stringWithFormat:@"%.0f", volumeSlider.value];
     [self changeServerVolume:nil];
-    [self handleMute:NO];
+    if (isMuted) {
+        [self toggleMute:nil];
+    }
 }
 
 -(void)dealloc{
