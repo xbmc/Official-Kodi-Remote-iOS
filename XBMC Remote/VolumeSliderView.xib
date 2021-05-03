@@ -32,7 +32,9 @@
                     <color key="minimumTrackTintColor" red="0.34045934677124023" green="0.62004148960113525" blue="0.72810506820678711" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
-                        <action selector="slideVolume:" destination="3" eventType="valueChanged" id="11"/>
+                        <action selector="holdVolume:" destination="3" eventType="touchDown" id="fJ1-hh-HjW"/>
+                        <action selector="stopVolume:" destination="3" eventType="touchUpOutside" id="Ww8-5E-s1P"/>
+                        <action selector="stopVolume:" destination="3" eventType="touchUpInside" id="dB6-Nz-aJM"/>
                     </connections>
                 </slider>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="15">

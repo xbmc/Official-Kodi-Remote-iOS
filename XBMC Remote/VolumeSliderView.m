@@ -151,8 +151,10 @@
 }
 
 -(void)handleApplicationOnVolumeChanged:(NSNotification *)sender{
-    [AppDelegate instance].serverVolume = [[sender userInfo][@"params"][@"data"][@"volume"] intValue];
-    [self handleServerStatusChanged:nil];
+    if (holdVolumeTimer == nil) {
+        [AppDelegate instance].serverVolume = [[sender userInfo][@"params"][@"data"][@"volume"] intValue];
+        [self handleServerStatusChanged:nil];
+    }
 }
 
 - (void) handleDidEnterBackground: (NSNotification*) sender{
@@ -268,7 +270,7 @@ NSInteger action;
     [self stopTimer];
     action = [sender tag];
     [self changeVolume];
-    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];
+    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];
 }
 
 -(IBAction)stopVolume:(id)sender{
