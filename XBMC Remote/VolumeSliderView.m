@@ -15,6 +15,7 @@
 #define VOLUMEICON_PADDING 10 /* space left/right from volume icons */
 #define VOLUMEVIEW_OFFSET 8 /* vertical offset to match menu */
 #define VOLUMESLIDER_HEIGHT 44
+#define SERVER_TIMEOUT 3.0
 
 @implementation VolumeSliderView
 
@@ -114,9 +115,16 @@
             img = [utils colorizeImage:img withColor:[UIColor grayColor]];
             [volumeSlider setMaximumValueImage:img];
         }
+        [self checkMuteServer];
+        
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleApplicationOnVolumeChanged:)
                                                      name: @"Application.OnVolumeChanged"
+                                                   object: nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleServerStatusChanged:)
+                                                     name: @"TcpJSONRPCChangeServerStatus"
                                                    object: nil];
         
         [[NSNotificationCenter defaultCenter] addObserver: self
@@ -136,10 +144,15 @@
     return UIScreen.mainScreen.bounds;
 }
 
--(void)handleApplicationOnVolumeChanged:(NSNotification *)sender{
-    [AppDelegate instance].serverVolume = [[[[[sender userInfo] valueForKey:@"params"] objectForKey:@"data"] objectForKey:@"volume"] intValue];
+-(void)handleServerStatusChanged:(NSNotification *)sender{
     volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
     volumeSlider.value = [AppDelegate instance].serverVolume;
+    [self checkMuteServer];
+}
+
+-(void)handleApplicationOnVolumeChanged:(NSNotification *)sender{
+    [AppDelegate instance].serverVolume = [[sender userInfo][@"params"][@"data"][@"volume"] intValue];
+    [self handleServerStatusChanged:nil];
 }
 
 - (void) handleDidEnterBackground: (NSNotification*) sender{
@@ -197,6 +210,7 @@
 
 -(IBAction)toggleMute:(id)sender {
     [self handleMute:!isMuted];
+    [self changeMuteServer];
 }
 
 -(void)handleMute:(BOOL)mute {
@@ -223,6 +237,29 @@
         [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
         [volumeSlider setUserInteractionEnabled:YES];
     }
+}
+
+-(void)changeMuteServer {
+    jsonRPC = nil;
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
+    [jsonRPC
+     callMethod:@"Application.SetMute"
+     withParameters:@{@"mute": @"toggle"}];
+}
+
+-(void)checkMuteServer {
+    jsonRPC = nil;
+    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
+    [jsonRPC
+     callMethod:@"Application.GetProperties"
+     withParameters:@{@"properties": @[@"muted"]}
+     withTimeout: SERVER_TIMEOUT
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if (error==nil && methodError==nil){
+             isMuted = [methodResult[@"muted"] boolValue];
+             [self handleMute:isMuted];
+         }
+    }];
 }
 
 NSInteger action;
