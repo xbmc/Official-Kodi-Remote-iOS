@@ -17,8 +17,8 @@
     DSJSONRPC *jsonRPC;
     IBOutlet UIButton *plusButton;
     IBOutlet UIButton *minusButton;
-    NSString *pg_thumb_name;
     BOOL isMuted;
+    UIColor *muteForeground;
 }
 
 - (IBAction)slideVolume:(id)sender;
