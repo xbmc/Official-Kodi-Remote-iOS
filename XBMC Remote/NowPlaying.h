@@ -128,8 +128,6 @@
 
 @property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) RemoteController *remoteController;
-@property (strong, nonatomic) DetailViewController *detailViewController;
-@property (strong, nonatomic) ShowInfoViewController *showInfoViewController;
 @property (strong, nonatomic) UIImageView *jewelView;
 @property (strong, nonatomic) IBOutlet UIImageView *itemLogoImage;
 @property (strong, nonatomic) UIButton *shuffleButton;

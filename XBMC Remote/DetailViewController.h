@@ -32,7 +32,6 @@
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;  
     IBOutlet UILongPressGestureRecognizer *lpgr;
-    BOOL alreadyPush;
     int choosedTab;
     int numTabs;
     int watchMode;
@@ -152,9 +151,6 @@
 @property (nonatomic, retain) NSMutableArray *filteredListContent;
 @property (strong, nonatomic) id detailItem;
 @property(nonatomic,readonly) UIActivityIndicatorView *activityIndicatorView;
-@property (strong, nonatomic) ShowInfoViewController *showInfoViewController;
-@property (strong, nonatomic) DetailViewController *detailViewController;
-@property (strong, nonatomic) NowPlaying *nowPlaying;
 @property (strong, nonatomic) BDKCollectionIndexView *indexView;
 @property (nonatomic,retain) NSMutableDictionary *sections;
 @property (nonatomic,retain) NSMutableArray *richResults;

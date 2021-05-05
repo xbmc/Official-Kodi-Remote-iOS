@@ -38,9 +38,6 @@
 @synthesize detailItem = _detailItem;
 @synthesize activityIndicatorView;
 @synthesize sections;
-@synthesize detailViewController;
-@synthesize nowPlaying;
-@synthesize showInfoViewController;
 @synthesize filteredListContent;
 @synthesize richResults;
 @synthesize sectionArray;
@@ -1005,7 +1002,6 @@
 #pragma mark - Library item didSelect
 
 -(void)viewChild:(NSIndexPath *)indexPath item:(NSDictionary *)item displayPoint:(CGPoint) point{
-    self.detailViewController=nil;
     selected = indexPath;
     mainMenu *MenuItem=self.detailItem;
     NSMutableArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
@@ -1089,9 +1085,9 @@
         MenuItem.subItem.chooseTab=choosedTab;
         MenuItem.subItem.currentWatchMode = watchMode;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            self.detailViewController.detailItem = MenuItem.subItem;
-            [self.navigationController pushViewController:self.detailViewController animated:YES];
+            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            detailViewController.detailItem = MenuItem.subItem;
+            [self.navigationController pushViewController:detailViewController animated:YES];
         }
         else{
             if (stackscrollFullscreen == YES){
@@ -1141,9 +1137,9 @@
                 [[MenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
                 MenuItem.chooseTab=choosedTab;
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                    self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                    self.detailViewController.detailItem = MenuItem;
-                    [self.navigationController pushViewController:self.detailViewController animated:YES];
+                    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+                    detailViewController.detailItem = MenuItem;
+                    [self.navigationController pushViewController:detailViewController animated:YES];
                 }
                 else{
                     if (stackscrollFullscreen == YES){
@@ -1204,10 +1200,9 @@
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab=choosedTab;
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                
-                self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                self.detailViewController.detailItem = MenuItem.subItem;
-                [self.navigationController pushViewController:self.detailViewController animated:YES];
+                DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+                detailViewController.detailItem = MenuItem.subItem;
+                [self.navigationController pushViewController:detailViewController animated:YES];
             }
             else{
                 if (stackscrollFullscreen == YES){
@@ -1227,7 +1222,6 @@
 }
 
 -(void)didSelectItemAtIndexPath:(NSIndexPath *)indexPath item:(NSDictionary *)item displayPoint:(CGPoint) point{
-    self.detailViewController=nil;
     mainMenu *MenuItem=self.detailItem;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
     NSMutableArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
@@ -3690,17 +3684,9 @@ NSIndexPath *selected;
 }
 
 -(void)showNowPlaying{
-    if (!alreadyPush){
-        //self.nowPlaying=nil;
-        if (self.nowPlaying == nil){
-            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-        }
-        self.nowPlaying.detailItem = self.detailItem;
-//        self.nowPlaying.presentedFromNavigation = YES;
-        
-        [self.navigationController pushViewController:self.nowPlaying animated:YES];
-        alreadyPush=YES;
-    }
+    NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+    nowPlaying.detailItem = self.detailItem;
+    [self.navigationController pushViewController:nowPlaying animated:YES];
 }
 
 # pragma mark - Playback Management
@@ -3715,7 +3701,6 @@ NSIndexPath *selected;
 }
 
 -(void)exploreItem:(NSDictionary *)item{
-    self.detailViewController=nil;
     mainMenu *MenuItem=self.detailItem;
     NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
     MenuItem.subItem.mainLabel=[item objectForKey:@"label"];
@@ -3757,10 +3742,9 @@ NSIndexPath *selected;
     [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
     MenuItem.subItem.chooseTab=choosedTab;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        
-        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-        self.detailViewController.detailItem = MenuItem.subItem;
-        [self.navigationController pushViewController:self.detailViewController animated:YES];
+        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+        detailViewController.detailItem = MenuItem.subItem;
+        [self.navigationController pushViewController:detailViewController animated:YES];
     }
     else{
         if (stackscrollFullscreen == YES){
@@ -4138,10 +4122,9 @@ NSIndexPath *selected;
 
 -(void)displayInfoView:(NSDictionary *)item {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.showInfoViewController=nil;
-        self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
-        self.showInfoViewController.detailItem = item;
-        [self.navigationController pushViewController:self.showInfoViewController animated:YES];
+        ShowInfoViewController *showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
+        showInfoViewController.detailItem = item;
+        [self.navigationController pushViewController:showInfoViewController animated:YES];
     }
     else {
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
@@ -5330,7 +5313,6 @@ NSIndexPath *selected;
         self.slidingViewController.anchorLeftPeekAmount     = 0;
         self.slidingViewController.anchorLeftRevealAmount   = 0;
     }
-    alreadyPush = NO;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
 	if (selection){
 		[dataList deselectRowAtIndexPath:selection animated:NO];
