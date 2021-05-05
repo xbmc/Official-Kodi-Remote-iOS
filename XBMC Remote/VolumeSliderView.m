@@ -220,28 +220,18 @@
 -(void)handleMute:(BOOL)mute {
     Utilities *utils = [[Utilities alloc] init];
     isMuted = mute;
-    if (isMuted) {
-        UIImage *img = [UIImage imageNamed:@"volume_slash"];
-        img = [utils colorizeImage:img withColor:[UIColor systemRedColor]];
-        [muteButton setImage:img forState:UIControlStateNormal];
-        
-        img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
-        img = [utils colorizeImage:img withColor:[UIColor darkGrayColor]];
-        [volumeSlider setThumbImage:img forState:UIControlStateNormal];
-        [volumeSlider setMinimumTrackTintColor:[UIColor darkGrayColor]];
-        [volumeSlider setUserInteractionEnabled:NO];
-    }
-    else {
-        UIImage *img = [UIImage imageNamed:@"volume_slash"];
-        img = [utils colorizeImage:img withColor:muteForeground];
-        [muteButton setImage:img forState:UIControlStateNormal];
-        
-        img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
-        img = [utils colorizeImage:img withColor:SLIDER_DEFAULT_COLOR];
-        [volumeSlider setThumbImage:img forState:UIControlStateNormal];
-        [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
-        [volumeSlider setUserInteractionEnabled:YES];
-    }
+    UIColor *buttonColor = isMuted ? [UIColor systemRedColor] : muteForeground;
+    UIColor *sliderColor = isMuted ? [UIColor darkGrayColor] : SLIDER_DEFAULT_COLOR;
+
+    UIImage *img = [UIImage imageNamed:@"volume_slash"];
+    img = [utils colorizeImage:img withColor:buttonColor];
+    [muteButton setImage:img forState:UIControlStateNormal];
+    
+    img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
+    img = [utils colorizeImage:img withColor:sliderColor];
+    [volumeSlider setThumbImage:img forState:UIControlStateNormal];
+    [volumeSlider setMinimumTrackTintColor:sliderColor];
+    [volumeSlider setUserInteractionEnabled:!isMuted];
 }
 
 -(void)changeMuteServer {
