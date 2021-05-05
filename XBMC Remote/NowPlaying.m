@@ -31,13 +31,11 @@
 @synthesize detailItem = _detailItem;
 @synthesize remoteController;
 @synthesize jewelView;
-@synthesize detailViewController;
 @synthesize shuffleButton;
 @synthesize repeatButton;
 @synthesize itemLogoImage;
 @synthesize songDetailsView;
 @synthesize ProgressSlider;
-@synthesize showInfoViewController;
 @synthesize scrabbingView;
 @synthesize itemDescription;
 //@synthesize presentedFromNavigation;
@@ -1455,10 +1453,9 @@ int currentItemID;
 -(void)displayInfoView:(NSDictionary *)item{
     fromItself = TRUE;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        self.showInfoViewController=nil;
-        self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
-        self.showInfoViewController.detailItem = item;
-        [self.navigationController pushViewController:self.showInfoViewController animated:YES];
+        ShowInfoViewController *showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
+        showInfoViewController.detailItem = item;
+        [self.navigationController pushViewController:showInfoViewController animated:YES];
     }
     else{
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
@@ -2235,9 +2232,9 @@ int currentItemID;
         MenuItem.subItem.chooseTab=choosedTab;
         fromItself = TRUE;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            self.detailViewController.detailItem = MenuItem.subItem;
-            [self.navigationController pushViewController:self.detailViewController animated:YES];
+            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            detailViewController.detailItem = MenuItem.subItem;
+            [self.navigationController pushViewController:detailViewController animated:YES];
         }
         else{
             DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];

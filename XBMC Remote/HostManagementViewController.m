@@ -22,7 +22,6 @@
 
 @implementation HostManagementViewController
 
-@synthesize hostController;
 @synthesize mainMenu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -33,9 +32,9 @@
 #pragma mark - Button Mamagement
 
 -(IBAction)addHost:(id)sender{
-    self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
-    self.hostController.detailItem = nil;
-    [self.navigationController pushViewController:self.hostController animated:YES];
+    HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
+    hostController.detailItem = nil;
+    [self.navigationController pushViewController:hostController animated:YES];
 }
 
 -(void)modifyHost:(NSIndexPath *)item{
@@ -59,9 +58,9 @@
         }
         [connectingActivityIndicator stopAnimating];
     }
-    self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
-    self.hostController.detailItem = item;
-    [self.navigationController pushViewController:self.hostController animated:YES];
+    HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
+    hostController.detailItem = item;
+    [self.navigationController pushViewController:hostController animated:YES];
 }
 
 #pragma mark - Table view methods & data source

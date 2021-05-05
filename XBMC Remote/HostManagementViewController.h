@@ -38,7 +38,6 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 -(void)selectIndex:(NSIndexPath *)selection reloadData:(BOOL)reload;
 
-@property (strong, nonatomic) HostViewController *hostController;
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 
 @end

@@ -29,8 +29,6 @@
 @implementation ShowInfoViewController
 
 @synthesize detailItem = _detailItem;
-@synthesize nowPlaying;
-@synthesize detailViewController;
 @synthesize kenView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -412,9 +410,9 @@ int count=0;
             choosedMenuItem.disableNowPlaying = NO;
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            self.detailViewController.detailItem = choosedMenuItem;
-            [self.navigationController pushViewController:self.detailViewController animated:YES];
+            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            detailViewController.detailItem = choosedMenuItem;
+            [self.navigationController pushViewController:detailViewController animated:YES];
         }
         else{
             if (![self isModal]){
@@ -602,9 +600,9 @@ int count=0;
 
 -(void)showNowPlaying{
     if (!alreadyPush){
-        self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-        self.nowPlaying.detailItem = self.detailItem;
-        [self.navigationController pushViewController:self.nowPlaying animated:YES];
+        NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+        nowPlaying.detailItem = self.detailItem;
+        [self.navigationController pushViewController:nowPlaying animated:YES];
         self.navigationItem.rightBarButtonItem.enabled=YES;
         alreadyPush = YES;
     }
