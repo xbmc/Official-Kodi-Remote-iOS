@@ -48,7 +48,6 @@
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *fanartView;
 
-    BOOL alreadyPush;
     BOOL isRecordingDetail;
     UIToolbar *toolbar;
     NSMutableArray *sheetActions;

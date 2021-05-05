@@ -599,13 +599,10 @@ int count=0;
 }
 
 -(void)showNowPlaying{
-    if (!alreadyPush){
-        NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-        nowPlaying.detailItem = self.detailItem;
-        [self.navigationController pushViewController:nowPlaying animated:YES];
-        self.navigationItem.rightBarButtonItem.enabled=YES;
-        alreadyPush = YES;
-    }
+    NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+    nowPlaying.detailItem = self.detailItem;
+    [self.navigationController pushViewController:nowPlaying animated:YES];
+    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 -(void)moveLabel:(NSArray *)objects posY:(int)y{
@@ -1937,7 +1934,6 @@ int h=0;
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    alreadyPush=NO;
     self.slidingViewController.underRightViewController = nil;
     self.slidingViewController.anchorLeftPeekAmount     = 0;
     self.slidingViewController.anchorLeftRevealAmount   = 0;

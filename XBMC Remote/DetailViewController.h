@@ -32,7 +32,6 @@
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;  
     IBOutlet UILongPressGestureRecognizer *lpgr;
-    BOOL alreadyPush;
     int choosedTab;
     int numTabs;
     int watchMode;

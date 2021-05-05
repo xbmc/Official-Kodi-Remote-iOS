@@ -3684,12 +3684,9 @@ NSIndexPath *selected;
 }
 
 -(void)showNowPlaying{
-    if (!alreadyPush){
-        NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-        nowPlaying.detailItem = self.detailItem;
-        [self.navigationController pushViewController:nowPlaying animated:YES];
-        alreadyPush = YES;
-    }
+    NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+    nowPlaying.detailItem = self.detailItem;
+    [self.navigationController pushViewController:nowPlaying animated:YES];
 }
 
 # pragma mark - Playback Management
@@ -5316,7 +5313,6 @@ NSIndexPath *selected;
         self.slidingViewController.anchorLeftPeekAmount     = 0;
         self.slidingViewController.anchorLeftRevealAmount   = 0;
     }
-    alreadyPush = NO;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
 	if (selection){
 		[dataList deselectRowAtIndexPath:selection animated:NO];
