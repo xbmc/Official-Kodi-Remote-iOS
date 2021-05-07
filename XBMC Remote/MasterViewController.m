@@ -66,10 +66,7 @@
                 [UIView commitAnimations];
             }
         }
-//        jsonRPC=nil;
-//        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-//
-//        [jsonRPC
+//        [[Utilities getJsonRPC]
 //         callMethod:@"JSONRPC.Introspect"
 //         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: nil]
 //         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -323,7 +320,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    jsonRPC=nil;
 }
 
 - (void)viewDidLoad{

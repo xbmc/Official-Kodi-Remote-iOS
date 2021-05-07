@@ -168,9 +168,7 @@
 }
 
 -(void)changeServerVolume:(id)sender{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC 
+    [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:(int)volumeSlider.value], @"volume", nil]];
     if ([sender tag] == 10){
@@ -235,17 +233,13 @@
 }
 
 -(void)changeMuteServer {
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC
+    [[Utilities getJsonRPC]
      callMethod:@"Application.SetMute"
      withParameters:@{@"mute": @"toggle"}];
 }
 
 -(void)checkMuteServer {
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC
+    [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:@{@"properties": @[@"muted"]}
      withTimeout: SERVER_TIMEOUT

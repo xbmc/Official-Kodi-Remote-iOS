@@ -22,7 +22,6 @@
 @interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
     IBOutlet UITableView *menuList;
     IBOutlet UITableViewCell *resultMenuCell;
-    DSJSONRPC *jsonRPC;
     UIButton *xbmcInfo;
     UIButton *xbmcLogo;
     UIButton *powerButton;

@@ -545,9 +545,7 @@
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
         [sender setUserInteractionEnabled:NO];
     }
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
             [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
@@ -564,9 +562,7 @@
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
         [sender setUserInteractionEnabled:NO];
     }
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
             [busyView stopAnimating];
             if ([sender respondsToSelector:@selector(setHidden:)]){

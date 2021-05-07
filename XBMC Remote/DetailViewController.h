@@ -26,7 +26,6 @@
 @interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, SFSafariViewControllerDelegate>{
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
-    DSJSONRPC *jsonRPC;
     NSMutableArray	*filteredListContent;
     NSMutableArray *storeRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;

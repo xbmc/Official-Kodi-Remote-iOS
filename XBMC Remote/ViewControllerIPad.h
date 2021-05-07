@@ -33,7 +33,6 @@
     UIButton *xbmcInfo;
     UIButton *powerButton;
     VolumeSliderView *volumeSliderView;
-    DSJSONRPC *jsonRPC;
     BOOL firstRun;
     NSTimer* extraTimer;
     HostManagementViewController *_hostPickerViewController;

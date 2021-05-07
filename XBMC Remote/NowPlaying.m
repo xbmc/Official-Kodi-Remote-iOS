@@ -225,7 +225,7 @@
     else{
         if (musicPartyMode){
             [PartyModeButton setSelected:NO];
-            [jsonRPC
+            [[Utilities getJsonRPC]
              callMethod:@"Player.SetPartymode"
              withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", @"toggle", @"partymode", nil]
              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -234,7 +234,7 @@
         }
         else{
             [PartyModeButton setSelected:YES];
-            [jsonRPC
+            [[Utilities getJsonRPC]
              callMethod:@"Player.Open"
              withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                              [NSDictionary dictionaryWithObjectsAndKeys:@"music", @"partymode", nil], @"item", nil]
@@ -663,7 +663,7 @@ int currentItemID;
 }
 
 -(void)getActivePlayers{
-    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
                 nothingIsPlaying = NO;
@@ -685,7 +685,7 @@ int currentItemID;
                 if ([AppDelegate instance].serverVersion > 11){
                     [properties addObject:@"art"];
                 }
-                [jsonRPC 
+                [[Utilities getJsonRPC]
                  callMethod:@"Player.GetItem" 
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                                  response, @"playerid",
@@ -877,7 +877,7 @@ int currentItemID;
                          storedItemID=-1;
                      }
                  }];
-                [jsonRPC 
+                [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties" 
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                                  response, @"playerid",
@@ -1075,7 +1075,7 @@ int currentItemID;
 }
 
 -(void)loadCodecView {
-    [jsonRPC 
+    [[Utilities getJsonRPC]
      callMethod:@"XBMC.GetInfoLabels" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                      [[NSArray alloc] initWithObjects:@"MusicPlayer.Codec",@"MusicPlayer.SampleRate",@"MusicPlayer.BitRate", @"MusicPlayer.Channels", @"VideoPlayer.VideoResolution", @"VideoPlayer.VideoAspect", @"VideoPlayer.AudioCodec", @"VideoPlayer.VideoCodec", nil], @"labels",
@@ -1181,10 +1181,8 @@ int currentItemID;
         [self nothingIsPlaying];
         return;
     }
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     if ([AppDelegate instance].serverVersion == 11){
-        [jsonRPC 
+        [[Utilities getJsonRPC]
          callMethod:@"XBMC.GetInfoBooleans" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"Window.IsActive(virtualkeyboard)", @"Window.IsActive(selectdialog)",nil], @"booleans",
@@ -1212,9 +1210,7 @@ int currentItemID;
 
 
 -(void)clearPlaylist:(int)playlistID{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playlistID],@"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playlistID],@"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             [self createPlaylist:NO animTableView:NO];
         }
@@ -1225,16 +1221,14 @@ int currentItemID;
 }
 
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters checkPartyMode:(BOOL)checkPartyMode{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
                 NSNumber *response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
                 NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
                 if (parameters!=nil)
                     [commonParams addObjectsFromArray:parameters];
-                [jsonRPC callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil){
                         if (musicPartyMode && checkPartyMode){
                             [self checkPartyMode];
@@ -1303,9 +1297,7 @@ int currentItemID;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-72];
     }
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:@"Playlist.GetItems" 
+    [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", @"tvshowid", @"file", @"title", @"art", nil], @"properties",
                          [NSNumber numberWithInt:playlistID], @"playlistid",
@@ -1422,9 +1414,7 @@ int currentItemID;
 }
 
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters reloadPlaylist:(BOOL)reload startProgressBar:(BOOL)progressBar{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if (reload){
                 [self createPlaylist:NO animTableView:YES];
@@ -1512,7 +1502,7 @@ int currentItemID;
                                      nil];
     GlobalData *obj=[GlobalData getInstance];
 //    NSLog(@"%@ - %@", methodToCall, newParameters);
-    [jsonRPC
+    [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -2349,9 +2339,7 @@ int currentItemID;
     [queuing startAnimating];
     if (playerID==-2)
         playerID=0;
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC 
+    [[Utilities getJsonRPC]
      callMethod:@"Player.Open" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                      [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2414,11 +2402,9 @@ int currentItemID;
                           itemToMove, @"item",
                           [NSNumber numberWithInt:(int)destinationIndexPath.row],@"position",
                           nil];
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
-            [jsonRPC callMethod:action2 withParameters:params2];
+            [[Utilities getJsonRPC] callMethod:action2 withParameters:params2];
             NSInteger numObj = [playlistData count];
             if ([sourceIndexPath row] < numObj){
                 [playlistData removeObjectAtIndex:[sourceIndexPath row]];
@@ -2442,14 +2428,12 @@ int currentItemID;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
 
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        jsonRPC = nil;
-        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
         NSString *action1=@"Playlist.Remove";
         NSDictionary *params1=[NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInt:playerID], @"playlistid",
                                [NSNumber numberWithInt:(int)indexPath.row],@"position",
                                nil] ;
-        [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
                 NSInteger numObj = [playlistData count];
                 if ([indexPath row] < numObj){

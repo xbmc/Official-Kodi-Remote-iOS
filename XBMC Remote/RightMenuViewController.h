@@ -19,7 +19,6 @@
     IBOutlet UITableViewCell *rightMenuCell;
     NSMutableArray *tableData;
     UILabel *infoLabel;
-    DSJSONRPC *jsonRPC;
     VolumeSliderView *volumeSliderView;
     RemoteController *remoteControllerView;
     BOOL torchIsOn;

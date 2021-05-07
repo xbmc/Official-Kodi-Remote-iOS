@@ -12,7 +12,6 @@
 //#import "RightMenuViewController.h"
 
 @interface RemoteController : UIViewController {
-    DSJSONRPC *jsonRPC;
     IBOutlet UIView *remoteControlView;
     IBOutlet UILabel *subsInfoLabel;
     NSTimer *fadeoutTimer;

@@ -266,10 +266,7 @@
 
 - (void)handleTouchpadLongPress:(UILongPressGestureRecognizer*)gestureRecognizer { 
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
-        jsonRPC = nil;
-        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-
-        [jsonRPC 
+        [[Utilities getJsonRPC]
          callMethod:@"XBMC.GetInfoBooleans" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"Window.IsActive(fullscreenvideo)", @"Window.IsActive(visualisation)", @"Window.IsActive(slideshow)", nil], @"booleans",
@@ -439,16 +436,14 @@
 /* method to show an action sheet for subs. */
 
 -(void)subtitlesActionSheet {
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil) {
             if( [methodResult count] > 0) {
                 NSNumber *response;
                 if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])) {
                     response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
                 }
-                [jsonRPC
+                [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties"
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                  response, @"playerid",
@@ -510,17 +505,14 @@
 }
 
 -(void)audioStreamActionSheet {
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    
-    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
                 NSNumber *response;
                 if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])){
                     response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
                 }
-                [jsonRPC
+                [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties"
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                  response, @"playerid",
@@ -580,16 +572,14 @@
 }
 
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
                 NSNumber *response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
                 NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
                 if (parameters!=nil)
                     [commonParams addObjectsFromArray:parameters];
-                [jsonRPC callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //                    if (error==nil && methodError==nil){
 //                        NSLog(@"comando %@ eseguito. Risultato: %@", action, methodResult);
 //                    }
@@ -606,9 +596,7 @@
 }
 
 -(void)GUIAction:(NSString *)action params:(NSDictionary *)params httpAPIcallback:(NSString *)callback{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //        NSLog(@"Action %@ ok with %@ ", action , methodResult);
 //        if (methodError!=nil || error != nil){
 //            NSLog(@"method error %@ %@", methodError, error);
@@ -636,9 +624,7 @@
         audioVolume = 0;
     }
 
-//    jsonRPC = nil;
-//    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-//    [jsonRPC 
+//    [[Utilities getJsonRPC]
 //     callMethod:@"Application.GetProperties" 
 //     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"volume", nil], @"properties", nil]
 //     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -651,9 +637,7 @@
 }
 
 -(void)changeServerVolume{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC 
+    [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:audioVolume], @"volume", nil]];
 }
@@ -782,10 +766,7 @@ NSInteger buttonAction;
 
 -(void)playerStep:(NSString *)step musicPlayerGo:(NSString *)musicAction musicPlayerAction:(NSString *)musicMethod {
     if ([AppDelegate instance].serverVersion > 11){
-        if (jsonRPC == nil){
-            jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-        }
-        [jsonRPC
+        [[Utilities getJsonRPC]
          callMethod:@"GUI.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                          [[NSArray alloc] initWithObjects:@"currentwindow", @"fullscreen",nil], @"properties",
@@ -803,7 +784,7 @@ NSInteger buttonAction;
                  // 12005: WINDOW_FULLSCREEN_VIDEO
                  // 12006: WINDOW_VISUALISATION
                  if ([fullscreen boolValue] == YES && (winID == 12005 || winID == 12006)){
-                     [jsonRPC
+                     [[Utilities getJsonRPC]
                       callMethod:@"XBMC.GetInfoBooleans"
                       withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                       [[NSArray alloc] initWithObjects:@"VideoPlayer.HasMenu", @"Pvr.IsPlayingTv", nil], @"booleans",

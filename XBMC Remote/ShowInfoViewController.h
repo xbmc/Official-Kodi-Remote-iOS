@@ -21,7 +21,6 @@
     IBOutlet UILabel *voteLabel;
     IBOutlet UILabel *numVotesLabel;
     IBOutlet UIScrollView *scrollView;
-    DSJSONRPC *jsonRPC;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     IBOutlet UILabel *directorLabel;
     IBOutlet UILabel *genreLabel;
