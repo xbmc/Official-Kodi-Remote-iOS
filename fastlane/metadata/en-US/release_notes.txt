@@ -1,10 +1,11 @@
-- New features:
-  - Live TV: Sorting for PVR recordings
-  - Live TV: Selectable mode for background color of TV station logos
-  - Live TV: TV station logos for recording details
-  - TV Shows: Automatic background color for TV series / seasons
-  - Movies: Video playlist support
-  - Music: Fullscreen for music albums and artists
-  - iPad: Broader views on newer iPads
-- Bugfixes and stability improvements
-- Internal rework to maintain iOS support
+Features:
+- Ignore articles based on Kodi sort tokens (e.g. "The")
+- Introduce mute functionality
+- Improved iPad fullscreen mode for Music
+
+Bugfixes:
+- Fix Wake-On-LAN on iOS 14.5
+- Further bugfixes and stability improvements
+
+Other:
+- Maintenance, refactoring and code quality improvements
