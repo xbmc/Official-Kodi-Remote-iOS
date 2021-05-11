@@ -61,7 +61,7 @@
         
         CGRect toolbarShadowFrame = CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarShadow.opaque = YES;

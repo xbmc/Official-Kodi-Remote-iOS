@@ -506,16 +506,16 @@
     startDiscover.titleLabel.numberOfLines = 1;
     startDiscover.titleLabel.adjustsFontSizeToFitWidth = YES;
     startDiscover.titleLabel.lineBreakMode = NSLineBreakByClipping;
-    UIImage *buttonEdit = [UIImage imageNamed:@"button_edit.png"];
+    UIImage *buttonEdit = [UIImage imageNamed:@"button_edit"];
     UIEdgeInsets insets = UIEdgeInsetsMake(0, 16, 0, 16);
     buttonEdit = [buttonEdit resizableImageWithCapInsets:insets];
     [startDiscover setBackgroundImage:buttonEdit forState:UIControlStateNormal];
-    UIImage *buttonEditSelected = [UIImage imageNamed:@"button_edit_highlight.png"];
+    UIImage *buttonEditSelected = [UIImage imageNamed:@"button_edit_highlight"];
     buttonEditSelected = [buttonEditSelected resizableImageWithCapInsets:insets];
     [startDiscover setBackgroundImage:buttonEditSelected forState:UIControlStateSelected];
     [startDiscover setBackgroundImage:buttonEditSelected forState:UIControlStateHighlighted];
     
-    UIImage *buttonSave = [UIImage imageNamed:@"button_edit_down.png"];
+    UIImage *buttonSave = [UIImage imageNamed:@"button_edit_down"];
     buttonSave = [buttonSave resizableImageWithCapInsets:insets];
     [saveButton setBackgroundImage:buttonSave forState:UIControlStateNormal];
     [saveButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];

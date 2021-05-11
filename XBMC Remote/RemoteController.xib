@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -28,39 +24,39 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="remote_temp.png" id="117">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="remote_temp" translatesAutoresizingMaskIntoConstraints="NO" id="117">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <view contentMode="scaleToFill" id="1" userLabel="Remote Control View">
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1" userLabel="Remote Control View">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button tag="21" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="125" userLabel="Button - Music">
+                        <button tag="21" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="125" userLabel="Button - Music">
                             <rect key="frame" x="15" y="370" width="73" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_music_up.png">
+                            <state key="normal" backgroundImage="remote_button_music_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_music_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_music_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="126"/>
                             </connections>
                         </button>
-                        <button tag="22" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="127" userLabel="Button - Movies">
+                        <button tag="22" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="127" userLabel="Button - Movies">
                             <rect key="frame" x="88" y="370" width="73" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_movies_up.png">
+                            <state key="normal" backgroundImage="remote_button_movies_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_movies_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_movies_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -68,16 +64,16 @@
                                 <outletCollection property="gestureRecognizers" destination="Rvl-N6-jCn" appends="YES" id="Fm9-lc-ctc"/>
                             </connections>
                         </button>
-                        <button tag="23" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="129" userLabel="Button - TV">
+                        <button tag="23" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="129" userLabel="Button - TV">
                             <rect key="frame" x="160" y="370" width="73" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_tv_up.png">
+                            <state key="normal" backgroundImage="remote_button_tv_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_tv_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_tv_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -85,16 +81,16 @@
                                 <outletCollection property="gestureRecognizers" destination="VSi-tY-kRU" appends="YES" id="OFj-TA-hR2"/>
                             </connections>
                         </button>
-                        <button tag="24" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="131" userLabel="Button - Pictures">
+                        <button tag="24" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="131" userLabel="Button - Pictures">
                             <rect key="frame" x="232" y="370" width="73" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_pictures_up.png">
+                            <state key="normal" backgroundImage="remote_button_pictures_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_pictures_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_pictures_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -102,34 +98,34 @@
                                 <outletCollection property="gestureRecognizers" destination="iRX-uU-ZqJ" appends="YES" id="jxQ-Fy-zjc"/>
                             </connections>
                         </button>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" id="178" userLabel="Transitional View">
+                        <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="178" userLabel="Transitional View">
                             <rect key="frame" x="0.0" y="78" width="320" height="286"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view alpha="0.0" contentMode="scaleToFill" id="174" userLabel="Gesture Zone" customClass="RemoteControllerGestureZoneView">
+                                <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="174" userLabel="Gesture Zone" customClass="RemoteControllerGestureZoneView">
                                     <rect key="frame" x="-320" y="0.0" width="320" height="286"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="gesture_zone.png" id="175">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="gesture_zone" translatesAutoresizingMaskIntoConstraints="NO" id="175">
                                             <rect key="frame" x="17" y="0.0" width="286" height="286"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
-                                <view contentMode="scaleToFill" id="173" userLabel="Circle and four buttons">
+                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="173" userLabel="Circle and four buttons">
                                     <rect key="frame" x="0.0" y="4" width="320" height="281"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <button tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="35" userLabel="Button - up" customClass="OBShapedButton">
+                                        <button tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35" userLabel="Button - up" customClass="OBShapedButton">
                                             <rect key="frame" x="60" y="-1" width="202" height="99"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="remote_button_up_up.png">
+                                            <state key="normal" backgroundImage="remote_button_up_up">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
-                                            <state key="highlighted" backgroundImage="remote_button_up_down.png">
+                                            <state key="highlighted" backgroundImage="remote_button_up_down">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
@@ -139,15 +135,15 @@
                                                 <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="183"/>
                                             </connections>
                                         </button>
-                                        <button tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="37" userLabel="Button - left" customClass="OBShapedButton">
+                                        <button tag="12" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37" userLabel="Button - left" customClass="OBShapedButton">
                                             <rect key="frame" x="20" y="41" width="99" height="201"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="remote_button_left_up.png">
+                                            <state key="normal" backgroundImage="remote_button_left_up">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
-                                            <state key="highlighted" backgroundImage="remote_button_left_down.png">
+                                            <state key="highlighted" backgroundImage="remote_button_left_down">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
@@ -157,15 +153,15 @@
                                                 <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="184"/>
                                             </connections>
                                         </button>
-                                        <button tag="14" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="39" userLabel="Button - right" customClass="OBShapedButton">
+                                        <button tag="14" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39" userLabel="Button - right" customClass="OBShapedButton">
                                             <rect key="frame" x="203" y="41" width="98" height="201"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="remote_button_right_up.png">
+                                            <state key="normal" backgroundImage="remote_button_right_up">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
-                                            <state key="highlighted" backgroundImage="remote_button_right_down.png">
+                                            <state key="highlighted" backgroundImage="remote_button_right_down">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
@@ -175,15 +171,15 @@
                                                 <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="185"/>
                                             </connections>
                                         </button>
-                                        <button tag="16" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="41" userLabel="Button - down" customClass="OBShapedButton">
+                                        <button tag="16" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="41" userLabel="Button - down" customClass="OBShapedButton">
                                             <rect key="frame" x="61" y="184" width="200" height="97"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="remote_button_down_up.png">
+                                            <state key="normal" backgroundImage="remote_button_down_up">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
-                                            <state key="highlighted" backgroundImage="remote_button_down_down.png">
+                                            <state key="highlighted" backgroundImage="remote_button_down_down">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
@@ -193,31 +189,31 @@
                                                 <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="186"/>
                                             </connections>
                                         </button>
-                                        <button tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="34" userLabel="Button - home" customClass="OBShapedButton">
+                                        <button tag="9" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34" userLabel="Button - home" customClass="OBShapedButton">
                                             <rect key="frame" x="19" y="0.0" width="85" height="85"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="remote_button_home_up.png">
+                                            <state key="normal" backgroundImage="remote_button_home_up">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
-                                            <state key="highlighted" backgroundImage="remote_button_home_down.png">
+                                            <state key="highlighted" backgroundImage="remote_button_home_down">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
                                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="69"/>
                                             </connections>
                                         </button>
-                                        <button tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="36" userLabel="Button - info" customClass="OBShapedButton">
+                                        <button tag="11" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="36" userLabel="Button - info" customClass="OBShapedButton">
                                             <rect key="frame" x="215" y="0.0" width="85" height="85"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <gestureRecognizers/>
                                             <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                            <state key="normal" backgroundImage="remote_button_info_up.png">
+                                            <state key="normal" backgroundImage="remote_button_info_up">
                                                 <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
-                                            <state key="highlighted" backgroundImage="remote_button_info_down.png">
+                                            <state key="highlighted" backgroundImage="remote_button_info_down">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
@@ -225,15 +221,15 @@
                                                 <outletCollection property="gestureRecognizers" destination="139" appends="YES" id="140"/>
                                             </connections>
                                         </button>
-                                        <button tag="18" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="42" userLabel="Button - back" customClass="OBShapedButton">
+                                        <button tag="18" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="42" userLabel="Button - back" customClass="OBShapedButton">
                                             <rect key="frame" x="19" y="196" width="85" height="85"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="remote_button_back_up.png">
+                                            <state key="normal" backgroundImage="remote_button_back_up">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
-                                            <state key="highlighted" backgroundImage="remote_button_back_down.png">
+                                            <state key="highlighted" backgroundImage="remote_button_back_down">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
@@ -243,16 +239,16 @@
                                                 <action selector="stopHoldKey:" destination="-1" eventType="touchCancel" id="187"/>
                                             </connections>
                                         </button>
-                                        <button tag="15" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="40" userLabel="Button - menu" customClass="OBShapedButton">
+                                        <button tag="15" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="40" userLabel="Button - menu" customClass="OBShapedButton">
                                             <rect key="frame" x="216" y="196" width="85" height="85"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <gestureRecognizers/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="remote_button_menu_up.png">
+                                            <state key="normal" backgroundImage="remote_button_menu_up">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
-                                            <state key="highlighted" backgroundImage="remote_button_menu_down.png">
+                                            <state key="highlighted" backgroundImage="remote_button_menu_down">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
@@ -260,15 +256,15 @@
                                                 <outletCollection property="gestureRecognizers" destination="155" appends="YES" id="156"/>
                                             </connections>
                                         </button>
-                                        <button tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="38" userLabel="Button - select">
+                                        <button tag="13" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38" userLabel="Button - select">
                                             <rect key="frame" x="98" y="78" width="125" height="125"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="remote_button_xbmc_select_up.png">
+                                            <state key="normal" backgroundImage="remote_button_xbmc_select_up">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
-                                            <state key="highlighted" backgroundImage="remote_button_xbmc_select_down.png">
+                                            <state key="highlighted" backgroundImage="remote_button_xbmc_select_down">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
@@ -282,31 +278,31 @@
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <button tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="31" userLabel="Button - stop">
+                        <button tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="31" userLabel="Button - stop">
                             <rect key="frame" x="15" y="5" width="73" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_stop_up.png">
+                            <state key="normal" backgroundImage="remote_button_stop_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_stop_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_stop_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="66"/>
                             </connections>
                         </button>
-                        <button tag="19" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="118" userLabel="Button - subtitles">
+                        <button tag="19" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="118" userLabel="Button - subtitles">
                             <rect key="frame" x="88" y="5" width="73" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_sub_up.png">
+                            <state key="normal" backgroundImage="remote_button_sub_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_sub_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_sub_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -314,31 +310,31 @@
                                 <outletCollection property="gestureRecognizers" destination="197" appends="YES" id="198"/>
                             </connections>
                         </button>
-                        <button tag="20" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="120" userLabel="Button - dvd">
+                        <button tag="20" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="120" userLabel="Button - dvd">
                             <rect key="frame" x="160" y="5" width="73" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_audio_up.png">
+                            <state key="normal" backgroundImage="remote_button_audio_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_audio_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_audio_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="121"/>
                             </connections>
                         </button>
-                        <button tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="25" userLabel="Button - playback fullscreen">
+                        <button tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="25" userLabel="Button - playback fullscreen">
                             <rect key="frame" x="232" y="5" width="73" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_display_up.png">
+                            <state key="normal" backgroundImage="remote_button_display_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_display_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_display_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -346,31 +342,31 @@
                                 <outletCollection property="gestureRecognizers" destination="194" appends="YES" id="195"/>
                             </connections>
                         </button>
-                        <button tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="30" userLabel="Button - skip backward">
+                        <button tag="5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="30" userLabel="Button - skip backward">
                             <rect key="frame" x="14" y="44" width="59" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_skip_backward_up.png">
+                            <state key="normal" backgroundImage="remote_button_skip_backward_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_skip_backward_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_skip_backward_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="65"/>
                             </connections>
                         </button>
-                        <button tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="27" userLabel="Button - rewind">
+                        <button tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="27" userLabel="Button - rewind">
                             <rect key="frame" x="72" y="44" width="58" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_rewind_up.png">
+                            <state key="normal" backgroundImage="remote_button_rewind_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_rewind_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_rewind_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -378,31 +374,31 @@
                                 <outletCollection property="gestureRecognizers" destination="164" appends="YES" id="165"/>
                             </connections>
                         </button>
-                        <button tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="28" userLabel="Button - play">
+                        <button tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28" userLabel="Button - play">
                             <rect key="frame" x="130" y="44" width="58" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_play_pause_up.png">
+                            <state key="normal" backgroundImage="remote_button_play_pause_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_play_pause_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_play_pause_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="62"/>
                             </connections>
                         </button>
-                        <button tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="29" userLabel="Button - forward">
+                        <button tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="29" userLabel="Button - forward">
                             <rect key="frame" x="188" y="44" width="58" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_forward_up.png">
+                            <state key="normal" backgroundImage="remote_button_forward_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_forward_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_forward_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -410,22 +406,22 @@
                                 <outletCollection property="gestureRecognizers" destination="161" appends="YES" id="162"/>
                             </connections>
                         </button>
-                        <button tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="33" userLabel="Button - skip forward">
+                        <button tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33" userLabel="Button - skip forward">
                             <rect key="frame" x="246" y="44" width="59" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="remote_button_skip_forward_up.png">
+                            <state key="normal" backgroundImage="remote_button_skip_forward_up">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" backgroundImage="remote_button_skip_forward_down.png">
+                            <state key="highlighted" backgroundImage="remote_button_skip_forward_down">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="68"/>
                             </connections>
                         </button>
-                        <label hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="subtitles info" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" id="136" userLabel="Label - subs info">
+                        <label hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="subtitles info" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="136" userLabel="Label - subs info">
                             <rect key="frame" x="0.0" y="269" width="320" height="49"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -435,15 +431,15 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <view contentMode="scaleToFill" id="167" userLabel="Quick Help - View">
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="167" userLabel="Quick Help - View">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="168">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="168">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="169" userLabel="Button Dismiss">
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="169" userLabel="Button Dismiss">
                                     <rect key="frame" x="252" y="4" width="64" height="30"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -522,56 +518,51 @@
         </pongPressGestureRecognizer>
     </objects>
     <resources>
-        <image name="gesture_zone.png" width="286" height="286"/>
-        <image name="remote_button_audio_down.png" width="73" height="33"/>
-        <image name="remote_button_audio_up.png" width="73" height="33"/>
-        <image name="remote_button_back_down.png" width="86" height="86"/>
-        <image name="remote_button_back_up.png" width="86" height="86"/>
-        <image name="remote_button_display_down.png" width="73" height="33"/>
-        <image name="remote_button_display_up.png" width="73" height="33"/>
-        <image name="remote_button_down_down.png" width="200" height="97"/>
-        <image name="remote_button_down_up.png" width="200" height="97"/>
-        <image name="remote_button_forward_down.png" width="58" height="33"/>
-        <image name="remote_button_forward_up.png" width="58" height="33"/>
-        <image name="remote_button_home_down.png" width="86" height="86"/>
-        <image name="remote_button_home_up.png" width="86" height="86"/>
-        <image name="remote_button_info_down.png" width="86" height="86"/>
-        <image name="remote_button_info_up.png" width="86" height="86"/>
-        <image name="remote_button_left_down.png" width="99" height="201"/>
-        <image name="remote_button_left_up.png" width="99" height="201"/>
-        <image name="remote_button_menu_down.png" width="86" height="86"/>
-        <image name="remote_button_menu_up.png" width="86" height="86"/>
-        <image name="remote_button_movies_down.png" width="73" height="34"/>
-        <image name="remote_button_movies_up.png" width="73" height="34"/>
-        <image name="remote_button_music_down.png" width="73" height="34"/>
-        <image name="remote_button_music_up.png" width="73" height="34"/>
-        <image name="remote_button_pictures_down.png" width="73" height="34"/>
-        <image name="remote_button_pictures_up.png" width="73" height="34"/>
-        <image name="remote_button_play_pause_down.png" width="58" height="33"/>
-        <image name="remote_button_play_pause_up.png" width="58" height="33"/>
-        <image name="remote_button_rewind_down.png" width="58" height="33"/>
-        <image name="remote_button_rewind_up.png" width="58" height="33"/>
-        <image name="remote_button_right_down.png" width="98" height="201"/>
-        <image name="remote_button_right_up.png" width="98" height="201"/>
-        <image name="remote_button_skip_backward_down.png" width="59" height="33"/>
-        <image name="remote_button_skip_backward_up.png" width="59" height="33"/>
-        <image name="remote_button_skip_forward_down.png" width="59" height="33"/>
-        <image name="remote_button_skip_forward_up.png" width="59" height="33"/>
-        <image name="remote_button_stop_down.png" width="73" height="33"/>
-        <image name="remote_button_stop_up.png" width="73" height="33"/>
-        <image name="remote_button_sub_down.png" width="73" height="33"/>
-        <image name="remote_button_sub_up.png" width="73" height="33"/>
-        <image name="remote_button_tv_down.png" width="73" height="34"/>
-        <image name="remote_button_tv_up.png" width="73" height="34"/>
-        <image name="remote_button_up_down.png" width="202" height="98"/>
-        <image name="remote_button_up_up.png" width="202" height="98"/>
-        <image name="remote_button_xbmc_select_down.png" width="125" height="125"/>
-        <image name="remote_button_xbmc_select_up.png" width="125" height="125"/>
-        <image name="remote_temp.png" width="640" height="832"/>
+        <image name="gesture_zone" width="128" height="128"/>
+        <image name="remote_button_audio_down" width="128" height="128"/>
+        <image name="remote_button_audio_up" width="128" height="128"/>
+        <image name="remote_button_back_down" width="128" height="128"/>
+        <image name="remote_button_back_up" width="128" height="128"/>
+        <image name="remote_button_display_down" width="128" height="128"/>
+        <image name="remote_button_display_up" width="128" height="128"/>
+        <image name="remote_button_down_down" width="128" height="128"/>
+        <image name="remote_button_down_up" width="128" height="128"/>
+        <image name="remote_button_forward_down" width="128" height="128"/>
+        <image name="remote_button_forward_up" width="128" height="128"/>
+        <image name="remote_button_home_down" width="128" height="128"/>
+        <image name="remote_button_home_up" width="128" height="128"/>
+        <image name="remote_button_info_down" width="128" height="128"/>
+        <image name="remote_button_info_up" width="128" height="128"/>
+        <image name="remote_button_left_down" width="128" height="128"/>
+        <image name="remote_button_left_up" width="128" height="128"/>
+        <image name="remote_button_menu_down" width="128" height="128"/>
+        <image name="remote_button_menu_up" width="128" height="128"/>
+        <image name="remote_button_movies_down" width="128" height="128"/>
+        <image name="remote_button_movies_up" width="128" height="128"/>
+        <image name="remote_button_music_down" width="128" height="128"/>
+        <image name="remote_button_music_up" width="128" height="128"/>
+        <image name="remote_button_pictures_down" width="128" height="128"/>
+        <image name="remote_button_pictures_up" width="128" height="128"/>
+        <image name="remote_button_play_pause_down" width="128" height="128"/>
+        <image name="remote_button_play_pause_up" width="128" height="128"/>
+        <image name="remote_button_rewind_down" width="128" height="128"/>
+        <image name="remote_button_rewind_up" width="128" height="128"/>
+        <image name="remote_button_right_down" width="128" height="128"/>
+        <image name="remote_button_right_up" width="128" height="128"/>
+        <image name="remote_button_skip_backward_down" width="128" height="128"/>
+        <image name="remote_button_skip_backward_up" width="128" height="128"/>
+        <image name="remote_button_skip_forward_down" width="128" height="128"/>
+        <image name="remote_button_skip_forward_up" width="128" height="128"/>
+        <image name="remote_button_stop_down" width="128" height="128"/>
+        <image name="remote_button_stop_up" width="128" height="128"/>
+        <image name="remote_button_sub_down" width="128" height="128"/>
+        <image name="remote_button_sub_up" width="128" height="128"/>
+        <image name="remote_button_tv_down" width="128" height="128"/>
+        <image name="remote_button_tv_up" width="128" height="128"/>
+        <image name="remote_button_up_down" width="128" height="128"/>
+        <image name="remote_button_up_up" width="128" height="128"/>
+        <image name="remote_button_xbmc_select_down" width="128" height="128"/>
+        <image name="remote_button_xbmc_select_up" width="128" height="128"/>
+        <image name="remote_temp" width="128" height="128"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>

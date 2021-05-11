@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -43,7 +41,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="839" height="606"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="shiny_black_back.png" translatesAutoresizingMaskIntoConstraints="NO" id="94">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="shiny_black_back" translatesAutoresizingMaskIntoConstraints="NO" id="94">
                             <rect key="frame" x="0.0" y="0.0" width="839" height="606"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
@@ -58,7 +56,7 @@
                                     <color key="textColor" red="0.84919595718383789" green="0.84919595718383789" blue="0.84919595718383789" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="icon_dark.png" translatesAutoresizingMaskIntoConstraints="NO" id="137">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="icon_dark" translatesAutoresizingMaskIntoConstraints="NO" id="137">
                                     <rect key="frame" x="33" y="6" width="30" height="30"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
@@ -77,7 +75,7 @@
                                 <outletCollection property="gestureRecognizers" destination="97" appends="YES" id="151"/>
                             </connections>
                         </tableView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.30000001192092896" contentMode="scaleToFill" fixedFrame="YES" image="tableDown.png" translatesAutoresizingMaskIntoConstraints="NO" id="163">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.30000001192092896" contentMode="scaleToFill" fixedFrame="YES" image="tableDown" translatesAutoresizingMaskIntoConstraints="NO" id="163">
                             <rect key="frame" x="0.0" y="602" width="839" height="4"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         </imageView>
@@ -85,7 +83,7 @@
                             <rect key="frame" x="0.0" y="562" width="839" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="st_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="115">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="st_background" translatesAutoresizingMaskIntoConstraints="NO" id="115">
                                     <rect key="frame" x="0.0" y="0.0" width="839" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 </imageView>
@@ -227,9 +225,9 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_dark.png" width="37.5" height="37.5"/>
-        <image name="shiny_black_back.png" width="240" height="408"/>
-        <image name="st_background.png" width="60" height="44"/>
-        <image name="tableDown.png" width="480" height="8"/>
+        <image name="icon_dark" width="128" height="128"/>
+        <image name="shiny_black_back" width="128" height="128"/>
+        <image name="st_background" width="128" height="128"/>
+        <image name="tableDown" width="128" height="128"/>
     </resources>
 </document>

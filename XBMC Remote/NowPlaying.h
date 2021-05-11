@@ -104,7 +104,6 @@
     UIView *iOS7bgEffect;
     UIView *iOS7navBarEffect;
     UIColor *foundEffectColor;
-    NSString *pg_thumb_name;
     UISegmentedControl *playlistSegmentedControl;
     UIColor *cellBackgroundColor;
     __weak IBOutlet UILabel *noItemsLabel;
