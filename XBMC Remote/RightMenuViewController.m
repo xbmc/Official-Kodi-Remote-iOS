@@ -56,10 +56,10 @@
 #pragma mark Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]){
+    if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]){
         return 44;
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"RemoteControl"]){
+    else if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:@"RemoteControl"]){
         return 570;
     }
     return 50;
@@ -74,10 +74,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"bgColor"] count]){
-        cell.backgroundColor = [UIColor colorWithRed:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"bgColor"] objectForKey:@"red"] floatValue]
-                                               green:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"bgColor"] objectForKey:@"green"] floatValue]
-                                                blue:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"bgColor"] objectForKey:@"blue"] floatValue]
+    if ([[tableData[indexPath.row] objectForKey:@"bgColor"] count]){
+        cell.backgroundColor = [UIColor colorWithRed:[[[tableData[indexPath.row] objectForKey:@"bgColor"] objectForKey:@"red"] floatValue]
+                                               green:[[[tableData[indexPath.row] objectForKey:@"bgColor"] objectForKey:@"green"] floatValue]
+                                                blue:[[[tableData[indexPath.row] objectForKey:@"bgColor"] objectForKey:@"blue"] floatValue]
                                                alpha:1];
     }
     else { // xcode xib bug with ipad?
@@ -109,7 +109,7 @@
     xbmc_logo.hidden = YES;
     [cell setAccessoryView:nil];
     NSString *iconName = @"blank";
-    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]) {
+    if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         xbmc_logo.hidden = NO;
         iconName = @"connection_off";
@@ -134,7 +134,7 @@
         UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
         [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"VolumeControl"]) {
+    else if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:@"VolumeControl"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
         [title setText:@""];
@@ -144,7 +144,7 @@
         }
         [cell.contentView addSubview:volumeSliderView];
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"RemoteControl"]) {
+    else if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:@"RemoteControl"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [title setText:@""];
         if (remoteControllerView == nil){
@@ -180,7 +180,7 @@
         CGRect frame = title.frame;
         frame.origin.y = 6;
         frame.size.height = frame.size.height - 12;
-        if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
+        if ([[tableData[indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
             [onoff setAutoresizingMask:icon.autoresizingMask];
@@ -199,15 +199,15 @@
 
             frame.size.width = cell.frame.size.width - frame.origin.x - 16;
             icon.hidden = YES;
-            if ([[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"value"] isKindOfClass:[NSNumber class]]){
-                [onoff setOn:[[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"value"] boolValue]];
+            if ([[[[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"value"] isKindOfClass:[NSNumber class]]){
+                [onoff setOn:[[[[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"value"] boolValue]];
             }
             else{
                 onoff.hidden = YES;
                 [indicator startAnimating];
                 NSString *command = @"Settings.GetSettingValue";
-                NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", nil];
-                [self getXBMCValue:command params:parameters uiControl:onoff storeSetting:[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"] indicator:indicator];
+                NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", nil];
+                [self getXBMCValue:command params:parameters uiControl:onoff storeSetting:[[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"params"] indicator:indicator];
             }
             [cell setAccessoryView:onoffview];
         }
@@ -218,17 +218,17 @@
         [title setAutoresizingMask:storeMask];
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
         [title setNumberOfLines:2];
-        [title setText:[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"]];
+        [title setText:[tableData[indexPath.row] objectForKey:@"label"]];
         icon.alpha = 0.6;
-        iconName = [[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"];
+        iconName = [tableData[indexPath.row] objectForKey:@"icon"];
     }
-    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"hideLineSeparator"] boolValue] == YES){
+    if ([[tableData[indexPath.row] objectForKey:@"hideLineSeparator"] boolValue] == YES){
         line.hidden = YES;
     }
-    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"fontColor"] count]){
-        UIColor *fontColor = [UIColor colorWithRed:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"fontColor"] objectForKey:@"red"] floatValue]
-                                             green:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"fontColor"] objectForKey:@"green"] floatValue]
-                                              blue:[[[[tableData objectAtIndex:indexPath.row] objectForKey:@"fontColor"] objectForKey:@"blue"] floatValue]
+    if ([[tableData[indexPath.row] objectForKey:@"fontColor"] count]){
+        UIColor *fontColor = [UIColor colorWithRed:[[[tableData[indexPath.row] objectForKey:@"fontColor"] objectForKey:@"red"] floatValue]
+                                             green:[[[tableData[indexPath.row] objectForKey:@"fontColor"] objectForKey:@"green"] floatValue]
+                                              blue:[[[tableData[indexPath.row] objectForKey:@"fontColor"] objectForKey:@"blue"] floatValue]
                                              alpha:1];
         [title setTextColor:fontColor];
         [title setHighlightedTextColor:fontColor];
@@ -238,14 +238,14 @@
         [title setTextColor:fontColor];
         [title setHighlightedTextColor:fontColor];
     }
-    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
+    if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
         icon.alpha = 0.8;
         if (torchIsOn){
             iconName = @"torch_on";
         }
     }
-    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"xbmc-exec-addon"]){
-        [icon setImageWithURL:[NSURL URLWithString:[[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@"blank"] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
+    if ([[tableData[indexPath.row]objectForKey:@"type"] isEqualToString:@"xbmc-exec-addon"]){
+        [icon setImageWithURL:[NSURL URLWithString:[tableData[indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@"blank"] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
         icon.alpha = 1.0;
     }
     else{
@@ -344,10 +344,10 @@
     UISwitch *onoff = (UISwitch *)sender;
     NSInteger tableIdx = onoff.tag - 1000;
     if (tableIdx < [tableData count]){
-        NSString *command = [[[tableData objectAtIndex:tableIdx] objectForKey:@"action"] objectForKey:@"command"];
-        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[[tableData objectAtIndex:tableIdx] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
-        if ([[[[tableData objectAtIndex:tableIdx] objectForKey:@"action"] objectForKey:@"params"] respondsToSelector:@selector(setObject:forKey:)]){
-            [[[[tableData objectAtIndex:tableIdx] objectForKey:@"action"] objectForKey:@"params"] setObject:[NSNumber numberWithBool:onoff.on] forKey:@"value"];
+        NSString *command = [[tableData[tableIdx] objectForKey:@"action"] objectForKey:@"command"];
+        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:[[[tableData[tableIdx] objectForKey:@"action"] objectForKey:@"params"] objectForKey:@"setting" ], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
+        if ([[[tableData[tableIdx] objectForKey:@"action"] objectForKey:@"params"] respondsToSelector:@selector(setObject:forKey:)]){
+            [[[tableData[tableIdx] objectForKey:@"action"] objectForKey:@"params"] setObject:[NSNumber numberWithBool:onoff.on] forKey:@"value"];
         }
         [self xbmcAction:command params:parameters uiControl:onoff];
     }
@@ -393,19 +393,19 @@
     onoffSource.tag = 1000 + destinationIndexPath.row;
     onoffDestination.tag = 1000 + sourceIndexPath.row;
 
-    id objectMove = [tableData objectAtIndex:sourceIndexPath.row];
+    id objectMove = tableData[sourceIndexPath.row];
     [tableData removeObjectAtIndex:sourceIndexPath.row];
     [tableData insertObject:objectMove atIndex:destinationIndexPath.row];
     
     customButton *arrayButtons = [[customButton alloc] init];
-    objectMove = [arrayButtons.buttons objectAtIndex:(sourceIndexPath.row - editableRowStartAt)];
+    objectMove = arrayButtons.buttons[(sourceIndexPath.row - editableRowStartAt)];
     [arrayButtons.buttons removeObjectAtIndex:(sourceIndexPath.row - editableRowStartAt)];
     [arrayButtons.buttons insertObject:objectMove atIndex:(destinationIndexPath.row - editableRowStartAt)];
     [arrayButtons saveData];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    return ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"isSetting"] boolValue]);
+    return ([[tableData[indexPath.row] objectForKey:@"isSetting"] boolValue]);
 }
 
 
@@ -430,15 +430,15 @@
         textField.text = tableData[indexPath.row][@"label"];
     }];
     UIAlertAction* updateButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update label", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            [[tableData objectAtIndex:indexPath.row] setObject:[[alertView textFields][0] text] forKey:@"label"];
+            [tableData[indexPath.row] setObject:[[alertView textFields][0] text] forKey:@"label"];
             
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
             UILabel *title = (UILabel*) [cell viewWithTag:3];
             [title setText:[[alertView textFields][0] text]];
             
             customButton *arrayButtons = [[customButton alloc] init];
-            if ([[arrayButtons.buttons objectAtIndex:indexPath.row -  editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]){
-                [[arrayButtons.buttons objectAtIndex:indexPath.row -  editableRowStartAt] setObject:[[alertView textFields][0] text] forKey:@"label"];
+            if ([arrayButtons.buttons[indexPath.row -  editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]){
+                [arrayButtons.buttons[indexPath.row -  editableRowStartAt] setObject:[[alertView textFields][0] text] forKey:@"label"];
                 [arrayButtons saveData];
             }
         }];
@@ -453,25 +453,25 @@
     if ([indexPath row] >= [tableData count]) {
         return;
     }
-    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
+    if ([[tableData[indexPath.row] objectForKey:@"type"] isEqualToString:@"boolean"]){
         return;
     }
-    if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] count]){
-        NSString *message=[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"message"];
+    if ([[tableData[indexPath.row] objectForKey:@"action"] count]){
+        NSString *message=[[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"message"];
         if (message != nil){
-            NSString *countdown_message = [[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"countdown_message"];
+            NSString *countdown_message = [[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"countdown_message"];
             if (countdown_message != nil){
-                countdown_message = [NSString stringWithFormat:@"%@ %d seconds.", countdown_message, [[[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"countdown_time"] intValue]];
+                countdown_message = [NSString stringWithFormat:@"%@ %d seconds.", countdown_message, [[[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"countdown_time"] intValue]];
             }
-            NSString *cancel_button = [[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"cancel_button"];
+            NSString *cancel_button = [[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"cancel_button"];
             if (cancel_button == nil) cancel_button = NSLocalizedString(@"Cancel", nil);
-            NSString *ok_button = [[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"ok_button"];
+            NSString *ok_button = [[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"ok_button"];
             if (ok_button == nil) ok_button = NSLocalizedString(@"Yes", nil);
             UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:countdown_message preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:cancel_button style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
             UIAlertAction* okButton = [UIAlertAction actionWithTitle:ok_button style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:ok_button inArray:[tableData valueForKey:@"action"]];
-                NSString *command = [[[tableData valueForKey:@"action"] objectAtIndex:commandIdx.row] objectForKey:@"command"];
+                NSString *command = [[tableData valueForKey:@"action"][commandIdx.row] objectForKey:@"command"];
                 if (command != nil){
                     [self xbmcAction:command params:[NSDictionary dictionary] uiControl:nil];
                 }
@@ -481,7 +481,7 @@
             [self presentViewController:alertView animated:YES completion:nil];
         }
         else{
-            NSString *command = [[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"command"];
+            NSString *command = [[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"command"];
             if ([command isEqualToString:@"System.WOL"]){
                 NSString *serverMAC = [AppDelegate instance].obj.serverHWAddr;
                 if (serverMAC != nil && ![serverMAC isEqualToString:@":::::"]){
@@ -497,7 +497,7 @@
                 [self addButtonToList:nil];
             }
             else if (command != nil){
-                NSDictionary *parameters = [[[tableData objectAtIndex:indexPath.row] objectForKey:@"action"] objectForKey:@"params"];
+                NSDictionary *parameters = [[tableData[indexPath.row] objectForKey:@"action"] objectForKey:@"params"];
                 if (parameters == nil) {
                     parameters = [NSDictionary dictionary];
                 }
@@ -505,36 +505,36 @@
             }
         }
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Keyboard", nil)]){
+    else if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Keyboard", nil)]){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleVirtualKeyboard" object:nil userInfo:nil];
-        if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"revealViewTop"] boolValue] == YES){
+        if ([[tableData[indexPath.row] objectForKey:@"revealViewTop"] boolValue] == YES){
             [self.slidingViewController resetTopView];
         }
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Help Screen", nil)]){
+    else if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Help Screen", nil)]){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleQuickHelp" object:nil userInfo:nil];
         [self.slidingViewController resetTopView];
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Gesture Zone", nil)]){
+    else if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Gesture Zone", nil)]){
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Button Pad", nil)]){
+    else if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Button Pad", nil)]){
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Button Pad/Gesture Zone", nil)]){
+    else if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Button Pad/Gesture Zone", nil)]){
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:nil];
         [self.slidingViewController resetTopView];
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
+    else if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
         UIImageView *torchIcon = (UIImageView *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [self turnTorchOn:!torchIsOn icon:torchIcon];
     }
-    else if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Cancel", nil)]){
+    else if ([[tableData[indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"Cancel", nil)]){
         [self.slidingViewController resetTopView];
     }
 }
@@ -637,7 +637,7 @@
                         @"", @"type",
                         nil];
     
-    mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
+    mainMenu *menuItems = self.rightMenuItems[0];
     CGFloat bottomPadding = 0;
     if (@available(iOS 11.0, *)) {
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
@@ -659,7 +659,7 @@
     [menuTableView setDataSource:self];
     [menuTableView setBackgroundColor:[UIColor clearColor]];
     [menuTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [menuTableView setScrollEnabled:[[self.rightMenuItems objectAtIndex:0] enableSection]];
+    [menuTableView setScrollEnabled:[self.rightMenuItems[0] enableSection]];
     [menuTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     menuTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:menuTableView];
@@ -741,10 +741,10 @@
 }
 
 - (void)setRightMenuOption:(NSString *)key reloadTableData:(BOOL)reload {
-    mainMenu *menuItems = [self.rightMenuItems objectAtIndex:0];
+    mainMenu *menuItems = self.rightMenuItems[0];
     tableData = [[NSMutableArray alloc] initWithCapacity:0];
 
-    for (NSDictionary *item in [[[menuItems mainMethod] objectAtIndex:0] objectForKey:key]){
+    for (NSDictionary *item in [[menuItems mainMethod][0] objectForKey:key]){
         NSString *label = [item objectForKey:@"label"];
         if (label == nil) label = @"";
 

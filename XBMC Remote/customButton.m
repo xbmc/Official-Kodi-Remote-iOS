@@ -29,7 +29,7 @@
 
 - (void)loadData {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = paths[0];
     NSString *customButtonDatFile = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"customButtons_%@.dat", [self getServerKey]]];
     NSFileManager *fileManager1 = [NSFileManager defaultManager];
     if([fileManager1 fileExistsAtPath:customButtonDatFile]) {
@@ -44,7 +44,7 @@
 
 - (void)saveData {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = paths[0];
     NSString *customButtonDatFile = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"customButtons_%@.dat", [self getServerKey]]];
     if ([paths count] > 0) {
         [NSKeyedArchiver archiveRootObject:buttons toFile:customButtonDatFile];

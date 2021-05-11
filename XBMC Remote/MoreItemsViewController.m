@@ -66,7 +66,7 @@
     [cellLabel setFont:[UIFont systemFontOfSize:18]];
     [cellLabel setTextColor:[Utilities get1stLabelColor]];
     [cellLabel setHighlightedTextColor:[Utilities get1stLabelColor]];
-    NSDictionary *item = [mainMenuItems objectAtIndex:indexPath.row];
+    NSDictionary *item = mainMenuItems[indexPath.row];
     [cellLabel setText:[item objectForKey:@"label"]];
     [cell.contentView addSubview:cellLabel];
     if (![[item objectForKey:@"icon"] isEqualToString:@""]){

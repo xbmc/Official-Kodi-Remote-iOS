@@ -77,22 +77,22 @@
     else {
         self.navigationItem.title=NSLocalizedString(@"Modify XBMC Server", nil);
         NSIndexPath *idx=self.detailItem;
-        descriptionUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverDescription"];
-        usernameUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverUser"];
-        passwordUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPass"];
-        ipUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverIP"];
-        portUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPort"];
-        NSString *macAddress = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverMacAddress"];
+        descriptionUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverDescription"];
+        usernameUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverUser"];
+        passwordUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverPass"];
+        ipUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverIP"];
+        portUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverPort"];
+        NSString *macAddress = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverMacAddress"];
         NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
         NSInteger num_octects = [mac_octect count];
-        if (num_octects>0) mac_0_UI.text = [mac_octect objectAtIndex:0];
-        if (num_octects>1) mac_1_UI.text = [mac_octect objectAtIndex:1];
-        if (num_octects>2) mac_2_UI.text = [mac_octect objectAtIndex:2];
-        if (num_octects>3) mac_3_UI.text = [mac_octect objectAtIndex:3];
-        if (num_octects>4) mac_4_UI.text = [mac_octect objectAtIndex:4];
-        if (num_octects>5) mac_5_UI.text = [mac_octect objectAtIndex:5];
-        preferTVPostersUI.on=[[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"preferTVPosters"] boolValue];
-        tcpPortUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"tcpPort"];
+        if (num_octects>0) mac_0_UI.text = mac_octect[0];
+        if (num_octects>1) mac_1_UI.text = mac_octect[1];
+        if (num_octects>2) mac_2_UI.text = mac_octect[2];
+        if (num_octects>3) mac_3_UI.text = mac_octect[3];
+        if (num_octects>4) mac_4_UI.text = mac_octect[4];
+        if (num_octects>5) mac_5_UI.text = mac_octect[5];
+        preferTVPostersUI.on=[[[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"preferTVPosters"] boolValue];
+        tcpPortUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"tcpPort"];
     }
 }
 
@@ -265,7 +265,7 @@
     if(!searching){
         NSInteger j = [services  count];
         if (j==1){
-            [self resolveIPAddress:[services objectAtIndex:0]];
+            [self resolveIPAddress:services[0]];
         }
         else {
             if (j==0){
@@ -325,17 +325,17 @@
     NSString *macAddress = [self resolveMacFromIP:ipUI.text];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
     if ([macPart count] == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]){
-        [mac_0_UI setText:[macPart objectAtIndex:0]];
+        [mac_0_UI setText:macPart[0]];
         [mac_0_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_1_UI setText:[macPart objectAtIndex:1]];
+        [mac_1_UI setText:macPart[1]];
         [mac_1_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_2_UI setText:[macPart objectAtIndex:2]];
+        [mac_2_UI setText:macPart[2]];
         [mac_2_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_3_UI setText:[macPart objectAtIndex:3]];
+        [mac_3_UI setText:macPart[3]];
         [mac_3_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_4_UI setText:[macPart objectAtIndex:4]];
+        [mac_4_UI setText:macPart[4]];
         [mac_4_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_5_UI setText:[macPart objectAtIndex:5]];
+        [mac_5_UI setText:macPart[5]];
         [mac_5_UI setTextColor:[Utilities getSystemBlue]];
     }
 }
@@ -419,7 +419,7 @@
 	if (count == 0) {
 		return cell;
 	}
-    NSNetService* service = [services objectAtIndex:indexPath.row];
+    NSNetService* service = services[indexPath.row];
 	cell.textLabel.text = [service name];
 	cell.textLabel.textColor = [Utilities get1stLabelColor];
 	cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
@@ -427,7 +427,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self resolveIPAddress:[services objectAtIndex:indexPath.row]];
+    [self resolveIPAddress:services[indexPath.row]];
 }
 
 #pragma mark - NSURLConnection Delegate Methods

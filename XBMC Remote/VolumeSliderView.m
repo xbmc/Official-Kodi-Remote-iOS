@@ -26,7 +26,7 @@
     if (self) {
         Utilities *utils = [[Utilities alloc] init];
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:self options:nil];
-		self = [nib objectAtIndex:0];
+		self = nib[0];
         UIImage *img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
         img = [utils colorizeImage:img withColor:SLIDER_DEFAULT_COLOR];
         [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];

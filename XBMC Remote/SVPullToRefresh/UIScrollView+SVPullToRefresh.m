@@ -179,7 +179,7 @@ static char UIScrollViewPullToRefreshView;
             [otherView removeFromSuperview];
     }
     
-    id customView = [self.viewForState objectAtIndex:self.state];
+    id customView = self.viewForState[self.state];
     BOOL hasCustomView = [customView isKindOfClass:[UIView class]];
     
     self.titleLabel.hidden = hasCustomView;
@@ -216,9 +216,9 @@ static char UIScrollViewPullToRefreshView;
         CGFloat marginY = 2;
         CGFloat labelMaxWidth = self.bounds.size.width - margin - leftViewWidth - rightViewWidth;
         
-        self.titleLabel.text = [self.titles objectAtIndex:self.state];
+        self.titleLabel.text = self.titles[self.state];
         
-        NSString *subtitle = [self.subtitles objectAtIndex:self.state];
+        NSString *subtitle = self.subtitles[self.state];
         self.subtitleLabel.text = subtitle.length > 0 ? subtitle : nil;
         
         CGRect titleRect = [self.titleLabel.text boundingRectWithSize:CGSizeMake(labelMaxWidth,self.titleLabel.font.lineHeight)

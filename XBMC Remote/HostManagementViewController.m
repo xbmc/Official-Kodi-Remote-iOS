@@ -108,7 +108,7 @@
         UILabel *cellLabel=(UILabel*) [cell viewWithTag:2];
         UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
         cellLabel.textAlignment=NSTextAlignmentLeft;
-        NSDictionary *item=[[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
+        NSDictionary *item=[AppDelegate instance].arrayServerList[indexPath.row];
         [cellLabel setText:[item objectForKey:@"serverDescription"]];
         [cellIP setText:[item objectForKey:@"serverIP"]];
         NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
@@ -139,7 +139,7 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
-    NSDictionary *item = [[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
+    NSDictionary *item = [AppDelegate instance].arrayServerList[indexPath.row];
     [AppDelegate instance].obj.serverDescription = IsEmpty([item objectForKey:@"serverDescription"]) ? @"" : [item objectForKey:@"serverDescription"];
     [AppDelegate instance].obj.serverUser = IsEmpty([item objectForKey:@"serverUser"]) ? @"" : [item objectForKey:@"serverUser"];
     [AppDelegate instance].obj.serverPass = IsEmpty([item objectForKey:@"serverPass"]) ? @"" : [item objectForKey:@"serverPass"];

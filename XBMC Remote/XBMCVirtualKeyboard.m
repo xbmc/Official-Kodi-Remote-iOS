@@ -161,7 +161,7 @@
     }
     [textField setInputAccessoryView:inputAccView];
     if ([textField.inputAccessoryView constraints].count > 0) {
-        NSLayoutConstraint *constraint = [[textField.inputAccessoryView constraints] objectAtIndex:0];
+        NSLayoutConstraint *constraint = [textField.inputAccessoryView constraints][0];
         constraint.constant = finalHeight;
     }
 }

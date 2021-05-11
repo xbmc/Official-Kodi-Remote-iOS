@@ -286,7 +286,7 @@ int count=0;
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     NSInteger numelement = [array count];
     for (int i=0;i<numelement-1;i+=2){
-        [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
+        [mutableDictionary setObject:array[i] forKey:array[i+1]];
     }
     return (NSDictionary *)mutableDictionary;
 }
@@ -295,7 +295,7 @@ int count=0;
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
-        [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
+        [mutableDictionary setObject:array[i] forKey:array[i+1]];
     }
     return (NSMutableDictionary *)mutableDictionary;
 }
@@ -364,10 +364,10 @@ int count=0;
     else{
         return;
     }
-    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[choosedMenuItem mainMethod] objectAtIndex:choosedTab]];
+    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[choosedMenuItem mainMethod][choosedTab]];
     if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
-        NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
-        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[choosedMenuItem mainParameters] objectAtIndex:choosedTab]];
+        NSDictionary *mainFields=[MenuItem mainFields][choosedTab];
+        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[choosedMenuItem mainParameters][choosedTab]];
         id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
         id objKey = [mainFields objectForKey:@"row6"];
         if (movieObj!= nil && movieObjKey!=nil){
@@ -450,7 +450,7 @@ int count=0;
         UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
-            NSString *actiontitle = [sheetActions objectAtIndex:i];
+            NSString *actiontitle = sheetActions[i];
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 [self actionSheetHandler:actiontitle];
             }];
@@ -609,14 +609,14 @@ int count=0;
     NSInteger count = [objects count];
     CGRect frame;
     for (int i = 0; i < count; i++){
-        if ([[objects objectAtIndex:i] isKindOfClass:[UIImageView class]]){
-            UIImageView *label=[objects objectAtIndex:i];
+        if ([objects[i] isKindOfClass:[UIImageView class]]){
+            UIImageView *label=objects[i];
             frame=label.frame;
             frame.origin.y=frame.origin.y - y;
             label.frame=frame;
         }
-        if ([[objects objectAtIndex:i] isKindOfClass:[UILabel class]]){
-            UILabel *label=[objects objectAtIndex:i];
+        if ([objects[i] isKindOfClass:[UILabel class]]){
+            UILabel *label=objects[i];
             frame=label.frame;
             frame.origin.y=frame.origin.y - y;
             label.frame=frame;
@@ -1690,11 +1690,11 @@ int h=0;
     if ([AppDelegate instance].serverVersion > 11){
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
-    NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+    NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[cast[indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
     [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person"] andResize:CGSizeMake(castWidth, castHeight)];
-    cell.actorName.text = [[cast objectAtIndex:indexPath.row] objectForKey:@"name"] == nil ? [self.detailItem objectForKey:@"label"] : [[cast objectAtIndex:indexPath.row] objectForKey:@"name"];
-    if ([[[cast objectAtIndex:indexPath.row] objectForKey:@"role"] length] != 0){
-        cell.actorRole.text = [NSString stringWithFormat:@"%@", [[cast objectAtIndex:indexPath.row] objectForKey:@"role"]];
+    cell.actorName.text = [cast[indexPath.row] objectForKey:@"name"] == nil ? [self.detailItem objectForKey:@"label"] : [cast[indexPath.row] objectForKey:@"name"];
+    if ([[cast[indexPath.row] objectForKey:@"role"] length] != 0){
+        cell.actorRole.text = [NSString stringWithFormat:@"%@", [cast[indexPath.row] objectForKey:@"role"]];
         [cell.actorRole sizeToFit];
     }
     return cell;
@@ -1712,7 +1712,7 @@ int h=0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
-        [self showContent:[[cast objectAtIndex:indexPath.row] objectForKey:@"name"]];
+        [self showContent:[cast[indexPath.row] objectForKey:@"name"]];
     }
 }
 

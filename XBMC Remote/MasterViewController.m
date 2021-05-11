@@ -114,7 +114,7 @@
     UITableViewCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:NULL];
-    mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
+    mainMenu *item = self.mainMenu[indexPath.row];
     NSString *iconName = item.icon;
     if (cell == nil){
         cell = resultMenuCell;
@@ -177,7 +177,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    mainMenu *item = [self.mainMenu objectAtIndex:indexPath.row];
+    mainMenu *item = self.mainMenu[indexPath.row];
     if (![AppDelegate instance].serverOnLine && item.family!=4) {
         [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;

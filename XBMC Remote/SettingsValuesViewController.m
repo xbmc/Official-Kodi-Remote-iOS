@@ -231,7 +231,7 @@
     NSString *stringFormat = @": %i";
     switch (xbmcSetting) {
         case cList:
-            subTitle = [NSString stringWithFormat:@": %@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"label"]];
+            subTitle = [NSString stringWithFormat:@": %@",[settingOptions[longPressRow.row] objectForKey:@"label"]];
             break;
         case cSlider:
             if ([itemControls objectForKey:@"formatlabel"] != nil){
@@ -257,10 +257,10 @@
     switch (xbmcSetting) {
         case cList:
             if ([type isEqualToString:@"integer"]){
-                value = [NSNumber numberWithInt:[[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"] intValue]];
+                value = [NSNumber numberWithInt:[[settingOptions[longPressRow.row] objectForKey:@"value"] intValue]];
             }
             else {
-                value = [NSString stringWithFormat:@"%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"]];
+                value = [NSString stringWithFormat:@"%@",[settingOptions[longPressRow.row] objectForKey:@"value"]];
             }
             break;
         case cSlider:
@@ -498,13 +498,13 @@
             
         case cList:
             
-            cellText = [NSString stringWithFormat:@"%@", [[settingOptions objectAtIndex:indexPath.row] objectForKey:@"label"]];
+            cellText = [NSString stringWithFormat:@"%@", [settingOptions[indexPath.row] objectForKey:@"label"]];
             if ([[self.detailItem objectForKey:@"value"] isKindOfClass:[NSArray class]]){
-                if ([[self.detailItem objectForKey:@"value"] containsObject:[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"]]){
+                if ([[self.detailItem objectForKey:@"value"] containsObject:[settingOptions[indexPath.row] objectForKey:@"value"]]){
                     cell.accessoryType =  UITableViewCellAccessoryCheckmark;
                 }
             }
-            else if ([[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"] isEqual:[self.detailItem objectForKey:@"value"]]){
+            else if ([[settingOptions[indexPath.row] objectForKey:@"value"] isEqual:[self.detailItem objectForKey:@"value"]]){
                 cell.accessoryType =  UITableViewCellAccessoryCheckmark;
             }
             break;
@@ -622,11 +622,11 @@
                 cell = [tableView cellForRowAtIndexPath:indexPath];
                 if (cell.accessoryType == UITableViewCellAccessoryNone){
                     [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-                    [[self.detailItem objectForKey:@"value"] addObject:[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"]];
+                    [[self.detailItem objectForKey:@"value"] addObject:[settingOptions[indexPath.row] objectForKey:@"value"]];
                 }
                 else{
                     [cell setAccessoryType:UITableViewCellAccessoryNone];
-                    [[self.detailItem objectForKey:@"value"] removeObject:[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"]];
+                    [[self.detailItem objectForKey:@"value"] removeObject:[settingOptions[indexPath.row] objectForKey:@"value"]];
                 }
             }
             else{
@@ -640,7 +640,7 @@
                 cell = [tableView cellForRowAtIndexPath:indexPath];
                 [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
                 selectedSetting = indexPath;
-                [self.detailItem setObject:[[settingOptions objectAtIndex:selectedSetting.row] objectForKey:@"value"] forKey:@"value"];
+                [self.detailItem setObject:[settingOptions[selectedSetting.row] objectForKey:@"value"] forKey:@"value"];
             }
             command = @"Settings.SetSettingValue";
             params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];

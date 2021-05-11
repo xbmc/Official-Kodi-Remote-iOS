@@ -428,7 +428,7 @@
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     NSInteger numelement=[array count];
     for (int i=0;i<numelement-1;i+=2){
-        [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
+        [mutableDictionary setObject:array[i] forKey:array[i+1]];
     }
     return (NSDictionary *)mutableDictionary;
 }
@@ -440,8 +440,8 @@
         if (error==nil && methodError==nil) {
             if( [methodResult count] > 0) {
                 NSNumber *response;
-                if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])) {
-                    response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
+                if (((NSNull *)[methodResult[0] objectForKey:@"playerid"] != [NSNull null])) {
+                    response = [methodResult[0] objectForKey:@"playerid"];
                 }
                 [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties"
@@ -466,25 +466,25 @@
                                      NSMutableArray *actionSheetTitles =[NSMutableArray array];
                                      for (int i = 0; i < numSubs; i++) {
                                          NSString *language = @"?";
-                                         if (((NSNull *)[[subtitles objectAtIndex:i] objectForKey:@"language"] != [NSNull null])) {
+                                         if (((NSNull *)[subtitles[i] objectForKey:@"language"] != [NSNull null])) {
                                              NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
-                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:[[subtitles objectAtIndex:i] objectForKey:@"language"]];
+                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:[subtitles[i] objectForKey:@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0){
                                                  language = displayNameString;
                                              }
                                              else {
-                                                 language = [[subtitles objectAtIndex:i] objectForKey:@"language"];
+                                                 language = [subtitles[i] objectForKey:@"language"];
                                              }
                                              if ([language length] == 0) {
                                                  language = NSLocalizedString(@"Unknown", nil);
                                              }
                                          }
                                          NSString *tickMark = @"";
-                                         if (subtitleEnabled == YES && [currentSubtitle isEqual:[subtitles objectAtIndex:i]]) {
+                                         if (subtitleEnabled == YES && [currentSubtitle isEqual:subtitles[i]]) {
                                              tickMark = @"\u2713 ";
                                          }
-                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[[subtitles objectAtIndex:i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[subtitles objectAtIndex:i] objectForKey:@"name"], i + 1, (long)numSubs];
+                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[subtitles[i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [subtitles[i] objectForKey:@"name"], i + 1, (long)numSubs];
                                          [actionSheetTitles addObject:title];
                                      }
                                      [self showActionSubtitles:actionSheetTitles];
@@ -509,8 +509,8 @@
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
                 NSNumber *response;
-                if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])){
-                    response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
+                if (((NSNull *)[methodResult[0] objectForKey:@"playerid"] != [NSNull null])){
+                    response = [methodResult[0] objectForKey:@"playerid"];
                 }
                 [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties"
@@ -533,25 +533,25 @@
                                      NSMutableArray *actionSheetTitles =[NSMutableArray array];
                                      for (int i = 0; i < numAudio; i++) {
                                          NSString *language = @"?";
-                                         if (((NSNull *)[[audiostreams objectAtIndex:i] objectForKey:@"language"] != [NSNull null])) {
+                                         if (((NSNull *)[audiostreams[i] objectForKey:@"language"] != [NSNull null])) {
                                              NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
-                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:[[audiostreams objectAtIndex:i] objectForKey:@"language"]];
+                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:[audiostreams[i] objectForKey:@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0){
                                                  language = displayNameString;
                                              }
                                              else {
-                                                 language = [[audiostreams objectAtIndex:i] objectForKey:@"language"];
+                                                 language = [audiostreams[i] objectForKey:@"language"];
                                              }
                                              if ([language length] == 0) {
                                                  language = NSLocalizedString(@"Unknown", nil);
                                              }
                                          }
                                          NSString *tickMark = @"";
-                                         if ([currentAudiostream isEqual:[audiostreams objectAtIndex:i]]) {
+                                         if ([currentAudiostream isEqual:audiostreams[i]]) {
                                              tickMark = @"\u2713 ";
                                          }
-                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[[audiostreams objectAtIndex:i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [[audiostreams objectAtIndex:i] objectForKey:@"name"], i + 1, (long)numAudio];
+                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[audiostreams[i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [audiostreams[i] objectForKey:@"name"], i + 1, (long)numAudio];
                                          [actionSheetTitles addObject:title];
                                      }
                                      [self showActionAudiostreams:actionSheetTitles];
@@ -575,7 +575,7 @@
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
-                NSNumber *response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
+                NSNumber *response = [methodResult[0] objectForKey:@"playerid"];
                 NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
                 if (parameters!=nil)
                     [commonParams addObjectsFromArray:parameters];
@@ -662,10 +662,10 @@
         UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
-            NSString *actiontitle = [sheetActions objectAtIndex:i];
+            NSString *actiontitle = sheetActions[i];
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                if (![[[audiostreamsDictionary objectForKey:@"audiostreams"] objectAtIndex:i] isEqual:[audiostreamsDictionary objectForKey:@"currentaudiostream"]]){
-                    [self playbackAction:@"Player.SetAudioStream" params:[NSArray arrayWithObjects:[[[audiostreamsDictionary objectForKey:@"audiostreams"] objectAtIndex:i] objectForKey:@"index"], @"stream", nil]];
+                if (![[audiostreamsDictionary objectForKey:@"audiostreams"][i] isEqual:[audiostreamsDictionary objectForKey:@"currentaudiostream"]]){
+                    [self playbackAction:@"Player.SetAudioStream" params:[NSArray arrayWithObjects:[[audiostreamsDictionary objectForKey:@"audiostreams"][i] objectForKey:@"index"], @"stream", nil]];
                     [self showSubInfo:actiontitle timeout:2.0 color:[UIColor whiteColor]];
                 }
             }];
@@ -700,10 +700,10 @@
         }
         
         for (int i = 0; i < numActions; i++) {
-            NSString *actiontitle = [sheetActions objectAtIndex:i];
+            NSString *actiontitle = sheetActions[i];
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                if (![[[subsDictionary objectForKey:@"subtitles"] objectAtIndex:i] isEqual:[subsDictionary objectForKey:@"currentsubtitle"]] || [[subsDictionary objectForKey:@"subtitleenabled"] boolValue] == NO){
-                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:[[[subsDictionary objectForKey:@"subtitles"] objectAtIndex:i] objectForKey:@"index"], @"subtitle", nil]];
+                if (![[subsDictionary objectForKey:@"subtitles"][i] isEqual:[subsDictionary objectForKey:@"currentsubtitle"]] || [[subsDictionary objectForKey:@"subtitleenabled"] boolValue] == NO){
+                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:[[subsDictionary objectForKey:@"subtitles"][i] objectForKey:@"index"], @"subtitle", nil]];
                     [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
                     [self showSubInfo:actiontitle timeout:2.0 color:[UIColor whiteColor]];
                 }
@@ -1325,7 +1325,7 @@ NSInteger buttonAction;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
         if ([rightMenuViewController.rightMenuItems count]){
-            mainMenu *menuItem = [rightMenuViewController.rightMenuItems  objectAtIndex:0];
+            mainMenu *menuItem = rightMenuViewController.rightMenuItems[0];
             menuItem.mainMethod = nil;
         }
         [rightMenuViewController.view setFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height)];

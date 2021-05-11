@@ -244,7 +244,7 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
     }
-    mainMenu *item = [mainMenuItems objectAtIndex:indexPath.row];
+    mainMenu *item = mainMenuItems[indexPath.row];
     UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
     UILabel *upperTitle = (UILabel*) [cell viewWithTag:2];
     UILabel *title = (UILabel*) [cell viewWithTag:3];
@@ -295,7 +295,7 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
-    mainMenu *item = [mainMenuItems objectAtIndex:indexPath.row];
+    mainMenu *item = mainMenuItems[indexPath.row];
     if (item.family == 2){
         [[AppDelegate instance].windowController.stackScrollViewController offView];
     }

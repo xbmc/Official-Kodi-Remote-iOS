@@ -208,7 +208,7 @@
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
     // Get method name from invocation
     NSString *selectorName = NSStringFromSelector(anInvocation.selector);
-    NSString *methodName = [[selectorName componentsSeparatedByString:@":"] objectAtIndex:0];
+    NSString *methodName = [selectorName componentsSeparatedByString:@":"][0];
     
     // Get reference to the first argument passed in
     id methodParams;
