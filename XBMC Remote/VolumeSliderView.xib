@@ -1,81 +1,59 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4488.1" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment defaultVersion="1280" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3715.3"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="3" userLabel="Volume View" customClass="VolumeSliderView">
-            <rect key="frame" x="0.0" y="0.0" width="62" height="296"/>
+            <rect key="frame" x="0.0" y="0.0" width="372" height="49"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.94999998807907104" contentMode="scaleAspectFill" image="shiny_black_volume.png" id="5">
-                    <rect key="frame" x="2" y="-4" width="61" height="300"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.94999998807907104" contentMode="scaleAspectFill" fixedFrame="YES" image="shiny_black_volume.png" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                    <rect key="frame" x="0.0" y="0.0" width="372" height="49"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="6">
-                    <rect key="frame" x="8" y="1" width="48" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="6">
+                    <rect key="frame" x="275" y="14" width="24" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <color key="textColor" white="0.93530451640000001" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="textColor" red="0.93530452251434326" green="0.93530452251434326" blue="0.93530452251434326" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
-                    <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
-                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="100" id="4">
-                    <rect key="frame" x="-54" y="96" width="170" height="29"/>
+                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                    <rect key="frame" x="97" y="10" width="170" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="minimumTrackTintColor" cyan="0.57082572990000002" magenta="0.1166094542" yellow="0.084519743920000001" black="0.00065612792969999998" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
-                    <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="minimumTrackTintColor" red="0.34045934677124023" green="0.62004148960113525" blue="0.72810506820678711" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
-                        <action selector="slideVolume:" destination="3" eventType="valueChanged" id="11"/>
+                        <action selector="holdVolume:" destination="3" eventType="touchDown" id="fJ1-hh-HjW"/>
+                        <action selector="stopVolume:" destination="3" eventType="touchUpOutside" id="Ww8-5E-s1P"/>
+                        <action selector="stopVolume:" destination="3" eventType="touchUpInside" id="dB6-Nz-aJM"/>
                     </connections>
                 </slider>
-                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="14">
-                    <rect key="frame" x="14" y="205" width="36" height="36"/>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="15">
+                    <rect key="frame" x="307" y="6" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="Optima-ExtraBlack" family="Optima" pointSize="29"/>
-                    <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="1"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                    <inset key="contentEdgeInsets" minX="1" minY="3" maxX="0.0" maxY="7"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="+" backgroundImage="button_metal_up.png">
-                        <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="selected">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="highlighted" title="+" backgroundImage="button_metal_down.png">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="holdVolume:" destination="3" eventType="touchDown" id="20"/>
-                        <action selector="stopVolume:" destination="3" eventType="touchUpInside" id="22"/>
-                        <action selector="stopVolume:" destination="3" eventType="touchUpOutside" id="23"/>
-                        <action selector="stopVolume:" destination="-2" eventType="touchCancel" id="38"/>
-                        <action selector="stopVolume:" destination="-2" eventType="touchDragExit" id="41"/>
-                    </connections>
-                </button>
-                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="15">
-                    <rect key="frame" x="14" y="246" width="36" height="36"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="49"/>
-                    <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="7"/>
-                    <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="-" backgroundImage="button_metal_up.png">
-                        <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <state key="normal" title="-" backgroundImage="button_metal_down.png">
+                        <color key="titleColor" red="0.25" green="0.25" blue="0.25" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.75" green="0.75" blue="0.75" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <state key="selected" title="-">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <state key="highlighted" title="-" backgroundImage="button_metal_down.png">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
                         <action selector="holdVolume:" destination="3" eventType="touchDown" id="21"/>
@@ -85,15 +63,58 @@
                         <action selector="stopVolume:" destination="-2" eventType="touchDragExit" id="40"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UWD-at-bvG" userLabel="Mute Button">
+                    <rect key="frame" x="28" y="6" width="36" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <size key="titleShadowOffset" width="1" height="1"/>
+                    <state key="normal" backgroundImage="button_metal_up.png">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="toggleMute:" destination="3" eventType="touchUpOutside" id="pBO-wc-AAU"/>
+                        <action selector="toggleMute:" destination="3" eventType="touchUpInside" id="qgZ-f2-8Pl"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14">
+                    <rect key="frame" x="60" y="6" width="36" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Optima-ExtraBlack" family="Optima" pointSize="20"/>
+                    <inset key="contentEdgeInsets" minX="0.0" minY="-1" maxX="0.0" maxY="1"/>
+                    <size key="titleShadowOffset" width="1" height="1"/>
+                    <state key="normal" title="+" backgroundImage="button_metal_up.png">
+                        <color key="titleColor" red="0.25" green="0.25" blue="0.25" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.75" green="0.75" blue="0.75" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <state key="selected">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <state key="highlighted" title="+" backgroundImage="button_metal_down.png">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="holdVolume:" destination="3" eventType="touchDown" id="20"/>
+                        <action selector="stopVolume:" destination="3" eventType="touchUpInside" id="22"/>
+                        <action selector="stopVolume:" destination="3" eventType="touchUpOutside" id="23"/>
+                        <action selector="stopVolume:" destination="-2" eventType="touchCancel" id="38"/>
+                        <action selector="stopVolume:" destination="-2" eventType="touchDragExit" id="41"/>
+                    </connections>
+                </button>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="minusButton" destination="15" id="37"/>
+                <outlet property="muteButton" destination="UWD-at-bvG" id="wOX-sd-RuB"/>
                 <outlet property="plusButton" destination="14" id="36"/>
                 <outlet property="volumeLabel" destination="6" id="7"/>
                 <outlet property="volumeSlider" destination="4" id="8"/>
                 <outlet property="volumeView" destination="5" id="9"/>
             </connections>
+            <point key="canvasLocation" x="-402.89855072463769" y="7.7008928571428568"/>
         </view>
     </objects>
     <resources>
