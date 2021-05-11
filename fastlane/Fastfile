@@ -63,7 +63,7 @@ lane :tf do
     lastBetaNumber = lastTag[afterBetaIndex, 3] # max number = 999
     newTag = lastTag[0, afterBetaIndex] + "#{lastBetaNumber.to_i + 1}"
   else
-    newTag = appPropertiesHash['CFBundleShortVersionString'] + betaSuffix + '1'
+    newTag = appProperties['CFBundleShortVersionString'] + betaSuffix + '1'
   end
 
   createGithubRelease("Testflight #{appProperties['CFBundleVersion']}", newTag, is_prerelease: true)
