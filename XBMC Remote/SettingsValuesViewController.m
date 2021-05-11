@@ -304,9 +304,7 @@
         [sender setUserInteractionEnabled:NO];
     }
     [activityIndicator startAnimating];
-    DSJSONRPC *jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicator stopAnimating];
         if (methodError==nil && error == nil){
             [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
@@ -323,9 +321,7 @@
 -(void)retrieveXBMCData:(NSString *)method parameters:(NSDictionary *)params itemKey:(NSString *)itemkey{
     
     [activityIndicator startAnimating];
-    DSJSONRPC *jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod: method
+    [[Utilities getJsonRPC] callMethod: method
          withParameters: params
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [activityIndicator stopAnimating];

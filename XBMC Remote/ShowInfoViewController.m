@@ -556,7 +556,7 @@ int count=0;
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 itemid, parameterName,
                                 nil];
-    [jsonRPC callMethod:methodToCall
+    [[Utilities getJsonRPC] callMethod:methodToCall
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [activityIndicatorView stopAnimating];
@@ -1743,7 +1743,7 @@ int h=0;
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
-        [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
                 if( [methodResult count] > 0){
                     GlobalData *obj=[GlobalData getInstance];
@@ -1774,7 +1774,7 @@ int h=0;
     }
     if (afterCurrent){
         [activityIndicatorView startAnimating];
-        [jsonRPC
+        [[Utilities getJsonRPC]
          callMethod:@"Player.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                          [item objectForKey:@"playlistid"], @"playerid",
@@ -1792,7 +1792,7 @@ int h=0;
                                                 [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item",
                                                 [NSNumber numberWithInt:newPos],@"position",
                                                 nil];
-                         [jsonRPC callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                         [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                              if (error==nil && methodError==nil){
                                  [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                              }
@@ -1815,7 +1815,7 @@ int h=0;
     }
     else {
         [activityIndicatorView startAnimating];
-        [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             [activityIndicatorView stopAnimating];
             if (error==nil && methodError==nil){
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -1833,7 +1833,7 @@ int h=0;
         self.navigationItem.rightBarButtonItem.enabled=NO;
         [activityIndicatorView startAnimating];
         NSDictionary *item = self.detailItem;
-        [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
                 NSString *param = [item objectForKey:@"family"];
                 id value = [item objectForKey:[item objectForKey:@"family"]];
@@ -1841,10 +1841,10 @@ int h=0;
                     param = @"file";
                     value = [item objectForKey:@"file"];
                 }
-                [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil){
                         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                        [jsonRPC callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: 0], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: 0], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                             if (error==nil && methodError==nil){
                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                                 [activityIndicatorView stopAnimating];
@@ -1876,7 +1876,7 @@ int h=0;
 
 -(void)openFile:(NSDictionary *)params{
     [activityIndicatorView startAnimating];
-    [jsonRPC callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicatorView stopAnimating];
         if (error==nil && methodError==nil){
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -1886,9 +1886,7 @@ int h=0;
 }
 
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:parameters];
+    [[Utilities getJsonRPC] callMethod:action withParameters:parameters];
 }
 
 # pragma  mark - Gestures
@@ -2065,7 +2063,6 @@ int h=0;
     self.kenView = nil;
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     [self configureView];
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
 }
 
 - (void)didReceiveMemoryWarning {

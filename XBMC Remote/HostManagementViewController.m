@@ -580,14 +580,12 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 -(void)enableTCPconnection {
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     NSString *methodToCall = @"Settings.SetSettingValue";
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"services.esallinterfaces", @"setting",
                                 [NSNumber numberWithBool:YES], @"value",
                                 nil];
-    [jsonRPC callMethod: methodToCall
+    [[Utilities getJsonRPC] callMethod: methodToCall
          withParameters: parameters
            onCompletion: ^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                if ( error == nil && methodError == nil ) {

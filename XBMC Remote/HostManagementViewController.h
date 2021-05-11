@@ -30,7 +30,6 @@
     __weak IBOutlet UIView *supportedVersionView;
     __weak IBOutlet UILabel *supportedVersionLabel;
     MessagesView *messagesView;
-    DSJSONRPC *jsonRPC;
     __weak IBOutlet UIToolbar *bottomToolbar;
     __weak IBOutlet UIImageView *bottomToolbarShadowImageView;
 }

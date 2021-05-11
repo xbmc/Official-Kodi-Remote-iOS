@@ -14,7 +14,6 @@
     IBOutlet UISlider *volumeSlider;
     IBOutlet UILabel *volumeLabel;
     IBOutlet UIButton *muteButton;
-    DSJSONRPC *jsonRPC;
     IBOutlet UIButton *plusButton;
     IBOutlet UIButton *minusButton;
     BOOL isMuted;

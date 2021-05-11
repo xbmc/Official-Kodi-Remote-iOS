@@ -327,9 +327,7 @@
 }
 
 -(void)powerAction:(NSString *)action params:(NSDictionary *)params{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         NSString *alertTitle = nil;
         if (methodError==nil && error == nil){
             alertTitle = NSLocalizedString(@"Command executed", nil);

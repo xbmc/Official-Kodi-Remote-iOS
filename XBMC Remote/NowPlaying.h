@@ -18,7 +18,6 @@
 @class DetailViewController;
 
 @interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate>{
-    DSJSONRPC *jsonRPC;
     IBOutlet UITableView *playlistTableView;
     IBOutlet UITableViewCell *playlistTableViewCell;
    // IBOutlet jsonDataCell *jsonCell;

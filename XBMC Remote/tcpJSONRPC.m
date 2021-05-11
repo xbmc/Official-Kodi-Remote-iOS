@@ -8,6 +8,7 @@
 
 #import "tcpJSONRPC.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 #define SERVER_TIMEOUT 3.0
 #define MRMC_TIMEWARP 14.0
@@ -162,7 +163,6 @@ NSOutputStream	*outStream;
 
 -(void)checkServer{
     if (inCheck) return;
-    jsonRPC=nil;
     if ([[AppDelegate instance].obj.serverIP length] == 0){
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"showSetup", nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
@@ -178,9 +178,8 @@ NSOutputStream	*outStream;
 //    NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
 //    NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
     
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     NSDictionary *checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", @"name", nil], @"properties", nil];
-    [jsonRPC
+    [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:checkServerParams
      withTimeout: SERVER_TIMEOUT
@@ -233,7 +232,7 @@ NSOutputStream	*outStream;
          }
      }];
     // Read the JSON API version
-    [jsonRPC
+    [[Utilities getJsonRPC]
      callMethod:@"JSONRPC.Version"
      withParameters:nil
      withTimeout: SERVER_TIMEOUT
@@ -247,7 +246,7 @@ NSOutputStream	*outStream;
          [self readSorttokens];
     }];
     // Check if ignorearticles is enabled
-    [jsonRPC
+    [[Utilities getJsonRPC]
      callMethod:@"Settings.GetSettingValue"
      withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
      withTimeout: SERVER_TIMEOUT
@@ -259,7 +258,6 @@ NSOutputStream	*outStream;
              [AppDelegate instance].isIgnoreArticlesEnabled = NO;
          }
     }];
-    jsonRPC=nil;
 }
 
 - (void)readSorttokens {
@@ -267,8 +265,7 @@ NSOutputStream	*outStream;
     // Sort token can be read from API 9.5.0 on
     if (([AppDelegate instance].APImajorVersion >= 10) ||
         ([AppDelegate instance].APImajorVersion == 9 && [AppDelegate instance].APIminorVersion >= 5)) {
-        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-        [jsonRPC
+        [[Utilities getJsonRPC]
          callMethod:@"Application.GetProperties"
          withParameters:@{@"properties":@[@"sorttokens"]}
          withTimeout: SERVER_TIMEOUT
