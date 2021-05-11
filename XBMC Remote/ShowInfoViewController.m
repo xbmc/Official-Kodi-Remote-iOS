@@ -1943,10 +1943,12 @@ int h=0;
 //    }
     [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
     if ([self isModal]){
-        NSMutableArray *items = [[toolbar items] mutableCopy];
-        UIBarButtonItem *close = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
-        [items insertObject:close atIndex:0];
-        [toolbar setItems:items];
+        if (doneButton == nil) {
+            NSMutableArray *items = [[toolbar items] mutableCopy];
+            doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
+            [items insertObject:doneButton atIndex:0];
+            [toolbar setItems:items];
+        }
         [self setIOS7barTintColor:TINT_COLOR];
         viewTitle.textAlignment = NSTextAlignmentCenter;
         bottomShadow.hidden = YES;
