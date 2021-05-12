@@ -693,7 +693,7 @@
         
         UIAlertAction* action_disable = [UIAlertAction actionWithTitle:NSLocalizedString(@"Disable subtitles", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
             [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
-            [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
+            [self playbackAction:@"Player.SetSubtitle" params:@[@"off", @"subtitle"]];
         }];
         if ([subsDictionary[@"subtitleenabled"] boolValue]) {
             [actionView addAction:action_disable];
@@ -704,7 +704,7 @@
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 if (![subsDictionary[@"subtitles"][i] isEqual:subsDictionary[@"currentsubtitle"]] || [subsDictionary[@"subtitleenabled"] boolValue] == NO){
                     [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:subsDictionary[@"subtitles"][i][@"index"], @"subtitle", nil]];
-                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
+                    [self playbackAction:@"Player.SetSubtitle" params:@[@"on", @"subtitle"]];
                     [self showSubInfo:actiontitle timeout:2.0 color:[UIColor whiteColor]];
                 }
             }];
@@ -803,7 +803,7 @@ NSInteger buttonAction;
                                   [self playbackAction:@"Player.Seek" params:[Utilities buildPlayerSeekStepParams:step]];
                               }
                               else if (winID == 12006 && musicAction != nil){
-                                  [self playbackAction:@"Player.GoTo" params:[NSArray arrayWithObjects:musicAction, @"to", nil]];
+                                  [self playbackAction:@"Player.GoTo" params:@[musicAction, @"to"]];
                               }
                               else if (winID == 12006 && musicMethod != nil){
                                   [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:musicMethod, @"action", nil] httpAPIcallback:nil];
@@ -906,7 +906,7 @@ NSInteger buttonAction;
         case 5:
             if ([AppDelegate instance].serverVersion>11){
                 action=@"Player.GoTo";
-                params=[NSArray arrayWithObjects:@"previous", @"to", nil];
+                params=@[@"previous", @"to"];
                 [self playbackAction:action params:params];
             }
             else{
@@ -931,7 +931,7 @@ NSInteger buttonAction;
         case 8:
             if ([AppDelegate instance].serverVersion>11){
                 action=@"Player.GoTo";
-                params=[NSArray arrayWithObjects:@"next", @"to", nil];
+                params=@[@"next", @"to"];
                 [self playbackAction:action params:params];
             }
             else{
@@ -1028,11 +1028,11 @@ NSInteger buttonAction;
                 break;
                 
             case 2:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:[NSArray arrayWithObjects:@"decrement", @"speed", nil]];
+                [self playbackAction:@"Player.SetSpeed" params:@[@"decrement", @"speed"]];
                 break;
                 
             case 4:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:[NSArray arrayWithObjects:@"increment", @"speed", nil]];
+                [self playbackAction:@"Player.SetSpeed" params:@[@"increment", @"speed"]];
                 break;
                 
             case 11:// CODEC INFO

@@ -324,8 +324,8 @@
     }
     for (UIView* tableView in [[slideViews subviews][0] subviews]) {
         if([tableView isKindOfClass:[UITableView class]]){
-            NSIndexPath* selectedRow =  [(UITableView*)tableView indexPathForSelectedRow];
-            NSArray *indexPaths = [NSArray arrayWithObjects:selectedRow, nil];
+            NSIndexPath* selectedRow = [(UITableView*)tableView indexPathForSelectedRow];
+            NSArray *indexPaths = @[selectedRow];
             [(UITableView*)tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
         }
     }

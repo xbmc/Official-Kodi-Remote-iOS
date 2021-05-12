@@ -110,12 +110,12 @@
     NSArray *methodKeys = nil;
     NSArray *methodObjs = nil;
     if (methodParams) {
-        methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"params", @"id", nil];
-        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, methodParams, @(aId), nil];
+        methodKeys = @[@"jsonrpc", @"method", @"params", @"id"];
+        methodObjs = @[@"2.0", methodName, methodParams, @(aId)];
     }
     else {
-        methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"id", nil];
-        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, @(aId), nil];
+        methodKeys = @[@"jsonrpc", @"method", @"id"];
+        methodObjs = @[@"2.0", methodName, @(aId)];
     }
     // Create call payload
     NSDictionary *methodCall = [NSDictionary dictionaryWithObjects:methodObjs forKeys:methodKeys];

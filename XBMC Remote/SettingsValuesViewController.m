@@ -82,7 +82,7 @@
                         parameters: [NSDictionary dictionaryWithObjectsAndKeys:
                                      self.detailItem[@"addontype"], @"type",
                                      @(YES), @"enabled",
-                                     [NSArray arrayWithObjects:@"name", nil], @"properties",
+                                     @[@"name"], @"properties",
                                      nil]
                            itemKey: @"addons"];
         }
@@ -330,7 +330,7 @@
                                                    initWithKey:@"name"
                                                    ascending:YES
                                                    selector:@selector(localizedCaseInsensitiveCompare:)];
-                   NSArray *retrievedItems = [methodResult[itemkey] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+                   NSArray *retrievedItems = [methodResult[itemkey] sortedArrayUsingDescriptors:@[descriptor]];
                    for (NSDictionary *item in retrievedItems) {
                        [settingOptions addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                                   item[@"name"], @"label",

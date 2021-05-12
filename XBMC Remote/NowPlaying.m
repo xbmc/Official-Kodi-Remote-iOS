@@ -1800,7 +1800,7 @@ int currentItemID;
         case 1:
             if ([AppDelegate instance].serverVersion>11){
                 action=@"Player.GoTo";
-                params=[NSArray arrayWithObjects:@"previous", @"to", nil];
+                params=@[@"previous", @"to"];
                 [self playbackAction:action params:params checkPartyMode:YES];
             }
             else{
@@ -1827,7 +1827,7 @@ int currentItemID;
         case 4:
             if ([AppDelegate instance].serverVersion>11){
                 action=@"Player.GoTo";
-                params=[NSArray arrayWithObjects:@"next", @"to", nil];
+                params=@[@"next", @"to"];
                 [self playbackAction:action params:params checkPartyMode:YES];
             }
             else{
@@ -2023,17 +2023,17 @@ int currentItemID;
             selected = indexPath;
             CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
             if ([item[@"albumid"] intValue]>0){
-                [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Album Tracks", nil), nil]];
+                [sheetActions addObjectsFromArray:@[NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Album Tracks", nil)]];
             }
             if ([item[@"artistid"] intValue]>0 || ([item[@"type"] isEqualToString:@"song"] && [AppDelegate instance].serverVersion>11)){
-                [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:NSLocalizedString(@"Artist Details", nil), NSLocalizedString(@"Artist Albums", nil), nil]];
+                [sheetActions addObjectsFromArray:@[NSLocalizedString(@"Artist Details", nil), NSLocalizedString(@"Artist Albums", nil)]];
             }
             if ([item[@"movieid"] intValue]>0){
                 if ([item[@"type"] isEqualToString:@"movie"]){
-                    [sheetActions addObjectsFromArray:[NSArray arrayWithObjects:NSLocalizedString(@"Movie Details", nil), nil]];
+                    [sheetActions addObjectsFromArray:@[NSLocalizedString(@"Movie Details", nil)]];
                 }
                 else if ([item[@"type"] isEqualToString:@"episode"]){
-                    [sheetActions addObjectsFromArray:[NSArray arrayWithObjects: NSLocalizedString(@"TV Show Details", nil), NSLocalizedString(@"Episode Details", nil), nil]];
+                    [sheetActions addObjectsFromArray:@[NSLocalizedString(@"TV Show Details", nil), NSLocalizedString(@"Episode Details", nil)]];
                 }
             }
             NSInteger numActions=[sheetActions count];
@@ -2055,11 +2055,11 @@ int currentItemID;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
         switch (gestureRecognizer.view.tag) {
             case 6:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:[NSArray arrayWithObjects:@"decrement", @"speed", nil] checkPartyMode:NO];
+                [self playbackAction:@"Player.SetSpeed" params:@[@"decrement", @"speed"] checkPartyMode:NO];
                 break;
                 
             case 7:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:[NSArray arrayWithObjects:@"increment", @"speed", nil] checkPartyMode:NO];
+                [self playbackAction:@"Player.SetSpeed" params:@[@"increment", @"speed"] checkPartyMode:NO];
                 break;
                 
             case 88:// EDIT TABLE
@@ -2695,11 +2695,7 @@ int currentItemID;
 -(void)addSegmentControl{
     seg_music.hidden = YES;
     seg_video.hidden = YES;
-    playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:
-                                                                          NSLocalizedString(@"Music", nil),
-                                                                          [[NSLocalizedString(@"Video ", nil) capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], nil
-                                                                          ]
-                                ];
+    playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[NSLocalizedString(@"Music", nil), [[NSLocalizedString(@"Video ", nil) capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
     CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH)/2;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         left_margin = floor(([self currentScreenBoundsDependOnOrientation].size.width - SEGMENTCONTROL_WIDTH)/2);

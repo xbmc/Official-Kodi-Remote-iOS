@@ -685,7 +685,7 @@
     button7.hidden = YES;
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [activityIndicatorView startAnimating];
-    NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
+    NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     if (choosedTab<[buttonsIB count]){
         [buttonsIB[choosedTab] setSelected:NO];
     }
@@ -773,7 +773,7 @@
 }
 
 -(void)changeViewMode:(int)newWatchMode {
-    NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
+    NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     [buttonsIB[choosedTab] setImage:[UIImage imageNamed:[self.detailItem watchModes][choosedTab][@"icons"][newWatchMode]] forState:UIControlStateSelected];
     [self.richResults removeAllObjects];
     [self.sections removeAllObjects];
@@ -890,7 +890,7 @@
     }
     self.indexView.indexTitles = nil;
     self.indexView.hidden = YES;
-    NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
+    NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     if (choosedTab < [buttonsIB count]){
         [buttonsIB[choosedTab] setImage:[UIImage imageNamed:@"blank"] forState:UIControlStateSelected];
     }
@@ -1590,7 +1590,7 @@
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = sectionNameOverlayView.bounds;
-    gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getGrayColor:26 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:0 alpha:0.8] CGColor], nil];
+    gradient.colors = @[(id)[[Utilities getGrayColor:26 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:0 alpha:0.8] CGColor]];
     gradient.cornerRadius = cornerRadius;
     [sectionNameOverlayView.layer insertSublayer:gradient atIndex:0];
     
@@ -1652,7 +1652,7 @@
         }
         else if ([sortbymethod isEqualToString:@"runtime"]){
              [NSPredicate predicateWithFormat: @"attributeName BETWEEN %@", @[@1, @10]];
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue BETWEEN %@", sortbymethod, [NSArray arrayWithObjects:@([value intValue] - 15), @([value intValue]), nil]];
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue BETWEEN %@", sortbymethod, @[@([value intValue] - 15), @([value intValue])]];
         }
         else if ([sortbymethod isEqualToString:@"playcount"]){
             predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue == %d", sortbymethod, [value intValue]];
@@ -2492,7 +2492,7 @@ int originYear = 0;
         UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize -labelPadding/2, labelwidth, trackCountFontSize + labelPadding)];
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
-        gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor], nil];
+        gradient.colors = @[(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor]];
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
         CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
@@ -2546,7 +2546,7 @@ int originYear = 0;
                                           }
                                           CAGradientLayer *gradient = [CAGradientLayer layer];
                                           gradient.frame = albumDetailView.bounds;
-                                          gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
+                                          gradient.colors = @[(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor]];
                                           [albumDetailView.layer insertSublayer:gradient atIndex:1];
                                           albumFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
                                           albumFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
@@ -2668,7 +2668,7 @@ int originYear = 0;
         }
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
-        gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getSystemGray5] CGColor], (id)[[Utilities getSystemGray1] CGColor], nil];
+        gradient.colors = @[(id)[[Utilities getSystemGray5] CGColor], (id)[[Utilities getSystemGray1] CGColor]];
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
         if (section>0){
             UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -1, viewWidth, 1)];
@@ -2719,7 +2719,7 @@ int originYear = 0;
                     gradient.frame = albumDetailView.bounds;
                     albumColor = [utils averageColor:image inverse:NO];
                     albumColor = [utils limitSaturation:albumColor satmax:0.33];
-                    gradient.colors = [NSArray arrayWithObjects:(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor], nil];
+                    gradient.colors = @[(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor]];
                     seasonFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
                     seasonFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
                     seasonDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
@@ -2823,8 +2823,8 @@ int originYear = 0;
     gradient.frame = sectionView.bounds;
     
     // TEST
-    gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor], nil];
-//    gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getGrayColor:26 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:77 alpha:0.8] CGColor], nil];
+    gradient.colors = @[(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor]];
+//    gradient.colors = @[(id)[[Utilities getGrayColor:26 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:77 alpha:0.8] CGColor]];
     //END TEST
 
     [sectionView.layer insertSublayer:gradient atIndex:0];
@@ -2990,7 +2990,7 @@ NSIndexPath *selected;
         NSString *title=[NSString stringWithFormat:@"%@%@%@", item[@"label"], [item[@"genre"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"\n%@", item[@"genre"]], [item[@"family"] isEqualToString:@"songid"] ? [NSString stringWithFormat:@"\n%@", item[@"album"]] : @""];
         if ( [item[@"family"] isEqualToString:@"timerid"] && [AppDelegate instance].serverVersion < 17) {
             title = [NSString stringWithFormat:@"%@\n\n%@", title, NSLocalizedString(@"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.", nil)];
-            sheetActions = [NSArray arrayWithObjects: NSLocalizedString(@"Ok", nil), nil];
+            sheetActions = @[NSLocalizedString(@"Ok", nil)];
         }
         id cell = [self getCell:indexPath];
         UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
@@ -4194,7 +4194,7 @@ NSIndexPath *selected;
 
 
 -(void)showAlbumActions:(UITapGestureRecognizer *)tap {
-    NSArray *sheetActions = [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil];
+    NSArray *sheetActions = @[NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil)];
     selected = [NSIndexPath indexPathForRow:0 inSection:0];
     NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:[self.sections valueForKey:self.sectionArray[0]][0]];
     [item setObject:self.navigationItem.title forKey:@"label"];
@@ -5364,8 +5364,8 @@ NSIndexPath *selected;
 }
 
 -(void)buildButtons{
-    NSArray *buttons=[self.detailItem mainButtons];
-    NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
+    NSArray *buttons = [self.detailItem mainButtons];
+    NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     int i=0;
     NSInteger count = [buttons count];
     if (count > MAX_NORMAL_BUTTONS)

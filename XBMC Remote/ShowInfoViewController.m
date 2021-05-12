@@ -783,21 +783,7 @@ int h=0;
                     )];
         [numVotesLabel setFont:[UIFont systemFontOfSize:18]];
 
-        NSArray *arrayLabels=[NSArray arrayWithObjects:
-                              label1,
-                              directorLabel, 
-                              label2,
-                              genreLabel,
-                              label3,
-                              runtimeLabel,
-                              label4,
-                              studioLabel,
-                              label5,
-                              summaryLabel,
-                              parentalRatingLabelUp,
-                              parentalRatingLabel,
-                              label6,
-                              nil];
+        NSArray *arrayLabels = @[label1, directorLabel, label2, genreLabel, label3, runtimeLabel, label4, studioLabel, label5, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, label6];
         [self setAndMoveLabels:arrayLabels size:size];
     }
     else {
@@ -926,7 +912,7 @@ int h=0;
             }
             shiftParentalRating = 0;
         }
-        [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
+        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
         
         label2.text=NSLocalizedString(@"FIRST AIRED", nil);
         label5.text=NSLocalizedString(@"SUMMARY", nil);
@@ -945,7 +931,7 @@ int h=0;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             coverHeight = 290;
         }
-        [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:40];
+        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
         jewelView.hidden = NO;
         int deltaY = jewelView.frame.size.height - coverHeight;
         label1.text = NSLocalizedString(@"ARTIST", nil);
@@ -989,7 +975,7 @@ int h=0;
             runtimeLabel.text = [item[@"genre"] length] == 0 ? @"-" : item[@"genre"];
         }
         studioLabel.text = [item[@"label"] length] == 0 ? @"-" : item[@"label"];
-        [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
+        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]){
         // artist details
@@ -1002,8 +988,8 @@ int h=0;
         enableJewel = NO;
         jewelView.image = nil;
         int shiftY = 40;
-        [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:shiftY];
-        [self moveLabel:[NSArray arrayWithObjects:label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:40];
+        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:shiftY];
+        [self moveLabel:@[label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
         label1.text = NSLocalizedString(@"GENRE", nil);
         label2.text = NSLocalizedString(@"STYLE", nil);
         label3.text = @"";
@@ -1047,7 +1033,7 @@ int h=0;
         CGRect newFrame = genreLabel.frame;
         newFrame.size.height = expectedLabelSize.height + size;
         genreLabel.frame = newFrame;
-        [self moveLabel:[NSArray arrayWithObjects:label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(expectedLabelSize.height - labelSpace)];
+        [self moveLabel:@[label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:-(expectedLabelSize.height - labelSpace)];
         
         if ([item[@"born"] isKindOfClass:[NSArray class]]){
             studioLabel.text = [item[@"born"] componentsJoinedByString:@" / "];
@@ -1068,17 +1054,17 @@ int h=0;
         if ([directorLabel.text isEqualToString:@"-"]){
             directorLabel.hidden = YES;
             label1.hidden = YES;
-            [self moveLabel:[NSArray arrayWithObjects: label2, label4, label5, label6, genreLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+            [self moveLabel:@[label2, label4, label5, label6, genreLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:labelSpace + 20];
         }
         if ([genreLabel.text isEqualToString:@"-"]){
             genreLabel.hidden = YES;
             label2.hidden = YES;
-            [self moveLabel:[NSArray arrayWithObjects: label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+            [self moveLabel:@[label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:labelSpace + 20];
         }
         if ([studioLabel.text isEqualToString:@"-"]){
             studioLabel.hidden = YES;
             label4.hidden = YES;
-            [self moveLabel:[NSArray arrayWithObjects: label5, label6, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+            [self moveLabel:@[label5, label6, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:labelSpace + 20];
         }
     }
     else if ([item[@"family"] isEqualToString:@"broadcastid"] || [item[@"family"] isEqualToString:@"recordingid"]){
@@ -1112,7 +1098,7 @@ int h=0;
         }
         frame.origin.y ++;
         summaryLabel.frame= frame;
-         [self moveLabel:[NSArray arrayWithObjects: label1, label2, label5, label6, directorLabel, genreLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:(int)(jewelView.frame.size.height - (jewelView.frame.size.height/8))];
+         [self moveLabel:@[label1, label2, label5, label6, directorLabel, genreLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:(int)(jewelView.frame.size.height - (jewelView.frame.size.height/8))];
         frame = jewelView.frame;
         frame.origin.x = label1.frame.origin.x;
         frame.size.width = frame.size.width / 4;
@@ -1211,7 +1197,7 @@ int h=0;
             frame.size.height = coverHeight;
             frame.size.width = coverWidth;
             jewelView.frame = frame;
-            [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(coverHeight - originalHeight)];
+            [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:-(coverHeight - originalHeight)];
         }
         if ([item[@"director"] isKindOfClass:[NSArray class]]){
             directorLabel.text = [item[@"director"] componentsJoinedByString:@" / "];

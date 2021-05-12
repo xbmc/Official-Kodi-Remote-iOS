@@ -42,7 +42,7 @@
             // TYPE 3
 //            CAGradientLayer *gradient = [CAGradientLayer layer];
 //            gradient.frame = self.bounds;
-//            gradient.colors = [NSArray arrayWithObjects:(id)[[Utilities getGrayColor:75 alpha:0.95] CGColor], (id)[[Utilities getGrayColor:35 alpha:0.95] CGColor], nil];
+//            gradient.colors = @[(id)[[Utilities getGrayColor:75 alpha:0.95] CGColor], (id)[[Utilities getGrayColor:35 alpha:0.95] CGColor]];
 //            [self.layer insertSublayer:gradient atIndex:0];
         }
 

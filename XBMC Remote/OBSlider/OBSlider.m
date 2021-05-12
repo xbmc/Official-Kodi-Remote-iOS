@@ -167,26 +167,24 @@
 // Used in -initWithFrame: and -initWithCoder:
 - (NSArray *) defaultScrubbingSpeeds
 {
-    return [NSArray arrayWithObjects:
+    return @[
             @(1.0f),
             @(0.5f),
             @(0.25f),
             @(0.1f),
             @(0.05f),
-            @(0.025f),
-            nil];
+            @(0.025f)];
 }
 
 - (NSArray *) defaultScrubbingSpeedChangePositions
 {
-    return [NSArray arrayWithObjects:
+    return @[
             @(0.0f),
             @(50.0f),
             @(100.0f),
             @(150.0f),
             @(200.0f),
-            @(250.0f),
-            nil];
+            @(250.0f)];
 }
 
 @end

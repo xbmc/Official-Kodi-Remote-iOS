@@ -145,13 +145,15 @@ static char UIScrollViewPullToRefreshView;
         self.state = SVPullToRefreshStateStopped;
         self.showsDateLabel = NO;
         
-        self.titles = [NSMutableArray arrayWithObjects:NSLocalizedString(@"Pull to sync with XBMC...",),
-                                                       NSLocalizedString(@"Release to sync with XBMC...",),
-                                                       NSLocalizedString(@"Syncing...",),
-                                                       nil];
+        self.titles = [
+            @[
+                NSLocalizedString(@"Pull to sync with XBMC...",),
+                NSLocalizedString(@"Release to sync with XBMC...",),
+                NSLocalizedString(@"Syncing...",)
+            ] mutableCopy];
         
-        self.subtitles = [NSMutableArray arrayWithObjects:@"", @"", @"", @"", nil];
-        self.viewForState = [NSMutableArray arrayWithObjects:@"", @"", @"", @"", nil];
+        self.subtitles = [@[@"", @"", @"", @""] mutableCopy];
+        self.viewForState = [@[@"", @"", @"", @""] mutableCopy];
     }
 
     return self;
@@ -553,10 +555,10 @@ static char UIScrollViewPullToRefreshView;
 	CGFloat alphaGradientLocations[] = {0, 0.8};
     
 	CGGradientRef alphaGradient = nil;
-    NSArray* alphaGradientColors = [NSArray arrayWithObjects:
+    NSArray* alphaGradientColors = @[
                                     (id)[self.arrowColor colorWithAlphaComponent:0].CGColor,
-                                    (id)[self.arrowColor colorWithAlphaComponent:1].CGColor,
-                                    nil];
+                                    (id)[self.arrowColor colorWithAlphaComponent:1].CGColor
+                                    ];
     alphaGradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)alphaGradientColors, alphaGradientLocations);
 	
 	
