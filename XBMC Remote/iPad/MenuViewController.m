@@ -174,7 +174,7 @@
 
 - (void)connectionStatus:(NSNotification *)note {
     NSDictionary *theData = [note userInfo];
-    NSString *icon_connection = [theData objectForKey:@"icon_connection"];
+    NSString *icon_connection = theData[@"icon_connection"];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
     [icon setImage:[UIImage imageNamed:icon_connection]];

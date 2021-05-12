@@ -61,11 +61,11 @@
         cacheKey = [url absoluteString];
     }
     
-    NSString *transformation = [info objectForKey:@"transformation"];
+    NSString *transformation = info[@"transformation"];
     
     if ([transformation isEqualToString:@"resize"])
     {
-        cacheKey = [NSString stringWithFormat:@"%@_resize_%@", cacheKey, [info objectForKey:@"size"]];
+        cacheKey = [NSString stringWithFormat:@"%@_resize_%@", cacheKey, info[@"size"]];
     }
 
     return cacheKey;

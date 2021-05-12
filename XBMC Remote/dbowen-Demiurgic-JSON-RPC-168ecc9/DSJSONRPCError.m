@@ -46,9 +46,9 @@
     if (!(self = [super init]))
         return self;
     
-    code    = [[errorData objectForKey:@"code"] intValue];
-    message = [errorData objectForKey:@"message"];
-    data    = [errorData objectForKey:@"data"];
+    code    = [errorData[@"code"] intValue];
+    message = errorData[@"message"];
+    data    = errorData[@"data"];
     
     DS_RETAIN(message)
     DS_RETAIN(data)

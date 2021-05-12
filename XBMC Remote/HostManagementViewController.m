@@ -109,8 +109,8 @@
         UILabel *cellIP=(UILabel*) [cell viewWithTag:3];
         cellLabel.textAlignment=NSTextAlignmentLeft;
         NSDictionary *item=[AppDelegate instance].arrayServerList[indexPath.row];
-        [cellLabel setText:[item objectForKey:@"serverDescription"]];
-        [cellIP setText:[item objectForKey:@"serverIP"]];
+        [cellLabel setText:item[@"serverDescription"]];
+        [cellIP setText:item[@"serverIP"]];
         NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
         if (selection && indexPath.row == selection.row){
             cell.accessoryType=UITableViewCellAccessoryCheckmark;
@@ -140,14 +140,14 @@ static inline BOOL IsEmpty(id obj) {
 
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *item = [AppDelegate instance].arrayServerList[indexPath.row];
-    [AppDelegate instance].obj.serverDescription = IsEmpty([item objectForKey:@"serverDescription"]) ? @"" : [item objectForKey:@"serverDescription"];
-    [AppDelegate instance].obj.serverUser = IsEmpty([item objectForKey:@"serverUser"]) ? @"" : [item objectForKey:@"serverUser"];
-    [AppDelegate instance].obj.serverPass = IsEmpty([item objectForKey:@"serverPass"]) ? @"" : [item objectForKey:@"serverPass"];
-    [AppDelegate instance].obj.serverIP = IsEmpty([item objectForKey:@"serverIP"]) ? @"" : [item objectForKey:@"serverIP"];
-    [AppDelegate instance].obj.serverPort = IsEmpty([item objectForKey:@"serverPort"]) ? @"" : [item objectForKey:@"serverPort"];
-    [AppDelegate instance].obj.serverHWAddr = IsEmpty([item objectForKey:@"serverMacAddress"]) ? @"" : [item objectForKey:@"serverMacAddress"];
-    [AppDelegate instance].obj.preferTVPosters = [[item objectForKey:@"preferTVPosters"] boolValue];
-    [AppDelegate instance].obj.tcpPort = [[item objectForKey:@"tcpPort"] intValue];
+    [AppDelegate instance].obj.serverDescription = IsEmpty(item[@"serverDescription"]) ? @"" : item[@"serverDescription"];
+    [AppDelegate instance].obj.serverUser = IsEmpty(item[@"serverUser"]) ? @"" : item[@"serverUser"];
+    [AppDelegate instance].obj.serverPass = IsEmpty(item[@"serverPass"]) ? @"" : item[@"serverPass"];
+    [AppDelegate instance].obj.serverIP = IsEmpty(item[@"serverIP"]) ? @"" : item[@"serverIP"];
+    [AppDelegate instance].obj.serverPort = IsEmpty(item[@"serverPort"]) ? @"" : item[@"serverPort"];
+    [AppDelegate instance].obj.serverHWAddr = IsEmpty(item[@"serverMacAddress"]) ? @"" : item[@"serverMacAddress"];
+    [AppDelegate instance].obj.preferTVPosters = [item[@"preferTVPosters"] boolValue];
+    [AppDelegate instance].obj.tcpPort = [item[@"tcpPort"] intValue];
 }
 
 -(void)deselectServerAtIndexPath:(NSIndexPath *)indexPath{
@@ -483,7 +483,7 @@ static inline BOOL IsEmpty(id obj) {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     int lastServer;
     if ([userDefaults objectForKey:@"lastServer"]!=nil){
-        lastServer=[[userDefaults objectForKey:@"lastServer"] intValue];
+        lastServer = [[userDefaults objectForKey:@"lastServer"] intValue];
         if (lastServer > -1 && lastServer < [[AppDelegate instance].arrayServerList count]){
             NSIndexPath *lastServerIndexPath=[NSIndexPath indexPathForRow:lastServer inSection:0];
             if (![AppDelegate instance].serverOnLine){
@@ -603,7 +603,7 @@ static inline BOOL IsEmpty(id obj) {
 
 -(void)connectionError:(NSNotification *)note {
     NSDictionary *theData = [note userInfo];
-    [messagesView showMessage:[theData objectForKey:@"error_message"] timeout:2.0 color:[Utilities getSystemRed:0.95]];
+    [messagesView showMessage:theData[@"error_message"] timeout:2.0 color:[Utilities getSystemRed:0.95]];
 }
 
 -(void)authFailed:(NSNotification *)note {
@@ -619,7 +619,7 @@ static inline BOOL IsEmpty(id obj) {
     NSDictionary *theData = [note userInfo];
     if (storeServerSelection != nil) {
         UITableViewCell *cell  = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:[theData objectForKey:@"icon_connection"]]];
+        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:theData[@"icon_connection"]]];
     }
     [connectingActivityIndicator stopAnimating];
     if (doRevealMenu) [self revealMenu:nil];
@@ -629,7 +629,7 @@ static inline BOOL IsEmpty(id obj) {
     NSDictionary *theData = [note userInfo];
     if (storeServerSelection != nil){
         UITableViewCell *cell  = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:[theData objectForKey:@"icon_connection"]]];
+        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:theData[@"icon_connection"]]];
     }
 }
 

@@ -145,7 +145,7 @@
     [serviceRequest setValue:@"DSJSONRPC/1.0" forHTTPHeaderField:@"User-Agent"];
     // Add custom HTTP headers
     for (id key in self._httpHeaders) {
-        [serviceRequest setValue:[self._httpHeaders objectForKey:key] forHTTPHeaderField:key];
+        [serviceRequest setValue:self._httpHeaders[key] forHTTPHeaderField:key];
     }
     
     // Finish creating request, we set content-length after user headers to prevent user error
@@ -179,15 +179,15 @@
 -(void)cancelRequest:(NSTimer*)theTimer {
     NSURLConnection *connection= (NSURLConnection *)[theTimer userInfo];
     __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
-    NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:connectionKey];
-    DSJSONRPCCompletionHandler completionHandler = [connectionInfo objectForKey:@"completionHandler"];
+    NSMutableDictionary *connectionInfo = self._activeConnections[connectionKey];
+    DSJSONRPCCompletionHandler completionHandler = connectionInfo[@"completionHandler"];
     NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection Timeout", NSLocalizedDescriptionKey, nil]];
     if (completionHandler) {
-        completionHandler([connectionInfo objectForKey:@"method"], [[connectionInfo objectForKey:@"id"] intValue], nil, nil, aError);
+        completionHandler(connectionInfo[@"method"], [connectionInfo[@"id"] intValue], nil, nil, aError);
         DS_RELEASE(completionHandler)
     }
     if (delegate && [delegate respondsToSelector:@selector(jsonRPC:didFailMethod:forId:withError:)]) {
-        [delegate jsonRPC:self didFailMethod:[connectionInfo objectForKey:@"method"] forId:[[connectionInfo objectForKey:@"id"] intValue] withError:aError];
+        [delegate jsonRPC:self didFailMethod:connectionInfo[@"method"] forId:[connectionInfo[@"id"] intValue] withError:aError];
     }
     [(NSURLConnection*)[theTimer userInfo] cancel];
     timer = nil;
@@ -240,24 +240,24 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     NSMutableDictionary *connectionInfo = self._activeConnections[[NSValue valueWithNonretainedObject:connection]];
-    NSMutableData *connectionData = [connectionInfo objectForKey:@"data"];
+    NSMutableData *connectionData = connectionInfo[@"data"];
     [connectionData appendData:data];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
-    NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:connectionKey];
-    DSJSONRPCCompletionHandler completionHandler = [connectionInfo objectForKey:@"completionHandler"];
+    NSMutableDictionary *connectionInfo = self._activeConnections[connectionKey];
+    DSJSONRPCCompletionHandler completionHandler = connectionInfo[@"completionHandler"];
     
     if (completionHandler || delegate) {
         NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
         
         if (completionHandler) {
-            completionHandler([connectionInfo objectForKey:@"method"], [[connectionInfo objectForKey:@"id"] intValue], nil, nil, aError);
+            completionHandler(connectionInfo[@"method"], [connectionInfo[@"id"] intValue], nil, nil, aError);
             DS_RELEASE(completionHandler)
         }
         else if ([delegate respondsToSelector:@selector(jsonRPC:didFailMethod:forId:withError:)]) {
-            [delegate jsonRPC:self didFailMethod:[connectionInfo objectForKey:@"method"] forId:[[connectionInfo objectForKey:@"id"] intValue] withError:aError];
+            [delegate jsonRPC:self didFailMethod:connectionInfo[@"method"] forId:[connectionInfo[@"id"] intValue] withError:aError];
         }
     }
     
@@ -268,9 +268,9 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     // Get information about the connection
     __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
-    NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:connectionKey];
-    NSMutableData *connectionData = [connectionInfo objectForKey:@"data"];
-    DSJSONRPCCompletionHandler completionHandler = [connectionInfo objectForKey:@"completionHandler"];
+    NSMutableDictionary *connectionInfo = self._activeConnections[connectionKey];
+    NSMutableData *connectionData = connectionInfo[@"data"];
+    DSJSONRPCCompletionHandler completionHandler = connectionInfo[@"completionHandler"];
     
     // Attempt to deserialize result
     NSError *error = nil;
@@ -282,38 +282,38 @@
         if (completionHandler || delegate) {
             // Pass the error to the delegate if they care, completion handler takes presidence
             if (completionHandler) {
-                completionHandler([connectionInfo objectForKey:@"method"], [[connectionInfo objectForKey:@"id"] intValue], nil, nil, aError);
+                completionHandler(connectionInfo[@"method"], [connectionInfo[@"id"] intValue], nil, nil, aError);
                 DS_RELEASE(completionHandler)
             }
             if (delegate && [delegate respondsToSelector:@selector(jsonRPC:didFailMethod:forId:withError:)]) {
-                [delegate jsonRPC:self didFailMethod:[connectionInfo objectForKey:@"method"] forId:[[connectionInfo objectForKey:@"id"] intValue] withError:aError];
+                [delegate jsonRPC:self didFailMethod:connectionInfo[@"method"] forId:[connectionInfo[@"id"] intValue] withError:aError];
             }
         }
     }
     
     // The JSON server passed back and error for the response
-    if (!error && [jsonResult objectForKey:@"error"] != nil && [[jsonResult objectForKey:@"error"] isKindOfClass:[NSDictionary class]]) {
+    if (!error && jsonResult[@"error"] != nil && [jsonResult[@"error"] isKindOfClass:[NSDictionary class]]) {
         if (completionHandler || delegate) {
-            DSJSONRPCError *jsonRPCError = [DSJSONRPCError errorWithData:[jsonResult objectForKey:@"error"]];
+            DSJSONRPCError *jsonRPCError = [DSJSONRPCError errorWithData:jsonResult[@"error"]];
             
             // Give the error to the delegate if they care, completion handler takes presidence
             if (completionHandler) {
-                completionHandler([connectionInfo objectForKey:@"method"], [[connectionInfo objectForKey:@"id"] intValue], nil, jsonRPCError, nil);
+                completionHandler(connectionInfo[@"method"], [connectionInfo [@"id"] intValue], nil, jsonRPCError, nil);
                 DS_RELEASE(completionHandler)
             }
             else if (delegate && [delegate respondsToSelector:@selector(jsonRPC:didFinishMethod:forId:withError:)]) {
-                [delegate jsonRPC:self didFinishMethod:[connectionInfo objectForKey:@"method"] forId:[[connectionInfo objectForKey:@"id"] intValue] withError:jsonRPCError];
+                [delegate jsonRPC:self didFinishMethod:connectionInfo[@"method"] forId:[connectionInfo[@"id"] intValue] withError:jsonRPCError];
             }
         }
     }
     // Not error, give delegate the method result
     else if (!error && (completionHandler || delegate)) {
         if (completionHandler) {
-            completionHandler([connectionInfo objectForKey:@"method"], [[connectionInfo objectForKey:@"id"] intValue], [jsonResult objectForKey:@"result"], nil, nil);
+            completionHandler(connectionInfo[@"method"], [connectionInfo[@"id"] intValue], jsonResult[@"result"], nil, nil);
             DS_RELEASE(completionHandler)
         }
         else if ([delegate respondsToSelector:@selector(jsonRPC:didFinishMethod:forId:withResult:)]) {
-            [delegate jsonRPC:self didFinishMethod:[connectionInfo objectForKey:@"method"] forId:[[connectionInfo objectForKey:@"id"] intValue] withResult:[jsonResult objectForKey:@"result"]];
+            [delegate jsonRPC:self didFinishMethod:connectionInfo [@"method"] forId:[connectionInfo[@"id"] intValue] withResult:jsonResult[@"result"]];
         }
     }
     

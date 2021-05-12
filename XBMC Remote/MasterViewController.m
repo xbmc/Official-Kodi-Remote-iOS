@@ -331,7 +331,7 @@
     [menuList setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
+    BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
     if (clearCache==YES){
         ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame border:40];
         [clearView startActivityIndicator];
@@ -381,8 +381,8 @@
 
 - (void)connectionStatus:(NSNotification *)note {
     NSDictionary *theData = [note userInfo];
-    NSString *icon_connection = [theData objectForKey:@"icon_connection"];
-    NSString *infoText = [theData objectForKey:@"message"];
+    NSString *icon_connection = theData[@"icon_connection"];
+    NSString *infoText = theData[@"message"];
     UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
     [icon setImage:[UIImage imageNamed:icon_connection]];

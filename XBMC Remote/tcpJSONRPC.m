@@ -116,10 +116,10 @@ NSOutputStream	*outStream;
                             if (parseError == nil){
                                 NSString *method = @"";
                                 NSDictionary *paramsDict;
-                                if (((NSNull *)[notification objectForKey:@"method"] != [NSNull null])){
-                                        method = [notification objectForKey:@"method"];
-                                    if (((NSNull *)[notification objectForKey:@"params"] != [NSNull null])){
-                                        paramsDict = [NSDictionary dictionaryWithObject:[notification objectForKey:@"params"] forKey:@"params"];
+                                if (((NSNull *)notification[@"method"] != [NSNull null])){
+                                        method = notification[@"method"];
+                                    if (((NSNull *)notification[@"params"] != [NSNull null])){
+                                        paramsDict = [NSDictionary dictionaryWithObject:notification[@"params"] forKey:@"params"];
                                     }
                                     [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:paramsDict];
                                 }
@@ -186,21 +186,21 @@ NSOutputStream	*outStream;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          inCheck = FALSE;
          if (error==nil && methodError==nil){
-             [AppDelegate instance].serverVolume = [[methodResult objectForKey:@"volume"] intValue];
+             [AppDelegate instance].serverVolume = [methodResult[@"volume"] intValue];
              if (![AppDelegate instance].serverOnLine){
                  if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                     NSDictionary *serverInfo=[methodResult objectForKey:@"version"];
-                     [AppDelegate instance].serverVersion = [[serverInfo objectForKey:@"major"] intValue];
-                     [AppDelegate instance].serverMinorVersion = [[serverInfo objectForKey:@"minor"] intValue];
-                     NSString *realServerName = [methodResult objectForKey:@"name"];
+                     NSDictionary *serverInfo = methodResult[@"version"];
+                     [AppDelegate instance].serverVersion = [serverInfo[@"major"] intValue];
+                     [AppDelegate instance].serverMinorVersion = [serverInfo[@"minor"] intValue];
+                     NSString *realServerName = methodResult[@"name"];
                      if ([realServerName isEqualToString:@"MrMC"]){
                          [AppDelegate instance].serverVersion += MRMC_TIMEWARP;
                      }
                      infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@",
                                           [AppDelegate instance].obj.serverDescription,
-                                          [serverInfo objectForKey:@"major"],
-                                          [serverInfo objectForKey:@"minor"],
-                                          [serverInfo objectForKey:@"tag"]];//, [serverInfo objectForKey:@"revision"]
+                                          serverInfo[@"major"],
+                                          serverInfo[@"minor"],
+                                          serverInfo[@"tag"]];//, serverInfo[@"revision"]
                      NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                              [NSNumber numberWithBool:YES], @"status",
                                              infoTitle, @"message",

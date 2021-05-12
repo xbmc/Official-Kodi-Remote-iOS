@@ -67,9 +67,9 @@
     [cellLabel setTextColor:[Utilities get1stLabelColor]];
     [cellLabel setHighlightedTextColor:[Utilities get1stLabelColor]];
     NSDictionary *item = mainMenuItems[indexPath.row];
-    [cellLabel setText:[item objectForKey:@"label"]];
+    [cellLabel setText:item[@"label"]];
     [cell.contentView addSubview:cellLabel];
-    if (![[item objectForKey:@"icon"] isEqualToString:@""]){
+    if (![item[@"icon"] isEqualToString:@""]){
         CGRect iconImageViewRect = CGRectMake(8, 6, 34, 30);
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
         [iconImage setImage:[UIImage imageNamed:@"nocover_filemode"]];

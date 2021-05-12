@@ -77,12 +77,12 @@
     else {
         self.navigationItem.title=NSLocalizedString(@"Modify XBMC Server", nil);
         NSIndexPath *idx=self.detailItem;
-        descriptionUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverDescription"];
-        usernameUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverUser"];
-        passwordUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverPass"];
-        ipUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverIP"];
-        portUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverPort"];
-        NSString *macAddress = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"serverMacAddress"];
+        descriptionUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverDescription"];
+        usernameUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverUser"];
+        passwordUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverPass"];
+        ipUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverIP"];
+        portUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverPort"];
+        NSString *macAddress = [AppDelegate instance].arrayServerList[idx.row][@"serverMacAddress"];
         NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
         NSInteger num_octects = [mac_octect count];
         if (num_octects>0) mac_0_UI.text = mac_octect[0];
@@ -91,8 +91,8 @@
         if (num_octects>3) mac_3_UI.text = mac_octect[3];
         if (num_octects>4) mac_4_UI.text = mac_octect[4];
         if (num_octects>5) mac_5_UI.text = mac_octect[5];
-        preferTVPostersUI.on=[[[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"preferTVPosters"] boolValue];
-        tcpPortUI.text = [[AppDelegate instance].arrayServerList[idx.row] objectForKey:@"tcpPort"];
+        preferTVPostersUI.on = [[AppDelegate instance].arrayServerList[idx.row][@"preferTVPosters"] boolValue];
+        tcpPortUI.text = [AppDelegate instance].arrayServerList[idx.row][@"tcpPort"];
     }
 }
 
@@ -234,7 +234,7 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)browser didNotSearch:(NSDictionary *)errorDict{
     searching = NO;
-    [self handleError:[errorDict objectForKey:NSNetServicesErrorCode]];
+    [self handleError:errorDict[NSNetServicesErrorCode]];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)browser

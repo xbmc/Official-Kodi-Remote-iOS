@@ -103,22 +103,22 @@
     }
     NSDictionary *params;
     if (note!=nil){
-        params = [[note userInfo] objectForKey:@"params"];
+        params = [note userInfo][@"params"];
     }
     keyboardTitle.text = @"";
     backgroundTextField.keyboardType = UIKeyboardTypeDefault;
     if (params != nil){
-        if (((NSNull *)[params objectForKey:@"data"] != [NSNull null])){
-            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"title"] != [NSNull null])){
-                keyboardTitle.text = [[params objectForKey:@"data"] objectForKey:@"title"];
+        if (((NSNull *)params[@"data"] != [NSNull null])){
+            if (((NSNull *)params[@"data"][@"title"] != [NSNull null])){
+                keyboardTitle.text = params[@"data"][@"title"];
             }
-            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"value"] != [NSNull null])){
-                if (![[[params objectForKey:@"data"] objectForKey:@"value"] isEqualToString:@""]){
-                    backgroundTextField.text = [[params objectForKey:@"data"] objectForKey:@"value"];
+            if (((NSNull *)params[@"data"][@"value"] != [NSNull null])){
+                if (![params[@"data"][@"value"] isEqualToString:@""]){
+                    backgroundTextField.text = params[@"data"][@"value"];
                 }
             }
-            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"type"] != [NSNull null])){
-                if ([[[params objectForKey:@"data"] objectForKey:@"type"] isEqualToString:@"number"]){
+            if (((NSNull *)params[@"data"][@"type"] != [NSNull null])){
+                if ([params[@"data"][@"type"] isEqualToString:@"number"]){
                     backgroundTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
                 }
             }

@@ -105,7 +105,7 @@
     UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    BOOL showGesture=[[userDefaults objectForKey:@"gesture_preference"] boolValue];
+    BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture){
         gestureSwitchImg = [UIImage imageNamed:@"circle"];
         frame = [gestureZoneView frame];
@@ -278,14 +278,14 @@
                  NSNumber *visualisationActive = 0;
                  NSNumber *slideshowActive = 0;
 
-                 if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(fullscreenvideo)"] != [NSNull null])){
-                     fullscreenActive = [methodResult objectForKey:@"Window.IsActive(fullscreenvideo)"];
+                 if (((NSNull *)methodResult[@"Window.IsActive(fullscreenvideo)"] != [NSNull null])){
+                     fullscreenActive = methodResult[@"Window.IsActive(fullscreenvideo)"];
                  }
-                 if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(visualisation)"] != [NSNull null])){
-                     visualisationActive = [methodResult objectForKey:@"Window.IsActive(visualisation)"];
+                 if (((NSNull *)methodResult[@"Window.IsActive(visualisation)"] != [NSNull null])){
+                     visualisationActive = methodResult[@"Window.IsActive(visualisation)"];
                  }
-                 if (((NSNull *)[methodResult objectForKey:@"Window.IsActive(slideshow)"] != [NSNull null])){
-                     slideshowActive = [methodResult objectForKey:@"Window.IsActive(slideshow)"];
+                 if (((NSNull *)methodResult[@"Window.IsActive(slideshow)"] != [NSNull null])){
+                     slideshowActive = methodResult[@"Window.IsActive(slideshow)"];
                  }
                  if ([fullscreenActive intValue] == 1 || [visualisationActive intValue] == 1 || [slideshowActive intValue] == 1){
                      buttonAction = 15;
@@ -440,8 +440,8 @@
         if (error==nil && methodError==nil) {
             if( [methodResult count] > 0) {
                 NSNumber *response;
-                if (((NSNull *)[methodResult[0] objectForKey:@"playerid"] != [NSNull null])) {
-                    response = [methodResult[0] objectForKey:@"playerid"];
+                if (((NSNull *)methodResult[0][@"playerid"] != [NSNull null])) {
+                    response = methodResult[0][@"playerid"];
                 }
                 [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties"
@@ -453,9 +453,9 @@
                      if (error==nil && methodError==nil) {
                          if( [NSJSONSerialization isValidJSONObject:methodResult]) {
                              if ([methodResult count]){
-                                 NSDictionary *currentSubtitle = [methodResult objectForKey:@"currentsubtitle"];
-                                 BOOL subtitleEnabled =  [[methodResult objectForKey:@"subtitleenabled"] boolValue];
-                                 NSArray *subtitles = [methodResult objectForKey:@"subtitles"];
+                                 NSDictionary *currentSubtitle = methodResult[@"currentsubtitle"];
+                                 BOOL subtitleEnabled = [methodResult[@"subtitleenabled"] boolValue];
+                                 NSArray *subtitles = methodResult[@"subtitles"];
                                  if ([subtitles count]) {
                                      subsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                                                        currentSubtitle, @"currentsubtitle",
@@ -466,15 +466,15 @@
                                      NSMutableArray *actionSheetTitles =[NSMutableArray array];
                                      for (int i = 0; i < numSubs; i++) {
                                          NSString *language = @"?";
-                                         if (((NSNull *)[subtitles[i] objectForKey:@"language"] != [NSNull null])) {
+                                         if (((NSNull *)subtitles[i][@"language"] != [NSNull null])) {
                                              NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
-                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:[subtitles[i] objectForKey:@"language"]];
+                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:subtitles[i][@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0){
                                                  language = displayNameString;
                                              }
                                              else {
-                                                 language = [subtitles[i] objectForKey:@"language"];
+                                                 language = subtitles[i][@"language"];
                                              }
                                              if ([language length] == 0) {
                                                  language = NSLocalizedString(@"Unknown", nil);
@@ -484,7 +484,7 @@
                                          if (subtitleEnabled == YES && [currentSubtitle isEqual:subtitles[i]]) {
                                              tickMark = @"\u2713 ";
                                          }
-                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[subtitles[i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [subtitles[i] objectForKey:@"name"], i + 1, (long)numSubs];
+                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [subtitles[i][@"name"] isEqual:@""] ? @"" : @" - ", subtitles[i][@"name"], i + 1, (long)numSubs];
                                          [actionSheetTitles addObject:title];
                                      }
                                      [self showActionSubtitles:actionSheetTitles];
@@ -509,8 +509,8 @@
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
                 NSNumber *response;
-                if (((NSNull *)[methodResult[0] objectForKey:@"playerid"] != [NSNull null])){
-                    response = [methodResult[0] objectForKey:@"playerid"];
+                if (((NSNull *)methodResult[0][@"playerid"] != [NSNull null])){
+                    response = methodResult[0][@"playerid"];
                 }
                 [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties"
@@ -522,8 +522,8 @@
                      if (error==nil && methodError==nil){
                          if( [NSJSONSerialization isValidJSONObject:methodResult]){
                              if ([methodResult count]){
-                                 NSDictionary *currentAudiostream = [methodResult objectForKey:@"currentaudiostream"];
-                                 NSArray *audiostreams = [methodResult objectForKey:@"audiostreams"];
+                                 NSDictionary *currentAudiostream = methodResult[@"currentaudiostream"];
+                                 NSArray *audiostreams = methodResult[@"audiostreams"];
                                  if ([audiostreams count]) {
                                      audiostreamsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                                                        currentAudiostream, @"currentaudiostream",
@@ -533,15 +533,15 @@
                                      NSMutableArray *actionSheetTitles =[NSMutableArray array];
                                      for (int i = 0; i < numAudio; i++) {
                                          NSString *language = @"?";
-                                         if (((NSNull *)[audiostreams[i] objectForKey:@"language"] != [NSNull null])) {
+                                         if (((NSNull *)audiostreams[i][@"language"] != [NSNull null])) {
                                              NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
-                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:[audiostreams[i] objectForKey:@"language"]];
+                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:audiostreams[i][@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0){
                                                  language = displayNameString;
                                              }
                                              else {
-                                                 language = [audiostreams[i] objectForKey:@"language"];
+                                                 language = audiostreams[i][@"language"];
                                              }
                                              if ([language length] == 0) {
                                                  language = NSLocalizedString(@"Unknown", nil);
@@ -551,7 +551,7 @@
                                          if ([currentAudiostream isEqual:audiostreams[i]]) {
                                              tickMark = @"\u2713 ";
                                          }
-                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [[audiostreams[i] objectForKey:@"name"] isEqual:@""] ? @"" : @" - ", [audiostreams[i] objectForKey:@"name"], i + 1, (long)numAudio];
+                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [audiostreams[i][@"name"] isEqual:@""] ? @"" : @" - ", audiostreams[i][@"name"], i + 1, (long)numAudio];
                                          [actionSheetTitles addObject:title];
                                      }
                                      [self showActionAudiostreams:actionSheetTitles];
@@ -575,7 +575,7 @@
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
-                NSNumber *response = [methodResult[0] objectForKey:@"playerid"];
+                NSNumber *response = methodResult[0][@"playerid"];
                 NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
                 if (parameters!=nil)
                     [commonParams addObjectsFromArray:parameters];
@@ -630,7 +630,7 @@
 //     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //         if (error==nil && methodError==nil){
 //             if( [NSJSONSerialization isValidJSONObject:methodResult] && [methodResult count]){
-//                 audioVolume =  [[methodResult objectForKey:@"volume"] intValue];
+//                 audioVolume =  [methodResult[@"volume"] intValue];
 //             }
 //         }
 //     }];
@@ -664,8 +664,8 @@
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                if (![[audiostreamsDictionary objectForKey:@"audiostreams"][i] isEqual:[audiostreamsDictionary objectForKey:@"currentaudiostream"]]){
-                    [self playbackAction:@"Player.SetAudioStream" params:[NSArray arrayWithObjects:[[audiostreamsDictionary objectForKey:@"audiostreams"][i] objectForKey:@"index"], @"stream", nil]];
+                if (![audiostreamsDictionary[@"audiostreams"][i] isEqual:audiostreamsDictionary[@"currentaudiostream"]]){
+                    [self playbackAction:@"Player.SetAudioStream" params:[NSArray arrayWithObjects:audiostreamsDictionary[@"audiostreams"][i][@"index"], @"stream", nil]];
                     [self showSubInfo:actiontitle timeout:2.0 color:[UIColor whiteColor]];
                 }
             }];
@@ -695,15 +695,15 @@
             [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
             [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"off", @"subtitle", nil]];
         }];
-        if ([[subsDictionary objectForKey:@"subtitleenabled"] boolValue]) {
+        if ([subsDictionary[@"subtitleenabled"] boolValue]) {
             [actionView addAction:action_disable];
         }
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                if (![[subsDictionary objectForKey:@"subtitles"][i] isEqual:[subsDictionary objectForKey:@"currentsubtitle"]] || [[subsDictionary objectForKey:@"subtitleenabled"] boolValue] == NO){
-                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:[[subsDictionary objectForKey:@"subtitles"][i] objectForKey:@"index"], @"subtitle", nil]];
+                if (![subsDictionary[@"subtitles"][i] isEqual:subsDictionary[@"currentsubtitle"]] || [subsDictionary[@"subtitleenabled"] boolValue] == NO){
+                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:subsDictionary[@"subtitles"][i][@"index"], @"subtitle", nil]];
                     [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:@"on", @"subtitle", nil]];
                     [self showSubInfo:actiontitle timeout:2.0 color:[UIColor whiteColor]];
                 }
@@ -738,7 +738,7 @@ NSInteger buttonAction;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     
-    BOOL startVibrate=[[userDefaults objectForKey:@"vibrate_preference"] boolValue];
+    BOOL startVibrate = [[userDefaults objectForKey:@"vibrate_preference"] boolValue];
     if (startVibrate){
         [[UIDevice currentDevice] playInputClick];
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -775,11 +775,11 @@ NSInteger buttonAction;
              if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
                  int winID = 0;
                  NSNumber *fullscreen = 0;
-                 if (((NSNull *)[methodResult objectForKey:@"fullscreen"] != [NSNull null])){
-                     fullscreen = [methodResult objectForKey:@"fullscreen"];
+                 if (((NSNull *)methodResult[@"fullscreen"] != [NSNull null])){
+                     fullscreen = methodResult[@"fullscreen"];
                  }
-                 if (((NSNull *)[methodResult objectForKey:@"currentwindow"] != [NSNull null])){
-                     winID = [[[methodResult objectForKey:@"currentwindow"] objectForKey:@"id"] intValue];
+                 if (((NSNull *)methodResult[@"currentwindow"] != [NSNull null])){
+                     winID = [methodResult[@"currentwindow"][@"id"] intValue];
                  }
                  // 12005: WINDOW_FULLSCREEN_VIDEO
                  // 12006: WINDOW_VISUALISATION
@@ -793,11 +793,11 @@ NSInteger buttonAction;
                           if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
                               NSNumber *VideoPlayerHasMenu = 0;
                               NSNumber *PvrIsPlayingTv = 0;
-                              if (((NSNull *)[methodResult objectForKey:@"VideoPlayer.HasMenu"] != [NSNull null])){
-                                  VideoPlayerHasMenu = [methodResult objectForKey:@"VideoPlayer.HasMenu"];
+                              if (((NSNull *)methodResult[@"VideoPlayer.HasMenu"] != [NSNull null])){
+                                  VideoPlayerHasMenu = methodResult[@"VideoPlayer.HasMenu"];
                               }
-                              if (((NSNull *)[methodResult objectForKey:@"Pvr.IsPlayingTv"] != [NSNull null])){
-                                  PvrIsPlayingTv = [methodResult objectForKey:@"Pvr.IsPlayingTv"];
+                              if (((NSNull *)methodResult[@"Pvr.IsPlayingTv"] != [NSNull null])){
+                                  PvrIsPlayingTv = methodResult[@"Pvr.IsPlayingTv"];
                               }
                               if (winID == 12005  && [PvrIsPlayingTv boolValue] == NO && [VideoPlayerHasMenu boolValue] == NO){
                                   [self playbackAction:@"Player.Seek" params:[Utilities buildPlayerSeekStepParams:step]];
@@ -1010,7 +1010,7 @@ NSInteger buttonAction;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     
-    BOOL startVibrate=[[userDefaults objectForKey:@"vibrate_preference"] boolValue];
+    BOOL startVibrate = [[userDefaults objectForKey:@"vibrate_preference"] boolValue];
     if (startVibrate){
         [[UIDevice currentDevice] playInputClick];
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -1234,8 +1234,8 @@ NSInteger buttonAction;
     [super viewDidLoad];
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
     NSDictionary *httpHeaders = [AppDelegate instance].getServerHTTPHeaders;
-    if ([httpHeaders objectForKey:@"Authorization"] != nil){
-        [manager setValue:[httpHeaders objectForKey:@"Authorization"] forHTTPHeaderField:@"Authorization"];
+    if (httpHeaders[@"Authorization"] != nil){
+        [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
     CGFloat infoButtonOriginY = -16;
     CGFloat infoButtonalpha = 0.9;
@@ -1250,7 +1250,7 @@ NSInteger buttonAction;
     UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    BOOL showGesture=[[userDefaults objectForKey:@"gesture_preference"] boolValue];
+    BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture){
         gestureSwitchImg = [UIImage imageNamed:@"circle"];
         CGRect frame = [gestureZoneView frame];

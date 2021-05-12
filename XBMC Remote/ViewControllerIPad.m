@@ -98,12 +98,12 @@
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
     storeServerSelection = indexPath;
     NSDictionary *item = [AppDelegate instance].arrayServerList[indexPath.row];
-    [AppDelegate instance].obj.serverDescription = [item objectForKey:@"serverDescription"];
-    [AppDelegate instance].obj.serverUser = [item objectForKey:@"serverUser"];
-    [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
-    [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
-    [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
-    [AppDelegate instance].obj.tcpPort = [[item objectForKey:@"tcpPort"] intValue];
+    [AppDelegate instance].obj.serverDescription = item[@"serverDescription"];
+    [AppDelegate instance].obj.serverUser = item[@"serverUser"];
+    [AppDelegate instance].obj.serverPass = item[@"serverPass"];
+    [AppDelegate instance].obj.serverIP = item[@"serverIP"];
+    [AppDelegate instance].obj.serverPort = item[@"serverPort"];
+    [AppDelegate instance].obj.tcpPort = [item[@"tcpPort"] intValue];
 }
 
 -(void)wakeUp:(NSString *)macAddress{
@@ -509,7 +509,7 @@
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
+    BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
     if (clearCache==YES){
         ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame];
         [clearView startActivityIndicator];
