@@ -80,6 +80,7 @@
     CGFloat dotSize;
     CGFloat dotSizePadding;
     LogoBackgroundType logoBackgroundMode;
+    UIBarButtonItem *doneButton;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
