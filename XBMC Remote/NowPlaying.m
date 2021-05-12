@@ -174,9 +174,9 @@
     tempHour    = secs / 3600;
     tempMinute  = secs / 60 - tempHour * 60;
     tempSecond  = secs - (tempHour * 3600 + tempMinute * 60);
-    hour    = [[NSNumber numberWithInt:tempHour] stringValue];
-    minute  = [[NSNumber numberWithInt:tempMinute] stringValue];
-    second  = [[NSNumber numberWithInt:tempSecond] stringValue];
+    hour    = [@(tempHour) stringValue];
+    minute  = [@(tempMinute) stringValue];
+    second  = [@(tempSecond) stringValue];
     if (tempHour < 10) {
         hour = [@"0" stringByAppendingString:hour];
     } 
@@ -235,7 +235,7 @@
             [PartyModeButton setSelected:NO];
             [[Utilities getJsonRPC]
              callMethod:@"Player.SetPartymode"
-             withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", @"toggle", @"partymode", nil]
+             withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(0), @"playerid", @"toggle", @"partymode", nil]
              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                  [PartyModeButton setSelected:NO];
              }];
@@ -1211,7 +1211,7 @@ int currentItemID;
 
 
 -(void)clearPlaylist:(int)playlistID{
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playlistID],@"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(playlistID), @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             [self createPlaylist:NO animTableView:NO];
         }
@@ -1301,7 +1301,7 @@ int currentItemID;
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", @"tvshowid", @"file", @"title", @"art", nil], @"properties",
-                         [NSNumber numberWithInt:playlistID], @"playlistid",
+                         @(playlistID), @"playlistid",
                          nil] 
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                NSInteger total=0;
@@ -1366,7 +1366,7 @@ int currentItemID;
                            NSDictionary *art = playlistItems[i][@"art"];
                            NSString *thumbnail = art[@"poster"] ?: playlistItems[i][@"thumbnail"];
                            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnail stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
-                           NSNumber *tvshowid = [NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", playlistItems[i][@"tvshowid"]] intValue]];
+                           NSNumber *tvshowid = @([[NSString stringWithFormat:@"%@", playlistItems[i][@"tvshowid"]] intValue]);
                            NSString *file = [NSString stringWithFormat:@"%@", playlistItems[i][@"file"]];
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
@@ -1479,11 +1479,11 @@ int currentItemID;
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
-    id object = [NSNumber numberWithInt:[item[itemid] intValue]];
+    id object = @([item[itemid] intValue]);
     if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]){// WORKAROUND due the lack of the artistid with Playlist.GetItems
         methodToCall = @"AudioLibrary.GetArtists";
         NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", item[@"idItem"]];
-        object = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[artistFrodoWorkaround intValue]], @"songid", nil];
+        object = [NSDictionary dictionaryWithObjectsAndKeys: @([artistFrodoWorkaround intValue]), @"songid", nil];
         itemid = @"filter";
     }
     NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
@@ -1626,7 +1626,7 @@ int currentItemID;
                  BOOL disableNowPlaying = YES;
                  NSObject *row11 = videoLibraryMovieDetail[mainFields[@"row11"]];
                  if (row11 == nil){
-                     row11 = [NSNumber numberWithInt:0];
+                     row11 = @(0);
                  }
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1644,7 +1644,7 @@ int currentItemID;
                   rating, @"rating",
                   mainFields[@"playlistid"], @"playlistid",
                   mainFields[@"row8"], @"family",
-                  [NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", videoLibraryMovieDetail[mainFields[@"row9"]]] intValue]], mainFields[@"row9"],
+                  @([[NSString stringWithFormat:@"%@", videoLibraryMovieDetail[mainFields[@"row9"]]] intValue]), mainFields[@"row9"],
                   videoLibraryMovieDetail[mainFields[@"row10"]], mainFields[@"row10"],
                   row11, mainFields[@"row11"],
                   videoLibraryMovieDetail[mainFields[@"row12"]], mainFields[@"row12"],
@@ -1894,7 +1894,7 @@ int currentItemID;
     lastSelected=-1;
     storeSelection=nil;
     if ([AppDelegate instance].serverVersion>11){
-        [self SimpleAction:@"Player.SetShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"toggle", @"shuffle", nil] reloadPlaylist:YES startProgressBar:NO];
+        [self SimpleAction:@"Player.SetShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", @"toggle", @"shuffle", nil] reloadPlaylist:YES startProgressBar:NO];
         if (shuffled){
             [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
         }
@@ -1904,11 +1904,11 @@ int currentItemID;
     }
     else{
         if (shuffled){
-            [self SimpleAction:@"Player.UnShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID],@"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
+            [self SimpleAction:@"Player.UnShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
             [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
         }
         else{
-            [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
+            [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
             [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
         }
     }
@@ -1918,7 +1918,7 @@ int currentItemID;
     [repeatButton setHighlighted:YES];
     [self performSelector:@selector(toggleHighlight:) withObject:repeatButton afterDelay:.1];
     if ([AppDelegate instance].serverVersion>11){
-        [self SimpleAction:@"Player.SetRepeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"cycle", @"repeat", nil] reloadPlaylist:NO startProgressBar:NO];
+        [self SimpleAction:@"Player.SetRepeat" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", @"cycle", @"repeat", nil] reloadPlaylist:NO startProgressBar:NO];
         if ([repeatStatus isEqualToString:@"off"]){
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
         }
@@ -1932,16 +1932,16 @@ int currentItemID;
     }
     else{
         if ([repeatStatus isEqualToString:@"off"]){
-            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"all", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
+            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", @"all", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"all"]){
-            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"one", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
+            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", @"one", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
             
         }
         else if ([repeatStatus isEqualToString:@"one"]){
-            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"off", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
+            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", @"off", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
         }
     }
@@ -2207,7 +2207,7 @@ int currentItemID;
         if (item[mainFields[@"row15"]]!=nil){
             key = mainFields[@"row15"];
         }
-        id obj = [NSNumber numberWithInt:[item[mainFields[@"row6"]] intValue]];
+        id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
         if ([AppDelegate instance].serverVersion>11 && [parameters[@"disableFilterParameter"] boolValue] == FALSE){
             if ([mainFields[@"row6"] isEqualToString:@"artistid"]){ // WORKAROUND due the lack of the artistid with Playlist.GetItems
@@ -2215,7 +2215,7 @@ int currentItemID;
                 obj = [NSDictionary dictionaryWithObjectsAndKeys:artistFrodoWorkaround, @"artist", nil];
             }
             else{
-                obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[item[mainFields[@"row6"]] intValue]], mainFields[@"row6"], nil];
+                obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] intValue]), mainFields[@"row6"], nil];
             }
             objKey = @"filter";
         }
@@ -2344,7 +2344,7 @@ int currentItemID;
      callMethod:@"Player.Open" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                      [NSDictionary dictionaryWithObjectsAndKeys:
-                      [NSNumber numberWithInt:(int)indexPath.row], @"position", [NSNumber numberWithInt:playerID], @"playlistid", nil], @"item", nil]
+                      @(indexPath.row), @"position", @(playerID), @"playlistid", nil], @"item", nil]
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error==nil && methodError==nil){
              storedItemID=-1;
@@ -2383,7 +2383,7 @@ int currentItemID;
     int idItem = [objSource[@"idItem"] intValue];
     if (idItem){
         itemToMove = [NSDictionary dictionaryWithObjectsAndKeys:
-                      [NSNumber numberWithInt:idItem], [NSString stringWithFormat:@"%@id", objSource[@"type"]],
+                      @(idItem), [NSString stringWithFormat:@"%@id", objSource[@"type"]],
                       nil];
     }
     else{
@@ -2394,14 +2394,14 @@ int currentItemID;
     
     NSString *action1 = @"Playlist.Remove";
     NSDictionary *params1=[NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSNumber numberWithInt:playerID], @"playlistid",
-                          [NSNumber numberWithInt:(int)sourceIndexPath.row],@"position",
+                          @(playerID), @"playlistid",
+                          @(sourceIndexPath.row), @"position",
                           nil] ;
     NSString *action2 = @"Playlist.Insert";
     NSDictionary *params2=[NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSNumber numberWithInt:playerID], @"playlistid",
+                          @(playerID), @"playlistid",
                           itemToMove, @"item",
-                          [NSNumber numberWithInt:(int)destinationIndexPath.row],@"position",
+                          @(destinationIndexPath.row), @"position",
                           nil];
     [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
@@ -2431,8 +2431,8 @@ int currentItemID;
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *action1=@"Playlist.Remove";
         NSDictionary *params1=[NSDictionary dictionaryWithObjectsAndKeys:
-                               [NSNumber numberWithInt:playerID], @"playlistid",
-                               [NSNumber numberWithInt:(int)indexPath.row],@"position",
+                               @(playerID), @"playlistid",
+                               @(indexPath.row), @"position",
                                nil] ;
         [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){

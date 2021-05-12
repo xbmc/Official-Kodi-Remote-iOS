@@ -257,14 +257,14 @@
     switch (xbmcSetting) {
         case cList:
             if ([type isEqualToString:@"integer"]){
-                value = [NSNumber numberWithInt:[settingOptions[longPressRow.row][@"value"] intValue]];
+                value = @([settingOptions[longPressRow.row][@"value"] intValue]);
             }
             else {
                 value = [NSString stringWithFormat:@"%@",settingOptions[longPressRow.row][@"value"]];
             }
             break;
         case cSlider:
-            value = [NSNumber numberWithInt: (int)storeSliderValue];
+            value = @(storeSliderValue);
             break;
         default:
             value = @"";
@@ -275,7 +275,7 @@
                                [[alertView textFields][0] text], @"label",
                                type, @"type",
                                @"default-right-menu-icon", @"icon",
-                               [NSNumber numberWithInt:xbmcSetting], @"xbmcSetting",
+                               @(xbmcSetting), @"xbmcSetting",
                                self.detailItem[@"genre"], @"helpText",
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 command, @"command",
@@ -776,7 +776,7 @@
 -(void)stopUpdateSlider:(id)sender{
     [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
     NSString *command = @"Settings.SetSettingValue";
-    [self.detailItem setObject:[NSNumber numberWithInt: (int)storeSliderValue] forKey:@"value"];
+    [self.detailItem setObject: @(storeSliderValue) forKey:@"value"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
 }

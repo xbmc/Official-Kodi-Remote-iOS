@@ -639,7 +639,7 @@
 -(void)changeServerVolume{
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:audioVolume], @"volume", nil]];
+     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(audioVolume), @"volume", nil]];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

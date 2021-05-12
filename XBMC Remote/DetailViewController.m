@@ -78,9 +78,9 @@
     tempHour    = secs / 3600;
     tempMinute  = secs / 60 - tempHour * 60;
     tempSecond  = secs - (tempHour * 3600 + tempMinute * 60);
-    hour    = [[NSNumber numberWithInt:tempHour] stringValue];
-    minute  = [[NSNumber numberWithInt:tempMinute] stringValue];
-    second  = [[NSNumber numberWithInt:tempSecond] stringValue];
+    hour    = [@(tempHour) stringValue];
+    minute  = [@(tempMinute) stringValue];
+    second  = [@(tempSecond) stringValue];
     if (tempHour < 10) {
         hour = [@"0" stringByAppendingString:hour];
     } 
@@ -1652,7 +1652,7 @@
         }
         else if ([sortbymethod isEqualToString:@"runtime"]){
              [NSPredicate predicateWithFormat: @"attributeName BETWEEN %@", @[@1, @10]];
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue BETWEEN %@", sortbymethod, [NSArray arrayWithObjects:[NSNumber numberWithInt:[value intValue] - 15],[NSNumber numberWithInt:[value intValue]], nil]];
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue BETWEEN %@", sortbymethod, [NSArray arrayWithObjects:@([value intValue] - 15), @([value intValue]), nil]];
         }
         else if ([sortbymethod isEqualToString:@"playcount"]){
             predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue == %d", sortbymethod, [value intValue]];
@@ -1948,7 +1948,7 @@ int originYear = 0;
             if (watchedListenedStrings[@"watchedTimes"] != nil){
                 formatString = watchedListenedStrings[@"watchedTimes"];
             }
-            sectionName = [NSString stringWithFormat:formatString, [formatter stringFromNumber:[NSNumber numberWithInt: [sectionName intValue]]]];
+            sectionName = [NSString stringWithFormat:formatString, [formatter stringFromNumber:@([sectionName intValue])]];
         }
     }
     else if ([sortMethodName isEqualToString:@"rating"]) {
@@ -2260,7 +2260,7 @@ int originYear = 0;
             UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
             isRecordingImageView.hidden = ![item[@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithInteger:[item[@"channelid"] integerValue]], @"channelid",
+                                    @([item[@"channelid"] integerValue]), @"channelid",
                                     tableView, @"tableView",
                                     indexPath, @"indexPath",
                                     item, @"item",
@@ -3169,7 +3169,7 @@ NSIndexPath *selected;
      callMethod:methodToCall
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                      item[item[@"family"]], item[@"family"],
-                     [NSNumber numberWithInt:watched], @"playcount",
+                     @(watched), @"playcount",
                      nil]
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if ( error == nil && methodError == nil ) {
@@ -3192,7 +3192,7 @@ NSIndexPath *selected;
                  }
                  [collectionView deselectItemAtIndexPath:indexPath animated:YES];
              }
-             [item setObject:[NSNumber numberWithInt:watched] forKey:@"playcount"];
+             [item setObject:@(watched) forKey:@"playcount"];
              
              NSDictionary *parameters=[self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
              NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
@@ -3352,7 +3352,7 @@ NSIndexPath *selected;
                                    item[@"label"], @"label",
                                    @"xbmc-exec-addon", @"type",
                                    item[@"thumbnail"], @"icon",
-                                   [NSNumber numberWithInt:0], @"xbmcSetting",
+                                   @(0), @"xbmcSetting",
                                    item[@"genre"], @"helpText",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     @"Addons.ExecuteAddon", @"command",
@@ -3369,7 +3369,7 @@ NSIndexPath *selected;
                                    item[@"label"], @"label",
                                    @"string", @"type",
                                    item[@"thumbnail"], @"icon",
-                                   [NSNumber numberWithInt:0], @"xbmcSetting",
+                                   @(0), @"xbmcSetting",
                                    item[@"genre"], @"helpText",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     @"Input.ExecuteAction", @"command",
@@ -3386,7 +3386,7 @@ NSIndexPath *selected;
                                    item[@"label"], @"label",
                                    @"string", @"type",
                                    item[@"thumbnail"], @"icon",
-                                   [NSNumber numberWithInt:0], @"xbmcSetting",
+                                   @(0), @"xbmcSetting",
                                    item[@"genre"], @"helpText",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     @"GUI.ActivateWindow", @"command",
@@ -3798,8 +3798,8 @@ NSIndexPath *selected;
 }
 
 -(void)deleteTimer:(NSDictionary *)item indexPath:(NSIndexPath *)indexPath {
-    NSNumber *itemid = [NSNumber numberWithInt:[item[@"timerid"] intValue]];
-    if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
+    NSNumber *itemid = @([item[@"timerid"] intValue]);
+    if ([itemid isEqualToValue:@(0)]) {
         return;
     }
     id cell = [self getCell:indexPath];
@@ -3839,12 +3839,12 @@ NSIndexPath *selected;
 -(void)recordChannel:(NSMutableDictionary *)item indexPath:(NSIndexPath *)indexPath {
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
-    NSNumber *itemid = [NSNumber numberWithInt:[item[@"channelid"] intValue]];
+    NSNumber *itemid = @([item[@"channelid"] intValue]);
     NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = [NSNumber numberWithInt:[item[@"broadcastid"] intValue]];
-    if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
-        itemid = [NSNumber numberWithInt:[item[@"pvrExtraInfo"][@"channelid"] intValue]];
-        if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
+    NSNumber *storeBroadcastid = @([item[@"broadcastid"] intValue]);
+    if ([itemid isEqualToValue:@(0)]) {
+        itemid = @([item[@"pvrExtraInfo"][@"channelid"] intValue]);
+        if ([itemid isEqualToValue:@(0)]) {
             return;
         }
         storeChannelid = itemid;
@@ -3854,9 +3854,9 @@ NSIndexPath *selected;
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
         if (percent_elapsed < 0) {
-            itemid = [NSNumber numberWithInt:[item[@"broadcastid"] intValue]];
+            itemid = @([item[@"broadcastid"] intValue]);
             storeBroadcastid = itemid;
-            storeChannelid = [NSNumber numberWithInteger:0];
+            storeChannelid = @(0);
             methodToCall = @"PVR.ToggleTimer";
             parameterName = @"broadcastid";
         }
@@ -3941,7 +3941,7 @@ NSIndexPath *selected;
                          NSDictionary *params2=[NSDictionary dictionaryWithObjectsAndKeys:
                                                 mainFields[@"playlistid"], @"playlistid",
                                                 [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil],@"item",
-                                                [NSNumber numberWithInt:newPos],@"position",
+                                                @(newPos), @"position",
                                                 nil];
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                              if (error==nil && methodError==nil){
@@ -4013,7 +4013,7 @@ NSIndexPath *selected;
                 currentPlayerID=[methodResult[0][@"playerid"] intValue];
             }
             if (currentPlayerID==1) { // xbmc bug
-                [[Utilities getJsonRPC] callMethod:@"Player.Stop" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:1], @"playerid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:@"Player.Stop" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(1), @"playerid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil) {
                         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil], @"item", nil] index:indexPath];
                     }
@@ -4060,7 +4060,7 @@ NSIndexPath *selected;
                 if (shuffled && [AppDelegate instance].serverVersion > 11) {
                     [[Utilities getJsonRPC]
                      callMethod:@"Player.SetPartymode"
-                     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", @(NO), @"partymode", nil]
+                     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@(0), @"playerid", @(NO), @"partymode", nil]
                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
                          [self playlistAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
                                                 mainFields[@"playlistid"], @"playlistid",
@@ -4070,7 +4070,7 @@ NSIndexPath *selected;
                                 playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
                                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                                  mainFields[@"playlistid"], @"playlistid",
-                                                 [NSNumber numberWithInt: pos], @"position",
+                                                 @(pos), @"position",
                                                  nil], @"item",
                                                 optionsValue, optionsParam,
                                                 nil]
@@ -4087,7 +4087,7 @@ NSIndexPath *selected;
                            playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
                                            [NSDictionary dictionaryWithObjectsAndKeys:
                                             mainFields[@"playlistid"], @"playlistid",
-                                            [NSNumber numberWithInt: pos], @"position",
+                                            @(pos), @"position",
                                             nil], @"item",
                                            optionsValue, optionsParam,
                                            nil]
@@ -4408,7 +4408,7 @@ NSIndexPath *selected;
                  
                  NSObject *row11 = videoLibraryMovieDetail[mainFields[@"row11"]];
                  if (row11 == nil){
-                     row11 = [NSNumber numberWithInt:0];
+                     row11 = @(0);
                  }
                  NSString *row11key = mainFields[@"row11"];
                  if (row11key == nil){
@@ -4417,7 +4417,7 @@ NSIndexPath *selected;
                  
                  NSObject *row7 = videoLibraryMovieDetail[mainFields[@"row7"]];
                  if (row7 == nil){
-                     row7 = [NSNumber numberWithInt:0];
+                     row7 = @(0);
                  }
                  NSString *row7key = mainFields[@"row7"];
                  if (row7key == nil){
@@ -4444,7 +4444,7 @@ NSIndexPath *selected;
                   rating, @"rating",
                   mainFields[@"playlistid"], @"playlistid",
                   mainFields[@"row8"], @"family",
-                  [NSNumber numberWithInt:[[NSString stringWithFormat:@"%@", videoLibraryMovieDetail[mainFields[@"row9"]]]intValue]], mainFields[@"row9"],
+                  @([[NSString stringWithFormat:@"%@", videoLibraryMovieDetail[mainFields[@"row9"]]] intValue]), mainFields[@"row9"],
                   videoLibraryMovieDetail[mainFields[@"row10"]], mainFields[@"row10"],
                   row11, row11key,
                   videoLibraryMovieDetail[mainFields[@"row12"]], mainFields[@"row12"],

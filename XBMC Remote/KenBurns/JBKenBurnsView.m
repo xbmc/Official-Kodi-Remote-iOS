@@ -116,7 +116,7 @@
     for (uint i = 0; i < [images count]; i++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
-                               withObject:[NSNumber numberWithInt:i]
+                               withObject:@(i)
                             waitUntilDone:YES];
         
         sleep(self.timeTransition);
@@ -137,7 +137,7 @@
     for (NSInteger urlIndex=self.imagesArray.count; urlIndex < [urls count]; urlIndex++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
-                               withObject:[NSNumber numberWithInt:0]
+                               withObject:@(0)
                             waitUntilDone:YES];            
         
         [self.imagesArray removeObjectAtIndex:0];

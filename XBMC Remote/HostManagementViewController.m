@@ -53,7 +53,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
         if (standardUserDefaults) {
-            [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
+            [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
             [standardUserDefaults synchronize];
         }
         [connectingActivityIndicator stopAnimating];
@@ -166,7 +166,7 @@ static inline BOOL IsEmpty(id obj) {
     [AppDelegate instance].obj.tcpPort = 0;
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     if (standardUserDefaults) {
-        [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
+        [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
         [standardUserDefaults synchronize];
     }
     [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
@@ -190,7 +190,7 @@ static inline BOOL IsEmpty(id obj) {
             [self selectServerAtIndexPath:indexPath];
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (standardUserDefaults) {
-                [standardUserDefaults setObject:[NSNumber numberWithInt:(int)indexPath.row] forKey:@"lastServer"];
+                [standardUserDefaults setObject: @(indexPath.row) forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
             }
         }
@@ -224,7 +224,7 @@ static inline BOOL IsEmpty(id obj) {
             if (indexPath.row<storeServerSelection.row){
                 storeServerSelection=[NSIndexPath  indexPathForRow:storeServerSelection.row-1 inSection:storeServerSelection.section];
                 if (standardUserDefaults) {
-                    [standardUserDefaults setObject:[NSNumber numberWithInt:(int)storeServerSelection.row] forKey:@"lastServer"];
+                    [standardUserDefaults setObject: @(storeServerSelection.row) forKey:@"lastServer"];
                     [standardUserDefaults synchronize];
                 }
             }
@@ -238,7 +238,7 @@ static inline BOOL IsEmpty(id obj) {
                 [AppDelegate instance].obj.serverHWAddr = @"";
                 [AppDelegate instance].obj.tcpPort = 0;
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
-                [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
+                [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
                 [standardUserDefaults synchronize];
             }
         }

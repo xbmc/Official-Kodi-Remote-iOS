@@ -259,9 +259,9 @@ int count=0;
     tempHour    = secs / 3600;
     tempMinute  = secs / 60 - tempHour * 60;
     tempSecond  = secs - (tempHour * 3600 + tempMinute * 60);
-    hour    = [[NSNumber numberWithInt:tempHour] stringValue];
-    minute  = [[NSNumber numberWithInt:tempMinute] stringValue];
-    second  = [[NSNumber numberWithInt:tempSecond] stringValue];
+    hour    = [@(tempHour) stringValue];
+    minute  = [@(tempMinute) stringValue];
+    second  = [@(tempSecond) stringValue];
     if (tempHour < 10) {
         hour = [@"0" stringByAppendingString:hour];
     }
@@ -368,14 +368,14 @@ int count=0;
     if (methods[@"method"]!=nil){ // THERE IS A CHILD
         NSDictionary *mainFields=[MenuItem mainFields][choosedTab];
         NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[choosedMenuItem mainParameters][choosedTab]];
-        id obj = [NSNumber numberWithInt:[item[mainFields[@"row6"]] intValue]];
+        id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
         if (movieObj!= nil && movieObjKey!=nil){
             obj = movieObj;
             objKey = movieObjKey;
         }
         else if ([AppDelegate instance].serverVersion>11 && [parameters[@"disableFilterParameter"] boolValue] == FALSE){
-            obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[item[mainFields[@"row6"]] intValue]],mainFields[@"row6"], nil];
+            obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] intValue]), mainFields[@"row6"], nil];
             objKey = @"filter";
         }
         NSMutableDictionary *newSectionParameters = nil;
@@ -521,18 +521,18 @@ int count=0;
 }
 
 -(void)recordChannel {
-    NSNumber *channelid = [NSNumber numberWithInt:[self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]];
-    if ([channelid isEqualToValue:[NSNumber numberWithInt:0]]) {
+    NSNumber *channelid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]);
+    if ([channelid isEqualToValue:@(0)]) {
         return;
     }
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
-    NSNumber *itemid = [NSNumber numberWithInt:[self.detailItem[@"channelid"] intValue]];
+    NSNumber *itemid = @([self.detailItem[@"channelid"] intValue]);
     NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = [NSNumber numberWithInt:[self.detailItem[@"broadcastid"] intValue]];
-    if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
-        itemid = [NSNumber numberWithInt:[self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]];
-        if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
+    NSNumber *storeBroadcastid = @([self.detailItem[@"broadcastid"] intValue]);
+    if ([itemid isEqualToValue:@(0)]) {
+        itemid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]);
+        if ([itemid isEqualToValue:@(0)]) {
             return;
         }
         storeChannelid = itemid;
@@ -544,9 +544,9 @@ int count=0;
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
         if (percent_elapsed < 0) {
-            itemid = [NSNumber numberWithInt:[self.detailItem[@"broadcastid"] intValue]];
+            itemid = @([self.detailItem[@"broadcastid"] intValue]);
             storeBroadcastid = itemid;
-            storeChannelid = [NSNumber numberWithInteger:0];
+            storeChannelid = @(0);
             methodToCall = @"PVR.ToggleTimer";
             parameterName = @"broadcastid";
         }
@@ -1790,7 +1790,7 @@ int h=0;
                          NSDictionary *params2=[NSDictionary dictionaryWithObjectsAndKeys:
                                                 item[@"playlistid"], @"playlistid",
                                                 [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item",
-                                                [NSNumber numberWithInt:newPos],@"position",
+                                                @(newPos), @"position",
                                                 nil];
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                              if (error==nil && methodError==nil){
@@ -1844,7 +1844,7 @@ int h=0;
                 [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil){
                         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", [NSNumber numberWithInt: 0], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", @(0), @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                             if (error==nil && methodError==nil){
                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                                 [activityIndicatorView stopAnimating];

@@ -111,11 +111,11 @@
     NSArray *methodObjs = nil;
     if (methodParams) {
         methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"params", @"id", nil];
-        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, methodParams, [NSNumber numberWithInt:(int)aId], nil];
+        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, methodParams, @(aId), nil];
     }
     else {
         methodKeys = [NSArray arrayWithObjects:@"jsonrpc", @"method", @"id", nil];
-        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, [NSNumber numberWithInt:(int)aId], nil];
+        methodObjs = [NSArray arrayWithObjects:@"2.0", methodName, @(aId), nil];
     }
     // Create call payload
     NSDictionary *methodCall = [NSDictionary dictionaryWithObjects:methodObjs forKeys:methodKeys];
@@ -157,7 +157,7 @@
     // Create dictionary to store information about the request so we can recall it later
     NSMutableDictionary *connectionInfo = [NSMutableDictionary dictionaryWithCapacity:3];
     [connectionInfo setObject:methodName forKey:@"method"];
-    [connectionInfo setObject:[NSNumber numberWithInt:(int)aId] forKey:@"id"];
+    [connectionInfo setObject: @(aId) forKey:@"id"];
     if (completionHandler != nil) {
         DSJSONRPCCompletionHandler completionHandlerCopy = [completionHandler copy];
         [connectionInfo setObject:completionHandlerCopy forKey:@"completionHandler"];
