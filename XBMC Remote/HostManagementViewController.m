@@ -577,14 +577,14 @@ static inline BOOL IsEmpty(id obj) {
 -(void)disableTCPconnectionNotice {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-    [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"connection_info_preference"];
+    [userDefaults setObject:@(NO) forKey:@"connection_info_preference"];
 }
 
 -(void)enableTCPconnection {
     NSString *methodToCall = @"Settings.SetSettingValue";
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"services.esallinterfaces", @"setting",
-                                [NSNumber numberWithBool:YES], @"value",
+                                @(YES), @"value",
                                 nil];
     [[Utilities getJsonRPC] callMethod: methodToCall
          withParameters: parameters

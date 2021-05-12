@@ -81,7 +81,7 @@
             [self retrieveXBMCData: @"Addons.GetAddons"
                         parameters: [NSDictionary dictionaryWithObjectsAndKeys:
                                      self.detailItem[@"addontype"], @"type",
-                                     [NSNumber numberWithBool:YES], @"enabled",
+                                     @(YES), @"enabled",
                                      [NSArray arrayWithObjects:@"name", nil], @"properties",
                                      nil]
                            itemKey: @"addons"];
@@ -804,7 +804,7 @@
 - (void)toggleSwitch:(id)sender {
     UISwitch *onoff = (UISwitch *)sender;
     NSString *command = @"Settings.SetSettingValue";
-    [self.detailItem setObject:[NSNumber numberWithBool:onoff.on] forKey:@"value"];
+    [self.detailItem setObject:@(onoff.on) forKey:@"value"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
 }

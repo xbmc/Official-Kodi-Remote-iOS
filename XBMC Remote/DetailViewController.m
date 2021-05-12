@@ -204,7 +204,7 @@
     [channelEPG setObject: NSLocalizedString(@"Not Available",nil) forKey:@"current"];
     [channelEPG setObject: NSLocalizedString(@"Not Available",nil) forKey:@"next"];
     [channelEPG setObject: @"" forKey:@"current_details"];
-    [channelEPG setObject: [NSNumber numberWithBool:YES] forKey:@"refresh_data"];
+    [channelEPG setObject: @(YES) forKey:@"refresh_data"];
     [channelEPG setObject: @"" forKey:@"starttime"];
     [channelEPG setObject: @"" forKey:@"endtime"];
     if (epgData != nil) {
@@ -253,7 +253,7 @@
                                         [localHourMinuteFormatter stringFromDate:nextFilteredArray[0][@"starttime"]],
                                         nextFilteredArray[0][@"title"]
                                         ] forKey:@"next"];
-                [channelEPG setObject: [NSNumber numberWithBool:NO] forKey:@"refresh_data"];
+                [channelEPG setObject: @(NO) forKey:@"refresh_data"];
             }
         }
     }
@@ -589,7 +589,7 @@
 
 -(void)toggleOpen:(UITapGestureRecognizer *)sender {
     NSInteger section = [sender.view tag];
-    [self.sectionArrayOpen replaceObjectAtIndex:section withObject:[NSNumber numberWithBool:![self.sectionArrayOpen[section] boolValue]]];
+    [self.sectionArrayOpen replaceObjectAtIndex:section withObject:@(![self.sectionArrayOpen[section] boolValue])];
     NSInteger countEpisodes = [[self.sections valueForKey:self.sectionArray[section]] count];
     NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i < countEpisodes; i++) {
@@ -3665,7 +3665,7 @@ NSIndexPath *selected;
                              [collectionView reloadData];
                              [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                              NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     [NSNumber numberWithBool:NO], @"hideToolbar",
+                                                     @(NO), @"hideToolbar",
                                                      [NSNumber numberWithFloat:animDuration], @"duration",
                                                      nil];
                              [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
@@ -3875,9 +3875,9 @@ NSIndexPath *selected;
                if (error==nil && methodError==nil) {
                    UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
                    isRecordingImageView.hidden = !isRecordingImageView.hidden;
-                   NSNumber *status = [NSNumber numberWithBool:![item[@"isrecording"] boolValue]];
+                   NSNumber *status = @(![item[@"isrecording"] boolValue]);
                    if ([item[@"broadcastid"] intValue] > 0) {
-                       status = [NSNumber numberWithBool:![item[@"hastimer"] boolValue]];
+                       status = @(![item[@"hastimer"] boolValue]);
                    }
                    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            storeChannelid, @"channelid",
@@ -4044,7 +4044,7 @@ NSIndexPath *selected;
         id optionsValue = nil;
         if ([AppDelegate instance].serverVersion > 11) {
             optionsParam = @"options";
-            optionsValue = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:shuffled], @"shuffled", nil];
+            optionsValue = [NSDictionary dictionaryWithObjectsAndKeys: @(shuffled), @"shuffled", nil];
         }
         [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: mainFields[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if ( error == nil && methodError == nil ) {
@@ -4060,7 +4060,7 @@ NSIndexPath *selected;
                 if (shuffled && [AppDelegate instance].serverVersion > 11) {
                     [[Utilities getJsonRPC]
                      callMethod:@"Player.SetPartymode"
-                     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", [NSNumber numberWithBool:NO], @"partymode", nil]
+                     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", @(NO), @"partymode", nil]
                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
                          [self playlistAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
                                                 mainFields[@"playlistid"], @"playlistid",
@@ -4427,9 +4427,9 @@ NSIndexPath *selected;
                  
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                  [NSNumber numberWithBool:disableNowPlaying], @"disableNowPlaying",
-                  [NSNumber numberWithBool:albumView], @"fromAlbumView",
-                  [NSNumber numberWithBool:episodesView], @"fromEpisodesView",
+                  @(disableNowPlaying), @"disableNowPlaying",
+                  @(albumView), @"fromAlbumView",
+                  @(episodesView), @"fromEpisodesView",
                   clearlogo, @"clearlogo",
                   clearart, @"clearart",
                   label, @"label",
@@ -5108,7 +5108,7 @@ NSIndexPath *selected;
     }
     [self setSortButtonImage:sortAscDesc];
     for (int i=0; i<[self.sectionArray count]; i++) {
-        [self.sectionArrayOpen addObject:[NSNumber numberWithBool:defaultValue]];
+        [self.sectionArrayOpen addObject:@(defaultValue)];
     }
     [self displayData];
 }
@@ -6020,7 +6020,7 @@ NSIndexPath *selected;
         NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults synchronize];
-        [userDefaults setObject:[NSNumber numberWithBool:![[userDefaults objectForKey:viewKey] boolValue]]
+        [userDefaults setObject:@(![[userDefaults objectForKey:viewKey] boolValue])
                          forKey:viewKey];
         enableCollectionView = [self collectionViewIsEnabled];
         if (enableCollectionView) {

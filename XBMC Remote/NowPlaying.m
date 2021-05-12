@@ -1630,7 +1630,7 @@ int currentItemID;
                  }
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                  [NSNumber numberWithBool:disableNowPlaying], @"disableNowPlaying",
+                  @(disableNowPlaying), @"disableNowPlaying",
                   clearlogo, @"clearlogo",
                   clearart, @"clearart",
                   label, @"label",
@@ -2354,7 +2354,7 @@ int currentItemID;
              if (timePlaying.hidden==YES){
                  [self fadeView:timePlaying hidden:NO];
              }
-//             [self SimpleAction:@"GUI.SetFullscreen" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"fullscreen", nil] reloadPlaylist:NO startProgressBar:NO];
+//             [self SimpleAction:@"GUI.SetFullscreen" params:[NSDictionary dictionaryWithObjectsAndKeys:@(YES),@"fullscreen", nil] reloadPlaylist:NO startProgressBar:NO];
          }
          else {
              UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];

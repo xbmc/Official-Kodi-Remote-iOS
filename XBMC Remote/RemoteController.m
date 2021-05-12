@@ -459,7 +459,7 @@
                                  if ([subtitles count]) {
                                      subsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                                                        currentSubtitle, @"currentsubtitle",
-                                                       [NSNumber numberWithBool:subtitleEnabled], @"subtitleenabled",
+                                                       @(subtitleEnabled), @"subtitleenabled",
                                                        subtitles, @"subtitles",
                                                        nil];
                                      NSInteger numSubs=[subtitles count];

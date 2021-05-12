@@ -395,7 +395,7 @@ int count=0;
                                         nil], @"parameters",
                                        blackTableSeparator, @"blackTableSeparator",
                                        parameters[@"label"], @"label",
-                                       [NSNumber numberWithBool:YES], @"fromShowInfo",
+                                       @(YES), @"fromShowInfo",
                                        [NSString stringWithFormat:@"%d",[parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                        parameters[@"extra_info_parameters"], @"extra_info_parameters",
@@ -563,9 +563,9 @@ int count=0;
                self.navigationItem.rightBarButtonItem.enabled=YES;
                if (error == nil && methodError == nil) {
                    [self animateRecordAction];
-                   NSNumber *status = [NSNumber numberWithBool:![self.detailItem[@"isrecording"] boolValue]];
+                   NSNumber *status = @(![self.detailItem[@"isrecording"] boolValue]);
                    if ([self.detailItem[@"broadcastid"] intValue] > 0) {
-                       status = [NSNumber numberWithBool:![self.detailItem[@"hastimer"] boolValue]];
+                       status = @(![self.detailItem[@"hastimer"] boolValue]);
                    }
                    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            storeChannelid, @"channelid",
@@ -1555,8 +1555,8 @@ int h=0;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             if (![self isModal]){
                 NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:YES], @"hideToolbar",
-                                        [NSNumber numberWithBool:YES], @"clipsToBounds",
+                                        @(YES), @"hideToolbar",
+                                        @(YES), @"clipsToBounds",
                                         nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
             }

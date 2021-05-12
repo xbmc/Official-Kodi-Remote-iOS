@@ -345,9 +345,9 @@
     NSInteger tableIdx = onoff.tag - 1000;
     if (tableIdx < [tableData count]){
         NSString *command = tableData[tableIdx][@"action"][@"command"];
-        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys: tableData[tableIdx][@"action"][@"params"][@"setting"], @"setting", [NSNumber numberWithBool:onoff.on], @"value", nil];
+        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys: tableData[tableIdx][@"action"][@"params"][@"setting"], @"setting", @(onoff.on), @"value", nil];
         if ([tableData[tableIdx][@"action"][@"params"] respondsToSelector:@selector(setObject:forKey:)]){
-            [tableData[tableIdx][@"action"][@"params"] setObject:[NSNumber numberWithBool:onoff.on] forKey:@"value"];
+            [tableData[tableIdx][@"action"][@"params"] setObject:@(onoff.on) forKey:@"value"];
         }
         [self xbmcAction:command params:parameters uiControl:onoff];
     }
@@ -516,12 +516,12 @@
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"Gesture Zone", nil)]){
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"forceGestureZone"];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@(YES) forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"Button Pad", nil)]){
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:@"forceGestureZone"];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@(NO) forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
@@ -571,7 +571,7 @@
             if ([sender respondsToSelector:@selector(setOn:)]){
                 [sender setOn:[methodResult[@"value"] boolValue]];
                 if ([setting respondsToSelector:@selector(setObject:forKey:)]){
-                    [setting setObject:[NSNumber numberWithBool:[methodResult[@"value"] boolValue]] forKey:@"value"];
+                    [setting setObject:@([methodResult[@"value"] boolValue]) forKey:@"value"];
                 }
             }
         }
@@ -628,12 +628,12 @@
     infoCustomButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                         NSLocalizedString(@"No custom button defined.\r\nPress \"...more\" below to add new ones.", nil), @"label",
                         [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
-                        [NSNumber numberWithBool:NO], @"hideLineSeparator",
+                        @(NO), @"hideLineSeparator",
                         [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
                         @"default-right-menu-icon", @"icon",
                         [[NSMutableDictionary alloc] initWithCapacity:0], @"action",
-                        [NSNumber numberWithBool:NO], @"revealViewTop",
-                        [NSNumber numberWithBool:NO], @"isSetting",
+                        @(NO), @"revealViewTop",
+                        @(NO), @"isSetting",
                         @"", @"type",
                         nil];
     
@@ -754,7 +754,7 @@
         }
         
         NSNumber *hideLine = item[@"hideLineSeparator"];
-        if (hideLine == nil) hideLine = [NSNumber numberWithBool:NO];
+        if (hideLine == nil) hideLine = @(NO);
         
         NSMutableDictionary *fontColor = item[@"fontColor"];
         if (fontColor == nil) {
@@ -768,7 +768,7 @@
         if (action == nil) action = [[NSMutableDictionary alloc] initWithCapacity:0];
         
         NSNumber *showTop = item[@"revealViewTop"];
-        if (showTop == nil) showTop = [NSNumber numberWithBool:NO];
+        if (showTop == nil) showTop = @(NO);
         
         [tableData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                               label, @"label",
@@ -778,7 +778,7 @@
                               icon, @"icon",
                               action, @"action",
                               showTop, @"revealViewTop",
-                              [NSNumber numberWithBool:NO], @"isSetting",
+                              @(NO), @"isSetting",
                               @"embedded", @"type",
                             nil]];
     }
@@ -800,15 +800,15 @@
             NSString *type = item[@"type"];
             if (type == nil) type = @"";
             NSNumber *isSetting = item[@"isSetting"];
-            if (isSetting == nil) isSetting = [NSNumber numberWithBool:YES];
+            if (isSetting == nil) isSetting = @(YES);
             [tableData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                   label, @"label",
                                   [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
-                                  [NSNumber numberWithBool:NO], @"hideLineSeparator",
+                                  @(NO), @"hideLineSeparator",
                                   [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
                                   icon, @"icon",
                                   isSetting, @"isSetting",
-                                  [NSNumber numberWithBool:NO], @"revealViewTop",
+                                  @(NO), @"revealViewTop",
                                   type, @"type",
                                   item[@"action"], @"action",
                                   nil]];

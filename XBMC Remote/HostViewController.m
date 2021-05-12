@@ -128,7 +128,7 @@
                                                            ipUI.text, @"serverIP",
                                                            portUI.text, @"serverPort",
                                                            macAddress, @"serverMacAddress",
-                                                           [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
+                                                           @(preferTVPostersUI.on), @"preferTVPosters",
                                                            tcpPortUI.text, @"tcpPort",
                                                            nil
                                                            ]];
@@ -143,7 +143,7 @@
                                                               ipUI.text, @"serverIP",
                                                               portUI.text, @"serverPort",
                                                               macAddress, @"serverMacAddress",
-                                                              [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
+                                                              @(preferTVPostersUI.on), @"preferTVPosters",
                                                               tcpPortUI.text, @"tcpPort",
                                                               nil
                                                               ] atIndex:idx.row];
