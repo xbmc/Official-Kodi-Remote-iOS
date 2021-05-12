@@ -791,8 +791,8 @@
             if ([animationID isEqualToString:@"LEFT-WITH-LEFT"] && viewAtLeft2.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
                 CABasicAnimation *bounceAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
                 bounceAnimation.duration = 0.2;
-                bounceAnimation.fromValue = [NSNumber numberWithFloat:viewAtLeft.center.x];
-                bounceAnimation.toValue = [NSNumber numberWithFloat:viewAtLeft.center.x -10];
+                bounceAnimation.fromValue = @(viewAtLeft.center.x);
+                bounceAnimation.toValue = @(viewAtLeft.center.x -10);
                 bounceAnimation.repeatCount = 0;
                 bounceAnimation.autoreverses = YES;
                 bounceAnimation.fillMode = kCAFillModeBackwards;
@@ -803,8 +803,8 @@
                 [viewAtRight setHidden:FALSE];
                 CABasicAnimation *bounceAnimationForRight = [CABasicAnimation animationWithKeyPath:@"position.x"];
                 bounceAnimationForRight.duration = 0.2;
-                bounceAnimationForRight.fromValue = [NSNumber numberWithFloat:viewAtRight.center.x];
-                bounceAnimationForRight.toValue = [NSNumber numberWithFloat:viewAtRight.center.x - 20];
+                bounceAnimationForRight.fromValue = @(viewAtRight.center.x);
+                bounceAnimationForRight.toValue = @(viewAtRight.center.x - 20);
                 bounceAnimationForRight.repeatCount = 0;
                 bounceAnimationForRight.autoreverses = YES;
                 bounceAnimationForRight.fillMode = kCAFillModeBackwards;
@@ -814,8 +814,8 @@
             }else if ([animationID isEqualToString:@"LEFT-WITH-RIGHT"]  && viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
                 CABasicAnimation *bounceAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
                 bounceAnimation.duration = 0.2;
-                bounceAnimation.fromValue = [NSNumber numberWithFloat:viewAtRight.center.x];
-                bounceAnimation.toValue = [NSNumber numberWithFloat:viewAtRight.center.x - 10];
+                bounceAnimation.fromValue = @(viewAtRight.center.x);
+                bounceAnimation.toValue = @(viewAtRight.center.x - 10);
                 bounceAnimation.repeatCount = 0;
                 bounceAnimation.autoreverses = YES;
                 bounceAnimation.fillMode = kCAFillModeBackwards;
@@ -827,8 +827,8 @@
                 [viewAtRight2 setHidden:FALSE];
                 CABasicAnimation *bounceAnimationForRight2 = [CABasicAnimation animationWithKeyPath:@"position.x"];
                 bounceAnimationForRight2.duration = 0.2;
-                bounceAnimationForRight2.fromValue = [NSNumber numberWithFloat:viewAtRight2.center.x];
-                bounceAnimationForRight2.toValue = [NSNumber numberWithFloat:viewAtRight2.center.x - 20];
+                bounceAnimationForRight2.fromValue = @(viewAtRight2.center.x);
+                bounceAnimationForRight2.toValue = @(viewAtRight2.center.x - 20);
                 bounceAnimationForRight2.repeatCount = 0;
                 bounceAnimationForRight2.autoreverses = YES;
                 bounceAnimationForRight2.fillMode = kCAFillModeBackwards;
@@ -838,8 +838,8 @@
             }else if ([animationID isEqualToString:@"RIGHT-WITH-RIGHT"]) {
                 CABasicAnimation *bounceAnimationLeft = [CABasicAnimation animationWithKeyPath:@"position.x"];
                 bounceAnimationLeft.duration = 0.2;
-                bounceAnimationLeft.fromValue = [NSNumber numberWithFloat:viewAtLeft.center.x];
-                bounceAnimationLeft.toValue = [NSNumber numberWithFloat:viewAtLeft.center.x + 10];
+                bounceAnimationLeft.fromValue = @(viewAtLeft.center.x);
+                bounceAnimationLeft.toValue = @(viewAtLeft.center.x + 10);
                 bounceAnimationLeft.repeatCount = 0;
                 bounceAnimationLeft.autoreverses = YES;
                 bounceAnimationLeft.fillMode = kCAFillModeBackwards;
@@ -849,8 +849,8 @@
                 
                 CABasicAnimation *bounceAnimationRight = [CABasicAnimation animationWithKeyPath:@"position.x"];
                 bounceAnimationRight.duration = 0.2;
-                bounceAnimationRight.fromValue = [NSNumber numberWithFloat:viewAtRight.center.x];
-                bounceAnimationRight.toValue = [NSNumber numberWithFloat:viewAtRight.center.x + 10];
+                bounceAnimationRight.fromValue = @(viewAtRight.center.x);
+                bounceAnimationRight.toValue = @(viewAtRight.center.x + 10);
                 bounceAnimationRight.repeatCount = 0;
                 bounceAnimationRight.autoreverses = YES;
                 bounceAnimationRight.fillMode = kCAFillModeBackwards;
@@ -861,8 +861,8 @@
             }else if ([animationID isEqualToString:@"RIGHT-WITH-LEFT"]) {
                 CABasicAnimation *bounceAnimationLeft = [CABasicAnimation animationWithKeyPath:@"position.x"];
                 bounceAnimationLeft.duration = 0.2;
-                bounceAnimationLeft.fromValue = [NSNumber numberWithFloat:viewAtLeft.center.x];
-                bounceAnimationLeft.toValue = [NSNumber numberWithFloat:viewAtLeft.center.x + 10];
+                bounceAnimationLeft.fromValue = @(viewAtLeft.center.x);
+                bounceAnimationLeft.toValue = @(viewAtLeft.center.x + 10);
                 bounceAnimationLeft.repeatCount = 0;
                 bounceAnimationLeft.autoreverses = YES;
                 bounceAnimationLeft.fillMode = kCAFillModeBackwards;
@@ -878,8 +878,8 @@
                     }
                     CABasicAnimation* bounceAnimationLeft2 = [CABasicAnimation animationWithKeyPath:@"position.x"];
                     bounceAnimationLeft2.duration = 0.2;
-                    bounceAnimationLeft2.fromValue = [NSNumber numberWithFloat:viewAtLeft2.center.x];
-                    bounceAnimationLeft2.toValue = [NSNumber numberWithFloat:viewAtLeft2.center.x + 10];
+                    bounceAnimationLeft2.fromValue = @(viewAtLeft2.center.x);
+                    bounceAnimationLeft2.toValue = @(viewAtLeft2.center.x + 10);
                     bounceAnimationLeft2.repeatCount = 0;
                     bounceAnimationLeft2.autoreverses = YES;
                     bounceAnimationLeft2.fillMode = kCAFillModeBackwards;

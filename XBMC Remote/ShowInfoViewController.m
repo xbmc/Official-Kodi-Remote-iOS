@@ -71,7 +71,7 @@ int count=0;
             if (((NSNull *)resumePointDict[@"position"] != [NSNull null])){
                 if ([resumePointDict[@"position"] floatValue]>0){
                     resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
-                    [sheetActions addObject:[NSString stringWithFormat:NSLocalizedString(@"Resume from %@", nil), [self convertTimeFromSeconds:[NSNumber numberWithFloat:[resumePointDict[@"position"] floatValue]]]]];
+                    [sheetActions addObject:[NSString stringWithFormat:NSLocalizedString(@"Resume from %@", nil), [self convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
                 }
             }
         }

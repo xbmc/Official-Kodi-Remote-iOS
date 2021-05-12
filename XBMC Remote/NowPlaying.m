@@ -2097,7 +2097,7 @@ int currentItemID;
         NSUInteger s = selectedTime % 60;
         NSString *displaySelectedTime=[NSString stringWithFormat:@"%@%02lu:%02lu", (globalSeconds < 3600) ? @"":[NSString stringWithFormat:@"%02lu:", (unsigned long)h], (unsigned long)m, (unsigned long)s];
         currentTime.text = displaySelectedTime;
-        scrabbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@",[NSNumber numberWithFloat:ProgressSlider.scrubbingSpeed]]), nil);
+        scrabbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@", @(ProgressSlider.scrubbingSpeed)]), nil);
     }
 }
 

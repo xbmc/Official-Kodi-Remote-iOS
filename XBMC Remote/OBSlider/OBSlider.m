@@ -168,24 +168,24 @@
 - (NSArray *) defaultScrubbingSpeeds
 {
     return [NSArray arrayWithObjects:
-            [NSNumber numberWithFloat:1.0f],
-            [NSNumber numberWithFloat:0.5f],
-            [NSNumber numberWithFloat:0.25f],
-            [NSNumber numberWithFloat:0.1f],
-            [NSNumber numberWithFloat:0.05f],
-            [NSNumber numberWithFloat:0.025f],
+            @(1.0f),
+            @(0.5f),
+            @(0.25f),
+            @(0.1f),
+            @(0.05f),
+            @(0.025f),
             nil];
 }
 
 - (NSArray *) defaultScrubbingSpeedChangePositions
 {
     return [NSArray arrayWithObjects:
-            [NSNumber numberWithFloat:0.0f],
-            [NSNumber numberWithFloat:50.0f],
-            [NSNumber numberWithFloat:100.0f],
-            [NSNumber numberWithFloat:150.0f],
-            [NSNumber numberWithFloat:200.0f],
-            [NSNumber numberWithFloat:250.0f],
+            @(0.0f),
+            @(50.0f),
+            @(100.0f),
+            @(150.0f),
+            @(200.0f),
+            @(250.0f),
             nil];
 }
 

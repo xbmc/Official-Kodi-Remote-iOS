@@ -796,7 +796,7 @@
             [sliderLabel setText:[NSString stringWithFormat:stringFormat, (int)storeSliderValue]];
         }
     }
-    scrubbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@",[NSNumber numberWithFloat:slider.scrubbingSpeed]]), nil);
+    scrubbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@", @(slider.scrubbingSpeed)]), nil);
 }
 
 #pragma mark UISwitch

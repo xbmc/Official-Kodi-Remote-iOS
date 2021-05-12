@@ -2606,7 +2606,7 @@ int originYear = 0;
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         [formatter setMaximumFractionDigits:0];
         [formatter setRoundingMode: NSNumberFormatterRoundHalfEven];
-        NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:totalTime/60]];
+        NSString *numberString = [formatter stringFromNumber:@(totalTime/60)];
         
         [trackCountLabel setBackgroundColor:[UIColor clearColor]];
         [trackCountLabel setShadowOffset:CGSizeMake(0, 1)];
@@ -2635,8 +2635,8 @@ int originYear = 0;
 //        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
 //        [albumPlaybackButton setImage:btnImage forState:UIControlStateNormal];
 //        albumPlaybackButton.alpha = 0.8;
-//        int playbackOriginX = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)]] intValue];
-//        int playbackOriginY = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.height/2 + albumViewPadding)]] intValue];
+//        int playbackOriginX = [[formatter stringFromNumber:@(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)] intValue];
+//        int playbackOriginY = [[formatter stringFromNumber:@(albumThumbHeight/2 - btnImage.size.height/2 + albumViewPadding)] intValue];
 //        [albumPlaybackButton setFrame:CGRectMake(playbackOriginX, playbackOriginY, btnImage.size.width, btnImage.size.height)];
 //        [albumPlaybackButton addTarget:self action:@selector(preparePlaybackAlbum:) forControlEvents:UIControlEventTouchUpInside];
 //        [albumDetailView addSubview:albumPlaybackButton];
@@ -3602,7 +3602,7 @@ NSIndexPath *selected;
                              [collectionView reloadData];
                              [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                              NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     [NSNumber numberWithFloat:animDuration], @"duration",
+                                                     @(animDuration), @"duration",
                                                      nil];
                              [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:params];
                              [UIView animateWithDuration:0.2
@@ -3666,7 +3666,7 @@ NSIndexPath *selected;
                              [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                              NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      @(NO), @"hideToolbar",
-                                                     [NSNumber numberWithFloat:animDuration], @"duration",
+                                                     @(animDuration), @"duration",
                                                      nil];
                              [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
                              [UIView animateWithDuration:0.2
@@ -5127,7 +5127,7 @@ NSIndexPath *selected;
     else if ([sortMethod isEqualToString:@"runtime"]) {
         currentValue = [currentValue stringByTrimmingCharactersInSet:[NSCharacterSet letterCharacterSet]];
         
-        currentValue = [NSString stringWithFormat:@"%ld", ((long)[[NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:[currentValue integerValue] / 15.0f]] integerValue] * 15) + 15 ];
+        currentValue = [NSString stringWithFormat:@"%ld", ((long)[[NSString stringWithFormat:@"%@", @([currentValue integerValue] / 15.0f)] integerValue] * 15) + 15 ];
     }
     else if ([sortMethod isEqualToString:@"rating"]) {
         currentValue = [@(round([currentValue doubleValue])) stringValue];
