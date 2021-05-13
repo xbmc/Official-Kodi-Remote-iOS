@@ -43,8 +43,9 @@
 @synthesize code, message, data;
 
 - (id)initWithErrorData:(NSDictionary *)errorData {
-    if (!(self = [super init]))
+    if (!(self = [super init])) {
         return self;
+    }
     
     code    = [errorData[@"code"] intValue];
     message = errorData[@"message"];

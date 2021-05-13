@@ -366,7 +366,9 @@
 }
 
 -(void)saveData:(NSMutableDictionary *)mutableParameters{
-    if (!enableDiskCache) return;
+    if (!enableDiskCache) {
+        return;
+    }
     if (mutableParameters != nil) {
         NSDictionary *methods = [self indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
         NSString *viewKey = [self getCacheKey:methods[@"method"] parameters:mutableParameters];
@@ -436,8 +438,12 @@
 }
 
 -(BOOL)loadedDataFromDisk:(NSString *)methodToCall parameters:(NSMutableDictionary*)mutableParameters refresh:(BOOL)forceRefresh{
-    if (forceRefresh) return NO;
-    if (!enableDiskCache) return NO;
+    if (forceRefresh) {
+        return NO;
+    }
+    if (!enableDiskCache) {
+        return NO;
+    }
     NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *path = [libraryCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
@@ -743,7 +749,9 @@
 
 - (void) handleTabHasChanged:(NSNotification*) notification{
     NSArray *buttons = [self.detailItem mainButtons];
-    if (![buttons count]) return;
+    if (![buttons count]) {
+        return;
+    }
     NSIndexPath *choice = notification.object;
     choosedTab = 0;
     NSInteger selectedIdx = MAX_NORMAL_BUTTONS + choice.row;
@@ -871,7 +879,9 @@
 }
 
 -(IBAction)changeTab:(id)sender{
-    if (!activityIndicatorView.hidden) return;
+    if (!activityIndicatorView.hidden) {
+        return;
+    }
     [activeLayoutView setUserInteractionEnabled:YES];
     [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
     if ([sender tag] == choosedTab) {
@@ -911,7 +921,9 @@
     if (newChoosedTab >= numTabs) {
         newChoosedTab = 0;
     }
-    if (newChoosedTab == choosedTab) return;
+    if (newChoosedTab == choosedTab) {
+        return;
+    }
     [activityIndicatorView startAnimating];
     if (choosedTab < [buttonsIB count]) {
         [buttonsIB[choosedTab] setSelected:NO];
@@ -1610,7 +1622,9 @@
 }
 
 - (BDKCollectionIndexView *)indexView {
-    if (_indexView) return _indexView;
+    if (_indexView) {
+        return _indexView;
+    }
     CGFloat indexWidth = 40;
     CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
                               CGRectGetMinY(dataList.frame) + dataList.contentInset.top + COLLECTION_HEADER_HEIGHT + 2,
@@ -1879,8 +1893,9 @@ int originYear = 0;
     if ([self doesShowSearchResults]) {
         int numResult = (int)[self.filteredListContent count];
         if (numResult) {
-            if (numResult != 1)
+            if (numResult != 1) {
                 return [NSString stringWithFormat:NSLocalizedString(@"%lu results", nil), (unsigned long)[self.filteredListContent count]];
+            }
             else {
                 return NSLocalizedString(@"1 result", nil);
             }
@@ -1890,7 +1905,9 @@ int originYear = 0;
         }
     }
     else {
-        if (section == 0) {return nil;}
+        if (section == 0) {
+            return nil;
+        }
         NSString *sectionName = self.sectionArray[section];
         if (channelGuideView) {
             NSString *dateString = @"";
@@ -2926,7 +2943,9 @@ int originYear = 0;
 
 // iOS7 scrolling performance boost for a UITableView/UICollectionView with a custom UISearchBar header
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (!hideSearchBarActive || [self doesShowSearchResults]) return;
+    if (!hideSearchBarActive || [self doesShowSearchResults]) {
+        return;
+    }
     NSArray *paths;
     NSIndexPath *searchBarPath;
     NSInteger sectionNumber = [self.sections count] > 1 ? 1 : 0;
@@ -4325,17 +4344,21 @@ NSIndexPath *selected;
                  else {
                      genre = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row2"]]];
                  }
-                 if ([genre isEqualToString:@"(null)"]) genre = @"";
+                 if ([genre isEqualToString:@"(null)"]) {
+                     genre = @"";
+                 }
                  
                  NSString *year = @"";
                  if ([videoLibraryMovieDetail[mainFields[@"row3"]] isKindOfClass:[NSNumber class]]) {
                      year = [(NSNumber *)videoLibraryMovieDetail[mainFields[@"row3"]] stringValue];
                  }
                  else {
-                     if ([mainFields[@"row3"] isEqualToString:@"blank"])
+                     if ([mainFields[@"row3"] isEqualToString:@"blank"]) {
                          year = @"";
-                     else
+                     }
+                     else {
                          year = videoLibraryMovieDetail[mainFields[@"row3"]];
+                     }
                  }                     
                  NSString *runtime = @"";
                  if ([videoLibraryMovieDetail[mainFields[@"row4"]] isKindOfClass:[NSArray class]]) {
@@ -4347,13 +4370,15 @@ NSIndexPath *selected;
                  else {
                      runtime = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row4"]]];
                  }
-                 if ([runtime isEqualToString:@"(null)"]) runtime = @"";
-                 
+                 if ([runtime isEqualToString:@"(null)"]) {
+                     runtime = @"";
+                 }
                  
                  NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber *)videoLibraryMovieDetail[mainFields[@"row5"]] floatValue]];
                  
-                 if ([rating isEqualToString:@"0.0"])
+                 if ([rating isEqualToString:@"0.0"]) {
                      rating = @"";
+                 }
                  
                  NSString *thumbnailPath = videoLibraryMovieDetail[@"thumbnail"];
                  NSDictionary *art = videoLibraryMovieDetail[@"art"];
@@ -4605,7 +4630,9 @@ NSIndexPath *selected;
                  int secondsToMinute = 1;
                  if ([AppDelegate instance].serverVersion > 11) {
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-                     if ([self.detailItem noConvertTime]) secondsToMinute = 60;
+                     if ([self.detailItem noConvertTime]) {
+                         secondsToMinute = 60;
+                     }
                  }
                  if ([videoLibraryMovies isKindOfClass:[NSArray class]]) {
                      if (((NSNull *)videoLibraryMovies != [NSNull null])) {
@@ -4621,20 +4648,26 @@ NSIndexPath *selected;
                          else {
                              genre = [NSString stringWithFormat:@"%@",videoLibraryMovies[i][mainFields[@"row2"]]];
                          }
-                         if ([genre isEqualToString:@"(null)"]) genre = @"";
+                         if ([genre isEqualToString:@"(null)"]) {
+                             genre = @"";
+                         }
                          
                          NSString *year = @"";
                          if ([videoLibraryMovies[i][mainFields[@"row3"]] isKindOfClass:[NSNumber class]]) {
                              year = [(NSNumber *)videoLibraryMovies[i][mainFields[@"row3"]] stringValue];
                          }
                          else {
-                             if ([mainFields[@"row3"] isEqualToString:@"blank"])
+                             if ([mainFields[@"row3"] isEqualToString:@"blank"]) {
                                  year = @"";
-                             else
+                             }
+                             else {
                                  year = videoLibraryMovies[i][mainFields[@"row3"]];
+                             }
                          }
                          year = [NSString stringWithFormat:@"%@", year];
-                         if ([year isEqualToString:@"(null)"]) year = @"";
+                         if ([year isEqualToString:@"(null)"]) {
+                             year = @"";
+                         }
                          
                          NSString *runtime = @"";
                          if ([videoLibraryMovies[i][mainFields[@"row4"]] isKindOfClass:[NSArray class]]) {
@@ -4646,11 +4679,14 @@ NSIndexPath *selected;
                          else {
                              runtime = [NSString stringWithFormat:@"%@",videoLibraryMovies[i][mainFields[@"row4"]]];
                          }
-                         if ([runtime isEqualToString:@"(null)"]) runtime = @"";
+                         if ([runtime isEqualToString:@"(null)"]) {
+                             runtime = @"";
+                         }
                          
                          NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber *)videoLibraryMovies[i][mainFields[@"row5"]] floatValue]];
-                         if ([rating isEqualToString:@"0.0"])
+                         if ([rating isEqualToString:@"0.0"]) {
                              rating = @"";
+                         }
                          
                          NSString *thumbnailPath = videoLibraryMovies[i][@"thumbnail"];
                          NSDictionary *art = videoLibraryMovies[i][@"art"];
@@ -5371,10 +5407,12 @@ NSIndexPath *selected;
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     int i = 0;
     NSInteger count = [buttons count];
-    if (count > MAX_NORMAL_BUTTONS)
+    if (count > MAX_NORMAL_BUTTONS) {
         count = MAX_NORMAL_BUTTONS;
-    if (choosedTab > MAX_NORMAL_BUTTONS)
+    }
+    if (choosedTab > MAX_NORMAL_BUTTONS) {
         choosedTab = MAX_NORMAL_BUTTONS;
+    }
     for (i = 0; i < count; i++) {
         UIImage *imageOff = [UIImage imageNamed:[NSString stringWithFormat:@"%@_off", buttons[i]]];
         UIImage *imageOn = [UIImage imageNamed:[NSString stringWithFormat:@"%@_on", buttons[i]]];
@@ -5490,7 +5528,9 @@ NSIndexPath *selected;
 }
 
 -(BOOL)collectionViewIsEnabled{
-    if (![self collectionViewCanBeEnabled]) return NO;
+    if (![self collectionViewCanBeEnabled]) {
+        return NO;
+    }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
@@ -5706,8 +5746,9 @@ NSIndexPath *selected;
     choosedTab = 0;
     [self buildButtons]; // TEMP ?
     numTabs = (int)[[self.detailItem mainMethod] count];
-    if ([self.detailItem chooseTab])
+    if ([self.detailItem chooseTab]) {
         choosedTab = [self.detailItem chooseTab];
+    }
     if (choosedTab >= numTabs) {
         choosedTab = 0;
     }
@@ -5990,7 +6031,9 @@ NSIndexPath *selected;
     [userDefaults synchronize];
     BOOL diskcache_preference = NO;
     NSString *diskcache_preferenceString = [userDefaults objectForKey:@"diskcache_preference"];
-    if (diskcache_preferenceString == nil || [diskcache_preferenceString boolValue]) diskcache_preference = YES;
+    if (diskcache_preferenceString == nil || [diskcache_preferenceString boolValue]) {
+        diskcache_preference = YES;
+    }
     enableDiskCache = diskcache_preference && [parameters[@"enableLibraryCache"] boolValue];
     [dataList setShowsPullToRefresh:enableDiskCache];
     [collectionView setShowsPullToRefresh:enableDiskCache];
@@ -6001,7 +6044,9 @@ NSIndexPath *selected;
 }
 
 -(void)handleChangeLibraryView{
-    if ([self doesShowSearchResults]) return;
+    if ([self doesShowSearchResults]) {
+        return;
+    }
     NSDictionary *methods = [self indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
     NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     if ([self collectionViewCanBeEnabled] && self.view.superview != nil && ![methods[@"method"] isEqualToString:@""]) {

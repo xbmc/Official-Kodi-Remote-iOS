@@ -282,7 +282,9 @@ static inline BOOL IsEmpty(id obj) {
     if (sender != nil) {
         forceClose = NO;
     }
-    if ([[AppDelegate instance].arrayServerList count] == 0 && !serverListTableView.editing) return;
+    if ([[AppDelegate instance].arrayServerList count] == 0 && !serverListTableView.editing) {
+        return;
+    }
     if (serverListTableView.editing || forceClose) {
         [serverListTableView setEditing:NO animated:YES];
         [editTableButton setSelected:NO];
@@ -334,8 +336,9 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 - (void)infoView{
-    if (appInfoView == nil)
-        appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil] ;
+    if (appInfoView == nil) {
+        appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
+    }
     if (NSProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 13) {
         appInfoView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     }
@@ -623,7 +626,9 @@ static inline BOOL IsEmpty(id obj) {
         [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:theData[@"icon_connection"]]];
     }
     [connectingActivityIndicator stopAnimating];
-    if (doRevealMenu) [self revealMenu:nil];
+    if (doRevealMenu) {
+        [self revealMenu:nil];
+    }
 }
 
 - (void)connectionFailed:(NSNotification *)note {

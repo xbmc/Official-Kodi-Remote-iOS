@@ -172,7 +172,9 @@
 }
 
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker trigger:(CGFloat)trigger{
-    if ([newColor isEqual:[UIColor clearColor]] || newColor == nil) return lighter;
+    if ([newColor isEqual:[UIColor clearColor]] || newColor == nil) {
+        return lighter;
+    }
     const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
     CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
     if (colorBrightness < trigger) {
@@ -485,8 +487,9 @@
     @try {
         svc = [[SFSafariViewController alloc] initWithURL:nsurl];
     } @catch (NSException *exception) {
-        if ([UIApplication.sharedApplication canOpenURL:nsurl])
+        if ([UIApplication.sharedApplication canOpenURL:nsurl]) {
             [UIApplication.sharedApplication openURL:nsurl options:@{} completionHandler:nil];
+        }
         else {
             UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Error loading page", nil) message:exception.reason];
             [fromctrl presentViewController:alertView animated:YES completion:nil];

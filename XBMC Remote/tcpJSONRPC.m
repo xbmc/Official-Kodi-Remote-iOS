@@ -162,7 +162,9 @@ NSOutputStream	*outStream;
 }
 
 -(void)checkServer{
-    if (inCheck) return;
+    if (inCheck) {
+        return;
+    }
     if ([[AppDelegate instance].obj.serverIP length] == 0) {
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @(YES), @"showSetup", nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];

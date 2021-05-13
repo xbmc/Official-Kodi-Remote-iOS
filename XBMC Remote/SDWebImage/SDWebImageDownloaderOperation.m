@@ -36,8 +36,7 @@
 
 - (id)initWithRequest:(NSURLRequest *)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary *)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)(void))cancelBlock
 {
-    if ((self = [super init]))
-    {
+    if ((self = [super init])) {
         _queue = queue;
         _request = request;
         _options = options;
@@ -57,8 +56,7 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^
     {
-        if (self.isCancelled)
-        {
+        if (self.isCancelled) {
             self.finished = YES;
             [self reset];
             return;
@@ -68,25 +66,20 @@
         self.connection = [NSURLConnection.alloc initWithRequest:self.request delegate:self startImmediately:NO];
 
         // If not in low priority mode, ensure we aren't blocked by UI manipulations (default runloop mode for NSURLConnection is NSEventTrackingRunLoopMode)
-        if (!(self.options & SDWebImageDownloaderLowPriority))
-        {
+        if (!(self.options & SDWebImageDownloaderLowPriority)) {
             [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         }
 
         [self.connection start];
 
-        if (self.connection)
-        {
-            if (self.progressBlock)
-            {
+        if (self.connection) {
+            if (self.progressBlock) {
                 self.progressBlock(0, -1);
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStartNotification object:self];
         }
-        else
-        {
-            if (self.completedBlock)
-            {
+        else {
+            if (self.completedBlock) {
                 self.completedBlock(nil, nil, [NSError errorWithDomain:NSURLErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey: @"Connection can't be initialized"}], YES);
             }
         }
@@ -95,19 +88,26 @@
 
 - (void)cancel
 {
-    if (self.isFinished) return;
+    if (self.isFinished) {
+        return;
+    }
     [super cancel];
-    if (self.cancelBlock) self.cancelBlock();
+    if (self.cancelBlock) {
+        self.cancelBlock();
+    }
 
-    if (self.connection)
-    {
+    if (self.connection) {
         [self.connection cancel];
         [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:self];
 
         // As we cancelled the connection, its callback won't be called and thus won't
         // maintain the isFinished and isExecuting flags.
-        if (self.isExecuting) self.executing = NO;
-        if (!self.isFinished) self.finished = YES;
+        if (self.isExecuting) {
+            self.executing = NO;
+        }
+        if (!self.isFinished) {
+            self.finished = YES;
+        }
     }
 
     [self reset];
@@ -155,12 +155,10 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    if (![response respondsToSelector:@selector(statusCode)] || [((NSHTTPURLResponse *)response) statusCode] < 400)
-    {
+    if (![response respondsToSelector:@selector(statusCode)] || [((NSHTTPURLResponse *)response) statusCode] < 400) {
         NSUInteger expected = response.expectedContentLength > 0 ? (NSUInteger)response.expectedContentLength : 0;
         self.expectedSize = expected;
-        if (self.progressBlock)
-        {
+        if (self.progressBlock) {
             self.progressBlock(0, expected);
         }
 
@@ -169,14 +167,12 @@
             self.imageData = [NSMutableData.alloc initWithCapacity:expected];
         });
     }
-    else
-    {
+    else {
         [self.connection cancel];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
 
-        if (self.completedBlock)
-        {
+        if (self.completedBlock) {
             self.completedBlock(nil, nil, [NSError errorWithDomain:NSURLErrorDomain code:[((NSHTTPURLResponse *)response) statusCode] userInfo:nil], YES);
         }
 
@@ -190,8 +186,7 @@
     {
         [self.imageData appendData:data];
         
-        if ((self.options & SDWebImageDownloaderProgressiveDownload) && self.expectedSize > 0 && self.completedBlock)
-        {
+        if ((self.options & SDWebImageDownloaderProgressiveDownload) && self.expectedSize > 0 && self.completedBlock) {
             // The following code is from http://www.cocoaintheshell.com/2011/05/progressive-images-download-imageio/
             // Thanks to the author @Nyx0uf
 
@@ -202,55 +197,51 @@
             CGImageSourceRef imageSource = CGImageSourceCreateIncremental(NULL);
             CGImageSourceUpdateData(imageSource, (__bridge  CFDataRef)self.imageData, totalSize == self.expectedSize);
 
-            if (self->width + self->height == 0)
-            {
+            if (self->width + self->height == 0) {
                 CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
-                if (properties)
-                {
+                if (properties) {
                     CFTypeRef val = CFDictionaryGetValue(properties, kCGImagePropertyPixelHeight);
-                    if (val) CFNumberGetValue(val, kCFNumberLongType, &self->height);
+                    if (val) {
+                        CFNumberGetValue(val, kCFNumberLongType, &self->height);
+                    }
                     val = CFDictionaryGetValue(properties, kCGImagePropertyPixelWidth);
-                    if (val) CFNumberGetValue(val, kCFNumberLongType, &self->width);
+                    if (val) {
+                        CFNumberGetValue(val, kCFNumberLongType, &self->width);
+                    }
                     CFRelease(properties);
                 }
             }
 
-            if (self->width + self->height > 0 && totalSize < self.expectedSize)
-            {
+            if (self->width + self->height > 0 && totalSize < self.expectedSize) {
                 // Create the image
                 CGImageRef partialImageRef = CGImageSourceCreateImageAtIndex(imageSource, 0, NULL);
 
 #ifdef TARGET_OS_IPHONE
                 // Workaround for iOS anamorphic image
-                if (partialImageRef)
-                {
+                if (partialImageRef) {
                     const size_t partialHeight = CGImageGetHeight(partialImageRef);
                     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
                     CGContextRef bmContext = CGBitmapContextCreate(NULL, self->width, self->height, 8, self->width * 4, colorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
                     CGColorSpaceRelease(colorSpace);
-                    if (bmContext)
-                    {
+                    if (bmContext) {
                         CGContextDrawImage(bmContext, CGRectMake(0, 0, self->width, partialHeight), partialImageRef);
                         CGImageRelease(partialImageRef);
                         partialImageRef = CGBitmapContextCreateImage(bmContext);
                         CGContextRelease(bmContext);
                     }
-                    else
-                    {
+                    else {
                         CGImageRelease(partialImageRef);
                         partialImageRef = nil;
                     }
                 }
 #endif
 
-                if (partialImageRef)
-                {
+                if (partialImageRef) {
                     UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, [UIImage imageWithCGImage:partialImageRef])];
                     CGImageRelease(partialImageRef);
                     dispatch_async(dispatch_get_main_queue(), ^
                     {
-                        if (self.completedBlock)
-                        {
+                        if (self.completedBlock) {
                             self.completedBlock(image, nil, nil, NO);
                         }
                     });
@@ -262,8 +253,7 @@
         NSUInteger received = self.imageData.length;
         dispatch_async(dispatch_get_main_queue(), ^
         {
-            if (self.progressBlock)
-            {
+            if (self.progressBlock) {
                 self.progressBlock(received, self.expectedSize);
             }
         });
@@ -278,21 +268,17 @@
 
     SDWebImageDownloaderCompletedBlock completionBlock = self.completedBlock;
 
-    if (completionBlock)
-    {
-        if (self.options & SDWebImageDownloaderIgnoreCachedResponse && responseFromCached)
-        {
+    if (completionBlock) {
+        if (self.options & SDWebImageDownloaderIgnoreCachedResponse && responseFromCached) {
             completionBlock(nil, nil, nil, YES);
             self.completionBlock = nil;
             [self done];
         }
-        else
-        {
+        else {
             dispatch_async(self.queue, ^
             {
 //                CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
-                if ([[self.userInfo objectForKey:@"transformation"] isEqualToString:@"resize"])
-                {
+                if ([[self.userInfo objectForKey:@"transformation"] isEqualToString:@"resize"]) {
                     CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
                     UIImage *elab = [UIImage imageWithData:self.imageData];
                     NSData *elabData = UIImagePNGRepresentation([elab resizedImage:elab.CGImage size:size interpolationQuality:kCGInterpolationHigh]);
@@ -301,12 +287,10 @@
                 UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, self.imageData) size:CGSizeZero interpolationQuality:kCGInterpolationHigh];
                 dispatch_async(dispatch_get_main_queue(), ^
                 {
-                    if (CGSizeEqualToSize(image.size, CGSizeZero))
-                    {
+                    if (CGSizeEqualToSize(image.size, CGSizeZero)) {
                         completionBlock(nil, nil, [NSError errorWithDomain:@"SDWebImageErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Downloaded image has 0 pixels"}], YES);
                     }
-                    else
-                    {
+                    else {
                         completionBlock(image, self.imageData, nil, YES);
                     }
                     self.completionBlock = nil;
@@ -315,8 +299,7 @@
             });
         }
     }
-    else
-    {
+    else {
         [self done];
     }
 }
@@ -325,8 +308,7 @@
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
 
-    if (self.completedBlock)
-    {
+    if (self.completedBlock) {
         self.completedBlock(nil, nil, error, YES);
     }
 
@@ -336,13 +318,11 @@
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse
 {
     responseFromCached = NO; // If this method is called, it means the response wasn't read from cache
-    if (self.request.cachePolicy == NSURLRequestReloadIgnoringLocalCacheData)
-    {
+    if (self.request.cachePolicy == NSURLRequestReloadIgnoringLocalCacheData) {
         // Prevents caching of responses
         return nil;
     }
-    else
-    {
+    else {
         return cachedResponse;
     }
 }

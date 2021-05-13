@@ -66,8 +66,7 @@ static char operationKey;
 
     self.image = placeholder;
     
-    if (url && url.path)
-    {
+    if (url && url.path) {
         NSDictionary *userInfo = nil;
         if (size.width && size.height) {
             userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"resize", @"transformation",
@@ -78,14 +77,14 @@ static char operationKey;
         id<SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadWithURL:url options:options userInfo:userInfo progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
         {
             __strong UIImageView *sself = wself;
-            if (!sself) return;
-            if (image)
-            {
+            if (!sself) {
+                return;
+            }
+            if (image) {
                 sself.image = image;
                 [sself setNeedsLayout];
             }
-            if (completedBlock && finished)
-            {
+            if (completedBlock && finished) {
                 completedBlock(image, error, cacheType);
             }
         }];
@@ -97,8 +96,7 @@ static char operationKey;
 {
     // Cancel in progress downloader from queue
     id<SDWebImageOperation> operation = objc_getAssociatedObject(self, &operationKey);
-    if (operation)
-    {
+    if (operation) {
         [operation cancel];
         objc_setAssociatedObject(self, &operationKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }

@@ -29,8 +29,7 @@
     
     // CGBitmapContextCreate doesn't support kCGImageAlphaNone with RGB.
     // https://developer.apple.com/library/mac/#qa/qa1037/_index.html
-    if (infoMask == kCGImageAlphaNone && CGColorSpaceGetNumberOfComponents(colorSpace) > 1)
-    {
+    if (infoMask == kCGImageAlphaNone && CGColorSpaceGetNumberOfComponents(colorSpace) > 1) {
         // Unset the old alpha info.
         bitmapInfo &= ~kCGBitmapAlphaInfoMask;
         
@@ -38,8 +37,7 @@
         bitmapInfo |= kCGImageAlphaNoneSkipFirst;
     }
     // Some PNGs tell us they have alpha but only 3 components. Odd.
-    else if (!anyNonAlpha && CGColorSpaceGetNumberOfComponents(colorSpace) == 3)
-    {
+    else if (!anyNonAlpha && CGColorSpaceGetNumberOfComponents(colorSpace) == 3) {
         // Unset the old alpha info.
         bitmapInfo &= ~kCGBitmapAlphaInfoMask;
         bitmapInfo |= kCGImageAlphaPremultipliedFirst;

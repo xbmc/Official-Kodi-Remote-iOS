@@ -33,8 +33,7 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self != nil)
-    {
+    if (self != nil) {
         self.scrubbingSpeeds = [self defaultScrubbingSpeeds];
         self.scrubbingSpeedChangePositions = [self defaultScrubbingSpeedChangePositions];
         self.scrubbingSpeed = [self.scrubbingSpeeds[0] floatValue];
@@ -48,8 +47,7 @@
 - (id)initWithCoder:(NSCoder *)decoder
 {
     self = [super initWithCoder:decoder];
-    if (self != nil) 
-    {
+    if (self != nil) {
     	if ([decoder containsValueForKey:@"scrubbingSpeeds"]) {
             self.scrubbingSpeeds = [decoder decodeObjectForKey:@"scrubbingSpeeds"];
         }
@@ -86,8 +84,7 @@
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
     BOOL beginTracking = [super beginTrackingWithTouch:touch withEvent:event];
-    if (beginTracking)
-    {
+    if (beginTracking) {
 		// Set the beginning tracking location to the centre of the current
 		// position of the thumb. This ensures that the thumb is correctly re-positioned
 		// when the touch position moves back to the track after tracking in one
@@ -104,8 +101,7 @@
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    if (self.tracking)
-    {
+    if (self.tracking) {
         CGPoint previousLocation = [touch previousLocationInView:self];
         CGPoint currentLocation  = [touch locationInView:self];
         CGFloat trackingOffset = currentLocation.x - previousLocation.x;
@@ -140,8 +136,7 @@
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    if (self.tracking) 
-    {
+    if (self.tracking) {
         self.scrubbingSpeed = [self.scrubbingSpeeds[0] floatValue];
         [self sendActionsForControlEvents:UIControlEventValueChanged];
     }

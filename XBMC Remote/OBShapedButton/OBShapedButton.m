@@ -80,12 +80,10 @@
     CGFloat alpha = 0.0;
     
     
-    if ([pixelColor respondsToSelector:@selector(getRed:green:blue:alpha:)])
-    {// available from iOS 5.0
+    if ([pixelColor respondsToSelector:@selector(getRed:green:blue:alpha:)]) {// available from iOS 5.0
         [pixelColor getRed:NULL green:NULL blue:NULL alpha:&alpha];
     }
-    else
-    {// for iOS < 5.0
+    else {// for iOS < 5.0
         // In iOS 6.1 the code is not working in release mode, it works only in debug
         // CGColorGetAlpha always return 0.
         CGColorRef cgPixelColor = [pixelColor CGColor];

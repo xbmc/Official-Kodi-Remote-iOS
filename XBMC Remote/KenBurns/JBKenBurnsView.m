@@ -143,8 +143,7 @@
         [self.imagesArray removeObjectAtIndex:0];
         [self.imagesArray addObject:[self _downloadImageFrom:urls[urlIndex]]];
         
-        if (bufferIndex == self.imagesArray.count -1)
-        {
+        if (bufferIndex == self.imagesArray.count -1) {
             bufferIndex = -1;
         }
         
@@ -180,10 +179,12 @@
 //        {
             heightDiff = image.size.height - frameHeight;
             
-            if (widthDiff > heightDiff) 
+            if (widthDiff > heightDiff) {
                 resizeRatio = frameHeight / image.size.height;
-            else
+            }
+            else {
                 resizeRatio = frameWidth / image.size.width;
+            }
             
             // No higher than screen
 //        }

@@ -59,8 +59,9 @@
 }
 
 - (id)initWithServiceEndpoint:(NSURL *)serviceEndpoint andHTTPHeaders:(NSDictionary *)httpHeaders {
-    if (!(self = [super init]))
+    if (!(self = [super init])) {
         return self;
+    }
     
     self._serviceEndpoint = serviceEndpoint;
     self._httpHeaders     = httpHeaders;
@@ -199,8 +200,9 @@
     // Determine if we handle the method signature
     // If not, create one so it goes to forwardInvocation
     NSMethodSignature *aMethodSignature;
-    if (!(aMethodSignature = [super methodSignatureForSelector:aSelector]))
+    if (!(aMethodSignature = [super methodSignatureForSelector:aSelector])) {
         aMethodSignature = [NSMethodSignature signatureWithObjCTypes:"@:@@@"];
+    }
     
     return aMethodSignature;
 }

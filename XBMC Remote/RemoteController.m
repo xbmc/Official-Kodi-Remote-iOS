@@ -350,8 +350,9 @@
     subsInfoLabel.alpha = 0.8;
     [UIView commitAnimations];
     //then fade out again after timeout seconds
-    if ([fadeoutTimer isValid])
+    if ([fadeoutTimer isValid]) {
         [fadeoutTimer invalidate];
+    }
     fadeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutSubs) userInfo:nil repeats:NO];
 }
 
@@ -577,8 +578,9 @@
             if ([methodResult count] > 0) {
                 NSNumber *response = methodResult[0][@"playerid"];
                 NSMutableArray *commonParams = [NSMutableArray arrayWithObjects:response, @"playerid", nil];
-                if (parameters != nil)
+                if (parameters != nil) {
                     [commonParams addObjectsFromArray:parameters];
+                }
                 [[Utilities getJsonRPC] callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //                    if (error == nil && methodError == nil) {
 //                        NSLog(@"comando %@ eseguito. Risultato: %@", action, methodResult);
@@ -818,7 +820,9 @@ NSInteger buttonAction;
 }
 
 -(void)sendAction{
-    if (!buttonAction) return;
+    if (!buttonAction) {
+        return;
+    }
     if (self.holdVolumeTimer.timeInterval == 0.5 || self.holdVolumeTimer.timeInterval == 1.5) {
         
         if (self.holdVolumeTimer.timeInterval == 1.5) {

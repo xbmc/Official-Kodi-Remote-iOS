@@ -268,8 +268,7 @@ BOOL moved;
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [recognizer translationInView:self.view];
         
-        if (fabs(translation.x) > fabs(translation.y))
-        {
+        if (fabs(translation.x) > fabs(translation.y)) {
             CGFloat panAmount = self.initialTouchPositionX - currentTouchPositionX;
             CGFloat newCenterPosition = self.initialHoizontalCenter - panAmount;
             
@@ -538,12 +537,10 @@ BOOL moved;
 {
   CGSize size = [UIScreen mainScreen].bounds.size;
   UIApplication *application = [UIApplication sharedApplication];
-  if (UIInterfaceOrientationIsLandscape(orientation))
-  {
+  if (UIInterfaceOrientationIsLandscape(orientation)) {
     size = CGSizeMake(size.height, size.width);
   }
-  if (!application.statusBarHidden)
-  {
+  if (!application.statusBarHidden) {
     size.height -= MIN(application.statusBarFrame.size.width, application.statusBarFrame.size.height);
   }
   return size.width;

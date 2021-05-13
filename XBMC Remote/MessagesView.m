@@ -61,8 +61,9 @@
     [self setAlpha:1.0];
     [UIView commitAnimations];
     //then slide out again after timeout seconds
-    if ([fadeoutTimer isValid])
+    if ([fadeoutTimer isValid]) {
         [fadeoutTimer invalidate];
+    }
     fadeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutMessage:) userInfo:nil repeats:NO];
 }
 

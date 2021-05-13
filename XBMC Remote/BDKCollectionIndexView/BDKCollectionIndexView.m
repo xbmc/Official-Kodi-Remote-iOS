@@ -126,7 +126,9 @@
 #pragma mark - Properties
 
 - (UIView *)touchStatusView {
-    if (_touchStatusView) return _touchStatusView;
+    if (_touchStatusView) {
+        return _touchStatusView;
+    }
     _touchStatusView = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, 2, 2)];
     _touchStatusView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
     _touchStatusView.layer.cornerRadius = 0;
@@ -135,7 +137,9 @@
 }
 
 - (void)setIndexTitles:(NSArray *)indexTitles {
-    if (_indexTitles == indexTitles) return;
+    if (_indexTitles == indexTitles) {
+        return;
+    }
     _indexTitles = indexTitles;
     [self.indexLabels makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self buildIndexLabels];
@@ -146,7 +150,9 @@
 }
 
 - (void)setEndPadding:(CGFloat)endPadding {
-    if (_endPadding == endPadding) return;
+    if (_endPadding == endPadding) {
+        return;
+    }
     _endPadding = endPadding;
 
     [self.indexTitles makeObjectsPerformSelector:@selector(removeFromSuperview)];

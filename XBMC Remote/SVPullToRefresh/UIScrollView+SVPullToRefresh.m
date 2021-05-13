@@ -177,8 +177,9 @@ static char UIScrollViewPullToRefreshView;
 - (void)layoutSubviews {
     
     for (id otherView in self.viewForState) {
-        if ([otherView isKindOfClass:[UIView class]])
+        if ([otherView isKindOfClass:[UIView class]]) {
             [otherView removeFromSuperview];
+        }
     }
     
     id customView = self.viewForState[self.state];
@@ -293,22 +294,27 @@ static char UIScrollViewPullToRefreshView;
 #pragma mark - Observing
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {    
-    if ([keyPath isEqualToString:@"contentOffset"])
+    if ([keyPath isEqualToString:@"contentOffset"]) {
         [self scrollViewDidScroll:[[change valueForKey:NSKeyValueChangeNewKey] CGPointValue]];
-    else if ([keyPath isEqualToString:@"frame"])
+    }
+    else if ([keyPath isEqualToString:@"frame"]) {
         [self layoutSubviews];
+    }
 }
 
 - (void)scrollViewDidScroll:(CGPoint)contentOffset {
     if (self.state != SVPullToRefreshStateLoading) {
         CGFloat scrollOffsetThreshold = self.frame.origin.y-self.originalTopInset;
         
-        if (!self.scrollView.isDragging && self.state == SVPullToRefreshStateTriggered)
+        if (!self.scrollView.isDragging && self.state == SVPullToRefreshStateTriggered) {
             self.state = SVPullToRefreshStateLoading;
-        else if (contentOffset.y < scrollOffsetThreshold && self.scrollView.isDragging && self.state == SVPullToRefreshStateStopped)
+        }
+        else if (contentOffset.y < scrollOffsetThreshold && self.scrollView.isDragging && self.state == SVPullToRefreshStateStopped) {
             self.state = SVPullToRefreshStateTriggered;
-        else if (contentOffset.y >= scrollOffsetThreshold && self.state != SVPullToRefreshStateStopped)
+        }
+        else if (contentOffset.y >= scrollOffsetThreshold && self.state != SVPullToRefreshStateStopped) {
             self.state = SVPullToRefreshStateStopped;
+        }
     }
     else {
         CGFloat offset = MAX(self.scrollView.contentOffset.y * -1, 0);
@@ -401,25 +407,31 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (void)setTitle:(NSString *)title forState:(SVPullToRefreshState)state {
-    if (!title)
+    if (!title) {
         title = @"";
+    }
     
-    if (state == SVPullToRefreshStateAll)
+    if (state == SVPullToRefreshStateAll) {
         [self.titles replaceObjectsInRange:NSMakeRange(0, 3) withObjectsFromArray:@[title, title, title]];
-    else
+    }
+    else {
         [self.titles replaceObjectAtIndex:state withObject:title];
+    }
     
     [self setNeedsLayout];
 }
 
 - (void)setSubtitle:(NSString *)subtitle forState:(SVPullToRefreshState)state {
-    if (!subtitle)
+    if (!subtitle) {
         subtitle = @"";
+    }
     
-    if (state == SVPullToRefreshStateAll)
+    if (state == SVPullToRefreshStateAll) {
         [self.subtitles replaceObjectsInRange:NSMakeRange(0, 3) withObjectsFromArray:@[subtitle, subtitle, subtitle]];
-    else
+    }
+    else {
         [self.subtitles replaceObjectAtIndex:state withObject:subtitle];
+    }
     
     [self setNeedsLayout];
 }
@@ -427,13 +439,16 @@ static char UIScrollViewPullToRefreshView;
 - (void)setCustomView:(UIView *)view forState:(SVPullToRefreshState)state {
     id viewPlaceholder = view;
     
-    if (!viewPlaceholder)
+    if (!viewPlaceholder) {
         viewPlaceholder = @"";
+    }
     
-    if (state == SVPullToRefreshStateAll)
+    if (state == SVPullToRefreshStateAll) {
         [self.viewForState replaceObjectsInRange:NSMakeRange(0, 3) withObjectsFromArray:@[viewPlaceholder, viewPlaceholder, viewPlaceholder]];
-    else
+    }
+    else {
         [self.viewForState replaceObjectAtIndex:state withObject:viewPlaceholder];
+    }
     
     [self setNeedsLayout];
 }
@@ -469,8 +484,9 @@ static char UIScrollViewPullToRefreshView;
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, -self.frame.size.height) animated:YES];
         self.wasTriggeredByUser = NO;
     }
-    else
+    else {
         self.wasTriggeredByUser = YES;
+    }
     
     self.state = SVPullToRefreshStateLoading;
 }
@@ -478,14 +494,16 @@ static char UIScrollViewPullToRefreshView;
 - (void)stopAnimating {
     self.state = SVPullToRefreshStateStopped;
     
-    if (!self.wasTriggeredByUser && self.scrollView.contentOffset.y < -self.originalTopInset)
+    if (!self.wasTriggeredByUser && self.scrollView.contentOffset.y < -self.originalTopInset) {
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, -self.originalTopInset) animated:YES];
+    }
 }
 
 - (void)setState:(SVPullToRefreshState)newState {
     
-    if (_state == newState)
+    if (_state == newState) {
         return;
+    }
     
     SVPullToRefreshState previousState = _state;
     _state = newState;
@@ -503,8 +521,9 @@ static char UIScrollViewPullToRefreshView;
         case SVPullToRefreshStateLoading:
             [self setScrollViewContentInsetForLoading];
             
-            if (previousState == SVPullToRefreshStateTriggered && pullToRefreshActionHandler)
+            if (previousState == SVPullToRefreshStateTriggered && pullToRefreshActionHandler) {
                 pullToRefreshActionHandler();
+            }
             
             break;
     }
@@ -527,7 +546,9 @@ static char UIScrollViewPullToRefreshView;
 @synthesize arrowColor;
 
 - (UIColor *)arrowColor {
-	if (arrowColor) return arrowColor;
+    if (arrowColor) {
+        return arrowColor;
+    }
 	return [UIColor grayColor]; // default Color
 }
 

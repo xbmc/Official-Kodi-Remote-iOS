@@ -340,7 +340,9 @@
 }
 
 - (void)handlePanFrom:(UIPanGestureRecognizer *)recognizer {
-	if (stackScrollIsFullscreen) return;
+    if (stackScrollIsFullscreen) {
+        return;
+    }
 	CGPoint translatedPoint = [recognizer translationInView:self.view];
 	
 	if (recognizer.state == UIGestureRecognizerStateBegan) {

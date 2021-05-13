@@ -40,8 +40,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 
 - (id)initWithNamespace:(NSString *)ns
 {
-    if ((self = [super init]))
-    {
+    if ((self = [super init])) {
         NSString *fullNamespace = [@"com.hackemist.SDWebImageCache." stringByAppendingString:ns];
 
         // Create IO serial queue
@@ -98,23 +97,19 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 
 - (void)storeImage:(UIImage *)image imageData:(NSData *)imageData forKey:(NSString *)key toDisk:(BOOL)toDisk
 {
-    if (!image || !key)
-    {
+    if (!image || !key) {
         return;
     }
 
     [self.memCache setObject:image forKey:key cost:image.size.height * image.size.width * image.scale];
 
-    if (toDisk)
-    {
+    if (toDisk) {
         dispatch_async(self.ioQueue, ^
         {
             NSData *data = imageData;
 
-            if (!data)
-            {
-                if (image)
-                {
+            if (!data) {
+                if (image) {
 #if TARGET_OS_IPHONE
                     data = UIImageJPEGRepresentation(image, (CGFloat)1.0);
 #else
@@ -123,13 +118,11 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
                 }
             }
 
-            if (data)
-            {
+            if (data) {
                 // Can't use defaultManager another thread
                 NSFileManager *fileManager = NSFileManager.new;
 
-                if (![fileManager fileExistsAtPath:_diskCachePath])
-                {
+                if (![fileManager fileExistsAtPath:_diskCachePath]) {
                     [fileManager createDirectoryAtPath:_diskCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
                 }
 
@@ -158,16 +151,14 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 {
     // First check the in-memory cache...
     UIImage *image = [self imageFromMemoryCacheForKey:key];
-    if (image)
-    {
+    if (image) {
         return image;
     }
     
     // Second check the disk cache...
     UIImage *diskImage = [UIImage decodedImageWithImage:SDScaledImageForPath(key, [NSData dataWithContentsOfFile:[self cachePathForKey:key]])];
     
-    if (diskImage)
-    {
+    if (diskImage) {
         CGFloat cost = diskImage.size.height * diskImage.size.width * diskImage.scale;
         [self.memCache setObject:diskImage forKey:key cost:cost];
     }
@@ -177,18 +168,18 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 
 - (void)queryDiskCacheForKey:(NSString *)key done:(void (^)(UIImage *image, SDImageCacheType cacheType))doneBlock
 {
-    if (!doneBlock) return;
+    if (!doneBlock) {
+        return;
+    }
 
-    if (!key)
-    {
+    if (!key) {
         doneBlock(nil, SDImageCacheTypeNone);
         return;
     }
 
     // First check the in-memory cache...
     UIImage *image = [self imageFromMemoryCacheForKey:key];
-    if (image)
-    {
+    if (image) {
         doneBlock(image, SDImageCacheTypeMemory);
         return;
     }
@@ -199,8 +190,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
                        {
                            UIImage *diskImage = [UIImage decodedImageWithImage:SDScaledImageForPath(key, [NSData dataWithContentsOfFile:[self cachePathForKey:key]])];
                            
-                           if (diskImage)
-                           {
+                           if (diskImage) {
                                CGFloat cost = diskImage.size.height * diskImage.size.width * diskImage.scale;
                                [self.memCache setObject:diskImage forKey:key cost:cost];
                            }
@@ -220,15 +210,13 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 
 - (void)removeImageForKey:(NSString *)key fromDisk:(BOOL)fromDisk
 {
-    if (key == nil)
-    {
+    if (key == nil) {
         return;
     }
 
     [self.memCache removeObjectForKey:key];
 
-    if (fromDisk)
-    {
+    if (fromDisk) {
         dispatch_async(self.ioQueue, ^
         {
             [[NSFileManager defaultManager] removeItemAtPath:[self cachePathForKey:key] error:nil];
@@ -270,16 +258,14 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
             // skip folder
             NSNumber *isDirectory;
             [fileURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
-            if ([isDirectory boolValue])
-            {
+            if ([isDirectory boolValue]) {
                 continue;
             }
             
             // compare file date with the max age
             NSDate *fileModificationDate;
             [fileURL getResourceValue:&fileModificationDate forKey:NSURLContentModificationDateKey error:NULL];
-            if ([[fileModificationDate laterDate:expirationDate] isEqualToDate:expirationDate])
-            {
+            if ([[fileModificationDate laterDate:expirationDate] isEqualToDate:expirationDate]) {
                 [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
             }
         }
@@ -290,8 +276,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 {
     unsigned long long size = 0;
     NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:self.diskCachePath];
-    for (NSString *fileName in fileEnumerator)
-    {
+    for (NSString *fileName in fileEnumerator) {
         NSString *filePath = [self.diskCachePath stringByAppendingPathComponent:fileName];
         NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
         size += [attrs fileSize];
@@ -303,8 +288,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 {
     int count = 0;
     NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:self.diskCachePath];
-    for (NSString *fileName __unused in fileEnumerator)
-    {
+    for (NSString *fileName __unused in fileEnumerator) {
         count += 1;
     }
     

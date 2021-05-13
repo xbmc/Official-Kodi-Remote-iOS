@@ -465,9 +465,13 @@
                 countdown_message = [NSString stringWithFormat:@"%@ %d seconds.", countdown_message, [tableData[indexPath.row][@"action"][@"countdown_time"] intValue]];
             }
             NSString *cancel_button = tableData[indexPath.row][@"action"][@"cancel_button"];
-            if (cancel_button == nil) cancel_button = NSLocalizedString(@"Cancel", nil);
+            if (cancel_button == nil) {
+                cancel_button = NSLocalizedString(@"Cancel", nil);
+            }
             NSString *ok_button = tableData[indexPath.row][@"action"][@"ok_button"];
-            if (ok_button == nil) ok_button = NSLocalizedString(@"Yes", nil);
+            if (ok_button == nil) {
+                ok_button = NSLocalizedString(@"Yes", nil);
+            }
             UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:countdown_message preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:cancel_button style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
             UIAlertAction* okButton = [UIAlertAction actionWithTitle:ok_button style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
@@ -747,7 +751,9 @@
 
     for (NSDictionary *item in [menuItems mainMethod][0][key]) {
         NSString *label = item[@"label"];
-        if (label == nil) label = @"";
+        if (label == nil) {
+            label = @"";
+        }
 
         NSMutableDictionary *bgColor = item[@"bgColor"];
         if (bgColor == nil) {
@@ -755,7 +761,9 @@
         }
         
         NSNumber *hideLine = item[@"hideLineSeparator"];
-        if (hideLine == nil) hideLine = @(NO);
+        if (hideLine == nil) {
+            hideLine = @(NO);
+        }
         
         NSMutableDictionary *fontColor = item[@"fontColor"];
         if (fontColor == nil) {
@@ -763,13 +771,19 @@
         }
 
         NSString *icon = item[@"icon"];
-        if (icon == nil) icon = @"blank";
+        if (icon == nil) {
+            icon = @"blank";
+        }
         
         NSMutableDictionary *action = item[@"action"];
-        if (action == nil) action = [[NSMutableDictionary alloc] initWithCapacity:0];
+        if (action == nil) {
+            action = [[NSMutableDictionary alloc] initWithCapacity:0];
+        }
         
         NSNumber *showTop = item[@"revealViewTop"];
-        if (showTop == nil) showTop = @(NO);
+        if (showTop == nil) {
+            showTop = @(NO);
+        }
         
         [tableData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                               label, @"label",
@@ -795,13 +809,21 @@
         }
         for (NSDictionary *item in arrayButtons.buttons) {
             NSString *label = item[@"label"];
-            if (label == nil) label = @"";
+            if (label == nil) {
+                label = @"";
+            }
             NSString *icon = item[@"icon"];
-            if (icon == nil) icon = @"blank";
+            if (icon == nil) {
+                icon = @"blank";
+            }
             NSString *type = item[@"type"];
-            if (type == nil) type = @"";
+            if (type == nil) {
+                type = @"";
+            }
             NSNumber *isSetting = item[@"isSetting"];
-            if (isSetting == nil) isSetting = @(YES);
+            if (isSetting == nil) {
+                isSetting = @(YES);
+            }
             [tableData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                   label, @"label",
                                   [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",

@@ -43,19 +43,18 @@ static char operationKey;
 
     [self setImage:placeholder forState:state];
 
-    if (url)
-    {
+    if (url) {
         __weak UIButton *wself = self;
         id<SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadWithURL:url options:options userInfo:nil progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
         {
             __strong UIButton *sself = wself;
-            if (!sself) return;
-            if (image)
-            {
+            if (!sself) {
+                return;
+            }
+            if (image) {
                 [sself setImage:image forState:state];
             }
-            if (completedBlock && finished)
-            {
+            if (completedBlock && finished) {
                 completedBlock(image, error, cacheType);
             }
         }];
@@ -94,19 +93,18 @@ static char operationKey;
 
     [self setBackgroundImage:placeholder forState:state];
 
-    if (url)
-    {
+    if (url) {
         __weak UIButton *wself = self;
         id<SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadWithURL:url options:options userInfo:nil progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
         {
             __strong UIButton *sself = wself;
-            if (!sself) return;
-            if (image)
-            {
+            if (!sself) {
+                return;
+            }
+            if (image) {
                 [sself setBackgroundImage:image forState:state];
             }
-            if (completedBlock && finished)
-            {
+            if (completedBlock && finished) {
                 completedBlock(image, error, cacheType);
             }
         }];
@@ -119,8 +117,7 @@ static char operationKey;
 {
     // Cancel in progress downloader from queue
     id<SDWebImageOperation> operation = objc_getAssociatedObject(self, &operationKey);
-    if (operation)
-    {
+    if (operation) {
         [operation cancel];
         objc_setAssociatedObject(self, &operationKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }

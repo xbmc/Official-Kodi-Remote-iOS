@@ -85,12 +85,24 @@
         NSString *macAddress = [AppDelegate instance].arrayServerList[idx.row][@"serverMacAddress"];
         NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
         NSInteger num_octects = [mac_octect count];
-        if (num_octects > 0) mac_0_UI.text = mac_octect[0];
-        if (num_octects > 1) mac_1_UI.text = mac_octect[1];
-        if (num_octects > 2) mac_2_UI.text = mac_octect[2];
-        if (num_octects > 3) mac_3_UI.text = mac_octect[3];
-        if (num_octects > 4) mac_4_UI.text = mac_octect[4];
-        if (num_octects > 5) mac_5_UI.text = mac_octect[5];
+        if (num_octects > 0) {
+            mac_0_UI.text = mac_octect[0];
+        }
+        if (num_octects > 1) {
+            mac_1_UI.text = mac_octect[1];
+        }
+        if (num_octects > 2) {
+            mac_2_UI.text = mac_octect[2];
+        }
+        if (num_octects > 3) {
+            mac_3_UI.text = mac_octect[3];
+        }
+        if (num_octects > 4) {
+            mac_4_UI.text = mac_octect[4];
+        }
+        if (num_octects > 5) {
+            mac_5_UI.text = mac_octect[5];
+        }
         preferTVPostersUI.on = [[AppDelegate instance].arrayServerList[idx.row][@"preferTVPosters"] boolValue];
         tcpPortUI.text = [AppDelegate instance].arrayServerList[idx.row][@"tcpPort"];
     }
@@ -106,18 +118,42 @@
     
     [self textFieldDoneEditing:nil];
     
-    if (descriptionUI.text == nil) descriptionUI.text = @"";
-    if (usernameUI.text == nil) usernameUI.text = @"";
-    if (passwordUI.text == nil) passwordUI.text = @"";
-    if (ipUI.text == nil) ipUI.text = @"";
-    if (portUI.text == nil) portUI.text = @"";
-    if (tcpPortUI.text == nil) tcpPortUI.text = @"";
-    if (mac_0_UI.text == nil) mac_0_UI.text = @"";
-    if (mac_1_UI.text == nil) mac_1_UI.text = @"";
-    if (mac_2_UI.text == nil) mac_2_UI.text = @"";
-    if (mac_3_UI.text == nil) mac_3_UI.text = @"";
-    if (mac_4_UI.text == nil) mac_4_UI.text = @"";
-    if (mac_5_UI.text == nil) mac_5_UI.text = @"";
+    if (descriptionUI.text == nil) {
+        descriptionUI.text = @"";
+    }
+    if (usernameUI.text == nil) {
+        usernameUI.text = @"";
+    }
+    if (passwordUI.text == nil) {
+        passwordUI.text = @"";
+    }
+    if (ipUI.text == nil) {
+        ipUI.text = @"";
+    }
+    if (portUI.text == nil) {
+        portUI.text = @"";
+    }
+    if (tcpPortUI.text == nil) {
+        tcpPortUI.text = @"";
+    }
+    if (mac_0_UI.text == nil) {
+        mac_0_UI.text = @"";
+    }
+    if (mac_1_UI.text == nil) {
+        mac_1_UI.text = @"";
+    }
+    if (mac_2_UI.text == nil) {
+        mac_2_UI.text = @"";
+    }
+    if (mac_3_UI.text == nil) {
+        mac_3_UI.text = @"";
+    }
+    if (mac_4_UI.text == nil) {
+        mac_4_UI.text = @"";
+    }
+    if (mac_5_UI.text == nil) {
+        mac_5_UI.text = @"";
+    }
 
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
     if (self.detailItem == nil) {
