@@ -69,5 +69,6 @@ typedef enum {
 + (NSString*)getYearFromDictionary:(NSDictionary*)dict key:(NSString*)key;
 + (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key;
 + (NSString*)getClearArtFromDictionary:(NSDictionary*)dict type:(NSString*)type;
++ (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
 
 @end

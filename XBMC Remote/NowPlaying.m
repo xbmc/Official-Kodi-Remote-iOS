@@ -1507,15 +1507,8 @@ int currentItemID;
 //                 if ([art count] && [art[@"banner"] length] != 0 && [AppDelegate instance].serverVersion > 11 && ![AppDelegate instance].obj.preferTVPosters) {
 //                     thumbnailPath = art[@"banner"];
 //                 }
-                 NSString *fanartPath = videoLibraryMovieDetail[@"fanart"];
-                 NSString *fanartURL = @"";
-                 NSString *stringURL = @"";
-                 if (![thumbnailPath isEqualToString:@""]) {
-                     stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
-                 }
-                 if (![fanartPath isEqualToString:@""]) {
-                     fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
-                 }
+                 NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
+                 NSString *fanartURL = [Utilities formatStringURL:videoLibraryMovieDetail[@"fanart"] serverURL:serverURL];
                  if ([stringURL isEqualToString:@""]) {
                      stringURL = [Utilities getItemIconFromDictionary:videoLibraryMovieDetail mainFields:mainFields];
                  }
