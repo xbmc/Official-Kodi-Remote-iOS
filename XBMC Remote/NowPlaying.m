@@ -1516,11 +1516,7 @@ int currentItemID;
                  }
                  NSString *runtime = [Utilities getStringFromDictionary:videoLibraryMovieDetail key:mainFields[@"row4"] emptyString:@""];
                  
-                 NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber *)videoLibraryMovieDetail[mainFields[@"row5"]] floatValue]];
-                 
-                 if ([rating isEqualToString:@"0.0"]) {
-                     rating = @"";
-                 }
+                 NSString *rating = [Utilities getRatingFromDictionary:videoLibraryMovieDetail key:mainFields[@"row5"]];
                  
                  NSString *thumbnailPath = videoLibraryMovieDetail[@"thumbnail"];
                  NSDictionary *art = videoLibraryMovieDetail[@"art"];

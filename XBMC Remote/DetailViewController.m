@@ -4302,11 +4302,7 @@ NSIndexPath *selected;
                  }                     
                  NSString *runtime = [Utilities getTimeFromDictionary:videoLibraryMovieDetail key:mainFields[@"row4"] sec2min:secondsToMinute];
                  
-                 NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber *)videoLibraryMovieDetail[mainFields[@"row5"]] floatValue]];
-                 
-                 if ([rating isEqualToString:@"0.0"]) {
-                     rating = @"";
-                 }
+                 NSString *rating = [Utilities getRatingFromDictionary:videoLibraryMovieDetail key:mainFields[@"row5"]];
                  
                  NSString *thumbnailPath = videoLibraryMovieDetail[@"thumbnail"];
                  NSDictionary *art = videoLibraryMovieDetail[@"art"];
@@ -4575,10 +4571,7 @@ NSIndexPath *selected;
                          
                          NSString *runtime = [Utilities getTimeFromDictionary:videoLibraryMovies[i] key:mainFields[@"row4"] sec2min:secondsToMinute];
                          
-                         NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber *)videoLibraryMovies[i][mainFields[@"row5"]] floatValue]];
-                         if ([rating isEqualToString:@"0.0"]) {
-                             rating = @"";
-                         }
+                         NSString *rating = [Utilities getRatingFromDictionary:videoLibraryMovies[i] key:mainFields[@"row5"]];
                          
                          NSString *thumbnailPath = videoLibraryMovies[i][@"thumbnail"];
                          NSDictionary *art = videoLibraryMovies[i][@"art"];

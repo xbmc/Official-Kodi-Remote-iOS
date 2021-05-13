@@ -597,4 +597,12 @@
     return runtime;
 }
 
++ (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key {
+    NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber*)dict[key] floatValue]];
+    if ([rating isEqualToString:@"0.0"]) {
+        rating = @"";
+    }
+    return rating;
+}
+
 @end
