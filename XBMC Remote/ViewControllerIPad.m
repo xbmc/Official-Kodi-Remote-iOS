@@ -193,7 +193,7 @@
 }
 
 - (void)toggleVolume{
-    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:volumeSliderView.frame.origin.y - volumeSliderView.frame.size.height - 42 forceHide:FALSE];
+    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:volumeSliderView.frame.origin.y - volumeSliderView.frame.size.height - 42 forceHide:NO];
 }
 
 -(void)initHostManagemetPopOver{
@@ -415,8 +415,8 @@
     
 	menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, headerHeight, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:mainMenu];
 	[menuViewController.view setBackgroundColor:[UIColor clearColor]];
-	[menuViewController viewWillAppear:FALSE];
-	[menuViewController viewDidAppear:FALSE];
+	[menuViewController viewWillAppear:NO];
+	[menuViewController viewDidAppear:NO];
 	[leftMenuView addSubview:menuViewController.view];
     int separator = 2;
     
@@ -450,8 +450,8 @@
 	stackScrollViewController = [[StackScrollViewController alloc] init];	
 	[stackScrollViewController.view setFrame:CGRectMake(0, 0, rightSlideView.frame.size.width, rightSlideView.frame.size.height)];
 	[stackScrollViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight];
-	[stackScrollViewController viewWillAppear:FALSE];
-	[stackScrollViewController viewDidAppear:FALSE];
+	[stackScrollViewController viewWillAppear:NO];
+	[stackScrollViewController viewDidAppear:NO];
 	[rightSlideView addSubview:stackScrollViewController.view];
 	
 	[rootView addSubview:leftMenuView];
@@ -648,7 +648,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.2];
     self.nowPlayingController.songDetailsView.alpha = 0.0;
-    [self.nowPlayingController.itemDescription setScrollsToTop:FALSE];
+    [self.nowPlayingController.itemDescription setScrollsToTop:NO];
     [UIView commitAnimations];
 }
 

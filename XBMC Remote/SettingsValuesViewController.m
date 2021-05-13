@@ -371,10 +371,10 @@
 
 - (void)adjustFontSize:(UILabel *)label {
     CGRect descriptionRect;
-    BOOL done = FALSE;
+    BOOL done = NO;
     CGFloat startSize = label.font.pointSize - 1;
     CGFloat endSize = startSize - 2;
-    while (done == FALSE && startSize >= endSize) {
+    while (done == NO && startSize >= endSize) {
         descriptionRect = [label.text  boundingRectWithSize:CGSizeMake(label.bounds.size.width, NSIntegerMax)
                                                                     options:NSStringDrawingUsesLineFragmentOrigin
                                                                  attributes:@{NSFontAttributeName:label.font}
@@ -384,7 +384,7 @@
             [label setFont:[UIFont systemFontOfSize:startSize]];
         }
         else {
-            done = TRUE;
+            done = YES;
         }
         startSize --;
     }
@@ -656,7 +656,7 @@
                     [self.navigationController pushViewController:settingsViewController animated:YES];
                 }
                 else {
-                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:settingsViewController invokeByController:self isStackStartView:FALSE];
+                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:settingsViewController invokeByController:self isStackStartView:NO];
                 }
             }
             break;

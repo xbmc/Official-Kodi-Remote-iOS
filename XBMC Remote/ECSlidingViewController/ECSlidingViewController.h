@@ -199,13 +199,13 @@ typedef enum {
  */
 - (void)resetTopViewWithAnimations:(void(^)(void))animations onComplete:(void(^)(void))complete;
 
-/** Returns true if the underLeft view is showing (even partially) */
+/** Returns YES if the underLeft view is showing (even partially) */
 - (BOOL)underLeftShowing;
 
-/** Returns true if the underRight view is showing (even partially) */
+/** Returns YES if the underRight view is showing (even partially) */
 - (BOOL)underRightShowing;
 
-/** Returns true if the top view is completely off the screen */
+/** Returns YES if the top view is completely off the screen */
 - (BOOL)topViewIsOffScreen;
 
 @end

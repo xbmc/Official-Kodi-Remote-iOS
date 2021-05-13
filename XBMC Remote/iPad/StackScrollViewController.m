@@ -68,14 +68,14 @@
 		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, borderViews.frame.size.height)];
 		[verticalLineView1 setBackgroundColor:[UIColor whiteColor]];
 		[verticalLineView1 setTag:1 + VIEW_TAG];
-		[verticalLineView1 setHidden:TRUE];
+		[verticalLineView1 setHidden:YES];
         verticalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		[borderViews addSubview:verticalLineView1];
 		
 		UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 2, borderViews.frame.size.height)];
 		[verticalLineView2 setBackgroundColor:[UIColor grayColor]];
 		[verticalLineView2 setTag:2 + VIEW_TAG];
-		[verticalLineView2 setHidden:TRUE];		
+		[verticalLineView2 setHidden:YES];		
         verticalLineView2.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		[borderViews addSubview:verticalLineView2];
 		
@@ -101,9 +101,9 @@
 		UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
         [panRecognizer setDelegate:self];
 		[panRecognizer setMaximumNumberOfTouches:1];
-		[panRecognizer setDelaysTouchesBegan:TRUE];
-		[panRecognizer setDelaysTouchesEnded:TRUE];
-		[panRecognizer setCancelsTouchesInView:TRUE];
+		[panRecognizer setDelaysTouchesBegan:YES];
+		[panRecognizer setDelaysTouchesEnded:YES];
+		[panRecognizer setCancelsTouchesInView:YES];
 		[self.view addGestureRecognizer:panRecognizer];
 		[self.view addSubview:slideViews];
         
@@ -232,9 +232,9 @@
 //    if (![fallbackView.gestureRecognizers count]) {
 //        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
 //        [panRecognizer setMaximumNumberOfTouches:1];
-//        [panRecognizer setDelaysTouchesBegan:TRUE];
-//        [panRecognizer setDelaysTouchesEnded:TRUE];
-//        [panRecognizer setCancelsTouchesInView:TRUE];
+//        [panRecognizer setDelaysTouchesBegan:YES];
+//        [panRecognizer setDelaysTouchesEnded:YES];
+//        [panRecognizer setCancelsTouchesInView:YES];
 //        [fallbackView addGestureRecognizer:panRecognizer];
 //    }
 }
@@ -244,9 +244,9 @@
 //    if (![self.view.gestureRecognizers count]) {
 //        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
 //		[panRecognizer setMaximumNumberOfTouches:1];
-//		[panRecognizer setDelaysTouchesBegan:TRUE];
-//		[panRecognizer setDelaysTouchesEnded:TRUE];
-//		[panRecognizer setCancelsTouchesInView:TRUE];
+//		[panRecognizer setDelaysTouchesBegan:YES];
+//		[panRecognizer setDelaysTouchesEnded:YES];
+//		[panRecognizer setCancelsTouchesInView:YES];
 //		[self.view addGestureRecognizer:panRecognizer];
 //    }
 }
@@ -254,8 +254,8 @@
 -(void)arrangeVerticalBar {
 	
 	if ([[slideViews subviews] count] > 2) {
-		[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
-		[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
+		[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
+		[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:YES];
 		NSInteger stackCount = 0;
 		if (viewAtLeft != nil) {
 			stackCount = [[slideViews subviews] indexOfObject:viewAtLeft];
@@ -266,11 +266,11 @@
 		}
 		
 		if (stackCount == 2) {
-			[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:FALSE];
+			[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:NO];
 		}
 		if (stackCount >= 3) {
-			[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:FALSE];
-			[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:FALSE];
+			[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:NO];
+			[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:NO];
 		}
 	}
 }
@@ -287,9 +287,9 @@
                          for (UIView* subview in [slideViews subviews]) {
                              [subview setFrame:CGRectMake(posX, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
                          }
-                         [[borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
-                         [[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
-                         [[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
+                         [[borderViews viewWithTag:3 + VIEW_TAG] setHidden:YES];
+                         [[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
+                         [[borderViews viewWithTag:1 + VIEW_TAG] setHidden:YES];
                          viewAtLeft2 = nil;
                          viewAtRight = nil;
                          viewAtLeft = nil;
@@ -299,9 +299,9 @@
                          for (UIView* subview in [slideViews subviews]) {
                              [subview removeFromSuperview];
                          }
-                         [[borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
-                         [[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
-                         [[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
+                         [[borderViews viewWithTag:3 + VIEW_TAG] setHidden:YES];
+                         [[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
+                         [[borderViews viewWithTag:1 + VIEW_TAG] setHidden:YES];
                          [viewControllersStack removeAllObjects];
                          [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOffScreen" object: nil]; 
                      }];
@@ -317,9 +317,9 @@
             [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
             [viewControllersStack removeLastObject];
         }
-        [[borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
-        [[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
-        [[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
+        [[borderViews viewWithTag:3 + VIEW_TAG] setHidden:YES];
+        [[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
+        [[borderViews viewWithTag:1 + VIEW_TAG] setHidden:YES];
     }
     for (UIView* tableView in [[slideViews subviews][0] subviews]) {
         if ([tableView isKindOfClass:[UITableView class]]) {
@@ -356,7 +356,7 @@
 		if (viewAtLeft2 != nil) {
 			NSInteger viewAtLeft2Position = [[slideViews subviews] indexOfObject:viewAtLeft2];
 			if (viewAtLeft2Position > 0) {
-				[((UIView*)[slideViews subviews][viewAtLeft2Position -1]) setHidden:FALSE];
+				[((UIView*)[slideViews subviews][viewAtLeft2Position -1]) setHidden:NO];
 			}
 		}
 		[self arrangeVerticalBar];
@@ -380,7 +380,7 @@
 					if ([[slideViews subviews] indexOfObject:viewAtRight] < ([[slideViews subviews] count]-1)) {
 						viewAtLeft2 = viewAtLeft;
 						viewAtLeft = viewAtRight;
-						[viewAtRight2 setHidden:FALSE];
+						[viewAtRight2 setHidden:NO];
 						viewAtRight = viewAtRight2;
 						if ([[slideViews subviews] indexOfObject:viewAtRight] < ([[slideViews subviews] count]-1)) {
 							viewAtRight2 = [slideViews subviews][[[slideViews subviews] indexOfObject:viewAtRight] + 1];
@@ -392,7 +392,7 @@
 						positionOfViewAtLeftAtTouchBegan = viewAtLeft.frame.origin;
 						displacementPosition = translatedPoint.x * -1;							
 						if ([[slideViews subviews] indexOfObject:viewAtLeft2] > 1) {
-							[[slideViews subviews][[[slideViews subviews] indexOfObject:viewAtLeft2] - 2] setHidden:TRUE];
+							[[slideViews subviews][[[slideViews subviews] indexOfObject:viewAtLeft2] - 2] setHidden:YES];
 						}
 					}
 				}
@@ -446,13 +446,13 @@
 			if (viewAtLeft != nil) {
 				if (viewAtRight.frame.origin.x >= self.view.frame.size.width) {
 					if ([[slideViews subviews] indexOfObject:viewAtLeft] > 0) {							
-						[viewAtRight2 setHidden:TRUE];
+						[viewAtRight2 setHidden:YES];
 						viewAtRight2 = viewAtRight;
 						viewAtRight = viewAtLeft;
 						viewAtLeft = viewAtLeft2;						
 						if ([[slideViews subviews] indexOfObject:viewAtLeft] > 0) {
 							viewAtLeft2 = [slideViews subviews][[[slideViews subviews] indexOfObject:viewAtLeft] - 1];
-							[viewAtLeft2 setHidden:FALSE];
+							[viewAtLeft2 setHidden:NO];
 						}
 						else {
 							viewAtLeft2 = nil;
@@ -538,9 +538,9 @@
 									[viewControllersStack removeLastObject];
 								}
 								
-								[[borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
-								[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
-								[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
+								[[borderViews viewWithTag:3 + VIEW_TAG] setHidden:YES];
+								[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
+								[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:YES];
 								
 							}
 							// Removes the selection of row for the first slide view
@@ -660,9 +660,9 @@
 									[[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
 									[viewControllersStack removeLastObject];
 								}
-								[[borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
-								[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
-								[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
+								[[borderViews viewWithTag:3 + VIEW_TAG] setHidden:YES];
+								[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
+								[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:YES];
 							}
 							// Removes the selection of row for the first slide view
 							for (UIView* tableView in [[slideViews subviews][0] subviews]) {
@@ -762,7 +762,7 @@
 
 - (void)bounceBack:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context {	
 	
-	BOOL isBouncing = FALSE;
+	BOOL isBouncing = NO;
 	
 	if ([dragDirection isEqualToString:@""] && [finished boolValue]) {
 		[viewAtLeft.layer removeAllAnimations];
@@ -781,7 +781,7 @@
                 bounceAnimation.additive = NO;
                 [viewAtLeft.layer addAnimation:bounceAnimation forKey:@"bounceAnimation"];
                 
-                [viewAtRight setHidden:FALSE];
+                [viewAtRight setHidden:NO];
                 CABasicAnimation *bounceAnimationForRight = [CABasicAnimation animationWithKeyPath:@"position.x"];
                 bounceAnimationForRight.duration = 0.2;
                 bounceAnimationForRight.fromValue = @(viewAtRight.center.x);
@@ -805,7 +805,7 @@
                 bounceAnimation.additive = NO;
                 [viewAtRight.layer addAnimation:bounceAnimation forKey:@"bounceAnimation"];
                 
-                [viewAtRight2 setHidden:FALSE];
+                [viewAtRight2 setHidden:NO];
                 CABasicAnimation *bounceAnimationForRight2 = [CABasicAnimation animationWithKeyPath:@"position.x"];
                 bounceAnimationForRight2.duration = 0.2;
                 bounceAnimationForRight2.fromValue = @(viewAtRight2.center.x);
@@ -854,10 +854,10 @@
                 [viewAtLeft.layer addAnimation:bounceAnimationLeft forKey:@"bounceAnimationLeft"];
                 
                 if (viewAtLeft2 != nil) {
-                    [viewAtLeft2 setHidden:FALSE];
+                    [viewAtLeft2 setHidden:NO];
                     NSInteger viewAtLeft2Position = [[slideViews subviews] indexOfObject:viewAtLeft2];
                     if (viewAtLeft2Position > 0) {
-                        [((UIView*)[slideViews subviews][viewAtLeft2Position -1]) setHidden:FALSE];
+                        [((UIView*)[slideViews subviews][viewAtLeft2Position -1]) setHidden:NO];
                     }
                     CABasicAnimation* bounceAnimationLeft2 = [CABasicAnimation animationWithKeyPath:@"position.x"];
                     bounceAnimationLeft2.duration = 0.2;
@@ -870,7 +870,7 @@
                     bounceAnimationLeft2.additive = NO;
                     [viewAtLeft2.layer addAnimation:bounceAnimationLeft2 forKey:@"bounceAnimationviewAtLeft2"];
                     [self performSelector:@selector(callArrangeVerticalBar) withObject:nil afterDelay:0.4];
-                    isBouncing = TRUE;
+                    isBouncing = YES;
                 }
                 
             }
@@ -878,7 +878,7 @@
 	}
 	[self arrangeVerticalBar];	
 	if ([[slideViews subviews] indexOfObject:viewAtLeft2] == 1 && isBouncing) {
-		[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
+		[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
 	}
 }
 
@@ -926,9 +926,9 @@
 			[subview removeFromSuperview];
 		}
 		
-		[[borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
-		[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
-		[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
+		[[borderViews viewWithTag:3 + VIEW_TAG] setHidden:YES];
+		[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
+		[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:YES];
 		[viewControllersStack removeAllObjects];
 	}
 	
@@ -959,9 +959,9 @@
 		for (UIView* subview in [slideViews subviews]) {
 			[subview removeFromSuperview];
 		}		[viewControllersStack removeAllObjects];
-		[[borderViews viewWithTag:3 + VIEW_TAG] setHidden:TRUE];
-		[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:TRUE];
-		[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:TRUE];
+		[[borderViews viewWithTag:3 + VIEW_TAG] setHidden:YES];
+		[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
+		[[borderViews viewWithTag:1 + VIEW_TAG] setHidden:YES];
 	}
 	
 	if ([slideViews.subviews count] != 0) {
@@ -985,8 +985,8 @@
 	}
 	[[controller view] setFrame:CGRectMake(viewXPosition, 0, [controller view].frame.size.width, self.view.frame.size.height - bottomPadding)];
 	[controller.view setTag:([viewControllersStack count]-1) + VIEW_TAG];
-	[controller viewWillAppear:FALSE];
-	[controller viewDidAppear:FALSE];
+	[controller viewWillAppear:NO];
+	[controller viewDidAppear:NO];
     
     CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height - bottomPadding);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
@@ -1047,7 +1047,7 @@
             viewAtRight = [slideViews subviews][[[slideViews subviews] count]-1];
             viewAtLeft = [slideViews subviews][[[slideViews subviews] count]-2];
             viewAtLeft2 = [slideViews subviews][[[slideViews subviews] count]-3];
-            [viewAtLeft2 setHidden:FALSE];
+            [viewAtLeft2 setHidden:NO];
             viewAtRight2 = nil;
             
             [UIView beginAnimations:nil context:NULL];
@@ -1064,7 +1064,7 @@
             [UIView commitAnimations];				
             slideStartPosition = SLIDE_VIEWS_MINUS_X_POSITION;	
             if ([[slideViews subviews] count] > 3) {
-                [[slideViews subviews][[[slideViews subviews] count]-4] setHidden:TRUE];
+                [[slideViews subviews][[[slideViews subviews] count]-4] setHidden:YES];
             }
         }
 	}

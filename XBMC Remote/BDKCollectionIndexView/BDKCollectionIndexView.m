@@ -198,12 +198,12 @@
 
 - (void)handleTap:(UILongPressGestureRecognizer *)recognizer {
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        [self setBackgroundVisibility:FALSE];
+        [self setBackgroundVisibility:NO];
         self.alpha = DEFAULT_ALPHA;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateEnded" object: nil];
     }
     else {
-        [self setBackgroundVisibility:TRUE];
+        [self setBackgroundVisibility:YES];
         self.alpha = 1.0;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateBegin" object: nil];
     }

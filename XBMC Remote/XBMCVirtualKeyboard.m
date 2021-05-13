@@ -203,7 +203,7 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     if (textField.tag == 10) {
-        [self performSelectorOnMainThread:@selector(hideKeyboard:) withObject:nil waitUntilDone:FALSE];
+        [self performSelectorOnMainThread:@selector(hideKeyboard:) withObject:nil waitUntilDone:NO];
     }
 }
 

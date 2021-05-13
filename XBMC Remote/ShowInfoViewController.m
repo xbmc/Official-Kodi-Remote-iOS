@@ -375,7 +375,7 @@ int count = 0;
             obj = movieObj;
             objKey = movieObjKey;
         }
-        else if ([AppDelegate instance].serverVersion > 11 && [parameters[@"disableFilterParameter"] boolValue] == FALSE) {
+        else if ([AppDelegate instance].serverVersion > 11 && [parameters[@"disableFilterParameter"] boolValue] == NO) {
             obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] intValue]), mainFields[@"row6"], nil];
             objKey = @"filter";
         }
@@ -418,7 +418,7 @@ int count = 0;
         else {
             if (![self isModal]) {
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
                 [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
                 [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
             }
@@ -1706,7 +1706,7 @@ int h = 0;
 #pragma mark - Safari
 
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
-    [self dismissViewControllerAnimated:true completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Gestures
@@ -1942,7 +1942,7 @@ int h = 0;
     }
     if (isViewDidLoad) {
         [self createInfo];
-        isViewDidLoad = false;
+        isViewDidLoad = NO;
     }
 }
 
@@ -2018,7 +2018,7 @@ int h = 0;
     if (httpHeaders[@"Authorization"] != nil) {
         [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
-    isViewDidLoad = TRUE;
+    isViewDidLoad = YES;
     [label1 setText:NSLocalizedString(@"DIRECTED BY", nil)];
     [label2 setText:NSLocalizedString(@"GENRE", nil)];
     [label3 setText:NSLocalizedString(@"RUNTIME", nil)];

@@ -477,7 +477,7 @@
     mac_3_UI.text = @"";
     mac_4_UI.text = @"";
     mac_5_UI.text = @"";
-    preferTVPostersUI.on = FALSE;
+    preferTVPostersUI.on = NO;
     [descriptionUI setTextColor:[Utilities get1stLabelColor]];
     [ipUI setTextColor:[Utilities get1stLabelColor]];
     [portUI setTextColor:[Utilities get1stLabelColor]];

@@ -94,7 +94,7 @@
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     if ([[AppDelegate instance].arrayServerList count] == 0) {
-        [(UIImageView*) [cell viewWithTag:1] setHidden:TRUE];
+        [(UIImageView*) [cell viewWithTag:1] setHidden:YES];
         UILabel *cellLabel = (UILabel*) [cell viewWithTag:2];
         UILabel *cellIP = (UILabel*) [cell viewWithTag:3];
         cellLabel.textAlignment = NSTextAlignmentCenter;
@@ -104,7 +104,7 @@
         return cell;
     }
     else {
-        [(UIImageView*) [cell viewWithTag:1] setHidden:FALSE];
+        [(UIImageView*) [cell viewWithTag:1] setHidden:NO];
         UILabel *cellLabel = (UILabel*) [cell viewWithTag:2];
         UILabel *cellIP = (UILabel*) [cell viewWithTag:3];
         cellLabel.textAlignment = NSTextAlignmentLeft;
@@ -280,7 +280,7 @@ static inline BOOL IsEmpty(id obj) {
 
 -(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
     if (sender != nil) {
-        forceClose = FALSE;
+        forceClose = NO;
     }
     if ([[AppDelegate instance].arrayServerList count] == 0 && !serverListTableView.editing) return;
     if (serverListTableView.editing == YES || forceClose == YES) {

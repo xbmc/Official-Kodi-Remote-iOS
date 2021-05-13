@@ -116,7 +116,7 @@
 }
 
 - (void)toggleVolume{
-    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:FALSE];
+    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:NO];
 }
 
 -(IBAction)changePlaylist:(id)sender{
@@ -1458,7 +1458,7 @@ int currentItemID;
 }
 
 -(void)displayInfoView:(NSDictionary *)item{
-    fromItself = TRUE;
+    fromItself = YES;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         ShowInfoViewController *showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
         showInfoViewController.detailItem = item;
@@ -1466,7 +1466,7 @@ int currentItemID;
     }
     else {
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:TRUE];
+        [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:YES];
         [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
         [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
     }
@@ -1844,7 +1844,7 @@ int currentItemID;
             
         case 5:
             [self animViews];
-            [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+            [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:YES];
             break;
             
         case 6:
@@ -1971,7 +1971,7 @@ int currentItemID;
     }
     else if ([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]) {
         [self toggleSongDetails];
-        [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
+        [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:YES];
     }
 }
 
@@ -2085,7 +2085,7 @@ int currentItemID;
 }
 
 -(IBAction)stopUpdateProgressBar:(id)sender{
-    updateProgressBar = FALSE;
+    updateProgressBar = NO;
     [self changeAlphaView:scrabbingView alpha:1.0 time:0.3];
 }
 
@@ -2214,7 +2214,7 @@ int currentItemID;
         }
         id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
-        if ([AppDelegate instance].serverVersion > 11 && [parameters[@"disableFilterParameter"] boolValue] == FALSE) {
+        if ([AppDelegate instance].serverVersion > 11 && [parameters[@"disableFilterParameter"] boolValue] == NO) {
             if ([mainFields[@"row6"] isEqualToString:@"artistid"]) { // WORKAROUND due the lack of the artistid with Playlist.GetItems
                 NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item[@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                 obj = [NSDictionary dictionaryWithObjectsAndKeys:artistFrodoWorkaround, @"artist", nil];
@@ -2237,7 +2237,7 @@ int currentItemID;
                                        nil];
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab = choosedTab;
-        fromItself = TRUE;
+        fromItself = YES;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             detailViewController.detailItem = MenuItem.subItem;
@@ -2245,7 +2245,7 @@ int currentItemID;
         }
         else {
             DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:TRUE];
+            [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:YES];
             [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
             [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
         }
@@ -2478,7 +2478,7 @@ int currentItemID;
 
 -(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
     if (sender != nil) {
-        forceClose = FALSE;
+        forceClose = NO;
     }
     if ([playlistData count] == 0 && !playlistTableView.editing) {
         return;
@@ -2865,7 +2865,7 @@ int currentItemID;
         timer = nil;
     }
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
-    fromItself = FALSE;
+    fromItself = NO;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.slidingViewController.underRightViewController = nil;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
@@ -2939,7 +2939,7 @@ int currentItemID;
     if (httpHeaders[@"Authorization"] != nil) {
         [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
-    [itemDescription setSelectable:FALSE];
+    [itemDescription setSelectable:NO];
     [itemLogoImage.layer setMinificationFilter:kCAFilterTrilinear];
     [songCodecImage.layer setMinificationFilter:kCAFilterTrilinear];
     [songBitRateImage.layer setMinificationFilter:kCAFilterTrilinear];

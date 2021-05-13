@@ -174,7 +174,7 @@ NSOutputStream	*outStream;
     if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
         return;
     }
-    inCheck = TRUE;
+    inCheck = YES;
 //    NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
 //    NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
     
@@ -184,7 +184,7 @@ NSOutputStream	*outStream;
      withParameters:checkServerParams
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-         inCheck = FALSE;
+         inCheck = NO;
          if (error == nil && methodError == nil) {
              [AppDelegate instance].serverVolume = [methodResult[@"volume"] intValue];
              if (![AppDelegate instance].serverOnLine) {

@@ -263,7 +263,7 @@ BOOL moved;
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         self.initialTouchPositionX = currentTouchPositionX;
         self.initialHoizontalCenter = self.topView.center.x;
-        moved = FALSE;
+        moved = NO;
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [recognizer translationInView:self.view];
@@ -277,7 +277,7 @@ BOOL moved;
                 newCenterPosition = self.resettedCenter;
             }
             else {
-                moved = TRUE;
+                moved = YES;
             }
             
             [self topViewHorizontalCenterWillChange:newCenterPosition];
