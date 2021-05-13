@@ -563,4 +563,38 @@
     return iconName;
 }
 
++ (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key emptyString:(NSString*)empty {
+    NSString *text = @"";
+    id value = dict[key];
+    if (value == [NSNull null]) {
+        text = empty;
+    }
+    else if ([value isKindOfClass:[NSArray class]]) {
+        text = [value componentsJoinedByString:@" / "];
+        text = [text length] == 0 ? empty : text;
+    }
+    else {
+        text = [value length] == 0 ? empty : value;
+    }
+    return text;
+}
+
++ (NSString*)getTimeFromDictionary:(NSDictionary*)dict key:(NSString*)key sec2min:(int)secondsToMinute {
+    NSString *runtime = @"";
+    id value = dict[key];
+    if (value == [NSNull null]) {
+        runtime = @"";
+    }
+    else if ([value isKindOfClass:[NSArray class]]) {
+        runtime = [NSString stringWithFormat:@"%@", [value componentsJoinedByString:@" / "]];
+    }
+    else if ([value intValue]) {
+        runtime = [NSString stringWithFormat:@"%d min", [value intValue]/secondsToMinute];
+    }
+    else {
+        runtime = [NSString stringWithFormat:@"%@", value];
+    }
+    return runtime;
+}
+
 @end

@@ -4286,16 +4286,7 @@ NSIndexPath *selected;
                      secondsToMinute = 60;
                  }
                  NSString *label = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row1"]]];
-                 NSString *genre = @"";
-                 if ([videoLibraryMovieDetail[mainFields[@"row2"]] isKindOfClass:[NSArray class]]) {
-                     genre = [NSString stringWithFormat:@"%@",[videoLibraryMovieDetail[mainFields[@"row2"]] componentsJoinedByString:@" / "]];
-                 }
-                 else {
-                     genre = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row2"]]];
-                 }
-                 if ([genre isEqualToString:@"(null)"]) {
-                     genre = @"";
-                 }
+                 NSString *genre = [Utilities getStringFromDictionary:videoLibraryMovieDetail key:mainFields[@"row2"] emptyString:@""];
                  
                  NSString *year = @"";
                  if ([videoLibraryMovieDetail[mainFields[@"row3"]] isKindOfClass:[NSNumber class]]) {
@@ -4309,19 +4300,7 @@ NSIndexPath *selected;
                          year = videoLibraryMovieDetail[mainFields[@"row3"]];
                      }
                  }                     
-                 NSString *runtime = @"";
-                 if ([videoLibraryMovieDetail[mainFields[@"row4"]] isKindOfClass:[NSArray class]]) {
-                     runtime = [NSString stringWithFormat:@"%@",[videoLibraryMovieDetail[mainFields[@"row4"]] componentsJoinedByString:@" / "]];
-                 }
-                 else if ([videoLibraryMovieDetail[mainFields[@"row4"]] intValue]) {
-                     runtime = [NSString stringWithFormat:@"%d min",[videoLibraryMovieDetail[mainFields[@"row4"]] intValue]/secondsToMinute];
-                 }
-                 else {
-                     runtime = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row4"]]];
-                 }
-                 if ([runtime isEqualToString:@"(null)"]) {
-                     runtime = @"";
-                 }
+                 NSString *runtime = [Utilities getTimeFromDictionary:videoLibraryMovieDetail key:mainFields[@"row4"] sec2min:secondsToMinute];
                  
                  NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber *)videoLibraryMovieDetail[mainFields[@"row5"]] floatValue]];
                  
@@ -4575,16 +4554,7 @@ NSIndexPath *selected;
                      for (int i = 0; i < total; i++) {
                          NSString *label = [NSString stringWithFormat:@"%@",videoLibraryMovies[i][mainFields[@"row1"]]];
                          
-                         NSString *genre = @"";
-                         if ([videoLibraryMovies[i][mainFields[@"row2"]] isKindOfClass:[NSArray class]]) {
-                             genre = [NSString stringWithFormat:@"%@",[videoLibraryMovies[i][mainFields[@"row2"]] componentsJoinedByString:@" / "]];
-                         }
-                         else {
-                             genre = [NSString stringWithFormat:@"%@",videoLibraryMovies[i][mainFields[@"row2"]]];
-                         }
-                         if ([genre isEqualToString:@"(null)"]) {
-                             genre = @"";
-                         }
+                         NSString *genre = [Utilities getStringFromDictionary:videoLibraryMovies[i] key:mainFields[@"row2"] emptyString:@""];
                          
                          NSString *year = @"";
                          if ([videoLibraryMovies[i][mainFields[@"row3"]] isKindOfClass:[NSNumber class]]) {
@@ -4603,19 +4573,7 @@ NSIndexPath *selected;
                              year = @"";
                          }
                          
-                         NSString *runtime = @"";
-                         if ([videoLibraryMovies[i][mainFields[@"row4"]] isKindOfClass:[NSArray class]]) {
-                             runtime = [NSString stringWithFormat:@"%@",[videoLibraryMovies[i][mainFields[@"row4"]] componentsJoinedByString:@" / "]];
-                         }
-                         else if ([videoLibraryMovies[i][mainFields[@"row4"]] intValue]) {
-                             runtime = [NSString stringWithFormat:@"%d min",[videoLibraryMovies[i][mainFields[@"row4"]] intValue]/secondsToMinute];
-                         }
-                         else {
-                             runtime = [NSString stringWithFormat:@"%@",videoLibraryMovies[i][mainFields[@"row4"]]];
-                         }
-                         if ([runtime isEqualToString:@"(null)"]) {
-                             runtime = @"";
-                         }
+                         NSString *runtime = [Utilities getTimeFromDictionary:videoLibraryMovies[i] key:mainFields[@"row4"] sec2min:secondsToMinute];
                          
                          NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber *)videoLibraryMovies[i][mainFields[@"row5"]] floatValue]];
                          if ([rating isEqualToString:@"0.0"]) {

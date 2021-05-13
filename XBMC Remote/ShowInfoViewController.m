@@ -790,20 +790,8 @@ int h = 0;
             NSDate *date = [format dateFromString:item[@"premiered"]];
             [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
             genreLabel.text = date == nil ? @"-" : [format stringFromDate:date];
-            if ([item[@"genre"] isKindOfClass:[NSArray class]]) {
-                runtimeLabel.text = [item[@"genre"] componentsJoinedByString:@" / "];
-                runtimeLabel.text = [runtimeLabel.text length] == 0 ? @"-" : runtimeLabel.text;
-            }
-            else {
-                runtimeLabel.text = [item[@"genre"] length] == 0 ? @"-" : item[@"genre"];
-            }
-            if ([item[@"studio"] isKindOfClass:[NSArray class]]) {
-                studioLabel.text = [item[@"studio"] componentsJoinedByString:@" / "];
-                studioLabel.text = [studioLabel.text length] == 0 ? @"-" : studioLabel.text;
-            }
-            else {
-                studioLabel.text = [item[@"studio"] length] == 0 ? @"-" : item[@"studio"];
-            }
+            runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+            studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
             numVotesLabel.hidden = YES;
             [self setTvShowsToolbar];
         }
@@ -845,20 +833,8 @@ int h = 0;
                 aired = [format stringFromDate:date];
             }
             genreLabel.text = aired;
-            if ([item[@"director"] isKindOfClass:[NSArray class]]) {
-                runtimeLabel.text = [item[@"director"] componentsJoinedByString:@" / "];
-                runtimeLabel.text = [runtimeLabel.text length] == 0 ? @"-" : runtimeLabel.text;
-            }
-            else {
-                runtimeLabel.text = [item[@"director"] length] == 0 ? @"-" : item[@"director"];
-            }
-            if ([item[@"writer"] isKindOfClass:[NSArray class]]) {
-                studioLabel.text = [item[@"writer"] componentsJoinedByString:@" / "];
-                studioLabel.text = [studioLabel.text length] == 0 ? @"-" : studioLabel.text;
-            }
-            else {
-                studioLabel.text = [item[@"writer"] length] == 0 ? @"-" : item[@"writer"];
-            }
+            runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
+            studioLabel.text = [Utilities getStringFromDictionary:item key:@"writer" emptyString:@"-"];
             shiftParentalRating = 0;
         }
         [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
@@ -908,21 +884,9 @@ int h = 0;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
         
-        if ([item[@"artist"] isKindOfClass:[NSArray class]]) {
-            directorLabel.text = [item[@"artist"] componentsJoinedByString:@" / "];
-            directorLabel.text = [directorLabel.text length] == 0 ? @"-" : directorLabel.text;
-        }
-        else {
-            directorLabel.text = [item[@"artist"] length] == 0 ? @"-" : item[@"artist"];
-        }
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"artist" emptyString:@"-"];
         genreLabel.text = [item[@"year"] length] == 0 ? @"-" : item[@"year"];
-        if ([item[@"genre"] isKindOfClass:[NSArray class]]) {
-            runtimeLabel.text = [item[@"genre"] componentsJoinedByString:@" / "];
-            runtimeLabel.text = [runtimeLabel.text length] == 0 ? @"-" : runtimeLabel.text;
-        }
-        else {
-            runtimeLabel.text = [item[@"genre"] length] == 0 ? @"-" : item[@"genre"];
-        }
+        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
         studioLabel.text = [item[@"label"] length] == 0 ? @"-" : item[@"label"];
         [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
     }
@@ -955,21 +919,8 @@ int h = 0;
         starsView.hidden = YES;
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
-        if ([item[@"genre"] isKindOfClass:[NSArray class]]) {
-            directorLabel.text = [item[@"genre"] componentsJoinedByString:@" / "];
-            directorLabel.text = [directorLabel.text length] == 0 ? @"-" : directorLabel.text;
-        }
-        else {
-            directorLabel.text = [item[@"genre"] length] == 0 ? @"-" : item[@"genre"];
-        }
-        
-        if ([item[@"style"] isKindOfClass:[NSArray class]]) {
-            genreLabel.text = [item[@"style"] componentsJoinedByString:@" / "];
-            genreLabel.text = [genreLabel.text length] == 0 ? @"-" : genreLabel.text;
-        }
-        else {
-            genreLabel.text = [item[@"style"] length] == 0 ? @"-" : item[@"style"];
-        }
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"style" emptyString:@"-"];
         genreLabel.numberOfLines = 0;
         CGSize maximunLabelSize = CGSizeMake(pageSize, 9999);
         CGRect expectedLabelRect = [genreLabel.text boundingRectWithSize:maximunLabelSize
@@ -984,21 +935,9 @@ int h = 0;
         genreLabel.frame = newFrame;
         [self moveLabel:@[label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:-(expectedLabelSize.height - labelSpace)];
         
-        if ([item[@"born"] isKindOfClass:[NSArray class]]) {
-            studioLabel.text = [item[@"born"] componentsJoinedByString:@" / "];
-            studioLabel.text = [studioLabel.text length] == 0 ? @"-" : studioLabel.text;
-        }
-        else {
-            studioLabel.text = [item[@"born"] length] == 0 ? @"-" : item[@"born"];
-        }
-        
-        if ([item[@"formed"] isKindOfClass:[NSArray class]]) {
-            studioLabel.text = [item[@"formed"] componentsJoinedByString:@" / "];
-            studioLabel.text = [studioLabel.text length] == 0 ? @"-" : studioLabel.text;
-        }
-        else {
-            studioLabel.text = [item[@"formed"] length] == 0 ? studioLabel.text : item[@"formed"];
-        }
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"born" emptyString:@"-"];
+        NSString *formed = [Utilities getStringFromDictionary:item key:@"formed" emptyString:@"-"];
+        studioLabel.text = [formed isEqualToString:@"-"] ? studioLabel.text : formed;
         
         if ([directorLabel.text isEqualToString:@"-"]) {
             directorLabel.hidden = YES;
@@ -1148,29 +1087,11 @@ int h = 0;
             jewelView.frame = frame;
             [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:-(coverHeight - originalHeight)];
         }
-        if ([item[@"director"] isKindOfClass:[NSArray class]]) {
-            directorLabel.text = [item[@"director"] componentsJoinedByString:@" / "];
-            directorLabel.text = [directorLabel.text length] == 0 ? @"-" : directorLabel.text;
-        }
-        else {
-            directorLabel.text = [item[@"director"] length] == 0 ? @"-" : item[@"director"];
-        }
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
         directorLabel.text = [item[@"year"] length] == 0 ? directorLabel.text : [NSString stringWithFormat:@"%@ (%@)", directorLabel.text, item[@"year"]];
-        if ([item[@"genre"] isKindOfClass:[NSArray class]]) {
-            genreLabel.text = [item[@"genre"] componentsJoinedByString:@" / "];
-            genreLabel.text = [genreLabel.text length] == 0 ? @"-" : genreLabel.text;
-        }
-        else {
-            genreLabel.text = [item[@"genre"] length] == 0 ? @"-" : item[@"genre"];
-        }
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
         runtimeLabel.text = [item[@"runtime"] length] == 0 ? @"-" : item[@"runtime"];
-        if ([item[@"studio"] isKindOfClass:[NSArray class]]) {
-            studioLabel.text = [item[@"studio"] componentsJoinedByString:@" / "];
-            studioLabel.text = [studioLabel.text length] == 0 ? @"-" : studioLabel.text;
-        }
-        else {
-            studioLabel.text = [item[@"studio"] length] == 0 ? @"-" : item[@"studio"];
-        }
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
     }
     BOOL inEnableKenBurns = enableKenBurns;
     __weak ShowInfoViewController *sf = self;

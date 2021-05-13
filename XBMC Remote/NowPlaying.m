@@ -688,14 +688,7 @@ int currentItemID;
                                  }
                                  NSString *title = [nowPlayingInfo[@"title"] length] != 0 ? [NSString stringWithFormat:@"%@",nowPlayingInfo[@"title"]] : @"";
                                  storeLiveTVTitle = title;
-                                 NSString *artist = @"";
-                                 if ([nowPlayingInfo[@"artist"] isKindOfClass:[NSArray class]]) {
-                                     artist = [nowPlayingInfo[@"artist"] componentsJoinedByString:@" / "];
-                                     artist = [artist length] == 0 ? @"" : artist;
-                                 }
-                                 else {
-                                     artist = [nowPlayingInfo[@"artist"] length] == 0 ? @"" : nowPlayingInfo[@"artist"];
-                                 }
+                                 NSString *artist = [Utilities getStringFromDictionary:nowPlayingInfo key:@"artist" emptyString:@""];
                                  if ([album length] == 0 && ((NSNull *)nowPlayingInfo[@"showtitle"] != [NSNull null]) && nowPlayingInfo[@"season"] > 0) {
                                      album = [nowPlayingInfo[@"showtitle"] length] != 0 ? [NSString stringWithFormat:@"%@ - %@x%@", nowPlayingInfo[@"showtitle"], nowPlayingInfo[@"season"], nowPlayingInfo[@"episode"]] : @"";
                                  }
@@ -704,13 +697,7 @@ int currentItemID;
                                  }
 
                                  if ([artist length] == 0 && ((NSNull *)nowPlayingInfo[@"studio"] != [NSNull null])) {
-                                     if ([nowPlayingInfo[@"studio"] isKindOfClass:[NSArray class]]) {
-                                         artist = [nowPlayingInfo[@"studio"] componentsJoinedByString:@" / "];
-                                         artist = [artist length] == 0 ? @"" : artist;
-                                     }
-                                     else {
-                                         artist = [nowPlayingInfo[@"studio"] length] != 0 ? nowPlayingInfo[@"studio"] : @"";
-                                     }
+                                     artist = [Utilities getStringFromDictionary:nowPlayingInfo key:@"studio" emptyString:@""];
                                  }
                                  albumName.text = album;
                                  songName.text = title;
@@ -1314,14 +1301,7 @@ int currentItemID;
                            NSString *label = [NSString stringWithFormat:@"%@",playlistItems[i][@"label"]];
                            NSString *title = [NSString stringWithFormat:@"%@",playlistItems[i][@"title"]];
                            
-                           NSString *artist = @"";
-                           if ([playlistItems[i][@"artist"] isKindOfClass:[NSArray class]]) {
-                               artist = [playlistItems[i][@"artist"] componentsJoinedByString:@" / "];
-                               artist = [artist length] == 0 ? @"-" : artist;
-                           }
-                           else {
-                                artist = [playlistItems[i][@"artist"] length] == 0 ? @"" : playlistItems[i][@"artist"];
-                           }
+                           NSString *artist = [Utilities getStringFromDictionary:playlistItems[i] key:@"artist" emptyString:@""];
                            NSString *album = [playlistItems[i][@"album"] length] == 0 ? @"" : playlistItems[i][@"album"];
                            
                            NSString *patchRuntime = [NSString stringWithFormat:@"%@", playlistItems[i][@"runtime"]];
@@ -1336,17 +1316,7 @@ int currentItemID;
                            NSString *artistid = [NSString stringWithFormat:@"%@", playlistItems[i][@"artistid"]];
                            NSString *albumid = [NSString stringWithFormat:@"%@", playlistItems[i][@"albumid"]];
                            NSString *movieid = [NSString stringWithFormat:@"%@", playlistItems[i][@"id"]];
-                           NSString *genre = @"";
-                           if ([playlistItems[i][@"genre"] isKindOfClass:[NSArray class]]) {
-                               genre = [NSString stringWithFormat:@"%@",[playlistItems[i][@"genre"] componentsJoinedByString:@" / "]];
-                           }
-                           else {
-                               genre = [NSString stringWithFormat:@"%@", playlistItems[i][@"genre"]];
-                           }
-                           
-                           if ([genre isEqualToString:@"(null)"]) {
-                               genre = @"";
-                           }
+                           NSString *genre = [Utilities getStringFromDictionary:playlistItems[i] key:@"genre" emptyString:@""];
                            NSNumber *itemDurationSec = playlistItems[i][@"duration"];
                            NSString *durationTime = [itemDurationSec longValue] == 0 ? @"" : [Utilities convertTimeFromSeconds:itemDurationSec];
 
@@ -1530,16 +1500,7 @@ int currentItemID;
                  }
 
                  NSString *label = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row1"]]];
-                 NSString *genre = @"";
-                 if ([videoLibraryMovieDetail[mainFields[@"row2"]] isKindOfClass:[NSArray class]]) {
-                     genre = [NSString stringWithFormat:@"%@",[videoLibraryMovieDetail[mainFields[@"row2"]] componentsJoinedByString:@" / "]];
-                 }
-                 else {
-                     genre = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row2"]]];
-                 }
-                 if ([genre isEqualToString:@"(null)"]) {
-                     genre = @"";
-                 }
+                 NSString *genre = [Utilities getStringFromDictionary:videoLibraryMovieDetail key:mainFields[@"row2"] emptyString:@""];
                  
                  NSString *year = @"";
                  if ([videoLibraryMovieDetail[mainFields[@"row3"]] isKindOfClass:[NSNumber class]]) {
@@ -1553,19 +1514,7 @@ int currentItemID;
                          year = videoLibraryMovieDetail[mainFields[@"row3"]];
                      }
                  }
-                 NSString *runtime = @"";
-                 if ([videoLibraryMovieDetail[mainFields[@"row4"]] isKindOfClass:[NSArray class]]) {
-                     runtime = [NSString stringWithFormat:@"%@",[videoLibraryMovieDetail[mainFields[@"row4"]] componentsJoinedByString:@" / "]];
-                 }
-                 else if ([videoLibraryMovieDetail[mainFields[@"row4"]] intValue]) {
-                     runtime = [NSString stringWithFormat:@"%d min",[videoLibraryMovieDetail[mainFields[@"row4"]] intValue]];
-                 }
-                 else {
-                     runtime = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row4"]]];
-                 }
-                 if ([runtime isEqualToString:@"(null)"]) {
-                     runtime = @"";
-                 }
+                 NSString *runtime = [Utilities getStringFromDictionary:videoLibraryMovieDetail key:mainFields[@"row4"] emptyString:@""];
                  
                  NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber *)videoLibraryMovieDetail[mainFields[@"row5"]] floatValue]];
                  
