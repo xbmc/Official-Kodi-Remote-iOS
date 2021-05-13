@@ -1598,24 +1598,8 @@ int currentItemID;
                  if (![fanartPath isEqualToString:@""]) {
                      fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                  }
-                 NSString *filetype = @"";
-                 
-                 if (videoLibraryMovieDetail[@"filetype"] != nil) {
-                     filetype = videoLibraryMovieDetail[@"filetype"];
-                     if ([filetype isEqualToString:@"directory"]) {
-                         stringURL = @"nocover_filemode";
-                     }
-                     else if ([filetype isEqualToString:@"file"]) {
-                         if ([mainFields[@"playlistid"] intValue] == 0) {
-                             stringURL = @"icon_song";
-                         }
-                         else if ([mainFields[@"playlistid"] intValue] == 1) {
-                             stringURL = @"icon_video";
-                         }
-                         else if ([mainFields [@"playlistid"] intValue] == 2) {
-                             stringURL = @"icon_picture";
-                         }
-                     }
+                 if ([stringURL isEqualToString:@""]) {
+                     stringURL = [Utilities getItemIconFromDictionary:videoLibraryMovieDetail mainFields:mainFields];
                  }
                  BOOL disableNowPlaying = YES;
                  NSObject *row11 = videoLibraryMovieDetail[mainFields[@"row11"]];

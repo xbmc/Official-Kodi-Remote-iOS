@@ -540,4 +540,27 @@
     return result;
 }
 
++ (NSString*)getItemIconFromDictionary:(NSDictionary*)dict mainFields:(NSDictionary*)mainFields {
+    NSString *filetype = @"";
+    NSString *iconName = @"";
+    if (dict[@"filetype"] != nil) {
+        filetype = dict[@"filetype"];
+        if ([filetype isEqualToString:@"directory"]) {
+            iconName = @"nocover_filemode";
+        }
+        else if ([filetype isEqualToString:@"file"]) {
+            if ([mainFields[@"playlistid"] intValue] == 0) {
+                iconName = @"icon_song";
+            }
+            else if ([mainFields[@"playlistid"] intValue] == 1) {
+                iconName = @"icon_video";
+            }
+            else if ([mainFields[@"playlistid"] intValue] == 2) {
+                iconName = @"icon_picture";
+            }
+        }
+    }
+    return iconName;
+}
+
 @end

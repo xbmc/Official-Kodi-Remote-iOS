@@ -4360,23 +4360,8 @@ NSIndexPath *selected;
                  if (![fanartPath isEqualToString:@""]) {
                      fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                  }
-                 NSString *filetype = @"";
-                 if (videoLibraryMovieDetail[@"filetype"] != nil) {
-                     filetype = videoLibraryMovieDetail[@"filetype"];
-                     if ([filetype isEqualToString:@"directory"]) {
-                         stringURL = @"nocover_filemode";
-                     }
-                     else if ([filetype isEqualToString:@"file"]) {
-                         if ([mainFields[@"playlistid"] intValue] == 0) {
-                             stringURL = @"icon_song";
-                         }
-                         else if ([mainFields[@"playlistid"] intValue] == 1) {
-                             stringURL = @"icon_video";
-                         }
-                         else if ([mainFields[@"playlistid"] intValue] == 2) {
-                             stringURL = @"icon_picture";
-                         }
-                     }
+                 if ([stringURL isEqualToString:@""]) {
+                     stringURL = [Utilities getItemIconFromDictionary:videoLibraryMovieDetail mainFields:mainFields];
                  }
                  BOOL disableNowPlaying = NO;
                  if ([self.detailItem disableNowPlaying]) {
@@ -4651,32 +4636,14 @@ NSIndexPath *selected;
                          NSString *fanartPath = videoLibraryMovies[i][@"fanart"];
                          NSString *fanartURL = @"";
                          NSString *stringURL = @"";
-                         
                          if (![thumbnailPath isEqualToString:@""] && thumbnailPath != nil) {
                              stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                          }
                          if (![fanartPath isEqualToString:@""]) {
                              fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanartPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
                          }
-                         NSString *filetype = @"";
-                         if (videoLibraryMovies[i][@"filetype"] != nil) {
-                             filetype = videoLibraryMovies[i][@"filetype"];
-                             if ([thumbnailPath length] == 0) {
-                                 if ([filetype isEqualToString:@"directory"]) {
-                                     stringURL = @"nocover_filemode";
-                                 }
-                                 else if ([filetype isEqualToString:@"file"]) {
-                                     if ([mainFields[@"playlistid"] intValue] == 0) {
-                                         stringURL = @"icon_song";
-                                     }
-                                     else if ([mainFields[@"playlistid"] intValue] == 1) {
-                                         stringURL = @"icon_video";
-                                     }
-                                     else if ([mainFields[@"playlistid"] intValue] == 2) {
-                                         stringURL = @"icon_picture";
-                                     }
-                                 }
-                             }
+                         if ([stringURL isEqualToString:@""]) {
+                             stringURL = [Utilities getItemIconFromDictionary:videoLibraryMovies[i] mainFields:mainFields];
                          }
                          NSString *key = @"none";
                          NSString *value = @"";
