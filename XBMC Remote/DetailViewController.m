@@ -66,40 +66,6 @@
     return self;
 }
 
-- (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
-    NSString *result = @"";    
-    int secs = [seconds intValue];
-    int tempHour   = 0;
-    int tempMinute = 0;
-    int tempSecond = 0;
-    NSString *hour   = @"";
-    NSString *minute = @"";
-    NSString *second = @"";
-    tempHour   = secs / 3600;
-    tempMinute = secs / 60 - tempHour * 60;
-    tempSecond = secs - (tempHour * 3600 + tempMinute * 60);
-    hour   = [@(tempHour) stringValue];
-    minute = [@(tempMinute) stringValue];
-    second = [@(tempSecond) stringValue];
-    if (tempHour < 10) {
-        hour = [@"0" stringByAppendingString:hour];
-    } 
-    if (tempMinute < 10) {
-        minute = [@"0" stringByAppendingString:minute];
-    }
-    if (tempSecond < 10) {
-        second = [@"0" stringByAppendingString:second];
-    }
-    if (tempHour == 0) {
-        result = [NSString stringWithFormat:@"%@:%@", minute, second];
-        
-    }
-    else {
-        result = [NSString stringWithFormat:@"%@:%@:%@",hour, minute, second];
-    }
-    return result;    
-}
-
 #pragma mark - live tv epg memory/disk cache management
 
 -(NSMutableArray *)loadEPGFromMemory:(NSNumber *)channelid {
@@ -2204,7 +2170,7 @@ int originYear = 0;
     if ([Menuitem.showRuntime[choosedTab] boolValue]) {
         NSString *duration = @"";
         if (!Menuitem.noConvertTime) {
-            duration = [self convertTimeFromSeconds:item[@"runtime"]];
+            duration = [Utilities convertTimeFromSeconds:item[@"runtime"]];
         }
         else {
             duration = item[@"runtime"];

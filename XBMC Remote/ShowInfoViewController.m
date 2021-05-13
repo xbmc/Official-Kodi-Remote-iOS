@@ -71,7 +71,7 @@ int count = 0;
             if (((NSNull *)resumePointDict[@"position"] != [NSNull null])) {
                 if ([resumePointDict[@"position"] floatValue] > 0) {
                     resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
-                    [sheetActions addObject:[NSString stringWithFormat:NSLocalizedString(@"Resume from %@", nil), [self convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
+                    [sheetActions addObject:[NSString stringWithFormat:NSLocalizedString(@"Resume from %@", nil), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
                 }
             }
         }
@@ -245,40 +245,6 @@ int count = 0;
     else {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object: nil];
     }
-}
-
-- (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
-    NSString *result = @"";
-    int secs = [seconds intValue];
-    int tempHour   = 0;
-    int tempMinute = 0;
-    int tempSecond = 0;
-    NSString *hour   = @"";
-    NSString *minute = @"";
-    NSString *second = @"";
-    tempHour   = secs / 3600;
-    tempMinute = secs / 60 - tempHour * 60;
-    tempSecond = secs - (tempHour * 3600 + tempMinute * 60);
-    hour   = [@(tempHour) stringValue];
-    minute = [@(tempMinute) stringValue];
-    second = [@(tempSecond) stringValue];
-    if (tempHour < 10) {
-        hour = [@"0" stringByAppendingString:hour];
-    }
-    if (tempMinute < 10) {
-        minute = [@"0" stringByAppendingString:minute];
-    }
-    if (tempSecond < 10) {
-        second = [@"0" stringByAppendingString:second];
-    }
-    if (tempHour == 0) {
-        result = [NSString stringWithFormat:@"%@:%@", minute, second];
-        
-    }
-    else {
-        result = [NSString stringWithFormat:@"%@:%@:%@",hour, minute, second];
-    }
-    return result;
 }
 
 #pragma mark - ToolBar button

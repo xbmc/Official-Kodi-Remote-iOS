@@ -166,40 +166,6 @@
     return image;
 }
 
-- (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
-    NSString *result = @"";    
-    int secs = [seconds intValue];
-    int tempHour   = 0;
-    int tempMinute = 0;
-    int tempSecond = 0;
-    NSString *hour   = @"";
-    NSString *minute = @"";
-    NSString *second = @"";
-    tempHour   = secs / 3600;
-    tempMinute = secs / 60 - tempHour * 60;
-    tempSecond = secs - (tempHour * 3600 + tempMinute * 60);
-    hour   = [@(tempHour) stringValue];
-    minute = [@(tempMinute) stringValue];
-    second = [@(tempSecond) stringValue];
-    if (tempHour < 10) {
-        hour = [@"0" stringByAppendingString:hour];
-    } 
-    if (tempMinute < 10) {
-        minute = [@"0" stringByAppendingString:minute];
-    }
-    if (tempSecond < 10) {
-        second = [@"0" stringByAppendingString:second];
-    }
-    if (tempHour == 0) {
-        result = [NSString stringWithFormat:@"%@:%@", minute, second];
-        
-    }
-    else {
-        result = [NSString stringWithFormat:@"%@:%@:%@",hour, minute, second];
-    }
-    return result;    
-}
-
 -(void)resizeCellBar:(CGFloat)width image:(UIImageView *)cellBarImage{
     NSTimeInterval time = (width == 0) ? 0.1 : 1.0;
     width = MIN(width, MAX_CELLBAR_WIDTH);
@@ -1382,7 +1348,7 @@ int currentItemID;
                                genre = @"";
                            }
                            NSNumber *itemDurationSec = playlistItems[i][@"duration"];
-                           NSString *durationTime = [itemDurationSec longValue] == 0 ? @"" : [self convertTimeFromSeconds:itemDurationSec];
+                           NSString *durationTime = [itemDurationSec longValue] == 0 ? @"" : [Utilities convertTimeFromSeconds:itemDurationSec];
 
                            NSDictionary *art = playlistItems[i][@"art"];
                            NSString *thumbnail = art[@"poster"] ?: playlistItems[i][@"thumbnail"];

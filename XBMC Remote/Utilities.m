@@ -527,4 +527,17 @@
     return (NSMutableDictionary *)mutableDictionary;
 }
 
++ (NSString*)convertTimeFromSeconds:(NSNumber*)seconds {
+    NSString *result = @"";
+    int secs = [seconds intValue];
+    int hour   = secs / 3600;
+    int minute = secs / 60 - hour * 60;
+    int second = secs - (hour * 3600 + minute * 60);
+    result = [NSString stringWithFormat:@"%02d:%02d", minute, second];
+    if (hour > 0) {
+        result = [NSString stringWithFormat:@"%02d:%@", hour, result];
+    }
+    return result;
+}
+
 @end

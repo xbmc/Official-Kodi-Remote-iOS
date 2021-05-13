@@ -62,5 +62,6 @@ typedef enum {
 + (DSJSONRPC*)getJsonRPC;
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array;
 + (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array;
++ (NSString*)convertTimeFromSeconds:(NSNumber*)seconds;
 
 @end
