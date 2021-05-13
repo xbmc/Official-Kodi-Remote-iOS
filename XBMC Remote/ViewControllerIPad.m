@@ -220,7 +220,7 @@
 -(void) showSetup:(BOOL)show{
     firstRun = NO;
     if ([self.hostPickerViewController isViewLoaded]) {
-        if (show == NO)
+        if (!show)
             [self.hostPickerViewController dismissViewControllerAnimated:NO completion:nil];
     }
     else {

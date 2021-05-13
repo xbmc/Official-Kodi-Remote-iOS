@@ -702,7 +702,7 @@
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                if (![subsDictionary[@"subtitles"][i] isEqual:subsDictionary[@"currentsubtitle"]] || [subsDictionary[@"subtitleenabled"] boolValue] == NO) {
+                if (![subsDictionary[@"subtitles"][i] isEqual:subsDictionary[@"currentsubtitle"]] || ![subsDictionary[@"subtitleenabled"] boolValue]) {
                     [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:subsDictionary[@"subtitles"][i][@"index"], @"subtitle", nil]];
                     [self playbackAction:@"Player.SetSubtitle" params:@[@"on", @"subtitle"]];
                     [self showSubInfo:actiontitle timeout:2.0 color:[UIColor whiteColor]];
@@ -799,7 +799,7 @@ NSInteger buttonAction;
                               if (((NSNull *)methodResult[@"Pvr.IsPlayingTv"] != [NSNull null])) {
                                   PvrIsPlayingTv = methodResult[@"Pvr.IsPlayingTv"];
                               }
-                              if (winID == 12005 && [PvrIsPlayingTv boolValue] == NO && [VideoPlayerHasMenu boolValue] == NO) {
+                              if (winID == 12005 && ![PvrIsPlayingTv boolValue] && ![VideoPlayerHasMenu boolValue]) {
                                   [self playbackAction:@"Player.Seek" params:[Utilities buildPlayerSeekStepParams:step]];
                               }
                               else if (winID == 12006 && musicAction != nil) {

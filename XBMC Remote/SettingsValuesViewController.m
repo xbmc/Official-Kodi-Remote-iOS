@@ -374,7 +374,7 @@
     BOOL done = NO;
     CGFloat startSize = label.font.pointSize - 1;
     CGFloat endSize = startSize - 2;
-    while (done == NO && startSize >= endSize) {
+    while (!done && startSize >= endSize) {
         descriptionRect = [label.text  boundingRectWithSize:CGSizeMake(label.bounds.size.width, NSIntegerMax)
                                                                     options:NSStringDrawingUsesLineFragmentOrigin
                                                                  attributes:@{NSFontAttributeName:label.font}

@@ -542,7 +542,7 @@ BOOL moved;
   {
     size = CGSizeMake(size.height, size.width);
   }
-  if (application.statusBarHidden == NO)
+  if (!application.statusBarHidden)
   {
     size.height -= MIN(application.statusBarFrame.size.width, application.statusBarFrame.size.height);
   }

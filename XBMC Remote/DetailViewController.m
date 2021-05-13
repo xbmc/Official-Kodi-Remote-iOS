@@ -871,7 +871,7 @@
 }
 
 -(IBAction)changeTab:(id)sender{
-    if (activityIndicatorView.hidden == NO) return;
+    if (!activityIndicatorView.hidden) return;
     [activeLayoutView setUserInteractionEnabled:YES];
     [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
     if ([sender tag] == choosedTab) {
@@ -978,7 +978,7 @@
     if (mutableProperties != nil) {
         [mutableParameters setObject:mutableProperties forKey:@"properties"];
     }
-    if ([parameters[@"blackTableSeparator"] boolValue] && [AppDelegate instance].obj.preferTVPosters == NO) {
+    if ([parameters[@"blackTableSeparator"] boolValue] && ![AppDelegate instance].obj.preferTVPosters) {
         blackTableSeparator = YES;
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
@@ -1027,7 +1027,7 @@
         }
         id obj = item[mainFields[@"row6"]];
         id objKey = mainFields[@"row6"];
-        if ([AppDelegate instance].serverVersion > 11 && [parameters[@"disableFilterParameter"] boolValue] == NO) {
+        if ([AppDelegate instance].serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
             NSDictionary *currentParams = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
             obj = [NSDictionary dictionaryWithObjectsAndKeys:
                    item[mainFields[@"row6"]] ,mainFields[@"row6"],
@@ -1159,7 +1159,7 @@
             else if ([item[@"genre"] isEqualToString:@"file"] || [item[@"filetype"] isEqualToString:@"file"]) {
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                 [userDefaults synchronize];
-                if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO) {
+                if (![[userDefaults objectForKey:@"song_preference"] boolValue]) {
                     [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
                 }
                 else {
@@ -1258,7 +1258,7 @@
         else {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults synchronize];
-            if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO || [parameters[@"forceActionSheet"] boolValue]) {
+            if (![[userDefaults objectForKey:@"song_preference"] boolValue] || [parameters[@"forceActionSheet"] boolValue]) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:[self indexKeyedMutableDictionaryFromArray:[MenuItem mainParameters][choosedTab]]];
                 selected = indexPath;
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
@@ -1396,7 +1396,7 @@
         cellthumbWidth = fullscreenCellGridWidth;
         cellthumbHeight = fullscreenCellGridHeight;
     }
-    if (recentlyAddedView == NO) {
+    if (!recentlyAddedView) {
         static NSString *identifier = @"posterCell";
         PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
         [cell.posterLabel setText:@""];
@@ -4374,7 +4374,7 @@ NSIndexPath *selected;
                          clearart = art[key];
                      }
                  }
-//                 if ([art count] && [art[@"banner"] length] != 0 && [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO) {
+//                 if ([art count] && [art[@"banner"] length] != 0 && [AppDelegate instance].serverVersion > 11 && ![AppDelegate instance].obj.preferTVPosters) {
 //                     thumbnailPath = art[@"banner"];
 //                 }
                  NSString *fanartPath = videoLibraryMovieDetail[@"fanart"];
@@ -5736,7 +5736,7 @@ NSIndexPath *selected;
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, 18, 0, 0)];
     }
     else if ([methods[@"tvshowsView"] boolValue]) {
-        tvshowsView = [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO;
+        tvshowsView = [AppDelegate instance].serverVersion > 11 && ![AppDelegate instance].obj.preferTVPosters;
         [self setTVshowThumbSize];
     }
     else if ([methods[@"channelGuideView"] boolValue]) {
@@ -5748,7 +5748,7 @@ NSIndexPath *selected;
     }
     
     tableViewSearchBarColor = searchBarColor;
-    if ([parameters[@"blackTableSeparator"] boolValue] && [AppDelegate instance].obj.preferTVPosters == NO) {
+    if ([parameters[@"blackTableSeparator"] boolValue] && ![AppDelegate instance].obj.preferTVPosters) {
         blackTableSeparator = YES;
         [dataList setSeparatorInset:UIEdgeInsetsZero];
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
@@ -5941,7 +5941,7 @@ NSIndexPath *selected;
 -(void)checkFullscreenButton:(BOOL)forceHide {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]) {
         NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-        if ([self collectionViewCanBeEnabled] && ([parameters[@"enableLibraryFullScreen"] boolValue] && forceHide == NO)) {
+        if ([self collectionViewCanBeEnabled] && ([parameters[@"enableLibraryFullScreen"] boolValue] && !forceHide)) {
             int buttonPadding = 1;
             if (fullscreenButton == nil) {
                 fullscreenButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -5977,7 +5977,7 @@ NSIndexPath *selected;
 
 - (void)twoFingerPinch:(UIPinchGestureRecognizer *)recognizer {
     if ([recognizer state] == UIGestureRecognizerStateEnded) {
-        if ((recognizer.scale > 1 && stackscrollFullscreen == NO) || (recognizer.scale <= 1 && stackscrollFullscreen)) {
+        if ((recognizer.scale > 1 && !stackscrollFullscreen) || (recognizer.scale <= 1 && stackscrollFullscreen)) {
             [self toggleFullscreen:nil];
         }
     }

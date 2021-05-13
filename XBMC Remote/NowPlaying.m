@@ -476,7 +476,7 @@ int currentItemID;
         coverView.alpha = 1.0;
         UIView *timePlaying = (UIView*) [cell viewWithTag:5];
         storeSelection = nil;
-        if (timePlaying.hidden == NO)
+        if (!timePlaying.hidden)
             [self fadeView:timePlaying hidden:YES];
     }
     [self showPlaylistTable];
@@ -651,7 +651,7 @@ int currentItemID;
 
 -(void)setIOS7backgroundEffect:(UIColor *)color barTintColor:(UIColor *)barColor{
     foundEffectColor = color;
-    if (nowPlayingView.hidden == NO) {
+    if (!nowPlayingView.hidden) {
         [self IOS7colorProgressSlider:color];
         [self IOS7effect:color barTintColor:barColor effectDuration:1.0];
     }
@@ -919,7 +919,7 @@ int currentItemID;
                                          [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
                                      }
                                  }
-                                 else if (repeatButton.hidden == NO) {
+                                 else if (!repeatButton.hidden) {
                                      repeatButton.hidden = YES;
                                  }
                                  BOOL canshuffle = [methodResult[@"canshuffle"] boolValue] && !musicPartyMode;
@@ -935,7 +935,7 @@ int currentItemID;
                                          [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
                                      }
                                  }
-                                 else if (shuffleButton.hidden == NO) {
+                                 else if (!shuffleButton.hidden) {
                                      shuffleButton.hidden = YES;
                                  }
                                  
@@ -1019,7 +1019,7 @@ int currentItemID;
                                                  if (selection) {
                                                      UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                                      UIView *timePlaying = (UIView*) [cell viewWithTag:5];
-                                                     if (timePlaying.hidden == NO)
+                                                     if (!timePlaying.hidden)
                                                          [self fadeView:timePlaying hidden:YES];
                                                      UIImageView *coverView = (UIImageView*) [cell viewWithTag:4];
                                                      coverView.alpha = 1.0;                                                     
@@ -1044,7 +1044,7 @@ int currentItemID;
                                                  [playlistTableView deselectRowAtIndexPath:selection animated:YES];
                                                  UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                                  UIView *timePlaying = (UIView*) [cell viewWithTag:5];
-                                                 if (timePlaying.hidden == NO)
+                                                 if (!timePlaying.hidden)
                                                      [self fadeView:timePlaying hidden:YES];
                                                  UIImageView *coverView = (UIImageView*) [cell viewWithTag:4];
                                                  coverView.alpha = 1.0;
@@ -1597,7 +1597,7 @@ int currentItemID;
                          clearart = art[key];
                      }
                  }
-//                 if ([art count] && [art[@"banner"] length] != 0 && [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO) {
+//                 if ([art count] && [art[@"banner"] length] != 0 && [AppDelegate instance].serverVersion > 11 && ![AppDelegate instance].obj.preferTVPosters) {
 //                     thumbnailPath = art[@"banner"];
 //                 }
                  NSString *fanartPath = videoLibraryMovieDetail[@"fanart"];
@@ -1998,7 +1998,7 @@ int currentItemID;
 }
 
 -(void)showClearPlaylistAlert{
-    if (playlistView.hidden == NO && self.view.superview != nil) {
+    if (!playlistView.hidden && self.view.superview != nil) {
         NSString *playlistName = @"";
         if (playerID == 0) {
             playlistName = NSLocalizedString(@"Music ", nil);
@@ -2214,7 +2214,7 @@ int currentItemID;
         }
         id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
-        if ([AppDelegate instance].serverVersion > 11 && [parameters[@"disableFilterParameter"] boolValue] == NO) {
+        if ([AppDelegate instance].serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
             if ([mainFields[@"row6"] isEqualToString:@"artistid"]) { // WORKAROUND due the lack of the artistid with Playlist.GetItems
                 NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item[@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                 obj = [NSDictionary dictionaryWithObjectsAndKeys:artistFrodoWorkaround, @"artist", nil];
@@ -2314,7 +2314,7 @@ int currentItemID;
     [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music"]];
     // andResize:CGSizeMake(thumb.frame.size.width, thumb.frame.size.height)
     UIView *timePlaying = (UIView*) [cell viewWithTag:5];
-    if (timePlaying.hidden == NO) {
+    if (!timePlaying.hidden) {
         [self fadeView:timePlaying hidden:YES];
     }
     
@@ -2326,7 +2326,7 @@ int currentItemID;
     coverView.alpha = 1.0;
     UIView *timePlaying = (UIView*) [cell viewWithTag:5];
     storeSelection = nil;
-    if (timePlaying.hidden == NO)
+    if (!timePlaying.hidden)
         [self fadeView:timePlaying hidden:YES];
 }
 

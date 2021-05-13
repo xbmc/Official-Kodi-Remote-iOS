@@ -375,7 +375,7 @@ int count = 0;
             obj = movieObj;
             objKey = movieObjKey;
         }
-        else if ([AppDelegate instance].serverVersion > 11 && [parameters[@"disableFilterParameter"] boolValue] == NO) {
+        else if ([AppDelegate instance].serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
             obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] intValue]), mainFields[@"row6"], nil];
             objKey = @"filter";
         }
@@ -809,7 +809,7 @@ int h = 0;
         [format setLocale:locale];
         if ([item[@"family"] isEqualToString:@"tvshowid"]) {
             GlobalData *obj = [GlobalData getInstance];
-            if (obj.preferTVPosters == NO && [AppDelegate instance].serverVersion < 12) {
+            if (!obj.preferTVPosters && [AppDelegate instance].serverVersion < 12) {
                 placeHolderImage = @"blank";
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     coverHeight = 70;
