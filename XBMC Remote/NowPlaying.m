@@ -682,18 +682,18 @@ int currentItemID;
                                  [self performSelector:@selector(loadCodecView) withObject:nil afterDelay:.5];
                                  itemDescription.text = [nowPlayingInfo[@"description"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"description"]] : [nowPlayingInfo[@"plot"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"plot"]] : @"";
                                  [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
-                                 NSString *album = [nowPlayingInfo[@"album"] length] != 0 ?[NSString stringWithFormat:@"%@",nowPlayingInfo[@"album"]] : @"" ;
+                                 NSString *album = [Utilities getStringFromDictionary:nowPlayingInfo key:@"album" emptyString:@""];
                                  if ([nowPlayingInfo[@"type"] isEqualToString:@"channel"]) {
                                      album = nowPlayingInfo[@"label"];
                                  }
-                                 NSString *title = [nowPlayingInfo[@"title"] length] != 0 ? [NSString stringWithFormat:@"%@",nowPlayingInfo[@"title"]] : @"";
+                                 NSString *title = [Utilities getStringFromDictionary:nowPlayingInfo key:@"title" emptyString:@""];
                                  storeLiveTVTitle = title;
                                  NSString *artist = [Utilities getStringFromDictionary:nowPlayingInfo key:@"artist" emptyString:@""];
                                  if ([album length] == 0 && ((NSNull *)nowPlayingInfo[@"showtitle"] != [NSNull null]) && nowPlayingInfo[@"season"] > 0) {
                                      album = [nowPlayingInfo[@"showtitle"] length] != 0 ? [NSString stringWithFormat:@"%@ - %@x%@", nowPlayingInfo[@"showtitle"], nowPlayingInfo[@"season"], nowPlayingInfo[@"episode"]] : @"";
                                  }
                                  if ([title length] == 0) {
-                                     title = [nowPlayingInfo[@"label"] length] != 0 ? nowPlayingInfo[@"label"] : @"";
+                                     title = [Utilities getStringFromDictionary:nowPlayingInfo key:@"label" emptyString:@""];
                                  }
 
                                  if ([artist length] == 0 && ((NSNull *)nowPlayingInfo[@"studio"] != [NSNull null])) {
@@ -702,7 +702,7 @@ int currentItemID;
                                  albumName.text = album;
                                  songName.text = title;
                                  artistName.text = artist;
-                                 NSString *type = [nowPlayingInfo[@"type"] length] != 0 ? nowPlayingInfo[@"type"] : @"unknown";
+                                 NSString *type = [Utilities getStringFromDictionary:nowPlayingInfo key:@"type" emptyString:@"unknown"];
                                  currentType = type;
                                  [self setCoverSize:currentType];
                                  GlobalData *obj = [GlobalData getInstance];
@@ -710,14 +710,13 @@ int currentItemID;
                                  if ([AppDelegate instance].serverVersion > 11) {
                                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                                  }
-                                 NSDictionary *art = nowPlayingInfo[@"art"];
-                                 NSString *thumbnailPath = art[@"poster"] ?: nowPlayingInfo[@"thumbnail"];
-                                 NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnailPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+                                 NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:nowPlayingInfo useBanner:NO useIcon:NO];
+                                 NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                                  if (![lastThumbnail isEqualToString:stringURL]) {
                                      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
                                          NSString *fanart = (NSNull *)nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
                                          if (![fanart isEqualToString:@""]) {
-                                             NSString *fanartURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [fanart stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+                                             NSString *fanartURL = [Utilities formatStringURL:fanart serverURL:serverURL];
                                              [tempFanartImageView setImageWithURL:[NSURL URLWithString:fanartURL]
                                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                                             if (error == nil && image != nil) {
@@ -803,13 +802,14 @@ int currentItemID;
                                  }
                                  lastThumbnail = stringURL;
                                  itemLogoImage.image = nil;
+                                 NSDictionary *art = nowPlayingInfo[@"art"];
                                  storeClearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
                                  storeClearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
                                  if ([storeClearlogo isEqualToString:@""]) {
                                      storeClearlogo = storeClearart;
                                  }
                                  if (![storeClearlogo isEqualToString:@""]) {
-                                     NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [storeClearlogo stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+                                     NSString *stringURL = [Utilities formatStringURL:storeClearlogo serverURL:serverURL];
                                      [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL]];
                                      storeCurrentLogo = storeClearlogo;
                                  }
@@ -1294,10 +1294,9 @@ int currentItemID;
                            NSString *title = [NSString stringWithFormat:@"%@",playlistItems[i][@"title"]];
                            
                            NSString *artist = [Utilities getStringFromDictionary:playlistItems[i] key:@"artist" emptyString:@""];
-                           NSString *album = [playlistItems[i][@"album"] length] == 0 ? @"" : playlistItems[i][@"album"];
+                           NSString *album = [Utilities getStringFromDictionary:playlistItems[i] key:@"album" emptyString:@""];
                            
-                           NSString *patchRuntime = [NSString stringWithFormat:@"%@", playlistItems[i][@"runtime"]];
-                           NSString *runtime = [patchRuntime intValue] == 0 ? @"" : [NSString stringWithFormat:@"%d min",[patchRuntime intValue]/runtimeInMinute];
+                           NSString *runtime = [Utilities getTimeFromDictionary:playlistItems[i] key:@"runtime" sec2min:runtimeInMinute];
                            
                            NSString *showtitle = playlistItems[i][@"showtitle"];
                          
@@ -1309,12 +1308,10 @@ int currentItemID;
                            NSString *albumid = [NSString stringWithFormat:@"%@", playlistItems[i][@"albumid"]];
                            NSString *movieid = [NSString stringWithFormat:@"%@", playlistItems[i][@"id"]];
                            NSString *genre = [Utilities getStringFromDictionary:playlistItems[i] key:@"genre" emptyString:@""];
-                           NSNumber *itemDurationSec = playlistItems[i][@"duration"];
-                           NSString *durationTime = [itemDurationSec longValue] == 0 ? @"" : [Utilities convertTimeFromSeconds:itemDurationSec];
+                           NSString *durationTime = [Utilities convertTimeFromSeconds:playlistItems[i][@"duration"]];
 
-                           NSDictionary *art = playlistItems[i][@"art"];
-                           NSString *thumbnail = art[@"poster"] ?: playlistItems[i][@"thumbnail"];
-                           NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [thumbnail stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+                           NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:playlistItems[i] useBanner:NO useIcon:NO];
+                           NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                            NSNumber *tvshowid = @([[NSString stringWithFormat:@"%@", playlistItems[i][@"tvshowid"]] intValue]);
                            NSString *file = [NSString stringWithFormat:@"%@", playlistItems[i][@"file"]];
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1872,7 +1869,7 @@ int currentItemID;
         storeCurrentLogo = storeClearart;
     }
     if (![storeCurrentLogo isEqualToString:@""]) {
-        NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [storeCurrentLogo stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+        NSString *stringURL = [Utilities formatStringURL:storeCurrentLogo serverURL:serverURL];
         [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:itemLogoImage.image];
     }
 }

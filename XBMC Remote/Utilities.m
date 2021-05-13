@@ -529,6 +529,9 @@
 
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds {
     NSString *result = @"";
+    if (seconds == nil) {
+        return result;
+    }
     int secs = [seconds intValue];
     int hour   = secs / 3600;
     int minute = secs / 60 - hour * 60;

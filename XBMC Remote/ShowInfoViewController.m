@@ -785,7 +785,7 @@ int h = 0;
             label1.text = NSLocalizedString(@"EPISODES", nil);
             label3.text = NSLocalizedString(@"GENRE", nil);
             label4.text = NSLocalizedString(@"STUDIO", nil);
-            directorLabel.text = [item[@"showtitle"] length] == 0 ? @"-" : item[@"showtitle"];
+            directorLabel.text = [Utilities getStringFromDictionary:item key:@"showtitle" emptyString:@"-"];
             [format setDateFormat:@"yyyy-MM-dd"];
             NSDate *date = [format dateFromString:item[@"premiered"]];
             [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
@@ -822,8 +822,7 @@ int h = 0;
             frame = jewelView.frame;
             frame.size.height = coverHeight;
             jewelView.frame = frame;
-            directorLabel.text = [item[@"showtitle"] length] == 0 ? @"-" : item[@"showtitle"];
-            
+            directorLabel.text = [Utilities getStringFromDictionary:item key:@"showtitle" emptyString:@"-"];
 
             NSString *aired = @"-";
             if ([item[@"firstaired"] length] > 0) {
@@ -885,9 +884,9 @@ int h = 0;
         jewelView.frame = frame;
         
         directorLabel.text = [Utilities getStringFromDictionary:item key:@"artist" emptyString:@"-"];
-        genreLabel.text = [item[@"year"] length] == 0 ? @"-" : item[@"year"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"year" emptyString:@"-"];
         runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
-        studioLabel.text = [item[@"label"] length] == 0 ? @"-" : item[@"label"];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"label" emptyString:@"-"];
         [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
@@ -1090,7 +1089,7 @@ int h = 0;
         directorLabel.text = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
         directorLabel.text = [item[@"year"] length] == 0 ? directorLabel.text : [NSString stringWithFormat:@"%@ (%@)", directorLabel.text, item[@"year"]];
         genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
-        runtimeLabel.text = [item[@"runtime"] length] == 0 ? @"-" : item[@"runtime"];
+        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"runtime" emptyString:@"-"];
         studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
     }
     BOOL inEnableKenBurns = enableKenBurns;
@@ -1186,19 +1185,19 @@ int h = 0;
 
     [fanartView setClipsToBounds:YES];
     
-    voteLabel.text = [item[@"rating"] length] == 0 ? @"N.A." : item[@"rating"];
+    voteLabel.text = [Utilities getStringFromDictionary:item key:@"rating" emptyString:@"N.A."];
     starsView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f", round([item[@"rating"] doubleValue])]];
     
-    NSString *numVotes = [item[@"votes"] length] == 0 ? @"" : item[@"votes"];
+    NSString *numVotes = [Utilities getStringFromDictionary:item key:@"votes" emptyString:@""];
     if ([numVotes length] != 0) {
         NSString *numVotesPlus = NSLocalizedString(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes",nil);
         numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)",numVotes, numVotesPlus];
     }
     CGRect frame = summaryLabel.frame;
     summaryLabel.frame = frame;
-    summaryLabel.text = [item[@"plot"] length] == 0 ? @"-" : item[@"plot"];
+    summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
     if ([item[@"family"] isEqualToString:@"albumid"] || [item[@"family"] isEqualToString:@"artistid"]) {
-        summaryLabel.text = [item[@"description"] length] == 0 ? @"-" : item[@"description"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"description" emptyString:@"-"];
     }
     CGSize maximunLabelSize = CGSizeMake(pageSize, 9999);
     CGRect expectedLabelRect = [summaryLabel.text  boundingRectWithSize:maximunLabelSize
@@ -1227,7 +1226,7 @@ int h = 0;
         frame = parentalRatingLabel.frame;
         frame.size.height = 2000;
         parentalRatingLabel.frame = frame;
-        parentalRatingLabel.text = [item[@"mpaa"] length] == 0 ? @"-" : item[@"mpaa"];
+        parentalRatingLabel.text = [Utilities getStringFromDictionary:item key:@"mpaa" emptyString:@"-"];
         
         CGRect expectedLabelRect = [parentalRatingLabel.text  boundingRectWithSize:maximunLabelSize
                                                                     options:NSStringDrawingUsesLineFragmentOrigin
@@ -1345,7 +1344,7 @@ int h = 0;
             clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
             [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
             [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
-            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [item[@"clearlogo"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+            NSString *stringURL = [Utilities formatStringURL:item[@"clearlogo"] serverURL:serverURL];
             [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank"]];
             [clearlogoButton addSubview:clearLogoImageView];
         }
@@ -1546,7 +1545,7 @@ int h = 0;
     if ([AppDelegate instance].serverVersion > 11) {
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
-    NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [cast[indexPath.row][@"thumbnail"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+    NSString *stringURL = [Utilities formatStringURL:cast[indexPath.row][@"thumbnail"] serverURL:serverURL];
     [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person"] andResize:CGSizeMake(castWidth, castHeight)];
     cell.actorName.text = cast[indexPath.row][@"name"] == nil ? self.detailItem[@"label"] : cast[indexPath.row][@"name"];
     if ([cast[indexPath.row][@"role"] length] != 0) {
