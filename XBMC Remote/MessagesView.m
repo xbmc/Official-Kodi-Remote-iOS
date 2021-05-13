@@ -24,7 +24,7 @@
         [self.layer addSublayer:bottomBorder];
         [self setBackgroundColor:[Utilities getGrayColor:0 alpha:0.9]];
         slideHeight = frame.size.height;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             slideHeight += 22.0;
         }
         [self setFrame:CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height)];

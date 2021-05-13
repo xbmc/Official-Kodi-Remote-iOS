@@ -62,8 +62,8 @@
         [_tableView setBackgroundColor:[UIColor clearColor]];
         [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
         [_tableView setSeparatorColor:[Utilities getGrayColor:0 alpha:0.1]];
-        mainMenuItems=menu;
-        UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        mainMenuItems = menu;
+        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
         _tableView.tableFooterView = footerView;
         [self.view addSubview:_tableView];
         
@@ -117,7 +117,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    lastSelected=-1;
+    lastSelected = -1;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnableMusicSection)
                                                  name: @"UIApplicationEnableMusicSection"
@@ -144,30 +144,30 @@
 
 -(void)handleEnableMusicSection{
     NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
-    if (selection.row != 1 || selection == nil){
+    if (selection.row != 1 || selection == nil) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
         [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-        lastSelected=1;
+        lastSelected = 1;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil]; 
     }		
 }
 
 -(void)handleEnableMovieSection{
     NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
-    if (selection.row != 2 || selection == nil){
+    if (selection.row != 2 || selection == nil) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
         [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-        lastSelected=2;
+        lastSelected = 2;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
     }
 }
 
 -(void)handleEnableTvShowSection{
     NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
-    if (selection.row != 3 || selection == nil){
+    if (selection.row != 3 || selection == nil) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
         [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-        lastSelected=3;
+        lastSelected = 3;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
     }
 }
@@ -193,7 +193,7 @@
 #pragma mark Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0){
+    if (indexPath.row == 0) {
         return PAD_MENU_INFO_HEIGHT;
     }
     return PAD_MENU_HEIGHT;
@@ -212,10 +212,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0){
+    if (indexPath.row == 0) {
         cell.backgroundColor = [Utilities getGrayColor:130 alpha:0.1];
     }
-    else{
+    else {
 //        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
         cell.backgroundColor = [UIColor clearColor];
     }
@@ -223,15 +223,15 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell=nil;
+    UITableViewCell *cell = nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"cellViewIPad" owner:self options:NULL];
-    if (cell==nil){
+    if (cell == nil) {
         cell = resultMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[Utilities getGrayColor:0 alpha:0.4]];
         cell.selectedBackgroundView = backgroundView;
-        if (indexPath.row == 0){
+        if (indexPath.row == 0) {
             [backgroundView setBackgroundColor:[Utilities getGrayColor:130 alpha:0.1]];
             cell.selectedBackgroundView = backgroundView;
             UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
@@ -252,7 +252,7 @@
     NSString *iconName = item.icon;
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
     [upperTitle setText:item.upperLabel];
-    if (indexPath.row == 0){
+    if (indexPath.row == 0) {
         iconName = @"connection_off";
         if ([AppDelegate instance].serverOnLine == YES) {
             if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
@@ -268,17 +268,17 @@
         [title setText:@""];
         [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight / 2) - (cellHeightPad / 2)), cellHeightPad, cellHeightPad)];
     }
-    else{
+    else {
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
         [title setText:[item.mainLabel uppercaseString]];
     }
     [icon setImage:[UIImage imageNamed:iconName]];
-    if ([AppDelegate instance].serverOnLine){
+    if ([AppDelegate instance].serverOnLine) {
         [icon setAlpha:1];
         [upperTitle setAlpha:1];
         [title setAlpha:1];
     }
-    else if (indexPath.row != 0){
+    else if (indexPath.row != 0) {
         [icon setAlpha:0.3];
         [upperTitle setAlpha:0.3];
         [title setAlpha:0.3];
@@ -296,24 +296,24 @@
         return;
     }
     mainMenu *item = mainMenuItems[indexPath.row];
-    if (item.family == 2){
+    if (item.family == 2) {
         [[AppDelegate instance].windowController.stackScrollViewController offView];
     }
-    else{
-        if (lastSelected==indexPath.row){
+    else {
+        if (lastSelected == indexPath.row) {
             [[AppDelegate instance].windowController.stackScrollViewController offView];
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            lastSelected=-1;
+            lastSelected = -1;
             return;
         }
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil]; 
-        if (item.family == 1){
+        if (item.family == 1) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:TRUE];
             [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
         }   
-        else if (item.family == 3){
-            RemoteController *remoteController=[[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil]; 
+        else if (item.family == 3) {
+            RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil]; 
             [remoteController.view setFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height)];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:remoteController invokeByController:self isStackStartView:TRUE];
             [[AppDelegate instance].windowController.stackScrollViewController disablePanGestureRecognizer:remoteController.panFallbackImageView];

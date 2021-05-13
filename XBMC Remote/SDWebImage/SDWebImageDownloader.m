@@ -32,7 +32,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
 
 + (void)initialize
 {
-    // Bind SDNetworkActivityIndicator if available (download it here: http://github.com/rs/SDNetworkActivityIndicator )
+    // Bind SDNetworkActivityIndicator if available (download it here: http://github.com/rs/SDNetworkActivityIndicator)
     // To use it, just add #import "SDNetworkActivityIndicator.h" in addition to the SDWebImage import
     if (NSClassFromString(@"SDNetworkActivityIndicator"))
     {
@@ -172,7 +172,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
 - (void)addProgressCallback:(void (^)(NSUInteger, long long))progressBlock andCompletedBlock:(void (^)(UIImage *, NSData *data, NSError *, BOOL))completedBlock forURL:(NSURL *)url createCallback:(void (^)(void))createCallback
 {
     // The URL will be used as the key to the callbacks dictionary so it cannot be nil. If it is nil immediately call the completed block with no image or data.
-    if(url == nil)
+    if (url == nil)
     {
         if (completedBlock != nil)
         {

@@ -55,9 +55,9 @@
         [AppDelegate instance].serverName = infoText;
         itemIsActive = NO;
         NSInteger n = [menuList numberOfRowsInSection:0];
-        for (int i=1;i<n;i++){
+        for (int i = 1; i < n; i++) {
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell!=nil){
+            if (cell != nil) {
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
                 [(UIImageView*) [cell viewWithTag:1] setAlpha:1.0];
@@ -80,9 +80,9 @@
         [AppDelegate instance].serverName = infoText;
         itemIsActive = NO;
         NSInteger n = [menuList numberOfRowsInSection:0];
-        for (int i=1;i<n;i++){
+        for (int i = 1; i < n; i++) {
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell!=nil){
+            if (cell != nil) {
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
                 [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
@@ -105,25 +105,25 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0){
+    if (indexPath.row == 0) {
         cell.backgroundColor = [Utilities getGrayColor:53 alpha:1];
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell=nil;
+    UITableViewCell *cell = nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:NULL];
     mainMenu *item = self.mainMenu[indexPath.row];
     NSString *iconName = item.icon;
-    if (cell == nil){
+    if (cell == nil) {
         cell = resultMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[Utilities getGrayColor:22 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
         [(UILabel*) [cell viewWithTag:3] setText:NSLocalizedString(@"No connection", nil)];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
-        if (indexPath.row == 0){
+        if (indexPath.row == 0) {
             UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
             int cellHeight = 44;
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:cellHeight width:self.view.bounds.size.width]];
@@ -141,7 +141,7 @@
             [title setNumberOfLines:2];
             [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
         }
-        else{
+        else {
             [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
             [title setText:[item.mainLabel uppercaseString]];
         }
@@ -162,7 +162,7 @@
             }
         }
     }
-    if ([AppDelegate instance].serverOnLine || indexPath.row == 0){
+    if ([AppDelegate instance].serverOnLine || indexPath.row == 0) {
         [icon setAlpha:1];
         [upperTitle setAlpha:1];
         [title setAlpha:1];
@@ -178,44 +178,44 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     mainMenu *item = self.mainMenu[indexPath.row];
-    if (![AppDelegate instance].serverOnLine && item.family!=4) {
+    if (![AppDelegate instance].serverOnLine && item.family != 4) {
         [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;
     }
-    if (itemIsActive == YES){
+    if (itemIsActive == YES) {
         return;
     }
     itemIsActive = YES;
     UIViewController *object;
     BOOL setBarTintColor = NO;
     BOOL hideBottonLine = NO;
-    if (item.family == 2){
-        if (self.nowPlaying == nil){
+    if (item.family == 2) {
+        if (self.nowPlaying == nil) {
             self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
         }
         self.nowPlaying.detailItem = item;
         object = self.nowPlaying;
     }
-    else if (item.family == 3){
-        if (self.remoteController == nil){
+    else if (item.family == 3) {
+        if (self.remoteController == nil) {
             self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
         }
-        else{
+        else {
             [self.remoteController resetRemote];
         }
         self.remoteController.detailItem = item;
         object = self.remoteController;
     }
-    else if (item.family == 4){
-        if (self.hostController == nil){
+    else if (item.family == 4) {
+        if (self.hostController == nil) {
             self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
         }
         object = self.hostController;
         setBarTintColor = YES;
         hideBottonLine = YES;
     }
-    else if (item.family == 1){
-        self.detailViewController=nil;
+    else if (item.family == 1) {
+        self.detailViewController = nil;
         self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil] ;
         self.detailViewController.detailItem = item;
         object = self.detailViewController;
@@ -282,7 +282,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0){
+    if (indexPath.row == 0) {
         return 44;
     }
     return 56;
@@ -301,7 +301,7 @@
                          [clearView stopActivityIndicator];
                          clearView.alpha = 0;
                      }
-                     completion:^(BOOL finished){
+                     completion:^(BOOL finished) {
                          [clearView stopActivityIndicator];
                          [clearView removeFromSuperview];
                          NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -332,7 +332,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
-    if (clearCache==YES){
+    if (clearCache == YES) {
         ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame border:40];
         [clearView startActivityIndicator];
         [self.view addSubview:clearView];
@@ -341,8 +341,8 @@
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
-    [AppDelegate instance].obj=[GlobalData getInstance];
-    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: @[@"version", @"volume"], @"properties", nil];
+    [AppDelegate instance].obj = [GlobalData getInstance];
+    checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: @[@"version", @"volume"], @"properties", nil];
     menuList.scrollsToTop = NO;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleWillResignActive:)
@@ -406,8 +406,8 @@
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
-    if ([AppDelegate instance].serverOnLine == YES){
-        if (self.tcpJSONRPCconnection == nil){
+    if ([AppDelegate instance].serverOnLine == YES) {
+        if (self.tcpJSONRPCconnection == nil) {
             self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
         }
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];

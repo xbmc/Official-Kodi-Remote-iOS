@@ -262,7 +262,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
         NSURL *diskCacheURL = [NSURL fileURLWithPath:self.diskCachePath isDirectory:YES];
         // build an enumerator by also prefetching file properties we want to read
         NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:diskCacheURL
-                                                                     includingPropertiesForKeys:@[ NSURLIsDirectoryKey, NSURLContentModificationDateKey ]
+                                                                     includingPropertiesForKeys:@[NSURLIsDirectoryKey, NSURLContentModificationDateKey]
                                                                                         options:NSDirectoryEnumerationSkipsHiddenFiles
                                                                                    errorHandler:NULL];
         for (NSURL *fileURL in fileEnumerator)

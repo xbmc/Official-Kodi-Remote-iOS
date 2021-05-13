@@ -52,13 +52,15 @@
     {
     	if ([decoder containsValueForKey:@"scrubbingSpeeds"]) {
             self.scrubbingSpeeds = [decoder decodeObjectForKey:@"scrubbingSpeeds"];
-        } else {
+        }
+        else {
             self.scrubbingSpeeds = [self defaultScrubbingSpeeds];
         }
 
         if ([decoder containsValueForKey:@"scrubbingSpeedChangePositions"]) {
             self.scrubbingSpeedChangePositions = [decoder decodeObjectForKey:@"scrubbingSpeedChangePositions"];
-        } else {
+        }
+        else {
             self.scrubbingSpeedChangePositions = [self defaultScrubbingSpeedChangePositions];
         }
         
@@ -121,8 +123,8 @@
 		
 		CGFloat valueAdjustment = self.scrubbingSpeed * (self.maximumValue - self.minimumValue) * (trackingOffset / trackRect.size.width);
 		CGFloat thumbAdjustment = 0;
-        if ( ((self.beganTrackingLocation.y < currentLocation.y) && (currentLocation.y < previousLocation.y)) ||
-             ((self.beganTrackingLocation.y > currentLocation.y) && (currentLocation.y > previousLocation.y)) )
+        if (((self.beganTrackingLocation.y < currentLocation.y) && (currentLocation.y < previousLocation.y)) ||
+            ((self.beganTrackingLocation.y > currentLocation.y) && (currentLocation.y > previousLocation.y)))
             {
             // We are getting closer to the slider, go closer to the real location
 			thumbAdjustment = (self.realPositionValue - self.value) / (1 + fabs(currentLocation.y - self.beganTrackingLocation.y));

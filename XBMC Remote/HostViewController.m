@@ -72,11 +72,11 @@
 
 - (void)configureView {
     if (self.detailItem == nil) {
-        self.navigationItem.title=NSLocalizedString(@"New XBMC Server", nil);
+        self.navigationItem.title = NSLocalizedString(@"New XBMC Server", nil);
     }
     else {
-        self.navigationItem.title=NSLocalizedString(@"Modify XBMC Server", nil);
-        NSIndexPath *idx=self.detailItem;
+        self.navigationItem.title = NSLocalizedString(@"Modify XBMC Server", nil);
+        NSIndexPath *idx = self.detailItem;
         descriptionUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverDescription"];
         usernameUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverUser"];
         passwordUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverPass"];
@@ -85,12 +85,12 @@
         NSString *macAddress = [AppDelegate instance].arrayServerList[idx.row][@"serverMacAddress"];
         NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
         NSInteger num_octects = [mac_octect count];
-        if (num_octects>0) mac_0_UI.text = mac_octect[0];
-        if (num_octects>1) mac_1_UI.text = mac_octect[1];
-        if (num_octects>2) mac_2_UI.text = mac_octect[2];
-        if (num_octects>3) mac_3_UI.text = mac_octect[3];
-        if (num_octects>4) mac_4_UI.text = mac_octect[4];
-        if (num_octects>5) mac_5_UI.text = mac_octect[5];
+        if (num_octects > 0) mac_0_UI.text = mac_octect[0];
+        if (num_octects > 1) mac_1_UI.text = mac_octect[1];
+        if (num_octects > 2) mac_2_UI.text = mac_octect[2];
+        if (num_octects > 3) mac_3_UI.text = mac_octect[3];
+        if (num_octects > 4) mac_4_UI.text = mac_octect[4];
+        if (num_octects > 5) mac_5_UI.text = mac_octect[5];
         preferTVPostersUI.on = [[AppDelegate instance].arrayServerList[idx.row][@"preferTVPosters"] boolValue];
         tcpPortUI.text = [AppDelegate instance].arrayServerList[idx.row][@"tcpPort"];
     }
@@ -120,7 +120,7 @@
     if (mac_5_UI.text == nil) mac_5_UI.text = @"";
 
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
-    if (self.detailItem==nil){
+    if (self.detailItem == nil) {
         [[AppDelegate instance].arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                                            descriptionUI.text, @"serverDescription",
                                                            usernameUI.text, @"serverUser",
@@ -133,7 +133,7 @@
                                                            nil
                                                            ]];
     }
-    else{
+    else {
         NSIndexPath *idx = self.detailItem;
         [[AppDelegate instance].arrayServerList removeObjectAtIndex:idx.row];
         [[AppDelegate instance].arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -191,7 +191,7 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if (theTextField.tag < 12){
+    if (theTextField.tag < 12) {
         UITextField *next = (UITextField*) [self.view viewWithTag:theTextField.tag + 1];
         [next becomeFirstResponder];
         //[next selectAll:self];
@@ -241,7 +241,7 @@
            didFindService:(NSNetService *)aNetService
                moreComing:(BOOL)moreComing {    
     [services addObject:aNetService];
-    if(!moreComing) {
+    if (!moreComing) {
         [self stopDiscovery];
         [self updateUI];
     }
@@ -251,7 +251,7 @@
          didRemoveService:(NSNetService *)aNetService
                moreComing:(BOOL)moreComing{
     [services removeObject:aNetService];
-    if(!moreComing) {
+    if (!moreComing) {
         [self updateUI];
     }
 }
@@ -262,16 +262,16 @@
 }
 
 - (void)updateUI{
-    if(!searching){
+    if (!searching) {
         NSInteger j = [services  count];
-        if (j==1){
+        if (j == 1) {
             [self resolveIPAddress:services[0]];
         }
         else {
-            if (j==0){
+            if (j == 0) {
                 [self AnimLabel:noInstances AnimDuration:0.3 Alpha:1.0 XPos:0];
             }
-            else{
+            else {
                 [discoveredInstancesTableView reloadData];
                 [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:0];
             }
@@ -313,7 +313,7 @@
     
     n = read(sockfd, buf2, BUFLEN);
     if (n != 0) {
-        int index =  sizeof(struct rt_msghdr) + sizeof(struct sockaddr_inarp) + 8;
+        int index = sizeof(struct rt_msghdr) + sizeof(struct sockaddr_inarp) + 8;
         res = [NSString stringWithFormat:@"%2.2X:%2.2X:%2.2X:%2.2X:%2.2X:%2.2X",
                buf2[index+0], buf2[index+1], buf2[index+2], buf2[index+3], buf2[index+4], buf2[index+5]];
     }
@@ -324,7 +324,7 @@
 -(void)fillMacAddressInfo {
     NSString *macAddress = [self resolveMacFromIP:ipUI.text];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
-    if ([macPart count] == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]){
+    if ([macPart count] == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]) {
         [mac_0_UI setText:macPart[0]];
         [mac_0_UI setTextColor:[Utilities getSystemBlue]];
         [mac_1_UI setText:macPart[1]];
@@ -353,19 +353,19 @@
         char addressBuffer[100];
         struct sockaddr_in* socketAddress = (struct sockaddr_in*) [data bytes];
         int sockFamily = socketAddress->sin_family;
-        if (sockFamily == AF_INET ) {//|| sockFamily == AF_INET6 should be considered
+        if (sockFamily == AF_INET) {//|| sockFamily == AF_INET6 should be considered
             const char* addressStr = inet_ntop(sockFamily,
                                                &(socketAddress->sin_addr), addressBuffer,
                                                sizeof(addressBuffer));
             int port = ntohs(socketAddress->sin_port);
-            if (addressStr && port){
+            if (addressStr && port) {
                 descriptionUI.text = [service name];
                 ipUI.text = [NSString stringWithFormat:@"%s", addressStr];
                 portUI.text = [NSString stringWithFormat:@"%d", port];
                 [descriptionUI setTextColor:[Utilities getSystemBlue]];
                 [ipUI setTextColor:[Utilities getSystemBlue]];
                 [portUI setTextColor:[Utilities getSystemBlue]];
-                NSString *serverJSON=[NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
+                NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
                 NSURL *url = [[NSURL alloc] initWithString:serverJSON];
                 NSURLSession *pingSession = [NSURLSession sharedSession];
                 NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url];
@@ -422,7 +422,7 @@
     NSNetService* service = services[indexPath.row];
 	cell.textLabel.text = [service name];
 	cell.textLabel.textColor = [Utilities get1stLabelColor];
-	cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	return cell;
 }
 
@@ -540,7 +540,7 @@
     [discoveredInstancesTableView setBackgroundColor:[Utilities getSystemGray6]];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
     rightSwipe.numberOfTouchesRequired = 1;
-    rightSwipe.cancelsTouchesInView=NO;
+    rightSwipe.cancelsTouchesInView = NO;
     rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:rightSwipe];
     
@@ -552,7 +552,7 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }
-    if (bottomPadding >0) {
+    if (bottomPadding > 0) {
         CGRect frame = tipView.frame;
         frame.origin.y -= bottomPadding;
         tipView.frame = frame;

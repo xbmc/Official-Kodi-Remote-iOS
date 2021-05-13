@@ -25,7 +25,7 @@ int offsetY = 5;
     if (self) {
         [self setBackgroundColor:[UIColor clearColor]];
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
-        if ([AppDelegate instance].serverVersion>11){
+        if ([AppDelegate instance].serverVersion > 11) {
             [self setSelectionStyle:UITableViewCellSelectionStyleGray];
         }
         
@@ -48,7 +48,7 @@ int offsetY = 5;
         [actorContainer addSubview:_actorThumbnail];
         [self addSubview:actorContainer];
         
-        _actorName=[[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, offsetY, self.frame.size.width - (castWidth + offsetX + 20) , 16 + size)];
+        _actorName = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, offsetY, self.frame.size.width - (castWidth + offsetX + 20) , 16 + size)];
         [_actorName setFont:[UIFont systemFontOfSize:castFontSize]];
         [_actorName setBackgroundColor:[UIColor clearColor]];
         [_actorName setTextColor:[UIColor whiteColor]];

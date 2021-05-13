@@ -63,7 +63,7 @@
     int bytesPerPixel = 4;
     int bytesPerRow = bytesPerPixel * 1;
     NSUInteger bitsPerComponent = 8;
-    unsigned char pixelData[4] = { 0, 0, 0, 0 };
+    unsigned char pixelData[4] = {0, 0, 0, 0};
     CGContextRef context = CGBitmapContextCreate(pixelData, 
                                                  1,
                                                  1,

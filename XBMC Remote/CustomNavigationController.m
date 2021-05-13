@@ -36,7 +36,7 @@
 }
 
 -(void)hideNavBarBottomLine:(BOOL)hideBottomLine {
-    if (navBarHairlineImageView == nil){
+    if (navBarHairlineImageView == nil) {
         navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationBar];
     }
     navBarHairlineImageView.hidden = hideBottomLine;

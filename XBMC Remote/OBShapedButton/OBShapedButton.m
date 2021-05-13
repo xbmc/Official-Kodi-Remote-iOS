@@ -110,7 +110,8 @@
     // (because pointInside:withEvent: gets often called multiple times)
     if (CGPointEqualToPoint(point, self.previousTouchPoint)) {
         return self.previousTouchHitTestResponse;
-    } else {
+    }
+    else {
         self.previousTouchPoint = point;
     }
     
@@ -132,7 +133,8 @@
     else {
         if ([self isAlphaVisibleAtPoint:point forImage:buttonImage]) {
             response = YES;
-        } else {
+        }
+        else {
             response = [self isAlphaVisibleAtPoint:point forImage:buttonBackground];
         }
     }

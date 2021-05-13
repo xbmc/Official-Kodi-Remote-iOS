@@ -20,7 +20,7 @@
 {	
     CGImageRef imageRef = image.CGImage;
     CGSize imageSize = CGSizeMake(CGImageGetWidth(imageRef), CGImageGetHeight(imageRef));
-    CGRect imageRect = (CGRect){.origin = CGPointZero, .size = imageSize};
+    CGRect imageRect = (CGRect) {.origin = CGPointZero, .size = imageSize};
 
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
@@ -52,7 +52,7 @@
 //    CGFloat ImageWidth = imageSize.width;
 //    CGFloat ImageHeight = imageSize.height;
 
-    if (newSize.width && newSize.height){
+    if (newSize.width && newSize.height) {
         CGFloat horizontalRatio = newSize.width / imageSize.width;
         CGFloat verticalRatio = newSize.height / imageSize.height;
         CGFloat ratio;

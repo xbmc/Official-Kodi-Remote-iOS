@@ -175,10 +175,10 @@
     if ([newColor isEqual:[UIColor clearColor]] || newColor == nil) return lighter;
     const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
     CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
-    if (colorBrightness < trigger){
+    if (colorBrightness < trigger) {
         return lighter;
     }
-    else{
+    else {
         return darker;
     }
 }
@@ -187,12 +187,12 @@
     if (color == nil) return image;
     UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
     
-    CGRect contextRect = (CGRect){.origin = CGPointZero, .size = [image size]};
+    CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = [image size]};
     
     CGSize itemImageSize = [image size];
     CGPoint itemImagePosition;
     itemImagePosition.x = ceilf((contextRect.size.width - itemImageSize.width) / 2);
-    itemImagePosition.y = ceilf((contextRect.size.height - itemImageSize.height) );
+    itemImagePosition.y = ceilf((contextRect.size.height - itemImageSize.height));
     
     UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, [[UIScreen mainScreen] scale]);
     
@@ -206,10 +206,10 @@
     CGColorSpaceModel model = CGColorSpaceGetModel(colorSpace);
     const CGFloat* colors = CGColorGetComponents(color.CGColor);
     
-    if(model == kCGColorSpaceModelMonochrome){
+    if (model == kCGColorSpaceModelMonochrome) {
         CGContextSetRGBFillColor(c, colors[0], colors[0], colors[0], colors[1]);
     }
-    else{
+    else {
         CGContextSetRGBFillColor(c, colors[0], colors[1], colors[2], colors[3]);
     }
     
@@ -256,7 +256,7 @@
     [userDefaults synchronize];
     LogoBackgroundType setting = bgAuto;
     NSString *mode = [userDefaults stringForKey:@"logo_background"];
-    if ([mode length]){
+    if ([mode length]) {
         if ([mode isEqualToString:@"dark"]) {
             setting = bgDark;
         }
@@ -272,13 +272,13 @@
 
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage{
     NSDictionary *params = nil;
-    if ([AppDelegate instance].serverVersion < 15){
+    if ([AppDelegate instance].serverVersion < 15) {
         params = @{
             @"playerid": @(playerID),
             @"value": @(percentage),
         };
-    } else
-    {
+    }
+    else {
         params = @{
             @"playerid": @(playerID),
             @"value": @{@"percentage": @(percentage)},
@@ -289,11 +289,11 @@
 
 + (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode{
     NSArray *params = nil;
-    if ([AppDelegate instance].serverVersion < 15){
+    if ([AppDelegate instance].serverVersion < 15) {
         params = @[stepmode, @"value"];
-    } else
-    {
-        params = @[ @{@"step": stepmode}, @"value"];
+    }
+    else {
+        params = @[@{@"step": stepmode}, @"value"];
     }
     return params;
 }
@@ -332,7 +332,8 @@
 + (UIColor*)getSystemGray2{
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray2Color];
-    } else {
+    }
+    else {
         return RGBA(174, 174, 178, 1.0);
     }
 }
@@ -340,7 +341,8 @@
 + (UIColor*)getSystemGray3{
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray3Color];
-    } else {
+    }
+    else {
         return RGBA(199, 199, 204, 1.0);
     }
 }
@@ -348,7 +350,8 @@
 + (UIColor*)getSystemGray4{
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray4Color];
-    } else {
+    }
+    else {
         return RGBA(209, 209, 214, 1.0);
     }
 }
@@ -356,7 +359,8 @@
 + (UIColor*)getSystemGray5{
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray5Color];
-    } else {
+    }
+    else {
         return RGBA(229, 229, 234, 1.0);
     }
 }
@@ -364,7 +368,8 @@
 + (UIColor*)getSystemGray6{
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray6Color];
-    } else {
+    }
+    else {
         return RGBA(242, 242, 247, 1.0);
     }
 }
@@ -372,7 +377,8 @@
 + (UIColor*)get1stLabelColor{
     if (@available(iOS 13.0, *)) {
         return [UIColor labelColor];
-    } else {
+    }
+    else {
         return RGBA(0, 0, 0, 1.0);
     }
 }
@@ -380,7 +386,8 @@
 + (UIColor*)get2ndLabelColor{
     if (@available(iOS 13.0, *)) {
         return [UIColor secondaryLabelColor];
-    } else {
+    }
+    else {
         return RGBA(60, 60, 67, 0.6);
     }
 }
@@ -388,7 +395,8 @@
 + (UIColor*)get3rdLabelColor{
     if (@available(iOS 13.0, *)) {
         return [UIColor tertiaryLabelColor];
-    } else {
+    }
+    else {
         return RGBA(60, 60, 67, 0.3);
     }
 }
@@ -396,7 +404,8 @@
 + (UIColor*)get4thLabelColor{
     if (@available(iOS 13.0, *)) {
         return [UIColor quaternaryLabelColor];
-    } else {
+    }
+    else {
         return RGBA(60, 60, 67, 0.18);
     }
 }

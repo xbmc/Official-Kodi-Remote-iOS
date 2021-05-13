@@ -49,7 +49,7 @@
         [_labelImageView addSubview:_posterLabel];
         [self.contentView addSubview:_labelImageView];
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width - borderWidth * 2, labelHeight/2)];
             [_posterLabelFullscreen setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
             [_posterLabelFullscreen setBackgroundColor:[UIColor clearColor]];
@@ -99,8 +99,8 @@
 }
 
 -(void)setOverlayWatched:(BOOL)enable{
-    if (enable == YES){
-        if (overlayWatched == nil){
+    if (enable == YES) {
+        if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
             [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width + 2,
@@ -111,7 +111,7 @@
         }
         overlayWatched.hidden = NO;
     }
-    else{
+    else {
         overlayWatched.hidden = YES;
     }
 }

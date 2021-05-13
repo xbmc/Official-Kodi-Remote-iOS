@@ -10,14 +10,14 @@
 
 #import "AppDelegate.h"
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
     @autoreleasepool {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults synchronize];
-        if ([[userDefaults objectForKey:@"lang_preference"] length]){
+        if ([[userDefaults objectForKey:@"lang_preference"] length]) {
             [userDefaults setObject:[NSArray arrayWithObjects:[userDefaults objectForKey:@"lang_preference"], nil] forKey:@"AppleLanguages"];
         }
-        else{
+        else {
             [userDefaults removeObjectForKey:@"AppleLanguages"];
         }
         [userDefaults synchronize];

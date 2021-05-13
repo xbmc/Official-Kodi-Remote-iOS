@@ -23,8 +23,8 @@
 		[_tableView setDelegate:self];
 		[_tableView setDataSource:self];
         [_tableView setBackgroundColor:[UIColor clearColor]];
-        mainMenuItems=menu;
-        UIView* footerView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        mainMenuItems = menu;
+        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
         _tableView.tableFooterView = footerView;
         [_tableView setSeparatorInset:UIEdgeInsetsMake(0, cellLabelOffset, 0, 0)];
         [self.view addSubview:_tableView];
@@ -60,7 +60,7 @@
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
 	}
-    cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator; 
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; 
 
     UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 0, self.view.bounds.size.width - cellLabelOffset - 24, 43)];
     [cellLabel setFont:[UIFont systemFontOfSize:18]];
@@ -69,7 +69,7 @@
     NSDictionary *item = mainMenuItems[indexPath.row];
     [cellLabel setText:item[@"label"]];
     [cell.contentView addSubview:cellLabel];
-    if (![item[@"icon"] isEqualToString:@""]){
+    if (![item[@"icon"] isEqualToString:@""]) {
         CGRect iconImageViewRect = CGRectMake(8, 6, 34, 30);
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
         [iconImage setImage:[UIImage imageNamed:@"nocover_filemode"]];

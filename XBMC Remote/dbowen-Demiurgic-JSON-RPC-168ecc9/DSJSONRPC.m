@@ -167,7 +167,7 @@
     NSURLConnection *aConnection = [[NSURLConnection alloc] initWithRequest:serviceRequest delegate:self];
     self._activeConnections[[NSValue valueWithNonretainedObject:aConnection]] = connectionInfo;
     
-    if (timeout){
+    if (timeout) {
         timer = [NSTimer scheduledTimerWithTimeInterval:timeout 
                                                  target:self 
                                                selector:@selector(cancelRequest:) 
@@ -177,7 +177,7 @@
 }
 
 -(void)cancelRequest:(NSTimer*)theTimer {
-    NSURLConnection *connection= (NSURLConnection *)[theTimer userInfo];
+    NSURLConnection *connection = (NSURLConnection *)[theTimer userInfo];
     __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
     NSMutableDictionary *connectionInfo = self._activeConnections[connectionKey];
     DSJSONRPCCompletionHandler completionHandler = connectionInfo[@"completionHandler"];

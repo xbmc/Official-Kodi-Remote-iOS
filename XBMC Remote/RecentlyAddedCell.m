@@ -48,7 +48,7 @@
         
         int posterYOffset = 4;
         int labelPadding = 4;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             posterYOffset = 0;
         }
          _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, posterYOffset, fanartWidth - labelPadding -borderWidth * 4, labelHeight - borderWidth)];
@@ -100,8 +100,8 @@
 }
 
 -(void)setOverlayWatched:(BOOL)enable{
-    if (enable == YES){
-        if (overlayWatched == nil){
+    if (enable == YES) {
+        if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
             [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width - 4,
@@ -112,7 +112,7 @@
         }
         overlayWatched.hidden = NO;
     }
-    else{
+    else {
         overlayWatched.hidden = YES;
     }
 }

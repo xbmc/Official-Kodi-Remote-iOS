@@ -158,7 +158,8 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 {
   if (underLeftWidthLayout == ECVariableRevealWidth && self.anchorRightPeekAmount <= 0) {
     [NSException raise:@"Invalid Width Layout" format:@"anchorRightPeekAmount must be set"];
-  } else if (underLeftWidthLayout == ECFixedRevealWidth && self.anchorRightRevealAmount <= 0) {
+  }
+  else if (underLeftWidthLayout == ECFixedRevealWidth && self.anchorRightRevealAmount <= 0) {
     [NSException raise:@"Invalid Width Layout" format:@"anchorRightRevealAmount must be set"];
   }
   
@@ -169,7 +170,8 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 {
   if (underRightWidthLayout == ECVariableRevealWidth && self.anchorLeftPeekAmount <= 0) {
     [NSException raise:@"Invalid Width Layout" format:@"anchorLeftPeekAmount must be set"];
-  } else if (underRightWidthLayout == ECFixedRevealWidth && self.anchorLeftRevealAmount <= 0) {
+  }
+  else if (underRightWidthLayout == ECFixedRevealWidth && self.anchorLeftRevealAmount <= 0) {
     [NSException raise:@"Invalid Width Layout" format:@"anchorLeftRevealAmount must be set"];
   }
   
@@ -204,7 +206,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     self.topView.layer.shadowPath = nil;
     self.topView.layer.shouldRasterize = YES;
-    if(![self topViewHasFocus]) {
+    if (![self topViewHasFocus]) {
         [self removeTopViewSnapshot];
     }
     [self adjustLayout];
@@ -213,7 +215,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         self.topView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
         self.topView.layer.shouldRasterize = NO;
-        if(![self topViewHasFocus]) {
+        if (![self topViewHasFocus]) {
             [self addTopViewSnapshot];
         }
     }];
@@ -224,7 +226,8 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
   _resetStrategy = theResetStrategy;
   if (_resetStrategy & ECTapping) {
     self.resetTapGesture.enabled = YES;
-  } else {
+  }
+  else {
     self.resetTapGesture.enabled = NO;
   }
 }
@@ -236,13 +239,16 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
   if ([self underRightShowing] && ![self topViewIsOffScreen]) {
     [self updateUnderRightLayout];
     [self updateTopViewHorizontalCenter:self.anchorLeftTopViewCenter];
-  } else if ([self underRightShowing] && [self topViewIsOffScreen]) {
+  }
+  else if ([self underRightShowing] && [self topViewIsOffScreen]) {
     [self updateUnderRightLayout];
     [self updateTopViewHorizontalCenter:-self.resettedCenter];
-  } else if ([self underLeftShowing] && ![self topViewIsOffScreen]) {
+  }
+  else if ([self underLeftShowing] && ![self topViewIsOffScreen]) {
     [self updateUnderLeftLayout];
     [self updateTopViewHorizontalCenter:self.anchorRightTopViewCenter];
-  } else if ([self underLeftShowing] && [self topViewIsOffScreen]) {
+  }
+  else if ([self underLeftShowing] && [self topViewIsOffScreen]) {
     [self updateUnderLeftLayout];
     [self updateTopViewHorizontalCenter:self.screenWidth + self.resettedCenter];
   }
@@ -258,10 +264,11 @@ BOOL moved;
         self.initialTouchPositionX = currentTouchPositionX;
         self.initialHoizontalCenter = self.topView.center.x;
         moved = FALSE;
-    } else if (recognizer.state == UIGestureRecognizerStateChanged) {
+    }
+    else if (recognizer.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [recognizer translationInView:self.view];
         
-        if(fabs(translation.x) > fabs(translation.y))
+        if (fabs(translation.x) > fabs(translation.y))
         {
             CGFloat panAmount = self.initialTouchPositionX - currentTouchPositionX;
             CGFloat newCenterPosition = self.initialHoizontalCenter - panAmount;
@@ -269,7 +276,7 @@ BOOL moved;
             if ((newCenterPosition < self.resettedCenter && self.anchorLeftTopViewCenter == NSNotFound) || (newCenterPosition > self.resettedCenter && self.anchorRightTopViewCenter == NSNotFound)) {
                 newCenterPosition = self.resettedCenter;
             }
-            else{
+            else {
                 moved = TRUE;
             }
             
@@ -277,18 +284,21 @@ BOOL moved;
             [self updateTopViewHorizontalCenter:newCenterPosition];
             [self topViewHorizontalCenterDidChange:newCenterPosition];
         }
-    } else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
+    }
+    else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
         CGPoint currentVelocityPoint = [recognizer velocityInView:self.view];
         CGFloat currentVelocityX     = currentVelocityPoint.x;
         
-        if (currentVelocityX < SWIPE_LEFT_THRESHOLD && !moved){ // Detected a swipe to the left
+        if (currentVelocityX < SWIPE_LEFT_THRESHOLD && !moved) { // Detected a swipe to the left
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ECSLidingSwipeLeft" object:nil userInfo:nil];
         }
         if ([self underLeftShowing] && currentVelocityX > 100) {
             [self anchorTopViewTo:ECRight];
-        } else if ([self underRightShowing] && currentVelocityX < 100) {
+        }
+        else if ([self underRightShowing] && currentVelocityX < 100) {
             [self anchorTopViewTo:ECLeft];
-        } else {
+        }
+        else {
             [self resetTopView];
         }
     }
@@ -310,7 +320,8 @@ BOOL moved;
   
   if (side == ECLeft) {
     newCenter = self.anchorLeftTopViewCenter;
-  } else if (side == ECRight) {
+  }
+  else if (side == ECRight) {
     newCenter = self.anchorRightTopViewCenter;
   }
   
@@ -321,10 +332,11 @@ BOOL moved;
       animations();
     }
     [self updateTopViewHorizontalCenter:newCenter];
-  } completion:^(BOOL finished){
+  } completion:^(BOOL finished) {
     if (_resetStrategy & ECPanning) {
       self.panGesture.enabled = YES;
-    } else {
+    }
+    else {
       self.panGesture.enabled = NO;
     }
     if (complete) {
@@ -350,7 +362,8 @@ BOOL moved;
   
   if (side == ECLeft) {
     newCenter = -self.resettedCenter;
-  } else if (side == ECRight) {
+  }
+  else if (side == ECRight) {
     newCenter = self.screenWidth + self.resettedCenter;
   }
   
@@ -361,7 +374,7 @@ BOOL moved;
       animations();
     }
     [self updateTopViewHorizontalCenter:newCenter];
-  } completion:^(BOOL finished){
+  } completion:^(BOOL finished) {
     if (complete) {
       complete();
     }
@@ -451,7 +464,8 @@ BOOL moved;
 	
   if (center.x <= self.resettedCenter && newHorizontalCenter > self.resettedCenter) {
     [self underLeftWillAppear];
-  } else if (center.x >= self.resettedCenter && newHorizontalCenter < self.resettedCenter) {
+  }
+  else if (center.x >= self.resettedCenter && newHorizontalCenter < self.resettedCenter) {
     [self underRightWillAppear];
   }  
 }
@@ -488,9 +502,11 @@ BOOL moved;
 {
   if (self.anchorRightPeekAmount) {
     return self.screenWidth + self.resettedCenter - self.anchorRightPeekAmount;
-  } else if (self.anchorRightRevealAmount) {
+  }
+  else if (self.anchorRightRevealAmount) {
     return self.resettedCenter + self.anchorRightRevealAmount;
-  } else {
+  }
+  else {
     return NSNotFound;
   }
 }
@@ -499,9 +515,11 @@ BOOL moved;
 {
   if (self.anchorLeftPeekAmount) {
     return -self.resettedCenter + self.anchorLeftPeekAmount;
-  } else if (self.anchorLeftRevealAmount) {
+  }
+  else if (self.anchorLeftRevealAmount) {
     return -self.resettedCenter + (self.screenWidth - self.anchorLeftRevealAmount);
-  } else {
+  }
+  else {
     return NSNotFound;
   }
 }
@@ -580,25 +598,29 @@ BOOL moved;
   if (self.underLeftWidthLayout == ECFullWidth) {
     [self.underLeftView setAutoresizingMask:self.autoResizeToFillScreen];
     [self.underLeftView setFrame:self.view.bounds];
-  } else if (self.underLeftWidthLayout == ECVariableRevealWidth && !self.topViewIsOffScreen) {
+  }
+  else if (self.underLeftWidthLayout == ECVariableRevealWidth && !self.topViewIsOffScreen) {
     CGRect frame = self.view.bounds;
     CGFloat newWidth;
     
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
       newWidth = [UIScreen mainScreen].bounds.size.height - self.anchorRightPeekAmount;
-    } else {
+    }
+    else {
       newWidth = [UIScreen mainScreen].bounds.size.width - self.anchorRightPeekAmount;
     }
     
     frame.size.width = newWidth;
     
     self.underLeftView.frame = frame;
-  } else if (self.underLeftWidthLayout == ECFixedRevealWidth) {
+  }
+  else if (self.underLeftWidthLayout == ECFixedRevealWidth) {
     CGRect frame = self.view.bounds;
     
     frame.size.width = self.anchorRightRevealAmount;
     self.underLeftView.frame = frame;
-  } else {
+  }
+  else {
     [NSException raise:@"Invalid Width Layout" format:@"underLeftWidthLayout must be a valid ECViewWidthLayout"];
   }
 }
@@ -608,7 +630,8 @@ BOOL moved;
   if (self.underRightWidthLayout == ECFullWidth) {
     [self.underRightViewController.view setAutoresizingMask:self.autoResizeToFillScreen];
     self.underRightView.frame = self.view.bounds;
-  } else if (self.underRightWidthLayout == ECVariableRevealWidth) {
+  }
+  else if (self.underRightWidthLayout == ECVariableRevealWidth) {
     CGRect frame = self.view.bounds;
     
     CGFloat newLeftEdge;
@@ -616,13 +639,15 @@ BOOL moved;
     
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
       newWidth = [UIScreen mainScreen].bounds.size.height;
-    } else {
+    }
+    else {
       newWidth = [UIScreen mainScreen].bounds.size.width;
     }
     
     if (self.topViewIsOffScreen) {
       newLeftEdge = 0;
-    } else {
+    }
+    else {
       newLeftEdge = self.anchorLeftPeekAmount;
       newWidth   -= self.anchorLeftPeekAmount;
     }
@@ -631,7 +656,8 @@ BOOL moved;
     frame.size.width = newWidth;
     
     self.underRightView.frame = frame;
-  } else if (self.underRightWidthLayout == ECFixedRevealWidth) {
+  }
+  else if (self.underRightWidthLayout == ECFixedRevealWidth) {
     CGRect frame = self.view.bounds;
     
     CGFloat newLeftEdge = self.screenWidth - self.anchorLeftRevealAmount;
@@ -641,7 +667,8 @@ BOOL moved;
     frame.size.width = newWidth;
     
     self.underRightView.frame = frame;
-  } else {
+  }
+  else {
     [NSException raise:@"Invalid Width Layout" format:@"underRightWidthLayout must be a valid ECViewWidthLayout"];
   }
 }

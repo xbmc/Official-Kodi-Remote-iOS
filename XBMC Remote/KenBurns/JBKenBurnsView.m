@@ -78,7 +78,7 @@
     self.layer.masksToBounds = YES;
     
     newEnlargeRatio = 1.0;
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
 //        newEnlargeRatio = 1.0;
 //    }
     
@@ -96,7 +96,7 @@
     NSInteger bufferSize = (imageBufer < urls.count) ? imageBufer : urls.count;
     
     // Fill the buffer.
-    for (uint i=0; i<bufferSize; i++) {
+    for (uint i = 0; i < bufferSize; i++) {
         NSString *url = [[NSString alloc] initWithString:urls[i]];
         [self.imagesArray addObject:[self _downloadImageFrom:url]];
     }
@@ -104,7 +104,7 @@
     self.layer.masksToBounds = YES;
     
     newEnlargeRatio = 1.2;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         newEnlargeRatio = 2.2;
     }
     
@@ -134,7 +134,7 @@
 - (void) _startInternetAnimations:(NSArray *)urls{
     int bufferIndex = 0;
     
-    for (NSInteger urlIndex=self.imagesArray.count; urlIndex < [urls count]; urlIndex++) {
+    for (NSInteger urlIndex = self.imagesArray.count; urlIndex < [urls count]; urlIndex++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
                                withObject:@(0)
@@ -143,7 +143,7 @@
         [self.imagesArray removeObjectAtIndex:0];
         [self.imagesArray addObject:[self _downloadImageFrom:urls[urlIndex]]];
         
-        if ( bufferIndex == self.imagesArray.count -1)
+        if (bufferIndex == self.imagesArray.count -1)
         {
             bufferIndex = -1;
         }
@@ -172,8 +172,8 @@
     CGFloat frameHeight   = isLandscape ? self.frame.size.height : self.frame.size.width;
     
     // Widder than screen 
-    if (image.size.width > frameWidth){
-        widthDiff  = image.size.width - frameWidth;
+    if (image.size.width > frameWidth) {
+        widthDiff = image.size.width - frameWidth;
         
         // Higher than screen
 //        if (image.size.height > frameHeight)
@@ -202,7 +202,7 @@
     }
 //    else
 //    {
-//        widthDiff  = frameWidth - image.size.width;
+//        widthDiff = frameWidth - image.size.width;
 //        
 //        // Higher than screen
 //        if (image.size.height > frameHeight)
@@ -296,7 +296,7 @@
     [[self layer] addAnimation:animation forKey:nil];
     
     // Remove the previous view
-    if ([[self subviews] count] > 0){
+    if ([[self subviews] count] > 0) {
         [[self subviews][0] removeFromSuperview];
     }
     
@@ -319,7 +319,7 @@
 
 - (void) _notifyDelegate: (NSNumber *)imageIndex{
     if (delegate) {
-        if([self.delegate respondsToSelector:@selector(didShowImageAtIndex:)]){
+        if ([self.delegate respondsToSelector:@selector(didShowImageAtIndex:)]) {
             [self.delegate didShowImageAtIndex:[imageIndex intValue]];
         }      
         

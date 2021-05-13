@@ -20,7 +20,7 @@ NSOutputStream	*outStream;
 @implementation tcpJSONRPC
 
 -(id)init{
-    if ((self = [super init])){
+    if ((self = [super init])) {
         heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleSystemOnSleep:)
@@ -54,7 +54,7 @@ NSOutputStream	*outStream;
 }
 
 - (void)startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port{
-    if (port == 0){
+    if (port == 0) {
         port = 9090;
     }
     if ([server isEqualToString:@""]) {
@@ -79,8 +79,8 @@ NSOutputStream	*outStream;
 
 -(void)stopNetworkCommunication{
     [AppDelegate instance].serverTCPConnectionOpen = NO;
-    NSStreamStatus current_status =[inStream streamStatus];
-    if (current_status == NSStreamStatusOpen){
+    NSStreamStatus current_status = [inStream streamStatus];
+    if (current_status == NSStreamStatusOpen) {
         [inStream close];
         [inStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         [inStream setDelegate:nil];
@@ -113,12 +113,12 @@ NSOutputStream	*outStream;
 						if (nil != output) {
                             NSError *parseError = nil;
                             NSDictionary *notification = [NSJSONSerialization JSONObjectWithData:output options:kNilOptions error:&parseError];
-                            if (parseError == nil){
+                            if (parseError == nil) {
                                 NSString *method = @"";
                                 NSDictionary *paramsDict;
-                                if (((NSNull *)notification[@"method"] != [NSNull null])){
+                                if (((NSNull *)notification[@"method"] != [NSNull null])) {
                                         method = notification[@"method"];
-                                    if (((NSNull *)notification[@"params"] != [NSNull null])){
+                                    if (((NSNull *)notification[@"params"] != [NSNull null])) {
                                         paramsDict = [NSDictionary dictionaryWithObject:notification[@"params"] forKey:@"params"];
                                     }
                                     [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:paramsDict];
@@ -163,15 +163,15 @@ NSOutputStream	*outStream;
 
 -(void)checkServer{
     if (inCheck) return;
-    if ([[AppDelegate instance].obj.serverIP length] == 0){
+    if ([[AppDelegate instance].obj.serverIP length] == 0) {
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @(YES), @"showSetup", nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
-        if ([AppDelegate instance].serverOnLine){
+        if ([AppDelegate instance].serverOnLine) {
             [self noConnectionNotifications];
         }
         return;
     }
-    if ([AppDelegate instance].serverTCPConnectionOpen == YES){
+    if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
         return;
     }
     inCheck = TRUE;
@@ -185,18 +185,18 @@ NSOutputStream	*outStream;
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          inCheck = FALSE;
-         if (error==nil && methodError==nil){
+         if (error == nil && methodError == nil) {
              [AppDelegate instance].serverVolume = [methodResult[@"volume"] intValue];
-             if (![AppDelegate instance].serverOnLine){
-                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
+             if (![AppDelegate instance].serverOnLine) {
+                 if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                      NSDictionary *serverInfo = methodResult[@"version"];
                      [AppDelegate instance].serverVersion = [serverInfo[@"major"] intValue];
                      [AppDelegate instance].serverMinorVersion = [serverInfo[@"minor"] intValue];
                      NSString *realServerName = methodResult[@"name"];
-                     if ([realServerName isEqualToString:@"MrMC"]){
+                     if ([realServerName isEqualToString:@"MrMC"]) {
                          [AppDelegate instance].serverVersion += MRMC_TIMEWARP;
                      }
-                     infoTitle=[NSString stringWithFormat:@"%@ v%@.%@ %@",
+                     infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
                                           [AppDelegate instance].obj.serverDescription,
                                           serverInfo[@"major"],
                                           serverInfo[@"minor"],
@@ -210,8 +210,8 @@ NSOutputStream	*outStream;
                      params = [NSDictionary dictionaryWithObjectsAndKeys: @(NO), @"showSetup", nil];
                      [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
                  }
-                 else{
-                     if ([AppDelegate instance].serverOnLine){
+                 else {
+                     if ([AppDelegate instance].serverOnLine) {
                          [self noConnectionNotifications];            
                      }
                      NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @(YES), @"showSetup", nil];
@@ -220,11 +220,11 @@ NSOutputStream	*outStream;
              }
          }
          else {
-             if (error != nil){
+             if (error != nil) {
                  [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], @"error_message", nil]];
              }
              [AppDelegate instance].serverVolume = -1;
-             if ([AppDelegate instance].serverOnLine){
+             if ([AppDelegate instance].serverOnLine) {
                  [self noConnectionNotifications];
              }
              NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @(YES), @"showSetup", nil];
