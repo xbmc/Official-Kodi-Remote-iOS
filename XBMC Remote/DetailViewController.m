@@ -332,7 +332,7 @@
     [[Utilities getJsonRPC] callMethod:@"PVR.GetBroadcasts"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                          channelid, @"channelid",
-                         [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", nil], @"properties",
+                         @[@"title", @"starttime", @"endtime", @"plot", @"plotoutline"], @"properties",
                          nil]
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
@@ -3648,7 +3648,7 @@ NSIndexPath *selected;
                                      [sectionsTemp[@""] addObject:item];
                                  }
                              }
-                             self.sectionArray = [[NSArray alloc] initWithObjects:@"", nil];
+                             self.sectionArray = @[@""];
                              self.sections = [sectionsTemp mutableCopy];
                              if (!enableCollectionView){
                                  forceCollection = YES;
@@ -3929,7 +3929,7 @@ NSIndexPath *selected;
          callMethod:@"Player.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                          mainFields[@"playlistid"], @"playerid",
-                         [[NSArray alloc] initWithObjects:@"percentage", @"time", @"totaltime", @"partymode", @"position", nil], @"properties",
+                         @[@"percentage", @"time", @"totaltime", @"partymode", @"position"], @"properties",
                          nil] 
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              if (error==nil && methodError==nil){
@@ -5227,7 +5227,7 @@ NSIndexPath *selected;
                 [sectionsTemp[@""] addObject:item];
             }
         }
-        self.sectionArray = [[NSArray alloc] initWithObjects:@"", nil];
+        self.sectionArray = @[@""];
         self.sections = [sectionsTemp mutableCopy];
     }
     [self setFlowLayoutParams];

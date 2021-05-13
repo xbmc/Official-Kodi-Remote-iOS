@@ -269,7 +269,7 @@
         [[Utilities getJsonRPC]
          callMethod:@"XBMC.GetInfoBooleans" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         [[NSArray alloc] initWithObjects:@"Window.IsActive(fullscreenvideo)", @"Window.IsActive(visualisation)", @"Window.IsActive(slideshow)", nil], @"booleans",
+                         @[@"Window.IsActive(fullscreenvideo)", @"Window.IsActive(visualisation)", @"Window.IsActive(slideshow)"], @"booleans",
                          nil] 
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              
@@ -447,7 +447,7 @@
                  callMethod:@"Player.GetProperties"
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                  response, @"playerid",
-                                 [[NSArray alloc] initWithObjects:@"subtitleenabled", @"currentsubtitle", @"subtitles", nil], @"properties",
+                                 @[@"subtitleenabled", @"currentsubtitle", @"subtitles"], @"properties",
                                  nil]
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil) {
@@ -516,7 +516,7 @@
                  callMethod:@"Player.GetProperties"
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                  response, @"playerid",
-                                 [[NSArray alloc] initWithObjects: @"currentaudiostream", @"audiostreams", nil], @"properties",
+                                 @[@"currentaudiostream", @"audiostreams"], @"properties",
                                  nil]
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error==nil && methodError==nil){
@@ -626,7 +626,7 @@
 
 //    [[Utilities getJsonRPC]
 //     callMethod:@"Application.GetProperties" 
-//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"volume", nil], @"properties", nil]
+//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @[@"volume"], @"properties", nil]
 //     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //         if (error==nil && methodError==nil){
 //             if( [NSJSONSerialization isValidJSONObject:methodResult] && [methodResult count]){
@@ -769,7 +769,7 @@ NSInteger buttonAction;
         [[Utilities getJsonRPC]
          callMethod:@"GUI.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                         [[NSArray alloc] initWithObjects:@"currentwindow", @"fullscreen",nil], @"properties",
+                         @[@"currentwindow", @"fullscreen"], @"properties",
                          nil]
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
@@ -787,7 +787,7 @@ NSInteger buttonAction;
                      [[Utilities getJsonRPC]
                       callMethod:@"XBMC.GetInfoBooleans"
                       withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                      [[NSArray alloc] initWithObjects:@"VideoPlayer.HasMenu", @"Pvr.IsPlayingTv", nil], @"booleans",
+                                      @[@"VideoPlayer.HasMenu", @"Pvr.IsPlayingTv"], @"booleans",
                                       nil]
                       onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                           if (error==nil && methodError==nil && [methodResult isKindOfClass: [NSDictionary class]]){
@@ -982,7 +982,7 @@ NSInteger buttonAction;
             action = @"GUI.ActivateWindow";
             dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
                       @"videos", @"window",
-                      [[NSArray alloc] initWithObjects:@"MovieTitles", nil], @"parameters",
+                      @[@"MovieTitles"], @"parameters",
                       nil];
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
             break;
@@ -991,7 +991,7 @@ NSInteger buttonAction;
             action = @"GUI.ActivateWindow";
             dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
                          @"videos", @"window",
-                         [[NSArray alloc] initWithObjects:@"tvshowtitles", nil], @"parameters",
+                         @[@"tvshowtitles"], @"parameters",
                          nil];
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
             break;
@@ -1070,7 +1070,7 @@ NSInteger buttonAction;
                 [self GUIAction:@"GUI.ActivateWindow"
                          params:[NSDictionary dictionaryWithObjectsAndKeys:
                                  @"pvr", @"window",
-                                 [[NSArray alloc] initWithObjects:@"31", @"0", @"10", @"0", nil], @"parameters",
+                                 @[@"31", @"0", @"10", @"0"], @"parameters",
                                  nil]
                 httpAPIcallback:nil];
                 break;

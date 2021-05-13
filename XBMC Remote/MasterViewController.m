@@ -342,7 +342,7 @@
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     [AppDelegate instance].obj=[GlobalData getInstance];
-    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"version", @"volume", nil], @"properties", nil];
+    checkServerParams=[NSDictionary dictionaryWithObjectsAndKeys: @[@"version", @"volume"], @"properties", nil];
     menuList.scrollsToTop = NO;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleWillResignActive:)

@@ -1764,7 +1764,7 @@ int h=0;
          callMethod:@"Player.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                          item[@"playlistid"], @"playerid",
-                         [[NSArray alloc] initWithObjects:@"percentage", @"time", @"totaltime", @"partymode", @"position", nil], @"properties",
+                         @[@"percentage", @"time", @"totaltime", @"partymode", @"position"], @"properties",
                          nil]
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              if (error==nil && methodError==nil){
