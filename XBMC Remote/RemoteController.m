@@ -423,16 +423,7 @@
     }
 }
 
-# pragma mark - JSON 
-
-- (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
-    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    NSInteger numelement = [array count];
-    for (int i = 0; i < numelement-1; i += 2) {
-        mutableDictionary[array[i+1]] = array[i];
-    }
-    return (NSDictionary *)mutableDictionary;
-}
+# pragma mark - JSON
 
 /* method to show an action sheet for subs. */
 
@@ -581,7 +572,7 @@
                 if (parameters != nil) {
                     [commonParams addObjectsFromArray:parameters];
                 }
-                [[Utilities getJsonRPC] callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:action withParameters:[Utilities indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //                    if (error == nil && methodError == nil) {
 //                        NSLog(@"comando %@ eseguito. Risultato: %@", action, methodResult);
 //                    }

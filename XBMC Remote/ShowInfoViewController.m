@@ -283,24 +283,6 @@ int count = 0;
 
 #pragma mark - ToolBar button
 
-- (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
-    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    NSInteger numelement = [array count];
-    for (int i = 0; i < numelement-1; i += 2) {
-        mutableDictionary[array[i+1]] = array[i];
-    }
-    return (NSDictionary *)mutableDictionary;
-}
-
-- (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
-    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    NSInteger numelement = [array count];
-    for (int i = 0; i < numelement-1; i += 2) {
-        mutableDictionary[array[i+1]] = array[i];
-    }
-    return (NSMutableDictionary *)mutableDictionary;
-}
-
 -(void)showContent:(id)sender{
     NSDictionary *item = self.detailItem;
     mainMenu *MenuItem = nil;
@@ -365,10 +347,10 @@ int count = 0;
     else {
         return;
     }
-    NSDictionary *methods = [self indexKeyedDictionaryFromArray:[choosedMenuItem mainMethod][choosedTab]];
+    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[choosedMenuItem mainMethod][choosedTab]];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
-        NSMutableDictionary *parameters = [self indexKeyedMutableDictionaryFromArray:[choosedMenuItem mainParameters][choosedTab]];
+        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[choosedMenuItem mainParameters][choosedTab]];
         id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
         if (movieObj != nil && movieObjKey != nil) {

@@ -200,15 +200,6 @@
     return result;    
 }
 
-- (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
-    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    NSInteger numelement = [array count];
-    for (int i = 0; i < numelement-1; i += 2) {
-        mutableDictionary[array[i+1]] = array[i];
-    }
-    return (NSDictionary *)mutableDictionary;
-}
-
 -(void)resizeCellBar:(CGFloat)width image:(UIImageView *)cellBarImage{
     NSTimeInterval time = (width == 0) ? 0.1 : 1.0;
     width = MIN(width, MAX_CELLBAR_WIDTH);
@@ -1255,7 +1246,7 @@ int currentItemID;
                 if (parameters != nil) {
                     [commonParams addObjectsFromArray:parameters];
                 }
-                [[Utilities getJsonRPC] callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:action withParameters:[Utilities indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error == nil && methodError == nil) {
                         if (musicPartyMode && checkPartyMode) {
                             [self checkPartyMode];
@@ -1464,8 +1455,8 @@ int currentItemID;
 }
 
 -(void)showInfo:(NSDictionary *)item menuItem:(mainMenu *)menuItem indexPath:(NSIndexPath *)indexPath{
-    NSDictionary *methods = [self indexKeyedDictionaryFromArray:[menuItem mainMethod][choosedTab]];
-    NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[menuItem mainParameters][choosedTab]];
+    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem mainMethod][choosedTab]];
+    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][choosedTab]];
     
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
@@ -2140,15 +2131,6 @@ int currentItemID;
 
 # pragma mark - Action Sheet
 
-- (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
-    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    NSInteger numelement = [array count];
-    for (int i = 0; i < numelement-1; i += 2) {
-        mutableDictionary[array[i+1]] = array[i];
-    }
-    return (NSMutableDictionary *)mutableDictionary;
-}
-
 -(void)showActionNowPlaying:(NSMutableArray *)sheetActions title:(NSString*)title point:(CGPoint)origin{
     NSInteger numActions = [sheetActions count];
     if (numActions) {
@@ -2236,10 +2218,10 @@ int currentItemID;
     else {
         return;
     }
-    NSDictionary *methods = [self indexKeyedDictionaryFromArray:[MenuItem.subItem mainMethod][choosedTab]];
+    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[MenuItem.subItem mainMethod][choosedTab]];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
-        NSMutableDictionary *parameters = [self indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters][choosedTab]];
+        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters][choosedTab]];
         NSString *key = @"null";
         if (item[mainFields[@"row15"]] != nil) {
             key = mainFields[@"row15"];

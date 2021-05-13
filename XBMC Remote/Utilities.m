@@ -509,4 +509,22 @@
     return [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
 }
 
++ (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    NSInteger numelement = [array count];
+    for (int i = 0; i < numelement-1; i += 2) {
+        mutableDictionary[array[i+1]] = array[i];
+    }
+    return (NSDictionary *)mutableDictionary;
+}
+
++ (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    NSInteger numelement = [array count];
+    for (int i = 0; i < numelement-1; i += 2) {
+        mutableDictionary[array[i+1]] = array[i];
+    }
+    return (NSMutableDictionary *)mutableDictionary;
+}
+
 @end
