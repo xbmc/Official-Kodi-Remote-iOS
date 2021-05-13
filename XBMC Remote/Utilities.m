@@ -597,6 +597,26 @@
     return runtime;
 }
 
++ (NSString*)getYearFromDictionary:(NSDictionary*)dict key:(NSString*)key {
+    NSString *year = @"";
+    id value = dict[key];
+    if (value == [NSNull null]) {
+        year = @"";
+    }
+    else if ([value isKindOfClass:[NSNumber class]]) {
+        year = [(NSNumber *)value stringValue];
+    }
+    else {
+        if ([key isEqualToString:@"blank"]) {
+            year = @"";
+        }
+        else {
+            year = value;
+        }
+    }
+    return year;
+}
+
 + (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key {
     NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber*)dict[key] floatValue]];
     if ([rating isEqualToString:@"0.0"]) {

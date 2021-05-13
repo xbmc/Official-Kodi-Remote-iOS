@@ -1502,18 +1502,8 @@ int currentItemID;
                  NSString *label = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row1"]]];
                  NSString *genre = [Utilities getStringFromDictionary:videoLibraryMovieDetail key:mainFields[@"row2"] emptyString:@""];
                  
-                 NSString *year = @"";
-                 if ([videoLibraryMovieDetail[mainFields[@"row3"]] isKindOfClass:[NSNumber class]]) {
-                     year = [(NSNumber *)videoLibraryMovieDetail[mainFields[@"row3"]] stringValue];
-                 }
-                 else {
-                     if ([mainFields[@"row3"] isEqualToString:@"blank"]) {
-                         year = @"";
-                     }
-                     else {
-                         year = videoLibraryMovieDetail[mainFields[@"row3"]];
-                     }
-                 }
+                 NSString *year = [Utilities getYearFromDictionary:videoLibraryMovieDetail key:mainFields[@"row3"]];
+
                  NSString *runtime = [Utilities getStringFromDictionary:videoLibraryMovieDetail key:mainFields[@"row4"] emptyString:@""];
                  
                  NSString *rating = [Utilities getRatingFromDictionary:videoLibraryMovieDetail key:mainFields[@"row5"]];
