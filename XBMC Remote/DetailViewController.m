@@ -4294,15 +4294,9 @@ NSIndexPath *selected;
                  
                  NSString *rating = [Utilities getRatingFromDictionary:videoLibraryMovieDetail key:mainFields[@"row5"]];
                  
-                 NSString *thumbnailPath = videoLibraryMovieDetail[@"thumbnail"];
+                 NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:videoLibraryMovieDetail useBanner:NO useIcon:methodResult[@"recordingdetails"] != nil];
+
                  NSDictionary *art = videoLibraryMovieDetail[@"art"];
-                 if ([art count] && [art[@"poster"] length] != 0) {
-                     thumbnailPath = art[@"poster"];
-                 }
-                 if ([art count] && [art[@"icon"] length] != 0 && methodResult[@"recordingdetails"] != nil) {
-                     thumbnailPath = art[@"icon"];
-                 }
-             
                  NSString *clearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
                  NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
 //                 if ([art count] && [art[@"banner"] length] != 0 && [AppDelegate instance].serverVersion > 11 && ![AppDelegate instance].obj.preferTVPosters) {
@@ -4533,17 +4527,8 @@ NSIndexPath *selected;
                          
                          NSString *rating = [Utilities getRatingFromDictionary:videoLibraryMovies[i] key:mainFields[@"row5"]];
                          
-                         NSString *thumbnailPath = videoLibraryMovies[i][@"thumbnail"];
-                         NSDictionary *art = videoLibraryMovies[i][@"art"];
-                         if ([art count] && [art[@"poster"] length] != 0) {
-                             thumbnailPath = art[@"poster"];
-                         }
-                         if ([art count] && [art[@"banner"] length] != 0 && tvshowsView) {
-                             thumbnailPath = art[@"banner"];
-                         }
-                         if ([art count] && [art[@"icon"] length] != 0 && recordingListView) {
-                             thumbnailPath = art[@"icon"];
-                         }
+                         NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:videoLibraryMovies[i] useBanner:tvshowsView useIcon:recordingListView];
+
                          NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                          NSString *fanartURL = [Utilities formatStringURL:videoLibraryMovies[i][@"fanart"] serverURL:serverURL];
                          if ([stringURL isEqualToString:@""]) {

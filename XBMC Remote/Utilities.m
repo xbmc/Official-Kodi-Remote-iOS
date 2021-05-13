@@ -636,6 +636,21 @@
     return path;
 }
 
++ (NSString*)getThumbnailFromDictionary:(NSDictionary*)dict useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
+    NSString *thumbnailPath = dict[@"thumbnail"];
+    NSDictionary *art = dict[@"art"];
+    if ([art[@"poster"] length] != 0) {
+        thumbnailPath = art[@"poster"];
+    }
+    if (useBanner && [art[@"banner"] length] != 0) {
+        thumbnailPath = art[@"banner"];
+    }
+    if (useIcon && [art[@"icon"] length] != 0) {
+        thumbnailPath = art[@"icon"];
+    }
+    return thumbnailPath;
+}
+
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL {
     NSString *urlString = @"";
     if (path.length > 0 && ![path isEqualToString:@"(null)"]) {
