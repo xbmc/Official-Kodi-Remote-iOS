@@ -348,7 +348,7 @@
         NSString *command = tableData[tableIdx][@"action"][@"command"];
         NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys: tableData[tableIdx][@"action"][@"params"][@"setting"], @"setting", @(onoff.on), @"value", nil];
         if ([tableData[tableIdx][@"action"][@"params"] respondsToSelector:@selector(setObject:forKey:)]) {
-            [tableData[tableIdx][@"action"][@"params"] setObject:@(onoff.on) forKey:@"value"];
+            tableData[tableIdx][@"action"][@"params"][@"value"] = @(onoff.on);
         }
         [self xbmcAction:command params:parameters uiControl:onoff];
     }
@@ -431,7 +431,7 @@
         textField.text = tableData[indexPath.row][@"label"];
     }];
     UIAlertAction* updateButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update label", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            [tableData[indexPath.row] setObject:[[alertView textFields][0] text] forKey:@"label"];
+        tableData[indexPath.row][@"label"] = [[alertView textFields][0] text];
             
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
             UILabel *title = (UILabel*) [cell viewWithTag:3];
@@ -439,7 +439,7 @@
             
             customButton *arrayButtons = [[customButton alloc] init];
             if ([arrayButtons.buttons[indexPath.row -  editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]) {
-                [arrayButtons.buttons[indexPath.row -  editableRowStartAt] setObject:[[alertView textFields][0] text] forKey:@"label"];
+                arrayButtons.buttons[indexPath.row - editableRowStartAt][@"label"] = [[alertView textFields][0] text];
                 [arrayButtons saveData];
             }
         }];
@@ -576,7 +576,7 @@
             if ([sender respondsToSelector:@selector(setOn:)]) {
                 [sender setOn:[methodResult[@"value"] boolValue]];
                 if ([setting respondsToSelector:@selector(setObject:forKey:)]) {
-                    [setting setObject:@([methodResult[@"value"] boolValue]) forKey:@"value"];
+                    setting[@"value"] = @([methodResult[@"value"] boolValue]);
                 }
             }
         }

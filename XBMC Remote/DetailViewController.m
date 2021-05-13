@@ -104,7 +104,7 @@
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     NSInteger numelement = [array count];
     for (int i = 0; i < numelement-1; i += 2) {
-        [mutableDictionary setObject:array[i] forKey:array[i+1]];
+        mutableDictionary[array[i+1]] = array[i];
     }
     return (NSDictionary *)mutableDictionary;
 }
@@ -113,7 +113,7 @@
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     NSInteger numelement = [array count];
     for (int i = 0; i < numelement-1; i += 2) {
-        [mutableDictionary setObject:array[i] forKey:array[i+1]];
+        mutableDictionary[array[i+1]] = array[i];
     }
     return (NSMutableDictionary *)mutableDictionary;
 }
@@ -135,7 +135,7 @@
     NSMutableArray *epgArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     dispatch_sync(epglockqueue, ^{
         if (epgArray != nil && channelid != nil) {
-            [epgDict setObject:epgArray forKey:channelid];
+            epgDict[channelid] = epgArray;
         }
     });
     return epgArray;
@@ -154,7 +154,7 @@
         NSString  *dicPath = [epgCachePath stringByAppendingPathComponent:filename];
         [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
         dispatch_sync(epglockqueue, ^{
-            [epgDict setObject:epgArray forKey:channelid];
+            epgDict[channelid] = epgArray;
             [epgDownloadQueue removeObject:channelid];
         });
     }
@@ -202,12 +202,12 @@
 
 -(NSMutableDictionary *)parseEpgData:(NSMutableArray *)epgData {
     NSMutableDictionary *channelEPG = [[NSMutableDictionary alloc] init];
-    [channelEPG setObject: NSLocalizedString(@"Not Available",nil) forKey:@"current"];
-    [channelEPG setObject: NSLocalizedString(@"Not Available",nil) forKey:@"next"];
-    [channelEPG setObject: @"" forKey:@"current_details"];
-    [channelEPG setObject: @(YES) forKey:@"refresh_data"];
-    [channelEPG setObject: @"" forKey:@"starttime"];
-    [channelEPG setObject: @"" forKey:@"endtime"];
+    channelEPG[@"current"] = NSLocalizedString(@"Not Available",nil);
+    channelEPG[@"next"] = NSLocalizedString(@"Not Available",nil);
+    channelEPG[@"current_details"] = @"";
+    channelEPG[@"refresh_data"] = @(YES);
+    channelEPG[@"starttime"] = @"";
+    channelEPG[@"endtime"] = @"";
     if (epgData != nil) {
         NSDictionary *objectToSearch;
         NSDate *nowDate = [NSDate date];
@@ -215,12 +215,12 @@
         NSArray *filteredArray = [epgData filteredArrayUsingPredicate:predicate];
         if ([filteredArray count] > 0) {
             objectToSearch = filteredArray[0];
-            [channelEPG setObject: objectToSearch[@"starttime"] forKey:@"starttime"];
-            [channelEPG setObject: objectToSearch[@"endtime"] forKey:@"endtime"];
-            [channelEPG setObject: [NSString stringWithFormat:@"%@ %@",
-                                    [localHourMinuteFormatter stringFromDate:objectToSearch[@"starttime"]],
-                                    objectToSearch[@"title"]
-                                    ] forKey:@"current"];
+            channelEPG[@"starttime"] = objectToSearch[@"starttime"];
+            channelEPG[@"endtime"] = objectToSearch[@"endtime"];
+            channelEPG[@"current"] = [NSString stringWithFormat:@"%@ %@",
+                                      [localHourMinuteFormatter stringFromDate:objectToSearch[@"starttime"]],
+                                      objectToSearch[@"title"]
+                                      ];
             NSCalendar *gregorian = [[NSCalendar alloc]
                                      initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
             NSUInteger unitFlags = NSCalendarUnitMinute;
@@ -232,15 +232,15 @@
             if (!plotoutline || [plotoutline isKindOfClass:[NSNull class]] || [objectToSearch[@"plot"] isEqualToString:plotoutline]) {
                 plotoutline = @"";
             }
-            [channelEPG setObject: [NSString stringWithFormat:@"\n%@\n%@\n%@\n\n%@ - %@ (%ld %@)",
-                                    objectToSearch[@"title"],
-                                    [plotoutline length] > 0 ? [NSString stringWithFormat:@"%@\n",plotoutline] : @"",
-                                    objectToSearch[@"plot"],
-                                    [localHourMinuteFormatter stringFromDate:objectToSearch[@"starttime"]],
-                                    [localHourMinuteFormatter stringFromDate:objectToSearch[@"endtime"]],
-                                    (long)minutes,
-                                    (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)
-                                    ] forKey:@"current_details"];
+            channelEPG[@"current_details"] = [NSString stringWithFormat:@"\n%@\n%@\n%@\n\n%@ - %@ (%ld %@)",
+                                              objectToSearch[@"title"],
+                                              [plotoutline length] > 0 ? [NSString stringWithFormat:@"%@\n",plotoutline] : @"",
+                                              objectToSearch[@"plot"],
+                                              [localHourMinuteFormatter stringFromDate:objectToSearch[@"starttime"]],
+                                              [localHourMinuteFormatter stringFromDate:objectToSearch[@"endtime"]],
+                                              (long)minutes,
+                                              (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)
+                                              ];
             predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", objectToSearch[@"endtime"]];
             NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
             if ([nextFilteredArray count] > 0) {
@@ -250,11 +250,11 @@
 //                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
 //                NSArray *sortedArray;
 //                sortedArray = [nextFilteredArray sortedArrayUsingDescriptors:sortDescriptors];
-                [channelEPG setObject: [NSString stringWithFormat:@"%@ %@",
-                                        [localHourMinuteFormatter stringFromDate:nextFilteredArray[0][@"starttime"]],
-                                        nextFilteredArray[0][@"title"]
-                                        ] forKey:@"next"];
-                [channelEPG setObject: @(NO) forKey:@"refresh_data"];
+                channelEPG[@"next"] = [NSString stringWithFormat:@"%@ %@",
+                                       [localHourMinuteFormatter stringFromDate:nextFilteredArray[0][@"starttime"]],
+                                       nextFilteredArray[0][@"title"]
+                                       ];
+                channelEPG[@"refresh_data"] = @(NO);
             }
         }
     }
@@ -271,7 +271,7 @@
     current.text = channelEPG[@"current"];
     next.text = channelEPG[@"next"];
     if (channelEPG[@"current_details"] != nil) {
-        [item setObject:channelEPG[@"current_details"] forKey:@"genre"];
+        item[@"genre"] = channelEPG[@"current_details"];
     }
     ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
     if (![current.text isEqualToString:NSLocalizedString(@"Not Available",nil)] && [channelEPG[@"starttime"] isKindOfClass:[NSDate class]] && [channelEPG[@"endtime"] isKindOfClass:[NSDate class]]) {
@@ -988,7 +988,7 @@
         }
     }
     if (mutableProperties != nil) {
-        [mutableParameters setObject:mutableProperties forKey:@"properties"];
+        mutableParameters[@"properties"] = mutableProperties;
     }
     if ([parameters[@"blackTableSeparator"] boolValue] && ![AppDelegate instance].obj.preferTVPosters) {
         blackTableSeparator = YES;
@@ -1047,8 +1047,9 @@
                    nil];
             objKey = @"filter";
         }
-        if (parameters[@"disableFilterParameter"] == nil)
-            [parameters setObject:@"NO" forKey:@"disableFilterParameter"];
+        if (parameters[@"disableFilterParameter"] == nil) {
+            parameters[@"disableFilterParameter"] = @"NO";
+        }
         NSMutableDictionary *newSectionParameters = [NSMutableDictionary dictionary];
         if (parameters[@"extra_section_parameters"] != nil) {
             newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1060,9 +1061,9 @@
         }
         NSMutableDictionary *pvrExtraInfo = [NSMutableDictionary dictionary];
         if ([item[@"family"] isEqualToString:@"channelid"]) {
-            [pvrExtraInfo setObject:item[@"label"] forKey:@"channel_name"];
-            [pvrExtraInfo setObject:item[@"thumbnail"] forKey:@"channel_icon"];
-            [pvrExtraInfo setObject:item[@"channelid"] forKey:@"channelid"];
+            pvrExtraInfo[@"channel_name"] = item[@"label"];
+            pvrExtraInfo[@"channel_icon"] = item[@"thumbnail"];
+            pvrExtraInfo[@"channelid"] = item[@"channelid"];
         }
         
         NSMutableDictionary *kodiExtrasPropertiesMinimumVersion = [NSMutableDictionary dictionary];
@@ -1207,7 +1208,7 @@
                                            parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                            nil];
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
-                [newParameters[0] setObject:@"expert" forKey:@"level"];
+                newParameters[0][@"level"] = @"expert";
             }
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab = choosedTab;
@@ -3215,17 +3216,17 @@ NSIndexPath *selected;
                  }
                  [collectionView deselectItemAtIndexPath:indexPath animated:YES];
              }
-             [item setObject:@(watched) forKey:@"playcount"];
+             item[@"playcount"] = @(watched);
              
              NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
              NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
              NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
              if ([parameters[@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11) {
                  [mutableProperties addObject:@"art"];
-                 [mutableParameters setObject:mutableProperties forKey:@"properties"];
+                 mutableParameters[@"properties"] = mutableProperties;
              }
              if (mutableParameters[@"file_properties"] != nil) {
-                 [mutableParameters setObject: mutableParameters[@"file_properties"] forKey: @"properties"];
+                 mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
                  [mutableParameters removeObjectForKey: @"file_properties"];
              }
              [self saveData:mutableParameters];
@@ -4204,7 +4205,7 @@ NSIndexPath *selected;
     
     if ([parameters[@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11) {
         [mutableProperties addObject:@"art"];
-        [mutableParameters setObject:mutableProperties forKey:@"properties"];
+        mutableParameters[@"properties"] = mutableProperties;
     }
     if (parameters[@"extra_info_parameters"] != nil && methods[@"extra_info_method"] != nil) {
         [self retrieveExtraInfoData:methods[@"extra_info_method"] parameters:mutableParameters index:indexPath item:item menuItem:menuItem tabToShow:tabToShow];
@@ -4219,7 +4220,7 @@ NSIndexPath *selected;
     NSArray *sheetActions = @[NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil)];
     selected = [NSIndexPath indexPathForRow:0 inSection:0];
     NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:[self.sections valueForKey:self.sectionArray[0]][0]];
-    [item setObject:self.navigationItem.title forKey:@"label"];
+    item[@"label"] = self.navigationItem.title;
     forceMusicAlbumMode = YES;
     int rectOrigin = (int)((albumViewHeight - (albumViewPadding * 2))/2);
     [self showActionSheet:nil sheetActions:sheetActions item:item rectOriginX:rectOrigin + albumViewPadding rectOriginY:rectOrigin];
@@ -4521,7 +4522,7 @@ NSIndexPath *selected;
         }
     }
     if (mutableProperties != nil) {
-        [mutableParameters setObject:mutableProperties forKey:@"properties"];
+        mutableParameters[@"properties"] = mutableProperties;
     }
     NSString *methodToCall = methods[@"method"];
     if (parameters[@"exploreCommand"] != nil) {
@@ -4539,7 +4540,7 @@ NSIndexPath *selected;
 -(void) retrieveData:(NSString *)methodToCall parameters:(NSDictionary*)parameters sectionMethod:(NSString *)SectionMethodToCall sectionParameters:(NSDictionary*)sectionParameters resultStore:(NSMutableArray *)resultStoreArray extraSectionCall:(BOOL) extraSectionCallBool refresh:(BOOL)forceRefresh{
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
     if (mutableParameters[@"file_properties"] != nil) {
-        [mutableParameters setObject: mutableParameters[@"file_properties"] forKey: @"properties"];
+        mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
         [mutableParameters removeObjectForKey: @"file_properties"];
     }
     
@@ -5077,7 +5078,7 @@ NSIndexPath *selected;
                     [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
                     countRow = 0;
                 }
-                [item setObject:parameters[@"pvrExtraInfo"] forKey:@"pvrExtraInfo"];
+                item[@"pvrExtraInfo"] = parameters[@"pvrExtraInfo"];
                 [self.sections[c] addObject:item];
                 if ([item[@"isactive"] boolValue]) {
                     autoScrollTable = [NSIndexPath indexPathForRow:countRow inSection:[self.sections count] - 1];
@@ -5539,7 +5540,7 @@ NSIndexPath *selected;
     if ([AppDelegate instance].serverVersion > 11) {
         if (tempDict[@"filter"] != nil) {
             [tempDict removeObjectForKey:@"filter"];
-            [tempDict setObject:@"YES" forKey:@"filtered"];
+            tempDict[@"filtered"] = @"YES";
         }
     }
     else {
@@ -5558,9 +5559,9 @@ NSIndexPath *selected;
             if (arr_sort == nil) {
                 arr_sort = [NSArray array];
             }
-            [tempDict setObject:arr_properties forKey:@"properties"];
-            [tempDict setObject:arr_sort forKey:@"sort"];
-            [tempDict setObject:@"YES" forKey:@"filtered"];
+            tempDict[@"properties"] = arr_properties;
+            tempDict[@"sort"] = arr_sort;
+            tempDict[@"filtered"] = @"YES";
         }
     }
     NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
@@ -5940,7 +5941,7 @@ NSIndexPath *selected;
         NSArray *filteredItems = [source filteredArrayUsingPredicate:filter];
         if ([filteredItems count] > 0) {
             NSMutableDictionary *item = filteredItems[0];
-            [item setObject:status forKey:@"isrecording"];
+            item[@"isrecording"] = status;
             [self updateChannelListTableCell];
         }
     }
@@ -5949,7 +5950,7 @@ NSIndexPath *selected;
         NSArray *filteredItems = [source filteredArrayUsingPredicate:filter];
         if ([filteredItems count] > 0) {
             NSMutableDictionary *item = filteredItems[0];
-            [item setObject:status forKey:@"hastimer"];
+            item[@"hastimer"] = status;
             [self updateChannelListTableCell];
         }
     }
@@ -6054,15 +6055,15 @@ NSIndexPath *selected;
         if ([AppDelegate instance].serverVersion > 11) {
             if (tempDict[@"filter"] != nil) {
                 [tempDict removeObjectForKey:@"filter"];
-                [tempDict setObject:@"YES" forKey:@"filtered"];
+                tempDict[@"filtered"] = @"YES";
             }
         }
         else {
             if ([tempDict count] > 2) {
                 [tempDict removeAllObjects];
-                [tempDict setObject:parameters[@"parameters"][@"properties"] forKey:@"properties"];
-                [tempDict setObject:parameters[@"parameters"][@"sort"] forKey:@"sort"];
-                [tempDict setObject:@"YES" forKey:@"filtered"];
+                tempDict[@"properties"] = parameters[@"parameters"][@"properties"];
+                tempDict[@"sort"] = parameters[@"parameters"][@"sort"];
+                tempDict[@"filtered"] = @"YES";
             }
         }
         NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];

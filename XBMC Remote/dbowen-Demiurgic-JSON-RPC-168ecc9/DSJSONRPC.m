@@ -157,11 +157,11 @@
     
     // Create dictionary to store information about the request so we can recall it later
     NSMutableDictionary *connectionInfo = [NSMutableDictionary dictionaryWithCapacity:3];
-    [connectionInfo setObject:methodName forKey:@"method"];
-    [connectionInfo setObject: @(aId) forKey:@"id"];
+    connectionInfo[@"method"] = methodName;
+    connectionInfo[@"id"] = @(aId);
     if (completionHandler != nil) {
         DSJSONRPCCompletionHandler completionHandlerCopy = [completionHandler copy];
-        [connectionInfo setObject:completionHandlerCopy forKey:@"completionHandler"];
+        connectionInfo[@"completionHandler"] = completionHandlerCopy;
     }
     
     // Perform the JSON-RPC method call
@@ -237,7 +237,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     NSMutableDictionary *connectionInfo = self._activeConnections[[NSValue valueWithNonretainedObject:connection]];
-    [connectionInfo setObject:[NSMutableData data] forKey:@"data"];
+    connectionInfo[@"data"] = [NSMutableData data];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {

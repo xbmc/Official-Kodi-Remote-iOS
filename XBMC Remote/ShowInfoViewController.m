@@ -287,7 +287,7 @@ int count = 0;
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     NSInteger numelement = [array count];
     for (int i = 0; i < numelement-1; i += 2) {
-        [mutableDictionary setObject:array[i] forKey:array[i+1]];
+        mutableDictionary[array[i+1]] = array[i];
     }
     return (NSDictionary *)mutableDictionary;
 }
@@ -296,7 +296,7 @@ int count = 0;
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     NSInteger numelement = [array count];
     for (int i = 0; i < numelement-1; i += 2) {
-        [mutableDictionary setObject:array[i] forKey:array[i+1]];
+        mutableDictionary[array[i+1]] = array[i];
     }
     return (NSMutableDictionary *)mutableDictionary;
 }

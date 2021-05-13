@@ -70,7 +70,7 @@
         }
         else if ([itemControls[@"multiselect"] boolValue] && ![settingOptions isKindOfClass:[NSArray class]]) {
             xbmcSetting = cMultiselect;
-            [self.detailItem setObject:[self.detailItem[@"value"] mutableCopy] forKey:@"value"];
+            self.detailItem[@"value"] = [self.detailItem[@"value"] mutableCopy];
         }
         else if ([itemControls[@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
@@ -640,7 +640,7 @@
                 cell = [tableView cellForRowAtIndexPath:indexPath];
                 [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
                 selectedSetting = indexPath;
-                [self.detailItem setObject:settingOptions[selectedSetting.row][@"value"] forKey:@"value"];
+                self.detailItem[@"value"] = settingOptions[selectedSetting.row][@"value"];
             }
             command = @"Settings.SetSettingValue";
             params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
@@ -649,8 +649,8 @@
             break;
         case cMultiselect:
             if ([self.detailItem[@"definition"] isKindOfClass:[NSDictionary class]]) {
-                [self.detailItem[@"definition"] setObject:self.detailItem[@"value"] forKey:@"value"];
-                [self.detailItem[@"definition"] setObject:self.detailItem[@"id"] forKey:@"id"];
+                self.detailItem[@"definition"][@"value"] = self.detailItem[@"value"];
+                self.detailItem[@"definition"][@"id"] = self.detailItem[@"id"];
                 SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:self.detailItem[@"definition"]];
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     [self.navigationController pushViewController:settingsViewController animated:YES];
@@ -776,7 +776,7 @@
 -(void)stopUpdateSlider:(id)sender{
     [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
     NSString *command = @"Settings.SetSettingValue";
-    [self.detailItem setObject: @(storeSliderValue) forKey:@"value"];
+    self.detailItem[@"value"] = @(storeSliderValue);
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
 }
@@ -804,7 +804,7 @@
 - (void)toggleSwitch:(id)sender {
     UISwitch *onoff = (UISwitch *)sender;
     NSString *command = @"Settings.SetSettingValue";
-    [self.detailItem setObject:@(onoff.on) forKey:@"value"];
+    self.detailItem[@"value"] = @(onoff.on);
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
 }
@@ -822,7 +822,7 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     NSString *command = @"Settings.SetSettingValue";
-    [self.detailItem setObject:[NSString stringWithFormat:@"%@", textField.text] forKey:@"value"];
+    self.detailItem[@"value"] = [NSString stringWithFormat:@"%@", textField.text];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:textField];
     return YES;

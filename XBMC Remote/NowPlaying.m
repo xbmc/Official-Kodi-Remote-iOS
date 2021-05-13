@@ -204,7 +204,7 @@
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     NSInteger numelement = [array count];
     for (int i = 0; i < numelement-1; i += 2) {
-        [mutableDictionary setObject:array[i] forKey:array[i+1]];
+        mutableDictionary[array[i+1]] = array[i];
     }
     return (NSDictionary *)mutableDictionary;
 }
@@ -1472,7 +1472,7 @@ int currentItemID;
     
     if ([parameters[@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11) {
         [mutableProperties addObject:@"art"];
-        [mutableParameters setObject:mutableProperties forKey:@"properties"];
+        mutableParameters[@"properties"] = mutableProperties;
     }
 
     if (parameters[@"extra_info_parameters"] != nil && methods[@"extra_info_method"] != nil) {
@@ -2144,7 +2144,7 @@ int currentItemID;
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     NSInteger numelement = [array count];
     for (int i = 0; i < numelement-1; i += 2) {
-        [mutableDictionary setObject:array[i] forKey:array[i+1]];
+        mutableDictionary[array[i+1]] = array[i];
     }
     return (NSMutableDictionary *)mutableDictionary;
 }
