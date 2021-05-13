@@ -115,7 +115,7 @@
                                    infoText, @"message",
                                    iconName, @"icon_connection",
                                    nil];
-    if (status == YES) {
+    if (status) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
         [AppDelegate instance].serverOnLine = YES;
@@ -224,7 +224,7 @@
             [self.hostPickerViewController dismissViewControllerAnimated:NO completion:nil];
     }
     else {
-        if (show == YES) {
+        if (show) {
             [self toggleSetup];
         }
     }
@@ -510,7 +510,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
-    if (clearCache == YES) {
+    if (clearCache) {
         ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame];
         [clearView startActivityIndicator];
         [self.view addSubview:clearView];
@@ -682,7 +682,7 @@
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
-    if ([AppDelegate instance].serverOnLine == YES) {
+    if ([AppDelegate instance].serverOnLine) {
         if (self.tcpJSONRPCconnection == nil) {
             self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
         }

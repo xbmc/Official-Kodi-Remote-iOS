@@ -376,8 +376,8 @@
             showGesture = [[[sender userInfo] objectForKey:@"forceGestureZone"] boolValue];
         }
     }
-    if (showGesture == YES && gestureZoneView.alpha == 1) return;
-    if (showGesture == YES) {
+    if (showGesture && gestureZoneView.alpha == 1) return;
+    if (showGesture) {
         CGRect frame;
         frame = [gestureZoneView frame];
         frame.origin.x = -self.view.frame.size.width;
@@ -481,7 +481,7 @@
                                              }
                                          }
                                          NSString *tickMark = @"";
-                                         if (subtitleEnabled == YES && [currentSubtitle isEqual:subtitles[i]]) {
+                                         if (subtitleEnabled && [currentSubtitle isEqual:subtitles[i]]) {
                                              tickMark = @"\u2713 ";
                                          }
                                          NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [subtitles[i][@"name"] isEqual:@""] ? @"" : @" - ", subtitles[i][@"name"], i + 1, (long)numSubs];
@@ -783,7 +783,7 @@ NSInteger buttonAction;
                  }
                  // 12005: WINDOW_FULLSCREEN_VIDEO
                  // 12006: WINDOW_VISUALISATION
-                 if ([fullscreen boolValue] == YES && (winID == 12005 || winID == 12006)) {
+                 if ([fullscreen boolValue] && (winID == 12005 || winID == 12006)) {
                      [[Utilities getJsonRPC]
                       callMethod:@"XBMC.GetInfoBooleans"
                       withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -1268,7 +1268,7 @@ NSInteger buttonAction;
     if (captureDeviceClass != nil) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         if ([device hasTorch] && [device hasFlash]) {
-            if ([device torchLevel] == YES) {
+            if ([device torchLevel]) {
                 torchIsOn = YES;
             }
         }

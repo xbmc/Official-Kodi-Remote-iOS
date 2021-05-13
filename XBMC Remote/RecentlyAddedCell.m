@@ -100,7 +100,7 @@
 }
 
 -(void)setOverlayWatched:(BOOL)enable{
-    if (enable == YES) {
+    if (enable) {
         if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
             [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];

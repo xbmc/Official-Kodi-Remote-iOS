@@ -114,8 +114,8 @@
         NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
         if (selection && indexPath.row == selection.row) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            if ([AppDelegate instance].serverOnLine == YES) {
-                if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+            if ([AppDelegate instance].serverOnLine) {
+                if ([AppDelegate instance].serverTCPConnectionOpen) {
                     [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
                 }
                 else {
@@ -283,7 +283,7 @@ static inline BOOL IsEmpty(id obj) {
         forceClose = NO;
     }
     if ([[AppDelegate instance].arrayServerList count] == 0 && !serverListTableView.editing) return;
-    if (serverListTableView.editing == YES || forceClose == YES) {
+    if (serverListTableView.editing || forceClose) {
         [serverListTableView setEditing:NO animated:YES];
         [editTableButton setSelected:NO];
         if ([[AppDelegate instance].arrayServerList count] == 0)
@@ -542,7 +542,7 @@ static inline BOOL IsEmpty(id obj) {
     if (showConnectionNoticeString == nil || [showConnectionNoticeString boolValue]) {
         showConnectionNotice = YES;
     }
-    if (showConnectionNotice == YES && [AppDelegate instance].serverOnLine == YES) {
+    if (showConnectionNotice && [AppDelegate instance].serverOnLine) {
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:NSLocalizedString(@"Kodi connection notice", nil)
                                               message:[NSString stringWithFormat:@"%@\n\n%@", NSLocalizedString(@"It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input.", nil), NSLocalizedString(@"Do you want to enable this connection now?", nil)]

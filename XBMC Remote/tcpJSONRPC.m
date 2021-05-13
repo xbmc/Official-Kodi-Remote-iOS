@@ -171,7 +171,7 @@ NSOutputStream	*outStream;
         }
         return;
     }
-    if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+    if ([AppDelegate instance].serverTCPConnectionOpen) {
         return;
     }
     inCheck = YES;

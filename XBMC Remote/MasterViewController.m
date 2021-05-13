@@ -48,7 +48,7 @@
                                    infoText, @"message",
                                    iconName, @"icon_connection",
                                    nil];
-    if (status == YES) {
+    if (status) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
         [AppDelegate instance].serverOnLine = YES;
@@ -153,8 +153,8 @@
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0) {
         iconName = @"connection_off";
-        if ([AppDelegate instance].serverOnLine == YES) {
-            if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+        if ([AppDelegate instance].serverOnLine) {
+            if ([AppDelegate instance].serverTCPConnectionOpen) {
                 iconName = @"connection_on";
             }
             else {
@@ -182,7 +182,7 @@
         [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;
     }
-    if (itemIsActive == YES) {
+    if (itemIsActive) {
         return;
     }
     itemIsActive = YES;
@@ -332,7 +332,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
-    if (clearCache == YES) {
+    if (clearCache) {
         ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame border:40];
         [clearView startActivityIndicator];
         [self.view addSubview:clearView];
@@ -406,7 +406,7 @@
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
-    if ([AppDelegate instance].serverOnLine == YES) {
+    if ([AppDelegate instance].serverOnLine) {
         if (self.tcpJSONRPCconnection == nil) {
             self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
         }

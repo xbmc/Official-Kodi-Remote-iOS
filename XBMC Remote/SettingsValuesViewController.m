@@ -68,7 +68,7 @@
             xbmcSetting = cSwitch;
             cellHeight = 210.0;
         }
-        else if ([itemControls[@"multiselect"] boolValue] == YES && ![settingOptions isKindOfClass:[NSArray class]]) {
+        else if ([itemControls[@"multiselect"] boolValue] && ![settingOptions isKindOfClass:[NSArray class]]) {
             xbmcSetting = cMultiselect;
             [self.detailItem setObject:[self.detailItem[@"value"] mutableCopy] forKey:@"value"];
         }

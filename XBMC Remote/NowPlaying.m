@@ -123,7 +123,7 @@
     if ([sender tag] == 101 && seg_music.selected) return;
     if ([sender tag] == 102 && seg_video.selected) return;
     [self editTable:nil forceClose:YES];
-    if ([playlistData count] && (playlistTableView.dragging == YES || playlistTableView.decelerating == YES)) {
+    if ([playlistData count] && (playlistTableView.dragging || playlistTableView.decelerating)) {
         NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
         [playlistTableView  scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
@@ -425,7 +425,7 @@ int currentItemID;
         [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
         startFlipDemo = NO;
     }
-    if (nothingIsPlaying == YES) return;
+    if (nothingIsPlaying) return;
     nothingIsPlaying = YES;
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
@@ -897,7 +897,7 @@ int currentItemID;
                                      ProgressSlider.value = [(NSNumber*) methodResult[@"percentage"] floatValue];
                                  }
                                  musicPartyMode = [methodResult[@"partymode"] intValue];
-                                 if (musicPartyMode == YES) {
+                                 if (musicPartyMode) {
                                      [PartyModeButton setSelected:YES];
                                  }
                                  else {
@@ -906,7 +906,7 @@ int currentItemID;
                                  BOOL canrepeat = [methodResult[@"canrepeat"] boolValue] && !musicPartyMode;
                                  if (canrepeat) {
                                      repeatStatus = methodResult[@"repeat"];
-                                     if (repeatButton.hidden == YES) {
+                                     if (repeatButton.hidden) {
                                          repeatButton.hidden = NO;
                                      }
                                      if ([repeatStatus isEqualToString:@"all"]) {
@@ -925,7 +925,7 @@ int currentItemID;
                                  BOOL canshuffle = [methodResult[@"canshuffle"] boolValue] && !musicPartyMode;
                                  if (canshuffle) {
                                      shuffled = [methodResult[@"shuffled"] boolValue];
-                                     if (shuffleButton.hidden == YES) {
+                                     if (shuffleButton.hidden) {
                                          shuffleButton.hidden = NO;
                                      }
                                      if (shuffled) {
@@ -987,7 +987,7 @@ int currentItemID;
                                      CGFloat newx = MAX(MAX_CELLBAR_WIDTH * [(NSNumber *)methodResult[@"percentage"] doubleValue] / 100, 1.0);
                                      [self resizeCellBar:newx image:playlistActualBar];
                                      UIView *timePlaying = (UIView*) [cell viewWithTag:5];
-                                     if (timePlaying.hidden == YES)
+                                     if (timePlaying.hidden)
                                          [self fadeView:timePlaying hidden:NO];
                                  }
                                  int playlistPosition = [methodResult[@"position"] intValue];
@@ -1031,7 +1031,7 @@ int currentItemID;
                                                  [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
                                                  UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
                                                  UIView *timePlaying = (UIView*) [cell viewWithTag:5];
-                                                 if (timePlaying.hidden == YES)
+                                                 if (timePlaying.hidden)
                                                      [self fadeView:timePlaying hidden:NO];
                                                  storeSelection = newSelection;
                                                  lastSelected = playlistPosition;
@@ -1444,7 +1444,7 @@ int currentItemID;
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
     
-    if ([parameters[@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11) {
+    if ([parameters[@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11) {
         [mutableProperties addObject:@"art"];
         [mutableParameters setObject:mutableProperties forKey:@"properties"];
     }
@@ -2356,7 +2356,7 @@ int currentItemID;
              UIActivityIndicatorView *queuing = (UIActivityIndicatorView*) [cell viewWithTag:8];
              [queuing stopAnimating];
              UIView *timePlaying = (UIView*) [cell viewWithTag:5];
-             if (timePlaying.hidden == YES) {
+             if (timePlaying.hidden) {
                  [self fadeView:timePlaying hidden:NO];
              }
 //             [self SimpleAction:@"GUI.SetFullscreen" params:[NSDictionary dictionaryWithObjectsAndKeys:@(YES),@"fullscreen", nil] reloadPlaylist:NO startProgressBar:NO];
@@ -2483,7 +2483,7 @@ int currentItemID;
     if ([playlistData count] == 0 && !playlistTableView.editing) {
         return;
     }
-    if (playlistTableView.editing || forceClose == YES) {
+    if (playlistTableView.editing || forceClose) {
         [playlistTableView setEditing:NO animated:YES];
         [editTableButton setSelected:NO];
         lastSelected = -1;
@@ -2714,7 +2714,7 @@ int currentItemID;
 
 - (void)segmentValueChanged:(UISegmentedControl *)segment {
     [self editTable:nil forceClose:YES];
-    if ([playlistData count] && (playlistTableView.dragging == YES || playlistTableView.decelerating == YES)) {
+    if ([playlistData count] && (playlistTableView.dragging || playlistTableView.decelerating)) {
         NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
         [playlistTableView  scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }

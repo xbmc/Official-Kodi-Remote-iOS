@@ -150,7 +150,7 @@
                                  originalFrame = subview.frame;
                                  CGRect frame = subview.frame;
                                  frame.origin.x = 0 - PAD_MENU_TABLE_WIDTH;
-                                 if (hideToolbar == YES) {
+                                 if (hideToolbar) {
                                      frame.origin.y = frame.origin.y - 22;
                                      frame.size.height = frame.size.height + 22;
                                  }
@@ -166,7 +166,7 @@
                                  frame = [[slideViews subviews][j] frame];
                                  [stackViewsFrames addObject:[NSValue valueWithCGRect:frame]];
                                  frame.origin.x = self.view.frame.size.width;
-                                 if (hideToolbar == YES) {
+                                 if (hideToolbar) {
                                      frame.origin.y = frame.origin.y - 20;
                                      frame.size.height = frame.size.height + 20;
                                  }

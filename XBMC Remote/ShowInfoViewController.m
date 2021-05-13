@@ -121,7 +121,7 @@ int count = 0;
             titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
-            NSString *pvrAction = [item[@"hastimer"] boolValue] == YES ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
+            NSString *pvrAction = [item[@"hastimer"] boolValue] ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
             sheetActions = [[NSMutableArray alloc] initWithObjects:
                             NSLocalizedString(@"Play", nil),
                             pvrAction,
@@ -353,7 +353,7 @@ int count = 0;
             choosedMenuItem.mainLabel = actorName;
             [MenuItem setEnableSection:NO];
             [MenuItem setMainButtons:nil];
-            if ([AppDelegate instance].obj.preferTVPosters == YES) {
+            if ([AppDelegate instance].obj.preferTVPosters) {
                 thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
                 tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
             }
@@ -1133,7 +1133,7 @@ int h = 0;
             isRecording.alpha = 0.0;
             [isRecording setBackgroundColor:[UIColor clearColor]];
             [scrollView addSubview:isRecording];
-            if ([item[@"hastimer"] boolValue] == YES) {
+            if ([item[@"hastimer"] boolValue]) {
                 isRecording.alpha = 1.0;
                 frame.origin.x += dotSize + dotSizePadding;
                 frame.size.width -= dotSize + dotSizePadding;

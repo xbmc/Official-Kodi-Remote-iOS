@@ -254,8 +254,8 @@
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0) {
         iconName = @"connection_off";
-        if ([AppDelegate instance].serverOnLine == YES) {
-            if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+        if ([AppDelegate instance].serverOnLine) {
+            if ([AppDelegate instance].serverTCPConnectionOpen) {
                 iconName = @"connection_on";
             }
             else {

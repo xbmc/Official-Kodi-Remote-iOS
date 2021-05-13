@@ -115,8 +115,8 @@
         xbmc_logo.hidden = NO;
         iconName = @"connection_off";
         icon.alpha = 1;
-        if ([AppDelegate instance].serverOnLine == YES) {
-            if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+        if ([AppDelegate instance].serverOnLine) {
+            if ([AppDelegate instance].serverTCPConnectionOpen) {
                 iconName = @"connection_on";
             }
             else {
@@ -223,7 +223,7 @@
         icon.alpha = 0.6;
         iconName = tableData[indexPath.row][@"icon"];
     }
-    if ([tableData[indexPath.row][@"hideLineSeparator"] boolValue] == YES) {
+    if ([tableData[indexPath.row][@"hideLineSeparator"] boolValue]) {
         line.hidden = YES;
     }
     if ([tableData[indexPath.row][@"fontColor"] count]) {
@@ -359,7 +359,7 @@
 
 -(void)editTable:(id)sender {
     UIBarButtonItem *editButton = (UIBarButtonItem *)sender;
-    if (menuTableView.editing == YES) {
+    if (menuTableView.editing) {
         [menuTableView setEditing:NO animated:YES];
         [editButton setTitle:NSLocalizedString(@"Edit", nil)];
         [editButton setStyle:UIBarButtonItemStylePlain];
@@ -508,7 +508,7 @@
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"Keyboard", nil)]) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleVirtualKeyboard" object:nil userInfo:nil];
-        if ([tableData[indexPath.row][@"revealViewTop"] boolValue] == YES) {
+        if ([tableData[indexPath.row][@"revealViewTop"] boolValue]) {
             [self.slidingViewController resetTopView];
         }
     }

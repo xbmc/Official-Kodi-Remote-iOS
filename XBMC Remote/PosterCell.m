@@ -81,7 +81,7 @@
 }
 
 -(void)setIsRecording:(BOOL)enable {
-    if (enable == YES) {
+    if (enable) {
         if (isRecordingImageView == nil) {
             CGFloat dotSize = 8;
             isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, dotSize, dotSize)];
@@ -99,7 +99,7 @@
 }
 
 -(void)setOverlayWatched:(BOOL)enable{
-    if (enable == YES) {
+    if (enable) {
         if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
             [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];

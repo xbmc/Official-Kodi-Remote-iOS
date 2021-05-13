@@ -179,7 +179,7 @@
                                    item, @"item",
                                    nil];
         [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
-        if ([channelEPG[@"refresh_data"] boolValue] == YES) {
+        if ([channelEPG[@"refresh_data"] boolValue]) {
             retrievedEPG = [self loadEPGFromDisk:channelid parameters:parameters];
             channelEPG = [self parseEpgData:retrievedEPG];
             NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -938,7 +938,7 @@
     }
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
     enableCollectionView = newEnableCollectionView;
-    if ([parameters[@"collectionViewRecentlyAdded"] boolValue] == YES) {
+    if ([parameters[@"collectionViewRecentlyAdded"] boolValue]) {
         recentlyAddedView = YES;
         currentCollectionViewName = NSLocalizedString(@"View: Fanart", nil);
     }
@@ -962,7 +962,7 @@
     }
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-    if ([parameters[@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11) {
+    if ([parameters[@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11) {
         [mutableProperties addObject:@"art"];
     }
     if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
@@ -978,7 +978,7 @@
     if (mutableProperties != nil) {
         [mutableParameters setObject:mutableProperties forKey:@"properties"];
     }
-    if ([parameters[@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO) {
+    if ([parameters[@"blackTableSeparator"] boolValue] && [AppDelegate instance].obj.preferTVPosters == NO) {
         blackTableSeparator = YES;
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
@@ -1090,7 +1090,7 @@
             [self.navigationController pushViewController:detailViewController animated:YES];
         }
         else {
-            if (stackscrollFullscreen == YES) {
+            if (stackscrollFullscreen) {
                 [self toggleFullscreen:nil];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
@@ -1142,7 +1142,7 @@
                     [self.navigationController pushViewController:detailViewController animated:YES];
                 }
                 else {
-                    if (stackscrollFullscreen == YES) {
+                    if (stackscrollFullscreen) {
                         [self toggleFullscreen:nil];
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                             DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
@@ -1205,7 +1205,7 @@
                 [self.navigationController pushViewController:detailViewController animated:YES];
             }
             else {
-                if (stackscrollFullscreen == YES) {
+                if (stackscrollFullscreen) {
                     [self toggleFullscreen:nil];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                         DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
@@ -1234,7 +1234,7 @@
             [self.navigationController pushViewController:settingsViewController animated:YES];
         }
         else {
-            if (stackscrollFullscreen == YES) {
+            if (stackscrollFullscreen) {
                 [self toggleFullscreen:nil];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.bounds.size.height) withItem:item];
@@ -1258,7 +1258,7 @@
         else {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults synchronize];
-            if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO || [parameters[@"forceActionSheet"] boolValue] == YES) {
+            if ([[userDefaults objectForKey:@"song_preference"] boolValue] == NO || [parameters[@"forceActionSheet"] boolValue]) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:[self indexKeyedMutableDictionaryFromArray:[MenuItem mainParameters][choosedTab]]];
                 selected = indexPath;
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
@@ -1300,7 +1300,7 @@
 }
 
 -(void)setFlowLayoutParams{
-    if (stackscrollFullscreen == YES) {
+    if (stackscrollFullscreen) {
         [flowLayout setItemSize:CGSizeMake(fullscreenCellGridWidth, fullscreenCellGridHeight)];
         if  (!recentlyAddedView) {
             [flowLayout setMinimumLineSpacing:38];
@@ -1358,7 +1358,7 @@
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     CGFloat margin = 0;
-    if (stackscrollFullscreen == YES) {
+    if (stackscrollFullscreen) {
         margin = 8;
     }
     if (section == 0) {
@@ -1392,7 +1392,7 @@
     
     CGFloat cellthumbWidth = cellGridWidth;
     CGFloat cellthumbHeight = cellGridHeight;
-    if (stackscrollFullscreen == YES) {
+    if (stackscrollFullscreen) {
         cellthumbWidth = fullscreenCellGridWidth;
         cellthumbHeight = fullscreenCellGridHeight;
     }
@@ -1404,7 +1404,7 @@
         [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
         [cell.posterLabelFullscreen setFont:[UIFont boldSystemFontOfSize:posterFontSize]];
         [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
-        if (stackscrollFullscreen == YES) {
+        if (stackscrollFullscreen) {
             [cell.posterLabelFullscreen setText:item[@"label"]];
             cell.labelImageView.hidden = YES;
             cell.posterLabelFullscreen.hidden = NO;
@@ -1536,7 +1536,7 @@
 //// EXPERIMENTAL CODE
 //
 //-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
-//    if ([scrollView isKindOfClass:[UICollectionView class]] && autoScroll == YES) {
+//    if ([scrollView isKindOfClass:[UICollectionView class]] && autoScroll) {
 //        [self darkCells];
 //        autoScroll = NO;
 //    }
@@ -1628,14 +1628,14 @@
 - (void)indexViewValueChanged:(BDKCollectionIndexView *)sender {
     if (sender.currentIndex == 0) {
         [collectionView setContentOffset:CGPointZero animated:NO];
-        if (sectionNameOverlayView == nil && stackscrollFullscreen == YES) {
+        if (sectionNameOverlayView == nil && stackscrollFullscreen) {
             [self initSectionNameOverlayView];
         }
         sectionNameLabel.text = [NSString stringWithFormat:@"%C%C", 0xD83D, 0xDD0D];
         return;
     }
-    else if (stackscrollFullscreen == YES) {
-        if (sectionNameOverlayView == nil && stackscrollFullscreen == YES) {
+    else if (stackscrollFullscreen) {
+        if (sectionNameOverlayView == nil && stackscrollFullscreen) {
             [self initSectionNameOverlayView];
         }
         // Ensure the sort tokens are respected as well when using the index in fullscreen mode
@@ -1679,13 +1679,13 @@
 }
 
 -(void)handleCollectionIndexStateBegin{
-    if (stackscrollFullscreen == YES) {
+    if (stackscrollFullscreen) {
         [self alphaView:sectionNameOverlayView AnimDuration:0.1 Alpha:1];
     }
 }
 
 -(void)handleCollectionIndexStateEnded{
-    if (stackscrollFullscreen == YES) {
+    if (stackscrollFullscreen) {
         [self alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
     }
     _indexView.alpha = 1.0;
@@ -2540,7 +2540,7 @@ int originYear = 0;
                                       thumbImageContainer.layer.borderColor = [UIColor blackColor].CGColor;
                                       UIBezierPath *path = [UIBezierPath bezierPathWithRect:thumbImageContainer.bounds];
                                       thumbImageContainer.layer.shadowPath = path.CGPath;
-                                      if (enableBarColor == YES) {
+                                      if (enableBarColor) {
                                           albumColor = [utils averageColor:image inverse:NO];
                                           UIColor *lightAlbumColor = [utils lighterColorForColor:albumColor];
                                           self.navigationController.navigationBar.tintColor = lightAlbumColor;
@@ -2664,7 +2664,7 @@ int originYear = 0;
             [button setImage:[UIImage imageNamed:@"arrow_close"] forState:UIControlStateNormal];
             [button setImage:[UIImage imageNamed:@"arrow_open"] forState:UIControlStateSelected];
 //            [button addTarget:self action:@selector(toggleOpen:) forControlEvents:UIControlEventTouchUpInside];
-            if ([self.sectionArrayOpen[section] boolValue] == YES) {
+            if ([self.sectionArrayOpen[section] boolValue]) {
                 [button setSelected:YES];
             }
             [albumDetailView addSubview:button];
@@ -2904,7 +2904,7 @@ int originYear = 0;
 #pragma mark - ScrollView Delegate
 
 -(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
-    if (enableCollectionView == YES) { // temp hack to avoid the iOS7 search bar disappearing!!!
+    if (enableCollectionView) { // temp hack to avoid the iOS7 search bar disappearing!!!
         [self.searchController.searchBar removeFromSuperview];
         [activeLayoutView addSubview:self.searchController.searchBar];
     }
@@ -2940,7 +2940,7 @@ int originYear = 0;
             searchBarPath = [NSIndexPath indexPathForItem:0 inSection:sectionNumber];
         }
         if ([paths containsObject:searchBarPath]) {
-            if (enableCollectionView == YES) { // temp hack to avoid the iOS7 search bar disappearing!!!
+            if (enableCollectionView) { // temp hack to avoid the iOS7 search bar disappearing!!!
                 [self.searchController.searchBar removeFromSuperview];
                 [activeLayoutView addSubview:self.searchController.searchBar];
             }
@@ -3177,7 +3177,7 @@ NSIndexPath *selected;
                      nil]
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
-             if (isTableView == YES) {
+             if (isTableView) {
                  UIImageView *flagView = (UIImageView*) [cell viewWithTag:9];
                  if (watched > 0) {
                      [flagView setHidden:NO];
@@ -3201,7 +3201,7 @@ NSIndexPath *selected;
              NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
              NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
              NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-             if ([parameters[@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11) {
+             if ([parameters[@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11) {
                  [mutableProperties addObject:@"art"];
                  [mutableParameters setObject:mutableProperties forKey:@"properties"];
              }
@@ -3472,7 +3472,7 @@ NSIndexPath *selected;
     if ([[self.detailItem mainParameters] count] > 0) {
         NSMutableDictionary *parameters = [self indexKeyedMutableDictionaryFromArray:[self.detailItem mainParameters][0]];
         if (((NSNull *)parameters[@"fromWikipedia"] != [NSNull null])) {
-            if ([parameters[@"fromWikipedia"] boolValue] == YES) {
+            if ([parameters[@"fromWikipedia"] boolValue]) {
                 [self goBack:nil];
                 return;
             }
@@ -3575,7 +3575,7 @@ NSIndexPath *selected;
 - (void)toggleFullscreen:(id)sender {
     [activityIndicatorView startAnimating];
     NSTimeInterval animDuration = 0.5;
-    if (stackscrollFullscreen == YES) {
+    if (stackscrollFullscreen) {
         stackscrollFullscreen = NO;
         [UIView animateWithDuration:0.1
                               delay:0
@@ -3588,7 +3588,7 @@ NSIndexPath *selected;
                          }
                          completion:^(BOOL finished) {
                              viewWidth = STACKSCROLL_WIDTH;
-                             if ([self collectionViewCanBeEnabled] == YES) {
+                             if ([self collectionViewCanBeEnabled]) {
                                  button6.hidden = NO;
                              }
                              sectionArray = [storeSectionArray copy];
@@ -3759,7 +3759,7 @@ NSIndexPath *selected;
         [self.navigationController pushViewController:detailViewController animated:YES];
     }
     else {
-        if (stackscrollFullscreen == YES) {
+        if (stackscrollFullscreen) {
             [self toggleFullscreen:nil];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
@@ -4153,7 +4153,7 @@ NSIndexPath *selected;
     if ([[self.detailItem mainParameters] count] > 0) {
         NSMutableDictionary *parameters = [self indexKeyedMutableDictionaryFromArray:[self.detailItem mainParameters][0]];
         if (((NSNull *)parameters[@"fromShowInfo"] != [NSNull null])) {
-            if ([parameters[@"fromShowInfo"] boolValue] == YES) {
+            if ([parameters[@"fromShowInfo"] boolValue]) {
                 [self goBack:nil];
                 return;
             }
@@ -4183,7 +4183,7 @@ NSIndexPath *selected;
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
     
-    if ([parameters[@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11) {
+    if ([parameters[@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11) {
         [mutableProperties addObject:@"art"];
         [mutableParameters setObject:mutableProperties forKey:@"properties"];
     }
@@ -4474,7 +4474,7 @@ NSIndexPath *selected;
 }
 
 -(void)startRetrieveDataWithRefresh:(BOOL)forceRefresh{
-    if (forceRefresh == YES) {
+    if (forceRefresh) {
         [activeLayoutView setUserInteractionEnabled:NO];
         self.indexView.hidden = YES;
     }
@@ -4482,7 +4482,7 @@ NSIndexPath *selected;
     NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-    if ([parameters[@"FrodoExtraArt"] boolValue] == YES && [AppDelegate instance].serverVersion > 11) {
+    if ([parameters[@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11) {
         [mutableProperties addObject:@"art"];
     }
     if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
@@ -4518,7 +4518,7 @@ NSIndexPath *selected;
         [mutableParameters removeObjectForKey: @"file_properties"];
     }
     
-    if ([self loadedDataFromDisk:methodToCall parameters:(sectionParameters == nil) ? mutableParameters : [NSMutableDictionary dictionaryWithDictionary:sectionParameters] refresh:forceRefresh] == YES) {
+    if ([self loadedDataFromDisk:methodToCall parameters:(sectionParameters == nil) ? mutableParameters : [NSMutableDictionary dictionaryWithDictionary:sectionParameters] refresh:forceRefresh]) {
         return;
     }
     
@@ -4782,7 +4782,7 @@ NSIndexPath *selected;
                      [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:self.extraSectionRichResults extraSectionCall:YES refresh:forceRefresh];
                  }
                  else if (watchMode != 0) {
-                     if (forceRefresh == YES) {
+                     if (forceRefresh) {
                          [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
                          [activeLayoutView setUserInteractionEnabled:YES];
                          [self saveData:mutableParameters];
@@ -4790,7 +4790,7 @@ NSIndexPath *selected;
                      [self changeViewMode:watchMode forceRefresh:forceRefresh];
                  }
                  else {
-                     if (forceRefresh == YES) {
+                     if (forceRefresh) {
                          [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
                          [activeLayoutView setUserInteractionEnabled:YES];
                      }
@@ -5043,7 +5043,7 @@ NSIndexPath *selected;
                 }
                 [item setObject:parameters[@"pvrExtraInfo"] forKey:@"pvrExtraInfo"];
                 [self.sections[c] addObject:item];
-                if ([item[@"isactive"] boolValue] == YES) {
+                if ([item[@"isactive"] boolValue]) {
                     autoScrollTable = [NSIndexPath indexPathForRow:countRow inSection:[self.sections count] - 1];
                 }
                 [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -5080,7 +5080,7 @@ NSIndexPath *selected;
                     searchKey = item[sortbymethod];
                 }
                 NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
-                if ([[self.sections allKeys] containsObject:key] == YES) {
+                if ([[self.sections allKeys] containsObject:key]) {
                     found = YES;
                 }
                 if (!found) {
@@ -5219,7 +5219,7 @@ NSIndexPath *selected;
         }
         self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
     }
-    if (stackscrollFullscreen == YES) {
+    if (stackscrollFullscreen) {
         storeSectionArray = [sectionArray copy];
         storeSections = [sections mutableCopy];
         NSMutableDictionary *sectionsTemp = [[NSMutableDictionary alloc] init];
@@ -5340,7 +5340,7 @@ NSIndexPath *selected;
         [self startRetrieveDataWithRefresh:NO];
         isViewDidLoad = NO;
     }
-    if (channelListView == YES || channelGuideView == YES) {
+    if (channelListView || channelGuideView) {
         [channelListUpdateTimer invalidate];
         channelListUpdateTimer = nil;
         NSDate * now = [NSDate date];
@@ -5470,7 +5470,7 @@ NSIndexPath *selected;
     posterFontSize = 11;
     fanartFontSize = 13;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
-    if (stackscrollFullscreen == YES) {
+    if (stackscrollFullscreen) {
         viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
     }
 }
@@ -5486,7 +5486,7 @@ NSIndexPath *selected;
 
 -(BOOL)collectionViewCanBeEnabled{
     NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-    return (([parameters[@"enableCollectionView"] boolValue] == YES));
+    return ([parameters[@"enableCollectionView"] boolValue]);
 }
 
 -(BOOL)collectionViewIsEnabled{
@@ -5524,7 +5524,7 @@ NSIndexPath *selected;
         }
     }
     NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
-    return (([parameters[@"enableCollectionView"] boolValue] == YES) && ([[userDefaults objectForKey:viewKey] boolValue] == YES));
+    return ([parameters[@"enableCollectionView"] boolValue] && [[userDefaults objectForKey:viewKey] boolValue]);
 }
 
 -(NSString *)getCurrentSortMethod:(NSDictionary *)methods withParameters:(NSDictionary *)parameters {
@@ -5728,27 +5728,27 @@ NSIndexPath *selected;
     searchBarColor = [Utilities getGrayColor:146 alpha:1];
     collectionViewSearchBarColor = [Utilities getGrayColor:22 alpha:1];
 
-    if ([methods[@"albumView"] boolValue] == YES) {
+    if ([methods[@"albumView"] boolValue]) {
         albumView = YES;
     }
-    else if ([methods[@"episodesView"] boolValue] == YES) {
+    else if ([methods[@"episodesView"] boolValue]) {
         episodesView = YES;
         [dataList setSeparatorInset:UIEdgeInsetsMake(0, 18, 0, 0)];
     }
-    else if ([methods[@"tvshowsView"] boolValue] == YES) {
+    else if ([methods[@"tvshowsView"] boolValue]) {
         tvshowsView = [AppDelegate instance].serverVersion > 11 && [AppDelegate instance].obj.preferTVPosters == NO;
         [self setTVshowThumbSize];
     }
-    else if ([methods[@"channelGuideView"] boolValue] == YES) {
+    else if ([methods[@"channelGuideView"] boolValue]) {
         channelGuideView = YES;
         sectionHeight = 24;
     }
-    else if ([methods[@"channelListView"] boolValue] == YES) {
+    else if ([methods[@"channelListView"] boolValue]) {
         channelListView = YES;
     }
     
     tableViewSearchBarColor = searchBarColor;
-    if ([parameters[@"blackTableSeparator"] boolValue] == YES && [AppDelegate instance].obj.preferTVPosters == NO) {
+    if ([parameters[@"blackTableSeparator"] boolValue] && [AppDelegate instance].obj.preferTVPosters == NO) {
         blackTableSeparator = YES;
         [dataList setSeparatorInset:UIEdgeInsetsZero];
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
@@ -5794,12 +5794,12 @@ NSIndexPath *selected;
     else {
         frame.origin.x = viewWidth;
     }
-    if ([parameters[@"animationStartBottomScreen"] boolValue] == YES) {
+    if ([parameters[@"animationStartBottomScreen"] boolValue]) {
         frame.origin.y = [[UIScreen mainScreen] bounds].size.height - 44;
     }
     dataList.frame = frame;
     currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
-    if ([parameters[@"collectionViewRecentlyAdded"] boolValue] == YES) {
+    if ([parameters[@"collectionViewRecentlyAdded"] boolValue]) {
         recentlyAddedView = YES;
         currentCollectionViewName = NSLocalizedString(@"View: Fanart", nil);
     }
@@ -5871,7 +5871,7 @@ NSIndexPath *selected;
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
-    if (channelListView == YES || channelGuideView == YES) {
+    if (channelListView || channelGuideView) {
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleRecordTimerStatusChange:)
                                                      name: @"KodiServerRecordTimerStatusChange"
@@ -5941,7 +5941,7 @@ NSIndexPath *selected;
 -(void)checkFullscreenButton:(BOOL)forceHide {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]) {
         NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-        if ([self collectionViewCanBeEnabled] && (([parameters[@"enableLibraryFullScreen"] boolValue] == YES) && forceHide == NO)) {
+        if ([self collectionViewCanBeEnabled] && ([parameters[@"enableLibraryFullScreen"] boolValue] && forceHide == NO)) {
             int buttonPadding = 1;
             if (fullscreenButton == nil) {
                 fullscreenButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -5977,7 +5977,7 @@ NSIndexPath *selected;
 
 - (void)twoFingerPinch:(UIPinchGestureRecognizer *)recognizer {
     if ([recognizer state] == UIGestureRecognizerStateEnded) {
-        if ((recognizer.scale > 1 && stackscrollFullscreen == NO) || (recognizer.scale <= 1 && stackscrollFullscreen == YES)) {
+        if ((recognizer.scale > 1 && stackscrollFullscreen == NO) || (recognizer.scale <= 1 && stackscrollFullscreen)) {
             [self toggleFullscreen:nil];
         }
     }
@@ -5990,7 +5990,7 @@ NSIndexPath *selected;
     [userDefaults synchronize];
     BOOL diskcache_preference = NO;
     NSString *diskcache_preferenceString = [userDefaults objectForKey:@"diskcache_preference"];
-    if (diskcache_preferenceString == nil || [diskcache_preferenceString boolValue] == YES) diskcache_preference = YES;
+    if (diskcache_preferenceString == nil || [diskcache_preferenceString boolValue]) diskcache_preference = YES;
     enableDiskCache = diskcache_preference && [parameters[@"enableLibraryCache"] boolValue];
     [dataList setShowsPullToRefresh:enableDiskCache];
     [collectionView setShowsPullToRefresh:enableDiskCache];
@@ -6004,7 +6004,7 @@ NSIndexPath *selected;
     if ([self doesShowSearchResults]) return;
     NSDictionary *methods = [self indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
     NSDictionary *parameters = [self indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-    if ([self collectionViewCanBeEnabled] == YES && self.view.superview != nil && ![methods[@"method"] isEqualToString:@""]) {
+    if ([self collectionViewCanBeEnabled] && self.view.superview != nil && ![methods[@"method"] isEqualToString:@""]) {
         NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
         if ([AppDelegate instance].serverVersion > 11) {
             if (tempDict[@"filter"] != nil) {
@@ -6032,7 +6032,7 @@ NSIndexPath *selected;
         else {
             self.searchController.searchBar.hidden = NO;
         }
-        if ([parameters[@"collectionViewRecentlyAdded"] boolValue] == YES) {
+        if ([parameters[@"collectionViewRecentlyAdded"] boolValue]) {
             recentlyAddedView = YES;
             currentCollectionViewName = NSLocalizedString(@"View: Fanart", nil);
         }

@@ -205,7 +205,7 @@
 }
 
 -(void)volumeInfo{
-    if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+    if ([AppDelegate instance].serverTCPConnectionOpen) {
         return;
     }
     if ([AppDelegate instance].serverVolume > -1) {
