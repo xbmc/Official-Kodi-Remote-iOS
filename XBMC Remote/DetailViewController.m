@@ -3084,7 +3084,18 @@ NSIndexPath *selected;
                     showfromview = self.view;
                 }
                 else {
-                    showFromCtrl = ([self doesShowSearchResults] || [self getSearchTextField].editing) ? self.searchController : self.view.window.rootViewController;
+                    if ([self doesShowSearchResults] || [self getSearchTextField].editing) {
+                        // We are searching an must present from searchController
+                        showFromCtrl = self.searchController;
+                    }
+                    else if ([self isModal]) {
+                        // We are in modal view (e.g. fullscreen) and must present from ourself
+                        showFromCtrl = self;
+                    }
+                    else {
+                        // We are in stackview and must present from rootVC
+                        showFromCtrl = self.view.window.rootViewController;
+                    }
                     showfromview = enableCollectionView ? collectionView : [showFromCtrl.view superview];
                     selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
@@ -4125,10 +4136,9 @@ NSIndexPath *selected;
     }
     else {
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-        if (stackscrollFullscreen == YES) {
+        if (stackscrollFullscreen || [self isModal]) {
             [iPadShowViewController setModalPresentationStyle:UIModalPresentationFormSheet];
-            UIViewController *vc = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-            [vc presentViewController:iPadShowViewController animated:YES completion:nil];
+            [self presentViewController:iPadShowViewController animated:YES completion:nil];
         }
         else {
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:FALSE];
