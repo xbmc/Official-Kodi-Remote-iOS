@@ -625,4 +625,15 @@
     return rating;
 }
 
++ (NSString*)getClearArtFromDictionary:(NSDictionary*)dict type:(NSString*)type {
+    NSString *path = @"";
+    for (NSString *key in dict) {
+        if ([key rangeOfString:type].location != NSNotFound) {
+            path = dict[key];
+            break; // We want to leave the loop after we found what we were searching for
+        }
+    }
+    return path;
+}
+
 @end

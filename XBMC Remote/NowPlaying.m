@@ -803,16 +803,8 @@ int currentItemID;
                                  }
                                  lastThumbnail = stringURL;
                                  itemLogoImage.image = nil;
-                                 storeClearlogo = @"";
-                                 storeClearart = @"";
-                                 for (NSString *key in art) {
-                                     if ([key rangeOfString:@"clearlogo"].location != NSNotFound) {
-                                         storeClearlogo = art[key];
-                                     }
-                                     if ([key rangeOfString:@"clearart"].location != NSNotFound) {
-                                         storeClearart = art[key];
-                                     }
-                                 }
+                                 storeClearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
+                                 storeClearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
                                  if ([storeClearlogo isEqualToString:@""]) {
                                      storeClearlogo = storeClearart;
                                  }
@@ -1510,17 +1502,8 @@ int currentItemID;
                  
                  NSString *thumbnailPath = videoLibraryMovieDetail[@"thumbnail"];
                  NSDictionary *art = videoLibraryMovieDetail[@"art"];
-                 
-                 NSString *clearlogo = @"";
-                 NSString *clearart = @"";
-                 for (NSString *key in art) {
-                     if ([key rangeOfString:@"clearlogo"].location != NSNotFound) {
-                         clearlogo = art[key];
-                     }
-                     if ([key rangeOfString:@"clearart"].location != NSNotFound) {
-                         clearart = art[key];
-                     }
-                 }
+                 NSString *clearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
+                 NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
 //                 if ([art count] && [art[@"banner"] length] != 0 && [AppDelegate instance].serverVersion > 11 && ![AppDelegate instance].obj.preferTVPosters) {
 //                     thumbnailPath = art[@"banner"];
 //                 }

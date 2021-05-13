@@ -4302,17 +4302,9 @@ NSIndexPath *selected;
                  if ([art count] && [art[@"icon"] length] != 0 && methodResult[@"recordingdetails"] != nil) {
                      thumbnailPath = art[@"icon"];
                  }
-
-                 NSString *clearlogo = @"";
-                 NSString *clearart = @"";
-                 for (NSString *key in art) {
-                     if ([key rangeOfString:@"clearlogo"].location != NSNotFound) {
-                         clearlogo = art[key];
-                     }
-                     if ([key rangeOfString:@"clearart"].location != NSNotFound) {
-                         clearart = art[key];
-                     }
-                 }
+             
+                 NSString *clearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
+                 NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
 //                 if ([art count] && [art[@"banner"] length] != 0 && [AppDelegate instance].serverVersion > 11 && ![AppDelegate instance].obj.preferTVPosters) {
 //                     thumbnailPath = art[@"banner"];
 //                 }

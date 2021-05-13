@@ -68,5 +68,6 @@ typedef enum {
 + (NSString*)getTimeFromDictionary:(NSDictionary*)dict key:(NSString*)key sec2min:(int)secondsToMinute;
 + (NSString*)getYearFromDictionary:(NSDictionary*)dict key:(NSString*)key;
 + (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key;
++ (NSString*)getClearArtFromDictionary:(NSDictionary*)dict type:(NSString*)type;
 
 @end
