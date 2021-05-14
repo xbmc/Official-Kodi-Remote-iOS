@@ -1074,6 +1074,23 @@ int currentItemID;
     }];
 }
 
+-(NSString*)reformatSamplerate:(NSString*)rate {
+    NSString *reg = @"0+$";
+    NSRange range = [rate rangeOfString:@"."];
+    NSMutableString *newrate = [rate mutableCopy];
+    
+    // Removal of trailing "0" only needed for strings showing float numbers with "."
+    if (range.location != NSNotFound) {
+        // Remove all trailing "0"
+        newrate = [[rate stringByReplacingOccurrencesOfString:reg withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, rate.length)] mutableCopy];
+        // Remove "." in case this is the last character
+        if (range.location == newrate.length-1) {
+            [newrate deleteCharactersInRange:range];
+        }
+    }
+    return newrate;
+}
+
 -(void)loadCodecView {
     [[Utilities getJsonRPC]
      callMethod:@"XBMC.GetInfoLabels" 
@@ -1111,7 +1128,8 @@ int currentItemID;
                      songBitRate.hidden = YES;
                  }
         
-                 samplerate = [[methodResult objectForKey:@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkHz", [methodResult objectForKey:@"MusicPlayer.SampleRate"]];
+                 samplerate = [self reformatSamplerate:methodResult[@"MusicPlayer.SampleRate"]];
+                 samplerate = [samplerate isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkHz", samplerate];
                  songNumChannels.text = samplerate;
                  songNumChannels.hidden = NO;
                  
