@@ -67,7 +67,6 @@
             img = [UIImage imageNamed:@"volume_slash"];
             img = [utils colorizeImage:img withColor:muteForeground];
             [muteButton setImage:img forState:UIControlStateNormal];
-            [muteButton setShowsTouchWhenHighlighted:YES];
             
             img = [UIImage imageNamed:@"button_metal_down"];
             [minusButton setBackgroundImage:img forState:UIControlStateNormal];
@@ -83,8 +82,6 @@
             self.frame = frame_tmp;
         }
         else {
-            minusButton.hidden = YES;
-            plusButton.hidden = YES;
             volumeView.hidden = YES;
             volumeLabel.hidden = YES;
 
@@ -94,10 +91,18 @@
             frame_tmp.origin.x = VOLUMEICON_PADDING;
             muteButton.frame = frame_tmp;
             
-            frame_tmp = volumeSlider.frame;
+            frame_tmp = minusButton.frame;
             frame_tmp.origin.x = muteButton.frame.origin.x + muteButton.frame.size.width + VOLUMEICON_PADDING;
-            frame_tmp.size.width = self.frame.size.width - frame_tmp.origin.x - ANCHORRIGHTPEEK - VOLUMEICON_PADDING;
+            minusButton.frame = frame_tmp;
+            
+            frame_tmp = volumeSlider.frame;
+            frame_tmp.origin.x = minusButton.frame.origin.x + minusButton.frame.size.width;
+            frame_tmp.size.width = self.frame.size.width - frame_tmp.origin.x - ANCHORRIGHTPEEK - 3*VOLUMEICON_PADDING - volumeLabel.frame.size.width;
             volumeSlider.frame = frame_tmp;
+            
+            frame_tmp = plusButton.frame;
+            frame_tmp.origin.x = volumeSlider.frame.origin.x + volumeSlider.frame.size.width + VOLUMEICON_PADDING;
+            plusButton.frame = frame_tmp;
             
             muteForeground = [UIColor blackColor];
             img = [UIImage imageNamed:@"button_metal_up"];
@@ -107,15 +112,24 @@
             img = [UIImage imageNamed:@"volume_slash"];
             img = [utils colorizeImage:img withColor:muteForeground];
             [muteButton setImage:img forState:UIControlStateNormal];
-            [muteButton setShowsTouchWhenHighlighted:YES];
             
             img = [UIImage imageNamed:@"volume_1"];
             img = [utils colorizeImage:img withColor:[UIColor grayColor]];
-            [volumeSlider setMinimumValueImage:img];
+            [minusButton setImage:img forState:UIControlStateNormal];
+            [minusButton setImage:img forState:UIControlStateHighlighted];
+            [minusButton setBackgroundImage:nil forState:UIControlStateNormal];
+            [minusButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+            [minusButton setTitle:nil forState:UIControlStateNormal];
+            [minusButton setTitle:nil forState:UIControlStateHighlighted];
             
             img = [UIImage imageNamed:@"volume_3"];
             img = [utils colorizeImage:img withColor:[UIColor grayColor]];
-            [volumeSlider setMaximumValueImage:img];
+            [plusButton setImage:img forState:UIControlStateNormal];
+            [plusButton setImage:img forState:UIControlStateHighlighted];
+            [plusButton setBackgroundImage:nil forState:UIControlStateNormal];
+            [plusButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+            [plusButton setTitle:nil forState:UIControlStateNormal];
+            [plusButton setTitle:nil forState:UIControlStateHighlighted];
         }
         [self checkMuteServer];
         
