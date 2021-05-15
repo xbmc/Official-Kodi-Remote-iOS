@@ -4931,6 +4931,11 @@ NSIndexPath *selected;
         sortMethodName = nil;
     }
     
+    // In case of sort-by-none set sortMethodName to nil
+    if ([sortMethodName isEqualToString:@"none"]) {
+        sortMethodName = nil;
+    }
+    
     // If a sort method is defined which is not found as key, we select @"label" as sort method.
     // This happens for example when sorting by @"artist".
     if (sortMethodName!=nil && [copyRichResults count]>0 && copyRichResults[0][sortMethodName]==nil) {
