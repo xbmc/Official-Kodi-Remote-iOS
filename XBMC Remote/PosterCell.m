@@ -40,7 +40,7 @@
         [_posterLabel setTextAlignment:NSTextAlignmentCenter];
         [_posterLabel setTextColor:[UIColor whiteColor]];
         [_posterLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.6]];
-        [_posterLabel setShadowOffset:CGSizeMake(0,1)];
+        [_posterLabel setShadowOffset:CGSizeMake(0, 1)];
         [_posterLabel setNumberOfLines:2];
         [_posterLabel setMinimumScaleFactor:0.8];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
@@ -102,7 +102,7 @@
     if (enable) {
         if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
-            [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];
+            [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin];
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width + 2,
                                               self.contentView.frame.size.height - overlayWatched.frame.size.height + 1,
                                               overlayWatched.frame.size.width,

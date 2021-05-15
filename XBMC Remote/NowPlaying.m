@@ -286,7 +286,7 @@
 		
 	}
     else if (image.imageOrientation == UIImageOrientationDown) {
-		CGContextTranslateCTM (bitmap, width,height);
+		CGContextTranslateCTM (bitmap, width, height);
 		CGContextRotateCTM (bitmap, -M_PI);
 		
 	}
@@ -652,7 +652,7 @@ int currentItemID;
                         [self createPlaylist:NO animTableView:YES];
                     }
                 }
-                NSMutableArray *properties = [@[@"album", @"artist",@"title", @"thumbnail", @"track", @"studio", @"showtitle", @"episode", @"season", @"fanart", @"description", @"plot"] mutableCopy];
+                NSMutableArray *properties = [@[@"album", @"artist", @"title", @"thumbnail", @"track", @"studio", @"showtitle", @"episode", @"season", @"fanart", @"description", @"plot"] mutableCopy];
                 if ([AppDelegate instance].serverVersion > 11) {
                     [properties addObject:@"art"];
                 }
@@ -1049,7 +1049,7 @@ int currentItemID;
              NSString *samplerate = @"";
              NSString *numchan = @"";
              if (playerID == 0 && currentPlayerID == playerID) {
-                 codec = [methodResult[@"MusicPlayer.Codec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"MusicPlayer.Codec"]] ;
+                 codec = [methodResult[@"MusicPlayer.Codec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"MusicPlayer.Codec"]];
                  songCodec.text = codec;
                  songCodec.hidden = NO;
                  songCodecImage.image = nil;
@@ -1077,12 +1077,12 @@ int currentItemID;
                  songNumChannels.text = samplerate;
                  songNumChannels.hidden = NO;
                  
-                 bitrate = [methodResult[@"MusicPlayer.BitRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkbit/s", methodResult[@"MusicPlayer.BitRate"]] ;
+                 bitrate = [methodResult[@"MusicPlayer.BitRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkbit/s", methodResult[@"MusicPlayer.BitRate"]];
                  songSampleRate.text = bitrate;
                  songSampleRate.hidden = NO;
              }
              else if (playerID == 1 && currentPlayerID == playerID) {
-                 codec = [methodResult[@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"VideoPlayer.VideoResolution"]] ;
+                 codec = [methodResult[@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"VideoPlayer.VideoResolution"]];
                  songCodec.text = codec;
                  songCodec.hidden = NO;
                  songCodecImage.image = nil;
@@ -1092,7 +1092,7 @@ int currentItemID;
                      songCodec.hidden = YES;
                  }
                  
-                 bitrate = [methodResult[@"VideoPlayer.VideoAspect"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"VideoPlayer.VideoAspect"]] ;
+                 bitrate = [methodResult[@"VideoPlayer.VideoAspect"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"VideoPlayer.VideoAspect"]];
                  songBitRate.text = bitrate;
                  songBitRate.hidden = NO;
                  songBitRateImage.image = nil;
@@ -1289,9 +1289,9 @@ int currentItemID;
                            runtimeInMinute = 60;
                        }
                        for (int i = 0; i < total; i++) {
-                           NSString *idItem = [NSString stringWithFormat:@"%@",playlistItems[i][@"id"]];
-                           NSString *label = [NSString stringWithFormat:@"%@",playlistItems[i][@"label"]];
-                           NSString *title = [NSString stringWithFormat:@"%@",playlistItems[i][@"title"]];
+                           NSString *idItem = [NSString stringWithFormat:@"%@", playlistItems[i][@"id"]];
+                           NSString *label = [NSString stringWithFormat:@"%@", playlistItems[i][@"label"]];
+                           NSString *title = [NSString stringWithFormat:@"%@", playlistItems[i][@"title"]];
                            
                            NSString *artist = [Utilities getStringFromDictionary:playlistItems[i] key:@"artist" emptyString:@""];
                            NSString *album = [Utilities getStringFromDictionary:playlistItems[i] key:@"album" emptyString:@""];
@@ -1319,7 +1319,7 @@ int currentItemID;
                                                     file, @"file",
                                                     label, @"label",
                                                     title, @"title",
-                                                    type,@"type",
+                                                    type, @"type",
                                                     artist, @"artist",
                                                     album, @"album",
                                                     durationTime, @"duration",
@@ -1329,8 +1329,8 @@ int currentItemID;
                                                     movieid, @"movieid",
                                                     movieid, @"episodeid",
                                                     stringURL, @"thumbnail",
-                                                    runtime,@"runtime",
-                                                    showtitle,@"showtitle",
+                                                    runtime, @"runtime",
+                                                    showtitle, @"showtitle",
                                                     season, @"season",
                                                     episode, @"episode",
                                                     tvshowid, @"tvshowid",
@@ -1488,7 +1488,7 @@ int currentItemID;
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                  }
 
-                 NSString *label = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row1"]]];
+                 NSString *label = [NSString stringWithFormat:@"%@", videoLibraryMovieDetail[mainFields[@"row1"]]];
                  NSString *genre = [Utilities getStringFromDictionary:videoLibraryMovieDetail key:mainFields[@"row2"] emptyString:@""];
                  
                  NSString *year = [Utilities getYearFromDictionary:videoLibraryMovieDetail key:mainFields[@"row3"]];
@@ -1561,7 +1561,7 @@ int currentItemID;
     [self presentViewController:alertView animated:YES completion:nil];
 }
 
-# pragma mark -  animations
+# pragma mark - animations
 
 -(void)flipAnimButton:(UIButton *)button demo:(bool)demo{
     if (demo) {
@@ -2098,14 +2098,14 @@ int currentItemID;
         }
         NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        obj,objKey,
+                                        obj, objKey,
                                         parameters[@"parameters"][@"properties"], @"properties",
-                                        parameters[@"parameters"][@"sort"],@"sort",
+                                        parameters[@"parameters"][@"sort"], @"sort",
                                         item[mainFields[@"row15"]], key,
                                         nil], @"parameters", parameters[@"label"], @"label",
                                        parameters[@"extra_info_parameters"], @"extra_info_parameters",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                       [NSString stringWithFormat:@"%d",[parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                        nil];
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab = choosedTab;
@@ -2176,7 +2176,7 @@ int currentItemID;
         [subLabel setText:[NSString stringWithFormat:@"%@%@", item[@"album"], artist]];
     }
     else if ([item[@"type"] isEqualToString:@"movie"]) {
-        [subLabel setText:[NSString stringWithFormat:@"%@",item[@"genre"]]];
+        [subLabel setText:[NSString stringWithFormat:@"%@", item[@"genre"]]];
     }
     if (playerID == 0)
         [cornerLabel setText:item[@"duration"]];
@@ -2232,7 +2232,7 @@ int currentItemID;
              if (timePlaying.hidden) {
                  [self fadeView:timePlaying hidden:NO];
              }
-//             [self SimpleAction:@"GUI.SetFullscreen" params:[NSDictionary dictionaryWithObjectsAndKeys:@(YES),@"fullscreen", nil] reloadPlaylist:NO startProgressBar:NO];
+//             [self SimpleAction:@"GUI.SetFullscreen" params:[NSDictionary dictionaryWithObjectsAndKeys:@(YES), @"fullscreen", nil] reloadPlaylist:NO startProgressBar:NO];
          }
          else {
              UIActivityIndicatorView *queuing = (UIActivityIndicatorView*) [cell viewWithTag:8];
@@ -2274,7 +2274,7 @@ int currentItemID;
     NSDictionary *params1 = [NSDictionary dictionaryWithObjectsAndKeys:
                           @(playerID), @"playlistid",
                           @(sourceIndexPath.row), @"position",
-                          nil] ;
+                          nil];
     NSString *action2 = @"Playlist.Insert";
     NSDictionary *params2 = [NSDictionary dictionaryWithObjectsAndKeys:
                           @(playerID), @"playlistid",
@@ -2311,7 +2311,7 @@ int currentItemID;
         NSDictionary *params1 = [NSDictionary dictionaryWithObjectsAndKeys:
                                @(playerID), @"playlistid",
                                @(indexPath.row), @"position",
-                               nil] ;
+                               nil];
         [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error == nil && methodError == nil) {
                 NSInteger numObj = [playlistData count];
@@ -2821,13 +2821,13 @@ int currentItemID;
     tempFanartImageView = [[UIImageView alloc] init];
     tempFanartImageView.hidden = YES;
     [self.view addSubview:tempFanartImageView];
-    [seg_music setTitle:NSLocalizedString(@"Music",nil) forState:UIControlStateNormal];
-    [seg_video setTitle:NSLocalizedString(@"Video",nil) forState:UIControlStateNormal];
-    [PartyModeButton setTitle:NSLocalizedString(@"Party",nil) forState:UIControlStateNormal];
-    [PartyModeButton setTitle:NSLocalizedString(@"Party",nil) forState:UIControlStateHighlighted];
-    [PartyModeButton setTitle:NSLocalizedString(@"Party",nil) forState:UIControlStateSelected];
-    [editTableButton setTitle:NSLocalizedString(@"Edit",nil) forState:UIControlStateNormal];
-    [editTableButton setTitle:NSLocalizedString(@"Done",nil) forState:UIControlStateSelected];
+    [seg_music setTitle:NSLocalizedString(@"Music", nil) forState:UIControlStateNormal];
+    [seg_video setTitle:NSLocalizedString(@"Video", nil) forState:UIControlStateNormal];
+    [PartyModeButton setTitle:NSLocalizedString(@"Party", nil) forState:UIControlStateNormal];
+    [PartyModeButton setTitle:NSLocalizedString(@"Party", nil) forState:UIControlStateHighlighted];
+    [PartyModeButton setTitle:NSLocalizedString(@"Party", nil) forState:UIControlStateSelected];
+    [editTableButton setTitle:NSLocalizedString(@"Edit", nil) forState:UIControlStateNormal];
+    [editTableButton setTitle:NSLocalizedString(@"Done", nil) forState:UIControlStateSelected];
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];

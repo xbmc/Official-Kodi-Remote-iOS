@@ -56,7 +56,7 @@
         [_posterLabel setBackgroundColor:[UIColor clearColor]];
         [_posterLabel setTextColor:[UIColor whiteColor]];
         [_posterLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.6]];
-        [_posterLabel setShadowOffset:CGSizeMake(0,1)];
+        [_posterLabel setShadowOffset:CGSizeMake(0, 1)];
         [_posterLabel setNumberOfLines:1];
         [_posterLabel setMinimumScaleFactor:0.5];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
@@ -67,7 +67,7 @@
         [_posterGenre setBackgroundColor:[UIColor clearColor]];
         [_posterGenre setTextColor:[UIColor whiteColor]];
         [_posterGenre setShadowColor:[Utilities getGrayColor:0 alpha:0.6]];
-        [_posterGenre setShadowOffset:CGSizeMake(0,1)];
+        [_posterGenre setShadowOffset:CGSizeMake(0, 1)];
         [_posterGenre setNumberOfLines:1];
         [_posterGenre setMinimumScaleFactor:0.5];
         [_posterGenre setAdjustsFontSizeToFitWidth:YES];
@@ -78,7 +78,7 @@
         [_posterYear setBackgroundColor:[UIColor clearColor]];
         [_posterYear setTextColor:[UIColor whiteColor]];
         [_posterYear setShadowColor:[Utilities getGrayColor:0 alpha:0.6]];
-        [_posterYear setShadowOffset:CGSizeMake(0,1)];
+        [_posterYear setShadowOffset:CGSizeMake(0, 1)];
         [_posterYear setNumberOfLines:1];
         [_posterYear setMinimumScaleFactor:0.5];
         [_posterYear setAdjustsFontSizeToFitWidth:YES];
@@ -103,7 +103,7 @@
     if (enable) {
         if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
-            [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];
+            [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin];
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width - 4,
                                               self.contentView.frame.size.height - overlayWatched.frame.size.height - 4,
                                               overlayWatched.frame.size.width,

@@ -284,7 +284,7 @@ int count = 0;
             NSString *actorName = (NSString *)sender;
             choosedTab = 2;
             MenuItem = [[AppDelegate instance].playlistMovies copy];
-            movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName,@"actor", nil];
+            movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
             choosedMenuItem = MenuItem.subItem;
             choosedMenuItem.mainLabel = actorName;
@@ -295,7 +295,7 @@ int count = 0;
             NSString *actorName = (NSString *)sender;
             choosedTab = 0;
             MenuItem = [[AppDelegate instance].playlistTvShows copy];
-            movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName,@"actor", nil];
+            movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
             choosedMenuItem = MenuItem;
             choosedMenuItem.mainLabel = actorName;
@@ -332,25 +332,25 @@ int count = 0;
             newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     obj, objKey,
                                     parameters[@"extra_section_parameters"][@"properties"], @"properties",
-                                    parameters[@"extra_section_parameters"][@"sort"],@"sort",
+                                    parameters[@"extra_section_parameters"][@"sort"], @"sort",
                                     item[mainFields[@"row6"]], mainFields[@"row6"],
                                     nil];
         }
         NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        obj,objKey,
+                                        obj, objKey,
                                         parameters[@"parameters"][@"properties"], @"properties",
-                                        parameters[@"parameters"][@"sort"],@"sort",
+                                        parameters[@"parameters"][@"sort"], @"sort",
                                         nil], @"parameters",
                                        blackTableSeparator, @"blackTableSeparator",
                                        parameters[@"label"], @"label",
                                        @(YES), @"fromShowInfo",
-                                       [NSString stringWithFormat:@"%d",[parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                        parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                       [NSString stringWithFormat:@"%d",[parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
-                                       [NSString stringWithFormat:@"%d",[parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
-                                       [NSString stringWithFormat:@"%d",[parameters[@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
                                        newSectionParameters, @"extra_section_parameters",
                                        nil];
         [[choosedMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
@@ -525,7 +525,7 @@ int count = 0;
                }
                else {
                    NSString *message = @"";
-                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n", nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -752,7 +752,7 @@ int h = 0;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             placeHolderImage = @"coverbox_back_tvshows";
         }
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
         [format setLocale:locale];
         if ([item[@"family"] isEqualToString:@"tvshowid"]) {
@@ -1190,8 +1190,8 @@ int h = 0;
     
     NSString *numVotes = [Utilities getStringFromDictionary:item key:@"votes" emptyString:@""];
     if ([numVotes length] != 0) {
-        NSString *numVotesPlus = NSLocalizedString(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes",nil);
-        numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)",numVotes, numVotesPlus];
+        NSString *numVotesPlus = NSLocalizedString(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes", nil);
+        numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)", numVotes, numVotesPlus];
     }
     CGRect frame = summaryLabel.frame;
     summaryLabel.frame = frame;
@@ -1398,7 +1398,7 @@ int h = 0;
             [UIView animateWithDuration:1.5
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
-                             animations:^ {
+                             animations:^{
                                  [toolbar setAlpha:1.0];
                              }
                              completion:^(BOOL finished) {}
@@ -1418,7 +1418,7 @@ int h = 0;
             [UIView animateWithDuration:1.5
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
-                             animations:^ {
+                             animations:^{
                                  self.kenView.alpha = 0;
                                  [toolbar setAlpha:0.0];
                                  if ([self isModal]) {
@@ -1432,7 +1432,7 @@ int h = 0;
             if (self.kenView != nil) {
                 CGFloat alphaValue = 1;
                 [UIView animateWithDuration:0.2
-                                 animations:^ {
+                                 animations:^{
                                      self.kenView.alpha = 0;
                                  }
                                  completion:^(BOOL finished) {
@@ -1556,7 +1556,7 @@ int h = 0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([AppDelegate instance].serverVersion > 11  && ![self isModal]) {
+    if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
         cell.accessoryView.alpha = 0.5;
     }
@@ -1604,7 +1604,7 @@ int h = 0;
                     GlobalData *obj = [GlobalData getInstance];
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-                    NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)methodResult[@"protocol"], serverURL, (NSDictionary*)methodResult[@"details"][@"path"]];
+                    NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@", (NSArray*)methodResult[@"protocol"], serverURL, (NSDictionary*)methodResult[@"details"][@"path"]];
                     [Utilities SFloadURL:stringURL fromctrl:self];
                     [activityIndicatorView stopAnimating];
                     self.navigationItem.rightBarButtonItem.enabled = YES;

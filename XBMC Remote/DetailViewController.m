@@ -150,8 +150,8 @@
 
 -(NSMutableDictionary *)parseEpgData:(NSMutableArray *)epgData {
     NSMutableDictionary *channelEPG = [[NSMutableDictionary alloc] init];
-    channelEPG[@"current"] = NSLocalizedString(@"Not Available",nil);
-    channelEPG[@"next"] = NSLocalizedString(@"Not Available",nil);
+    channelEPG[@"current"] = NSLocalizedString(@"Not Available", nil);
+    channelEPG[@"next"] = NSLocalizedString(@"Not Available", nil);
     channelEPG[@"current_details"] = @"";
     channelEPG[@"refresh_data"] = @(YES);
     channelEPG[@"starttime"] = @"";
@@ -182,7 +182,7 @@
             }
             channelEPG[@"current_details"] = [NSString stringWithFormat:@"\n%@\n%@\n%@\n\n%@ - %@ (%ld %@)",
                                               objectToSearch[@"title"],
-                                              [plotoutline length] > 0 ? [NSString stringWithFormat:@"%@\n",plotoutline] : @"",
+                                              [plotoutline length] > 0 ? [NSString stringWithFormat:@"%@\n", plotoutline] : @"",
                                               objectToSearch[@"plot"],
                                               [localHourMinuteFormatter stringFromDate:objectToSearch[@"starttime"]],
                                               [localHourMinuteFormatter stringFromDate:objectToSearch[@"endtime"]],
@@ -222,7 +222,7 @@
         item[@"genre"] = channelEPG[@"current_details"];
     }
     ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
-    if (![current.text isEqualToString:NSLocalizedString(@"Not Available",nil)] && [channelEPG[@"starttime"] isKindOfClass:[NSDate class]] && [channelEPG[@"endtime"] isKindOfClass:[NSDate class]]) {
+    if (![current.text isEqualToString:NSLocalizedString(@"Not Available", nil)] && [channelEPG[@"starttime"] isKindOfClass:[NSDate class]] && [channelEPG[@"endtime"] isKindOfClass:[NSDate class]]) {
         float total_seconds = [channelEPG[@"endtime"] timeIntervalSince1970] - [channelEPG[@"starttime"] timeIntervalSince1970];
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [channelEPG[@"starttime"] timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
@@ -416,10 +416,10 @@
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateStyle:NSDateFormatterLongStyle];
             [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-            NSLocale *userLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+            NSLocale *userLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
             [dateFormatter setLocale:userLocale];
             NSString *dateString = [dateFormatter stringFromDate:[attributes fileModificationDate]];
-            NSString *title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Last sync", nil),dateString];
+            NSString *title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Last sync", nil), dateString];
             [dataList.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateStopped];
             [dataList.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateTriggered];
             [collectionView.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateStopped];
@@ -660,7 +660,7 @@
         }
         [mainMenu addObject: 
          [NSDictionary dictionaryWithObjectsAndKeys:
-          [NSString stringWithFormat:@"%@",[Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][i]][@"morelabel"]], @"label",
+          [NSString stringWithFormat:@"%@", [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][i]][@"morelabel"]], @"label",
           icon, @"icon",
           nil]];
     }
@@ -713,7 +713,7 @@
             [UIView transitionWithView: activeLayoutView
                               duration: 0.2
                                options: UIViewAnimationOptionBeginFromCurrentState
-                            animations: ^ {
+                            animations: ^{
                                 [(UITableView *)activeLayoutView setAlpha:1.0];
                                 CGRect frame;
                                 frame = [activeLayoutView frame];
@@ -990,7 +990,7 @@
         if ([AppDelegate instance].serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
             NSDictionary *currentParams = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
             obj = [NSDictionary dictionaryWithObjectsAndKeys:
-                   item[mainFields[@"row6"]] ,mainFields[@"row6"],
+                   item[mainFields[@"row6"]], mainFields[@"row6"],
                    currentParams[@"parameters"][@"filter"][parameters[@"combinedFilter"]], parameters[@"combinedFilter"],
                    nil];
             objKey = @"filter";
@@ -1003,7 +1003,7 @@
             newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     obj, objKey,
                                     parameters[@"extra_section_parameters"][@"properties"], @"properties",
-                                    parameters[@"extra_section_parameters"][@"sort"],@"sort",
+                                    parameters[@"extra_section_parameters"][@"sort"], @"sort",
                                     item[mainFields[@"row15"]], key,
                                     nil];
         }
@@ -1022,19 +1022,19 @@
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         obj, objKey,
                                         parameters[@"parameters"][@"properties"], @"properties",
-                                        parameters[@"parameters"][@"sort"],@"sort",
+                                        parameters[@"parameters"][@"sort"], @"sort",
                                         item[mainFields[@"row15"]], key,
                                         nil], @"parameters",
                                        parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                        libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
                                        parameters[@"label"], @"label",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                       [NSString stringWithFormat:@"%d",[parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
-                                       [NSString stringWithFormat:@"%d",[parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
-                                       [NSString stringWithFormat:@"%d",[parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
-                                        [NSString stringWithFormat:@"%d",[parameters[@"forceActionSheet"] boolValue]], @"forceActionSheet",
-                                       [NSString stringWithFormat:@"%d",[parameters[@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
-                                       [NSString stringWithFormat:@"%d",[parameters[@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                        [NSString stringWithFormat:@"%d", [parameters[@"forceActionSheet"] boolValue]], @"forceActionSheet",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
                                        pvrExtraInfo, @"pvrExtraInfo",
                                        kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
                                        parameters[@"extra_info_parameters"], @"extra_info_parameters",
@@ -1085,13 +1085,13 @@
                 parameters = [Utilities indexKeyedMutableDictionaryFromArray:[MenuItem mainParameters][choosedTab]];
                 NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
                                                [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                item[mainFields[@"row6"]],@"directory",
+                                                item[mainFields[@"row6"]], @"directory",
                                                 parameters[@"parameters"][@"media"], @"media",
-                                                parameters[@"parameters"][@"sort"],@"sort",
+                                                parameters[@"parameters"][@"sort"], @"sort",
                                                 parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                                nil], @"parameters", parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song",@"fileThumb",
+                                                nil], @"parameters", parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song", @"fileThumb",
                                                [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                               [NSString stringWithFormat:@"%d",[parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                               [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                                parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                                nil];
                 MenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
@@ -1140,7 +1140,7 @@
             else if ([item[@"family"] isEqualToString:@"categoryid"]) {
                 fileModeKey = @"filter";
                 objValue = [NSDictionary dictionaryWithObjectsAndKeys:
-                            item[mainFields[@"row6"]],@"category",
+                            item[mainFields[@"row6"]], @"category",
                             [MenuItem mainParameters][choosedTab][0][@"section"], @"section",
                             nil];
             }
@@ -1148,11 +1148,11 @@
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                             objValue, fileModeKey,
                                             parameters[@"parameters"][@"media"], @"media",
-                                            parameters[@"parameters"][@"sort"],@"sort",
+                                            parameters[@"parameters"][@"sort"], @"sort",
                                             parameters[@"parameters"][@"file_properties"], @"file_properties",
                                             nil], @"parameters", parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                            [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                           [NSString stringWithFormat:@"%d",[parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                           [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                            nil];
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
@@ -1860,7 +1860,7 @@ int originYear = 0;
         NSString *sectionName = self.sectionArray[section];
         if (channelGuideView) {
             NSString *dateString = @"";
-            NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+            NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
             NSDateFormatter *format = [[NSDateFormatter alloc] init];
             [format setLocale:locale];
             [format setDateFormat:@"yyyy-MM-dd"];
@@ -2011,7 +2011,7 @@ int originYear = 0;
 -(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index{
     if (index == 0) {
         [tableView scrollRectToVisible:tableView.tableHeaderView.frame animated:NO];
-        return index -1 ;
+        return index -1;
     }
     return index;
 }
@@ -2029,7 +2029,7 @@ int originYear = 0;
                 NSMutableArray *channelGuideTableIndexTitles = [[NSMutableArray alloc] init];
                 for (NSString *label in self.sectionArray) {
                         NSString *dateString = label;
-                        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+                        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
                         NSDateFormatter *format = [[NSDateFormatter alloc] init];
                         [format setLocale:locale];
                         [format setDateFormat:@"yyyy-MM-dd"];
@@ -2178,7 +2178,7 @@ int originYear = 0;
         [runtimeyear setText:duration];        
     }
     else {
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
         [format setLocale:locale];
         [format setDateFormat:@"yyyy-MM-dd"];
@@ -2278,7 +2278,7 @@ int originYear = 0;
             genre.autoresizingMask = title.autoresizingMask;
             CGRect frame = genre.frame;
             frame.size.width = title.frame.size.width;
-            frame.size.height = frame.size.height + (cellHeight - (frame.origin.y  + frame.size.height))  - 4;
+            frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
             genre.frame = frame;
             frame = title.frame;
             frame.origin.y = 0;
@@ -2302,7 +2302,7 @@ int originYear = 0;
             genre.autoresizingMask = title.autoresizingMask;
             frame = genre.frame;
             frame.size.width = title.frame.size.width;
-            frame.size.height = frame.size.height + (cellHeight - (frame.origin.y  + frame.size.height))  - 4;
+            frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
             genre.frame = frame;
             [genre setNumberOfLines:2];
             genre.font = [genre.font fontWithSize:11];
@@ -2338,7 +2338,7 @@ int originYear = 0;
         genre.autoresizingMask = title.autoresizingMask;
         CGRect frame = genre.frame;
         frame.size.width = title.frame.size.width;
-        frame.size.height = frame.size.height + (cellHeight - (frame.origin.y  + frame.size.height))  - 4;
+        frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
         genre.frame = frame;
         [genre setNumberOfLines:3];
         genre.font = [genre.font fontWithSize:11];
@@ -2456,7 +2456,7 @@ int originYear = 0;
         CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
         UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, (albumViewPadding / 2) - 1, labelwidth, artistFontSize + labelPadding)];
-        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y +  artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
+        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
         UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin, labelwidth, trackCountFontSize + labelPadding)];
         UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize -labelPadding/2, labelwidth, trackCountFontSize + labelPadding)];
         CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -2659,7 +2659,7 @@ int originYear = 0;
         else {
             item = [self.sections valueForKey:self.sectionArray[section]][0];
         }
-        NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d",[item[@"season"] intValue]] inArray:self.extraSectionRichResults];
+        NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
         NSInteger firstListedSeason = [self getFirstListedSeason:self.extraSectionRichResults];
         CGFloat seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
         if (seasonIdx != NSNotFound) {
@@ -2668,7 +2668,7 @@ int originYear = 0;
             CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
             UIImageView *thumbImageShadowView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace - 3, albumViewPadding - 3, seasonThumbWidth + 6, albumViewHeight - (albumViewPadding * 2) + 6)];
             UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, (albumViewPadding / 2), labelwidth, artistFontSize + labelPadding)];
-            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, artist.frame.origin.y +  artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
+            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
             UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
             UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize -labelPadding/2, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
@@ -2746,7 +2746,7 @@ int originYear = 0;
             [releasedLabel setNumberOfLines:1];
             [releasedLabel setAdjustsFontSizeToFitWidth:YES];
             
-            NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+            NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
             NSString *aired = @"";
             NSDateFormatter *format = [[NSDateFormatter alloc] init];
             [format setLocale:usLocale];
@@ -2847,7 +2847,7 @@ int originYear = 0;
     if (albumView && [self.richResults count] > 0) {
         return albumViewHeight + 2;
     }
-    else if (episodesView  && [self.richResults count] > 0 && !([self doesShowSearchResults])) {
+    else if (episodesView && [self.richResults count] > 0 && !([self doesShowSearchResults])) {
         return albumViewHeight + 2;
     }
     else if (section != 0 || [self doesShowSearchResults]) {
@@ -3378,7 +3378,7 @@ NSIndexPath *selected;
                     [UIView transitionWithView: activeLayoutView
                                       duration: 0.2
                                        options: UIViewAnimationOptionBeginFromCurrentState
-                                    animations: ^ {
+                                    animations: ^{
                                         [(UITableView *)activeLayoutView setAlpha:1.0];
                                         CGRect frame;
                                         frame = [activeLayoutView frame];
@@ -3404,7 +3404,7 @@ NSIndexPath *selected;
                 [UIView transitionWithView: activeLayoutView
                                   duration: 0.2
                                    options: UIViewAnimationOptionBeginFromCurrentState
-                                animations: ^ {
+                                animations: ^{
                                     [(UITableView *)activeLayoutView setAlpha:1.0];
                                     CGRect frame;
                                     frame = [activeLayoutView frame];
@@ -3659,7 +3659,7 @@ NSIndexPath *selected;
 }
 
 - (void)dismissAddAction:(id)sender{
-    [self dismissViewControllerAnimated:YES completion:^ {
+    [self dismissViewControllerAnimated:YES completion:^{
     }];
 }
 
@@ -3707,15 +3707,15 @@ NSIndexPath *selected;
     }
     NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    item[mainFields[@"row6"]],@"directory",
+                                    item[mainFields[@"row6"]], @"directory",
                                     parameters[@"parameters"][@"media"], @"media",
-                                    parameters[@"parameters"][@"sort"],@"sort",
+                                    parameters[@"parameters"][@"sort"], @"sort",
                                     mutableProperties, @"file_properties",
                                     nil], @"parameters",
                                    libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
                                    parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                    [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                   [NSString stringWithFormat:@"%d",[parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                   [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                    @"Files.GetDirectory", @"exploreCommand",
                                    parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                    nil];
@@ -3757,7 +3757,7 @@ NSIndexPath *selected;
                     GlobalData *obj = [GlobalData getInstance];
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-                    NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)methodResult[@"protocol"], serverURL, (NSDictionary*)methodResult[@"details"][@"path"]];
+                    NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@", (NSArray*)methodResult[@"protocol"], serverURL, (NSDictionary*)methodResult[@"details"][@"path"]];
                     [Utilities SFloadURL:stringURL fromctrl:self];
                     [queuing stopAnimating];
                 }
@@ -3794,7 +3794,7 @@ NSIndexPath *selected;
                }
                else {
                    NSString *message = @"";
-                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n", nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -3860,7 +3860,7 @@ NSIndexPath *selected;
                }
                else {
                    NSString *message = @"";
-                    message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                    message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n", nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -3912,7 +3912,7 @@ NSIndexPath *selected;
                          NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = [NSDictionary dictionaryWithObjectsAndKeys:
                                                 mainFields[@"playlistid"], @"playlistid",
-                                                [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil],@"item",
+                                                [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item",
                                                 @(newPos), @"position",
                                                 nil];
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -3960,7 +3960,7 @@ NSIndexPath *selected;
             [self showNowPlaying];
         }
 //        else {
-//            NSLog(@"terzo errore %@",methodError);
+//            NSLog(@"terzo errore %@", methodError);
 //        }
     }];
 }
@@ -4083,7 +4083,7 @@ NSIndexPath *selected;
         else {
             UIActivityIndicatorView *queuing = (UIActivityIndicatorView*) [cell viewWithTag:8];
             [queuing stopAnimating];
-            //                                            NSLog(@"secondo errore %@",methodError);
+            //                                            NSLog(@"secondo errore %@", methodError);
         }
     }];
 }
@@ -4285,7 +4285,7 @@ NSIndexPath *selected;
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                      secondsToMinute = 60;
                  }
-                 NSString *label = [NSString stringWithFormat:@"%@",videoLibraryMovieDetail[mainFields[@"row1"]]];
+                 NSString *label = [NSString stringWithFormat:@"%@", videoLibraryMovieDetail[mainFields[@"row1"]]];
                  NSString *genre = [Utilities getStringFromDictionary:videoLibraryMovieDetail key:mainFields[@"row2"] emptyString:@""];
                  
                  NSString *year = [Utilities getYearFromDictionary:videoLibraryMovieDetail key:mainFields[@"row3"]];
@@ -4441,7 +4441,7 @@ NSIndexPath *selected;
     GlobalData *obj = [GlobalData getInstance];
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
 //    NSLog(@"START");
-    debugText.text = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+    debugText.text = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n", nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
@@ -4517,7 +4517,7 @@ NSIndexPath *selected;
                          total = (int)[videoLibraryMovies count];
                      }
                      for (int i = 0; i < total; i++) {
-                         NSString *label = [NSString stringWithFormat:@"%@",videoLibraryMovies[i][mainFields[@"row1"]]];
+                         NSString *label = [NSString stringWithFormat:@"%@", videoLibraryMovies[i][mainFields[@"row1"]]];
                          
                          NSString *genre = [Utilities getStringFromDictionary:videoLibraryMovies[i] key:mainFields[@"row2"] emptyString:@""];
                          
@@ -5929,7 +5929,7 @@ NSIndexPath *selected;
             [UIView transitionWithView: activeLayoutView
                               duration: 0.2
                                options: UIViewAnimationOptionBeginFromCurrentState
-                            animations: ^ {
+                            animations: ^{
                                 [(UITableView *)activeLayoutView setAlpha:1.0];
                                 CGRect frame;
                                 frame = [activeLayoutView frame];
@@ -5938,7 +5938,7 @@ NSIndexPath *selected;
                                 [(UITableView *)activeLayoutView setFrame:frame];
                             }
                             completion:^(BOOL finished) {
-                                sortAscDesc = !([sortAscDesc isEqualToString:@"ascending"] || sortAscDesc == nil)  ? @"ascending" : @"descending";
+                                sortAscDesc = !([sortAscDesc isEqualToString:@"ascending"] || sortAscDesc == nil) ? @"ascending" : @"descending";
                                 [self saveSortAscDesc:sortAscDesc parameters:[parameters mutableCopy]];
                                 storeSectionArray = [sectionArray copy];
                                 storeSections = [sections mutableCopy];

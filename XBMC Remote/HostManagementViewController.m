@@ -253,8 +253,8 @@ static inline BOOL IsEmpty(id obj) {
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return nil;
 //    UIImage *myImage = [UIImage imageNamed:@"blank"];
-//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-//	imageView.frame = CGRectMake(0,0,320,8);
+//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage];
+//	imageView.frame = CGRectMake(0, 0, 320, 8);
 //	return imageView;
 }
 
@@ -265,8 +265,8 @@ static inline BOOL IsEmpty(id obj) {
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return nil;
 //    UIImage *myImage = [UIImage imageNamed:@"blank"];
-//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-//	imageView.frame = CGRectMake(0,0,320,8);
+//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage];
+//	imageView.frame = CGRectMake(0, 0, 320, 8);
 //	return imageView;
 }
 
@@ -419,8 +419,8 @@ static inline BOOL IsEmpty(id obj) {
     addHostButton.titleLabel.numberOfLines = 1;
     addHostButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     addHostButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
-    [editTableButton setTitle:NSLocalizedString(@"Edit",nil) forState:UIControlStateNormal];
-    [editTableButton setTitle:NSLocalizedString(@"Done",nil) forState:UIControlStateSelected];
+    [editTableButton setTitle:NSLocalizedString(@"Edit", nil) forState:UIControlStateNormal];
+    [editTableButton setTitle:NSLocalizedString(@"Done", nil) forState:UIControlStateSelected];
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     editTableButton.titleLabel.lineBreakMode = NSLineBreakByClipping;

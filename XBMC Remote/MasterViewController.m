@@ -216,7 +216,7 @@
     }
     else if (item.family == 1) {
         self.detailViewController = nil;
-        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil] ;
+        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
         self.detailViewController.detailItem = item;
         object = self.detailViewController;
         hideBottonLine = YES;
@@ -272,8 +272,8 @@
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIImage *myImage = [UIImage imageNamed:@"blank"];
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
-	imageView.frame = CGRectMake(0,0,320,8);
+	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage];
+	imageView.frame = CGRectMake(0, 0, 320, 8);
 	return imageView;
 }
 

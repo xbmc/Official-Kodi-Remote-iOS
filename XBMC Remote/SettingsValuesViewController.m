@@ -231,7 +231,7 @@
     NSString *stringFormat = @": %i";
     switch (xbmcSetting) {
         case cList:
-            subTitle = [NSString stringWithFormat:@": %@",settingOptions[longPressRow.row][@"label"]];
+            subTitle = [NSString stringWithFormat:@": %@", settingOptions[longPressRow.row][@"label"]];
             break;
         case cSlider:
             if (itemControls[@"formatlabel"] != nil) {
@@ -260,7 +260,7 @@
                 value = @([settingOptions[longPressRow.row][@"value"] intValue]);
             }
             else {
-                value = [NSString stringWithFormat:@"%@",settingOptions[longPressRow.row][@"value"]];
+                value = [NSString stringWithFormat:@"%@", settingOptions[longPressRow.row][@"value"]];
             }
             break;
         case cSlider:
@@ -835,7 +835,7 @@
 #pragma mark - LifeCycle
 
 - (void)dismissAddAction:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^ {
+    [self dismissViewControllerAnimated:YES completion:^{
     }];
 }
 

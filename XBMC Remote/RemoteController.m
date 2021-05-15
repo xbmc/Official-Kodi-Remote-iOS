@@ -459,7 +459,7 @@
                                      for (int i = 0; i < numSubs; i++) {
                                          NSString *language = @"?";
                                          if (((NSNull *)subtitles[i][@"language"] != [NSNull null])) {
-                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
                                              NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:subtitles[i][@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0) {
@@ -482,7 +482,7 @@
                                      [self showActionSubtitles:actionSheetTitles];
                                 }
                                  else {
-                                     [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                                     [self showSubInfo:NSLocalizedString(@"Subtitles not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
                                  }
                              }
                          }
@@ -490,7 +490,7 @@
                  }];
             }
             else {
-                [self showSubInfo:NSLocalizedString(@"Subtitles not available",nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                [self showSubInfo:NSLocalizedString(@"Subtitles not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
             }
         }
     }];
@@ -526,7 +526,7 @@
                                      for (int i = 0; i < numAudio; i++) {
                                          NSString *language = @"?";
                                          if (((NSNull *)audiostreams[i][@"language"] != [NSNull null])) {
-                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
                                              NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:audiostreams[i][@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0) {
@@ -549,7 +549,7 @@
                                      [self showActionAudiostreams:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:NSLocalizedString(@"Audiostreams not available",nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                                     [self showSubInfo:NSLocalizedString(@"Audiostreams not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
                                  }
                              }
                         }
@@ -557,7 +557,7 @@
                  }];
             }
             else {
-                [self showSubInfo:NSLocalizedString(@"Audiostream not available",nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                [self showSubInfo:NSLocalizedString(@"Audiostream not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
             }
         }
     }];
@@ -590,7 +590,7 @@
 
 -(void)GUIAction:(NSString *)action params:(NSDictionary *)params httpAPIcallback:(NSString *)callback{
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//        NSLog(@"Action %@ ok with %@ ", action , methodResult);
+//        NSLog(@"Action %@ ok with %@ ", action, methodResult);
 //        if (methodError != nil || error != nil) {
 //            NSLog(@"method error %@ %@", methodError, error);
 //        }
@@ -879,7 +879,7 @@ NSInteger buttonAction;
     switch ([sender tag]) {
         case 1:
             action = @"GUI.SetFullscreen";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:@"toggle",@"fullscreen", nil] httpAPIcallback:@"SendKey(0xf009)"];
+            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:@"toggle", @"fullscreen", nil] httpAPIcallback:@"SendKey(0xf009)"];
             break;
         case 2:
             action = @"Player.Seek";

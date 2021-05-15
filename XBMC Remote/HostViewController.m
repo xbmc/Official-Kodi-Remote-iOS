@@ -328,8 +328,8 @@
     struct rt_msghdr *rtm;
     struct sockaddr_in *sin;
     
-    memset(buf,0,sizeof(buf));
-    memset(buf2,0,sizeof(buf2));
+    memset(buf, 0, sizeof(buf));
+    memset(buf2, 0, sizeof(buf2));
     
     sockfd = socket(AF_ROUTE, SOCK_RAW, 0);
     rtm = (struct rt_msghdr *) buf;

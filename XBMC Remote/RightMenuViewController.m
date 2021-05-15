@@ -438,7 +438,7 @@
             [title setText:[[alertView textFields][0] text]];
             
             customButton *arrayButtons = [[customButton alloc] init];
-            if ([arrayButtons.buttons[indexPath.row -  editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]) {
+            if ([arrayButtons.buttons[indexPath.row - editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]) {
                 arrayButtons.buttons[indexPath.row - editableRowStartAt][@"label"] = [[alertView textFields][0] text];
                 [arrayButtons saveData];
             }

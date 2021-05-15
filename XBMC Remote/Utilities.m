@@ -127,7 +127,7 @@
     }
 	CFRelease(data);
     
-	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
+	return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
 }
 
 - (UIColor *)limitSaturation:(UIColor *)color_in satmax:(CGFloat)satmax {
@@ -621,7 +621,7 @@
 }
 
 + (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key {
-    NSString *rating = [NSString stringWithFormat:@"%.1f",[(NSNumber*)dict[key] floatValue]];
+    NSString *rating = [NSString stringWithFormat:@"%.1f", [(NSNumber*)dict[key] floatValue]];
     if ([rating isEqualToString:@"0.0"]) {
         rating = @"";
     }
