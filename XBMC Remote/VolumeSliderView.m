@@ -49,15 +49,15 @@
             muteButton.frame = frame_tmp;
             
             frame_tmp = minusButton.frame;
-            frame_tmp.origin.x = muteButton.frame.origin.x + muteButton.frame.size.width;
+            frame_tmp.origin.x = CGRectGetMaxX(muteButton.frame);
             minusButton.frame = frame_tmp;
             
             frame_tmp = volumeLabel.frame;
-            frame_tmp.origin.x = minusButton.frame.origin.x + minusButton.frame.size.width;
+            frame_tmp.origin.x = CGRectGetMaxX(minusButton.frame);
             volumeLabel.frame= frame_tmp;
             
             frame_tmp = plusButton.frame;
-            frame_tmp.origin.x = volumeLabel.frame.origin.x + volumeLabel.frame.size.width;
+            frame_tmp.origin.x = CGRectGetMaxX(volumeLabel.frame);
             plusButton.frame = frame_tmp;
             
             muteForeground = [UIColor darkGrayColor];
@@ -78,7 +78,7 @@
             
             // set final used width for this view
             frame_tmp = frame;
-            frame_tmp.size.width = plusButton.frame.origin.x + plusButton.frame.size.width;
+            frame_tmp.size.width = CGRectGetMaxX(plusButton.frame);
             self.frame = frame_tmp;
         }
         else {
@@ -92,16 +92,16 @@
             muteButton.frame = frame_tmp;
             
             frame_tmp = minusButton.frame;
-            frame_tmp.origin.x = muteButton.frame.origin.x + muteButton.frame.size.width + VOLUMEICON_PADDING;
+            frame_tmp.origin.x = CGRectGetMaxX(muteButton.frame) + VOLUMEICON_PADDING;
             minusButton.frame = frame_tmp;
             
             frame_tmp = volumeSlider.frame;
-            frame_tmp.origin.x = minusButton.frame.origin.x + minusButton.frame.size.width;
+            frame_tmp.origin.x = CGRectGetMaxX(minusButton.frame);
             frame_tmp.size.width = self.frame.size.width - frame_tmp.origin.x - ANCHORRIGHTPEEK - 3*VOLUMEICON_PADDING - volumeLabel.frame.size.width;
             volumeSlider.frame = frame_tmp;
             
             frame_tmp = plusButton.frame;
-            frame_tmp.origin.x = volumeSlider.frame.origin.x + volumeSlider.frame.size.width + VOLUMEICON_PADDING;
+            frame_tmp.origin.x = CGRectGetMaxX(volumeSlider.frame) + VOLUMEICON_PADDING;
             plusButton.frame = frame_tmp;
             
             muteForeground = [UIColor blackColor];
