@@ -1,11 +1,7 @@
-Features:
-- Ignore articles based on Kodi sort tokens (e.g. "The")
-- Introduce mute functionality
-- Improved iPad fullscreen mode for Music
-
 Bugfixes:
-- Fix Wake-On-LAN on iOS 14.5
+- Fix volume up/down button function for iPhone
+- Fix sorting issues with Add-Ons (e.g. youtube)
+- Fix long-press action in iPad fullscreen mode for Music
 - Further bugfixes and stability improvements
 
-Other:
-- Maintenance, refactoring and code quality improvements
+Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
