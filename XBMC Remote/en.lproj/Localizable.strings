@@ -336,7 +336,11 @@
 "Execute a specific action" = "Execute a specific action";
 "Activate a specific window" = "Activate a specific window";
 "Execute action" = "Execute action";
+"Action executed successfully" = "Action executed successfully";
+"Unable to execute the action" = "Unable to execute the action";
 "Activate window" = "Activate window";
+"Window activated successfully" = "Window activated successfully";
+"Unable to activate the window" = "Unable to activate the window";
 "Add action button" = "Add action button";
 "Add window activation button" = "Add window activation button";
 
