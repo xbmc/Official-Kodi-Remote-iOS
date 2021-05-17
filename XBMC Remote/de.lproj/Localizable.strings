@@ -338,7 +338,11 @@
 "Execute a specific action" = "Eine bestimmte Aktion ausführen";
 "Activate a specific window" = "Ein bestimmtes Fenster aktivieren";
 "Execute action" = "Aktion ausführen";
+"Action executed successfully" = "Aktion erfolgreich ausgeführt";
+"Unable to execute the action" = "Ausführung der Aktion nicht möglich";
 "Activate window" = "Fenster aktivieren";
+"Window activated successfully" = "Fenster erfolgreich aktiviert";
+"Unable to activate the window" = "Aktivierung des Fensters nicht möglich";
 "Add action button" = "Aktionstaste hinzufügen";
 "Add window activation button" = "Fenster-Aktivierung hinzufügen";
 

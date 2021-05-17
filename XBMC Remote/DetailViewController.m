@@ -3332,7 +3332,7 @@ NSIndexPath *selected;
                             [item objectForKey:@"label"], @"action",
                             nil]
                    success: NSLocalizedString(@"Action executed successfully", nil)
-                   failure:NSLocalizedString(@"Unable to  execute the action", nil)
+                   failure:NSLocalizedString(@"Unable to execute the action", nil)
          ];
     }
     else if ([actiontitle isEqualToString:NSLocalizedString(@"Activate window", nil)]){
@@ -3341,7 +3341,7 @@ NSIndexPath *selected;
                             [item objectForKey:@"label"], @"window",
                             nil]
                    success: NSLocalizedString(@"Window activated successfully", nil)
-                   failure:NSLocalizedString(@"Unable to  activate the window", nil)
+                   failure:NSLocalizedString(@"Unable to activate the window", nil)
          ];
     }
     else if ([actiontitle isEqualToString:NSLocalizedString(@"Add button", nil)]){
