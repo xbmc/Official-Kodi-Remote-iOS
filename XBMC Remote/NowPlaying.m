@@ -475,6 +475,7 @@ int currentItemID;
             [self fadeView:timePlaying hidden:YES];
     }
     [self showPlaylistTable];
+    [self toggleSongDetails];
 }
 
 -(void)setButtonImageAndStartDemo:(UIImage *)buttonImage{
@@ -1866,7 +1867,7 @@ int currentItemID;
 }
 
 - (void)toggleSongDetails{
-    if (nothingIsPlaying || playerID==2) {
+    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || playerID==2) {
         return;
     }
     [UIView beginAnimations:nil context:nil];
