@@ -4580,36 +4580,50 @@ NSMutableArray *hostRightMenuItems;
 //    [UIDevice currentDevice].proximityMonitoringEnabled = YES;
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleProximityChangeNotification:) name:UIDeviceProximityStateDidChangeNotification object:nil];
 
-#pragma mark -
-
-    self.serverName = LOCALIZED_STR(@"No connection");
-    InitialSlidingViewController *initialSlidingViewController;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        [mainMenuItems addObject:menu_Server];
+#pragma mark - Build and Initialize menu structure
+    
+    // Build menu
+    [mainMenuItems addObject:menu_Server];
+    if ([self isMenuEntryEnabled:@"menu_music"]) {
         [mainMenuItems addObject:menu_Music];
+    }
+    if ([self isMenuEntryEnabled:@"menu_movies"]) {
         [mainMenuItems addObject:menu_Movies];
+    }
+    if ([self isMenuEntryEnabled:@"menu_tvshows"]) {
         [mainMenuItems addObject:menu_TVShows];
+    }
+    if ([self isMenuEntryEnabled:@"menu_pictures"]) {
         [mainMenuItems addObject:menu_Pictures];
+    }
+    if ([self isMenuEntryEnabled:@"menu_livetv"]) {
         [mainMenuItems addObject:menu_LiveTV];
+    }
+    if ([self isMenuEntryEnabled:@"menu_nowplaying"]) {
         [mainMenuItems addObject:menu_NowPlaying];
+    }
+    if ([self isMenuEntryEnabled:@"menu_remote"]) {
         [mainMenuItems addObject:menu_Remote];
-        initialSlidingViewController = [[InitialSlidingViewController alloc] initWithNibName:@"InitialSlidingViewController" bundle:nil];
+    }
+    
+    // Initialize controllers
+    self.serverName = NSLocalizedString(@"No connection", nil);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        InitialSlidingViewController *initialSlidingViewController = [[InitialSlidingViewController alloc] initWithNibName:@"InitialSlidingViewController" bundle:nil];
         initialSlidingViewController.mainMenu = mainMenuItems;
         self.window.rootViewController = initialSlidingViewController;
     }
     else {
-        [mainMenuItems addObject:menu_Server];
-        [mainMenuItems addObject:menu_Music];
-        [mainMenuItems addObject:menu_Movies];
-        [mainMenuItems addObject:menu_TVShows];
-        [mainMenuItems addObject:menu_Pictures];
-        [mainMenuItems addObject:menu_LiveTV];
-        [mainMenuItems addObject:menu_Remote];
         self.windowController = [[ViewControllerIPad alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
         self.windowController.mainMenu = mainMenuItems;
         self.window.rootViewController = self.windowController;
     }
     return YES;
+}
+
+-(BOOL)isMenuEntryEnabled:(NSString*)menuItem {
+    id menuEnabled = [[NSUserDefaults standardUserDefaults] objectForKey:menuItem];
+    return (menuEnabled == nil || [menuEnabled boolValue]);
 }
 
 -(NSURL *)getServerJSONEndPoint {
