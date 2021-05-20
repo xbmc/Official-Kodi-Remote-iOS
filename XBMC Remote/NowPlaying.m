@@ -2790,6 +2790,21 @@ int currentItemID;
                                              selector: @selector(handleXBMCPlaylistHasChanged:)
                                                  name: @"XBMCPlaylistHasChanged"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleXBMCPlaylistHasChanged:)
+                                                 name: @"Playlist.OnAdd"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleXBMCPlaylistHasChanged:)
+                                                 name: @"Playlist.OnClear"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleXBMCPlaylistHasChanged:)
+                                                 name: @"Playlist.OnRemove"
+                                               object: nil];
 
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(revealMenu:)
