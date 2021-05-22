@@ -1749,6 +1749,7 @@ NSMutableArray *hostRightMenuItems;
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"thumbnail", @"playcount", nil], @"properties",
                             nil], @"parameters",
+                           @"YES", @"FrodoExtraArt",
                            @"YES", @"enableCollectionView",
                            @"YES", @"enableLibraryCache",
                            [NSDictionary dictionaryWithObjectsAndKeys:
