@@ -13,7 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="372" height="49"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.94999998807907104" contentMode="scaleAspectFill" fixedFrame="YES" image="shiny_black_volume" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.94999998807907104" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5">
                     <rect key="frame" x="0.0" y="0.0" width="372" height="49"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
@@ -38,12 +38,12 @@
                     </connections>
                 </slider>
                 <button opaque="NO" tag="2" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="15">
-                    <rect key="frame" x="307" y="6" width="36" height="36"/>
+                    <rect key="frame" x="66" y="6" width="24" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="Optima-ExtraBlack" family="Optima" pointSize="22"/>
+                    <fontDescription key="fontDescription" name="Optima-ExtraBlack" family="Optima" pointSize="10"/>
                     <inset key="titleEdgeInsets" minX="1" minY="3" maxX="0.0" maxY="7"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="-" backgroundImage="button_metal_down">
+                    <state key="normal" image="volume_1">
                         <color key="titleColor" red="0.25" green="0.25" blue="0.25" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.75" green="0.75" blue="0.75" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -51,7 +51,7 @@
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
-                    <state key="highlighted" title="-" backgroundImage="button_metal_down.png">
+                    <state key="highlighted" title="-">
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -67,7 +67,7 @@
                     <rect key="frame" x="28" y="6" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" image="volume_slash" backgroundImage="button_metal_up">
+                    <state key="normal" image="volume_slash" backgroundImage="icon_dark">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
@@ -77,12 +77,12 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="1" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14">
-                    <rect key="frame" x="60" y="6" width="36" height="36"/>
+                    <rect key="frame" x="313" y="6" width="35" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="Optima-ExtraBlack" family="Optima" pointSize="22"/>
+                    <fontDescription key="fontDescription" name="Optima-ExtraBlack" family="Optima" pointSize="10"/>
                     <inset key="titleEdgeInsets" minX="0.0" minY="-1" maxX="0.0" maxY="1"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="+" backgroundImage="button_metal_up">
+                    <state key="normal" image="volume_3">
                         <color key="titleColor" red="0.25" green="0.25" blue="0.25" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.75" green="0.75" blue="0.75" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -90,7 +90,7 @@
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
-                    <state key="highlighted" title="+" backgroundImage="button_metal_down.png">
+                    <state key="highlighted" title="+">
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -118,10 +118,9 @@
         </view>
     </objects>
     <resources>
-        <image name="button_metal_down" width="36" height="36"/>
-        <image name="button_metal_down.png" width="36" height="36"/>
-        <image name="button_metal_up" width="36" height="36"/>
-        <image name="shiny_black_volume" width="65" height="210"/>
+        <image name="icon_dark" width="37.5" height="37.5"/>
+        <image name="volume_1" width="24" height="27"/>
+        <image name="volume_3" width="35" height="27"/>
         <image name="volume_slash" width="28" height="28"/>
     </resources>
 </document>

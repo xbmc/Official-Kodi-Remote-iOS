@@ -17,7 +17,7 @@
     IBOutlet UIButton *plusButton;
     IBOutlet UIButton *minusButton;
     BOOL isMuted;
-    UIColor *muteForeground;
+    UIColor *muteIconColor;
 }
 
 - (IBAction)slideVolume:(id)sender;
