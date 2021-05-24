@@ -708,7 +708,6 @@ int h = 0;
         tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT * transform);
         shiftParentalRating = -40;
         labelSpace = 33;
-        placeHolderImage = @"coverbox_back";
         castFontSize = 16;
         size = 6;
         castWidth = 75;
@@ -748,9 +747,6 @@ int h = 0;
         int coverHeight = 0;
         CGRect frame;
         placeHolderImage = @"coverbox_back_tvshows";
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            placeHolderImage = @"coverbox_back_tvshows";
-        }
         NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
         [format setLocale:locale];
@@ -893,9 +889,6 @@ int h = 0;
         contributorString = @"roles";
         castHeight -= 26;
         placeHolderImage = @"coverbox_back_artists";
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            placeHolderImage = @"coverbox_back_artists";
-        }
         enableJewel = NO;
         jewelView.image = nil;
         int shiftY = 40;
@@ -1073,7 +1066,6 @@ int h = 0;
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleToFill;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            placeHolderImage = @"coverbox_back_movies";
             int originalHeight = jewelView.frame.size.height;
             int coverHeight = 560;
             int coverWidth = STACKSCROLL_WIDTH;
