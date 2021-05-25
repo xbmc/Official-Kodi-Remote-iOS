@@ -141,8 +141,8 @@
     if (self.detailItem) {
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
+    quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
         frame.size.height = frame.size.height *transform;
@@ -168,7 +168,6 @@
 
         int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;        
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
         CGRect frame = subsInfoLabel.frame;
         frame.size.width = newWidth;
         frame.origin.x = 0;
