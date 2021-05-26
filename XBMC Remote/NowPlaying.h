@@ -18,7 +18,6 @@
 @class DetailViewController;
 
 @interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate>{
-    DSJSONRPC *jsonRPC;
     IBOutlet UITableView *playlistTableView;
     IBOutlet UITableViewCell *playlistTableViewCell;
    // IBOutlet jsonDataCell *jsonCell;
@@ -105,7 +104,6 @@
     UIView *iOS7bgEffect;
     UIView *iOS7navBarEffect;
     UIColor *foundEffectColor;
-    NSString *pg_thumb_name;
     UISegmentedControl *playlistSegmentedControl;
     UIColor *cellBackgroundColor;
     __weak IBOutlet UILabel *noItemsLabel;
@@ -128,8 +126,6 @@
 
 @property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) RemoteController *remoteController;
-@property (strong, nonatomic) DetailViewController *detailViewController;
-@property (strong, nonatomic) ShowInfoViewController *showInfoViewController;
 @property (strong, nonatomic) UIImageView *jewelView;
 @property (strong, nonatomic) IBOutlet UIImageView *itemLogoImage;
 @property (strong, nonatomic) UIButton *shuffleButton;

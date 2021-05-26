@@ -38,9 +38,6 @@
 @synthesize detailItem = _detailItem;
 @synthesize activityIndicatorView;
 @synthesize sections;
-@synthesize detailViewController;
-@synthesize nowPlaying;
-@synthesize showInfoViewController;
 @synthesize filteredListContent;
 @synthesize richResults;
 @synthesize sectionArray;
@@ -52,6 +49,7 @@
 #define COLLECTION_HEADER_HEIGHT 16
 #define FIXED_SPACE_WIDTH 120
 #define INFO_PADDING 10
+#define MONKEY_COUNT 38
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -331,11 +329,7 @@
     NSIndexPath *indexPath = [parameters objectForKey:@"indexPath"];
     UITableView *tableView = [parameters objectForKey:@"tableView"];
     NSMutableDictionary *item = [parameters objectForKey:@"item"];
-    if (jsonRPC == nil){
-        jsonRPC = nil;
-        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    }
-    [jsonRPC callMethod:@"PVR.GetBroadcasts"
+    [[Utilities getJsonRPC] callMethod:@"PVR.GetBroadcasts"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                          channelid, @"channelid",
                          [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", nil], @"properties",
@@ -531,10 +525,10 @@
 
 -(void)setSortButtonImage:(NSString *)sortOrder {
     if ([sortOrder isEqualToString:@"descending"]) {
-        [button7 setImage:[UIImage imageNamed:@"button_sort_descending_bright.png"] forState:UIControlStateNormal];
+        [button7 setImage:[UIImage imageNamed:@"button_sort_descending_bright"] forState:UIControlStateNormal];
     }
     else {
-        [button7 setImage:[UIImage imageNamed:@"button_sort_bright.png"] forState:UIControlStateNormal];
+        [button7 setImage:[UIImage imageNamed:@"button_sort_bright"] forState:UIControlStateNormal];
     }
 }
 
@@ -841,7 +835,7 @@
         self.searchController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         searchBarColor = collectionViewSearchBarColor;
-        [button6 setImage:[UIImage imageNamed:@"button_view_toolbar.png"] forState:UIControlStateNormal];
+        [button6 setImage:[UIImage imageNamed:@"button_view_toolbar"] forState:UIControlStateNormal];
     }
     else{
         [dataList setDelegate:self];
@@ -856,7 +850,7 @@
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         self.searchController.searchBar.tintColor = tableViewSearchBarColor;
         searchBarColor = tableViewSearchBarColor;
-        [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar.png"] forState:UIControlStateNormal];
+        [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar"] forState:UIControlStateNormal];
     }
     if (!isViewDidLoad){
         [activeLayoutView addSubview:self.searchController.searchBar];
@@ -898,7 +892,7 @@
     self.indexView.hidden = YES;
     NSArray *buttonsIB=[NSArray arrayWithObjects:button1, button2, button3, button4, button5, nil];
     if (choosedTab < [buttonsIB count]){
-        [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:@"blank.png"] forState:UIControlStateSelected];
+        [[buttonsIB objectAtIndex:choosedTab] setImage:[UIImage imageNamed:@"blank"] forState:UIControlStateSelected];
     }
     watchMode = 0;
     startTime = 0;
@@ -1005,7 +999,6 @@
 #pragma mark - Library item didSelect
 
 -(void)viewChild:(NSIndexPath *)indexPath item:(NSDictionary *)item displayPoint:(CGPoint) point{
-    self.detailViewController=nil;
     selected = indexPath;
     mainMenu *MenuItem=self.detailItem;
     NSMutableArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
@@ -1089,9 +1082,9 @@
         MenuItem.subItem.chooseTab=choosedTab;
         MenuItem.subItem.currentWatchMode = watchMode;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            self.detailViewController.detailItem = MenuItem.subItem;
-            [self.navigationController pushViewController:self.detailViewController animated:YES];
+            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            detailViewController.detailItem = MenuItem.subItem;
+            [self.navigationController pushViewController:detailViewController animated:YES];
         }
         else{
             if (stackscrollFullscreen == YES){
@@ -1101,6 +1094,11 @@
                     [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
 
                 });
+            }
+            else if ([self isModal]) {
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                [iPadDetailViewController setModalPresentationStyle:UIModalPresentationFormSheet];
+                [self presentViewController:iPadDetailViewController animated:YES completion:nil];
             }
             else {
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
@@ -1127,7 +1125,7 @@
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                                 [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
-                                                nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song",@"fileThumb",
+                                                nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song",@"fileThumb",
                                                [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                                [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                                [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
@@ -1136,9 +1134,9 @@
                 [[MenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
                 MenuItem.chooseTab=choosedTab;
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                    self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                    self.detailViewController.detailItem = MenuItem;
-                    [self.navigationController pushViewController:self.detailViewController animated:YES];
+                    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+                    detailViewController.detailItem = MenuItem;
+                    [self.navigationController pushViewController:detailViewController animated:YES];
                 }
                 else{
                     if (stackscrollFullscreen == YES){
@@ -1188,7 +1186,7 @@
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"media"], @"media",
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
                                             [[parameters objectForKey:@"parameters"] objectForKey:@"file_properties"], @"file_properties",
-                                            nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                            nil], @"parameters", [parameters objectForKey:@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                            [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                            [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            [parameters objectForKey:@"disableFilterParameter"], @"disableFilterParameter",
@@ -1199,10 +1197,9 @@
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab=choosedTab;
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                
-                self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                self.detailViewController.detailItem = MenuItem.subItem;
-                [self.navigationController pushViewController:self.detailViewController animated:YES];
+                DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+                detailViewController.detailItem = MenuItem.subItem;
+                [self.navigationController pushViewController:detailViewController animated:YES];
             }
             else{
                 if (stackscrollFullscreen == YES){
@@ -1222,7 +1219,6 @@
 }
 
 -(void)didSelectItemAtIndexPath:(NSIndexPath *)indexPath item:(NSDictionary *)item displayPoint:(CGPoint) point{
-    self.detailViewController=nil;
     mainMenu *MenuItem=self.detailItem;
     NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[MenuItem.subItem mainMethod] objectAtIndex:choosedTab]];
     NSMutableArray *sheetActions=[[self.detailItem sheetActions] objectAtIndex:choosedTab];
@@ -1248,7 +1244,8 @@
             }
         }
     }
-    else if ([methods objectForKey:@"method"]!=nil && ![[parameters objectForKey:@"forceActionSheet"] boolValue]){ // THERE IS A CHILD
+    else if (methods[@"method"]!=nil && ![parameters[@"forceActionSheet"] boolValue] && !stackscrollFullscreen){
+        // There is a child and we want to show it (only when not in fullscreen)
         [self viewChild:indexPath item:item displayPoint:point];
     }
     else {
@@ -1387,7 +1384,7 @@
     NSDictionary *item = [[self.sections valueForKey:[self.sectionArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     NSString *stringURL = [item objectForKey:@"thumbnail"];
     NSString *fanartURL = [item objectForKey:@"fanart"];
-    NSString *displayThumb = [NSString stringWithFormat:@"%@_wall", defaultThumb.stringByDeletingPathExtension];
+    NSString *displayThumb = [NSString stringWithFormat:@"%@_wall", defaultThumb];
     NSString *playcount = [NSString stringWithFormat:@"%@", [item objectForKey:@"playcount"]];
     
     CGFloat cellthumbWidth = cellGridWidth;
@@ -1432,7 +1429,7 @@
                     [Utilities setLogoBackgroundColor:cell.posterThumbnail mode:logoBackgroundMode];
                 }
             }];
-            if (hiddenLabel) {
+            if (hiddenLabel || stackscrollFullscreen) {
                 [cell.posterLabel setHidden:YES];
                 [cell.labelImageView setHidden:YES];
             }
@@ -1479,10 +1476,10 @@
         }
 
         if (![fanartURL isEqualToString:@""]){
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank.png"]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank"]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
         }
         else {
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"blank.png"]];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"blank"]];
         }
         
         [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:fanartFontSize + 8]];
@@ -2126,7 +2123,7 @@ int originYear = 0;
             [cell.contentView addSubview:progressView];
             
             UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake((int)((2 + (epgChannelTimeLabelWidth - 8) - 6) / 2), programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 14, 12, 12)];
-            [hasTimer setImage:[UIImage imageNamed:@"button_timer.png"]];
+            [hasTimer setImage:[UIImage imageNamed:@"button_timer"]];
             hasTimer.tag = 104;
             hasTimer.hidden = YES;
             [hasTimer setBackgroundColor:[UIColor clearColor]];
@@ -2141,7 +2138,7 @@ int originYear = 0;
             
             CGFloat dotSize = 6;
             UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2 - dotSize/2, progressView.frame.origin.y + [progressView getPieRadius]/2 + [progressView getLineWidth] + 0.5, dotSize, dotSize)];
-            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer.png"]];
+            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer"]];
             [isRecordingImageView setContentMode:UIViewContentModeScaleToFill];
             isRecordingImageView.tag = 104;
             isRecordingImageView.hidden = YES;
@@ -2499,7 +2496,7 @@ int originYear = 0;
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
         CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.opaque = YES;
         toolbarShadow.alpha = 0.3;
@@ -2520,7 +2517,7 @@ int originYear = 0;
         [thumbImageView addGestureRecognizer:touchOnAlbumView];
     
         NSString *stringURL = [item objectForKey:@"thumbnail"];
-        NSString *displayThumb=@"coverbox_back.png";
+        NSString *displayThumb=@"coverbox_back";
         if ([[item objectForKey:@"filetype"] length]!=0){
             displayThumb=stringURL;
         }
@@ -2570,7 +2567,7 @@ int originYear = 0;
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
             fanartBackgroundImage.alpha = 0.1;
             [fanartBackgroundImage setClipsToBounds:YES];
-            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank.png"]];
+            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank"]];
             [albumDetailView addSubview:fanartBackgroundImage];
         }
         [thumbImageContainer addSubview:thumbImageView];
@@ -2630,11 +2627,12 @@ int originYear = 0;
         albumInfoButton.tag = 0;
         [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
         [albumDetailView addSubview:albumInfoButton];
+        albumInfoButton.hidden = [self isModal];
         
 //        UIButton *albumPlaybackButton =  [UIButton buttonWithType:UIButtonTypeCustom];
 //        albumPlaybackButton.tag = 0;
 //        albumPlaybackButton.showsTouchWhenHighlighted = YES;
-//        UIImage *btnImage = [UIImage imageNamed:@"button_play.png"];
+//        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
 //        [albumPlaybackButton setImage:btnImage forState:UIControlStateNormal];
 //        albumPlaybackButton.alpha = 0.8;
 //        int playbackOriginX = [[formatter stringFromNumber:[NSNumber numberWithFloat:(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)]] intValue];
@@ -2660,8 +2658,8 @@ int originYear = 0;
             button.tag = 99;
             button.alpha = 0.5;
             button.frame = CGRectMake(3, (int)(albumViewHeight / 2) - 6, 11, 11);
-            [button setImage:[UIImage imageNamed:@"arrow_close.png"] forState:UIControlStateNormal];
-            [button setImage:[UIImage imageNamed:@"arrow_open.png"] forState:UIControlStateSelected];
+            [button setImage:[UIImage imageNamed:@"arrow_close"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"arrow_open"] forState:UIControlStateSelected];
 //            [button addTarget:self action:@selector(toggleOpen:) forControlEvents:UIControlEventTouchUpInside];
             if ([[self.sectionArrayOpen objectAtIndex:section] boolValue] == TRUE){
                 [button setSelected:YES];
@@ -2679,7 +2677,7 @@ int originYear = 0;
         }
         CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.opaque = YES;
         toolbarShadow.alpha = 0.3;
@@ -2706,7 +2704,7 @@ int originYear = 0;
             UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize -labelPadding/2, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
             NSString *stringURL = [[self.extraSectionRichResults objectAtIndex:seasonIdx] objectForKey:@"thumbnail"];
-            NSString *displayThumb=@"coverbox_back_section.png";
+            NSString *displayThumb=@"coverbox_back_section";
             BOOL isFirstListedSeason = [item[@"season"] intValue] == firstListedSeason;
             if (isFirstListedSeason) {
                 self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
@@ -2739,7 +2737,7 @@ int originYear = 0;
             [albumDetailView addSubview:thumbImageView];
             
             [thumbImageShadowView setContentMode:UIViewContentModeScaleToFill];
-            thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow.png"];
+            thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow"];
             [albumDetailView addSubview:thumbImageShadowView];
             
             [artist setBackgroundColor:[UIColor clearColor]];
@@ -2800,6 +2798,7 @@ int originYear = 0;
             albumInfoButton.tag = 1;
             [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
             [albumDetailView addSubview:albumInfoButton];
+            albumInfoButton.hidden = [self isModal];
         }
         return albumDetailView;
     }
@@ -2810,7 +2809,7 @@ int originYear = 0;
         [sectionView setBackgroundColor:[Utilities getGrayColor:102 alpha:1]];
         CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarShadow.opaque = YES;
@@ -2841,7 +2840,7 @@ int originYear = 0;
 
     CGRect toolbarShadowFrame = CGRectMake(0, sectionHeight - 1, viewWidth, 4);
     UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
     toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbarShadow.contentMode = UIViewContentModeScaleToFill;
     toolbarShadow.opaque = YES;
@@ -2851,7 +2850,7 @@ int originYear = 0;
     if (section>1){
         CGRect toolbarShadowUpFrame = CGRectMake(0, -3, viewWidth, 2);
         UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowUpFrame];
-        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
+        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown"]];
         toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarUpShadow.opaque = YES;
@@ -2997,7 +2996,14 @@ NSIndexPath *selected;
         UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
         BOOL isRecording = isRecordingImageView == nil ? false : !isRecordingImageView.hidden;
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
-        [self showActionSheetOptions:title options:sheetActions recording:isRecording point:sheetOrigin fromcontroller:self fromview:self.view];
+        UIViewController *showFromCtrl = nil;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            showFromCtrl = self;
+        }
+        else {
+            showFromCtrl = self.view.window.rootViewController;
+        }
+        [self showActionSheetOptions:title options:sheetActions recording:isRecording point:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
     }
     else if (indexPath!=nil){ // No actions found, revert back to standard play action
         [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
@@ -3071,18 +3077,29 @@ NSIndexPath *selected;
                 }
                 UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
                 BOOL isRecording = isRecordingImageView == nil ? false : !isRecordingImageView.hidden;
-                UIViewController *showfromctrl = nil;
+                UIViewController *showFromCtrl = nil;
                 UIView *showfromview = nil;
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                    showfromctrl = self;
+                    showFromCtrl = self;
                     showfromview = self.view;
                 }
                 else {
-                    showfromctrl = ([self doesShowSearchResults] || [self getSearchTextField].editing) ? self.searchController : self;
-                    showfromview = enableCollectionView ? collectionView : [showfromctrl.view superview];
+                    if ([self doesShowSearchResults] || [self getSearchTextField].editing) {
+                        // We are searching an must present from searchController
+                        showFromCtrl = self.searchController;
+                    }
+                    else if ([self isModal]) {
+                        // We are in modal view (e.g. fullscreen) and must present from ourself
+                        showFromCtrl = self;
+                    }
+                    else {
+                        // We are in stackview and must present from rootVC
+                        showFromCtrl = self.view.window.rootViewController;
+                    }
+                    showfromview = enableCollectionView ? collectionView : [showFromCtrl.view superview];
                     selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
-                [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint fromcontroller:showfromctrl fromview:showfromview];
+                [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint fromcontroller:showFromCtrl fromview:showfromview];
             }
         }
     }
@@ -3148,7 +3165,7 @@ NSIndexPath *selected;
         [queuing stopAnimating];
         return;
     }
-    [jsonRPC
+    [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                      [item objectForKey:[item objectForKey:@"family"]], [item objectForKey:@"family"],
@@ -3315,7 +3332,7 @@ NSIndexPath *selected;
                             [item objectForKey:@"label"], @"action",
                             nil]
                    success: NSLocalizedString(@"Action executed successfully", nil)
-                   failure:NSLocalizedString(@"Unable to  execute the action", nil)
+                   failure:NSLocalizedString(@"Unable to execute the action", nil)
          ];
     }
     else if ([actiontitle isEqualToString:NSLocalizedString(@"Activate window", nil)]){
@@ -3324,7 +3341,7 @@ NSIndexPath *selected;
                             [item objectForKey:@"label"], @"window",
                             nil]
                    success: NSLocalizedString(@"Window activated successfully", nil)
-                   failure:NSLocalizedString(@"Unable to  activate the window", nil)
+                   failure:NSLocalizedString(@"Unable to activate the window", nil)
          ];
     }
     else if ([actiontitle isEqualToString:NSLocalizedString(@"Add button", nil)]){
@@ -3594,7 +3611,7 @@ NSIndexPath *selected;
                                               animations:^{
                                                   collectionView.alpha = 1;
                                                   dataList.alpha = 1;
-                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen.png"] forState:UIControlStateNormal];
+                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
                                                   fullscreenButton.backgroundColor = [UIColor clearColor];
                                               }
                                               completion:^(BOOL finished) {
@@ -3657,7 +3674,7 @@ NSIndexPath *selected;
                                                  options:UIViewAnimationOptionCurveEaseInOut
                                               animations:^{
                                                   collectionView.alpha = 1;
-                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen.png"] forState:UIControlStateNormal];
+                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen"] forState:UIControlStateNormal];
                                                   fullscreenButton.backgroundColor = [Utilities getGrayColor:0 alpha:0.5];
                                               }
                                               completion:^(BOOL finished) {
@@ -3675,17 +3692,9 @@ NSIndexPath *selected;
 }
 
 -(void)showNowPlaying{
-    if (!alreadyPush){
-        //self.nowPlaying=nil;
-        if (self.nowPlaying == nil){
-            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-        }
-        self.nowPlaying.detailItem = self.detailItem;
-//        self.nowPlaying.presentedFromNavigation = YES;
-        
-        [self.navigationController pushViewController:self.nowPlaying animated:YES];
-        alreadyPush=YES;
-    }
+    NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+    nowPlaying.detailItem = self.detailItem;
+    [self.navigationController pushViewController:nowPlaying animated:YES];
 }
 
 # pragma mark - Playback Management
@@ -3700,7 +3709,6 @@ NSIndexPath *selected;
 }
 
 -(void)exploreItem:(NSDictionary *)item{
-    self.detailViewController=nil;
     mainMenu *MenuItem=self.detailItem;
     NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
     MenuItem.subItem.mainLabel=[item objectForKey:@"label"];
@@ -3733,7 +3741,7 @@ NSIndexPath *selected;
                                     mutableProperties, @"file_properties",
                                     nil], @"parameters",
                                    libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
-                                   [parameters objectForKey:@"label"], @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                   [parameters objectForKey:@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                    [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
                                    [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                    @"Files.GetDirectory", @"exploreCommand",
@@ -3742,10 +3750,9 @@ NSIndexPath *selected;
     [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
     MenuItem.subItem.chooseTab=choosedTab;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        
-        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-        self.detailViewController.detailItem = MenuItem.subItem;
-        [self.navigationController pushViewController:self.detailViewController animated:YES];
+        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+        detailViewController.detailItem = MenuItem.subItem;
+        [self.navigationController pushViewController:detailViewController animated:YES];
     }
     else{
         if (stackscrollFullscreen == YES){
@@ -3772,7 +3779,7 @@ NSIndexPath *selected;
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
-        [jsonRPC callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
                 if( [methodResult count] > 0){
                     GlobalData *obj=[GlobalData getInstance];
@@ -3803,7 +3810,7 @@ NSIndexPath *selected;
                                 nil];
 
     [queuing startAnimating];
-    [jsonRPC callMethod:methodToCall
+    [[Utilities getJsonRPC] callMethod:methodToCall
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [queuing stopAnimating];
@@ -3860,7 +3867,7 @@ NSIndexPath *selected;
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 itemid, parameterName,
                                 nil];
-    [jsonRPC callMethod:methodToCall
+    [[Utilities getJsonRPC] callMethod:methodToCall
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [queuing stopAnimating];
@@ -3918,7 +3925,7 @@ NSIndexPath *selected;
         value = [item objectForKey:@"file"];
     }
     if (afterCurrent){
-        [jsonRPC
+        [[Utilities getJsonRPC]
          callMethod:@"Player.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                          [mainFields objectForKey:@"playlistid"], @"playerid",
@@ -3936,7 +3943,7 @@ NSIndexPath *selected;
                                                 [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil],@"item",
                                                 [NSNumber numberWithInt:newPos],@"position",
                                                 nil];
-                         [jsonRPC callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                         [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                              if (error==nil && methodError==nil){
                                  [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
                              }
@@ -3962,7 +3969,7 @@ NSIndexPath *selected;
 }
 
 -(void)addToPlaylist:(NSDictionary *)mainFields currentItem:(id)value currentKey:(NSString *)key currentActivityIndicator:(UIActivityIndicatorView *)queuing{
-    [jsonRPC callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[mainFields objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [queuing stopAnimating];
         if (error==nil && methodError==nil){
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
@@ -3975,7 +3982,7 @@ NSIndexPath *selected;
     id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
-    [jsonRPC callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [queuing stopAnimating];
         if (error==nil && methodError==nil){
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -4000,13 +4007,13 @@ NSIndexPath *selected;
     UIActivityIndicatorView *queuing=(UIActivityIndicatorView*) [cell viewWithTag:8];
     [queuing startAnimating];
     if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-        [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             int currentPlayerID=0;
             if ([methodResult count]){
                 currentPlayerID=[[[methodResult objectAtIndex:0] objectForKey:@"playerid"] intValue];
             }
             if (currentPlayerID==1) { // xbmc bug
-                [jsonRPC callMethod:@"Player.Stop" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:1], @"playerid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:@"Player.Stop" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:1], @"playerid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil) {
                         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"file"], @"file", nil], @"item", nil] index:indexPath];
                     }
@@ -4039,7 +4046,7 @@ NSIndexPath *selected;
             optionsParam = @"options";
             optionsValue = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:shuffled], @"shuffled", nil];
         }
-        [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [mainFields objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if ( error == nil && methodError == nil ) {
                 NSString *key = [mainFields objectForKey:@"row8"];
                 id value = [item objectForKey:key];
@@ -4051,7 +4058,7 @@ NSIndexPath *selected;
                     value = [item objectForKey:@"file"];
                 }
                 if (shuffled && [AppDelegate instance].serverVersion > 11) {
-                    [jsonRPC
+                    [[Utilities getJsonRPC]
                      callMethod:@"Player.SetPartymode"
                      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", [NSNumber numberWithBool:NO], @"partymode", nil]
                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
@@ -4097,7 +4104,7 @@ NSIndexPath *selected;
 }
 
 -(void)playlistAndPlay:(NSDictionary *)playlistParams playbackParams:(NSDictionary *)playbackParams indexPath:(NSIndexPath *)indexPath cell:(id)cell{
-    [jsonRPC callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
             [self playerOpen:playbackParams index:indexPath];
@@ -4111,7 +4118,7 @@ NSIndexPath *selected;
 }
 
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters success:(NSString *)successMessage failure:(NSString *)failureMessage{
-    [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if ( error == nil && methodError == nil ){
             [messagesView showMessage:successMessage timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
@@ -4123,17 +4130,15 @@ NSIndexPath *selected;
 
 -(void)displayInfoView:(NSDictionary *)item {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.showInfoViewController=nil;
-        self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
-        self.showInfoViewController.detailItem = item;
-        [self.navigationController pushViewController:self.showInfoViewController animated:YES];
+        ShowInfoViewController *showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
+        showInfoViewController.detailItem = item;
+        [self.navigationController pushViewController:showInfoViewController animated:YES];
     }
     else {
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-        if (stackscrollFullscreen == YES) {
+        if (stackscrollFullscreen || [self isModal]) {
             [iPadShowViewController setModalPresentationStyle:UIModalPresentationFormSheet];
-            UIViewController *vc = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-            [vc presentViewController:iPadShowViewController animated:YES completion:nil];
+            [self presentViewController:iPadShowViewController animated:YES completion:nil];
         }
         else {
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:FALSE];
@@ -4199,7 +4204,7 @@ NSIndexPath *selected;
 }
 
 //-(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
-//    [jsonRPC callMethod:@"Playlist.GetPlaylists" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//    [[Utilities getJsonRPC] callMethod:@"Playlist.GetPlaylists" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //        if (error==nil && methodError==nil){
 ////            NSLog(@"RISPOSRA %@", methodResult);
 //            if( [methodResult count] > 0){
@@ -4207,7 +4212,7 @@ NSIndexPath *selected;
 ////                NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
 ////                if (parameters!=nil)
 ////                    [commonParams addObjectsFromArray:parameters];
-////                [jsonRPC callMethod:action withParameters:nil onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+////                [[Utilities getJsonRPC] callMethod:action withParameters:nil onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 ////                    if (error==nil && methodError==nil){
 ////                        //                        NSLog(@"comando %@ eseguito ", action);
 ////                    }
@@ -4231,46 +4236,11 @@ NSIndexPath *selected;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     if (elapsedTime > WARNING_TIMEOUT && longTimeout == nil){
         longTimeout = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 111, 56)];
-        longTimeout.animationImages = [NSArray arrayWithObjects:    
-                                       [UIImage imageNamed:@"monkeys_1.png"],
-                                       [UIImage imageNamed:@"monkeys_2.png"],
-                                       [UIImage imageNamed:@"monkeys_3.png"],
-                                       [UIImage imageNamed:@"monkeys_4.png"],
-                                       [UIImage imageNamed:@"monkeys_5.png"],
-                                       [UIImage imageNamed:@"monkeys_6.png"],
-                                       [UIImage imageNamed:@"monkeys_7.png"],
-                                       [UIImage imageNamed:@"monkeys_8.png"],
-                                       [UIImage imageNamed:@"monkeys_9.png"],
-                                       [UIImage imageNamed:@"monkeys_10.png"],
-                                       [UIImage imageNamed:@"monkeys_11.png"],
-                                       [UIImage imageNamed:@"monkeys_12.png"],
-                                       [UIImage imageNamed:@"monkeys_13.png"],
-                                       [UIImage imageNamed:@"monkeys_14.png"],
-                                       [UIImage imageNamed:@"monkeys_15.png"],
-                                       [UIImage imageNamed:@"monkeys_16.png"],
-                                       [UIImage imageNamed:@"monkeys_17.png"],
-                                       [UIImage imageNamed:@"monkeys_18.png"],
-                                       [UIImage imageNamed:@"monkeys_19.png"],
-                                       [UIImage imageNamed:@"monkeys_20.png"],
-                                       [UIImage imageNamed:@"monkeys_21.png"],
-                                       [UIImage imageNamed:@"monkeys_22.png"],
-                                       [UIImage imageNamed:@"monkeys_23.png"],
-                                       [UIImage imageNamed:@"monkeys_24.png"],
-                                       [UIImage imageNamed:@"monkeys_25.png"],
-                                       [UIImage imageNamed:@"monkeys_26.png"],
-                                       [UIImage imageNamed:@"monkeys_27.png"],
-                                       [UIImage imageNamed:@"monkeys_28.png"],
-                                       [UIImage imageNamed:@"monkeys_29.png"],
-                                       [UIImage imageNamed:@"monkeys_30.png"],
-                                       [UIImage imageNamed:@"monkeys_31.png"],
-                                       [UIImage imageNamed:@"monkeys_32.png"],
-                                       [UIImage imageNamed:@"monkeys_33.png"],
-                                       [UIImage imageNamed:@"monkeys_34.png"],
-                                       [UIImage imageNamed:@"monkeys_35.png"],
-                                       [UIImage imageNamed:@"monkeys_36.png"],
-                                       [UIImage imageNamed:@"monkeys_37.png"],
-                                       [UIImage imageNamed:@"monkeys_38.png"],
-                                        nil];        
+        NSMutableArray *monkeys = [NSMutableArray arrayWithCapacity:MONKEY_COUNT];
+        for (int i=1; i<=MONKEY_COUNT; ++i) {
+            [monkeys addObject:[UIImage imageNamed:[NSString stringWithFormat:@"monkeys_%d", i]]];
+        }
+        longTimeout.animationImages = monkeys;
         longTimeout.animationDuration = 5.0;
         longTimeout.animationRepeatCount = 0;
         longTimeout.center = activityIndicatorView.center;
@@ -4319,7 +4289,7 @@ NSIndexPath *selected;
                                      [item objectForKey:itemid], itemid,
                                      nil];
     GlobalData *obj=[GlobalData getInstance];
-    [jsonRPC 
+    [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -4417,18 +4387,18 @@ NSIndexPath *selected;
                  if ([videoLibraryMovieDetail objectForKey:@"filetype"]!=nil){
                      filetype=[videoLibraryMovieDetail objectForKey:@"filetype"];
                      if ([filetype isEqualToString:@"directory"]){
-                         stringURL=@"nocover_filemode.png";
+                         stringURL=@"nocover_filemode";
                      }
                      else if ([filetype isEqualToString:@"file"]){
                          if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
-                             stringURL=@"icon_song.png";
+                             stringURL=@"icon_song";
                              
                          }
                          else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
-                             stringURL=@"icon_video.png";
+                             stringURL=@"icon_video";
                          }
                          else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-                             stringURL=@"icon_picture.png";
+                             stringURL=@"icon_picture";
                          }
                      }
                  }
@@ -4574,7 +4544,7 @@ NSIndexPath *selected;
 //        [[mutableParameters objectForKey:@"sort"] removeObjectForKey:@"available_methods"];
 //    }
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, mutableParameters);
-    [jsonRPC
+    [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:mutableParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -4706,18 +4676,18 @@ NSIndexPath *selected;
                              filetype=[[videoLibraryMovies objectAtIndex:i] objectForKey:@"filetype"];
                              if ([thumbnailPath length] == 0){
                                  if ([filetype isEqualToString:@"directory"]){
-                                     stringURL=@"nocover_filemode.png";
+                                     stringURL=@"nocover_filemode";
                                  }
                                  else if ([filetype isEqualToString:@"file"]){
                                      if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
-                                         stringURL=@"icon_song.png";
+                                         stringURL=@"icon_song";
                                          
                                      }
                                      else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
-                                         stringURL=@"icon_video.png";
+                                         stringURL=@"icon_video";
                                      }
                                      else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-                                         stringURL=@"icon_picture.png";
+                                         stringURL=@"icon_picture";
                                      }
                                  }
                              }
@@ -4958,6 +4928,11 @@ NSIndexPath *selected;
     
     // In case of sorting by playcount and not having any key, we skip sorting (happens for "Top 100")
     if ([sortMethodName isEqualToString:@"playcount"] && [copyRichResults count]>0 && copyRichResults[0][sortMethodName]==nil) {
+        sortMethodName = nil;
+    }
+    
+    // In case of sort-by-none set sortMethodName to nil
+    if ([sortMethodName isEqualToString:@"none"]) {
         sortMethodName = nil;
     }
     
@@ -5315,7 +5290,6 @@ NSIndexPath *selected;
         self.slidingViewController.anchorLeftPeekAmount     = 0;
         self.slidingViewController.anchorLeftRevealAmount   = 0;
     }
-    alreadyPush = NO;
     NSIndexPath* selection = [dataList indexPathForSelectedRow];
 	if (selection){
 		[dataList deselectRowAtIndexPath:selection animated:NO];
@@ -5332,7 +5306,7 @@ NSIndexPath *selected;
 
     [self choseParams];
 
-    if ([self presentingViewController] != nil) {
+    if ([self isModal]) {
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
@@ -5401,11 +5375,11 @@ NSIndexPath *selected;
     if (choosedTab > MAX_NORMAL_BUTTONS)
         choosedTab = MAX_NORMAL_BUTTONS;
     for (i=0;i<count;i++){
-        NSString *imageNameOff=[NSString stringWithFormat:@"%@_off.png", [buttons objectAtIndex:i]];
-        NSString *imageNameOn=[NSString stringWithFormat:@"%@_on.png", [buttons objectAtIndex:i]];
-        [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
-        [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
-        [[buttonsIB objectAtIndex:i] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
+        UIImage *imageOff = [UIImage imageNamed:[NSString stringWithFormat:@"%@_off", buttons[i]]];
+        UIImage *imageOn = [UIImage imageNamed:[NSString stringWithFormat:@"%@_on", buttons[i]]];
+        [[buttonsIB objectAtIndex:i] setBackgroundImage:imageOff forState:UIControlStateNormal];
+        [[buttonsIB objectAtIndex:i] setBackgroundImage:imageOn forState:UIControlStateSelected];
+        [[buttonsIB objectAtIndex:i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
         [[buttonsIB objectAtIndex:i] setEnabled:YES];
     }
     [[buttonsIB objectAtIndex:choosedTab] setSelected:YES];
@@ -5416,11 +5390,11 @@ NSIndexPath *selected;
         dataList.frame=frame;
     }
     if ([[self.detailItem mainMethod] count]>MAX_NORMAL_BUTTONS){
-        NSString *imageNameOff=@"st_more_off.png";
-        NSString *imageNameOn=@"st_more_on.png";
-        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOff] forState:UIControlStateNormal];
-        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateSelected];
-        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:[UIImage imageNamed:imageNameOn] forState:UIControlStateHighlighted];
+        UIImage *imageOff = [UIImage imageNamed:@"st_more_off"];
+        UIImage *imageOn = [UIImage imageNamed:@"st_more_on"];
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:imageOff forState:UIControlStateNormal];
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateSelected];
+        [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
         [[buttonsIB objectAtIndex:MAX_NORMAL_BUTTONS] setEnabled:YES];
         selectedMoreTab = [[UIButton alloc] init];
     }
@@ -5452,6 +5426,10 @@ NSIndexPath *selected;
     }
 }
 
+-(BOOL)isModal {
+    return [self presentingViewController] != nil;
+}
+
 -(void)setIphoneInterface:(NSDictionary *)itemSizes {
     viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
     albumViewHeight = 116;
@@ -5472,6 +5450,9 @@ NSIndexPath *selected;
 
 -(void)setIpadInterface:(NSDictionary *)itemSizes{
     viewWidth = STACKSCROLL_WIDTH;
+    // ensure modal views are forced to width = STACKSCROLL_WIDTH, this eases the layout
+    CGSize size = CGSizeMake(STACKSCROLL_WIDTH, self.view.frame.size.height);
+    self.preferredContentSize = size;
     albumViewHeight = 166;
     if (episodesView){
         albumViewHeight = 120;
@@ -5593,6 +5574,7 @@ NSIndexPath *selected;
 -(void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     [self showSearchBar];
+    viewWidth = self.view.bounds.size.width;
 }
 
 - (void)willPresentSearchController:(UISearchController *)controller {
@@ -5686,10 +5668,10 @@ NSIndexPath *selected;
     iOSYDelta = self.searchController.searchBar.frame.size.height;
     dataList.tableHeaderView = self.searchController.searchBar;
 
-    [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar.png"] forState:UIControlStateNormal];
+    [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar"] forState:UIControlStateNormal];
     [button6 addTarget:self action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
 
-    [button7 setImage:[UIImage imageNamed:@"button_sort_bright.png"] forState:UIControlStateNormal];
+    [button7 setImage:[UIImage imageNamed:@"button_sort_bright"] forState:UIControlStateNormal];
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -5848,8 +5830,6 @@ NSIndexPath *selected;
     [infobar addSubview:infolabel];
     [collectionView addSubview:infobar];
     
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    
     self.sections = [[NSMutableDictionary alloc] init];
     self.richResults= [[NSMutableArray alloc] init ];
     self.filteredListContent = [[NSMutableArray alloc] init ];
@@ -5968,7 +5948,7 @@ NSIndexPath *selected;
                 [fullscreenButton setShowsTouchWhenHighlighted:YES];
                 [fullscreenButton setFrame:CGRectMake(0, 0, 26, 26)];
                 [fullscreenButton setContentMode:UIViewContentModeCenter];
-                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen.png"] forState:UIControlStateNormal];
+                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
                 fullscreenButton.layer.cornerRadius = 2;
                 [fullscreenButton setTintColor:[UIColor whiteColor]];
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen:) forControlEvents:UIControlEventTouchUpInside];

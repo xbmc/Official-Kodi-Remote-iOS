@@ -21,7 +21,6 @@
     int background_padding;
     int alignBottom;
     CGFloat screenWidth;
-    DSJSONRPC *jsonRPC;
 }
 
 @end

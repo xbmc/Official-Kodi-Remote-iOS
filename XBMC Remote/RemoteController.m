@@ -102,12 +102,12 @@
     int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
     [remoteControlView setFrame:CGRectMake(startX, startY, newWidth, newHeight)];
     
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger.png"];
+    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL showGesture=[[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture){
-        gestureSwitchImg = [UIImage imageNamed:@"circle.png"];
+        gestureSwitchImg = [UIImage imageNamed:@"circle"];
         frame = [gestureZoneView frame];
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
@@ -126,8 +126,8 @@
     [gestureButton setShowsTouchWhenHighlighted:NO];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateHighlighted];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up@2x.png"] forState:UIControlStateNormal];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down@2x.png"] forState:UIControlStateHighlighted];
+    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up"] forState:UIControlStateNormal];
+    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down"] forState:UIControlStateHighlighted];
     gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
     [remoteControlView addSubview:gestureButton];
@@ -143,7 +143,7 @@
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help.png"];
+        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
         frame.size.height = frame.size.height *transform;
@@ -169,7 +169,7 @@
 
         int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;        
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad.png"];
+        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
         CGRect frame = subsInfoLabel.frame;
         frame.size.width = newWidth;
         frame.origin.x = 0;
@@ -266,10 +266,7 @@
 
 - (void)handleTouchpadLongPress:(UILongPressGestureRecognizer*)gestureRecognizer { 
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
-        jsonRPC = nil;
-        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-
-        [jsonRPC 
+        [[Utilities getJsonRPC]
          callMethod:@"XBMC.GetInfoBooleans" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"Window.IsActive(fullscreenvideo)", @"Window.IsActive(visualisation)", @"Window.IsActive(slideshow)", nil], @"booleans",
@@ -372,7 +369,7 @@
 # pragma mark - ToolBar
 
 -(void)toggleGestureZone:(id)sender{
-    NSString *imageName=@"";
+    NSString *imageName=@"blank";
     BOOL showGesture = (gestureZoneView.alpha == 0);
     if ([sender isKindOfClass:[NSNotification class]]){
         if ([[sender userInfo] isKindOfClass:[NSDictionary class]]){
@@ -397,7 +394,7 @@
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
         [UIView commitAnimations];
-        imageName=@"circle.png";
+        imageName=@"circle";
     }
     else{
         CGRect frame;
@@ -413,7 +410,7 @@
         gestureZoneView.alpha = 0;
         buttonZoneView.alpha = 1;
         [UIView commitAnimations];
-        imageName=@"finger.png";
+        imageName=@"finger";
     }
     if ([sender isKindOfClass: [UIButton class]]){
         [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
@@ -439,16 +436,14 @@
 /* method to show an action sheet for subs. */
 
 -(void)subtitlesActionSheet {
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil) {
             if( [methodResult count] > 0) {
                 NSNumber *response;
                 if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])) {
                     response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
                 }
-                [jsonRPC
+                [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties"
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                  response, @"playerid",
@@ -510,17 +505,14 @@
 }
 
 -(void)audioStreamActionSheet {
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    
-    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
                 NSNumber *response;
                 if (((NSNull *)[[methodResult objectAtIndex:0] objectForKey:@"playerid"] != [NSNull null])){
                     response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
                 }
-                [jsonRPC
+                [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties"
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                  response, @"playerid",
@@ -580,16 +572,14 @@
 }
 
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
                 NSNumber *response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
                 NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
                 if (parameters!=nil)
                     [commonParams addObjectsFromArray:parameters];
-                [jsonRPC callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //                    if (error==nil && methodError==nil){
 //                        NSLog(@"comando %@ eseguito. Risultato: %@", action, methodResult);
 //                    }
@@ -606,9 +596,7 @@
 }
 
 -(void)GUIAction:(NSString *)action params:(NSDictionary *)params httpAPIcallback:(NSString *)callback{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //        NSLog(@"Action %@ ok with %@ ", action , methodResult);
 //        if (methodError!=nil || error != nil){
 //            NSLog(@"method error %@ %@", methodError, error);
@@ -636,9 +624,7 @@
         audioVolume = 0;
     }
 
-//    jsonRPC = nil;
-//    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-//    [jsonRPC 
+//    [[Utilities getJsonRPC]
 //     callMethod:@"Application.GetProperties" 
 //     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [[NSArray alloc] initWithObjects:@"volume", nil], @"properties", nil]
 //     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -651,9 +637,7 @@
 }
 
 -(void)changeServerVolume{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC 
+    [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:audioVolume], @"volume", nil]];
 }
@@ -782,10 +766,7 @@ NSInteger buttonAction;
 
 -(void)playerStep:(NSString *)step musicPlayerGo:(NSString *)musicAction musicPlayerAction:(NSString *)musicMethod {
     if ([AppDelegate instance].serverVersion > 11){
-        if (jsonRPC == nil){
-            jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-        }
-        [jsonRPC
+        [[Utilities getJsonRPC]
          callMethod:@"GUI.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                          [[NSArray alloc] initWithObjects:@"currentwindow", @"fullscreen",nil], @"properties",
@@ -803,7 +784,7 @@ NSInteger buttonAction;
                  // 12005: WINDOW_FULLSCREEN_VIDEO
                  // 12006: WINDOW_VISUALISATION
                  if ([fullscreen boolValue] == YES && (winID == 12005 || winID == 12006)){
-                     [jsonRPC
+                     [[Utilities getJsonRPC]
                       callMethod:@"XBMC.GetInfoBooleans"
                       withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                       [[NSArray alloc] initWithObjects:@"VideoPlayer.HasMenu", @"Pvr.IsPlayingTv", nil], @"booleans",
@@ -1160,7 +1141,7 @@ NSInteger buttonAction;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings.png"];
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
         [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];
     }
@@ -1237,12 +1218,12 @@ NSInteger buttonAction;
                 [device setTorchMode:AVCaptureTorchModeOn];
                 [settings setFlashMode:AVCaptureFlashModeOn];
                 torchIsOn = YES;
-                [sender setImage:[UIImage imageNamed:@"torch_on.png"] forState:UIControlStateNormal];
+                [sender setImage:[UIImage imageNamed:@"torch_on"] forState:UIControlStateNormal];
             } else {
                 [device setTorchMode:AVCaptureTorchModeOff];
                 [settings setFlashMode:AVCaptureFlashModeOff];
                 torchIsOn = NO;
-                [sender setImage:[UIImage imageNamed:@"torch.png"] forState:UIControlStateNormal];
+                [sender setImage:[UIImage imageNamed:@"torch"] forState:UIControlStateNormal];
             }
             [device unlockForConfiguration];
         }
@@ -1266,12 +1247,12 @@ NSInteger buttonAction;
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger.png"];
+    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
     BOOL showGesture=[[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture){
-        gestureSwitchImg = [UIImage imageNamed:@"circle.png"];
+        gestureSwitchImg = [UIImage imageNamed:@"circle"];
         CGRect frame = [gestureZoneView frame];
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
@@ -1296,7 +1277,7 @@ NSInteger buttonAction;
         settingButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
         [settingButton setContentMode:UIViewContentModeRight];
         [settingButton setShowsTouchWhenHighlighted:YES];
-        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon.png"] forState:UIControlStateNormal];
+        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
         settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [settingButton addTarget:self action:@selector(addButtonToListIPad:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:settingButton];
@@ -1313,7 +1294,7 @@ NSInteger buttonAction;
         
         UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
         keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 120, self.view.bounds.size.height - 43, 56, 36);
-        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon.png"];
+        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon"];
         [keyboardButton setContentMode:UIViewContentModeRight];
         [keyboardButton setShowsTouchWhenHighlighted:YES];
         [keyboardButton setImage:keyboardImg forState:UIControlStateNormal];
@@ -1332,7 +1313,7 @@ NSInteger buttonAction;
         helpButton.alpha = infoButtonalpha;
         [self.view addSubview:helpButton];
     }
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat.png"]]];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat"]]];
 }
 
 -(void)addButtonToListIPad:(id)sender {

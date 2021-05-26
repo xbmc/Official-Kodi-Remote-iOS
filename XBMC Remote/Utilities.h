@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
+#import "DSJSONRPC.h"
 
 typedef enum {
     jewelTypeCD,
@@ -58,5 +59,6 @@ typedef enum {
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
 + (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate> *)fromctrl;
++ (DSJSONRPC*)getJsonRPC;
 
 @end

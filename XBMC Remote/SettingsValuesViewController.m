@@ -34,7 +34,7 @@
 		
         [self.view setFrame:frame];
         
-        UIImageView *imageBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shiny_black_back.png"]];
+        UIImageView *imageBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shiny_black_back"]];
         [imageBackground setAutoresizingMask: UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
         [imageBackground setFrame:frame];
         [self.view addSubview:imageBackground];
@@ -153,14 +153,14 @@
         scrubbingView.alpha = 0.0;
         CGRect toolbarShadowFrame = CGRectMake(0, 44, self.view.frame.size.width, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarShadow.opaque = YES;
         [scrubbingView addSubview:toolbarShadow];
         toolbarShadowFrame.origin.y = -4;
         UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown.png"]];
+        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown"]];
         toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarUpShadow.opaque = YES;
@@ -304,9 +304,7 @@
         [sender setUserInteractionEnabled:NO];
     }
     [activityIndicator startAnimating];
-    DSJSONRPC *jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicator stopAnimating];
         if (methodError==nil && error == nil){
             [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
@@ -323,9 +321,7 @@
 -(void)retrieveXBMCData:(NSString *)method parameters:(NSDictionary *)params itemKey:(NSString *)itemkey{
     
     [activityIndicator startAnimating];
-    DSJSONRPC *jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod: method
+    [[Utilities getJsonRPC] callMethod: method
          withParameters: params
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [activityIndicator stopAnimating];
@@ -676,7 +672,7 @@
     [sectionView setBackgroundColor:[Utilities getGrayColor:102 alpha:1]];
     CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
     UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp.png"]];
+    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
     toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbarShadow.contentMode = UIViewContentModeScaleToFill;
     toolbarShadow.opaque = YES;

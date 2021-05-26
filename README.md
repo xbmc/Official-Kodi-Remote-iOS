@@ -48,9 +48,10 @@ Optional parameters:
 
 - `app_version`
 - `build_number`
+- `manual_release`: set to `1` to use manual release mode rather than automatic
 - `release_name` (you'll be asked to enter it if not provided)
 
-Omitted parameter means "use the latest uploaded". [More about passing parameters](https://docs.fastlane.tools/advanced/lanes/#passing-parameters).
+Omitted `app_version` / `build_number` parameter means "use the latest uploaded". [More about passing parameters](https://docs.fastlane.tools/advanced/lanes/#passing-parameters).
 
 Note: if new app version doesn't exist yet, you **must** pass at least `app_version`, otherwise fastlane fails. Hopefully it'll be fixed, see [issue about that](https://github.com/fastlane/fastlane/issues/18571).
 

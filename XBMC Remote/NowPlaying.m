@@ -31,13 +31,11 @@
 @synthesize detailItem = _detailItem;
 @synthesize remoteController;
 @synthesize jewelView;
-@synthesize detailViewController;
 @synthesize shuffleButton;
 @synthesize repeatButton;
 @synthesize itemLogoImage;
 @synthesize songDetailsView;
 @synthesize ProgressSlider;
-@synthesize showInfoViewController;
 @synthesize scrabbingView;
 @synthesize itemDescription;
 //@synthesize presentedFromNavigation;
@@ -156,6 +154,14 @@
     return codec;
 }
 
+- (UIImage*)loadImageFromName:(NSString*)imageName {
+    UIImage *image = nil;
+    if ([imageName length] != 0) {
+        image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", imageName]];
+    }
+    return image;
+}
+
 - (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
     NSString *result = @"";    
     int secs = [seconds intValue];
@@ -227,7 +233,7 @@
     else{
         if (musicPartyMode){
             [PartyModeButton setSelected:NO];
-            [jsonRPC
+            [[Utilities getJsonRPC]
              callMethod:@"Player.SetPartymode"
              withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"playerid", @"toggle", @"partymode", nil]
              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -236,7 +242,7 @@
         }
         else{
             [PartyModeButton setSelected:YES];
-            [jsonRPC
+            [[Utilities getJsonRPC]
              callMethod:@"Player.Open"
              withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                              [NSDictionary dictionaryWithObjectsAndKeys:@"music", @"partymode", nil], @"item", nil]
@@ -371,34 +377,23 @@ float storePercentage;
 int storedItemID;
 int currentItemID;
 
--(NSString*)getJewelImage:(NSString*)name {
-    NSString *jewelImageName = nil;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        jewelImageName = [NSString stringWithFormat:@"%@@2x.png", name];
-    }
-    else {
-        jewelImageName = [NSString stringWithFormat:@"%@.png", name];
-    }
-    return jewelImageName;
-}
-
 -(void)setCoverSize:(NSString *)type{
     NSString *jewelImg = @"";
     eJewelType jeweltype;
     if ([type isEqualToString:@"song"]){
-        jewelImg = [self getJewelImage:@"jewel_cd.9"];
+        jewelImg = @"jewel_cd.9";
         jeweltype = jewelTypeCD;
     }
     else if ([type isEqualToString:@"movie"]){
-        jewelImg = [self getJewelImage:@"jewel_dvd.9"];
+        jewelImg = @"jewel_dvd.9";
         jeweltype = jewelTypeDVD;
     }
     else if ([type isEqualToString:@"episode"]){
-        jewelImg = [self getJewelImage:@"jewel_tv.9"];
+        jewelImg = @"jewel_tv.9";
         jeweltype = jewelTypeTV;
     }
     else{
-        jewelImg = [self getJewelImage:@"jewel_cd.9"];
+        jewelImg = @"jewel_cd.9";
         jeweltype = jewelTypeCD;
     }
     if ([self enableJewelCases]){
@@ -418,9 +413,10 @@ int currentItemID;
 
 -(void)nothingIsPlaying{
     if (startFlipDemo){
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateNormal];
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateHighlighted];
-        [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateSelected];
+        UIImage *image = [UIImage imageNamed:@"xbmc_overlay_small"];
+        [playlistButton setImage:image forState:UIControlStateNormal];
+        [playlistButton setImage:image forState:UIControlStateHighlighted];
+        [playlistButton setImage:image forState:UIControlStateSelected];
         [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
         startFlipDemo = NO;
     }
@@ -479,6 +475,7 @@ int currentItemID;
             [self fadeView:timePlaying hidden:YES];
     }
     [self showPlaylistTable];
+    [self toggleSongDetails];
 }
 
 -(void)setButtonImageAndStartDemo:(UIImage *)buttonImage{
@@ -501,8 +498,9 @@ int currentItemID;
                         if ([color isEqual:[UIColor clearColor]]){
                             [ProgressSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
                             if (ProgressSlider.userInteractionEnabled){
-                                [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
-                                [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
+                                UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
+                                [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
+                                [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
                             }
                             [UIView transitionWithView:albumName
                                               duration:1.0
@@ -548,7 +546,7 @@ int currentItemID;
                             UIColor *pgThumbColor = lighterColor;
                             [ProgressSlider setMinimumTrackTintColor:progressColor];
                             if (ProgressSlider.userInteractionEnabled){
-                                UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:pg_thumb_name] withColor:pgThumbColor];
+                                UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:@"pgbar_thumb_iOS7"] withColor:pgThumbColor];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
                             }
@@ -603,7 +601,7 @@ int currentItemID;
                                                duration:1.0
                                                 options:UIViewAnimationOptionTransitionCrossDissolve
                                              animations:^{
-                                                 backgroundImageView.image=[UIImage imageNamed:@"shiny_black_back.png"];
+                                                 backgroundImageView.image=[UIImage imageNamed:@"shiny_black_back"];
                                              }
                                              completion:NULL];
                              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -624,7 +622,7 @@ int currentItemID;
                                                duration:1.0
                                                 options:UIViewAnimationOptionTransitionCrossDissolve
                                              animations:^{
-                                                 backgroundImageView.image=[utils colorizeImage:[UIImage imageNamed:@"shiny_black_back.png"] withColor:lighterColor];
+                                                 backgroundImageView.image=[utils colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
                                              }
                                              completion:NULL];
                              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -665,7 +663,7 @@ int currentItemID;
 }
 
 -(void)getActivePlayers{
-    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
                 nothingIsPlaying = NO;
@@ -687,7 +685,7 @@ int currentItemID;
                 if ([AppDelegate instance].serverVersion > 11){
                     [properties addObject:@"art"];
                 }
-                [jsonRPC 
+                [[Utilities getJsonRPC]
                  callMethod:@"Player.GetItem" 
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                                  response, @"playerid",
@@ -778,14 +776,14 @@ int currentItemID;
                                          }
                                      }
                                      if ([thumbnailPath isEqualToString:@""]){
-                                         UIImage *buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"coverbox_back.png"]];
+                                         UIImage *buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"coverbox_back"]];
                                          [self setButtonImageAndStartDemo:buttonImage];
                                          [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
                                          if (enableJewel){
-                                             thumbnailView.image=[UIImage imageNamed:@"coverbox_back.png"];
+                                             thumbnailView.image=[UIImage imageNamed:@"coverbox_back"];
                                          }
                                          else{
-                                             [self changeImage:jewelView image:[UIImage imageNamed:@"coverbox_back.png"]];
+                                             [self changeImage:jewelView image:[UIImage imageNamed:@"coverbox_back"]];
                                          }
                                      }
                                      else{
@@ -810,7 +808,7 @@ int currentItemID;
                                                  __block UIColor *newColor = nil;
                                                  if (enableJewel){
                                                      [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
-                                                                   placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                                                   placeholderImage:[UIImage imageNamed:@"coverbox_back"]
                                                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                                               if (error == nil){
                                                                                   
@@ -826,7 +824,7 @@ int currentItemID;
                                                      __weak UIImageView *jV = jewelView;
                                                      [jewelView
                                                       setImageWithURL:[NSURL URLWithString:stringURL]
-                                                      placeholderImage:[UIImage imageNamed:@"coverbox_back.png"]
+                                                      placeholderImage:[UIImage imageNamed:@"coverbox_back"]
                                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                           if (error == nil){
                                                               [sf changeImage:jV image:[sf imageWithBorderFromImage:image]];
@@ -868,10 +866,10 @@ int currentItemID;
                              storedItemID=-1;
                              lastThumbnail = @"";
                              if (enableJewel){
-                                 thumbnailView.image=[UIImage imageNamed:@"coverbox_back.png"];
+                                 thumbnailView.image=[UIImage imageNamed:@"coverbox_back"];
                              }
                              else{
-                                 jewelView.image=[UIImage imageNamed:@"coverbox_back.png"];
+                                 jewelView.image=[UIImage imageNamed:@"coverbox_back"];
                              }
                          }
                      }
@@ -879,7 +877,7 @@ int currentItemID;
                          storedItemID=-1;
                      }
                  }];
-                [jsonRPC 
+                [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties" 
                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                                  response, @"playerid",
@@ -907,13 +905,13 @@ int currentItemID;
                                          repeatButton.hidden = NO;
                                      }
                                      if ([repeatStatus isEqualToString:@"all"]){
-                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all.png"] forState:UIControlStateNormal];
+                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
                                      }
                                      else if ([repeatStatus isEqualToString:@"one"]){
-                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one.png"] forState:UIControlStateNormal];
+                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
                                      }
                                      else{
-                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat.png"] forState:UIControlStateNormal];
+                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
                                      }
                                  }
                                  else if (repeatButton.hidden == NO){
@@ -926,10 +924,10 @@ int currentItemID;
                                          shuffleButton.hidden = NO;
                                      }
                                      if (shuffled){
-                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on.png"] forState:UIControlStateNormal];
+                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
                                      }
                                      else{
-                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle.png"] forState:UIControlStateNormal];
+                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
                                      }
                                  }
                                  else if (shuffleButton.hidden == NO){
@@ -939,8 +937,9 @@ int currentItemID;
                                  BOOL canseek = [[methodResult objectForKey:@"canseek"] boolValue];
                                  if (canseek && !ProgressSlider.userInteractionEnabled){
                                      ProgressSlider.userInteractionEnabled = YES;
-                                     [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateNormal];
-                                     [ProgressSlider setThumbImage:[UIImage imageNamed:pg_thumb_name] forState:UIControlStateHighlighted];
+                                     UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
+                                     [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
+                                     [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
 //                                     [ProgressSlider setThumbTintColor:[UIColor lightGrayColor]];
 
                                  }
@@ -966,6 +965,11 @@ int currentItemID;
                                  if (updateProgressBar){
                                      currentTime.text=actualTime;
                                      ProgressSlider.hidden = NO;
+                                 }
+                                 if (playerID == 2) {
+                                     ProgressSlider.hidden = YES;
+                                     currentTime.hidden = YES;
+                                     duration.hidden = YES;
                                  }
                                  NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
                                  if (storeSelection)
@@ -1072,7 +1076,7 @@ int currentItemID;
 }
 
 -(void)loadCodecView {
-    [jsonRPC 
+    [[Utilities getJsonRPC]
      callMethod:@"XBMC.GetInfoLabels" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                      [[NSArray alloc] initWithObjects:@"MusicPlayer.Codec",@"MusicPlayer.SampleRate",@"MusicPlayer.BitRate", @"MusicPlayer.Channels", @"VideoPlayer.VideoResolution", @"VideoPlayer.VideoAspect", @"VideoPlayer.AudioCodec", @"VideoPlayer.VideoCodec", nil], @"labels",
@@ -1092,7 +1096,7 @@ int currentItemID;
                  songNumChanImage.image = nil;
                  
                  codec = [self processSongCodecName:codec];
-                 UIImage *songImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", codec]];
+                 UIImage *songImage = [self loadImageFromName:codec];
                  [songCodecImage setImage:songImage];
                  if (songImage != nil){
                      songCodec.hidden = YES;
@@ -1102,7 +1106,7 @@ int currentItemID;
                  songBitRate.text = numchan;
                  songBitRate.hidden = NO;
                  songBitRateImage.image = nil;
-                 UIImage *numChanImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", numchan]];
+                 UIImage *numChanImage = [self loadImageFromName:numchan];
                  [songBitRateImage setImage:numChanImage];
                  if (numChanImage != nil){
                      songBitRate.hidden = YES;
@@ -1116,12 +1120,12 @@ int currentItemID;
                  songSampleRate.text = bitrate;
                  songSampleRate.hidden = NO;
              }
-             else if (currentPlayerID==playerID) {
+             else if (playerID==1 && currentPlayerID==playerID) {
                  codec = [[methodResult objectForKey:@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.VideoResolution"]] ;
                  songCodec.text = codec;
                  songCodec.hidden = NO;
                  songCodecImage.image = nil;
-                 UIImage *resolutionImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", codec]];
+                 UIImage *resolutionImage = [self loadImageFromName:codec];
                  [songCodecImage setImage:resolutionImage];
                  if (resolutionImage != nil){
                      songCodec.hidden = YES;
@@ -1131,7 +1135,7 @@ int currentItemID;
                  songBitRate.text = bitrate;
                  songBitRate.hidden = NO;
                  songBitRateImage.image = nil;
-                 UIImage *aspectImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", bitrate]];
+                 UIImage *aspectImage = [self loadImageFromName:bitrate];
                  [songBitRateImage setImage:aspectImage];
                  if (aspectImage != nil){
                      songBitRate.hidden = YES;
@@ -1141,21 +1145,28 @@ int currentItemID;
                  songSampleRate.text = samplerate;
                  songSampleRate.hidden = NO;
                  songSampleRateImage.image = nil;
-                 UIImage *videoCodecImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", samplerate]];
+                 UIImage *videoCodecImage = [self loadImageFromName:samplerate];
                  [songSampleRateImage setImage:videoCodecImage];
                  if (videoCodecImage != nil){
                      songSampleRate.hidden = YES;
                  }
                  
                  numchan = [[methodResult objectForKey:@"VideoPlayer.AudioCodec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", [methodResult objectForKey:@"VideoPlayer.AudioCodec"]];
+                 numchan = [self processSongCodecName:numchan];
                  songNumChannels.text = numchan;
                  songNumChannels.hidden = NO;
                  songNumChanImage.image = nil;
-                 UIImage *audioCodecImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", numchan]];
+                 UIImage *audioCodecImage = [self loadImageFromName:numchan];
                  [songNumChanImage setImage:audioCodecImage];
                  if (audioCodecImage != nil){
                      songNumChannels.hidden = YES;
                  }
+             }
+             else {
+                 songCodec.hidden = YES;
+                 songBitRate.hidden = YES;
+                 songSampleRate.hidden = YES;
+                 songNumChannels.hidden = YES;
              }
          }
     }];
@@ -1171,10 +1182,8 @@ int currentItemID;
         [self nothingIsPlaying];
         return;
     }
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     if ([AppDelegate instance].serverVersion == 11){
-        [jsonRPC 
+        [[Utilities getJsonRPC]
          callMethod:@"XBMC.GetInfoBooleans" 
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"Window.IsActive(virtualkeyboard)", @"Window.IsActive(selectdialog)",nil], @"booleans",
@@ -1202,9 +1211,7 @@ int currentItemID;
 
 
 -(void)clearPlaylist:(int)playlistID{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playlistID],@"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:playlistID],@"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             [self createPlaylist:NO animTableView:NO];
         }
@@ -1215,16 +1222,14 @@ int currentItemID;
 }
 
 -(void)playbackAction:(NSString *)action params:(NSArray *)parameters checkPartyMode:(BOOL)checkPartyMode{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if( [methodResult count] > 0){
                 NSNumber *response = [[methodResult objectAtIndex:0] objectForKey:@"playerid"];
                 NSMutableArray *commonParams=[NSMutableArray arrayWithObjects:response, @"playerid", nil];
                 if (parameters!=nil)
                     [commonParams addObjectsFromArray:parameters];
-                [jsonRPC callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:action withParameters:[self indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error==nil && methodError==nil){
                         if (musicPartyMode && checkPartyMode){
                             [self checkPartyMode];
@@ -1293,9 +1298,7 @@ int currentItemID;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-72];
     }
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:@"Playlist.GetItems" 
+    [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
                          [[NSArray alloc] initWithObjects:@"thumbnail", @"duration",@"artist", @"album", @"runtime", @"showtitle", @"season", @"episode",@"artistid", @"albumid", @"genre", @"tvshowid", @"file", @"title", @"art", nil], @"properties",
                          [NSNumber numberWithInt:playlistID], @"playlistid",
@@ -1412,9 +1415,7 @@ int currentItemID;
 }
 
 -(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters reloadPlaylist:(BOOL)reload startProgressBar:(BOOL)progressBar{
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
             if (reload){
                 [self createPlaylist:NO animTableView:YES];
@@ -1454,10 +1455,9 @@ int currentItemID;
 -(void)displayInfoView:(NSDictionary *)item{
     fromItself = TRUE;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        self.showInfoViewController=nil;
-        self.showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
-        self.showInfoViewController.detailItem = item;
-        [self.navigationController pushViewController:self.showInfoViewController animated:YES];
+        ShowInfoViewController *showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
+        showInfoViewController.detailItem = item;
+        [self.navigationController pushViewController:showInfoViewController animated:YES];
     }
     else{
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
@@ -1503,7 +1503,7 @@ int currentItemID;
                                      nil];
     GlobalData *obj=[GlobalData getInstance];
 //    NSLog(@"%@ - %@", methodToCall, newParameters);
-    [jsonRPC
+    [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -1609,18 +1609,18 @@ int currentItemID;
                  if ([videoLibraryMovieDetail objectForKey:@"filetype"]!=nil){
                      filetype=[videoLibraryMovieDetail objectForKey:@"filetype"];
                      if ([filetype isEqualToString:@"directory"]){
-                         stringURL=@"nocover_filemode.png";
+                         stringURL=@"nocover_filemode";
                      }
                      else if ([filetype isEqualToString:@"file"]){
                          if ([[mainFields objectForKey:@"playlistid"] intValue]==0){
-                             stringURL=@"icon_song.png";
+                             stringURL=@"icon_song";
                              
                          }
                          else if ([[mainFields objectForKey:@"playlistid"] intValue]==1){
-                             stringURL=@"icon_video.png";
+                             stringURL=@"icon_video";
                          }
                          else if ([[mainFields objectForKey:@"playlistid"] intValue]==2){
-                             stringURL=@"icon_picture.png";
+                             stringURL=@"icon_picture";
                          }
                      }
                  }
@@ -1696,16 +1696,17 @@ int currentItemID;
                                  buttonImage=[self resizeToolbarThumb:jewelView.image];
                              }
                              if (!buttonImage.size.width){
-                                 buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"xbmc_overlay_small.png"]];
+                                 buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"xbmc_overlay_small"]];
                              }
                              [button setImage:buttonImage forState:UIControlStateNormal];
                              [button setImage:buttonImage forState:UIControlStateHighlighted];
                              [button setImage:buttonImage forState:UIControlStateSelected];
                          }
                          else{
-                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x.png"] forState:UIControlStateNormal];
-                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x.png"] forState:UIControlStateHighlighted];
-                             [button setImage:[UIImage imageNamed:@"now_playing_playlist@2x.png"] forState:UIControlStateSelected];
+                             UIImage *image = [UIImage imageNamed:@"now_playing_playlist"];
+                             [button setImage:image forState:UIControlStateNormal];
+                             [button setImage:image forState:UIControlStateHighlighted];
+                             [button setImage:image forState:UIControlStateSelected];
                          }
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          [UIView setAnimationTransition:anim forView:button cache:YES];
@@ -1866,6 +1867,9 @@ int currentItemID;
 }
 
 - (void)toggleSongDetails{
+    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || playerID==2) {
+        return;
+    }
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.2];
@@ -1893,20 +1897,20 @@ int currentItemID;
     if ([AppDelegate instance].serverVersion>11){
         [self SimpleAction:@"Player.SetShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"toggle", @"shuffle", nil] reloadPlaylist:YES startProgressBar:NO];
         if (shuffled){
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle.png"] forState:UIControlStateNormal];
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
         }
         else{
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on.png"] forState:UIControlStateNormal];
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
         }
     }
     else{
         if (shuffled){
             [self SimpleAction:@"Player.UnShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID],@"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle.png"] forState:UIControlStateNormal];
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
         }
         else{
             [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on.png"] forState:UIControlStateNormal];
+            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
         }
     }
 }
@@ -1917,29 +1921,29 @@ int currentItemID;
     if ([AppDelegate instance].serverVersion>11){
         [self SimpleAction:@"Player.SetRepeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"cycle", @"repeat", nil] reloadPlaylist:NO startProgressBar:NO];
         if ([repeatStatus isEqualToString:@"off"]){
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all.png"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"all"]){
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one.png"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
 
         }
         else if ([repeatStatus isEqualToString:@"one"]){
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat.png"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
         }
     }
     else{
         if ([repeatStatus isEqualToString:@"off"]){
             [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"all", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all.png"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"all"]){
             [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"one", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one.png"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
             
         }
         else if ([repeatStatus isEqualToString:@"one"]){
             [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:currentPlayerID], @"playerid", @"off", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat.png"] forState:UIControlStateNormal];
+            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
         }
     }
 }
@@ -1961,7 +1965,7 @@ int currentItemID;
     else if ([itemLogoImage pointInside:viewPoint3 withEvent:event] && songDetailsView.alpha > 0 && itemLogoImage.image != nil) {
         [self updateCurrentLogo];
     }
-    else if([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]){
+    else if ([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]){
         [self toggleSongDetails];
         [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:TRUE];
     }
@@ -2231,9 +2235,9 @@ int currentItemID;
         MenuItem.subItem.chooseTab=choosedTab;
         fromItself = TRUE;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            self.detailViewController.detailItem = MenuItem.subItem;
-            [self.navigationController pushViewController:self.detailViewController animated:YES];
+            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            detailViewController.detailItem = MenuItem.subItem;
+            [self.navigationController pushViewController:detailViewController animated:YES];
         }
         else{
             DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
@@ -2303,7 +2307,7 @@ int currentItemID;
     if (playerID == 1)
         [cornerLabel setText:[item objectForKey:@"runtime"]];
     NSString *stringURL = [item objectForKey:@"thumbnail"]; 
-    [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music.png"]];
+    [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music"]];
     // andResize:CGSizeMake(thumb.frame.size.width, thumb.frame.size.height)
     UIView *timePlaying = (UIView*) [cell viewWithTag:5];
     if (timePlaying.hidden == NO){
@@ -2337,9 +2341,7 @@ int currentItemID;
     [queuing startAnimating];
     if (playerID==-2)
         playerID=0;
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC 
+    [[Utilities getJsonRPC]
      callMethod:@"Player.Open" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                      [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2402,11 +2404,9 @@ int currentItemID;
                           itemToMove, @"item",
                           [NSNumber numberWithInt:(int)destinationIndexPath.row],@"position",
                           nil];
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error==nil && methodError==nil){
-            [jsonRPC callMethod:action2 withParameters:params2];
+            [[Utilities getJsonRPC] callMethod:action2 withParameters:params2];
             NSInteger numObj = [playlistData count];
             if ([sourceIndexPath row] < numObj){
                 [playlistData removeObjectAtIndex:[sourceIndexPath row]];
@@ -2430,14 +2430,12 @@ int currentItemID;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
 
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        jsonRPC = nil;
-        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
         NSString *action1=@"Playlist.Remove";
         NSDictionary *params1=[NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInt:playerID], @"playlistid",
                                [NSNumber numberWithInt:(int)indexPath.row],@"position",
                                nil] ;
-        [jsonRPC callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error==nil && methodError==nil){
                 NSInteger numObj = [playlistData count];
                 if ([indexPath row] < numObj){
@@ -2556,7 +2554,7 @@ int currentItemID;
 -(void)setIphoneInterface{
     slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
     xbmcOverlayImage.hidden = YES;
-    [playlistToolbar setShadowImage:[UIImage imageNamed:@"blank.png"] forToolbarPosition:UIBarPositionAny];
+    [playlistToolbar setShadowImage:[UIImage imageNamed:@"blank"] forToolbarPosition:UIBarPositionAny];
     
     // Use bigger fonts and move text and bar towards to the cover
     if (IS_AT_LEAST_IPHONE_X_HEIGHT) {
@@ -2746,10 +2744,10 @@ int currentItemID;
             [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
         }
         if ([self.navigationController.viewControllers indexOfObject:self] == 0){
-            UIImage* menuImg = [UIImage imageNamed:@"button_menu.png"];
+            UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
         }
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings.png"];
+        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
@@ -2775,16 +2773,12 @@ int currentItemID;
             else {
                 buttonImage=[self resizeToolbarThumb:jewelView.image];
             }
-            if (buttonImage.size.width!=0){
-                [playlistButton setImage:buttonImage forState:UIControlStateNormal];
-                [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
-                [playlistButton setImage:buttonImage forState:UIControlStateSelected];
+            if (buttonImage.size.width==0){
+                buttonImage = [UIImage imageNamed:@"xbmc_overlay_small"];
             }
-            else{
-                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateNormal];
-                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateHighlighted];
-                [playlistButton setImage:[UIImage imageNamed:@"xbmc_overlay_small.png"] forState:UIControlStateSelected];
-            }
+            [playlistButton setImage:buttonImage forState:UIControlStateNormal];
+            [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
+            [playlistButton setImage:buttonImage forState:UIControlStateSelected];
         }
     }
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -2795,6 +2789,21 @@ int currentItemID;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleXBMCPlaylistHasChanged:)
                                                  name: @"XBMCPlaylistHasChanged"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleXBMCPlaylistHasChanged:)
+                                                 name: @"Playlist.OnAdd"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleXBMCPlaylistHasChanged:)
+                                                 name: @"Playlist.OnClear"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleXBMCPlaylistHasChanged:)
+                                                 name: @"Playlist.OnRemove"
                                                object: nil];
 
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -2950,7 +2959,6 @@ int currentItemID;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
     [self addSegmentControl];
-    pg_thumb_name = @"pgbar_thumb_iOS7.png";
     cellBackgroundColor = [UIColor whiteColor];
     bottomPadding = 0;
     if (@available(iOS 11.0, *)) {

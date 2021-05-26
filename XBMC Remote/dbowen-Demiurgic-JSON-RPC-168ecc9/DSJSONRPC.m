@@ -165,7 +165,7 @@
     
     // Perform the JSON-RPC method call
     NSURLConnection *aConnection = [[NSURLConnection alloc] initWithRequest:serviceRequest delegate:self];
-    [self._activeConnections setObject:connectionInfo forKey:[NSNumber numberWithInt:(int)aConnection]];
+    self._activeConnections[[NSValue valueWithNonretainedObject:aConnection]] = connectionInfo;
     
     if (timeout){
         timer = [NSTimer scheduledTimerWithTimeInterval:timeout 
@@ -178,7 +178,7 @@
 
 -(void)cancelRequest:(NSTimer*)theTimer {
     NSURLConnection *connection= (NSURLConnection *)[theTimer userInfo];
-    NSNumber *connectionKey = [NSNumber numberWithInt:(int)connection];
+    __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
     NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:connectionKey];
     DSJSONRPCCompletionHandler completionHandler = [connectionInfo objectForKey:@"completionHandler"];
     NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection Timeout", NSLocalizedDescriptionKey, nil]];
@@ -234,18 +234,18 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:[NSNumber numberWithInt:(int)connection]];
+    NSMutableDictionary *connectionInfo = self._activeConnections[[NSValue valueWithNonretainedObject:connection]];
     [connectionInfo setObject:[NSMutableData data] forKey:@"data"];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:[NSNumber numberWithInt:(int)connection]];
+    NSMutableDictionary *connectionInfo = self._activeConnections[[NSValue valueWithNonretainedObject:connection]];
     NSMutableData *connectionData = [connectionInfo objectForKey:@"data"];
     [connectionData appendData:data];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSNumber *connectionKey = [NSNumber numberWithInt:(int)connection];
+    __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
     NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:connectionKey];
     DSJSONRPCCompletionHandler completionHandler = [connectionInfo objectForKey:@"completionHandler"];
     
@@ -267,7 +267,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     // Get information about the connection
-    NSNumber *connectionKey = [NSNumber numberWithInt:(int)connection];
+    __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
     NSMutableDictionary *connectionInfo = [self._activeConnections objectForKey:connectionKey];
     NSMutableData *connectionData = [connectionInfo objectForKey:@"data"];
     DSJSONRPCCompletionHandler completionHandler = [connectionInfo objectForKey:@"completionHandler"];

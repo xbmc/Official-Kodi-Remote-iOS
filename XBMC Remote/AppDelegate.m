@@ -11,7 +11,6 @@
 #import "MasterViewController.h"
 #import "ViewControllerIPad.h"
 #import "GlobalData.h"
-#import <arpa/inet.h>
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
 #import "Utilities.h"
@@ -42,6 +41,10 @@ typedef void(^ReplyHandler)(NSDictionary<NSString *, id> *replyMessage);
 
 @interface AppDelegate () <WCSessionDelegate>
 @end
+
+#include <arpa/inet.h>
+#include <net/if.h>
+#include <ifaddrs.h>
 
 @implementation AppDelegate
 
@@ -223,7 +226,7 @@ NSMutableArray *hostRightMenuItems;
     float itemMovieHeightLargeIpad =  230.0f;
     
     float fullscreenItemMovieWidthIpad = 164.0f;
-    float fullscreenItemMovieHeightIpad = 246.0f;
+    float fullscreenItemMovieHeightIpad = 233.0f;
     
     float itemMovieHeightRecentlyIphone =  132.0f;
     float itemMovieHeightRecentlyIpad =  196.0f;
@@ -359,7 +362,7 @@ NSMutableArray *hostRightMenuItems;
                              @"artist", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", @"genre", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype",
+                            nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist", @"defaultThumb", @"Artist", @"wikitype",
                            [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart", nil], @"properties",
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSArray arrayWithObjects: @"roles", nil], @"18",
@@ -388,7 +391,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects: @"thumbnail", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Genres", nil), @"label", @"nocover_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Genres", nil), @"label", @"nocover_genre", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableLibraryCache",
                            nil],
                           
@@ -400,7 +403,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             @"music", @"media",
-                            nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -560,7 +563,7 @@ NSMutableArray *hostRightMenuItems;
                             @"music", @"media",
                             @"addons://sources/audio", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", @"file", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Music Add-ons", nil), @"label", NSLocalizedString(@"Music Add-ons", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Music Add-ons", nil), @"label", NSLocalizedString(@"Music Add-ons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -583,7 +586,7 @@ NSMutableArray *hostRightMenuItems;
                             @"special://musicplaylists", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", @"file", @"artist", @"album", @"duration", nil], @"properties",
                             [NSArray arrayWithObjects:@"thumbnail", @"file", @"artist", @"album", @"duration", nil], @"file_properties",
-                            nil], @"parameters", NSLocalizedString(@"Music Playlists", nil), @"label", NSLocalizedString(@"Music Playlists", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Music Playlists", nil), @"label", NSLocalizedString(@"Music Playlists", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"isMusicPlaylist",
                            nil],
                           
@@ -595,7 +598,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             [NSArray arrayWithObjects:@"title", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Music Roles", nil), @"label", NSLocalizedString(@"Music Roles", nil), @"morelabel", @"nocover_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Music Roles", nil), @"label", NSLocalizedString(@"Music Roles", nil), @"morelabel", @"nocover_genre", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -845,7 +848,7 @@ NSMutableArray *hostRightMenuItems;
                       nil];
     item1.rowHeight=53;
     item1.thumbWidth=53;
-    item1.defaultThumb=@"nocover_music.png";
+    item1.defaultThumb=@"nocover_music";
     item1.watchModes = [NSArray arrayWithObjects:
                         [NSDictionary dictionaryWithObjectsAndKeys:
                          [NSArray arrayWithObjects:@"all", @"unwatched", @"watched", nil], @"modes",
@@ -926,6 +929,23 @@ NSMutableArray *hostRightMenuItems;
                         [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Show Content", nil), nil],
                         [NSMutableArray array],
                         nil];
+    
+    item1.showInfo = [NSArray arrayWithObjects:
+                      [NSNumber numberWithBool:YES],
+                      [NSNumber numberWithBool:YES],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      [NSNumber numberWithBool:NO],
+                      nil];
     
     item1.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               
@@ -1053,7 +1073,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     filemodeMusicType, @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1102,7 +1122,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
                                     @"music", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", @"53", @"thumbWidth",
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", @"53", @"thumbWidth",
                                    @"YES", @"enableCollectionView",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1124,7 +1144,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"thumbnail", @"artist", @"duration", nil], @"file_properties",
                                     @"music", @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", @"53", @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", @"53", @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1134,7 +1154,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     [NSArray arrayWithObjects: @"thumbnail", @"genre", nil], @"properties",
-                                    nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist.png", @"defaultThumb", @"Artist", @"wikitype",
+                                    nil], @"parameters", NSLocalizedString(@"Artists", nil), @"label", @"nocover_artist", @"defaultThumb", @"Artist", @"wikitype",
                                    [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects: @"thumbnail", @"genre", @"instrument", @"style", @"mood", @"born", @"formed", @"description", @"died", @"disbanded", @"yearsactive", @"fanart",nil], @"properties",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSArray arrayWithObjects: @"roles", nil], @"18",
@@ -1199,8 +1219,8 @@ NSMutableArray *hostRightMenuItems;
                                @"albumid",@"row6",
                                [NSNumber numberWithInt:0], @"playlistid",
                                @"albumid",@"row8",
-                               @"playcount", @"row9",
-                               @"artist", @"row10",
+                               @"albumid", @"row9",
+                               @"playcount", @"row10",
                                @"genre",@"row11",
                                @"description",@"row12",
                                @"albumlabel",@"row13",
@@ -1338,7 +1358,7 @@ NSMutableArray *hostRightMenuItems;
     item1.subItem.enableSection=NO;
     item1.subItem.rowHeight=53;
     item1.subItem.thumbWidth=53;
-    item1.subItem.defaultThumb=@"nocover_music.png";
+    item1.subItem.defaultThumb=@"nocover_music";
     item1.subItem.sheetActions=[NSArray arrayWithObjects:
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil),  NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
                                 [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil), nil],
@@ -1554,7 +1574,7 @@ NSMutableArray *hostRightMenuItems;
                                       nil];
     item1.subItem.subItem.rowHeight=53;
     item1.subItem.subItem.thumbWidth=53;
-    item1.subItem.subItem.defaultThumb=@"nocover_music.png";
+    item1.subItem.subItem.defaultThumb=@"nocover_music";
     item1.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],
                                         [NSArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil],//@"Stream to iPhone",
@@ -1667,7 +1687,7 @@ NSMutableArray *hostRightMenuItems;
                                               nil];
     item1.subItem.subItem.subItem.rowHeight=53;
     item1.subItem.subItem.subItem.thumbWidth=53;
-    item1.subItem.subItem.subItem.defaultThumb=@"nocover_music.png";
+    item1.subItem.subItem.subItem.defaultThumb=@"nocover_music";
     item1.subItem.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
                                                 [NSArray array],
                                                 [NSArray array],
@@ -1787,7 +1807,7 @@ NSMutableArray *hostRightMenuItems;
                              nil],@"sort",
                             @"movie", @"type",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Movie Genres", nil), @"label", @"nocover_movie_genre.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Movie Genres", nil), @"label", @"nocover_movie_genre", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableLibraryCache",
                            nil],
                           
@@ -1875,7 +1895,7 @@ NSMutableArray *hostRightMenuItems;
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"video", @"media",
-                            nil], @"parameters", @"Files", @"label", NSLocalizedString(@"Files", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", @"Files", @"label", NSLocalizedString(@"Files", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1887,7 +1907,7 @@ NSMutableArray *hostRightMenuItems;
                             @"video", @"media",
                             @"addons://sources/video", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                            nil], @"parameters", @"Video Add-ons", @"label", NSLocalizedString(@"Video Add-ons", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", @"Video Add-ons", @"label", NSLocalizedString(@"Video Add-ons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
 
                            [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1914,7 +1934,7 @@ NSMutableArray *hostRightMenuItems;
                             nil], @"parameters",
                            NSLocalizedString(@"Video Playlists", nil), @"label",
                            NSLocalizedString(@"Video Playlists", nil), @"morelabel",
-                           @"nocover_filemode.png", @"defaultThumb",
+                           @"nocover_filemode", @"defaultThumb",
                            filemodeRowHeight, @"rowHeight",
                            filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"isVideoPlaylist",
@@ -2064,7 +2084,7 @@ NSMutableArray *hostRightMenuItems;
                       nil];
     item2.rowHeight=76;
     item2.thumbWidth=53;
-    item2.defaultThumb=@"nocover_movies.png";
+    item2.defaultThumb=@"nocover_movies";
     item2.sheetActions=[NSArray arrayWithObjects:
                         [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
                         [NSArray array],
@@ -2158,7 +2178,7 @@ NSMutableArray *hostRightMenuItems;
                                       nil], @"available_methods",
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", @"file", @"dateadded", nil], @"properties",
-                                    nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies.png", @"defaultThumb",
+                                    nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies", @"defaultThumb",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                                     nil], @"extra_info_parameters",
@@ -2187,7 +2207,7 @@ NSMutableArray *hostRightMenuItems;
                                       nil], @"available_methods",
                                      nil],@"sort",
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"trailer", @"file", @"dateadded", nil], @"properties", //, @"fanart"
-                                    nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies.png", @"defaultThumb",
+                                    nil], @"parameters", @"Movies", @"label", @"Movie", @"wikitype", @"nocover_movies", @"defaultThumb",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"year", @"playcount", @"rating", @"thumbnail", @"genre", @"runtime", @"studio", @"director", @"plot", @"mpaa", @"votes", @"cast", @"file", @"fanart", @"resume", @"trailer", nil], @"properties",
                                     nil], @"extra_info_parameters",
@@ -2225,7 +2245,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"label", @"method",
                                      nil],@"sort",
                                     filemodeVideoType, @"media",
-                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", @"Files", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -2236,7 +2256,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     @"video", @"media",
                                     [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                    nil], @"parameters", @"Video Add-ons", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                    nil], @"parameters", @"Video Add-ons", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                    @"YES", @"enableCollectionView",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2394,7 +2414,7 @@ NSMutableArray *hostRightMenuItems;
     item2.subItem.enableSection = NO;
     item2.subItem.rowHeight = 76;
     item2.subItem.thumbWidth = 53;
-    item2.subItem.defaultThumb = @"nocover_movies.png";
+    item2.subItem.defaultThumb = @"nocover_movies";
     item2.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSArray array],
                                   [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Movie Details", nil), nil], //, NSLocalizedString(@"Open with VLC", nil)
@@ -2487,7 +2507,7 @@ NSMutableArray *hostRightMenuItems;
     item2.subItem.subItem.enableSection = NO;
     item2.subItem.subItem.rowHeight = 76;
     item2.subItem.subItem.thumbWidth = 53;
-    item2.subItem.subItem.defaultThumb = @"nocover_filemode.png";
+    item2.subItem.subItem.defaultThumb = @"nocover_filemode";
     item2.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
                                           [NSArray array],
                                           [NSArray array],
@@ -2560,7 +2580,7 @@ NSMutableArray *hostRightMenuItems;
                                @"none", @"method",
                                nil],@"sort",
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"playcount", @"showtitle", @"file", nil], @"properties",
-                              nil], @"parameters", NSLocalizedString(@"Added Episodes", nil), @"label", @"53", @"rowHeight", @"95", @"thumbWidth", @"nocover_tvshows_episode.png", @"defaultThumb",
+                              nil], @"parameters", NSLocalizedString(@"Added Episodes", nil), @"label", @"53", @"rowHeight", @"95", @"thumbWidth", @"nocover_tvshows_episode", @"defaultThumb",
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSArray arrayWithObjects:@"episode", @"thumbnail", @"firstaired", @"runtime", @"plot", @"director", @"writer", @"rating", @"showtitle", @"season", @"cast", @"file", @"fanart", @"playcount", @"resume", nil], @"properties",
                               nil], @"extra_info_parameters",
@@ -2588,7 +2608,7 @@ NSMutableArray *hostRightMenuItems;
                                @"label", @"method",
                                nil],@"sort",
                               @"video", @"media",
-                              nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                              nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               @"53", @"separatorInset",
                               nil], @"itemSizes",
@@ -2604,7 +2624,7 @@ NSMutableArray *hostRightMenuItems;
                               @"video", @"media",
                               @"addons://sources/video", @"directory",
                               [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                              nil], @"parameters", NSLocalizedString(@"Video Add-ons", nil), @"label", NSLocalizedString(@"Video Add-ons", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                              nil], @"parameters", NSLocalizedString(@"Video Add-ons", nil), @"label", NSLocalizedString(@"Video Add-ons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                              @"YES", @"enableCollectionView",
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2709,7 +2729,7 @@ NSMutableArray *hostRightMenuItems;
     
     item3.rowHeight = tvshowHeight;
     item3.thumbWidth = thumbWidth;
-    item3.defaultThumb = @"nocover_tvshows.png";
+    item3.defaultThumb = @"nocover_tvshows";
     item3.originLabel = 60;
     item3.sheetActions = [NSArray arrayWithObjects:
                           [NSMutableArray arrayWithObjects:NSLocalizedString(@"TV Show Details", nil), nil],
@@ -2815,7 +2835,7 @@ NSMutableArray *hostRightMenuItems;
                                        @"label", @"method",
                                        nil],@"sort",
                                       filemodeVideoType, @"media",
-                                      nil], @"parameters", @"Files", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                      nil], @"parameters", @"Files", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                     
                                     [NSMutableArray arrayWithObjects:
                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -2826,7 +2846,7 @@ NSMutableArray *hostRightMenuItems;
                                        nil],@"sort",
                                       @"video", @"media",
                                       [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                      nil], @"parameters", @"Video Add-ons", @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                      nil], @"parameters", @"Video Add-ons", @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                      @"YES", @"enableCollectionView",
                                      [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -2926,7 +2946,7 @@ NSMutableArray *hostRightMenuItems;
     item3.subItem.enableSection = NO;
     item3.subItem.rowHeight = 53;
     item3.subItem.thumbWidth = 95;
-    item3.subItem.defaultThumb = @"nocover_tvshows_episode.png";
+    item3.subItem.defaultThumb = @"nocover_tvshows_episode";
     item3.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSMutableArray arrayWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Episode Details", nil),  nil], //, NSLocalizedString(@"Open with VLC", nil)
 //                                  [NSArray arrayWithObjects:@"TV Show Details", nil],
@@ -2986,7 +3006,7 @@ NSMutableArray *hostRightMenuItems;
     item3.subItem.subItem.enableSection=NO;
     item3.subItem.subItem.rowHeight=53;
     item3.subItem.subItem.thumbWidth=95;
-    item3.subItem.subItem.defaultThumb=@"nocover_tvshows_episode.png";
+    item3.subItem.subItem.defaultThumb=@"nocover_tvshows_episode";
     item3.subItem.subItem.sheetActions=[NSArray arrayWithObjects:
                                         [NSArray array],
 //                                        [NSArray array],
@@ -3037,7 +3057,7 @@ NSMutableArray *hostRightMenuItems;
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"tv", @"channeltype",
-                            nil], @"parameters", NSLocalizedString(@"Live TV", nil), @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Live TV", nil), @"label", NSLocalizedString(@"Live TV", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3052,7 +3072,7 @@ NSMutableArray *hostRightMenuItems;
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"radio", @"channeltype",
-                            nil], @"parameters", NSLocalizedString(@"Radio", nil), @"label", NSLocalizedString(@"Radio", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Radio", nil), @"label", NSLocalizedString(@"Radio", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3079,7 +3099,7 @@ NSMutableArray *hostRightMenuItems;
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", @"genre", @"playcount",@"resume", @"channel",  @"runtime",@"lifetime", @"icon", @"art", @"streamurl", @"file", @"directory", nil], @"properties",
                             nil], @"extra_info_parameters",
-                           NSLocalizedString(@"Recordings", nil), @"label", NSLocalizedString(@"Recordings", nil), @"morelabel", @"nocover_channels.png", @"defaultThumb", channelEPGRowHeight, @"rowHeight", @"48", @"thumbWidth",
+                           NSLocalizedString(@"Recordings", nil), @"label", NSLocalizedString(@"Recordings", nil), @"morelabel", @"nocover_channels", @"defaultThumb", channelEPGRowHeight, @"rowHeight", @"48", @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3107,7 +3127,7 @@ NSMutableArray *hostRightMenuItems;
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSArray alloc] initWithObjects:@"title", @"summary", @"starttime", @"endtime", @"runtime", @"lifetime", @"firstday", @"weekdays", @"priority", @"startmargin", @"endmargin", @"state", @"file", @"directory", nil], @"properties",
                             nil], @"extra_info_parameters",
-                           NSLocalizedString(@"Timers", nil), @"label", NSLocalizedString(@"Timers", nil), @"morelabel", @"nocover_timers.png", @"defaultThumb", @"53", @"rowHeight", @"53", @"thumbWidth",
+                           NSLocalizedString(@"Timers", nil), @"label", NSLocalizedString(@"Timers", nil), @"morelabel", @"nocover_timers", @"defaultThumb", @"53", @"rowHeight", @"53", @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3189,7 +3209,7 @@ NSMutableArray *hostRightMenuItems;
                       nil];
     item8.rowHeight=76;
     item8.thumbWidth=53;
-    item8.defaultThumb=@"nocover_movies.png";
+    item8.defaultThumb=@"nocover_movies";
     item8.sheetActions=[NSArray arrayWithObjects:
                         [NSArray array],
                         [NSArray array],
@@ -3235,7 +3255,7 @@ NSMutableArray *hostRightMenuItems;
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"thumbnail", @"channel", nil], @"properties",
-                                    nil], @"parameters", @"Live TV", @"label", @"nocover_channels.png", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", @"48", @"thumbWidth",
+                                    nil], @"parameters", @"Live TV", @"label", @"nocover_channels", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", @"48", @"thumbWidth",
                                    @"YES", @"enableCollectionView",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects: @"isrecording", nil], @"17",
@@ -3254,7 +3274,7 @@ NSMutableArray *hostRightMenuItems;
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects:@"thumbnail", @"channel", nil], @"properties",
-                                    nil], @"parameters", @"Live TV", @"label", @"nocover_channels.png", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", @"48", @"thumbWidth",
+                                    nil], @"parameters", @"Live TV", @"label", @"nocover_channels", @"defaultThumb", @"YES", @"disableFilterParameter", livetvRowHeight, @"rowHeight", @"48", @"thumbWidth",
                                    @"YES", @"enableCollectionView",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSArray arrayWithObjects: @"isrecording", nil], @"17",
@@ -3310,7 +3330,7 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.enableSection = NO;
     item8.subItem.rowHeight = 76;
     item8.subItem.thumbWidth = [livetvThumbWidth intValue];
-    item8.subItem.defaultThumb = @"nocover_channels.png";
+    item8.subItem.defaultThumb = @"nocover_channels";
     item8.subItem.sheetActions = [NSArray arrayWithObjects:
                                   [NSArray arrayWithObjects:
                                    NSLocalizedString(@"Play", nil),
@@ -3354,7 +3374,7 @@ NSMutableArray *hostRightMenuItems;
                                             [NSMutableArray arrayWithObjects:
                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                               [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", @"progresspercentage", @"isactive", @"hastimer", nil], @"properties",
-                                              nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
+                                              nil], @"parameters", @"Live TV", @"label", @"icon_video", @"defaultThumb", @"YES", @"disableFilterParameter", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
                                              [NSDictionary dictionaryWithObjectsAndKeys:
                                               [NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
@@ -3369,7 +3389,7 @@ NSMutableArray *hostRightMenuItems;
                                             [NSMutableArray arrayWithObjects:
                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                               [[NSArray alloc] initWithObjects:@"title", @"starttime", @"endtime", @"plot", @"plotoutline", @"progresspercentage", @"isactive", @"hastimer", nil], @"properties",
-                                              nil], @"parameters", @"Live TV", @"label", @"icon_video.png", @"defaultThumb", @"YES", @"disableFilterParameter", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
+                                              nil], @"parameters", @"Live TV", @"label", @"icon_video", @"defaultThumb", @"YES", @"disableFilterParameter", channelEPGRowHeight, @"rowHeight", livetvThumbWidth, @"thumbWidth",
                                              [NSDictionary dictionaryWithObjectsAndKeys:
                                               [NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithFloat:itemMovieWidthIphone], @"width",
@@ -3427,7 +3447,7 @@ NSMutableArray *hostRightMenuItems;
     item8.subItem.subItem.enableSection = NO;
     item8.subItem.subItem.rowHeight = 76;
     item8.subItem.subItem.thumbWidth = 53;
-    item8.subItem.subItem.defaultThumb = @"nocover_filemode.png";
+    item8.subItem.subItem.defaultThumb = @"nocover_filemode";
     item8.subItem.subItem.sheetActions = [NSArray arrayWithObjects:
                                           [NSArray arrayWithObjects:
                                            NSLocalizedString(@"Play", nil),
@@ -3473,7 +3493,7 @@ NSMutableArray *hostRightMenuItems;
                              @"label", @"method",
                              nil],@"sort",
                             @"pictures", @"media",
-                            nil], @"parameters", NSLocalizedString(@"Pictures", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                            nil], @"parameters", NSLocalizedString(@"Pictures", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                           
                           [NSMutableArray arrayWithObjects:
                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -3485,7 +3505,7 @@ NSMutableArray *hostRightMenuItems;
                             @"pictures", @"media",
                             @"addons://sources/image", @"directory",
                             [NSArray arrayWithObjects:@"thumbnail", nil], @"properties",
-                            nil], @"parameters", NSLocalizedString(@"Pictures Add-ons", nil), @"label", NSLocalizedString(@"Pictures Add-ons", nil), @"morelabel", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                            nil], @"parameters", NSLocalizedString(@"Pictures Add-ons", nil), @"label", NSLocalizedString(@"Pictures Add-ons", nil), @"morelabel", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                            @"YES", @"enableCollectionView",
                            [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3528,7 +3548,7 @@ NSMutableArray *hostRightMenuItems;
                       nil];
     
     item4.thumbWidth=53;
-    item4.defaultThumb=@"jewel_dvd.table.png";
+    item4.defaultThumb=@"jewel_dvd.table";
     
     item4.subItem.mainMethod=[NSMutableArray arrayWithObjects:
                               
@@ -3549,7 +3569,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     @"pictures", @"media",
                                     [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                    nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", NSLocalizedString(@"Files", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   [NSMutableArray arrayWithObjects:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -3560,7 +3580,7 @@ NSMutableArray *hostRightMenuItems;
                                      nil],@"sort",
                                     @"pictures", @"media",
                                     [NSArray arrayWithObjects:@"thumbnail", nil], @"file_properties",
-                                    nil], @"parameters", NSLocalizedString(@"Video Add-ons", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
+                                    nil], @"parameters", NSLocalizedString(@"Video Add-ons", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", nil],
                                   
                                   nil];
     item4.subItem.mainFields=[NSArray arrayWithObjects:
@@ -3600,7 +3620,7 @@ NSMutableArray *hostRightMenuItems;
     item4.subItem.enableSection=NO;
     item4.subItem.rowHeight=76;
     item4.subItem.thumbWidth=53;
-    item4.subItem.defaultThumb=@"nocover_tvshows_episode.png";
+    item4.subItem.defaultThumb=@"nocover_tvshows_episode";
     
     
     item4.subItem.subItem.mainMethod=[NSMutableArray arrayWithObjects:
@@ -3695,7 +3715,7 @@ NSMutableArray *hostRightMenuItems;
                                    [NSMutableArray arrayWithObjects:
                                     [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"expert", @"level",
-                                     nil], @"parameters", NSLocalizedString(@"XBMC Settings", nil), @"label", @"nocover_settings.png", @"defaultThumb",
+                                     nil], @"parameters", NSLocalizedString(@"XBMC Settings", nil), @"label", @"nocover_settings", @"defaultThumb",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"53", @"separatorInset",
                                      nil], @"itemSizes",
@@ -3708,7 +3728,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"xbmc.addon.executable", @"type",
                                      [NSNumber numberWithBool:YES], @"enabled",
                                      [[NSArray alloc] initWithObjects: @"name", @"version", @"summary", @"thumbnail", nil], @"properties",
-                                     nil], @"parameters", NSLocalizedString(@"Programs", nil), @"label", @"nocover_filemode.png", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
+                                     nil], @"parameters", NSLocalizedString(@"Programs", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -3726,7 +3746,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"xbmc.addon.video", @"type",
                                      [NSNumber numberWithBool:YES], @"enabled",
                                      [[NSArray alloc] initWithObjects: @"name", @"version", @"summary", @"thumbnail", nil], @"properties",
-                                     nil], @"parameters", NSLocalizedString(@"Video Add-ons", nil), @"label", @"nocover_filemode.png", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
+                                     nil], @"parameters", NSLocalizedString(@"Video Add-ons", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -3744,7 +3764,7 @@ NSMutableArray *hostRightMenuItems;
                                      @"xbmc.addon.audio", @"type",
                                      [NSNumber numberWithBool:YES], @"enabled",
                                      [[NSArray alloc] initWithObjects: @"name", @"version", @"summary", @"thumbnail", nil], @"properties",
-                                     nil], @"parameters", NSLocalizedString(@"Music Add-ons", nil), @"label", @"nocover_filemode.png", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
+                                     nil], @"parameters", NSLocalizedString(@"Music Add-ons", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"65", @"thumbWidth",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSNumber numberWithFloat:itemMusicWidthIphone], @"width",
@@ -3763,7 +3783,7 @@ NSMutableArray *hostRightMenuItems;
                                       @"Input.ExecuteAction", @"id",
                                       @"method", @"type", nil], @"filter",
                                      nil], @"parameters",
-                                    NSLocalizedString(@"Kodi actions", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", @"0", @"thumbWidth", NSLocalizedString(@"Execute a specific action", nil), @"morelabel",
+                                    NSLocalizedString(@"Kodi actions", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", @"0", @"thumbWidth", NSLocalizedString(@"Execute a specific action", nil), @"morelabel",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"0", @"separatorInset",
                                      nil], @"itemSizes",
@@ -3775,7 +3795,7 @@ NSMutableArray *hostRightMenuItems;
                                       @"GUI.ActivateWindow", @"id",
                                       @"method", @"type", nil], @"filter",
                                      nil], @"parameters",
-                                    NSLocalizedString(@"Kodi windows", nil), @"label", @"nocover_filemode.png", @"defaultThumb", filemodeRowHeight, @"rowHeight", @"0", @"thumbWidth", NSLocalizedString(@"Activate a specific window", nil), @"morelabel",
+                                    NSLocalizedString(@"Kodi windows", nil), @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", @"0", @"thumbWidth", NSLocalizedString(@"Activate a specific window", nil), @"morelabel",
                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                      @"0", @"separatorInset",
                                      nil], @"itemSizes",
@@ -3899,7 +3919,7 @@ NSMutableArray *hostRightMenuItems;
     
     xbmcSettings.subItem.mainParameters = [NSMutableArray arrayWithObjects:
                                            [NSMutableArray arrayWithObjects:
-                                            NSLocalizedString(@"Settings", nil), @"label", @"nocover_filemode.png", @"defaultThumb", @"65", @"rowHeight", @"32", @"thumbWidth",
+                                            NSLocalizedString(@"Settings", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"32", @"thumbWidth",
                                             [NSDictionary dictionaryWithObjectsAndKeys:
                                              @"40", @"separatorInset",
                                              nil], @"itemSizes",
@@ -3964,7 +3984,7 @@ NSMutableArray *hostRightMenuItems;
     
     xbmcSettings.subItem.subItem.mainParameters = [NSMutableArray arrayWithObjects:
                                                    [NSMutableArray arrayWithObjects:
-                                                    NSLocalizedString(@"Settings", nil), @"label", @"nocover_filemode.png", @"defaultThumb", @"65", @"rowHeight", @"0", @"thumbWidth",
+                                                    NSLocalizedString(@"Settings", nil), @"label", @"nocover_filemode", @"defaultThumb", @"65", @"rowHeight", @"0", @"thumbWidth",
                                                     [NSDictionary dictionaryWithObjectsAndKeys:
                                                      @"8", @"separatorInset",
                                                      nil], @"itemSizes",
@@ -4400,10 +4420,6 @@ NSMutableArray *hostRightMenuItems;
     }
 }
 
--(void)wake:(NSString *)macAddress{
-    Wake_on_LAN("255.255.255.255", [macAddress UTF8String]);
-}
-
 -(void)sendWOL:(NSString *)MAC withPort:(NSInteger)WOLport {
     CFSocketRef     WOLsocket;
     WOLsocket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_DGRAM, IPPROTO_UDP, 0, NULL, NULL);
@@ -4443,13 +4459,29 @@ NSMutableArray *hostRightMenuItems;
             memcpy(message_ptr, ether_addr, 6);
             message_ptr += 6;
         }
-        
+
+        __auto_type getLocalBroadcastAddress = ^in_addr_t {
+            in_addr_t broadcastAddress = 0xffffffff;
+            struct ifaddrs *ifs = NULL;
+            getifaddrs(&ifs);
+            for (__auto_type ifIter = ifs; ifIter != NULL; ifIter = ifIter->ifa_next) {
+                if (ifIter->ifa_flags & IFF_LOOPBACK || ifIter->ifa_flags & IFF_POINTOPOINT || !(ifIter->ifa_flags & IFF_RUNNING))
+                    continue;
+                if (!ifIter->ifa_addr || ifIter->ifa_addr->sa_family != AF_INET || !ifIter->ifa_broadaddr)
+                    continue;
+                broadcastAddress = ((struct sockaddr_in *)ifIter->ifa_broadaddr)->sin_addr.s_addr;
+                break;
+            }
+            if (ifs)
+                freeifaddrs(ifs);
+            return broadcastAddress;
+        };
+
         struct sockaddr_in addr;
-        
         memset(&addr, 0, sizeof(addr));
         addr.sin_len = sizeof(addr);
         addr.sin_family = AF_INET;
-        addr.sin_addr.s_addr = 0xffffffff;
+        addr.sin_addr.s_addr = getLocalBroadcastAddress();
         addr.sin_port = htons(WOLport);
         
         CFDataRef message_data = CFDataCreate(NULL, (unsigned char*)&message, sizeof(message));
@@ -4461,57 +4493,6 @@ NSMutableArray *hostRightMenuItems;
             NSLog(@"CFSocketSendData error: %li", CFSocketSendData_error);
         }
     }
-}
-
-int Wake_on_LAN(char *ip_broadcast,const char *wake_mac){
-	int i,sockfd,an=1;
-	char *x;
-	long mac[102];
-	char macpart[2];
-	char test[103];
-	
-	struct sockaddr_in serverAddress;
-	
-	if ( (sockfd = socket( AF_INET, SOCK_DGRAM,17)) < 0 ) {
-		return 1;
-	}
-	
-	setsockopt(sockfd,SOL_SOCKET,SO_BROADCAST,&an,sizeof(an));
-	
-	bzero( &serverAddress, sizeof(serverAddress) );
-	serverAddress.sin_family = AF_INET;
-	serverAddress.sin_port = htons( 9 );
-	
-	inet_pton( AF_INET, ip_broadcast, &serverAddress.sin_addr );
-	
-	for (i=0;i<6;i++) mac[i]=255;
-	for (i=1;i<17;i++) {
-		macpart[0]=wake_mac[0];
-		macpart[1]=wake_mac[1];
-		mac[6*i]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[3];
-		macpart[1]=wake_mac[4];
-		mac[6*i+1]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[6];
-		macpart[1]=wake_mac[7];
-		mac[6*i+2]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[9];
-		macpart[1]=wake_mac[10];
-		mac[6*i+3]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[12];
-		macpart[1]=wake_mac[13];
-		mac[6*i+4]=strtol(macpart,&x,16);
-		macpart[0]=wake_mac[15];
-		macpart[1]=wake_mac[16];
-		mac[6*i+5]=strtol(macpart,&x,16);
-	}
-	for (i=0;i<103;i++) test[i]=mac[i];
-	test[102]=0;
-	
-	sendto(sockfd,&mac,102,0,(struct sockaddr *)&serverAddress,sizeof(serverAddress));
-	close(sockfd);
-	
-	return 0;
 }
 
 

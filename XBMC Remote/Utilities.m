@@ -493,4 +493,8 @@
     [ctrl presentViewController:svc animated:YES completion:nil];
 }
 
++ (DSJSONRPC*)getJsonRPC {
+    return [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
+}
+
 @end

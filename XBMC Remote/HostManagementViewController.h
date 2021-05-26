@@ -30,7 +30,6 @@
     __weak IBOutlet UIView *supportedVersionView;
     __weak IBOutlet UILabel *supportedVersionLabel;
     MessagesView *messagesView;
-    DSJSONRPC *jsonRPC;
     __weak IBOutlet UIToolbar *bottomToolbar;
     __weak IBOutlet UIImageView *bottomToolbarShadowImageView;
 }
@@ -38,7 +37,6 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 -(void)selectIndex:(NSIndexPath *)selection reloadData:(BOOL)reload;
 
-@property (strong, nonatomic) HostViewController *hostController;
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 
 @end

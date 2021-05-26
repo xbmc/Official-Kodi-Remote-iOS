@@ -66,10 +66,7 @@
                 [UIView commitAnimations];
             }
         }
-//        jsonRPC=nil;
-//        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-//
-//        [jsonRPC
+//        [[Utilities getJsonRPC]
 //         callMethod:@"JSONRPC.Introspect"
 //         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: nil]
 //         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -95,10 +92,6 @@
             }
         }
     }
-}
-
--(void)wakeUp:(NSString *)macAddress{
-    [[AppDelegate instance] sendWOL:macAddress withPort:9];
 }
 
 #pragma mark - Table view methods & data source
@@ -131,12 +124,12 @@
         [(UILabel*) [cell viewWithTag:3] setText:NSLocalizedString(@"No connection", nil)];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
         if (indexPath.row == 0){
-            UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+            UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
             int cellHeight = 44;
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:cellHeight width:self.view.bounds.size.width]];
             xbmc_logo.alpha = 0.25;
             [xbmc_logo setImage:logo];
-            [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo_selected.png"]];
+            [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo_selected"]];
             [cell insertSubview:xbmc_logo atIndex:0];
             UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
             UIImageView *line = (UIImageView*) [cell viewWithTag:4];
@@ -159,13 +152,13 @@
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:11]];
     [upperTitle setText:item.upperLabel];
     if (indexPath.row == 0) {
-        iconName = @"connection_off.png";
+        iconName = @"connection_off";
         if ([AppDelegate instance].serverOnLine == YES) {
             if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
-                iconName = @"connection_on.png";
+                iconName = @"connection_on";
             }
             else {
-                iconName = @"connection_on_notcp.png";
+                iconName = @"connection_on_notcp";
             }
         }
     }
@@ -230,7 +223,7 @@
     }
     navController = nil;
     navController = [[CustomNavigationController alloc] initWithRootViewController:object];
-    UIImage* menuImg = [UIImage imageNamed:@"button_menu.png"];
+    UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
     
     UINavigationBar *newBar = navController.navigationBar;
@@ -246,14 +239,14 @@
     CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height + 22);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [shadow setImage:[UIImage imageNamed:@"tableLeft.png"]];
+    [shadow setImage:[UIImage imageNamed:@"tableLeft"]];
     shadow.opaque = YES;
     [navController.view addSubview:shadow];
     
     shadowRect = CGRectMake(self.view.frame.size.width, 0, 16, self.view.frame.size.height + 22);
     UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
+    [shadowRight setImage:[UIImage imageNamed:@"tableRight"]];
     shadowRight.opaque = YES;
     [navController.view addSubview:shadowRight];
 
@@ -278,7 +271,7 @@
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+    UIImage *myImage = [UIImage imageNamed:@"blank"];
 	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
 	imageView.frame = CGRectMake(0,0,320,8);
 	return imageView;
@@ -327,7 +320,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    jsonRPC=nil;
 }
 
 - (void)viewDidLoad{

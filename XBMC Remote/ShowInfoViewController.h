@@ -21,7 +21,6 @@
     IBOutlet UILabel *voteLabel;
     IBOutlet UILabel *numVotesLabel;
     IBOutlet UIScrollView *scrollView;
-    DSJSONRPC *jsonRPC;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     IBOutlet UILabel *directorLabel;
     IBOutlet UILabel *genreLabel;
@@ -48,7 +47,6 @@
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *fanartView;
 
-    BOOL alreadyPush;
     BOOL isRecordingDetail;
     UIToolbar *toolbar;
     NSMutableArray *sheetActions;
@@ -82,13 +80,12 @@
     CGFloat dotSize;
     CGFloat dotSizePadding;
     LogoBackgroundType logoBackgroundMode;
+    UIBarButtonItem *doneButton;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
 
 @property (strong, nonatomic) id detailItem;
-@property (strong, nonatomic) NowPlaying *nowPlaying;
-@property (strong, nonatomic) DetailViewController *detailViewController;
 @property (nonatomic, retain) KenBurnsView *kenView;
 
 @end

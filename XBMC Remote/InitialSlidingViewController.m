@@ -34,14 +34,14 @@
     CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height + 22);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [shadow setImage:[UIImage imageNamed:@"tableLeft.png"]];
+    [shadow setImage:[UIImage imageNamed:@"tableLeft"]];
     shadow.opaque = YES;
     [navController.view addSubview:shadow];
     
     shadowRect = CGRectMake(self.view.frame.size.width, 0, 16, self.view.frame.size.height + 22);
     UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
     [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [shadowRight setImage:[UIImage imageNamed:@"tableRight.png"]];
+    [shadowRight setImage:[UIImage imageNamed:@"tableRight"]];
     shadowRight.opaque = YES;
     [navController.view addSubview:shadowRight];
 }

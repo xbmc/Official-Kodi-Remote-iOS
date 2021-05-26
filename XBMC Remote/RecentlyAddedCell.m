@@ -43,8 +43,8 @@
         UIImageView *labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(startX, frame.size.height - genreHeight - yearHeight - labelHeight + borderWidth*2, fanartWidth - borderWidth * 3, labelHeight + genreHeight + yearHeight - borderWidth*3)];
         [labelImageView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
 
-        [labelImageView setImage:[UIImage imageNamed:@"cell_bg.png"]];
-        [labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected.png"]];
+        [labelImageView setImage:[UIImage imageNamed:@"cell_bg"]];
+        [labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
         
         int posterYOffset = 4;
         int labelPadding = 4;
@@ -92,7 +92,8 @@
         [self.contentView addSubview:_busyView];
         
         UIView *bgView = [[UIView alloc] initWithFrame:frame];
-        [bgView setBackgroundColor:[Utilities getSystemGreen:1.0]];
+        bgView.layer.borderWidth = borderWidth;
+        bgView.layer.borderColor = [Utilities getSystemGreen:1.0].CGColor;
         self.selectedBackgroundView = bgView;
     }
     return self;
@@ -101,7 +102,7 @@
 -(void)setOverlayWatched:(BOOL)enable{
     if (enable == YES){
         if (overlayWatched == nil){
-            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched.png"]];
+            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
             [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width - 4,
                                               self.contentView.frame.size.height - overlayWatched.frame.size.height - 4,

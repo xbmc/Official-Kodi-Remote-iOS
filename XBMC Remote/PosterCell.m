@@ -31,8 +31,8 @@
         
         _labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
         [_labelImageView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
-        [_labelImageView setImage:[UIImage imageNamed:@"cell_bg.png"]];
-        [_labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected.png"]];
+        [_labelImageView setImage:[UIImage imageNamed:@"cell_bg"]];
+        [_labelImageView setHighlightedImage:[UIImage imageNamed:@"cell_bg_selected"]];
 
         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
         [_posterLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
@@ -69,7 +69,8 @@
         [self.contentView addSubview:_busyView];
 
         UIView *bgView = [[UIView alloc] initWithFrame:frame];
-        [bgView setBackgroundColor:[Utilities getSystemGreen:1.0]];
+        bgView.layer.borderWidth = borderWidth;
+        bgView.layer.borderColor = [Utilities getSystemGreen:1.0].CGColor;
         self.selectedBackgroundView = bgView;
     }
     return self;
@@ -84,7 +85,7 @@
         if (isRecordingImageView == nil) {
             CGFloat dotSize = 8;
             isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, dotSize, dotSize)];
-            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer.png"]];
+            [isRecordingImageView setImage:[UIImage imageNamed:@"button_timer"]];
             [isRecordingImageView setContentMode:UIViewContentModeScaleToFill];
             isRecordingImageView.tag = 104;
             [isRecordingImageView setBackgroundColor:[UIColor clearColor]];
@@ -100,7 +101,7 @@
 -(void)setOverlayWatched:(BOOL)enable{
     if (enable == YES){
         if (overlayWatched == nil){
-            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched.png"]];
+            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
             [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width + 2,
                                               self.contentView.frame.size.height - overlayWatched.frame.size.height + 1,

@@ -66,7 +66,7 @@ static char operationKey;
 
     self.image = placeholder;
     
-    if (url)
+    if (url && url.path)
     {
         NSDictionary *userInfo = nil;
         if (size.width && size.height){

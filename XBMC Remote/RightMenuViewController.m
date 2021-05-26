@@ -40,12 +40,12 @@
                 [device setTorchMode:AVCaptureTorchModeOn];
                 [settings setFlashMode:AVCaptureFlashModeOn];
                 torchIsOn = YES;
-                [iconTorch setImage:[UIImage imageNamed:@"torch_on.png"]];
+                [iconTorch setImage:[UIImage imageNamed:@"torch_on"]];
             } else {
                 [device setTorchMode:AVCaptureTorchModeOff];
                 [settings setFlashMode:AVCaptureFlashModeOff];
                 torchIsOn = NO;
-                [iconTorch setImage:[UIImage imageNamed:@"torch.png"]];
+                [iconTorch setImage:[UIImage imageNamed:@"torch"]];
             }
             [device unlockForConfiguration];
         }
@@ -94,7 +94,7 @@
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         [backView setBackgroundColor:[Utilities getGrayColor:22 alpha:1]];
         cell.selectedBackgroundView = backView;
-        UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
         UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
         xbmc_logo.alpha = 0.25;
         [xbmc_logo setImage:logo];
@@ -108,18 +108,18 @@
     icon.hidden = NO;
     xbmc_logo.hidden = YES;
     [cell setAccessoryView:nil];
-    NSString *iconName = @"blank.png";
+    NSString *iconName = @"blank";
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:@"ServerInfo"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         xbmc_logo.hidden = NO;
-        iconName = @"connection_off.png";
+        iconName = @"connection_off";
         icon.alpha = 1;
         if ([AppDelegate instance].serverOnLine == YES) {
             if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
-                iconName = @"connection_on.png";
+                iconName = @"connection_on";
             }
             else {
-                iconName = @"connection_on_notcp.png";
+                iconName = @"connection_on_notcp";
             }
         }
         int cellHeight = 44;
@@ -167,7 +167,7 @@
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         [backView setBackgroundColor:[Utilities getGrayColor:22 alpha:1]];
         cell.selectedBackgroundView = backView;
-        UIImage *logo = [UIImage imageNamed:@"xbmc_logo.png"];
+        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
         UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
         xbmc_logo.alpha = 0.25;
         [xbmc_logo setImage:logo];
@@ -241,11 +241,11 @@
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]){
         icon.alpha = 0.8;
         if (torchIsOn){
-            iconName = @"torch_on.png";
+            iconName = @"torch_on";
         }
     }
     if ([[[tableData objectAtIndex:indexPath.row] objectForKey:@"type"] isEqualToString:@"xbmc-exec-addon"]){
-        [icon setImageWithURL:[NSURL URLWithString:[[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@"blank.png"] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
+        [icon setImageWithURL:[NSURL URLWithString:[[tableData objectAtIndex:indexPath.row] objectForKey:@"icon"]] placeholderImage:[UIImage imageNamed:@"blank"] andResize:CGSizeMake(icon.frame.size.width, icon.frame.size.height)];
         icon.alpha = 1.0;
     }
     else{
@@ -545,9 +545,7 @@
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
         [sender setUserInteractionEnabled:NO];
     }
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
             [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
@@ -564,9 +562,7 @@
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
         [sender setUserInteractionEnabled:NO];
     }
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
-    [jsonRPC callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError==nil && error == nil){
             [busyView stopAnimating];
             if ([sender respondsToSelector:@selector(setHidden:)]){
@@ -766,7 +762,7 @@
         }
 
         NSString *icon = [item objectForKey:@"icon"];
-        if (icon == nil) icon = @"";
+        if (icon == nil) icon = @"blank";
         
         NSMutableDictionary *action = [item objectForKey:@"action"];
         if (action == nil) action = [[NSMutableDictionary alloc] initWithCapacity:0];
@@ -800,7 +796,7 @@
             NSString *label = [item objectForKey:@"label"];
             if (label == nil) label = @"";
             NSString *icon = [item objectForKey:@"icon"];
-            if (icon == nil) icon = @"";
+            if (icon == nil) icon = @"blank";
             NSString *type = [item objectForKey:@"type"];
             if (type == nil) type = @"";
             NSNumber *isSetting = [item objectForKey:@"isSetting"];

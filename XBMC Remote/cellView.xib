@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MasterViewController">
@@ -15,60 +15,52 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3" id="gro-gV-D4K">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="55.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleAspectFit" image="icon_home_music_alt.png" id="4">
+                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleAspectFit" fixedFrame="YES" image="icon_home_music_alt" translatesAutoresizingMaskIntoConstraints="NO" id="4">
                         <rect key="frame" x="18" y="13" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" text="upperLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="5">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" fixedFrame="YES" text="upperLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5">
                         <rect key="frame" x="65" y="6" width="222" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <animations/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                        <color key="textColor" red="0.29892791969999999" green="0.2986142792" blue="0.2970175639" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="highlightedColor" red="0.29892791969999999" green="0.2986142792" blue="0.2970175639" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.29892791969999999" green="0.2986142792" blue="0.2970175639" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="highlightedColor" red="0.29892791969999999" green="0.2986142792" blue="0.2970175639" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <size key="shadowOffset" width="1" height="1"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" text="Main Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="6">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" fixedFrame="YES" text="Main Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="6">
                         <rect key="frame" x="65" y="16" width="192" height="34"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <animations/>
                         <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="20"/>
-                        <color key="textColor" red="0.70380930659999996" green="0.70064438870000001" blue="0.70158531020000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="highlightedColor" red="0.70380930659999996" green="0.70064438870000001" blue="0.70158531020000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.70380930659999996" green="0.70064438870000001" blue="0.70158531020000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="highlightedColor" red="0.70380930659999996" green="0.70064438870000001" blue="0.70158531020000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <size key="shadowOffset" width="1" height="1"/>
                     </label>
-                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="4" contentMode="center" id="11">
+                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="4" contentMode="center" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        <animations/>
-                        <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </imageView>
-                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000001192092896" tag="5" contentMode="center" image="table_arrow_right.png" highlightedImage="table_arrow_right_selected.png" id="12">
+                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000001192092896" tag="5" contentMode="center" fixedFrame="YES" image="table_arrow_right" highlightedImage="table_arrow_right_selected" translatesAutoresizingMaskIntoConstraints="NO" id="12">
                         <rect key="frame" x="260" y="22" width="10" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
-                        <animations/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" highlightedImage="selected.png" id="13" userLabel="Image View - selected line">
-                        <rect key="frame" x="0.0" y="0.0" width="4" height="56.5"/>
+                    <imageView userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" highlightedImage="selected" translatesAutoresizingMaskIntoConstraints="NO" id="13" userLabel="Image View - selected line">
+                        <rect key="frame" x="0.0" y="0.0" width="4" height="57"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
-                        <animations/>
                     </imageView>
                 </subviews>
-                <animations/>
             </tableViewCellContentView>
-            <animations/>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <point key="canvasLocation" x="267" y="29"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <point key="canvasLocation" x="386.95652173913044" y="19.419642857142858"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="icon_home_music_alt.png" width="30" height="30"/>
-        <image name="selected.png" width="6" height="56"/>
-        <image name="table_arrow_right.png" width="10" height="14"/>
-        <image name="table_arrow_right_selected.png" width="10" height="14"/>
+        <image name="icon_home_music_alt" width="128" height="128"/>
+        <image name="selected" width="128" height="128"/>
+        <image name="table_arrow_right" width="128" height="128"/>
+        <image name="table_arrow_right_selected" width="128" height="128"/>
     </resources>
 </document>

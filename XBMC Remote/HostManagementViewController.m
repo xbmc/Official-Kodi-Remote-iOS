@@ -22,7 +22,6 @@
 
 @implementation HostManagementViewController
 
-@synthesize hostController;
 @synthesize mainMenu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -33,17 +32,15 @@
 #pragma mark - Button Mamagement
 
 -(IBAction)addHost:(id)sender{
-    if (self.hostController == nil) {
-        self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
-    }
-    self.hostController.detailItem = nil;
-    [self.navigationController pushViewController:self.hostController animated:YES];
+    HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
+    hostController.detailItem = nil;
+    [self.navigationController pushViewController:hostController animated:YES];
 }
 
 -(void)modifyHost:(NSIndexPath *)item{
     if (storeServerSelection && item.row == storeServerSelection.row){
         UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:item];
-        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off.png"]];
+        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
         [serverListTableView deselectRowAtIndexPath:item animated:YES];
         cell.accessoryType = UITableViewCellAccessoryNone;
         storeServerSelection = nil;
@@ -61,11 +58,9 @@
         }
         [connectingActivityIndicator stopAnimating];
     }
-    if (self.hostController == nil) {
-        self.hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil] ;
-    }
-    self.hostController.detailItem = item;
-    [self.navigationController pushViewController:self.hostController animated:YES];
+    HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
+    hostController.detailItem = item;
+    [self.navigationController pushViewController:hostController animated:YES];
 }
 
 #pragma mark - Table view methods & data source
@@ -121,10 +116,10 @@
             cell.accessoryType=UITableViewCellAccessoryCheckmark;
             if ([AppDelegate instance].serverOnLine == YES) {
                 if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
-                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on.png"]];
+                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
                 }
                 else {
-                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on_notcp.png"]];
+                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on_notcp"]];
                 }
             }
         }
@@ -174,7 +169,7 @@ static inline BOOL IsEmpty(id obj) {
         [standardUserDefaults setObject:[NSNumber numberWithInt:-1] forKey:@"lastServer"];
         [standardUserDefaults synchronize];
     }
-    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off.png"]];
+    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -206,7 +201,7 @@ static inline BOOL IsEmpty(id obj) {
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType=UITableViewCellAccessoryNone;
-    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off.png"]];
+    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -257,7 +252,7 @@ static inline BOOL IsEmpty(id obj) {
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return nil;
-//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+//    UIImage *myImage = [UIImage imageNamed:@"blank"];
 //	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
 //	imageView.frame = CGRectMake(0,0,320,8);
 //	return imageView;
@@ -269,7 +264,7 @@ static inline BOOL IsEmpty(id obj) {
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return nil;
-//    UIImage *myImage = [UIImage imageNamed:@"blank.png"];
+//    UIImage *myImage = [UIImage imageNamed:@"blank"];
 //	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage] ;
 //	imageView.frame = CGRectMake(0,0,320,8);
 //	return imageView;
@@ -369,7 +364,7 @@ static inline BOOL IsEmpty(id obj) {
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
     else{
-        UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom_logo_up.png"]];
+        UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom_logo_up"]];
         self.navigationItem.titleView = xbmcLogoView;
     }
 }
@@ -472,14 +467,15 @@ static inline BOOL IsEmpty(id obj) {
         connectingActivityIndicator.frame = frame;
         
         UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 107, 37)];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone.png"] forState:UIControlStateNormal];
-        [xbmcLogo setImage:[UIImage imageNamed:@"bottom_logo_up_iphone.png"] forState:UIControlStateHighlighted];
+        UIImage *image = [UIImage imageNamed:@"bottom_logo_up_iphone"];
+        [xbmcLogo setImage:image forState:UIControlStateNormal];
+        [xbmcLogo setImage:image forState:UIControlStateHighlighted];
         xbmcLogo.showsTouchWhenHighlighted = NO;
         [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogo;
-        UIImage* menuImg = [UIImage imageNamed:@"button_menu.png"];
+        UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
-        UIImage* settingsImg = [UIImage imageNamed:@"icon_power_up.png"];
+        UIImage* settingsImg = [UIImage imageNamed:@"icon_power_up"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealUnderRight:)];
     }
     doRevealMenu = YES;
@@ -585,14 +581,12 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 -(void)enableTCPconnection {
-    jsonRPC = nil;
-    jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
     NSString *methodToCall = @"Settings.SetSettingValue";
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"services.esallinterfaces", @"setting",
                                 [NSNumber numberWithBool:YES], @"value",
                                 nil];
-    [jsonRPC callMethod: methodToCall
+    [[Utilities getJsonRPC] callMethod: methodToCall
          withParameters: parameters
            onCompletion: ^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                if ( error == nil && methodError == nil ) {
