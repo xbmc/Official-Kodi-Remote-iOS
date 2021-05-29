@@ -5210,13 +5210,15 @@ NSIndexPath *selected;
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     UIImage *imageOff = nil;
     UIImage *imageOn = nil;
+    UIImage *img = nil;
     CGRect frame;
     NSInteger count = [buttons count];
     count = MIN(count, MAX_NORMAL_BUTTONS);
     choosedTab = MIN(choosedTab, MAX_NORMAL_BUTTONS);
     for (int i = 0; i < count; i++) {
-        imageOff = [UIImage imageNamed:[NSString stringWithFormat:@"%@_off", buttons[i]]];
-        imageOn = [UIImage imageNamed:[NSString stringWithFormat:@"%@_on", buttons[i]]];
+        img = [UIImage imageNamed:buttons[i]];
+        imageOff = [utils colorizeImage:img withColor:[UIColor lightGrayColor]];
+        imageOn = [utils colorizeImage:img withColor:[UIColor systemBlueColor]];
         [buttonsIB[i] setBackgroundImage:imageOff forState:UIControlStateNormal];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateSelected];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
@@ -5245,8 +5247,9 @@ NSIndexPath *selected;
             break;
         default:
             // 5 or more buttons/actions require a "more" button
-            imageOff = [UIImage imageNamed:@"st_more_off"];
-            imageOn = [UIImage imageNamed:@"st_more_on"];
+            img = [UIImage imageNamed:@"st_more"];
+            imageOff = [utils colorizeImage:img withColor:[UIColor lightGrayColor]];
+            imageOn = [utils colorizeImage:img withColor:[UIColor systemBlueColor]];
             [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOff forState:UIControlStateNormal];
             [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateSelected];
             [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
