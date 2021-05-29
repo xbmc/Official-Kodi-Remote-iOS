@@ -478,12 +478,9 @@
 }
 
 -(void)setSortButtonImage:(NSString *)sortOrder {
-    if ([sortOrder isEqualToString:@"descending"]) {
-        [button7 setImage:[UIImage imageNamed:@"button_sort_descending_bright"] forState:UIControlStateNormal];
-    }
-    else {
-        [button7 setImage:[UIImage imageNamed:@"button_sort_bright"] forState:UIControlStateNormal];
-    }
+    NSString *imgName = [sortOrder isEqualToString:@"descending"] ? @"st_sort_desc" : @"st_sort_asc";
+    UIImage *image = [utils colorizeImage:[UIImage imageNamed:imgName] withColor:[UIColor lightGrayColor]];
+    [button7 setBackgroundImage:image forState:UIControlStateNormal];
 }
 
 -(void)setButtonViewContent {
@@ -769,6 +766,7 @@
 }
 
 -(void)configureLibraryView{
+    NSString *imgName = nil;
     if (enableCollectionView) {
         [self initCollectionView];
         if (longPressGesture == nil) {
@@ -791,7 +789,7 @@
         self.searchController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         searchBarColor = collectionViewSearchBarColor;
-        [button6 setImage:[UIImage imageNamed:@"button_view_toolbar"] forState:UIControlStateNormal];
+        imgName = @"st_view_grid";
     }
     else {
         [dataList setDelegate:self];
@@ -806,8 +804,11 @@
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         self.searchController.searchBar.tintColor = tableViewSearchBarColor;
         searchBarColor = tableViewSearchBarColor;
-        [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar"] forState:UIControlStateNormal];
+        imgName = @"st_view_list";
     }
+    UIImage *image = [utils colorizeImage:[UIImage imageNamed:imgName] withColor:[UIColor lightGrayColor]];
+    [button6 setBackgroundImage:image forState:UIControlStateNormal];
+    
     if (!isViewDidLoad) {
         [activeLayoutView addSubview:self.searchController.searchBar];
     }
@@ -5522,10 +5523,8 @@ NSIndexPath *selected;
     iOSYDelta = self.searchController.searchBar.frame.size.height;
     dataList.tableHeaderView = self.searchController.searchBar;
 
-    [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar"] forState:UIControlStateNormal];
     [button6 addTarget:self action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
 
-    [button7 setImage:[UIImage imageNamed:@"button_sort_bright"] forState:UIControlStateNormal];
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
