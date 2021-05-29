@@ -468,16 +468,16 @@ NSMutableArray *hostRightMenuItems;
         @"st_artist",
         @"st_genre",
         @"st_filemode",
-        @"st_album_recently",
-        @"st_songs_recently",
-        @"st_album_top100",
-        @"st_songs_top100",
-        @"st_album_recently_played",
-        @"st_songs_recently_played",
-        @"st_song",
+        @"st_music_recently_added",
+        @"st_music_recently_added",
+        @"st_music_top100",
+        @"st_music_top100",
+        @"st_music_recently_played",
+        @"st_music_recently_played",
+        @"st_songs",
         @"st_addons",
-        @"st_music_playlist",
-        @"st_music_playlist"];
+        @"st_playlists",
+        @"st_music_roles"];
     
     menu_Music.mainMethod = @[
             @[@"AudioLibrary.GetAlbums", @"method",
@@ -1944,10 +1944,10 @@ NSMutableArray *hostRightMenuItems;
         @"st_movie_genre",
         @"st_movie_set",
         @"st_movie_recently",
-        @"st_concert",
+        @"st_music_videos",
         @"st_filemode",
         @"st_addons",
-        @"st_livetv"];
+        @"st_playlists"];
     
     menu_Movies.mainMethod = @[
             @[@"VideoLibrary.GetMovies", @"method",
@@ -3999,7 +3999,7 @@ NSMutableArray *hostRightMenuItems;
         @"st_filemode",
         @"st_addons",
         @"st_video_addon",
-        @"st_audio_addon",
+        @"st_music_addon",
         @"st_kodi_action",
         @"st_kodi_window"];
     
