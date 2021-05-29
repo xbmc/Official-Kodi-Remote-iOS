@@ -2052,6 +2052,7 @@ NSMutableArray *hostRightMenuItems;
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
+            @"nocover_movie_sets", @"defaultThumb",
             [self itemSizes_Movie], @"itemSizes",
             LOCALIZED_STR(@"Movie Sets"), @"label"
         ],
