@@ -72,7 +72,9 @@
     if (![item[@"icon"] isEqualToString:@""]) {
         CGRect iconImageViewRect = CGRectMake(8, 6, 34, 30);
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
-        [iconImage setImage:[UIImage imageNamed:@"nocover_filemode"]];
+        UIImage *image = [UIImage imageNamed:item[@"icon"]];
+        image = [[[Utilities alloc] init] colorizeImage:image withColor:[Utilities get1stLabelColor]];
+        [iconImage setImage:image];
         [cell.contentView addSubview:iconImage];
     }
     return cell;
