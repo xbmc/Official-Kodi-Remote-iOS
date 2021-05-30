@@ -116,12 +116,9 @@
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
     }
-    UIButton *stopButton = (UIButton *)[self.view viewWithTag:6];
-
-    UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [stopButton setHidden:YES];
-    gestureButton.frame = CGRectMake(stopButton.frame.origin.x + 1, stopButton.frame.origin.y, stopButton.frame.size.width, stopButton.frame.size.height);
-    [gestureButton setContentMode:UIViewContentModeRight];
+    // Overload "stop" button with gesture icon
+    UIButton *gestureButton = (UIButton *)[self.view viewWithTag:6];
+    [gestureButton setContentMode:UIViewContentModeScaleAspectFit];
     [gestureButton setShowsTouchWhenHighlighted:NO];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateHighlighted];
@@ -129,7 +126,6 @@
     [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down"] forState:UIControlStateHighlighted];
     gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-    [remoteControlView addSubview:gestureButton];
     
     frame = subsInfoLabel.frame;
     frame.origin.x = -1 * startX;
