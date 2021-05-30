@@ -3573,7 +3573,7 @@ NSIndexPath *selected;
                          animations:^{
                              collectionView.alpha = 0;
                              dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 1.0;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = 1.0;
                             
                          }
                          completion:^(BOOL finished) {
@@ -3626,7 +3626,7 @@ NSIndexPath *selected;
                          animations:^{
                              collectionView.alpha = 0;
                              dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 0.0;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = 0.0;
                          }
                          completion:^(BOOL finished) {
                              button6.hidden = YES;
@@ -5595,7 +5595,6 @@ NSIndexPath *selected;
     CGRect frame = dataList.frame;
     frame.size.height = self.view.bounds.size.height;
     dataList.frame = frame;
-    buttonsViewBgImage.hidden = YES;
     buttonsViewBgToolbar.hidden = NO;
     
     __weak DetailViewController *weakSelf = self;
