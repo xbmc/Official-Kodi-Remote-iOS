@@ -460,7 +460,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Music
     menu_Music.mainLabel = LOCALIZED_STR(@"Music");
     menu_Music.upperLabel = LOCALIZED_STR(@"Listen to");
-    menu_Music.icon = @"icon_home_music_alt";
+    menu_Music.icon = @"icon_menu_music";
     menu_Music.family = 1;
     menu_Music.enableSection = YES;
     menu_Music.mainButtons = @[
@@ -1935,7 +1935,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Movies
     menu_Movies.mainLabel = LOCALIZED_STR(@"Movies");
     menu_Movies.upperLabel = LOCALIZED_STR(@"Watch your");
-    menu_Movies.icon = @"icon_home_movie_alt";
+    menu_Movies.icon = @"icon_menu_movies";
     menu_Movies.family = 1;
     menu_Movies.enableSection = YES;
     menu_Movies.noConvertTime = YES;
@@ -2760,7 +2760,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - TV Shows
     menu_TVShows.mainLabel = LOCALIZED_STR(@"TV Shows");
     menu_TVShows.upperLabel = LOCALIZED_STR(@"Watch your");
-    menu_TVShows.icon = @"icon_home_tv_alt";
+    menu_TVShows.icon = @"icon_menu_tvshows";
     menu_TVShows.family = 1;
     menu_TVShows.enableSection = YES;
     menu_TVShows.mainButtons = @[
@@ -3303,7 +3303,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Live TV
     menu_LiveTV.mainLabel = LOCALIZED_STR(@"Live TV");
     menu_LiveTV.upperLabel = LOCALIZED_STR(@"Watch");
-    menu_LiveTV.icon = @"icon_home_livetv_alt";
+    menu_LiveTV.icon = @"icon_menu_livetv";
     menu_LiveTV.family = 1;
     menu_LiveTV.enableSection = YES;
     menu_LiveTV.noConvertTime = YES;
@@ -3792,7 +3792,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Pictures
     menu_Pictures.mainLabel = LOCALIZED_STR(@"Pictures");
     menu_Pictures.upperLabel = LOCALIZED_STR(@"Browse your");
-    menu_Pictures.icon = @"icon_home_picture_alt";
+    menu_Pictures.icon = @"icon_menu_pictures";
     menu_Pictures.family = 1;
     menu_Pictures.enableSection = YES;
     menu_Pictures.mainButtons = @[
@@ -3954,13 +3954,13 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Now Playing
     menu_NowPlaying.mainLabel = LOCALIZED_STR(@"Now Playing");
     menu_NowPlaying.upperLabel = LOCALIZED_STR(@"See what's");
-    menu_NowPlaying.icon = @"icon_home_playing_alt";
+    menu_NowPlaying.icon = @"icon_menu_playing";
     menu_NowPlaying.family = 2;
     
 #pragma mark - Remote Control
     menu_Remote.mainLabel = LOCALIZED_STR(@"Remote Control");
     menu_Remote.upperLabel = LOCALIZED_STR(@"Use as");
-    menu_Remote.icon = @"icon_home_remote_alt";
+    menu_Remote.icon = @"icon_menu_remote";
     menu_Remote.family = 3;
     
 #pragma mark - XBMC Server Management
@@ -3990,7 +3990,7 @@ NSMutableArray *hostRightMenuItems;
     xbmcSettings.subItem.subItem = [mainMenu new];
     
     xbmcSettings.mainLabel = LOCALIZED_STR(@"XBMC Settings");
-    xbmcSettings.icon = @"icon_home_picture_alt";
+    xbmcSettings.icon = @"icon_menu_settings";
     xbmcSettings.family = 1;
     xbmcSettings.enableSection = YES;
     xbmcSettings.rowHeight = 65;
