@@ -96,7 +96,7 @@ int count = 0;
         UIBarButtonItem *extraButton = nil;
         int titleWidth = 350;
         if ([item[@"family"] isEqualToString:@"albumid"]) {
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_songs"];
             if (fromAlbumView) {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
@@ -106,12 +106,12 @@ int count = 0;
             titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"artistid"]) {
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
-            extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_album"];
+            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon"];
+            UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv"];
             if (fromEpisodesView) {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
