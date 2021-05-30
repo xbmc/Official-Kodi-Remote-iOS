@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -23,7 +26,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <color key="backgroundColor" red="0.27628877758979797" green="0.27628877758979797" blue="0.27628877758979797" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </imageView>
-                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleAspectFill" fixedFrame="YES" image="icon_home_music_alt" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleAspectFill" fixedFrame="YES" image="icon_menu_music" translatesAutoresizingMaskIntoConstraints="NO" id="4">
                         <rect key="frame" x="13" y="11" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </imageView>
@@ -35,7 +38,7 @@
                         <rect key="frame" x="54" y="4" width="222" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
-                        <color key="textColor" red="0.30480155348777771" green="0.30480155348777771" blue="0.30480155348777771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" systemColor="systemGrayColor"/>
                         <color key="highlightedColor" red="0.30009692907333374" green="0.30009692907333374" blue="0.30009692907333374" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <size key="shadowOffset" width="0.0" height="0.0"/>
@@ -44,7 +47,7 @@
                         <rect key="frame" x="54" y="16" width="243" height="29"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                        <color key="textColor" red="0.70189893245697021" green="0.70189893245697021" blue="0.70189893245697021" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="highlightedColor" red="0.70443660020828247" green="0.70443660020828247" blue="0.70443660020828247" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <size key="shadowOffset" width="0.0" height="0.0"/>
@@ -52,10 +55,14 @@
                 </subviews>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <point key="canvasLocation" x="35" y="66"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="icon_home_music_alt" width="128" height="128"/>
-        <image name="selected" width="128" height="128"/>
+        <image name="icon_menu_music" width="30" height="30"/>
+        <image name="selected" width="6" height="56"/>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>
