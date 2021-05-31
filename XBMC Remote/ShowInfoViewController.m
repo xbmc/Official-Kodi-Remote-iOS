@@ -610,20 +610,7 @@ int h = 0;
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source{
-    CGSize imgSize = [source size];
-    UIGraphicsBeginImageContext(imgSize);
-    CGRect rect = CGRectMake(0, 0, imgSize.width, imgSize.height);
-    [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0); 
-    CGFloat borderWidth = 2.0;
-	CGContextSetLineWidth(context, borderWidth);
-    CGContextStrokeRect(context, rect);
-    
-    UIImage *Img = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return [Utilities imageWithShadow:Img radius:10];
+    return [Utilities imageWithShadow:source radius:10];
 }
 
 -(bool)enableJewelCases{
