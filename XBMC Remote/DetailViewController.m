@@ -597,19 +597,6 @@
     return [Utilities imageWithShadow:Img radius:shadowRadius];
 }
 
--(void)elaborateImage:(UIImage *)image shadowRadius:(int)shadowRadius destination:(UIImageView *)imageViewDestination{
-    UIImage *elabImage = [self imageWithBorderFromImage:image shadowRadius:shadowRadius];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:elabImage, @"image", imageViewDestination, @"destinationView", nil];
-    [self performSelectorOnMainThread:@selector(showImage:) withObject:params waitUntilDone:YES];
-}
-
--(void)showImage:(NSDictionary *)params{
-    UIImage *image = params[@"image"];
-    UIImageView *destinationView = params[@"destinationView"];
-    destinationView.image = image;
-    [self alphaView:destinationView AnimDuration:0.1 Alpha:1.0];
-}
-
 #pragma mark - Tabbar management
 
 -(IBAction)showMore:(id)sender{
