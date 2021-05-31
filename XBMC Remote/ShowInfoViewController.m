@@ -609,23 +609,6 @@ int h = 0;
     }
 }
 
-- (UIImage*)imageWithShadow:(UIImage *)source {
-    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
-    CGColorSpaceRelease(colourSpace);
-    
-    CGContextSetShadowWithColor(shadowContext, CGSizeZero, 10, [UIColor blackColor].CGColor);
-    CGContextDrawImage(shadowContext, CGRectMake(10, 10, source.size.width, source.size.height), source.CGImage);
-    
-    CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
-    CGContextRelease(shadowContext);
-    
-    UIImage * shadowedImage = [UIImage imageWithCGImage:shadowedCGImage];
-    CGImageRelease(shadowedCGImage);
-    
-    return shadowedImage;
-}
-
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source{
     CGSize imgSize = [source size];
     UIGraphicsBeginImageContext(imgSize);
@@ -640,7 +623,7 @@ int h = 0;
     
     UIImage *Img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return [self imageWithShadow:Img];
+    return [Utilities imageWithShadow:Img radius:10];
 }
 
 -(bool)enableJewelCases{

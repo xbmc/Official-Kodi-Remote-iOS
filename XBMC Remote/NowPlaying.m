@@ -281,25 +281,8 @@
 	return result;
 }
 
-- (UIImage*)imageWithShadow:(UIImage *)source {
-    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
-    CGColorSpaceRelease(colourSpace);
-    
-    CGContextSetShadowWithColor(shadowContext, CGSizeZero, 10, [UIColor blackColor].CGColor);
-    CGContextDrawImage(shadowContext, CGRectMake(10, 10, source.size.width, source.size.height), source.CGImage);
-    
-    CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
-    CGContextRelease(shadowContext);
-    
-    UIImage * shadowedImage = [UIImage imageWithCGImage:shadowedCGImage];
-    CGImageRelease(shadowedCGImage);
-    
-    return shadowedImage;
-}
-
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source{
-    return [self imageWithShadow:source];
+    return [Utilities imageWithShadow:source radius:10];
 //    CGSize size = [source size];
 //    UIGraphicsBeginImageContext(size);
 //    CGRect rect = CGRectMake(0, 0, size.width, size.height);
@@ -313,7 +296,7 @@
 //    
 //    UIImage *Img = UIGraphicsGetImageFromCurrentImageContext();
 //    UIGraphicsEndImageContext();
-//    return [self imageWithShadow:Img];
+//    return [Utilities imageWithShadow:Img radius:10];
 }
 
 #pragma  mark - JSON management
