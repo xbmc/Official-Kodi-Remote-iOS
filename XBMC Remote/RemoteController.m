@@ -19,8 +19,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DetailViewController.h"
 
-#define ROTATION_TRIGGER 0.015 
-#define SCALE_TO_REDUCE_BORDERS 1.05
+#define ROTATION_TRIGGER 0.015
+#define REMOTE_PADDING 120 // Space which is used up by footer, header and remote toolbar
 
 @interface RemoteController ()
 
@@ -54,22 +54,7 @@
 
 - (void)setEmbeddedView{
     CGRect frame = TransitionalView.frame;
-    CGFloat transform = [Utilities getTransformX];
-    int startX = -6;
-    int startY = 6;
-    int transViewY = 46;
-    if (transform >= 1.29) {
-        // All devices with width >= 414
-        startX = 6;
-        transViewY = 66;
-    }
-    else if (transform > 1.0) {
-        // All devices with 320 > width > 414
-        startX = 3;
-        transViewY = 58;
-    }
-        
-    int newWidth = (int) (296 * transform);
+    CGFloat newWidth = remoteControlView.frame.size.width - ANCHORRIGHTPEEK;
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton *) self.view viewWithTag:2],
                        [(UIButton *) self.view viewWithTag:3],
@@ -78,8 +63,6 @@
                        [(UIButton *) self.view viewWithTag:8],
                        nil]
                 hide:YES];
-    UIButton *buttonTodo = (UIButton *)[self.view viewWithTag:10];
-    [buttonTodo setFrame:CGRectMake(buttonTodo.frame.origin.x, buttonTodo.frame.origin.y - 1, buttonTodo.frame.size.width, buttonTodo.frame.size.height)];
     if ([[UIScreen mainScreen] bounds].size.height >= 568) {
         [self moveButton: [NSArray arrayWithObjects:
                            (UIButton *)[self.view viewWithTag:21],
@@ -98,9 +81,15 @@
                            nil]
                     hide: YES];
     }
+    // Place the transitional view in the middle between the two button rows
+    CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:21].frame);
+    CGFloat upperButtonLowerBorder = CGRectGetMaxY([self.view viewWithTag:6].frame);
+    CGFloat transViewY = (lowerButtonUpperBorder + upperButtonLowerBorder - TransitionalView.frame.size.height)/2;
     [TransitionalView setFrame:CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height)];
-    int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
-    [remoteControlView setFrame:CGRectMake(startX, startY, newWidth, newHeight)];
+    
+    // Maintain aspect ratio
+    CGFloat newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
+    [remoteControlView setFrame:CGRectMake(-1, 0, newWidth, newHeight)];
     
     UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -128,8 +117,8 @@
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
     
     frame = subsInfoLabel.frame;
-    frame.origin.x = -1 * startX;
-    frame.size.width = newWidth + (startX * 2);
+    frame.origin.x = 0;
+    frame.size.width = newWidth;
     subsInfoLabel.frame = frame;
 }
 
@@ -143,14 +132,13 @@
         CGRect frame = remoteControlView.frame;
         frame.size.height = frame.size.height *transform;
         frame.size.width = frame.size.width*transform;
-        [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width* SCALE_TO_REDUCE_BORDERS, frame.size.height* SCALE_TO_REDUCE_BORDERS)];
+        remoteControlView.frame = frame;
         frame = subsInfoLabel.frame;
         frame.size.width = [[UIScreen mainScreen] bounds].size.width;
         frame.origin.x = ((remoteControlView.frame.size.width - [[UIScreen mainScreen] bounds].size.width) / 2);
         subsInfoLabel.frame = frame;
     }
     else {
-        int newWidth = STACKSCROLL_WIDTH;
         [quickHelpView setFrame:CGRectMake(quickHelpView.frame.origin.x, quickHelpView.frame.origin.y, quickHelpView.frame.size.width, quickHelpView.frame.size.height - 20)];
         [quickHelpView
          setAutoresizingMask:
@@ -161,8 +149,15 @@
          UIViewAutoresizingFlexibleHeight |
          UIViewAutoresizingFlexibleWidth
          ];
+        
+        // Calculate the maximum possible scaling for the remote
+        CGFloat scaleFactorHorizontal = STACKSCROLL_WIDTH / CGRectGetWidth(remoteControlView.frame);
+        CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING;
+        CGFloat scaleFactorVertical =  minViewHeight / CGRectGetHeight(remoteControlView.frame);
+        CGFloat transform = MIN(scaleFactorHorizontal, scaleFactorVertical);
 
-        int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;        
+        CGFloat newWidth = CGRectGetWidth(remoteControlView.frame) * transform;
+        CGFloat newHeight = CGRectGetHeight(remoteControlView.frame) * transform;
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
         CGRect frame = subsInfoLabel.frame;
         frame.size.width = newWidth;
