@@ -21,6 +21,10 @@
 
 #define ROTATION_TRIGGER 0.015
 #define REMOTE_PADDING 120 // Space which is used up by footer, header and remote toolbar
+#define TOOLBAR_ICON_SIZE 36
+#define TOOLBAR_SPACING 8 // Space from icon to frame border
+#define TOOLBAR_PADDING 68
+#define TOOLBAR_START (3*TOOLBAR_PADDING + TOOLBAR_ICON_SIZE + TOOLBAR_SPACING) // Origin for first toolbar icon
 
 @interface RemoteController ()
 
@@ -1220,13 +1224,9 @@ NSInteger buttonAction;
     if (httpHeaders[@"Authorization"] != nil) {
         [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
-    CGFloat infoButtonOriginY = -16;
-    CGFloat infoButtonalpha = 0.9;
 
     self.edgesForExtendedLayout = 0;
     self.view.tintColor = TINT_COLOR;
-    infoButtonOriginY = -14;
-    infoButtonalpha = 1.0;
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
@@ -1255,17 +1255,20 @@ NSInteger buttonAction;
         }
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        CGRect frame = CGRectMake(self.view.bounds.size.width - TOOLBAR_START, self.view.bounds.size.height - TOOLBAR_ICON_SIZE - TOOLBAR_SPACING, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
         UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        settingButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
+        settingButton.frame = frame;
         [settingButton setContentMode:UIViewContentModeRight];
         [settingButton setShowsTouchWhenHighlighted:YES];
         [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
         settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [settingButton addTarget:self action:@selector(addButtonToListIPad:) forControlEvents:UIControlEventTouchUpInside];
+        settingButton.alpha = 0.8;
         [self.view addSubview:settingButton];
         
         UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        gestureButton.frame = CGRectMake(self.view.bounds.size.width - 188, self.view.bounds.size.height - 43, 56, 36);
+        frame.origin.x += TOOLBAR_PADDING;
+        gestureButton.frame = frame;
         [gestureButton setContentMode:UIViewContentModeRight];
         [gestureButton setShowsTouchWhenHighlighted:YES];
         [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
@@ -1275,24 +1278,25 @@ NSInteger buttonAction;
         [self.view addSubview:gestureButton];
         
         UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 120, self.view.bounds.size.height - 43, 56, 36);
-        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon"];
+        frame.origin.x += TOOLBAR_PADDING;
+        keyboardButton.frame = frame;
         [keyboardButton setContentMode:UIViewContentModeRight];
         [keyboardButton setShowsTouchWhenHighlighted:YES];
-        [keyboardButton setImage:keyboardImg forState:UIControlStateNormal];
+        [keyboardButton setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
         keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
         keyboardButton.alpha = 0.8;
         [self.view addSubview:keyboardButton];
 
-        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        frame.origin.x += TOOLBAR_PADDING;
+        helpButton.frame = frame;
+        [helpButton setContentMode:UIViewContentModeRight];
+        [helpButton setShowsTouchWhenHighlighted:YES];
+        [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
         helpButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
-        CGRect buttonRect = helpButton.frame;
-        buttonRect.origin.x = self.view.bounds.size.width - buttonRect.size.width - 16;
-        buttonRect.origin.y = self.view.bounds.size.height - buttonRect.size.height + infoButtonOriginY;
-        [helpButton setFrame:buttonRect];
-        helpButton.alpha = infoButtonalpha;
+        helpButton.alpha = 0.8;
         [self.view addSubview:helpButton];
     }
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat"]]];
