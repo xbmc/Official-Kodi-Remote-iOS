@@ -2288,7 +2288,9 @@ int currentItemID;
             if ([sourceIndexPath row] < numObj) {
                 [playlistData removeObjectAtIndex:[sourceIndexPath row]];
             }
-            [playlistData insertObject:objSource atIndex:[destinationIndexPath row]];
+            if ([destinationIndexPath row] <= [playlistData count]) {
+                [playlistData insertObject:objSource atIndex:[destinationIndexPath row]];
+            }
             if (sourceIndexPath.row > storeSelection.row && destinationIndexPath.row <= storeSelection.row) {
                 storeSelection = [NSIndexPath  indexPathForRow:storeSelection.row+1 inSection:storeSelection.section];
             }
