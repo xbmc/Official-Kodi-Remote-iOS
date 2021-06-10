@@ -501,7 +501,9 @@
         // On iPad presenting from the active ViewController results in blank screen
         ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
     }
-    [ctrl presentViewController:svc animated:YES completion:nil];
+    if (![svc isBeingPresented]) {
+        [ctrl presentViewController:svc animated:YES completion:nil];
+    }
 }
 
 + (DSJSONRPC*)getJsonRPC {

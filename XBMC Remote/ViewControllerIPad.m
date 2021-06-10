@@ -232,10 +232,8 @@
 }
 
 - (void)toggleInfoView {
-    if (_appInfoView == nil) {
-        self.appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
-        [self.appInfoView setModalPresentationStyle:UIModalPresentationPopover];
-    }
+    self.appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
+    [self.appInfoView setModalPresentationStyle:UIModalPresentationPopover];
     UIPopoverPresentationController *popPresenter = [self.appInfoView popoverPresentationController];
     if (popPresenter != nil) {
         popPresenter.sourceView = self.view;

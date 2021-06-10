@@ -331,9 +331,7 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 - (void)infoView{
-    if (appInfoView == nil) {
-        appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
-    }
+    appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
     if (NSProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 13) {
         appInfoView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     }
