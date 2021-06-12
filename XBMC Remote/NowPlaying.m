@@ -1308,7 +1308,10 @@ int currentItemID;
                            NSString *albumid = [NSString stringWithFormat:@"%@", playlistItems[i][@"albumid"]];
                            NSString *movieid = [NSString stringWithFormat:@"%@", playlistItems[i][@"id"]];
                            NSString *genre = [Utilities getStringFromDictionary:playlistItems[i] key:@"genre" emptyString:@""];
-                           NSString *durationTime = [Utilities convertTimeFromSeconds:playlistItems[i][@"duration"]];
+                           NSString *durationTime = @"";
+                           if ([playlistItems[i][@"duration"] isKindOfClass:[NSNumber class]]) {
+                               durationTime = [Utilities convertTimeFromSeconds:playlistItems[i][@"duration"]];
+                           }
 
                            NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:playlistItems[i] useBanner:NO useIcon:NO];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
