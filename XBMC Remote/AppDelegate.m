@@ -347,18 +347,6 @@ NSMutableArray *hostRightMenuItems;
     };
 }
 
-- (NSDictionary*)sortmethod:(NSString*)method order:(NSString*)order ignorearticle:(BOOL)ignore avail_labels:(NSArray*)avail_labels avail_methods:(NSArray*)avail_methods {
-    return @{
-        @"order": order,
-        @"ignorearticle": @(ignore),
-        @"method": method,
-        @"available_methods": @{
-                @"label": avail_labels,
-                @"method": avail_methods
-            }
-    };
-}
-
 #pragma mark -
 #pragma mark init
 
@@ -515,17 +503,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Music.mainParameters = [@[
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO
-                               avail_labels: @[
-                                   LOCALIZED_STR(@"Album"),
-                                   LOCALIZED_STR(@"Artist"),
-                                   LOCALIZED_STR(@"Year"),
-                                   LOCALIZED_STR(@"Play count")]
-                               avail_methods: @[
-                                   @"label",
-                                   @"genre",
-                                   @"year",
-                                   @"playcount"]],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
                         @"thumbnail",
@@ -542,6 +520,18 @@ NSMutableArray *hostRightMenuItems;
                         @"albumlabel",
                         @"fanart"],
             }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Album"),
+                        LOCALIZED_STR(@"Artist"),
+                        LOCALIZED_STR(@"Year"),
+                        LOCALIZED_STR(@"Play count")],
+                @"method": @[
+                        @"label",
+                        @"genre",
+                        @"year",
+                        @"playcount"]
+            }, @"available_sort_methods",
             LOCALIZED_STR(@"Albums"), @"label",
             @"Album", @"wikitype",
             @"YES", @"enableCollectionView",
@@ -654,17 +644,7 @@ NSMutableArray *hostRightMenuItems;
                           
         @[
             @{
-                @"sort": [self sortmethod:@"playcount" order:@"descending" ignorearticle:NO
-                               avail_labels: @[
-                                   LOCALIZED_STR(@"Top 100 Albums"),
-                                   LOCALIZED_STR(@"Album"),
-                                   LOCALIZED_STR(@"Artist"),
-                                   LOCALIZED_STR(@"Year")]
-                               avail_methods: @[
-                                   @"playcount",
-                                   @"label",
-                                   @"genre",
-                                   @"year"]],
+                @"sort": [self sortmethod:@"playcount" order:@"descending" ignorearticle:NO],
                 @"limits": @{
                         @"start": @0,
                         @"end": @100
@@ -685,6 +665,18 @@ NSMutableArray *hostRightMenuItems;
                         @"albumlabel",
                         @"fanart"]
             }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Top 100 Albums"),
+                        LOCALIZED_STR(@"Album"),
+                        LOCALIZED_STR(@"Artist"),
+                        LOCALIZED_STR(@"Year")],
+                @"method": @[
+                        @"playcount",
+                        @"label",
+                        @"genre",
+                        @"year"]
+            }, @"available_sort_methods",
             LOCALIZED_STR(@"Top 100 Albums"), @"label",
             @"Album", @"wikitype",
             LOCALIZED_STR(@"Top 100 Albums"), @"morelabel",
@@ -694,23 +686,7 @@ NSMutableArray *hostRightMenuItems;
             
         @[
             @{
-                @"sort": [self sortmethod:@"playcount" order:@"descending" ignorearticle:NO
-                               avail_labels: @[
-                                   LOCALIZED_STR(@"Top 100 Songs"),
-                                   LOCALIZED_STR(@"Track"),
-                                   LOCALIZED_STR(@"Title"),
-                                   LOCALIZED_STR(@"Album"),
-                                   LOCALIZED_STR(@"Artist"),
-                                   LOCALIZED_STR(@"Rating"),
-                                   LOCALIZED_STR(@"Year")]
-                               avail_methods: @[
-                                   @"playcount",
-                                   @"track",
-                                   @"label",
-                                   @"album",
-                                   @"genre",
-                                   @"rating",
-                                   @"year"]],
+                @"sort": [self sortmethod:@"playcount" order:@"descending" ignorearticle:NO],
                 @"limits": @{
                         @"start": @0,
                         @"end": @100
@@ -728,6 +704,24 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"album"]
             }, @"parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Top 100 Songs"),
+                        LOCALIZED_STR(@"Track"),
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Album"),
+                        LOCALIZED_STR(@"Artist"),
+                        LOCALIZED_STR(@"Rating"),
+                        LOCALIZED_STR(@"Year")],
+                @"method": @[
+                        @"playcount",
+                        @"track",
+                        @"label",
+                        @"album",
+                        @"genre",
+                        @"rating",
+                        @"year"]
+            }, @"available_sort_methods",
             LOCALIZED_STR(@"Top 100 Songs"), @"label",
             LOCALIZED_STR(@"Top 100 Songs"), @"morelabel",
             @5, @"numberOfStars"
@@ -769,23 +763,7 @@ NSMutableArray *hostRightMenuItems;
                             
         @[
             @{
-                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO
-                               avail_labels: @[
-                                   LOCALIZED_STR(@"Name"),
-                                   LOCALIZED_STR(@"Rating"),
-                                   LOCALIZED_STR(@"Year"),
-                                   LOCALIZED_STR(@"Play count"),
-                                   LOCALIZED_STR(@"Track"),
-                                   LOCALIZED_STR(@"Album"),
-                                   LOCALIZED_STR(@"Artist")]
-                               avail_methods: @[
-                                   @"label",
-                                   @"rating",
-                                   @"year",
-                                   @"playcount",
-                                   @"track",
-                                   @"album",
-                                   @"genre"]],
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
                         @"year",
@@ -798,6 +776,24 @@ NSMutableArray *hostRightMenuItems;
                         @"album",
                         @"file"]
             }, @"parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Name"),
+                        LOCALIZED_STR(@"Rating"),
+                        LOCALIZED_STR(@"Year"),
+                        LOCALIZED_STR(@"Play count"),
+                        LOCALIZED_STR(@"Track"),
+                        LOCALIZED_STR(@"Album"),
+                        LOCALIZED_STR(@"Artist")],
+                @"method": @[
+                        @"label",
+                        @"rating",
+                        @"year",
+                        @"playcount",
+                        @"track",
+                        @"album",
+                        @"genre"]
+            }, @"available_sort_methods",
             LOCALIZED_STR(@"All songs"), @"label",
             LOCALIZED_STR(@"All songs"), @"morelabel",
             @"YES", @"enableLibraryCache",
@@ -1222,17 +1218,7 @@ NSMutableArray *hostRightMenuItems;
                                   
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO
-                               avail_labels: @[
-                                   LOCALIZED_STR(@"Album"),
-                                   LOCALIZED_STR(@"Artist"),
-                                   LOCALIZED_STR(@"Year"),
-                                   LOCALIZED_STR(@"Play count")]
-                               avail_methods: @[
-                                   @"label",
-                                   @"genre",
-                                   @"year",
-                                   @"playcount"]],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
                         @"thumbnail",
@@ -1249,6 +1235,18 @@ NSMutableArray *hostRightMenuItems;
                         @"albumlabel",
                         @"fanart"]
             }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Album"),
+                        LOCALIZED_STR(@"Artist"),
+                        LOCALIZED_STR(@"Year"),
+                        LOCALIZED_STR(@"Play count")],
+                @"method": @[
+                        @"label",
+                        @"genre",
+                        @"year",
+                        @"playcount"]
+            }, @"available_sort_methods",
             @"Albums", @"label",
             @"Album", @"wikitype",
             @"YES", @"enableCollectionView",
@@ -1967,21 +1965,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Movies.mainParameters = [@[
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO
-                             avail_labels: @[
-                                 LOCALIZED_STR(@"Title"),
-                                 LOCALIZED_STR(@"Year"),
-                                 LOCALIZED_STR(@"Rating"),
-                                 LOCALIZED_STR(@"Duration"),
-                                 LOCALIZED_STR(@"Date added"),
-                                 LOCALIZED_STR(@"Play count")]
-                             avail_methods: @[
-                                 @"label",
-                                 @"year",
-                                 @"rating",
-                                 @"runtime",
-                                 @"dateadded",
-                                 @"playcount"]],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -2012,6 +1996,22 @@ NSMutableArray *hostRightMenuItems;
                         @"resume",
                         @"trailer"]
             }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Year"),
+                        LOCALIZED_STR(@"Rating"),
+                        LOCALIZED_STR(@"Duration"),
+                        LOCALIZED_STR(@"Date added"),
+                        LOCALIZED_STR(@"Play count")],
+                @"method": @[
+                        @"label",
+                        @"year",
+                        @"rating",
+                        @"runtime",
+                        @"dateadded",
+                        @"playcount"]
+            }, @"available_sort_methods",
             LOCALIZED_STR(@"Movies"), @"label",
             @"Movie", @"wikitype",
             @"YES", @"FrodoExtraArt",
@@ -2036,17 +2036,19 @@ NSMutableArray *hostRightMenuItems;
               
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO
-                             avail_labels: @[
-                                 LOCALIZED_STR(@"Name"),
-                                 LOCALIZED_STR(@"Play count")]
-                             avail_methods: @[
-                                 @"label",
-                                 @"playcount"]],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"thumbnail",
                         @"playcount"]
             }, @"parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Name"),
+                        LOCALIZED_STR(@"Play count")],
+                @"method": @[
+                        @"label",
+                        @"playcount"]
+            }, @"available_sort_methods",
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
@@ -2098,15 +2100,7 @@ NSMutableArray *hostRightMenuItems;
               
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO
-                             avail_labels: @[
-                                 LOCALIZED_STR(@"Name"),
-                                 LOCALIZED_STR(@"Year"),
-                                 LOCALIZED_STR(@"Play count")]
-                             avail_methods: @[
-                                 @"label",
-                                 @"year",
-                                 @"playcount"]],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -2120,6 +2114,16 @@ NSMutableArray *hostRightMenuItems;
                         @"fanart",
                         @"resume"]
             }, @"parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Name"),
+                        LOCALIZED_STR(@"Year"),
+                        LOCALIZED_STR(@"Play count")],
+                @"method": @[
+                            @"label",
+                            @"year",
+                            @"playcount"]
+            }, @"available_sort_methods",
             LOCALIZED_STR(@"Music Videos"), @"label",
             LOCALIZED_STR(@"Music Videos"), @"morelabel",
             @"Movie", @"wikitype",
@@ -2375,21 +2379,7 @@ NSMutableArray *hostRightMenuItems;
                                   
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO
-                             avail_labels: @[
-                                 LOCALIZED_STR(@"Title"),
-                                 LOCALIZED_STR(@"Year"),
-                                 LOCALIZED_STR(@"Rating"),
-                                 LOCALIZED_STR(@"Duration"),
-                                 LOCALIZED_STR(@"Date added"),
-                                 LOCALIZED_STR(@"Play count")]
-                             avail_methods: @[
-                                 @"label",
-                                 @"year",
-                                 @"rating",
-                                 @"runtime",
-                                 @"dateadded",
-                                 @"playcount"]],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -2420,6 +2410,22 @@ NSMutableArray *hostRightMenuItems;
                         @"resume",
                         @"trailer"]
             }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Year"),
+                        LOCALIZED_STR(@"Rating"),
+                        LOCALIZED_STR(@"Duration"),
+                        LOCALIZED_STR(@"Date added"),
+                        LOCALIZED_STR(@"Play count")],
+                @"method": @[
+                        @"label",
+                        @"year",
+                        @"rating",
+                        @"runtime",
+                        @"dateadded",
+                        @"playcount"]
+            }, @"available_sort_methods",
             @"Movies", @"label",
             @"Movie", @"wikitype",
             @"nocover_movies", @"defaultThumb",
@@ -2431,21 +2437,7 @@ NSMutableArray *hostRightMenuItems;
                                   
         @[
             @{
-                @"sort": [self sortmethod:@"year" order:@"ascending" ignorearticle:NO
-                             avail_labels: @[
-                                 LOCALIZED_STR(@"Title"),
-                                 LOCALIZED_STR(@"Year"),
-                                 LOCALIZED_STR(@"Rating"),
-                                 LOCALIZED_STR(@"Duration"),
-                                 LOCALIZED_STR(@"Date added"),
-                                 LOCALIZED_STR(@"Play count")]
-                             avail_methods: @[
-                                 @"label",
-                                 @"year",
-                                 @"rating",
-                                 @"runtime",
-                                 @"dateadded",
-                                 @"playcount"]],
+                @"sort": [self sortmethod:@"year" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -2476,6 +2468,22 @@ NSMutableArray *hostRightMenuItems;
                         @"resume",
                         @"trailer"]
             }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Year"),
+                        LOCALIZED_STR(@"Rating"),
+                        LOCALIZED_STR(@"Duration"),
+                        LOCALIZED_STR(@"Date added"),
+                        LOCALIZED_STR(@"Play count")],
+                @"method": @[
+                        @"label",
+                        @"year",
+                        @"rating",
+                        @"runtime",
+                        @"dateadded",
+                        @"playcount"]
+            }, @"available_sort_methods",
             @"Movies", @"label",
             @"Movie", @"wikitype",
             @"nocover_movies", @"defaultThumb",
@@ -2774,15 +2782,7 @@ NSMutableArray *hostRightMenuItems;
     menu_TVShows.mainParameters = [@[
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO
-                             avail_labels:@[
-                                 LOCALIZED_STR(@"Title"),
-                                 LOCALIZED_STR(@"Year"),
-                                 LOCALIZED_STR(@"Rating")]
-                             avail_methods: @[
-                                 @"label",
-                                 @"year",
-                                 @"rating"]],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -2807,6 +2807,16 @@ NSMutableArray *hostRightMenuItems;
                         @"episode",
                         @"fanart"]
             }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Year"),
+                        LOCALIZED_STR(@"Rating")],
+                @"method": @[
+                        @"label",
+                        @"year",
+                        @"rating"]
+            }, @"available_sort_methods",
             LOCALIZED_STR(@"TV Shows"), @"label",
             @"TV Show", @"wikitype",
             @"YES", @"blackTableSeparator",
@@ -3340,17 +3350,7 @@ NSMutableArray *hostRightMenuItems;
 
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO
-                             avail_labels: @[
-                                 LOCALIZED_STR(@"Title"),
-                                 LOCALIZED_STR(@"Channel"),
-                                 LOCALIZED_STR(@"Date"),
-                                 LOCALIZED_STR(@"Runtime")]
-                             avail_methods: @[
-                                 @"label",
-                                 @"channel",
-                                 @"starttime",
-                                 @"runtime"]],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"title",
                         @"starttime",
@@ -3388,6 +3388,18 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"directory"]
             }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Channel"),
+                        LOCALIZED_STR(@"Date"),
+                        LOCALIZED_STR(@"Runtime")],
+                @"method": @[
+                        @"label",
+                        @"channel",
+                        @"starttime",
+                        @"runtime"]
+            }, @"available_sort_methods",
             LOCALIZED_STR(@"Recordings"), @"label",
             LOCALIZED_STR(@"Recordings"), @"morelabel",
             @"nocover_channels", @"defaultThumb",
@@ -3399,17 +3411,7 @@ NSMutableArray *hostRightMenuItems;
                           
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO
-                             avail_labels: @[
-                                 LOCALIZED_STR(@"Title"),
-                                 LOCALIZED_STR(@"Channel"),
-                                 LOCALIZED_STR(@"Date"),
-                                 LOCALIZED_STR(@"Runtime")]
-                             avail_methods: @[
-                                 @"label",
-                                 @"channel",
-                                 @"starttime",
-                                 @"runtime"]],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"title",
                         @"summary",
@@ -3445,6 +3447,18 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"directory"]
             }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Channel"),
+                        LOCALIZED_STR(@"Date"),
+                        LOCALIZED_STR(@"Runtime")],
+                @"method": @[
+                        @"label",
+                        @"channel",
+                        @"starttime",
+                        @"runtime"]
+            }, @"available_sort_methods",
             LOCALIZED_STR(@"Timers"), @"label",
             LOCALIZED_STR(@"Timers"), @"morelabel",
             @"nocover_timers", @"defaultThumb",

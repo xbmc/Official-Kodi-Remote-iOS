@@ -307,9 +307,6 @@
 
 -(NSString *)getCacheKey:(NSString *)fieldA parameters:(NSMutableDictionary *)fieldB{
     GlobalData *obj = [GlobalData getInstance];
-//    if ([fieldB[@"sort"] respondsToSelector:@selector(removeObjectForKey:)]) {
-//        [fieldB[@"sort"] removeObjectForKey:@"available_methods"];
-//    }
     return [[NSString stringWithFormat:@"%@%@%@%d%d%@%@", obj.serverIP, obj.serverPort, obj.serverDescription, serverVersion, serverMinorVersion, fieldA, fieldB] MD5String];
 }
 
@@ -507,7 +504,7 @@
     
     // Show sort button when sorting is possible
     button7.hidden = YES;
-    if (parameters[@"parameters"][@"sort"][@"available_methods"] != nil) {
+    if (parameters[@"available_sort_methods"] != nil) {
         button7.hidden = NO;
     }
     
@@ -817,7 +814,7 @@
 }
 
 -(void)setUpSort:(NSDictionary *)methods parameters:(NSDictionary *)parameters{
-    NSDictionary *sortDictionary = parameters[@"parameters"][@"sort"][@"available_methods"];
+    NSDictionary *sortDictionary = parameters[@"available_sort_methods"];
     sortMethodName = [self getCurrentSortMethod:methods withParameters:parameters];
     NSUInteger foundIndex = [sortDictionary[@"method"] indexOfObject:sortMethodName];
     if (foundIndex != NSNotFound) {
@@ -3365,7 +3362,7 @@ NSIndexPath *selected;
     }
     else {
         NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-        NSMutableDictionary *sortDictionary = parameters[@"parameters"][@"sort"][@"available_methods"];
+        NSMutableDictionary *sortDictionary = parameters[@"available_sort_methods"];
         if (sortDictionary[@"label"] != nil) {
             NSUInteger sort_method_index = [sortDictionary[@"label"] indexOfObject:actiontitle];
             if (sort_method_index != NSNotFound) {
@@ -4441,9 +4438,6 @@ NSIndexPath *selected;
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
-//    if ([mutableParameters[@"sort"] respondsToSelector:@selector(removeObjectForKey:)]) {
-//        [mutableParameters[@"sort"] removeObjectForKey:@"available_methods"];
-//    }
 //    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, mutableParameters);
     [[Utilities getJsonRPC]
      callMethod:methodToCall
@@ -5898,7 +5892,7 @@ NSIndexPath *selected;
 - (void)handleChangeSortLibrary {
     selected = nil;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-    NSDictionary *sortDictionary = parameters[@"parameters"][@"sort"][@"available_methods"];
+    NSDictionary *sortDictionary = parameters[@"available_sort_methods"];
     NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
                           NSLocalizedString(@"Sort by", nil), @"label",
                           [NSString stringWithFormat:@"\n(%@)", NSLocalizedString(@"tap the selection\nto reverse the sort order", nil)], @"genre",
