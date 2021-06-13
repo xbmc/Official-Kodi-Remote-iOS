@@ -260,6 +260,19 @@ NSOutputStream	*outStream;
              [AppDelegate instance].isIgnoreArticlesEnabled = NO;
          }
     }];
+    // Check if groupsingleitemsets is enabled
+    [[Utilities getJsonRPC]
+     callMethod:@"Settings.GetSettingValue"
+     withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}
+     withTimeout: SERVER_TIMEOUT
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if (!error && !methodError) {
+             [AppDelegate instance].isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
+         }
+         else {
+             [AppDelegate instance].isGroupSingleItemSetsEnabled = NO;
+         }
+    }];
 }
 
 - (void)readSorttokens {
