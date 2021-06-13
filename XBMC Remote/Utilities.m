@@ -568,7 +568,7 @@
 + (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key emptyString:(NSString*)empty {
     NSString *text = @"";
     id value = dict[key];
-    if (value == [NSNull null]) {
+    if (value == nil) {
         text = empty;
     }
     else if ([value isKindOfClass:[NSArray class]]) {
@@ -584,7 +584,7 @@
 + (NSString*)getTimeFromDictionary:(NSDictionary*)dict key:(NSString*)key sec2min:(int)secondsToMinute {
     NSString *runtime = @"";
     id value = dict[key];
-    if (value == [NSNull null]) {
+    if (value == nil) {
         runtime = @"";
     }
     else if ([value isKindOfClass:[NSArray class]]) {
@@ -602,7 +602,7 @@
 + (NSString*)getYearFromDictionary:(NSDictionary*)dict key:(NSString*)key {
     NSString *year = @"";
     id value = dict[key];
-    if (value == [NSNull null]) {
+    if (value == nil) {
         year = @"";
     }
     else if ([value isKindOfClass:[NSNumber class]]) {
