@@ -40,7 +40,7 @@
         [_posterLabel setTextAlignment:NSTextAlignmentCenter];
         [_posterLabel setTextColor:[UIColor whiteColor]];
         [_posterLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.6]];
-        [_posterLabel setShadowOffset:CGSizeMake(0,1)];
+        [_posterLabel setShadowOffset:CGSizeMake(0, 1)];
         [_posterLabel setNumberOfLines:2];
         [_posterLabel setMinimumScaleFactor:0.8];
         [_posterLabel setAdjustsFontSizeToFitWidth:YES];
@@ -49,7 +49,7 @@
         [_labelImageView addSubview:_posterLabel];
         [self.contentView addSubview:_labelImageView];
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width - borderWidth * 2, labelHeight/2)];
             [_posterLabelFullscreen setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
             [_posterLabelFullscreen setBackgroundColor:[UIColor clearColor]];
@@ -81,7 +81,7 @@
 }
 
 -(void)setIsRecording:(BOOL)enable {
-    if (enable == YES) {
+    if (enable) {
         if (isRecordingImageView == nil) {
             CGFloat dotSize = 8;
             isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, dotSize, dotSize)];
@@ -99,10 +99,10 @@
 }
 
 -(void)setOverlayWatched:(BOOL)enable{
-    if (enable == YES){
-        if (overlayWatched == nil){
+    if (enable) {
+        if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
-            [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin  | UIViewAutoresizingFlexibleTopMargin];
+            [overlayWatched setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin];
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width + 2,
                                               self.contentView.frame.size.height - overlayWatched.frame.size.height + 1,
                                               overlayWatched.frame.size.width,
@@ -111,7 +111,7 @@
         }
         overlayWatched.hidden = NO;
     }
-    else{
+    else {
         overlayWatched.hidden = YES;
     }
 }

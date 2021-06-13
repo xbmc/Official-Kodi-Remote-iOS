@@ -33,11 +33,10 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self != nil)
-    {
+    if (self != nil) {
         self.scrubbingSpeeds = [self defaultScrubbingSpeeds];
         self.scrubbingSpeedChangePositions = [self defaultScrubbingSpeedChangePositions];
-        self.scrubbingSpeed = [[self.scrubbingSpeeds objectAtIndex:0] floatValue];
+        self.scrubbingSpeed = [self.scrubbingSpeeds[0] floatValue];
     }
     return self;
 }
@@ -48,21 +47,22 @@
 - (id)initWithCoder:(NSCoder *)decoder
 {
     self = [super initWithCoder:decoder];
-    if (self != nil) 
-    {
+    if (self != nil) {
     	if ([decoder containsValueForKey:@"scrubbingSpeeds"]) {
             self.scrubbingSpeeds = [decoder decodeObjectForKey:@"scrubbingSpeeds"];
-        } else {
+        }
+        else {
             self.scrubbingSpeeds = [self defaultScrubbingSpeeds];
         }
 
         if ([decoder containsValueForKey:@"scrubbingSpeedChangePositions"]) {
             self.scrubbingSpeedChangePositions = [decoder decodeObjectForKey:@"scrubbingSpeedChangePositions"];
-        } else {
+        }
+        else {
             self.scrubbingSpeedChangePositions = [self defaultScrubbingSpeedChangePositions];
         }
         
-        self.scrubbingSpeed = [[self.scrubbingSpeeds objectAtIndex:0] floatValue];
+        self.scrubbingSpeed = [self.scrubbingSpeeds[0] floatValue];
     }
     return self;
 }
@@ -84,8 +84,7 @@
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
     BOOL beginTracking = [super beginTrackingWithTouch:touch withEvent:event];
-    if (beginTracking)
-    {
+    if (beginTracking) {
 		// Set the beginning tracking location to the centre of the current
 		// position of the thumb. This ensures that the thumb is correctly re-positioned
 		// when the touch position moves back to the track after tracking in one
@@ -102,8 +101,7 @@
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    if (self.tracking)
-    {
+    if (self.tracking) {
         CGPoint previousLocation = [touch previousLocationInView:self];
         CGPoint currentLocation  = [touch locationInView:self];
         CGFloat trackingOffset = currentLocation.x - previousLocation.x;
@@ -114,15 +112,15 @@
         if (scrubbingSpeedChangePosIndex == NSNotFound) {
             scrubbingSpeedChangePosIndex = [self.scrubbingSpeeds count];
         }
-        self.scrubbingSpeed = [[self.scrubbingSpeeds objectAtIndex:scrubbingSpeedChangePosIndex - 1] floatValue];
+        self.scrubbingSpeed = [self.scrubbingSpeeds[scrubbingSpeedChangePosIndex - 1] floatValue];
          
         CGRect trackRect = [self trackRectForBounds:self.bounds];
         self.realPositionValue = self.realPositionValue + (self.maximumValue - self.minimumValue) * (trackingOffset / trackRect.size.width);
 		
 		CGFloat valueAdjustment = self.scrubbingSpeed * (self.maximumValue - self.minimumValue) * (trackingOffset / trackRect.size.width);
 		CGFloat thumbAdjustment = 0;
-        if ( ((self.beganTrackingLocation.y < currentLocation.y) && (currentLocation.y < previousLocation.y)) ||
-             ((self.beganTrackingLocation.y > currentLocation.y) && (currentLocation.y > previousLocation.y)) )
+        if (((self.beganTrackingLocation.y < currentLocation.y) && (currentLocation.y < previousLocation.y)) ||
+            ((self.beganTrackingLocation.y > currentLocation.y) && (currentLocation.y > previousLocation.y)))
             {
             // We are getting closer to the slider, go closer to the real location
 			thumbAdjustment = (self.realPositionValue - self.value) / (1 + fabs(currentLocation.y - self.beganTrackingLocation.y));
@@ -138,9 +136,8 @@
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    if (self.tracking) 
-    {
-        self.scrubbingSpeed = [[self.scrubbingSpeeds objectAtIndex:0] floatValue];
+    if (self.tracking) {
+        self.scrubbingSpeed = [self.scrubbingSpeeds[0] floatValue];
         [self sendActionsForControlEvents:UIControlEventValueChanged];
     }
 }
@@ -153,7 +150,7 @@
 - (NSUInteger) indexOfLowerScrubbingSpeed:(NSArray*)scrubbingSpeedPositions forOffset:(CGFloat)verticalOffset 
 {
     for (NSUInteger i = 0; i < [scrubbingSpeedPositions count]; i++) {
-        NSNumber *scrubbingSpeedOffset = [scrubbingSpeedPositions objectAtIndex:i];
+        NSNumber *scrubbingSpeedOffset = scrubbingSpeedPositions[i];
         if (verticalOffset < [scrubbingSpeedOffset floatValue]) {
             return i;
         }
@@ -167,26 +164,24 @@
 // Used in -initWithFrame: and -initWithCoder:
 - (NSArray *) defaultScrubbingSpeeds
 {
-    return [NSArray arrayWithObjects:
-            [NSNumber numberWithFloat:1.0f],
-            [NSNumber numberWithFloat:0.5f],
-            [NSNumber numberWithFloat:0.25f],
-            [NSNumber numberWithFloat:0.1f],
-            [NSNumber numberWithFloat:0.05f],
-            [NSNumber numberWithFloat:0.025f],
-            nil];
+    return @[
+            @(1.0f),
+            @(0.5f),
+            @(0.25f),
+            @(0.1f),
+            @(0.05f),
+            @(0.025f)];
 }
 
 - (NSArray *) defaultScrubbingSpeedChangePositions
 {
-    return [NSArray arrayWithObjects:
-            [NSNumber numberWithFloat:0.0f],
-            [NSNumber numberWithFloat:50.0f],
-            [NSNumber numberWithFloat:100.0f],
-            [NSNumber numberWithFloat:150.0f],
-            [NSNumber numberWithFloat:200.0f],
-            [NSNumber numberWithFloat:250.0f],
-            nil];
+    return @[
+            @(0.0f),
+            @(50.0f),
+            @(100.0f),
+            @(150.0f),
+            @(200.0f),
+            @(250.0f)];
 }
 
 @end

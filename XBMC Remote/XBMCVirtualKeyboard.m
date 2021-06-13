@@ -23,7 +23,7 @@
         background_padding = 6;
         alignBottom = 10;
         UIColor *accessoryBackgroundColor = [Utilities getSystemGray4];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             accessoryHeight = 74;
             verboseHeight = 34;
             padding = 50;
@@ -98,27 +98,27 @@
 }
 
 -(void) showKeyboard:(NSNotification *)note{
-    if ([AppDelegate instance].serverVersion == 11){
+    if ([AppDelegate instance].serverVersion == 11) {
         backgroundTextField.text = @" ";
     }
     NSDictionary *params;
-    if (note!=nil){
-        params = [[note userInfo] objectForKey:@"params"];
+    if (note != nil) {
+        params = [note userInfo][@"params"];
     }
     keyboardTitle.text = @"";
     backgroundTextField.keyboardType = UIKeyboardTypeDefault;
-    if (params != nil){
-        if (((NSNull *)[params objectForKey:@"data"] != [NSNull null])){
-            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"title"] != [NSNull null])){
-                keyboardTitle.text = [[params objectForKey:@"data"] objectForKey:@"title"];
+    if (params != nil) {
+        if (((NSNull *)params[@"data"] != [NSNull null])) {
+            if (((NSNull *)params[@"data"][@"title"] != [NSNull null])) {
+                keyboardTitle.text = params[@"data"][@"title"];
             }
-            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"value"] != [NSNull null])){
-                if (![[[params objectForKey:@"data"] objectForKey:@"value"] isEqualToString:@""]){
-                    backgroundTextField.text = [[params objectForKey:@"data"] objectForKey:@"value"];
+            if (((NSNull *)params[@"data"][@"value"] != [NSNull null])) {
+                if (![params[@"data"][@"value"] isEqualToString:@""]) {
+                    backgroundTextField.text = params[@"data"][@"value"];
                 }
             }
-            if (((NSNull *)[[params objectForKey:@"data"] objectForKey:@"type"] != [NSNull null])){
-                if ([[[params objectForKey:@"data"] objectForKey:@"type"] isEqualToString:@"number"]){
+            if (((NSNull *)params[@"data"][@"type"] != [NSNull null])) {
+                if ([params[@"data"][@"type"] isEqualToString:@"number"]) {
                     backgroundTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
                 }
             }
@@ -129,7 +129,7 @@
 }
 
 -(void)toggleVirtualKeyboard:(id)sender{
-    if ([xbmcVirtualKeyboard isFirstResponder] || [backgroundTextField isFirstResponder]){
+    if ([xbmcVirtualKeyboard isFirstResponder] || [backgroundTextField isFirstResponder]) {
         [self hideKeyboard:nil];
     }
     else {
@@ -148,37 +148,37 @@
     frame.size.width = screenWidth;
     [inputAccView setFrame:frame];
     
-    if ([keyboardTitle.text isEqualToString:@""]){
+    if ([keyboardTitle.text isEqualToString:@""]) {
         [inputAccView setFrame:
          CGRectMake(0, 0, screenWidth, finalHeight)];
         [backgroundTextField setFrame:
          CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - (int)(alignBottom/2), screenWidth - (padding - background_padding) * 2, verboseHeight)];
     }
-    else{
+    else {
         finalHeight = accessoryHeight;
         [inputAccView setFrame:CGRectMake(0, 0, screenWidth, finalHeight)];
         [backgroundTextField setFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
     }
     [textField setInputAccessoryView:inputAccView];
     if ([textField.inputAccessoryView constraints].count > 0) {
-        NSLayoutConstraint *constraint = [[textField.inputAccessoryView constraints] objectAtIndex:0];
+        NSLayoutConstraint *constraint = [textField.inputAccessoryView constraints][0];
         constraint.constant = finalHeight;
     }
 }
 
 -(BOOL) textField: (UITextField *)theTextField shouldChangeCharactersInRange: (NSRange)range replacementString: (NSString *)string {
     if ([AppDelegate instance].serverVersion == 11) {
-        if (range.location == 0){ //BACKSPACE
+        if (range.location == 0) { //BACKSPACE
             [self sendXbmcHttp:@"SendKey(0xf108)"];
         }
-        else{ // CHARACTER
+        else { // CHARACTER
             int x = (unichar) [string characterAtIndex: 0];
-            if (x==10) {
+            if (x == 10) {
                 [self GUIAction:@"Input.Select" params:[NSDictionary dictionary] httpAPIcallback:nil];
                 [backgroundTextField resignFirstResponder];
                 [xbmcVirtualKeyboard resignFirstResponder];
             }
-            else if (x<1000){
+            else if (x < 1000) {
                 [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
             }
         }
@@ -189,21 +189,21 @@
         if ([string length] != 0) {
             int x = (unichar) [string characterAtIndex: 0];
             if (x == 10) {
-                [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:[stringToSend substringToIndex:[stringToSend length] - 1], @"text", [NSNumber numberWithBool:TRUE], @"done", nil] httpAPIcallback:nil];
+                [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:[stringToSend substringToIndex:[stringToSend length] - 1], @"text", @(YES), @"done", nil] httpAPIcallback:nil];
                 [backgroundTextField resignFirstResponder];
                 [xbmcVirtualKeyboard resignFirstResponder];
                 theTextField.text = @"";
                 return YES;
             }
         }
-        [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", [NSNumber numberWithBool:FALSE], @"done", nil] httpAPIcallback:nil];
+        [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", @(NO), @"done", nil] httpAPIcallback:nil];
         return YES;
     }
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     if (textField.tag == 10) {
-        [self performSelectorOnMainThread:@selector(hideKeyboard:) withObject:nil waitUntilDone:FALSE];
+        [self performSelectorOnMainThread:@selector(hideKeyboard:) withObject:nil waitUntilDone:NO];
     }
 }
 
@@ -211,17 +211,17 @@
 
 -(void)GUIAction:(NSString *)action params:(NSDictionary *)params httpAPIcallback:(NSString *)callback{
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if ((methodError!=nil || error != nil) && callback!=nil){ // Backward compatibility
+        if ((methodError != nil || error != nil) && callback != nil) { // Backward compatibility
             [self sendXbmcHttp:callback];
         }
     }];
 }
 
 -(void)sendXbmcHttp:(NSString *) command{
-    GlobalData *obj=[GlobalData getInstance];
-    NSString *userPassword=[obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
+    GlobalData *obj = [GlobalData getInstance];
+    NSString *userPassword = [obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     
-    NSString *serverHTTP=[NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort, command];
+    NSString *serverHTTP = [NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort, command];
     NSURL *url = [NSURL  URLWithString:serverHTTP];
     [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
 }

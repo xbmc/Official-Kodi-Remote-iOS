@@ -32,10 +32,9 @@ static NSString *const kCompletedCallbackKey = @"completed";
 
 + (void)initialize
 {
-    // Bind SDNetworkActivityIndicator if available (download it here: http://github.com/rs/SDNetworkActivityIndicator )
+    // Bind SDNetworkActivityIndicator if available (download it here: http://github.com/rs/SDNetworkActivityIndicator)
     // To use it, just add #import "SDNetworkActivityIndicator.h" in addition to the SDWebImage import
-    if (NSClassFromString(@"SDNetworkActivityIndicator"))
-    {
+    if (NSClassFromString(@"SDNetworkActivityIndicator")) {
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -65,8 +64,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
 
 - (id)init
 {
-    if ((self = [super init]))
-    {
+    if ((self = [super init])) {
         _executionOrder = SDWebImageDownloaderFIFOExecutionOrder;
         _downloadQueue = NSOperationQueue.new;
         _downloadQueue.maxConcurrentOperationCount = 2;
@@ -87,12 +85,10 @@ static NSString *const kCompletedCallbackKey = @"completed";
 
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field
 {
-    if (value)
-    {
+    if (value) {
         self.HTTPHeaders[field] = value;
     }
-    else
-    {
+    else {
         [self.HTTPHeaders removeObjectForKey:field];
     }
 }
@@ -126,26 +122,30 @@ static NSString *const kCompletedCallbackKey = @"completed";
         request.allHTTPHeaderFields = wself.HTTPHeaders;
         operation = [SDWebImageDownloaderOperation.alloc initWithRequest:request queue:wself.workingQueue options:options userInfo:userInfo progress:^(NSUInteger receivedSize, long long expectedSize)
         {
-            if (!wself) return;
+            if (!wself) {
+                return;
+            }
             SDWebImageDownloader *sself = wself;
             NSArray *callbacksForURL = [sself callbacksForURL:url];
             for (NSDictionary *callbacks in callbacksForURL)
             {
                 SDWebImageDownloaderProgressBlock callback = callbacks[kProgressCallbackKey];
-                if (callback) callback(receivedSize, expectedSize);
+                if (callback) {
+                    callback(receivedSize, expectedSize);
+                }
             }
         }
         completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished)
         {
-            if (!wself) return;
+            if (!wself) {
+                return;
+            }
             SDWebImageDownloader *sself = wself;
             NSArray *callbacksForURL = [sself callbacksForURL:url];
-            if (finished)
-            {
+            if (finished) {
                 [sself removeCallbacksForURL:url];
             }
-            for (NSDictionary *callbacks in callbacksForURL)
-            {
+            for (NSDictionary *callbacks in callbacksForURL) {
                 SDWebImageDownloaderCompletedBlock callback = callbacks[kCompletedCallbackKey];
                 if (callback) callback(image, data, error, finished);
             }
@@ -158,8 +158,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
             [sself removeCallbacksForURL:url];
         }];
         [wself.downloadQueue addOperation:operation];
-        if (wself.executionOrder == SDWebImageDownloaderLIFOExecutionOrder)
-        {
+        if (wself.executionOrder == SDWebImageDownloaderLIFOExecutionOrder) {
             // Emulate LIFO execution order by systematically adding new operations as last operation's dependency
             [wself.lastAddedOperation addDependency:operation];
             wself.lastAddedOperation = operation;
@@ -172,10 +171,8 @@ static NSString *const kCompletedCallbackKey = @"completed";
 - (void)addProgressCallback:(void (^)(NSUInteger, long long))progressBlock andCompletedBlock:(void (^)(UIImage *, NSData *data, NSError *, BOOL))completedBlock forURL:(NSURL *)url createCallback:(void (^)(void))createCallback
 {
     // The URL will be used as the key to the callbacks dictionary so it cannot be nil. If it is nil immediately call the completed block with no image or data.
-    if(url == nil)
-    {
-        if (completedBlock != nil)
-        {
+    if (url == nil) {
+        if (completedBlock != nil) {
             completedBlock(nil, nil, nil, NO);
         }
         return;
@@ -184,8 +181,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
     dispatch_barrier_sync(self.barrierQueue, ^
     {
         BOOL first = NO;
-        if (!self.URLCallbacks[url])
-        {
+        if (!self.URLCallbacks[url]) {
             self.URLCallbacks[url] = NSMutableArray.new;
             first = YES;
         }
@@ -193,13 +189,16 @@ static NSString *const kCompletedCallbackKey = @"completed";
         // Handle single download of simultaneous download request for the same URL
         NSMutableArray *callbacksForURL = self.URLCallbacks[url];
         NSMutableDictionary *callbacks = NSMutableDictionary.new;
-        if (progressBlock) callbacks[kProgressCallbackKey] = [progressBlock copy];
-        if (completedBlock) callbacks[kCompletedCallbackKey] = [completedBlock copy];
+        if (progressBlock) {
+            callbacks[kProgressCallbackKey] = [progressBlock copy];
+        }
+        if (completedBlock) {
+            callbacks[kCompletedCallbackKey] = [completedBlock copy];
+        }
         [callbacksForURL addObject:callbacks];
         self.URLCallbacks[url] = callbacksForURL;
 
-        if (first)
-        {
+        if (first) {
             createCallback();
         }
     });

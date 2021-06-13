@@ -26,7 +26,7 @@
     if (self) {
         Utilities *utils = [[Utilities alloc] init];
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:self options:nil];
-		self = [nib objectAtIndex:0];
+		self = nib[0];
         UIImage *img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
         img = [utils colorizeImage:img withColor:SLIDER_DEFAULT_COLOR];
         [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
@@ -39,7 +39,7 @@
         [volumeSlider addTarget:self action:@selector(changeServerVolume:) forControlEvents:UIControlEventTouchUpOutside];
         [volumeSlider addTarget:self action:@selector(stopTimer) forControlEvents:UIControlEventTouchDown];
         CGRect frame_tmp;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             volumeLabel.alpha = 0.8;
             volumeView.hidden = YES;
             volumeSlider.hidden = YES;
@@ -184,8 +184,8 @@
 -(void)changeServerVolume:(id)sender{
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt:(int)volumeSlider.value], @"volume", nil]];
-    if ([sender tag] == 10){
+     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(volumeSlider.value), @"volume", nil]];
+    if ([sender tag] == 10) {
         [self startTimer];
     }
 }
@@ -198,21 +198,21 @@
 }
 
 -(void)stopTimer{
-    if (self.timer!=nil){
+    if (self.timer != nil) {
         [self.timer invalidate];
-        self.timer=nil;
+        self.timer = nil;
     }
 }
 
 -(void)volumeInfo{
-    if ([AppDelegate instance].serverTCPConnectionOpen == YES) {
+    if ([AppDelegate instance].serverTCPConnectionOpen) {
         return;
     }
-    if ([AppDelegate instance].serverVolume > -1){
+    if ([AppDelegate instance].serverVolume > -1) {
         volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
         volumeSlider.value = [AppDelegate instance].serverVolume;
     }
-    else{
+    else {
         volumeLabel.text = @"0";
         volumeSlider.value = 0;
     }
@@ -258,7 +258,7 @@
      withParameters:@{@"properties": @[@"muted"]}
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-         if (error==nil && methodError==nil){
+         if (error == nil && methodError == nil) {
              isMuted = [methodResult[@"muted"] boolValue];
              [self handleMute:isMuted];
          }
@@ -275,33 +275,33 @@ NSInteger action;
 }
 
 -(IBAction)stopVolume:(id)sender{
-    if (self.holdVolumeTimer!=nil){
+    if (self.holdVolumeTimer != nil) {
         [self.holdVolumeTimer invalidate];
-        self.holdVolumeTimer=nil;
+        self.holdVolumeTimer = nil;
     }
     action = 0;
     [self startTimer];
 }
 
 -(void)changeVolume{
-    if (self.holdVolumeTimer.timeInterval == 0.5){
+    if (self.holdVolumeTimer.timeInterval == 0.5) {
         [self.holdVolumeTimer invalidate];
-        self.holdVolumeTimer=nil;
+        self.holdVolumeTimer = nil;
         self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];        
     }
-    if (action==1){ // Volume Raise
+    if (action == 1 ) { // Volume Raise
        volumeSlider.value = (int)volumeSlider.value + 2;
         
     }
-    else if (action==2) { // Volume Lower
+    else if (action == 2) { // Volume Lower
         volumeSlider.value = (int)volumeSlider.value - 2;
 
     }
     else { // Volume in 2-step resolution
-        volumeSlider.value= ((int)volumeSlider.value / 2) * 2;
+        volumeSlider.value = ((int)volumeSlider.value / 2) * 2;
     }
     [AppDelegate instance].serverVolume = volumeSlider.value;
-    volumeLabel.text=[NSString  stringWithFormat:@"%.0f", volumeSlider.value];
+    volumeLabel.text = [NSString stringWithFormat:@"%.0f", volumeSlider.value];
     [self changeServerVolume:nil];
     if (isMuted) {
         [self toggleMute:nil];

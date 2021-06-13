@@ -72,27 +72,39 @@
 
 - (void)configureView {
     if (self.detailItem == nil) {
-        self.navigationItem.title=NSLocalizedString(@"New XBMC Server", nil);
+        self.navigationItem.title = NSLocalizedString(@"New XBMC Server", nil);
     }
     else {
-        self.navigationItem.title=NSLocalizedString(@"Modify XBMC Server", nil);
-        NSIndexPath *idx=self.detailItem;
-        descriptionUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverDescription"];
-        usernameUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverUser"];
-        passwordUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPass"];
-        ipUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverIP"];
-        portUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverPort"];
-        NSString *macAddress = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"serverMacAddress"];
+        self.navigationItem.title = NSLocalizedString(@"Modify XBMC Server", nil);
+        NSIndexPath *idx = self.detailItem;
+        descriptionUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverDescription"];
+        usernameUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverUser"];
+        passwordUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverPass"];
+        ipUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverIP"];
+        portUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverPort"];
+        NSString *macAddress = [AppDelegate instance].arrayServerList[idx.row][@"serverMacAddress"];
         NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
         NSInteger num_octects = [mac_octect count];
-        if (num_octects>0) mac_0_UI.text = [mac_octect objectAtIndex:0];
-        if (num_octects>1) mac_1_UI.text = [mac_octect objectAtIndex:1];
-        if (num_octects>2) mac_2_UI.text = [mac_octect objectAtIndex:2];
-        if (num_octects>3) mac_3_UI.text = [mac_octect objectAtIndex:3];
-        if (num_octects>4) mac_4_UI.text = [mac_octect objectAtIndex:4];
-        if (num_octects>5) mac_5_UI.text = [mac_octect objectAtIndex:5];
-        preferTVPostersUI.on=[[[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"preferTVPosters"] boolValue];
-        tcpPortUI.text = [[[AppDelegate instance].arrayServerList objectAtIndex:idx.row] objectForKey:@"tcpPort"];
+        if (num_octects > 0) {
+            mac_0_UI.text = mac_octect[0];
+        }
+        if (num_octects > 1) {
+            mac_1_UI.text = mac_octect[1];
+        }
+        if (num_octects > 2) {
+            mac_2_UI.text = mac_octect[2];
+        }
+        if (num_octects > 3) {
+            mac_3_UI.text = mac_octect[3];
+        }
+        if (num_octects > 4) {
+            mac_4_UI.text = mac_octect[4];
+        }
+        if (num_octects > 5) {
+            mac_5_UI.text = mac_octect[5];
+        }
+        preferTVPostersUI.on = [[AppDelegate instance].arrayServerList[idx.row][@"preferTVPosters"] boolValue];
+        tcpPortUI.text = [AppDelegate instance].arrayServerList[idx.row][@"tcpPort"];
     }
 }
 
@@ -106,21 +118,45 @@
     
     [self textFieldDoneEditing:nil];
     
-    if (descriptionUI.text == nil) descriptionUI.text = @"";
-    if (usernameUI.text == nil) usernameUI.text = @"";
-    if (passwordUI.text == nil) passwordUI.text = @"";
-    if (ipUI.text == nil) ipUI.text = @"";
-    if (portUI.text == nil) portUI.text = @"";
-    if (tcpPortUI.text == nil) tcpPortUI.text = @"";
-    if (mac_0_UI.text == nil) mac_0_UI.text = @"";
-    if (mac_1_UI.text == nil) mac_1_UI.text = @"";
-    if (mac_2_UI.text == nil) mac_2_UI.text = @"";
-    if (mac_3_UI.text == nil) mac_3_UI.text = @"";
-    if (mac_4_UI.text == nil) mac_4_UI.text = @"";
-    if (mac_5_UI.text == nil) mac_5_UI.text = @"";
+    if (descriptionUI.text == nil) {
+        descriptionUI.text = @"";
+    }
+    if (usernameUI.text == nil) {
+        usernameUI.text = @"";
+    }
+    if (passwordUI.text == nil) {
+        passwordUI.text = @"";
+    }
+    if (ipUI.text == nil) {
+        ipUI.text = @"";
+    }
+    if (portUI.text == nil) {
+        portUI.text = @"";
+    }
+    if (tcpPortUI.text == nil) {
+        tcpPortUI.text = @"";
+    }
+    if (mac_0_UI.text == nil) {
+        mac_0_UI.text = @"";
+    }
+    if (mac_1_UI.text == nil) {
+        mac_1_UI.text = @"";
+    }
+    if (mac_2_UI.text == nil) {
+        mac_2_UI.text = @"";
+    }
+    if (mac_3_UI.text == nil) {
+        mac_3_UI.text = @"";
+    }
+    if (mac_4_UI.text == nil) {
+        mac_4_UI.text = @"";
+    }
+    if (mac_5_UI.text == nil) {
+        mac_5_UI.text = @"";
+    }
 
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
-    if (self.detailItem==nil){
+    if (self.detailItem == nil) {
         [[AppDelegate instance].arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                                            descriptionUI.text, @"serverDescription",
                                                            usernameUI.text, @"serverUser",
@@ -128,12 +164,12 @@
                                                            ipUI.text, @"serverIP",
                                                            portUI.text, @"serverPort",
                                                            macAddress, @"serverMacAddress",
-                                                           [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
+                                                           @(preferTVPostersUI.on), @"preferTVPosters",
                                                            tcpPortUI.text, @"tcpPort",
                                                            nil
                                                            ]];
     }
-    else{
+    else {
         NSIndexPath *idx = self.detailItem;
         [[AppDelegate instance].arrayServerList removeObjectAtIndex:idx.row];
         [[AppDelegate instance].arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -143,7 +179,7 @@
                                                               ipUI.text, @"serverIP",
                                                               portUI.text, @"serverPort",
                                                               macAddress, @"serverMacAddress",
-                                                              [NSNumber numberWithBool:preferTVPostersUI.on], @"preferTVPosters",
+                                                              @(preferTVPostersUI.on), @"preferTVPosters",
                                                               tcpPortUI.text, @"tcpPort",
                                                               nil
                                                               ] atIndex:idx.row];
@@ -191,7 +227,7 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if (theTextField.tag < 12){
+    if (theTextField.tag < 12) {
         UITextField *next = (UITextField*) [self.view viewWithTag:theTextField.tag + 1];
         [next becomeFirstResponder];
         //[next selectAll:self];
@@ -234,14 +270,14 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)browser didNotSearch:(NSDictionary *)errorDict{
     searching = NO;
-    [self handleError:[errorDict objectForKey:NSNetServicesErrorCode]];
+    [self handleError:errorDict[NSNetServicesErrorCode]];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)browser
            didFindService:(NSNetService *)aNetService
                moreComing:(BOOL)moreComing {    
     [services addObject:aNetService];
-    if(!moreComing) {
+    if (!moreComing) {
         [self stopDiscovery];
         [self updateUI];
     }
@@ -251,7 +287,7 @@
          didRemoveService:(NSNetService *)aNetService
                moreComing:(BOOL)moreComing{
     [services removeObject:aNetService];
-    if(!moreComing) {
+    if (!moreComing) {
         [self updateUI];
     }
 }
@@ -262,16 +298,16 @@
 }
 
 - (void)updateUI{
-    if(!searching){
+    if (!searching) {
         NSInteger j = [services  count];
-        if (j==1){
-            [self resolveIPAddress:[services objectAtIndex:0]];
+        if (j == 1) {
+            [self resolveIPAddress:services[0]];
         }
         else {
-            if (j==0){
+            if (j == 0) {
                 [self AnimLabel:noInstances AnimDuration:0.3 Alpha:1.0 XPos:0];
             }
-            else{
+            else {
                 [discoveredInstancesTableView reloadData];
                 [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:0];
             }
@@ -292,8 +328,8 @@
     struct rt_msghdr *rtm;
     struct sockaddr_in *sin;
     
-    memset(buf,0,sizeof(buf));
-    memset(buf2,0,sizeof(buf2));
+    memset(buf, 0, sizeof(buf));
+    memset(buf2, 0, sizeof(buf2));
     
     sockfd = socket(AF_ROUTE, SOCK_RAW, 0);
     rtm = (struct rt_msghdr *) buf;
@@ -313,7 +349,7 @@
     
     n = read(sockfd, buf2, BUFLEN);
     if (n != 0) {
-        int index =  sizeof(struct rt_msghdr) + sizeof(struct sockaddr_inarp) + 8;
+        int index = sizeof(struct rt_msghdr) + sizeof(struct sockaddr_inarp) + 8;
         res = [NSString stringWithFormat:@"%2.2X:%2.2X:%2.2X:%2.2X:%2.2X:%2.2X",
                buf2[index+0], buf2[index+1], buf2[index+2], buf2[index+3], buf2[index+4], buf2[index+5]];
     }
@@ -324,18 +360,18 @@
 -(void)fillMacAddressInfo {
     NSString *macAddress = [self resolveMacFromIP:ipUI.text];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
-    if ([macPart count] == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]){
-        [mac_0_UI setText:[macPart objectAtIndex:0]];
+    if ([macPart count] == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]) {
+        [mac_0_UI setText:macPart[0]];
         [mac_0_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_1_UI setText:[macPart objectAtIndex:1]];
+        [mac_1_UI setText:macPart[1]];
         [mac_1_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_2_UI setText:[macPart objectAtIndex:2]];
+        [mac_2_UI setText:macPart[2]];
         [mac_2_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_3_UI setText:[macPart objectAtIndex:3]];
+        [mac_3_UI setText:macPart[3]];
         [mac_3_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_4_UI setText:[macPart objectAtIndex:4]];
+        [mac_4_UI setText:macPart[4]];
         [mac_4_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_5_UI setText:[macPart objectAtIndex:5]];
+        [mac_5_UI setText:macPart[5]];
         [mac_5_UI setTextColor:[Utilities getSystemBlue]];
     }
 }
@@ -353,19 +389,19 @@
         char addressBuffer[100];
         struct sockaddr_in* socketAddress = (struct sockaddr_in*) [data bytes];
         int sockFamily = socketAddress->sin_family;
-        if (sockFamily == AF_INET ) {//|| sockFamily == AF_INET6 should be considered
+        if (sockFamily == AF_INET) {//|| sockFamily == AF_INET6 should be considered
             const char* addressStr = inet_ntop(sockFamily,
                                                &(socketAddress->sin_addr), addressBuffer,
                                                sizeof(addressBuffer));
             int port = ntohs(socketAddress->sin_port);
-            if (addressStr && port){
+            if (addressStr && port) {
                 descriptionUI.text = [service name];
                 ipUI.text = [NSString stringWithFormat:@"%s", addressStr];
                 portUI.text = [NSString stringWithFormat:@"%d", port];
                 [descriptionUI setTextColor:[Utilities getSystemBlue]];
                 [ipUI setTextColor:[Utilities getSystemBlue]];
                 [portUI setTextColor:[Utilities getSystemBlue]];
-                NSString *serverJSON=[NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
+                NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
                 NSURL *url = [[NSURL alloc] initWithString:serverJSON];
                 NSURLSession *pingSession = [NSURLSession sharedSession];
                 NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url];
@@ -419,15 +455,15 @@
 	if (count == 0) {
 		return cell;
 	}
-    NSNetService* service = [services objectAtIndex:indexPath.row];
+    NSNetService* service = services[indexPath.row];
 	cell.textLabel.text = [service name];
 	cell.textLabel.textColor = [Utilities get1stLabelColor];
-	cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self resolveIPAddress:[services objectAtIndex:indexPath.row]];
+    [self resolveIPAddress:services[indexPath.row]];
 }
 
 #pragma mark - NSURLConnection Delegate Methods
@@ -477,7 +513,7 @@
     mac_3_UI.text = @"";
     mac_4_UI.text = @"";
     mac_5_UI.text = @"";
-    preferTVPostersUI.on = FALSE;
+    preferTVPostersUI.on = NO;
     [descriptionUI setTextColor:[Utilities get1stLabelColor]];
     [ipUI setTextColor:[Utilities get1stLabelColor]];
     [portUI setTextColor:[Utilities get1stLabelColor]];
@@ -540,7 +576,7 @@
     [discoveredInstancesTableView setBackgroundColor:[Utilities getSystemGray6]];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
     rightSwipe.numberOfTouchesRequired = 1;
-    rightSwipe.cancelsTouchesInView=NO;
+    rightSwipe.cancelsTouchesInView = NO;
     rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:rightSwipe];
     
@@ -552,7 +588,7 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }
-    if (bottomPadding >0) {
+    if (bottomPadding > 0) {
         CGRect frame = tipView.frame;
         frame.origin.y -= bottomPadding;
         tipView.frame = frame;

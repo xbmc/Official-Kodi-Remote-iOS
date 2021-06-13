@@ -49,77 +49,77 @@
 
         cellHeight = 44.0;
         
-        settingOptions = [self.detailItem objectForKey:@"options"];
+        settingOptions = self.detailItem[@"options"];
         
 //        if (![settingOptions isKindOfClass:[NSArray class]]) {
-//            if ([[self.detailItem objectForKey:@"definition"] isKindOfClass:[NSDictionary class]]){
-//                settingOptions = [[self.detailItem objectForKey:@"definition"] objectForKey:@"options"];
+//            if ([self.detailItem[@"definition"] isKindOfClass:[NSDictionary class]]) {
+//                settingOptions = self.detailItem[@"definition"][@"options"];
 //            }
 //        }
         
         if (![settingOptions isKindOfClass:[NSArray class]]) {
             settingOptions = nil;
         }
-        itemControls = [self.detailItem objectForKey:@"control"];
+        itemControls = self.detailItem[@"control"];
         
         xbmcSetting = cDefault;
         
-        if ([[itemControls objectForKey:@"format"] isEqualToString:@"boolean"]) {
+        if ([itemControls[@"format"] isEqualToString:@"boolean"]) {
             xbmcSetting = cSwitch;
             cellHeight = 210.0;
         }
-        else if ([[itemControls objectForKey:@"multiselect"] boolValue] == YES && ![settingOptions isKindOfClass:[NSArray class]]){
+        else if ([itemControls[@"multiselect"] boolValue] && ![settingOptions isKindOfClass:[NSArray class]]) {
             xbmcSetting = cMultiselect;
-            [self.detailItem setObject:[[self.detailItem objectForKey:@"value"] mutableCopy] forKey:@"value"];
+            self.detailItem[@"value"] = [self.detailItem[@"value"] mutableCopy];
         }
-        else if ([[itemControls objectForKey:@"format"] isEqualToString:@"addon"]) {
+        else if ([itemControls[@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
             cellHeight = 44;
             [_tableView setFrame:CGRectMake(self.view.frame.size.width, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height)];
-            self.navigationItem.title = [self.detailItem objectForKey:@"label"];
+            self.navigationItem.title = self.detailItem[@"label"];
             settingOptions = [[NSMutableArray alloc] init];
             [self retrieveXBMCData: @"Addons.GetAddons"
                         parameters: [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [self.detailItem objectForKey:@"addontype"], @"type",
-                                     [NSNumber numberWithBool:YES], @"enabled",
-                                     [NSArray arrayWithObjects:@"name", nil], @"properties",
+                                     self.detailItem[@"addontype"], @"type",
+                                     @(YES), @"enabled",
+                                     @[@"name"], @"properties",
                                      nil]
                            itemKey: @"addons"];
         }
-        else if ([[itemControls objectForKey:@"format"] isEqualToString:@"action"] || [[itemControls objectForKey:@"format"] isEqualToString:@"path"]) {
-            self.navigationItem.title = [self.detailItem objectForKey:@"label"];
+        else if ([itemControls[@"format"] isEqualToString:@"action"] || [itemControls[@"format"] isEqualToString:@"path"]) {
+            self.navigationItem.title = self.detailItem[@"label"];
             xbmcSetting = cUnsupported;
             cellHeight = 142.0;
         }
-        else if ([[itemControls objectForKey:@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
+        else if ([itemControls[@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
             xbmcSetting = cSlider;
-            storeSliderValue = [[self.detailItem objectForKey:@"value"] intValue];
+            storeSliderValue = [self.detailItem[@"value"] intValue];
             cellHeight = 184.0;
         }
-        else if ([[itemControls objectForKey:@"type"] isEqualToString:@"edit"]) {
+        else if ([itemControls[@"type"] isEqualToString:@"edit"]) {
             xbmcSetting = cInput;
             cellHeight = 172.0;
         }
-        else if ([[itemControls objectForKey:@"type"] isEqualToString:@"list"] && settingOptions == nil) {
+        else if ([itemControls[@"type"] isEqualToString:@"list"] && settingOptions == nil) {
             xbmcSetting = cSlider;
-            storeSliderValue = [[self.detailItem objectForKey:@"value"] intValue];
+            storeSliderValue = [self.detailItem[@"value"] intValue];
             cellHeight = 184.0;
         }
         else {
-            self.navigationItem.title = [self.detailItem objectForKey:@"label"];
-            if ([settingOptions isKindOfClass:[NSArray class]]){
-                if ([settingOptions count] > 0){
+            self.navigationItem.title = self.detailItem[@"label"];
+            if ([settingOptions isKindOfClass:[NSArray class]]) {
+                if ([settingOptions count] > 0) {
                     xbmcSetting = cList;
                 }
             }
         }
-        if (xbmcSetting == cUnsupported){
+        if (xbmcSetting == cUnsupported) {
             footerMessage = NSLocalizedString(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.", nil);
         }
         else if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cMultiselect) {
-            footerMessage = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"] == nil ? [self.detailItem objectForKey:@"label"] : [self.detailItem objectForKey:@"genre"]];
+            footerMessage = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"] == nil ? self.detailItem[@"label"] : self.detailItem[@"genre"]];
         }
-        if (xbmcSetting != cUnsupported){
+        if (xbmcSetting != cUnsupported) {
             footerMessage = [NSString stringWithFormat:@"%@\xE2\x84\xB9 %@", footerMessage == nil ? @"" : [NSString stringWithFormat:@"%@\n\n", footerMessage], NSLocalizedString(@"Tap and hold a setting to add a new button.", nil)];
         }
         
@@ -139,8 +139,8 @@
         [_tableView addGestureRecognizer:longPressGesture];
         
         CGFloat deltaY = 0;
-        CGRect frame = [[UIScreen mainScreen ] bounds];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        CGRect frame = [[UIScreen mainScreen] bounds];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             frame.size.width = STACKSCROLL_WIDTH;
         }
         else {
@@ -207,7 +207,7 @@
         NSIndexPath *indexPath = nil;
         p = [gestureRecognizer locationInView:_tableView];
         indexPath = [_tableView indexPathForRowAtPoint:p];
-        if (indexPath != nil){
+        if (indexPath != nil) {
             longPressRow = indexPath;
 
             UIAlertController *alertView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Add a new button", nil) message:NSLocalizedString(@"Enter the label:", nil) preferredStyle:UIAlertControllerStyleAlert];
@@ -231,11 +231,11 @@
     NSString *stringFormat = @": %i";
     switch (xbmcSetting) {
         case cList:
-            subTitle = [NSString stringWithFormat:@": %@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"label"]];
+            subTitle = [NSString stringWithFormat:@": %@", settingOptions[longPressRow.row][@"label"]];
             break;
         case cSlider:
-            if ([itemControls objectForKey:@"formatlabel"] != nil){
-                stringFormat = [NSString stringWithFormat:@": %@", [itemControls objectForKey:@"formatlabel"]];
+            if (itemControls[@"formatlabel"] != nil) {
+                stringFormat = [NSString stringWithFormat:@": %@", itemControls[@"formatlabel"]];
             }
             subTitle = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
             break;
@@ -244,39 +244,39 @@
         default:
             break;
     }
-    return [NSString stringWithFormat:@"%@%@", [self.detailItem objectForKey:@"label"], subTitle];
+    return [NSString stringWithFormat:@"%@%@", self.detailItem[@"label"], subTitle];
 }
 
 - (void)addActionButton:(UIAlertController*)alertView {
     NSString *command = @"Settings.SetSettingValue";
     id value = @"";
     NSString *type = @"string";
-    if ([self.detailItem objectForKey:@"year"] != nil){
-        type = [self.detailItem objectForKey:@"year"];
+    if (self.detailItem[@"year"] != nil) {
+        type = self.detailItem[@"year"];
     }
     switch (xbmcSetting) {
         case cList:
-            if ([type isEqualToString:@"integer"]){
-                value = [NSNumber numberWithInt:[[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"] intValue]];
+            if ([type isEqualToString:@"integer"]) {
+                value = @([settingOptions[longPressRow.row][@"value"] intValue]);
             }
             else {
-                value = [NSString stringWithFormat:@"%@",[[settingOptions objectAtIndex:longPressRow.row] objectForKey:@"value"]];
+                value = [NSString stringWithFormat:@"%@", settingOptions[longPressRow.row][@"value"]];
             }
             break;
         case cSlider:
-            value = [NSNumber numberWithInt: (int)storeSliderValue];
+            value = @(storeSliderValue);
             break;
         default:
             value = @"";
             break;
     }
-    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", value, @"value", nil];
+    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", value, @"value", nil];
     NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                [[alertView textFields][0] text], @"label",
                                type, @"type",
                                @"default-right-menu-icon", @"icon",
-                               [NSNumber numberWithInt:xbmcSetting], @"xbmcSetting",
-                               [self.detailItem objectForKey:@"genre"], @"helpText",
+                               @(xbmcSetting), @"xbmcSetting",
+                               self.detailItem[@"genre"], @"helpText",
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 command, @"command",
                                 params, @"params",
@@ -292,7 +292,7 @@
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
     [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
 }
@@ -300,19 +300,19 @@
 #pragma mark - JSON
 
 -(void)xbmcAction:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender {
-    if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
+    if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
         [sender setUserInteractionEnabled:NO];
     }
     [activityIndicator startAnimating];
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicator stopAnimating];
-        if (methodError==nil && error == nil){
+        if (methodError == nil && error == nil) {
             [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
-        else{
+        else {
             [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
-        if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]){
+        if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
             [sender setUserInteractionEnabled:YES];
         }
     }];
@@ -330,11 +330,11 @@
                                                    initWithKey:@"name"
                                                    ascending:YES
                                                    selector:@selector(localizedCaseInsensitiveCompare:)];
-                   NSArray *retrievedItems = [[methodResult objectForKey:itemkey] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+                   NSArray *retrievedItems = [methodResult[itemkey] sortedArrayUsingDescriptors:@[descriptor]];
                    for (NSDictionary *item in retrievedItems) {
                        [settingOptions addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                  [item objectForKey:@"name"], @"label",
-                                                  [item objectForKey:@"addonid"], @"value",
+                                                  item[@"name"], @"label",
+                                                  item[@"addonid"], @"value",
                                                   nil]
                         ];
                    }
@@ -371,10 +371,10 @@
 
 - (void)adjustFontSize:(UILabel *)label {
     CGRect descriptionRect;
-    BOOL done = FALSE;
+    BOOL done = NO;
     CGFloat startSize = label.font.pointSize - 1;
     CGFloat endSize = startSize - 2;
-    while (done == FALSE && startSize >= endSize){
+    while (!done && startSize >= endSize) {
         descriptionRect = [label.text  boundingRectWithSize:CGSizeMake(label.bounds.size.width, NSIntegerMax)
                                                                     options:NSStringDrawingUsesLineFragmentOrigin
                                                                  attributes:@{NSFontAttributeName:label.font}
@@ -383,8 +383,8 @@
         if (descriptionSize.height > label.bounds.size.height) {
             [label setFont:[UIFont systemFontOfSize:startSize]];
         }
-        else{
-            done = TRUE;
+        else {
+            done = YES;
         }
         startSize --;
     }
@@ -462,12 +462,12 @@
         [descriptionLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
         [uiSliderLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
 	}
-    cell.accessoryType =  UITableViewCellAccessoryNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
 
-    UILabel *cellLabel =  (UILabel*) [cell viewWithTag:1];
-    UILabel *descriptionLabel =  (UILabel*) [cell viewWithTag:2];
+    UILabel *cellLabel = (UILabel*) [cell viewWithTag:1];
+    UILabel *descriptionLabel = (UILabel*) [cell viewWithTag:2];
     UISlider *slider = (UISlider*) [cell viewWithTag:101];
-    UILabel *sliderLabel =  (UILabel*) [cell viewWithTag:102];
+    UILabel *sliderLabel = (UILabel*) [cell viewWithTag:102];
     UISwitch *onoff = (UISwitch*) [cell viewWithTag:201];
     UITextField *textInputField = (UITextField*) [cell viewWithTag:301];
 
@@ -479,7 +479,7 @@
     
     NSString *cellText = @"";
     NSString *stringFormat = @"%i";
-    NSString *descriptionString = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]];
+    NSString *descriptionString = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     switch (xbmcSetting) {
             
@@ -487,25 +487,25 @@
     
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             descriptionLabel.hidden = NO;
-            cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"label"]];
+            cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, 44)];
             [cellLabel setNumberOfLines:2];
             [descriptionLabel setText:descriptionString];
             [self adjustFontSize:descriptionLabel];
             onoff.hidden = NO;
-            onoff.on = [[self.detailItem objectForKey:@"value"] boolValue];
+            onoff.on = [self.detailItem[@"value"] boolValue];
             break;
             
         case cList:
             
-            cellText = [NSString stringWithFormat:@"%@", [[settingOptions objectAtIndex:indexPath.row] objectForKey:@"label"]];
-            if ([[self.detailItem objectForKey:@"value"] isKindOfClass:[NSArray class]]){
-                if ([[self.detailItem objectForKey:@"value"] containsObject:[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"]]){
-                    cell.accessoryType =  UITableViewCellAccessoryCheckmark;
+            cellText = [NSString stringWithFormat:@"%@", settingOptions[indexPath.row][@"label"]];
+            if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
+                if ([self.detailItem[@"value"] containsObject:settingOptions[indexPath.row][@"value"]]) {
+                    cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 }
             }
-            else if ([[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"] isEqual:[self.detailItem objectForKey:@"value"]]){
-                cell.accessoryType =  UITableViewCellAccessoryCheckmark;
+            else if ([settingOptions[indexPath.row][@"value"] isEqual:self.detailItem[@"value"]]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
             break;
             
@@ -518,19 +518,19 @@
             [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46)];
             [cellLabel setNumberOfLines:2];
             [cellLabel setTextAlignment:NSTextAlignmentCenter];
-            cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"label"]];
+            cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
             [descriptionLabel setFrame:CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 58)];
             [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
             [descriptionLabel setNumberOfLines:4];
-            [descriptionLabel setText: [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]]];
-            slider.minimumValue = [[self.detailItem objectForKey:@"minimum"] intValue];
-            slider.maximumValue = [[self.detailItem objectForKey:@"maximum"] intValue];
-            slider.value = [[self.detailItem objectForKey:@"value"] intValue];
-            if ([itemControls objectForKey:@"formatlabel"] != nil){
-                stringFormat = [NSString stringWithFormat:@"%@", [itemControls objectForKey:@"formatlabel"]];
+            [descriptionLabel setText: [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]]];
+            slider.minimumValue = [self.detailItem[@"minimum"] intValue];
+            slider.maximumValue = [self.detailItem[@"maximum"] intValue];
+            slider.value = [self.detailItem[@"value"] intValue];
+            if (itemControls[@"formatlabel"] != nil) {
+                stringFormat = [NSString stringWithFormat:@"%@", itemControls[@"formatlabel"]];
             }
-            [sliderLabel setText:[NSString stringWithFormat:stringFormat, [[self.detailItem objectForKey:@"value"] intValue]]];
+            [sliderLabel setText:[NSString stringWithFormat:stringFormat, [self.detailItem[@"value"] intValue]]];
             break;
             
         case cInput:
@@ -540,35 +540,35 @@
             [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46)];
             [cellLabel setNumberOfLines:2];
             [cellLabel setTextAlignment:NSTextAlignmentCenter];
-            cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"label"]];
+            cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
             [descriptionLabel setFrame:CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 74)];
             [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
             [descriptionLabel setNumberOfLines:5];
-            descriptionString  = [descriptionString stringByReplacingOccurrencesOfString:@"[B]" withString:@""];
-            descriptionString  = [descriptionString stringByReplacingOccurrencesOfString:@"[/B]" withString:@""];
+            descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[B]" withString:@""];
+            descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[/B]" withString:@""];
             [descriptionLabel setText: descriptionString];
             [self adjustFontSize:descriptionLabel];
-            [textInputField setText:[NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"value"]]];
+            [textInputField setText:[NSString stringWithFormat:@"%@", self.detailItem[@"value"]]];
             break;
             
         case cDefault | cMultiselect:
             
-            if ([self.detailItem objectForKey:@"value"] != nil){
-                if ([[self.detailItem objectForKey:@"value"] isKindOfClass:[NSArray class]]){
-                    NSString *delimiter = [self.detailItem objectForKey:@"delimiter"];
-                    if (delimiter == nil){
+            if (self.detailItem[@"value"] != nil) {
+                if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
+                    NSString *delimiter = self.detailItem[@"delimiter"];
+                    if (delimiter == nil) {
                         delimiter = @", ";
                     }
                     else {
                         delimiter = [NSString stringWithFormat:@"%@ ", delimiter];
                     }
-                    cellText = [[self.detailItem objectForKey:@"value"] componentsJoinedByString:delimiter];
+                    cellText = [self.detailItem[@"value"] componentsJoinedByString:delimiter];
                 }
-                else{
-                    cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"value"]];
+                else {
+                    cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
                 }
-                cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             break;
             
@@ -577,19 +577,19 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, cellHeight - 8)];
             [cellLabel setNumberOfLines:10];
-            cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]];
+            cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
             break;
             
         default:
-            if ([self.detailItem objectForKey:@"value"] != nil){
-                cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"value"]];
-                cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+            if (self.detailItem[@"value"] != nil) {
+                cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             break;
     }
 
-    if ([cellText isEqualToString:@""] || cellText == nil){
-        cellText = [NSString stringWithFormat:@"%@", [self.detailItem objectForKey:@"genre"]];
+    if ([cellText isEqualToString:@""] || cellText == nil) {
+        cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     }
 
     [cellLabel setText:cellText];
@@ -618,45 +618,45 @@
     NSDictionary *params = nil;
     switch (xbmcSetting) {
         case cList:
-            if ([[self.detailItem objectForKey:@"value"] isKindOfClass:[NSArray class]]){
+            if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
                 cell = [tableView cellForRowAtIndexPath:indexPath];
-                if (cell.accessoryType == UITableViewCellAccessoryNone){
+                if (cell.accessoryType == UITableViewCellAccessoryNone) {
                     [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-                    [[self.detailItem objectForKey:@"value"] addObject:[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"]];
+                    [self.detailItem[@"value"] addObject:settingOptions[indexPath.row][@"value"]];
                 }
-                else{
+                else {
                     [cell setAccessoryType:UITableViewCellAccessoryNone];
-                    [[self.detailItem objectForKey:@"value"] removeObject:[[settingOptions objectAtIndex:indexPath.row] objectForKey:@"value"]];
+                    [self.detailItem[@"value"] removeObject:settingOptions[indexPath.row][@"value"]];
                 }
             }
-            else{
-                if (selectedSetting == nil){
+            else {
+                if (selectedSetting == nil) {
                     selectedSetting = [self getCurrentSelectedOption:settingOptions];
                 }
-                if (selectedSetting != nil){
+                if (selectedSetting != nil) {
                     cell = [tableView cellForRowAtIndexPath:selectedSetting];
                     [cell setAccessoryType:UITableViewCellAccessoryNone];
                 }
                 cell = [tableView cellForRowAtIndexPath:indexPath];
                 [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
                 selectedSetting = indexPath;
-                [self.detailItem setObject:[[settingOptions objectAtIndex:selectedSetting.row] objectForKey:@"value"] forKey:@"value"];
+                self.detailItem[@"value"] = settingOptions[selectedSetting.row][@"value"];
             }
             command = @"Settings.SetSettingValue";
-            params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];
+            params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
             [self xbmcAction:command params:params uiControl:_tableView];
 
             break;
         case cMultiselect:
-            if ([[self.detailItem objectForKey:@"definition"] isKindOfClass:[NSDictionary class]]){
-                [[self.detailItem objectForKey:@"definition"] setObject:[self.detailItem objectForKey:@"value"] forKey:@"value"];
-                [[self.detailItem objectForKey:@"definition"] setObject:[self.detailItem objectForKey:@"id"] forKey:@"id"];
-                SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:[self.detailItem objectForKey:@"definition"]];
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            if ([self.detailItem[@"definition"] isKindOfClass:[NSDictionary class]]) {
+                self.detailItem[@"definition"][@"value"] = self.detailItem[@"value"];
+                self.detailItem[@"definition"][@"id"] = self.detailItem[@"id"];
+                SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:self.detailItem[@"definition"]];
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     [self.navigationController pushViewController:settingsViewController animated:YES];
                 }
-                else{
-                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:settingsViewController invokeByController:self isStackStartView:FALSE];
+                else {
+                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:settingsViewController invokeByController:self isStackStartView:NO];
                 }
             }
             break;
@@ -696,10 +696,10 @@
     [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
     [descriptionLabel setHighlightedTextColor:[UIColor whiteColor]];
     [descriptionLabel setText:[footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
-    if (xbmcSetting == cUnsupported){
+    if (xbmcSetting == cUnsupported) {
         [helpView setBackgroundColor:[Utilities getSystemRed:1.0]];
     }
-    else{
+    else {
         [helpView setBackgroundColor:[Utilities getGrayColor:45 alpha:0.95]];
     }
     CGRect descriptionRect = [descriptionLabel.text  boundingRectWithSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax)
@@ -743,7 +743,7 @@
     NSIndexPath *foundIndex = nil;
     NSUInteger index = [optionList indexOfObjectPassingTest:
                         ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
-                            return [[dict objectForKey:@"value"] isEqual:[self.detailItem objectForKey:@"value"]];
+                            return [dict[@"value"] isEqual:self.detailItem[@"value"]];
                         }];
     if (index != NSNotFound) {
         foundIndex = [NSIndexPath indexPathForRow:index inSection:0];
@@ -754,7 +754,7 @@
 
 - (void)scrollTableRow:(NSArray *)list {
     NSIndexPath *optionIndex = [self getCurrentSelectedOption:list];
-    if (optionIndex != nil){
+    if (optionIndex != nil) {
         [_tableView scrollToRowAtIndexPath:optionIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
         
     }
@@ -776,27 +776,27 @@
 -(void)stopUpdateSlider:(id)sender{
     [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
     NSString *command = @"Settings.SetSettingValue";
-    [self.detailItem setObject:[NSNumber numberWithInt: (int)storeSliderValue] forKey:@"value"];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];
+    self.detailItem[@"value"] = @(storeSliderValue);
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
 }
 
 -(void)sliderAction:(id)sender {
     OBSlider *slider = (OBSlider*) sender;
-    float newStep = roundf((slider.value) / [[self.detailItem objectForKey:@"step"] intValue]);
-    float newValue = newStep * [[self.detailItem objectForKey:@"step"] intValue];
-    if (newValue != storeSliderValue){
+    float newStep = roundf((slider.value) / [self.detailItem[@"step"] intValue]);
+    float newValue = newStep * [self.detailItem[@"step"] intValue];
+    if (newValue != storeSliderValue) {
         storeSliderValue = newValue;
-        if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]){
+        if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]) {
             UILabel *sliderLabel = (UILabel *)[[slider superview] viewWithTag:102];
             NSString *stringFormat = @"%i";
-            if ([itemControls objectForKey:@"formatlabel"] != nil){
-                stringFormat = [NSString stringWithFormat:@"%@", [itemControls objectForKey:@"formatlabel"]];
+            if (itemControls[@"formatlabel"] != nil) {
+                stringFormat = [NSString stringWithFormat:@"%@", itemControls[@"formatlabel"]];
             }
             [sliderLabel setText:[NSString stringWithFormat:stringFormat, (int)storeSliderValue]];
         }
     }
-    scrubbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@",[NSNumber numberWithFloat:slider.scrubbingSpeed]]), nil);
+    scrubbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@", @(slider.scrubbingSpeed)]), nil);
 }
 
 #pragma mark UISwitch
@@ -804,8 +804,8 @@
 - (void)toggleSwitch:(id)sender {
     UISwitch *onoff = (UISwitch *)sender;
     NSString *command = @"Settings.SetSettingValue";
-    [self.detailItem setObject:[NSNumber numberWithBool:onoff.on] forKey:@"value"];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];
+    self.detailItem[@"value"] = @(onoff.on);
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
 }
 
@@ -822,8 +822,8 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     NSString *command = @"Settings.SetSettingValue";
-    [self.detailItem setObject:[NSString stringWithFormat:@"%@", textField.text] forKey:@"value"];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"id"], @"setting", [self.detailItem objectForKey:@"value"], @"value", nil];
+    self.detailItem[@"value"] = [NSString stringWithFormat:@"%@", textField.text];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:textField];
     return YES;
 }
@@ -835,7 +835,7 @@
 #pragma mark - LifeCycle
 
 - (void)dismissAddAction:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^ {
+    [self dismissViewControllerAnimated:YES completion:^{
     }];
 }
 
@@ -861,7 +861,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (xbmcSetting == cList){
+    if (xbmcSetting == cList) {
         [self scrollTableRow:settingOptions];
     }
 }

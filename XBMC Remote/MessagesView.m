@@ -24,7 +24,7 @@
         [self.layer addSublayer:bottomBorder];
         [self setBackgroundColor:[Utilities getGrayColor:0 alpha:0.9]];
         slideHeight = frame.size.height;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             slideHeight += 22.0;
         }
         [self setFrame:CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height)];
@@ -61,8 +61,9 @@
     [self setAlpha:1.0];
     [UIView commitAnimations];
     //then slide out again after timeout seconds
-    if ([fadeoutTimer isValid])
+    if ([fadeoutTimer isValid]) {
         [fadeoutTimer invalidate];
+    }
     fadeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutMessage:) userInfo:nil repeats:NO];
 }
 

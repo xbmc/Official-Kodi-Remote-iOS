@@ -78,7 +78,7 @@
     self.layer.masksToBounds = YES;
     
     newEnlargeRatio = 1.0;
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
 //        newEnlargeRatio = 1.0;
 //    }
     
@@ -96,15 +96,15 @@
     NSInteger bufferSize = (imageBufer < urls.count) ? imageBufer : urls.count;
     
     // Fill the buffer.
-    for (uint i=0; i<bufferSize; i++) {
-        NSString *url = [[NSString alloc] initWithString:[urls objectAtIndex:i]];
+    for (uint i = 0; i < bufferSize; i++) {
+        NSString *url = [[NSString alloc] initWithString:urls[i]];
         [self.imagesArray addObject:[self _downloadImageFrom:url]];
     }
     
     self.layer.masksToBounds = YES;
     
     newEnlargeRatio = 1.2;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         newEnlargeRatio = 2.2;
     }
     
@@ -116,7 +116,7 @@
     for (uint i = 0; i < [images count]; i++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
-                               withObject:[NSNumber numberWithInt:i]
+                               withObject:@(i)
                             waitUntilDone:YES];
         
         sleep(self.timeTransition);
@@ -134,17 +134,16 @@
 - (void) _startInternetAnimations:(NSArray *)urls{
     int bufferIndex = 0;
     
-    for (NSInteger urlIndex=self.imagesArray.count; urlIndex < [urls count]; urlIndex++) {
+    for (NSInteger urlIndex = self.imagesArray.count; urlIndex < [urls count]; urlIndex++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
-                               withObject:[NSNumber numberWithInt:0]
+                               withObject:@(0)
                             waitUntilDone:YES];            
         
         [self.imagesArray removeObjectAtIndex:0];
-        [self.imagesArray addObject:[self _downloadImageFrom:[urls objectAtIndex: urlIndex]]];
+        [self.imagesArray addObject:[self _downloadImageFrom:urls[urlIndex]]];
         
-        if ( bufferIndex == self.imagesArray.count -1)
-        {
+        if (bufferIndex == self.imagesArray.count -1) {
             bufferIndex = -1;
         }
         
@@ -156,7 +155,7 @@
 }
 
 - (void) _animate:(NSNumber*)num{
-    UIImage* image = [self.imagesArray objectAtIndex:[num intValue]];
+    UIImage* image = self.imagesArray[[num intValue]];
     UIImageView *imageView;
     
     CGFloat resizeRatio   = -1;
@@ -172,18 +171,20 @@
     CGFloat frameHeight   = isLandscape ? self.frame.size.height : self.frame.size.width;
     
     // Widder than screen 
-    if (image.size.width > frameWidth){
-        widthDiff  = image.size.width - frameWidth;
+    if (image.size.width > frameWidth) {
+        widthDiff = image.size.width - frameWidth;
         
         // Higher than screen
 //        if (image.size.height > frameHeight)
 //        {
             heightDiff = image.size.height - frameHeight;
             
-            if (widthDiff > heightDiff) 
+            if (widthDiff > heightDiff) {
                 resizeRatio = frameHeight / image.size.height;
-            else
+            }
+            else {
                 resizeRatio = frameWidth / image.size.width;
+            }
             
             // No higher than screen
 //        }
@@ -202,7 +203,7 @@
     }
 //    else
 //    {
-//        widthDiff  = frameWidth - image.size.width;
+//        widthDiff = frameWidth - image.size.width;
 //        
 //        // Higher than screen
 //        if (image.size.height > frameHeight)
@@ -296,8 +297,8 @@
     [[self layer] addAnimation:animation forKey:nil];
     
     // Remove the previous view
-    if ([[self subviews] count] > 0){
-        [[[self subviews] objectAtIndex:0] removeFromSuperview];
+    if ([[self subviews] count] > 0) {
+        [[self subviews][0] removeFromSuperview];
     }
     
     [self addSubview:imageView];
@@ -319,7 +320,7 @@
 
 - (void) _notifyDelegate: (NSNumber *)imageIndex{
     if (delegate) {
-        if([self.delegate respondsToSelector:@selector(didShowImageAtIndex:)]){
+        if ([self.delegate respondsToSelector:@selector(didShowImageAtIndex:)]) {
             [self.delegate didShowImageAtIndex:[imageIndex intValue]];
         }      
         

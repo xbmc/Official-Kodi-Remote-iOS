@@ -32,9 +32,9 @@
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event{
     UITouch *touch = [touches  anyObject];
-    if ([touch tapCount] > 10 && touch.view==creditsSign && creditsMask.hidden){
+    if ([touch tapCount] > 10 && touch.view == creditsSign && creditsMask.hidden) {
         creditsMask.hidden = NO;
-        if (audioPlayer == nil){
+        if (audioPlayer == nil) {
             NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
                                                  pathForResource:@"sign"
                                                  ofType:@"mp3"]];
@@ -42,7 +42,7 @@
             audioPlayer = [[AVAudioPlayer alloc]
                            initWithContentsOfURL:url
                            error:&error];
-            if (!error){
+            if (!error) {
                 audioPlayer.delegate = self;
                 [audioPlayer prepareToPlay];
             }
@@ -53,7 +53,7 @@
 }
 
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
-    if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(setActive:withOptions:error:)]){
+    if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(setActive:withOptions:error:)]) {
         NSError *err;
         [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&err];
     }
@@ -67,7 +67,7 @@
 -(IBAction)CloseView{
     [audioPlayer stop];
     audioPlayer = nil;
-    if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(setActive:withOptions:error:)]){
+    if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(setActive:withOptions:error:)]) {
         NSError *err;
         [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&err];
     }

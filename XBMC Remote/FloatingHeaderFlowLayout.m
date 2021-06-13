@@ -33,7 +33,7 @@
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:idx];
         
         UICollectionViewLayoutAttributes *layoutAttributes = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
-        if (layoutAttributes != nil){
+        if (layoutAttributes != nil) {
             [answer addObject:layoutAttributes];
         }
         
@@ -63,7 +63,7 @@
                            );
             
             layoutAttributes.zIndex = 1024;
-            layoutAttributes.frame = (CGRect){
+            layoutAttributes.frame = (CGRect) {
                 .origin = origin,
                 .size = layoutAttributes.frame.size
             };
@@ -84,7 +84,7 @@
 
 -(CGSize)collectionViewContentSize{
     CGSize size = [super collectionViewContentSize];
-    if (size.height < self.collectionView.frame.size.height + searchBarHeight ){
+    if (size.height < self.collectionView.frame.size.height + searchBarHeight) {
         size.height = self.collectionView.frame.size.height + searchBarHeight;
     }    
     return size;
@@ -99,10 +99,10 @@
     CGFloat threshold = searchBarHeight / 2;
     CGFloat contentOffsetInset = proposedContentOffset.y;
     contentOffsetInset = contentOffsetInset + self.collectionView.contentInset.top;
-    if (contentOffsetInset  <= threshold){
-        offsetAdjustment = - contentOffsetInset;
+    if (contentOffsetInset <= threshold) {
+        offsetAdjustment = -contentOffsetInset;
     }
-    else if (contentOffsetInset > threshold && contentOffsetInset < searchBarHeight){
+    else if (contentOffsetInset > threshold && contentOffsetInset < searchBarHeight) {
         offsetAdjustment = searchBarHeight - contentOffsetInset;
     }
     return CGPointMake(proposedContentOffset.x, proposedContentOffset.y + offsetAdjustment);

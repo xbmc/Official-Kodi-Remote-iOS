@@ -22,6 +22,6 @@
 - (CGFloat)getPiePadding;
 - (CGFloat)getLineWidth;
 
-@property(nonatomic,readonly) UILabel *pieLabel;
+@property(nonatomic, readonly) UILabel *pieLabel;
 
 @end

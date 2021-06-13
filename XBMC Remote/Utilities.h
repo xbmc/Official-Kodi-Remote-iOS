@@ -60,5 +60,16 @@ typedef enum {
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
 + (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate> *)fromctrl;
 + (DSJSONRPC*)getJsonRPC;
++ (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array;
++ (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array;
++ (NSString*)convertTimeFromSeconds:(NSNumber*)seconds;
++ (NSString*)getItemIconFromDictionary:(NSDictionary*)dict mainFields:(NSDictionary*)mainFields;
++ (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key emptyString:(NSString*)empty;
++ (NSString*)getTimeFromDictionary:(NSDictionary*)dict key:(NSString*)key sec2min:(int)secondsToMinute;
++ (NSString*)getYearFromDictionary:(NSDictionary*)dict key:(NSString*)key;
++ (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key;
++ (NSString*)getClearArtFromDictionary:(NSDictionary*)dict type:(NSString*)type;
++ (NSString*)getThumbnailFromDictionary:(NSDictionary*)dict useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon;
++ (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
 
 @end

@@ -24,8 +24,8 @@
     CGGradientRef glossGradient;
     CGColorSpaceRef rgbColorspace;
     size_t numLocations = 2;
-    CGFloat locations[2] = { 0.0, 1.0 };
-    CGFloat components[8] = { startRed, startGreen, startBlue, 1.0, endRed, endGreen, endBlue, 1.0 };
+    CGFloat locations[2] = {0.0, 1.0};
+    CGFloat components[8] = {startRed, startGreen, startBlue, 1.0, endRed, endGreen, endBlue, 1.0};
     rgbColorspace = CGColorSpaceCreateDeviceRGB();
     glossGradient = CGGradientCreateWithColorComponents(rgbColorspace, components, locations, numLocations);
     CGRect currentBounds = self.bounds;

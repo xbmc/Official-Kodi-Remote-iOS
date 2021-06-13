@@ -44,18 +44,18 @@
     return self;
 }
 
-double round(double d){
+double round(double d) {
     return floor(d + 0.5);
 }
 
-int count=0;
+int count = 0;
 
 - (void)configureView{
     if (self.detailItem) {
-        NSMutableDictionary *item=self.detailItem;
+        NSMutableDictionary *item = self.detailItem;
         CGRect frame = CGRectMake(0, 0, 140, 40);
         viewTitle = [[UILabel alloc] initWithFrame:frame];
-        viewTitle.numberOfLines=0;
+        viewTitle.numberOfLines = 0;
         viewTitle.font = [UIFont boldSystemFontOfSize:11];
         viewTitle.minimumScaleFactor = 6.0/11.0;
         viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -63,91 +63,91 @@ int count=0;
         viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0];
         viewTitle.textAlignment = NSTextAlignmentCenter;
         viewTitle.textColor = [UIColor whiteColor];
-        viewTitle.text = [item objectForKey:@"label"];
+        viewTitle.text = item[@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
         sheetActions = [[NSMutableArray alloc] initWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil];
-        NSDictionary *resumePointDict = [item objectForKey:@"resume"];
-        if (resumePointDict != nil){
-            if (((NSNull *)[resumePointDict objectForKey:@"position"] != [NSNull null])){
-                if ([[resumePointDict objectForKey:@"position"] floatValue]>0){
-                    resumePointPercentage = ([[resumePointDict objectForKey:@"position"] floatValue] * 100) / [[resumePointDict objectForKey:@"total"] floatValue];
-                    [sheetActions addObject:[NSString stringWithFormat:NSLocalizedString(@"Resume from %@", nil), [self convertTimeFromSeconds:[NSNumber numberWithFloat:[[resumePointDict objectForKey:@"position"] floatValue]]]]];
+        NSDictionary *resumePointDict = item[@"resume"];
+        if (resumePointDict != nil) {
+            if (((NSNull *)resumePointDict[@"position"] != [NSNull null])) {
+                if ([resumePointDict[@"position"] floatValue] > 0) {
+                    resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
+                    [sheetActions addObject:[NSString stringWithFormat:NSLocalizedString(@"Resume from %@", nil), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
                 }
             }
         }
-//        if ([[item objectForKey:@"family"] isEqualToString:@"movieid"] || [[item objectForKey:@"family"] isEqualToString:@"episodeid"]|| [[item objectForKey:@"family"] isEqualToString:@"musicvideoid"]){
+//        if ([item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"episodeid"]|| [item[@"family"] isEqualToString:@"musicvideoid"]) {
 //            NSString *actionString = @"";
-//            if ([[item objectForKey:@"playcount"] intValue] == 0){
+//            if ([item[@"playcount"] intValue] == 0) {
 //                actionString = NSLocalizedString(@"Mark as watched", nil);
 //            }
-//            else{
+//            else {
 //                actionString = NSLocalizedString(@"Mark as unwatched", nil);
 //            }
 //            [sheetActions addObject:actionString];
 //        }
         BOOL fromAlbumView = NO;
-        if (((NSNull *)[item objectForKey:@"fromAlbumView"] != [NSNull null])){
-            fromAlbumView = [[item objectForKey:@"fromAlbumView"] boolValue];
+        if (((NSNull *)item[@"fromAlbumView"] != [NSNull null])) {
+            fromAlbumView = [item[@"fromAlbumView"] boolValue];
         }
         BOOL fromEpisodesView = NO;
-        if (((NSNull *)[item objectForKey:@"fromEpisodesView"] != [NSNull null])){
-            fromEpisodesView = [[item objectForKey:@"fromEpisodesView"] boolValue];
+        if (((NSNull *)item[@"fromEpisodesView"] != [NSNull null])) {
+            fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
         UIBarButtonItem *extraButton = nil;
         int titleWidth = 350;
-        if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
+        if ([item[@"family"] isEqualToString:@"albumid"]) {
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_song_icon"];
-            if (fromAlbumView){
+            if (fromAlbumView) {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
-            else{
+            else {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             }
             titleWidth = 350;
         }
-        else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+        else if ([item[@"family"] isEqualToString:@"artistid"]) {
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_album_icon"];
-            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
+            extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             titleWidth = 350;
         }
-        else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
+        else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv_icon"];
-            if (fromEpisodesView){
+            if (fromEpisodesView) {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
-            else{
+            else {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             }
             titleWidth = 350;
         }
-        else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
-            NSString *pvrAction = [[item objectForKey:@"hastimer"] boolValue] == YES ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
+        else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
+            NSString *pvrAction = [item[@"hastimer"] boolValue] ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
             sheetActions = [[NSMutableArray alloc] initWithObjects:
                             NSLocalizedString(@"Play", nil),
                             pvrAction,
                             nil];
             titleWidth = 350;
         }
-//        else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"movieid"] || [[item objectForKey:@"family"] isEqualToString:@"musicvideoid"]){
+//        else if ([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"musicvideoid"]) {
 //            [sheetActions addObject:NSLocalizedString(@"Open with VLC", nil)];
 //            titleWidth = 400;
 //        }
-        else{
+        else {
             titleWidth = 400;
         }
-        if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]){
-            if ([[item objectForKey:@"trailer"] length] > 0){
+        if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
+            if ([item[@"trailer"] length] > 0) {
                 [sheetActions addObject:NSLocalizedString(@"Play Trailer", nil)];
             }
         }
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlack;
             toolbar.translucent = YES;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             actionSheetButtonItemIpad.style = UIBarButtonItemStylePlain;
-            viewTitle.numberOfLines=1;
+            viewTitle.numberOfLines = 1;
             viewTitle.font = [UIFont boldSystemFontOfSize:22];
             viewTitle.minimumScaleFactor = 6.0/22.0;
             viewTitle.adjustsFontSizeToFitWidth = YES;
@@ -159,7 +159,7 @@ int count=0;
             [viewTitle sizeThatFits:CGSizeMake(titleWidth, 44)];
             viewTitle.textAlignment = NSTextAlignmentLeft;
             UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
-            if (extraButton == nil){
+            if (extraButton == nil) {
                 extraButton = spacer;
             }
             NSArray *items = [NSArray arrayWithObjects: 
@@ -182,16 +182,16 @@ int count=0;
             [self.view addSubview:toolbar];
             scrollView.contentInset = UIEdgeInsetsMake(toolbarHeight, 0, 0, 0);
         }
-        else{
+        else {
 //            self.navigationItem.titleView = viewTitle;
-            self.navigationItem.title = [item objectForKey:@"label"];
+            self.navigationItem.title = item[@"label"];
             UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
-            if (extraButton == nil){
+            if (extraButton == nil) {
                 self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
                                                            actionSheetButtonItem,
                                                            nil];
             }
-            else{
+            else {
                 self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
                                                            actionSheetButtonItem,
                                                            extraButton,
@@ -199,15 +199,15 @@ int count=0;
             }
             UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
             rightSwipe.numberOfTouchesRequired = 1;
-            rightSwipe.cancelsTouchesInView=NO;
+            rightSwipe.cancelsTouchesInView = NO;
             rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
             [self.view addGestureRecognizer:rightSwipe];
         }
     }
-    if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
+    if (![self.detailItem[@"disableNowPlaying"] boolValue]) {
         UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
         leftSwipe.numberOfTouchesRequired = 1;
-        leftSwipe.cancelsTouchesInView=NO;
+        leftSwipe.cancelsTouchesInView = NO;
         leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
         [self.view addGestureRecognizer:leftSwipe];
     }
@@ -221,7 +221,7 @@ int count=0;
 
 //-(BOOL)isModal {
 //    BOOL isModal = ((self.parentViewController && self.parentViewController.modalViewController == self) ||
-//                    ( self.navigationController && self.navigationController.parentViewController && self.navigationController.parentViewController.modalViewController == self.navigationController) ||
+//                    (self.navigationController && self.navigationController.parentViewController && self.navigationController.parentViewController.modalViewController == self.navigationController) ||
 //                    [[[self tabBarController] parentViewController] isKindOfClass:[UITabBarController class]]);
 //    if (!isModal && [self respondsToSelector:@selector(presentingViewController)]) {
 //        
@@ -239,185 +239,134 @@ int count=0;
 }
 
 -(void)goBack:(id)sender{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self.navigationController popViewControllerAnimated:YES];
     }
-    else{
+    else {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object: nil];
     }
 }
 
-- (NSString *)convertTimeFromSeconds:(NSNumber *)seconds {
-    NSString *result = @"";
-    int secs = [seconds intValue];
-    int tempHour    = 0;
-    int tempMinute  = 0;
-    int tempSecond  = 0;
-    NSString *hour      = @"";
-    NSString *minute    = @"";
-    NSString *second    = @"";
-    tempHour    = secs / 3600;
-    tempMinute  = secs / 60 - tempHour * 60;
-    tempSecond  = secs - (tempHour * 3600 + tempMinute * 60);
-    hour    = [[NSNumber numberWithInt:tempHour] stringValue];
-    minute  = [[NSNumber numberWithInt:tempMinute] stringValue];
-    second  = [[NSNumber numberWithInt:tempSecond] stringValue];
-    if (tempHour < 10) {
-        hour = [@"0" stringByAppendingString:hour];
-    }
-    if (tempMinute < 10) {
-        minute = [@"0" stringByAppendingString:minute];
-    }
-    if (tempSecond < 10) {
-        second = [@"0" stringByAppendingString:second];
-    }
-    if (tempHour == 0) {
-        result = [NSString stringWithFormat:@"%@:%@", minute, second];
-        
-    } else {
-        result = [NSString stringWithFormat:@"%@:%@:%@",hour, minute, second];
-    }
-    return result;
-}
-
 #pragma mark - ToolBar button
 
-- (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array {
-    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    NSInteger numelement = [array count];
-    for (int i=0;i<numelement-1;i+=2){
-        [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
-    }
-    return (NSDictionary *)mutableDictionary;
-}
-
-- (NSMutableDictionary *) indexKeyedMutableDictionaryFromArray:(NSArray *)array {
-    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    NSInteger numelement=[array count];
-    for (int i=0;i<numelement-1;i+=2){
-        [mutableDictionary setObject:[array objectAtIndex:i] forKey:[array objectAtIndex:i+1]];
-    }
-    return (NSMutableDictionary *)mutableDictionary;
-}
-
 -(void)showContent:(id)sender{
-    NSDictionary *item=self.detailItem;
+    NSDictionary *item = self.detailItem;
     mainMenu *MenuItem = nil;
     mainMenu *choosedMenuItem = nil;
     choosedTab = 0;
     id movieObj = nil;
     id movieObjKey = nil;
-    NSString *blackTableSeparator=@"NO";
-    if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
+    NSString *blackTableSeparator = @"NO";
+    if ([item[@"family"] isEqualToString:@"albumid"]) {
         notificationName = @"UIApplicationEnableMusicSection";
         MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
         choosedMenuItem = MenuItem.subItem;
-        choosedMenuItem.mainLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
+        choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
 
     }
-    else if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"] && ![sender isKindOfClass:[NSString class]]){
+    else if ([item[@"family"] isEqualToString:@"tvshowid"] && ![sender isKindOfClass:[NSString class]]) {
         notificationName = @"UIApplicationEnableTvShowSection";
         MenuItem = [[AppDelegate instance].playlistTvShows copy];
         choosedMenuItem = MenuItem.subItem;
-        choosedMenuItem.mainLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
+        choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
 
     }
-    else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+    else if ([item[@"family"] isEqualToString:@"artistid"]) {
         notificationName = @"UIApplicationEnableMusicSection";
         choosedTab = 1;
         MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
         choosedMenuItem = MenuItem.subItem;
-        choosedMenuItem.mainLabel=[NSString stringWithFormat:@"%@", [item objectForKey:@"label"]];
+        choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
 
     }
-    else if ([[item objectForKey:@"family"] isEqualToString:@"movieid"] && [AppDelegate instance].serverVersion>11){
-        if ([sender isKindOfClass:[NSString class]]){
+    else if ([item[@"family"] isEqualToString:@"movieid"] && [AppDelegate instance].serverVersion > 11) {
+        if ([sender isKindOfClass:[NSString class]]) {
             NSString *actorName = (NSString *)sender;
             choosedTab = 2;
             MenuItem = [[AppDelegate instance].playlistMovies copy];
-            movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName,@"actor", nil];
+            movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
             choosedMenuItem = MenuItem.subItem;
-            choosedMenuItem.mainLabel=actorName;
+            choosedMenuItem.mainLabel = actorName;
         }
     }
-    else if (([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"tvshowid"]) && [AppDelegate instance].serverVersion>11){
-        if ([sender isKindOfClass:[NSString class]]){
+    else if (([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"]) && [AppDelegate instance].serverVersion > 11) {
+        if ([sender isKindOfClass:[NSString class]]) {
             NSString *actorName = (NSString *)sender;
             choosedTab = 0;
             MenuItem = [[AppDelegate instance].playlistTvShows copy];
-            movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName,@"actor", nil];
+            movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
             choosedMenuItem = MenuItem;
-            choosedMenuItem.mainLabel=actorName;
+            choosedMenuItem.mainLabel = actorName;
             [MenuItem setEnableSection:NO];
             [MenuItem setMainButtons:nil];
-            if ([AppDelegate instance].obj.preferTVPosters==YES){
+            if ([AppDelegate instance].obj.preferTVPosters) {
                 thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
                 tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
             }
-            MenuItem.thumbWidth=thumbWidth;
-            MenuItem.rowHeight=tvshowHeight;
-            blackTableSeparator=@"YES";
+            MenuItem.thumbWidth = thumbWidth;
+            MenuItem.rowHeight = tvshowHeight;
+            blackTableSeparator = @"YES";
         }
     }
-    else{
+    else {
         return;
     }
-    NSDictionary *methods=[self indexKeyedDictionaryFromArray:[[choosedMenuItem mainMethod] objectAtIndex:choosedTab]];
-    if ([methods objectForKey:@"method"]!=nil){ // THERE IS A CHILD
-        NSDictionary *mainFields=[[MenuItem mainFields] objectAtIndex:choosedTab];
-        NSMutableDictionary *parameters=[self indexKeyedMutableDictionaryFromArray:[[choosedMenuItem mainParameters] objectAtIndex:choosedTab]];
-        id obj = [NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]];
-        id objKey = [mainFields objectForKey:@"row6"];
-        if (movieObj!= nil && movieObjKey!=nil){
+    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[choosedMenuItem mainMethod][choosedTab]];
+    if (methods[@"method"] != nil) { // THERE IS A CHILD
+        NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
+        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[choosedMenuItem mainParameters][choosedTab]];
+        id obj = @([item[mainFields[@"row6"]] intValue]);
+        id objKey = mainFields[@"row6"];
+        if (movieObj != nil && movieObjKey != nil) {
             obj = movieObj;
             objKey = movieObjKey;
         }
-        else if ([AppDelegate instance].serverVersion>11 && [[parameters objectForKey:@"disableFilterParameter"] boolValue] == FALSE){
-            obj = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[item objectForKey:[mainFields objectForKey:@"row6"]] intValue]],[mainFields objectForKey:@"row6"], nil];
+        else if ([AppDelegate instance].serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
+            obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] intValue]), mainFields[@"row6"], nil];
             objKey = @"filter";
         }
         NSMutableDictionary *newSectionParameters = nil;
-        if ([parameters objectForKey:@"extra_section_parameters"] != nil){
+        if (parameters[@"extra_section_parameters"] != nil) {
             newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     obj, objKey,
-                                    [[parameters objectForKey:@"extra_section_parameters"] objectForKey:@"properties"], @"properties",
-                                    [[parameters objectForKey:@"extra_section_parameters"] objectForKey:@"sort"],@"sort",
-                                    [item objectForKey:[mainFields objectForKey:@"row6"]], [mainFields objectForKey:@"row6"],
+                                    parameters[@"extra_section_parameters"][@"properties"], @"properties",
+                                    parameters[@"extra_section_parameters"][@"sort"], @"sort",
+                                    item[mainFields[@"row6"]], mainFields[@"row6"],
                                     nil];
         }
-        NSMutableArray *newParameters=[NSMutableArray arrayWithObjects:
+        NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        obj,objKey,
-                                        [[parameters objectForKey:@"parameters"] objectForKey:@"properties"], @"properties",
-                                        [[parameters objectForKey:@"parameters"] objectForKey:@"sort"],@"sort",
+                                        obj, objKey,
+                                        parameters[@"parameters"][@"properties"], @"properties",
+                                        parameters[@"parameters"][@"sort"], @"sort",
                                         nil], @"parameters",
                                        blackTableSeparator, @"blackTableSeparator",
-                                       [parameters objectForKey:@"label"], @"label",
-                                       [NSNumber numberWithBool:YES], @"fromShowInfo",
-                                       [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableCollectionView"] boolValue]], @"enableCollectionView",
-                                       [NSDictionary dictionaryWithDictionary:[parameters objectForKey:@"itemSizes"]], @"itemSizes",
-                                       [parameters objectForKey:@"extra_info_parameters"], @"extra_info_parameters",
-                                       [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
-                                       [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
-                                       [NSString stringWithFormat:@"%d",[[parameters objectForKey:@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
+                                       parameters[@"label"], @"label",
+                                       @(YES), @"fromShowInfo",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                       [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                       parameters[@"extra_info_parameters"], @"extra_info_parameters",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
                                        newSectionParameters, @"extra_section_parameters",
                                        nil];
         [[choosedMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-        choosedMenuItem.chooseTab=choosedTab;
-        if (![[item objectForKey:@"disableNowPlaying"] boolValue]){
+        choosedMenuItem.chooseTab = choosedTab;
+        if (![item[@"disableNowPlaying"] boolValue]) {
             choosedMenuItem.disableNowPlaying = NO;
         }
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             detailViewController.detailItem = choosedMenuItem;
             [self.navigationController pushViewController:detailViewController animated:YES];
         }
-        else{
-            if (![self isModal]){
+        else {
+            if (![self isModal]) {
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:FALSE];
+                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
                 [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
                 [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
             }
@@ -438,11 +387,11 @@ int count=0;
 
 -(void)showActionSheet {
     NSInteger numActions = [sheetActions count];
-    if (numActions){
-        NSDictionary *item=self.detailItem;
-        NSString *sheetTitle = [item objectForKey:@"label"];
-        if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]){
-            sheetTitle = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
+    if (numActions) {
+        NSDictionary *item = self.detailItem;
+        NSString *sheetTitle = item[@"label"];
+        if ([item[@"family"] isEqualToString:@"broadcastid"]) {
+            sheetTitle = item[@"pvrExtraInfo"][@"channel_name"];
         }
         
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -450,7 +399,7 @@ int count=0;
         UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
-            NSString *actiontitle = [sheetActions objectAtIndex:i];
+            NSString *actiontitle = sheetActions[i];
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 [self actionSheetHandler:actiontitle];
             }];
@@ -471,28 +420,28 @@ int count=0;
 }
 
 - (void)actionSheetHandler:(NSString*)actiontitle {
-    if ([actiontitle isEqualToString:NSLocalizedString(@"Queue after current", nil)]){
+    if ([actiontitle isEqualToString:NSLocalizedString(@"Queue after current", nil)]) {
         [self addQueueAfterCurrent:YES];
     }
-    else if([actiontitle isEqualToString:NSLocalizedString(@"Queue", nil)]){
+    else if ([actiontitle isEqualToString:NSLocalizedString(@"Queue", nil)]) {
         [self addQueueAfterCurrent:NO];
     }
-    else if([actiontitle isEqualToString:NSLocalizedString(@"Play", nil)]){
+    else if ([actiontitle isEqualToString:NSLocalizedString(@"Play", nil)]) {
         [self addPlayback:0.0];
     }
     else if (([actiontitle isEqualToString:NSLocalizedString(@"Record", nil)] ||
               [actiontitle isEqualToString:NSLocalizedString(@"Stop Recording", nil)])) {
         [self recordChannel];
     }
-    else if([actiontitle isEqualToString:NSLocalizedString(@"Open with VLC", nil)]){
+    else if ([actiontitle isEqualToString:NSLocalizedString(@"Open with VLC", nil)]) {
         [self openWithVLC:self.detailItem];
     }
-    else if ([actiontitle rangeOfString:NSLocalizedString(@"Resume from", nil)].location!= NSNotFound){
+    else if ([actiontitle rangeOfString:NSLocalizedString(@"Resume from", nil)].location != NSNotFound) {
         [self addPlayback:resumePointPercentage];
         return;
     }
-    else if([actiontitle isEqualToString:NSLocalizedString(@"Play Trailer", nil)]){
-        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [self.detailItem objectForKey:@"trailer"], @"file", nil], @"item", nil]];
+    else if ([actiontitle isEqualToString:NSLocalizedString(@"Play Trailer", nil)]) {
+        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"trailer"], @"file", nil], @"item", nil]];
     }
 }
 
@@ -521,37 +470,37 @@ int count=0;
 }
 
 -(void)recordChannel {
-    NSNumber *channelid = [NSNumber numberWithInt:[[[self.detailItem objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"] intValue]];
-    if ([channelid isEqualToValue:[NSNumber numberWithInt:0]]) {
+    NSNumber *channelid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]);
+    if ([channelid isEqualToValue:@(0)]) {
         return;
     }
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
-    NSNumber *itemid = [NSNumber numberWithInt:[[self.detailItem objectForKey:@"channelid"] intValue]];
+    NSNumber *itemid = @([self.detailItem[@"channelid"] intValue]);
     NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = [NSNumber numberWithInt:[[self.detailItem objectForKey:@"broadcastid"] intValue]];
-    if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
-        itemid = [NSNumber numberWithInt:[[[self.detailItem objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"] intValue]];
-        if ([itemid isEqualToValue:[NSNumber numberWithInt:0]]) {
+    NSNumber *storeBroadcastid = @([self.detailItem[@"broadcastid"] intValue]);
+    if ([itemid isEqualToValue:@(0)]) {
+        itemid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]);
+        if ([itemid isEqualToValue:@(0)]) {
             return;
         }
         storeChannelid = itemid;
         NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
-        NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [self.detailItem objectForKey:@"starttime"]]];
-        NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [self.detailItem objectForKey:@"endtime"]]];
+        NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", self.detailItem[@"starttime"]]];
+        NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", self.detailItem[@"endtime"]]];
         float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
         if (percent_elapsed < 0) {
-            itemid = [NSNumber numberWithInt:[[self.detailItem objectForKey:@"broadcastid"] intValue]];
+            itemid = @([self.detailItem[@"broadcastid"] intValue]);
             storeBroadcastid = itemid;
-            storeChannelid = [NSNumber numberWithInteger:0];
+            storeChannelid = @(0);
             methodToCall = @"PVR.ToggleTimer";
             parameterName = @"broadcastid";
         }
     }
-    self.navigationItem.rightBarButtonItem.enabled=NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     [activityIndicatorView startAnimating];
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 itemid, parameterName,
@@ -560,12 +509,12 @@ int count=0;
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                [activityIndicatorView stopAnimating];
-               self.navigationItem.rightBarButtonItem.enabled=YES;
+               self.navigationItem.rightBarButtonItem.enabled = YES;
                if (error == nil && methodError == nil) {
                    [self animateRecordAction];
-                   NSNumber *status = [NSNumber numberWithBool:![[self.detailItem objectForKey:@"isrecording"] boolValue]];
-                   if ([[self.detailItem objectForKey:@"broadcastid"] intValue] > 0) {
-                       status = [NSNumber numberWithBool:![[self.detailItem objectForKey:@"hastimer"] boolValue]];
+                   NSNumber *status = @(![self.detailItem[@"isrecording"] boolValue]);
+                   if ([self.detailItem[@"broadcastid"] intValue] > 0) {
+                       status = @(![self.detailItem[@"hastimer"] boolValue]);
                    }
                    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            storeChannelid, @"channelid",
@@ -576,7 +525,7 @@ int count=0;
                }
                else {
                    NSString *message = @"";
-                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n",nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n", nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -608,25 +557,25 @@ int count=0;
 -(void)moveLabel:(NSArray *)objects posY:(int)y{
     NSInteger count = [objects count];
     CGRect frame;
-    for (int i = 0; i < count; i++){
-        if ([[objects objectAtIndex:i] isKindOfClass:[UIImageView class]]){
-            UIImageView *label=[objects objectAtIndex:i];
-            frame=label.frame;
-            frame.origin.y=frame.origin.y - y;
-            label.frame=frame;
+    for (int i = 0; i < count; i++) {
+        if ([objects[i] isKindOfClass:[UIImageView class]]) {
+            UIImageView *label = objects[i];
+            frame = label.frame;
+            frame.origin.y = frame.origin.y - y;
+            label.frame = frame;
         }
-        if ([[objects objectAtIndex:i] isKindOfClass:[UILabel class]]){
-            UILabel *label=[objects objectAtIndex:i];
-            frame=label.frame;
-            frame.origin.y=frame.origin.y - y;
-            label.frame=frame;
+        if ([objects[i] isKindOfClass:[UILabel class]]) {
+            UILabel *label = objects[i];
+            frame = label.frame;
+            frame.origin.y = frame.origin.y - y;
+            label.frame = frame;
         }
         
     }
 }
 
 -(void)setAndMoveLabels:(NSArray *)arrayLabels size:(int)moveSize{
-    UIFont *fontFace=[UIFont systemFontOfSize:16];
+    UIFont *fontFace = [UIFont systemFontOfSize:16];
 
     int offset = moveSize;
     for (UILabel *label in arrayLabels) {
@@ -643,20 +592,20 @@ int count=0;
     }
 }
 
-int h=0;
+int h = 0;
 
 -(void)setTvShowsToolbar{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         NSInteger count = [toolbar.items count];
         NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
         [newToolbarItems removeObjectAtIndex:(count - 1)];
         [newToolbarItems removeObjectAtIndex:(count - 2)];
         toolbar.items = newToolbarItems;
     }
-    else{
+    else {
         NSMutableArray *navigationItems = [self.navigationItem.rightBarButtonItems mutableCopy];
         [navigationItems removeObjectAtIndex:0];
-        self.navigationItem.rightBarButtonItems=navigationItems;
+        self.navigationItem.rightBarButtonItems = navigationItems;
     }
 }
 
@@ -689,14 +638,13 @@ int h=0;
 	CGContextSetLineWidth(context, borderWidth);
     CGContextStrokeRect(context, rect);
     
-    UIImage *Img =  UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *Img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return [self imageWithShadow:Img];
 }
 
 -(bool)enableJewelCases{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
@@ -753,7 +701,7 @@ int h=0;
     CGFloat transform = [Utilities getTransformX];
     int shiftParentalRating = -20;
     NSString *contributorString = @"cast";
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         clearLogoWidth = 457;
         clearLogoHeight = 177;
         thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
@@ -783,21 +731,7 @@ int h=0;
                     )];
         [numVotesLabel setFont:[UIFont systemFontOfSize:18]];
 
-        NSArray *arrayLabels=[NSArray arrayWithObjects:
-                              label1,
-                              directorLabel, 
-                              label2,
-                              genreLabel,
-                              label3,
-                              runtimeLabel,
-                              label4,
-                              studioLabel,
-                              label5,
-                              summaryLabel,
-                              parentalRatingLabelUp,
-                              parentalRatingLabel,
-                              label6,
-                              nil];
+        NSArray *arrayLabels = @[label1, directorLabel, label2, genreLabel, label3, runtimeLabel, label4, studioLabel, label5, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, label6];
         [self setAndMoveLabels:arrayLabels size:size];
     }
     else {
@@ -809,31 +743,31 @@ int h=0;
         frame.origin.x = 0;
         jewelView.frame = frame;
     }
-    if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"] || [[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
-        int deltaY=0;
-        int coverHeight=0;
+    if ([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"]) {
+        int deltaY = 0;
+        int coverHeight = 0;
         CGRect frame;
         placeHolderImage = @"coverbox_back_tvshows";
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             placeHolderImage = @"coverbox_back_tvshows";
         }
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier",nil)];
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
         [format setLocale:locale];
-        if ([[item objectForKey:@"family"] isEqualToString:@"tvshowid"]){
-            GlobalData *obj=[GlobalData getInstance];
-            if (obj.preferTVPosters==NO && [AppDelegate instance].serverVersion < 12){
+        if ([item[@"family"] isEqualToString:@"tvshowid"]) {
+            GlobalData *obj = [GlobalData getInstance];
+            if (!obj.preferTVPosters && [AppDelegate instance].serverVersion < 12) {
                 placeHolderImage = @"blank";
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-                    coverHeight=70;
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    coverHeight = 70;
                 }
                 else {
-                    coverHeight=90;
+                    coverHeight = 90;
                 }
-                deltaY=coverView.frame.size.height - coverHeight;
-                jewelView.hidden=YES;
+                deltaY = coverView.frame.size.height - coverHeight;
+                jewelView.hidden = YES;
             }
-            else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
                 int originalHeight = jewelView.frame.size.height;
                 int coverHeight = 560;
                 deltaY = -(coverHeight - originalHeight);
@@ -841,7 +775,7 @@ int h=0;
                 frame.size.height = coverHeight;
                 jewelView.frame = frame;
             }
-            if (enableJewel){
+            if (enableJewel) {
                 jewelView.image = [UIImage imageNamed:@"jewel_dvd.9"];
                 jeweltype = jewelTypeDVD;
             }
@@ -850,33 +784,21 @@ int h=0;
             label1.text = NSLocalizedString(@"EPISODES", nil);
             label3.text = NSLocalizedString(@"GENRE", nil);
             label4.text = NSLocalizedString(@"STUDIO", nil);
-            directorLabel.text = [[item objectForKey:@"showtitle"] length] == 0 ? @"-" : [item objectForKey:@"showtitle"];
+            directorLabel.text = [Utilities getStringFromDictionary:item key:@"showtitle" emptyString:@"-"];
             [format setDateFormat:@"yyyy-MM-dd"];
-            NSDate *date = [format dateFromString:[item objectForKey:@"premiered"]];
+            NSDate *date = [format dateFromString:item[@"premiered"]];
             [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
             genreLabel.text = date == nil ? @"-" : [format stringFromDate:date];
-            if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
-                runtimeLabel.text=[[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
-                runtimeLabel.text=[runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
-            }
-            else{
-                runtimeLabel.text=[[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
-            }
-            if ([[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
-                studioLabel.text=[[item objectForKey:@"studio"] componentsJoinedByString:@" / "];
-                studioLabel.text=[studioLabel.text length]==0 ? @"-" : studioLabel.text;
-            }
-            else{
-                studioLabel.text=[[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
-            }
+            runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+            studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
             numVotesLabel.hidden = YES;
             [self setTvShowsToolbar];
         }
-        else if ([[item objectForKey:@"family"] isEqualToString:@"episodeid"]){
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        else if ([item[@"family"] isEqualToString:@"episodeid"]) {
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
                 coverHeight = 280;
             }
-            else{
+            else {
                 coverHeight = 200;
             }
             jewelView.hidden = NO;
@@ -892,60 +814,47 @@ int h=0;
             frame = label6.frame;
             frame.origin.y = frame.origin.y + shiftParentalRating;
             label6.frame = frame;
-            if (enableJewel){
+            if (enableJewel) {
                 jewelView.image = [UIImage imageNamed:@"jewel_tv.9"];
                 jeweltype = jewelTypeTV;
             }
             frame = jewelView.frame;
             frame.size.height = coverHeight;
             jewelView.frame = frame;
-            directorLabel.text = [[item objectForKey:@"showtitle"] length]==0 ? @"-" : [item objectForKey:@"showtitle"];
-            
+            directorLabel.text = [Utilities getStringFromDictionary:item key:@"showtitle" emptyString:@"-"];
 
             NSString *aired = @"-";
-            if ([[item objectForKey:@"firstaired"] length] > 0) {
+            if ([item[@"firstaired"] length] > 0) {
                 [format setDateFormat:@"yyyy-MM-dd"];
-                NSDate *date = [format dateFromString:[item objectForKey:@"firstaired"]];
+                NSDate *date = [format dateFromString:item[@"firstaired"]];
                 [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
                 aired = [format stringFromDate:date];
             }
             genreLabel.text = aired;
-            if ([[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
-                runtimeLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
-                runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
-            }
-            else{
-                runtimeLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
-            }
-            if ([[item objectForKey:@"writer"] isKindOfClass:[NSArray class]]){
-                studioLabel.text = [[item objectForKey:@"writer"] componentsJoinedByString:@" / "];
-                studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
-            }
-            else{
-                studioLabel.text=[[item objectForKey:@"writer"] length]==0 ? @"-" : [item objectForKey:@"writer"];
-            }
+            runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
+            studioLabel.text = [Utilities getStringFromDictionary:item key:@"writer" emptyString:@"-"];
             shiftParentalRating = 0;
         }
-        [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
+        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
         
-        label2.text=NSLocalizedString(@"FIRST AIRED", nil);
-        label5.text=NSLocalizedString(@"SUMMARY", nil);
+        label2.text = NSLocalizedString(@"FIRST AIRED", nil);
+        label5.text = NSLocalizedString(@"SUMMARY", nil);
         
-        frame=starsView.frame;
-        frame.origin.x=frame.origin.x+29;
-        starsView.frame=frame;
+        frame = starsView.frame;
+        frame.origin.x = frame.origin.x+29;
+        starsView.frame = frame;
         
-        frame=voteLabel.frame;
-        frame.origin.x=frame.origin.x+29;
-        voteLabel.frame=frame;
+        frame = voteLabel.frame;
+        frame.origin.x = frame.origin.x+29;
+        voteLabel.frame = frame;
     }
-    else if ([[item objectForKey:@"family"] isEqualToString:@"albumid"]){
+    else if ([item[@"family"] isEqualToString:@"albumid"]) {
         // album details
         int coverHeight = 380;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             coverHeight = 290;
         }
-        [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:40];
+        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
         jewelView.hidden = NO;
         int deltaY = jewelView.frame.size.height - coverHeight;
         label1.text = NSLocalizedString(@"ARTIST", nil);
@@ -965,7 +874,7 @@ int h=0;
         CGRect frame = label6.frame;
         frame.origin.y = frame.origin.y-40;
         label6.frame = frame;
-        if (enableJewel){
+        if (enableJewel) {
             jewelView.image = [UIImage imageNamed:@"jewel_cd.9"];
             jeweltype = jewelTypeCD;
         }
@@ -973,37 +882,25 @@ int h=0;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
         
-        if ([[item objectForKey:@"artist"] isKindOfClass:[NSArray class]]){
-            directorLabel.text = [[item objectForKey:@"artist"] componentsJoinedByString:@" / "];
-            directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
-        }
-        else{
-            directorLabel.text = [[item objectForKey:@"artist"] length] == 0 ? @"-" : [item objectForKey:@"artist"];
-        }
-        genreLabel.text = [[item objectForKey:@"year"] length] == 0 ? @"-" : [item objectForKey:@"year"];
-        if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
-            runtimeLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
-            runtimeLabel.text = [runtimeLabel.text length]==0 ? @"-" : runtimeLabel.text;
-        }
-        else{
-            runtimeLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
-        }
-        studioLabel.text = [item[@"label"] length] == 0 ? @"-" : item[@"label"];
-        [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:deltaY];
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"artist" emptyString:@"-"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"year" emptyString:@"-"];
+        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"label" emptyString:@"-"];
+        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
     }
-    else if ([[item objectForKey:@"family"] isEqualToString:@"artistid"]){
+    else if ([item[@"family"] isEqualToString:@"artistid"]) {
         // artist details
         contributorString = @"roles";
         castHeight -= 26;
         placeHolderImage = @"coverbox_back_artists";
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             placeHolderImage = @"coverbox_back_artists";
         }
         enableJewel = NO;
         jewelView.image = nil;
         int shiftY = 40;
-        [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:shiftY];
-        [self moveLabel:[NSArray arrayWithObjects:label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:40];
+        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:shiftY];
+        [self moveLabel:@[label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
         label1.text = NSLocalizedString(@"GENRE", nil);
         label2.text = NSLocalizedString(@"STYLE", nil);
         label3.text = @"";
@@ -1020,23 +917,10 @@ int h=0;
         starsView.hidden = YES;
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
-        if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
-            directorLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
-            directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
-        }
-        else{
-            directorLabel.text = [[item objectForKey:@"genre"] length] == 0 ? @"-" : [item objectForKey:@"genre"];
-        }
-        
-        if ([[item objectForKey:@"style"] isKindOfClass:[NSArray class]]){
-            genreLabel.text = [[item objectForKey:@"style"] componentsJoinedByString:@" / "];
-            genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
-        }
-        else{
-            genreLabel.text = [[item objectForKey:@"style"] length] == 0 ? @"-" : [item objectForKey:@"style"];
-        }
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"style" emptyString:@"-"];
         genreLabel.numberOfLines = 0;
-        CGSize maximunLabelSize= CGSizeMake(pageSize, 9999);
+        CGSize maximunLabelSize = CGSizeMake(pageSize, 9999);
         CGRect expectedLabelRect = [genreLabel.text boundingRectWithSize:maximunLabelSize
                                                                  options:NSStringDrawingUsesLineFragmentOrigin
                                                               attributes:@{NSFontAttributeName:genreLabel.font}
@@ -1047,41 +931,29 @@ int h=0;
         CGRect newFrame = genreLabel.frame;
         newFrame.size.height = expectedLabelSize.height + size;
         genreLabel.frame = newFrame;
-        [self moveLabel:[NSArray arrayWithObjects:label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(expectedLabelSize.height - labelSpace)];
+        [self moveLabel:@[label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:-(expectedLabelSize.height - labelSpace)];
         
-        if ([[item objectForKey:@"born"] isKindOfClass:[NSArray class]]){
-            studioLabel.text = [[item objectForKey:@"born"] componentsJoinedByString:@" / "];
-            studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
-        }
-        else{
-            studioLabel.text = [[item objectForKey:@"born"] length] == 0 ? @"-" : [item objectForKey:@"born"];
-        }
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"born" emptyString:@"-"];
+        NSString *formed = [Utilities getStringFromDictionary:item key:@"formed" emptyString:@"-"];
+        studioLabel.text = [formed isEqualToString:@"-"] ? studioLabel.text : formed;
         
-        if ([[item objectForKey:@"formed"] isKindOfClass:[NSArray class]]){
-            studioLabel.text = [[item objectForKey:@"formed"] componentsJoinedByString:@" / "];
-            studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
-        }
-        else{
-            studioLabel.text = [[item objectForKey:@"formed"] length] == 0 ? studioLabel.text : [item objectForKey:@"formed"];
-        }
-        
-        if ([directorLabel.text isEqualToString:@"-"]){
+        if ([directorLabel.text isEqualToString:@"-"]) {
             directorLabel.hidden = YES;
             label1.hidden = YES;
-            [self moveLabel:[NSArray arrayWithObjects: label2, label4, label5, label6, genreLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+            [self moveLabel:@[label2, label4, label5, label6, genreLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:labelSpace + 20];
         }
-        if ([genreLabel.text isEqualToString:@"-"]){
+        if ([genreLabel.text isEqualToString:@"-"]) {
             genreLabel.hidden = YES;
             label2.hidden = YES;
-            [self moveLabel:[NSArray arrayWithObjects: label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+            [self moveLabel:@[label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:labelSpace + 20];
         }
-        if ([studioLabel.text isEqualToString:@"-"]){
+        if ([studioLabel.text isEqualToString:@"-"]) {
             studioLabel.hidden = YES;
             label4.hidden = YES;
-            [self moveLabel:[NSArray arrayWithObjects: label5, label6, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:labelSpace + 20];
+            [self moveLabel:@[label5, label6, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:labelSpace + 20];
         }
     }
-    else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"] || [[item objectForKey:@"family"] isEqualToString:@"recordingid"]){
+    else if ([item[@"family"] isEqualToString:@"broadcastid"] || [item[@"family"] isEqualToString:@"recordingid"]) {
         label1.text = NSLocalizedString(@"TIME", nil);
         label5.text = NSLocalizedString(@"DESCRIPTION", nil);
         [jewelView setAutoresizingMask:UIViewAutoresizingNone];
@@ -1099,20 +971,20 @@ int h=0;
         clearLogoHeight = 0;
         label6.frame = label5.frame;
 //        label5.frame = label3.frame;
-//        summaryLabel.frame= runtimeLabel.frame;
+//        summaryLabel.frame = runtimeLabel.frame;
         label5.frame = label2.frame;
         CGRect frame = genreLabel.frame;
-        if ([[self.detailItem objectForKey:@"plotoutline"] length] > 0){
+        if ([self.detailItem[@"plotoutline"] length] > 0) {
             label2.text = NSLocalizedString(@"PLOT OUTLINE", nil);
             label2.hidden = NO;
             genreLabel.hidden = NO;
-            [genreLabel setText:[self.detailItem objectForKey:@"plotoutline"]];
+            [genreLabel setText:self.detailItem[@"plotoutline"]];
             label5.frame = label3.frame;
             frame = runtimeLabel.frame;
         }
         frame.origin.y ++;
-        summaryLabel.frame= frame;
-         [self moveLabel:[NSArray arrayWithObjects: label1, label2, label5, label6, directorLabel, genreLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:(int)(jewelView.frame.size.height - (jewelView.frame.size.height/8))];
+        summaryLabel.frame = frame;
+         [self moveLabel:@[label1, label2, label5, label6, directorLabel, genreLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:(int)(jewelView.frame.size.height - (jewelView.frame.size.height/8))];
         frame = jewelView.frame;
         frame.origin.x = label1.frame.origin.x;
         frame.size.width = frame.size.width / 4;
@@ -1131,12 +1003,12 @@ int h=0;
         frame.origin.y = (int)(voteLabel.frame.origin.y + voteLabel.frame.size.height + 10);
         frame.origin.x = voteLabel.frame.origin.x;
         numVotesLabel.frame = frame;
-        if ([[item objectForKey:@"family"] isEqualToString:@"recordingid"]){
-            numVotesLabel.text = [item objectForKey:@"channel"];
+        if ([item[@"family"] isEqualToString:@"recordingid"]) {
+            numVotesLabel.text = item[@"channel"];
         }
-        else if ([[item objectForKey:@"family"] isEqualToString:@"broadcastid"]) {
-            item[@"plot"] = [item objectForKey:@"genre"];
-            numVotesLabel.text = [[item objectForKey:@"pvrExtraInfo"] objectForKey:@"channel_name"];
+        else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
+            item[@"plot"] = item[@"genre"];
+            numVotesLabel.text = item[@"pvrExtraInfo"][@"channel_name"];
             frame = voteLabel.frame;
             dotSize = 10;
             dotSizePadding = 4;
@@ -1146,7 +1018,7 @@ int h=0;
             isRecording.alpha = 0.0;
             [isRecording setBackgroundColor:[UIColor clearColor]];
             [scrollView addSubview:isRecording];
-            if ([[item objectForKey:@"hastimer"] boolValue] == YES) {
+            if ([item[@"hastimer"] boolValue]) {
                 isRecording.alpha = 1.0;
                 frame.origin.x += dotSize + dotSizePadding;
                 frame.size.width -= dotSize + dotSizePadding;
@@ -1164,8 +1036,8 @@ int h=0;
         NSDateFormatter *localFormatter = [[NSDateFormatter alloc] init];
         [localFormatter setDateFormat:@"ccc dd MMM, HH:mm"];
         localFormatter.timeZone = [NSTimeZone systemTimeZone];
-        NSDate *startTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"starttime"]]];
-        NSDate *endTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", [item objectForKey:@"endtime"]]];
+        NSDate *startTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
+        NSDate *endTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"endtime"]]];
         if (startTime != nil && endTime != nil) {
             directorLabel.text = [localFormatter stringFromDate:startTime];
             [localFormatter setDateFormat:@"HH:mm"];
@@ -1200,7 +1072,7 @@ int h=0;
         jeweltype = jewelTypeDVD;
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleToFill;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             placeHolderImage = @"coverbox_back_movies";
             int originalHeight = jewelView.frame.size.height;
             int coverHeight = 560;
@@ -1211,69 +1083,51 @@ int h=0;
             frame.size.height = coverHeight;
             frame.size.width = coverWidth;
             jewelView.frame = frame;
-            [self moveLabel:[NSArray arrayWithObjects:starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, nil] posY:-(coverHeight - originalHeight)];
+            [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:-(coverHeight - originalHeight)];
         }
-        if ([[item objectForKey:@"director"] isKindOfClass:[NSArray class]]){
-            directorLabel.text = [[item objectForKey:@"director"] componentsJoinedByString:@" / "];
-            directorLabel.text = [directorLabel.text length]==0 ? @"-" : directorLabel.text;
-        }
-        else{
-            directorLabel.text = [[item objectForKey:@"director"] length]==0 ? @"-" : [item objectForKey:@"director"];
-        }
-        directorLabel.text = [[item objectForKey:@"year"] length] == 0 ? directorLabel.text : [NSString stringWithFormat:@"%@ (%@)", directorLabel.text, [item objectForKey:@"year"]];
-        if ([[item objectForKey:@"genre"] isKindOfClass:[NSArray class]]){
-            genreLabel.text = [[item objectForKey:@"genre"] componentsJoinedByString:@" / "];
-            genreLabel.text = [genreLabel.text length]==0 ? @"-" : genreLabel.text;
-        }
-        else{
-            genreLabel.text = [[item objectForKey:@"genre"] length]==0 ? @"-" : [item objectForKey:@"genre"];
-        }
-        runtimeLabel.text = [[item objectForKey:@"runtime"] length]==0 ? @"-" : [item objectForKey:@"runtime"];
-        if ([[item objectForKey:@"studio"] isKindOfClass:[NSArray class]]){
-            studioLabel.text = [[item objectForKey:@"studio"] componentsJoinedByString:@" / "];
-            studioLabel.text = [studioLabel.text length]==0 ? @"-" : studioLabel.text;
-        }
-        else{
-            studioLabel.text = [[item objectForKey:@"studio"] length]==0 ? @"-" : [item objectForKey:@"studio"];
-        }
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
+        directorLabel.text = [item[@"year"] length] == 0 ? directorLabel.text : [NSString stringWithFormat:@"%@ (%@)", directorLabel.text, item[@"year"]];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"runtime" emptyString:@"-"];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
     }
     BOOL inEnableKenBurns = enableKenBurns;
     __weak ShowInfoViewController *sf = self;
-    NSString *thumbnailPath = [item objectForKey:@"thumbnail"];
-    if (![[item objectForKey:@"thumbnail"] isEqualToString:@""] && [item objectForKey:@"thumbnail"] != nil){
+    NSString *thumbnailPath = item[@"thumbnail"];
+    if (![item[@"thumbnail"] isEqualToString:@""] && item[@"thumbnail"] != nil) {
         jewelView.alpha = 0;
         [activityIndicatorView startAnimating];
     }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
-        if (image!=nil){
+        if (image != nil) {
             Utilities *utils = [[Utilities alloc] init];
             UIColor *averageColor = [utils averageColor:image inverse:NO];
             foundTintColor = TINT_COLOR;
             CGFloat red, green, blue, alpha;
             [averageColor getRed:&red green:&green blue:&blue alpha:&alpha];
-            if (alpha > 0){
+            if (alpha > 0) {
                 foundTintColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
             }
             [self setIOS7barTintColor:foundTintColor];
-            if (enableJewel){
+            if (enableJewel) {
                 coverView.image = image;
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
             }
-            else{
+            else {
                 [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:self withObject:image];
             }
         }
-        else{
+        else {
             __weak ShowInfoViewController *sf = self;
             __block UIColor *newColor = nil;
-            if (enableJewel){
+            if (enableJewel) {
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                     if (error == nil){
-                         if (image !=nil){
+                     if (error == nil) {
+                         if (image != nil) {
                              Utilities *utils = [[Utilities alloc] init];
                              newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                              [sf setIOS7barTintColor:newColor];
@@ -1285,12 +1139,12 @@ int h=0;
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
             }
-            else{
+            else {
                 [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                     if (image !=nil){
-                                         if (error == nil){
+                                     if (image != nil) {
+                                         if (error == nil) {
                                              Utilities *utils = [[Utilities alloc] init];
                                              newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                                              [sf setIOS7barTintColor:newColor];
@@ -1304,21 +1158,21 @@ int h=0;
         }
     }];
     
-    NSString *fanartPath=[item objectForKey:@"fanart"];
+    NSString *fanartPath = item[@"fanart"];
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
-        if (image!=nil){
-            fanartView.image=image;
-            if (inEnableKenBurns){
+        if (image != nil) {
+            fanartView.image = image;
+            if (inEnableKenBurns) {
                 fanartView.alpha = 0;
                 [sf elabKenBurns:image];
                 [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
             }
         }
-        else{
+        else {
             [fanartView setImageWithURL:[NSURL URLWithString:fanartPath]
                        placeholderImage:[UIImage imageNamed:@"blank"]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                  if (inEnableKenBurns){
+                                  if (inEnableKenBurns) {
                                       [sf elabKenBurns:image];
                                       [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
                                   }
@@ -1330,21 +1184,21 @@ int h=0;
 
     [fanartView setClipsToBounds:YES];
     
-    voteLabel.text=[[item objectForKey:@"rating"] length]==0 ? @"N.A." : [item objectForKey:@"rating"];
-    starsView.image=[UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f", round([[item objectForKey:@"rating"] doubleValue])]];
+    voteLabel.text = [Utilities getStringFromDictionary:item key:@"rating" emptyString:@"N.A."];
+    starsView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f", round([item[@"rating"] doubleValue])]];
     
-    NSString *numVotes=[[item objectForKey:@"votes"] length]==0 ? @"" : [item objectForKey:@"votes"];
-    if ([numVotes length]!=0){
-        NSString *numVotesPlus = NSLocalizedString(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes",nil);
-        numVotesLabel.text=[NSString stringWithFormat:@"(%@ %@)",numVotes, numVotesPlus];
+    NSString *numVotes = [Utilities getStringFromDictionary:item key:@"votes" emptyString:@""];
+    if ([numVotes length] != 0) {
+        NSString *numVotesPlus = NSLocalizedString(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes", nil);
+        numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)", numVotes, numVotesPlus];
     }
-    CGRect frame=summaryLabel.frame;
-    summaryLabel.frame=frame;
-    summaryLabel.text=[[item objectForKey:@"plot"] length]==0 ? @"-" : [item objectForKey:@"plot"];
-    if ([[item objectForKey:@"family"] isEqualToString:@"albumid"] || [[item objectForKey:@"family"] isEqualToString:@"artistid"]){
-        summaryLabel.text=[[item objectForKey:@"description"] length]==0 ? @"-" : [item objectForKey:@"description"];
+    CGRect frame = summaryLabel.frame;
+    summaryLabel.frame = frame;
+    summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
+    if ([item[@"family"] isEqualToString:@"albumid"] || [item[@"family"] isEqualToString:@"artistid"]) {
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"description" emptyString:@"-"];
     }
-    CGSize maximunLabelSize= CGSizeMake(pageSize, 9999);
+    CGSize maximunLabelSize = CGSizeMake(pageSize, 9999);
     CGRect expectedLabelRect = [summaryLabel.text  boundingRectWithSize:maximunLabelSize
                                                              options:NSStringDrawingUsesLineFragmentOrigin
                                                           attributes:@{NSFontAttributeName:summaryLabel.font}
@@ -1355,11 +1209,11 @@ int h=0;
     newFrame.size.height = expectedLabelSize.height + size;
     summaryLabel.frame = newFrame;
 
-    if ([[item objectForKey:@"mpaa"] length]==0){
+    if ([item[@"mpaa"] length] == 0) {
         parentalRatingLabel.hidden = YES;
         parentalRatingLabelUp.hidden = YES;
     }
-    else{
+    else {
         frame = parentalRatingLabel.frame;
         frame.origin.y = frame.origin.y + summaryLabel.frame.size.height-20;
         parentalRatingLabel.frame = frame;
@@ -1371,7 +1225,7 @@ int h=0;
         frame = parentalRatingLabel.frame;
         frame.size.height = 2000;
         parentalRatingLabel.frame = frame;
-        parentalRatingLabel.text = [[item objectForKey:@"mpaa"] length]==0 ? @"-" : [item objectForKey:@"mpaa"];
+        parentalRatingLabel.text = [Utilities getStringFromDictionary:item key:@"mpaa" emptyString:@"-"];
         
         CGRect expectedLabelRect = [parentalRatingLabel.text  boundingRectWithSize:maximunLabelSize
                                                                     options:NSStringDrawingUsesLineFragmentOrigin
@@ -1387,46 +1241,46 @@ int h=0;
     
     GlobalData *obj = [GlobalData getInstance];
     NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-    if ([AppDelegate instance].serverVersion > 11){
+    if ([AppDelegate instance].serverVersion > 11) {
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
     frame = label6.frame;
     frame.origin.y = frame.origin.y + summaryLabel.frame.size.height + shiftParentalRating - 40;
     label6.frame = frame;
     int startY = label6.frame.origin.y - label6.frame.size.height + size;
-    if ([[item objectForKey:@"trailer"] isKindOfClass:[NSString class]]) {
-        if ([[item objectForKey:@"trailer"] length]> 0){
+    if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
+        if ([item[@"trailer"] length] > 0) {
             NSString *param = nil;
             embedVideoURL = nil;
             
-            if (([[item objectForKey:@"trailer"] rangeOfString:@"plugin://plugin.video.youtube"].location!= NSNotFound)){
-                NSString *url = [[item objectForKey:@"trailer"] lastPathComponent];
+            if (([item[@"trailer"] rangeOfString:@"plugin://plugin.video.youtube"].location != NSNotFound)) {
+                NSString *url = [item[@"trailer"] lastPathComponent];
                 NSRange start = [url rangeOfString:@"videoid="];
-                if (start.location != NSNotFound){
+                if (start.location != NSNotFound) {
                     param = [url substringFromIndex:start.location + start.length];
                     NSRange end = [param rangeOfString:@"&"];
-                    if (end.location != NSNotFound){
+                    if (end.location != NSNotFound) {
                         param = [param substringToIndex:end.location];
                     }
                 }
-                if ([param length] > 0){
+                if ([param length] > 0) {
                     NSString *param = nil;
-                    NSString *url = [[item objectForKey:@"trailer"] lastPathComponent];
+                    NSString *url = [item[@"trailer"] lastPathComponent];
                     NSRange start = [url rangeOfString:@"videoid="];
-                    if (start.location != NSNotFound){
+                    if (start.location != NSNotFound) {
                         param = [url substringFromIndex:start.location + start.length];
                         NSRange end = [param rangeOfString:@"&"];
-                        if (end.location != NSNotFound){
+                        if (end.location != NSNotFound) {
                             param = [param substringToIndex:end.location];
                         }
                     }
                     embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", param];
                 }
             }
-            else{
-                embedVideoURL = [item objectForKey:@"trailer"];
+            else {
+                embedVideoURL = item[@"trailer"];
             }
-            if (embedVideoURL != nil){
+            if (embedVideoURL != nil) {
                 startY = startY + 20;
                 UILabel *trailerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, label1.frame.size.height)];
                 [trailerLabel setText:NSLocalizedString(@"TRAILER", nil)];
@@ -1454,9 +1308,9 @@ int h=0;
     frame.origin.y = startY + 20;
     label6.frame = frame;
     startY = startY + 16 + size + label6.frame.size.height;
-    if (![[item objectForKey:@"family"] isEqualToString:@"albumid"]) {// TRANSFORM IN SHOW_CAST BOOLEAN
-        cast = [item objectForKey:contributorString];
-        if (actorsTable == nil){
+    if (![item[@"family"] isEqualToString:@"albumid"]) {// TRANSFORM IN SHOW_CAST BOOLEAN
+        cast = item[contributorString];
+        if (actorsTable == nil) {
             int actorsTableWidth = self.view.frame.size.width;
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
                 actorsTableWidth = pageSize + 40;
@@ -1466,35 +1320,35 @@ int h=0;
         [actorsTable setScrollsToTop:NO];
         [actorsTable setBackgroundColor:[UIColor clearColor]];
         [actorsTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-        [actorsTable setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin ];
+        [actorsTable setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
         [actorsTable setDelegate:self];
         [actorsTable setDataSource:self];
         [scrollView addSubview:actorsTable];
         startY = startY + (int)[cast count]*(castHeight + 10);
-        if ([cast count]==0){
+        if ([cast count] == 0) {
             label6.hidden = YES;
-            startY-=20;
+            startY -= 20;
         }
     }
-    if (!([[item objectForKey:@"family"] isEqualToString:@"broadcastid"] || [[item objectForKey:@"family"] isEqualToString:@"recordingid"])){
+    if (!([item[@"family"] isEqualToString:@"broadcastid"] || [item[@"family"] isEqualToString:@"recordingid"])) {
         clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
         [clearlogoButton.titleLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.8]];
         [clearlogoButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
         [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
         }
-        if ([[item objectForKey:@"clearlogo"] length] != 0){
+        if ([item[@"clearlogo"] length] != 0) {
             clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
             [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
             [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
-            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[item objectForKey:@"clearlogo"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+            NSString *stringURL = [Utilities formatStringURL:item[@"clearlogo"] serverURL:serverURL];
             [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank"]];
             [clearlogoButton addSubview:clearLogoImageView];
         }
-        else{
-            [clearlogoButton setTitle:[[item objectForKey:@"showtitle"] length] == 0 ? [item objectForKey:@"label"] :[item objectForKey:@"showtitle"] forState:UIControlStateNormal];
+        else {
+            [clearlogoButton setTitle:[item[@"showtitle"] length] == 0 ? item[@"label"] : item[@"showtitle"] forState:UIControlStateNormal];
             [clearlogoButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
         }
         [scrollView addSubview:clearlogoButton];
@@ -1526,7 +1380,7 @@ int h=0;
     else {
         foundTag = [sender tag];
     }
-    if (foundTag== 1) {
+    if (foundTag == 1) {
         [self alphaView:closeButton AnimDuration:1.5 Alpha:0];
         [self alphaView:scrollView AnimDuration:1.5 Alpha:1];
         if (!enableKenBurns) {
@@ -1537,13 +1391,13 @@ int h=0;
         }
         [self.navigationController setNavigationBarHidden:NO animated:YES];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            if (![self isModal]){
+            if (![self isModal]) {
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
             }
             [UIView animateWithDuration:1.5
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
-                             animations:^ {
+                             animations:^{
                                  [toolbar setAlpha:1.0];
                              }
                              completion:^(BOOL finished) {}
@@ -1553,20 +1407,20 @@ int h=0;
     else {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            if (![self isModal]){
+            if (![self isModal]) {
                 NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:YES], @"hideToolbar",
-                                        [NSNumber numberWithBool:YES], @"clipsToBounds",
+                                        @(YES), @"hideToolbar",
+                                        @(YES), @"clipsToBounds",
                                         nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
             }
             [UIView animateWithDuration:1.5
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
-                             animations:^ {
+                             animations:^{
                                  self.kenView.alpha = 0;
                                  [toolbar setAlpha:0.0];
-                                 if ([self isModal]){
+                                 if ([self isModal]) {
                                      originalSelfFrame = self.view.frame;
                                      CGRect fullscreenRect = [self currentScreenBoundsDependOnOrientation];
                                      fullscreenRect.origin.y += 10;
@@ -1577,10 +1431,10 @@ int h=0;
             if (self.kenView != nil) {
                 CGFloat alphaValue = 1;
                 [UIView animateWithDuration:0.2
-                                 animations:^ {
+                                 animations:^{
                                      self.kenView.alpha = 0;
                                  }
-                                 completion:^(BOOL finished){
+                                 completion:^(BOOL finished) {
                                      [self elabKenBurns:fanartView.image];
                                      [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];
                                  }
@@ -1630,15 +1484,15 @@ int h=0;
     int height_bounds = theScrollView.bounds.size.height;
     int scrolled = theScrollView.contentOffset.y;
     bool at_bottom = scrolled >= height_content-height_bounds;
-    if (!arrow_continue_down.hidden && at_bottom){
-        arrow_continue_down.hidden=YES;
+    if (!arrow_continue_down.hidden && at_bottom) {
+        arrow_continue_down.hidden = YES;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:1];
         [UIView commitAnimations];
     }
-    else if (arrow_continue_down.hidden && !at_bottom){
-        arrow_continue_down.hidden=NO;
+    else if (arrow_continue_down.hidden && !at_bottom) {
+        arrow_continue_down.hidden = NO;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:1];
@@ -1682,26 +1536,26 @@ int h=0;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"CellActor";
     ActorCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil){
+    if (cell == nil) {
         cell = [[ActorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier castWidth:castWidth castHeight:castHeight size:size castFontSize:castFontSize];
     }
     GlobalData *obj = [GlobalData getInstance];
     NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-    if ([AppDelegate instance].serverVersion > 11){
+    if ([AppDelegate instance].serverVersion > 11) {
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
-    NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, [[[cast objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+    NSString *stringURL = [Utilities formatStringURL:cast[indexPath.row][@"thumbnail"] serverURL:serverURL];
     [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person"] andResize:CGSizeMake(castWidth, castHeight)];
-    cell.actorName.text = [[cast objectAtIndex:indexPath.row] objectForKey:@"name"] == nil ? [self.detailItem objectForKey:@"label"] : [[cast objectAtIndex:indexPath.row] objectForKey:@"name"];
-    if ([[[cast objectAtIndex:indexPath.row] objectForKey:@"role"] length] != 0){
-        cell.actorRole.text = [NSString stringWithFormat:@"%@", [[cast objectAtIndex:indexPath.row] objectForKey:@"role"]];
+    cell.actorName.text = cast[indexPath.row][@"name"] == nil ? self.detailItem[@"label"] : cast[indexPath.row][@"name"];
+    if ([cast[indexPath.row][@"role"] length] != 0) {
+        cell.actorRole.text = [NSString stringWithFormat:@"%@", cast[indexPath.row][@"role"]];
         [cell.actorRole sizeToFit];
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([AppDelegate instance].serverVersion > 11  && ![self isModal]) {
+    if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
         cell.accessoryView.alpha = 0.5;
     }
@@ -1712,20 +1566,20 @@ int h=0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
-        [self showContent:[[cast objectAtIndex:indexPath.row] objectForKey:@"name"]];
+        [self showContent:cast[indexPath.row][@"name"]];
     }
 }
 
 #pragma mark - Safari
 
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
-    [self dismissViewControllerAnimated:true completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Gestures
 
 - (void)handleSwipeFromLeft:(id)sender {
-    if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
+    if (![self.detailItem[@"disableNowPlaying"] boolValue]) {
         [self showNowPlaying];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
@@ -1734,77 +1588,77 @@ int h=0;
 # pragma  mark - JSON Data
 
 -(void)openWithVLC:(NSDictionary *)item {
-    self.navigationItem.rightBarButtonItem.enabled=NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     [activityIndicatorView startAnimating];
-    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]){
+    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]) {
         [activityIndicatorView stopAnimating];
-        self.navigationItem.rightBarButtonItem.enabled=YES;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
         UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"VLC non installed", nil) message:nil];
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
-        [[Utilities getJsonRPC] callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-            if (error==nil && methodError==nil){
-                if( [methodResult count] > 0){
-                    GlobalData *obj=[GlobalData getInstance];
+        [[Utilities getJsonRPC] callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+            if (error == nil && methodError == nil) {
+                if ([methodResult count] > 0) {
+                    GlobalData *obj = [GlobalData getInstance];
                     NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-                    NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@",(NSArray*)[methodResult objectForKey:@"protocol"], serverURL, [(NSDictionary*)[methodResult objectForKey:@"details"] objectForKey:@"path"]];
+                    NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@", (NSArray*)methodResult[@"protocol"], serverURL, (NSDictionary*)methodResult[@"details"][@"path"]];
                     [Utilities SFloadURL:stringURL fromctrl:self];
                     [activityIndicatorView stopAnimating];
-                    self.navigationItem.rightBarButtonItem.enabled=YES;
+                    self.navigationItem.rightBarButtonItem.enabled = YES;
                 }
             }
             else {
                 [activityIndicatorView stopAnimating];
-                self.navigationItem.rightBarButtonItem.enabled=YES;
+                self.navigationItem.rightBarButtonItem.enabled = YES;
             }
         }];
     }
 }
 
 -(void)addQueueAfterCurrent:(BOOL)afterCurrent{
-    self.navigationItem.rightBarButtonItem.enabled=NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     NSDictionary *item = self.detailItem;
-    NSString *param = [item objectForKey:@"family"];
-    id value = [item objectForKey:[item objectForKey:@"family"]];
-    if ([[self.detailItem objectForKey:@"family"] isEqualToString:@"recordingid"]){
+    NSString *param = item[@"family"];
+    id value = item[item[@"family"]];
+    if ([self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
         param = @"file";
-        value = [item objectForKey:@"file"];
+        value = item[@"file"];
     }
-    if (afterCurrent){
+    if (afterCurrent) {
         [activityIndicatorView startAnimating];
         [[Utilities getJsonRPC]
          callMethod:@"Player.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                         [item objectForKey:@"playlistid"], @"playerid",
-                         [[NSArray alloc] initWithObjects:@"percentage", @"time", @"totaltime", @"partymode", @"position", nil], @"properties",
+                         item[@"playlistid"], @"playerid",
+                         @[@"percentage", @"time", @"totaltime", @"partymode", @"position"], @"properties",
                          nil]
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-             if (error==nil && methodError==nil){
-                 if( [NSJSONSerialization isValidJSONObject:methodResult]){
-                     if ([methodResult count]){
+             if (error == nil && methodError == nil) {
+                 if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                     if ([methodResult count]) {
                          [activityIndicatorView stopAnimating];
-                         int newPos = [[methodResult objectForKey:@"position"] intValue] + 1;
-                         NSString *action2=@"Playlist.Insert";
-                         NSDictionary *params2=[NSDictionary dictionaryWithObjectsAndKeys:
-                                                [item objectForKey:@"playlistid"], @"playlistid",
+                         int newPos = [methodResult[@"position"] intValue] + 1;
+                         NSString *action2 = @"Playlist.Insert";
+                         NSDictionary *params2 = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                item[@"playlistid"], @"playlistid",
                                                 [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item",
-                                                [NSNumber numberWithInt:newPos],@"position",
+                                                @(newPos), @"position",
                                                 nil];
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                             if (error==nil && methodError==nil){
+                             if (error == nil && methodError == nil) {
                                  [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                              }
                              
                          }];
-                         self.navigationItem.rightBarButtonItem.enabled=YES;
+                         self.navigationItem.rightBarButtonItem.enabled = YES;
                      }
-                     else{
+                     else {
                          [self addQueueAfterCurrent:NO];
                      }
                  }
-                 else{
+                 else {
                      [self addQueueAfterCurrent:NO];
                  }
              }
@@ -1815,60 +1669,60 @@ int h=0;
     }
     else {
         [activityIndicatorView startAnimating];
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             [activityIndicatorView stopAnimating];
-            if (error==nil && methodError==nil){
+            if (error == nil && methodError == nil) {
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
             }
-            self.navigationItem.rightBarButtonItem.enabled=YES;
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         }];
     }
 }
 
 -(void)addPlayback:(float)resumePointLocal{
-    if ([[self.detailItem objectForKey:@"family"] isEqualToString:@"broadcastid"]){
-        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [[self.detailItem objectForKey:@"pvrExtraInfo"] objectForKey:@"channelid"], @"channelid", nil], @"item", nil]];
+    if ([self.detailItem[@"family"] isEqualToString:@"broadcastid"]) {
+        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"pvrExtraInfo"][@"channelid"], @"channelid", nil], @"item", nil]];
     }
     else {
-        self.navigationItem.rightBarButtonItem.enabled=NO;
+        self.navigationItem.rightBarButtonItem.enabled = NO;
         [activityIndicatorView startAnimating];
         NSDictionary *item = self.detailItem;
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-            if (error==nil && methodError==nil){
-                NSString *param = [item objectForKey:@"family"];
-                id value = [item objectForKey:[item objectForKey:@"family"]];
-                if ([[self.detailItem objectForKey:@"family"] isEqualToString:@"recordingid"]){
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+            if (error == nil && methodError == nil) {
+                NSString *param = item[@"family"];
+                id value = item[item[@"family"]];
+                if ([self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
                     param = @"file";
-                    value = [item objectForKey:@"file"];
+                    value = item[@"file"];
                 }
-                [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[item objectForKey:@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                    if (error==nil && methodError==nil){
+                [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                    if (error == nil && methodError == nil) {
                         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: [item objectForKey:@"playlistid"], @"playlistid", [NSNumber numberWithInt: 0], @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                            if (error==nil && methodError==nil){
+                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", @(0), @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                            if (error == nil && methodError == nil) {
                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                                 [activityIndicatorView stopAnimating];
                                 [self showNowPlaying];
-                                if (resumePointLocal){
+                                if (resumePointLocal) {
                                     [NSThread sleepForTimeInterval:1.0];
-                                    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:[[item objectForKey:@"playlistid"] intValue] percentage:resumePointLocal]];
+                                    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:[item[@"playlistid"] intValue] percentage:resumePointLocal]];
                                 }
                             }
                             else {
                                 [activityIndicatorView stopAnimating];
-                                self.navigationItem.rightBarButtonItem.enabled=YES;
+                                self.navigationItem.rightBarButtonItem.enabled = YES;
                             }
                         }];
                     }
                     else {
                         [activityIndicatorView stopAnimating];
-                        self.navigationItem.rightBarButtonItem.enabled=YES;
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
                     }
                 }];
             }
             else {
                 [activityIndicatorView stopAnimating];
-                self.navigationItem.rightBarButtonItem.enabled=YES;
+                self.navigationItem.rightBarButtonItem.enabled = YES;
             }
         }];
     }
@@ -1878,7 +1732,7 @@ int h=0;
     [activityIndicatorView startAnimating];
     [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicatorView stopAnimating];
-        if (error==nil && methodError==nil){
+        if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
             [self showNowPlaying];
         }
@@ -1933,16 +1787,16 @@ int h=0;
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.slidingViewController.underRightViewController = nil;
-    self.slidingViewController.anchorLeftPeekAmount     = 0;
-    self.slidingViewController.anchorLeftRevealAmount   = 0;
+    self.slidingViewController.anchorLeftPeekAmount   = 0;
+    self.slidingViewController.anchorLeftRevealAmount = 0;
     // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
-//    if (![[self.detailItem objectForKey:@"disableNowPlaying"] boolValue]){
+//    if (![self.detailItem[@"disableNowPlaying"] boolValue]) {
 //        UIViewController *c = [[UIViewController alloc]init];
 //        [self presentViewController:c animated:NO completion:nil];
 //        [self dismissViewControllerAnimated:NO completion:nil];
 //    }
     [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
-    if ([self isModal]){
+    if ([self isModal]) {
         if (doneButton == nil) {
             NSMutableArray *items = [[toolbar items] mutableCopy];
             doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
@@ -1953,9 +1807,9 @@ int h=0;
         viewTitle.textAlignment = NSTextAlignmentCenter;
         bottomShadow.hidden = YES;
     }
-    if (isViewDidLoad){
+    if (isViewDidLoad) {
         [self createInfo];
-        isViewDidLoad = false;
+        isViewDidLoad = NO;
     }
 }
 
@@ -1965,28 +1819,28 @@ int h=0;
                                              selector: @selector(handleSwipeFromLeft:)
                                                  name: @"ECSLidingSwipeLeft"
                                                object: nil];
-    if (foundTintColor != nil){
+    if (foundTintColor != nil) {
         [self setIOS7barTintColor:foundTintColor];
     }
     else {
         [self setIOS7barTintColor:TINT_COLOR];
     }
     CGFloat alphaValue = 0.2;
-    if (closeButton.alpha==1){
+    if (closeButton.alpha == 1) {
         alphaValue = 1;
         [self.navigationController setNavigationBarHidden:YES animated:YES];
     }
-    if (!enableKenBurns){
+    if (!enableKenBurns) {
         [self alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
-    else{
-        if (fanartView.image!=nil && self.kenView==nil){
+    else {
+        if (fanartView.image != nil && self.kenView == nil) {
             fanartView.alpha = 0;
             [self elabKenBurns:fanartView.image];
         }
         [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
-    if ([self isModal]){
+    if ([self isModal]) {
         [clearlogoButton setFrame:CGRectMake((int)(self.view.frame.size.width/2) - (int)(clearlogoButton.frame.size.width/2), clearlogoButton.frame.origin.y, clearlogoButton.frame.size.width, clearlogoButton.frame.size.height)];
         self.view.superview.backgroundColor = [UIColor clearColor];
     }
@@ -2001,12 +1855,12 @@ int h=0;
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0];
-    if (self.kenView != nil){
+    if (self.kenView != nil) {
         [UIView animateWithDuration:0.3
                          animations:^{
                              self.kenView.alpha = 0;
                          }
-                         completion:^(BOOL finished){
+                         completion:^(BOOL finished) {
                              [self.kenView stopAnimation];
                              [self.kenView removeFromSuperview];
                              self.kenView = nil;
@@ -2028,10 +1882,10 @@ int h=0;
     [super viewDidLoad];
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
     NSDictionary *httpHeaders = [AppDelegate instance].getServerHTTPHeaders;
-    if ([httpHeaders objectForKey:@"Authorization"] != nil){
-        [manager setValue:[httpHeaders objectForKey:@"Authorization"] forHTTPHeaderField:@"Authorization"];
+    if (httpHeaders[@"Authorization"] != nil) {
+        [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
-    isViewDidLoad = TRUE;
+    isViewDidLoad = YES;
     [label1 setText:NSLocalizedString(@"DIRECTED BY", nil)];
     [label2 setText:NSLocalizedString(@"GENRE", nil)];
     [label3 setText:NSLocalizedString(@"RUNTIME", nil)];
@@ -2088,16 +1942,16 @@ int h=0;
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    if (self.kenView != nil){
+    if (self.kenView != nil) {
         CGFloat alphaValue = 0.2;
-        if (closeButton.alpha==1){
+        if (closeButton.alpha == 1) {
             alphaValue = 1;
         }
         [UIView animateWithDuration:0.2
                          animations:^{
                              self.kenView.alpha = 0;
                          }
-                         completion:^(BOOL finished){
+                         completion:^(BOOL finished) {
                              [self elabKenBurns:fanartView.image];
                              [self alphaView:self.kenView AnimDuration:0.2 Alpha:alphaValue];
                          }

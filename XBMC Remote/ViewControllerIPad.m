@@ -28,7 +28,7 @@
 #define XBMCLOGO_WIDTH 87
 #define POWERBUTTON_WIDTH 42
 
-@interface ViewControllerIPad (){
+@interface ViewControllerIPad () {
     NSMutableArray *mainMenu;
 }
 @end
@@ -40,21 +40,21 @@
 @implementation UIViewExt
 - (UIView *) hitTest: (CGPoint) pt withEvent: (UIEvent *) event {   
 	
-	UIView* viewToReturn=nil;
+	UIView* viewToReturn = nil;
 	CGPoint pointToReturn;
 	
-	UIView* uiRightView = (UIView*)[[self subviews] objectAtIndex:1];
+	UIView* uiRightView = (UIView*)[self subviews][1];
 	
-	if ([[uiRightView subviews] objectAtIndex:0]) {
+	if ([uiRightView subviews][0]) {
 		
-		UIView* uiStackScrollView = [[uiRightView subviews] objectAtIndex:0];	
+		UIView* uiStackScrollView = [uiRightView subviews][0];
 		
-		if ([[uiStackScrollView subviews] objectAtIndex:1]) {	 
+		if ([uiStackScrollView subviews][1]) {
 			
-			UIView* uiSlideView = [[uiStackScrollView subviews] objectAtIndex:1];	
+			UIView* uiSlideView = [uiStackScrollView subviews][1];
 			
 			for (UIView* subView in [uiSlideView subviews]) {
-				CGPoint point  = [subView convertPoint:pt fromView:self];
+				CGPoint point = [subView convertPoint:pt fromView:self];
 				if ([subView pointInside:point withEvent:event]) {
 					viewToReturn = subView;
 					pointToReturn = point;
@@ -65,7 +65,7 @@
 		
 	}
 	
-	if(viewToReturn != nil) {
+	if (viewToReturn != nil) {
 		return [viewToReturn hitTest:pointToReturn withEvent:event];		
 	}
 	
@@ -97,13 +97,13 @@
 
 -(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
     storeServerSelection = indexPath;
-    NSDictionary *item = [[AppDelegate instance].arrayServerList objectAtIndex:indexPath.row];
-    [AppDelegate instance].obj.serverDescription = [item objectForKey:@"serverDescription"];
-    [AppDelegate instance].obj.serverUser = [item objectForKey:@"serverUser"];
-    [AppDelegate instance].obj.serverPass = [item objectForKey:@"serverPass"];
-    [AppDelegate instance].obj.serverIP = [item objectForKey:@"serverIP"];
-    [AppDelegate instance].obj.serverPort = [item objectForKey:@"serverPort"];
-    [AppDelegate instance].obj.tcpPort = [[item objectForKey:@"tcpPort"] intValue];
+    NSDictionary *item = [AppDelegate instance].arrayServerList[indexPath.row];
+    [AppDelegate instance].obj.serverDescription = item[@"serverDescription"];
+    [AppDelegate instance].obj.serverUser = item[@"serverUser"];
+    [AppDelegate instance].obj.serverPass = item[@"serverPass"];
+    [AppDelegate instance].obj.serverIP = item[@"serverIP"];
+    [AppDelegate instance].obj.serverPort = item[@"serverPort"];
+    [AppDelegate instance].obj.tcpPort = [item[@"tcpPort"] intValue];
 }
 
 -(void)wakeUp:(NSString *)macAddress{
@@ -115,18 +115,18 @@
                                    infoText, @"message",
                                    iconName, @"icon_connection",
                                    nil];
-    if (status == YES) {
+    if (status) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
-        [AppDelegate instance].serverOnLine=YES;
+        [AppDelegate instance].serverOnLine = YES;
         [AppDelegate instance].serverName = infoText;
         [volumeSliderView startTimer];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
-        for (int i=1;i<n;i++){
+        for (int i = 1; i < n; i++) {
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell!=nil){
-                cell.selectionStyle=UITableViewCellSelectionStyleBlue;
+            if (cell != nil) {
+                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
                 [(UIImageView*) [cell viewWithTag:1] setAlpha:1.0];
@@ -136,17 +136,17 @@
             }
         }
     }
-    else{
+    else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:params];
-        [AppDelegate instance].serverOnLine=NO;
+        [AppDelegate instance].serverOnLine = NO;
         [AppDelegate instance].serverName = infoText;
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
-        for (int i=1;i<n;i++){
+        for (int i = 1; i < n; i++) {
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell!=nil){
-                cell.selectionStyle=UITableViewCellSelectionStyleGray;
+            if (cell != nil) {
+                cell.selectionStyle = UITableViewCellSelectionStyleGray;
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
                 
@@ -162,10 +162,10 @@
 }
 
 -(void) offStackView{
-    if (![AppDelegate instance].serverOnLine){
+    if (![AppDelegate instance].serverOnLine) {
         [[AppDelegate instance].windowController.stackScrollViewController offView];
-        NSIndexPath *selection=[menuViewController.tableView indexPathForSelectedRow];
-        if (selection){
+        NSIndexPath *selection = [menuViewController.tableView indexPathForSelectedRow];
+        if (selection) {
             [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
             [menuViewController setLastSelected:-1];
         }
@@ -180,11 +180,11 @@
 	[UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
 	[UIView setAnimationDuration:seconds];
-    int actualPosY=view.frame.origin.y;
+    int actualPosY = view.frame.origin.y;
     CGRect frame;
 	frame = [view frame];
-    if (actualPosY<667 || hide){
-        Y=self.view.frame.size.height;
+    if (actualPosY < 667 || hide) {
+        Y = self.view.frame.size.height;
     }
     view.alpha = alphavalue;
 	frame.origin.y = Y;
@@ -193,7 +193,7 @@
 }
 
 - (void)toggleVolume{
-    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:volumeSliderView.frame.origin.y - volumeSliderView.frame.size.height - 42 forceHide:FALSE];
+    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:volumeSliderView.frame.origin.y - volumeSliderView.frame.size.height - 42 forceHide:NO];
 }
 
 -(void)initHostManagemetPopOver{
@@ -220,11 +220,12 @@
 -(void) showSetup:(BOOL)show{
     firstRun = NO;
     if ([self.hostPickerViewController isViewLoaded]) {
-        if (show==NO)
+        if (!show) {
             [self.hostPickerViewController dismissViewControllerAnimated:NO completion:nil];
+        }
     }
-    else{
-        if (show==YES){
+    else {
+        if (show) {
             [self toggleSetup];
         }
     }
@@ -246,21 +247,21 @@
 #pragma mark - power control action sheet
 
 -(void)powerControl{
-    if ([[AppDelegate instance].obj.serverIP length]==0){
+    if ([[AppDelegate instance].obj.serverIP length] == 0) {
         [self toggleSetup];
         return;
     }
-    NSString *title=[NSString stringWithFormat:@"%@\n%@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
+    NSString *title = [NSString stringWithFormat:@"%@\n%@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
     UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     if (![AppDelegate instance].serverOnLine) {
         UIAlertAction* action_wake = [UIAlertAction actionWithTitle:NSLocalizedString(@"Wake On Lan", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            if ([AppDelegate instance].obj.serverHWAddr != nil){
+            if ([AppDelegate instance].obj.serverHWAddr != nil) {
                 [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
                 UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Command executed", nil) message:nil];
                 [self presentViewController:alertView animated:YES completion:nil];
             }
-            else{
+            else {
                 UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil)];
                 [self presentViewController:alertView animated:YES completion:nil];
             }
@@ -329,10 +330,10 @@
 -(void)powerAction:(NSString *)action params:(NSDictionary *)params{
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         NSString *alertTitle = nil;
-        if (methodError==nil && error == nil){
+        if (methodError == nil && error == nil) {
             alertTitle = NSLocalizedString(@"Command executed", nil);
         }
-        else{
+        else {
             alertTitle = NSLocalizedString(@"Cannot do that", nil);
         }
         UIAlertController *alertView = [Utilities createAlertOK:alertTitle message:nil];
@@ -347,7 +348,7 @@
     CGPoint viewPoint = [self.nowPlayingController.jewelView convertPoint:locationPoint fromView:self.view];
     CGPoint viewPoint4 = [self.nowPlayingController.itemLogoImage convertPoint:locationPoint fromView:self.view];
 
-    if ([self.nowPlayingController.itemLogoImage pointInside:viewPoint4 withEvent:event]  && self.nowPlayingController.songDetailsView.alpha > 0 && self.nowPlayingController.itemLogoImage.image != nil) {
+    if ([self.nowPlayingController.itemLogoImage pointInside:viewPoint4 withEvent:event] && self.nowPlayingController.songDetailsView.alpha > 0 && self.nowPlayingController.itemLogoImage.image != nil) {
         [self.nowPlayingController updateCurrentLogo];
     }
     else if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event] && ![[AppDelegate instance].windowController.stackScrollViewController.viewControllersStack count]) {
@@ -368,11 +369,10 @@
                          [clearView stopActivityIndicator];
                          clearView.alpha = 0;
                      }
-                     completion:^(BOOL finished){
+                     completion:^(BOOL finished) {
                          [clearView stopActivityIndicator];
                          [clearView removeFromSuperview];
                          NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                         [userDefaults synchronize];
                          [userDefaults removeObjectForKey:@"clearcache_preference"];
                      }];
 }
@@ -391,14 +391,14 @@
     self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
-    firstRun=YES;
-    [AppDelegate instance].obj=[GlobalData getInstance]; 
+    firstRun = YES;
+    [AppDelegate instance].obj = [GlobalData getInstance]; 
 
     int cellHeight = PAD_MENU_HEIGHT;
     int infoHeight = PAD_MENU_INFO_HEIGHT;
     NSInteger tableHeight = ([(NSMutableArray *)mainMenu count] - 1) * cellHeight + infoHeight;
     int tableWidth = PAD_MENU_TABLE_WIDTH;
-    int headerHeight=0;
+    int headerHeight = 0;
    
     rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY - 1)];
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
@@ -415,8 +415,8 @@
     
 	menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, headerHeight, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:mainMenu];
 	[menuViewController.view setBackgroundColor:[UIColor clearColor]];
-	[menuViewController viewWillAppear:FALSE];
-	[menuViewController viewDidAppear:FALSE];
+	[menuViewController viewWillAppear:NO];
+	[menuViewController viewDidAppear:NO];
 	[leftMenuView addSubview:menuViewController.view];
     int separator = 2;
     
@@ -436,9 +436,9 @@
     YPOS = (int)-(tableHeight + separator + headerHeight);
     frame.origin.y = tableHeight + separator + headerHeight;
     frame.size.width = tableWidth;
-    frame.size.height=self.view.frame.size.height - tableHeight - separator - headerHeight - deltaY;
-    self.nowPlayingController.view.autoresizingMask=UIViewAutoresizingFlexibleHeight;
-    self.nowPlayingController.view.frame=frame;
+    frame.size.height = self.view.frame.size.height - tableHeight - separator - headerHeight - deltaY;
+    self.nowPlayingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.nowPlayingController.view.frame = frame;
     
     [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height YPOS:YPOS];
     
@@ -450,8 +450,8 @@
 	stackScrollViewController = [[StackScrollViewController alloc] init];	
 	[stackScrollViewController.view setFrame:CGRectMake(0, 0, rightSlideView.frame.size.width, rightSlideView.frame.size.height)];
 	[stackScrollViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight];
-	[stackScrollViewController viewWillAppear:FALSE];
-	[stackScrollViewController viewDidAppear:FALSE];
+	[stackScrollViewController viewWillAppear:NO];
+	[stackScrollViewController viewDidAppear:NO];
 	[rightSlideView addSubview:stackScrollViewController.view];
 	
 	[rootView addSubview:leftMenuView];
@@ -492,7 +492,7 @@
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
     xbmcInfo.titleLabel.minimumScaleFactor = 6.0 / 13.0;
     xbmcInfo.titleLabel.numberOfLines = 2;
-    xbmcInfo.titleLabel.textAlignment=NSTextAlignmentCenter;
+    xbmcInfo.titleLabel.textAlignment = NSTextAlignmentCenter;
     xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
     xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
     xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
@@ -508,9 +508,8 @@
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-    BOOL clearCache=[[userDefaults objectForKey:@"clearcache_preference"] boolValue];
-    if (clearCache==YES){
+    BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
+    if (clearCache) {
         ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame];
         [clearView startActivityIndicator];
         [self.view addSubview:clearView];
@@ -631,7 +630,7 @@
 
 -(void)handleTcpJSONRPCShowSetup:(NSNotification *)sender{
     BOOL showValue = [[[sender userInfo] valueForKey:@"showSetup"] boolValue];
-    if ((showValue && firstRun) || !showValue){
+    if ((showValue && firstRun) || !showValue) {
         [self showSetup:showValue];
     }
 }
@@ -648,7 +647,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.2];
     self.nowPlayingController.songDetailsView.alpha = 0.0;
-    [self.nowPlayingController.itemDescription setScrollsToTop:FALSE];
+    [self.nowPlayingController.itemDescription setScrollsToTop:NO];
     [UIView commitAnimations];
 }
 
@@ -664,8 +663,8 @@
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
     [[AppDelegate instance].windowController.stackScrollViewController offView];
-    NSIndexPath *selection=[menuViewController.tableView indexPathForSelectedRow];
-    if (selection){
+    NSIndexPath *selection = [menuViewController.tableView indexPathForSelectedRow];
+    if (selection) {
         [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
         [menuViewController setLastSelected:-1];
     }
@@ -682,8 +681,8 @@
 }
 
 - (void) handleEnterForeground: (NSNotification*) sender{
-    if ([AppDelegate instance].serverOnLine == YES){
-        if (self.tcpJSONRPCconnection == nil){
+    if ([AppDelegate instance].serverOnLine) {
+        if (self.tcpJSONRPCconnection == nil) {
             self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
         }
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];

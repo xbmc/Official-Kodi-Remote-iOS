@@ -64,7 +64,7 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)addPullToRefreshWithActionHandler:(void (^)(void))actionHandler {
     
-    if(!self.pullToRefreshView) {
+    if (!self.pullToRefreshView) {
         SVPullToRefreshView *view = [[SVPullToRefreshView alloc] initWithFrame:CGRectMake(0, -SVPullToRefreshViewHeight, self.bounds.size.width, SVPullToRefreshViewHeight)];
         view.pullToRefreshActionHandler = actionHandler;
         view.scrollView = self;
@@ -96,7 +96,7 @@ static char UIScrollViewPullToRefreshView;
 - (void)setShowsPullToRefresh:(BOOL)showsPullToRefresh {
     self.pullToRefreshView.hidden = !showsPullToRefresh;
     
-    if(!showsPullToRefresh) {
+    if (!showsPullToRefresh) {
       if (self.pullToRefreshView.isObserving) {
         [self removeObserver:self.pullToRefreshView forKeyPath:@"contentOffset"];
         [self removeObserver:self.pullToRefreshView forKeyPath:@"frame"];
@@ -136,7 +136,7 @@ static char UIScrollViewPullToRefreshView;
 
 
 - (id)initWithFrame:(CGRect)frame {
-    if(self = [super initWithFrame:frame]) {
+    if (self = [super initWithFrame:frame]) {
         
         // default styling values
         self.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
@@ -145,13 +145,15 @@ static char UIScrollViewPullToRefreshView;
         self.state = SVPullToRefreshStateStopped;
         self.showsDateLabel = NO;
         
-        self.titles = [NSMutableArray arrayWithObjects:NSLocalizedString(@"Pull to sync with XBMC...",),
-                                                       NSLocalizedString(@"Release to sync with XBMC...",),
-                                                       NSLocalizedString(@"Syncing...",),
-                                                       nil];
+        self.titles = [
+            @[
+                NSLocalizedString(@"Pull to sync with XBMC...",),
+                NSLocalizedString(@"Release to sync with XBMC...",),
+                NSLocalizedString(@"Syncing...",)
+            ] mutableCopy];
         
-        self.subtitles = [NSMutableArray arrayWithObjects:@"", @"", @"", @"", nil];
-        self.viewForState = [NSMutableArray arrayWithObjects:@"", @"", @"", @"", nil];
+        self.subtitles = [@[@"", @"", @"", @""] mutableCopy];
+        self.viewForState = [@[@"", @"", @"", @""] mutableCopy];
     }
 
     return self;
@@ -174,19 +176,20 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)layoutSubviews {
     
-    for(id otherView in self.viewForState) {
-        if([otherView isKindOfClass:[UIView class]])
+    for (id otherView in self.viewForState) {
+        if ([otherView isKindOfClass:[UIView class]]) {
             [otherView removeFromSuperview];
+        }
     }
     
-    id customView = [self.viewForState objectAtIndex:self.state];
+    id customView = self.viewForState[self.state];
     BOOL hasCustomView = [customView isKindOfClass:[UIView class]];
     
     self.titleLabel.hidden = hasCustomView;
     self.subtitleLabel.hidden = hasCustomView;
     self.arrow.hidden = hasCustomView;
     
-    if(hasCustomView) {
+    if (hasCustomView) {
         [self addSubview:customView];
         CGRect viewBounds = [customView bounds];
         CGPoint origin = CGPointMake(roundf((self.bounds.size.width-viewBounds.size.width)/2), roundf((self.bounds.size.height-viewBounds.size.height)/2));
@@ -210,43 +213,44 @@ static char UIScrollViewPullToRefreshView;
                 break;
         }
         
-        CGFloat leftViewWidth = MAX(self.arrow.bounds.size.width,self.activityIndicatorView.bounds.size.width);
+        CGFloat leftViewWidth = MAX(self.arrow.bounds.size.width, self.activityIndicatorView.bounds.size.width);
         CGFloat rightViewWidth = 40;
         CGFloat margin = 10;
         CGFloat marginY = 2;
         CGFloat labelMaxWidth = self.bounds.size.width - margin - leftViewWidth - rightViewWidth;
         
-        self.titleLabel.text = [self.titles objectAtIndex:self.state];
+        self.titleLabel.text = self.titles[self.state];
         
-        NSString *subtitle = [self.subtitles objectAtIndex:self.state];
+        NSString *subtitle = self.subtitles[self.state];
         self.subtitleLabel.text = subtitle.length > 0 ? subtitle : nil;
         
-        CGRect titleRect = [self.titleLabel.text boundingRectWithSize:CGSizeMake(labelMaxWidth,self.titleLabel.font.lineHeight)
+        CGRect titleRect = [self.titleLabel.text boundingRectWithSize:CGSizeMake(labelMaxWidth, self.titleLabel.font.lineHeight)
                                              options:NSStringDrawingUsesLineFragmentOrigin
                                           attributes:@{NSFontAttributeName:self.titleLabel.font}
                                              context:nil];
         CGSize titleSize = titleRect.size;
         
-        CGRect subtitleRect = [self.subtitleLabel.text boundingRectWithSize:CGSizeMake(labelMaxWidth,self.subtitleLabel.font.lineHeight)
+        CGRect subtitleRect = [self.subtitleLabel.text boundingRectWithSize:CGSizeMake(labelMaxWidth, self.subtitleLabel.font.lineHeight)
                                                               options:NSStringDrawingUsesLineFragmentOrigin
                                                            attributes:@{NSFontAttributeName:self.subtitleLabel.font}
                                                               context:nil];
         CGSize subtitleSize = subtitleRect.size;
         
-        CGFloat maxLabelWidth = MAX(titleSize.width,subtitleSize.width);
+        CGFloat maxLabelWidth = MAX(titleSize.width, subtitleSize.width);
         CGFloat totalMaxWidth = leftViewWidth + margin + maxLabelWidth;
         CGFloat labelX = (self.bounds.size.width / 2) - (totalMaxWidth / 2) + leftViewWidth + margin;
         
-        if(subtitleSize.height > 0){
+        if (subtitleSize.height > 0) {
             CGFloat totalHeight = titleSize.height + subtitleSize.height + marginY;
-            CGFloat minY = (self.bounds.size.height / 2)  - (totalHeight / 2);
+            CGFloat minY = (self.bounds.size.height / 2) - (totalHeight / 2);
             
             CGFloat titleY = minY;
             self.titleLabel.frame = CGRectIntegral(CGRectMake(labelX, titleY, titleSize.width, titleSize.height));
             self.subtitleLabel.frame = CGRectIntegral(CGRectMake(labelX, titleY + titleSize.height + marginY, subtitleSize.width, subtitleSize.height));
-        }else{
+        }
+        else {
             CGFloat totalHeight = titleSize.height;
-            CGFloat minY = (self.bounds.size.height / 2)  - (totalHeight / 2);
+            CGFloat minY = (self.bounds.size.height / 2) - (totalHeight / 2);
             
             CGFloat titleY = minY;
             self.titleLabel.frame = CGRectIntegral(CGRectMake(labelX, titleY, titleSize.width, titleSize.height));
@@ -290,23 +294,29 @@ static char UIScrollViewPullToRefreshView;
 #pragma mark - Observing
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {    
-    if([keyPath isEqualToString:@"contentOffset"])
+    if ([keyPath isEqualToString:@"contentOffset"]) {
         [self scrollViewDidScroll:[[change valueForKey:NSKeyValueChangeNewKey] CGPointValue]];
-    else if([keyPath isEqualToString:@"frame"])
+    }
+    else if ([keyPath isEqualToString:@"frame"]) {
         [self layoutSubviews];
+    }
 }
 
 - (void)scrollViewDidScroll:(CGPoint)contentOffset {
-    if(self.state != SVPullToRefreshStateLoading) {
+    if (self.state != SVPullToRefreshStateLoading) {
         CGFloat scrollOffsetThreshold = self.frame.origin.y-self.originalTopInset;
         
-        if(!self.scrollView.isDragging && self.state == SVPullToRefreshStateTriggered)
+        if (!self.scrollView.isDragging && self.state == SVPullToRefreshStateTriggered) {
             self.state = SVPullToRefreshStateLoading;
-        else if(contentOffset.y < scrollOffsetThreshold && self.scrollView.isDragging && self.state == SVPullToRefreshStateStopped)
+        }
+        else if (contentOffset.y < scrollOffsetThreshold && self.scrollView.isDragging && self.state == SVPullToRefreshStateStopped) {
             self.state = SVPullToRefreshStateTriggered;
-        else if(contentOffset.y >= scrollOffsetThreshold && self.state != SVPullToRefreshStateStopped)
+        }
+        else if (contentOffset.y >= scrollOffsetThreshold && self.state != SVPullToRefreshStateStopped) {
             self.state = SVPullToRefreshStateStopped;
-    } else {
+        }
+    }
+    else {
         CGFloat offset = MAX(self.scrollView.contentOffset.y * -1, 0);
         offset = MIN(offset, self.originalTopInset + self.bounds.size.height);
         UIEdgeInsets contentInset = self.scrollView.contentInset;
@@ -317,7 +327,7 @@ static char UIScrollViewPullToRefreshView;
 #pragma mark - Getters
 
 - (SVPullToRefreshArrow *)arrow {
-    if(!_arrow) {
+    if (!_arrow) {
 		_arrow = [[SVPullToRefreshArrow alloc]initWithFrame:CGRectMake(0, self.bounds.size.height-54, 22, 48)];
         _arrow.backgroundColor = [UIColor clearColor];
 		[self addSubview:_arrow];
@@ -326,7 +336,7 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (UIActivityIndicatorView *)activityIndicatorView {
-    if(!_activityIndicatorView) {
+    if (!_activityIndicatorView) {
         _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         _activityIndicatorView.hidesWhenStopped = YES;
         [self addSubview:_activityIndicatorView];
@@ -335,7 +345,7 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (UILabel *)titleLabel {
-    if(!_titleLabel) {
+    if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
         _titleLabel.text = NSLocalizedString(@"Pull to refresh...",);
         _titleLabel.font = [UIFont boldSystemFontOfSize:13];
@@ -350,7 +360,7 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (UILabel *)subtitleLabel {
-    if(!_subtitleLabel) {
+    if (!_subtitleLabel) {
         _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
         _subtitleLabel.font = [UIFont systemFontOfSize:11];
         _subtitleLabel.numberOfLines = 1;
@@ -368,7 +378,7 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (NSDateFormatter *)dateFormatter {
-    if(!dateFormatter) {
+    if (!dateFormatter) {
         dateFormatter = [[NSDateFormatter alloc] init];
 		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
@@ -397,25 +407,31 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (void)setTitle:(NSString *)title forState:(SVPullToRefreshState)state {
-    if(!title)
+    if (!title) {
         title = @"";
+    }
     
-    if(state == SVPullToRefreshStateAll)
+    if (state == SVPullToRefreshStateAll) {
         [self.titles replaceObjectsInRange:NSMakeRange(0, 3) withObjectsFromArray:@[title, title, title]];
-    else
+    }
+    else {
         [self.titles replaceObjectAtIndex:state withObject:title];
+    }
     
     [self setNeedsLayout];
 }
 
 - (void)setSubtitle:(NSString *)subtitle forState:(SVPullToRefreshState)state {
-    if(!subtitle)
+    if (!subtitle) {
         subtitle = @"";
+    }
     
-    if(state == SVPullToRefreshStateAll)
+    if (state == SVPullToRefreshStateAll) {
         [self.subtitles replaceObjectsInRange:NSMakeRange(0, 3) withObjectsFromArray:@[subtitle, subtitle, subtitle]];
-    else
+    }
+    else {
         [self.subtitles replaceObjectAtIndex:state withObject:subtitle];
+    }
     
     [self setNeedsLayout];
 }
@@ -423,13 +439,16 @@ static char UIScrollViewPullToRefreshView;
 - (void)setCustomView:(UIView *)view forState:(SVPullToRefreshState)state {
     id viewPlaceholder = view;
     
-    if(!viewPlaceholder)
+    if (!viewPlaceholder) {
         viewPlaceholder = @"";
+    }
     
-    if(state == SVPullToRefreshStateAll)
+    if (state == SVPullToRefreshStateAll) {
         [self.viewForState replaceObjectsInRange:NSMakeRange(0, 3) withObjectsFromArray:@[viewPlaceholder, viewPlaceholder, viewPlaceholder]];
-    else
+    }
+    else {
         [self.viewForState replaceObjectAtIndex:state withObject:viewPlaceholder];
+    }
     
     [self setNeedsLayout];
 }
@@ -446,12 +465,12 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)setLastUpdatedDate:(NSDate *)newLastUpdatedDate {
     self.showsDateLabel = YES;
-    self.dateLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Last Updated: %@",), newLastUpdatedDate?[self.dateFormatter stringFromDate:newLastUpdatedDate]:NSLocalizedString(@"Never",)];
+    self.dateLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Last Updated: %@",), newLastUpdatedDate ? [self.dateFormatter stringFromDate:newLastUpdatedDate] : NSLocalizedString(@"Never",)];
 }
 
 - (void)setDateFormatter:(NSDateFormatter *)newDateFormatter {
 	dateFormatter = newDateFormatter;
-    self.dateLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Last Updated: %@",), self.lastUpdatedDate?[newDateFormatter stringFromDate:self.lastUpdatedDate]:NSLocalizedString(@"Never",)];
+    self.dateLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Last Updated: %@",), self.lastUpdatedDate ? [newDateFormatter stringFromDate:self.lastUpdatedDate] : NSLocalizedString(@"Never",)];
 }
 
 #pragma mark -
@@ -461,12 +480,13 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (void)startAnimating{
-    if(fequalzero(self.scrollView.contentOffset.y)) {
+    if (fequalzero(self.scrollView.contentOffset.y)) {
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, -self.frame.size.height) animated:YES];
         self.wasTriggeredByUser = NO;
     }
-    else
+    else {
         self.wasTriggeredByUser = YES;
+    }
     
     self.state = SVPullToRefreshStateLoading;
 }
@@ -474,14 +494,16 @@ static char UIScrollViewPullToRefreshView;
 - (void)stopAnimating {
     self.state = SVPullToRefreshStateStopped;
     
-    if(!self.wasTriggeredByUser && self.scrollView.contentOffset.y < -self.originalTopInset)
+    if (!self.wasTriggeredByUser && self.scrollView.contentOffset.y < -self.originalTopInset) {
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, -self.originalTopInset) animated:YES];
+    }
 }
 
 - (void)setState:(SVPullToRefreshState)newState {
     
-    if(_state == newState)
+    if (_state == newState) {
         return;
+    }
     
     SVPullToRefreshState previousState = _state;
     _state = newState;
@@ -499,8 +521,9 @@ static char UIScrollViewPullToRefreshView;
         case SVPullToRefreshStateLoading:
             [self setScrollViewContentInsetForLoading];
             
-            if(previousState == SVPullToRefreshStateTriggered && pullToRefreshActionHandler)
+            if (previousState == SVPullToRefreshStateTriggered && pullToRefreshActionHandler) {
                 pullToRefreshActionHandler();
+            }
             
             break;
     }
@@ -523,7 +546,9 @@ static char UIScrollViewPullToRefreshView;
 @synthesize arrowColor;
 
 - (UIColor *)arrowColor {
-	if (arrowColor) return arrowColor;
+    if (arrowColor) {
+        return arrowColor;
+    }
 	return [UIColor grayColor]; // default Color
 }
 
@@ -553,10 +578,10 @@ static char UIScrollViewPullToRefreshView;
 	CGFloat alphaGradientLocations[] = {0, 0.8};
     
 	CGGradientRef alphaGradient = nil;
-    NSArray* alphaGradientColors = [NSArray arrayWithObjects:
+    NSArray* alphaGradientColors = @[
                                     (id)[self.arrowColor colorWithAlphaComponent:0].CGColor,
-                                    (id)[self.arrowColor colorWithAlphaComponent:1].CGColor,
-                                    nil];
+                                    (id)[self.arrowColor colorWithAlphaComponent:1].CGColor
+                                    ];
     alphaGradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)alphaGradientColors, alphaGradientLocations);
 	
 	

@@ -127,7 +127,7 @@
     }
 	CFRelease(data);
     
-	return [UIColor colorWithRed:f * red  green:f * green blue:f * blue alpha:1];
+	return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
 }
 
 - (UIColor *)limitSaturation:(UIColor *)color_in satmax:(CGFloat)satmax {
@@ -172,13 +172,15 @@
 }
 
 - (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker trigger:(CGFloat)trigger{
-    if ([newColor isEqual:[UIColor clearColor]] || newColor == nil) return lighter;
-    const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
-    CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
-    if (colorBrightness < trigger){
+    if ([newColor isEqual:[UIColor clearColor]] || newColor == nil) {
         return lighter;
     }
-    else{
+    const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
+    CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
+    if (colorBrightness < trigger) {
+        return lighter;
+    }
+    else {
         return darker;
     }
 }
@@ -187,12 +189,12 @@
     if (color == nil) return image;
     UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
     
-    CGRect contextRect = (CGRect){.origin = CGPointZero, .size = [image size]};
+    CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = [image size]};
     
     CGSize itemImageSize = [image size];
     CGPoint itemImagePosition;
     itemImagePosition.x = ceilf((contextRect.size.width - itemImageSize.width) / 2);
-    itemImagePosition.y = ceilf((contextRect.size.height - itemImageSize.height) );
+    itemImagePosition.y = ceilf((contextRect.size.height - itemImageSize.height));
     
     UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, [[UIScreen mainScreen] scale]);
     
@@ -206,10 +208,10 @@
     CGColorSpaceModel model = CGColorSpaceGetModel(colorSpace);
     const CGFloat* colors = CGColorGetComponents(color.CGColor);
     
-    if(model == kCGColorSpaceModelMonochrome){
+    if (model == kCGColorSpaceModelMonochrome) {
         CGContextSetRGBFillColor(c, colors[0], colors[0], colors[0], colors[1]);
     }
-    else{
+    else {
         CGContextSetRGBFillColor(c, colors[0], colors[1], colors[2], colors[3]);
     }
     
@@ -253,10 +255,9 @@
 
 + (LogoBackgroundType)getLogoBackgroundMode {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     LogoBackgroundType setting = bgAuto;
     NSString *mode = [userDefaults stringForKey:@"logo_background"];
-    if ([mode length]){
+    if ([mode length]) {
         if ([mode isEqualToString:@"dark"]) {
             setting = bgDark;
         }
@@ -272,13 +273,13 @@
 
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage{
     NSDictionary *params = nil;
-    if ([AppDelegate instance].serverVersion < 15){
+    if ([AppDelegate instance].serverVersion < 15) {
         params = @{
             @"playerid": @(playerID),
             @"value": @(percentage),
         };
-    } else
-    {
+    }
+    else {
         params = @{
             @"playerid": @(playerID),
             @"value": @{@"percentage": @(percentage)},
@@ -289,11 +290,11 @@
 
 + (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode{
     NSArray *params = nil;
-    if ([AppDelegate instance].serverVersion < 15){
+    if ([AppDelegate instance].serverVersion < 15) {
         params = @[stepmode, @"value"];
-    } else
-    {
-        params = @[ @{@"step": stepmode}, @"value"];
+    }
+    else {
+        params = @[@{@"step": stepmode}, @"value"];
     }
     return params;
 }
@@ -332,7 +333,8 @@
 + (UIColor*)getSystemGray2{
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray2Color];
-    } else {
+    }
+    else {
         return RGBA(174, 174, 178, 1.0);
     }
 }
@@ -340,7 +342,8 @@
 + (UIColor*)getSystemGray3{
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray3Color];
-    } else {
+    }
+    else {
         return RGBA(199, 199, 204, 1.0);
     }
 }
@@ -348,7 +351,8 @@
 + (UIColor*)getSystemGray4{
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray4Color];
-    } else {
+    }
+    else {
         return RGBA(209, 209, 214, 1.0);
     }
 }
@@ -356,7 +360,8 @@
 + (UIColor*)getSystemGray5{
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray5Color];
-    } else {
+    }
+    else {
         return RGBA(229, 229, 234, 1.0);
     }
 }
@@ -364,7 +369,8 @@
 + (UIColor*)getSystemGray6{
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray6Color];
-    } else {
+    }
+    else {
         return RGBA(242, 242, 247, 1.0);
     }
 }
@@ -372,7 +378,8 @@
 + (UIColor*)get1stLabelColor{
     if (@available(iOS 13.0, *)) {
         return [UIColor labelColor];
-    } else {
+    }
+    else {
         return RGBA(0, 0, 0, 1.0);
     }
 }
@@ -380,7 +387,8 @@
 + (UIColor*)get2ndLabelColor{
     if (@available(iOS 13.0, *)) {
         return [UIColor secondaryLabelColor];
-    } else {
+    }
+    else {
         return RGBA(60, 60, 67, 0.6);
     }
 }
@@ -388,7 +396,8 @@
 + (UIColor*)get3rdLabelColor{
     if (@available(iOS 13.0, *)) {
         return [UIColor tertiaryLabelColor];
-    } else {
+    }
+    else {
         return RGBA(60, 60, 67, 0.3);
     }
 }
@@ -396,7 +405,8 @@
 + (UIColor*)get4thLabelColor{
     if (@available(iOS 13.0, *)) {
         return [UIColor quaternaryLabelColor];
-    } else {
+    }
+    else {
         return RGBA(60, 60, 67, 0.18);
     }
 }
@@ -476,8 +486,9 @@
     @try {
         svc = [[SFSafariViewController alloc] initWithURL:nsurl];
     } @catch (NSException *exception) {
-        if ([UIApplication.sharedApplication canOpenURL:nsurl])
+        if ([UIApplication.sharedApplication canOpenURL:nsurl]) {
             [UIApplication.sharedApplication openURL:nsurl options:@{} completionHandler:nil];
+        }
         else {
             UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Error loading page", nil) message:exception.reason];
             [fromctrl presentViewController:alertView animated:YES completion:nil];
@@ -495,6 +506,159 @@
 
 + (DSJSONRPC*)getJsonRPC {
     return [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
+}
+
++ (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    NSInteger numelement = [array count];
+    for (int i = 0; i < numelement-1; i += 2) {
+        mutableDictionary[array[i+1]] = array[i];
+    }
+    return (NSDictionary *)mutableDictionary;
+}
+
++ (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    NSInteger numelement = [array count];
+    for (int i = 0; i < numelement-1; i += 2) {
+        mutableDictionary[array[i+1]] = array[i];
+    }
+    return (NSMutableDictionary *)mutableDictionary;
+}
+
++ (NSString*)convertTimeFromSeconds:(NSNumber*)seconds {
+    NSString *result = @"";
+    if (seconds == nil) {
+        return result;
+    }
+    int secs = [seconds intValue];
+    int hour   = secs / 3600;
+    int minute = secs / 60 - hour * 60;
+    int second = secs - (hour * 3600 + minute * 60);
+    result = [NSString stringWithFormat:@"%02d:%02d", minute, second];
+    if (hour > 0) {
+        result = [NSString stringWithFormat:@"%02d:%@", hour, result];
+    }
+    return result;
+}
+
++ (NSString*)getItemIconFromDictionary:(NSDictionary*)dict mainFields:(NSDictionary*)mainFields {
+    NSString *filetype = @"";
+    NSString *iconName = @"";
+    if (dict[@"filetype"] != nil) {
+        filetype = dict[@"filetype"];
+        if ([filetype isEqualToString:@"directory"]) {
+            iconName = @"nocover_filemode";
+        }
+        else if ([filetype isEqualToString:@"file"]) {
+            if ([mainFields[@"playlistid"] intValue] == 0) {
+                iconName = @"icon_song";
+            }
+            else if ([mainFields[@"playlistid"] intValue] == 1) {
+                iconName = @"icon_video";
+            }
+            else if ([mainFields[@"playlistid"] intValue] == 2) {
+                iconName = @"icon_picture";
+            }
+        }
+    }
+    return iconName;
+}
+
++ (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key emptyString:(NSString*)empty {
+    NSString *text = @"";
+    id value = dict[key];
+    if (value == [NSNull null]) {
+        text = empty;
+    }
+    else if ([value isKindOfClass:[NSArray class]]) {
+        text = [value componentsJoinedByString:@" / "];
+        text = [text length] == 0 ? empty : text;
+    }
+    else {
+        text = [value length] == 0 ? empty : value;
+    }
+    return text;
+}
+
++ (NSString*)getTimeFromDictionary:(NSDictionary*)dict key:(NSString*)key sec2min:(int)secondsToMinute {
+    NSString *runtime = @"";
+    id value = dict[key];
+    if (value == [NSNull null]) {
+        runtime = @"";
+    }
+    else if ([value isKindOfClass:[NSArray class]]) {
+        runtime = [NSString stringWithFormat:@"%@", [value componentsJoinedByString:@" / "]];
+    }
+    else if ([value intValue]) {
+        runtime = [NSString stringWithFormat:@"%d min", [value intValue]/secondsToMinute];
+    }
+    else {
+        runtime = [NSString stringWithFormat:@"%@", value];
+    }
+    return runtime;
+}
+
++ (NSString*)getYearFromDictionary:(NSDictionary*)dict key:(NSString*)key {
+    NSString *year = @"";
+    id value = dict[key];
+    if (value == [NSNull null]) {
+        year = @"";
+    }
+    else if ([value isKindOfClass:[NSNumber class]]) {
+        year = [(NSNumber *)value stringValue];
+    }
+    else {
+        if ([key isEqualToString:@"blank"]) {
+            year = @"";
+        }
+        else {
+            year = value;
+        }
+    }
+    return year;
+}
+
++ (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key {
+    NSString *rating = [NSString stringWithFormat:@"%.1f", [(NSNumber*)dict[key] floatValue]];
+    if ([rating isEqualToString:@"0.0"]) {
+        rating = @"";
+    }
+    return rating;
+}
+
++ (NSString*)getClearArtFromDictionary:(NSDictionary*)dict type:(NSString*)type {
+    NSString *path = @"";
+    for (NSString *key in dict) {
+        if ([key rangeOfString:type].location != NSNotFound) {
+            path = dict[key];
+            break; // We want to leave the loop after we found what we were searching for
+        }
+    }
+    return path;
+}
+
++ (NSString*)getThumbnailFromDictionary:(NSDictionary*)dict useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
+    NSString *thumbnailPath = dict[@"thumbnail"];
+    NSDictionary *art = dict[@"art"];
+    if ([art[@"poster"] length] != 0) {
+        thumbnailPath = art[@"poster"];
+    }
+    if (useBanner && [art[@"banner"] length] != 0) {
+        thumbnailPath = art[@"banner"];
+    }
+    if (useIcon && [art[@"icon"] length] != 0) {
+        thumbnailPath = art[@"icon"];
+    }
+    return thumbnailPath;
+}
+
++ (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL {
+    NSString *urlString = @"";
+    if (path.length > 0 && ![path isEqualToString:@"(null)"]) {
+        urlString = [NSString stringWithFormat:@"http://%@%@", serverURL, [path stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+    }
+    return urlString;
 }
 
 @end

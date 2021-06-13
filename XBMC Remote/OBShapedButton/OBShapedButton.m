@@ -80,12 +80,10 @@
     CGFloat alpha = 0.0;
     
     
-    if ([pixelColor respondsToSelector:@selector(getRed:green:blue:alpha:)])
-    {// available from iOS 5.0
+    if ([pixelColor respondsToSelector:@selector(getRed:green:blue:alpha:)]) {// available from iOS 5.0
         [pixelColor getRed:NULL green:NULL blue:NULL alpha:&alpha];
     }
-    else
-    {// for iOS < 5.0
+    else {// for iOS < 5.0
         // In iOS 6.1 the code is not working in release mode, it works only in debug
         // CGColorGetAlpha always return 0.
         CGColorRef cgPixelColor = [pixelColor CGColor];
@@ -110,7 +108,8 @@
     // (because pointInside:withEvent: gets often called multiple times)
     if (CGPointEqualToPoint(point, self.previousTouchPoint)) {
         return self.previousTouchHitTestResponse;
-    } else {
+    }
+    else {
         self.previousTouchPoint = point;
     }
     
@@ -132,7 +131,8 @@
     else {
         if ([self isAlphaVisibleAtPoint:point forImage:buttonImage]) {
             response = YES;
-        } else {
+        }
+        else {
             response = [self isAlphaVisibleAtPoint:point forImage:buttonBackground];
         }
     }

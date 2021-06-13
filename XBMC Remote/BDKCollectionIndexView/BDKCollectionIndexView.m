@@ -111,12 +111,12 @@
         switch (self.direction) {
             case BDKCollectionIndexViewDirectionHorizontal:
                 labelSize.width = otherDimension;
-                label.frame = (CGRect){ { cumulativeLength, 0 }, labelSize };
+                label.frame = (CGRect) {{cumulativeLength, 0}, labelSize};
                 cumulativeLength += CGRectGetWidth(label.frame);
                 break;
             case BDKCollectionIndexViewDirectionVertical:
                 labelSize.height = otherDimension;
-                label.frame = (CGRect){ { self.labelPadding, cumulativeLength + 4 }, labelSize };
+                label.frame = (CGRect) {{self.labelPadding, cumulativeLength + 4}, labelSize};
                 cumulativeLength += CGRectGetHeight(label.frame);
                 break;
         }
@@ -126,7 +126,9 @@
 #pragma mark - Properties
 
 - (UIView *)touchStatusView {
-    if (_touchStatusView) return _touchStatusView;
+    if (_touchStatusView) {
+        return _touchStatusView;
+    }
     _touchStatusView = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, 2, 2)];
     _touchStatusView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
     _touchStatusView.layer.cornerRadius = 0;
@@ -135,7 +137,9 @@
 }
 
 - (void)setIndexTitles:(NSArray *)indexTitles {
-    if (_indexTitles == indexTitles) return;
+    if (_indexTitles == indexTitles) {
+        return;
+    }
     _indexTitles = indexTitles;
     [self.indexLabels makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self buildIndexLabels];
@@ -146,7 +150,9 @@
 }
 
 - (void)setEndPadding:(CGFloat)endPadding {
-    if (_endPadding == endPadding) return;
+    if (_endPadding == endPadding) {
+        return;
+    }
     _endPadding = endPadding;
 
     [self.indexTitles makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -197,13 +203,13 @@
 #pragma mark - Gestures
 
 - (void)handleTap:(UILongPressGestureRecognizer *)recognizer {
-    if (recognizer.state == UIGestureRecognizerStateEnded){
-        [self setBackgroundVisibility:FALSE];
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        [self setBackgroundVisibility:NO];
         self.alpha = DEFAULT_ALPHA;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateEnded" object: nil];
     }
-    else{
-        [self setBackgroundVisibility:TRUE];
+    else {
+        [self setBackgroundVisibility:YES];
         self.alpha = 1.0;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateBegin" object: nil];
     }
