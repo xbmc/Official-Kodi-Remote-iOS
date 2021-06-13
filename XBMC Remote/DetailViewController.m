@@ -4966,7 +4966,7 @@ NSIndexPath *selected;
     }
     else if ([sortMethod isEqualToString:@"runtime"]) {
         currentValue = [currentValue stringByTrimmingCharactersInSet:[NSCharacterSet letterCharacterSet]];
-        currentValue = [NSString stringWithFormat:@"%ld", ([currentValue integerValue] / 15) * 15 + 15];
+        currentValue = [NSString stringWithFormat:@"%ld", ((long)currentValue.integerValue / 15) * 15 + 15];
     }
     else if ([sortMethod isEqualToString:@"rating"]) {
         currentValue = [@(round([currentValue doubleValue])) stringValue];
