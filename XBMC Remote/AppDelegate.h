@@ -32,6 +32,7 @@
 #define IS_AT_LEAST_IPHONE_X_HEIGHT (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds) >= 812)
 #define IS_AT_LEAST_IPAD_1K_WIDTH (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) >= 1024)
 
+#define LOCALIZED_STR(string) NSLocalizedString(string, nil)
 
 #define APP_TINT_COLOR [Utilities getGrayColor:0 alpha:0.3]
 
