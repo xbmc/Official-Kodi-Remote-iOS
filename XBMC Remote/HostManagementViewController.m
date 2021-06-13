@@ -54,7 +54,6 @@
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
         if (standardUserDefaults) {
             [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
-            [standardUserDefaults synchronize];
         }
         [connectingActivityIndicator stopAnimating];
     }
@@ -167,7 +166,6 @@ static inline BOOL IsEmpty(id obj) {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     if (standardUserDefaults) {
         [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
-        [standardUserDefaults synchronize];
     }
     [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
 }
@@ -191,7 +189,6 @@ static inline BOOL IsEmpty(id obj) {
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (standardUserDefaults) {
                 [standardUserDefaults setObject: @(indexPath.row) forKey:@"lastServer"];
-                [standardUserDefaults synchronize];
             }
         }
     }
@@ -225,7 +222,6 @@ static inline BOOL IsEmpty(id obj) {
                 storeServerSelection = [NSIndexPath  indexPathForRow:storeServerSelection.row-1 inSection:storeServerSelection.section];
                 if (standardUserDefaults) {
                     [standardUserDefaults setObject: @(storeServerSelection.row) forKey:@"lastServer"];
-                    [standardUserDefaults synchronize];
                 }
             }
             else if (storeServerSelection.row == indexPath.row) {
@@ -239,7 +235,6 @@ static inline BOOL IsEmpty(id obj) {
                 [AppDelegate instance].obj.tcpPort = 0;
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
                 [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
-                [standardUserDefaults synchronize];
             }
         }
         if ([indexPath row] < [tableView numberOfRowsInSection:[indexPath section]]) {
@@ -540,7 +535,6 @@ static inline BOOL IsEmpty(id obj) {
 -(void)tcpJSONRPCConnectionError:(NSNotification *)note {
     BOOL showConnectionNotice = NO;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     NSString *showConnectionNoticeString = [userDefaults objectForKey:@"connection_info_preference"];
     if (showConnectionNoticeString == nil || [showConnectionNoticeString boolValue]) {
         showConnectionNotice = YES;
@@ -580,7 +574,6 @@ static inline BOOL IsEmpty(id obj) {
 
 -(void)disableTCPconnectionNotice {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     [userDefaults setObject:@(NO) forKey:@"connection_info_preference"];
 }
 

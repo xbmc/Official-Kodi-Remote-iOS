@@ -255,7 +255,6 @@
 
 + (LogoBackgroundType)getLogoBackgroundMode {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     LogoBackgroundType setting = bgAuto;
     NSString *mode = [userDefaults stringForKey:@"logo_background"];
     if ([mode length]) {

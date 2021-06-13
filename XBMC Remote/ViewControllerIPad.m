@@ -373,7 +373,6 @@
                          [clearView stopActivityIndicator];
                          [clearView removeFromSuperview];
                          NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                         [userDefaults synchronize];
                          [userDefaults removeObjectForKey:@"clearcache_preference"];
                      }];
 }
@@ -509,7 +508,6 @@
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
     if (clearCache) {
         ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame];

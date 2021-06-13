@@ -1119,7 +1119,6 @@
             }
             else if ([item[@"genre"] isEqualToString:@"file"] || [item[@"filetype"] isEqualToString:@"file"]) {
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                [userDefaults synchronize];
                 if (![[userDefaults objectForKey:@"song_preference"] boolValue]) {
                     [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
                 }
@@ -1218,7 +1217,6 @@
         }
         else {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults synchronize];
             if (![[userDefaults objectForKey:@"song_preference"] boolValue] || [parameters[@"forceActionSheet"] boolValue]) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:[MenuItem mainParameters][choosedTab]]];
                 selected = indexPath;
@@ -3190,7 +3188,6 @@ NSIndexPath *selected;
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
     NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     [userDefaults setObject:sortMethod forKey:sortKey];
 }
 
@@ -3198,7 +3195,6 @@ NSIndexPath *selected;
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
     NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     [userDefaults setObject:sortAscDescSave forKey:sortKey];
 }
 
@@ -5336,7 +5332,6 @@ NSIndexPath *selected;
         return NO;
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
     NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
@@ -5376,7 +5371,6 @@ NSIndexPath *selected;
     if (methods != nil) {
         NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults synchronize];
         if ([userDefaults objectForKey:sortKey] != nil) {
             sortMethod = [userDefaults objectForKey:sortKey];
         }
@@ -5462,7 +5456,6 @@ NSIndexPath *selected;
     if (methods != nil) {
         NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults synchronize];
         if ([userDefaults objectForKey:sortKey] != nil) {
             sortAscDescSaved = [userDefaults objectForKey:sortKey];
         }
@@ -5482,7 +5475,6 @@ NSIndexPath *selected;
         [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     NSString *hidden_label_preferenceString = [userDefaults objectForKey:@"hidden_label_preference"];
     hiddenLabel = [hidden_label_preferenceString boolValue];
     [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
@@ -5832,7 +5824,6 @@ NSIndexPath *selected;
 -(void)checkDiskCache{
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     BOOL diskcache_preference = NO;
     NSString *diskcache_preferenceString = [userDefaults objectForKey:@"diskcache_preference"];
     if (diskcache_preferenceString == nil || [diskcache_preferenceString boolValue]) {
@@ -5871,7 +5862,6 @@ NSIndexPath *selected;
         }
         NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults synchronize];
         [userDefaults setObject:@(![[userDefaults objectForKey:viewKey] boolValue])
                          forKey:viewKey];
         enableCollectionView = [self collectionViewIsEnabled];

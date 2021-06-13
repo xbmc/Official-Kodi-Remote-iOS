@@ -645,7 +645,6 @@ int h = 0;
 
 -(bool)enableJewelCases{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 

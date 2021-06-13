@@ -2542,7 +2542,6 @@ int currentItemID;
 
 -(bool)enableJewelCases{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
@@ -2894,7 +2893,6 @@ int currentItemID;
 
 -(void)handleShakeNotification{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     BOOL shake_preference = [[userDefaults objectForKey:@"shake_preference"] boolValue];
     if (shake_preference) {
         [self showClearPlaylistAlert];

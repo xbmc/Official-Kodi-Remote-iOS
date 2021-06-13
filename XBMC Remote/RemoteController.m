@@ -104,7 +104,6 @@
     
     UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture) {
         gestureSwitchImg = [UIImage imageNamed:@"circle"];
@@ -729,7 +728,6 @@ NSInteger buttonAction;
     }
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     
     BOOL startVibrate = [[userDefaults objectForKey:@"vibrate_preference"] boolValue];
     if (startVibrate) {
@@ -1003,7 +1001,6 @@ NSInteger buttonAction;
             break;
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     
     BOOL startVibrate = [[userDefaults objectForKey:@"vibrate_preference"] boolValue];
     if (startVibrate) {
@@ -1245,7 +1242,6 @@ NSInteger buttonAction;
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
     UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
     if (showGesture) {
         gestureSwitchImg = [UIImage imageNamed:@"circle"];

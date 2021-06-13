@@ -305,7 +305,6 @@
                          [clearView stopActivityIndicator];
                          [clearView removeFromSuperview];
                          NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                         [userDefaults synchronize];
                          [userDefaults removeObjectForKey:@"clearcache_preference"];
                      }];
 }
@@ -330,7 +329,6 @@
     [menuList setFrame:frame];
     [menuList setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
     BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
     if (clearCache) {
         ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame border:40];
