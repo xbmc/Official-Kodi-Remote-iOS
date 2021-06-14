@@ -3955,7 +3955,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Favourites
         menu_Favourites.mainLabel = LOCALIZED_STR(@"Favourites");
         menu_Favourites.upperLabel = LOCALIZED_STR(@"Choose your");
-        menu_Favourites.icon = @"icon_home_picture_alt";
+        menu_Favourites.icon = @"icon_menu_favourites";
         menu_Favourites.family = 1;
         menu_Favourites.enableSection = YES;
         menu_Favourites.mainButtons = @[@"st_filemode"];
