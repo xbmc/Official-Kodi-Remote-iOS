@@ -661,7 +661,12 @@
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL {
     NSString *urlString = @"";
     if (path.length > 0 && ![path isEqualToString:@"(null)"]) {
-        urlString = [NSString stringWithFormat:@"http://%@%@", serverURL, [path stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+        if (![path hasPrefix:@"image://"]) {
+            urlString = path;
+        }
+        else {
+            urlString = [NSString stringWithFormat:@"http://%@%@", serverURL, [path stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+        }
     }
     return urlString;
 }
