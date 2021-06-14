@@ -1205,6 +1205,25 @@
             }
         }
     }
+    else if ([item[@"family"] isEqualToString:@"type"]) {
+        // Selected favourite item is a window type -> activate it
+        if ([item[@"type"] isEqualToString:@"window"]) {
+            [self SimpleAction: @"GUI.ActivateWindow"
+                        params: @{@"window": item[@"window"], @"parameters": @[item[@"windowparameter"]]}
+                       success: NSLocalizedString(@"Window activated successfully", nil)
+                       failure: NSLocalizedString(@"Unable to activate the window", nil)
+             ];
+        }
+        // Selected favourite item is a media type -> play it
+        else if ([item[@"type"] isEqualToString:@"media"]) {
+            [self playerOpen: @{@"item": @{@"file": item[@"path"] }} index:nil];
+        }
+        // Selected favourite item is an unknown type -> throw an error
+        else {
+            NSString *message = [NSString stringWithFormat:@"%@ (type = '%@')", NSLocalizedString(@"Cannot do that", nil), item[@"type"]];
+            [messagesView showMessage:message timeout:2.0 color:[Utilities getSystemRed:0.95]];
+        }
+    }
     else if (methods[@"method"] != nil && ![parameters[@"forceActionSheet"] boolValue] && !stackscrollFullscreen) {
         // There is a child and we want to show it (only when not in fullscreen)
         [self viewChild:indexPath item:item displayPoint:point];

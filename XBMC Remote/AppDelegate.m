@@ -435,6 +435,7 @@ NSMutableArray *hostRightMenuItems;
     __auto_type menu_Movies = [mainMenu new];
     __auto_type menu_TVShows = [mainMenu new];
     __auto_type menu_Pictures = [mainMenu new];
+    __auto_type menu_Favourites = [mainMenu new];
     __auto_type menu_NowPlaying = [mainMenu new];
     __auto_type menu_Remote = [mainMenu new];
     __auto_type menu_Server = [mainMenu new];
@@ -3951,6 +3952,58 @@ NSMutableArray *hostRightMenuItems;
         @[]
     ];
     
+#pragma mark - Favourites
+        menu_Favourites.mainLabel = LOCALIZED_STR(@"Favourites");
+        menu_Favourites.upperLabel = LOCALIZED_STR(@"Choose your");
+        menu_Favourites.icon = @"icon_home_picture_alt";
+        menu_Favourites.family = 1;
+        menu_Favourites.enableSection = YES;
+        menu_Favourites.mainButtons = @[@"st_filemode"];
+        
+        menu_Favourites.mainMethod = [@[
+            @[@"Favourites.GetFavourites", @"method"],
+        ] mutableCopy];
+        
+        menu_Favourites.mainParameters = [@[
+            @[
+                @{
+                    @"properties": @[
+                            @"thumbnail",
+                            @"path",
+                            @"window",
+                            @"windowparameter"]
+                }, @"parameters",
+                LOCALIZED_STR(@"Favourites"), @"label",
+                @"nocover_filemode", @"defaultThumb",
+                filemodeRowHeight, @"rowHeight",
+                filemodeThumbWidth, @"thumbWidth",
+                @"YES", @"enableCollectionView",
+                [self itemSizes_Music], @"itemSizes",
+            ],
+        ] mutableCopy];
+        
+        menu_Favourites.mainFields = @[
+            @{
+                @"itemid": @"favourites",
+                @"row1": @"title",
+                @"row2": [NSNull null],
+                @"row3": [NSNull null],
+                @"row4": [NSNull null],
+                @"row5": [NSNull null],
+                @"row6": @"title",
+                @"row7": @"path",
+                @"playlistid": @(-1),
+                @"row8": @"type",
+                @"row9": @"window",
+                @"row10": @"windowparameter"
+            },
+        ];
+        
+        menu_Favourites.enableSection = NO;
+        menu_Favourites.rowHeight = 53;
+        menu_Favourites.thumbWidth = 53;
+        menu_Favourites.defaultThumb = @"nocover_filemode";
+    
 #pragma mark - Now Playing
     menu_NowPlaying.mainLabel = LOCALIZED_STR(@"Now Playing");
     menu_NowPlaying.upperLabel = LOCALIZED_STR(@"See what's");
@@ -4598,6 +4651,9 @@ NSMutableArray *hostRightMenuItems;
     }
     if ([self isMenuEntryEnabled:@"menu_livetv"]) {
         [mainMenuItems addObject:menu_LiveTV];
+    }
+    if ([self isMenuEntryEnabled:@"menu_favourites"]) {
+        [mainMenuItems addObject:menu_Favourites];
     }
     if ([self isMenuEntryEnabled:@"menu_nowplaying"]) {
         [mainMenuItems addObject:menu_NowPlaying];
