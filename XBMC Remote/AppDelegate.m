@@ -3974,7 +3974,7 @@ NSMutableArray *hostRightMenuItems;
                             @"windowparameter"]
                 }, @"parameters",
                 LOCALIZED_STR(@"Favourites"), @"label",
-                @"nocover_filemode", @"defaultThumb",
+                @"nocover_favourites", @"defaultThumb",
                 filemodeRowHeight, @"rowHeight",
                 filemodeThumbWidth, @"thumbWidth",
                 @"YES", @"enableCollectionView",
