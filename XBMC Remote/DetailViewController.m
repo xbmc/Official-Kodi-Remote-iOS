@@ -2335,7 +2335,7 @@ int originYear = 0;
             runtimeyear.hidden = NO;
         }
         if (![stringURL isEqualToString:@""]) {
-            if ([item[@"family"] isEqualToString:@"channelid"]) {
+            if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
                 [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
             }
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
