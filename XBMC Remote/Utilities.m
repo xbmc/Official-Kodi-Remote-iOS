@@ -575,6 +575,9 @@
         text = [value componentsJoinedByString:@" / "];
         text = [text length] == 0 ? empty : text;
     }
+    else if ([value isKindOfClass:[NSNumber class]]) {
+        text = [NSString stringWithFormat:@"%@", value];;
+    }
     else {
         text = [value length] == 0 ? empty : value;
     }
