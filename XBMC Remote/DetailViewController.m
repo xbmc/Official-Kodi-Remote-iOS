@@ -2048,8 +2048,14 @@ int originYear = 0;
     }
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {    
-	cell.backgroundColor = [Utilities getSystemGray6];
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tvshowsView && choosedTab == 0) {
+        // Gray:28 is similar to systemGray6 in Dark Mode
+        cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+    }
+    else {
+        cell.backgroundColor = [Utilities getSystemGray6];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
