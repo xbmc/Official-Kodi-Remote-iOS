@@ -3031,7 +3031,10 @@ NSIndexPath *selected;
 //                if ([item[@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
 //                    return;
 //                }
-                NSString *title = [NSString stringWithFormat:@"%@\n%@", item[@"label"], item[@"genre"]];
+                NSString *title = [NSString stringWithFormat:@"%@", item[@"label"]];
+                if (item[@"genre"] != nil && ![item[@"genre"] isEqualToString:@""]) {
+                    title = [NSString stringWithFormat:@"%@\n%@", title, item[@"genre"]];
+                }
                 id cell = [self getCell:selected];
                 
                 if ([item[@"trailer"] isKindOfClass:[NSString class]]) {

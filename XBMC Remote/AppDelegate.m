@@ -3486,7 +3486,7 @@ NSMutableArray *hostRightMenuItems;
         @{
             @"itemid": @"recordings",
             @"row1": @"label",
-            @"row2": @"title",
+            @"row2": @"plotoutline",
             @"row3": @"plot",
             @"row4": @"runtime",
             @"row5": @"starttime",
