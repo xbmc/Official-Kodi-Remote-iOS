@@ -5211,40 +5211,51 @@ NSIndexPath *selected;
 -(void)buildButtons{
     NSArray *buttons = [self.detailItem mainButtons];
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
-    int i = 0;
+    UIImage *imageOff = nil;
+    UIImage *imageOn = nil;
+    CGRect frame;
     NSInteger count = [buttons count];
-    if (count > MAX_NORMAL_BUTTONS) {
-        count = MAX_NORMAL_BUTTONS;
-    }
-    if (choosedTab > MAX_NORMAL_BUTTONS) {
-        choosedTab = MAX_NORMAL_BUTTONS;
-    }
-    for (i = 0; i < count; i++) {
-        UIImage *imageOff = [UIImage imageNamed:[NSString stringWithFormat:@"%@_off", buttons[i]]];
-        UIImage *imageOn = [UIImage imageNamed:[NSString stringWithFormat:@"%@_on", buttons[i]]];
+    count = MIN(count, MAX_NORMAL_BUTTONS);
+    choosedTab = MIN(choosedTab, MAX_NORMAL_BUTTONS);
+    for (int i = 0; i < count; i++) {
+        imageOff = [UIImage imageNamed:[NSString stringWithFormat:@"%@_off", buttons[i]]];
+        imageOn = [UIImage imageNamed:[NSString stringWithFormat:@"%@_on", buttons[i]]];
         [buttonsIB[i] setBackgroundImage:imageOff forState:UIControlStateNormal];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateSelected];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
         [buttonsIB[i] setEnabled:YES];
     }
     [buttonsIB[choosedTab] setSelected:YES];
-    if (count == 0) {
-        button1.hidden = button2.hidden = button3.hidden = button4.hidden = button5.hidden = YES;
-        CGRect frame = dataList.frame;
-        frame.size.height = self.view.bounds.size.height;
-        dataList.frame = frame;
-    }
-    if ([[self.detailItem mainMethod] count] > MAX_NORMAL_BUTTONS) {
-        UIImage *imageOff = [UIImage imageNamed:@"st_more_off"];
-        UIImage *imageOn = [UIImage imageNamed:@"st_more_on"];
-        [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOff forState:UIControlStateNormal];
-        [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateSelected];
-        [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
-        [buttonsIB[MAX_NORMAL_BUTTONS] setEnabled:YES];
-        selectedMoreTab = [[UIButton alloc] init];
-    }
-    else {
-        button5.hidden = YES;
+    switch (buttons.count) {
+        case 0:
+            // no button, no toolbar
+            button1.hidden = button2.hidden = button3.hidden = button4.hidden = button5.hidden = YES;
+            frame = dataList.frame;
+            frame.size.height = self.view.bounds.size.height;
+            dataList.frame = frame;
+            break;
+        case 1:
+            button2.hidden = button3.hidden = button4.hidden = button5.hidden = YES;
+            break;
+        case 2:
+            button3.hidden = button4.hidden = button5.hidden = YES;
+            break;
+        case 3:
+            button4.hidden = button5.hidden = YES;
+            break;
+        case 4:
+            button5.hidden = YES;
+            break;
+        default:
+            // 5 or more buttons/actions require a "more" button
+            imageOff = [UIImage imageNamed:@"st_more_off"];
+            imageOn = [UIImage imageNamed:@"st_more_on"];
+            [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOff forState:UIControlStateNormal];
+            [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateSelected];
+            [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
+            [buttonsIB[MAX_NORMAL_BUTTONS] setEnabled:YES];
+            selectedMoreTab = [UIButton new];
+            break;
     }
 }
 
