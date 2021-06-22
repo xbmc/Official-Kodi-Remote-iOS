@@ -4469,6 +4469,9 @@ NSIndexPath *selected;
                  return;
              }
          }
+         // If the feature to also show movies sets with only 1 movie is disabled and the current results
+         // are movie sets, enable the postprocessing to ignore movies sets with only 1 movie.
+         BOOL ignoreSingleMovieSets = ![AppDelegate instance].isGroupSingleItemSetsEnabled && [methodToCall isEqualToString:@"VideoLibrary.GetMovieSets"];
          if (error == nil && methodError == nil) {
              callBack = NO;
 //             debugText.text = [NSString stringWithFormat:@"%@\n*DATA: %@", debugText.text, methodResult];
@@ -4560,7 +4563,7 @@ NSIndexPath *selected;
                          
                          id row15obj = [mainFields[@"row15"] isEqualToString:@"addontype"] ? videoLibraryMovies[i][mainFields[@"row15"]] == nil ? @"" : videoLibraryMovies[i][mainFields[@"row15"]] : videoLibraryMovies[i][mainFields[@"row15"]];
                          
-                         [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                         NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                       label, @"label",
                                                       genre, @"genre",
                                                       stringURL, @"thumbnail",
@@ -4585,7 +4588,39 @@ NSIndexPath *selected;
                                                       videoLibraryMovies[i][mainFields[@"row16"]], mainFields[@"row16"],
                                                       videoLibraryMovies[i][mainFields[@"row17"]], mainFields[@"row17"],
                                                       videoLibraryMovies[i][mainFields[@"row18"]], mainFields[@"row18"],
-                                                      nil]];
+                                                      nil];
+                         
+                         // Postprocessing of movie sets lists to ignore 1-movie-sets
+                         if (ignoreSingleMovieSets) {
+                             BOOL isLastItem = i == total-1;
+                             if (i==0) {
+                                 [storeRichResults removeAllObjects];
+                             }
+                             NSString *newMethodToCall = @"VideoLibrary.GetMovieSetDetails";
+                             NSDictionary *newParameter = @{@"setid": @([videoLibraryMovies[i][@"setid"] intValue])};
+                             [[Utilities getJsonRPC]
+                              callMethod:newMethodToCall
+                              withParameters:newParameter
+                              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                                 if (error==nil && methodError==nil) {
+                                     if ([methodResult[@"setdetails"][@"movies"] count]>1) {
+                                         [storeRichResults addObject:newDict];
+                                     }
+                                 }
+                                 if (isLastItem) {
+                                     self.richResults = [storeRichResults mutableCopy];
+                                     if (forceRefresh == YES){
+                                         [((UITableView *)activeLayoutView).pullToRefreshView stopAnimating];
+                                         [activeLayoutView setUserInteractionEnabled:YES];
+                                     }
+                                     [self saveData:mutableParameters];
+                                     [self indexAndDisplayData];
+                                 }
+                             }];
+                         }
+                         else {
+                             [resultStoreArray addObject:newDict];
+                         }
                      }
                  }
                  else if ([videoLibraryMovies isKindOfClass:[NSDictionary class]]) {
@@ -4615,6 +4650,10 @@ NSIndexPath *selected;
                  }
 //                 NSLog(@"END STORE");
 //                 NSLog(@"RICH RESULTS %@", resultStoreArray);
+                 // Leave as all necessary steps are handled in callbacks of the postprocessing for 1-movie-sets
+                 if (ignoreSingleMovieSets) {
+                     return;
+                 }
                  if (!extraSectionCallBool) {
                      storeRichResults = [resultStoreArray mutableCopy];
                  }
