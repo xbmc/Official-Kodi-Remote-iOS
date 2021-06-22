@@ -784,7 +784,7 @@ int h = 0;
             label1.text = NSLocalizedString(@"EPISODES", nil);
             label3.text = NSLocalizedString(@"GENRE", nil);
             label4.text = NSLocalizedString(@"STUDIO", nil);
-            directorLabel.text = [Utilities getStringFromDictionary:item key:@"showtitle" emptyString:@"-"];
+            directorLabel.text = [Utilities getStringFromDictionary:item key:@"episode" emptyString:@"-"];
             [format setDateFormat:@"yyyy-MM-dd"];
             NSDate *date = [format dateFromString:item[@"premiered"]];
             [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
