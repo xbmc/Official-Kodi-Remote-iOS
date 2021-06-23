@@ -538,6 +538,7 @@
     [howtoLabel setText:NSLocalizedString(@"How-to activate the remote app in Kodi", nil)];
     [howtoLaterLabel setText:NSLocalizedString(@"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems", nil)];
     
+    [saveButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
     [startDiscover setTitle:NSLocalizedString(@"Find XBMC", nil) forState:UIControlStateNormal];
     startDiscover.titleLabel.numberOfLines = 1;
     startDiscover.titleLabel.adjustsFontSizeToFitWidth = YES;
