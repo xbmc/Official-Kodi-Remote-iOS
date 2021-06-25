@@ -58,7 +58,7 @@
 
 - (void)setEmbeddedView{
     CGRect frame = TransitionalView.frame;
-    CGFloat newWidth = remoteControlView.frame.size.width - ANCHORRIGHTPEEK;
+    CGFloat newWidth = remoteControlView.frame.size.width - ANCHOR_RIGHT_PEEK;
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton *) self.view viewWithTag:2],
                        [(UIButton *) self.view viewWithTag:3],
