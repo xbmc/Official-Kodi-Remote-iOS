@@ -478,12 +478,9 @@
 }
 
 -(void)setSortButtonImage:(NSString *)sortOrder {
-    if ([sortOrder isEqualToString:@"descending"]) {
-        [button7 setImage:[UIImage imageNamed:@"button_sort_descending_bright"] forState:UIControlStateNormal];
-    }
-    else {
-        [button7 setImage:[UIImage imageNamed:@"button_sort_bright"] forState:UIControlStateNormal];
-    }
+    NSString *imgName = [sortOrder isEqualToString:@"descending"] ? @"st_sort_desc" : @"st_sort_asc";
+    UIImage *image = [utils colorizeImage:[UIImage imageNamed:imgName] withColor:[UIColor lightGrayColor]];
+    [button7 setBackgroundImage:image forState:UIControlStateNormal];
 }
 
 -(void)setButtonViewContent {
@@ -769,6 +766,7 @@
 }
 
 -(void)configureLibraryView{
+    NSString *imgName = nil;
     if (enableCollectionView) {
         [self initCollectionView];
         if (longPressGesture == nil) {
@@ -791,7 +789,7 @@
         self.searchController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         searchBarColor = collectionViewSearchBarColor;
-        [button6 setImage:[UIImage imageNamed:@"button_view_toolbar"] forState:UIControlStateNormal];
+        imgName = @"st_view_grid";
     }
     else {
         [dataList setDelegate:self];
@@ -806,8 +804,11 @@
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         self.searchController.searchBar.tintColor = tableViewSearchBarColor;
         searchBarColor = tableViewSearchBarColor;
-        [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar"] forState:UIControlStateNormal];
+        imgName = @"st_view_list";
     }
+    UIImage *image = [utils colorizeImage:[UIImage imageNamed:imgName] withColor:[UIColor lightGrayColor]];
+    [button6 setBackgroundImage:image forState:UIControlStateNormal];
+    
     if (!isViewDidLoad) {
         [activeLayoutView addSubview:self.searchController.searchBar];
     }
@@ -5249,13 +5250,15 @@ NSIndexPath *selected;
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     UIImage *imageOff = nil;
     UIImage *imageOn = nil;
+    UIImage *img = nil;
     CGRect frame;
     NSInteger count = [buttons count];
     count = MIN(count, MAX_NORMAL_BUTTONS);
     choosedTab = MIN(choosedTab, MAX_NORMAL_BUTTONS);
     for (int i = 0; i < count; i++) {
-        imageOff = [UIImage imageNamed:[NSString stringWithFormat:@"%@_off", buttons[i]]];
-        imageOn = [UIImage imageNamed:[NSString stringWithFormat:@"%@_on", buttons[i]]];
+        img = [UIImage imageNamed:buttons[i]];
+        imageOff = [utils colorizeImage:img withColor:[UIColor lightGrayColor]];
+        imageOn = [utils colorizeImage:img withColor:[UIColor systemBlueColor]];
         [buttonsIB[i] setBackgroundImage:imageOff forState:UIControlStateNormal];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateSelected];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
@@ -5284,8 +5287,9 @@ NSIndexPath *selected;
             break;
         default:
             // 5 or more buttons/actions require a "more" button
-            imageOff = [UIImage imageNamed:@"st_more_off"];
-            imageOn = [UIImage imageNamed:@"st_more_on"];
+            img = [UIImage imageNamed:@"st_more"];
+            imageOff = [utils colorizeImage:img withColor:[UIColor lightGrayColor]];
+            imageOn = [utils colorizeImage:img withColor:[UIColor systemBlueColor]];
             [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOff forState:UIControlStateNormal];
             [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateSelected];
             [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
@@ -5558,10 +5562,8 @@ NSIndexPath *selected;
     iOSYDelta = self.searchController.searchBar.frame.size.height;
     dataList.tableHeaderView = self.searchController.searchBar;
 
-    [button6 setImage:[UIImage imageNamed:@"button_view_list_toolbar"] forState:UIControlStateNormal];
     [button6 addTarget:self action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
 
-    [button7 setImage:[UIImage imageNamed:@"button_sort_bright"] forState:UIControlStateNormal];
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];

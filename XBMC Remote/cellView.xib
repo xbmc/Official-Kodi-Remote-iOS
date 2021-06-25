@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,7 +21,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleAspectFit" fixedFrame="YES" image="icon_home_music_alt" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleAspectFit" fixedFrame="YES" image="icon_menu_music" translatesAutoresizingMaskIntoConstraints="NO" id="4">
                         <rect key="frame" x="18" y="13" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </imageView>
@@ -26,7 +29,7 @@
                         <rect key="frame" x="65" y="6" width="222" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                        <color key="textColor" red="0.29892791969999999" green="0.2986142792" blue="0.2970175639" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" systemColor="systemGrayColor"/>
                         <color key="highlightedColor" red="0.29892791969999999" green="0.2986142792" blue="0.2970175639" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <size key="shadowOffset" width="1" height="1"/>
                     </label>
@@ -34,7 +37,7 @@
                         <rect key="frame" x="65" y="16" width="192" height="34"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="20"/>
-                        <color key="textColor" red="0.70380930659999996" green="0.70064438870000001" blue="0.70158531020000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="highlightedColor" red="0.70380930659999996" green="0.70064438870000001" blue="0.70158531020000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <size key="shadowOffset" width="1" height="1"/>
                     </label>
@@ -44,7 +47,7 @@
                         <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </imageView>
                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000001192092896" tag="5" contentMode="center" fixedFrame="YES" image="table_arrow_right" highlightedImage="table_arrow_right_selected" translatesAutoresizingMaskIntoConstraints="NO" id="12">
-                        <rect key="frame" x="260" y="22" width="10" height="14"/>
+                        <rect key="frame" x="259" y="22" width="10" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" highlightedImage="selected" translatesAutoresizingMaskIntoConstraints="NO" id="13" userLabel="Image View - selected line">
@@ -58,9 +61,12 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="icon_home_music_alt" width="128" height="128"/>
-        <image name="selected" width="128" height="128"/>
-        <image name="table_arrow_right" width="128" height="128"/>
-        <image name="table_arrow_right_selected" width="128" height="128"/>
+        <image name="icon_menu_music" width="30" height="30"/>
+        <image name="selected" width="6" height="56"/>
+        <image name="table_arrow_right" width="10" height="14"/>
+        <image name="table_arrow_right_selected" width="10" height="14"/>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>
