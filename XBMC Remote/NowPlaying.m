@@ -1308,7 +1308,10 @@ int currentItemID;
                            NSString *albumid = [NSString stringWithFormat:@"%@", playlistItems[i][@"albumid"]];
                            NSString *movieid = [NSString stringWithFormat:@"%@", playlistItems[i][@"id"]];
                            NSString *genre = [Utilities getStringFromDictionary:playlistItems[i] key:@"genre" emptyString:@""];
-                           NSString *durationTime = [Utilities convertTimeFromSeconds:playlistItems[i][@"duration"]];
+                           NSString *durationTime = @"";
+                           if ([playlistItems[i][@"duration"] isKindOfClass:[NSNumber class]]) {
+                               durationTime = [Utilities convertTimeFromSeconds:playlistItems[i][@"duration"]];
+                           }
 
                            NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:playlistItems[i] useBanner:NO useIcon:NO];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
@@ -2288,7 +2291,9 @@ int currentItemID;
             if ([sourceIndexPath row] < numObj) {
                 [playlistData removeObjectAtIndex:[sourceIndexPath row]];
             }
-            [playlistData insertObject:objSource atIndex:[destinationIndexPath row]];
+            if ([destinationIndexPath row] <= [playlistData count]) {
+                [playlistData insertObject:objSource atIndex:[destinationIndexPath row]];
+            }
             if (sourceIndexPath.row > storeSelection.row && destinationIndexPath.row <= storeSelection.row) {
                 storeSelection = [NSIndexPath  indexPathForRow:storeSelection.row+1 inSection:storeSelection.section];
             }
