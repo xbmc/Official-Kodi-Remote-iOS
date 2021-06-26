@@ -313,7 +313,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.slidingViewController setAnchorRightPeekAmount: ANCHORRIGHTPEEK];
+    [self.slidingViewController setAnchorRightPeekAmount: ANCHOR_RIGHT_PEEK];
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
 }
 

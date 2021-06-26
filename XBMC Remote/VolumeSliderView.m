@@ -89,7 +89,7 @@
             
             frame_tmp = volumeSlider.frame;
             frame_tmp.origin.x = CGRectGetMaxX(minusButton.frame) + VOLUMEICON_PADDING;
-            frame_tmp.size.width = self.frame.size.width - frame_tmp.origin.x - ANCHORRIGHTPEEK - 3*VOLUMEICON_PADDING - volumeLabel.frame.size.width;
+            frame_tmp.size.width = self.frame.size.width - frame_tmp.origin.x - ANCHOR_RIGHT_PEEK - 3*VOLUMEICON_PADDING - volumeLabel.frame.size.width;
             volumeSlider.frame = frame_tmp;
             
             frame_tmp = plusButton.frame;
