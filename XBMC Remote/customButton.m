@@ -38,7 +38,7 @@
         [self setButtons:tempArray];
     }
     else {
-        buttons = [[NSMutableArray alloc] init];
+        buttons = [NSMutableArray new];
     }
 }
 

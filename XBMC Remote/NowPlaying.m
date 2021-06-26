@@ -341,8 +341,8 @@ int currentItemID;
     }
     nothingIsPlaying = YES;
     ProgressSlider.userInteractionEnabled = NO;
-    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+    [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
     ProgressSlider.hidden = YES;
     currentTime.text = @"";
     thumbnailView.image = nil;
@@ -454,7 +454,7 @@ int currentItemID;
                                             completion:NULL];
                         }
                         else {
-                            Utilities *utils = [[Utilities alloc] init];
+                            Utilities *utils = [Utilities new];
                             UIColor *lighterColor = [utils lighterColorForColor:color];
                             UIColor *slightLighterColor = [utils slightLighterColorForColor:color];
                             UIColor *progressColor = slightLighterColor;
@@ -530,7 +530,7 @@ int currentItemID;
                              }
                          }
                          else {
-                             Utilities *utils = [[Utilities alloc] init];
+                             Utilities *utils = [Utilities new];
                              UIColor *lighterColor = [utils lighterColorForColor:color];
                              self.navigationController.navigationBar.tintColor = lighterColor;
                              [UIView transitionWithView:backgroundImageView
@@ -668,14 +668,14 @@ int currentItemID;
                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                                                             }
                                                                             else {
-                                                                                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [[UIImage alloc] init], @"image", nil];
+                                                                                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [UIImage new], @"image", nil];
                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                                                             }
                                                                             
                                                                         }];
                                          }
                                          else {
-                                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [[UIImage alloc] init], @"image", nil];
+                                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [UIImage new], @"image", nil];
                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                          }
                                      }
@@ -703,7 +703,7 @@ int currentItemID;
                                                      buttonImage = [self resizeToolbarThumb:jewelView.image];
                                                  }
                                                  [self setButtonImageAndStartDemo:buttonImage];
-                                                 Utilities *utils = [[Utilities alloc] init];
+                                                 Utilities *utils = [Utilities new];
                                                  UIColor *effectColor = [utils averageColor:image inverse:NO];
                                                  [self setIOS7backgroundEffect:effectColor barTintColor:effectColor];
                                              }
@@ -718,7 +718,7 @@ int currentItemID;
                                                                                   
                                                                                   UIImage *buttonImage = [sf resizeToolbarThumb:[sf imageWithBorderFromImage:image]];
                                                                                   [sf setButtonImageAndStartDemo:buttonImage];
-                                                                                  Utilities *utils = [[Utilities alloc] init];
+                                                                                  Utilities *utils = [Utilities new];
                                                                                   newColor = [utils averageColor:image inverse:NO];
                                                                                   [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
                                                                               }
@@ -734,7 +734,7 @@ int currentItemID;
                                                               [sf changeImage:jV image:[sf imageWithBorderFromImage:image]];
                                                               UIImage *buttonImage = [sf resizeToolbarThumb:jV.image];
                                                               [sf setButtonImageAndStartDemo:buttonImage];
-                                                              Utilities *utils = [[Utilities alloc] init];
+                                                              Utilities *utils = [Utilities new];
                                                               newColor = [utils averageColor:image inverse:NO];
                                                               [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
                                                           }
@@ -842,8 +842,8 @@ int currentItemID;
                                  }
                                  if (!canseek && ProgressSlider.userInteractionEnabled) {
                                      ProgressSlider.userInteractionEnabled = NO;
-                                     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-                                     [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+                                     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
+                                     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
                                  }
 
                                  NSDictionary *timeGlobal = methodResult[@"totaltime"];
@@ -2732,13 +2732,13 @@ int currentItemID;
     UIButton *buttonItem = nil;
     for (int i = 1; i < 8; i++) {
         buttonItem = (UIButton *)[self.view viewWithTag:i];
-        [buttonItem setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-        [buttonItem setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+        [buttonItem setBackgroundImage:[UIImage new] forState:UIControlStateNormal];
+        [buttonItem setBackgroundImage:[UIImage new] forState:UIControlStateHighlighted];
     }
     
-    [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-    [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
-    [editTableButton setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateSelected];
+    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateNormal];
+    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateHighlighted];
+    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateSelected];
     [editTableButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [editTableButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [editTableButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
@@ -2764,7 +2764,7 @@ int currentItemID;
     [songBitRateImage.layer setMinificationFilter:kCAFilterTrilinear];
     [songSampleRateImage.layer setMinificationFilter:kCAFilterTrilinear];
     [songNumChanImage.layer setMinificationFilter:kCAFilterTrilinear];
-    tempFanartImageView = [[UIImageView alloc] init];
+    tempFanartImageView = [UIImageView new];
     tempFanartImageView.hidden = YES;
     [self.view addSubview:tempFanartImageView];
     [seg_music setTitle:NSLocalizedString(@"Music", nil) forState:UIControlStateNormal];
@@ -2807,11 +2807,11 @@ int currentItemID;
     [ProgressSlider setMaximumTrackTintColor:APP_TINT_COLOR];
     playlistTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     ProgressSlider.userInteractionEnabled = NO;
-    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-    [ProgressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateHighlighted];
+    [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
+    [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
     [scrabbingMessage setText:NSLocalizedString(@"Slide your finger up to adjust the scrubbing rate.", nil)];
     [scrabbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
-    sheetActions = [[NSMutableArray alloc] init];
+    sheetActions = [NSMutableArray new];
     playerID = -1;
     selectedPlayerID = -1;
     lastSelected = -1;
@@ -2823,7 +2823,7 @@ int currentItemID;
     else {
         [self setIpadInterface];
     }
-    playlistData = [[NSMutableArray alloc] init];
+    playlistData = [NSMutableArray new];
 }
 
 - (void)connectionSuccess:(NSNotification *)note {

@@ -338,7 +338,7 @@
         [self.view addSubview:clearView];
         [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
     }
-    self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
+    self.tcpJSONRPCconnection = [tcpJSONRPC new];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     [AppDelegate instance].obj = [GlobalData getInstance];
@@ -408,7 +408,7 @@
 - (void) handleEnterForeground: (NSNotification*) sender{
     if ([AppDelegate instance].serverOnLine) {
         if (self.tcpJSONRPCconnection == nil) {
-            self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
+            self.tcpJSONRPCconnection = [tcpJSONRPC new];
         }
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
     }

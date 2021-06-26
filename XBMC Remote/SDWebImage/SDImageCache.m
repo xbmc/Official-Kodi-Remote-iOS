@@ -50,7 +50,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
         _maxCacheAge = kDefaultCacheMaxCacheAge;
 
         // Init the memory cache
-        _memCache = [[NSCache alloc] init];
+        _memCache = [NSCache new];
         _memCache.name = fullNamespace;
 
         // Init the disk cache

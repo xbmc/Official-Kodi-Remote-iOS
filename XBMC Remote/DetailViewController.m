@@ -149,7 +149,7 @@
 }
 
 -(NSMutableDictionary *)parseEpgData:(NSMutableArray *)epgData {
-    NSMutableDictionary *channelEPG = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *channelEPG = [NSMutableDictionary new];
     channelEPG[@"current"] = NSLocalizedString(@"Not Available", nil);
     channelEPG[@"next"] = NSLocalizedString(@"Not Available", nil);
     channelEPG[@"current_details"] = @"";
@@ -247,8 +247,8 @@
     NSIndexPath *indexPath = parameters[@"indexPath"];
     UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
-    NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSMutableArray *retrievedEPG = [NSMutableArray new];
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
 
     for (id EPGobject in broadcasts) {
@@ -357,7 +357,7 @@
     self.sectionArrayOpen = nil;
     self.extraSectionRichResults = nil;
     
-    self.sections = [[NSMutableDictionary alloc] init];
+    self.sections = [NSMutableDictionary new];
     
     tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     [self setRichResults:tempArray];
@@ -410,7 +410,7 @@
         NSError *attributesRetrievalError = nil;
         NSDictionary *attributes = [fileManager attributesOfItemAtPath:filePath error:&attributesRetrievalError];
         if (attributes) {
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            NSDateFormatter *dateFormatter = [NSDateFormatter new];
             [dateFormatter setDateStyle:NSDateFormatterLongStyle];
             [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
             NSLocale *userLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
@@ -542,7 +542,7 @@
     NSInteger section = [sender.view tag];
     [self.sectionArrayOpen replaceObjectAtIndex:section withObject:@(![self.sectionArrayOpen[section] boolValue])];
     NSInteger countEpisodes = [[self.sections valueForKey:self.sectionArray[section]] count];
-    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+    NSMutableArray *indexPaths = [NSMutableArray new];
     for (NSInteger i = 0; i < countEpisodes; i++) {
         [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:section]];
     }
@@ -598,7 +598,7 @@
     [self AnimTable:(UITableView *)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     int i;
     NSInteger count = [[self.detailItem mainParameters] count];
-    NSMutableArray *mainMenu = [[NSMutableArray alloc] init];
+    NSMutableArray *mainMenu = [NSMutableArray new];
     NSInteger numIcons = [[self.detailItem mainButtons] count];
     for (i = MAX_NORMAL_BUTTONS; i < count; i++) {
         NSString *icon = @"";
@@ -686,7 +686,7 @@
     [activeLayoutView reloadData];
     self.richResults = [storeRichResults mutableCopy];
     NSInteger total = [self.richResults count];
-    NSMutableIndexSet *mutableIndexSet = [[NSMutableIndexSet alloc] init];
+    NSMutableIndexSet *mutableIndexSet = [NSMutableIndexSet new];
     if (!albumView) {
         switch (newWatchMode) {
             case 0:
@@ -1250,7 +1250,7 @@
 
 -(void)initCollectionView{
     if (collectionView == nil) {
-        flowLayout = [[FloatingHeaderFlowLayout alloc] init];
+        flowLayout = [FloatingHeaderFlowLayout new];
         [flowLayout setSearchBarHeight:self.searchController.searchBar.frame.size.height];
         [self setFlowLayoutParams];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
@@ -1829,7 +1829,7 @@ int originYear = 0;
         if (channelGuideView) {
             NSString *dateString = @"";
             NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
-            NSDateFormatter *format = [[NSDateFormatter alloc] init];
+            NSDateFormatter *format = [NSDateFormatter new];
             [format setLocale:locale];
             [format setDateFormat:@"yyyy-MM-dd"];
             NSDate *date = [format dateFromString:sectionName];
@@ -1879,7 +1879,7 @@ int originYear = 0;
             }
         }
         else {
-            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            NSNumberFormatter *formatter = [NSNumberFormatter new];
             [formatter setNumberStyle: NSNumberFormatterSpellOutStyle];
             NSString *formatString = NSLocalizedString(@"Watched %@ times", nil);
             if (watchedListenedStrings[@"watchedTimes"] != nil) {
@@ -1994,11 +1994,11 @@ int originYear = 0;
         }
         else if (channelGuideView) {
             if ([self.sectionArray count] > 0) {
-                NSMutableArray *channelGuideTableIndexTitles = [[NSMutableArray alloc] init];
+                NSMutableArray *channelGuideTableIndexTitles = [NSMutableArray new];
                 for (NSString *label in self.sectionArray) {
                         NSString *dateString = label;
                         NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
-                        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+                        NSDateFormatter *format = [NSDateFormatter new];
                         [format setLocale:locale];
                         [format setDateFormat:@"yyyy-MM-dd"];
                         NSDate *date = [format dateFromString:label];
@@ -2153,7 +2153,7 @@ int originYear = 0;
     }
     else {
         NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
-        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        NSDateFormatter *format = [NSDateFormatter new];
         [format setLocale:locale];
         [format setDateFormat:@"yyyy-MM-dd"];
         NSDate *date = [format dateFromString:item[@"year"]];
@@ -2232,7 +2232,7 @@ int originYear = 0;
             rating.hidden = YES;
             genre.hidden = NO;
             if ([item[@"family"] isEqualToString:@"timerid"]) {
-                NSDateFormatter *localFormatter = [[NSDateFormatter alloc] init];
+                NSDateFormatter *localFormatter = [NSDateFormatter new];
                 [localFormatter setDateFormat:@"ccc dd MMM, HH:mm"];
                 localFormatter.timeZone = [NSTimeZone systemTimeZone];
                 NSDate *timerStartTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
@@ -2318,7 +2318,7 @@ int originYear = 0;
         genre.font = [genre.font fontWithSize:11];
         [genre setMinimumScaleFactor:10.0/11.0];
         UILabel *programStartTime = (UILabel *)[cell viewWithTag:102];
-        NSDateFormatter *test = [[NSDateFormatter alloc] init];
+        NSDateFormatter *test = [NSDateFormatter new];
         [test setDateFormat:@"yyyy-MM-dd HH:mm"];
         test.timeZone = [NSTimeZone systemTimeZone];
         programStartTime.text = [localHourMinuteFormatter stringFromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]]];
@@ -2546,7 +2546,7 @@ int originYear = 0;
         for (int i = 0; i < [self.richResults count];i++)
             totalTime += [self.richResults[i][@"runtime"] intValue];
         
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        NSNumberFormatter *formatter = [NSNumberFormatter new];
         [formatter setMaximumFractionDigits:0];
         [formatter setRoundingMode: NSNumberFormatterRoundHalfEven];
         NSString *numberString = [formatter stringFromNumber:@(totalTime/60)];
@@ -2722,7 +2722,7 @@ int originYear = 0;
             
             NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
             NSString *aired = @"";
-            NSDateFormatter *format = [[NSDateFormatter alloc] init];
+            NSDateFormatter *format = [NSDateFormatter new];
             [format setLocale:usLocale];
             [format setDateFormat:@"yyyy-MM-dd"];
             NSDate *date = [format dateFromString:item[@"year"]];
@@ -3369,7 +3369,7 @@ NSIndexPath *selected;
                                         storeSectionArray = [sectionArray copy];
                                         storeSections = [sections mutableCopy];
                                         self.sectionArray = nil;
-                                        self.sections = [[NSMutableDictionary alloc] init];
+                                        self.sections = [NSMutableDictionary new];
                                         [self indexAndDisplayData];
                                     }];
                 }
@@ -3393,7 +3393,7 @@ NSIndexPath *selected;
                                     storeSectionArray = [sectionArray copy];
                                     storeSections = [sections mutableCopy];
                                     self.sectionArray = nil;
-                                    self.sections = [[NSMutableDictionary alloc] init];
+                                    self.sections = [NSMutableDictionary new];
                                     [self indexAndDisplayData];
                                 }];
             }
@@ -3402,7 +3402,7 @@ NSIndexPath *selected;
 }
 
 -(void)saveCustomButton:(NSDictionary *)button {
-    customButton *arrayButtons = [[customButton alloc] init];
+    customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
     [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
@@ -3587,8 +3587,8 @@ NSIndexPath *selected;
                              storeSectionArray = [sectionArray copy];
                              storeSections = [sections mutableCopy];
                              [self choseParams];
-                             NSMutableDictionary *sectionsTemp = [[NSMutableDictionary alloc] init];
-                             [sectionsTemp setValue:[[NSMutableArray alloc] init] forKey:@""];
+                             NSMutableDictionary *sectionsTemp = [NSMutableDictionary new];
+                             [sectionsTemp setValue:[NSMutableArray new] forKey:@""];
                              for (id key in self.sectionArray) {
                                  NSDictionary *tmp = self.sections[key];
                                  for (NSDictionary *item in tmp) {
@@ -4836,7 +4836,7 @@ NSIndexPath *selected;
                 found = YES;
             }
             if (!found) {
-                [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
+                [self.sections setValue:[NSMutableArray new] forKey:c];
             }
             [self.sections[c] addObject:item];
         }
@@ -4850,7 +4850,7 @@ NSIndexPath *selected;
                 found = YES;
             }
             if (!found) {
-                [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
+                [self.sections setValue:[NSMutableArray new] forKey:c];
             }
             [self.sections[c] addObject:item];
         }
@@ -4858,7 +4858,7 @@ NSIndexPath *selected;
     else if (channelGuideView) {
         addUITableViewIndexSearch = YES;
         BOOL found;
-        NSDateFormatter *localDate = [[NSDateFormatter alloc] init];
+        NSDateFormatter *localDate = [NSDateFormatter new];
         [localDate setDateFormat:@"yyyy-MM-dd"];
         localDate.timeZone = [NSTimeZone systemTimeZone];
         NSDate *nowDate = [NSDate date];
@@ -4867,7 +4867,7 @@ NSIndexPath *selected;
         NSDateComponents *nowDateComponents = [calendar components:components fromDate: nowDate];
         nowDate = [calendar dateFromComponents:nowDateComponents];
         NSUInteger countRow = 0;
-        NSMutableArray *retrievedEPG = [[NSMutableArray alloc] init];
+        NSMutableArray *retrievedEPG = [NSMutableArray new];
         for (NSMutableDictionary *item in self.richResults) {
             NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
             NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"endtime"]]];
@@ -4890,7 +4890,7 @@ NSIndexPath *selected;
                     found = YES;
                 }
                 if (!found) {
-                    [self.sections setValue:[[NSMutableArray alloc] init] forKey:c];
+                    [self.sections setValue:[NSMutableArray new] forKey:c];
                     countRow = 0;
                 }
                 item[@"pvrExtraInfo"] = parameters[@"pvrExtraInfo"];
@@ -4936,13 +4936,13 @@ NSIndexPath *selected;
                     found = YES;
                 }
                 if (!found) {
-                    [self.sections setValue:[[NSMutableArray alloc] init] forKey:key];
+                    [self.sections setValue:[NSMutableArray new] forKey:key];
                 }
                 [self.sections[key] addObject:item];
             }
         }
         else {
-            [self.sections setValue:[[NSMutableArray alloc] init] forKey:@""];
+            [self.sections setValue:[NSMutableArray new] forKey:@""];
             for (NSDictionary *item in copyRichResults) {
                 [self.sections[@""] addObject:item];
             }
@@ -4956,7 +4956,7 @@ NSIndexPath *selected;
         self.sections[UITableViewIndexSearch] = @[];
     }
     self.sectionArray = sectionKeys;
-    self.sectionArrayOpen = [[NSMutableArray alloc] init];
+    self.sectionArrayOpen = [NSMutableArray new];
     BOOL defaultValue = NO;
     if ([self.sectionArray count] == 1) {
         defaultValue = YES;
@@ -5073,8 +5073,8 @@ NSIndexPath *selected;
     if (stackscrollFullscreen) {
         storeSectionArray = [sectionArray copy];
         storeSections = [sections mutableCopy];
-        NSMutableDictionary *sectionsTemp = [[NSMutableDictionary alloc] init];
-        [sectionsTemp setValue:[[NSMutableArray alloc] init] forKey:@""];
+        NSMutableDictionary *sectionsTemp = [NSMutableDictionary new];
+        [sectionsTemp setValue:[NSMutableArray new] forKey:@""];
         for (id key in self.sectionArray) {
             NSDictionary *tmp = self.sections[key];
             for (NSDictionary *item in tmp) {
@@ -5195,7 +5195,7 @@ NSIndexPath *selected;
         [channelListUpdateTimer invalidate];
         channelListUpdateTimer = nil;
         NSDate * now = [NSDate date];
-        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *outputFormatter = [NSDateFormatter new];
         [outputFormatter setDateFormat:@"ss"];
         [self updateChannelListTableCell];
         channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(60.0 - [[outputFormatter stringFromDate:now] floatValue]) target:self selector:@selector(startChannelListUpdateTimer) userInfo:nil repeats:NO];
@@ -5511,11 +5511,11 @@ NSIndexPath *selected;
     sectionHeight = 16;
     dataList.tableFooterView = [UIView new];
     epglockqueue = dispatch_queue_create("com.epg.arrayupdate", DISPATCH_QUEUE_SERIAL);
-    epgDict = [[NSMutableDictionary alloc] init];
-    epgDownloadQueue = [[NSMutableArray alloc] init];
-    xbmcDateFormatter = [[NSDateFormatter alloc] init];
+    epgDict = [NSMutableDictionary new];
+    epgDownloadQueue = [NSMutableArray new];
+    xbmcDateFormatter = [NSDateFormatter new];
     [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
-    localHourMinuteFormatter = [[NSDateFormatter alloc] init];
+    localHourMinuteFormatter = [NSDateFormatter new];
     [localHourMinuteFormatter setDateFormat:@"HH:mm"];
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];
     dataList.tableFooterView = [UIView new];
@@ -5554,10 +5554,10 @@ NSIndexPath *selected;
     [dataList addPullToRefreshWithActionHandler:^{
         [weakSelf startRetrieveDataWithRefresh:YES];
     }];
-//    darkCells = [[NSMutableArray alloc] init];
+//    darkCells = [NSMutableArray new];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     enableBarColor = YES;
-    utils = [[Utilities alloc] init];
+    utils = [Utilities new];
     for (UIView *subView in self.searchController.searchBar.subviews) {
         if ([subView isKindOfClass: [UITextField class]]) {
             [(UITextField *)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
@@ -5694,11 +5694,11 @@ NSIndexPath *selected;
     [infobar addSubview:infolabel];
     [collectionView addSubview:infobar];
     
-    self.sections = [[NSMutableDictionary alloc] init];
-    self.richResults = [[NSMutableArray alloc] init];
-    self.filteredListContent = [[NSMutableArray alloc] init];
-    storeRichResults = [[NSMutableArray alloc] init];
-    self.extraSectionRichResults = [[NSMutableArray alloc] init];
+    self.sections = [NSMutableDictionary new];
+    self.richResults = [NSMutableArray new];
+    self.filteredListContent = [NSMutableArray new];
+    storeRichResults = [NSMutableArray new];
+    self.extraSectionRichResults = [NSMutableArray new];
     
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     
@@ -5958,7 +5958,7 @@ NSIndexPath *selected;
                                 storeSectionArray = [sectionArray copy];
                                 storeSections = [sections mutableCopy];
                                 self.sectionArray = nil;
-                                self.sections = [[NSMutableDictionary alloc] init];
+                                self.sections = [NSMutableDictionary new];
                                 [self indexAndDisplayData];
                             }];
         }            break;

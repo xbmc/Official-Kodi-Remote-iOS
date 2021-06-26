@@ -226,7 +226,7 @@
 }
 
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode{
-    Utilities *utils = [[Utilities alloc] init];
+    Utilities *utils = [Utilities new];
     UIColor *bgcolor = [UIColor clearColor];
     UIColor *imgcolor = nil;
     UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
@@ -511,7 +511,7 @@
 }
 
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array {
-    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *mutableDictionary = [NSMutableDictionary new];
     NSInteger numelement = [array count];
     for (int i = 0; i < numelement-1; i += 2) {
         mutableDictionary[array[i+1]] = array[i];
@@ -520,7 +520,7 @@
 }
 
 + (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array {
-    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *mutableDictionary = [NSMutableDictionary new];
     NSInteger numelement = [array count];
     for (int i = 0; i < numelement-1; i += 2) {
         mutableDictionary[array[i+1]] = array[i];

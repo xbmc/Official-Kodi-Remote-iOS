@@ -60,8 +60,8 @@
             bottomPadding = window.safeAreaInsets.bottom;
         }
         
-		viewControllersStack = [[NSMutableArray alloc] init];
-        stackViewsFrames = [[NSMutableArray alloc] init];
+		viewControllersStack = [NSMutableArray new];
+        stackViewsFrames = [NSMutableArray new];
 		borderViews = [[UIView alloc] initWithFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION - 2, -2, 2, self.view.frame.size.height + 2)];
 		[borderViews setBackgroundColor:[UIColor clearColor]];
         borderViews.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -89,7 +89,7 @@
 		viewXPosition = 0;
 		lastTouchPoint = -1;
 		
-		dragDirection = [[NSString alloc] init];
+		dragDirection = [NSString new];
 		dragDirection = @"";
 		
 		viewAtLeft2 = nil;

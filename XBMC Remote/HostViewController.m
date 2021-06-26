@@ -491,8 +491,8 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    services = [[NSMutableArray alloc] init];
-    netServiceBrowser = [[NSNetServiceBrowser alloc] init];
+    services = [NSMutableArray new];
+    netServiceBrowser = [NSNetServiceBrowser new];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{

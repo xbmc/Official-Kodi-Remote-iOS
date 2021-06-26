@@ -77,7 +77,7 @@
             cellHeight = 44;
             [_tableView setFrame:CGRectMake(self.view.frame.size.width, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height)];
             self.navigationItem.title = self.detailItem[@"label"];
-            settingOptions = [[NSMutableArray alloc] init];
+            settingOptions = [NSMutableArray new];
             [self retrieveXBMCData: @"Addons.GetAddons"
                         parameters: [NSDictionary dictionaryWithObjectsAndKeys:
                                      self.detailItem[@"addontype"], @"type",
@@ -288,7 +288,7 @@
 #pragma mark - custom button
 
 -(void)saveCustomButton:(NSDictionary *)button {
-    customButton *arrayButtons = [[customButton alloc] init];
+    customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
     [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];

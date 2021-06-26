@@ -87,7 +87,7 @@
 }
 
 - (void) animateWithURLs:(NSArray *)urls transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
-    self.imagesArray      = [[NSMutableArray alloc] init];
+    self.imagesArray      = [NSMutableArray new];
     self.timeTransition   = duration;
     self.isLoop           = shouldLoop;
     self.isLandscape      = inLandscape;

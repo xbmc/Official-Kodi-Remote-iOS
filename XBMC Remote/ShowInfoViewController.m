@@ -485,7 +485,7 @@ int count = 0;
             return;
         }
         storeChannelid = itemid;
-        NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
         NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", self.detailItem[@"starttime"]]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", self.detailItem[@"endtime"]]];
@@ -718,7 +718,7 @@ int h = 0;
         CGRect frame;
         placeHolderImage = @"coverbox_back_tvshows";
         NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
-        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        NSDateFormatter *format = [NSDateFormatter new];
         [format setLocale:locale];
         if ([item[@"family"] isEqualToString:@"tvshowid"]) {
             GlobalData *obj = [GlobalData getInstance];
@@ -994,9 +994,9 @@ int h = 0;
             item[@"thumbnail"] = item[@"pvrExtraInfo"][@"channel_icon"];
         }
         placeHolderImage = @"nocover_channels";
-        NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
-        NSDateFormatter *localFormatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *localFormatter = [NSDateFormatter new];
         [localFormatter setDateFormat:@"ccc dd MMM, HH:mm"];
         localFormatter.timeZone = [NSTimeZone systemTimeZone];
         NSDate *startTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
@@ -1062,7 +1062,7 @@ int h = 0;
     }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image != nil) {
-            Utilities *utils = [[Utilities alloc] init];
+            Utilities *utils = [Utilities new];
             UIColor *averageColor = [utils averageColor:image inverse:NO];
             foundTintColor = TINT_COLOR;
             CGFloat red, green, blue, alpha;
@@ -1090,7 +1090,7 @@ int h = 0;
                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                      if (error == nil) {
                          if (image != nil) {
-                             Utilities *utils = [[Utilities alloc] init];
+                             Utilities *utils = [Utilities new];
                              newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                              [sf setIOS7barTintColor:newColor];
                              foundTintColor = newColor;
@@ -1107,7 +1107,7 @@ int h = 0;
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                      if (image != nil) {
                                          if (error == nil) {
-                                             Utilities *utils = [[Utilities alloc] init];
+                                             Utilities *utils = [Utilities new];
                                              newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                                              [sf setIOS7barTintColor:newColor];
                                              foundTintColor = newColor;

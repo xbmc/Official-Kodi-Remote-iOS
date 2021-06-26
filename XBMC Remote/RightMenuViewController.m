@@ -327,7 +327,7 @@
 }
 
 -(void)deleteCustomButton:(NSUInteger)idx {
-    customButton *arrayButtons = [[customButton alloc] init];
+    customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons removeObjectAtIndex:idx];
     [arrayButtons saveData];
     if ([arrayButtons.buttons count] == 0) {
@@ -399,7 +399,7 @@
     [tableData removeObjectAtIndex:sourceIndexPath.row];
     [tableData insertObject:objectMove atIndex:destinationIndexPath.row];
     
-    customButton *arrayButtons = [[customButton alloc] init];
+    customButton *arrayButtons = [customButton new];
     objectMove = arrayButtons.buttons[(sourceIndexPath.row - editableRowStartAt)];
     [arrayButtons.buttons removeObjectAtIndex:(sourceIndexPath.row - editableRowStartAt)];
     [arrayButtons.buttons insertObject:objectMove atIndex:(destinationIndexPath.row - editableRowStartAt)];
@@ -438,7 +438,7 @@
             UILabel *title = (UILabel*) [cell viewWithTag:3];
             [title setText:[[alertView textFields][0] text]];
             
-            customButton *arrayButtons = [[customButton alloc] init];
+            customButton *arrayButtons = [customButton new];
             if ([arrayButtons.buttons[indexPath.row - editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]) {
                 arrayButtons.buttons[indexPath.row - editableRowStartAt][@"label"] = [[alertView textFields][0] text];
                 [arrayButtons saveData];
@@ -800,7 +800,7 @@
     }
     editableRowStartAt = [tableData count];
     if ([key isEqualToString:@"online"] && menuItems.family == FamilyRemote) {
-        customButton *arrayButtons = [[customButton alloc] init];
+        customButton *arrayButtons = [customButton new];
         if ([arrayButtons.buttons count] == 0) {
             [editTableButton setEnabled:NO];
             [arrayButtons.buttons addObject:infoCustomButton];

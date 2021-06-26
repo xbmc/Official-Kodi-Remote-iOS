@@ -379,7 +379,7 @@ static char UIScrollViewPullToRefreshView;
 
 - (NSDateFormatter *)dateFormatter {
     if (!dateFormatter) {
-        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter = [NSDateFormatter new];
 		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 		dateFormatter.locale = [NSLocale currentLocale];

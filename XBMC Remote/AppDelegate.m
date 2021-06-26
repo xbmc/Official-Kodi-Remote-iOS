@@ -362,7 +362,7 @@ NSMutableArray *hostRightMenuItems;
             [self setArrayServerList:tempArray];
         }
         else {
-            arrayServerList = [[NSMutableArray alloc] init];
+            arrayServerList = [NSMutableArray new];
         }
         NSString *fullNamespace = @"LibraryCache";
         paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);

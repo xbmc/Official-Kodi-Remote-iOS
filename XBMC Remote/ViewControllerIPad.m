@@ -366,7 +366,7 @@
     int deltaY = 22;
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
-    self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
+    self.tcpJSONRPCconnection = [tcpJSONRPC new];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     firstRun = YES;
@@ -425,7 +425,7 @@
 	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, 0, rootView.frame.size.width - leftMenuView.frame.size.width, rootView.frame.size.height - TOOLBAR_HEIGHT)];
 	rightSlideView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
     
-	stackScrollViewController = [[StackScrollViewController alloc] init];	
+	stackScrollViewController = [StackScrollViewController new];
 	[stackScrollViewController.view setFrame:CGRectMake(0, 0, rightSlideView.frame.size.width, rightSlideView.frame.size.height)];
 	[stackScrollViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight];
 	[stackScrollViewController viewWillAppear:NO];
@@ -661,7 +661,7 @@
 - (void) handleEnterForeground: (NSNotification*) sender{
     if ([AppDelegate instance].serverOnLine) {
         if (self.tcpJSONRPCconnection == nil) {
-            self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
+            self.tcpJSONRPCconnection = [tcpJSONRPC new];
         }
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
     }

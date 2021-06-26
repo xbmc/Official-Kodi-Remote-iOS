@@ -25,7 +25,7 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        Utilities *utils = [[Utilities alloc] init];
+        Utilities *utils = [Utilities new];
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:self options:nil];
 		self = nib[0];
         UIImage *img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
@@ -216,7 +216,7 @@
 }
 
 -(void)handleMute:(BOOL)mute {
-    Utilities *utils = [[Utilities alloc] init];
+    Utilities *utils = [Utilities new];
     isMuted = mute;
     UIColor *buttonColor = isMuted ? [UIColor systemRedColor] : muteIconColor;
     UIColor *sliderColor = isMuted ? [UIColor darkGrayColor] : SLIDER_DEFAULT_COLOR;
