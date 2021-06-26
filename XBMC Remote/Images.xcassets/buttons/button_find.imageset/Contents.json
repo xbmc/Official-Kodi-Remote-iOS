@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "segment_left_up.png",
+      "filename" : "button_find.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "segment_left_up@2x.png",
+      "filename" : "button_find@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
