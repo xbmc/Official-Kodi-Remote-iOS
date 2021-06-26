@@ -375,10 +375,6 @@ int currentItemID;
     [PartyModeButton setSelected:NO];
     repeatButton.hidden = YES;
     shuffleButton.hidden = YES;
-    albumDetailsButton.hidden = YES;
-    albumTracksButton.hidden = YES;
-    artistDetailsButton.hidden = YES;
-    artistAlbumsButton.hidden = YES;
     musicPartyMode = 0;
     [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
@@ -2821,10 +2817,6 @@ int currentItemID;
     lastSelected = -1;
     storedItemID = -1;
     storeSelection = nil;
-    albumDetailsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    albumTracksButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    artistDetailsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    artistAlbumsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self setIphoneInterface];
     }

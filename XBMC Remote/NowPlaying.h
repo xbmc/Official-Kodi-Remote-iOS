@@ -83,11 +83,7 @@
     BOOL fromItself;
     IBOutlet UIButton *shuffleButton;
     IBOutlet UIButton *repeatButton;
-    IBOutlet UIButton *albumDetailsButton;
-    IBOutlet UIButton *albumTracksButton;
-    IBOutlet UIButton *artistDetailsButton;
-    IBOutlet UIButton *artistAlbumsButton;
-        BOOL shuffled;
+    BOOL shuffled;
     NSString *repeatStatus;
     BOOL updateProgressBar;
     int globalSeconds;
