@@ -178,7 +178,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     mainMenu *item = self.mainMenu[indexPath.row];
-    if (![AppDelegate instance].serverOnLine && item.family != 4) {
+    if (![AppDelegate instance].serverOnLine && item.family != FamilyServer) {
         [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;
     }
@@ -189,37 +189,39 @@
     UIViewController *object;
     BOOL setBarTintColor = NO;
     BOOL hideBottonLine = NO;
-    if (item.family == 2) {
-        if (self.nowPlaying == nil) {
-            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-        }
-        self.nowPlaying.detailItem = item;
-        object = self.nowPlaying;
-    }
-    else if (item.family == 3) {
-        if (self.remoteController == nil) {
-            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
-        }
-        else {
-            [self.remoteController resetRemote];
-        }
-        self.remoteController.detailItem = item;
-        object = self.remoteController;
-    }
-    else if (item.family == 4) {
-        if (self.hostController == nil) {
-            self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-        }
-        object = self.hostController;
-        setBarTintColor = YES;
-        hideBottonLine = YES;
-    }
-    else if (item.family == 1) {
-        self.detailViewController = nil;
-        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-        self.detailViewController.detailItem = item;
-        object = self.detailViewController;
-        hideBottonLine = YES;
+    switch (item.family) {
+        case FamilyNowPlaying:
+            if (self.nowPlaying == nil) {
+                self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+            }
+            self.nowPlaying.detailItem = item;
+            object = self.nowPlaying;
+            break;
+        case FamilyRemote:
+            if (self.remoteController == nil) {
+                self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+            }
+            else {
+                [self.remoteController resetRemote];
+            }
+            self.remoteController.detailItem = item;
+            object = self.remoteController;
+            break;
+        case FamilyServer:
+            if (self.hostController == nil) {
+                self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
+            }
+            object = self.hostController;
+            setBarTintColor = YES;
+            hideBottonLine = YES;
+            break;
+        case FamilyDetailView:
+            self.detailViewController = nil;
+            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            self.detailViewController.detailItem = item;
+            object = self.detailViewController;
+            hideBottonLine = YES;
+            break;
     }
     navController = nil;
     navController = [[CustomNavigationController alloc] initWithRootViewController:object];

@@ -650,11 +650,11 @@
         bottomPadding = window.safeAreaInsets.bottom;
     }
     CGFloat footerHeight = 0;
-    if (menuItems.family == 3) {
+    if (menuItems.family == FamilyRemote) {
         footerHeight = 44 + bottomPadding;
         [self.view addSubview:[self createTableFooterView: footerHeight]];
     }
-    if (menuItems.family == 2 || menuItems.family == 3) {
+    if (menuItems.family == FamilyNowPlaying || menuItems.family == FamilyRemote) {
         volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         [volumeSliderView startTimer];
     }
@@ -799,7 +799,7 @@
                             nil]];
     }
     editableRowStartAt = [tableData count];
-    if ([key isEqualToString:@"online"] && menuItems.family == 3) {
+    if ([key isEqualToString:@"online"] && menuItems.family == FamilyRemote) {
         customButton *arrayButtons = [[customButton alloc] init];
         if ([arrayButtons.buttons count] == 0) {
             [editTableButton setEnabled:NO];
