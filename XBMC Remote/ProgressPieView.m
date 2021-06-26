@@ -60,7 +60,6 @@
     [self setNeedsLayout];
     CGFloat angle = (progresspercentage * 2 * M_PI) / 100;
     [progressShape removeFromSuperlayer];
-    progressShape = nil;
     progressShape = [self createPieSliceForRadian:angle];
     [self.layer addSublayer:progressShape];
 }

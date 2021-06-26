@@ -223,8 +223,7 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
-    cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"cellViewIPad" owner:self options:NULL];
     if (cell == nil) {
         cell = resultMenuCell;

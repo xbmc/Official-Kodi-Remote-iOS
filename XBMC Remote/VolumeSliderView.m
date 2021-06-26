@@ -272,7 +272,6 @@ NSInteger action;
 -(void)changeVolume{
     if (self.holdVolumeTimer.timeInterval == 0.5) {
         [self.holdVolumeTimer invalidate];
-        self.holdVolumeTimer = nil;
         self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];        
     }
     if (action == 1 ) { // Volume Raise

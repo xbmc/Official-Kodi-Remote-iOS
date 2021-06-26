@@ -80,8 +80,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = nil;
-    cell = [tableView dequeueReusableCellWithIdentifier:@"serverListCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"serverListCell"];
     [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:NULL];
     if (cell == nil) {
         cell = serverListCell;

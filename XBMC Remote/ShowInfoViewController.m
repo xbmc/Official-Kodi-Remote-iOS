@@ -1716,7 +1716,6 @@ int h = 0;
 -(void) elabKenBurns:(UIImage *)image{
     [self.kenView stopAnimation];
     [self.kenView removeFromSuperview];
-    self.kenView = nil;
     self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
     self.kenView.autoresizingMask = fanartView.autoresizingMask;
     self.kenView.contentMode = fanartView.contentMode;

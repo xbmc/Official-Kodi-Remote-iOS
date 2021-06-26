@@ -809,12 +809,10 @@ NSInteger buttonAction;
         
         if (self.holdVolumeTimer.timeInterval == 1.5) {
             [self.holdVolumeTimer invalidate];
-            self.holdVolumeTimer = nil;
             self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
         }
         else {
             [self.holdVolumeTimer invalidate];
-            self.holdVolumeTimer = nil;
             self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendAction) userInfo:nil repeats:YES]; 
         }
     }

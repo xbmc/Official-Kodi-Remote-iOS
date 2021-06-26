@@ -111,8 +111,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = nil;
-    cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:NULL];
     mainMenu *item = self.mainMenu[indexPath.row];
     NSString *iconName = item.icon;
@@ -216,14 +215,12 @@
             hideBottonLine = YES;
             break;
         case FamilyDetailView:
-            self.detailViewController = nil;
             self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             self.detailViewController.detailItem = item;
             object = self.detailViewController;
             hideBottonLine = YES;
             break;
     }
-    navController = nil;
     navController = [[CustomNavigationController alloc] initWithRootViewController:object];
     UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];

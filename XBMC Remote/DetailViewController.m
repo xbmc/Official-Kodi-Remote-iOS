@@ -115,11 +115,9 @@
     NSIndexPath *indexPath = parameters[@"indexPath"];
     UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
-    NSMutableDictionary *channelEPG = nil;
     if ([channelid intValue] > 0) {
-        NSMutableArray *retrievedEPG = nil;
-        retrievedEPG = [self loadEPGFromMemory:channelid];
-        channelEPG = [self parseEpgData:retrievedEPG];
+        NSMutableArray *retrievedEPG = [self loadEPGFromMemory:channelid];
+        NSMutableDictionary *channelEPG = [self parseEpgData:retrievedEPG];
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
                                    channelEPG, @"channelEPG",
                                    indexPath, @"indexPath",
@@ -3485,8 +3483,7 @@ NSIndexPath *selected;
         topNavigationLabel.text = [self.detailItem mainLabel];
         self.navigationItem.title = [self.detailItem mainLabel];
         if (![self.detailItem disableNowPlaying]) {
-            UIBarButtonItem *nowPlayingButtonItem = nil;
-            nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:LOCALIZED_STR(@"Now Playing") style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
+            UIBarButtonItem *nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:LOCALIZED_STR(@"Now Playing") style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
             [nowPlayingButtonItem setTitleTextAttributes:
              [NSDictionary dictionaryWithObjectsAndKeys:
               [UIFont systemFontOfSize:12], NSFontAttributeName,
@@ -4118,10 +4115,8 @@ NSIndexPath *selected;
 }
 
 -(void)showInfo:(NSIndexPath *)indexPath menuItem:(mainMenu *)menuItem item:(NSDictionary *)item tabToShow:(int)tabToShow{
-    NSDictionary *methods = nil;
-    NSDictionary *parameters = nil;
-    methods = [Utilities indexKeyedDictionaryFromArray:[menuItem mainMethod][tabToShow]];
-    parameters = [Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][tabToShow]];
+    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem mainMethod][tabToShow]];
+    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][tabToShow]];
     
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
@@ -4203,8 +4198,7 @@ NSIndexPath *selected;
 
 -(void) retrieveExtraInfoData:(NSString *)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath *)indexPath item:(NSDictionary *)item menuItem:(mainMenu *)menuItem tabToShow:(int)tabToShow{
     NSString *itemid = @"";
-    NSDictionary *mainFields = nil;
-    mainFields = [menuItem mainFields][tabToShow];
+    NSDictionary *mainFields = [menuItem mainFields][tabToShow];
     if (((NSNull *)mainFields[@"row6"] != [NSNull null])) {
         itemid = mainFields[@"row6"];
     }
@@ -5099,7 +5093,6 @@ NSIndexPath *selected;
 -(void)startChannelListUpdateTimer {
     [self updateChannelListTableCell];
     [channelListUpdateTimer invalidate];
-    channelListUpdateTimer = nil;
     channelListUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(updateChannelListTableCell) userInfo:nil repeats:YES];
 }
 
