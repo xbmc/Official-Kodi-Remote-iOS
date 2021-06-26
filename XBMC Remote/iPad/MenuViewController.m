@@ -296,7 +296,7 @@
         return;
     }
     mainMenu *item = mainMenuItems[indexPath.row];
-    if (item.family == 2) {
+    if (item.family == FamilyNowPlaying) {
         [[AppDelegate instance].windowController.stackScrollViewController offView];
     }
     else {
@@ -307,12 +307,12 @@
             return;
         }
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil]; 
-        if (item.family == 1) {
+        if (item.family == FamilyDetailView) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:YES];
             [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
         }   
-        else if (item.family == 3) {
+        else if (item.family == FamilyRemote) {
             RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil]; 
             [remoteController.view setFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height)];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:remoteController invokeByController:self isStackStartView:YES];

@@ -462,7 +462,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Music.mainLabel = LOCALIZED_STR(@"Music");
     menu_Music.upperLabel = LOCALIZED_STR(@"Listen to");
     menu_Music.icon = @"icon_menu_music";
-    menu_Music.family = 1;
+    menu_Music.family = FamilyDetailView;
     menu_Music.enableSection = YES;
     menu_Music.mainButtons = @[
         @"st_album",
@@ -1937,7 +1937,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Movies.mainLabel = LOCALIZED_STR(@"Movies");
     menu_Movies.upperLabel = LOCALIZED_STR(@"Watch your");
     menu_Movies.icon = @"icon_menu_movies";
-    menu_Movies.family = 1;
+    menu_Movies.family = FamilyDetailView;
     menu_Movies.enableSection = YES;
     menu_Movies.noConvertTime = YES;
     menu_Movies.mainButtons = @[
@@ -2762,7 +2762,7 @@ NSMutableArray *hostRightMenuItems;
     menu_TVShows.mainLabel = LOCALIZED_STR(@"TV Shows");
     menu_TVShows.upperLabel = LOCALIZED_STR(@"Watch your");
     menu_TVShows.icon = @"icon_menu_tvshows";
-    menu_TVShows.family = 1;
+    menu_TVShows.family = FamilyDetailView;
     menu_TVShows.enableSection = YES;
     menu_TVShows.mainButtons = @[
         @"st_tv",
@@ -3305,7 +3305,7 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.mainLabel = LOCALIZED_STR(@"Live TV");
     menu_LiveTV.upperLabel = LOCALIZED_STR(@"Watch");
     menu_LiveTV.icon = @"icon_menu_livetv";
-    menu_LiveTV.family = 1;
+    menu_LiveTV.family = FamilyDetailView;
     menu_LiveTV.enableSection = YES;
     menu_LiveTV.noConvertTime = YES;
     menu_LiveTV.mainButtons = @[
@@ -3794,7 +3794,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Pictures.mainLabel = LOCALIZED_STR(@"Pictures");
     menu_Pictures.upperLabel = LOCALIZED_STR(@"Browse your");
     menu_Pictures.icon = @"icon_menu_pictures";
-    menu_Pictures.family = 1;
+    menu_Pictures.family = FamilyDetailView;
     menu_Pictures.enableSection = YES;
     menu_Pictures.mainButtons = @[
         @"st_filemode",
@@ -3956,7 +3956,7 @@ NSMutableArray *hostRightMenuItems;
         menu_Favourites.mainLabel = LOCALIZED_STR(@"Favourites");
         menu_Favourites.upperLabel = LOCALIZED_STR(@"Choose your");
         menu_Favourites.icon = @"icon_menu_favourites";
-        menu_Favourites.family = 1;
+        menu_Favourites.family = FamilyDetailView;
         menu_Favourites.enableSection = YES;
         menu_Favourites.mainButtons = @[@"st_filemode"];
         
@@ -4008,19 +4008,19 @@ NSMutableArray *hostRightMenuItems;
     menu_NowPlaying.mainLabel = LOCALIZED_STR(@"Now Playing");
     menu_NowPlaying.upperLabel = LOCALIZED_STR(@"See what's");
     menu_NowPlaying.icon = @"icon_menu_playing";
-    menu_NowPlaying.family = 2;
+    menu_NowPlaying.family = FamilyNowPlaying;
     
 #pragma mark - Remote Control
     menu_Remote.mainLabel = LOCALIZED_STR(@"Remote Control");
     menu_Remote.upperLabel = LOCALIZED_STR(@"Use as");
     menu_Remote.icon = @"icon_menu_remote";
-    menu_Remote.family = 3;
+    menu_Remote.family = FamilyRemote;
     
 #pragma mark - XBMC Server Management
     menu_Server.mainLabel = LOCALIZED_STR(@"XBMC Server");
     menu_Server.upperLabel = @"";
     menu_Server.icon = @"";
-    menu_Server.family = 4;
+    menu_Server.family = FamilyServer;
     
 #pragma mark - Playlist Artist Albums
     playlistArtistAlbums = [menu_Music copy];
@@ -4044,7 +4044,7 @@ NSMutableArray *hostRightMenuItems;
     
     xbmcSettings.mainLabel = LOCALIZED_STR(@"XBMC Settings");
     xbmcSettings.icon = @"icon_menu_settings";
-    xbmcSettings.family = 1;
+    xbmcSettings.family = FamilyDetailView;
     xbmcSettings.enableSection = YES;
     xbmcSettings.rowHeight = 65;
     xbmcSettings.thumbWidth = 44;
@@ -4379,7 +4379,7 @@ NSMutableArray *hostRightMenuItems;
     rightMenuItems = [NSMutableArray arrayWithCapacity:1];
     __auto_type rightItem1 = [mainMenu new];
     rightItem1.mainLabel = LOCALIZED_STR(@"XBMC Server");
-    rightItem1.family = 1;
+    rightItem1.family = FamilyDetailView;
     rightItem1.enableSection = YES;
     rightItem1.mainMethod = @[
         @{
@@ -4538,7 +4538,7 @@ NSMutableArray *hostRightMenuItems;
     nowPlayingMenuItems = [NSMutableArray arrayWithCapacity:1];
     __auto_type nowPlayingItem1 = [mainMenu new];
     nowPlayingItem1.mainLabel = @"VolumeControl";
-    nowPlayingItem1.family = 2;
+    nowPlayingItem1.family = FamilyNowPlaying;
     nowPlayingItem1.mainMethod = @[
         @{
             @"offline": @[
@@ -4578,7 +4578,7 @@ NSMutableArray *hostRightMenuItems;
     remoteControlMenuItems = [NSMutableArray arrayWithCapacity:1];
     __auto_type remoteControlItem1 = [mainMenu new];
     remoteControlItem1.mainLabel = @"RemoteControl";
-    remoteControlItem1.family = 3;
+    remoteControlItem1.family = FamilyRemote;
     remoteControlItem1.enableSection = YES;
 
     remoteControlItem1.mainMethod = @[

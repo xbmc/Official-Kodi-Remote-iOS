@@ -8,11 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    FamilyDetailView,
+    FamilyNowPlaying,
+    FamilyRemote,
+    FamilyServer
+} MenuItemFamilyType;
+
 @interface mainMenu : NSObject
 
 @property (nonatomic, copy) NSString *mainLabel;
 @property (nonatomic, copy) NSString *upperLabel;
-@property int family;
+@property MenuItemFamilyType family;
 @property BOOL enableSection;
 @property (nonatomic, copy) NSString *icon;
 @property (nonatomic, copy) NSArray *mainMethod;
