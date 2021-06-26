@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -36,19 +38,19 @@
                     <color key="barTintColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </toolbar>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="10">
-                    <rect key="frame" x="11" y="211" width="72" height="28"/>
+                    <rect key="frame" x="10" y="211" width="72" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="Add Host" backgroundImage="button_edit">
+                    <state key="normal" title="Add Host">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
-                    <state key="selected" backgroundImage="button_edit">
+                    <state key="selected">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
-                    <state key="highlighted" backgroundImage="button_edit_highlight">
+                    <state key="highlighted">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -59,14 +61,14 @@
                     <rect key="frame" x="237" y="211" width="72" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                    <state key="normal" title="Edit" backgroundImage="button_edit">
+                    <state key="normal" title="Edit">
                         <color key="titleColor" red="0.94702327251434326" green="0.94702327251434326" blue="0.94702327251434326" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
-                    <state key="selected" title="Done" backgroundImage="button_edit_down">
+                    <state key="selected" title="Done">
                         <color key="titleColor" red="0.94702327251434326" green="0.94702327251434326" blue="0.94702327251434326" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
-                    <state key="highlighted" backgroundImage="button_edit_down">
+                    <state key="highlighted">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -116,6 +118,7 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-19" y="40"/>
         </view>
         <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="20">
             <connections>
@@ -124,11 +127,8 @@
         </pongPressGestureRecognizer>
     </objects>
     <resources>
-        <image name="button_edit" width="128" height="128"/>
-        <image name="button_edit_down" width="128" height="128"/>
-        <image name="button_edit_highlight" width="128" height="128"/>
-        <image name="shiny_black_back" width="128" height="128"/>
-        <image name="tableDown" width="128" height="128"/>
-        <image name="tableUp" width="128" height="128"/>
+        <image name="shiny_black_back" width="240" height="408"/>
+        <image name="tableDown" width="480" height="8"/>
+        <image name="tableUp" width="480" height="8"/>
     </resources>
 </document>
