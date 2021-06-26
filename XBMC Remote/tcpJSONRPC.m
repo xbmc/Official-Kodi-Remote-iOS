@@ -152,7 +152,7 @@ NSOutputStream	*outStream;
 
 
 -(void)noConnectionNotifications{
-    NSString *infoText = NSLocalizedString(@"No connection", nil);
+    NSString *infoText = LOCALIZED_STR(@"No connection");
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             @(NO), @"status",
                             infoText, @"message",

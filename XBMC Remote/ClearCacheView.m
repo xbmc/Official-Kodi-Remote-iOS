@@ -9,6 +9,7 @@
 #import "ClearCacheView.h"
 #import "PosterLabel.h"
 #import "Utilities.h"
+#import "AppDelegate.h"
 
 @implementation ClearCacheView
 
@@ -30,7 +31,7 @@
           UIViewAutoresizingFlexibleRightMargin |
           UIViewAutoresizingFlexibleTopMargin |
           UIViewAutoresizingFlexibleBottomMargin];
-        [label setText:NSLocalizedString(@"Clearing app disk cache...\n\nPlease wait, since this may take a while", nil)];
+        [label setText:LOCALIZED_STR(@"Clearing app disk cache...\n\nPlease wait, since this may take a while")];
         [label setShadowColor:[UIColor blackColor]];
         [label setShadowOffset:CGSizeMake(1, 1)];
         [label setTextAlignment:NSTextAlignmentCenter];

@@ -65,23 +65,23 @@ int count = 0;
         viewTitle.textColor = [UIColor whiteColor];
         viewTitle.text = item[@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
-        sheetActions = [[NSMutableArray alloc] initWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil];
+        sheetActions = [[NSMutableArray alloc] initWithObjects:LOCALIZED_STR(@"Queue after current"), LOCALIZED_STR(@"Queue"), LOCALIZED_STR(@"Play"), nil];
         NSDictionary *resumePointDict = item[@"resume"];
         if (resumePointDict != nil) {
             if (((NSNull *)resumePointDict[@"position"] != [NSNull null])) {
                 if ([resumePointDict[@"position"] floatValue] > 0) {
                     resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
-                    [sheetActions addObject:[NSString stringWithFormat:NSLocalizedString(@"Resume from %@", nil), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
+                    [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
                 }
             }
         }
 //        if ([item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"episodeid"]|| [item[@"family"] isEqualToString:@"musicvideoid"]) {
 //            NSString *actionString = @"";
 //            if ([item[@"playcount"] intValue] == 0) {
-//                actionString = NSLocalizedString(@"Mark as watched", nil);
+//                actionString = LOCALIZED_STR(@"Mark as watched");
 //            }
 //            else {
-//                actionString = NSLocalizedString(@"Mark as unwatched", nil);
+//                actionString = LOCALIZED_STR(@"Mark as unwatched");
 //            }
 //            [sheetActions addObject:actionString];
 //        }
@@ -121,15 +121,15 @@ int count = 0;
             titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
-            NSString *pvrAction = [item[@"hastimer"] boolValue] ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
+            NSString *pvrAction = [item[@"hastimer"] boolValue] ? LOCALIZED_STR(@"Stop Recording") :  LOCALIZED_STR(@"Record");
             sheetActions = [[NSMutableArray alloc] initWithObjects:
-                            NSLocalizedString(@"Play", nil),
+                            LOCALIZED_STR(@"Play"),
                             pvrAction,
                             nil];
             titleWidth = 350;
         }
 //        else if ([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"musicvideoid"]) {
-//            [sheetActions addObject:NSLocalizedString(@"Open with VLC", nil)];
+//            [sheetActions addObject:LOCALIZED_STR(@"Open with VLC")];
 //            titleWidth = 400;
 //        }
         else {
@@ -137,7 +137,7 @@ int count = 0;
         }
         if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
             if ([item[@"trailer"] length] > 0) {
-                [sheetActions addObject:NSLocalizedString(@"Play Trailer", nil)];
+                [sheetActions addObject:LOCALIZED_STR(@"Play Trailer")];
             }
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -396,7 +396,7 @@ int count = 0;
         
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
@@ -420,27 +420,27 @@ int count = 0;
 }
 
 - (void)actionSheetHandler:(NSString*)actiontitle {
-    if ([actiontitle isEqualToString:NSLocalizedString(@"Queue after current", nil)]) {
+    if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue after current")]) {
         [self addQueueAfterCurrent:YES];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Queue", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue")]) {
         [self addQueueAfterCurrent:NO];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Play", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play")]) {
         [self addPlayback:0.0];
     }
-    else if (([actiontitle isEqualToString:NSLocalizedString(@"Record", nil)] ||
-              [actiontitle isEqualToString:NSLocalizedString(@"Stop Recording", nil)])) {
+    else if (([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
+              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")])) {
         [self recordChannel];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Open with VLC", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Open with VLC")]) {
         [self openWithVLC:self.detailItem];
     }
-    else if ([actiontitle rangeOfString:NSLocalizedString(@"Resume from", nil)].location != NSNotFound) {
+    else if ([actiontitle rangeOfString:LOCALIZED_STR(@"Resume from")].location != NSNotFound) {
         [self addPlayback:resumePointPercentage];
         return;
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Play Trailer", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
         [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"trailer"], @"file", nil], @"item", nil]];
     }
 }
@@ -525,7 +525,7 @@ int count = 0;
                }
                else {
                    NSString *message = @"";
-                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n", nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   message = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -533,7 +533,7 @@ int count = 0;
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
                        
                    }
-                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:message];
+                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
                    [self presentViewController:alertView animated:YES completion:nil];
                }
            }];
@@ -717,7 +717,7 @@ int h = 0;
         int coverHeight = 0;
         CGRect frame;
         placeHolderImage = @"coverbox_back_tvshows";
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
         NSDateFormatter *format = [NSDateFormatter new];
         [format setLocale:locale];
         if ([item[@"family"] isEqualToString:@"tvshowid"]) {
@@ -747,13 +747,13 @@ int h = 0;
             }
             coverView.autoresizingMask = UIViewAutoresizingNone;
             coverView.contentMode = UIViewContentModeScaleAspectFill;
-            label1.text = NSLocalizedString(@"EPISODES", nil);
-            label3.text = NSLocalizedString(@"GENRE", nil);
-            label4.text = NSLocalizedString(@"STUDIO", nil);
+            label1.text = LOCALIZED_STR(@"EPISODES");
+            label3.text = LOCALIZED_STR(@"GENRE");
+            label4.text = LOCALIZED_STR(@"STUDIO");
             directorLabel.text = [Utilities getStringFromDictionary:item key:@"episode" emptyString:@"-"];
             [format setDateFormat:@"yyyy-MM-dd"];
             NSDate *date = [format dateFromString:item[@"premiered"]];
-            [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
+            [format setDateFormat:LOCALIZED_STR(@"LongDateTimeFormat")];
             genreLabel.text = date == nil ? @"-" : [format stringFromDate:date];
             runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
             studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
@@ -771,9 +771,9 @@ int h = 0;
             deltaY = jewelView.frame.size.height - coverHeight;
             coverView.autoresizingMask = UIViewAutoresizingNone;
             coverView.contentMode = UIViewContentModeScaleAspectFill;
-            label1.text = NSLocalizedString(@"TV SHOW", nil);
-            label3.text = NSLocalizedString(@"DIRECTOR", nil);
-            label4.text = NSLocalizedString(@"WRITER", nil);
+            label1.text = LOCALIZED_STR(@"TV SHOW");
+            label3.text = LOCALIZED_STR(@"DIRECTOR");
+            label4.text = LOCALIZED_STR(@"WRITER");
             parentalRatingLabelUp.hidden = YES;
             parentalRatingLabel.hidden = YES;
             
@@ -793,7 +793,7 @@ int h = 0;
             if ([item[@"firstaired"] length] > 0) {
                 [format setDateFormat:@"yyyy-MM-dd"];
                 NSDate *date = [format dateFromString:item[@"firstaired"]];
-                [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
+                [format setDateFormat:LOCALIZED_STR(@"LongDateTimeFormat")];
                 aired = [format stringFromDate:date];
             }
             genreLabel.text = aired;
@@ -803,8 +803,8 @@ int h = 0;
         }
         [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
         
-        label2.text = NSLocalizedString(@"FIRST AIRED", nil);
-        label5.text = NSLocalizedString(@"SUMMARY", nil);
+        label2.text = LOCALIZED_STR(@"FIRST AIRED");
+        label5.text = LOCALIZED_STR(@"SUMMARY");
         
         frame = starsView.frame;
         frame.origin.x = frame.origin.x+29;
@@ -823,11 +823,11 @@ int h = 0;
         [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
         jewelView.hidden = NO;
         int deltaY = jewelView.frame.size.height - coverHeight;
-        label1.text = NSLocalizedString(@"ARTIST", nil);
-        label2.text = NSLocalizedString(@"YEAR", nil);
-        label3.text = NSLocalizedString(@"GENRE", nil);
-        label4.text = NSLocalizedString(@"ALBUM LABEL", nil);
-        label5.text = NSLocalizedString(@"DESCRIPTION", nil);
+        label1.text = LOCALIZED_STR(@"ARTIST");
+        label2.text = LOCALIZED_STR(@"YEAR");
+        label3.text = LOCALIZED_STR(@"GENRE");
+        label4.text = LOCALIZED_STR(@"ALBUM LABEL");
+        label5.text = LOCALIZED_STR(@"DESCRIPTION");
         label6.text = @"";
         
         starsView.hidden = YES;
@@ -864,12 +864,12 @@ int h = 0;
         int shiftY = 40;
         [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:shiftY];
         [self moveLabel:@[label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
-        label1.text = NSLocalizedString(@"GENRE", nil);
-        label2.text = NSLocalizedString(@"STYLE", nil);
+        label1.text = LOCALIZED_STR(@"GENRE");
+        label2.text = LOCALIZED_STR(@"STYLE");
         label3.text = @"";
-        label4.text = NSLocalizedString(@"BORN / FORMED", nil);
-        label5.text = NSLocalizedString(@"DESCRIPTION", nil);
-        label6.text = NSLocalizedString(@"MUSIC ROLES", nil);
+        label4.text = LOCALIZED_STR(@"BORN / FORMED");
+        label5.text = LOCALIZED_STR(@"DESCRIPTION");
+        label6.text = LOCALIZED_STR(@"MUSIC ROLES");
         parentalRatingLabelUp.hidden = YES;
         parentalRatingLabel.hidden = YES;
         runtimeLabel.hidden = YES;
@@ -917,8 +917,8 @@ int h = 0;
         }
     }
     else if ([item[@"family"] isEqualToString:@"broadcastid"] || [item[@"family"] isEqualToString:@"recordingid"]) {
-        label1.text = NSLocalizedString(@"TIME", nil);
-        label5.text = NSLocalizedString(@"DESCRIPTION", nil);
+        label1.text = LOCALIZED_STR(@"TIME");
+        label5.text = LOCALIZED_STR(@"DESCRIPTION");
         [jewelView setAutoresizingMask:UIViewAutoresizingNone];
         [voteLabel setAutoresizingMask:UIViewAutoresizingNone];
         [numVotesLabel setAutoresizingMask:UIViewAutoresizingNone];
@@ -938,7 +938,7 @@ int h = 0;
         label5.frame = label2.frame;
         CGRect frame = genreLabel.frame;
         if ([self.detailItem[@"plotoutline"] length] > 0) {
-            label2.text = NSLocalizedString(@"PLOT OUTLINE", nil);
+            label2.text = LOCALIZED_STR(@"PLOT OUTLINE");
             label2.hidden = NO;
             genreLabel.hidden = NO;
             [genreLabel setText:self.detailItem[@"plotoutline"]];
@@ -1008,7 +1008,7 @@ int h = 0;
             NSUInteger unitFlags = NSCalendarUnitMinute;
             NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
             NSInteger minutes = [components minute];
-            directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
+            directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
         }
         else {
             directorLabel.text = @"-";
@@ -1021,7 +1021,7 @@ int h = 0;
 //        frame.origin.x = label2.frame.origin.x;
 //        frame.origin.y = label2.frame.origin.y + 4;
 //        recordButton.frame = frame;
-//        [recordButton setTitle:NSLocalizedString(@"Record", nil) forState:UIControlStateNormal];
+//        [recordButton setTitle:LOCALIZED_STR(@"Record") forState:UIControlStateNormal];
 //        [recordButton.titleLabel setFont:[UIFont fontWithName:directorLabel.font.fontName size:directorLabel.font.pointSize]];
 //        [recordButton setTitleColor:label1.textColor forState:UIControlStateHighlighted];
 //        recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -1151,7 +1151,7 @@ int h = 0;
     
     NSString *numVotes = [Utilities getStringFromDictionary:item key:@"votes" emptyString:@""];
     if ([numVotes length] != 0) {
-        NSString *numVotesPlus = NSLocalizedString(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes", nil);
+        NSString *numVotesPlus = LOCALIZED_STR(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes");
         numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)", numVotes, numVotesPlus];
     }
     CGRect frame = summaryLabel.frame;
@@ -1245,7 +1245,7 @@ int h = 0;
             if (embedVideoURL != nil) {
                 startY = startY + 20;
                 UILabel *trailerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, label1.frame.size.height)];
-                [trailerLabel setText:NSLocalizedString(@"TRAILER", nil)];
+                [trailerLabel setText:LOCALIZED_STR(@"TRAILER")];
                 [trailerLabel setTextColor:label1.textColor];
                 [trailerLabel setFont:label1.font];
                 [trailerLabel setShadowColor:label1.shadowColor];
@@ -1555,7 +1555,7 @@ int h = 0;
     if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]) {
         [activityIndicatorView stopAnimating];
         self.navigationItem.rightBarButtonItem.enabled = YES;
-        UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"VLC non installed", nil) message:nil];
+        UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"VLC non installed") message:nil];
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
@@ -1761,7 +1761,7 @@ int h = 0;
     if ([self isModal]) {
         if (doneButton == nil) {
             NSMutableArray *items = [[toolbar items] mutableCopy];
-            doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
+            doneButton = [[UIBarButtonItem alloc] initWithTitle:LOCALIZED_STR(@"Done") style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
             [items insertObject:doneButton atIndex:0];
             [toolbar setItems:items];
         }
@@ -1848,13 +1848,13 @@ int h = 0;
         [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
     isViewDidLoad = YES;
-    [label1 setText:NSLocalizedString(@"DIRECTED BY", nil)];
-    [label2 setText:NSLocalizedString(@"GENRE", nil)];
-    [label3 setText:NSLocalizedString(@"RUNTIME", nil)];
-    [label4 setText:NSLocalizedString(@"STUDIO", nil)];
-    [label5 setText:NSLocalizedString(@"SUMMARY", nil)];
-    [label6 setText:NSLocalizedString(@"CAST", nil)];
-    [parentalRatingLabelUp setText:NSLocalizedString(@"PARENTAL RATING", nil)];
+    [label1 setText:LOCALIZED_STR(@"DIRECTED BY")];
+    [label2 setText:LOCALIZED_STR(@"GENRE")];
+    [label3 setText:LOCALIZED_STR(@"RUNTIME")];
+    [label4 setText:LOCALIZED_STR(@"STUDIO")];
+    [label5 setText:LOCALIZED_STR(@"SUMMARY")];
+    [label6 setText:LOCALIZED_STR(@"CAST")];
+    [parentalRatingLabelUp setText:LOCALIZED_STR(@"PARENTAL RATING")];
     fanartView.tag = 1;
     fanartView.userInteractionEnabled = YES;
     UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];

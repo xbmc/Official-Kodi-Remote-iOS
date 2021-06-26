@@ -97,7 +97,7 @@
         UILabel *cellLabel = (UILabel*) [cell viewWithTag:2];
         UILabel *cellIP = (UILabel*) [cell viewWithTag:3];
         cellLabel.textAlignment = NSTextAlignmentCenter;
-        [cellLabel setText:NSLocalizedString(@"No saved hosts found", nil)];
+        [cellLabel setText:LOCALIZED_STR(@"No saved hosts found")];
         [cellIP setText:@""];
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
@@ -408,16 +408,16 @@ static inline BOOL IsEmpty(id obj) {
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HOSTMANAGERVC_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:0];
     [messagesView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
     [self.view addSubview:messagesView];
-    [addHostButton setTitle:NSLocalizedString(@"Add Host", nil) forState:UIControlStateNormal];
+    [addHostButton setTitle:LOCALIZED_STR(@"Add Host") forState:UIControlStateNormal];
     addHostButton.titleLabel.numberOfLines = 1;
     addHostButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     addHostButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
-    [editTableButton setTitle:NSLocalizedString(@"Edit", nil) forState:UIControlStateNormal];
-    [editTableButton setTitle:NSLocalizedString(@"Done", nil) forState:UIControlStateSelected];
+    [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
+    [editTableButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateSelected];
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     editTableButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
-    [supportedVersionLabel setText:NSLocalizedString(@"Supported XBMC version is Eden (11) or higher", nil)];
+    [supportedVersionLabel setText:LOCALIZED_STR(@"Supported XBMC version is Eden (11) or higher")];
     [self.navigationController.navigationBar setBarTintColor:BAR_TINT_COLOR];
     
     [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateNormal];
@@ -539,24 +539,24 @@ static inline BOOL IsEmpty(id obj) {
     }
     if (showConnectionNotice && [AppDelegate instance].serverOnLine) {
         UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:NSLocalizedString(@"Kodi connection notice", nil)
-                                              message:[NSString stringWithFormat:@"%@\n\n%@", NSLocalizedString(@"It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input.", nil), NSLocalizedString(@"Do you want to enable this connection now?", nil)]
+                                              alertControllerWithTitle:LOCALIZED_STR(@"Kodi connection notice")
+                                              message:[NSString stringWithFormat:@"%@\n\n%@", LOCALIZED_STR(@"It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input."), LOCALIZED_STR(@"Do you want to enable this connection now?")]
                                               preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *cancelAction = [UIAlertAction
-                                       actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                       actionWithTitle:LOCALIZED_STR(@"Cancel")
                                        style:UIAlertActionStyleCancel
                                        handler:^(UIAlertAction *action) {}];
         
         UIAlertAction *dontShowAction = [UIAlertAction
-                                         actionWithTitle:NSLocalizedString(@"Don't show this message again", nil)
+                                         actionWithTitle:LOCALIZED_STR(@"Don't show this message again")
                                          style:UIAlertActionStyleDestructive
                                          handler:^(UIAlertAction *action) {
                                              [self disableTCPconnectionNotice];
                                          }];
         
         UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:NSLocalizedString(@"Enable TCP connection on Kodi", nil)
+                                   actionWithTitle:LOCALIZED_STR(@"Enable TCP connection on Kodi")
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action) {
                                        [self enableTCPconnection];
@@ -588,7 +588,7 @@ static inline BOOL IsEmpty(id obj) {
                    [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationWillEnterForegroundNotification" object:nil userInfo:nil];
                }
                else {
-                   UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Cannot do that", nil) message:nil];
+                   UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Cannot do that") message:nil];
                    id presentingView = self.presentingViewController == nil ? self : self.presentingViewController;
                    [presentingView presentViewController:alertView animated:YES completion:nil];
                }
@@ -602,7 +602,7 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 -(void)authFailed:(NSNotification *)note {
-    UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Authentication Failed", nil) message:NSLocalizedString(@"Incorrect Username or Password.\nCheck your settings.", nil)];
+    UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Authentication Failed") message:LOCALIZED_STR(@"Incorrect Username or Password.\nCheck your settings.")];
     [self presentViewController:alertView animated:YES completion:nil];
 }
 

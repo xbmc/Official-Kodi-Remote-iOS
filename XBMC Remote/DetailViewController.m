@@ -150,8 +150,8 @@
 
 -(NSMutableDictionary *)parseEpgData:(NSMutableArray *)epgData {
     NSMutableDictionary *channelEPG = [NSMutableDictionary new];
-    channelEPG[@"current"] = NSLocalizedString(@"Not Available", nil);
-    channelEPG[@"next"] = NSLocalizedString(@"Not Available", nil);
+    channelEPG[@"current"] = LOCALIZED_STR(@"Not Available");
+    channelEPG[@"next"] = LOCALIZED_STR(@"Not Available");
     channelEPG[@"current_details"] = @"";
     channelEPG[@"refresh_data"] = @(YES);
     channelEPG[@"starttime"] = @"";
@@ -187,7 +187,7 @@
                                               [localHourMinuteFormatter stringFromDate:objectToSearch[@"starttime"]],
                                               [localHourMinuteFormatter stringFromDate:objectToSearch[@"endtime"]],
                                               (long)minutes,
-                                              (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)
+                                              (long)minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")
                                               ];
             predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", objectToSearch[@"endtime"]];
             NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
@@ -222,7 +222,7 @@
         item[@"genre"] = channelEPG[@"current_details"];
     }
     ProgressPieView *progressView = (ProgressPieView*) [cell viewWithTag:103];
-    if (![current.text isEqualToString:NSLocalizedString(@"Not Available", nil)] && [channelEPG[@"starttime"] isKindOfClass:[NSDate class]] && [channelEPG[@"endtime"] isKindOfClass:[NSDate class]]) {
+    if (![current.text isEqualToString:LOCALIZED_STR(@"Not Available")] && [channelEPG[@"starttime"] isKindOfClass:[NSDate class]] && [channelEPG[@"endtime"] isKindOfClass:[NSDate class]]) {
         float total_seconds = [channelEPG[@"endtime"] timeIntervalSince1970] - [channelEPG[@"starttime"] timeIntervalSince1970];
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [channelEPG[@"starttime"] timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
@@ -413,10 +413,10 @@
             NSDateFormatter *dateFormatter = [NSDateFormatter new];
             [dateFormatter setDateStyle:NSDateFormatterLongStyle];
             [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-            NSLocale *userLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
+            NSLocale *userLocale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
             [dateFormatter setLocale:userLocale];
             NSString *dateString = [dateFormatter stringFromDate:[attributes fileModificationDate]];
-            NSString *title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Last sync", nil), dateString];
+            NSString *title = [NSString stringWithFormat:@"%@: %@", LOCALIZED_STR(@"Last sync"), dateString];
             [dataList.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateStopped];
             [dataList.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateTriggered];
             [collectionView.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateStopped];
@@ -625,13 +625,13 @@
     }
 
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
-    self.navigationItem.title = [NSString stringWithFormat:NSLocalizedString(@"More (%ld)", nil), (long)(count - MAX_NORMAL_BUTTONS)];
+    self.navigationItem.title = [NSString stringWithFormat:LOCALIZED_STR(@"More (%ld)"), (long)(count - MAX_NORMAL_BUTTONS)];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.3];
         topNavigationLabel.alpha = 0;
         [UIView commitAnimations];
-        topNavigationLabel.text = [NSString stringWithFormat:NSLocalizedString(@"More (%ld)", nil), (long)(count - MAX_NORMAL_BUTTONS)];
+        topNavigationLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"More (%ld)"), (long)(count - MAX_NORMAL_BUTTONS)];
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.1];
         topNavigationLabel.alpha = 1;
@@ -851,11 +851,11 @@
     enableCollectionView = newEnableCollectionView;
     if ([parameters[@"collectionViewRecentlyAdded"] boolValue]) {
         recentlyAddedView = YES;
-        currentCollectionViewName = NSLocalizedString(@"View: Fanart", nil);
+        currentCollectionViewName = LOCALIZED_STR(@"View: Fanart");
     }
     else {
         recentlyAddedView = NO;
-        currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
+        currentCollectionViewName = LOCALIZED_STR(@"View: Wall");
     }
     [activeLayoutView setContentOffset:[(UITableView *)activeLayoutView contentOffset] animated:NO];
     self.navigationItem.title = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]][@"label"];
@@ -1163,8 +1163,8 @@
         if ([item[@"type"] isEqualToString:@"window"]) {
             [self SimpleAction: @"GUI.ActivateWindow"
                         params: @{@"window": item[@"window"], @"parameters": @[item[@"windowparameter"]]}
-                       success: NSLocalizedString(@"Window activated successfully", nil)
-                       failure: NSLocalizedString(@"Unable to activate the window", nil)
+                       success: LOCALIZED_STR(@"Window activated successfully")
+                       failure: LOCALIZED_STR(@"Unable to activate the window")
              ];
         }
         // Selected favourite item is a media type -> play it
@@ -1173,7 +1173,7 @@
         }
         // Selected favourite item is an unknown type -> throw an error
         else {
-            NSString *message = [NSString stringWithFormat:@"%@ (type = '%@')", NSLocalizedString(@"Cannot do that", nil), item[@"type"]];
+            NSString *message = [NSString stringWithFormat:@"%@ (type = '%@')", LOCALIZED_STR(@"Cannot do that"), item[@"type"]];
             [messagesView showMessage:message timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
     }
@@ -1204,14 +1204,14 @@
         [parameters[@"isVideoPlaylist"] boolValue]) { // NOTE: sheetActions objects must be moved outside from there
         if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
             [sheetActions removeAllObjects];
-            [sheetActions addObject:NSLocalizedString(@"Queue after current", nil)];
-            [sheetActions addObject:NSLocalizedString(@"Queue", nil)];
-            [sheetActions addObject:NSLocalizedString(@"Play", nil)];
-            [sheetActions addObject:NSLocalizedString(@"Play in shuffle mode", nil)];
+            [sheetActions addObject:LOCALIZED_STR(@"Queue after current")];
+            [sheetActions addObject:LOCALIZED_STR(@"Queue")];
+            [sheetActions addObject:LOCALIZED_STR(@"Play")];
+            [sheetActions addObject:LOCALIZED_STR(@"Play in shuffle mode")];
             if ([[item[@"file"] pathExtension] isEqualToString:@"xsp"] && [AppDelegate instance].serverVersion > 11) {
-                [sheetActions addObject:NSLocalizedString(@"Play in party mode", nil)];
+                [sheetActions addObject:LOCALIZED_STR(@"Play in party mode")];
             }
-            [sheetActions addObject:NSLocalizedString(@"Show Content", nil)];
+            [sheetActions addObject:LOCALIZED_STR(@"Show Content")];
         }
     }
     return sheetActions;
@@ -1811,10 +1811,10 @@ int originYear = 0;
         int numResult = (int)[self.filteredListContent count];
         if (numResult) {
             if (numResult != 1) {
-                return [NSString stringWithFormat:NSLocalizedString(@"%lu results", nil), (unsigned long)[self.filteredListContent count]];
+                return [NSString stringWithFormat:LOCALIZED_STR(@"%lu results"), (unsigned long)[self.filteredListContent count]];
             }
             else {
-                return NSLocalizedString(@"1 result", nil);
+                return LOCALIZED_STR(@"1 result");
             }
         }
         else {
@@ -1828,7 +1828,7 @@ int originYear = 0;
         NSString *sectionName = self.sectionArray[section];
         if (channelGuideView) {
             NSString *dateString = @"";
-            NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
+            NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
             NSDateFormatter *format = [NSDateFormatter new];
             [format setLocale:locale];
             [format setDateFormat:@"yyyy-MM-dd"];
@@ -1852,14 +1852,14 @@ int originYear = 0;
 -(NSString *)buildSortInfo:(NSString *)sectionName {
     if ([sortMethodName isEqualToString:@"year"]) {
         if ([sectionName length] > 3) {
-        sectionName = [NSString stringWithFormat:NSLocalizedString(@"The %@s decade", nil), sectionName];
+        sectionName = [NSString stringWithFormat:LOCALIZED_STR(@"The %@s decade"), sectionName];
         }
         else {
-            sectionName = NSLocalizedString(@"Year not available", nil);
+            sectionName = LOCALIZED_STR(@"Year not available");
         }
     }
     else if ([sortMethodName isEqualToString:@"dateadded"]) {
-        sectionName = [NSString stringWithFormat:NSLocalizedString(@"Year %@", nil), sectionName];
+        sectionName = [NSString stringWithFormat:LOCALIZED_STR(@"Year %@"), sectionName];
     }
     else if ([sortMethodName isEqualToString:@"playcount"]) {
         if ([sectionName intValue] == 0) {
@@ -1867,7 +1867,7 @@ int originYear = 0;
                 sectionName = watchedListenedStrings[@"notWatched"];
             }
             else {
-                sectionName = NSLocalizedString(@"Not watched", nil);
+                sectionName = LOCALIZED_STR(@"Not watched");
             }
         }
         else if ([sectionName intValue] == 1) {
@@ -1875,13 +1875,13 @@ int originYear = 0;
                 sectionName = watchedListenedStrings[@"watchedOneTime"];
             }
             else {
-                sectionName = NSLocalizedString(@"Watched one time", nil);
+                sectionName = LOCALIZED_STR(@"Watched one time");
             }
         }
         else {
             NSNumberFormatter *formatter = [NSNumberFormatter new];
             [formatter setNumberStyle: NSNumberFormatterSpellOutStyle];
-            NSString *formatString = NSLocalizedString(@"Watched %@ times", nil);
+            NSString *formatString = LOCALIZED_STR(@"Watched %@ times");
             if (watchedListenedStrings[@"watchedTimes"] != nil) {
                 formatString = watchedListenedStrings[@"watchedTimes"];
             }
@@ -1892,7 +1892,7 @@ int originYear = 0;
         int start = 0;
         int num_stars = [sectionName intValue];
         int stop = numberOfStars;
-        NSString *newName = [NSString stringWithFormat:NSLocalizedString(@"Rated %@", nil), sectionName];
+        NSString *newName = [NSString stringWithFormat:LOCALIZED_STR(@"Rated %@"), sectionName];
         NSMutableString *stars = [NSMutableString string];
         for (start = 0; start < num_stars; start++) {
             [stars appendString:@"\u2605"];
@@ -1904,62 +1904,62 @@ int originYear = 0;
     }
     else if ([sortMethodName isEqualToString:@"runtime"]) {
         if ([sectionName isEqualToString:@"15"]) {
-            sectionName = NSLocalizedString(@"Less than 15 minutes", nil);
+            sectionName = LOCALIZED_STR(@"Less than 15 minutes");
         }
         else if ([sectionName isEqualToString:@"30"]) {
-            sectionName = NSLocalizedString(@"Less than half an hour", nil);
+            sectionName = LOCALIZED_STR(@"Less than half an hour");
         }
         else if ([sectionName isEqualToString:@"45"]) {
-            sectionName = NSLocalizedString(@"About half an hour", nil);
+            sectionName = LOCALIZED_STR(@"About half an hour");
         }
         else if ([sectionName isEqualToString:@"60"]) {
-            sectionName = NSLocalizedString(@"Less than one hour", nil);
+            sectionName = LOCALIZED_STR(@"Less than one hour");
         }
         else if ([sectionName isEqualToString:@"75"]) {
-            sectionName = NSLocalizedString(@"About one hour", nil);
+            sectionName = LOCALIZED_STR(@"About one hour");
         }
         else if ([sectionName isEqualToString:@"90"]) {
-            sectionName = NSLocalizedString(@"About an hour and a half", nil);
+            sectionName = LOCALIZED_STR(@"About an hour and a half");
         }
         else if ([sectionName isEqualToString:@"105"]) {
-            sectionName = NSLocalizedString(@"Nearly two hours", nil);
+            sectionName = LOCALIZED_STR(@"Nearly two hours");
         }
         else if ([sectionName isEqualToString:@"120"]) {
-            sectionName = NSLocalizedString(@"About two hours", nil);
+            sectionName = LOCALIZED_STR(@"About two hours");
         }
         else if ([sectionName isEqualToString:@"135"]) {
-            sectionName = NSLocalizedString(@"Two hours", nil);
+            sectionName = LOCALIZED_STR(@"Two hours");
         }
         else if ([sectionName isEqualToString:@"150"]) {
-            sectionName = NSLocalizedString(@"About two and a half hours", nil);
+            sectionName = LOCALIZED_STR(@"About two and a half hours");
         }
         else if ([sectionName isEqualToString:@"165"]) {
-            sectionName = NSLocalizedString(@"More than two and a half hours", nil);
+            sectionName = LOCALIZED_STR(@"More than two and a half hours");
         }
         else if ([sectionName isEqualToString:@"180"]) {
-            sectionName = NSLocalizedString(@"Nearly three hours", nil);
+            sectionName = LOCALIZED_STR(@"Nearly three hours");
         }
         else if ([sectionName isEqualToString:@"195"]) {
-            sectionName = NSLocalizedString(@"About three hours", nil);
+            sectionName = LOCALIZED_STR(@"About three hours");
         }
         else if ([sectionName isEqualToString:@"210"]) {
-            sectionName = NSLocalizedString(@"Nearly three and half hours", nil);
+            sectionName = LOCALIZED_STR(@"Nearly three and half hours");
         }
         else if ([sectionName isEqualToString:@"225"]) {
-            sectionName = NSLocalizedString(@"About three and half hours", nil);
+            sectionName = LOCALIZED_STR(@"About three and half hours");
         }
         else if ([sectionName isEqualToString:@"240"]) {
-            sectionName = NSLocalizedString(@"Nearly four hours", nil);
+            sectionName = LOCALIZED_STR(@"Nearly four hours");
         }
         else if ([sectionName isEqualToString:@"255"]) {
-            sectionName = NSLocalizedString(@"About four hours", nil);
+            sectionName = LOCALIZED_STR(@"About four hours");
         }
         else {
-            sectionName = NSLocalizedString(@"More than four hours", nil);
+            sectionName = LOCALIZED_STR(@"More than four hours");
         }
     }
     else if ([sortMethodName isEqualToString:@"track"]) {
-        sectionName = [NSString stringWithFormat:NSLocalizedString(@"Track n.%@", nil), sectionName];
+        sectionName = [NSString stringWithFormat:LOCALIZED_STR(@"Track n.%@"), sectionName];
     }
     return sectionName;
 }
@@ -1997,7 +1997,7 @@ int originYear = 0;
                 NSMutableArray *channelGuideTableIndexTitles = [NSMutableArray new];
                 for (NSString *label in self.sectionArray) {
                         NSString *dateString = label;
-                        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
+                        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
                         NSDateFormatter *format = [NSDateFormatter new];
                         [format setLocale:locale];
                         [format setDateFormat:@"yyyy-MM-dd"];
@@ -2152,7 +2152,7 @@ int originYear = 0;
         [runtimeyear setText:duration];        
     }
     else {
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
         NSDateFormatter *format = [NSDateFormatter new];
         [format setLocale:locale];
         [format setDateFormat:@"yyyy-MM-dd"];
@@ -2161,7 +2161,7 @@ int originYear = 0;
             [runtimeyear setText:item[@"year"]];
         }
         else {
-            [format setDateFormat:NSLocalizedString(@"ShortDateTimeFormat", nil)];
+            [format setDateFormat:LOCALIZED_STR(@"ShortDateTimeFormat")];
             [runtimeyear setText:[format stringFromDate:date]];
         }
     }
@@ -2243,7 +2243,7 @@ int originYear = 0;
                 NSUInteger unitFlags = NSCalendarUnitMinute;
                 NSDateComponents *components = [gregorian components:unitFlags fromDate:timerStartTime toDate:endTime options:0];
                 NSInteger minutes = [components minute];
-                genre.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", genre.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
+                genre.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", genre.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
             }
             else {
                 [genre setText:[NSString stringWithFormat:@"%@ - %@", item[@"channel"], item[@"year"]]];
@@ -2554,13 +2554,13 @@ int originYear = 0;
         [trackCountLabel setBackgroundColor:[UIColor clearColor]];
         [trackCountLabel setShadowOffset:CGSizeMake(0, 1)];
         [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
-        trackCountLabel.text = [NSString stringWithFormat:@"%lu %@, %@ %@", (unsigned long)[self.richResults count], [self.richResults count] > 1 ? NSLocalizedString(@"Songs", nil) : NSLocalizedString(@"Song", nil), numberString, totalTime/60 > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
+        trackCountLabel.text = [NSString stringWithFormat:@"%lu %@, %@ %@", (unsigned long)[self.richResults count], [self.richResults count] > 1 ? LOCALIZED_STR(@"Songs") : LOCALIZED_STR(@"Song"), numberString, totalTime/60 > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
         [albumDetailView addSubview:trackCountLabel];
         int year = [item[@"year"] intValue];
         [releasedLabel setBackgroundColor:[UIColor clearColor]];
         [releasedLabel setShadowOffset:CGSizeMake(0, 1)];
         [releasedLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
-        releasedLabel.text = [NSString stringWithFormat:@"%@", (year > 0) ? [NSString stringWithFormat:NSLocalizedString(@"Released %d", nil), year] : @""];
+        releasedLabel.text = [NSString stringWithFormat:@"%@", (year > 0) ? [NSString stringWithFormat:LOCALIZED_STR(@"Released %d"), year] : @""];
         [albumDetailView addSubview:releasedLabel];
         
         UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
@@ -2710,7 +2710,7 @@ int originYear = 0;
             [trackCountLabel setBackgroundColor:[UIColor clearColor]];
             [trackCountLabel setShadowOffset:CGSizeMake(0, 1)];
             [trackCountLabel setFont:[UIFont systemFontOfSize:trackCountFontSize]];
-            trackCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Episodes: %@", nil), self.extraSectionRichResults[seasonIdx][@"episode"]];
+            trackCountLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"Episodes: %@"), self.extraSectionRichResults[seasonIdx][@"episode"]];
             [albumDetailView addSubview:trackCountLabel];
 
             [releasedLabel setBackgroundColor:[UIColor clearColor]];
@@ -2720,17 +2720,17 @@ int originYear = 0;
             [releasedLabel setNumberOfLines:1];
             [releasedLabel setAdjustsFontSizeToFitWidth:YES];
             
-            NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
+            NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
             NSString *aired = @"";
             NSDateFormatter *format = [NSDateFormatter new];
             [format setLocale:usLocale];
             [format setDateFormat:@"yyyy-MM-dd"];
             NSDate *date = [format dateFromString:item[@"year"]];
-            [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
+            [format setDateFormat:LOCALIZED_STR(@"LongDateTimeFormat")];
             aired = [format stringFromDate:date];
             releasedLabel.text = @"";
             if (aired != nil) {
-                releasedLabel.text = [NSString stringWithFormat:NSLocalizedString(@"First aired on %@", nil), aired];
+                releasedLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"First aired on %@"), aired];
             }
             [albumDetailView addSubview:releasedLabel];
 
@@ -2934,8 +2934,8 @@ NSIndexPath *selected;
     if (numActions) {
         NSString *title = [NSString stringWithFormat:@"%@%@%@", item[@"label"], [item[@"genre"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"\n%@", item[@"genre"]], [item[@"family"] isEqualToString:@"songid"] ? [NSString stringWithFormat:@"\n%@", item[@"album"]] : @""];
         if ([item[@"family"] isEqualToString:@"timerid"] && [AppDelegate instance].serverVersion < 17) {
-            title = [NSString stringWithFormat:@"%@\n\n%@", title, NSLocalizedString(@"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.", nil)];
-            sheetActions = @[NSLocalizedString(@"Ok", nil)];
+            title = [NSString stringWithFormat:@"%@\n\n%@", title, LOCALIZED_STR(@"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.")];
+            sheetActions = @[LOCALIZED_STR(@"Ok")];
         }
         id cell = [self getCell:indexPath];
         UIImageView *isRecordingImageView = (UIImageView*) [cell viewWithTag:104];
@@ -2977,9 +2977,9 @@ NSIndexPath *selected;
             
             NSMutableArray *sheetActions = [[self.detailItem sheetActions][choosedTab] mutableCopy];
             if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
-                [sheetActions removeObject:NSLocalizedString(@"Play Trailer", nil)];
-                [sheetActions removeObject:NSLocalizedString(@"Mark as watched", nil)];
-                [sheetActions removeObject:NSLocalizedString(@"Mark as unwatched", nil)];
+                [sheetActions removeObject:LOCALIZED_STR(@"Play Trailer")];
+                [sheetActions removeObject:LOCALIZED_STR(@"Mark as watched")];
+                [sheetActions removeObject:LOCALIZED_STR(@"Mark as unwatched")];
             }
             NSInteger numActions = [sheetActions count];
             if (numActions) {
@@ -3009,17 +3009,17 @@ NSIndexPath *selected;
                 
                 if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
                     if ([item[@"trailer"] length] != 0 && [sheetActions isKindOfClass:[NSMutableArray class]]) {
-                        [sheetActions addObject:NSLocalizedString(@"Play Trailer", nil)];
+                        [sheetActions addObject:LOCALIZED_STR(@"Play Trailer")];
                     }
                 }
                 if ([item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"episodeid"]|| [item[@"family"] isEqualToString:@"musicvideoid"] || [item[@"family"] isEqualToString:@"tvshowid"]) {
                     if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
                         NSString *actionString = @"";
                         if ([item[@"playcount"] intValue] == 0) {
-                            actionString = NSLocalizedString(@"Mark as watched", nil);
+                            actionString = LOCALIZED_STR(@"Mark as watched");
                         }
                         else {
-                           actionString = NSLocalizedString(@"Mark as unwatched", nil);
+                           actionString = LOCALIZED_STR(@"Mark as unwatched");
                         }
                         [sheetActions addObject:actionString];
                     }
@@ -3059,7 +3059,7 @@ NSIndexPath *selected;
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
             forceMusicAlbumMode = NO;
             [self deselectAtIndexPath:selected];
         }];
@@ -3067,8 +3067,8 @@ NSIndexPath *selected;
         NSInteger numActions = [sheetActions count];
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
-            if ([actiontitle isEqualToString:NSLocalizedString(@"Record", nil)] && isRecording) {
-                actiontitle = NSLocalizedString(@"Stop Recording", nil);
+            if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] && isRecording) {
+                actiontitle = LOCALIZED_STR(@"Stop Recording");
             }
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 [self actionSheetHandler:actiontitle];
@@ -3196,7 +3196,7 @@ NSIndexPath *selected;
             return;
         }
     }
-    if ([actiontitle isEqualToString:NSLocalizedString(@"Play", nil)]) {
+    if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play")]) {
         NSString *songid = [NSString stringWithFormat:@"%@", item[@"songid"]];
         if ([songid intValue]) {
             [self addPlayback:item indexPath:selected position:(int)selected.row shuffle:NO];
@@ -3205,44 +3205,44 @@ NSIndexPath *selected;
             [self addPlayback:item indexPath:selected position:0 shuffle:NO];
         }
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Record", nil)] ||
-             [actiontitle isEqualToString:NSLocalizedString(@"Stop Recording", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
         [self recordChannel:item indexPath:selected];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Delete timer", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Delete timer")]) {
         [self deleteTimer:item indexPath:selected];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Play in shuffle mode", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play in shuffle mode")]) {
         [self addPlayback:item indexPath:selected position:0 shuffle:YES];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Queue", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue")]) {
         [self addQueue:item indexPath:selected];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Queue after current", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue after current")]) {
         [self addQueue:item indexPath:selected afterCurrentItem:YES];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Show Content", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Show Content")]) {
         [self exploreItem:item];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Channel Guide", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Channel Guide")]) {
         [self viewChild:selected item:item displayPoint:CGPointMake(0, 0)];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Mark as watched", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Mark as watched")]) {
         [self markVideo:(NSMutableDictionary *)item indexPath:selected watched:1];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Mark as unwatched", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Mark as unwatched")]) {
         [self markVideo:(NSMutableDictionary *)item indexPath:selected watched:0];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Play in party mode", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play in party mode")]) {
         [self partyModeItem:item indexPath:selected];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Artist Details", nil)] ||
-             [actiontitle isEqualToString:NSLocalizedString(@"Album Details", nil)] ||
-             [actiontitle isEqualToString:NSLocalizedString(@"Movie Details", nil)] ||
-             [actiontitle isEqualToString:NSLocalizedString(@"Episode Details", nil)] ||
-             [actiontitle isEqualToString:NSLocalizedString(@"TV Show Details", nil)] ||
-             [actiontitle isEqualToString:NSLocalizedString(@"Music Video Details", nil)] ||
-             [actiontitle isEqualToString:NSLocalizedString(@"Broadcast Details", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Details")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Album Details")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Movie Details")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Episode Details")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"TV Show Details")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Music Video Details")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Broadcast Details")]) {
         if (forceMusicAlbumMode) {
             [self prepareShowAlbumInfo:nil];
         }
@@ -3250,48 +3250,48 @@ NSIndexPath *selected;
             [self showInfo:selected menuItem:self.detailItem item:item tabToShow:choosedTab];
         }
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Play Trailer", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"trailer"], @"file", nil], @"item", nil] index:selected];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Open with VLC", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Open with VLC")]) {
         [self openWithVLC:item indexPath:selected];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Search Wikipedia", nil)]) {
-        [self searchWeb:(NSMutableDictionary *)item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", NSLocalizedString(@"WIKI_LANG", nil)]];
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search Wikipedia")]) {
+        [self searchWeb:(NSMutableDictionary *)item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", LOCALIZED_STR(@"WIKI_LANG")]];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Search last.fm charts", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search last.fm charts")]) {
         [self searchWeb:(NSMutableDictionary *)item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Execute program", nil)] ||
-             [actiontitle isEqualToString:NSLocalizedString(@"Execute video add-on", nil)] ||
-             [actiontitle isEqualToString:NSLocalizedString(@"Execute audio add-on", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Execute program")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Execute video add-on")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Execute audio add-on")]) {
         [self SimpleAction:@"Addons.ExecuteAddon"
                     params:[NSDictionary dictionaryWithObjectsAndKeys:
                             item[@"addonid"], @"addonid",
                             nil]
-                   success: NSLocalizedString(@"Add-on executed successfully", nil)
-                   failure:NSLocalizedString(@"Unable to execute the add-on", nil)
+                   success: LOCALIZED_STR(@"Add-on executed successfully")
+                   failure:LOCALIZED_STR(@"Unable to execute the add-on")
          ];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Execute action", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Execute action")]) {
         [self SimpleAction:@"Input.ExecuteAction"
                     params:[NSDictionary dictionaryWithObjectsAndKeys:
                             item[@"label"], @"action",
                             nil]
-                   success: NSLocalizedString(@"Action executed successfully", nil)
-                   failure:NSLocalizedString(@"Unable to execute the action", nil)
+                   success: LOCALIZED_STR(@"Action executed successfully")
+                   failure:LOCALIZED_STR(@"Unable to execute the action")
          ];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Activate window", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Activate window")]) {
         [self SimpleAction:@"GUI.ActivateWindow"
                     params:[NSDictionary dictionaryWithObjectsAndKeys:
                             item[@"label"], @"window",
                             nil]
-                   success: NSLocalizedString(@"Window activated successfully", nil)
-                   failure:NSLocalizedString(@"Unable to activate the window", nil)
+                   success: LOCALIZED_STR(@"Window activated successfully")
+                   failure:LOCALIZED_STR(@"Unable to activate the window")
          ];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Add button", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Add button")]) {
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 item[@"addonid"], @"addonid",
                                 nil];
@@ -3308,7 +3308,7 @@ NSIndexPath *selected;
                                    nil];
         [self saveCustomButton:newButton];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Add action button", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Add action button")]) {
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 item[@"label"], @"action",
                                 nil];
@@ -3325,7 +3325,7 @@ NSIndexPath *selected;
                                    nil];
         [self saveCustomButton:newButton];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Add window activation button", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Add window activation button")]) {
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 item[@"label"], @"window",
                                 nil];
@@ -3405,7 +3405,7 @@ NSIndexPath *selected;
     customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+    [messagesView showMessage:LOCALIZED_STR(@"Button added") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
@@ -3486,7 +3486,7 @@ NSIndexPath *selected;
         self.navigationItem.title = [self.detailItem mainLabel];
         if (![self.detailItem disableNowPlaying]) {
             UIBarButtonItem *nowPlayingButtonItem = nil;
-            nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Now Playing", nil) style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
+            nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:LOCALIZED_STR(@"Now Playing") style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
             [nowPlayingButtonItem setTitleTextAttributes:
              [NSDictionary dictionaryWithObjectsAndKeys:
               [UIFont systemFontOfSize:12], NSFontAttributeName,
@@ -3722,7 +3722,7 @@ NSIndexPath *selected;
     [queuing startAnimating];
     if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]) {
         [queuing stopAnimating];
-        UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Cannot do that", nil) message:nil];
+        UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Cannot do that") message:nil];
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
@@ -3769,7 +3769,7 @@ NSIndexPath *selected;
                }
                else {
                    NSString *message = @"";
-                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n", nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   message = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -3777,7 +3777,7 @@ NSIndexPath *selected;
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
                        
                    }
-                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:message];
+                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
                    [self presentViewController:alertView animated:YES completion:nil];
                }
     }];
@@ -3835,7 +3835,7 @@ NSIndexPath *selected;
                }
                else {
                    NSString *message = @"";
-                    message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n", nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                    message = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -3843,7 +3843,7 @@ NSIndexPath *selected;
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
                        
                    }
-                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:message];
+                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
                    [self presentViewController:alertView animated:YES completion:nil];
                }
            }];
@@ -4140,7 +4140,7 @@ NSIndexPath *selected;
 
 
 -(void)showAlbumActions:(UITapGestureRecognizer *)tap {
-    NSArray *sheetActions = @[NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), NSLocalizedString(@"Play in shuffle mode", nil), NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Search Wikipedia", nil)];
+    NSArray *sheetActions = @[LOCALIZED_STR(@"Queue after current"), LOCALIZED_STR(@"Queue"), LOCALIZED_STR(@"Play"), LOCALIZED_STR(@"Play in shuffle mode"), LOCALIZED_STR(@"Album Details"), LOCALIZED_STR(@"Search Wikipedia")];
     selected = [NSIndexPath indexPathForRow:0 inSection:0];
     NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:[self.sections valueForKey:self.sectionArray[0]][0]];
     item[@"label"] = self.navigationItem.title;
@@ -4344,7 +4344,7 @@ NSIndexPath *selected;
              }
          }
          else {
-             UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Details not found", nil) message:nil];
+             UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Details not found") message:nil];
              [self presentViewController:alertView animated:YES completion:nil];
              [queuing stopAnimating];
          }
@@ -4416,7 +4416,7 @@ NSIndexPath *selected;
     GlobalData *obj = [GlobalData getInstance];
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
 //    NSLog(@"START");
-    debugText.text = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n", nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+    debugText.text = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
@@ -4673,7 +4673,7 @@ NSIndexPath *selected;
                  debugText.text = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, debugText.text];
                  
              }
-             UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:debugText.text];
+             UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:debugText.text];
              [self presentViewController:alertView animated:YES completion:nil];
              // END DISPLAY DEBUG
              
@@ -5506,7 +5506,7 @@ NSIndexPath *selected;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *hidden_label_preferenceString = [userDefaults objectForKey:@"hidden_label_preference"];
     hiddenLabel = [hidden_label_preferenceString boolValue];
-    [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
+    [noItemsLabel setText:LOCALIZED_STR(@"No items found.")];
     isViewDidLoad = YES;
     sectionHeight = 16;
     dataList.tableFooterView = [UIView new];
@@ -5530,7 +5530,7 @@ NSIndexPath *selected;
     [self.searchController setActive:NO];
     self.navigationController.view.backgroundColor = [UIColor blackColor];
     self.searchController.hidesNavigationBarDuringPresentation = NO;
-    self.searchController.searchBar.placeholder = NSLocalizedString(@"Search", nil);
+    self.searchController.searchBar.placeholder = LOCALIZED_STR(@"Search");
     iOSYDelta = self.searchController.searchBar.frame.size.height;
     dataList.tableHeaderView = self.searchController.searchBar;
 
@@ -5661,10 +5661,10 @@ NSIndexPath *selected;
         frame.origin.y = [[UIScreen mainScreen] bounds].size.height - 44;
     }
     dataList.frame = frame;
-    currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
+    currentCollectionViewName = LOCALIZED_STR(@"View: Wall");
     if ([parameters[@"collectionViewRecentlyAdded"] boolValue]) {
         recentlyAddedView = YES;
-        currentCollectionViewName = NSLocalizedString(@"View: Fanart", nil);
+        currentCollectionViewName = LOCALIZED_STR(@"View: Fanart");
     }
     else {
         recentlyAddedView = NO;
@@ -5687,7 +5687,7 @@ NSIndexPath *selected;
     UILabel *infolabel = [[UILabel alloc] initWithFrame:CGRectMake(INFO_PADDING, INFO_PADDING, viewWidth - 2*INFO_PADDING, self.searchController.searchBar.frame.size.height - 2*INFO_PADDING)];
     infolabel.backgroundColor = collectionViewSearchBarColor;
     infolabel.textColor = [UIColor darkGrayColor];
-    infolabel.text = [NSString stringWithFormat:@" %@", NSLocalizedString(@"For search switch to list view", nil)];
+    infolabel.text = [NSString stringWithFormat:@" %@", LOCALIZED_STR(@"For search switch to list view")];
     infolabel.layer.masksToBounds = YES;
     infolabel.layer.cornerRadius = 10;
     infolabel.layer.borderWidth = 0;
@@ -5899,11 +5899,11 @@ NSIndexPath *selected;
         }
         if ([parameters[@"collectionViewRecentlyAdded"] boolValue]) {
             recentlyAddedView = YES;
-            currentCollectionViewName = NSLocalizedString(@"View: Fanart", nil);
+            currentCollectionViewName = LOCALIZED_STR(@"View: Fanart");
         }
         else {
             recentlyAddedView = NO;
-            currentCollectionViewName = NSLocalizedString(@"View: Wall", nil);
+            currentCollectionViewName = LOCALIZED_STR(@"View: Wall");
         }
         [UIView animateWithDuration:0.2
                          animations:^{
@@ -5926,8 +5926,8 @@ NSIndexPath *selected;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     NSDictionary *sortDictionary = parameters[@"available_sort_methods"];
     NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
-                          NSLocalizedString(@"Sort by", nil), @"label",
-                          [NSString stringWithFormat:@"\n(%@)", NSLocalizedString(@"tap the selection\nto reverse the sort order", nil)], @"genre",
+                          LOCALIZED_STR(@"Sort by"), @"label",
+                          [NSString stringWithFormat:@"\n(%@)", LOCALIZED_STR(@"tap the selection\nto reverse the sort order")], @"genre",
                           nil];
     NSMutableArray *sortOptions = [sortDictionary[@"label"] mutableCopy];
     if (sortMethodIndex != -1) {

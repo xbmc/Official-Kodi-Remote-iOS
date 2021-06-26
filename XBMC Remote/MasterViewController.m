@@ -121,7 +121,7 @@
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         [backgroundView setBackgroundColor:[Utilities getGrayColor:22 alpha:1]];
         cell.selectedBackgroundView = backgroundView;
-        [(UILabel*) [cell viewWithTag:3] setText:NSLocalizedString(@"No connection", nil)];
+        [(UILabel*) [cell viewWithTag:3] setText:LOCALIZED_STR(@"No connection")];
         UILabel *title = (UILabel*) [cell viewWithTag:3];
         if (indexPath.row == 0) {
             UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
@@ -415,7 +415,7 @@
 }
 
 - (void) handleXBMCServerHasChanged: (NSNotification*) sender{
-    [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil) icon:@"connection_off"];
+    [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
 }
 
 -(void)dealloc{

@@ -72,10 +72,10 @@
 
 - (void)configureView {
     if (self.detailItem == nil) {
-        self.navigationItem.title = NSLocalizedString(@"New XBMC Server", nil);
+        self.navigationItem.title = LOCALIZED_STR(@"New XBMC Server");
     }
     else {
-        self.navigationItem.title = NSLocalizedString(@"Modify XBMC Server", nil);
+        self.navigationItem.title = LOCALIZED_STR(@"Modify XBMC Server");
         NSIndexPath *idx = self.detailItem;
         descriptionUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverDescription"];
         usernameUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverUser"];
@@ -528,18 +528,18 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    [descriptionLabel setText:NSLocalizedString(@"Description", nil)];
-    [hostLabel setText:NSLocalizedString(@"Host : port /\nTCP port", nil)];
-    [macLabel setText:NSLocalizedString(@"MAC Address", nil)];
-    [userLabel setText:NSLocalizedString(@"Username and Password", nil)];
-    [preferLabel setText:NSLocalizedString(@"Prefer posters for TV shows", nil)];
-    [noInstancesLabel setText:NSLocalizedString(@"No XBMC instances were found :(", nil)];
-    [findLabel setText:NSLocalizedString(@"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled", nil)];
-    [howtoLabel setText:NSLocalizedString(@"How-to activate the remote app in Kodi", nil)];
-    [howtoLaterLabel setText:NSLocalizedString(@"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems", nil)];
+    [descriptionLabel setText:LOCALIZED_STR(@"Description")];
+    [hostLabel setText:LOCALIZED_STR(@"Host : port /\nTCP port")];
+    [macLabel setText:LOCALIZED_STR(@"MAC Address")];
+    [userLabel setText:LOCALIZED_STR(@"Username and Password")];
+    [preferLabel setText:LOCALIZED_STR(@"Prefer posters for TV shows")];
+    [noInstancesLabel setText:LOCALIZED_STR(@"No XBMC instances were found :(")];
+    [findLabel setText:LOCALIZED_STR(@"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled")];
+    [howtoLabel setText:LOCALIZED_STR(@"How-to activate the remote app in Kodi")];
+    [howtoLaterLabel setText:LOCALIZED_STR(@"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems")];
     
-    [saveButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
-    [startDiscover setTitle:NSLocalizedString(@"Find XBMC", nil) forState:UIControlStateNormal];
+    [saveButton setTitle:LOCALIZED_STR(@"Save") forState:UIControlStateNormal];
+    [startDiscover setTitle:LOCALIZED_STR(@"Find XBMC") forState:UIControlStateNormal];
     startDiscover.titleLabel.numberOfLines = 1;
     startDiscover.titleLabel.adjustsFontSizeToFitWidth = YES;
     startDiscover.titleLabel.lineBreakMode = NSLineBreakByClipping;
@@ -549,10 +549,10 @@
     [saveButton setBackgroundImage:img forState:UIControlStateNormal];
     [startDiscover setBackgroundImage:img forState:UIControlStateNormal];
     
-    [descriptionUI setPlaceholder:NSLocalizedString(@"e.g. My XBMC", nil)];
-    [ipUI setPlaceholder:NSLocalizedString(@"e.g. 192.168.0.8", nil)];
-    [usernameUI setPlaceholder:NSLocalizedString(@"Username", nil)];
-    [passwordUI setPlaceholder:NSLocalizedString(@"Password", nil)];
+    [descriptionUI setPlaceholder:LOCALIZED_STR(@"e.g. My XBMC")];
+    [ipUI setPlaceholder:LOCALIZED_STR(@"e.g. 192.168.0.8")];
+    [usernameUI setPlaceholder:LOCALIZED_STR(@"Username")];
+    [passwordUI setPlaceholder:LOCALIZED_STR(@"Password")];
     self.edgesForExtendedLayout = 0;
     [descriptionUI setBackgroundColor:[Utilities getSystemGray6]];
     [ipUI setBackgroundColor:[Utilities getSystemGray6]];

@@ -4663,7 +4663,7 @@ NSMutableArray *hostRightMenuItems;
     }
     
     // Initialize controllers
-    self.serverName = NSLocalizedString(@"No connection", nil);
+    self.serverName = LOCALIZED_STR(@"No connection");
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         InitialSlidingViewController *initialSlidingViewController = [[InitialSlidingViewController alloc] initWithNibName:@"InitialSlidingViewController" bundle:nil];
         initialSlidingViewController.mainMenu = mainMenuItems;

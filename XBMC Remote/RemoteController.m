@@ -451,7 +451,7 @@
                                      for (int i = 0; i < numSubs; i++) {
                                          NSString *language = @"?";
                                          if (((NSNull *)subtitles[i][@"language"] != [NSNull null])) {
-                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
+                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
                                              NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:subtitles[i][@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0) {
@@ -461,7 +461,7 @@
                                                  language = subtitles[i][@"language"];
                                              }
                                              if ([language length] == 0) {
-                                                 language = NSLocalizedString(@"Unknown", nil);
+                                                 language = LOCALIZED_STR(@"Unknown");
                                              }
                                          }
                                          NSString *tickMark = @"";
@@ -474,7 +474,7 @@
                                      [self showActionSubtitles:actionSheetTitles];
                                 }
                                  else {
-                                     [self showSubInfo:NSLocalizedString(@"Subtitles not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
                                  }
                              }
                          }
@@ -482,7 +482,7 @@
                  }];
             }
             else {
-                [self showSubInfo:NSLocalizedString(@"Subtitles not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
             }
         }
     }];
@@ -518,7 +518,7 @@
                                      for (int i = 0; i < numAudio; i++) {
                                          NSString *language = @"?";
                                          if (((NSNull *)audiostreams[i][@"language"] != [NSNull null])) {
-                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
+                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
                                              NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:audiostreams[i][@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0) {
@@ -528,7 +528,7 @@
                                                  language = audiostreams[i][@"language"];
                                              }
                                              if ([language length] == 0) {
-                                                 language = NSLocalizedString(@"Unknown", nil);
+                                                 language = LOCALIZED_STR(@"Unknown");
                                              }
                                          }
                                          NSString *tickMark = @"";
@@ -541,7 +541,7 @@
                                      [self showActionAudiostreams:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:NSLocalizedString(@"Audiostreams not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
                                  }
                              }
                         }
@@ -549,7 +549,7 @@
                  }];
             }
             else {
-                [self showSubInfo:NSLocalizedString(@"Audiostream not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                [self showSubInfo:LOCALIZED_STR(@"Audiostream not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
             }
         }
     }];
@@ -642,9 +642,9 @@
 -(void)showActionAudiostreams:(NSMutableArray *)sheetActions {
     NSInteger numActions = [sheetActions count];
     if (numActions) {
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Audio stream", nil) message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Audio stream") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
@@ -672,12 +672,12 @@
 -(void)showActionSubtitles:(NSMutableArray *)sheetActions {
     NSInteger numActions = [sheetActions count];
     if (numActions) {
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Subtitles", nil) message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Subtitles") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
-        UIAlertAction* action_disable = [UIAlertAction actionWithTitle:NSLocalizedString(@"Disable subtitles", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
-            [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+        UIAlertAction* action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+            [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemRed:1.0]];
             [self playbackAction:@"Player.SetSubtitle" params:@[@"off", @"subtitle"]];
         }];
         if ([subsDictionary[@"subtitleenabled"] boolValue]) {
@@ -1303,7 +1303,7 @@ NSInteger buttonAction;
 
 -(void)addButtonToListIPad:(id)sender {
     if ([AppDelegate instance].serverVersion < 13) {
-        UIAlertController *alertView = [Utilities createAlertOK:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings", nil)];
+        UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {

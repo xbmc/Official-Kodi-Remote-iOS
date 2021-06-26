@@ -233,67 +233,67 @@
     UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     if (![AppDelegate instance].serverOnLine) {
-        UIAlertAction* action_wake = [UIAlertAction actionWithTitle:NSLocalizedString(@"Wake On Lan", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Wake On Lan") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             if ([AppDelegate instance].obj.serverHWAddr != nil) {
                 [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Command executed", nil) message:nil];
+                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
                 [self presentViewController:alertView animated:YES completion:nil];
             }
             else {
-                UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil)];
+                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Warning") message:LOCALIZED_STR(@"No server MAC address defined")];
                 [self presentViewController:alertView animated:YES completion:nil];
             }
         }];
         [actionView addAction:action_wake];
     }
     else {
-        UIAlertAction* action_pwr_off_system = [UIAlertAction actionWithTitle:NSLocalizedString(@"Power off System", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+        UIAlertAction* action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
             [self powerAction:@"System.Shutdown" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_pwr_off_system];
         
-        UIAlertAction* action_quit_kodi = [UIAlertAction actionWithTitle:NSLocalizedString(@"Quit XBMC application", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"Application.Quit" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_quit_kodi];
         
-        UIAlertAction* action_hibernate = [UIAlertAction actionWithTitle:NSLocalizedString(@"Hibernate", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"System.Hibernate" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_hibernate];
         
-        UIAlertAction* action_suspend = [UIAlertAction actionWithTitle:NSLocalizedString(@"Suspend", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"System.Suspend" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_suspend];
         
-        UIAlertAction* action_reboot = [UIAlertAction actionWithTitle:NSLocalizedString(@"Reboot", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"System.Reboot" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_reboot];
         
-        UIAlertAction* action_scan_audio_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update Audio Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_scan_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_scan_audio_lib];
         
-        UIAlertAction* action_clean_audio_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Clean Audio Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_clean_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"AudioLibrary.Clean" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_clean_audio_lib];
         
-        UIAlertAction* action_scan_video_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update Video Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_scan_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_scan_video_lib];
         
-        UIAlertAction* action_clean_video_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Clean Video Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_clean_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"VideoLibrary.Clean" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_clean_video_lib];
     }
     
-    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
     [actionView addAction:cancelButton];
     [actionView setModalPresentationStyle:UIModalPresentationPopover];
     
@@ -309,10 +309,10 @@
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         NSString *alertTitle = nil;
         if (methodError == nil && error == nil) {
-            alertTitle = NSLocalizedString(@"Command executed", nil);
+            alertTitle = LOCALIZED_STR(@"Command executed");
         }
         else {
-            alertTitle = NSLocalizedString(@"Cannot do that", nil);
+            alertTitle = LOCALIZED_STR(@"Cannot do that");
         }
         UIAlertController *alertView = [Utilities createAlertOK:alertTitle message:nil];
         [self presentViewController:alertView animated:YES completion:nil];
@@ -466,7 +466,7 @@
     CGFloat startInfo = volumeSliderView.frame.origin.x + volumeSliderView.frame.size.width + VIEW_PADDING;
     CGFloat widthInfo = powerButton.frame.origin.x - startInfo - VIEW_PADDING;
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(startInfo, self.view.frame.size.height - TOOLBAR_HEIGHT, widthInfo, TOOLBAR_HEIGHT)];
-    [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
+    [xbmcInfo setTitle:LOCALIZED_STR(@"No connection") forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
     xbmcInfo.titleLabel.minimumScaleFactor = 6.0 / 13.0;
     xbmcInfo.titleLabel.numberOfLines = 2;
@@ -646,7 +646,7 @@
         [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
         [menuViewController setLastSelected:-1];
     }
-    [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil) icon:@"connection_off"];
+    [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
 }
 

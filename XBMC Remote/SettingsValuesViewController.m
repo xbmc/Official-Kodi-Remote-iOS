@@ -114,13 +114,13 @@
             }
         }
         if (xbmcSetting == cUnsupported) {
-            footerMessage = NSLocalizedString(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.", nil);
+            footerMessage = LOCALIZED_STR(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.");
         }
         else if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cMultiselect) {
             footerMessage = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"] == nil ? self.detailItem[@"label"] : self.detailItem[@"genre"]];
         }
         if (xbmcSetting != cUnsupported) {
-            footerMessage = [NSString stringWithFormat:@"%@\xE2\x84\xB9 %@", footerMessage == nil ? @"" : [NSString stringWithFormat:@"%@\n\n", footerMessage], NSLocalizedString(@"Tap and hold a setting to add a new button.", nil)];
+            footerMessage = [NSString stringWithFormat:@"%@\xE2\x84\xB9 %@", footerMessage == nil ? @"" : [NSString stringWithFormat:@"%@\n\n", footerMessage], LOCALIZED_STR(@"Tap and hold a setting to add a new button.")];
         }
         
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
@@ -172,7 +172,7 @@
         [scrubbingMessage setAdjustsFontSizeToFitWidth:YES];
         [scrubbingMessage setMinimumScaleFactor:10.0/13.0];
         [scrubbingMessage setTextColor:[UIColor whiteColor]];
-        [scrubbingMessage setText:NSLocalizedString(@"Slide your finger up or down to adjust the scrubbing rate.", nil)];
+        [scrubbingMessage setText:LOCALIZED_STR(@"Slide your finger up or down to adjust the scrubbing rate.")];
         [scrubbingMessage setTextAlignment:NSTextAlignmentCenter];
         [scrubbingView addSubview:scrubbingMessage];
         
@@ -181,7 +181,7 @@
         [scrubbingRate setFont:[UIFont boldSystemFontOfSize:13]];
         [scrubbingRate setTextColor:[UIColor grayColor]];
         [scrubbingRate setTextAlignment:NSTextAlignmentCenter];
-        [scrubbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
+        [scrubbingRate setText:LOCALIZED_STR(@"Scrubbing 1")];
         [scrubbingView addSubview:scrubbingRate];
         
         [self.view insertSubview:scrubbingView aboveSubview:_tableView];
@@ -210,15 +210,15 @@
         if (indexPath != nil) {
             longPressRow = indexPath;
 
-            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Add a new button", nil) message:NSLocalizedString(@"Enter the label:", nil) preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Add a new button") message:LOCALIZED_STR(@"Enter the label:") preferredStyle:UIAlertControllerStyleAlert];
             [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
                 textField.placeholder = @"";
                 textField.text = [self getActionButtonTitle];
             }];
-            UIAlertAction* addButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Add button", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIAlertAction* addButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Add button") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                     [self addActionButton:alertView];
                 }];
-            UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+            UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
             [alertView addAction:addButton];
             [alertView addAction:cancelButton];
             [self presentViewController:alertView animated:YES completion:nil];
@@ -291,7 +291,7 @@
     customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [messagesView showMessage:NSLocalizedString(@"Button added", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+    [messagesView showMessage:LOCALIZED_STR(@"Button added") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
@@ -307,10 +307,10 @@
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicator stopAnimating];
         if (methodError == nil && error == nil) {
-            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+            [messagesView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
         else {
-            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0 color:[Utilities getSystemRed:0.95]];
+            [messagesView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
             [sender setUserInteractionEnabled:YES];
@@ -449,7 +449,7 @@
         textInputField.borderStyle = UITextBorderStyleRoundedRect;
         textInputField.textAlignment = NSTextAlignmentCenter;
         textInputField.font = [UIFont systemFontOfSize:15];
-        textInputField.placeholder = NSLocalizedString(@"enter value", nil);
+        textInputField.placeholder = LOCALIZED_STR(@"enter value");
         textInputField.autocorrectionType = UITextAutocorrectionTypeNo;
         textInputField.keyboardType = UIKeyboardTypeDefault;
         textInputField.returnKeyType = UIReturnKeyDefault;
@@ -796,7 +796,7 @@
             [sliderLabel setText:[NSString stringWithFormat:stringFormat, (int)storeSliderValue]];
         }
     }
-    scrubbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@", @(slider.scrubbingSpeed)]), nil);
+    scrubbingRate.text = LOCALIZED_STR(([NSString stringWithFormat:@"Scrubbing %@", @(slider.scrubbingSpeed)]));
 }
 
 #pragma mark UISwitch

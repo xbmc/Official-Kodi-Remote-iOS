@@ -64,10 +64,10 @@
 //        viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0.5];
 //        viewTitle.textAlignment = UITextAlignmentCenter;
 //        viewTitle.textColor = [Utilities getGrayColor:230 alpha:1];
-//        viewTitle.text = NSLocalizedString(@"Now Playing", nil);
+//        viewTitle.text = LOCALIZED_STR(@"Now Playing");
 //        [viewTitle sizeToFit];
 //        self.navigationItem.titleView = viewTitle;
-        self.navigationItem.title = NSLocalizedString(@"Now Playing", nil); // DA SISTEMARE COME PARAMETRO
+        self.navigationItem.title = LOCALIZED_STR(@"Now Playing"); // DA SISTEMARE COME PARAMETRO
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
         rightSwipe.cancelsTouchesInView = NO;
@@ -351,7 +351,7 @@ int currentItemID;
         jewelView.image = nil;
     }
     duration.text = @"";
-    albumName.text = NSLocalizedString(@"Nothing is playing", nil);
+    albumName.text = LOCALIZED_STR(@"Nothing is playing");
     songName.text = @"";
     artistName.text = @"";
     lastSelected = -1;
@@ -1409,7 +1409,7 @@ int currentItemID;
                      itemid_extra_info = mainFields[@"itemid_extra_info"];
                  }
                  else {
-                     [self somethingGoesWrong:NSLocalizedString(@"Details not found", nil)];
+                     [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
                      return;
                  }
                  if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]) {// WORKAROUND due the lack of the artistid with Playlist.GetItems
@@ -1417,7 +1417,7 @@ int currentItemID;
                  }
                  NSDictionary *videoLibraryMovieDetail = methodResult[itemid_extra_info];
                  if (((NSNull *)videoLibraryMovieDetail == [NSNull null]) || videoLibraryMovieDetail == nil) {
-                     [self somethingGoesWrong:NSLocalizedString(@"Details not found", nil)];
+                     [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
                      return;
                  }
                  if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]) {// WORKAROUND due the lack of the artistid with Playlist.GetItems
@@ -1425,7 +1425,7 @@ int currentItemID;
                          videoLibraryMovieDetail = methodResult[itemid_extra_info][0];
                      }
                      else {
-                         [self somethingGoesWrong:NSLocalizedString(@"Details not found", nil)];
+                         [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
                          return;
                      }
                  }
@@ -1497,7 +1497,7 @@ int currentItemID;
          }
          else {
 //             NSLog(@"ERORR %@ ", methodError);
-             [self somethingGoesWrong:NSLocalizedString(@"Details not found", nil)];
+             [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
              [queuing stopAnimating];
          }
      }];
@@ -1566,8 +1566,8 @@ int currentItemID;
         transitionedView = playlistView;
         playlistHidden = NO;
         nowPlayingHidden = YES;
-        viewTitle.text = NSLocalizedString(@"Playlist", nil);
-        self.navigationItem.title = NSLocalizedString(@"Playlist", nil);
+        viewTitle.text = LOCALIZED_STR(@"Playlist");
+        self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
         anim = UIViewAnimationTransitionFlipFromRight;
         anim2 = UIViewAnimationTransitionFlipFromRight;
@@ -1582,8 +1582,8 @@ int currentItemID;
         transitionedView = nowPlayingView;
         playlistHidden = YES;
         nowPlayingHidden = NO;
-        viewTitle.text = NSLocalizedString(@"Now Playing", nil);
-        self.navigationItem.title = NSLocalizedString(@"Now Playing", nil);
+        viewTitle.text = LOCALIZED_STR(@"Now Playing");
+        self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
         anim = UIViewAnimationTransitionFlipFromLeft;
         anim2 = UIViewAnimationTransitionFlipFromLeft;
@@ -1827,15 +1827,15 @@ int currentItemID;
     if (!playlistView.hidden && self.view.superview != nil) {
         NSString *playlistName = @"";
         if (playerID == 0) {
-            playlistName = NSLocalizedString(@"Music ", nil);
+            playlistName = LOCALIZED_STR(@"Music ");
         }
         else if (playerID == 1) {
-            playlistName = NSLocalizedString(@"Video ", nil);
+            playlistName = LOCALIZED_STR(@"Video ");
         }
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to clear the %@playlist?", nil), playlistName];
+        NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Are you sure you want to clear the %@playlist?"), playlistName];
         UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
-        UIAlertAction* clearButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Clear Playlist", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction* clearButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clear Playlist") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 [self clearPlaylist:playerID];
             }];
         [alertView addAction:clearButton];
@@ -1854,17 +1854,17 @@ int currentItemID;
             selected = indexPath;
             CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
             if ([item[@"albumid"] intValue] > 0) {
-                [sheetActions addObjectsFromArray:@[NSLocalizedString(@"Album Details", nil), NSLocalizedString(@"Album Tracks", nil)]];
+                [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Album Details"), LOCALIZED_STR(@"Album Tracks")]];
             }
             if ([item[@"artistid"] intValue] > 0 || ([item[@"type"] isEqualToString:@"song"] && [AppDelegate instance].serverVersion > 11)) {
-                [sheetActions addObjectsFromArray:@[NSLocalizedString(@"Artist Details", nil), NSLocalizedString(@"Artist Albums", nil)]];
+                [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Artist Details"), LOCALIZED_STR(@"Artist Albums")]];
             }
             if ([item[@"movieid"] intValue] > 0) {
                 if ([item[@"type"] isEqualToString:@"movie"]) {
-                    [sheetActions addObjectsFromArray:@[NSLocalizedString(@"Movie Details", nil)]];
+                    [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Movie Details")]];
                 }
                 else if ([item[@"type"] isEqualToString:@"episode"]) {
-                    [sheetActions addObjectsFromArray:@[NSLocalizedString(@"TV Show Details", nil), NSLocalizedString(@"Episode Details", nil)]];
+                    [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"TV Show Details"), LOCALIZED_STR(@"Episode Details")]];
                 }
             }
             NSInteger numActions = [sheetActions count];
@@ -1928,7 +1928,7 @@ int currentItemID;
         NSUInteger s = selectedTime % 60;
         NSString *displaySelectedTime = [NSString stringWithFormat:@"%@%02lu:%02lu", (globalSeconds < 3600) ? @"" : [NSString stringWithFormat:@"%02lu:", (unsigned long)h], (unsigned long)m, (unsigned long)s];
         currentTime.text = displaySelectedTime;
-        scrabbingRate.text = NSLocalizedString(([NSString stringWithFormat:@"Scrubbing %@", @(ProgressSlider.scrubbingSpeed)]), nil);
+        scrabbingRate.text = LOCALIZED_STR(([NSString stringWithFormat:@"Scrubbing %@", @(ProgressSlider.scrubbingSpeed)]));
     }
 }
 
@@ -1939,7 +1939,7 @@ int currentItemID;
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
@@ -1975,22 +1975,22 @@ int currentItemID;
     if ([item[@"type"] isEqualToString:@"song"]) {
         notificationName = @"UIApplicationEnableMusicSection";
         MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
-        if ([actiontitle isEqualToString:NSLocalizedString(@"Album Details", nil)]) {
+        if ([actiontitle isEqualToString:LOCALIZED_STR(@"Album Details")]) {
             choosedTab = 0;
             MenuItem.subItem.mainLabel = item [@"album"];
             [MenuItem.subItem setMainMethod:nil];
         }
-        else if ([actiontitle isEqualToString:NSLocalizedString(@"Album Tracks", nil)]) {
+        else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Album Tracks")]) {
             choosedTab = 0;
             MenuItem.subItem.mainLabel = item[@"album"];
 
         }
-        else if ([actiontitle isEqualToString:NSLocalizedString(@"Artist Details", nil)]) {
+        else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Details")]) {
             choosedTab = 1;
             MenuItem.subItem.mainLabel = item[@"artist"];
             [MenuItem.subItem setMainMethod:nil];
         }
-        else if ([actiontitle isEqualToString:NSLocalizedString(@"Artist Albums", nil)]) {
+        else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Albums")]) {
             choosedTab = 1;
             MenuItem.subItem.mainLabel = item[@"artist"];
         }
@@ -2006,12 +2006,12 @@ int currentItemID;
     }
     else if ([item[@"type"] isEqualToString:@"episode"]) {
         notificationName = @"UIApplicationEnableTvShowSection";
-        if ([actiontitle isEqualToString:NSLocalizedString(@"Episode Details", nil)]) {
+        if ([actiontitle isEqualToString:LOCALIZED_STR(@"Episode Details")]) {
             MenuItem = [AppDelegate instance].playlistTvShows.subItem;
             choosedTab = 0;
             MenuItem.subItem.mainLabel = item[@"label"];
         }
-        else if ([actiontitle isEqualToString:NSLocalizedString(@"TV Show Details", nil)]) {
+        else if ([actiontitle isEqualToString:LOCALIZED_STR(@"TV Show Details")]) {
             MenuItem = [[AppDelegate instance].playlistTvShows copy];
             [MenuItem.subItem setMainMethod:nil];
             choosedTab = 0;
@@ -2520,7 +2520,7 @@ int currentItemID;
 -(void)addSegmentControl{
     seg_music.hidden = YES;
     seg_video.hidden = YES;
-    playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[NSLocalizedString(@"Music", nil), [[NSLocalizedString(@"Video ", nil) capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
+    playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[LOCALIZED_STR(@"Music"), [[LOCALIZED_STR(@"Video ") capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
     CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH)/2;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         left_margin = floor(([self currentScreenBoundsDependOnOrientation].size.width - SEGMENTCONTROL_WIDTH)/2);
@@ -2579,8 +2579,8 @@ int currentItemID;
             nowPlayingHidden = NO;
             playlistView.hidden = YES;
             playlistHidden = YES;
-            viewTitle.text = NSLocalizedString(@"Now Playing", nil);
-            self.navigationItem.title = NSLocalizedString(@"Now Playing", nil);
+            viewTitle.text = LOCALIZED_STR(@"Now Playing");
+            self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
             CGRect playlistToolBarOriginY = playlistActionView.frame;
             playlistToolBarOriginY.origin.y = playlistToolbar.frame.origin.y + playlistToolbar.frame.size.height;
             playlistActionView.frame = playlistToolBarOriginY;
@@ -2767,16 +2767,16 @@ int currentItemID;
     tempFanartImageView = [UIImageView new];
     tempFanartImageView.hidden = YES;
     [self.view addSubview:tempFanartImageView];
-    [seg_music setTitle:NSLocalizedString(@"Music", nil) forState:UIControlStateNormal];
-    [seg_video setTitle:NSLocalizedString(@"Video", nil) forState:UIControlStateNormal];
-    [PartyModeButton setTitle:NSLocalizedString(@"Party", nil) forState:UIControlStateNormal];
-    [PartyModeButton setTitle:NSLocalizedString(@"Party", nil) forState:UIControlStateHighlighted];
-    [PartyModeButton setTitle:NSLocalizedString(@"Party", nil) forState:UIControlStateSelected];
-    [editTableButton setTitle:NSLocalizedString(@"Edit", nil) forState:UIControlStateNormal];
-    [editTableButton setTitle:NSLocalizedString(@"Done", nil) forState:UIControlStateSelected];
+    [seg_music setTitle:LOCALIZED_STR(@"Music") forState:UIControlStateNormal];
+    [seg_video setTitle:LOCALIZED_STR(@"Video") forState:UIControlStateNormal];
+    [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateNormal];
+    [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateHighlighted];
+    [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateSelected];
+    [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
+    [editTableButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateSelected];
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    [noItemsLabel setText:NSLocalizedString(@"No items found.", nil)];
+    [noItemsLabel setText:LOCALIZED_STR(@"No items found.")];
     [self addSegmentControl];
     cellBackgroundColor = [UIColor whiteColor];
     bottomPadding = 0;
@@ -2809,8 +2809,8 @@ int currentItemID;
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
-    [scrabbingMessage setText:NSLocalizedString(@"Slide your finger up to adjust the scrubbing rate.", nil)];
-    [scrabbingRate setText:NSLocalizedString(@"Scrubbing 1", nil)];
+    [scrabbingMessage setText:LOCALIZED_STR(@"Slide your finger up to adjust the scrubbing rate.")];
+    [scrabbingRate setText:LOCALIZED_STR(@"Scrubbing 1")];
     sheetActions = [NSMutableArray new];
     playerID = -1;
     selectedPlayerID = -1;

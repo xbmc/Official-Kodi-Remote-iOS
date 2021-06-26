@@ -240,7 +240,7 @@
         [title setTextColor:fontColor];
         [title setHighlightedTextColor:fontColor];
     }
-    if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]) {
+    if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
         icon.alpha = 0.8;
         if (torchIsOn) {
             iconName = @"torch_on";
@@ -284,13 +284,13 @@
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
                                                                                    target: nil
                                                                                    action: nil];
-    addButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"...more", nil)
+    addButton = [[UIBarButtonItem alloc] initWithTitle: LOCALIZED_STR(@"...more")
                                                                    style: UIBarButtonItemStylePlain
                                                                   target: self
                                                                  action: @selector(addButtonToList:)];
     
     addButton.enabled = NO;
-    editTableButton = [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"Edit", nil)
+    editTableButton = [[UIBarButtonItem alloc] initWithTitle: LOCALIZED_STR(@"Edit")
                                                                    style: UIBarButtonItemStylePlain
                                                                   target: self
                                                                   action: @selector(editTable:)];
@@ -305,7 +305,7 @@
 
 -(void)addButtonToList:(id)sender {
     if ([AppDelegate instance].serverVersion < 13) {
-        UIAlertController *alertView = [Utilities createAlertOK:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings", nil)];
+        UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
@@ -332,7 +332,7 @@
     [arrayButtons saveData];
     if ([arrayButtons.buttons count] == 0) {
         [menuTableView setEditing:NO animated:YES];
-        [editTableButton setTitle:NSLocalizedString(@"Edit", nil)];
+        [editTableButton setTitle:LOCALIZED_STR(@"Edit")];
         [editTableButton setStyle:UIBarButtonItemStylePlain];
         [editTableButton setEnabled:NO];
         [arrayButtons.buttons addObject:infoCustomButton];
@@ -362,12 +362,12 @@
     UIBarButtonItem *editButton = (UIBarButtonItem *)sender;
     if (menuTableView.editing) {
         [menuTableView setEditing:NO animated:YES];
-        [editButton setTitle:NSLocalizedString(@"Edit", nil)];
+        [editButton setTitle:LOCALIZED_STR(@"Edit")];
         [editButton setStyle:UIBarButtonItemStylePlain];
     }
     else {
         [menuTableView setEditing:YES animated:YES];
-        [editButton setTitle:NSLocalizedString(@"Done", nil)];
+        [editButton setTitle:LOCALIZED_STR(@"Done")];
         [editButton setStyle:UIBarButtonItemStyleDone];
     }
 }
@@ -426,12 +426,12 @@
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Custom button", nil) message:NSLocalizedString(@"Modify label:", nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Custom button") message:LOCALIZED_STR(@"Modify label:") preferredStyle:UIAlertControllerStyleAlert];
     [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"";
         textField.text = tableData[indexPath.row][@"label"];
     }];
-    UIAlertAction* updateButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update label", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    UIAlertAction* updateButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update label") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         tableData[indexPath.row][@"label"] = [[alertView textFields][0] text];
             
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
@@ -444,7 +444,7 @@
                 [arrayButtons saveData];
             }
         }];
-    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
     [alertView addAction:updateButton];
     [alertView addAction:cancelButton];
     [self presentViewController:alertView animated:YES completion:nil];
@@ -467,11 +467,11 @@
             }
             NSString *cancel_button = tableData[indexPath.row][@"action"][@"cancel_button"];
             if (cancel_button == nil) {
-                cancel_button = NSLocalizedString(@"Cancel", nil);
+                cancel_button = LOCALIZED_STR(@"Cancel");
             }
             NSString *ok_button = tableData[indexPath.row][@"action"][@"ok_button"];
             if (ok_button == nil) {
-                ok_button = NSLocalizedString(@"Yes", nil);
+                ok_button = LOCALIZED_STR(@"Yes");
             }
             UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:countdown_message preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:cancel_button style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
@@ -492,10 +492,10 @@
                 NSString *serverMAC = [AppDelegate instance].obj.serverHWAddr;
                 if (serverMAC != nil && ![serverMAC isEqualToString:@":::::"]) {
                     [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                    [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+                    [messagesView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
                 }
                 else {
-                    UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil)];
+                    UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Warning") message:LOCALIZED_STR(@"No server MAC address defined")];
                     [self presentViewController:alertView animated:YES completion:nil];
                 }
             }
@@ -511,36 +511,36 @@
             }
         }
     }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"Keyboard", nil)]) {
+    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Keyboard")]) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleVirtualKeyboard" object:nil userInfo:nil];
         if ([tableData[indexPath.row][@"revealViewTop"] boolValue]) {
             [self.slidingViewController resetTopView];
         }
     }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"Help Screen", nil)]) {
+    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Help Screen")]) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleQuickHelp" object:nil userInfo:nil];
         [self.slidingViewController resetTopView];
     }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"Gesture Zone", nil)]) {
+    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Gesture Zone")]) {
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@(YES) forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"Button Pad", nil)]) {
+    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad")]) {
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@(NO) forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"Button Pad/Gesture Zone", nil)]) {
+    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad/Gesture Zone")]) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:nil];
         [self.slidingViewController resetTopView];
     }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"LED Torch", nil)]) {
+    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
         UIImageView *torchIcon = (UIImageView *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [self turnTorchOn:!torchIsOn icon:torchIcon];
     }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:NSLocalizedString(@"Cancel", nil)]) {
+    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Cancel")]) {
         [self.slidingViewController resetTopView];
     }
 }
@@ -553,10 +553,10 @@
     }
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (methodError == nil && error == nil) {
-            [messagesView showMessage:NSLocalizedString(@"Command executed", nil) timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+            [messagesView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
         else {
-            [messagesView showMessage:NSLocalizedString(@"Cannot do that", nil) timeout:2.0 color:[Utilities getSystemRed:0.95]];
+            [messagesView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
             [sender setUserInteractionEnabled:YES];
@@ -623,7 +623,7 @@
     int infoLabelHeight = 100;
     infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2 - infoLabelHeight/2, self.view.frame.size.width - (60), infoLabelHeight)];
     infoLabel.numberOfLines = 2;
-    [infoLabel setText:NSLocalizedString(@"Select an XBMC Server from the list", nil)];
+    [infoLabel setText:LOCALIZED_STR(@"Select an XBMC Server from the list")];
     [infoLabel setBackgroundColor:[UIColor clearColor]];
     [infoLabel setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
     [infoLabel setTextAlignment:NSTextAlignmentCenter];
@@ -632,7 +632,7 @@
     [self.view addSubview:infoLabel];
     
     infoCustomButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                        NSLocalizedString(@"No custom button defined.\r\nPress \"...more\" below to add new ones.", nil), @"label",
+                        LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."), @"label",
                         [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
                         @(NO), @"hideLineSeparator",
                         [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",

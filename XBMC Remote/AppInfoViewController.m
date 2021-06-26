@@ -90,11 +90,11 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.edgesForExtendedLayout = 0;
-    [appName setText:NSLocalizedString(@"Official XBMC Remote\nfor iOS", nil)];
+    [appName setText:LOCALIZED_STR(@"Official XBMC Remote\nfor iOS")];
     __auto_type infoDictionary = NSBundle.mainBundle.infoDictionary;
     [appVersion setText:[NSString stringWithFormat:@"v%@ (%@)", infoDictionary[@"CFBundleShortVersionString"], infoDictionary[(NSString *)kCFBundleVersionKey]]];
-    [appDescription setText:NSLocalizedString(@"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute", nil)];
-    [appGreeting setText:NSLocalizedString(@"enjoy!", nil)];
+    [appDescription setText:LOCALIZED_STR(@"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute")];
+    [appGreeting setText:LOCALIZED_STR(@"enjoy!")];
 }
 
 -(BOOL)shouldAutorotate{

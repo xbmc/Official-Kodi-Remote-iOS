@@ -461,18 +461,18 @@
 
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg {
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* okButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+    UIAlertAction* okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
     [alertView addAction:okButton];
     return alertView;
 }
 
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg {
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* copyButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Copy to clipboard", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    UIAlertAction* copyButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Copy to clipboard") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
             pasteboard.string = msg;
     }];
-    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
     [alertView addAction:copyButton];
     [alertView addAction:cancelButton];
     return alertView;
@@ -490,7 +490,7 @@
             [UIApplication.sharedApplication openURL:nsurl options:@{} completionHandler:nil];
         }
         else {
-            UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Error loading page", nil) message:exception.reason];
+            UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Error loading page") message:exception.reason];
             [fromctrl presentViewController:alertView animated:YES completion:nil];
         }
         return;
