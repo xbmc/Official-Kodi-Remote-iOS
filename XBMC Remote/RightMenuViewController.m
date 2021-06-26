@@ -153,6 +153,7 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [cell.contentView addSubview:remoteControllerView.view];
             [remoteControllerView setEmbeddedView];
+            remoteControllerView.panFallbackImageView.frame = cell.frame;
         }
     }
     else {

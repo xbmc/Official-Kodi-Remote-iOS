@@ -19,8 +19,12 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DetailViewController.h"
 
-#define ROTATION_TRIGGER 0.015 
-#define SCALE_TO_REDUCE_BORDERS 1.05
+#define ROTATION_TRIGGER 0.015
+#define REMOTE_PADDING 120 // Space which is used up by footer, header and remote toolbar
+#define TOOLBAR_ICON_SIZE 36
+#define TOOLBAR_SPACING 8 // Space from icon to frame border
+#define TOOLBAR_PADDING 68
+#define TOOLBAR_START (3*TOOLBAR_PADDING + TOOLBAR_ICON_SIZE + TOOLBAR_SPACING) // Origin for first toolbar icon
 
 @interface RemoteController ()
 
@@ -54,22 +58,7 @@
 
 - (void)setEmbeddedView{
     CGRect frame = TransitionalView.frame;
-    CGFloat transform = [Utilities getTransformX];
-    int startX = -6;
-    int startY = 6;
-    int transViewY = 46;
-    if (transform >= 1.29) {
-        // All devices with width >= 414
-        startX = 6;
-        transViewY = 66;
-    }
-    else if (transform > 1.0) {
-        // All devices with 320 > width > 414
-        startX = 3;
-        transViewY = 58;
-    }
-        
-    int newWidth = (int) (296 * transform);
+    CGFloat newWidth = remoteControlView.frame.size.width - ANCHORRIGHTPEEK;
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton *) self.view viewWithTag:2],
                        [(UIButton *) self.view viewWithTag:3],
@@ -78,8 +67,6 @@
                        [(UIButton *) self.view viewWithTag:8],
                        nil]
                 hide:YES];
-    UIButton *buttonTodo = (UIButton *)[self.view viewWithTag:10];
-    [buttonTodo setFrame:CGRectMake(buttonTodo.frame.origin.x, buttonTodo.frame.origin.y - 1, buttonTodo.frame.size.width, buttonTodo.frame.size.height)];
     if ([[UIScreen mainScreen] bounds].size.height >= 568) {
         [self moveButton: [NSArray arrayWithObjects:
                            (UIButton *)[self.view viewWithTag:21],
@@ -98,9 +85,15 @@
                            nil]
                     hide: YES];
     }
+    // Place the transitional view in the middle between the two button rows
+    CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:21].frame);
+    CGFloat upperButtonLowerBorder = CGRectGetMaxY([self.view viewWithTag:6].frame);
+    CGFloat transViewY = (lowerButtonUpperBorder + upperButtonLowerBorder - TransitionalView.frame.size.height)/2;
     [TransitionalView setFrame:CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height)];
-    int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
-    [remoteControlView setFrame:CGRectMake(startX, startY, newWidth, newHeight)];
+    
+    // Maintain aspect ratio
+    CGFloat newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
+    [remoteControlView setFrame:CGRectMake(-1, 0, newWidth, newHeight)];
     
     UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -116,12 +109,9 @@
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
     }
-    UIButton *stopButton = (UIButton *)[self.view viewWithTag:6];
-
-    UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [stopButton setHidden:YES];
-    gestureButton.frame = CGRectMake(stopButton.frame.origin.x + 1, stopButton.frame.origin.y, stopButton.frame.size.width, stopButton.frame.size.height);
-    [gestureButton setContentMode:UIViewContentModeRight];
+    // Overload "stop" button with gesture icon
+    UIButton *gestureButton = (UIButton *)[self.view viewWithTag:6];
+    [gestureButton setContentMode:UIViewContentModeScaleAspectFit];
     [gestureButton setShowsTouchWhenHighlighted:NO];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateHighlighted];
@@ -129,11 +119,10 @@
     [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down"] forState:UIControlStateHighlighted];
     gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-    [remoteControlView addSubview:gestureButton];
     
     frame = subsInfoLabel.frame;
-    frame.origin.x = -1 * startX;
-    frame.size.width = newWidth + (startX * 2);
+    frame.origin.x = 0;
+    frame.size.width = newWidth;
     subsInfoLabel.frame = frame;
 }
 
@@ -141,20 +130,19 @@
     if (self.detailItem) {
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
+    quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help"];
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
         frame.size.height = frame.size.height *transform;
         frame.size.width = frame.size.width*transform;
-        [remoteControlView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width* SCALE_TO_REDUCE_BORDERS, frame.size.height* SCALE_TO_REDUCE_BORDERS)];
+        remoteControlView.frame = frame;
         frame = subsInfoLabel.frame;
         frame.size.width = [[UIScreen mainScreen] bounds].size.width;
         frame.origin.x = ((remoteControlView.frame.size.width - [[UIScreen mainScreen] bounds].size.width) / 2);
         subsInfoLabel.frame = frame;
     }
     else {
-        int newWidth = STACKSCROLL_WIDTH;
         [quickHelpView setFrame:CGRectMake(quickHelpView.frame.origin.x, quickHelpView.frame.origin.y, quickHelpView.frame.size.width, quickHelpView.frame.size.height - 20)];
         [quickHelpView
          setAutoresizingMask:
@@ -165,10 +153,16 @@
          UIViewAutoresizingFlexibleHeight |
          UIViewAutoresizingFlexibleWidth
          ];
+        
+        // Calculate the maximum possible scaling for the remote
+        CGFloat scaleFactorHorizontal = STACKSCROLL_WIDTH / CGRectGetWidth(remoteControlView.frame);
+        CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING;
+        CGFloat scaleFactorVertical =  minViewHeight / CGRectGetHeight(remoteControlView.frame);
+        CGFloat transform = MIN(scaleFactorHorizontal, scaleFactorVertical);
 
-        int newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;        
+        CGFloat newWidth = CGRectGetWidth(remoteControlView.frame) * transform;
+        CGFloat newHeight = CGRectGetHeight(remoteControlView.frame) * transform;
         [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
-        quickHelpImageView.image = [UIImage imageNamed:@"remote quick help_ipad"];
         CGRect frame = subsInfoLabel.frame;
         frame.size.width = newWidth;
         frame.origin.x = 0;
@@ -1230,13 +1224,9 @@ NSInteger buttonAction;
     if (httpHeaders[@"Authorization"] != nil) {
         [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
-    CGFloat infoButtonOriginY = -16;
-    CGFloat infoButtonalpha = 0.9;
 
     self.edgesForExtendedLayout = 0;
     self.view.tintColor = TINT_COLOR;
-    infoButtonOriginY = -14;
-    infoButtonalpha = 1.0;
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
@@ -1265,17 +1255,20 @@ NSInteger buttonAction;
         }
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        CGRect frame = CGRectMake(self.view.bounds.size.width - TOOLBAR_START, self.view.bounds.size.height - TOOLBAR_ICON_SIZE - TOOLBAR_SPACING, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
         UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        settingButton.frame = CGRectMake(self.view.bounds.size.width - 238, self.view.bounds.size.height - 36, 22, 22);
+        settingButton.frame = frame;
         [settingButton setContentMode:UIViewContentModeRight];
         [settingButton setShowsTouchWhenHighlighted:YES];
         [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
         settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [settingButton addTarget:self action:@selector(addButtonToListIPad:) forControlEvents:UIControlEventTouchUpInside];
+        settingButton.alpha = 0.8;
         [self.view addSubview:settingButton];
         
         UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        gestureButton.frame = CGRectMake(self.view.bounds.size.width - 188, self.view.bounds.size.height - 43, 56, 36);
+        frame.origin.x += TOOLBAR_PADDING;
+        gestureButton.frame = frame;
         [gestureButton setContentMode:UIViewContentModeRight];
         [gestureButton setShowsTouchWhenHighlighted:YES];
         [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
@@ -1285,24 +1278,25 @@ NSInteger buttonAction;
         [self.view addSubview:gestureButton];
         
         UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        keyboardButton.frame = CGRectMake(self.view.bounds.size.width - 120, self.view.bounds.size.height - 43, 56, 36);
-        UIImage* keyboardImg = [UIImage imageNamed:@"keyboard_icon"];
+        frame.origin.x += TOOLBAR_PADDING;
+        keyboardButton.frame = frame;
         [keyboardButton setContentMode:UIViewContentModeRight];
         [keyboardButton setShowsTouchWhenHighlighted:YES];
-        [keyboardButton setImage:keyboardImg forState:UIControlStateNormal];
+        [keyboardButton setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
         keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
         keyboardButton.alpha = 0.8;
         [self.view addSubview:keyboardButton];
 
-        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        frame.origin.x += TOOLBAR_PADDING;
+        helpButton.frame = frame;
+        [helpButton setContentMode:UIViewContentModeRight];
+        [helpButton setShowsTouchWhenHighlighted:YES];
+        [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
         helpButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
-        CGRect buttonRect = helpButton.frame;
-        buttonRect.origin.x = self.view.bounds.size.width - buttonRect.size.width - 16;
-        buttonRect.origin.y = self.view.bounds.size.height - buttonRect.size.height + infoButtonOriginY;
-        [helpButton setFrame:buttonRect];
-        helpButton.alpha = infoButtonalpha;
+        helpButton.alpha = 0.8;
         [self.view addSubview:helpButton];
     }
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat"]]];
