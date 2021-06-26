@@ -23,3 +23,12 @@
 "Override Lockscreen" = "Sperrbildschirm verhindern";
 "Show all files in filemode" = "Alle Dateien anzeigen";
 "Filemode changes needs app restart" = "Dateimodus-Änderungen erfordern einen App-Neustart";
+"Main Menu" = "Hauptmenü";
+"Main Menu changes needs app restart" = "Hauptmenü-Änderungen erfordern einen App-Neustart";
+"Show MUSIC" = "Zeige MUSIK";
+"Show MOVIES" = "Zeige FILME";
+"Show TV SHOWS" = "Zeige TV-SERIEN";
+"Show PICTURES" = "Zeige BILDER";
+"Show LIVE TV" = "Zeige LIVE TV";
+"Show NOW PLAYING" = "Zeige GERADE LÄUFT";
+"Show REMOTE CONTROL" = "Zeige FERNBEDIENUNG";
