@@ -54,7 +54,7 @@ typedef enum {
 @property (nonatomic, DS_STRONG, readonly)  NSString    *message;
 @property (nonatomic, DS_STRONG, readonly)  id          data;
 
-- (id)initWithErrorData:(NSDictionary *)errorData;
-+ (DSJSONRPCError *)errorWithData:(NSDictionary *)errorData;
+- (id)initWithErrorData:(NSDictionary*)errorData;
++ (DSJSONRPCError*)errorWithData:(NSDictionary*)errorData;
 
 @end

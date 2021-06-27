@@ -13,6 +13,6 @@
 
 @property (nonatomic, readonly) UILabel *headerLabel;
 
-- (void) setHeaderText:(NSString *)text;
+- (void)setHeaderText:(NSString*)text;
 
 @end

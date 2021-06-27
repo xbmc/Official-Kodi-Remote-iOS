@@ -9,6 +9,6 @@
 
 @interface UIImage (Resize)
 
-- (UIImage *)resizedImage:(CGImageRef)imageRef size:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality;
+- (UIImage*)resizedImage:(CGImageRef)imageRef size:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality;
 
 @end

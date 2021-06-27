@@ -43,8 +43,8 @@ NSMutableArray *hostRightMenuItems;
 @synthesize remoteControlMenuItems;
 @synthesize xbmcSettings;
 
-+ (AppDelegate *) instance {
-	return (AppDelegate *) [[UIApplication sharedApplication] delegate];
++ (AppDelegate*)instance {
+	return (AppDelegate*)[[UIApplication sharedApplication] delegate];
 }
 
 #pragma mark globals
@@ -350,7 +350,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark -
 #pragma mark init
 
-- (id) init {
+- (id)init {
 	if ((self = [super init])) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = paths[0];
@@ -380,7 +380,7 @@ NSMutableArray *hostRightMenuItems;
 	
 }
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]) {
@@ -4677,17 +4677,17 @@ NSMutableArray *hostRightMenuItems;
     return YES;
 }
 
--(BOOL)isMenuEntryEnabled:(NSString*)menuItem {
+- (BOOL)isMenuEntryEnabled:(NSString*)menuItem {
     id menuEnabled = [[NSUserDefaults standardUserDefaults] objectForKey:menuItem];
     return (menuEnabled == nil || [menuEnabled boolValue]);
 }
 
--(NSURL *)getServerJSONEndPoint {
+- (NSURL*)getServerJSONEndPoint {
     NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", obj.serverIP, obj.serverPort];
     return [NSURL URLWithString:serverJSON];
 }
 
--(NSDictionary *)getServerHTTPHeaders {
+- (NSDictionary*)getServerHTTPHeaders {
     NSData *authCredential = [[NSString stringWithFormat:@"%@:%@", obj.serverUser, obj.serverPass] dataUsingEncoding:NSUTF8StringEncoding];
     NSString *base64AuthCredentials = [authCredential base64EncodedStringWithOptions:(NSDataBase64EncodingOptions)0];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", base64AuthCredentials];
@@ -4697,7 +4697,7 @@ NSMutableArray *hostRightMenuItems;
 
 #pragma mark -
 
--(void)handleProximityChangeNotification:(id)sender{
+- (void)handleProximityChangeNotification:(id)sender {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[UIDevice currentDevice] proximityState]) {
@@ -4717,7 +4717,7 @@ NSMutableArray *hostRightMenuItems;
     }
 }
 
--(void)sendWOL:(NSString *)MAC withPort:(NSInteger)WOLport {
+- (void)sendWOL:(NSString*)MAC withPort:(NSInteger)WOLport {
     CFSocketRef     WOLsocket;
     WOLsocket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_DGRAM, IPPROTO_UDP, 0, NULL, NULL);
     if (WOLsocket) {
@@ -4725,7 +4725,7 @@ NSMutableArray *hostRightMenuItems;
         desc = CFSocketGetNative(WOLsocket);
         int yes = -1;
         
-        if (setsockopt (desc, SOL_SOCKET, SO_BROADCAST, (char *)&yes, sizeof (yes)) < 0) {
+        if (setsockopt (desc, SOL_SOCKET, SO_BROADCAST, (char*)&yes, sizeof (yes)) < 0) {
             NSLog(@"Set Socket options failed");
         }
         
@@ -4765,7 +4765,7 @@ NSMutableArray *hostRightMenuItems;
                     continue;
                 if (!ifIter->ifa_addr || ifIter->ifa_addr->sa_family != AF_INET || !ifIter->ifa_broadaddr)
                     continue;
-                broadcastAddress = ((struct sockaddr_in *)ifIter->ifa_broadaddr)->sin_addr.s_addr;
+                broadcastAddress = ((struct sockaddr_in*)ifIter->ifa_broadaddr)->sin_addr.s_addr;
                 break;
             }
             if (ifs) {
@@ -4782,7 +4782,7 @@ NSMutableArray *hostRightMenuItems;
         addr.sin_port = htons(WOLport);
         
         CFDataRef message_data = CFDataCreate(NULL, (unsigned char*)&message, sizeof(message));
-        CFDataRef destinationAddressData = CFDataCreate(NULL, (const UInt8 *)&addr, sizeof(addr));
+        CFDataRef destinationAddressData = CFDataCreate(NULL, (const UInt8*)&addr, sizeof(addr));
         
         CFSocketError CFSocketSendData_error = CFSocketSendData(WOLsocket, destinationAddressData, message_data, 30);
         
@@ -4793,17 +4793,17 @@ NSMutableArray *hostRightMenuItems;
 }
 
 
-- (void)applicationWillResignActive:(UIApplication *)application{
+- (void)applicationWillResignActive:(UIApplication*)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application{
+- (void)applicationDidEnterBackground:(UIApplication*)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application{
+- (void)applicationWillEnterForeground:(UIApplication*)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
@@ -4816,27 +4816,27 @@ NSMutableArray *hostRightMenuItems;
 //    [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application{
+- (void)applicationDidBecomeActive:(UIApplication*)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application{
+- (void)applicationWillTerminate:(UIApplication*)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+- (void)applicationDidReceiveMemoryWarning:(UIApplication*)application {
     [[SDImageCache sharedImageCache] clearMemory];
 }
 
--(void)saveServerList{
+- (void)saveServerList {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     if ([paths count] > 0) { 
         [NSKeyedArchiver archiveRootObject:arrayServerList toFile:self.dataFilePath];
     }
 }
 
--(void)clearAppDiskCache{
+- (void)clearAppDiskCache {
     // OLD SDWEBImageCache
     NSString *fullNamespace = @"ImageCache"; 
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);

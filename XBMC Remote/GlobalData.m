@@ -20,7 +20,7 @@
 @synthesize preferTVPosters;    
 
 static GlobalData *instance = nil;
-+(GlobalData *)getInstance    {    
++ (GlobalData*)getInstance {    
     @synchronized(self) {    
         if (instance == nil) {    
             instance = [GlobalData new];

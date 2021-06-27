@@ -10,7 +10,7 @@
 
 @implementation FloatingHeaderFlowLayout
 
-- (NSArray *) layoutAttributesForElementsInRect:(CGRect)rect {
+- (NSArray*)layoutAttributesForElementsInRect:(CGRect)rect {
     
     NSMutableArray *answer = [[super layoutAttributesForElementsInRect:rect] mutableCopy];
     UICollectionView * const cv = self.collectionView;
@@ -82,7 +82,7 @@
     
 }
 
--(CGSize)collectionViewContentSize{
+- (CGSize)collectionViewContentSize {
     CGSize size = [super collectionViewContentSize];
     if (size.height < self.collectionView.frame.size.height + searchBarHeight) {
         size.height = self.collectionView.frame.size.height + searchBarHeight;
@@ -90,11 +90,11 @@
     return size;
 }
 
--(void)setSearchBarHeight:(CGFloat)height {
+- (void)setSearchBarHeight:(CGFloat)height {
     searchBarHeight = height;
 }
 
-- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity{
+- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity {
     CGFloat offsetAdjustment = 0;
     CGFloat threshold = searchBarHeight / 2;
     CGFloat contentOffsetInset = proposedContentOffset.y;

@@ -19,7 +19,7 @@ NSOutputStream	*outStream;
 
 @implementation tcpJSONRPC
 
--(id)init{
+- (id)init {
     if ((self = [super init])) {
         heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
         [[NSNotificationCenter defaultCenter] addObserver: self
@@ -40,20 +40,20 @@ NSOutputStream	*outStream;
     return self;
 }
 
--(void)handleSystemOnSleep:(NSNotification *)sender{
+- (void)handleSystemOnSleep:(NSNotification*)sender {
     [AppDelegate instance].serverTCPConnectionOpen = NO;
 }
 
-- (void) handleDidEnterBackground: (NSNotification*) sender{
+- (void)handleDidEnterBackground:(NSNotification*)sender {
     [heartbeatTimer invalidate];
     heartbeatTimer = nil;
 }
 
-- (void) handleEnterForeground: (NSNotification*) sender{
+- (void)handleEnterForeground:(NSNotification*)sender {
     heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
 }
 
-- (void)startNetworkCommunicationWithServer:(NSString *)server serverPort:(int)port{
+- (void)startNetworkCommunicationWithServer:(NSString*)server serverPort:(int)port {
     if (port == 0) {
         port = 9090;
     }
@@ -62,8 +62,8 @@ NSOutputStream	*outStream;
     }
     CFReadStreamRef readStream;
 	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)CFBridgingRetain(server), port, &readStream, NULL);
-	inStream = (__bridge NSInputStream *)readStream;
-//	outStream = (__bridge NSOutputStream *)writeStream;
+	inStream = (__bridge NSInputStream*)readStream;
+//	outStream = (__bridge NSOutputStream*)writeStream;
 	[inStream setDelegate:self];
 //	[outStream setDelegate:self];
 	[inStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -73,11 +73,11 @@ NSOutputStream	*outStream;
     CFRelease((__bridge CFTypeRef)(server));
 }
 
--(NSStreamStatus)currentSocketInStatus{
+- (NSStreamStatus)currentSocketInStatus {
     return [inStream streamStatus];
 }
 
--(void)stopNetworkCommunication{
+- (void)stopNetworkCommunication {
     [AppDelegate instance].serverTCPConnectionOpen = NO;
     NSStreamStatus current_status = [inStream streamStatus];
     if (current_status == NSStreamStatusOpen) {
@@ -88,7 +88,7 @@ NSOutputStream	*outStream;
     }
 }
 
-- (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
+- (void)stream:(NSStream*)theStream handleEvent:(NSStreamEvent)streamEvent {
 
 	switch (streamEvent) {
     
@@ -116,9 +116,9 @@ NSOutputStream	*outStream;
                             if (parseError == nil) {
                                 NSString *method = @"";
                                 NSDictionary *paramsDict;
-                                if (((NSNull *)notification[@"method"] != [NSNull null])) {
+                                if (((NSNull*)notification[@"method"] != [NSNull null])) {
                                         method = notification[@"method"];
-                                    if (((NSNull *)notification[@"params"] != [NSNull null])) {
+                                    if (((NSNull*)notification[@"params"] != [NSNull null])) {
                                         paramsDict = [NSDictionary dictionaryWithObject:notification[@"params"] forKey:@"params"];
                                     }
                                     [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:paramsDict];
@@ -151,7 +151,7 @@ NSOutputStream	*outStream;
 }
 
 
--(void)noConnectionNotifications{
+- (void)noConnectionNotifications {
     NSString *infoText = LOCALIZED_STR(@"No connection");
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             @(NO), @"status",
@@ -161,7 +161,7 @@ NSOutputStream	*outStream;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCChangeServerStatus" object:nil userInfo:params];
 }
 
--(void)checkServer{
+- (void)checkServer {
     if (inCheck) {
         return;
     }
@@ -298,7 +298,7 @@ NSOutputStream	*outStream;
     }
 }
 
-- (void)dealloc{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 

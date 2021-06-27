@@ -25,21 +25,18 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 
 @implementation SDImageCache
 
-+ (SDImageCache *)sharedImageCache
-{
++ (SDImageCache*)sharedImageCache {
     static dispatch_once_t once;
     static id instance;
     dispatch_once(&once, ^{instance = self.new;});
     return instance;
 }
 
-- (id)init
-{
+- (id)init {
     return [self initWithNamespace:@"default"];
 }
 
-- (id)initWithNamespace:(NSString *)ns
-{
+- (id)initWithNamespace:(NSString*)ns {
     if ((self = [super init])) {
         NSString *fullNamespace = [@"com.hackemist.SDWebImageCache." stringByAppendingString:ns];
 
@@ -74,16 +71,14 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     SDDispatchQueueRelease(_ioQueue);
 }
 
 #pragma mark SDImageCache (private)
 
-- (NSString *)cachePathForKey:(NSString *)key
-{
+- (NSString*)cachePathForKey:(NSString*)key {
     const char *str = [key UTF8String];
     unsigned char r[CC_MD5_DIGEST_LENGTH];
     CC_MD5(str, (CC_LONG)strlen(str), r);
@@ -95,8 +90,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 
 #pragma mark ImageCache
 
-- (void)storeImage:(UIImage *)image imageData:(NSData *)imageData forKey:(NSString *)key toDisk:(BOOL)toDisk
-{
+- (void)storeImage:(UIImage*)image imageData:(NSData*)imageData forKey:(NSString*)key toDisk:(BOOL)toDisk {
     if (!image || !key) {
         return;
     }
@@ -132,23 +126,19 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
     }
 }
 
-- (void)storeImage:(UIImage *)image forKey:(NSString *)key
-{
+- (void)storeImage:(UIImage*)image forKey:(NSString*)key {
     [self storeImage:image imageData:nil forKey:key toDisk:YES];
 }
 
-- (void)storeImage:(UIImage *)image forKey:(NSString *)key toDisk:(BOOL)toDisk
-{
+- (void)storeImage:(UIImage*)image forKey:(NSString*)key toDisk:(BOOL)toDisk {
     [self storeImage:image imageData:nil forKey:key toDisk:toDisk];
 }
 
-- (UIImage *)imageFromMemoryCacheForKey:(NSString *)key
-{
+- (UIImage*)imageFromMemoryCacheForKey:(NSString*)key {
     return [self.memCache objectForKey:key];
 }
 
-- (UIImage *)imageFromDiskCacheForKey:(NSString *)key
-{
+- (UIImage*)imageFromDiskCacheForKey:(NSString*)key {
     // First check the in-memory cache...
     UIImage *image = [self imageFromMemoryCacheForKey:key];
     if (image) {
@@ -166,8 +156,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
     return diskImage;
 }
 
-- (void)queryDiskCacheForKey:(NSString *)key done:(void (^)(UIImage *image, SDImageCacheType cacheType))doneBlock
-{
+- (void)queryDiskCacheForKey:(NSString*)key done:(void (^)(UIImage *image, SDImageCacheType cacheType))doneBlock {
     if (!doneBlock) {
         return;
     }
@@ -203,13 +192,11 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
                    });
 }
 
-- (void)removeImageForKey:(NSString *)key
-{
+- (void)removeImageForKey:(NSString*)key {
     [self removeImageForKey:key fromDisk:YES];
 }
 
-- (void)removeImageForKey:(NSString *)key fromDisk:(BOOL)fromDisk
-{
+- (void)removeImageForKey:(NSString*)key fromDisk:(BOOL)fromDisk {
     if (key == nil) {
         return;
     }
@@ -224,15 +211,12 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
     }
 }
 
-- (void)clearMemory
-{
+- (void)clearMemory {
     [self.memCache removeAllObjects];
 }
 
-- (void)clearDisk
-{
-    dispatch_async(self.ioQueue, ^
-    {
+- (void)clearDisk {
+    dispatch_async(self.ioQueue, ^{
         [[NSFileManager defaultManager] removeItemAtPath:self.diskCachePath error:nil];
         [[NSFileManager defaultManager] createDirectoryAtPath:self.diskCachePath
                                   withIntermediateDirectories:YES
@@ -241,10 +225,8 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
     });
 }
 
-- (void)cleanDisk
-{
-    dispatch_async(self.ioQueue, ^
-    {
+- (void)cleanDisk {
+    dispatch_async(self.ioQueue, ^{
         NSDate *expirationDate = [NSDate dateWithTimeIntervalSinceNow:-self.maxCacheAge];
         // convert NSString path to NSURL path
         NSURL *diskCacheURL = [NSURL fileURLWithPath:self.diskCachePath isDirectory:YES];
@@ -272,8 +254,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
     });
 }
 
--(unsigned long long)getSize
-{
+- (unsigned long long)getSize {
     unsigned long long size = 0;
     NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:self.diskCachePath];
     for (NSString *fileName in fileEnumerator) {
@@ -284,8 +265,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
     return size;
 }
 
-- (int)getDiskCount
-{
+- (int)getDiskCount {
     int count = 0;
     NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:self.diskCachePath];
     for (NSString *fileName __unused in fileEnumerator) {

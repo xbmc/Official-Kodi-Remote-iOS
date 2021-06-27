@@ -61,7 +61,7 @@ typedef void(^SDWebImageCompletedWithFinishedBlock)(UIImage *image, NSError *err
  *
  * @return Return NO to prevent the downloading of the image on cache misses. If not implemented, YES is implied.
  */
-- (BOOL)imageManager:(SDWebImageManager *)imageManager shouldDownloadImageForURL:(NSURL *)imageURL;
+- (BOOL)imageManager:(SDWebImageManager*)imageManager shouldDownloadImageForURL:(NSURL*)imageURL;
 
 /**
  * Allows to transform the image immediately after it has been downloaded and just before to cache it on disk and memory.
@@ -73,7 +73,7 @@ typedef void(^SDWebImageCompletedWithFinishedBlock)(UIImage *image, NSError *err
  *
  * @return The transformed image object.
  */
-- (UIImage *)imageManager:(SDWebImageManager *)imageManager transformDownloadedImage:(UIImage *)image withURL:(NSURL *)imageURL;
+- (UIImage*)imageManager:(SDWebImageManager*)imageManager transformDownloadedImage:(UIImage*)image withURL:(NSURL*)imageURL;
 
 @end
 
@@ -125,7 +125,7 @@ typedef void(^SDWebImageCompletedWithFinishedBlock)(UIImage *image, NSError *err
  *
  * @return SDWebImageManager shared instance
  */
-+ (SDWebImageManager *)sharedManager;
++ (SDWebImageManager*)sharedManager;
 
 /**
  * Downloads the image at the given URL if not present in cache or return the cached version otherwise.
@@ -149,9 +149,9 @@ typedef void(^SDWebImageCompletedWithFinishedBlock)(UIImage *image, NSError *err
  *
  * @return Returns a cancellable NSOperation
  */
-- (id<SDWebImageOperation>)downloadWithURL:(NSURL *)url
+- (id<SDWebImageOperation>)downloadWithURL:(NSURL*)url
                                    options:(SDWebImageOptions)options
-                                  userInfo:(NSDictionary *)userInfo
+                                  userInfo:(NSDictionary*)userInfo
                                   progress:(SDWebImageDownloaderProgressBlock)progressBlock
                                  completed:(SDWebImageCompletedWithFinishedBlock)completedBlock;
 

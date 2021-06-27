@@ -13,12 +13,11 @@
 
 @implementation ClearCacheView
 
-- (id)initWithFrame:(CGRect)frame{
+- (id)initWithFrame:(CGRect)frame {
     return [self initWithFrame:frame border:0];
 }
 
-- (id)initWithFrame:(CGRect)frame border:(int)borderWidth
-{
+- (id)initWithFrame:(CGRect)frame border:(int)borderWidth {
     self = [super initWithFrame:frame];
     if (self) {
         [self setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
@@ -49,11 +48,11 @@
     return self;
 }
 
--(void)startActivityIndicator{
+- (void)startActivityIndicator {
     [busyView startAnimating];
 }
 
--(void)stopActivityIndicator{
+- (void)stopActivityIndicator {
     [busyView stopAnimating];
 }
 

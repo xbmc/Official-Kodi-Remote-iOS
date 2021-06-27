@@ -14,8 +14,8 @@
     UIImageView *isRecordingImageView;
 }
 
--(void)setIsRecording:(BOOL)enable;
--(void)setOverlayWatched:(BOOL)enable;
+- (void)setIsRecording:(BOOL)enable;
+- (void)setOverlayWatched:(BOOL)enable;
 
 @property (nonatomic, readonly) UIImageView *posterThumbnail;
 @property (nonatomic, readonly) UIImageView *labelImageView;

@@ -15,8 +15,8 @@
 @property (assign, nonatomic) CGPoint beganTrackingLocation;
 
 - (NSUInteger)indexOfLowerScrubbingSpeed:(NSArray*)scrubbingSpeedPositions forOffset:(CGFloat)verticalOffset;
-- (NSArray *)defaultScrubbingSpeeds;
-- (NSArray *)defaultScrubbingSpeedChangePositions;
+- (NSArray*)defaultScrubbingSpeeds;
+- (NSArray*)defaultScrubbingSpeedChangePositions;
 
 @end
 
@@ -30,8 +30,7 @@
 @synthesize beganTrackingLocation = _beganTrackkingLocation;
 @synthesize realPositionValue = _realPositionValue;
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self != nil) {
         self.scrubbingSpeeds = [self defaultScrubbingSpeeds];
@@ -44,8 +43,7 @@
 
 #pragma mark - NSCoding
 
-- (id)initWithCoder:(NSCoder *)decoder
-{
+- (id)initWithCoder:(NSCoder*)decoder {
     self = [super initWithCoder:decoder];
     if (self != nil) {
     	if ([decoder containsValueForKey:@"scrubbingSpeeds"]) {
@@ -67,8 +65,7 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
+- (void)encodeWithCoder:(NSCoder*)coder {
     [super encodeWithCoder:coder];
 
     [coder encodeObject:self.scrubbingSpeeds forKey:@"scrubbingSpeeds"];
@@ -81,8 +78,7 @@
 #pragma mark -
 #pragma mark Touch tracking
 
-- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
+- (BOOL)beginTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event {
     BOOL beginTracking = [super beginTrackingWithTouch:touch withEvent:event];
     if (beginTracking) {
 		// Set the beginning tracking location to the centre of the current
@@ -99,8 +95,7 @@
     return beginTracking;
 }
 
-- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
+- (BOOL)continueTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event {
     if (self.tracking) {
         CGPoint previousLocation = [touch previousLocationInView:self];
         CGPoint currentLocation  = [touch locationInView:self];
@@ -134,8 +129,7 @@
     return self.tracking;
 }
 
-- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
+- (void)endTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event {
     if (self.tracking) {
         self.scrubbingSpeed = [self.scrubbingSpeeds[0] floatValue];
         [self sendActionsForControlEvents:UIControlEventValueChanged];
@@ -147,8 +141,7 @@
 
 // Return the lowest index in the array of numbers passed in scrubbingSpeedPositions 
 // whose value is smaller than verticalOffset.
-- (NSUInteger) indexOfLowerScrubbingSpeed:(NSArray*)scrubbingSpeedPositions forOffset:(CGFloat)verticalOffset 
-{
+- (NSUInteger)indexOfLowerScrubbingSpeed:(NSArray*)scrubbingSpeedPositions forOffset:(CGFloat)verticalOffset {
     for (NSUInteger i = 0; i < [scrubbingSpeedPositions count]; i++) {
         NSNumber *scrubbingSpeedOffset = scrubbingSpeedPositions[i];
         if (verticalOffset < [scrubbingSpeedOffset floatValue]) {
@@ -162,8 +155,7 @@
 #pragma mark - Default values
 
 // Used in -initWithFrame: and -initWithCoder:
-- (NSArray *) defaultScrubbingSpeeds
-{
+- (NSArray*)defaultScrubbingSpeeds {
     return @[
             @(1.0f),
             @(0.5f),
@@ -173,8 +165,7 @@
             @(0.025f)];
 }
 
-- (NSArray *) defaultScrubbingSpeedChangePositions
-{
+- (NSArray*)defaultScrubbingSpeedChangePositions {
     return @[
             @(0.0f),
             @(50.0f),

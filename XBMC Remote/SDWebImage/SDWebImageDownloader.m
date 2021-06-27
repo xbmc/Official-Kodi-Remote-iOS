@@ -30,8 +30,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
 
 @implementation SDWebImageDownloader
 
-+ (void)initialize
-{
++ (void)initialize {
     // Bind SDNetworkActivityIndicator if available (download it here: http://github.com/rs/SDNetworkActivityIndicator)
     // To use it, just add #import "SDNetworkActivityIndicator.h" in addition to the SDWebImage import
     if (NSClassFromString(@"SDNetworkActivityIndicator")) {
@@ -54,16 +53,14 @@ static NSString *const kCompletedCallbackKey = @"completed";
     }
 }
 
-+ (SDWebImageDownloader *)sharedDownloader
-{
++ (SDWebImageDownloader*)sharedDownloader {
     static dispatch_once_t once;
     static id instance;
     dispatch_once(&once, ^{instance = self.new;});
     return instance;
 }
 
-- (id)init
-{
+- (id)init {
     if ((self = [super init])) {
         _executionOrder = SDWebImageDownloaderFIFOExecutionOrder;
         _downloadQueue = NSOperationQueue.new;
@@ -76,15 +73,13 @@ static NSString *const kCompletedCallbackKey = @"completed";
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.downloadQueue cancelAllOperations];
     SDDispatchQueueRelease(_workingQueue);
     SDDispatchQueueRelease(_barrierQueue);
 }
 
-- (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field
-{
+- (void)setValue:(NSString*)value forHTTPHeaderField:(NSString*)field {
     if (value) {
         self.HTTPHeaders[field] = value;
     }
@@ -93,42 +88,35 @@ static NSString *const kCompletedCallbackKey = @"completed";
     }
 }
 
-- (NSString *)valueForHTTPHeaderField:(NSString *)field
-{
+- (NSString*)valueForHTTPHeaderField:(NSString*)field {
     return self.HTTPHeaders[field];
 }
 
-- (void)setMaxConcurrentDownloads:(NSInteger)maxConcurrentDownloads
-{
+- (void)setMaxConcurrentDownloads:(NSInteger)maxConcurrentDownloads {
     _downloadQueue.maxConcurrentOperationCount = maxConcurrentDownloads;
 }
 
-- (NSInteger)maxConcurrentDownloads
-{
+- (NSInteger)maxConcurrentDownloads {
     return _downloadQueue.maxConcurrentOperationCount;
 }
 
-- (id<SDWebImageOperation>)downloadImageWithURL:(NSURL *)url options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary *)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock
-{
+- (id<SDWebImageOperation>)downloadImageWithURL:(NSURL*)url options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary*)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock {
     __block SDWebImageDownloaderOperation *operation;
     __weak SDWebImageDownloader *wself = self;
 
-    [self addProgressCallback:progressBlock andCompletedBlock:completedBlock forURL:url createCallback:^
-    {
+    [self addProgressCallback:progressBlock andCompletedBlock:completedBlock forURL:url createCallback:^{
         // In order to prevent from potential duplicate caching (NSURLCache + SDImageCache) we disable the cache for image requests if told otherwise
         NSMutableURLRequest *request = [NSMutableURLRequest.alloc initWithURL:url cachePolicy:(options & SDWebImageDownloaderUseNSURLCache ? NSURLRequestUseProtocolCachePolicy : NSURLRequestReloadIgnoringLocalCacheData) timeoutInterval:15];
         request.HTTPShouldHandleCookies = NO;
         request.HTTPShouldUsePipelining = YES;
         request.allHTTPHeaderFields = wself.HTTPHeaders;
-        operation = [SDWebImageDownloaderOperation.alloc initWithRequest:request queue:wself.workingQueue options:options userInfo:userInfo progress:^(NSUInteger receivedSize, long long expectedSize)
-        {
+        operation = [SDWebImageDownloaderOperation.alloc initWithRequest:request queue:wself.workingQueue options:options userInfo:userInfo progress:^(NSUInteger receivedSize, long long expectedSize) {
             if (!wself) {
                 return;
             }
             SDWebImageDownloader *sself = wself;
             NSArray *callbacksForURL = [sself callbacksForURL:url];
-            for (NSDictionary *callbacks in callbacksForURL)
-            {
+            for (NSDictionary *callbacks in callbacksForURL) {
                 SDWebImageDownloaderProgressBlock callback = callbacks[kProgressCallbackKey];
                 if (callback) {
                     callback(receivedSize, expectedSize);
@@ -168,8 +156,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
     return operation;
 }
 
-- (void)addProgressCallback:(void (^)(NSUInteger, long long))progressBlock andCompletedBlock:(void (^)(UIImage *, NSData *data, NSError *, BOOL))completedBlock forURL:(NSURL *)url createCallback:(void (^)(void))createCallback
-{
+- (void)addProgressCallback:(void (^)(NSUInteger, long long))progressBlock andCompletedBlock:(void (^)(UIImage *, NSData *data, NSError *, BOOL))completedBlock forURL:(NSURL*)url createCallback:(void (^)(void))createCallback {
     // The URL will be used as the key to the callbacks dictionary so it cannot be nil. If it is nil immediately call the completed block with no image or data.
     if (url == nil) {
         if (completedBlock != nil) {
@@ -178,8 +165,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
         return;
     }
     
-    dispatch_barrier_sync(self.barrierQueue, ^
-    {
+    dispatch_barrier_sync(self.barrierQueue, ^{
         BOOL first = NO;
         if (!self.URLCallbacks[url]) {
             self.URLCallbacks[url] = NSMutableArray.new;
@@ -204,20 +190,16 @@ static NSString *const kCompletedCallbackKey = @"completed";
     });
 }
 
-- (NSArray *)callbacksForURL:(NSURL *)url
-{
+- (NSArray*)callbacksForURL:(NSURL*)url {
     __block NSArray *callbacksForURL;
-    dispatch_sync(self.barrierQueue, ^
-    {
+    dispatch_sync(self.barrierQueue, ^{
         callbacksForURL = self.URLCallbacks[url];
     });
     return callbacksForURL;
 }
 
-- (void)removeCallbacksForURL:(NSURL *)url
-{
-    dispatch_barrier_async(self.barrierQueue, ^
-    {
+- (void)removeCallbacksForURL:(NSURL*)url {
+    dispatch_barrier_async(self.barrierQueue, ^{
         [self.URLCallbacks removeObjectForKey:url];
     });
 }

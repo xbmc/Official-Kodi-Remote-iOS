@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 
-@interface VolumeSliderView : UIView{
+@interface VolumeSliderView : UIView {
     IBOutlet UIView *volumeView;
     IBOutlet UISlider *volumeSlider;
     IBOutlet UILabel *volumeLabel;
@@ -22,9 +22,9 @@
 
 - (IBAction)slideVolume:(id)sender;
 
--(void)startTimer;
+- (void)startTimer;
 
--(void)stopTimer;
+- (void)stopTimer;
 
 @property (nonatomic, retain) NSTimer* timer;
 

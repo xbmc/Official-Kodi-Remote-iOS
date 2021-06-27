@@ -42,7 +42,7 @@
 
 @synthesize code, message, data;
 
-- (id)initWithErrorData:(NSDictionary *)errorData {
+- (id)initWithErrorData:(NSDictionary*)errorData {
     if (!(self = [super init])) {
         return self;
     }
@@ -57,7 +57,7 @@
     return self;
 }
 
-+ (DSJSONRPCError *)errorWithData:(NSDictionary *)errorData {
++ (DSJSONRPCError*)errorWithData:(NSDictionary*)errorData {
     DSJSONRPCError *error = [[self alloc] initWithErrorData:errorData];
     DS_AUTORELEASE(error)
     
@@ -71,7 +71,7 @@
     DS_SUPERDEALLOC()
 }
 
-- (NSString *)description {
+- (NSString*)description {
     return [NSString stringWithFormat:@"XBMC JSON-RPC Error: %@\n(Code: %li)\nData: %@", self.message, (long)self.code, self.data];
 }
 

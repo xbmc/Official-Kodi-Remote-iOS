@@ -24,23 +24,23 @@
 
 @synthesize mainMenu;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
 
 #pragma mark - Button Mamagement
 
--(IBAction)addHost:(id)sender{
+- (IBAction)addHost:(id)sender {
     HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
     hostController.detailItem = nil;
     [self.navigationController pushViewController:hostController animated:YES];
 }
 
--(void)modifyHost:(NSIndexPath *)item{
+- (void)modifyHost:(NSIndexPath*)item {
     if (storeServerSelection && item.row == storeServerSelection.row) {
         UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:item];
-        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
+        [(UIImageView*)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
         [serverListTableView deselectRowAtIndexPath:item animated:YES];
         cell.accessoryType = UITableViewCellAccessoryNone;
         storeServerSelection = nil;
@@ -64,37 +64,37 @@
 
 #pragma mark - Table view methods & data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     if ([[AppDelegate instance].arrayServerList count] == 0 && !tableView.editing) {
         return 1; 
     }
     return [[AppDelegate instance].arrayServerList count];
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     cell.backgroundColor = [UIColor clearColor];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"serverListCell"];
     [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:NULL];
     if (cell == nil) {
         cell = serverListCell;
-        [(UILabel*) [cell viewWithTag:2] setHighlightedTextColor:[Utilities get1stLabelColor]];
-        [(UILabel*) [cell viewWithTag:3] setHighlightedTextColor:[Utilities get1stLabelColor]];
-        [(UILabel*) [cell viewWithTag:2] setTextColor:[Utilities getSystemGray1]];
-        [(UILabel*) [cell viewWithTag:3] setTextColor:[Utilities getSystemGray1]];
+        [(UILabel*)[cell viewWithTag:2] setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*)[cell viewWithTag:3] setHighlightedTextColor:[Utilities get1stLabelColor]];
+        [(UILabel*)[cell viewWithTag:2] setTextColor:[Utilities getSystemGray1]];
+        [(UILabel*)[cell viewWithTag:3] setTextColor:[Utilities getSystemGray1]];
         [cell setTintColor:[UIColor lightGrayColor]];
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     if ([[AppDelegate instance].arrayServerList count] == 0) {
-        [(UIImageView*) [cell viewWithTag:1] setHidden:YES];
-        UILabel *cellLabel = (UILabel*) [cell viewWithTag:2];
-        UILabel *cellIP = (UILabel*) [cell viewWithTag:3];
+        [(UIImageView*)[cell viewWithTag:1] setHidden:YES];
+        UILabel *cellLabel = (UILabel*)[cell viewWithTag:2];
+        UILabel *cellIP = (UILabel*)[cell viewWithTag:3];
         cellLabel.textAlignment = NSTextAlignmentCenter;
         [cellLabel setText:LOCALIZED_STR(@"No saved hosts found")];
         [cellIP setText:@""];
@@ -102,9 +102,9 @@
         return cell;
     }
     else {
-        [(UIImageView*) [cell viewWithTag:1] setHidden:NO];
-        UILabel *cellLabel = (UILabel*) [cell viewWithTag:2];
-        UILabel *cellIP = (UILabel*) [cell viewWithTag:3];
+        [(UIImageView*)[cell viewWithTag:1] setHidden:NO];
+        UILabel *cellLabel = (UILabel*)[cell viewWithTag:2];
+        UILabel *cellIP = (UILabel*)[cell viewWithTag:3];
         cellLabel.textAlignment = NSTextAlignmentLeft;
         NSDictionary *item = [AppDelegate instance].arrayServerList[indexPath.row];
         [cellLabel setText:item[@"serverDescription"]];
@@ -114,10 +114,10 @@
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             if ([AppDelegate instance].serverOnLine) {
                 if ([AppDelegate instance].serverTCPConnectionOpen) {
-                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
+                    [(UIImageView*)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on"]];
                 }
                 else {
-                    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on_notcp"]];
+                    [(UIImageView*)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_on_notcp"]];
                 }
             }
         }
@@ -131,12 +131,12 @@
 static inline BOOL IsEmpty(id obj) {
     return obj == nil
     || ([obj respondsToSelector:@selector(length)]
-        && [(NSData *)obj length] == 0)
+        && [(NSData*)obj length] == 0)
     || ([obj respondsToSelector:@selector(count)]
-        && [(NSArray *)obj count] == 0);
+        && [(NSArray*)obj count] == 0);
 }
 
--(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
+- (void)selectServerAtIndexPath:(NSIndexPath*)indexPath {
     NSDictionary *item = [AppDelegate instance].arrayServerList[indexPath.row];
     [AppDelegate instance].obj.serverDescription = IsEmpty(item[@"serverDescription"]) ? @"" : item[@"serverDescription"];
     [AppDelegate instance].obj.serverUser = IsEmpty(item[@"serverUser"]) ? @"" : item[@"serverUser"];
@@ -148,7 +148,7 @@ static inline BOOL IsEmpty(id obj) {
     [AppDelegate instance].obj.tcpPort = [item[@"tcpPort"] intValue];
 }
 
--(void)deselectServerAtIndexPath:(NSIndexPath *)indexPath{
+- (void)deselectServerAtIndexPath:(NSIndexPath*)indexPath {
     [connectingActivityIndicator stopAnimating];
     UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
     [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -166,10 +166,10 @@ static inline BOOL IsEmpty(id obj) {
     if (standardUserDefaults) {
         [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
     }
-    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
+    [(UIImageView*)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     doRevealMenu = YES;
     if ([[AppDelegate instance].arrayServerList count] == 0) {
         [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -194,24 +194,24 @@ static inline BOOL IsEmpty(id obj) {
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
 }
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryNone;
-    [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
+    [(UIImageView*)[cell viewWithTag:1] setImage:[UIImage imageNamed:@"connection_off"]];
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCellEditingStyle)tableView:(UITableView*)aTableView editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath {
     if (aTableView.editing) {
         return UITableViewCellEditingStyleDelete;
     }
     return UITableViewCellEditingStyleNone;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+- (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
         [[AppDelegate instance].arrayServerList removeObjectAtIndex:indexPath.row];
         [[AppDelegate instance] saveServerList];
@@ -244,7 +244,7 @@ static inline BOOL IsEmpty(id obj) {
 	}   
 }
 
-- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     return nil;
 //    UIImage *myImage = [UIImage imageNamed:@"blank"];
 //	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage];
@@ -252,11 +252,11 @@ static inline BOOL IsEmpty(id obj) {
 //	return imageView;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
     return 0;
 }
 
-- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+- (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
     return nil;
 //    UIImage *myImage = [UIImage imageNamed:@"blank"];
 //	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage];
@@ -264,15 +264,15 @@ static inline BOOL IsEmpty(id obj) {
 //	return imageView;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
     return 0;
 }
 
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
     [self modifyHost:indexPath];
 }
 
--(IBAction)editTable:(id)sender forceClose:(BOOL)forceClose{
+- (IBAction)editTable:(id)sender forceClose:(BOOL)forceClose {
     if (sender != nil) {
         forceClose = NO;
     }
@@ -298,7 +298,7 @@ static inline BOOL IsEmpty(id obj) {
 
 #pragma mark - Long Press & Action sheet
 
--(IBAction)handleLongPress{
+- (IBAction)handleLongPress {
     if (lpgr.state == UIGestureRecognizerStateBegan) {
         CGPoint p = [lpgr locationInView:serverListTableView];
         NSIndexPath *indexPath = [serverListTableView indexPathForRowAtPoint:p];
@@ -310,7 +310,7 @@ static inline BOOL IsEmpty(id obj) {
 
 #pragma mark - TableManagement instances 
 
--(void)selectIndex:(NSIndexPath *)selection reloadData:(BOOL)reload{
+- (void)selectIndex:(NSIndexPath*)selection reloadData:(BOOL)reload {
     if (reload) {
         NSIndexPath *checkSelection = [serverListTableView indexPathForSelectedRow];
         [serverListTableView reloadData];
@@ -329,7 +329,7 @@ static inline BOOL IsEmpty(id obj) {
     }
 }
 
-- (void)infoView{
+- (void)infoView {
     appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
     if (NSProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 13) {
         appInfoView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
@@ -342,7 +342,7 @@ static inline BOOL IsEmpty(id obj) {
 
 #pragma mark - LifeCycle
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     CGSize size = CGSizeMake(320, 400); // size of view in popover
     self.preferredContentSize = size;
     [super viewWillAppear:animated];
@@ -365,15 +365,15 @@ static inline BOOL IsEmpty(id obj) {
     }
 }
 
-- (void)revealMenu:(NSNotification *)note{
+- (void)revealMenu:(NSNotification*)note {
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
-- (void)revealUnderRight:(NSNotification *)note{
+- (void)revealUnderRight:(NSNotification*)note {
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
     CGFloat deltaY = 44 + [[UIApplication sharedApplication] statusBarFrame].size.height;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -529,7 +529,7 @@ static inline BOOL IsEmpty(id obj) {
     
 }
 
--(void)tcpJSONRPCConnectionError:(NSNotification *)note {
+- (void)tcpJSONRPCConnectionError:(NSNotification*)note {
     BOOL showConnectionNotice = NO;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *showConnectionNoticeString = [userDefaults objectForKey:@"connection_info_preference"];
@@ -569,12 +569,12 @@ static inline BOOL IsEmpty(id obj) {
     }
 }
 
--(void)disableTCPconnectionNotice {
+- (void)disableTCPconnectionNotice {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:@(NO) forKey:@"connection_info_preference"];
 }
 
--(void)enableTCPconnection {
+- (void)enableTCPconnection {
     NSString *methodToCall = @"Settings.SetSettingValue";
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"services.esallinterfaces", @"setting",
@@ -595,25 +595,25 @@ static inline BOOL IsEmpty(id obj) {
      ];
 }
 
--(void)connectionError:(NSNotification *)note {
+- (void)connectionError:(NSNotification*)note {
     NSDictionary *theData = [note userInfo];
     [messagesView showMessage:theData[@"error_message"] timeout:2.0 color:[Utilities getSystemRed:0.95]];
 }
 
--(void)authFailed:(NSNotification *)note {
+- (void)authFailed:(NSNotification*)note {
     UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Authentication Failed") message:LOCALIZED_STR(@"Incorrect Username or Password.\nCheck your settings.")];
     [self presentViewController:alertView animated:YES completion:nil];
 }
 
--(void)resetDoReveal:(NSNotification *)note {
+- (void)resetDoReveal:(NSNotification*)note {
     doRevealMenu = NO;
 }
 
-- (void)connectionSuccess:(NSNotification *)note {
+- (void)connectionSuccess:(NSNotification*)note {
     NSDictionary *theData = [note userInfo];
     if (storeServerSelection != nil) {
         UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:theData[@"icon_connection"]]];
+        [(UIImageView*)[cell viewWithTag:1] setImage:[UIImage imageNamed:theData[@"icon_connection"]]];
     }
     [connectingActivityIndicator stopAnimating];
     if (doRevealMenu) {
@@ -621,15 +621,15 @@ static inline BOOL IsEmpty(id obj) {
     }
 }
 
-- (void)connectionFailed:(NSNotification *)note {
+- (void)connectionFailed:(NSNotification*)note {
     NSDictionary *theData = [note userInfo];
     if (storeServerSelection != nil) {
         UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-        [(UIImageView *)[cell viewWithTag:1] setImage:[UIImage imageNamed:theData[@"icon_connection"]]];
+        [(UIImageView*)[cell viewWithTag:1] setImage:[UIImage imageNamed:theData[@"icon_connection"]]];
     }
 }
 
--(BOOL)shouldAutorotate{
+- (BOOL)shouldAutorotate {
     return YES;
 }
 

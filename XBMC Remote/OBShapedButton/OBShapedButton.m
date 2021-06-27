@@ -46,8 +46,7 @@
 @synthesize previousTouchPoint = _previousTouchPoint;
 @synthesize previousTouchHitTestResponse = _previousTouchHitTestResponse;
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self resetHitTestCache];
@@ -55,8 +54,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
-{
+- (id)initWithCoder:(NSCoder*)decoder {
     self = [super initWithCoder:decoder];
     if (self) {
         [self resetHitTestCache];
@@ -67,8 +65,7 @@
 
 #pragma mark - Hit testing
 
-- (BOOL)isAlphaVisibleAtPoint:(CGPoint)point forImage:(UIImage *)image
-{
+- (BOOL)isAlphaVisibleAtPoint:(CGPoint)point forImage:(UIImage*)image {
     // Correct point to take into account that the image does not have to be the same size
     // as the button. See https://github.com/ole/OBShapedButton/issues/1
     CGSize iSize = image.size;
@@ -96,8 +93,7 @@
 // UIView uses this method in hitTest:withEvent: to determine which subview should receive a touch event.
 // If pointInside:withEvent: returns YES, then the subview’s hierarchy is traversed; otherwise, its branch
 // of the view hierarchy is ignored.
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
-{
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event {
     // Return NO if even super returns NO (i.e., if point lies outside our bounds)
     BOOL superResult = [super pointInside:point withEvent:event];
     if (!superResult) {
@@ -143,20 +139,17 @@
 
 
 // Reset the Hit Test Cache when a new image is assigned to the button
-- (void)setImage:(UIImage *)image forState:(UIControlState)state
-{
+- (void)setImage:(UIImage*)image forState:(UIControlState)state {
     [super setImage:image forState:state];
     [self resetHitTestCache];
 }
 
-- (void)setBackgroundImage:(UIImage *)image forState:(UIControlState)state
-{
+- (void)setBackgroundImage:(UIImage*)image forState:(UIControlState)state {
     [super setBackgroundImage:image forState:state];
     [self resetHitTestCache];
 }
 
-- (void)resetHitTestCache
-{
+- (void)resetHitTestCache {
     self.previousTouchPoint = CGPointMake(CGFLOAT_MIN, CGFLOAT_MIN);
     self.previousTouchHitTestResponse = NO;
 }

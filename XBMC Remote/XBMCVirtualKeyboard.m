@@ -12,7 +12,7 @@
 
 @implementation XBMCVirtualKeyboard
 
-- (id)initWithFrame:(CGRect)frame{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         CGFloat keyboardTitlePadding = 6;
@@ -91,13 +91,13 @@
     return NO;
 }
 
--(void) hideKeyboard:(id)sender {
+- (void)hideKeyboard:(id)sender {
     [backgroundTextField resignFirstResponder];
     backgroundTextField.text = @"";
     [xbmcVirtualKeyboard resignFirstResponder];
 }
 
--(void) showKeyboard:(NSNotification *)note{
+- (void)showKeyboard:(NSNotification*)note {
     if ([AppDelegate instance].serverVersion == 11) {
         backgroundTextField.text = @" ";
     }
@@ -108,16 +108,16 @@
     keyboardTitle.text = @"";
     backgroundTextField.keyboardType = UIKeyboardTypeDefault;
     if (params != nil) {
-        if (((NSNull *)params[@"data"] != [NSNull null])) {
-            if (((NSNull *)params[@"data"][@"title"] != [NSNull null])) {
+        if (((NSNull*)params[@"data"] != [NSNull null])) {
+            if (((NSNull*)params[@"data"][@"title"] != [NSNull null])) {
                 keyboardTitle.text = params[@"data"][@"title"];
             }
-            if (((NSNull *)params[@"data"][@"value"] != [NSNull null])) {
+            if (((NSNull*)params[@"data"][@"value"] != [NSNull null])) {
                 if (![params[@"data"][@"value"] isEqualToString:@""]) {
                     backgroundTextField.text = params[@"data"][@"value"];
                 }
             }
-            if (((NSNull *)params[@"data"][@"type"] != [NSNull null])) {
+            if (((NSNull*)params[@"data"][@"type"] != [NSNull null])) {
                 if ([params[@"data"][@"type"] isEqualToString:@"number"]) {
                     backgroundTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
                 }
@@ -128,7 +128,7 @@
     [backgroundTextField becomeFirstResponder];
 }
 
--(void)toggleVirtualKeyboard:(id)sender{
+- (void)toggleVirtualKeyboard:(id)sender {
     if ([xbmcVirtualKeyboard isFirstResponder] || [backgroundTextField isFirstResponder]) {
         [self hideKeyboard:nil];
     }
@@ -139,7 +139,7 @@
 
 #pragma mark - UITextFieldDelegate Methods
 
--(void)textFieldDidBeginEditing:(UITextField *)textField{
+- (void)textFieldDidBeginEditing:(UITextField*)textField {
     CGFloat finalHeight = accessoryHeight - alignBottom;
     CGRect screenBound = [[UIScreen mainScreen] bounds];
     CGSize screenSize = screenBound.size;
@@ -166,7 +166,7 @@
     }
 }
 
--(BOOL) textField: (UITextField *)theTextField shouldChangeCharactersInRange: (NSRange)range replacementString: (NSString *)string {
+- (BOOL)textField:(UITextField*)theTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
     if ([AppDelegate instance].serverVersion == 11) {
         if (range.location == 0) { //BACKSPACE
             [self sendXbmcHttp:@"SendKey(0xf108)"];
@@ -201,7 +201,7 @@
     }
 }
 
--(void)textFieldDidEndEditing:(UITextField *)textField {
+- (void)textFieldDidEndEditing:(UITextField*)textField {
     if (textField.tag == 10) {
         [self performSelectorOnMainThread:@selector(hideKeyboard:) withObject:nil waitUntilDone:NO];
     }
@@ -209,7 +209,7 @@
 
 #pragma mark - json commands
 
--(void)GUIAction:(NSString *)action params:(NSDictionary *)params httpAPIcallback:(NSString *)callback{
+- (void)GUIAction:(NSString*)action params:(NSDictionary*)params httpAPIcallback:(NSString*)callback {
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if ((methodError != nil || error != nil) && callback != nil) { // Backward compatibility
             [self sendXbmcHttp:callback];
@@ -217,7 +217,7 @@
     }];
 }
 
--(void)sendXbmcHttp:(NSString *) command{
+- (void)sendXbmcHttp:(NSString*)command {
     GlobalData *obj = [GlobalData getInstance];
     NSString *userPassword = [obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     
@@ -228,7 +228,7 @@
 
 #pragma mark - lifecycle
 
--(void)dealloc{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

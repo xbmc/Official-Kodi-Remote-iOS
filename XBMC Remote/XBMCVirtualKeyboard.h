@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 
-@interface XBMCVirtualKeyboard : UIView <UITextFieldDelegate>{
+@interface XBMCVirtualKeyboard : UIView <UITextFieldDelegate> {
     UITextField *xbmcVirtualKeyboard;
     UIView *inputAccView;
     UILabel *keyboardTitle;

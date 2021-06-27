@@ -1,7 +1,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface jsonDataCell : UITableViewCell{
+@interface jsonDataCell : UITableViewCell {
 //    IBOutlet UILabel *urlLabel;
     IBOutlet UIImageView *urlImageView;
     IBOutlet UIImageView *lineSeparator;

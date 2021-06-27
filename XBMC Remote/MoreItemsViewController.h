@@ -14,7 +14,7 @@
     int cellLabelOffset;
 }
 
-- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu;
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu;
 
 @property(nonatomic, retain) UITableView* tableView;
 

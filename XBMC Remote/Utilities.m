@@ -43,7 +43,7 @@
     return imageRef;
 }
 
-- (UIColor *)averageColor:(UIImage *)image inverse:(BOOL)inverse{
+- (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse {
     CGImageRef rawImageRef = [image CGImage];
     if (rawImageRef == nil) return [UIColor clearColor];
     
@@ -130,7 +130,7 @@
 	return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
 }
 
-- (UIColor *)limitSaturation:(UIColor *)color_in satmax:(CGFloat)satmax {
+- (UIColor*)limitSaturation:(UIColor*)color_in satmax:(CGFloat)satmax {
     CGFloat hue, sat, bright, alpha;
     UIColor *color_out = nil;
     if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
@@ -141,7 +141,7 @@
     return color_out;
 }
 
-+ (UIColor *)tailorColor:(UIColor *)color_in satscale:(CGFloat)satscale brightscale:(CGFloat)brightscale brightmin:(CGFloat)brightmin brightmax:(CGFloat)brightmax{
++ (UIColor*)tailorColor:(UIColor*)color_in satscale:(CGFloat)satscale brightscale:(CGFloat)brightscale brightmin:(CGFloat)brightmin brightmax:(CGFloat)brightmax {
     CGFloat hue, sat, bright, alpha;
     UIColor *color_out = nil;
     if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
@@ -154,24 +154,24 @@
     return color_out;
 }
 
-- (UIColor *)slightLighterColorForColor:(UIColor *)color_in{
+- (UIColor*)slightLighterColorForColor:(UIColor*)color_in {
     return [Utilities tailorColor:color_in satscale:0.33 brightscale:1.2 brightmin:0.5 brightmax:0.6];
 }
 
-- (UIColor *)lighterColorForColor:(UIColor *)color_in{
+- (UIColor*)lighterColorForColor:(UIColor*)color_in {
     return [Utilities tailorColor:color_in satscale:0.33 brightscale:1.5 brightmin:0.7 brightmax:0.9];
 }
 
-- (UIColor *)darkerColorForColor:(UIColor *)color_in{
+- (UIColor*)darkerColorForColor:(UIColor*)color_in {
     return [Utilities tailorColor:color_in satscale:0.33 brightscale:0.7 brightmin:0.2 brightmax:0.4];
 }
 
-- (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker{
+- (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker {
     CGFloat trigger = 0.4;
     return [self updateColor:newColor lightColor:lighter darkColor:darker trigger:trigger];
 }
 
-- (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker trigger:(CGFloat)trigger{
+- (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker trigger:(CGFloat)trigger {
     if ([newColor isEqual:[UIColor clearColor]] || newColor == nil) {
         return lighter;
     }
@@ -185,7 +185,7 @@
     }
 }
 
-- (UIImage*)colorizeImage:(UIImage *)image withColor:(UIColor*)color{
+- (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
     if (color == nil) return image;
     UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
     
@@ -225,7 +225,7 @@
     return img;
 }
 
-+ (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode{
++ (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode {
     Utilities *utils = [Utilities new];
     UIColor *bgcolor = [UIColor clearColor];
     UIColor *imgcolor = nil;
@@ -271,7 +271,7 @@
     return setting;
 }
 
-+ (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage{
++ (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage {
     NSDictionary *params = nil;
     if ([AppDelegate instance].serverVersion < 15) {
         params = @{
@@ -288,7 +288,7 @@
     return params;
 }
 
-+ (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode{
++ (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode {
     NSArray *params = nil;
     if ([AppDelegate instance].serverVersion < 15) {
         params = @[stepmode, @"value"];
@@ -310,27 +310,27 @@
     }
 }
 
-+ (UIColor*)getSystemRed:(CGFloat)alpha{
++ (UIColor*)getSystemRed:(CGFloat)alpha {
     return [[UIColor systemRedColor] colorWithAlphaComponent:alpha];
 }
 
-+ (UIColor*)getSystemGreen:(CGFloat)alpha{
++ (UIColor*)getSystemGreen:(CGFloat)alpha {
     return [[UIColor systemGreenColor] colorWithAlphaComponent:alpha];
 }
 
-+ (UIColor*)getSystemBlue{
++ (UIColor*)getSystemBlue {
     return [UIColor systemBlueColor];
 }
 
-+ (UIColor*)getSystemTeal{
++ (UIColor*)getSystemTeal {
     return [UIColor systemTealColor];
 }
 
-+ (UIColor*)getSystemGray1{
++ (UIColor*)getSystemGray1 {
     return [UIColor systemGrayColor];
 }
 
-+ (UIColor*)getSystemGray2{
++ (UIColor*)getSystemGray2 {
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray2Color];
     }
@@ -339,7 +339,7 @@
     }
 }
 
-+ (UIColor*)getSystemGray3{
++ (UIColor*)getSystemGray3 {
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray3Color];
     }
@@ -348,7 +348,7 @@
     }
 }
 
-+ (UIColor*)getSystemGray4{
++ (UIColor*)getSystemGray4 {
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray4Color];
     }
@@ -357,7 +357,7 @@
     }
 }
 
-+ (UIColor*)getSystemGray5{
++ (UIColor*)getSystemGray5 {
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray5Color];
     }
@@ -366,7 +366,7 @@
     }
 }
 
-+ (UIColor*)getSystemGray6{
++ (UIColor*)getSystemGray6 {
     if (@available(iOS 13.0, *)) {
         return [UIColor systemGray6Color];
     }
@@ -375,7 +375,7 @@
     }
 }
 
-+ (UIColor*)get1stLabelColor{
++ (UIColor*)get1stLabelColor {
     if (@available(iOS 13.0, *)) {
         return [UIColor labelColor];
     }
@@ -384,7 +384,7 @@
     }
 }
 
-+ (UIColor*)get2ndLabelColor{
++ (UIColor*)get2ndLabelColor {
     if (@available(iOS 13.0, *)) {
         return [UIColor secondaryLabelColor];
     }
@@ -393,7 +393,7 @@
     }
 }
 
-+ (UIColor*)get3rdLabelColor{
++ (UIColor*)get3rdLabelColor {
     if (@available(iOS 13.0, *)) {
         return [UIColor tertiaryLabelColor];
     }
@@ -402,7 +402,7 @@
     }
 }
 
-+ (UIColor*)get4thLabelColor{
++ (UIColor*)get4thLabelColor {
     if (@available(iOS 13.0, *)) {
         return [UIColor quaternaryLabelColor];
     }
@@ -411,11 +411,11 @@
     }
 }
 
-+ (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha{
++ (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha {
     return RGBA(tone, tone, tone, alpha);
 }
 
-+ (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width {
++ (CGRect)createXBMCInfoframe:(UIImage*)logo height:(CGFloat)height width:(CGFloat)width {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         return CGRectMake(width - ANCHOR_RIGHT_PEEK - logo.size.width - XBMC_LOGO_PADDING, (height - logo.size.height)/2, logo.size.width, logo.size.height);
     }
@@ -478,7 +478,7 @@
     return alertView;
 }
 
-+ (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate> *)fromctrl {
++ (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl {
     NSURL *nsurl = [NSURL URLWithString:url];
     SFSafariViewController *svc = nil;
     // Try to load the URL via SFSafariViewController. If this is not possible, check if this is loadable
@@ -516,7 +516,7 @@
     for (int i = 0; i < numelement-1; i += 2) {
         mutableDictionary[array[i+1]] = array[i];
     }
-    return (NSDictionary *)mutableDictionary;
+    return (NSDictionary*)mutableDictionary;
 }
 
 + (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array {
@@ -525,7 +525,7 @@
     for (int i = 0; i < numelement-1; i += 2) {
         mutableDictionary[array[i+1]] = array[i];
     }
-    return (NSMutableDictionary *)mutableDictionary;
+    return (NSMutableDictionary*)mutableDictionary;
 }
 
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds {
@@ -578,7 +578,7 @@
         text = [text length] == 0 ? empty : text;
     }
     else if ([value isKindOfClass:[NSNumber class]]) {
-        text = [NSString stringWithFormat:@"%@", value];;
+        text = [NSString stringWithFormat:@"%@", value];
     }
     else {
         text = [value length] == 0 ? empty : value;
@@ -611,7 +611,7 @@
         year = @"";
     }
     else if ([value isKindOfClass:[NSNumber class]]) {
-        year = [(NSNumber *)value stringValue];
+        year = [(NSNumber*)value stringValue];
     }
     else {
         if ([key isEqualToString:@"blank"]) {

@@ -16,7 +16,7 @@
     CAShapeLayer *progressShape;
 }
 
-- (id)initWithFrame:(CGRect)frame color:(UIColor *)aColor;
+- (id)initWithFrame:(CGRect)frame color:(UIColor*)aColor;
 - (void)updateProgressPercentage:(CGFloat)progresspercentage;
 - (CGFloat)getPieRadius;
 - (CGFloat)getPiePadding;

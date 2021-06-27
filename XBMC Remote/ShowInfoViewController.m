@@ -31,12 +31,12 @@
 @synthesize detailItem = _detailItem;
 @synthesize kenView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString*)nibNameOrNil withItem:(NSDictionary*)item withFrame:(CGRect)frame bundle:(NSBundle*)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.detailItem = item;
         [self.view setFrame:frame];
@@ -50,7 +50,7 @@ double round(double d) {
 
 int count = 0;
 
-- (void)configureView{
+- (void)configureView {
     if (self.detailItem) {
         NSMutableDictionary *item = self.detailItem;
         CGRect frame = CGRectMake(0, 0, 140, 40);
@@ -68,7 +68,7 @@ int count = 0;
         sheetActions = [[NSMutableArray alloc] initWithObjects:LOCALIZED_STR(@"Queue after current"), LOCALIZED_STR(@"Queue"), LOCALIZED_STR(@"Play"), nil];
         NSDictionary *resumePointDict = item[@"resume"];
         if (resumePointDict != nil) {
-            if (((NSNull *)resumePointDict[@"position"] != [NSNull null])) {
+            if (((NSNull*)resumePointDict[@"position"] != [NSNull null])) {
                 if ([resumePointDict[@"position"] floatValue] > 0) {
                     resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
                     [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
@@ -86,11 +86,11 @@ int count = 0;
 //            [sheetActions addObject:actionString];
 //        }
         BOOL fromAlbumView = NO;
-        if (((NSNull *)item[@"fromAlbumView"] != [NSNull null])) {
+        if (((NSNull*)item[@"fromAlbumView"] != [NSNull null])) {
             fromAlbumView = [item[@"fromAlbumView"] boolValue];
         }
         BOOL fromEpisodesView = NO;
-        if (((NSNull *)item[@"fromEpisodesView"] != [NSNull null])) {
+        if (((NSNull*)item[@"fromEpisodesView"] != [NSNull null])) {
             fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
         UIBarButtonItem *extraButton = nil;
@@ -215,11 +215,11 @@ int count = 0;
 
 #pragma mark - Utility
 
--(void)dismissModal:(id)sender {
+- (void)dismissModal:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-//-(BOOL)isModal {
+//- (BOOL)isModal {
 //    BOOL isModal = ((self.parentViewController && self.parentViewController.modalViewController == self) ||
 //                    (self.navigationController && self.navigationController.parentViewController && self.navigationController.parentViewController.modalViewController == self.navigationController) ||
 //                    [[[self tabBarController] parentViewController] isKindOfClass:[UITabBarController class]]);
@@ -238,7 +238,7 @@ int count = 0;
     || [self.tabBarController.presentingViewController isKindOfClass:[UITabBarController class]];
 }
 
--(void)goBack:(id)sender{
+- (void)goBack:(id)sender {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -249,7 +249,7 @@ int count = 0;
 
 #pragma mark - ToolBar button
 
--(void)showContent:(id)sender{
+- (void)showContent:(id)sender {
     NSDictionary *item = self.detailItem;
     mainMenu *MenuItem = nil;
     mainMenu *choosedMenuItem = nil;
@@ -281,7 +281,7 @@ int count = 0;
     }
     else if ([item[@"family"] isEqualToString:@"movieid"] && [AppDelegate instance].serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
-            NSString *actorName = (NSString *)sender;
+            NSString *actorName = (NSString*)sender;
             choosedTab = 2;
             MenuItem = [[AppDelegate instance].playlistMovies copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
@@ -292,7 +292,7 @@ int count = 0;
     }
     else if (([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"]) && [AppDelegate instance].serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
-            NSString *actorName = (NSString *)sender;
+            NSString *actorName = (NSString*)sender;
             choosedTab = 0;
             MenuItem = [[AppDelegate instance].playlistTvShows copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
@@ -379,13 +379,13 @@ int count = 0;
     }
 }
 
--(void)callbrowser:(id)sender{
+- (void)callbrowser:(id)sender {
     [Utilities SFloadURL:embedVideoURL fromctrl:self];
 }
 
 #pragma mark - ActionSheet
 
--(void)showActionSheet {
+- (void)showActionSheet {
     NSInteger numActions = [sheetActions count];
     if (numActions) {
         NSDictionary *item = self.detailItem;
@@ -445,7 +445,7 @@ int count = 0;
     }
 }
 
--(void)animateRecordAction {
+- (void)animateRecordAction {
     [UIView animateWithDuration: 0.2
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseOut
@@ -469,7 +469,7 @@ int count = 0;
                      }];
 }
 
--(void)recordChannel {
+- (void)recordChannel {
     NSNumber *channelid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]);
     if ([channelid isEqualToValue:@(0)]) {
         return;
@@ -539,7 +539,7 @@ int count = 0;
            }];
 }
 
--(IBAction)scrollDown:(id)sender{
+- (IBAction)scrollDown:(id)sender {
     int height_content = scrollView.contentSize.height;
     int height_bounds = scrollView.bounds.size.height;
     int bottom_scroll = MAX(height_content - height_bounds, 0);
@@ -547,14 +547,14 @@ int count = 0;
     [scrollView setContentOffset:bottomOffset animated:YES];
 }
 
--(void)showNowPlaying{
+- (void)showNowPlaying {
     NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     nowPlaying.detailItem = self.detailItem;
     [self.navigationController pushViewController:nowPlaying animated:YES];
     self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
--(void)moveLabel:(NSArray *)objects posY:(int)y{
+- (void)moveLabel:(NSArray*)objects posY:(int)y {
     NSInteger count = [objects count];
     CGRect frame;
     for (int i = 0; i < count; i++) {
@@ -574,7 +574,7 @@ int count = 0;
     }
 }
 
--(void)setAndMoveLabels:(NSArray *)arrayLabels size:(int)moveSize{
+- (void)setAndMoveLabels:(NSArray*)arrayLabels size:(int)moveSize {
     UIFont *fontFace = [UIFont systemFontOfSize:16];
 
     int offset = moveSize;
@@ -592,9 +592,7 @@ int count = 0;
     }
 }
 
-int h = 0;
-
--(void)setTvShowsToolbar{
+- (void)setTvShowsToolbar {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         NSInteger count = [toolbar.items count];
         NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
@@ -609,26 +607,26 @@ int h = 0;
     }
 }
 
-- (UIImage*)imageWithBorderFromImage:(UIImage*)source{
+- (UIImage*)imageWithBorderFromImage:(UIImage*)source {
     return [Utilities imageWithShadow:source radius:10];
 }
 
--(bool)enableJewelCases{
+- (BOOL)enableJewelCases {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
--(void)startActivityIndicator {
+- (void)startActivityIndicator {
     [activityIndicatorView startAnimating];
 }
 
--(void)elaborateImage:(UIImage *)image{
+- (void)elaborateImage:(UIImage*)image {
     [self performSelectorOnMainThread:@selector(startActivityIndicator) withObject:nil waitUntilDone:YES];
     UIImage *elabImage = isRecordingDetail ? image : [self imageWithBorderFromImage:image];
     [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];    
 }
 
--(void)showImage:(UIImage *)image{
+- (void)showImage:(UIImage*)image {
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
     jewelView.image = image;
@@ -644,12 +642,12 @@ int h = 0;
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
 
--(void)setIOS7barTintColor:(UIColor *)tintColor{
+- (void)setIOS7barTintColor:(UIColor*)tintColor {
     self.navigationController.navigationBar.tintColor = tintColor;
     toolbar.tintColor = tintColor;
 }
 
--(void)createInfo{
+- (void)createInfo {
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSMutableDictionary *item = self.detailItem;
     NSString *placeHolderImage = @"coverbox_back";
@@ -1325,11 +1323,11 @@ int h = 0;
     arrow_continue_down.hidden = (height_content <= height_bounds-height_navbar);
 }
 
--(void)buildTrailerView{
+- (void)buildTrailerView {
     
 }
 
--(CGRect)currentScreenBoundsDependOnOrientation {
+- (CGRect)currentScreenBoundsDependOnOrientation {
     return UIScreen.mainScreen.bounds;
 }
 
@@ -1441,7 +1439,7 @@ int h = 0;
     }
 }
 
-- (void) scrollViewDidScroll: (UIScrollView *) theScrollView{
+- (void)scrollViewDidScroll:(UIScrollView*)theScrollView {
     int height_content = theScrollView.contentSize.height;
     int height_bounds = theScrollView.bounds.size.height;
     int scrolled = theScrollView.contentOffset.y;
@@ -1462,7 +1460,7 @@ int h = 0;
     }
 }
 
--(void)alphaImage:(UIImageView *)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
+- (void)alphaImage:(UIImageView*)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -1473,7 +1471,7 @@ int h = 0;
     [UIView commitAnimations];
 }
 
--(void)alphaView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
+- (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -1483,19 +1481,19 @@ int h = 0;
 
 #pragma mark - Actors UITableView data source & delegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     return castHeight + 10;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     return [cast count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     static NSString *CellIdentifier = @"CellActor";
     ActorCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -1516,7 +1514,7 @@ int h = 0;
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
         cell.accessoryView.alpha = 0.5;
@@ -1526,7 +1524,7 @@ int h = 0;
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
         [self showContent:cast[indexPath.row][@"name"]];
     }
@@ -1534,7 +1532,7 @@ int h = 0;
 
 #pragma mark - Safari
 
-- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
+- (void)safariViewControllerDidFinish:(SFSafariViewController*)controller {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -1549,7 +1547,7 @@ int h = 0;
 
 # pragma  mark - JSON Data
 
--(void)openWithVLC:(NSDictionary *)item {
+- (void)openWithVLC:(NSDictionary*)item {
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [activityIndicatorView startAnimating];
     if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]) {
@@ -1579,7 +1577,7 @@ int h = 0;
     }
 }
 
--(void)addQueueAfterCurrent:(BOOL)afterCurrent{
+- (void)addQueueAfterCurrent:(BOOL)afterCurrent {
     self.navigationItem.rightBarButtonItem.enabled = NO;
     NSDictionary *item = self.detailItem;
     NSString *param = item[@"family"];
@@ -1641,7 +1639,7 @@ int h = 0;
     }
 }
 
--(void)addPlayback:(float)resumePointLocal{
+- (void)addPlayback:(float)resumePointLocal {
     if ([self.detailItem[@"family"] isEqualToString:@"broadcastid"]) {
         [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"pvrExtraInfo"][@"channelid"], @"channelid", nil], @"item", nil]];
     }
@@ -1690,7 +1688,7 @@ int h = 0;
     }
 }
 
--(void)openFile:(NSDictionary *)params{
+- (void)openFile:(NSDictionary*)params {
     [activityIndicatorView startAnimating];
     [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicatorView stopAnimating];
@@ -1701,7 +1699,7 @@ int h = 0;
     }];
 }
 
--(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
+- (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters {
     [[Utilities getJsonRPC] callMethod:action withParameters:parameters];
 }
 
@@ -1713,7 +1711,7 @@ int h = 0;
 
 # pragma mark - Utility
 
--(void) elabKenBurns:(UIImage *)image{
+- (void)elabKenBurns:(UIImage*)image {
     [self.kenView stopAnimation];
     [self.kenView removeFromSuperview];
     self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
@@ -1738,14 +1736,14 @@ int h = 0;
 
 # pragma  mark - Life Cycle
 
-- (void)setDetailItem:(id)newDetailItem{
+- (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
         // Update the view.
     }
 }
 
--(void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.slidingViewController.underRightViewController = nil;
     self.slidingViewController.anchorLeftPeekAmount   = 0;
@@ -1774,7 +1772,7 @@ int h = 0;
     }
 }
 
--(void)viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleSwipeFromLeft:)
@@ -1807,13 +1805,13 @@ int h = 0;
     }
 }
 
--(void)viewWillDisappear:(BOOL)animated{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [self setIOS7barTintColor:TINT_COLOR];
 }
 
--(void)viewDidDisappear:(BOOL)animated{
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0];
     if (self.kenView != nil) {
@@ -1830,16 +1828,16 @@ int h = 0;
     }
 }
 
-- (void) disableScrollsToTopPropertyOnAllSubviewsOf:(UIView *)view {
+- (void)disableScrollsToTopPropertyOnAllSubviewsOf:(UIView*)view {
     for (UIView *subview in view.subviews) {
         if ([subview isKindOfClass:[UIScrollView class]]) {
-            ((UIScrollView *)subview).scrollsToTop = NO;
+            ((UIScrollView*)subview).scrollsToTop = NO;
         }
         [self disableScrollsToTopPropertyOnAllSubviewsOf:subview];
     }
 }
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
     NSDictionary *httpHeaders = [AppDelegate instance].getServerHTTPHeaders;
@@ -1886,13 +1884,13 @@ int h = 0;
     [super didReceiveMemoryWarning];
 }
 
--(void)dealloc{
+- (void)dealloc {
     [kenView removeFromSuperview];
     [self.kenView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
--(BOOL)shouldAutorotate{
+- (BOOL)shouldAutorotate {
     return YES;
 }
 
@@ -1900,8 +1898,7 @@ int h = 0;
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     if (self.kenView != nil) {
         CGFloat alphaValue = 0.2;

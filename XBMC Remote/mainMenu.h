@@ -42,6 +42,6 @@ typedef enum {
 @property (nonatomic, copy) NSArray *watchModes;
 @property int currentWatchMode;
 
--(id) copyWithZone: (NSZone *) zone;
+- (id)copyWithZone:(NSZone*)zone;
 
 @end

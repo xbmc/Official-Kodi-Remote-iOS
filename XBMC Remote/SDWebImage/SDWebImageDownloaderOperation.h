@@ -15,10 +15,10 @@
 @property (strong, nonatomic, readonly) NSURLRequest *request;
 @property (assign, nonatomic, readonly) SDWebImageDownloaderOptions options;
 
-- (id)initWithRequest:(NSURLRequest *)request
+- (id)initWithRequest:(NSURLRequest*)request
                 queue:(dispatch_queue_t)queue
               options:(SDWebImageDownloaderOptions)options
-             userInfo:(NSDictionary *)userInfo
+             userInfo:(NSDictionary*)userInfo
              progress:(SDWebImageDownloaderProgressBlock)progressBlock
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
             cancelled:(void (^)(void))cancelBlock;

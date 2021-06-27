@@ -62,7 +62,7 @@ typedef enum {
 } ECResetStrategy;
 
 /** ECSlidingViewController is a view controller container that presents its child view controllers in two layers. The top layer can be panned to reveal the layers below it. */
-@interface ECSlidingViewController : UIViewController{
+@interface ECSlidingViewController : UIViewController {
   CGPoint startTouchPosition;
   BOOL topViewHasFocus;
 }
@@ -155,7 +155,7 @@ typedef enum {
  
  This is typically added to the top view or a top view's navigation bar.
  */
-- (UIPanGestureRecognizer *)panGesture;
+- (UIPanGestureRecognizer*)panGesture;
 
 /** Slides the top view in the direction of the specified side.
  
@@ -213,5 +213,5 @@ typedef enum {
 /** UIViewController extension */
 @interface UIViewController(SlidingViewExtension)
 /** Convience method for getting access to the ECSlidingViewController instance */
-- (ECSlidingViewController *)slidingViewController;
+- (ECSlidingViewController*)slidingViewController;
 @end

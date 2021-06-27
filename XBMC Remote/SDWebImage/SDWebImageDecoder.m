@@ -12,12 +12,11 @@
 
 @implementation UIImage (ForceDecode)
 
-+ (UIImage *)decodedImageWithImage:(UIImage *)image{
++ (UIImage*)decodedImageWithImage:(UIImage*)image {
     return [self decodedImageWithImage:image size:CGSizeZero interpolationQuality:kCGInterpolationDefault];
 }
 
-+ (UIImage *)decodedImageWithImage:(UIImage *)image size:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality
-{	
++ (UIImage*)decodedImageWithImage:(UIImage*)image size:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality {	
     CGImageRef imageRef = image.CGImage;
     CGSize imageSize = CGSizeMake(CGImageGetWidth(imageRef), CGImageGetHeight(imageRef));
     CGRect imageRect = (CGRect) {.origin = CGPointZero, .size = imageSize};

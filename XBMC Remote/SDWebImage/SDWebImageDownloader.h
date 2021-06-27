@@ -56,7 +56,7 @@ typedef void(^SDWebImageDownloaderCompletedBlock)(UIImage *image, NSData *data, 
  */
 @property (assign, nonatomic) SDWebImageDownloaderExecutionOrder executionOrder;
 
-+ (SDWebImageDownloader *)sharedDownloader;
++ (SDWebImageDownloader*)sharedDownloader;
 
 /**
  * Set a value for a HTTP header to be appended to each download HTTP request.
@@ -64,14 +64,14 @@ typedef void(^SDWebImageDownloaderCompletedBlock)(UIImage *image, NSData *data, 
  * @param value The value for the header field. Use `nil` value to remove the header.
  * @param field The name of the header field to set.
  */
-- (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field;
+- (void)setValue:(NSString*)value forHTTPHeaderField:(NSString*)field;
 
 /**
  * Returns the value of the specified HTTP header field.
  *
  * @return The value associated with the header field field, or `nil` if there is no corresponding header field.
  */
-- (NSString *)valueForHTTPHeaderField:(NSString *)field;
+- (NSString*)valueForHTTPHeaderField:(NSString*)field;
 
 /**
  * Creates a SDWebImageDownloader async downloader instance with a given URL
@@ -94,9 +94,9 @@ typedef void(^SDWebImageDownloaderCompletedBlock)(UIImage *image, NSData *data, 
  *
  * @return A cancellable SDWebImageOperation
  */
-- (id<SDWebImageOperation>)downloadImageWithURL:(NSURL *)url
+- (id<SDWebImageOperation>)downloadImageWithURL:(NSURL*)url
                                         options:(SDWebImageDownloaderOptions)options
-                                       userInfo:(NSDictionary *)userInfo
+                                       userInfo:(NSDictionary*)userInfo
                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock
                                       completed:(SDWebImageDownloaderCompletedBlock)completedBlock;
 

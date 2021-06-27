@@ -24,12 +24,12 @@
 @synthesize peekLeftAmount;
 @synthesize rightMenuItems;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
 
-- (void)turnTorchOn:(bool)on icon:(UIImageView *)iconTorch {
+- (void)turnTorchOn:(bool)on icon:(UIImageView*)iconTorch {
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
     if (captureDeviceClass != nil) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -56,7 +56,7 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
         return 44;
     }
@@ -66,15 +66,15 @@
     return 50;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     return [tableData count];
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if ([tableData[indexPath.row][@"bgColor"] count]) {
         cell.backgroundColor = [UIColor colorWithRed:[tableData[indexPath.row][@"bgColor"][@"red"] floatValue]
                                                green:[tableData[indexPath.row][@"bgColor"][@"green"] floatValue]
@@ -86,7 +86,7 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rightMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:NULL];
     if (cell == nil) {
@@ -101,10 +101,10 @@
         xbmc_logo.tag = 101;
         [cell.contentView insertSubview:xbmc_logo atIndex:0];
     }
-    UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
-    UILabel *title = (UILabel*) [cell viewWithTag:3];
-    UIImageView *line = (UIImageView*) [cell viewWithTag:4];
-    UIImageView *xbmc_logo = (UIImageView*) [cell viewWithTag:101];
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
+    UILabel *title = (UILabel*)[cell viewWithTag:3];
+    UIImageView *line = (UIImageView*)[cell viewWithTag:4];
+    UIImageView *xbmc_logo = (UIImageView*)[cell viewWithTag:101];
     icon.hidden = NO;
     xbmc_logo.hidden = YES;
     [cell setAccessoryView:nil];
@@ -131,7 +131,7 @@
         [title setTextAlignment:NSTextAlignmentLeft];
         [title setText:[AppDelegate instance].serverName];
         [title setNumberOfLines:2];
-        UIImageView *arrowRight = (UIImageView*) [cell viewWithTag:5];
+        UIImageView *arrowRight = (UIImageView*)[cell viewWithTag:5];
         [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"VolumeControl"]) {
@@ -162,9 +162,9 @@
         cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
         [cell setTintColor:[UIColor lightGrayColor]];
         [cell setEditingAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
-        icon = (UIImageView*) [cell viewWithTag:1];
-        title = (UILabel*) [cell viewWithTag:3];
-        line = (UIImageView*) [cell viewWithTag:4];
+        icon = (UIImageView*)[cell viewWithTag:1];
+        title = (UILabel*)[cell viewWithTag:3];
+        line = (UIImageView*)[cell viewWithTag:4];
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         [backView setBackgroundColor:[Utilities getGrayColor:22 alpha:1]];
         cell.selectedBackgroundView = backView;
@@ -255,7 +255,7 @@
     return cell;
 }
 
--(UIView *)createTableFooterView:(CGFloat)footerHeight {
+- (UIView*)createTableFooterView:(CGFloat)footerHeight {
     CGRect frame = self.view.bounds;
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
                                                                                 target: nil
@@ -302,7 +302,7 @@
 
 #pragma mark - Table actions
 
--(void)addButtonToList:(id)sender {
+- (void)addButtonToList:(id)sender {
     if ([AppDelegate instance].serverVersion < 13) {
         UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
         [self presentViewController:alertView animated:YES completion:nil];
@@ -325,7 +325,7 @@
     }
 }
 
--(void)deleteCustomButton:(NSUInteger)idx {
+- (void)deleteCustomButton:(NSUInteger)idx {
     customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons removeObjectAtIndex:idx];
     [arrayButtons saveData];
@@ -342,7 +342,7 @@
 #pragma mark UISwitch
 
 - (void)toggleSwitch:(id)sender {
-    UISwitch *onoff = (UISwitch *)sender;
+    UISwitch *onoff = (UISwitch*)sender;
     NSInteger tableIdx = onoff.tag - 1000;
     if (tableIdx < [tableData count]) {
         NSString *command = tableData[tableIdx][@"action"][@"command"];
@@ -357,8 +357,8 @@
 #pragma mark -
 #pragma mark Table view delegate
 
--(void)editTable:(id)sender {
-    UIBarButtonItem *editButton = (UIBarButtonItem *)sender;
+- (void)editTable:(id)sender {
+    UIBarButtonItem *editButton = (UIBarButtonItem*)sender;
     if (menuTableView.editing) {
         [menuTableView setEditing:NO animated:YES];
         [editButton setTitle:LOCALIZED_STR(@"Edit")];
@@ -371,15 +371,15 @@
     }
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCellEditingStyle)tableView:(UITableView*)aTableView editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath {
     return UITableViewCellEditingStyleDelete;
 }
 
-- (BOOL)tableView:(UITableView *)tableview canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView*)tableview canMoveRowAtIndexPath:(NSIndexPath*)indexPath {
     return YES;
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+- (NSIndexPath*)tableView:(UITableView*)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath*)sourceIndexPath toProposedIndexPath:(NSIndexPath*)proposedDestinationIndexPath {
     if (proposedDestinationIndexPath.row < editableRowStartAt) {
         return [NSIndexPath indexPathForRow:editableRowStartAt inSection:0];
     }
@@ -388,7 +388,7 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+- (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
     UISwitch *onoffSource = (UISwitch*)[[[tableView cellForRowAtIndexPath:sourceIndexPath]accessoryView] viewWithTag:1000 + sourceIndexPath.row];
     UISwitch *onoffDestination = (UISwitch*)[[[tableView cellForRowAtIndexPath:destinationIndexPath]accessoryView] viewWithTag:1000 + destinationIndexPath.row];
     onoffSource.tag = 1000 + destinationIndexPath.row;
@@ -405,12 +405,12 @@
     [arrayButtons saveData];
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+- (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
     return ([tableData[indexPath.row][@"isSetting"] boolValue]);
 }
 
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
         if ([indexPath row] < [tableData count]) {
             [tableData removeObjectAtIndex:indexPath.row];
@@ -424,7 +424,7 @@
 	}
 }
 
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Custom button") message:LOCALIZED_STR(@"Modify label:") preferredStyle:UIAlertControllerStyleAlert];
     [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"";
@@ -434,7 +434,7 @@
         tableData[indexPath.row][@"label"] = [[alertView textFields][0] text];
             
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
-            UILabel *title = (UILabel*) [cell viewWithTag:3];
+            UILabel *title = (UILabel*)[cell viewWithTag:3];
             [title setText:[[alertView textFields][0] text]];
             
             customButton *arrayButtons = [customButton new];
@@ -449,7 +449,7 @@
     [self presentViewController:alertView animated:YES completion:nil];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if ([indexPath row] >= [tableData count]) {
         return;
@@ -535,7 +535,7 @@
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
-        UIImageView *torchIcon = (UIImageView *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
+        UIImageView *torchIcon = (UIImageView*)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [self turnTorchOn:!torchIsOn icon:torchIcon];
     }
@@ -546,7 +546,7 @@
 
 #pragma mark - JSON
 
--(void)xbmcAction:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender {
+- (void)xbmcAction:(NSString*)action params:(NSDictionary*)params uiControl:(id)sender {
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
         [sender setUserInteractionEnabled:NO];
     }
@@ -563,7 +563,7 @@
     }];
 }
 
--(void)getXBMCValue:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender storeSetting:(NSMutableDictionary *)setting indicator:(UIActivityIndicatorView *)busyView {
+- (void)getXBMCValue:(NSString*)action params:(NSDictionary*)params uiControl:(id)sender storeSetting:(NSMutableDictionary*)setting indicator:(UIActivityIndicatorView*)busyView {
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
         [sender setUserInteractionEnabled:NO];
     }
@@ -586,18 +586,18 @@
     }];
 }
 
--(void)wakeUp:(NSString *)macAddress{
+- (void)wakeUp:(NSString*)macAddress {
     [[AppDelegate instance] sendWOL:macAddress withPort:9];
 }
 
 #pragma mark - LifeCycle
 
--(void)viewWillDisappear:(BOOL)animated{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [volumeSliderView stopTimer];
 }
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
     CGFloat deltaY = [[UIApplication sharedApplication] statusBarFrame].size.height;
     self.peekLeftAmount = 40;
@@ -729,23 +729,23 @@
                                                object: nil];
 }
 
--(void)showNotificationMessage:(NSNotification *)note {
+- (void)showNotificationMessage:(NSNotification*)note {
     [messagesView showMessage:note.name timeout:2.0 color:[Utilities getSystemGreen:0.95]];
 }
 
--(void)reloadCustomButtonTable:(NSNotification *)note {
+- (void)reloadCustomButtonTable:(NSNotification*)note {
     [self setRightMenuOption:@"online" reloadTableData:YES];
 }
 
--(void)startTimer:(id)sender{
+- (void)startTimer:(id)sender {
     [volumeSliderView startTimer];
 }
 
--(void)stopTimer:(id)sender{
+- (void)stopTimer:(id)sender {
     [volumeSliderView stopTimer];
 }
 
-- (void)setRightMenuOption:(NSString *)key reloadTableData:(BOOL)reload {
+- (void)setRightMenuOption:(NSString*)key reloadTableData:(BOOL)reload {
     mainMenu *menuItems = self.rightMenuItems[0];
     tableData = [[NSMutableArray alloc] initWithCapacity:0];
 
@@ -865,7 +865,7 @@
                      }];
 }
 
-- (NSIndexPath *)getIndexPathForKey:(NSString *)key withValue:(NSString *)value inArray:(NSMutableArray *)array {
+- (NSIndexPath*)getIndexPathForKey:(NSString*)key withValue:(NSString*)value inArray:(NSMutableArray*)array {
     NSIndexPath *foundIndex = nil;
     NSUInteger index = [array indexOfObjectPassingTest:
                         ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
@@ -878,7 +878,7 @@
 }
 
 
-- (void)connectionSuccess:(NSNotification *)note {
+- (void)connectionSuccess:(NSNotification*)note {
     NSDictionary *theData = [note userInfo];
     if (theData != nil) {
         NSString *serverTxt = theData[@"message"];
@@ -887,11 +887,11 @@
         if (serverRow != nil) {
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:serverRow];
             if (serverTxt != nil && ![serverTxt isEqualToString:@""]) {
-                UILabel *title = (UILabel*) [cell viewWithTag:3];
+                UILabel *title = (UILabel*)[cell viewWithTag:3];
                 [title setText:serverTxt];
             }
             if (icon_connection != nil && ![icon_connection isEqualToString:@""]) {
-                UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+                UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
                 [icon setImage:[UIImage imageNamed:icon_connection]];
             }
         }
@@ -901,7 +901,7 @@
     addButton.enabled = YES;
 }
 
-- (void)connectionFailed:(NSNotification *)note {
+- (void)connectionFailed:(NSNotification*)note {
     NSDictionary *theData = [note userInfo];
     if (theData != nil) {
         NSString *serverTxt = theData[@"message"];
@@ -910,11 +910,11 @@
         if (serverRow != nil) {
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:serverRow];
             if (serverTxt != nil && ![serverTxt isEqualToString:@""]) {
-                UILabel *title = (UILabel*) [cell viewWithTag:3];
+                UILabel *title = (UILabel*)[cell viewWithTag:3];
                 [title setText:serverTxt];
             }
             if (icon_connection != nil && ![icon_connection isEqualToString:@""]) {
-                UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+                UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
                 [icon setImage:[UIImage imageNamed:icon_connection]];
             }
         }
@@ -933,11 +933,11 @@
     }
 }
 
-- (void)didReceiveMemoryWarning{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (void)dealloc{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

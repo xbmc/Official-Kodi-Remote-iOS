@@ -50,7 +50,7 @@
 
 @synthesize slideViews, borderViews, viewControllersStack, slideStartPosition;
 
--(id)init {
+- (id)init {
 	
 	if (self = [super init]) {
 		
@@ -122,7 +122,7 @@
 	return self;
 }
 
--(void)handleStackScrollFullScreenEnabled:(NSNotification *)sender{
+- (void)handleStackScrollFullScreenEnabled:(NSNotification*)sender {
     UIView *senderView = nil;
     if ([[sender object] isKindOfClass:[UIView class]]) {
         senderView = [sender object];
@@ -179,7 +179,7 @@
      ];
 }
 
--(void)handleStackScrollFullScreenDisabled:(NSNotification *)sender{
+- (void)handleStackScrollFullScreenDisabled:(NSNotification*)sender {
     UIView *senderView = nil;
     if ([[sender object] isKindOfClass:[UIView class]]) {
         senderView = [sender object];
@@ -217,14 +217,14 @@
      ];
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+- (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldReceiveTouch:(UITouch*)touch {
     if ([touch.view isKindOfClass:[UIButton class]] || [touch.view isKindOfClass:[RemoteControllerGestureZoneView class]] || [touch.view isKindOfClass:[OBSlider class]] || [touch.view isKindOfClass:[UISlider class]] || [touch.view isKindOfClass:NSClassFromString(@"UITableViewCellReorderControl")]) {
         return NO;
     }
     return YES;
 }
 
--(void)disablePanGestureRecognizer:(UIImageView *)fallbackView{
+- (void)disablePanGestureRecognizer:(UIImageView*)fallbackView {
     return;
 //    if ([self.view.gestureRecognizers count]) {
 //        [self.view removeGestureRecognizer:self.view.gestureRecognizers[0]];
@@ -239,7 +239,7 @@
 //    }
 }
 
--(void)enablePanGestureRecognizer{
+- (void)enablePanGestureRecognizer {
     return;
 //    if (![self.view.gestureRecognizers count]) {
 //        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
@@ -251,7 +251,7 @@
 //    }
 }
 
--(void)arrangeVerticalBar {
+- (void)arrangeVerticalBar {
 	
 	if ([[slideViews subviews] count] > 2) {
 		[[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
@@ -275,7 +275,7 @@
 	}
 }
 
--(void)offView{
+- (void)offView {
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     int posX = (UIInterfaceOrientationIsPortrait(orientation)) ? 468 : 724;
@@ -339,7 +339,7 @@
     [UIView commitAnimations];
 }
 
-- (void)handlePanFrom:(UIPanGestureRecognizer *)recognizer {
+- (void)handlePanFrom:(UIPanGestureRecognizer*)recognizer {
     if (stackScrollIsFullscreen) {
         return;
     }
@@ -727,7 +727,7 @@
 	}
 }
 
--(void)moveStack{
+- (void)moveStack {
     if ((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtRight.frame.origin.x < (self.view.frame.size.width - (viewAtRight.frame.size.width/2))) {
         [UIView beginAnimations:@"RIGHT-WITH-RIGHT" context:NULL];
         [UIView setAnimationDuration:0.2];
@@ -885,7 +885,7 @@
 }
 
 
-- (void)callArrangeVerticalBar{
+- (void)callArrangeVerticalBar {
 	[self arrangeVerticalBar];
 }
 
@@ -902,15 +902,15 @@
                                                object: nil];
 }
 
--(void)handleAutoPan{
+- (void)handleAutoPan {
     [self moveStack];
 }
 
-- (void) viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 }
 
-- (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView{
+- (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView {
     CGFloat animX = 0;
 	if (isStackStartView) {
         NSInteger numViews = [[slideViews subviews]count];
@@ -1080,8 +1080,7 @@
 #pragma mark -
 #pragma mark Rotation support
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     BOOL isViewOutOfScreen = NO;
     int posX = SLIDE_VIEWS_START_X_POS;

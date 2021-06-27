@@ -10,7 +10,7 @@
 
 @implementation UIImage (Resize)
 
-- (UIImage *)resizedImage:(CGImageRef)imageRef size:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality {
+- (UIImage*)resizedImage:(CGImageRef)imageRef size:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality {
     CGRect newRect;
     CGFloat horizontalRatio = newSize.width / self.size.width;
     CGFloat verticalRatio = newSize.height / self.size.height;

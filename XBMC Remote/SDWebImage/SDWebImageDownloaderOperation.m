@@ -34,8 +34,7 @@
     BOOL responseFromCached;
 }
 
-- (id)initWithRequest:(NSURLRequest *)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary *)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)(void))cancelBlock
-{
+- (id)initWithRequest:(NSURLRequest*)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary*)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)(void))cancelBlock {
     if ((self = [super init])) {
         _queue = queue;
         _request = request;
@@ -52,10 +51,8 @@
     return self;
 }
 
-- (void)start
-{
-    dispatch_async(dispatch_get_main_queue(), ^
-    {
+- (void)start {
+    dispatch_async(dispatch_get_main_queue(), ^{
         if (self.isCancelled) {
             self.finished = YES;
             [self reset];
@@ -86,8 +83,7 @@
     });
 }
 
-- (void)cancel
-{
+- (void)cancel {
     if (self.isFinished) {
         return;
     }
@@ -113,17 +109,14 @@
     [self reset];
 }
 
-- (void)done
-{
+- (void)done {
     self.finished = YES;
     self.executing = NO;
     [self reset];
 }
 
-- (void)reset
-{
-    dispatch_async(dispatch_get_main_queue(), ^
-    {
+- (void)reset {
+    dispatch_async(dispatch_get_main_queue(), ^{
         self.cancelBlock = nil;
         self.completedBlock = nil;
         self.progressBlock = nil;
@@ -132,38 +125,33 @@
     });
 }
 
-- (void)setFinished:(BOOL)finished
-{
+- (void)setFinished:(BOOL)finished {
     [self willChangeValueForKey:@"isFinished"];
     __finished = finished;
     [self didChangeValueForKey:@"isFinished"];
 }
 
-- (void)setExecuting:(BOOL)executing
-{
+- (void)setExecuting:(BOOL)executing {
     [self willChangeValueForKey:@"isExecuting"];
     __executing = executing;
     [self didChangeValueForKey:@"isExecuting"];
 }
 
-- (BOOL)isConcurrent
-{
+- (BOOL)isConcurrent {
     return YES;
 }
 
 #pragma mark NSURLConnection (delegate)
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    if (![response respondsToSelector:@selector(statusCode)] || [((NSHTTPURLResponse *)response) statusCode] < 400) {
+- (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response {
+    if (![response respondsToSelector:@selector(statusCode)] || [((NSHTTPURLResponse*)response) statusCode] < 400) {
         NSUInteger expected = response.expectedContentLength > 0 ? (NSUInteger)response.expectedContentLength : 0;
         self.expectedSize = expected;
         if (self.progressBlock) {
             self.progressBlock(0, expected);
         }
 
-        dispatch_async(self.queue, ^
-        {
+        dispatch_async(self.queue, ^{
             self.imageData = [NSMutableData.alloc initWithCapacity:expected];
         });
     }
@@ -173,17 +161,15 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
 
         if (self.completedBlock) {
-            self.completedBlock(nil, nil, [NSError errorWithDomain:NSURLErrorDomain code:[((NSHTTPURLResponse *)response) statusCode] userInfo:nil], YES);
+            self.completedBlock(nil, nil, [NSError errorWithDomain:NSURLErrorDomain code:[((NSHTTPURLResponse*)response) statusCode] userInfo:nil], YES);
         }
 
         [self done];
     }
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    dispatch_async(self.queue, ^
-    {
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
+    dispatch_async(self.queue, ^{
         [self.imageData appendData:data];
         
         if ((self.options & SDWebImageDownloaderProgressiveDownload) && self.expectedSize > 0 && self.completedBlock) {
@@ -239,8 +225,7 @@
                 if (partialImageRef) {
                     UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, [UIImage imageWithCGImage:partialImageRef])];
                     CGImageRelease(partialImageRef);
-                    dispatch_async(dispatch_get_main_queue(), ^
-                    {
+                    dispatch_async(dispatch_get_main_queue(), ^{
                         if (self.completedBlock) {
                             self.completedBlock(image, nil, nil, NO);
                         }
@@ -251,8 +236,7 @@
             CFRelease(imageSource);
         }
         NSUInteger received = self.imageData.length;
-        dispatch_async(dispatch_get_main_queue(), ^
-        {
+        dispatch_async(dispatch_get_main_queue(), ^{
             if (self.progressBlock) {
                 self.progressBlock(received, self.expectedSize);
             }
@@ -260,8 +244,7 @@
     });
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)aConnection
-{
+- (void)connectionDidFinishLoading:(NSURLConnection*)aConnection {
     self.connection = nil;
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
@@ -275,8 +258,7 @@
             [self done];
         }
         else {
-            dispatch_async(self.queue, ^
-            {
+            dispatch_async(self.queue, ^{
 //                CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
                 if ([[self.userInfo objectForKey:@"transformation"] isEqualToString:@"resize"]) {
                     CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
@@ -285,8 +267,7 @@
                     self.imageData = [NSMutableData dataWithData:elabData];
                 }
                 UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, self.imageData) size:CGSizeZero interpolationQuality:kCGInterpolationHigh];
-                dispatch_async(dispatch_get_main_queue(), ^
-                {
+                dispatch_async(dispatch_get_main_queue(), ^{
                     if (CGSizeEqualToSize(image.size, CGSizeZero)) {
                         completionBlock(nil, nil, [NSError errorWithDomain:@"SDWebImageErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Downloaded image has 0 pixels"}], YES);
                     }
@@ -304,8 +285,7 @@
     }
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
+- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
     [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
 
     if (self.completedBlock) {
@@ -315,8 +295,7 @@
     [self done];
 }
 
-- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse
-{
+- (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse {
     responseFromCached = NO; // If this method is called, it means the response wasn't read from cache
     if (self.request.cachePolicy == NSURLRequestReloadIgnoringLocalCacheData) {
         // Prevents caching of responses

@@ -13,55 +13,45 @@ static char operationKey;
 
 @implementation UIImageView (WebCache)
 
-- (CGSize)doubleSizeIfRetina:(CGSize)size
-{
+- (CGSize)doubleSizeIfRetina:(CGSize)size {
     return CGSizeMake(size.width * UIScreen.mainScreen.scale, size.height * UIScreen.mainScreen.scale);
 }
 
-- (void)setImageWithURL:(NSURL *)url
-{
+- (void)setImageWithURL:(NSURL*)url {
     [self setImageWithURL:url placeholderImage:nil options:0 andResize:CGSizeZero progress:nil completed:nil];
 }
 
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder
-{
+- (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder {
     [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:CGSizeZero progress:nil completed:nil];
 }
 
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder andResize:(CGSize)size
-{
+- (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder andResize:(CGSize)size {
     size = [self doubleSizeIfRetina:size];
     [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:size progress:nil completed:nil];
 }
 
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options
-{
+- (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder options:(SDWebImageOptions)options {
     [self setImageWithURL:url placeholderImage:placeholder options:options andResize:CGSizeZero progress:nil completed:nil];
 }
 
-- (void)setImageWithURL:(NSURL *)url completed:(SDWebImageCompletedBlock)completedBlock
-{
+- (void)setImageWithURL:(NSURL*)url completed:(SDWebImageCompletedBlock)completedBlock {
     [self setImageWithURL:url placeholderImage:nil options:0 andResize:CGSizeZero progress:nil completed:completedBlock];
 }
 
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder andResize:(CGSize)size completed:(SDWebImageCompletedBlock)completedBlock
-{
+- (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder andResize:(CGSize)size completed:(SDWebImageCompletedBlock)completedBlock {
     size = [self doubleSizeIfRetina:size];
     [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:size progress:nil completed:completedBlock];
 }
 
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder completed:(SDWebImageCompletedBlock)completedBlock
-{
+- (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder completed:(SDWebImageCompletedBlock)completedBlock {
     [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:CGSizeZero progress:nil completed:completedBlock];
 }
 
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options completed:(SDWebImageCompletedBlock)completedBlock
-{
+- (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder options:(SDWebImageOptions)options completed:(SDWebImageCompletedBlock)completedBlock {
     [self setImageWithURL:url placeholderImage:placeholder options:options andResize:CGSizeZero progress:nil completed:completedBlock];
 }
 
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options andResize:(CGSize)size progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock;
-{
+- (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder options:(SDWebImageOptions)options andResize:(CGSize)size progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock {
     [self cancelCurrentImageLoad];
 
     self.image = placeholder;
@@ -74,8 +64,7 @@ static char operationKey;
                                    nil];
         }
         __weak UIImageView *wself = self;
-        id<SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadWithURL:url options:options userInfo:userInfo progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
-        {
+        id<SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadWithURL:url options:options userInfo:userInfo progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
             __strong UIImageView *sself = wself;
             if (!sself) {
                 return;
@@ -92,8 +81,7 @@ static char operationKey;
     }
 }
 
-- (void)cancelCurrentImageLoad
-{
+- (void)cancelCurrentImageLoad {
     // Cancel in progress downloader from queue
     id<SDWebImageOperation> operation = objc_getAssociatedObject(self, &operationKey);
     if (operation) {

@@ -27,16 +27,14 @@
 
 @implementation SDWebImageManager
 
-+ (id)sharedManager
-{
++ (id)sharedManager {
     static dispatch_once_t once;
     static id instance;
     dispatch_once(&once, ^{instance = self.new;});
     return instance;
 }
 
-- (id)init
-{
+- (id)init {
     if ((self = [super init])) {
         _imageCache = [SDImageCache sharedImageCache];
         _imageDownloader = SDWebImageDownloader.new;
@@ -47,8 +45,7 @@
 }
 
 
-- (NSString *)cacheKeyForURL:(NSURL *)url withDict:(NSDictionary *)info
-{
+- (NSString*)cacheKeyForURL:(NSURL*)url withDict:(NSDictionary*)info {
     NSString *cacheKey;
     
     if (self.cacheKeyFilter) {
@@ -67,12 +64,11 @@
     return cacheKey;
 }
 
-- (id<SDWebImageOperation>)downloadWithURL:(NSURL *)url options:(SDWebImageOptions)options userInfo:(NSDictionary *)userInfo progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedWithFinishedBlock)completedBlock
-{
+- (id<SDWebImageOperation>)downloadWithURL:(NSURL*)url options:(SDWebImageOptions)options userInfo:(NSDictionary*)userInfo progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedWithFinishedBlock)completedBlock {
     // Very common mistake is to send the URL using NSString object instead of NSURL. For some strange reason, XCode won't
     // throw any warning for this type mismatch. Here we failsafe this error by allowing URLs to be passed as NSString.
     if ([url isKindOfClass:NSString.class]) {
-        url = [NSURL URLWithString:(NSString *)url];
+        url = [NSURL URLWithString:(NSString*)url];
     }
 
     // Prevents app crashing on argument type error like sending NSNull instead of NSURL
@@ -90,14 +86,12 @@
         return operation;
     }
 
-    @synchronized(self.runningOperations)
-    {
+    @synchronized(self.runningOperations) {
         [self.runningOperations addObject:operation];
     }
     NSString *key = [self cacheKeyForURL:url withDict:userInfo];
 
-    [self.imageCache queryDiskCacheForKey:key done:^(UIImage *image, SDImageCacheType cacheType)
-    {
+    [self.imageCache queryDiskCacheForKey:key done:^(UIImage *image, SDImageCacheType cacheType) {
         if (operation.isCancelled) {
             return;
         }
@@ -126,8 +120,7 @@
                 // ignore image read from NSURLCache if image if cached but force refreshing
                 downloaderOptions |= SDWebImageDownloaderIgnoreCachedResponse;
             }
-            __block id<SDWebImageOperation> subOperation = [self.imageDownloader downloadImageWithURL:url options:downloaderOptions userInfo:(NSDictionary *)userInfo progress:progressBlock completed:^(UIImage *downloadedImage, NSData *data, NSError *error, BOOL finished)
-            {
+            __block id<SDWebImageOperation> subOperation = [self.imageDownloader downloadImageWithURL:url options:downloaderOptions userInfo:(NSDictionary*)userInfo progress:progressBlock completed:^(UIImage *downloadedImage, NSData *data, NSError *error, BOOL finished) {
                 if (weakOperation.cancelled) {
                     completedBlock(nil, nil, SDImageCacheTypeNone, finished);
                 }
@@ -135,8 +128,7 @@
                     completedBlock(nil, error, SDImageCacheTypeNone, finished);
 
                     if (error.code != NSURLErrorNotConnectedToInternet) {
-                        @synchronized(self.failedURLs)
-                        {
+                        @synchronized(self.failedURLs) {
                             [self.failedURLs addObject:url];
                         }
                     }
@@ -148,12 +140,10 @@
                         // Image refresh hit the NSURLCache cache, do not call the completion block
                     }
                     else if (downloadedImage && [self.delegate respondsToSelector:@selector(imageManager:transformDownloadedImage:withURL:)]) {
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^
-                        {
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                             UIImage *transformedImage = [self.delegate imageManager:self transformDownloadedImage:downloadedImage withURL:url];
 
-                            dispatch_async(dispatch_get_main_queue(), ^
-                            {
+                            dispatch_async(dispatch_get_main_queue(), ^{
                                 completedBlock(transformedImage, nil, SDImageCacheTypeNone, finished);
                             });
 
@@ -172,8 +162,7 @@
                 }
 
                 if (finished) {
-                    @synchronized(self.runningOperations)
-                    {
+                    @synchronized(self.runningOperations) {
                         [self.runningOperations removeObject:operation];
                     }
                 }
@@ -182,16 +171,14 @@
         }
         else if (image) {
             completedBlock(image, nil, cacheType, YES);
-            @synchronized(self.runningOperations)
-            {
+            @synchronized(self.runningOperations) {
                 [self.runningOperations removeObject:operation];
             }
         }
         else {
             // Image not in cache and download disallowed by delegate
             completedBlock(nil, nil, SDImageCacheTypeNone, YES);
-            @synchronized(self.runningOperations)
-            {
+            @synchronized(self.runningOperations) {
                 [self.runningOperations removeObject:operation];
             }
         }
@@ -200,17 +187,14 @@
     return operation;
 }
 
-- (void)cancelAll
-{
-    @synchronized(self.runningOperations)
-    {
+- (void)cancelAll {
+    @synchronized(self.runningOperations) {
         [self.runningOperations makeObjectsPerformSelector:@selector(cancel)];
         [self.runningOperations removeAllObjects];
     }
 }
 
-- (BOOL)isRunning
-{
+- (BOOL)isRunning {
     return self.runningOperations.count > 0;
 }
 
@@ -218,8 +202,7 @@
 
 @implementation SDWebImageCombinedOperation
 
-- (void)setCancelBlock:(void (^)(void))cancelBlock
-{
+- (void)setCancelBlock:(void (^)(void))cancelBlock {
     if (self.isCancelled) {
         if (cancelBlock) cancelBlock();
     }
@@ -228,8 +211,7 @@
     }
 }
 
-- (void)cancel
-{
+- (void)cancel {
     self.cancelled = YES;
     if (self.cancelBlock) {
         self.cancelBlock();

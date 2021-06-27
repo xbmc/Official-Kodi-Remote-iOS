@@ -43,7 +43,7 @@
 
 # pragma mark - view Effects
 
-- (void)showMessage:(NSString *)message timeout:(NSTimeInterval)timeout color:(UIColor *)color{
+- (void)showMessage:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color {
     // first slide out
     CGRect frame = self.frame;
     [UIView beginAnimations:nil context:nil];
@@ -67,7 +67,7 @@
     fadeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutMessage:) userInfo:nil repeats:NO];
 }
 
-- (void)fadeoutMessage:(NSTimer *)timer{
+- (void)fadeoutMessage:(NSTimer*)timer {
     CGRect frame = self.frame;
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];

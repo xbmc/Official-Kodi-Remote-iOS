@@ -23,7 +23,7 @@
 @class NowPlaying;
 //@class DetailViewController;
 
-@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, SFSafariViewControllerDelegate>{
+@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, SFSafariViewControllerDelegate> {
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     NSMutableArray	*filteredListContent;
@@ -144,7 +144,7 @@
 }
 
 - (id)initWithFrame:(CGRect)frame;
-- (id)initWithNibName:(NSString *)nibNameOrNil withItem:(mainMenu *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
+- (id)initWithNibName:(NSString*)nibNameOrNil withItem:(mainMenu*)item withFrame:(CGRect)frame bundle:(NSBundle*)nibBundleOrNil;
 
 @property (nonatomic, retain) NSMutableArray *filteredListContent;
 @property (strong, nonatomic) id detailItem;

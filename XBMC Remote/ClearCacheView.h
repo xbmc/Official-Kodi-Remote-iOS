@@ -13,7 +13,7 @@
 }
 
 - (id)initWithFrame:(CGRect)frame border:(int)borderWidth;
--(void)startActivityIndicator;
--(void)stopActivityIndicator;
+- (void)startActivityIndicator;
+- (void)stopActivityIndicator;
 
 @end

@@ -14,7 +14,7 @@
 
 @class ViewControllerIPad;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>{
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
 	NSMutableArray *arrayServerList;
     GlobalData *obj;
 }
@@ -67,13 +67,13 @@
 
 #define ANCHOR_RIGHT_PEEK 40
 
-+ (AppDelegate *) instance;
++ (AppDelegate*)instance;
 
--(void)saveServerList;
--(void)clearAppDiskCache;
--(void)sendWOL:(NSString *)MAC withPort:(NSInteger)WOLport;
--(NSURL *)getServerJSONEndPoint;
--(NSDictionary *)getServerHTTPHeaders;
+- (void)saveServerList;
+- (void)clearAppDiskCache;
+- (void)sendWOL:(NSString*)MAC withPort:(NSInteger)WOLport;
+- (NSURL*)getServerJSONEndPoint;
+- (NSDictionary*)getServerHTTPHeaders;
 
 @property (strong, nonatomic) UIWindow *window;
 

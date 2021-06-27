@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GlobalData : NSObject{    
+@interface GlobalData : NSObject {    
     NSString *serverDescription; 
     NSString *serverUser; 
     NSString *serverPass; 
@@ -29,5 +29,5 @@
 @property(nonatomic, retain)NSString *serverHWAddr; 
 @property BOOL preferTVPosters;
 
-+(GlobalData*)getInstance;    
++ (GlobalData*)getInstance;    
 @end  

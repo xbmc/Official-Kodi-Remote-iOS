@@ -17,7 +17,7 @@
 @synthesize posterLabelFullscreen = _posterLabelFullscreen;
 @synthesize busyView = _busyView;
 
-- (id)initWithFrame:(CGRect)frame{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         CGFloat labelHeight = ceil(frame.size.height * 0.19);
@@ -76,11 +76,11 @@
     return self;
 }
 
-- (CGFloat)halfSizeIfRetina:(CGFloat)size{
+- (CGFloat)halfSizeIfRetina:(CGFloat)size {
     return size / [[UIScreen mainScreen] scale];
 }
 
--(void)setIsRecording:(BOOL)enable {
+- (void)setIsRecording:(BOOL)enable {
     if (enable) {
         if (isRecordingImageView == nil) {
             CGFloat dotSize = 8;
@@ -98,7 +98,7 @@
     }
 }
 
--(void)setOverlayWatched:(BOOL)enable{
+- (void)setOverlayWatched:(BOOL)enable {
     if (enable) {
         if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];

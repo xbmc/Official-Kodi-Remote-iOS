@@ -194,14 +194,14 @@
 
 #pragma mark - Gesture Recognizer
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+- (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldReceiveTouch:(UITouch*)touch {
     if ([touch.view isKindOfClass:[OBSlider class]] || [touch.view isKindOfClass:[UISwitch class]] || [touch.view isKindOfClass:NSClassFromString(@"_UISwitchInternalView")]) {
         return NO;
     }
     return YES;
 }
 
--(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+- (void)handleLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint p = [gestureRecognizer locationInView:_tableView];
         NSIndexPath *indexPath = [_tableView indexPathForRowAtPoint:p];
@@ -285,7 +285,7 @@
 
 #pragma mark - custom button
 
--(void)saveCustomButton:(NSDictionary *)button {
+- (void)saveCustomButton:(NSDictionary*)button {
     customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
@@ -297,7 +297,7 @@
 
 #pragma mark - JSON
 
--(void)xbmcAction:(NSString *)action params:(NSDictionary *)params uiControl:(id)sender {
+- (void)xbmcAction:(NSString*)action params:(NSDictionary*)params uiControl:(id)sender {
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
         [sender setUserInteractionEnabled:NO];
     }
@@ -316,7 +316,7 @@
     }];
 }
 
--(void)retrieveXBMCData:(NSString *)method parameters:(NSDictionary *)params itemKey:(NSString *)itemkey{
+- (void)retrieveXBMCData:(NSString*)method parameters:(NSDictionary*)params itemKey:(NSString*)itemkey {
     
     [activityIndicator startAnimating];
     [[Utilities getJsonRPC] callMethod: method
@@ -347,15 +347,15 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     return cellHeight;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger numRows = 1;
     if ([settingOptions isKindOfClass:[NSArray class]]) {
         numRows = [settingOptions count];
@@ -363,11 +363,11 @@
     return numRows;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
 	cell.backgroundColor = [Utilities getSystemGray6];
 }
 
-- (void)adjustFontSize:(UILabel *)label {
+- (void)adjustFontSize:(UILabel*)label {
     CGRect descriptionRect;
     BOOL done = NO;
     CGFloat startSize = label.font.pointSize - 1;
@@ -388,9 +388,9 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     static NSString *tableCellIdentifier = @"UITableViewCell";
-	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
+	UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
         UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellHeight/2 - 11, self.view.bounds.size.width - cellLabelOffset - 38, 22)];
@@ -462,12 +462,12 @@
 	}
     cell.accessoryType = UITableViewCellAccessoryNone;
 
-    UILabel *cellLabel = (UILabel*) [cell viewWithTag:1];
-    UILabel *descriptionLabel = (UILabel*) [cell viewWithTag:2];
-    UISlider *slider = (UISlider*) [cell viewWithTag:101];
-    UILabel *sliderLabel = (UILabel*) [cell viewWithTag:102];
-    UISwitch *onoff = (UISwitch*) [cell viewWithTag:201];
-    UITextField *textInputField = (UITextField*) [cell viewWithTag:301];
+    UILabel *cellLabel = (UILabel*)[cell viewWithTag:1];
+    UILabel *descriptionLabel = (UILabel*)[cell viewWithTag:2];
+    UISlider *slider = (UISlider*)[cell viewWithTag:101];
+    UILabel *sliderLabel = (UILabel*)[cell viewWithTag:102];
+    UISwitch *onoff = (UISwitch*)[cell viewWithTag:201];
+    UITextField *textInputField = (UITextField*)[cell viewWithTag:301];
 
     descriptionLabel.hidden = YES;
     slider.hidden = YES;
@@ -597,7 +597,7 @@
 
 #pragma mark Table view delegate
 
-- (void)AnimTable:(UITableView *)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
+- (void)AnimTable:(UITableView*)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	tV.alpha = alphavalue;
@@ -609,7 +609,7 @@
     [UIView commitAnimations];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell = nil;
     NSString *command = nil;
@@ -664,7 +664,7 @@
     }
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     NSInteger viewWidth = self.view.frame.size.width;
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
     [sectionView setBackgroundColor:[Utilities getGrayColor:102 alpha:1]];
@@ -679,11 +679,11 @@
     return sectionView;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
     return 1;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+- (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
 //    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
     UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
@@ -716,7 +716,7 @@
 //    }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
 //    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
         if (footerHeight < 0) {
             UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
@@ -737,7 +737,7 @@
 //        return 0;
 //    }
 }
-- (NSIndexPath *)getCurrentSelectedOption:(NSArray *)optionList {
+- (NSIndexPath*)getCurrentSelectedOption:(NSArray*)optionList {
     NSIndexPath *foundIndex = nil;
     NSUInteger index = [optionList indexOfObjectPassingTest:
                         ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
@@ -750,7 +750,7 @@
     return foundIndex;
 }
 
-- (void)scrollTableRow:(NSArray *)list {
+- (void)scrollTableRow:(NSArray*)list {
     NSIndexPath *optionIndex = [self getCurrentSelectedOption:list];
     if (optionIndex != nil) {
         [_tableView scrollToRowAtIndexPath:optionIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
@@ -760,18 +760,18 @@
 
 #pragma mark - UISlider
 
--(void)changeAlphaView:(UIView *)view alpha:(CGFloat)value time:(NSTimeInterval)sec{
+- (void)changeAlphaView:(UIView*)view alpha:(CGFloat)value time:(NSTimeInterval)sec {
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:sec];
 	view.alpha = value;
     [UIView commitAnimations];
 }
 
--(void)startUpdateSlider:(id)sender{
+- (void)startUpdateSlider:(id)sender {
     [self changeAlphaView:scrubbingView alpha:1.0 time:0.3];
 }
 
--(void)stopUpdateSlider:(id)sender{
+- (void)stopUpdateSlider:(id)sender {
     [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
     NSString *command = @"Settings.SetSettingValue";
     self.detailItem[@"value"] = @(storeSliderValue);
@@ -779,14 +779,14 @@
     [self xbmcAction:command params:params uiControl:sender];
 }
 
--(void)sliderAction:(id)sender {
-    OBSlider *slider = (OBSlider*) sender;
+- (void)sliderAction:(id)sender {
+    OBSlider *slider = (OBSlider*)sender;
     float newStep = roundf((slider.value) / [self.detailItem[@"step"] intValue]);
     float newValue = newStep * [self.detailItem[@"step"] intValue];
     if (newValue != storeSliderValue) {
         storeSliderValue = newValue;
         if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]) {
-            UILabel *sliderLabel = (UILabel *)[[slider superview] viewWithTag:102];
+            UILabel *sliderLabel = (UILabel*)[[slider superview] viewWithTag:102];
             NSString *stringFormat = @"%i";
             if (itemControls[@"formatlabel"] != nil) {
                 stringFormat = [NSString stringWithFormat:@"%@", itemControls[@"formatlabel"]];
@@ -800,7 +800,7 @@
 #pragma mark UISwitch
 
 - (void)toggleSwitch:(id)sender {
-    UISwitch *onoff = (UISwitch *)sender;
+    UISwitch *onoff = (UISwitch*)sender;
     NSString *command = @"Settings.SetSettingValue";
     self.detailItem[@"value"] = @(onoff.on);
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
@@ -809,15 +809,15 @@
 
 #pragma mark - UITextFieldDelegate Methods
 
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+- (BOOL)textFieldShouldBeginEditing:(UITextField*)textField {
     return YES;
 }
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+- (BOOL)textFieldShouldEndEditing:(UITextField*)textField {
     return YES;
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField*)textField {
     [textField resignFirstResponder];
     NSString *command = @"Settings.SetSettingValue";
     self.detailItem[@"value"] = [NSString stringWithFormat:@"%@", textField.text];
@@ -837,7 +837,7 @@
     }];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if ([self presentingViewController] != nil) {
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];

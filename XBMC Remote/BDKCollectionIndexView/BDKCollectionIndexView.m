@@ -31,7 +31,7 @@
 /** Handles events sent by the long press gesture recognizer.
  *  @param recognizer the sender of the event; usually a UILongPressGestureRecognizer.
  */
-- (void)handleTap:(UILongPressGestureRecognizer *)recognizer;
+- (void)handleTap:(UILongPressGestureRecognizer*)recognizer;
 
 /** Handles logic for determining which label is under a given touch point, and sets `currentIndex` accordingly.
  *  @param point the touch point.
@@ -49,11 +49,11 @@
 
 @synthesize currentIndex = _currentIndex, direction = _direction, theDimension = _theDimension;
 
-+ (id)indexViewWithFrame:(CGRect)frame indexTitles:(NSArray *)indexTitles {
++ (id)indexViewWithFrame:(CGRect)frame indexTitles:(NSArray*)indexTitles {
     return [[self alloc] initWithFrame:frame indexTitles:indexTitles];
 }
 
-- (id)initWithFrame:(CGRect)frame indexTitles:(NSArray *)indexTitles {
+- (id)initWithFrame:(CGRect)frame indexTitles:(NSArray*)indexTitles {
     if (self = [super initWithFrame:frame]) {
         if (CGRectGetWidth(frame) > CGRectGetHeight(frame))
             _direction = BDKCollectionIndexViewDirectionHorizontal;
@@ -125,7 +125,7 @@
 
 #pragma mark - Properties
 
-- (UIView *)touchStatusView {
+- (UIView*)touchStatusView {
     if (_touchStatusView) {
         return _touchStatusView;
     }
@@ -136,7 +136,7 @@
     return _touchStatusView;
 }
 
-- (void)setIndexTitles:(NSArray *)indexTitles {
+- (void)setIndexTitles:(NSArray*)indexTitles {
     if (_indexTitles == indexTitles) {
         return;
     }
@@ -145,7 +145,7 @@
     [self buildIndexLabels];
 }
 
-- (NSString *)currentIndexTitle {
+- (NSString*)currentIndexTitle {
     return self.indexTitles[self.currentIndex];
 }
 
@@ -202,7 +202,7 @@
 
 #pragma mark - Gestures
 
-- (void)handleTap:(UILongPressGestureRecognizer *)recognizer {
+- (void)handleTap:(UILongPressGestureRecognizer*)recognizer {
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         [self setBackgroundVisibility:NO];
         self.alpha = DEFAULT_ALPHA;

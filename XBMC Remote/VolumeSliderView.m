@@ -22,7 +22,7 @@
 
 @synthesize timer, holdVolumeTimer;
 
-- (id)initWithFrame:(CGRect)frame{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         Utilities *utils = [Utilities new];
@@ -142,32 +142,32 @@
     return self;
 }
 
--(CGRect)currentScreenBoundsDependOnOrientation {
+- (CGRect)currentScreenBoundsDependOnOrientation {
     return UIScreen.mainScreen.bounds;
 }
 
--(void)handleServerStatusChanged:(NSNotification *)sender{
+- (void)handleServerStatusChanged:(NSNotification*)sender {
     volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
     volumeSlider.value = [AppDelegate instance].serverVolume;
     [self checkMuteServer];
 }
 
--(void)handleApplicationOnVolumeChanged:(NSNotification *)sender{
+- (void)handleApplicationOnVolumeChanged:(NSNotification*)sender {
     if (holdVolumeTimer == nil) {
         [AppDelegate instance].serverVolume = [[sender userInfo][@"params"][@"data"][@"volume"] intValue];
         [self handleServerStatusChanged:nil];
     }
 }
 
-- (void) handleDidEnterBackground: (NSNotification*) sender{
+- (void)handleDidEnterBackground:(NSNotification*)sender {
     [self stopTimer];
 }
 
-- (void) handleEnterForeground: (NSNotification*) sender{
+- (void)handleEnterForeground:(NSNotification*)sender {
     [self startTimer];
 }
 
--(void)changeServerVolume:(id)sender{
+- (void)changeServerVolume:(id)sender {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(volumeSlider.value), @"volume", nil]];
@@ -176,21 +176,21 @@
     }
 }
 
--(void)startTimer{
+- (void)startTimer {
     volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
     volumeSlider.value = [AppDelegate instance].serverVolume;
     [self stopTimer];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(volumeInfo) userInfo:nil repeats:YES];
 }
 
--(void)stopTimer{
+- (void)stopTimer {
     if (self.timer != nil) {
         [self.timer invalidate];
         self.timer = nil;
     }
 }
 
--(void)volumeInfo{
+- (void)volumeInfo {
     if ([AppDelegate instance].serverTCPConnectionOpen) {
         return;
     }
@@ -204,18 +204,18 @@
     }
 }
 
--(IBAction)slideVolume:(id)sender{
+- (IBAction)slideVolume:(id)sender {
     volumeSlider.value = (int)volumeSlider.value;
     [AppDelegate instance].serverVolume = (int)volumeSlider.value;
     volumeLabel.text = [NSString  stringWithFormat:@"%.0f", volumeSlider.value];
 }
 
--(IBAction)toggleMute:(id)sender {
+- (IBAction)toggleMute:(id)sender {
     [self handleMute:!isMuted];
     [self changeMuteServer];
 }
 
--(void)handleMute:(BOOL)mute {
+- (void)handleMute:(BOOL)mute {
     Utilities *utils = [Utilities new];
     isMuted = mute;
     UIColor *buttonColor = isMuted ? [UIColor systemRedColor] : muteIconColor;
@@ -232,13 +232,13 @@
     [volumeSlider setUserInteractionEnabled:!isMuted];
 }
 
--(void)changeMuteServer {
+- (void)changeMuteServer {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetMute"
      withParameters:@{@"mute": @"toggle"}];
 }
 
--(void)checkMuteServer {
+- (void)checkMuteServer {
     [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:@{@"properties": @[@"muted"]}
@@ -253,14 +253,14 @@
 
 NSInteger action;
 
--(IBAction)holdVolume:(id)sender{
+- (IBAction)holdVolume:(id)sender {
     [self stopTimer];
     action = [sender tag];
     [self changeVolume];
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];
 }
 
--(IBAction)stopVolume:(id)sender{
+- (IBAction)stopVolume:(id)sender {
     if (self.holdVolumeTimer != nil) {
         [self.holdVolumeTimer invalidate];
         self.holdVolumeTimer = nil;
@@ -269,7 +269,7 @@ NSInteger action;
     [self startTimer];
 }
 
--(void)changeVolume{
+- (void)changeVolume {
     if (self.holdVolumeTimer.timeInterval == 0.5) {
         [self.holdVolumeTimer invalidate];
         self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];        
@@ -293,7 +293,7 @@ NSInteger action;
     }
 }
 
--(void)dealloc{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [self stopTimer];
 }
