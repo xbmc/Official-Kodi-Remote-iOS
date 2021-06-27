@@ -1007,7 +1007,7 @@ NSMutableArray *hostRightMenuItems;
         @{
             @"itemid": @"albums",
             @"row1": @"label",
-            @"row2":  @"artist",
+            @"row2": @"artist",
             @"row3": @"year",
             @"row4": @"fanart",
             @"row5": @"rating",
@@ -4734,10 +4734,10 @@ NSMutableArray *hostRightMenuItems;
         int idx;
         
         for (idx = 0; idx + 2 <= [MAC length]; idx += 3) {
-            NSRange     range = NSMakeRange(idx, 2);
-            NSString    *hexStr = [MAC substringWithRange:range];
+            NSRange range = NSMakeRange(idx, 2);
+            NSString *hexStr = [MAC substringWithRange:range];
             
-            NSScanner   *scanner = [NSScanner scannerWithString:hexStr];
+            NSScanner *scanner = [NSScanner scannerWithString:hexStr];
             unsigned int intValue;
             [scanner scanHexInt:&intValue];
             

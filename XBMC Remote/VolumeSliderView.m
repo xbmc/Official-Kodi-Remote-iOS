@@ -207,7 +207,7 @@
 - (IBAction)slideVolume:(id)sender {
     volumeSlider.value = (int)volumeSlider.value;
     [AppDelegate instance].serverVolume = (int)volumeSlider.value;
-    volumeLabel.text = [NSString  stringWithFormat:@"%.0f", volumeSlider.value];
+    volumeLabel.text = [NSString stringWithFormat:@"%.0f", volumeSlider.value];
 }
 
 - (IBAction)toggleMute:(id)sender {
@@ -272,7 +272,7 @@ NSInteger action;
 - (void)changeVolume {
     if (self.holdVolumeTimer.timeInterval == 0.5) {
         [self.holdVolumeTimer invalidate];
-        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];        
+        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];
     }
     if (action == 1 ) { // Volume Raise
        volumeSlider.value = (int)volumeSlider.value + 2;

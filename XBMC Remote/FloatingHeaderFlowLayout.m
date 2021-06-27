@@ -86,7 +86,7 @@
     CGSize size = [super collectionViewContentSize];
     if (size.height < self.collectionView.frame.size.height + searchBarHeight) {
         size.height = self.collectionView.frame.size.height + searchBarHeight;
-    }    
+    }
     return size;
 }
 

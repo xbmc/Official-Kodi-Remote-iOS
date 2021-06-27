@@ -103,7 +103,7 @@
         
         // Find the scrubbing speed that curresponds to the touch's vertical offset
         CGFloat verticalOffset = fabs(currentLocation.y - self.beganTrackingLocation.y);
-        NSUInteger scrubbingSpeedChangePosIndex = [self indexOfLowerScrubbingSpeed:self.scrubbingSpeedChangePositions forOffset:verticalOffset];        
+        NSUInteger scrubbingSpeedChangePosIndex = [self indexOfLowerScrubbingSpeed:self.scrubbingSpeedChangePositions forOffset:verticalOffset];
         if (scrubbingSpeedChangePosIndex == NSNotFound) {
             scrubbingSpeedChangePosIndex = [self.scrubbingSpeeds count];
         }

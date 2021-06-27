@@ -218,7 +218,7 @@ static inline BOOL IsEmpty(id obj) {
         if (storeServerSelection) {
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             if (indexPath.row<storeServerSelection.row) {
-                storeServerSelection = [NSIndexPath  indexPathForRow:storeServerSelection.row-1 inSection:storeServerSelection.section];
+                storeServerSelection = [NSIndexPath indexPathForRow:storeServerSelection.row-1 inSection:storeServerSelection.section];
                 if (standardUserDefaults) {
                     [standardUserDefaults setObject: @(storeServerSelection.row) forKey:@"lastServer"];
                 }
@@ -241,7 +241,7 @@ static inline BOOL IsEmpty(id obj) {
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
             [tableView endUpdates];
         }
-	}   
+	}
 }
 
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {

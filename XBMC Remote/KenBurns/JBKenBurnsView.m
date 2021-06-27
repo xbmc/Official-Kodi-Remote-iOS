@@ -111,7 +111,7 @@
     
 }
 
-- (void)_startAnimations:(NSArray*)images {    
+- (void)_startAnimations:(NSArray*)images {
     for (uint i = 0; i < [images count]; i++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
@@ -137,7 +137,7 @@
         
         [self performSelectorOnMainThread:@selector(_animate:)
                                withObject:@(0)
-                            waitUntilDone:YES];            
+                            waitUntilDone:YES];
         
         [self.imagesArray removeObjectAtIndex:0];
         [self.imagesArray addObject:[self _downloadImageFrom:urls[urlIndex]]];
@@ -321,10 +321,10 @@
     if (delegate) {
         if ([self.delegate respondsToSelector:@selector(didShowImageAtIndex:)]) {
             [self.delegate didShowImageAtIndex:[imageIndex intValue]];
-        }      
+        }
         
-        if ([imageIndex intValue] == ([self.imagesArray count]-1) && !isLoop && [self.delegate respondsToSelector:@selector(didFinishAllAnimations)]) {            
-            [self.delegate didFinishAllAnimations];        
+        if ([imageIndex intValue] == ([self.imagesArray count]-1) && !isLoop && [self.delegate respondsToSelector:@selector(didFinishAllAnimations)]) {
+            [self.delegate didFinishAllAnimations];
         } 
     }
 }

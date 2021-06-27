@@ -156,7 +156,7 @@
         // Calculate the maximum possible scaling for the remote
         CGFloat scaleFactorHorizontal = STACKSCROLL_WIDTH / CGRectGetWidth(remoteControlView.frame);
         CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING;
-        CGFloat scaleFactorVertical =  minViewHeight / CGRectGetHeight(remoteControlView.frame);
+        CGFloat scaleFactorVertical = minViewHeight / CGRectGetHeight(remoteControlView.frame);
         CGFloat transform = MIN(scaleFactorHorizontal, scaleFactorVertical);
 
         CGFloat newWidth = CGRectGetWidth(remoteControlView.frame) * transform;
@@ -290,7 +290,7 @@
              else {
                  [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF043)"];
              }
-         }];   
+         }];
     }
 }
 
@@ -376,7 +376,7 @@
         frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
         [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];     
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDuration:0.3];
         frame = [gestureZoneView frame];
         frame.origin.x = 0;
@@ -393,7 +393,7 @@
         CGRect frame;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [UIView setAnimationDuration:0.3];      
+        [UIView setAnimationDuration:0.3];
         frame = [gestureZoneView frame];
         frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
@@ -411,7 +411,7 @@
 
     }
     else if ([sender isKindOfClass: [UIBarButtonItem class]]) {
-        [sender setImage:[UIImage imageNamed:imageName]];        
+        [sender setImage:[UIImage imageNamed:imageName]];
     }
 }
 
@@ -597,7 +597,7 @@
     NSString *userPassword = [obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
 
     NSString *serverHTTP = [NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort, command];
-    NSURL *url = [NSURL  URLWithString:serverHTTP];
+    NSURL *url = [NSURL URLWithString:serverHTTP];
     [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
 }
 
@@ -1001,7 +1001,7 @@ NSInteger buttonAction;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
-# pragma  mark - Gestures
+# pragma mark - Gestures
 
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {

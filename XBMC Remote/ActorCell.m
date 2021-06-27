@@ -64,7 +64,7 @@ int offsetY = 5;
         [_actorRole setTextColor:[UIColor lightGrayColor]];
         [_actorRole setShadowColor:[UIColor blackColor]];
         [_actorRole setShadowOffset:CGSizeMake(1, 1)];
-        [_actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];        
+        [_actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
         [self addSubview:_actorRole];
         
         UIView *myBackView = [[UIView alloc] initWithFrame:self.frame];

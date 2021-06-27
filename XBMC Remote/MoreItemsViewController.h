@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MoreItemsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	UITableView*  _tableView;
+	UITableView *_tableView;
     NSMutableArray *mainMenuItems;
     int cellLabelOffset;
 }

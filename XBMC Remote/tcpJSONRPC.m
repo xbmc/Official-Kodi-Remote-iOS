@@ -147,7 +147,7 @@ NSOutputStream	*outStream;
             break;
 		default:
             break;
-	}    
+	}
 }
 
 
@@ -214,7 +214,7 @@ NSOutputStream	*outStream;
                  }
                  else {
                      if ([AppDelegate instance].serverOnLine) {
-                         [self noConnectionNotifications];            
+                         [self noConnectionNotifications];
                      }
                      NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @(YES), @"showSetup", nil];
                      [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];

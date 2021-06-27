@@ -11,21 +11,21 @@
 @implementation GlobalData
 
 @synthesize serverDescription;
-@synthesize serverUser;    
-@synthesize serverPass;    
-@synthesize serverIP;    
+@synthesize serverUser;
+@synthesize serverPass;
+@synthesize serverIP;
 @synthesize serverPort;
 @synthesize tcpPort;
 @synthesize serverHWAddr;
-@synthesize preferTVPosters;    
+@synthesize preferTVPosters;
 
 static GlobalData *instance = nil;
-+ (GlobalData*)getInstance {    
-    @synchronized(self) {    
-        if (instance == nil) {    
++ (GlobalData*)getInstance {
+    @synchronized(self) {
+        if (instance == nil) {
             instance = [GlobalData new];
-        }    
-    }    
-    return instance;    
-}    
+        }
+    }
+    return instance;
+}
 @end

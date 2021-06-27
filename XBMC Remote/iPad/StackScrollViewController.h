@@ -39,7 +39,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface StackScrollViewController :  UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate> {
+@interface StackScrollViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate> {
 	
 	UIView* slideViews;
 	UIView* borderViews;

@@ -121,7 +121,7 @@ int count = 0;
             titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
-            NSString *pvrAction = [item[@"hastimer"] boolValue] ? LOCALIZED_STR(@"Stop Recording") :  LOCALIZED_STR(@"Record");
+            NSString *pvrAction = [item[@"hastimer"] boolValue] ? LOCALIZED_STR(@"Stop Recording") : LOCALIZED_STR(@"Record");
             sheetActions = [[NSMutableArray alloc] initWithObjects:
                             LOCALIZED_STR(@"Play"),
                             pvrAction,
@@ -171,7 +171,7 @@ int count = 0;
                               nil];
             toolbar.items = items;
             toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
-            toolbar.contentMode = UIViewContentModeScaleAspectFill;            
+            toolbar.contentMode = UIViewContentModeScaleAspectFill;
             [toolbar sizeToFit];
             CGFloat toolbarHeight = [toolbar frame].size.height;
             CGRect mainViewBounds = self.view.bounds;
@@ -623,7 +623,7 @@ int count = 0;
 - (void)elaborateImage:(UIImage*)image {
     [self performSelectorOnMainThread:@selector(startActivityIndicator) withObject:nil waitUntilDone:YES];
     UIImage *elabImage = isRecordingDetail ? image : [self imageWithBorderFromImage:image];
-    [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];    
+    [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];
 }
 
 - (void)showImage:(UIImage*)image {
@@ -1195,7 +1195,7 @@ int count = 0;
         
         newFrame = parentalRatingLabel.frame;
         newFrame.size.height = expectedLabelSize.height + size;
-        parentalRatingLabel.frame = newFrame;        
+        parentalRatingLabel.frame = newFrame;
         shiftParentalRating = parentalRatingLabel.frame.size.height;
     }
     
@@ -1545,7 +1545,7 @@ int count = 0;
     }
 }
 
-# pragma  mark - JSON Data
+# pragma mark - JSON Data
 
 - (void)openWithVLC:(NSDictionary*)item {
     self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -1703,7 +1703,7 @@ int count = 0;
     [[Utilities getJsonRPC] callMethod:action withParameters:parameters];
 }
 
-# pragma  mark - Gestures
+# pragma mark - Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -1734,7 +1734,7 @@ int count = 0;
     [self.view insertSubview:self.kenView atIndex:1];
 }
 
-# pragma  mark - Life Cycle
+# pragma mark - Life Cycle
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {

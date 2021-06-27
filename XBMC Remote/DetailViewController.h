@@ -29,7 +29,7 @@
     NSMutableArray	*filteredListContent;
     NSMutableArray *storeRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
-    NSMutableDictionary *sections;  
+    NSMutableDictionary *sections;
     IBOutlet UILongPressGestureRecognizer *lpgr;
     int choosedTab;
     int numTabs;

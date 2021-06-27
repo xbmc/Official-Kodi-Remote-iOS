@@ -50,7 +50,7 @@
     return [mainMenuItems count];
 }
 
-- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {    
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath { 
 	cell.backgroundColor = [Utilities getSystemGray6];
 }
 

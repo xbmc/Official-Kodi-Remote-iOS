@@ -31,7 +31,7 @@
 }
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
-    UITouch *touch = [touches  anyObject];
+    UITouch *touch = [touches anyObject];
     if ([touch tapCount] > 10 && touch.view == creditsSign && creditsMask.hidden) {
         creditsMask.hidden = NO;
         if (audioPlayer == nil) {

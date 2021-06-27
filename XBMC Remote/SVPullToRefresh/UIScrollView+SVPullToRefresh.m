@@ -294,7 +294,7 @@ static char UIScrollViewPullToRefreshView;
 
 #pragma mark - Observing
 
-- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {    
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context { 
     if ([keyPath isEqualToString:@"contentOffset"]) {
         [self scrollViewDidScroll:[[change valueForKey:NSKeyValueChangeNewKey] CGPointValue]];
     }

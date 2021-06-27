@@ -99,7 +99,7 @@
     if (epgArray != nil && channelid != nil && [epgArray count] > 0) {
         NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
         NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
-        NSString  *dicPath = [epgCachePath stringByAppendingPathComponent:filename];
+        NSString *dicPath = [epgCachePath stringByAppendingPathComponent:filename];
         [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
         dispatch_sync(epglockqueue, ^{
             epgDict[channelid] = epgArray;
@@ -320,7 +320,7 @@
         
 
             NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
-            NSString  *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
+            NSString *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
             [NSKeyedArchiver archiveRootObject:self.richResults toFile:dicPath];
             [self updateSyncDate:dicPath];
 
@@ -1229,7 +1229,7 @@
 - (void)setFlowLayoutParams {
     if (stackscrollFullscreen) {
         [flowLayout setItemSize:CGSizeMake(fullscreenCellGridWidth, fullscreenCellGridHeight)];
-        if  (!recentlyAddedView) {
+        if (!recentlyAddedView) {
             [flowLayout setMinimumLineSpacing:38];
         }
         else {
@@ -2147,7 +2147,7 @@ int originYear = 0;
         else {
             duration = item[@"runtime"];
         }
-        [runtimeyear setText:duration];        
+        [runtimeyear setText:duration];
     }
     else {
         NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
@@ -2674,7 +2674,7 @@ int originYear = 0;
             else {
                 [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
                 [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
-            }            
+            }
             [albumDetailView addSubview:thumbImageView];
             
             [thumbImageShadowView setContentMode:UIViewContentModeScaleToFill];
@@ -2995,7 +2995,7 @@ NSIndexPath *selected;
                     }
                     item = [self.sections valueForKey:self.sectionArray[indexPath.section]][indexPath.row];
                 }
-                 sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:[self.detailItem mainParameters][choosedTab]]];
+                sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:[self.detailItem mainParameters][choosedTab]]];
 //                if ([item[@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
 //                    return;
 //                }
@@ -3017,7 +3017,7 @@ NSIndexPath *selected;
                             actionString = LOCALIZED_STR(@"Mark as watched");
                         }
                         else {
-                           actionString = LOCALIZED_STR(@"Mark as unwatched");
+                            actionString = LOCALIZED_STR(@"Mark as unwatched");
                         }
                         [sheetActions addObject:actionString];
                     }
@@ -3879,7 +3879,7 @@ NSIndexPath *selected;
              if (error == nil && methodError == nil) {
                  if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                      if ([methodResult count]) {
-                         [queuing stopAnimating];            
+                         [queuing stopAnimating];
                          int newPos = [methodResult[@"position"] intValue] + 1;
                          NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -4242,7 +4242,7 @@ NSIndexPath *selected;
                  }
                  else {
                      return; // something goes wrong
-                 }    
+                 }
                  NSDictionary *videoLibraryMovieDetail = methodResult[itemid_extra_info];
                  if (((NSNull*)videoLibraryMovieDetail == [NSNull null]) || videoLibraryMovieDetail == nil) {
                      return; // something goes wrong
@@ -4397,7 +4397,7 @@ NSIndexPath *selected;
     // "sort" in "PVR." methods is only allowed from JSON API 12.1 on, for lower version remove "sort"
     if ([methodToCall containsString:@"PVR."]) {
         if (([AppDelegate instance].APImajorVersion < 12) ||
-           (([AppDelegate instance].APImajorVersion == 12) && ([AppDelegate instance].APIminorVersion < 1))) {
+            (([AppDelegate instance].APImajorVersion == 12) && ([AppDelegate instance].APIminorVersion < 1))) {
             // remove "sort" from setup
             [mutableParameters removeObjectForKey:@"sort"];
         }
@@ -5951,7 +5951,8 @@ NSIndexPath *selected;
                                 self.sections = [NSMutableDictionary new];
                                 [self indexAndDisplayData];
                             }];
-        }            break;
+            }
+            break;
         default:
             break;
     }

@@ -108,7 +108,7 @@
     [self editTable:nil forceClose:YES];
     if ([playlistData count] && (playlistTableView.dragging || playlistTableView.decelerating)) {
         NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
-        [playlistTableView  scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
     if (seg_music.selected) {
         lastSelected = -1;
@@ -165,7 +165,7 @@
         GlobalData *obj = [GlobalData getInstance];
         NSString *userPassword = [obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
         NSString *serverHTTP = [NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=PlayerControl(Partymode('music'))", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-        NSURL *url = [NSURL  URLWithString:serverHTTP];
+        NSURL *url = [NSURL URLWithString:serverHTTP];
         [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
         playerID = -1;
         selectedPlayerID = -1;
@@ -285,7 +285,7 @@
     return [Utilities imageWithShadow:source radius:10];
 }
 
-#pragma  mark - JSON management
+#pragma mark - JSON management
 
 int lastSelected = -1;
 int currentPlayerID = -1;
@@ -919,7 +919,7 @@ int currentItemID;
                                                          [self fadeView:timePlaying hidden:YES];
                                                      }
                                                      UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
-                                                     coverView.alpha = 1.0;                                                     
+                                                     coverView.alpha = 1.0;
                                                  }
                                                  NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition - 1 inSection:0];
                                                  UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
@@ -1105,9 +1105,9 @@ int currentItemID;
                      else {
                          [self getActivePlayers];
                      }
-                 }                 
+                 }
              }
-         }];  
+         }];
     }
     else {
         [self getActivePlayers];
@@ -1282,7 +1282,7 @@ int currentItemID;
                                                     episode, @"episode",
                                                     tvshowid, @"tvshowid",
                                                     nil]];
-                       }                       
+                       }
                        [self showPlaylistTable];
                        if (musicPartyMode && playlistID == 0) {
                            [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
@@ -1921,7 +1921,7 @@ int currentItemID;
 }
 
 - (IBAction)updateCurrentTime:(id)sender {
-    if (!updateProgressBar && !nothingIsPlaying) {      
+    if (!updateProgressBar && !nothingIsPlaying) {
         int selectedTime = (ProgressSlider.value/100) * globalSeconds;
         NSUInteger h = selectedTime / 3600;
         NSUInteger m = (selectedTime / 60) % 60;
@@ -2237,10 +2237,10 @@ int currentItemID;
                 [playlistData insertObject:objSource atIndex:[destinationIndexPath row]];
             }
             if (sourceIndexPath.row > storeSelection.row && destinationIndexPath.row <= storeSelection.row) {
-                storeSelection = [NSIndexPath  indexPathForRow:storeSelection.row+1 inSection:storeSelection.section];
+                storeSelection = [NSIndexPath indexPathForRow:storeSelection.row+1 inSection:storeSelection.section];
             }
             else if (sourceIndexPath.row < storeSelection.row && destinationIndexPath.row >= storeSelection.row) {
-                storeSelection = [NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
+                storeSelection = [NSIndexPath indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
             }
             [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         }
@@ -2271,7 +2271,7 @@ int currentItemID;
                     [playlistTableView endUpdates];
                 }
                 if ((storeSelection) && (indexPath.row<storeSelection.row)) {
-                    storeSelection = [NSIndexPath  indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
+                    storeSelection = [NSIndexPath indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
                 }
             }
             else {
@@ -2316,7 +2316,7 @@ int currentItemID;
     }
 }
 
-# pragma  mark - Swipe Gestures
+# pragma mark - Swipe Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
     if (updateProgressBar) {
@@ -2535,7 +2535,7 @@ int currentItemID;
     [self editTable:nil forceClose:YES];
     if ([playlistData count] && (playlistTableView.dragging || playlistTableView.decelerating)) {
         NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
-        [playlistTableView  scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
     if (segment.selectedSegmentIndex == 0) {
         lastSelected = -1;

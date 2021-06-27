@@ -250,7 +250,7 @@
     return (newLength > 2 && textField.tag >= 5 && textField.tag <= 10) ? NO : YES;
 }
 
-# pragma  mark - Gestures
+# pragma mark - Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -276,7 +276,7 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser*)browser
            didFindService:(NSNetService*)aNetService
-               moreComing:(BOOL)moreComing {    
+               moreComing:(BOOL)moreComing {
     [services addObject:aNetService];
     if (!moreComing) {
         [self stopDiscovery];
@@ -300,7 +300,7 @@
 
 - (void)updateUI {
     if (!searching) {
-        NSInteger j = [services  count];
+        NSInteger j = [services count];
         if (j == 1) {
             [self resolveIPAddress:services[0]];
         }
@@ -379,7 +379,7 @@
 
 # pragma mark - resolveIPAddress Methods
 
-- (void)resolveIPAddress:(NSNetService*)service {    
+- (void)resolveIPAddress:(NSNetService*)service {
     NSNetService *remoteService = service;
     remoteService.delegate = self;
     [remoteService resolveWithTimeout:0];

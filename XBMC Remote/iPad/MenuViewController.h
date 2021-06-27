@@ -40,7 +40,7 @@
 
 
 @interface MenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	UITableView*  _tableView;
+	UITableView *_tableView;
     NSMutableArray *mainMenuItems;
     IBOutlet UITableViewCell *resultMenuCell;
     int lastSelected;

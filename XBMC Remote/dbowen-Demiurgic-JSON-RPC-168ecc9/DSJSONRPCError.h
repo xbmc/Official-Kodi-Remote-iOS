@@ -50,9 +50,9 @@ typedef enum {
 
 @interface DSJSONRPCError : NSObject
 
-@property (nonatomic, readonly)             NSInteger   code;
-@property (nonatomic, DS_STRONG, readonly)  NSString    *message;
-@property (nonatomic, DS_STRONG, readonly)  id          data;
+@property (nonatomic, readonly)            NSInteger code;
+@property (nonatomic, DS_STRONG, readonly) NSString  *message;
+@property (nonatomic, DS_STRONG, readonly) id        data;
 
 - (id)initWithErrorData:(NSDictionary*)errorData;
 + (DSJSONRPCError*)errorWithData:(NSDictionary*)errorData;
