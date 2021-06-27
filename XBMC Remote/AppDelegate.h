@@ -50,6 +50,7 @@
 #define IPHONE_SCREEN_DESIGN_WIDTH 320.0
 #define IPAD_SCREEN_DESIGN_WIDTH 476.0
 
+#define GET_MAINSCREEN_HEIGHT CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)
 #define GET_MAINSCREEN_WIDTH CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds)
 #define STACKSCROLL_WIDTH (GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH)
 

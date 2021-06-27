@@ -45,6 +45,7 @@
 #define VIEW_TAG 1000
 #define SLIDE_VIEWS_MINUS_X_POSITION -200 /* Lets two stacks slightly overlap in landscape. */
 #define SLIDE_VIEWS_START_X_POS 0
+#define STACK_OVERLAP 53
 
 @implementation StackScrollViewController
 
@@ -276,9 +277,8 @@
 }
 
 - (void)offView {
-    
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    int posX = (UIInterfaceOrientationIsPortrait(orientation)) ? 468 : 724;
+    CGFloat posX = (UIInterfaceOrientationIsPortrait(orientation) ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
     
     [UIView animateWithDuration:0.2
                      animations:^{ 
@@ -530,7 +530,7 @@
 					}
 					else {
 						//Drop Card View Animation
-						if ((((UIView*)[slideViews subviews][0]).frame.origin.x+200) >= (self.view.frame.origin.x + ((UIView*)[slideViews subviews][0]).frame.size.width)) {
+						if ((((UIView*)[slideViews subviews][0]).frame.origin.x-SLIDE_VIEWS_MINUS_X_POSITION) >= (self.view.frame.origin.x + ((UIView*)[slideViews subviews][0]).frame.size.width)) {
 							NSInteger viewControllerCount = [viewControllersStack count];
 							
 							if (viewControllerCount > 1) {
@@ -652,7 +652,7 @@
 					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
 					if (viewAtLeft.frame.origin.x > SLIDE_VIEWS_MINUS_X_POSITION || viewAtRight == nil) {
 						//Drop Card View Animation
-                        int posX = SLIDE_VIEWS_START_X_POS;
+                        CGFloat posX = SLIDE_VIEWS_START_X_POS;
 						if ((((UIView*)[slideViews subviews][0]).frame.origin.x + PAD_MENU_TABLE_WIDTH) >= (self.view.frame.origin.x + ((UIView*)[slideViews subviews][0]).frame.size.width)) {
 //                            NSLog(@"ELIMINO 2");
 							NSInteger viewControllerCount = [viewControllersStack count];
@@ -699,8 +699,7 @@
 							viewAtRight2 = nil;
                             // MODDED BY JOE
                             UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-//                            int marginPosX = (UIInterfaceOrientationIsPortrait(orientation)) ? 468 : 724; // OFF SHOW THE STACK
-                            int marginPosX = (UIInterfaceOrientationIsPortrait(orientation)) ? 415 : 671; // SHOW A LITTLE PIECE OF THE STACK
+                            CGFloat marginPosX = (UIInterfaceOrientationIsPortrait(orientation) ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH - STACK_OVERLAP;
                             if ((((UIView*)[slideViews subviews][0]).frame.origin.x+marginPosX/2) >= marginPosX) {
                                 posX = marginPosX;
                             }
@@ -916,7 +915,7 @@
         NSInteger numViews = [[slideViews subviews]count];
         if (numViews == 0) {
             UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-            animX = (UIInterfaceOrientationIsPortrait(orientation)) ? 468 : 724;
+            animX = (UIInterfaceOrientationIsPortrait(orientation) ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
         }
         else {
             animX = [[slideViews subviews][0] frame].origin.x;
@@ -1083,7 +1082,7 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     BOOL isViewOutOfScreen = NO;
-    int posX = SLIDE_VIEWS_START_X_POS;
+    CGFloat posX = SLIDE_VIEWS_START_X_POS;
     if ([viewControllersStack count] == 1) {
         posX = [[slideViews subviews][0] frame].origin.x;
     }
