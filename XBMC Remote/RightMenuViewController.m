@@ -29,7 +29,7 @@
     return self;
 }
 
-- (void)turnTorchOn:(bool)on icon:(UIImageView*)iconTorch {
+- (void)turnTorchOn:(BOOL)on icon:(UIImageView*)iconTorch {
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
     if (captureDeviceClass != nil) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];

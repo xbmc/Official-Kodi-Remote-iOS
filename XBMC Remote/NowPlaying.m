@@ -1510,7 +1510,7 @@ int currentItemID;
 
 # pragma mark - animations
 
-- (void)flipAnimButton:(UIButton*)button demo:(bool)demo {
+- (void)flipAnimButton:(UIButton*)button demo:(BOOL)demo {
     if (demo) {
         anim = UIViewAnimationTransitionFlipFromLeft;
         anim2 = UIViewAnimationTransitionFlipFromLeft;
